@@ -464,8 +464,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
             </h1>
             
             <p className="text-xl md:text-2xl text-white max-w-2xl mb-6 font-black uppercase tracking-tight leading-tight">
-              "{t('Where Creators, Investors and Industry Professionals converge — and where the public discovers tomorrow's masterpieces., 'LinkYourArt est le point de rencontre entre Créateurs, Investisseurs et Professionnels de l\'industrie. C\'est aussi une fenêtre unique pour le public de découvrir et contribuer aux chefs-d\'œuvre de demain.')}"
-            </p>
+              {t('Where Creators, Investors and Industry Professionals converge, where the public discovers tomorrow\'s masterpieces.', 'Là où Créateurs, Investisseurs et Professionnels convergent, et où le public découvre les chefs-d\'oeuvre de demain..')}
 
             <p className="text-lg md:text-xl text-on-surface-variant max-w-xl mb-10 font-light leading-relaxed opacity-90 border-l border-primary-cyan/30 pl-4">
               {t('From fractional issuance to secondary exchange, navigate a secure ecosystem built on artistic excellence and institutional transparency.', 'De l\'émission fractionnée à l\'échange secondaire, naviguez dans un écosystème sécurisé bâti sur l\'excellence artistique et la transparence institutionnelle.')}
