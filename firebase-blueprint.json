@@ -1,0 +1,106 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Stores user profile information and subscription status.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "The unique user ID from Firebase Auth." },
+        "displayName": { "type": "string", "description": "The user's chosen display name." },
+        "email": { "type": "string", "format": "email", "description": "The user's email address." },
+        "role": { "type": "string", "enum": ["CREATOR", "INVESTOR", "PROFESSIONAL"], "description": "The user's institutional role." },
+        "isPro": { "type": "boolean", "description": "Whether the user has an active Pro subscription." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "When the profile was created." },
+        "twitter": { "type": "string" },
+        "instagram": { "type": "string" },
+        "linkedin": { "type": "string" },
+        "bio": { "type": "string" },
+        "avatarUrl": { "type": "string" },
+        "coverUrl": { "type": "string" },
+        "stripeCustomerId": { "type": "string" },
+        "watchlist": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "List of contract IDs in the user's watchlist."
+        },
+        "comparisonList": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "List of contract IDs in the user's comparison list."
+        },
+        "usageStats": {
+          "type": "object",
+          "properties": {
+            "simulator": { "type": "number" },
+            "swipe": { "type": "number" },
+            "compare": { "type": "number" },
+            "scan": { "type": "number" },
+            "talent": { "type": "number" }
+          }
+        }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "Project": {
+      "title": "Project",
+      "description": "Stores creative contract issuance requests and metadata.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "issuerId": { "type": "string" },
+        "issuerUid": { "type": "string" },
+        "description": { "type": "string" },
+        "image": { "type": "string" },
+        "totalUnits": { "type": "number" },
+        "unitPrice": { "type": "number" },
+        "depositPercentage": { "type": "number" },
+        "duration": { "type": "string" },
+        "maturityDate": { "type": "string" },
+        "status": { "type": "string", "enum": ["PENDING", "APPROVED", "REJECTED"] },
+        "milestones": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "label": { "type": "string" },
+              "date": { "type": "string" },
+              "priceImpact": { "type": "number" },
+              "status": { "type": "string" }
+            }
+          }
+        },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "issuerUid", "status", "createdAt"]
+    },
+    "Message": {
+      "title": "Message",
+      "description": "Secure institutional message between users.",
+      "type": "object",
+      "properties": {
+        "fromId": { "type": "string" },
+        "toId": { "type": "string" },
+        "subject": { "type": "string" },
+        "body": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "read": { "type": "boolean" }
+      },
+      "required": ["fromId", "toId", "subject", "body", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "User profile documents indexed by their Firebase Auth UID."
+    },
+    "/projects/{projectId}": {
+      "schema": "Project",
+      "description": "Creative contract projects created by users."
+    },
+    "/messages/{messageId}": {
+      "schema": "Message",
+      "description": "Secure messages between institutional members."
+    }
+  }
+}

@@ -1,0 +1,128 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+:root {
+  --color-surface-dim: #0f121a;
+  --color-surface-low: #1a1f2c;
+  --color-surface-high: #242b3d;
+  --color-surface-highest: #2f384f;
+  --color-primary-cyan: #00e0ff;
+  --color-accent-gold: #ffd700;
+  --color-accent-pink: #ff3366;
+  --color-accent-yellow: #ffff00;
+  --color-accent-green: #00ff00;
+  --color-accent-purple: #8a2be2;
+  --color-on-surface: #f1f3f9;
+  --color-on-surface-variant: #cbd5e1;
+}
+
+@theme {
+  --font-headline: "Montserrat", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+
+  --color-surface-dim: var(--color-surface-dim);
+  --color-surface-low: var(--color-surface-low);
+  --color-surface-high: var(--color-surface-high);
+  --color-surface-highest: var(--color-surface-highest);
+  --color-primary-cyan: var(--color-primary-cyan);
+  --color-accent-gold: var(--color-accent-gold);
+  --color-accent-pink: var(--color-accent-pink);
+  --color-accent-yellow: var(--color-accent-yellow);
+  --color-accent-green: var(--color-accent-green);
+  --color-accent-purple: var(--color-accent-purple);
+  --color-emerald-400: #34d399;
+  --color-on-surface: var(--color-on-surface);
+  --color-on-surface-variant: var(--color-on-surface-variant);
+
+  --animate-marquee: marquee 800s linear infinite;
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+}
+
+@layer base {
+  * {
+    -webkit-tap-highlight-color: transparent;
+    outline: none !important;
+  }
+  
+  html {
+    background-color: #0a0d12; /* Critical hardcoded fallback */
+  }
+
+  body {
+    background-color: #0a0d12; /* Critical hardcoded fallback */
+    @apply bg-surface-dim text-on-surface font-body overflow-x-hidden selection:bg-primary-cyan/30 selection:text-primary-cyan;
+    background-image: 
+      radial-gradient(circle at 10% 10%, rgba(0, 224, 255, 0.05) 0%, transparent 40%),
+      radial-gradient(circle at 90% 90%, rgba(138, 43, 226, 0.03) 0%, transparent 40%);
+    background-size: 100% 100%, 100% 100%;
+    background-attachment: fixed;
+  }
+}
+
+@layer utilities {
+  .bg-surface-dim { background-color: var(--color-surface-dim); }
+  .bg-surface-low { background-color: var(--color-surface-low); }
+  .bg-surface-high { background-color: var(--color-surface-high); }
+  .bg-surface-highest { background-color: var(--color-surface-highest); }
+  
+  .text-primary-cyan { color: var(--color-primary-cyan); }
+  .bg-primary-cyan { background-color: var(--color-primary-cyan); }
+  .border-primary-cyan { border-color: var(--color-primary-cyan); }
+  
+  .text-accent-gold { color: var(--color-accent-gold); }
+  .bg-accent-gold { background-color: var(--color-accent-gold); }
+  
+  .text-on-surface { color: var(--color-on-surface); }
+  .text-on-surface-variant { color: var(--color-on-surface-variant); }
+}
+
+@layer components {
+  .glass-panel {
+    @apply bg-surface-highest/20 backdrop-blur-3xl border border-white/5;
+  }
+  
+  .neon-glow {
+    box-shadow: 0 0 12px rgba(0, 224, 255, 0.2);
+  }
+
+  .neon-glow-hover:hover {
+    box-shadow: 0 0 15px rgba(0, 224, 255, 0.4);
+  }
+
+  .serif-italic {
+    @apply font-serif italic;
+  }
+
+  @keyframes shimmer {
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
+  }
+
+  .animate-shimmer {
+    background-size: 200% auto;
+    animation: shimmer 4s linear infinite;
+  }
+
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .animate-marquee {
+    animation: marquee 800s linear infinite;
+  }
+
+  @keyframes spin-slow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .animate-spin-slow {
+    animation: spin-slow 8s linear infinite;
+  }
+}
