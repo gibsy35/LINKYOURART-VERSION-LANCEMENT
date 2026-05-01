@@ -8,7 +8,7 @@ export const LYACopilot: React.FC = () => {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<{ role: 'USER' | 'AI', content: string }[]>([
-    { role: 'AI', content: 'SYSTEM READY. HOW CAN I ASSIST YOUR TRADING OPERATIONS TODAY?' }
+    { role: 'AI', content: 'LYA_TERMINAL READY. SYSTEM STABILIZED. STATE YOUR ANALYTICAL REQUIREMENT.' }
   ]);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
@@ -27,10 +27,15 @@ export const LYACopilot: React.FC = () => {
 
     const inputMsg = input.trim();
     setInput('');
-    setMessages(prev => [...prev, { role: 'USER', content: inputMsg }]);
+    const userMessage = { role: 'USER' as const, content: inputMsg };
+    setMessages(prev => [...prev, userMessage]);
     setIsTyping(true);
 
     try {
+      // Simulate real-time analytical processing delay for better feel
+      const minProcessingTime = 300;
+      const startTime = Date.now();
+
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -43,16 +48,24 @@ export const LYACopilot: React.FC = () => {
       if (!response.ok) throw new Error('API_COMMUNICATION_ERROR');
       const data = await response.json();
       
-      if (data.text) {
-        setMessages(prev => [...prev, { role: 'AI', content: data.text }]);
-      } else {
-        throw new Error('NO_RESPONSE_DATA');
-      }
+      const endTime = Date.now();
+      const delay = Math.max(0, minProcessingTime - (endTime - startTime));
+      
+      setTimeout(() => {
+        if (data.text || data.response) {
+          setMessages(prev => [...prev, { role: 'AI', content: data.text || data.response }]);
+        } else {
+          setMessages(prev => [...prev, { role: 'AI', content: 'SYSTEM_FAILURE: NO_RESPONSE_RECEIVED.' }]);
+        }
+        setIsTyping(false);
+      }, delay);
+
     } catch (error) {
       console.error("Gemini Error:", error);
-      setMessages(prev => [...prev, { role: 'AI', content: 'SYSTEM_FAILURE: NEURAL_BRIDGE_OFFLINE. PLEASE RETRY COMMAND.' }]);
-    } finally {
-      setIsTyping(false);
+      setTimeout(() => {
+        setMessages(prev => [...prev, { role: 'AI', content: 'SYSTEM_FAILURE: NEURAL_BRIDGE_OFFLINE. PLEASE RETRY COMMAND.' }]);
+        setIsTyping(false);
+      }, 1000);
     }
   };
 
@@ -60,7 +73,7 @@ export const LYACopilot: React.FC = () => {
     <>
       <button 
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 w-12 h-12 bg-primary-cyan text-surface-dim rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-all z-[80] group overflow-hidden"
+        className="fixed bottom-6 right-6 w-12 h-12 bg-primary-cyan text-surface-dim rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-all z-[999] group overflow-hidden"
       >
         <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
         <MessageSquare size={20} className="relative z-10" />
@@ -73,7 +86,7 @@ export const LYACopilot: React.FC = () => {
             initial={{ opacity: 0, y: 20, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.9 }}
-            className="fixed bottom-24 right-6 w-80 md:w-96 bg-surface-dim border border-white/10 shadow-2xl z-[500] font-mono flex flex-col overflow-hidden h-[500px]"
+            className="fixed bottom-24 right-6 w-80 md:w-96 bg-surface-dim border border-white/10 shadow-2xl z-[1000] font-mono flex flex-col overflow-hidden h-[500px]"
           >
             <div className="p-4 border-b border-white/10 flex items-center justify-between bg-primary-cyan/5">
               <div className="flex items-center gap-2">

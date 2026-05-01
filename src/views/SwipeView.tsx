@@ -65,7 +65,11 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
     // Only block if trying to Like (swipe RIGHT) and limit is reached
     if (dir === 'right') {
       const isAlreadyWatchlisted = watchlist.includes(currentContract.id);
-      if (!isAlreadyWatchlisted && !checkUsageLimit('swipe')) return;
+      if (!isAlreadyWatchlisted && !checkUsageLimit('swipe')) {
+        onNotify(t('SWIPE LIMIT REACHED (20/20). UPGRADE TO PRO TO UNLOCK INFINITE DISCOVERY.', 'LIMITE DE SWIPE ATTEINTE (20/20). PASSEZ AU PRO POUR UNE DÉCOUVERTE INFINIE.'));
+        onViewChange?.('PRICING');
+        return;
+      }
     }
     
     setDirection(dir);
@@ -100,10 +104,10 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
     }
   };
 
-  const displayUsageStats = user?.usageStats || { swipe: 0, compare: 0 };
-  const isPro = user?.role === 'ADMIN' || user?.role === 'PROFESSIONAL' || user?.isPro;
-  const swipeLimit = isPro ? '∞' : '15';
-  const compareLimit = isPro ? '∞' : '4';
+  const isPro = user?.role === UserRole.ADMIN || user?.role === UserRole.PROFESSIONAL || user?.isPro;
+  
+  const currentSwipeLimitStr = isPro ? '∞' : '20';
+  const currentCompareLimitStr = isPro ? '∞' : '20';
 
   const swipeCount = watchlist.length;
   const compareCount = comparisonList.length;
@@ -117,23 +121,25 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
         accentColor="text-primary-cyan"
       />
 
-      <div className="relative z-20 -mt-32 mb-12 px-6 md:px-12 flex flex-col lg:flex-row lg:items-end justify-end gap-6 md:gap-8">
+      <div className="relative z-20 mb-12 px-6 md:px-12 flex flex-col lg:flex-row lg:items-end justify-end gap-6 md:gap-8">
         <div className="flex flex-wrap gap-2 md:gap-4 items-end">
-          <div className="px-4 md:px-6 py-2 md:py-3 bg-primary-cyan/10 border border-primary-cyan/20 rounded-xl flex items-center gap-2 md:gap-3 shadow-[0_0_20px_rgba(0,224,255,0.1)] transition-all">
+          <div className="px-4 md:px-6 py-2 md:py-3 bg-primary-cyan/10 border border-primary-cyan/20 rounded-sm flex items-center gap-2 md:gap-3 shadow-[0_0_20px_rgba(0,224,255,0.1)] transition-all relative overflow-hidden group">
+            <div className="absolute left-0 top-0 w-1 h-full bg-primary-cyan animate-pulse" />
             <Zap size={16} className="text-primary-cyan animate-pulse" />
             <div>
-              <div className="text-[8px] md:text-[10px] text-primary-cyan uppercase tracking-widest font-black mb-0.5 opacity-70 italic">{t('Daily Discovery', 'Découverte Quotidienne')}</div>
-              <div className="text-lg md:text-xl font-black text-white italic">{swipeCount} / {swipeLimit}</div>
+              <div className="text-[8px] md:text-[10px] text-primary-cyan uppercase tracking-widest font-black mb-0.5 opacity-70 italic">{t('SWIPES HEART', 'SWIPES COEUR')}</div>
+              <div className="text-lg md:text-xl font-black text-white italic font-mono tracking-tighter">{swipeCount} / {currentSwipeLimitStr}</div>
             </div>
           </div>
           
           <button 
             onClick={handleCompareTrigger}
-            className="px-4 md:px-6 py-2 md:py-3 bg-accent-gold/10 border border-accent-gold/20 rounded-xl flex items-center gap-2 md:gap-3 hover:bg-accent-gold/20 transition-all group shadow-[0_0_20px_rgba(251,191,36,0.1)]"
+            className="px-4 md:px-6 py-2 md:py-3 bg-accent-gold/10 border border-accent-gold/20 rounded-sm flex items-center gap-2 md:gap-3 hover:bg-accent-gold/20 transition-all group shadow-[0_0_20px_rgba(251,191,36,0.1)] relative overflow-hidden"
           >
+            <div className="absolute left-0 top-0 w-1 h-full bg-accent-gold group-hover:h-full transition-all" />
             <div className="text-left">
-              <div className="text-[8px] md:text-[10px] text-accent-gold uppercase tracking-widest font-black mb-0.5 opacity-70 italic">{t('Compare projects', 'Comparer Projets')}</div>
-              <div className="text-lg md:text-xl font-black text-white italic">{compareCount} / {compareLimit}</div>
+              <div className="text-[8px] md:text-[10px] text-accent-gold uppercase tracking-widest font-black mb-0.5 opacity-70 italic">{t('COMPARE PROJECTS', 'COMPARE INDEX')}</div>
+              <div className="text-lg md:text-xl font-black text-white italic font-mono tracking-tighter">{compareCount} / {currentCompareLimitStr}</div>
             </div>
           </button>
 
@@ -222,10 +228,10 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
 
                 <motion.div 
                   style={{ opacity: crossOpacity }}
-                  className="absolute inset-0 z-30 pointer-events-none flex items-center justify-center bg-red-500/20"
+                  className="absolute inset-0 z-30 pointer-events-none flex items-center justify-center bg-red-500/5"
                 >
-                  <div className="bg-white p-6 rounded-full shadow-[0_0_50px_rgba(239,68,68,0.5)]">
-                    <X size={80} className="text-red-500" />
+                  <div className="bg-white/90 p-6 rounded-full shadow-[0_0_50px_rgba(239,68,68,0.2)]">
+                    <X size={80} className="text-red-400" />
                   </div>
                 </motion.div>
 
@@ -288,10 +294,22 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
                       <div className="flex flex-col">
                         <h2 className="text-xl font-black font-headline text-white tracking-tight">{currentContract.name}</h2>
                       </div>
-                      <div className="text-right">
-                        <div className="text-[10px] text-primary-cyan font-bold uppercase tracking-widest">{t('LYA Score', 'Score LYA')}</div>
-                        <div className="text-lg font-black text-white">{currentContract.totalScore}</div>
+                    <div className="text-right flex items-center gap-3">
+                      <div className="flex flex-col items-center">
+                        <div className="text-[7px] text-accent-pink font-bold uppercase tracking-widest leading-none mb-1">ALGO</div>
+                        <div className="text-xs font-black text-white leading-none">{currentContract.scoreAlgo || 0}</div>
                       </div>
+                      <div className="flex flex-col items-center">
+                        <div className="text-[7px] text-emerald-400 font-bold uppercase tracking-widest leading-none mb-1">PRO</div>
+                        <div className="text-xs font-black text-white leading-none">{currentContract.scorePro || 0}</div>
+                      </div>
+                      <div className="flex flex-col items-end border-l border-white/10 pl-3 ml-1">
+                        <div className="text-[8px] text-primary-cyan font-bold uppercase tracking-widest leading-none mb-1">{t('Score LYA', 'Score LYA')}</div>
+                        <div className="text-lg font-black text-white leading-none">
+                          {Math.round(((currentContract.scoreAlgo || 0) + (currentContract.scorePro || 0)) / 2)}
+                        </div>
+                      </div>
+                    </div>
                     </div>
                     <p className="text-sm text-on-surface-variant line-clamp-2 opacity-80 italic font-serif">
                       {currentContract.description}
@@ -437,8 +455,10 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
                 </p>
                 <div className="flex items-center justify-between pt-4 border-t border-white/5">
                   <div className="text-left">
-                    <p className="text-[9px] text-on-surface-variant font-bold uppercase tracking-widest opacity-40">SCORE LYA</p>
-                    <p className="text-sm font-black text-white italic">{contract.totalScore}</p>
+                    <p className="text-[9px] text-primary-cyan font-bold uppercase tracking-widest opacity-60">SCORE LYA</p>
+                    <p className="text-sm font-black text-white italic">
+                      {contract.scoreLYA || ((contract.scoreAlgo || 0) + (contract.scorePro || 0)) || contract.totalScore}
+                    </p>
                   </div>
                   <div className="text-right">
                     <p className="text-[9px] text-on-surface-variant font-bold uppercase tracking-widest opacity-40">{t('Yield', 'Rendement')}</p>

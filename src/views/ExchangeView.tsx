@@ -277,8 +277,8 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
         accentColor="text-primary-cyan"
       />
 
-      <div className="space-y-12 px-6 md:px-12">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-end gap-8 -mt-32 mb-12 relative z-20">
+      <div className="space-y-12 px-6 md:px-10 lg:px-20">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-end gap-8 mb-12 relative z-20">
             <div className="flex gap-8 border-b border-white/5">
               <button 
                 onClick={() => setActiveTab('overview')}
@@ -318,7 +318,7 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
                       <InfoTooltip position="top" title="Protocol Unit Valuation" content="The standard valuation assigned to one unit of an indexed contract. All unit exchanges are settled via this baseline." />
                     </div>
                     <div className="flex items-baseline gap-1.5 lg:gap-3">
-                      <h3 className="text-lg md:text-xl lg:text-4xl font-black font-headline text-on-surface tracking-tighter truncate">1 UNIT = {formatLYA()}</h3>
+                      <h3 className="text-sm md:text-lg lg:text-2xl font-bold font-headline text-on-surface tracking-tighter truncate">1 UNIT = {formatLYA()}</h3>
                     </div>
                   </div>
                 </div>
@@ -331,7 +331,7 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
                         <InfoTooltip position="top" title="Total Market Cap" content="The aggregate value of all creative contracts currently indexed on the platform." />
                       </div>
                       <div className="flex items-baseline gap-1.5 lg:gap-3">
-                        <h3 className="text-lg md:text-xl lg:text-4xl font-black font-headline text-on-surface tracking-tighter truncate">${marketStats.totalCap?.toLocaleString() || '0'}</h3>
+                        <h3 className="text-base md:text-lg lg:text-3xl font-bold font-headline text-on-surface tracking-tighter truncate">${marketStats.totalCap?.toLocaleString() || '0'}</h3>
                       </div>
                     </div>
                   </div>
@@ -344,7 +344,7 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
                         <InfoTooltip position="top" title="P2P Liquidity" content="Total number of contract units currently available for direct peer-to-peer exchange." />
                       </div>
                       <div className="flex items-baseline gap-1.5 lg:gap-3">
-                        <h3 className="text-lg md:text-xl lg:text-4xl font-black font-headline text-on-surface tracking-tighter truncate">{marketStats.totalAvailable?.toLocaleString() || '0'} Units</h3>
+                        <h3 className="text-base md:text-lg lg:text-3xl font-bold font-headline text-on-surface tracking-tighter truncate">{marketStats.totalAvailable?.toLocaleString() || '0'} Units</h3>
                       </div>
                     </div>
                   </div>
@@ -357,7 +357,7 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
                         <InfoTooltip position="top" title="Avg. Growth" content="The weighted average performance of all creative assets over the last 24 hours." />
                       </div>
                       <div className="flex items-baseline gap-1.5 lg:gap-3">
-                        <h3 className="text-lg md:text-xl lg:text-4xl font-black font-headline text-emerald-400 tracking-tighter truncate">+{marketStats.avgGrowth.toFixed(1)}%</h3>
+                        <h3 className="text-base md:text-lg lg:text-3xl font-bold font-headline text-emerald-400 tracking-tighter truncate">+{marketStats.avgGrowth.toFixed(1)}%</h3>
                       </div>
                     </div>
                   </div>
@@ -711,7 +711,7 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
             <div className="bg-white/5 px-6 py-5 flex justify-between items-center border-b border-white/10 relative z-10">
               <div className="flex items-center gap-3">
                 <div className="w-2 h-2 bg-primary-cyan rounded-full animate-pulse shadow-[0_0_10px_rgba(0,224,255,1)]" />
-                <h2 className="font-headline font-bold uppercase tracking-widest text-base">Exchange Settlement Feed</h2>
+                <h2 className="font-headline font-bold uppercase tracking-widest text-sm italic">Exchange Settlement Feed</h2>
               </div>
               <div className="flex items-center gap-4">
                 <span className="text-[10px] font-black text-on-surface-variant/50 uppercase tracking-widest">Live Stream Active</span>
@@ -768,7 +768,7 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
           <div className="bg-surface-low/30 backdrop-blur-2xl border border-white/10 rounded-2xl overflow-hidden shadow-2xl">
             <div className="bg-white/5 px-6 py-5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-white/10">
               <div className="flex items-center gap-4">
-                <h2 className="font-headline font-bold uppercase tracking-widest text-base">{t('My Open Orders', 'Mes Ordres Ouverts')}</h2>
+                <h2 className="font-headline font-bold uppercase tracking-widest text-sm italic">{t('My Open Orders', 'Mes Ordres Ouverts')}</h2>
                 <div className="px-3 py-1 bg-white/5 rounded-full text-[10px] text-on-surface-variant font-black uppercase tracking-widest border border-white/10">{filteredOrders.length} {t('Active', 'Actifs')}</div>
               </div>
               

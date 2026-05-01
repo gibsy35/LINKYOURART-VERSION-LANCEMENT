@@ -215,114 +215,73 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
       </div>
 
       <motion.div 
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        className="w-full max-w-6xl bg-[#0A0C10] border border-white/10 rounded-[2rem] overflow-hidden shadow-2xl flex flex-col md:flex-row relative z-10"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="w-full max-w-md bg-[#0A0C10] border border-white/10 rounded-[2rem] overflow-hidden shadow-2xl relative z-10 flex flex-col"
       >
-        {/* Left Side: Institutional Context */}
-        <div className="md:w-5/12 bg-gradient-to-br from-[#0F1116] to-[#0A0C10] p-8 md:p-12 flex flex-col border-r border-white/5 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-primary-cyan/10 blur-[60px] rounded-full" />
-          
-          <div className="relative z-10 flex flex-col h-full">
-            <div className="flex items-center gap-4 mb-20 group cursor-pointer" onClick={() => onViewChange('HOME')}>
-              <div className="relative">
-                <div className="absolute inset-0 bg-primary-cyan/20 blur-xl rounded-full animate-pulse" />
-                <Logo size={48} color="multi" />
-              </div>
-              <h1 className="text-2xl font-black tracking-tighter uppercase italic group-hover:text-primary-cyan transition-colors">LINKYOURART</h1>
-              <div className="px-2 py-0.5 bg-accent-gold text-black text-[8px] font-black rounded ml-1 animate-pulse">BETA</div>
-            </div>
-
-            <div className="flex-1 space-y-12">
-              <div className="space-y-4">
-                <h2 className="text-[10px] font-black text-primary-cyan uppercase tracking-[0.4em] mb-8">{t('CREATE PROTOCOL ACCOUNT', 'CRÉER UN COMPTE PROTOCOLE')}</h2>
-                
-                {roles.map((r) => (
-                  <div 
-                    key={r.id} 
-                    onClick={() => { setRole(r.id); setStep(2); }}
-                    className={`flex gap-5 group cursor-pointer p-4 rounded-2xl transition-all border ${role === r.id ? 'bg-primary-cyan/10 border-primary-cyan' : 'bg-transparent border-transparent hover:bg-white/5'}`}
-                  >
-                    <div className={`w-12 h-12 rounded-xl border flex items-center justify-center shrink-0 transition-all ${role === r.id ? 'bg-primary-cyan border-primary-cyan shadow-[0_0_20px_rgba(0,224,255,0.4)]' : 'bg-white/5 border-white/10 group-hover:border-primary-cyan group-hover:bg-primary-cyan/10'}`}>
-                      <r.icon size={20} className={role === r.id ? 'text-surface-dim' : 'text-on-surface-variant group-hover:text-primary-cyan'} />
-                    </div>
-                    <div className="space-y-1">
-                      <h3 className={`text-xs font-black uppercase transition-colors ${role === r.id ? 'text-primary-cyan' : 'text-white group-hover:text-primary-cyan'}`}>{r.title}</h3>
-                      <p className="text-[9px] text-on-surface-variant/60 leading-relaxed uppercase font-bold tracking-tight">{r.description}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="pt-12 flex items-center justify-between border-t border-white/5 opacity-40">
-              <div className="flex items-center gap-3 text-[8px] font-black uppercase tracking-widest">
-                <ShieldCheck size={12} className="text-emerald-400" />
-                MICA COMPLIANT
-              </div>
-              <div className="text-[8px] font-black uppercase tracking-widest px-3 py-1 bg-white/5 border border-white/10 rounded">V4.2 ALPHA</div>
-            </div>
-          </div>
-        </div>
-
-        {/* Right Side: Auth Form */}
-        <div className="md:w-7/12 p-8 md:p-16 flex flex-col justify-center relative">
+        <div className="p-6 md:p-8 relative">
           <button 
             onClick={() => onViewChange('HOME')}
-            className="absolute top-8 right-8 text-on-surface-variant hover:text-white transition-colors"
+            className="absolute top-6 right-6 w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-on-surface-variant hover:text-white hover:bg-white/10 transition-all z-20 group"
           >
-            <X size={24} />
+            <X size={18} className="group-hover:rotate-90 transition-transform duration-300" />
           </button>
+
+          {/* Header */}
+          <div className="flex flex-col items-center text-center mb-8">
+            <div className="relative mb-6 cursor-pointer group" onClick={() => onViewChange('HOME')}>
+              <div className="absolute inset-0 bg-primary-cyan/25 blur-[60px] rounded-full animate-pulse group-hover:bg-primary-cyan/45 transition-colors" />
+              <Logo size={80} color="multi" showBeta className="transition-transform duration-700 group-hover:scale-110" />
+            </div>
+            <div className="text-[10px] font-bold text-accent-gold uppercase tracking-[0.4em] mt-6 drop-shadow-glow-gold">{t('CREATE PROTOCOL ACCOUNT', 'CRÉER UN COMPTE PROTOCOLE')}</div>
+          </div>
 
           <AnimatePresence mode="wait">
             {step === 1 ? (
               <motion.div
                 key="step1-info"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                className="max-w-md mx-auto w-full"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 1.05 }}
+                className="w-full"
               >
-                <div className="mb-12">
-                  <h2 className="text-5xl font-black font-headline uppercase tracking-tighter italic mb-4 tracking-[-0.05em] text-white underline decoration-primary-cyan decoration-8 underline-offset-[12px]">{t('SELECT PROFILE', 'CHOISIR PROFIL')}</h2>
-                  <p className="text-[11px] text-on-surface-variant uppercase tracking-[0.3em] font-black opacity-60 mt-8">
-                    {t('CHOOSE YOUR ROLE IN THE CREATIVE EQUITY ECONOMY', 'CHOISISSEZ VOTRE RÔLE DANS L\'ÉCONOMIE CRÉATIVE')}
-                  </p>
+                <div className="mb-4 text-center">
+                  <h2 className="text-2xl font-black font-headline uppercase tracking-tighter italic text-white leading-none">{t('SELECT PROFILE', 'CHOISIR PROFIL')}</h2>
                 </div>
 
-                <div className="space-y-4">
+                <div className="space-y-2">
                   {roles.map((r) => (
                     <div 
                       key={r.id} 
                       onClick={() => setRole(r.id)}
-                      className={`flex gap-5 group cursor-pointer p-6 rounded-3xl transition-all border ${role === r.id ? 'bg-primary-cyan/10 border-primary-cyan scale-[1.02]' : 'bg-white/[0.03] border-white/10 hover:bg-white/5 hover:border-white/20'}`}
+                      className={`flex gap-3 group cursor-pointer p-3 rounded-2xl transition-all border ${role === r.id ? 'bg-primary-cyan/10 border-primary-cyan scale-[1.01]' : 'bg-white/[0.03] border-white/10 hover:bg-white/5 hover:border-white/20'}`}
                     >
-                      <div className={`w-14 h-14 rounded-2xl border flex items-center justify-center shrink-0 transition-all ${role === r.id ? 'bg-primary-cyan border-primary-cyan shadow-[0_0_25px_rgba(0,224,255,0.5)]' : 'bg-white/5 border-white/10 group-hover:border-primary-cyan/50'}`}>
-                        <r.icon size={24} className={role === r.id ? 'text-surface-dim' : 'text-on-surface-variant group-hover:text-primary-cyan'} />
+                      <div className={`w-10 h-10 rounded-xl border flex items-center justify-center shrink-0 transition-all ${role === r.id ? 'bg-primary-cyan border-primary-cyan shadow-[0_0_15px_rgba(0,224,255,0.4)]' : 'bg-white/5 border-white/10 group-hover:border-primary-cyan/50'}`}>
+                        <r.icon size={18} className={role === r.id ? 'text-surface-dim' : 'text-on-surface-variant group-hover:text-primary-cyan'} />
                       </div>
-                      <div className="space-y-1">
-                        <h3 className={`text-sm font-black uppercase tracking-widest transition-colors ${role === r.id ? 'text-primary-cyan' : 'text-white'}`}>{r.title}</h3>
-                        <p className="text-[10px] text-on-surface-variant/70 leading-relaxed uppercase font-bold tracking-tight">{r.description}</p>
+                      <div className="space-y-0.5">
+                        <h3 className={`text-[10px] font-black uppercase tracking-widest transition-colors ${role === r.id ? 'text-primary-cyan' : 'text-white'}`}>{r.title}</h3>
+                        <p className="text-[8px] text-on-surface-variant/70 leading-relaxed uppercase font-bold tracking-tight line-clamp-1">{r.description}</p>
                       </div>
                     </div>
                   ))}
                   
-                  <div className="pt-10">
+                  <div className="pt-4">
                     <button 
                       onClick={() => { if(role) setStep(2); }}
                       disabled={!role}
-                      className="w-full py-7 bg-primary-cyan text-surface-dim text-base font-black uppercase italic tracking-[0.25em] group hover:bg-white hover:text-black transition-all flex items-center justify-center gap-4 disabled:opacity-30 disabled:cursor-not-allowed rounded-full shadow-[0_0_50px_rgba(0,224,255,0.2)]"
+                      className="w-full py-4 bg-primary-cyan text-surface-dim text-xs font-black uppercase italic tracking-[0.2em] group hover:bg-white transition-all flex items-center justify-center gap-3 disabled:opacity-30 disabled:cursor-not-allowed rounded-full shadow-[0_0_30px_rgba(0,224,255,0.2)]"
                     >
-                      {t('CONTINUE REGISTRATION', 'CONTINUER L\'INSCRIPTION')}
-                      <ArrowRight size={24} className="group-hover:translate-x-2 transition-transform" />
+                      {t('CONTINUE', 'CONTINUER')}
+                      <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                     </button>
                   </div>
                 </div>
 
-                <div className="mt-16 text-center">
+                <div className="mt-6 text-center">
                     <button 
                       onClick={() => onViewChange('LOGIN')}
-                      className="text-[11px] font-black uppercase tracking-[0.2em] text-on-surface-variant hover:text-white transition-colors"
+                      className="text-[9px] font-black uppercase tracking-[0.2em] text-on-surface-variant hover:text-white transition-colors"
                     >
                       {t('ALREADY REGISTERED? LOG IN', 'DÉJÀ INSCRIT ? SE CONNECTER')}
                     </button>
@@ -331,68 +290,63 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
             ) : (
               <motion.div
                 key="step2-form"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                className="max-w-md mx-auto w-full"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 1.05 }}
+                className="w-full"
               >
                 <button 
                   onClick={() => setStep(1)}
-                  className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-on-surface-variant hover:text-white transition-colors mb-8"
+                  className="flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-on-surface-variant hover:text-white transition-colors mb-4 mx-auto"
                 >
-                  <ChevronLeft size={16} /> {t('BACK TO PROFILES', 'RETOUR AUX PROFILS')}
+                  <ChevronLeft size={14} /> {t('BACK TO PROFILES', 'RETOUR AUX PROFILS')}
                 </button>
 
-                <div className="mb-12">
-                  <h2 className="text-5xl font-black font-headline uppercase tracking-tighter italic mb-4 tracking-[-0.05em] text-white underline decoration-primary-cyan decoration-8 underline-offset-[12px]">{t('CREATE ACCOUNT', 'INSCRIPTION')}</h2>
-                  <div className="flex items-center gap-4 mt-8">
-                    <p className="text-[11px] text-on-surface-variant uppercase tracking-[0.4em] font-black opacity-60">
-                      {t('REGISTERING AS', 'INSCRIPTION EN TANT QUE')}
-                    </p>
-                    <span className="px-4 py-1.5 bg-primary-cyan/10 text-primary-cyan border border-primary-cyan/30 rounded-full text-[9px] font-black uppercase tracking-[0.2em]">
-                      {role}
-                    </span>
+                <div className="mb-4 text-center">
+                  <h2 className="text-3xl font-black font-headline uppercase tracking-tighter italic mb-2 text-white leading-none">{t('FINALIZE', 'FINALISER')}</h2>
+                  <div className="px-3 py-1 bg-primary-cyan/10 text-primary-cyan border border-primary-cyan/30 rounded-full text-[8px] font-black uppercase tracking-[0.2em] inline-block">
+                    {role}
                   </div>
                 </div>
 
-                <form className="space-y-6" onSubmit={handleSignup}>
+                <form className="space-y-3" onSubmit={handleSignup}>
                   {error && (
-                    <div className="p-4 bg-red-500/10 border border-red-500/20 text-red-500 text-[10px] font-black uppercase tracking-widest rounded-xl">
+                    <div className="p-3 bg-red-500/10 border border-red-500/20 text-red-500 text-[9px] font-black uppercase tracking-widest rounded-xl text-center">
                       {error}
                     </div>
                   )}
 
-                  <div className="space-y-4">
+                  <div className="space-y-3">
                     <div className="relative group">
-                      <User className="absolute left-6 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary-cyan transition-colors" size={22} />
+                      <User className="absolute left-5 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary-cyan transition-colors" size={18} />
                       <input 
                         type="text" 
                         required
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        className="w-full bg-white/[0.04] border border-white/10 rounded-full p-6 pl-16 text-sm font-bold text-white focus:border-primary-cyan outline-none transition-all placeholder:text-on-surface-variant/30 uppercase tracking-widest"
+                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 text-sm font-bold text-white focus:border-primary-cyan outline-none transition-all placeholder:text-on-surface-variant/30 uppercase tracking-widest"
                         placeholder={t('FULL NAME', 'NOM COMPLET')}
                       />
                     </div>
                     <div className="relative group">
-                      <Mail className="absolute left-6 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary-cyan transition-colors" size={22} />
+                      <Mail className="absolute left-5 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary-cyan transition-colors" size={18} />
                       <input 
                         type="email" 
                         required
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className="w-full bg-white/[0.04] border border-white/10 rounded-full p-6 pl-16 text-sm font-bold text-white focus:border-primary-cyan outline-none transition-all placeholder:text-on-surface-variant/30 uppercase tracking-widest"
-                        placeholder={t('INSTITUTIONAL EMAIL', 'EMAIL INSTITUTIONNEL')}
+                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 text-sm font-bold text-white focus:border-primary-cyan outline-none transition-all placeholder:text-on-surface-variant/30 uppercase tracking-widest"
+                        placeholder={t('EMAIL ADDRESS', 'ADRESSE E-MAIL')}
                       />
                     </div>
                     <div className="relative group">
-                      <Lock className="absolute left-6 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary-cyan transition-colors" size={22} />
+                      <Lock className="absolute left-5 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary-cyan transition-colors" size={18} />
                       <input 
                         type="password" 
                         required
                         value={formData.password}
                         onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                        className="w-full bg-white/[0.04] border border-white/10 rounded-full p-6 pl-16 text-sm font-bold text-white focus:border-primary-cyan outline-none transition-all placeholder:text-on-surface-variant/30 uppercase tracking-widest"
+                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 text-sm font-bold text-white focus:border-primary-cyan outline-none transition-all placeholder:text-on-surface-variant/30 uppercase tracking-widest"
                         placeholder={t('PASSWORD', 'MOT DE PASSE')}
                       />
                     </div>
@@ -401,36 +355,36 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
                   <button 
                     type="submit"
                     disabled={isLoading}
-                    className="w-full py-7 bg-primary-cyan text-surface-dim text-base font-black uppercase italic tracking-[0.25em] hover:bg-white transition-all active:scale-95 shadow-[0_0_50px_rgba(0,224,255,0.25)] rounded-full flex items-center justify-center gap-4 group mt-6"
+                    className="w-full py-4 bg-primary-cyan text-surface-dim text-xs font-black uppercase italic tracking-[0.2em] hover:bg-white transition-all active:scale-95 shadow-[0_0_40px_rgba(0,224,255,0.2)] rounded-full flex items-center justify-center gap-3 group mt-2"
                   >
-                    {isLoading ? <Loader2 className="w-6 h-6 animate-spin" /> : (
+                    {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : (
                       <>
-                        {t('FINALIZE REGISTRATION', 'FINALISER L\'INSCRIPTION')} 
-                        <ArrowRight size={24} className="group-hover:translate-x-2 transition-transform" />
+                        {t('CREATE ACCOUNT', 'CRÉER LE COMPTE')} 
+                        <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                       </>
                     )}
                   </button>
 
-                  <div className="relative py-6 text-center">
+                  <div className="relative py-2 text-center">
                     <div className="absolute inset-0 flex items-center">
                       <div className="w-full border-t border-white/5" />
                     </div>
-                    <span className="relative z-10 bg-[#0A0C10] px-6 text-[10px] font-black text-on-surface-variant uppercase tracking-[0.5em] italic">{t('OR REGISTER WITH', 'OU S\'INSCRIRE AVEC')}</span>
+                    <span className="relative z-10 bg-[#0A0C10] px-4 text-[8px] font-black text-on-surface-variant uppercase tracking-[0.3em] italic opacity-50">{t('OR REGISTER WITH', 'OU S\'INSCRIRE AVEC')}</span>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-6">
+                  <div className="grid grid-cols-2 gap-3">
                     <button 
                       type="button"
                       onClick={handleGoogleSignup}
-                      className="flex items-center justify-center gap-4 py-5 bg-white/[0.03] border border-white/10 rounded-2xl hover:bg-white/10 transition-all text-[11px] font-black uppercase tracking-widest group"
+                      className="flex items-center justify-center gap-3 py-3 bg-white/[0.03] border border-white/10 rounded-xl hover:bg-white/10 transition-all text-[9px] font-black uppercase tracking-widest group"
                     >
-                      <Globe size={18} className="text-primary-cyan group-hover:scale-110 transition-transform" /> GOOGLE
+                      <Globe size={14} className="text-primary-cyan group-hover:scale-110 transition-transform" /> GOOGLE
                     </button>
                     <button 
                       type="button"
-                      className="flex items-center justify-center gap-4 py-5 bg-white/[0.03] border border-white/10 rounded-2xl hover:bg-white/10 transition-all text-[11px] font-black uppercase tracking-widest group"
+                      className="flex items-center justify-center gap-3 py-3 bg-white/[0.03] border border-white/10 rounded-xl hover:bg-white/10 transition-all text-[9px] font-black uppercase tracking-widest group"
                     >
-                      <Send size={18} className="text-indigo-500 group-hover:scale-110 transition-transform" /> FACEBOOK
+                      <Send size={14} className="text-indigo-500 group-hover:scale-110 transition-transform" /> FACEBOOK
                     </button>
                   </div>
                 </form>
@@ -438,9 +392,19 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
             )}
           </AnimatePresence>
         </div>
-      </motion.div>
 
-      <OracleWidget onAction={() => onViewChange('LOUNGE')} />
+        <div className="p-6 bg-white/[0.02] border-t border-white/5 flex items-center justify-center gap-8 text-[8px] font-black text-on-surface-variant/40 uppercase tracking-widest">
+          <div className="flex items-center gap-2">
+            <ShieldCheck size={10} className="text-emerald-400" />
+            MICA COMPLIANT
+          </div>
+          <div className="flex items-center gap-2">
+            <Globe size={10} className="text-primary-cyan" />
+            SECURED TERMINAL
+          </div>
+          <div>V4.2 ALPHA</div>
+        </div>
+      </motion.div>
     </div>
   );
 };

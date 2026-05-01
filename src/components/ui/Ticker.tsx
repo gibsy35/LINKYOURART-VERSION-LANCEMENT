@@ -20,8 +20,11 @@ export const Ticker: React.FC = () => {
         transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
       >
         {items.map((item, i) => {
-          const isUp = Math.random() > 0.4;
-          const change = (Math.random() * 5).toFixed(2);
+          const charCodeSum = item.id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+          const isUp = (charCodeSum + i) % 2 === 0;
+          const variationPercent = ((charCodeSum % 100) / 25 + (i % 3) / 2).toFixed(2);
+          const adjustedPrice = item.unitValue * (1 + (isUp ? 1 : -1) * parseFloat(variationPercent) / 100);
+
           return (
             <div key={`${item.id}-${i}`} className="flex items-center gap-4 group cursor-pointer" onClick={() => {
               window.dispatchEvent(new CustomEvent('ticker-contract-select', { detail: item }));
@@ -30,10 +33,10 @@ export const Ticker: React.FC = () => {
               <div className="flex items-center gap-1">
                 {isUp ? <TrendingUp size={10} className="text-primary-cyan" /> : <TrendingDown size={10} className="text-red-500" />}
                 <span className={`text-[10px] font-bold ${isUp ? 'text-primary-cyan' : 'text-red-500'}`}>
-                   {isUp ? '+' : '-'}{change}%
+                   {isUp ? '+' : '-'}{variationPercent}%
                 </span>
               </div>
-              <span className="text-[10px] font-mono text-on-surface-variant/40">${item.unitValue.toLocaleString()}</span>
+              <span className="text-[10px] font-mono text-on-surface-variant/40">${adjustedPrice.toFixed(2)}</span>
             </div>
           );
         })}

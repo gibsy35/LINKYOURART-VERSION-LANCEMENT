@@ -18,33 +18,32 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
   accentColor = 'text-primary-cyan'
 }) => {
   return (
-    <header className="mb-20 pt-10 relative z-10 px-6 md:px-12">
-      <div className="flex flex-col gap-10">
+    <header className="mb-12 md:mb-16 pt-8 md:pt-12 relative z-10 px-6 md:px-12 lg:px-20">
+      <div className="flex flex-col">
         <motion.div
            initial={{ opacity: 0, x: -20 }}
            animate={{ opacity: 1, x: 0 }}
            transition={{ duration: 0.8 }}
         >
-          <h1 className="text-3xl md:text-5xl lg:text-6xl font-black font-headline tracking-tighter leading-[0.85] uppercase italic mb-10 flex items-center gap-6">
-            <div className={`h-[2px] w-16 ${accentColor.replace('text-', 'bg-')}`}></div>
-            <span>
-              <span className="text-white drop-shadow-2xl">{titleWhite}</span>{' '}
-              <span className={`${accentColor} drop-shadow-[0_0_30px_rgba(0,224,255,0.4)]`}>
+          {/* Title Area with Horizontal Bar */}
+          <div className="flex items-center gap-6 mb-4">
+            <div className={`w-12 md:w-16 lg:w-20 h-[2px] ${accentColor.replace('text-', 'bg-')} shadow-[0_0_15px_rgba(0,224,255,0.3)]`}></div>
+            <h1 className="text-2xl md:text-3xl lg:text-5xl font-bold font-headline tracking-tighter leading-none uppercase italic flex flex-wrap items-baseline gap-x-2 md:gap-x-4">
+              <span className="text-white drop-shadow-2xl">{titleWhite}</span>
+              <span className={`${accentColor} drop-shadow-[0_0_30px_rgba(0,224,255,0.2)]`}>
                 {titleAccent}
               </span>
-            </span>
-          </h1>
+            </h1>
+          </div>
           
+          {/* Description Area with Vertical Bar */}
           {description && (
-            <p className={`border-l-[3px] ${accentColor.replace('text-', 'border-')} pl-8 text-on-surface-variant max-w-3xl text-[12px] md:text-base leading-relaxed opacity-80 uppercase tracking-[0.4em] font-black italic`}>
-              {description}
-            </p>
-          )}
-
-          {subtitle && (
-            <h2 className="mt-8 text-xl md:text-3xl font-black font-headline tracking-tight uppercase italic text-on-surface opacity-90">
-              {subtitle}
-            </h2>
+            <div className="flex items-stretch gap-6 md:gap-8 pl-2">
+              <div className={`w-[1px] ${accentColor.replace('text-', 'bg-')} opacity-60 min-h-[40px] md:min-h-[50px]`}></div>
+              <p className="text-white md:text-lg font-semibold uppercase tracking-[0.15em] leading-tight opacity-90 max-w-3xl italic self-center">
+                {description}
+              </p>
+            </div>
           )}
         </motion.div>
       </div>

@@ -122,7 +122,7 @@ client.settlements.on('complete', (data) => {
   }
 
   return (
-    <div className="space-y-12 pb-24 relative min-h-screen">
+    <div className="max-w-[1600px] mx-auto space-y-12 pb-24 relative min-h-screen px-6 md:px-12">
       {/* Immersive Background */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_20%_30%,rgba(0,224,255,0.05),transparent_50%),radial-gradient(circle_at_80%_70%,rgba(238,192,94,0.03),transparent_50%)]" />
@@ -136,7 +136,7 @@ client.settlements.on('complete', (data) => {
         accentColor="text-primary-cyan"
       />
 
-      <div className="flex flex-col lg:flex-row lg:items-center justify-end gap-8 -mt-32 mb-12 relative z-20 px-6 md:px-12">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-end gap-8 -mt-16 md:-mt-24 mb-12 relative z-20">
         <div className="flex flex-wrap gap-4">
           <div className="px-8 py-5 bg-surface-low border border-white/5 rounded-2xl backdrop-blur-3xl shadow-2xl relative overflow-hidden group">
             <div className="absolute inset-0 bg-primary-cyan/5 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -151,7 +151,7 @@ client.settlements.on('complete', (data) => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 px-6">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* API Keys Management */}
         <div className="lg:col-span-8 space-y-8">
           <section className="bg-surface-low/30 border border-white/5 rounded-2xl p-8">

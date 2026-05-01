@@ -9,22 +9,23 @@ export const useMarketData = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setContracts(prev => prev.map(contract => {
-        // Small fluctuation with a slight bearish bias for realism
-        const fluctuation = (Math.random() - 0.55) * 0.2; // -0.11 to +0.09 shift
+        // Small fluctuation 
+        const fluctuation = (Math.random() - 0.5) * 0.4; 
         const newGrowth = parseFloat((contract.growth + fluctuation).toFixed(2));
         
-        // Occasionally change unit value slightly (simulating market depth)
-        const priceFluctuation = (Math.random() - 0.52) * 0.02;
-        const newUnitValue = parseFloat((contract.unitValue + priceFluctuation).toFixed(2));
+        // Price should reflect the growth from a base of 50.00
+        // currentPrice = basePrice * (1 + (growth / 100))
+        const basePrice = 50.00;
+        const newUnitValue = parseFloat((basePrice * (1 + (newGrowth / 100))).toFixed(2));
 
         return {
           ...contract,
           growth: newGrowth,
-          unitValue: newUnitValue
+          unitValue: Math.max(0.01, newUnitValue) // Prevent negative or zero price
         };
       }));
       setLastUpdate(new Date());
-    }, 3000); // Update every 3 seconds for "life"
+    }, 4000); 
 
     return () => clearInterval(interval);
   }, []);

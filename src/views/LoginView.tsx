@@ -123,119 +123,77 @@ const LoginView: React.FC<LoginViewProps> = ({ onViewChange, setUser }) => {
       </div>
 
       <motion.div 
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        className="w-full max-w-6xl bg-[#0A0C10] border border-white/10 rounded-[2rem] overflow-hidden shadow-2xl flex flex-col md:flex-row relative z-10"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="w-full max-w-md bg-[#0A0C10] border border-white/10 rounded-[2rem] overflow-hidden shadow-2xl relative z-10 flex flex-col"
       >
-        {/* Left Side: Institutional Context */}
-        <div className="md:w-5/12 bg-gradient-to-br from-[#0F1116] to-[#0A0C10] p-8 md:p-12 flex flex-col border-r border-white/5 relative overflow-hidden">
-          {/* Subtle Glow */}
-          <div className="absolute top-0 right-0 w-32 h-32 bg-primary-cyan/10 blur-[60px] rounded-full" />
-          
-          <div className="relative z-10 flex flex-col h-full">
-            <div className="flex items-center gap-4 mb-20 group cursor-pointer">
-              <div className="relative">
-                <div className="absolute inset-0 bg-primary-cyan/20 blur-xl rounded-full animate-pulse" />
-                <Logo size={48} color="multi" />
-              </div>
-              <h1 className="text-2xl font-black tracking-tighter uppercase italic group-hover:text-primary-cyan transition-colors">LINKYOURART</h1>
-              <div className="px-2 py-0.5 bg-accent-gold text-black text-[8px] font-black rounded ml-1 animate-pulse">BETA</div>
-            </div>
-
-            <div className="flex-1 space-y-12">
-              <div className="space-y-4">
-                <h2 className="text-[10px] font-black text-primary-cyan uppercase tracking-[0.4em] mb-8">{t('INSTITUTIONAL ACCESS', 'ACCÈS INSTITUTIONNEL')}</h2>
-                
-                {[
-                  { id: 'creator', label: t('CREATOR PROFILE', 'PROFIL CRÉATEUR'), desc: t('Index your rights, finance your projects and manage your creative IP.', 'Indexez vos droits, financez vos projets et gérez votre PI créative.'), icon: Mail },
-                  { id: 'investor', label: t('INVESTOR PROFILE', 'PROFIL INVESTISSEUR'), desc: t('Access high-yield creative assets and support the artistic ecosystem.', 'Accédez à des actifs créatifs à haut rendement et soutenez l\'écosystème artistique.'), icon: TrendingUp },
-                  { id: 'pro', label: t('PRO PROFILE', 'PROFIL PRO'), desc: t('Institutional tools for asset valuation, audit and registry management.', 'Outils institutionnels pour la valorisation des actifs, l\'audit et la gestion des registres.'), icon: ShieldCheck }
-                ].map((profile) => (
-                  <div key={profile.id} className="flex gap-5 group cursor-pointer">
-                    <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:border-primary-cyan group-hover:bg-primary-cyan/10 transition-all">
-                      <profile.icon size={20} className="text-on-surface-variant group-hover:text-primary-cyan" />
-                    </div>
-                    <div className="space-y-1">
-                      <h3 className="text-xs font-black text-white uppercase group-hover:text-primary-cyan transition-colors">{profile.label}</h3>
-                      <p className="text-[9px] text-on-surface-variant/60 leading-relaxed uppercase font-bold tracking-tight">{profile.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="pt-12 flex items-center justify-between border-t border-white/5 opacity-40">
-              <div className="flex items-center gap-3 text-[8px] font-black uppercase tracking-widest">
-                <ShieldCheck size={12} className="text-emerald-400" />
-                SECURED TERMINAL
-              </div>
-              <div className="text-[8px] font-black uppercase tracking-widest px-3 py-1 bg-white/5 border border-white/10 rounded">V4.2 ALPHA</div>
-            </div>
-          </div>
-        </div>
-
-        {/* Right Side: Auth Form */}
-        <div className="md:w-7/12 p-8 md:p-16 flex flex-col justify-center relative">
+        <div className="p-6 md:p-8 relative">
           <button 
             onClick={() => onViewChange('HOME')}
-            className="absolute top-8 right-8 text-on-surface-variant hover:text-white transition-colors"
+            className="absolute top-6 right-6 w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-on-surface-variant hover:text-white hover:bg-white/10 transition-all z-20 group"
           >
-            <X size={24} />
+            <X size={18} className="group-hover:rotate-90 transition-transform duration-300" />
           </button>
+
+          {/* Header */}
+          <div className="flex flex-col items-center text-center mb-8">
+            <div className="relative mb-6 cursor-pointer group" onClick={() => onViewChange('HOME')}>
+              <div className="absolute inset-0 bg-primary-cyan/25 blur-[60px] rounded-full animate-pulse group-hover:bg-primary-cyan/45 transition-colors" />
+              <Logo size={80} color="multi" showBeta className="transition-transform duration-700 group-hover:scale-110" />
+            </div>
+            <div className="text-[10px] font-bold text-accent-gold uppercase tracking-[0.4em] mt-6 drop-shadow-glow-gold">{t('INSTITUTIONAL TERMINAL', 'TERMINAL INSTITUTIONNEL')}</div>
+          </div>
 
           <AnimatePresence mode="wait">
             {!isForgotPassword ? (
               <motion.div
                 key="login-form"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                className="max-w-md mx-auto w-full"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 1.05 }}
+                className="w-full"
               >
-                <div className="mb-12">
-                  <h2 className="text-5xl font-black font-headline uppercase tracking-tighter italic mb-4 tracking-[-0.05em] text-white underline decoration-primary-cyan decoration-8 underline-offset-[12px]">{t('WELCOME BACK', 'BON RETOUR')}</h2>
-                  <p className="text-[11px] text-on-surface-variant uppercase tracking-[0.4em] font-black opacity-60 mt-8">
-                    {t('ACCESS YOUR INSTITUTIONAL TERMINAL', 'ACCÉDEZ À VOTRE TERMINAL INSTITUTIONNEL')}
-                  </p>
+                <div className="mb-6 text-center">
+                  <h2 className="text-3xl font-black font-headline uppercase tracking-tighter italic mb-4 text-white leading-none">{t('WELCOME BACK', 'BON RETOUR')}</h2>
                 </div>
 
-                <form className="space-y-8" onSubmit={handleLogin}>
+                <form className="space-y-4" onSubmit={handleLogin}>
                   {error && (
                     <motion.div 
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className="p-4 bg-red-500/10 border border-red-500/20 text-red-500 text-[10px] font-black uppercase tracking-widest rounded-xl"
+                      className="p-3 bg-red-500/10 border border-red-500/20 text-red-500 text-[9px] font-black uppercase tracking-widest rounded-xl text-center"
                     >
                       {error}
                     </motion.div>
                   )}
 
-                  <div className="space-y-5">
+                  <div className="space-y-3">
                     <div className="relative group">
-                      <Mail className="absolute left-6 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary-cyan transition-colors" size={22} />
+                      <Mail className="absolute left-5 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary-cyan transition-colors" size={18} />
                       <input 
                         type="email" 
                         required
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className="w-full bg-white/[0.04] border border-white/10 rounded-full p-6 pl-16 text-sm font-bold text-white focus:border-primary-cyan focus:bg-white/[0.08] outline-none transition-all placeholder:text-on-surface-variant/30 uppercase tracking-widest"
-                        placeholder={t('INSTITUTIONAL EMAIL', 'EMAIL INSTITUTIONNEL')}
+                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 text-sm font-bold text-white focus:border-primary-cyan focus:bg-white/[0.08] outline-none transition-all placeholder:text-on-surface-variant/30 uppercase tracking-widest"
+                        placeholder={t('EMAIL ADDRESS', 'ADRESSE E-MAIL')}
                       />
                     </div>
                     <div className="relative group">
-                      <Lock className="absolute left-6 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary-cyan transition-colors" size={22} />
+                      <Lock className="absolute left-5 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary-cyan transition-colors" size={18} />
                       <input 
                         type="password" 
                         required
                         value={formData.password}
                         onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                        className="w-full bg-white/[0.04] border border-white/10 rounded-full p-6 pl-16 text-sm font-bold text-white focus:border-primary-cyan focus:bg-white/[0.08] outline-none transition-all placeholder:text-on-surface-variant/30 uppercase tracking-widest"
+                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 text-sm font-bold text-white focus:border-primary-cyan focus:bg-white/[0.08] outline-none transition-all placeholder:text-on-surface-variant/30 uppercase tracking-widest"
                         placeholder={t('PASSWORD', 'MOT DE PASSE')}
                       />
                     </div>
                   </div>
 
-                  <div className="flex justify-end pr-4">
+                  <div className="flex justify-end">
                     <button 
                       type="button" 
                       onClick={() => setIsForgotPassword(true)}
@@ -248,75 +206,75 @@ const LoginView: React.FC<LoginViewProps> = ({ onViewChange, setUser }) => {
                   <button 
                     type="submit"
                     disabled={isLoading}
-                    className="w-full py-7 bg-primary-cyan text-surface-dim text-base font-black uppercase italic tracking-[0.25em] hover:bg-white transition-all active:scale-95 shadow-[0_0_50px_rgba(0,224,255,0.25)] rounded-full flex items-center justify-center gap-4 group"
+                    className="w-full py-4 bg-primary-cyan text-surface-dim text-xs font-black uppercase italic tracking-[0.2em] hover:bg-white transition-all active:scale-95 shadow-[0_0_40px_rgba(0,224,255,0.2)] rounded-full flex items-center justify-center gap-3 group"
                   >
-                    {isLoading ? <Loader2 className="w-6 h-6 animate-spin" /> : (
+                    {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : (
                       <>
                         {t('INITIALIZE SESSION', 'INITIALISER LA SESSION')} 
-                        <ArrowRight size={24} className="group-hover:translate-x-2 transition-transform" />
+                        <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                       </>
                     )}
                   </button>
 
-                  <div className="relative py-6 text-center">
+                  <div className="relative py-2 text-center">
                     <div className="absolute inset-0 flex items-center">
                       <div className="w-full border-t border-white/5" />
                     </div>
-                    <span className="relative z-10 bg-[#0A0C10] px-6 text-[10px] font-black text-on-surface-variant uppercase tracking-[0.5em] italic">{t('SOCIAL CONNEXION', 'SOCIAL CONNEXION')}</span>
+                    <span className="relative z-10 bg-[#0A0C10] px-4 text-[8px] font-black text-on-surface-variant uppercase tracking-[0.3em] italic opacity-50">{t('OR CONTINUE WITH', 'OU CONTINUER AVEC')}</span>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-6">
+                  <div className="grid grid-cols-2 gap-3">
                     <button 
                       type="button"
                       onClick={handleGoogleLogin}
-                      className="flex items-center justify-center gap-4 py-5 bg-white/[0.03] border border-white/10 rounded-2xl hover:bg-white/10 transition-all text-[11px] font-black uppercase tracking-widest group"
+                      className="flex items-center justify-center gap-3 py-3 bg-white/[0.03] border border-white/10 rounded-xl hover:bg-white/10 transition-all text-[9px] font-black uppercase tracking-widest group"
                     >
-                      <Globe size={18} className="text-primary-cyan group-hover:scale-110 transition-transform" /> GOOGLE
+                      <Globe size={14} className="text-primary-cyan group-hover:scale-110 transition-transform" /> GOOGLE
                     </button>
                     <button 
                       type="button"
-                      className="flex items-center justify-center gap-4 py-5 bg-white/[0.03] border border-white/10 rounded-2xl hover:bg-white/10 transition-all text-[11px] font-black uppercase tracking-widest group"
+                      className="flex items-center justify-center gap-3 py-3 bg-white/[0.03] border border-white/10 rounded-xl hover:bg-white/10 transition-all text-[9px] font-black uppercase tracking-widest group"
                     >
-                      <Send size={18} className="text-indigo-500 group-hover:scale-110 transition-transform" /> FACEBOOK
+                      <Send size={14} className="text-indigo-500 group-hover:scale-110 transition-transform" /> FACEBOOK
                     </button>
                   </div>
                 </form>
 
-                <div className="mt-16 text-center">
+                <div className="mt-8 text-center">
                     <button 
                       onClick={() => onViewChange('SIGNUP')}
-                      className="text-[11px] font-black uppercase tracking-[0.2em] text-on-surface-variant hover:text-white transition-colors flex items-center justify-center gap-3 mx-auto group"
+                      className="text-[9px] font-black uppercase tracking-[0.2em] text-on-surface-variant hover:text-white transition-colors flex items-center justify-center gap-3 mx-auto"
                     >
-                      <span className="w-8 h-[1px] bg-white/10 group-hover:bg-primary-cyan transition-colors" />
-                      {t('NEW ON THE PROTOCOL? CREATE AN ACCOUNT', 'NOUVEAU SUR LE PROTOCOLE ? CRÉER UN COMPTE')}
-                      <span className="w-8 h-[1px] bg-white/10 group-hover:bg-primary-cyan transition-colors" />
+                      <span className="w-4 h-[1px] bg-white/10" />
+                      {t('CREATE AN ACCOUNT', 'CRÉER UN COMPTE')}
+                      <span className="w-4 h-[1px] bg-white/10" />
                     </button>
                 </div>
               </motion.div>
             ) : (
               <motion.div
                 key="forgot-form"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                className="max-w-md mx-auto w-full"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 1.05 }}
+                className="w-full"
               >
-                 <div className="mb-12">
-                  <h2 className="text-4xl font-black font-headline uppercase tracking-tighter italic mb-2 tracking-[-0.05em]">{t('RECOVER ACCESS', 'RÉCUPÉRATION')}</h2>
-                  <p className="text-[10px] text-on-surface-variant uppercase tracking-[0.3em] font-bold opacity-60">
-                    {t('INPUT YOUR EMAIL TO RESET SECURITY CREDENTIALS', 'SAISISSEZ VOTRE EMAIL POUR RÉINITIALISER')}
+                 <div className="mb-10 text-center">
+                  <h2 className="text-3xl font-black font-headline uppercase tracking-tighter italic mb-2">{t('RECOVER ACCESS', 'RÉCUPÉRATION')}</h2>
+                  <p className="text-[10px] text-on-surface-variant uppercase tracking-[0.2em] font-bold opacity-60">
+                    {t('INPUT YOUR EMAIL TO RESET', 'SAISISSEZ VOTRE EMAIL')}
                   </p>
                 </div>
 
                 <form className="space-y-6" onSubmit={handleForgotPassword}>
                   <div className="relative group">
-                    <Mail className="absolute left-5 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary-cyan transition-colors" size={20} />
+                    <Mail className="absolute left-6 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary-cyan transition-colors" size={20} />
                     <input 
                       type="email" 
                       required
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full bg-white/[0.03] border border-white/10 rounded-2xl p-6 pl-14 text-sm font-bold text-white focus:border-primary-cyan outline-none transition-all placeholder:text-on-surface-variant/30 uppercase tracking-widest"
+                      className="w-full bg-white/[0.03] border border-white/10 rounded-2xl p-5 pl-14 text-sm font-bold text-white focus:border-primary-cyan outline-none transition-all placeholder:text-on-surface-variant/30 uppercase tracking-widest"
                       placeholder={t('EMAIL ADDRESS', 'ADRESSE E-MAIL')}
                     />
                   </div>
@@ -324,12 +282,12 @@ const LoginView: React.FC<LoginViewProps> = ({ onViewChange, setUser }) => {
                   <button 
                     type="submit"
                     disabled={isLoading}
-                    className="w-full py-6 bg-primary-cyan text-surface-dim text-sm font-black uppercase italic tracking-[0.2em] hover:bg-white transition-all active:scale-95 shadow-[0_0_40px_rgba(0,224,255,0.2)] rounded-3xl flex items-center justify-center gap-4 group"
+                    className="w-full py-5 bg-primary-cyan text-surface-dim text-sm font-black uppercase italic tracking-[0.2em] hover:bg-white transition-all active:scale-95 shadow-[0_0_30px_rgba(0,224,255,0.2)] rounded-full flex items-center justify-center gap-3 group"
                   >
                     {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : (
                       <>
                         {t('SEND RESET LINK', 'ENVOYER LE LIEN')} 
-                        <Send size={20} className="group-hover:translate-x-2 transition-transform" />
+                        <Send size={18} className="group-hover:translate-x-1 transition-transform" />
                       </>
                     )}
                   </button>
@@ -346,9 +304,20 @@ const LoginView: React.FC<LoginViewProps> = ({ onViewChange, setUser }) => {
             )}
           </AnimatePresence>
         </div>
+        
+        {/* Footer info fixed to avoid scroll */}
+        <div className="p-6 bg-white/[0.02] border-t border-white/5 flex items-center justify-center gap-8 text-[8px] font-black text-on-surface-variant/40 uppercase tracking-widest">
+          <div className="flex items-center gap-2">
+            <ShieldCheck size={10} className="text-emerald-400" />
+            SECURED TERMINAL
+          </div>
+          <div className="flex items-center gap-2">
+            <Globe size={10} className="text-primary-cyan" />
+            MICA COMPLIANT
+          </div>
+          <div>V4.2 ALPHA</div>
+        </div>
       </motion.div>
-
-      <OracleWidget onAction={() => onViewChange('LOUNGE')} />
     </div>
   );
 };

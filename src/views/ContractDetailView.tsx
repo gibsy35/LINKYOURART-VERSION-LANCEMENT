@@ -200,7 +200,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                 {contract.rarity}
               </div>
             </div>
-            <h1 className="text-4xl md:text-6xl font-black font-headline tracking-tighter text-white leading-[0.9] uppercase flex items-center gap-4">
+            <h1 className="text-3xl md:text-5xl font-black font-headline tracking-tighter text-white leading-[0.9] uppercase flex items-center gap-4">
               {contract.name}
             </h1>
           </div>
@@ -253,11 +253,20 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                 <div className="flex flex-wrap items-center gap-6">
                   <div className="flex items-center gap-3">
                     <div className="w-12 h-12 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center text-white">
-                      <Award size={24} />
+                      <BarChart3 size={24} />
                     </div>
                     <div>
-                      <div className="text-[10px] text-white/50 uppercase tracking-widest font-bold">{t('Professional Rating', 'Évaluation Professionnelle')}</div>
-                      <div className="text-2xl font-black text-white font-headline">{contract.scorePro || 0}/1000</div>
+                      <div className="text-[10px] text-white/50 uppercase tracking-widest font-bold">{t('Algorithmic Score', 'Score Algorithmique')}</div>
+                      <div className="text-2xl font-black text-white font-headline">{contract.scoreAlgo || 0}/500</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3 border-l border-white/10 pl-6">
+                    <div className="w-12 h-12 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center text-white">
+                      <ShieldCheck size={24} />
+                    </div>
+                    <div>
+                      <div className="text-[10px] text-white/50 uppercase tracking-widest font-bold">{t('Professional Rating', 'Évaluation Pro')}</div>
+                      <div className="text-2xl font-black text-white font-headline">{contract.scorePro || 0}/500</div>
                     </div>
                   </div>
                   <div className="flex items-center gap-3 border-l border-white/10 pl-6">
@@ -267,7 +276,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                     <div>
                       <div className="text-[10px] text-primary-cyan uppercase tracking-widest font-black">{t('Final LYA Score', 'Score LYA Final')}</div>
                       <div className="text-2xl font-black text-primary-cyan font-headline">
-                        {Math.round(((contract.scorePro || 0) + (contract.scoreLYA || 0)) / 2) || contract.totalScore}
+                        {Math.round(((contract.scoreAlgo || 0) + (contract.scorePro || 0)) / 2)}/1000
                       </div>
                     </div>
                   </div>
@@ -422,7 +431,9 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                     </h3>
                     <div className="flex flex-col items-end">
                       <div className="flex items-baseline gap-1">
-                        <span className="text-2xl font-black text-primary-cyan drop-shadow-[0_0_15px_rgba(0,224,255,0.5)]">{Math.round((contract.totalScore + (contract.professionalRating || 0)) / 2)}</span>
+                        <span className="text-2xl font-black text-primary-cyan drop-shadow-[0_0_15px_rgba(0,224,255,0.5)]">
+                          {Math.round(((contract.scoreAlgo || 0) + (contract.scorePro || 0)) / 2)}
+                        </span>
                         <span className="text-[10px] text-on-surface-variant opacity-40">/1000</span>
                       </div>
                       <span className="text-[8px] text-accent-gold uppercase font-black tracking-widest animate-pulse">{t('Consolidated LYA Score', 'Score LYA Consolidé')}</span>

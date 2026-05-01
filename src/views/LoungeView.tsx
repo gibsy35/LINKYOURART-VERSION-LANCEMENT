@@ -657,8 +657,17 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
         accentColor="text-accent-gold"
       />
 
-      <div className="relative z-20 -mt-32 mb-12">
+      <div className="mb-12 flex items-center gap-4 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300">
+        <div className="h-px w-8 bg-accent-gold/40"></div>
+        <span className="text-[10px] font-bold text-accent-gold tracking-[0.5em] uppercase italic">LYA UNITS ARE INDEXED</span>
+        <div className="h-px flex-1 bg-gradient-to-r from-accent-gold/20 to-transparent"></div>
+      </div>
+
+      <div className="relative z-20 -mt-24 mb-12">
         <div className="flex flex-col lg:flex-row lg:items-center justify-end gap-8 px-6 md:px-12">
+          <div className="hidden lg:block mr-auto">
+            <div className="text-[10px] font-black text-accent-gold uppercase tracking-[0.5em] opacity-40 animate-pulse">LYA UNITS ARE INDEXED</div>
+          </div>
           <div className="flex flex-wrap gap-4">
             <div className="px-8 py-5 bg-surface-low border border-white/5 rounded-2xl backdrop-blur-3xl shadow-2xl relative overflow-hidden group">
               <div className="absolute inset-0 bg-accent-gold/5 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -733,7 +742,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
                       <span className="text-[10px] text-white font-black uppercase tracking-[0.4em] opacity-60">MARKET PULSE</span>
                     </div>
                     <h2 className="text-2xl md:text-4xl font-black text-white uppercase italic tracking-tighter leading-none mb-4">
-                      CREATIVE <span className="text-accent-gold">INSIGHTS MONITOR</span>
+                      CREATIVE <span className="bg-gradient-to-r from-accent-gold via-white to-accent-gold bg-clip-text text-transparent bg-[length:200%_auto] animate-shimmer">INSIGHTS MONITOR</span>
                     </h2>
                     <div className="flex flex-wrap gap-6 mt-8">
                       <div className="flex flex-col">

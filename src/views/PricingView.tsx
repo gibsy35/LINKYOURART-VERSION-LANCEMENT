@@ -20,7 +20,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
     {
       id: 'CREATOR',
       name: t('Creator', 'Créateur'),
-      monthlyPrice: 29,
+      monthlyPrice: 49,
       description: t('For individual artists and creators.', 'Pour les artistes et créateurs individuels.'),
       features: [
         t('Project indexing (up to 4)', 'Indexation de projets (jusqu\'à 4)'),
@@ -34,7 +34,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
     {
       id: 'INVESTOR',
       name: t('Investor', 'Investisseur'),
-      monthlyPrice: 99,
+      monthlyPrice: 149,
       description: t('For active collectors and investors.', 'Pour les collectionneurs et investisseurs actifs.'),
       features: [
         t('Unlimited project tracking', 'Suivi de projets illimité'),
@@ -50,7 +50,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
     {
       id: 'PRO',
       name: t('Pro Personal', 'Pro Personnel'),
-      monthlyPrice: 499,
+      monthlyPrice: 890,
       description: t('For independent professionals and agents.', 'Pour les professionnels et agents indépendants.'),
       features: [
         t('Institutional audit tools', 'Outils d\'audit institutionnel'),
@@ -65,7 +65,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
     {
       id: 'PRO',
       name: t('Pro Enterprise', 'Pro Entreprise'),
-      monthlyPrice: 1499,
+      monthlyPrice: 5900,
       description: t('For galleries, studios, and large institutions.', 'Pour les galeries, studios et grandes institutions.'),
       features: [
         t('Multi-user access (up to 10)', 'Accès multi-utilisateurs (jusqu\'à 10)'),
@@ -88,7 +88,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
   };
 
   return (
-    <div className="space-y-12 pb-24 relative min-h-screen">
+    <div className="max-w-[1600px] mx-auto space-y-12 pb-24 relative min-h-screen px-6 md:px-12">
       <PageHeader 
         titleWhite={t('Institutional', 'INSTITUTIONAL')}
         titleAccent={t('Pricing', 'PRICING')}
@@ -96,7 +96,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
         accentColor="text-primary-cyan"
       />
 
-      <div className="flex flex-col lg:flex-row lg:items-center justify-end gap-8 -mt-32 mb-12 relative z-20 px-6 md:px-12">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-end gap-8 -mt-16 md:-mt-24 mb-12 relative z-20">
         {/* Billing Toggle */}
         <div className="bg-surface-high/40 border border-white/10 p-1 rounded-sm flex items-center backdrop-blur-xl">
           <button 
@@ -224,8 +224,8 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
                       t('Market sentiment analysis', 'Analyse du sentiment du marché'),
                       t('Custom portfolio alerts', 'Alertes de portefeuille personnalisées')
                     ].map((f, i) => (
-                      <li key={i} className="flex items-center gap-2 text-[10px] text-on-surface-variant uppercase font-bold tracking-wide">
-                        <div className="w-1 h-1 bg-primary-cyan rounded-full" /> {f}
+                      <li key={i} className="flex items-center gap-3 text-[10px] text-on-surface-variant uppercase font-bold tracking-wide">
+                        <div className="w-4 h-[1px] bg-primary-cyan opacity-40" /> {f}
                       </li>
                     ))}
                   </ul>
@@ -239,8 +239,8 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
                       t('Tax optimization reports', 'Rapports d\'optimisation fiscale'),
                       t('Direct equity lending', 'Prêt direct de fonds propres')
                     ].map((f, i) => (
-                      <li key={i} className="flex items-center gap-2 text-[10px] text-on-surface-variant uppercase font-bold tracking-wide">
-                        <div className="w-1 h-1 bg-accent-gold rounded-full" /> {f}
+                      <li key={i} className="flex items-center gap-3 text-[10px] text-on-surface-variant uppercase font-bold tracking-wide">
+                        <div className="w-4 h-[1px] bg-accent-gold opacity-40" /> {f}
                       </li>
                     ))}
                   </ul>
@@ -273,8 +273,8 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
                       t('Custom compliance workflows', 'Flux de conformité personnalisés'),
                       t('White-label client portal', 'Portail client en marque blanche')
                     ].map((f, i) => (
-                      <li key={i} className="flex items-center gap-2 text-[10px] text-on-surface-variant uppercase font-bold tracking-wide">
-                        <div className="w-1 h-1 bg-primary-cyan rounded-full" /> {f}
+                      <li key={i} className="flex items-center gap-3 text-[10px] text-on-surface-variant uppercase font-bold tracking-wide">
+                        <div className="w-4 h-[1px] bg-primary-cyan opacity-40" /> {f}
                       </li>
                     ))}
                   </ul>
@@ -288,8 +288,8 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
                       t('Bulk contract indexing', 'Indexation de contrats en masse'),
                       t('24/7 Institutional support', 'Support institutionnel 24/7')
                     ].map((f, i) => (
-                      <li key={i} className="flex items-center gap-2 text-[10px] text-on-surface-variant uppercase font-bold tracking-wide">
-                        <div className="w-1 h-1 bg-accent-gold rounded-full" /> {f}
+                      <li key={i} className="flex items-center gap-3 text-[10px] text-on-surface-variant uppercase font-bold tracking-wide">
+                        <div className="w-4 h-[1px] bg-accent-gold opacity-40" /> {f}
                       </li>
                     ))}
                   </ul>

@@ -117,23 +117,30 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   const SidebarContent = (
     <div className="h-full flex flex-col bg-surface-dim/80 backdrop-blur-xl border-r border-white/5 font-mono">
-      {/* Header */}
-      <div className={`p-6 flex items-center justify-between border-b border-white/5 h-24 ${isCollapsed ? 'justify-center px-2' : ''}`}>
+      {/* Sidebar Header with Logo */}
+      <div className={`transition-all duration-300 border-b border-white/5 flex items-center ${isCollapsed ? 'p-6 justify-center' : 'p-8 pb-10 pt-10'}`}>
         {!isCollapsed && (
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="flex items-center gap-4 py-2"
+            className="flex items-center gap-4 w-full group cursor-pointer"
+            onClick={() => onViewChange('HOME')}
           >
-            <Logo size="lg" color="multi" />
-            <div className="flex flex-col">
-              <span className="text-white font-black tracking-tighter text-lg leading-tight">LINKYOURART</span>
-              <span className="text-primary-cyan font-bold tracking-[0.3em] text-[8px] uppercase">Institutional Terminal</span>
+            <div className="flex-shrink-0 relative">
+              <div className="absolute inset-0 bg-primary-cyan/20 blur-xl rounded-full scale-150 opacity-0 group-hover:opacity-100 transition-opacity" />
+              <Logo size={56} color="multi" showBeta className="relative z-10" />
+            </div>
+            <div className="flex flex-col min-w-0 flex-1">
+              <span className="text-white font-bold tracking-tighter text-xl leading-[0.8] truncate italic uppercase">LINKYOURART</span>
+              <span className="text-[10px] text-primary-cyan font-black tracking-tighter uppercase mt-1 opacity-70">THE INSTITUTIONAL TERMINAL</span>
             </div>
           </motion.div>
         )}
         {isCollapsed && (
-          <Logo size={40} color="multi" />
+          <div className="group cursor-pointer relative" onClick={() => onViewChange('HOME')}>
+            <div className="absolute inset-0 bg-primary-cyan/20 blur-lg rounded-full scale-150 opacity-0 group-hover:opacity-100 transition-opacity" />
+            <Logo size={40} color="multi" showBeta className="relative z-10" />
+          </div>
         )}
       </div>
 
@@ -142,7 +149,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
         {categories.map(category => (
           <div key={category} className="mb-6">
             {!isCollapsed && (
-              <div className="px-6 mb-2 text-[10px] text-on-surface-variant/40 font-bold tracking-widest uppercase">
+              <div className="px-6 mb-2 text-[10px] text-on-surface-variant/40 font-bold tracking-widest uppercase flex items-center gap-3">
+                <div className="w-4 h-[1px] bg-white opacity-10" />
                 {category}
               </div>
             )}
@@ -249,42 +257,166 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   return (
     <>
-      {/* Mobile Sidebar Overlay */}
+      {/* Mobile Menu Button - Fixed position, high z-index, distinct style */}
+      <div className="fixed top-4 left-6 z-[2000] lg:hidden">
+        <button
+          onClick={() => (isOpen ? onClose() : onClose()) /* Toggle logic is handled by parent but we need it here if it's local */}
+          className="hidden" // Handled by App.tsx or parent usually, but let's assume it needs a trigger
+        >
+        </button>
+      </div>
+
+      {/* Sidebar Mobile Overlay */}
       <AnimatePresence>
         {isOpen && (
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={onClose}
-            className="fixed inset-0 bg-surface-dim/80 backdrop-blur-sm z-[100] lg:hidden"
-          />
+            className="fixed inset-0 z-[1000] lg:hidden shadow-[0_0_100px_rgba(0,0,0,1)]"
+          >
+            {/* Background with blur and noise for high-end look */}
+            <div className="absolute inset-0 bg-surface-dim/95 backdrop-blur-3xl" onClick={onClose} />
+            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay pointer-events-none" />
+            
+            {/* Menu Content - Side Drawer with glassmorphism */}
+            <motion.div 
+              initial={{ x: -280, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: -280, opacity: 0 }}
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              className="relative h-full w-[280px] bg-[#0A1018] border-r border-white/10 flex flex-col overflow-y-auto"
+            >
+              {/* Header */}
+              <div className="p-6 pb-8 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <Logo size={32} color="multi" showBeta />
+                  <div className="flex flex-col">
+                    <span className="text-white font-black tracking-tighter text-sm leading-tight uppercase italic">LINKYOURART</span>
+                  </div>
+                </div>
+                <button 
+                  onClick={onClose} 
+                  className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-on-surface-variant hover:text-white transition-all ring-1 ring-white/10"
+                >
+                  <X size={16} />
+                </button>
+              </div>
+
+              {/* Navigation List */}
+              <div className="flex-1 py-4 px-4">
+                {categories.map(category => (
+                  <div key={category} className="mb-8">
+                    <div className="px-5 mb-3 text-[9px] text-on-surface-variant/40 font-black tracking-[0.4em] uppercase italic">
+                      {category}
+                    </div>
+                    <div className="space-y-1.5">
+                      {menuItems
+                        .filter(item => item.category === category)
+                        .map(item => (
+                          <button
+                            key={item.id}
+                            onClick={() => {
+                              onViewChange(item.id as View);
+                              onClose();
+                            }}
+                            className={`w-full flex items-center gap-5 px-5 py-4 rounded-2xl transition-all relative overflow-hidden group ${
+                              currentView === item.id 
+                                ? 'text-primary-cyan bg-primary-cyan/10 border border-primary-cyan/20 shadow-[0_0_20px_rgba(0,224,255,0.1)]' 
+                                : 'text-on-surface-variant/70 hover:text-white hover:bg-white/5 border border-transparent'
+                            }`}
+                          >
+                            {currentView === item.id && (
+                              <motion.div 
+                                layoutId="mobile-active-glow"
+                                className="absolute left-0 w-1 h-6 bg-primary-cyan rounded-full"
+                              />
+                            )}
+                            <item.icon size={20} className={currentView === item.id ? 'text-primary-cyan scale-110' : 'opacity-60 grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all'} />
+                            <span className="text-xs font-black uppercase tracking-widest flex-1 text-left italic">
+                              {item.label}
+                            </span>
+                            {item.count !== undefined && item.count > 0 && (
+                              <span className="text-[9px] bg-primary-cyan/20 text-primary-cyan px-2 py-0.5 rounded-full font-black">
+                                {item.count}
+                              </span>
+                            )}
+                          </button>
+                        ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Secondary Actions */}
+              <div className="p-6 border-t border-white/5 space-y-2 bg-white/[0.01]">
+                <div className="grid grid-cols-2 gap-2">
+                  {secondaryItems.map(item => (
+                    <button
+                      key={item.id}
+                      onClick={() => {
+                        onViewChange(item.id as View);
+                        onClose();
+                      }}
+                      className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-[10px] font-black uppercase tracking-widest ${
+                        currentView === item.id 
+                          ? 'text-primary-cyan bg-primary-cyan/5 border border-primary-cyan/10' 
+                          : 'text-on-surface-variant/60 bg-white/5 hover:bg-white/10'
+                      }`}
+                    >
+                      <item.icon size={16} />
+                      {item.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* User Profile on Mobile */}
+              {user ? (
+                <div 
+                  onClick={() => { onViewChange('PROFILE'); onClose(); }}
+                  className="p-8 bg-gradient-to-tr from-white/[0.03] to-white/[0.01] border-t border-white/10 flex items-center gap-5 shadow-2xl"
+                >
+                  <div className="w-12 h-12 rounded-full border-2 border-primary-cyan/40 p-0.5 overflow-hidden shrink-0 shadow-[0_0_15px_rgba(0,224,255,0.2)]">
+                    <div className="w-full h-full rounded-full overflow-hidden">
+                      {user.avatarUrl ? (
+                        <img src={user.avatarUrl} alt={user.displayName} className="w-full h-full object-cover" />
+                      ) : (
+                        <div className="w-full h-full bg-gradient-to-tr from-primary-cyan to-indigo-500 flex items-center justify-center text-xs font-black text-white italic">
+                          {user.displayName?.charAt(0)}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="text-sm font-black text-white uppercase tracking-tight truncate leading-tight">{user.displayName}</div>
+                    <div className="text-[10px] text-primary-cyan font-bold uppercase tracking-[0.2em] truncate mt-1">{user.role}</div>
+                  </div>
+                  <ChevronRight size={18} className="text-on-surface-variant/40" />
+                </div>
+              ) : (
+                <div className="p-6 bg-white/[0.02] border-t border-white/5">
+                  <button 
+                    onClick={() => { onViewChange('LOGIN'); onClose(); }}
+                    className="w-full py-5 bg-primary-cyan text-surface-dim text-xs font-black uppercase italic tracking-[0.3em] rounded-full shadow-[0_0_30px_rgba(0,224,255,0.3)] hover:scale-[1.02] active:scale-95 transition-all"
+                  >
+                    {t('ACCESS TERMINAL', 'ACCÈS TERMINAL')}
+                  </button>
+                </div>
+              )}
+            </motion.div>
+          </motion.div>
         )}
       </AnimatePresence>
 
       {/* Sidebar Desktop */}
       <aside 
-        className={`fixed left-0 top-0 bottom-0 z-[101] transition-all duration-300 hidden lg:block ${
-          isCollapsed ? 'w-16' : 'w-64'
+        className={`fixed left-0 top-0 bottom-0 z-[110] transition-all duration-300 hidden lg:block ${
+          isCollapsed ? 'w-20' : 'w-72'
         }`}
       >
         {SidebarContent}
       </aside>
-
-      {/* Sidebar Mobile */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.aside 
-            initial={{ x: '-100%' }}
-            animate={{ x: 0 }}
-            exit={{ x: '-100%' }}
-            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed left-0 top-0 bottom-0 w-72 z-[102] lg:hidden"
-          >
-            {SidebarContent}
-          </motion.aside>
-        )}
-      </AnimatePresence>
     </>
   );
 };

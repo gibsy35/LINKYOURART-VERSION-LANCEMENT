@@ -78,24 +78,29 @@ export const Topbar: React.FC<TopbarProps> = ({
             <Menu size={20} />
           </button>
           <div className="flex items-center gap-3">
-            <Logo size={24} color="multi" />
+            <Logo size={24} color="multi" showBeta />
             <span className="text-white font-black tracking-tighter text-sm hidden sm:block">LINKYOURART</span>
           </div>
         </div>
 
-        {/* Navigation Indicator / Breadcrumbs - ELEGANT SINGLE LINE TICKER */}
-        <div className="hidden lg:flex flex-1 h-full items-center overflow-hidden bg-black/20 relative mx-4 border-x border-white/5">
+        {/* Desktop Ticker Wrapper - Extended to the left */}
+        <div className="hidden lg:flex flex-1 h-full items-center overflow-hidden bg-black/20 relative">
           <motion.div 
             className="flex items-center gap-16 whitespace-nowrap absolute left-0 h-full"
-            animate={{ x: [0, -1000] }}
-            transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+            animate={{ x: [0, -2000] }}
+            transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
           >
             {[...CONTRACTS, ...CONTRACTS, ...CONTRACTS].map((item, i) => {
-              const isUp = i % 2 === 0;
+              // Create a deterministic-looking variation based on item ID and index
+              const charCodeSum = item.id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+              const isUp = (charCodeSum + i) % 2 === 0;
+              const variationPercent = ((charCodeSum % 100) / 20 + (i % 5) / 2).toFixed(2);
+              const adjustedPrice = item.unitValue * (1 + (isUp ? 1 : -1) * parseFloat(variationPercent) / 100);
+              
               return (
                 <div 
                   key={`${item.id}-${i}`} 
-                  className="flex items-center gap-6 cursor-pointer group h-full px-4 hover:bg-white/5 transition-colors"
+                  className="flex items-center gap-6 cursor-pointer group h-full px-4 transition-colors"
                   onClick={() => onSelectContract ? onSelectContract(item) : onViewChange('DASHBOARD')}
                 >
                   <span className="text-[10px] font-black text-white group-hover:text-primary-cyan transition-colors uppercase tracking-widest flex items-center gap-2">
@@ -104,12 +109,12 @@ export const Topbar: React.FC<TopbarProps> = ({
                   </span>
                   <div className="flex items-center gap-3">
                     <span className="text-[10px] text-white font-mono font-bold">
-                      {item.unitValue.toFixed(2)} USD
+                      {adjustedPrice.toFixed(2)} USD
                     </span>
                     <div className="flex items-center gap-1">
                       {isUp ? <TrendingUp size={10} className="text-emerald-400" /> : <TrendingDown size={10} className="text-rose-500" />}
                       <span className={`text-[10px] font-black ${isUp ? 'text-emerald-400' : 'text-rose-500'}`}>
-                        {isUp ? '+' : '-'}{(Math.random() * 2).toFixed(2)}%
+                        {isUp ? '+' : '-'}{variationPercent}%
                       </span>
                     </div>
                   </div>

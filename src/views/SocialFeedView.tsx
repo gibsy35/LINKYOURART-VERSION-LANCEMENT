@@ -349,9 +349,9 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
   const hasMore = paginatedNews.length < filteredNews.length;
 
   return (
-    <div className="space-y-12 pb-20">
+    <div className="space-y-12 pb-20 px-6 md:px-12">
       {/* Immersive News Player Section - NOW FIRST */}
-      <section className="relative h-[450px] md:h-[700px] lg:h-[750px] group overflow-hidden -mx-6 md:-mx-12 -mt-14">
+      <section className="relative h-[450px] md:h-[700px] lg:h-[750px] group overflow-hidden -mt-14">
         <div className="absolute inset-0 z-0 overflow-hidden">
           <AnimatePresence mode="popLayout">
             <motion.div
@@ -385,7 +385,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
         </div>
 
         {/* Top-Left Metadata Overlay - Perfectly aligned with right pagination */}
-        <div className="absolute top-24 left-8 md:left-12 z-20">
+        <div className="absolute top-24 left-28 md:left-48 z-20">
           <AnimatePresence mode="popLayout">
             <motion.div
               key={`meta-${news[activeNewsIndex].id}`}
@@ -482,7 +482,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
       </div>
       </section>
 
-      <header className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 px-12 py-12">
+      <header className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 py-12">
         <div className="flex-1">
           <h1 className="text-3xl md:text-5xl font-black font-headline tracking-tighter text-on-surface leading-[0.9] uppercase mb-6 flex items-center gap-4">
             <div className="h-[2px] w-12 bg-primary-cyan"></div>
@@ -505,7 +505,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
       </header>
 
       {/* Filter Controls */}
-      <div className="px-6 flex items-center justify-between gap-4 mb-24">
+      <div className="flex items-center justify-between gap-4 mb-24">
         <div className="flex bg-surface-low border border-white/5 p-1.5 rounded-sm shadow-2xl">
           {['ALL', 'GLOBAL', 'MARKET', 'INNOVATION', 'INSTITUTIONAL'].map((cat) => (
             <button
@@ -532,7 +532,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
       </div>
 
       {/* Main Feed Grid */}
-      <div className="px-6 grid lg:grid-cols-3 gap-8">
+      <div className="grid lg:grid-cols-3 gap-8">
         {/* Left Column: Main Feed */}
         <div className="lg:col-span-2 space-y-6">
           <AnimatePresence mode="popLayout">

@@ -1,6 +1,6 @@
 
-import React from 'react';
-import { motion } from 'motion/react';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { 
   ArrowRight, 
   Shield, 
@@ -10,6 +10,7 @@ import {
   Layers, 
   Users, 
   TrendingUp, 
+  TrendingDown,
   ShieldCheck, 
   Award, 
   ArrowUpRight, 
@@ -21,6 +22,7 @@ import {
   Video,
   CheckCircle2,
   AlertTriangle,
+  X,
   ArrowUp,
   ArrowDown,
   Info,
@@ -97,22 +99,27 @@ const NeuralTicker = () => {
 const RealTimeValuation = () => {
   const { t } = useTranslation();
   const { formatPrice } = useCurrency();
-  const [selectedCategory, setSelectedCategory] = React.useState('film');
   const [isPositive, setIsPositive] = React.useState(true);
   const [liveFluctuation, setLiveFluctuation] = React.useState(0);
+  const [priceDirection, setPriceDirection] = React.useState<'up' | 'down' | 'stable'>('up');
 
   React.useEffect(() => {
     const interval = setInterval(() => {
-      setLiveFluctuation((Math.random() - 0.5) * 0.05);
-    }, 3000);
+      const delta = (Math.random() * 1.2 - 0.5); // Bias towards growth
+      setLiveFluctuation(prev => {
+        const next = Math.max(-20, prev + delta);
+        setPriceDirection(delta > 0 ? 'up' : 'down');
+        return next;
+      });
+    }, 4000);
     return () => clearInterval(interval);
   }, []);
 
+  // Removed dynamic selectedCategory, fixing it to 'film' to remove "filter system"
+  const selectedCategory = 'film';
+
   const categories = [
     { id: 'film', label: t('Feature Film', 'Long-métrage'), sub: t('Cinema', 'Cinéma'), budget: 1500000, icon: <Clapperboard size={24} /> },
-    { id: 'music', label: t('Music Album', 'Album Musical'), sub: t('Music', 'Musique'), budget: 150000, icon: <Music size={24} /> },
-    { id: 'game', label: t('Indie Game', 'Jeu Vidéo Indie'), sub: t('Gaming', 'Gaming'), budget: 400000, icon: <Gamepad2 size={24} /> },
-    { id: 'series', label: t('Web Series', 'Série Web / Doc'), sub: t('Digital Creation', 'Création Digitale'), budget: 250000, icon: <Video size={24} /> },
   ];
 
   const data: Record<string, any> = {
@@ -213,7 +220,7 @@ const RealTimeValuation = () => {
     <section className="relative z-10 py-32 px-6 bg-surface-low/20">
       <div className="max-w-[1800px] mx-auto mt-16">
         <div className="text-center mb-16 px-4">
-          <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter mb-6 flex flex-wrap items-center justify-center gap-4">
+          <h2 className="text-xl md:text-3xl font-extrabold uppercase tracking-tighter mb-6 flex flex-wrap items-center justify-center gap-4">
             <Activity className="text-primary-cyan animate-pulse hidden sm:block" />
             <span>{t('Real-Time', 'La Valorisation')} <span className="text-primary-cyan">{t('Valuation', 'en Temps Réel')}</span></span>
           </h2>
@@ -256,56 +263,18 @@ const RealTimeValuation = () => {
           </div>
         </div>
 
-        {/* Category Selection */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
-          {categories.map((cat) => (
-            <button
-              key={cat.id}
-              onClick={() => setSelectedCategory(cat.id)}
-              className={`p-6 border transition-all text-left relative overflow-hidden group ${
-                selectedCategory === cat.id 
-                  ? 'bg-primary-cyan/10 border-primary-cyan shadow-[0_0_20px_rgba(0,224,255,0.1)]' 
-                  : 'bg-surface-dim border-white/5 hover:border-white/20'
-              }`}
-            >
-              <div className={`mb-4 transition-transform group-hover:scale-110 ${selectedCategory === cat.id ? 'text-primary-cyan' : 'text-on-surface-variant'}`}>
-                {cat.icon}
+        {/* Removed category selection grid to eliminate "filter system" */}
+        <div className="flex justify-center mb-16">
+           <div className="px-6 py-4 bg-primary-cyan/5 border border-primary-cyan/20 rounded-sm flex items-center gap-4">
+              <div className="text-primary-cyan"><Clapperboard size={24} /></div>
+              <div>
+                <div className="text-sm font-black text-white uppercase">{t('Feature Film Case Study', 'Étude de cas : Long-métrage')}</div>
+                <div className="text-[10px] font-mono text-on-surface-variant uppercase tracking-widest">{t('PROJECTION DATA ALPHA v4', 'DONNÉES DE PROJECTION ALPHA v4')}</div>
               </div>
-              <div className="text-sm font-black text-white uppercase mb-1">{cat.label}</div>
-              <div className="text-[10px] font-mono text-on-surface-variant uppercase tracking-widest mb-2">{cat.sub}</div>
-              <div className="text-[10px] font-mono text-on-surface-variant/40 uppercase tracking-widest">Budget: {formatPrice(cat.budget)}</div>
-              {selectedCategory === cat.id && (
-                <motion.div layoutId="cat-active" className="absolute bottom-0 left-0 w-full h-1 bg-primary-cyan" />
-              )}
-            </button>
-          ))}
+           </div>
         </div>
 
-        {/* Toggle Buttons */}
-        <div className="flex justify-center gap-4 mb-16">
-          <button
-            onClick={() => setIsPositive(true)}
-            className={`px-8 py-3 rounded-sm font-black uppercase tracking-widest text-xs flex items-center gap-2 transition-all ${
-              isPositive 
-                ? 'bg-emerald-500 text-white shadow-[0_0_20px_rgba(16,185,129,0.3)]' 
-                : 'bg-surface-low text-on-surface-variant/40 border border-white/5'
-            }`}
-          >
-            <CheckCircle2 size={14} />
-            {t('Positive Milestones', 'Jalons Positifs')}
-          </button>
-          <button
-            onClick={() => setIsPositive(false)}
-            className={`px-8 py-3 rounded-sm font-black uppercase tracking-widest text-xs flex items-center gap-2 transition-all ${
-              !isPositive 
-                ? 'bg-red-500 text-white shadow-[0_0_20px_rgba(239,68,68,0.3)]' 
-                : 'bg-surface-low text-on-surface-variant/40 border border-white/5'
-            }`}
-          >
-            <AlertTriangle size={14} />
-            {t('Negative Milestones', 'Jalons Négatifs')}
-          </button>
-        </div>
+        {/* Toggle removed to simplify */}
 
         {/* Detail View */}
         <div className="max-w-5xl mx-auto">
@@ -328,15 +297,23 @@ const RealTimeValuation = () => {
                   <div className="text-xs font-mono text-on-surface-variant uppercase tracking-widest">Total Budget: {formatPrice(categories.find(c => c.id === selectedCategory)?.budget || 0)}</div>
                 </div>
               </div>
-              <div className="flex gap-4">
-                <div className="px-6 py-4 bg-white/5 border border-white/10 rounded-sm text-center min-w-[160px]">
+              <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+                <div className="px-6 py-4 bg-white/5 border border-white/10 rounded-sm text-center min-w-[140px] flex-1 sm:flex-none">
                   <div className="text-[10px] font-mono text-on-surface-variant uppercase tracking-widest mb-1">{t('Initial LYA Score', 'Score LYA Initial')}</div>
                   <div className="text-2xl font-black text-white">{currentData.initialScore}/1000</div>
                 </div>
-                <div className="px-6 py-4 bg-primary-cyan/5 border border-primary-cyan/20 rounded-sm text-center min-w-[160px] relative overflow-hidden">
+                <div className="px-6 py-4 bg-primary-cyan/5 border border-primary-cyan/20 rounded-sm text-center min-w-[140px] relative overflow-hidden flex-1 sm:flex-none">
                   <div className="text-[10px] font-mono text-primary-cyan uppercase tracking-widest mb-1">{t('Fixed Unit Price', 'Prix Unit Fixe')}</div>
-                  <div className="text-2xl font-black text-primary-cyan">
-                    {formatPrice(50 + liveFluctuation)}
+                  <div className="flex flex-col items-center">
+                    <div className="text-2xl font-black text-primary-cyan flex items-center gap-2">
+                      {formatPrice(50 + liveFluctuation)}
+                      <div className={`flex items-center text-[10px] ${priceDirection === 'up' ? 'text-emerald-400' : 'text-red-400'}`}>
+                        {priceDirection === 'up' ? <TrendingUp size={12} /> : <TrendingDown size={12} />}
+                      </div>
+                    </div>
+                    <div className={`text-[9px] font-mono font-bold ${priceDirection === 'up' ? 'text-emerald-400' : 'text-red-400'}`}>
+                      {priceDirection === 'up' ? '+' : ''}{liveFluctuation.toFixed(2)}
+                    </div>
                   </div>
                   <motion.div 
                     animate={{ x: ['100%', '-100%'] }}
@@ -375,8 +352,8 @@ const RealTimeValuation = () => {
                         <p className="text-sm text-on-surface leading-relaxed">{m.desc}</p>
                       </div>
                       
-                      <div className="flex gap-4 shrink-0 items-center">
-                        <div className="px-5 py-3 bg-black/20 border border-white/5 rounded-sm min-w-[140px]">
+                      <div className="flex flex-col sm:flex-row gap-4 shrink-0 items-stretch sm:items-center">
+                        <div className="px-5 py-3 bg-black/20 border border-white/5 rounded-sm min-w-[130px] flex-1 sm:flex-none">
                           <div className="text-[9px] font-mono text-on-surface-variant uppercase tracking-widest mb-2 flex items-center gap-2">
                             <BarChart3 size={10} />
                             Score LYA
@@ -391,7 +368,7 @@ const RealTimeValuation = () => {
                           </div>
                         </div>
                         
-                        <div className="px-5 py-3 bg-primary-cyan/5 border border-primary-cyan/10 rounded-sm min-w-[160px]">
+                        <div className="px-5 py-3 bg-primary-cyan/5 border border-primary-cyan/10 rounded-sm min-w-[150px] flex-1 sm:flex-none">
                           <div className="text-[9px] font-mono text-primary-cyan uppercase tracking-widest mb-2 flex items-center gap-2">
                             <TrendingUp size={10} />
                             {t('Resale Value', 'Valeur de Revente')}
@@ -444,93 +421,258 @@ const RealTimeValuation = () => {
   );
 };
 
-export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
+import { InstitutionalTutorial } from '../components/InstitutionalTutorial';
+
+interface ProjectCardProps {
+  id: string;
+  label: string;
+  sub: string;
+  budget: string;
+  icon: React.ReactNode;
+  active?: boolean;
+  onClick: () => void;
+}
+
+const ProjectCard: React.FC<ProjectCardProps> = ({ label, sub, budget, icon, active, onClick }) => (
+  <motion.div 
+    onClick={onClick}
+    whileHover={{ y: -5, scale: 1.02 }}
+    className={`p-6 border transition-all text-left relative overflow-hidden group min-w-[280px] h-[350px] cursor-pointer flex flex-col justify-between ${
+      active 
+        ? 'bg-primary-cyan/10 border-primary-cyan shadow-[0_0_30px_rgba(0,224,255,0.2)]' 
+        : 'bg-surface-low/40 border-white/5 backdrop-blur-md opacity-80 hover:opacity-100 hover:border-primary-cyan/30'
+    }`}
+  >
+    {/* Specialized Value Badge */}
+    <div className="absolute top-4 left-4 z-20">
+      <div className={`px-2 py-1 ${active ? 'bg-white text-primary-cyan' : 'bg-primary-cyan text-surface-dim'} text-[8px] font-black uppercase tracking-widest rounded-sm shadow-xl flex items-center gap-1.5 border border-white/10 group-hover:scale-110 transition-transform`}>
+        <Coins size={10} />
+        LYA UNIT $50
+      </div>
+    </div>
+
+    <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+      {icon}
+    </div>
+    <div className="relative z-10">
+      <div className={`mb-6 transition-transform group-hover:scale-110 p-4 bg-white/5 rounded-sm inline-block ${active ? 'text-primary-cyan' : 'text-on-surface-variant'} [&_svg]:w-8 [&_svg]:h-8`}>
+        {icon}
+      </div>
+      <div className="text-xl font-black text-white uppercase mb-1 tracking-tighter italic">{label}</div>
+      <div className="text-[10px] font-mono text-on-surface-variant uppercase tracking-widest mb-4 opacity-60 leading-none">{sub}</div>
+    </div>
+    
+    <div className="relative z-10">
+      <div className="h-px w-full bg-white/5 mb-6" />
+      <div className="flex justify-between items-end">
+        <div className="flex flex-col gap-1">
+          <div className="text-[9px] font-mono text-on-surface-variant uppercase tracking-widest opacity-40">Capitalisation</div>
+          <div className="text-sm font-black text-white">{budget}</div>
+        </div>
+        <div className="w-8 h-8 bg-primary-cyan/20 rounded-full flex items-center justify-center text-primary-cyan opacity-0 group-hover:opacity-100 transition-opacity">
+          <ArrowUpRight size={14} />
+        </div>
+      </div>
+    </div>
+  </motion.div>
+);
+
+const ProjectSlider = ({ onNav }: { onNav: (v: View) => void }) => {
   const { t } = useTranslation();
+  const projects = [
+    { id: 'film', label: t('Feature Film', 'Long-métrage'), sub: t('High-Yield Cinema Equity', 'Équité Cinéma Haute Performance'), budget: '1.5M$', icon: <Clapperboard /> },
+    { id: 'music', label: t('Music Album', 'Album Musical'), sub: t('Global IP Rights Registry', 'Registre de droits PI mondiaux'), budget: '150K$', icon: <Music /> },
+    { id: 'game', label: t('Indie Game', 'Jeu Vidéo Indie'), sub: t('Software Equity Index', 'Index d\'équité logicielle'), budget: '400K$', icon: <Gamepad2 /> },
+    { id: 'series', label: t('Web Series', 'Série Web / Doc'), sub: t('Digital Content Ledger', 'Grand livre de contenu digital'), budget: '250K$', icon: <Video /> },
+  ];
+
+  return (
+    <div className="relative w-full overflow-hidden py-10 mt-12 lg:mt-0 flex items-center min-h-[450px]">
+      <div className="flex gap-6 animate-marquee">
+        {[...projects, ...projects, ...projects].map((p, i) => (
+          <ProjectCard key={i} {...p} active={i % 4 === 0} onClick={() => onNav('EXCHANGE')} />
+        ))}
+      </div>
+      <div className="absolute left-0 top-0 h-full w-40 bg-gradient-to-r from-surface-dim to-transparent z-10 pointer-events-none" />
+      <div className="absolute right-0 top-0 h-full w-40 bg-gradient-to-l from-surface-dim to-transparent z-10 pointer-events-none" />
+    </div>
+  );
+};
+
+export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
+
+  const { t } = useTranslation();
+
+  const [showLegalPopup, setShowLegalPopup] = useState(false);
 
   return (
     <div className="relative min-h-screen bg-surface-dim overflow-x-hidden">
-      {/* Hero Section */}
-      <section className="relative z-10 pt-12 pb-24 px-6 max-w-[1800px] mx-auto min-h-[85vh] flex flex-col justify-center">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1, ease: "easeOut" }}
-            className="text-left z-20"
+      <InstitutionalTutorial />
+      {/* Legal Popup Modal */}
+      <AnimatePresence>
+        {showLegalPopup && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[5000] flex items-center justify-center p-6 backdrop-blur-xl bg-black/80"
           >
-            <h1 className="text-4xl md:text-8xl lg:text-[10rem] font-black tracking-tighter mb-8 leading-[0.8] md:leading-[0.75] uppercase text-white drop-shadow-2xl">
-              {t('ART IS AN', 'L\'ART EST UN')} <br className="hidden md:block" />
-              <span className="text-primary-cyan drop-shadow-[0_0_60px_rgba(0,224,255,0.4)]">{t('EXCHANGE.', 'ÉCHANGE.')}</span>
-            </h1>
-            
-            <p className="text-xl md:text-2xl text-white max-w-2xl mb-6 font-black uppercase tracking-tight leading-tight">
-              {t('Where Creators, Investors and Industry Professionals converge, where the public discovers tomorrow\'s masterpieces.', 'Là où Créateurs, Investisseurs et Professionnels convergent, et où le public découvre les chefs-d\'oeuvre de demain..')}
+            <motion.div 
+              initial={{ scale: 0.9, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: 20 }}
+              className="bg-surface-high border border-red-500/30 max-w-2xl w-full p-8 md:p-12 relative shadow-[0_0_100px_rgba(239,68,68,0.2)]"
+            >
+              <button 
+                onClick={() => setShowLegalPopup(false)}
+                className="absolute top-6 right-6 text-on-surface-variant hover:text-white transition-colors"
+              >
+                <X size={24} />
+              </button>
+              
+              <div className="flex flex-col items-center text-center">
+                <div className="w-16 h-16 bg-red-500/10 rounded-full flex items-center justify-center text-red-500 mb-8 border border-red-500/20">
+                  <AlertTriangle size={32} />
+                </div>
+                <h2 className="text-2xl md:text-4xl font-black text-white uppercase italic tracking-tighter mb-6 leading-tight">
+                  {t('REGULATORY DISCLOSURE & PROTOCOL LIMITATIONS', 'DIVULGATION RÉGLEMENTAIRE ET LIMITES DU PROTOCOLE')}
+                </h2>
+                <div className="h-[2px] w-24 bg-red-500 mb-8" />
+                <p className="text-base md:text-lg text-on-surface-variant font-bold italic leading-relaxed mb-8">
+                  {t('LYA Units are strictly indexed contractual rights and do NOT constitute shares, financial securities, or regulated investment products. The LinkYourArt Protocol acts solely as a technological layer for valuation and registry.', 'Les unités LYA sont strictement des droits contractuels indexés et ne constituent PAS des actions, des titres financiers ou des produits d\'investissement réglementés. Le protocole LinkYourArt agit uniquement en tant que couche technologique pour l\'évaluation et le registre.')}
+                </p>
+                <p className="text-sm text-on-surface-variant opacity-70 mb-10">
+                  {t('LinkYourArt acts as a trusted third party for analysis and valuation. No promise of yield is guaranteed. The value can evolve based on objective indicators documented in real-time.', 'LinkYourArt agit en tant que tiers de confiance pour l\'analyse et la valorisation. Aucune promesse de rendement n\'est garantie. La valeur peut évoluer selon des indicateurs objectifs documentés en temps réel.')}
+                </p>
+                <button 
+                  onClick={() => setShowLegalPopup(false)}
+                  className="px-12 py-4 bg-red-500 text-white font-black uppercase tracking-[0.3em] text-xs hover:bg-white hover:text-surface-dim transition-all active:scale-95 shadow-2xl"
+                >
+                  {t('I UNDERSTAND', 'JE COMPRENDS')}
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-            <p className="text-lg md:text-xl text-on-surface-variant max-w-xl mb-10 font-light leading-relaxed opacity-90 border-l border-primary-cyan/30 pl-4">
-              {t('From fractional issuance to secondary exchange, navigate a secure ecosystem built on artistic excellence and institutional transparency.', 'De l\'émission fractionnée à l\'échange secondaire, naviguez dans un écosystème sécurisé bâti sur l\'excellence artistique et la transparence institutionnelle.')}
-            </p>
-
-        <div className="flex flex-col sm:flex-row items-center gap-4">
-          <button 
-            onClick={() => onViewChange('LOGIN')}
-            className="w-full sm:w-auto px-6 py-3 bg-primary-cyan text-surface-dim font-black uppercase tracking-[0.2em] group overflow-hidden shadow-[0_0_20px_rgba(0,224,255,0.2)] text-[10px] md:text-xs"
-          >
-            <span className="relative z-10 flex items-center justify-center gap-2">
-              {t('Enter the Gallery', 'Entrer dans la Galerie')}
-              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-            </span>
-          </button>
-          <button 
-            onClick={() => onViewChange('SIGNUP')}
-            className="w-full sm:w-auto px-6 py-3 border border-white/10 hover:border-primary-cyan/50 text-white font-black uppercase tracking-[0.2em] transition-all bg-white/5 backdrop-blur-sm group text-[10px] md:text-xs"
-          >
-            <span className="flex items-center justify-center gap-2">
-              {t('Create an Account', 'Créer un Compte')}
-              <Layers className="w-3.5 h-3.5 group-hover:rotate-12 transition-transform" />
-            </span>
-          </button>
+      <section className="relative z-10 pt-4 pb-12 lg:pb-20 px-6 lg:px-12 overflow-hidden flex items-center min-h-[max(600px,85vh)]">
+        {/* Global Background Logo Animation - RESTORED AND ENHANCED */}
+        <div className="fixed inset-0 pointer-events-none z-[-1] overflow-hidden">
+          <div className="absolute inset-0 opacity-40">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[150%]">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8, rotate: 0 }}
+                animate={{ 
+                  opacity: [0.1, 0.6, 0.1], 
+                  scale: [1, 1.4, 1],
+                  rotate: [0, 8, 0]
+                }}
+                transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
+                className="w-full h-full flex items-center justify-center"
+              >
+                <Logo size={4000} color="multi" className="blur-[130px] opacity-100" />
+              </motion.div>
+            </div>
+          </div>
+          {/* Sweeping accent */}
+          <motion.div 
+            animate={{ 
+              x: ['-100%', '100%'],
+              opacity: [0, 0.4, 0]
+            }}
+            transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+            className="absolute top-40 left-0 w-full h-[800px] bg-gradient-to-r from-transparent via-primary-cyan/20 to-transparent blur-[160px] transform -skew-x-12"
+          />
         </div>
+
+        <div className="max-w-[1800px] mx-auto relative z-10 w-full">
+          <div className="flex flex-col lg:grid lg:grid-cols-2 gap-6 lg:gap-12 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 1, ease: "easeOut" }}
+              className="text-left z-20 relative pt-10 lg:pt-20"
+            >
+              <div className="relative mb-6 lg:mb-10 xl:mb-16">
+                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-[11rem] font-black tracking-tighter leading-[0.85] md:leading-[0.75] uppercase text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.2)]">
+                  {t('ART IS AN', 'L\'ART EST UN')} <br className="hidden lg:block" />
+                  <span className="text-primary-cyan drop-shadow-[0_0_80px_rgba(0,224,255,0.6)] font-black">{t('EXCHANGE.', 'ÉCHANGE.')}</span>
+                </h1>
+              </div>
+              
+              <p className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-white max-w-5xl mb-4 lg:mb-8 xl:mb-12 font-black uppercase tracking-tight leading-tight drop-shadow-lg">
+                "{t('LINKYOURART UNITES CREATORS, INVESTORS, INDUSTRY & AUDIENCES—POWERING TOMORROW’S MASTERPIECES.', 'LINKYOURART UNIT CRÉATEURS, INVESTISSEURS, INDUSTRIE ET PUBLICS—PROPULSANT LES CHEFS-D\'ŒUVRE DE DEMAIN.')}"
+              </p>
+
+              <p className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-on-surface-variant max-w-3xl mb-6 lg:mb-8 xl:mb-12 font-medium leading-relaxed opacity-90 border-l-4 lg:border-l-8 border-primary-cyan pl-6 lg:pl-10 py-2 lg:py-3 italic">
+                "{t('From fractional issuance to secondary exchange, navigate a secure ecosystem built on artistic excellence and institutional transparency.', 'De l\'émission fractionnée à l\'échange secondaire, naviguez dans un écosystème sécurisé bâti sur l\'excellence artistique et la transparence institutionnelle.')}"
+              </p>
+
+            <div className="flex flex-col sm:flex-row items-center gap-4 mb-6 lg:mb-12">
+              <button 
+                onClick={() => onViewChange('LOGIN')}
+                className="w-full sm:w-auto px-6 py-3 lg:py-4 bg-primary-cyan text-surface-dim font-bold uppercase tracking-[0.2em] group overflow-hidden shadow-[0_0_30px_rgba(0,224,255,0.3)] text-[10px] md:text-xs"
+              >
+                <span className="relative z-10 flex items-center justify-center gap-2">
+                  {t('Enter the Gallery', 'Entrer dans la Galerie')}
+                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                </span>
+              </button>
+              <button 
+                onClick={() => onViewChange('SIGNUP')}
+                className="w-full sm:w-auto px-6 py-3 lg:py-4 border border-white/10 hover:border-primary-cyan/50 text-white font-bold uppercase tracking-[0.2em] transition-all bg-white/5 backdrop-blur-sm group text-[10px] md:text-xs"
+              >
+                <span className="flex items-center justify-center gap-2">
+                  {t('Create an Account', 'Créer un Compte')}
+                  <Layers className="w-3.5 h-3.5 group-hover:rotate-12 transition-transform" />
+                </span>
+              </button>
+            </div>
+
             {/* Floating Badges */}
-            <div className="mt-8 flex flex-wrap gap-4">
+            <div className="flex flex-wrap gap-2 lg:gap-4 pt-2">
               <motion.div 
                 animate={{ y: [0, -5, 0] }}
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                className="px-4 py-2 bg-primary-cyan/5 border border-primary-cyan/20 rounded-full backdrop-blur-md flex items-center gap-2"
+                className="px-3 lg:px-4 py-1.5 lg:py-2 bg-primary-cyan/5 border border-primary-cyan/20 rounded-full backdrop-blur-md flex items-center gap-2"
               >
                 <div className="w-2 h-2 bg-primary-cyan rounded-full animate-pulse" />
-                <span className="text-xs font-mono text-primary-cyan font-bold uppercase tracking-widest">{t('Verified Creators', 'Créateurs Vérifiés')}</span>
+                <span className="text-[10px] lg:text-xs font-mono text-primary-cyan font-bold uppercase tracking-widest">{t('Verified Creators', 'Créateurs Vérifiés')}</span>
               </motion.div>
               <motion.div 
                 animate={{ y: [0, 5, 0] }}
                 transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-                className="px-4 py-2 bg-white/5 border border-white/20 rounded-full backdrop-blur-md flex items-center gap-2"
+                className="px-3 lg:px-4 py-1.5 lg:py-2 bg-white/5 border border-white/20 rounded-full backdrop-blur-md flex items-center gap-2"
               >
                 <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
-                <span className="text-xs font-mono text-white font-bold uppercase tracking-widest">{t('Artistic Trust', 'Confiance Artistique')}</span>
+                <span className="text-[10px] lg:text-xs font-mono text-white font-bold uppercase tracking-widest">{t('Artistic Trust', 'Confiance Artistique')}</span>
               </motion.div>
+              <motion.button 
+                onClick={() => setShowLegalPopup(true)}
+                whileHover={{ scale: 1.05 }}
+                animate={{ y: [0, -3, 0] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 0.2 }}
+                className="px-3 lg:px-4 py-1.5 lg:py-2 bg-red-500/80 border border-red-400/30 rounded-full backdrop-blur-md flex items-center gap-2 shadow-[0_0_15px_rgba(239,68,68,0.2)] hover:bg-white hover:text-red-500 transition-all group"
+              >
+                <AlertTriangle size={14} className="group-hover:scale-110 transition-transform" />
+                <span className="text-[10px] font-bold uppercase tracking-widest">{t('Legal Advisory', 'Conseil Légal')}</span>
+              </motion.button>
             </div>
           </motion.div>
 
           <motion.div 
-            initial={{ opacity: 0, scale: 0.5, rotate: -20 }}
-            animate={{ 
-              opacity: 0.4, 
-              scale: [1.2, 1.3, 1.2],
-              rotate: [0, 5, 0, -5, 0],
-              y: [0, -20, 0]
-            }}
-            transition={{ 
-              opacity: { duration: 2 },
-              scale: { duration: 10, repeat: Infinity, ease: "easeInOut" },
-              rotate: { duration: 15, repeat: Infinity, ease: "easeInOut" },
-              y: { duration: 8, repeat: Infinity, ease: "easeInOut" }
-            }}
-            className="absolute top-1/2 left-[60%] md:left-[80%] -translate-x-1/2 -translate-y-1/2 pointer-events-none z-0"
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1, ease: "easeOut", delay: 0.3 }}
+            className="relative z-20 flex flex-col justify-center h-full"
           >
-            <Logo size={1000} color="multi" className="drop-shadow-[0_0_100px_rgba(0,224,255,0.3)] filter blur-[1px] md:blur-none" />
+            <ProjectSlider onNav={onViewChange} />
           </motion.div>
         </div>
-      </section>
+
+    </div>
+  </section>
 
       <BrushSeparator />
 
@@ -546,8 +688,8 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <div className="text-xs font-mono text-accent-gold uppercase tracking-[0.5em] mb-4 font-bold">{t('The Vision', 'La Vision')}</div>
-              <h2 className="text-2xl md:text-4xl font-black tracking-tighter mb-8 uppercase leading-none">
+              <div className="text-xs font-mono text-accent-gold uppercase tracking-[0.5em] mb-4 font-black">{t('The Vision', 'La Vision')}</div>
+              <h2 className="text-xl md:text-3xl font-black tracking-tighter mb-8 uppercase leading-none">
                 {t('Creative projects are', 'Les projets créatifs sont des')} <span className="text-primary-cyan">{t('indexed contracts', 'contrats indexés')}</span>
               </h2>
               <p className="text-xl text-on-surface-variant leading-relaxed opacity-80">
@@ -583,7 +725,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
       {/* Comparison Section: What we are vs What we are not */}
       <section className="relative z-10 py-32 px-6 bg-surface-low/50">
         <div className="max-w-[1800px] mx-auto">
-          <h2 className="text-3xl font-black tracking-tighter mb-16 uppercase text-center">
+          <h2 className="text-2xl font-black tracking-tighter mb-16 uppercase text-center">
             What <span className="text-primary-cyan">LinkYourArt</span> is not
           </h2>
           <div className="grid md:grid-cols-2 gap-8">
@@ -643,7 +785,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
       {/* The Ecosystem Section */}
       <section className="relative z-10 py-40 max-w-[1800px] mx-auto px-6">
         <div className="text-center mb-24">
-          <h2 className="text-4xl font-black uppercase tracking-tighter mb-6">
+          <h2 className="text-3xl font-black uppercase tracking-tighter mb-6">
             The <span className="text-primary-cyan">Four Pillars</span>
           </h2>
           <p className="text-on-surface-variant text-lg opacity-80 max-w-2xl mx-auto">
@@ -702,14 +844,14 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div className="order-2 lg:order-1">
               <div className="text-xs font-mono text-accent-gold uppercase tracking-[0.5em] mb-4 font-bold">{t('Valuation Model', 'Modèle de Valorisation')}</div>
-                  <h2 className="text-3xl font-black uppercase tracking-tighter mb-8">
+                  <h2 className="text-2xl font-black uppercase tracking-tighter mb-8">
                 The <span className="text-primary-cyan">Price Formula</span>
               </h2>
               <div className="space-y-6">
                 <div className="flex items-start gap-6 p-6 bg-white/5 border border-white/10 rounded-sm">
                   <div className="w-12 h-12 shrink-0 bg-primary-cyan/10 flex items-center justify-center text-primary-cyan border border-primary-cyan/20 font-black">01</div>
                   <div>
-                    <h4 className="text-white font-bold uppercase tracking-widest mb-1">{t('Creator Base Price', 'Prix de Base Créateur')}</h4>
+                    <h4 className="text-white font-black uppercase tracking-widest mb-1">{t('Creator Base Price', 'Prix de Base Créateur')}</h4>
                     <p className="text-xs text-on-surface-variant opacity-70 uppercase tracking-widest">{t('The initial valuation set by the creator at project inception.', 'La valorisation initiale fixée par le créateur lors de la création du projet.')}</p>
                   </div>
                 </div>
@@ -719,7 +861,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
                 <div className="flex items-start gap-6 p-6 bg-white/5 border border-white/10 rounded-sm">
                   <div className="w-12 h-12 shrink-0 bg-accent-pink/10 flex items-center justify-center text-accent-pink border border-accent-pink/20 font-black">02</div>
                   <div>
-                    <h4 className="text-white font-bold uppercase tracking-widest mb-1">{t('LYA Algorithm Index', 'Index Algorithme LYA')}</h4>
+                    <h4 className="text-white font-black uppercase tracking-widest mb-1">{t('LYA Algorithm Index', 'Index Algorithme LYA')}</h4>
                     <p className="text-xs text-on-surface-variant opacity-70 uppercase tracking-widest">{t('Real-time data analysis across 5 critical pillars of project health.', 'Analyse de données en temps réel sur 5 piliers critiques de la santé du projet.')}</p>
                   </div>
                 </div>
@@ -729,7 +871,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
                 <div className="flex items-start gap-6 p-6 bg-emerald-400/10 border border-emerald-400/20 rounded-sm">
                   <div className="w-12 h-12 shrink-0 bg-emerald-400/20 flex items-center justify-center text-emerald-400 border border-emerald-400/30 font-black">03</div>
                   <div>
-                    <h4 className="text-white font-bold uppercase tracking-widest mb-1">{t('Professional Validation', 'Validation Professionnelle')}</h4>
+                    <h4 className="text-white font-black uppercase tracking-widest mb-1">{t('Professional Validation', 'Validation Professionnelle')}</h4>
                     <p className="text-xs text-on-surface-variant opacity-70 uppercase tracking-widest">{t('Expert ratings from industry leaders (Netflix, Amazon, Producers).', 'Notes d\'experts des leaders de l\'industrie (Netflix, Amazon, Producteurs).')}</p>
                   </div>
                 </div>
@@ -769,7 +911,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
         <div className="mb-40">
           <div className="text-center mb-16 px-4">
             <h3 className="text-xs font-mono text-accent-gold uppercase tracking-[0.5em] mb-4 font-bold">{t('Validation Network', 'Réseau de Validation')}</h3>
-            <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter">
+            <h2 className="text-2xl md:text-4xl font-black uppercase tracking-tighter">
               Institutional <span className="text-primary-cyan">{t('Expert Hubs', 'Hubs d\'Experts')}</span>
             </h2>
             <div className="mt-6 inline-flex items-center gap-2 px-4 py-2 bg-accent-gold/10 border border-accent-gold/20 rounded-full">
@@ -891,6 +1033,8 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
         </motion.div>
       </section>
 
+      {/* Removed Redundant Legal Section */}
+      
       {/* Final CTA */}
       <section className="relative z-10 py-40 text-center px-6">
         <motion.div 
@@ -924,30 +1068,19 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
         </motion.div>
       </section>
 
-      <BrushSeparator />
-
-      {/* Legal Warning Section */}
-      <footer className="relative z-10 py-20 bg-surface-dim px-6">
-        <div className="max-w-[1800px] mx-auto">
-          <div className="grid lg:grid-cols-2 gap-12 items-start">
-            <div className="space-y-6">
-              <div className="text-xs font-mono text-accent-gold uppercase tracking-[0.5em] font-bold">Legal Warning</div>
-              <p className="text-sm text-on-surface-variant/60 leading-relaxed">
-                LYA Units are indexed contractual rights, and do not constitute shares, financial securities, or regulated investment products. 
-                <br/><br/>
-                <span className="text-white font-bold uppercase">Important!</span> No promise of yield is guaranteed. 
-                The value of your rights can evolve upwards or downwards based on objective indicators. 
-                LinkYourArt acts as a trusted third party for analysis and valuation.
-              </p>
-            </div>
-            <div className="flex flex-col items-end gap-4">
-              <Logo size={80} className="grayscale opacity-20" />
-              <div className="text-[10px] font-mono text-on-surface-variant/30 uppercase tracking-widest text-right">
-                © 2026 LINKYOURART <br/>
-                INSTITUTIONAL CONTRACT REGISTRY
-              </div>
+      {/* Clean Institutional Footer */}
+      <footer className="relative z-10 py-16 bg-surface-dim px-6 border-t border-white/5">
+        <div className="max-w-[1800px] mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+          <div className="flex items-center gap-4">
+            <Logo size={40} className="opacity-40" showBeta />
+            <div className="text-[10px] font-mono text-on-surface-variant/40 uppercase tracking-widest">
+              © 2026 LINKYOURART <br/>
+              INSTITUTIONAL REGISTRY
             </div>
           </div>
+          <p className="text-[9px] text-on-surface-variant/30 uppercase tracking-[0.2em] max-w-sm text-center md:text-right">
+            {t('LinkYourArt Protocol operates as a technological layer for contractual valuation. Not a financial service.', 'Le Protocole LinkYourArt opère comme une couche technologique pour la valorisation contractuelle. Pas un service financier.')}
+          </p>
         </div>
       </footer>
     </div>

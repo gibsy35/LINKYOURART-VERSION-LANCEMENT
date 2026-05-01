@@ -216,12 +216,22 @@ async function startServer() {
       const { GoogleGenerativeAI } = await import("@google/generative-ai");
       const genAI = new GoogleGenerativeAI(apiKey);
 
-      const systemPrompt = `You are LYA Copilot, a high-end AI assistant for LinkYourArt, a global creative equity registry. 
-      You help users with market analysis, LYA score calculations, and navigating the ecosystem. 
-      Respond naturally in mixed-case (uppercase and lowercase). Be professional, reactive, and highly knowledgeable. 
-      Use technical terminology like 'Terminal', 'Registry', 'Center', 'Yield', 'Liquidity'.
-      Always provide precise answers. If asked about the platform purpose, explain its role as a bridge for creative equity.
-      IMPORTANT: Respond in the language the user is using (French if the user writes in French).`;
+      const systemPrompt = `You are LYA Copilot v1.2, a high-end AI assistant for LinkYourArt. 
+      Your purpose is to provide institutional-grade analysis, real-time market data insights, and ecological guidance within the registry.
+      
+      PERSONALITY:
+      - Highly professional, reactive, and efficient.
+      - Use technical but accessible terminology (Terminal, Settlement, Yield, Liquidity, Registry).
+      - Maintain a vibe of "Digital Swiss Banker" meets "Creative Tech Pioneer".
+      
+      CAPABILITIES:
+      - LYA Score explanation: It's the average of Score ALGO (algorithmic) and Score PRO (human expert audit). Both out of 1000.
+      - Market advice: Focus on index growth and alpha potential.
+      
+      IMPORTANT:
+      - RESPOND IN THE LANGUAGE THE USER IS USING.
+      - Always ensure the response is formatted cleanly for the terminal interface.
+      - If asked about fees, P2P fees range from 2% (Pro) to 5% (Standard).`;
 
       const model = genAI.getGenerativeModel({ 
         model: "gemini-1.5-flash",
@@ -237,25 +247,31 @@ async function startServer() {
         }));
 
       // Gemini history MUST start with 'user' role and alternate
+      // We also need to ensure it ends with 'model' so the next sendMessage (user) is valid
       const history: any[] = [];
-      let nextExpectedRole = 'user';
-
+      
       for (const msg of rawHistory) {
-        if (msg.role === nextExpectedRole) {
-          history.push(msg);
-          nextExpectedRole = nextExpectedRole === 'user' ? 'model' : 'user';
+        if (history.length === 0) {
+          // If first message is model, we prepend a generic user greeting or skip
+          if (msg.role === 'model') {
+            history.push({ role: 'user', parts: [{ text: 'Hello' }] });
+            history.push(msg);
+          } else {
+            history.push(msg);
+          }
+        } else {
+          const lastRole = history[history.length - 1].role;
+          if (msg.role !== lastRole) {
+            history.push(msg);
+          } else {
+            // Merge consecutive same-role messages
+            history[history.length - 1].parts[0].text += "\n" + msg.parts[0].text;
+          }
         }
       }
 
-      // Final check: history must not end with 'user' if we are about to call sendMessage(userMessage)
-      // Actually, chat.sendMessage expects the NEXT message to be from User.
-      // So history should ideally end with a MODEL message.
+      // Ensure history ends with 'model' for the next 'user' message
       if (history.length > 0 && history[history.length - 1].role === 'user') {
-        // If it ends with user, and we send another user message, it might fail.
-        // But usually sendMessage appends to history.
-        // However, standard startChat history ending in 'user' is fine if you then send 'model' response,
-        // but here we are sending a NEW 'user' message.
-        // So history SHOULD end with 'model'.
         history.pop();
       }
 

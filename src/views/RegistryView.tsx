@@ -137,6 +137,7 @@ export const RegistryView: React.FC<{
     agreementType: contract.contractType,
     category: contract.category,
     jurisdiction: contract.jurisdiction,
+    contract: contract,
     compliance: {
       status: i % 3 === 0 ? 'COMPLIANT' : i % 3 === 1 ? 'PENDING' : 'NON-COMPLIANT',
       standards: ['KYC/AML', 'SEC Rule 506(c)', 'GDPR', 'MiCA'],
@@ -515,35 +516,41 @@ export const RegistryView: React.FC<{
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 md:grid-cols-5 gap-4 py-4 border-t border-white/5">
-                  <div>
-                    <div className="text-[10px] text-on-surface-variant uppercase tracking-widest mb-1">Security Score</div>
-                    <div className="text-lg font-black text-on-surface font-headline">{item.securityScore}%</div>
-                  </div>
-                  <div>
-                    <div className="text-[10px] text-on-surface-variant uppercase tracking-widest mb-1">Agreement Type</div>
-                    <div className="text-xs font-bold text-accent-gold">{item.agreementType}</div>
-                  </div>
-                  <div>
-                    <div className="text-[10px] text-on-surface-variant uppercase tracking-widest mb-1">Total Score</div>
-                    <div className="text-lg font-black text-primary-cyan font-headline">{item.totalScore}</div>
-                  </div>
-                  <div>
-                    <div className="text-[10px] text-on-surface-variant uppercase tracking-widest mb-1">Jurisdiction</div>
-                    <div className="text-xs font-bold text-on-surface uppercase tracking-widest">{item.jurisdiction}</div>
-                  </div>
-                  <div>
-                    <div className="text-[10px] text-on-surface-variant uppercase tracking-widest mb-1">Compliance Check</div>
-                    <div className={`flex items-center gap-1.5 text-xs font-black uppercase tracking-widest ${
-                      item.compliance.status === 'COMPLIANT' ? 'text-emerald-400' : 
-                      item.compliance.status === 'PENDING' ? 'text-accent-gold' : 'text-red-400'
-                    }`}>
-                      {item.compliance.status === 'COMPLIANT' ? <CheckCircle2 size={10} /> : 
-                       item.compliance.status === 'PENDING' ? <Clock size={10} /> : <AlertTriangle size={10} />}
-                      {item.compliance.status}
+                  <div className="grid grid-cols-2 md:grid-cols-6 gap-4 py-4 border-t border-white/5">
+                    <div>
+                      <div className="text-[10px] text-on-surface-variant uppercase tracking-widest mb-1">Score Algo</div>
+                      <div className="text-lg font-black text-accent-pink font-headline">{item.contract?.scoreAlgo || 0}</div>
+                    </div>
+                    <div>
+                      <div className="text-[10px] text-on-surface-variant uppercase tracking-widest mb-1">Score Pro</div>
+                      <div className="text-lg font-black text-emerald-400 font-headline">{item.contract?.scorePro || 0}</div>
+                    </div>
+                    <div>
+                      <div className="text-[10px] text-on-surface-variant uppercase tracking-widest mb-1">LYA Score</div>
+                      <div className="text-lg font-black text-primary-cyan font-headline">
+                        {item.contract?.scoreLYA || ((item.contract?.scoreAlgo || 0) + (item.contract?.scorePro || 0)) || item.totalScore}
+                      </div>
+                    </div>
+                    <div>
+                      <div className="text-[10px] text-on-surface-variant uppercase tracking-widest mb-1">Agreement Type</div>
+                      <div className="text-xs font-bold text-accent-gold">{item.agreementType}</div>
+                    </div>
+                    <div>
+                      <div className="text-[10px] text-on-surface-variant uppercase tracking-widest mb-1">Jurisdiction</div>
+                      <div className="text-xs font-bold text-on-surface uppercase tracking-widest">{item.jurisdiction}</div>
+                    </div>
+                    <div>
+                      <div className="text-[10px] text-on-surface-variant uppercase tracking-widest mb-1">Compliance</div>
+                      <div className={`flex items-center gap-1.5 text-xs font-black uppercase tracking-widest ${
+                        item.compliance.status === 'COMPLIANT' ? 'text-emerald-400' : 
+                        item.compliance.status === 'PENDING' ? 'text-accent-gold' : 'text-red-400'
+                      }`}>
+                        {item.compliance.status === 'COMPLIANT' ? <CheckCircle2 size={10} /> : 
+                         item.compliance.status === 'PENDING' ? <Clock size={10} /> : <AlertTriangle size={10} />}
+                        {item.compliance.status}
+                      </div>
                     </div>
                   </div>
-                </div>
 
                 {/* Collapsible Contract Details */}
                 <div className="border-t border-white/5">

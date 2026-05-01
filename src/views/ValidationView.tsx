@@ -12,7 +12,11 @@ import {
   Award,
   RefreshCw,
   TrendingUp,
-  Lock
+  Lock,
+  Database,
+  Activity,
+  Users,
+  Gavel
 } from 'lucide-react';
 import { StatCard } from '../components/StatCard';
 import { CONTRACTS, Contract, UserProfile, UserRole } from '../types';
@@ -470,6 +474,38 @@ export const ValidationView: React.FC<{
           <p className="text-[10px] text-on-surface-variant leading-relaxed uppercase tracking-[0.2em] font-bold opacity-70 group-hover:opacity-100 transition-opacity">
             {t('Connected to 128 global validation registries. Latency optimized for sub-second consensus across major exchange centers.', 'Connecté à 128 registres de validation mondiaux. Latence optimisée pour un consensus en moins d\'une seconde à travers les principaux centres d\'échange.')}
           </p>
+        </div>
+      </div>
+
+      <div className="pt-24 border-t border-white/5">
+        <h3 className="text-2xl font-black font-headline text-white uppercase italic tracking-tighter mb-12 flex items-center gap-4">
+          <div className="w-[1px] h-8 bg-primary-cyan shadow-[0_0_15px_rgba(0,224,255,0.4)]"></div>
+          {t('Administrative Services', 'Services Administratifs')}
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {[
+            { title: t('Ledger Audit', 'Audit du Grand Livre'), icon: <Database size={24} />, color: 'primary-cyan' },
+            { title: t('Consensus Management', 'Gestion du Consensus'), icon: <Activity size={24} />, color: 'accent-gold' },
+            { title: t('Expert Onboarding', 'Onboarding Experts'), icon: <Users size={24} />, color: 'emerald-400' },
+            { title: t('Protocol Governance', 'Gouvernance Protocole'), icon: <Gavel size={24} />, color: 'accent-pink' }
+          ].map((service, i) => (
+            <motion.div 
+              key={i}
+              whileHover={{ scale: 1.02 }}
+              className="bg-surface-low/40 backdrop-blur-xl border border-white/5 p-8 rounded-3xl group cursor-pointer hover:border-white/20 transition-all text-center flex flex-col items-center"
+            >
+              <div className={`w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center text-${service.color} mb-6 group-hover:scale-110 transition-all border border-white/10 group-hover:bg-white/10 shadow-xl`}>
+                {service.icon}
+              </div>
+              <h4 className="text-[10px] font-black text-white uppercase tracking-[0.3em] mb-4 group-hover:text-primary-cyan transition-colors">{service.title}</h4>
+              <div className="text-[8px] text-on-surface-variant uppercase tracking-widest font-black opacity-40 leading-relaxed mb-6">
+                Institutional access to underlying protocol logic and registry maintenance.
+              </div>
+              <button className="text-[9px] font-black text-primary-cyan uppercase tracking-widest hover:text-white transition-colors border-b border-primary-cyan/20 pb-1">
+                {t('ACCESS_SERVICE', 'ACCÉDER_AU_SERVICE')}
+              </button>
+            </motion.div>
+          ))}
         </div>
       </div>
     </div>

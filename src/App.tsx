@@ -118,8 +118,8 @@ export default function App() {
     
     // Limits
     const limitMap = {
-      swipe: 15,
-      compare: 4,
+      swipe: 20,
+      compare: 20,
       simulator: 4,
       scan: 3,
       talent: 3
@@ -534,9 +534,9 @@ export default function App() {
 
     const isCompared = comparisonList.includes(contractId);
     
-    // Strict enforcement of 4 slots for standard users
-    if (!isCompared && comparisonList.length >= 4 && !user.isPro && user.role !== 'ADMIN') {
-      notify(t('COMPARISON LIMIT REACHED (4/4). UPGRADE TO PRO TO UNLOCK MORE SLOTS.', 'LIMITE DE COMPARAISON ATTEINTE (4/4). PASSEZ AU PRO POUR DÉBLOQUER PLUS DE SLOTS.'));
+    // Strict enforcement of 20 slots for standard users
+    if (!isCompared && comparisonList.length >= 20 && !user.isPro && user.role !== 'ADMIN') {
+      notify(t('COMPARISON LIMIT REACHED (20/20). UPGRADE TO PRO TO UNLOCK MORE SLOTS.', 'LIMITE DE COMPARAISON ATTEINTE (20/20). PASSEZ AU PRO POUR DÉBLOQUER PLUS DE SLOTS.'));
       setCurrentView('PRICING');
       return;
     }
@@ -692,7 +692,7 @@ export default function App() {
           </>
         )}
 
-        <main className={`transition-all duration-300 ${!isAuthView ? (isSidebarCollapsed ? 'lg:ml-16' : 'lg:ml-64') : ''} ${!isAuthView ? 'pt-14 pb-20' : ''} min-h-screen relative overflow-hidden flex flex-col`}>
+        <main className={`transition-all duration-300 ${!isAuthView ? (isSidebarCollapsed ? 'lg:ml-20' : 'lg:ml-72') : ''} ${!isAuthView ? 'pt-14 pb-20' : ''} min-h-screen relative flex flex-col`}>
           <div className="max-w-[1800px] mx-auto w-full">
             <AnimatePresence mode="wait">
               {currentView === 'HOME' && (

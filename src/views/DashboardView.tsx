@@ -188,7 +188,7 @@ export const DashboardView: React.FC<{
       />
 
       <div className="space-y-12 px-6 md:px-12">
-        <div className="flex flex-wrap items-center justify-end gap-6 -mt-32 mb-12 relative z-20">
+        <div className="flex flex-wrap items-center justify-end gap-6 mb-12 relative z-20">
           {/* Refined LYA Unit Block */}
           <div className="relative group">
             <div className="absolute inset-0 bg-primary-cyan/5 blur-xl group-hover:bg-primary-cyan/10 transition-all duration-700" />

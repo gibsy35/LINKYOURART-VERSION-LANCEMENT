@@ -1,27 +1,42 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
-export const NumberTicker: React.FC<{ value: number }> = ({ value }) => {
+export const NumberTicker: React.FC<{ value: number, duration?: number, decimalPlaces?: number }> = ({ 
+  value, 
+  duration = 1500,
+  decimalPlaces = 0
+}) => {
   const [displayValue, setDisplayValue] = useState(0);
+  const startTime = useRef<number | null>(null);
+  const startValue = useRef<number>(0);
+  const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
-    let start = 0;
-    const end = value;
-    const duration = 2000;
-    const increment = end / (duration / 16);
+    // Reset animation when value changes
+    startValue.current = displayValue;
+    startTime.current = null;
+    
+    const animate = (timestamp: number) => {
+      if (!startTime.current) startTime.current = timestamp;
+      const progress = Math.min((timestamp - startTime.current) / duration, 1);
+      
+      const currentVal = startValue.current + (value - startValue.current) * progress;
+      setDisplayValue(currentVal);
 
-    const timer = setInterval(() => {
-      start += increment;
-      if (start >= end) {
-        setDisplayValue(end);
-        clearInterval(timer);
-      } else {
-        setDisplayValue(Math.floor(start));
+      if (progress < 1) {
+        rafRef.current = requestAnimationFrame(animate);
       }
-    }, 16);
+    };
 
-    return () => clearInterval(timer);
-  }, [value]);
+    rafRef.current = requestAnimationFrame(animate);
 
-  return <span>{displayValue.toLocaleString()}</span>;
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+  }, [value, duration]);
+
+  return <span>{displayValue.toLocaleString(undefined, {
+    minimumFractionDigits: decimalPlaces,
+    maximumFractionDigits: decimalPlaces
+  })}</span>;
 };
