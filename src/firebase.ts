@@ -15,3 +15,14 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
+
+export enum OperationType {
+  GET = 'GET',
+  SET = 'SET',
+  UPDATE = 'UPDATE',
+  DELETE = 'DELETE'
+}
+
+export const handleFirestoreError = (error: any, operation: OperationType, path: string) => {
+  console.error(`Firestore ${operation} error at ${path}:`, error);
+};
