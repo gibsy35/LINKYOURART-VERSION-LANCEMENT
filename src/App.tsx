@@ -7,7 +7,7 @@ import { Sidebar, View } from './components/ui/Sidebar';
 import { Topbar } from './components/ui/Topbar';
 import { Notification } from './components/ui/Notification';
 import { Logo } from './components/ui/Logo';
-import { ContractDetailModal, InstitutionalOnboardingModal, TradeModal } from './components/Modals';
+import { ContractDetailModal, ProfessionalOnboardingModal, TradeModal } from './components/Modals';
 
 // Views
 import { DashboardView } from './views/DashboardView';
@@ -135,8 +135,8 @@ export default function App() {
     if (currentCount >= limit) {
       const label = type.toUpperCase();
       const message = t(
-        `ELEVATE ACCESS REQUIRED: ${label} LIMIT REACHED (${limit}/${limit}). UPGRADE TO PRO TO UNLOCK INSTITUTIONAL LIMITS.`, 
-        `ACCÈS ÉLEVÉ REQUIS : LIMITE DE ${label} ATTEINTE (${limit}/${limit}). PASSEZ AU PRO POUR DÉBLOQUER LES LIMITES INSTITUTIONNELLES.`
+        `ELEVATE ACCESS REQUIRED: ${label} LIMIT REACHED (${limit}/${limit}). UPGRADE TO PRO TO UNLOCK EXPERT LIMITS.`, 
+        `ACCÈS ÉLEVÉ REQUIS : LIMITE DE ${label} ATTEINTE (${limit}/${limit}). PASSEZ AU PRO POUR DÉBLOQUER LES LIMITES EXPERTES.`
       );
       
       notify(message);
@@ -165,7 +165,7 @@ export default function App() {
   const [jurisdictionFilter, setJurisdictionFilter] = useState<string>('ALL');
   
   const [isVerificationModalOpen, setIsVerificationModalOpen] = useState(false);
-  const [verificationLevel, setVerificationLevel] = useState<'Standard' | 'Institutional'>('Standard');
+  const [verificationLevel, setVerificationLevel] = useState<'Standard' | 'Expert'>('Standard');
   const [isVerifying, setIsVerifying] = useState(false);
   const [isBooting, setIsBooting] = useState(true);
   const [notification, setNotification] = useState<string | null>(null);
@@ -188,10 +188,10 @@ export default function App() {
   // Live Notification Simulator
   useEffect(() => {
     const events = [
-      { title: 'NEW TRANSACTION', message: 'Institutional trade cleared in Sector 0x4f.', type: 'SUCCESS' },
-      { title: 'MARKET ALERT', message: 'LYA Index volatility decreasing. Bullish signal detected.', type: 'INFO' },
+      { title: 'NEW TRANSACTION', message: 'Creative swap cleared in Sector 0x4f.', type: 'SUCCESS' },
+      { title: 'INDEX ALERT', message: 'LYA Index volatility decreasing. Bullish signal detected.', type: 'INFO' },
       { title: 'CREATIVE FEED', message: '"Neo-Tokyo" has reached milestone +14%.', type: 'INFO' },
-      { title: 'REGISTRY UPDATE', message: '12 new creative contracts added to the global registry.', type: 'INFO' },
+      { title: 'REGISTRY UPDATE', message: '12 new creative contracts added to the global catalogue.', type: 'INFO' },
       { title: 'SYSTEM LOG', message: 'Neural routing optimization complete.', type: 'SUCCESS' }
     ];
 
@@ -464,9 +464,9 @@ export default function App() {
     setIsVerifying(true);
     setTimeout(() => {
       setIsVerifying(false);
-      setVerificationLevel('Institutional');
+      setVerificationLevel('Expert');
       setIsVerificationModalOpen(false);
-      notify('INSTITUTIONAL VERIFICATION COMPLETE');
+      notify('PROFESSIONAL VERIFICATION COMPLETE');
     }, 2500);
   };
 
@@ -584,7 +584,7 @@ export default function App() {
             </div>
             <div>
               <div className="text-primary-cyan text-xl font-black tracking-tighter">LINKYOURART_TERMINAL</div>
-              <div className="text-[10px] text-on-surface-variant uppercase tracking-[0.4em]">Institutional Access...</div>
+              <div className="text-[10px] text-on-surface-variant uppercase tracking-[0.4em]">Creative Access...</div>
             </div>
           </div>
           
@@ -719,7 +719,7 @@ export default function App() {
               {currentView === 'HOME' && <HomeView onViewChange={handleViewChange} />}
               {currentView === 'SIGNUP' && <SignupView onViewChange={handleViewChange} setUser={(u) => {
                 setUser(u);
-                addNotification('ACCOUNT CREATED', 'Your institutional account has been successfully initialized.', 'SUCCESS');
+                addNotification('ACCOUNT CREATED', 'Your professional account has been successfully initialized.', 'SUCCESS');
               }} />}
               {currentView === 'LOGIN' && <LoginView onViewChange={handleViewChange} setUser={(u) => {
                 setUser(u);
@@ -918,8 +918,8 @@ export default function App() {
           onTrade={handleOpenTrade}
         />
 
-        <InstitutionalOnboardingModal 
-          isOpen={isVerificationModalOpen}
+        <ProfessionalOnboardingModal 
+          isOpen={isVerificationModalOpen} 
           onClose={() => setIsVerificationModalOpen(false)}
           onVerify={handleVerify}
           isVerifying={isVerifying}

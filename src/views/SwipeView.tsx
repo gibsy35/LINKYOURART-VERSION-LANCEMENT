@@ -117,7 +117,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
       <PageHeader 
         titleWhite={t('Creative', 'SWIPE')}
         titleAccent={t('Swipe', 'CRÉATIF')}
-        description={t('Swipe to discover and monitor the next generation of creative contracts. Build your institutional watchlist in real-time.', 'Swiper pour découvrir et surveiller la prochaine génération de contrats créatifs. Construisez votre watchlist institutionnelle en temps réel.')}
+        description={t('Swipe to discover and monitor the next generation of creative contracts. Build your professional watchlist in real-time.', 'Swiper pour découvrir et surveiller la prochaine génération de contrats créatifs. Construisez votre watchlist professionnelle en temps réel.')}
         accentColor="text-primary-cyan"
       />
 
@@ -182,9 +182,9 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
           </div>
 
           <div className="p-6 bg-primary-cyan/5 border border-primary-cyan/10 rounded-2xl">
-            <h4 className="text-[10px] font-black text-primary-cyan uppercase tracking-widest mb-3">{t('Institutional Tip', 'Conseil Institutionnel')}</h4>
+            <h4 className="text-[10px] font-black text-primary-cyan uppercase tracking-widest mb-3">{t('Expert Tip', 'Conseil Expert')}</h4>
             <p className="text-[11px] text-on-surface-variant leading-relaxed italic">
-              {t('Contracts with a LYA Score above 850 represent the top 5% of creative assets in terms of institutional validation and revenue potential.', 'Les contrats avec un score LYA supérieur à 850 représentent le top 5% des actifs créatifs en termes de validation institutionnelle et de potentiel de revenus.')}
+              {t('Contracts with a LYA Score above 850 represent the top 5% of creative assets in terms of professional validation and revenue potential.', 'Les contrats avec un score LYA supérieur à 850 représentent le top 5% des actifs créatifs en termes de validation professionnelle et de potentiel de revenus.')}
             </p>
           </div>
         </div>
@@ -527,9 +527,9 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
           <div className="w-12 h-12 rounded-full bg-accent-gold/10 flex items-center justify-center text-accent-gold mb-4 group-hover:scale-110 transition-transform">
             <Star size={24} />
           </div>
-          <h4 className="text-sm font-black text-white uppercase tracking-widest mb-2">{t('Institutional Grade', 'Qualité Institutionnelle')}</h4>
+          <h4 className="text-sm font-black text-white uppercase tracking-widest mb-2">{t('Professional Selection', 'Qualité Professionnelle')}</h4>
           <p className="text-[11px] text-on-surface-variant leading-relaxed opacity-60 uppercase tracking-wider">
-            {t('Every contract in the discovery engine has passed our rigorous 4-stage institutional validation process.', 'Chaque contrat dans le moteur de découverte a passé notre processus rigoureux de validation institutionnelle en 4 étapes.')}
+            {t('Every contract in the discovery engine has passed our rigorous 4-stage professional validation process.', 'Chaque contrat dans le moteur de découverte a passé notre processus rigoureux de validation professionnelle en 4 étapes.')}
           </p>
         </div>
         <div className="p-8 bg-surface-low/20 border border-white/5 rounded-2xl flex flex-col items-center text-center group hover:bg-emerald-500/5 transition-all">

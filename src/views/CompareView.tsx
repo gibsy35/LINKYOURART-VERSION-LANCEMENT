@@ -31,7 +31,7 @@ export const CompareView: React.FC<CompareViewProps> = ({
   const { formatPrice } = useCurrency();
   const selectedContracts = allContracts.filter(c => comparisonList.includes(c.id)).slice(0, isPro ? 50 : 20);
   
-  const suggestedAssets = allContracts
+  const suggestedProjects = allContracts
     .filter(c => !comparisonList.includes(c.id))
     .sort((a, b) => (b.scoreLYA || 0) - (a.scoreLYA || 0))
     .slice(0, 3);
@@ -39,9 +39,9 @@ export const CompareView: React.FC<CompareViewProps> = ({
   return (
     <div className="space-y-12 pb-24 relative min-h-screen">
       <PageHeader 
-        titleWhite={t('Asset', 'COMPARATEUR')}
-        titleAccent={t('Comparison Matrix', 'D\'ACTIFS')}
-        description={t('Deep-dive institutional analysis of selected creative contracts. Maximum 20 projects compared per session for Standard accounts.', 'Analyse institutionnelle approfondie des contrats créatifs sélectionnés. Maximum 20 projets comparés par session pour les comptes Standard.')}
+        titleWhite={t('Creative', 'INDEX')}
+        titleAccent={t('Index Comparator', 'CRÉATIF')}
+        description={t('Deep-dive professional analysis of selected creative contracts. Maximum 20 projects compared per session for Standard accounts.', 'Analyse professionnelle approfondie des contrats créatifs sélectionnés. Maximum 20 projets comparés par session pour les comptes Standard.')}
         accentColor="text-primary-cyan"
       />
 
@@ -74,10 +74,10 @@ export const CompareView: React.FC<CompareViewProps> = ({
 
             <div className="space-y-6 relative z-10">
               <h3 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tighter leading-none italic select-none">
-                {t('QUANTUM_MATRIX_OFFLINE', 'MATRICE_OFFLINE')}
+                {t('PROJECT_MATRIX_OFFLINE', 'MATRICE_PROJET_OFFLINE')}
               </h3>
               <p className="text-[10px] md:text-xs text-on-surface-variant uppercase tracking-[0.4em] font-bold opacity-40 max-w-lg mx-auto leading-relaxed">
-                {t('Select and benchmark creative contracts to reveal institutional yield potential. LYA Neuro-Engine awaits data initialization.', 'Sélectionnez et comparez les contrats créatifs. Le Neuro-Engine LYA attend l\'initialisation des données.')}
+                {t('Select and benchmark creative contracts to reveal market growth potential. LYA Neuro-Engine awaits data initialization.', 'Sélectionnez et comparez les contrats créatifs. Le Neuro-Engine LYA attend l\'initialisation des données.')}
               </p>
             </div>
 
@@ -93,26 +93,26 @@ export const CompareView: React.FC<CompareViewProps> = ({
             </button>
           </div>
 
-          {suggestedAssets.length > 0 && (
+          {suggestedProjects.length > 0 && (
             <div className="pt-12 space-y-10">
               <div className="flex items-center gap-6">
                 <div className="h-[1px] flex-1 bg-white/5" />
-                <h4 className="text-[10px] font-black text-primary-cyan/60 uppercase tracking-[0.5em] italic">{t('SUGGESTED_ALPHA', 'ALPHA_SUGGÉRÉ')}</h4>
+                <h4 className="text-[10px] font-black text-primary-cyan/60 uppercase tracking-[0.5em] italic">{t('SUGGESTED_SELECTION', 'SÉLECTION_SUGGÉRÉE')}</h4>
                 <div className="h-[1px] flex-1 bg-white/5" />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                {suggestedAssets.map((asset, i) => (
+                {suggestedProjects.map((project, i) => (
                   <motion.div 
-                    key={asset.id}
+                    key={project.id}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.1 }}
                     className="bg-surface-low/50 border border-white/5 p-8 flex flex-col gap-6 group hover:border-primary-cyan/30 transition-all cursor-pointer rounded-sm relative overflow-hidden" 
                     onClick={() => {
-                        const updateEvent = new CustomEvent('lyCompare', { detail: asset.id });
+                        const updateEvent = new CustomEvent('lyCompare', { detail: project.id });
                         window.dispatchEvent(updateEvent);
-                        onNotify(`${asset.name} ${t('ADDED TO COMPARISON', 'AJOUTÉ À LA COMPARAISON')}`);
+                        onNotify(`${project.name} ${t('ADDED TO COMPARISON', 'AJOUTÉ À LA COMPARAISON')}`);
                     }}
                   >
                     <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-20 transition-opacity">
@@ -120,18 +120,18 @@ export const CompareView: React.FC<CompareViewProps> = ({
                     </div>
                     <div className="flex items-center gap-6">
                       <div className="w-16 h-16 bg-surface-dim overflow-hidden border border-white/10 group-hover:border-primary-cyan/30 shadow-2xl transition-all duration-700 rounded-sm">
-                        <img src={asset.image} alt={asset.name} className="w-full h-full object-cover opacity-50 group-hover:opacity-100 group-hover:scale-110 transition-all" referrerPolicy="no-referrer" />
+                        <img src={project.image} alt={project.name} className="w-full h-full object-cover opacity-50 group-hover:opacity-100 group-hover:scale-110 transition-all" referrerPolicy="no-referrer" />
                       </div>
                       <div>
-                        <div className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest mb-1 opacity-60">{asset.category}</div>
-                        <div className="text-sm font-black text-white uppercase tracking-tight group-hover:text-primary-cyan transition-colors">{asset.name}</div>
+                        <div className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest mb-1 opacity-60">{project.category}</div>
+                        <div className="text-sm font-black text-white uppercase tracking-tight group-hover:text-primary-cyan transition-colors">{project.name}</div>
                       </div>
                     </div>
                     <div className="flex items-center justify-between border-t border-white/5 pt-6">
                        <div>
-                         <div className="text-[8px] font-black text-accent-gold uppercase tracking-widest mb-1">{t('LYA_SCORE', 'SCORE LYA')}</div>
+                         <div className="text-[8px] font-black text-accent-gold uppercase tracking-widest mb-1">{t('INDEX_SCORE', 'SCORE INDEX')}</div>
                          <div className="text-xl font-black font-mono text-white tracking-tighter">
-                            <NumberTicker value={asset.scoreLYA || asset.totalScore} />
+                            <NumberTicker value={project.scoreLYA || project.totalScore} />
                          </div>
                        </div>
                        <button className="w-10 h-10 flex items-center justify-center bg-primary-cyan/5 border border-primary-cyan/20 text-primary-cyan group-hover:bg-primary-cyan group-hover:text-surface-dim transition-all rounded-sm shadow-xl">
@@ -225,14 +225,14 @@ export const CompareView: React.FC<CompareViewProps> = ({
               </thead>
               <tbody className="divide-y divide-white/[0.06]">
                 {[
-                  { label: t('LYA_SCORE', 'SCORE LYA'), key: (c: Contract) => c.scoreLYA || 0, highlight: true, prefix: '', suffix: '/1000' },
+                  { label: t('INDEX_SCORE', 'SCORE INDEX'), key: (c: Contract) => c.scoreLYA || 0, highlight: true, prefix: '', suffix: '/1000' },
                   { label: t('SCORE_ALGO', 'SCORE ALGO'), key: (c: Contract) => c.scoreAlgo || 0, color: 'text-primary-cyan opacity-80', suffix: '/1000' },
                   { label: t('SCORE_PRO', 'SCORE PRO'), key: (c: Contract) => c.scorePro || 0, color: 'text-accent-gold opacity-80', suffix: '/1000' },
-                  { label: t('ESTIMATED_APR', 'APR_ESTIMÉ'), key: (c: Contract) => c.growth || 0, color: 'text-emerald-400', suffix: '%', isTicker: true, decimalPlaces: 1 },
+                  { label: t('ESTIMATED_GROWTH', 'CROISSANCE_ESTIMÉE'), key: (c: Contract) => c.growth || 0, color: 'text-emerald-400', suffix: '%', isTicker: true, decimalPlaces: 1 },
                   { label: t('LIQUIDITY_DEPTH', 'PROFONDEUR_LIQUIDITÉ'), key: (c: Contract) => c.availableUnits ? (c.availableUnits / c.totalUnits) * 100 : 85.2, color: 'text-primary-cyan/80', suffix: '%', isTicker: true, decimalPlaces: 1 },
-                  { label: t('REVENUE_SHARE', 'PARTAGE_REVENUS'), key: (c: Contract) => c.revenueSharePercentage || 0, color: 'text-white/80', suffix: '%', isTicker: true },
+                  { label: t('REVENUE_DISTRIBUTION', 'DISTRIBUTION_REVENUS'), key: (c: Contract) => c.revenueSharePercentage || 0, color: 'text-white/80', suffix: '%', isTicker: true },
                   { label: t('UNIT_VALUATION', 'VALEUR_UNITÉ'), key: (c: Contract) => c.unitValue || 0, color: 'text-white', prefix: '$', isTicker: true },
-                  { label: t('TOTAL_REGISTRY_VALUE', 'VALEUR_TOTAL_REGISTRE'), key: (c: Contract) => c.totalValue || 0, prefix: '$', isTicker: true },
+                  { label: t('TOTAL_PROJECT_VALUE', 'VALEUR_TOTAL_PROJET'), key: (c: Contract) => c.totalValue || 0, prefix: '$', isTicker: true },
                   { label: t('CYBER_SECURITY', 'SÉCURITÉ_CYBER'), key: (c: Contract) => 'VERIFIED_LYA', color: 'text-emerald-400', icon: Shield },
                   { label: t('REGULATORY_STATUS', 'STATUT_REG'), key: (c: Contract) => c.jurisdiction || 'EU (MiCA)', color: 'text-on-surface-variant' },
                 ].map((row, idx) => (
@@ -294,7 +294,7 @@ export const CompareView: React.FC<CompareViewProps> = ({
                     <Shield size={16} className="text-emerald-400" />
                   </div>
                   <div className="text-[10px] text-on-surface-variant uppercase tracking-[0.3em] opacity-40 max-w-2xl leading-relaxed font-bold">
-                    {t('LYA proprietary neural benchmarks have cross-referenced the selected creative contracts across 12 global equity registries. Settlement indicators are within optimal institutional range.', 'Les benchmarks neuronaux propriétaires de LYA ont recoupé les contrats créatifs sélectionnés sur 12 registres de fonds propres mondiaux. Les indicateurs de règlement sont dans la fourchette institutionnelle optimale.')}
+                    {t('LYA proprietary neural benchmarks have cross-referenced the selected creative contracts across 12 global rights registries. Growth indicators are within optimal professional range.', 'Les benchmarks neuronaux propriétaires de LYA ont recoupé les contrats créatifs sélectionnés sur 12 registres de droits mondiaux. Les indicateurs de croissance sont dans la fourchette professionnelle optimale.')}
                   </div>
                 </div>
              </div>

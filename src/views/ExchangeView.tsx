@@ -63,7 +63,7 @@ interface ExchangeViewProps {
   setOrderTypeFilter: (val: 'ALL' | 'BUY' | 'SELL') => void;
   orderContractFilter: string;
   setOrderContractFilter: (val: string) => void;
-  verificationLevel: 'Standard' | 'Institutional';
+  verificationLevel: 'Standard' | 'Expert';
   onOpenVerification: () => void;
   watchlist: string[];
   onToggleWatchlist: (e: React.MouseEvent, contractId: string) => void;
@@ -271,9 +271,9 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
   return (
     <div className="space-y-12 pb-20">
       <PageHeader 
-        titleWhite={t('Institutional', 'ÉCHANGE')}
-        titleAccent={t('Exchange Center', 'INSTITUTIONNEL')}
-        description={t('AUTHORIZED P2P REGISTRY SETTLEMENT & LIQUIDITY TERMINAL', 'TERMINAL DE LIQUIDITÉ & RÈGLEMENT DE REGISTRE P2P AUTORISÉ')}
+        titleWhite={t('Market', 'ÉCHANGE')}
+        titleAccent={t('Exchange Center', 'PROFESSIONNEL')}
+        description={t('AUTHORIZED P2P SETTLEMENT & LIQUIDITY TERMINAL', 'TERMINAL DE LIQUIDITÉ & RÈGLEMENT P2P AUTORISÉ')}
         accentColor="text-primary-cyan"
       />
 
@@ -364,7 +364,7 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
                 </div>
 
                 <p className="border-l-2 border-primary-cyan pl-6 text-on-surface-variant max-w-xl text-[10px] md:text-xs leading-relaxed opacity-70 mt-8 uppercase tracking-[0.3em] font-black italic">
-                  {t('LINKYOURART STANDARDIZES CREATIVE VALUE. EVERY PROJECT IS INDEXED INTO CONTRACT UNITS, EACH BACKED BY INSTITUTIONAL CAPACITY.', `LINKYOURART STANDARDISE LA VALEUR CRÉATIVE. CHAQUE PROJET EST INDEXÉ EN UNITÉS DE CONTRAT, CHACUNE ADOSSÉE À UNE CAPACITÉ INSTITUTIONNELLE DE ${LYA_UNIT_VALUE}$.`)}
+                  {t('LINKYOURART STANDARDIZES CREATIVE VALUE. EVERY PROJECT IS INDEXED INTO CONTRACT UNITS, EACH BACKED BY PROFESSIONAL CAPACITY.', `LINKYOURART STANDARDISE LA VALEUR CRÉATIVE. CHAQUE PROJET EST INDEXÉ EN UNITÉS DE CONTRAT, CHACUNE ADOSSÉE À UNE CAPACITÉ PROFESSIONNELLE DE ${LYA_UNIT_VALUE}$.`)}
                 </p>
               </Fragment>
             )}
@@ -426,7 +426,7 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
                       </div>
                       <h2 className="text-3xl font-black font-headline text-on-surface tracking-tighter mb-4">LYA PREDICTIVE ENGINE</h2>
                       <p className="text-on-surface-variant max-w-xl mx-auto text-sm leading-relaxed mb-8">
-                        Our neural network analyzes millions of data points across global creative registries to forecast contract performance with institutional accuracy.
+                        Our neural network analyzes millions of data points across global creative registries to forecast contract performance with expert accuracy.
                       </p>
                       <div className="flex flex-col items-center gap-4">
                         <button 
@@ -605,7 +605,7 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
                       className="w-full bg-surface-low/50 backdrop-blur-xl border border-white/10 text-[10px] font-black uppercase tracking-widest py-3 pl-4 pr-10 appearance-none focus:border-primary-cyan focus:ring-1 focus:ring-primary-cyan outline-none transition-all rounded-xl"
                     >
                       <option value="ALL">All Status</option>
-                      <option value="LIVE">Live</option>
+                      <option value="LIVE">Active</option>
                       <option value="AUDIT">In Audit</option>
                       <option value="SUSPENDED">Suspended</option>
                     </select>

@@ -24,7 +24,7 @@ interface TutorialStep {
   phase: string;
 }
 
-export const InstitutionalTutorial: React.FC = () => {
+export const ProfessionalTutorial: React.FC = () => {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
@@ -40,8 +40,8 @@ export const InstitutionalTutorial: React.FC = () => {
     {
       id: 1,
       phase: 'PHASE 1 / 6',
-      title: t('ASSET INDEXING', 'INDEXATION DES ACTIFS'),
-      description: t('Creators submit projects for institutional audit and LYA Score calculation. This is where creative equity begins its journey into the financial ecosystem.', 'Les créateurs soumettent des projets pour un audit institutionnel et le calcul du Score LYA. C\'est ici que l\'équité créative commence son voyage dans l\'écosystème financier.'),
+      title: t('PROJECT INDEXING', 'INDEXATION DE PROJET'),
+      description: t('Creators submit projects for professional audit and LYA Score calculation. This is where creative rights begin their journey into the creative ecosystem.', 'Les créateurs soumettent des projets pour un audit professionnel et le calcul du Score LYA. C\'est ici que les droits créatifs commencent leur voyage dans l\'écosystème créatif.'),
       icon: <Layers size={48} />,
       color: 'bg-primary-cyan',
     },
@@ -65,15 +65,15 @@ export const InstitutionalTutorial: React.FC = () => {
       id: 4,
       phase: 'PHASE 4 / 6',
       title: t('GLOBAL REGISTRY', 'REGISTRE MONDIAL'),
-      description: t('Assets are listed on the LYA Institutional Registry. Global visibility meets institutional transparency for every creative asset.', 'Les actifs sont répertoriés sur le Registre Institutionnel LYA. La visibilité mondiale rencontre la transparence institutionnelle pour chaque actif créatif.'),
+      description: t('Projects are listed on the LYA Global Registry. Global visibility meets professional transparency for every creative project.', 'Les projets sont répertoriés sur le Registre Mondial LYA. La visibilité mondiale rencontre la transparence professionnelle pour chaque projet créatif.'),
       icon: <Globe size={48} />,
       color: 'bg-blue-500',
     },
     {
       id: 5,
       phase: 'PHASE 5 / 6',
-      title: t('REAL-TIME YIELD', 'RENDEMENT EN TEMPS RÉEL'),
-      description: t('Track performance and revenue shares through our live indexing engine. Watch your creative equity grow in real-time.', 'Suivez les performances et les parts de revenus via notre moteur d\'indexation en direct. Regardez votre équité créative croître en temps réel.'),
+      title: t('REAL-TIME INDEXING', 'INDEXATION EN TEMPS RÉEL'),
+      description: t('Track performance and revenue shares through our live indexing engine. Watch your creative rights grow in real-time.', 'Suivez les performances et les parts de revenus via notre moteur d\'indexation en direct. Regardez vos droits créatifs croître en temps réel.'),
       icon: <Activity size={48} />,
       color: 'bg-accent-pink',
     },
@@ -81,7 +81,7 @@ export const InstitutionalTutorial: React.FC = () => {
       id: 6,
       phase: 'PHASE 6 / 6',
       title: t('P2P EXCHANGE', 'ÉCHANGE P2P'),
-      description: t('Trade units 24/7 on the secondary market. Institutional liquidity at your fingertips, powered by atomic settlement.', 'Échangez des unités 24/7 sur le marché secondaire. La liquidité institutionnelle à portée de main, propulsée par le règlement atomique.'),
+      description: t('Trade units 24/7 on the secondary market. Professional liquidity at your fingertips, powered by atomic settlement.', 'Échangez des unités 24/7 sur le marché secondaire. La liquidité professionnelle à portée de main, propulsée par le règlement atomique.'),
       icon: <BarChart3 size={48} />,
       color: 'bg-primary-cyan',
     }
@@ -208,7 +208,7 @@ export const InstitutionalTutorial: React.FC = () => {
                 <div className={`w-2 h-2 rounded-full ${i === currentStep ? steps[i].color : 'bg-white/10'}`} />
                 {i % 2 === 0 && (
                   <span className="text-[8px] font-mono text-on-surface-variant/40 uppercase tracking-widest">
-                    {i === 0 ? 'MICA' : i === 2 ? 'SEC' : 'INSTITUTIONAL'}
+                    {i === 0 ? 'MICA' : i === 2 ? 'SEC' : 'PROFESSIONAL'}
                   </span>
                 )}
               </div>

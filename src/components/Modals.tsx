@@ -196,7 +196,7 @@ export const FeatureShowcaseModal: React.FC<{ isOpen: boolean; onClose: () => vo
       title: t('AI_PREDICTIVE_MODELS', 'MODÈLES_PRÉDICTIFS_IA'),
       description: t('ALGO_DESC', 'ANALYSE TEMPS RÉEL DES TENDANCES DE MARCHÉ ET PRÉDICTION DES RENDEMENTS FUTURS.')
     },
-    'Institutional Registry': {
+    'Professional Registry': {
       icon: <Shield className="text-accent-gold" />,
       title: t('IMMUTABLE_LEGAL_CONSENSUS', 'CONSENSUS_JURIDIQUE_IMMUABLE'),
       description: t('REGISTRY_DESC', 'ACCÈS AU REGISTRE CENTRALISÉ DES DROITS CRÉATIFS POUR UNE VÉRIFICATION INSTANTANÉE.')
@@ -242,7 +242,7 @@ export const FeatureShowcaseModal: React.FC<{ isOpen: boolean; onClose: () => vo
   );
 };
 
-export const InstitutionalOnboardingModal: React.FC<{ 
+export const ProfessionalOnboardingModal: React.FC<{ 
   isOpen: boolean; 
   onClose: () => void;
   onVerify?: () => void;
@@ -250,12 +250,12 @@ export const InstitutionalOnboardingModal: React.FC<{
 }> = ({ isOpen, onClose, onVerify, isVerifying }) => {
   const { t } = useTranslation();
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="INSTITUTIONAL_ONBOARDING">
+    <Modal isOpen={isOpen} onClose={onClose} title="PROFESSIONAL_ONBOARDING">
       <div className="space-y-6 text-center max-w-md mx-auto">
         <div className="w-16 h-16 bg-primary-cyan/10 rounded-full flex items-center justify-center mx-auto mb-4">
           <Shield size={32} className={`text-primary-cyan ${isVerifying ? 'animate-pulse' : ''}`} />
         </div>
-        <h3 className="text-lg font-black text-white uppercase">{t('UPGRADE TO INSTITUTIONAL ACCESS', 'PASSER À L\'ACCÈS INSTITUTIONNEL')}</h3>
+        <h3 className="text-lg font-black text-white uppercase">{t('UPGRADE TO PROFESSIONAL ACCESS', 'PASSER À L\'ACCÈS PROFESSIONNEL')}</h3>
         <p className="text-[11px] text-on-surface-variant/60 uppercase leading-relaxed font-bold">
           {t('UNLOCK UNLIMITED TRANSACTIONS, PRIORITY CLEARING, AND ADVANCED ANALYTICS HUBS.', 'DÉBLOQUEZ DES TRANSACTIONS ILLIMITÉES, UNE COMPENSATION PRIORITAIRE ET DES HUBS ANALYTIQUES AVANCÉS.')}
         </p>
@@ -313,7 +313,7 @@ export const TradeModal: React.FC<{
           <div className="grid grid-cols-2 gap-4">
              <div className="p-4 bg-white/5 border border-white/10 rounded-lg">
                 <div className="text-[8px] text-on-surface-variant font-black uppercase tracking-widest mb-1">{t('MARKET_DEPTH', 'PROFONDEUR_DU_MARCHÉ')}</div>
-                <div className="text-sm font-black text-white italic">INSTITUTIONAL_HIGH</div>
+                <div className="text-sm font-black text-white italic">PROFESSIONAL_HIGH</div>
              </div>
              <div className="p-4 bg-white/5 border border-white/10 rounded-lg">
                 <div className="text-[8px] text-on-surface-variant font-black uppercase tracking-widest mb-1">{t('UNITS_AVAILABLE', 'UNITÉS_DISPONIBLES')}</div>
@@ -373,7 +373,7 @@ export const TradeModal: React.FC<{
                 ${((tradePrice || contract.unitValue) * tradeVolume * 1.032).toLocaleString()}
               </span>
             </div>
-            <p className="text-[8px] text-on-surface-variant italic mt-1">* Fees range from 2% to 5% based on your institutional tier.</p>
+            <p className="text-[8px] text-on-surface-variant italic mt-1">* Fees range from 2% to 5% based on your professional tier.</p>
           </div>
 
           <button 

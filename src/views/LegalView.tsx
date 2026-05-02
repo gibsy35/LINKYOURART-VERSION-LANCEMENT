@@ -19,38 +19,38 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify }) => {
       subtitle: t('LYA Protocol v4.2 Regulatory Framework', 'Cadre Réglementaire du Protocole LYA v4.2'),
       sections: [
         {
-          title: t('1. Institutional Nature', '1. Nature Institutionnelle'),
+          title: t('1. Professional Nature', '1. Nature Professionnelle'),
           text: t(
-            'LinkYourArt (LYA) is an institutional exchange platform for indexed creative contracts. By accessing the platform, you acknowledge that LYA Units are financial instruments representing fractional rights in creative assets.',
-            'LinkYourArt (LYA) est une plateforme d\'échange institutionnelle pour les contrats créatifs indexés. En accédant à la plateforme, vous reconnaissez que les Unités LYA sont des instruments financiers représentant des droits fractionnés sur des actifs créatifs.'
+            'LinkYourArt (LYA) is a professional exchange platform for indexed creative contracts. By accessing the platform, you acknowledge that LYA Units are creative instruments representing fractional rights in creative projects.',
+            'LinkYourArt (LYA) est une plateforme d\'échange professionnelle pour les contrats créatifs indexés. En accédant à la plateforme, vous reconnaissez que les Unités LYA sont des instruments créatifs représentant des droits fractionnés sur des projets créatifs.'
           )
         },
         {
           title: t('2. Eligibility & Verification', '2. Éligibilité et Vérification'),
           text: t(
-            'Access to the LYA Exchange and Legal Registry requires mandatory KYC/AML verification. Professional and Institutional tiers must provide valid regulatory credentials (SEC, MiCA, FCA).',
-            'L\'accès à l\'Exchange LYA et au Registre Légal nécessite une vérification KYC/AML obligatoire. Les niveaux Professionnel et Institutionnel doivent fournir des justificatifs réglementaires valides (SEC, MiCA, FCA).'
+            'Access to the LYA Exchange and Legal Registry requires mandatory KYC/AML verification. Professional and Expert tiers must provide valid professional credentials (SEC, MiCA, FCA).',
+            'L\'accès à l\'Exchange LYA et au Registre Légal nécessite une vérification KYC/AML obligatoire. Les niveaux Professionnel et Expert doivent fournir des justificatifs professionnels valides (SEC, MiCA, FCA).'
           )
         },
         {
           title: t('3. Contractual Immutability', '3. Immuabilité Contractuelle'),
           text: t(
-            'All contracts issued via the LYA Protocol are registered on an immutable ledger. Once a contract reaches "LIVE" status, its core parameters (Revenue Share, Total Units) cannot be modified without institutional consensus.',
-            'Tous les contrats émis via le Protocole LYA sont enregistrés sur un registre immuable. Une fois qu\'un contrat atteint le statut "LIVE", ses paramètres de base (Partage de Revenus, Unités Totales) ne peuvent être modifiés sans consensus institutionnel.'
+            'All contracts issued via the LYA Protocol are registered on an immutable ledger. Once a contract reaches "LIVE" status, its core parameters (Revenue Share, Total Units) cannot be modified without professional consensus.',
+            'Tous les contrats émis via le Protocole LYA sont enregistrés sur un registre immuable. Une fois qu\'un contrat atteint le statut "LIVE", ses paramètres de base (Partage de Revenus, Unités Totales) ne peuvent être modifiés sans consensus professionnel.'
           )
         },
         {
           title: t('4. Risk Disclosure', '4. Divulgation des Risques'),
           text: t(
-            'Investing in creative assets involves significant risks, including liquidity risk and market volatility. LYA Scores are predictive analytics and do not guarantee future performance.',
-            'L\'investissement dans les actifs créatifs comporte des risques importants, notamment le risque de liquidité et la volatilité du marché. Les Scores LYA sont des analyses prédictives et ne garantissent pas les performances futures.'
+            'Investing in creative projects involves significant risks, including liquidity risk and market volatility. LYA Scores are predictive analytics and do not guarantee future performance.',
+            'L\'investissement dans les projets créatifs comporte des risques importants, notamment le risque de liquidité et la volatilité du marché. Les Scores LYA sont des analyses prédictives et ne garantissent pas les performances futures.'
           )
         }
       ]
     },
     PRIVACY: {
       title: t('Privacy Policy', 'Politique de Confidentialité'),
-      subtitle: t('Data Protection & Institutional Security', 'Protection des Données et Sécurité Institutionnelle'),
+      subtitle: t('Data Protection & Professional Security', 'Protection des Données et Sécurité Professionnelle'),
       sections: [
         {
           title: t('1. Data Collection', '1. Collecte des Données'),
@@ -60,10 +60,10 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify }) => {
           )
         },
         {
-          title: t('2. Institutional Sharing', '2. Partage Institutionnel'),
+          title: t('2. Partner Sharing', '2. Partage Partenaire'),
           text: t(
-            'Data may be shared with regulatory bodies (SEC, MiCA) and institutional nodes for audit purposes. We never sell user data to third-party marketing entities.',
-            'Les données peuvent être partagées avec des organismes de réglementation (SEC, MiCA) et des nœuds institutionnels à des fins d\'audit. Nous ne vendons jamais les données des utilisateurs à des entités marketing tierces.'
+            'Data may be shared with regulatory bodies (SEC, MiCA) and professional nodes for audit purposes. We never sell user data to third-party marketing entities.',
+            'Les données peuvent être partagées avec des organismes de réglementation (SEC, MiCA) et des nœuds professionnels à des fins d\'audit. Nous ne vendons jamais les données des utilisateurs à des entités marketing tierces.'
           )
         },
         {
@@ -76,42 +76,42 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify }) => {
         {
           title: t('4. User Rights', '4. Droits des Utilisateurs'),
           text: t(
-            'Users have the right to access, rectify, or request the deletion of their personal data, subject to regulatory retention requirements for financial transactions.',
-            'Les utilisateurs ont le droit d\'accéder, de rectifier ou de demander la suppression de leurs données personnelles, sous réserve des exigences réglementaires de conservation pour les transactions financières.'
+            'Users have the right to access, rectify, or request the deletion of their personal data, subject to regulatory retention requirements for creative transactions.',
+            'Les utilisateurs ont le droit d\'accéder, de rectifier ou de demander la suppression de leurs données personnelles, sous réserve des exigences réglementaires de conservation pour les transactions créatives.'
           )
         }
       ]
     },
     REGISTRY: {
-      title: t('Institutional Registries', 'Registres Institutionnels'),
-      subtitle: t('Creative Asset Indexing & Verification Protocol', 'Protocole d\'Indexation et de Vérification des Actifs Créatifs'),
+      title: t('Professional Registries', 'Registres Professionnels'),
+      subtitle: t('Creative Project Indexing & Verification Protocol', 'Protocole d\'Indexation et de Vérification des Projets Créatifs'),
       sections: [
         {
           title: t('1. Registry Protocol', '1. Protocole de Registre'),
           text: t(
-            'The LYA Registry is a decentralized ledger designed for the institutional-grade indexing of creative assets. All entries are cryptographically secured and verified by authorized nodes.',
-            'Le Registre LYA est un registre décentralisé conçu pour l\'indexation de qualité institutionnelle des actifs créatifs. Toutes les entrées sont sécurisées par cryptographie et vérifiées par des nœuds autorisés.'
+            'The LYA Registry is a decentralized ledger designed for the professional-grade indexing of creative projects. All entries are cryptographically secured and verified by authorized nodes.',
+            'Le Registre LYA est un registre décentralisé conçu pour l\'indexation de qualité professionnelle des projets créatifs. Toutes les entrées sont sécurisées par cryptographie et vérifiées par des nœuds autorisés.'
           )
         },
         {
-          title: t('2. Asset Tokenization', '2. Tokenisation des Actifs'),
+          title: t('2. Project Rights Indexing', '2. Indexation des Droits de Projet'),
           text: t(
-            'Creative projects are indexed into standardized Contract Units. Each unit represents a fractional interest in the underlying creative equity, backed by the LYA settlement engine.',
-            'Les projets créatifs sont indexés dans des unités de contrat standardisées. Chaque unité représente un intérêt fractionnaire dans les fonds propres créatifs sous-jacents, soutenu par le moteur de règlement LYA.'
+            'Creative projects are indexed into standardized Contract Units. Each unit represents a fractional interest in the underlying creative rights, backed by the LYA settlement engine.',
+            'Les projets créatifs sont indexés dans des unités de contrat standardisées. Chaque unité représente un intérêt fractionnaire dans les droits créatifs sous-jacents, soutenu par le moteur de règlement LYA.'
           )
         },
         {
           title: t('3. Verification & Compliance', '3. Vérification et Conformité'),
           text: t(
-            'Assets must undergo a rigorous multi-stage validation process before being admitted to the registry. This includes IP verification, valuation audits, and jurisdictional compliance checks.',
-            'Les actifs doivent subir un processus de validation rigoureux en plusieurs étapes avant d\'être admis au registre. Cela comprend la vérification de la propriété intellectuelle, les audits d\'évaluation et les contrôles de conformité juridictionnelle.'
+            'Projects must undergo a rigorous multi-stage validation process before being admitted to the registry. This includes IP verification, valuation audits, and jurisdictional compliance checks.',
+            'Les projets doivent subir un processus de validation rigoureux en plusieurs étapes avant d\'être admis au registre. Cela comprend la vérification de la propriété intellectuelle, les audits d\'évaluation et les contrôles de conformité juridictionnelle.'
           )
         },
         {
           title: t('4. Settlement & Liquidity', '4. Règlement et Liquidité'),
           text: t(
-            'The registry facilitates real-time settlement of creative contracts. Liquidity is provided through institutional pools and peer-to-peer exchange mechanisms.',
-            'Le registre facilite le règlement en temps réel des contrats créatifs. La liquidité est fournie par des pools institutionnels et des mécanismes d\'échange de pair à pair.'
+            'The registry facilitates real-time settlement of creative contracts. Liquidity is provided through professional pools and peer-to-peer exchange mechanisms.',
+            'Le registre facilite le règlement en temps réel des contrats créatifs. La liquidité est fournie par des pools professionnels et des mécanismes d\'échange de pair à pair.'
           )
         }
       ]

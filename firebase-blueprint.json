@@ -8,7 +8,7 @@
         "uid": { "type": "string", "description": "The unique user ID from Firebase Auth." },
         "displayName": { "type": "string", "description": "The user's chosen display name." },
         "email": { "type": "string", "format": "email", "description": "The user's email address." },
-        "role": { "type": "string", "enum": ["CREATOR", "INVESTOR", "PROFESSIONAL"], "description": "The user's institutional role." },
+        "role": { "type": "string", "enum": ["CREATOR", "INVESTOR", "PROFESSIONAL"], "description": "The user's professional role." },
         "isPro": { "type": "boolean", "description": "Whether the user has an active Pro subscription." },
         "createdAt": { "type": "string", "format": "date-time", "description": "When the profile was created." },
         "twitter": { "type": "string" },
@@ -76,7 +76,7 @@
     },
     "Message": {
       "title": "Message",
-      "description": "Secure institutional message between users.",
+      "description": "Secure professional message between users.",
       "type": "object",
       "properties": {
         "fromId": { "type": "string" },
@@ -100,7 +100,7 @@
     },
     "/messages/{messageId}": {
       "schema": "Message",
-      "description": "Secure messages between institutional members."
+      "description": "Secure messages between professional members."
     }
   }
 }

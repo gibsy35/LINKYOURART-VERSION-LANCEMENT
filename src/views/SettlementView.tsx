@@ -46,7 +46,7 @@ export const SettlementView: React.FC<{
           {t('Access Restricted', 'Accès Restreint')}
         </h2>
         <p className="text-on-surface-variant max-w-lg mb-10 text-sm md:text-base leading-relaxed opacity-70">
-          {t('The Settlement Center is reserved for Institutional Partners and Certified Professionals. This section handles high-frequency batching and on-chain finality.', 'Le centre de règlement est réservé aux partenaires institutionnels et aux professionnels certifiés. Cette section gère le traitement par lots à haute fréquence et la finalité sur la chaîne.')}
+          {t('The Settlement Center is reserved for Professional Associates and Certified Professionals. This section handles high-frequency batching and on-chain finality.', 'Le centre de règlement est réservé aux associés professionnels et aux professionnels certifiés. Cette section gère le traitement par lots à haute fréquence et la finalité sur la chaîne.')}
         </p>
         <div className="flex flex-col sm:flex-row gap-4">
           <button 
@@ -108,9 +108,9 @@ export const SettlementView: React.FC<{
   return (
     <div className="space-y-12 pb-32">
       <PageHeader 
-        titleWhite={t('Institutional', 'INSTITUTIONAL')}
+        titleWhite={t('Professional', 'PROFESSIONAL')}
         titleAccent={t('Settlement', 'SETTLEMENT')}
-        description={t('REAL-TIME SETTLEMENT BATCHING AND ON-CHAIN FINALITY. OPTIMIZED FOR INSTITUTIONAL CONTRACT LIQUIDITY.', 'TRAITEMENT PAR LOTS EN TEMPS RÉEL ET FINALITÉ SUR LA CHAÎNE. OPTIMISÉ POUR LA LIQUIDITÉ DES CONTRATS INSTITUTIONNELS.')}
+        description={t('REAL-TIME SETTLEMENT BATCHING AND ON-CHAIN FINALITY. OPTIMIZED FOR PROFESSIONAL CONTRACT LIQUIDITY.', 'TRAITEMENT PAR LOTS EN TEMPS RÉEL ET FINALITÉ SUR LA CHAÎNE. OPTIMISÉ POUR LA LIQUIDITÉ DES CONTRATS PROFESSIONNELS.')}
         accentColor="text-primary-cyan"
       />
 

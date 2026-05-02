@@ -37,7 +37,7 @@ export const WatchlistView: React.FC<WatchlistViewProps> = ({
       <PageHeader 
         titleWhite={t('Smart', 'LISTE DE')}
         titleAccent={t('Watchlist', 'SURVEILLANCE')}
-        description={t('MONITORING ACTIVE CREATIVE ASSETS AND MARKET PERFORMANCE. Institutional surveillance is active on all indexed registries.', 'SURVEILLANCE DES ACTIFS CRÉATIFS ACTIFS ET DES PERFORMANCES DU MARCHÉ. La surveillance institutionnelle est active sur tous les registres indexés.')}
+        description={t('MONITORING ACTIVE CREATIVE PROJECTS AND MARKET PERFORMANCE. Professional monitoring is active on all indexed registries.', 'SURVEILLANCE DES PROJETS CRÉATIFS ACTIFS ET DES PERFORMANCES DU MARCHÉ. La veille professionnelle est active sur tous les registres indexés.')}
         accentColor="text-accent-gold"
       />
 
@@ -90,7 +90,7 @@ export const WatchlistView: React.FC<WatchlistViewProps> = ({
           </div>
           <h2 className="text-2xl font-black text-white uppercase tracking-tighter mb-4 italic">{t('WATCHLIST_EMPTY', 'LISTE_VIDE')}</h2>
           <p className="text-[10px] text-on-surface-variant max-w-xs uppercase tracking-[0.3em] font-bold opacity-40 leading-relaxed">
-            {t('Neural surveillance is currently unassigned. Mark creative assets to track institutional performance.', 'La surveillance neuronale est actuellement non assignée. Marquez des actifs pour suivre les performances.')}
+            {t('Neural surveillance is currently unassigned. Mark creative assets to track market performance.', 'La surveillance neuronale est actuellement non assignée. Marquez des actifs pour suivre les performances des marchés.')}
           </p>
         </div>
       ) : (

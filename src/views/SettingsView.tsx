@@ -73,7 +73,7 @@ export const SettingsView: React.FC = () => {
       <PageHeader 
         titleWhite={t('System', 'PARAMÈTRES')}
         titleAccent={t('Settings', 'SYSTÈME')}
-        description={t('CONFIGURE YOUR INSTITUTIONAL INTERFACE AND NEURAL LINK PARAMETERS FOR OPTIMIZED MARKET INTERACTION.', 'CONFIGUREZ VOTRE INTERFACE INSTITUTIONNELLE ET VOS PARAMÈTRES DE LIEN NEURAL POUR UNE INTERACTION DE MARCHÉ OPTIMISÉE.')}
+        description={t('CONFIGURE YOUR PROFESSIONAL INTERFACE AND NEURAL LINK PARAMETERS FOR OPTIMIZED MARKET INTERACTION.', 'CONFIGUREZ VOTRE INTERFACE PROFESSIONNELLE ET VOS PARAMÈTRES DE LIEN NEURAL POUR UNE INTERACTION DE MARCHÉ OPTIMISÉE.')}
         accentColor="text-primary-cyan"
       />
 
@@ -81,7 +81,7 @@ export const SettingsView: React.FC = () => {
         <SettingSection title={t('Display & Theme', 'Affichage et Thème')} icon={Monitor}>
           <SettingItem 
             label={t('Visual Mode', 'Mode Visuel')} 
-            description={t('Switch between light and dark institutional themes.', 'Basculez entre les thèmes institutionnels clair et sombre.')}
+            description={t('Switch between light and dark professional themes.', 'Basculez entre les thèmes professionnels clair et sombre.')}
           >
             <div className="flex bg-white/5 p-1 rounded-sm border border-white/10">
               <button 
@@ -100,7 +100,7 @@ export const SettingsView: React.FC = () => {
           </SettingItem>
           <SettingItem 
             label={t('High Performance Mode', 'Mode Haute Performance')} 
-            description={t('Optimize animations for institutional-grade hardware.', 'Optimisez les animations pour le matériel de qualité institutionnelle.')}
+            description={t('Optimize animations for expert-grade hardware.', 'Optimisez les animations pour le matériel de qualité expert.')}
           >
             <Toggle enabled={highPerformance} onChange={() => setHighPerformance(!highPerformance)} />
           </SettingItem>
@@ -135,7 +135,7 @@ export const SettingsView: React.FC = () => {
         <SettingSection title={t('Security & Privacy', 'Sécurité et Confidentialité')} icon={Shield}>
           <SettingItem 
             label={t('Two-Factor Authentication', 'Authentification à Deux Facteurs')} 
-            description={t('Add an extra layer of security to your institutional account.', 'Ajoutez une couche de sécurité supplémentaire à votre compte institutionnel.')}
+            description={t('Add an extra layer of security to your professional account.', 'Ajoutez une couche de sécurité supplémentaire à votre compte professionnel.')}
           >
             <button className="px-4 py-2 bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-widest hover:border-primary-cyan/50 hover:text-primary-cyan transition-all">
               {t('Configure 2FA', 'Configurer 2FA')}
@@ -148,7 +148,7 @@ export const SettingsView: React.FC = () => {
             <select className="bg-white/5 border border-white/10 text-xs text-on-surface-variant py-2 px-4 uppercase tracking-widest focus:ring-0 outline-none">
               <option value="PUBLIC">{t('Public Registry', 'Registre Public')}</option>
               <option value="PRIVATE">{t('Private / Hidden', 'Privé / Caché')}</option>
-              <option value="INSTITUTIONAL">{t('Institutional Only', 'Institutionnel Uniquement')}</option>
+              <option value="PROFESSIONAL">{t('Professional Only', 'Professionnel Uniquement')}</option>
             </select>
           </SettingItem>
         </SettingSection>
@@ -162,7 +162,7 @@ export const SettingsView: React.FC = () => {
           </SettingItem>
           <SettingItem 
             label={t('Market Reports', 'Rapports de Marché')} 
-            description={t('Weekly institutional summary of global creative equity.', 'Résumé institutionnel hebdomadaire de l\'équité créative mondiale.')}
+            description={t('Weekly professional summary of global creative rights.', 'Résumé professionnel hebdomadaire des droits créatifs mondiaux.')}
           >
             <button className="px-4 py-2 bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-widest hover:border-accent-gold/50 hover:text-accent-gold transition-all">
               {t('Manage Reports', 'Gérer les Rapports')}
@@ -177,7 +177,7 @@ export const SettingsView: React.FC = () => {
             <Cpu size={32} className="text-primary-cyan" />
           </div>
           <div>
-            <h4 className="text-xl font-black uppercase italic mb-1 tracking-tighter">{t('Institutional Node Status', 'Statut du Nœud Institutionnel')}</h4>
+            <h4 className="text-xl font-black uppercase italic mb-1 tracking-tighter">{t('Professional Node Status', 'Statut du Nœud Professionnel')}</h4>
             <p className="text-sm text-on-surface-variant italic">
               {t('Your connection to the LinkYourArt Global Registry is encrypted and verified.', 'Votre connexion au registre mondial LinkYourArt est cryptée et vérifiée.')}
             </p>

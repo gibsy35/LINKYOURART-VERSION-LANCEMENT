@@ -219,41 +219,43 @@ export const DashboardView: React.FC<{
           </div>
         </div>
 
-        {/* Institutional Tabs */}
-        <div className="flex gap-12 border-b border-white/5 relative">
-              <button 
-                onClick={() => setActiveTab('overview')}
-                className={`pb-4 text-[10px] font-black uppercase tracking-[0.4em] transition-all relative group ${activeTab === 'overview' ? 'text-primary-cyan' : 'text-on-surface-variant hover:text-on-surface'}`}
-              >
-                <span className="relative z-10">{t('Market Overview', 'Vue d\'Ensemble')}</span>
-                {activeTab === 'overview' && (
-                  <motion.div layoutId="activeTab" className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-cyan shadow-[0_0_10px_rgba(0,224,255,0.5)]" />
-                )}
-                <div className="absolute inset-0 bg-primary-cyan/0 group-hover:bg-primary-cyan/5 transition-all duration-300 -mb-0.5" />
-              </button>
-              <button 
-                onClick={() => setActiveTab('predictive')}
-                className={`pb-4 text-[10px] font-black uppercase tracking-[0.4em] transition-all relative group flex items-center gap-3 ${activeTab === 'predictive' ? 'text-primary-cyan' : 'text-on-surface-variant hover:text-on-surface'}`}
-              >
-                <Zap size={14} className={activeTab === 'predictive' ? 'text-primary-cyan' : 'text-on-surface-variant opacity-40'} />
-                <span className="relative z-10">{t('Predictive Analytics', 'Analyses Prédictives')}</span>
-                {activeTab === 'predictive' && (
-                  <motion.div layoutId="activeTab" className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-cyan shadow-[0_0_10px_rgba(0,224,255,0.5)]" />
-                )}
-                <div className="absolute inset-0 bg-primary-cyan/0 group-hover:bg-primary-cyan/5 transition-all duration-300 -mb-0.5" />
-              </button>
-              <button 
-                onClick={() => setActiveTab('liquidity')}
-                className={`pb-4 text-[10px] font-black uppercase tracking-[0.4em] transition-all relative group flex items-center gap-3 ${activeTab === 'liquidity' ? 'text-primary-cyan' : 'text-on-surface-variant hover:text-on-surface'}`}
-              >
-                <ActivityIcon size={14} className={activeTab === 'liquidity' ? 'text-primary-cyan' : 'text-on-surface-variant opacity-40'} />
-                <span className="relative z-10">{t('Secondary Market', 'Marché Secondaire')}</span>
-                {activeTab === 'liquidity' && (
-                  <motion.div layoutId="activeTab" className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-cyan shadow-[0_0_10px_rgba(0,224,255,0.5)]" />
-                )}
-                <div className="absolute inset-0 bg-primary-cyan/0 group-hover:bg-primary-cyan/5 transition-all duration-300 -mb-0.5" />
-              </button>
-            </div>
+        {/* Market Navigation - Mobile Optimized */}
+        <div className="overflow-x-auto custom-scrollbar -mx-6 px-6 sm:mx-0 sm:px-0">
+          <div className="flex gap-6 sm:gap-12 border-b border-white/5 min-w-max">
+            <button 
+              onClick={() => setActiveTab('overview')}
+              className={`pb-4 text-[10px] font-black uppercase tracking-[0.4em] transition-all relative group shrink-0 ${activeTab === 'overview' ? 'text-primary-cyan' : 'text-on-surface-variant hover:text-on-surface'}`}
+            >
+              <span className="relative z-10">{t('General View', 'Vue d\'Ensemble')}</span>
+              {activeTab === 'overview' && (
+                <motion.div layoutId="activeTab" className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-cyan shadow-[0_0_10px_rgba(0,224,255,0.5)]" />
+              )}
+              <div className="absolute inset-0 bg-primary-cyan/0 group-hover:bg-primary-cyan/5 transition-all duration-300 -mb-0.5" />
+            </button>
+            <button 
+              onClick={() => setActiveTab('predictive')}
+              className={`pb-4 text-[10px] font-black uppercase tracking-[0.4em] transition-all relative group flex items-center gap-3 shrink-0 ${activeTab === 'predictive' ? 'text-primary-cyan' : 'text-on-surface-variant hover:text-on-surface'}`}
+            >
+              <Zap size={14} className={activeTab === 'predictive' ? 'text-primary-cyan' : 'text-on-surface-variant opacity-40'} />
+              <span className="relative z-10">{t('Project Analytics', 'Analyses de Projets')}</span>
+              {activeTab === 'predictive' && (
+                <motion.div layoutId="activeTab" className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-cyan shadow-[0_0_10px_rgba(0,224,255,0.5)]" />
+              )}
+              <div className="absolute inset-0 bg-primary-cyan/0 group-hover:bg-primary-cyan/5 transition-all duration-300 -mb-0.5" />
+            </button>
+            <button 
+              onClick={() => setActiveTab('liquidity')}
+              className={`pb-4 text-[10px] font-black uppercase tracking-[0.4em] transition-all relative group flex items-center gap-3 shrink-0 ${activeTab === 'liquidity' ? 'text-primary-cyan' : 'text-on-surface-variant hover:text-on-surface'}`}
+            >
+              <ActivityIcon size={14} className={activeTab === 'liquidity' ? 'text-primary-cyan' : 'text-on-surface-variant opacity-40'} />
+              <span className="relative z-10">{t('Exchange Center', 'Centre d\'Échanges')}</span>
+              {activeTab === 'liquidity' && (
+                <motion.div layoutId="activeTab" className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-cyan shadow-[0_0_10px_rgba(0,224,255,0.5)]" />
+              )}
+              <div className="absolute inset-0 bg-primary-cyan/0 group-hover:bg-primary-cyan/5 transition-all duration-300 -mb-0.5" />
+            </button>
+          </div>
+        </div>
           
           {activeTab === 'overview' && (
             <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
@@ -296,14 +298,14 @@ export const DashboardView: React.FC<{
           <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <StatCard 
-              title={t('Total Contract Capacity', 'Capacité Totale des Contrats')} 
+              title={t('Total Project Capacity', 'Capacité Totale des Projets')} 
               value={marketStats.totalCap} 
               icon={<TrendingUp size={20} />} 
               trend={`${marketStats.avgGrowth > 0 ? '+' : ''}${marketStats.avgGrowth.toFixed(1)}%`} 
               trendDown={marketStats.avgGrowth < 0}
               color="cyan" 
-              subValue={t(`${(marketStats.totalCap / 50 / 1000000).toFixed(1)}M CONTRACT UNITS`, `${(marketStats.totalCap / 50 / 1000000).toFixed(1)}M UNITÉS DE CONTRATS`)} 
-              tooltip={t('Total aggregate value of all creative assets currently indexed on the LYA Protocol.', 'Valeur agrégée totale de tous les actifs créatifs actuellement indexés sur le protocole LYA.')}
+              subValue={t(`${(marketStats.totalCap / 50 / 1000000).toFixed(1)}M PROJECT UNITS`, `${(marketStats.totalCap / 50 / 1000000).toFixed(1)}M UNITÉS DE PROJETS`)} 
+              tooltip={t('Total aggregate value of all creative projects currently indexed on the LYA Protocol.', 'Valeur agrégée totale de tous les projets créatifs actuellement indexés sur le protocole LYA.')}
             />
             <StatCard 
               title={t('24H Exchange Volume', 'Volume d\'Échange 24H')} 
@@ -315,13 +317,13 @@ export const DashboardView: React.FC<{
               tooltip={t('Total value of contract units exchanged between peers in the last 24 hours.', 'Valeur totale des unités de contrat échangées entre pairs au cours des dernières 24 heures.')}
             />
             <StatCard 
-              title={t('Active Indexed Contracts', 'Contrats Indexés Actifs')} 
+              title={t('Indexed Project Flow', 'Flux de Projets Indexés')} 
               value={contracts.length} 
               isCurrency={false}
               icon={<ExternalLink size={20} />} 
               trend="+0.5%" 
               color="cyan" 
-              tooltip={t('Total number of unique creative projects with active institutional indexing.', 'Nombre total de projets créatifs uniques avec une indexation institutionnelle active.')}
+              tooltip={t('Total number of unique creative projects with active professional indexing.', 'Nombre total de projets créatifs uniques avec une indexation professionnelle active.')}
             />
             <StatCard 
               title={t('Avg Index Yield', 'Rendement Moyen de l\'Indice')} 
@@ -636,7 +638,7 @@ export const DashboardView: React.FC<{
                         </div>
                         <div>
                           <div className="text-xs font-black uppercase tracking-wider text-on-surface group-hover:text-primary-cyan transition-colors">
-                            {i % 2 === 0 ? t('Institutional Acquisition', 'Acquisition Institutionnelle') : t('Liquidity Transfer', 'Transfert de Liquidité')}
+                            {i % 2 === 0 ? t('Professional Acquisition', 'Acquisition Professionnelle') : t('Market Transfer', 'Transfert de Marché')}
                           </div>
                           <div className="text-[9px] text-on-surface-variant uppercase tracking-[0.2em] font-bold opacity-40 mt-1">TX-{Math.random().toString(16).slice(2, 8).toUpperCase()}</div>
                         </div>

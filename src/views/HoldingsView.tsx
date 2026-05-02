@@ -99,7 +99,7 @@ export const HoldingsView: React.FC<{ onNotify: (msg: string) => void }> = ({ on
       <PageHeader 
         titleWhite={t('Contract', 'CONTRACT')}
         titleAccent={t('Holdings', 'HOLDINGS')}
-        description={t('INDIVIDUAL ASSET EQUITY REPOSITORY. REAL-TIME TRACKING OF CREATIVE CAPITAL POSITIONS AND FISCAL GROWTH.', 'RÉPERTOIRE D\'ACTIFS D\'ÉQUITÉ INDIVIDUELS. SUIVI EN TEMPS RÉEL DES POSITIONS DE CAPITAL CRÉATIF ET DE LA CROISSANCE FISCALE.')}
+        description={t('INDIVIDUAL PROJECT REPOSITORY. REAL-TIME TRACKING OF CREATIVE RIGHTS POSITIONS AND FISCAL GROWTH.', 'RÉPERTOIRE DE PROJETS INDIVIDUELS. SUIVI EN TEMPS RÉEL DES POSITIONS DE DROITS CRÉATIFS ET DE LA CROISSANCE FISCALE.')}
         accentColor="text-primary-cyan"
       />
 
@@ -357,7 +357,7 @@ export const HoldingsView: React.FC<{ onNotify: (msg: string) => void }> = ({ on
               <ShieldCheck size={32} />
             </div>
             <div>
-              <h3 className="text-lg md:text-xl font-bold font-headline uppercase tracking-widest mb-2">{t('Institutional Custody', 'Garde Institutionnelle')}</h3>
+              <h3 className="text-lg md:text-xl font-bold font-headline uppercase tracking-widest mb-2">{t('Secure Professional Custody', 'Garde Professionnelle Sécurisée')}</h3>
               <p className="text-xs md:text-sm text-on-surface-variant leading-relaxed max-w-md">
                 {t('Your contracts are secured in a multi-signature cold storage vault. Settlement is guaranteed by the LYA Protocol.', 'Vos contrats sont sécurisés dans un coffre-fort de stockage à froid multi-signature. Le règlement est garanti par le protocole LYA.')}
               </p>
@@ -373,7 +373,7 @@ export const HoldingsView: React.FC<{ onNotify: (msg: string) => void }> = ({ on
             <div>
               <h3 className="text-lg md:text-xl font-bold font-headline uppercase tracking-widest mb-2">{t('Yield Generation', 'Génération de Rendement')}</h3>
               <p className="text-xs md:text-sm text-on-surface-variant leading-relaxed max-w-md">
-                {t('Your holdings are currently generating an estimated 8.4% APY through automated creative equity lending.', 'Vos avoirs génèrent actuellement un rendement annuel estimé à 8,4 % grâce au prêt automatisé de fonds propres créatifs.')}
+                {t('Your holdings are currently generating an estimated 8.4% APY through automated creative rights participation.', 'Vos avoirs génèrent actuellement un rendement annuel estimé à 8,4 % grâce à la participation automatisée aux droits créatifs.')}
               </p>
             </div>
           </div>

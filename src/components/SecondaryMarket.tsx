@@ -12,7 +12,7 @@ export const SecondaryMarket: React.FC = () => {
       <div className="flex items-center justify-between border-b border-white/5 pb-6">
         <div>
           <h2 className="text-xl font-black text-white uppercase italic tracking-tighter">{t('Secondary Market Node', 'Nœud du Marché Secondaire')}</h2>
-          <p className="text-[10px] text-on-surface-variant/40 font-bold uppercase tracking-widest">{t('PEER-TO-PEER INSTITUTIONAL SETTLEMENT', 'RÈGLEMENT INSTITUTIONNEL DE PAIR À PAIR')}</p>
+          <p className="text-[10px] text-on-surface-variant/40 font-bold uppercase tracking-widest">{t('PEER-TO-PEER PROFESSIONAL SETTLEMENT', 'RÈGLEMENT PROFESSIONNEL DE PAIR À PAIR')}</p>
         </div>
         <div className="flex items-center gap-3">
           <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />

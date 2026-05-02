@@ -55,7 +55,7 @@ export const RegistryView: React.FC<{
           {t('Registry Restricted', 'Registre Restreint')}
         </h2>
         <p className="text-on-surface-variant max-w-lg mb-10 text-sm md:text-base leading-relaxed opacity-70">
-          {t('The Legal Registry contains sensitive contract data and institutional records. Access is restricted to verified professional accounts.', 'Le registre légal contient des données contractuelles sensibles et des dossiers institutionnels. L\'accès est réservé aux comptes professionnels vérifiés.')}
+          {t('The Legal Registry contains sensitive contract data and professional records. Access is restricted to verified professional accounts.', 'Le registre légal contient des données contractuelles sensibles et des dossiers professionnels. L\'accès est réservé aux comptes professionnels vérifiés.')}
         </p>
         <div className="flex flex-col sm:flex-row gap-4">
           <button 
@@ -100,9 +100,9 @@ export const RegistryView: React.FC<{
     setIsValid(null);
     setVerificationResult(null);
     
-    onNotify(`INITIATING INSTITUTIONAL AUDIT FOR ${verifyId}...`);
+    onNotify(`INITIATING PROFESSIONAL AUDIT FOR ${verifyId}...`);
 
-    // Simulate network latency for institutional verification
+    // Simulate network latency for professional verification
     setTimeout(() => {
       const foundContract = allContracts.find(c => 
         c.registryIndex === verifyId || c.registryAddress === verifyId
@@ -205,7 +205,7 @@ export const RegistryView: React.FC<{
       <PageHeader 
         titleWhite={t('Legal', 'REGISTRY')}
         titleAccent={t('Settlement Center', 'SETTLEMENT')}
-        description={t('THE DEFINITIVE SOURCE OF TRUTH FOR CREATIVE ECONOMY CONTRACTS. VERIFIED, IMMUTABLE, AND GLOBALLY ACCESSIBLE FOR AUTHORIZED CENTERS.', 'LA SOURCE DE VÉRITÉ DÉFINITIVE POUR LES CONTRATS DE L\'ÉCONOMIE CRÉATIVE. VÉRIFIÉE, IMMUABLE ET ACCESSIBLE MONDIALEMENT POUR LES CENTRES AUTORISÉS.')}
+        description={t('THE DEFINITIVE SOURCE OF TRUTH FOR CREATIVE ECONOMY CONTRACTS. VERIFIED, IMMUTABLE, AND GLOBALLY ACCESSIBLE FOR PROFESSIONAL HUBS.', 'LA SOURCE DE VÉRITÉ DÉFINITIVE POUR LES CONTRATS DE L\'ÉCONOMIE CRÉATIVE. VÉRIFIÉE, IMMUABLE ET ACCESSIBLE MONDIALEMENT POUR LES CENTRES PROFESSIONNELS.')}
         accentColor="text-accent-gold"
       />
 
@@ -334,8 +334,8 @@ export const RegistryView: React.FC<{
                 className="bg-surface-dim border border-white/10 text-xs uppercase tracking-widest px-3 py-2 focus:border-primary-cyan/50 outline-none transition-all text-on-surface appearance-none cursor-pointer hover:bg-white/5 min-w-[180px]"
               >
                 <option value="ALL">All Status Levels</option>
-                <option value="LIVE">Live Registry</option>
-                <option value="SUSPENDED">Suspended Registry</option>
+                <option value="LIVE">{t('Active Registry', 'Registre Actif')}</option>
+                <option value="SUSPENDED">{t('Suspended Registry', 'Registre Suspendu')}</option>
               </select>
             </div>
             <div className="flex flex-col gap-1.5">
@@ -751,7 +751,7 @@ export const RegistryView: React.FC<{
                   <CheckCircle2 size={16} />
                 </div>
                 <div>
-                  <div className="text-base md:text-lg font-bold uppercase tracking-widest mb-1">Institutional Verification</div>
+                  <div className="text-base md:text-lg font-bold uppercase tracking-widest mb-1">{t('Professional Verification', 'Vérification Professionnelle')}</div>
                   <p className="text-sm text-on-surface-variant leading-relaxed">
                     All core agreements are formally verified by legal professionals to ensure enforceable execution across jurisdictions.
                   </p>
@@ -762,9 +762,9 @@ export const RegistryView: React.FC<{
                   <CheckCircle2 size={16} />
                 </div>
                 <div>
-                  <div className="text-base md:text-lg font-bold uppercase tracking-widest mb-1">Multi-Party Custody</div>
+                  <div className="text-base md:text-lg font-bold uppercase tracking-widest mb-1">{t('Multi-Party Custody', 'Garde Multi-Parties')}</div>
                   <p className="text-sm text-on-surface-variant leading-relaxed">
-                    Institutional rights are secured in multi-signature digital vaults with hardware-enforced security.
+                    Professional rights are secured in multi-signature digital vaults with hardware-enforced security.
                   </p>
                 </div>
               </div>
@@ -773,9 +773,9 @@ export const RegistryView: React.FC<{
                   <AlertTriangle size={16} />
                 </div>
                 <div>
-                  <div className="text-base md:text-lg font-bold uppercase tracking-widest mb-1">Standardized Framework</div>
+                  <div className="text-base md:text-lg font-bold uppercase tracking-widest mb-1">{t('Standardized Framework', 'Cadre Standardisé')}</div>
                   <p className="text-sm text-on-surface-variant leading-relaxed">
-                    Agreements use the LYA Legal Framework. Upgrades require a 48-hour review period and institutional consensus.
+                    Agreements use the LYA Legal Framework. Upgrades require a 48-hour review period and professional consensus.
                   </p>
                 </div>
               </div>

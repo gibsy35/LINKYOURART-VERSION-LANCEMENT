@@ -58,10 +58,10 @@ const ProfileView: React.FC<ProfileViewProps> = ({
   const [editForm, setEditForm] = useState({
     displayName: user.displayName,
     email: user.email,
-    bio: user.bio || 'Institutional gallery specializing in digital assets and creative equity contracts.',
+    bio: user.bio || 'Professional gallery specializing in digital assets and creative rights contracts.',
     twitter: user.twitter || '@gallery_insight',
     instagram: user.instagram || 'gallery_insight_official',
-    linkedin: user.linkedin || 'linkedin.com/company/lya-institutional'
+    linkedin: user.linkedin || 'linkedin.com/company/lya-professional'
   });
 
   const validateEmail = (email: string) => {
@@ -174,9 +174,9 @@ const ProfileView: React.FC<ProfileViewProps> = ({
               <Activity className="text-primary-cyan" size={24} /> {t('LYA PERFORMANCE SYSTEM', 'SYSTÈME DE PERFORMANCE LYA')}
             </h3>
             <p className="text-[8px] md:text-[10px] text-accent-gold uppercase tracking-widest font-bold opacity-40">
-              {user.role === UserRole.INVESTOR ? t('Optimize your institutional capital allocation', 'Optimisez votre allocation de capital institutionnel') :
+              {user.role === UserRole.INVESTOR ? t('Optimize your professional capital allocation', 'Optimisez votre allocation de capital professionnel') :
                user.role === UserRole.PROFESSIONAL ? t('Analyze your network validation efficiency', 'Analysez l\'efficacité de validation de votre réseau') :
-               t('Predict your institutional valuation potential', 'Prédisez votre potentiel de valorisation institutionnelle')}
+               t('Predict your professional valuation potential', 'Prédisez votre potentiel de valorisation professionnelle')}
             </p>
           </div>
           <div className="flex items-center gap-4">
@@ -218,7 +218,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
         <div className="mt-10 pt-8 border-t border-white/5 grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
           <div className="p-4 bg-white/5 border border-white/10 rounded-xl">
             <p className="text-[8px] font-black text-accent-gold uppercase tracking-widest opacity-40 mb-2">{t('MARKET POSITION', 'POSITION MARCHÉ')}</p>
-            <p className="text-sm font-bold text-white uppercase tracking-tight">{t('Top 5% Institutional', 'Top 5% Institutionnel')}</p>
+            <p className="text-sm font-bold text-white uppercase tracking-tight">{t('Top 5% Professional', 'Top 5% Professionnel')}</p>
           </div>
           <div className="p-4 bg-white/5 border border-white/10 rounded-xl">
             <p className="text-[8px] font-black text-accent-gold uppercase tracking-widest opacity-40 mb-2">{t('GROWTH VELOCITY', 'VÉLOCITÉ CROISSANCE')}</p>
@@ -261,7 +261,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
   const [inviteEmail, setInviteEmail] = useState('');
   const [activeTab, setActiveTab] = useState<'dashboard' | 'academy' | 'messages' | 'mentorship'>('dashboard');
   const [messages, setMessages] = useState([
-    { id: '1', from: 'Marcus Thorne', senderRole: 'Global Market Maker', subject: 'Strategic Partnership', content: 'I reviewed your project CHRONOS_V3. The valuation metrics are impressive. Let\'s schedule a call to discuss institutional liquidity options.', time: '1h ago', read: false, avatar: 'm1' },
+    { id: '1', from: 'Marcus Thorne', senderRole: 'Global Market Maker', subject: 'Strategic Partnership', content: 'I reviewed your project CHRONOS_V3. The valuation metrics are impressive. Let\'s schedule a call to discuss market liquidity options.', time: '1h ago', read: false, avatar: 'm1' },
     { id: '2', from: 'Elena Vance', senderRole: 'Grammy Legacy Curator', subject: 'IP Protection Audit', content: 'Your latest music catalog shows potential for a LYA-721 migration. I have some suggestions for the metadata structure.', time: '3h ago', read: true, avatar: 'm2' },
     { id: '3', from: 'Aurelius Art', senderRole: 'Master Curator', subject: 'Gallery Feature', content: 'We are interested in featuring your Fine Art collection in our upcoming digital auction.', time: '1d ago', read: true, avatar: 'm3' }
   ]);
@@ -288,13 +288,13 @@ const ProfileView: React.FC<ProfileViewProps> = ({
 
   const PREMIUM_FEATURES_CONTENT: Record<string, { description: string, previewImage?: string, benefits: { label: string, desc: string }[] }> = {
     'LYA Score': {
-      description: t('Access the full LYA scoring algorithm to precisely evaluate your market potential and institutional radiation. Get a deep-dive audit of your creative assets.', 'Accédez à l\'algorithme complet de scoring LYA pour évaluer précisément votre potentiel de marché et votre rayonnement institutionnel. Obtenez un audit approfondi de vos actifs créatifs.'),
+      description: t('Access the full LYA scoring algorithm to precisely evaluate your market potential and professional radiation. Get a deep-dive audit of your creative assets.', 'Accédez à l\'algorithme complet de scoring LYA pour évaluer précisément votre potentiel de marché et votre rayonnement professionnel. Obtenez un audit approfondi de vos actifs créatifs.'),
       previewImage: 'https://picsum.photos/seed/lya-score-audit/800/400',
       benefits: [
         { label: t('Full AI Audit', 'Audit IA Complet'), desc: t('Deep analysis of 50+ data points across 5 strategic pillars.', 'Analyse approfondie de 50+ points de données sur 5 piliers stratégiques.') },
-        { label: t('LYA Certification', 'Certification LYA'), desc: t('Verified score displayed on your public profile and institutional registry.', 'Score vérifié affiché sur votre profil public et le registre institutionnel.') },
+        { label: t('LYA Certification', 'Certification LYA'), desc: t('Verified score displayed on your public profile and professional registry.', 'Score vérifié affiché sur votre profil public et le registre professionnel.') },
         { label: t('Benchmarking', 'Benchmarking'), desc: t('Compare your performance with industry leaders and competitors.', 'Comparez votre performance avec les leaders du secteur et vos concurrents.') },
-        { label: t('Strategic Roadmap', 'Feuille de Route Stratégique'), desc: t('Personalized AI recommendations to increase your institutional value.', 'Recommandations IA personnalisées pour augmenter votre valeur institutionnelle.') }
+        { label: t('Strategic Roadmap', 'Feuille de Route Stratégique'), desc: t('Personalized AI recommendations to increase your professional value.', 'Recommandations IA personnalisées pour augmenter votre valeur professionnelle.') }
       ]
     },
     'Find Talent': {
@@ -302,7 +302,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
       previewImage: 'https://picsum.photos/seed/talent-discovery/800/400',
       benefits: [
         { label: t('Advanced Filters', 'Filtres Avancés'), desc: t('Search by LYA score, rarity, specialty, and market performance.', 'Recherche par score LYA, rareté, spécialité et performance du marché.') },
-        { label: t('Direct Secure Contact', 'Contact Direct Sécurisé'), desc: t('Encrypted messaging with verified institutional talents.', 'Messagerie cryptée avec les talents institutionnels vérifiés.') },
+        { label: t('Direct Secure Contact', 'Contact Direct Sécurisé'), desc: t('Encrypted messaging with verified professional talents.', 'Messagerie cryptée avec les talents professionnels vérifiés.') },
         { label: t('Performance History', 'Historique de Performance'), desc: t('View past successes and verified track records of creators.', 'Consultez les succès passés et les antécédents vérifiés des créateurs.') },
         { label: t('Private Network', 'Réseau Privé'), desc: t('Access to non-public profiles and exclusive creative centers.', 'Accès aux profils non-publics et aux centres créatifs exclusifs.') }
       ]
@@ -317,23 +317,23 @@ const ProfileView: React.FC<ProfileViewProps> = ({
         { label: t('Priority Access', 'Accès Prioritaire'), desc: t('Participate in private funding rounds and pre-listing events.', 'Participez aux tours de financement privés et aux événements de pré-listing.') }
       ]
     },
-    'Institutional Terminal': {
-      description: t('Deploy your own institutional terminal to participate in the governance, validation, and security of the LYA ecosystem.', 'Déployez votre propre terminal institutionnel pour participer à la gouvernance, à la validation et à la sécurité de l\'écosystème LYA.'),
+    'Expert Terminal': {
+      description: t('Deploy your own professional terminal to participate in the governance, validation, and security of the LYA ecosystem.', 'Déployez votre propre terminal professionnel pour participer à la gouvernance, à la validation et à la sécurité de l\'écosystème LYA.'),
       previewImage: 'https://picsum.photos/seed/blockchain-registry/800/400',
       benefits: [
         { label: t('Governance Rights', 'Droits de Gouvernance'), desc: t('Vote on protocol updates, new listings, and strategic parameters.', 'Votez sur les mises à jour du protocole, les nouveaux listings et les paramètres stratégiques.') },
         { label: t('Validation Rewards', 'Récompenses de Validation'), desc: t('Earn LYA units for securing the network and validating transactions.', 'Gagnez des unités LYA pour sécuriser le réseau et valider les transactions.') },
         { label: t('Direct API Access', 'Accès API Direct'), desc: t('High-speed, low-latency access to raw registry and market data.', 'Accès haute vitesse et faible latence aux données brutes du registre et du marché.') },
-        { label: t('Custom Indexing', 'Indexation Personnalisée'), desc: t('Create your own sub-indices and institutional tracking tools.', 'Créez vos propres sous-indices et outils de suivi institutionnels.') }
+        { label: t('Custom Indexing', 'Indexation Personnalisée'), desc: t('Create your own sub-indices and professional tracking tools.', 'Créez vos propres sous-indices et outils de suivi professionnels.') }
       ]
     },
     'Lounge Access': {
       description: t('The Pro Lounge is an exclusive digital space for verified professionals to discuss market trends, regulatory updates (like MiCA), and strategic partnerships. Access high-level networking and private deal flow.', 'Le Salon Pro est un espace numérique exclusif pour les professionnels vérifiés afin de discuter des tendances du marché, des mises à jour réglementaires (comme MiCA) et des partenariats stratégiques. Accédez à un networking de haut niveau et à un deal flow privé.'),
-      previewImage: 'https://picsum.photos/seed/institutional-networking/800/400',
+      previewImage: 'https://picsum.photos/seed/market-networking/800/400',
       benefits: [
-        { label: t('Strategic Networking', 'Networking Stratégique'), desc: t('Connect with other high-level institutional actors and verified creators.', 'Connectez-vous avec d\'autres acteurs institutionnels de haut niveau et des créateurs vérifiés.') },
+        { label: t('Strategic Networking', 'Networking Stratégique'), desc: t('Connect with other high-level professional actors and verified creators.', 'Connectez-vous avec d\'autres acteurs professionnels de haut niveau et des créateurs vérifiés.') },
         { label: t('Regulatory Intelligence', 'Intelligence Réglementaire'), desc: t('Real-time discussions on legal frameworks, MiCA compliance, and tax optimization.', 'Discussions en temps réel sur les cadres juridiques, la conformité MiCA et l\'optimisation fiscale.') },
-        { label: t('Exclusive Deal Flow', 'Deal Flow Exclusif'), desc: t('Early access to private asset listings and institutional-grade investment opportunities.', 'Accès anticipé aux listings d\'actifs privés et aux opportunités d\'investissement de qualité institutionnelle.') },
+        { label: t('Exclusive Deal Flow', 'Deal Flow Exclusif'), desc: t('Early access to private asset listings and professional-grade investment opportunities.', 'Accès anticipé aux listings d\'actifs privés et aux opportunités d\'investissement de qualité professionnelle.') },
         { label: t('Direct Governance', 'Gouvernance Directe'), desc: t('Influence the platform\'s strategic roadmap and vote on protocol parameters.', 'Influencez la feuille de route stratégique de la plateforme et votez sur les paramètres du protocole.') }
       ]
     }
@@ -707,7 +707,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
         <div className="p-8 border-b border-white/5 bg-white/5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
             <h3 className="text-lg font-black uppercase tracking-widest text-white flex items-center gap-3 mb-2">
-              <Mail className="text-primary-cyan" size={24} /> {t('Secure Institutional Inbox', 'Boîte de Réception Sécurisée')}
+              <Mail className="text-primary-cyan" size={24} /> {t('Secure Professional Inbox', 'Boîte de Réception Professionnelle')}
             </h3>
             <p className="text-[9px] text-on-surface-variant font-black uppercase tracking-widest opacity-40">{t('Verified end-to-end encrypted communication channel', 'Canal de communication vérifié chiffré de bout en bout')}</p>
           </div>
@@ -791,7 +791,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
               </div>
               <div className="space-y-2">
                 <p className="text-xl font-black text-white uppercase tracking-tighter">{t('Inbound Silence', 'Silence Entrant')}</p>
-                <p className="text-xs font-black text-on-surface-variant uppercase tracking-widest opacity-40">{t('No institutional messages indexed in your secure registry.', 'Aucun message institutionnel indexé dans votre registre sécurisé.')}</p>
+                <p className="text-xs font-black text-on-surface-variant uppercase tracking-widest opacity-40">{t('No professional messages indexed in your secure registry.', 'Aucun message professionnel indexé dans votre registre sécurisé.')}</p>
               </div>
             </div>
           )}
@@ -847,7 +847,7 @@ const renderMentorshipContent = () => (
                 <h3 className="text-2xl font-black uppercase tracking-tighter text-white flex items-center gap-4 mb-2">
                   <Crown className="text-accent-gold" size={32} /> {t('ELITE MENTORSHIP PROTOCOL', 'PROTOCOLE DE MENTORAT D\'ÉLITE')}
                 </h3>
-                <p className="text-[10px] text-on-surface-variant font-black uppercase tracking-[0.3em] opacity-40">{t('Managing institutional guidance for high-potential creative entities', 'Gestion de l\'orientation institutionnelle pour les entités créatives à haut potentiel')}</p>
+                <p className="text-[10px] text-on-surface-variant font-black uppercase tracking-[0.3em] opacity-40">{t('Managing market guidance for high-potential creative entities', 'Gestion de l\'orientation du marché pour les entités créatives à haut potentiel')}</p>
               </div>
               <div className="px-6 py-3 bg-accent-gold/10 border border-accent-gold/30 rounded-2xl flex items-center gap-3">
                 <div className="w-2 h-2 rounded-full bg-accent-gold animate-pulse shadow-[0_0_10px_rgba(255,215,0,0.5)]" />
@@ -1021,7 +1021,7 @@ const renderMentorshipContent = () => (
           <div className="space-y-12">
             <nav className="flex gap-12 border-b border-white/5 relative mb-12 overflow-x-auto custom-scrollbar whitespace-nowrap">
               {[
-                { id: 'dashboard', label: t('Institutional Dashboard', 'Tableau de Bord'), icon: <LayoutDashboard size={18} /> },
+                { id: 'dashboard', label: t('Professional Dashboard', 'Tableau de Bord'), icon: <LayoutDashboard size={18} /> },
                 { id: 'messages', label: t('Secure Messages', 'Messages Sécurisés'), icon: <MessageSquare size={18} />, badge: messages.filter(m => !m.read).length },
                 { id: 'academy', label: t('LYA Academy', 'Académie LYA'), icon: <Play size={18} /> }
               ].map((tab) => (
@@ -1117,7 +1117,7 @@ const renderMentorshipContent = () => (
           icon={<Wallet size={20} />} 
           trend="+15.4%" 
           color="emerald" 
-          subValue="INSTITUTIONAL GRADE"
+          subValue="EXPERT GRADE"
         />
         <StatCard 
           title={t('Avg. LYA Score', 'Score LYA Moy.')} 
@@ -1347,7 +1347,7 @@ const renderMentorshipContent = () => (
                         <ShieldCheck className="text-emerald-400" size={32} />
                         <div>
                           <p className="text-sm md:text-base font-black tracking-tighter text-emerald-400 uppercase">KYC_LEVEL_3</p>
-                          <p className="text-[8px] md:text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mt-2">{t('Institutional Grade Verified', 'Vérifié de Qualité Institutionnelle')}</p>
+                          <p className="text-[8px] md:text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mt-2">{t('Expert-Grade Verified', 'Vérifié de Qualité Experte')}</p>
                         </div>
                       </div>
                     </div>
@@ -1506,7 +1506,7 @@ const renderMentorshipContent = () => (
                     </h2>
                   </div>
                   <p className="text-sm md:text-lg text-on-surface-variant font-medium max-w-xl mb-6">
-                    {t('Intelligence Discovery Terminal: Identify high-potential creative assets before they reach institutional grade. Use our proprietary filters to find the next creative unicorn.', 'Terminal de Découverte d\'Intelligence : Identifiez les actifs créatifs à haut potentiel avant qu\'ils n\'atteignent le grade institutionnel. Utilisez nos filtres propriétaires pour trouver la prochaine licorne créative.')}
+                    {t('Intelligence Discovery Terminal: Identify high-potential creative assets before they reach expert grade. Use our proprietary filters to find the next creative unicorn.', 'Terminal de Découverte d\'Intelligence : Identifiez les actifs créatifs à haut potentiel avant qu\'ils n\'atteignent le grade expert. Utilisez nos filtres propriétaires pour trouver la prochaine licorne créative.')}
                   </p>
                   <button 
                     onClick={handleScan}
@@ -1537,7 +1537,7 @@ const renderMentorshipContent = () => (
           icon={<Wallet size={20} />} 
           trend="+$12.4K this week" 
           color="emerald" 
-          subValue="INSTITUTIONAL GRADE"
+          subValue="EXPERT GRADE"
         />
         <StatCard 
           title={t('Total Yield', 'Rendement Total')} 
@@ -1575,7 +1575,7 @@ const renderMentorshipContent = () => (
                       <h3 className="text-xl md:text-2xl lg:text-3xl font-black uppercase italic tracking-tight flex items-center gap-3 md:gap-4 mb-2">
                         <TrendingUp className="text-primary-cyan" size={28} /> {t('Portfolio Growth', 'Croissance du Portefeuille')}
                       </h3>
-                      <p className="text-[9px] md:text-xs text-on-surface-variant uppercase tracking-widest font-bold opacity-40">{t('Institutional grade performance tracking', 'Suivi de performance de qualité institutionnelle')}</p>
+                      <p className="text-[9px] md:text-xs text-on-surface-variant uppercase tracking-widest font-bold opacity-40">{t('Expert-grade performance tracking', 'Suivi de performance de qualité experte')}</p>
                     </div>
                     <div className="flex gap-6 md:gap-12">
                       <div className="text-right">
@@ -2604,7 +2604,7 @@ const renderMentorshipContent = () => (
               </div>
               <div className="space-y-6">
                 <div>
-                  <label className="block text-[10px] font-black uppercase tracking-[0.3em] text-on-surface-variant mb-3 opacity-50">{t('Bio / Institutional Description', 'Bio / Description Institutionnelle')}</label>
+                  <label className="block text-[10px] font-black uppercase tracking-[0.3em] text-on-surface-variant mb-3 opacity-50">{t('Bio / Professional Description', 'Bio / Description Professionnelle')}</label>
                   <textarea 
                     rows={4}
                     className="w-full bg-surface-dim/80 border border-white/10 p-4 text-sm font-bold focus:ring-1 focus:ring-primary-cyan focus:border-primary-cyan outline-none transition-all rounded-xl resize-none"
@@ -3022,7 +3022,7 @@ const renderMentorshipContent = () => (
                     <div className="space-y-4 max-w-md">
                       <h4 className="text-4xl font-black uppercase italic tracking-tight text-white">{t('Evaluation Complete!', 'Évaluation Terminée !')}</h4>
                       <p className="text-sm text-on-surface-variant font-bold leading-relaxed opacity-70">
-                        {t('Your Evaluation Score is', 'Votre Score d\'Évaluation est de')} <span className="text-primary-cyan">{simulatorResult}</span>. {t('Please create your project now so that LinkYourArt can analyze your project and review your score if needed. This step is essential for institutional indexing and visibility.', 'Veuillez créer votre projet maintenant afin que LinkYourArt puisse analyser votre projet et revoir votre score si nécessaire. Cette étape est essentielle pour l\'indexation et la visibilité institutionnelle.')}
+                        {t('Your Evaluation Score is', 'Votre Score d\'Évaluation est de')} <span className="text-primary-cyan">{simulatorResult}</span>. {t('Please create your project now so that LinkYourArt can analyze your project and review your score if needed. This step is essential for professional indexing and visibility.', 'Veuillez créer votre projet maintenant afin que LinkYourArt puisse analyser votre projet et revoir votre score si nécessaire. Cette étape est essentielle pour l\'indexation et la visibilité professionnelle.')}
                       </p>
                     </div>
 
@@ -3100,14 +3100,14 @@ const renderMentorshipContent = () => (
                   <p className="text-lg text-on-surface-variant leading-relaxed opacity-80 italic">
                     {premiumFeature && PREMIUM_FEATURES_CONTENT[premiumFeature] 
                       ? PREMIUM_FEATURES_CONTENT[premiumFeature].description 
-                      : t(`Unlock the full potential of ${premiumFeature} with a Professional subscription. This feature provides exclusive access to institutional-grade tools and private market opportunities.`, `Débloquez tout le potentiel de ${premiumFeature} avec un abonnement Professionnel. Cette fonctionnalité offre un accès exclusif à des outils de qualité institutionnelle et à des opportunités de marché privé.`)}
+                      : t(`Unlock the full potential of ${premiumFeature} with a Professional subscription. This feature provides exclusive access to expert-grade tools and private market opportunities.`, `Débloquez tout le potentiel de ${premiumFeature} avec un abonnement Professionnel. Cette fonctionnalité offre un accès exclusif à des outils de qualité experte et à des opportunités de marché privé.`)}
                   </p>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {(premiumFeature && PREMIUM_FEATURES_CONTENT[premiumFeature] 
                       ? PREMIUM_FEATURES_CONTENT[premiumFeature].benefits 
                       : [
-                        { label: t('Institutional Data', 'Données Institutionnelles'), desc: t('Direct access to verified market feeds.', 'Accès direct aux flux de marché vérifiés.') },
+                        { label: t('Professional Data', 'Données Professionnelles'), desc: t('Direct access to verified market feeds.', 'Accès direct aux flux de marché vérifiés.') },
                         { label: t('Priority Access', 'Accès Prioritaire'), desc: t('Be the first to see new high-potential assets.', 'Soyez le premier à voir les nouveaux actifs.') },
                         { label: t('Advanced Analytics', 'Analyses Avancées'), desc: t('Predictive modeling and risk assessment.', 'Modélisation prédictive et évaluation des risques.') },
                         { label: t('Private Network', 'Réseau Privé'), desc: t('Connect with top-tier LYA professionals.', 'Connectez-vous avec des professionnels LYA d\'élite.') },

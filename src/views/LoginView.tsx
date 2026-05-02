@@ -141,7 +141,7 @@ const LoginView: React.FC<LoginViewProps> = ({ onViewChange, setUser }) => {
               <div className="absolute inset-0 bg-primary-cyan/25 blur-[60px] rounded-full animate-pulse group-hover:bg-primary-cyan/45 transition-colors" />
               <Logo size={80} color="multi" showBeta className="transition-transform duration-700 group-hover:scale-110" />
             </div>
-            <div className="text-[10px] font-bold text-accent-gold uppercase tracking-[0.4em] mt-6 drop-shadow-glow-gold">{t('INSTITUTIONAL TERMINAL', 'TERMINAL INSTITUTIONNEL')}</div>
+            <div className="text-[10px] font-bold text-accent-gold uppercase tracking-[0.4em] mt-6 drop-shadow-glow-gold">{t('PROFESSIONAL TERMINAL', 'TERMINAL PROFESSIONNEL')}</div>
           </div>
 
           <AnimatePresence mode="wait">

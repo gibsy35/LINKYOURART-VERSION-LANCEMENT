@@ -166,7 +166,7 @@ export const LinkArtView: React.FC<{
       
       // We'll generate 3 different style variations
       const styles = [
-        "Minimalist, institutional, high-end digital art",
+        "Minimalist, professional, high-end digital art",
         "Cyberpunk, neon, technical blueprint style",
         "Abstract, fluid, modern corporate aesthetic"
       ];
@@ -218,7 +218,7 @@ export const LinkArtView: React.FC<{
       console.error('Image generation failed:', error);
       const fallback = `https://picsum.photos/seed/${encodeURIComponent(description.slice(0, 10))}/800/800`;
       setGeneratedImage(fallback);
-      onNotify(t('GENERATION FAILED. USING INSTITUTIONAL PLACEHOLDER.', 'ÉCHEC DE LA GÉNÉRATION. UTILISATION D\'UN ESPACE RÉSERVÉ INSTITUTIONNEL.'));
+      onNotify(t('GENERATION FAILED. USING PROFESSIONAL PLACEHOLDER.', 'ÉCHEC DE LA GÉNÉRATION. UTILISATION D\'UN ESPACE RÉSERVÉ PROFESSIONNEL.'));
     } finally {
       setIsGeneratingImage(false);
     }
@@ -248,7 +248,7 @@ export const LinkArtView: React.FC<{
     { 
       id: 5, 
       title: t('Review & Submit', 'Révision & Soumission'), 
-      description: t('Finalize the institutional contract for validation.', 'Finalisez le contrat institutionnel pour validation.') 
+      description: t('Finalize the professional contract for validation.', 'Finalisez le contrat professionnel pour validation.') 
     }
   ];
 

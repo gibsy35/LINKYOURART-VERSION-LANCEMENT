@@ -116,7 +116,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
   };
 
   const handleViewDossier = (memberId: string, name: string) => {
-    onNotify(t('DECRYPTING INSTITUTIONAL DOSSIER...', 'DÉCRYPTAGE DU DOSSIER INSTITUTIONNEL...'));
+    onNotify(t('DECRYPTING PROFESSIONAL DOSSIER...', 'DÉCRYPTAGE DU DOSSIER PROFESSIONNEL...'));
     setTimeout(() => {
       setViewedDossiers(prev => new Set(prev).add(memberId));
       onNotify(`${t('DOSSIER FOR', 'DOSSIER DE')} ${name.toUpperCase()} ${t('ACCESSED. CONFIDENTIAL DATA LAYER ACTIVE.', 'ACCÉDÉ. COUCHE DE DONNÉES CONFIDENTIELLES ACTIVE.')}`);
@@ -160,12 +160,12 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
 
   React.useEffect(() => {
     const seeds = [
-      'creative-news', 'market-data', 'institutional', 'global-finance', 
+      'creative-news', 'market-data', 'professional', 'global-finance', 
       'neural-network', 'architecture', 'abstract', 'technology',
       'vantage', 'luxury', 'monumental', 'abstract-art',
       'urban-tech', 'cyberpunk', 'modern-office', 'abstract-geometry', 
       'luxury-interior', 'global-trade', 'data-viz', 'high-fashion', 
-      'creative-studio', 'institutional-vault'
+      'creative-studio', 'professional-vault'
     ];
     const updateHeader = () => {
       const randomSeed = seeds[Math.floor(Math.random() * seeds.length)];
@@ -202,7 +202,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
       id: '1',
       author: 'FUND_CENTER_721',
       handle: '@ALPHA_FUND_ALPHA',
-      role: 'INSTITUTIONAL INVESTOR',
+      role: 'ELITE INVESTOR',
       content: "Just analyzed the new LYA-721 contracts for the 'Digital Renaissance' collection. The yield projections are looking solid at 12.5%. Anyone else seeing similar stability metrics?",
       time: '12m ago',
       likes: 24,
@@ -214,7 +214,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
       id: '2',
       author: 'GENESIS_CENTER_042',
       handle: '@NEO_JAZZ_SESSION',
-      role: 'INSTITUTIONAL CREATOR',
+      role: 'ELITE CREATOR',
       content: "Working on a new generative series that integrates real-time market sentiment into the visual output. Looking for a legal expert to discuss IP rights for dynamic assets.",
       time: '1h ago',
       likes: 42,
@@ -227,7 +227,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
       author: 'AUDIT_REGISTRY_156',
       handle: '@COMPLIANCE_ALPHA',
       role: 'REGISTRY AUDITOR',
-      content: "Reminder: The new EU regulations on creative equity assets come into effect next month. Make sure your indexing documentation is up to date to maintain your LYA Score.",
+      content: "Reminder: The new EU regulations on creative rights come into effect next month. Make sure your indexing documentation is up to date to maintain your LYA Score.",
       time: '3h ago',
       likes: 156,
       comments: 34,
@@ -282,15 +282,15 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
   const events: Event[] = [
     {
       id: '1',
-      title: 'Institutional Art Market 2026',
+      title: 'Professional Art Market 2026',
       type: 'WEBINAR',
       date: 'TOMORROW, 14:00 GMT',
       host: 'Alpha Market Analysis',
       image: 'https://picsum.photos/seed/art-market/800/400',
       attendees: 126,
       slots: 24,
-      description: 'An exclusive deep dive into the projected growth of the creative equity market for the next fiscal year.',
-      highlights: ['Market Forecasts', 'Liquidity Analysis', 'Institutional Adoption'],
+      description: 'An exclusive deep dive into the projected growth of the creative rights market for the next fiscal year.',
+      highlights: ['Market Forecasts', 'Liquidity Analysis', 'Global Adoption'],
       speakers: [
         { name: 'Dr. Elena Vance', role: 'Chief Economist', avatar: 'https://i.pravatar.cc/150?u=elena' },
         { name: 'Marcus Thorne', role: 'Head of Strategy', avatar: 'https://i.pravatar.cc/150?u=marcus' }
@@ -306,7 +306,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
       image: 'https://picsum.photos/seed/ip-rights/800/400',
       attendees: 43,
       slots: 7,
-      description: 'A closed-door discussion on the legal frameworks governing AI-generated creative assets.',
+      description: 'A closed-door discussion on the legal frameworks governing AI-generated creative projects.',
       highlights: ['Copyright Law', 'Neural Validation', 'Smart Contract IP'],
       speakers: [
         { name: 'Sarah Jenkins', role: 'IP Attorney', avatar: 'https://i.pravatar.cc/150?u=sarah' }
@@ -322,7 +322,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
       image: 'https://picsum.photos/seed/gala/800/400',
       attendees: 250,
       slots: 50,
-      description: 'The premier social event for the creative economy elite. Black tie required.',
+      description: 'The premier social event for the creative economy expert community. Black tie required.',
       highlights: ['Networking', 'Live Performance', 'Exclusive Reveal'],
       speakers: [
         { name: 'Julian Vane', role: 'CEO, LinkYourArt', avatar: 'https://i.pravatar.cc/150?u=julian' }
@@ -338,7 +338,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
       image: 'https://picsum.photos/seed/auction/800/400',
       attendees: 12,
       slots: 5,
-      description: 'Bidding on ultra-rare legacy creative contracts from the early 20th century.',
+      description: 'Bidding on ultra-rare legacy creative rights from the early 20th century.',
       highlights: ['Rare Assets', 'Provenance Check', 'Instant Settlement'],
       speakers: [
         { name: 'Claire Dubois', role: 'Senior Curator', avatar: 'https://i.pravatar.cc/150?u=claire' }
@@ -370,7 +370,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
       image: 'https://picsum.photos/seed/summit/800/400',
       attendees: 500,
       slots: 100,
-      description: 'The annual gathering of institutional partners to define the future of the LYA settlement layer.',
+      description: 'The annual gathering of professional associates to define the future of the LYA settlement layer.',
       highlights: ['Protocol Roadmap', 'Regulatory Sync', 'DAO Voting'],
       speakers: [
         { name: 'Jean-Baptiste Lequime', role: 'Founder', avatar: 'https://i.pravatar.cc/150?u=jb' }
@@ -403,7 +403,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
       attendees: 25,
       slots: 5,
       description: 'Private bidding for high-value cinematic IP rights and exclusive music catalogs.',
-      highlights: ['Closed-door Bidding', 'Institutional Escrow', 'IP Transfer'],
+      highlights: ['Closed-door Bidding', 'Professional Escrow', 'IP Transfer'],
       speakers: [
         { name: 'Luc Gauthier', role: 'Chief Broker', avatar: 'https://i.pravatar.cc/150?u=luc' }
       ],
@@ -427,14 +427,14 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
     },
     {
       id: '10',
-      title: 'Creative Equity Workshop',
+      title: 'Creative Rights Workshop',
       type: 'WORKSHOP',
       date: 'NOVEMBER 2, 14:00 GMT',
       host: 'Lya Academy',
       image: 'https://picsum.photos/seed/equity/800/400',
       attendees: 50,
       slots: 10,
-      description: 'Hands-on training for valuing creative equity in early-stage projects.',
+      description: 'Hands-on training for valuing creative rights in early-stage projects.',
       highlights: ['Valuation Models', 'Risk Assessment', 'Exit Strategies'],
       speakers: [
         { name: 'Marcus Thorne', role: 'Head of Strategy', avatar: 'https://i.pravatar.cc/150?u=marcus' }
@@ -450,7 +450,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
       image: 'https://picsum.photos/seed/liquidity/800/400',
       attendees: 30,
       slots: 4,
-      description: 'Discussion on institutional exit strategies and liquidity pools.',
+      description: 'Discussion on professional exit strategies and liquidity pools.',
       highlights: ['Liquidity Pools', 'Exit Strategy', 'Market Making'],
       speakers: [
         { name: 'Marcus Thorne', role: 'Global Market Maker', avatar: 'https://i.pravatar.cc/150?u=m1' }
@@ -466,7 +466,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
       image: 'https://picsum.photos/seed/art-val/800/400',
       attendees: 200,
       slots: 0,
-      description: 'Mastering the art of valuing non-fungible institutional assets.',
+      description: 'Mastering the art of valuing non-fungible professional projects.',
       highlights: ['Valuation 101', 'Algorithm Intro', 'Case Studies'],
       speakers: [
         { name: 'Julian Vane', role: 'CEO', avatar: 'https://i.pravatar.cc/150?u=julian' }
@@ -592,9 +592,9 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
 
   const trendingTopics = [
     { tag: '#LYA-721 Standards', insights: 124, trend: '+12%' },
-    { tag: '#EU Creative Equity', insights: 89, trend: '+45%' },
+    { tag: '#EU Creative Rights', insights: 89, trend: '+45%' },
     { tag: '#Generative IP Rights', insights: 56, trend: '+8%' },
-    { tag: '#Institutional Liquidity', insights: 42, trend: '-5%' },
+    { tag: '#Professional Liquidity', insights: 42, trend: '-5%' },
     { tag: '#Global Art Index', insights: 38, trend: '+22%' },
     { tag: '#Tokenized Cinema', insights: 31, trend: '+15%' },
     { tag: '#Smart IP Contracts', insights: 27, trend: '+10%' }
@@ -636,7 +636,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
           {t('Lounge Access Restricted', 'Accès au Salon Restreint')}
         </h2>
         <p className="text-on-surface-variant max-w-lg mb-10 text-sm md:text-base leading-relaxed opacity-70">
-          {t('The Pro Lounge is an exclusive digital space for verified professionals and institutional partners. Upgrade to Professional to join the conversation.', 'Le Salon Pro est un espace numérique exclusif pour les professionnels vérifiés et les partenaires institutionnels. Passez au Professionnel pour rejoindre la conversation.')}
+          {t('The Pro Lounge is an exclusive digital space for verified experts and professional associates. Upgrade to Professional to join the conversation.', 'Le Salon Pro est un espace numérique exclusif pour les experts vérifiés et les partenaires professionnels. Passez au Professionnel pour rejoindre la conversation.')}
         </p>
         <button 
           onClick={() => onNotify('Redirecting to Pricing...')}
@@ -651,9 +651,9 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
   return (
     <div className="space-y-12 pb-24 relative min-h-screen">
       <PageHeader 
-        titleWhite={t('Institutional', 'INSTITUTIONAL')}
+        titleWhite={t('Creative', 'CRÉATIF')}
         titleAccent={t('Lounge', 'LOUNGE')}
-        description={t('ACCESS PRIVATE MARKET INSIGHTS, CONNECT WITH INSTITUTIONAL PARTNERS, AND DISCOVER EXCLUSIVE INVITATION-ONLY CREATIVE EVENTS.', 'ACCÉDEZ À DES INFORMATIONS DE MARCHÉ PRIVÉES, CONNECTEZ-VOUS AVEC DES PARTENAIRES INSTITUTIONNELS ET DÉCOUVREZ DES ÉVÉNEMENTS CRÉATIFS EXCLUSIFS SUR INVITATION UNIQUEMENT.')}
+        description={t('ACCESS PRIVATE MARKET INSIGHTS, CONNECT WITH PROFESSIONAL PARTNERS, AND DISCOVER EXCLUSIVE INVITATION-ONLY CREATIVE EVENTS.', 'ACCÉDEZ À DES INFORMATIONS DE MARCHÉ PRIVÉES, CONNECTEZ-VOUS AVEC DES PARTENAIRES PROFESSIONNELS ET DÉCOUVREZ DES ÉVÉNEMENTS CRÉATIFS EXCLUSIFS SUR INVITATION UNIQUEMENT.')}
         accentColor="text-accent-gold"
       />
 
@@ -790,7 +790,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
                     <span className="text-[10px] font-black text-emerald-400 uppercase tracking-widest italic">{t('NODE ACTIVE', 'NŒUD ACTIF')}</span>
                   </button>
                   <button 
-                    onClick={() => onNotify(t('OPENING INSTITUTIONAL CONTROL PANEL...', 'OUVERTURE DU PANNEAU DE CONTRÔLE INSTITUTIONNEL...'))}
+                    onClick={() => onNotify(t('OPENING PROFESSIONAL CONTROL PANEL...', 'OUVERTURE DU PANNEAU DE CONTRÔLE PROFESSIONNEL...'))}
                     className="flex items-center gap-3 bg-white/5 px-5 py-2.5 rounded-xl border border-white/10 hover:border-accent-gold/30 backdrop-blur-md transition-all"
                   >
                     <Settings size={14} className="text-on-surface-variant" />
@@ -811,7 +811,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
                     <textarea 
                       value={postContent}
                       onChange={(e) => setPostContent(e.target.value)}
-                      placeholder={t('Share an elite insight or institutional intelligence...', 'Partagez un insight d\'élite ou une intelligence institutionnelle...')}
+                      placeholder={t('Share an elite insight or professional intelligence...', 'Partagez un insight d\'élite ou une intelligence professionnelle...')}
                       className="w-full bg-black/20 border border-white/10 rounded-2xl p-8 text-base font-medium focus:border-primary-cyan/50 outline-none transition-all min-h-[160px] resize-none placeholder:text-on-surface-variant/20 italic"
                     />
                     <div className="flex items-center justify-between mt-6">
@@ -1277,7 +1277,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
                   <div className="max-w-2xl relative z-10">
                     <h3 className="text-2xl font-black text-white uppercase italic tracking-tighter mb-6">{t('Elite Education Protocol', 'Protocole d\'Éducation d\'Élite')}</h3>
                     <p className="text-sm text-on-surface-variant leading-relaxed mb-8 font-medium italic opacity-70">
-                      {t('Our mentorship program connects emerging creators with the architects of the creative economy. Access exclusive insights, direct feedback, and institutional growth strategies.', 'Notre programme de mentorat relie les créateurs émergents aux architectes de l\'économie créative. Accédez à des perspectives exclusives, des commentaires directs et des stratégies de croissance institutionnelle.')}
+                      {t('Our mentorship program connects emerging creators with the architects of the creative economy. Access exclusive insights, direct feedback, and market growth strategies.', 'Notre programme de mentorat relie les créateurs émergents aux architectes de l\'économie créative. Accédez à des perspectives exclusives, des commentaires directs et des stratégies de croissance du marché.')}
                     </p>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                       <div className="flex items-start gap-4">
@@ -1361,7 +1361,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
             </div>
             <h4 className="text-2xl font-black text-white uppercase italic tracking-tighter mb-6 leading-none">{t('ELITE MENTORSHIP', 'MENTORAT D\'ÉLITE')}</h4>
             <p className="text-sm text-on-surface-variant/80 leading-relaxed mb-12 font-medium italic">
-              {t('Strategic 1-on-1 sessions with institutional market makers and Grammy-winning legacy curators.', 'Sessions stratégiques 1-sur-1 avec des teneurs de marché institutionnels et des conservateurs de patrimoine récompensés aux Grammy.')}
+              {t('Strategic 1-on-1 sessions with professional market makers and Grammy-winning legacy curators.', 'Sessions stratégiques 1-sur-1 avec des teneurs de marché professionnels et des conservateurs de patrimoine récompensés aux Grammy.')}
             </p>
             <button 
               onClick={() => {

@@ -58,7 +58,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({ user, onNotify }) => {
   const courses: Course[] = [
     {
       id: '1',
-      title: 'Institutional Creative Equity: Foundations',
+      title: 'Professional Creative Rights: Foundations',
       category: 'FINANCE',
       instructor: 'ID_VANCE_88',
       duration: '12h 45m',
@@ -98,7 +98,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({ user, onNotify }) => {
       <PageHeader 
         titleWhite="LYA"
         titleAccent={t('Academy', 'ACADEMY')}
-        description={t('MASTER THE CREATIVE EQUITY ECONOMY THROUGH HIGH-LEVEL INSTITUTIONAL EDUCATION.', 'MAÎTRISEZ L\'ÉCONOMIE DE L\'ÉQUITÉ CRÉATIVE GRACE À UNE ÉDUCATION INSTITUTIONNELLE DE HAUT NIVEAU.')}
+        description={t('MASTER THE CREATIVE RIGHTS ECONOMY THROUGH HIGH-LEVEL EXPERT EDUCATION.', 'MAÎTRISEZ L\'ÉCONOMIE DE LA VALEUR CRÉATIVE GRÂCE À UNE ÉDUCATION D\'EXPERT DE HAUT NIVEAU.')}
         accentColor="text-accent-gold"
       />
 
@@ -234,12 +234,12 @@ export const AcademyView: React.FC<AcademyViewProps> = ({ user, onNotify }) => {
           </div>
           <h3 className="text-2xl font-black text-white uppercase italic tracking-tight mb-4">CERTIFICATION PROGRAM</h3>
           <p className="text-sm text-on-surface-variant leading-relaxed mb-8 max-w-md">
-            Become a certified LYA Protocol Auditor or Registry Node Operator. Our professional certifications are recognized by major institutional partners.
+            Become a certified LYA Protocol Auditor or Registry Node Operator. Our professional certifications are recognized by major professional partners.
           </p>
           <div className="space-y-4 mb-8">
             {[
-              'Institutional Registry Auditor (IRA)',
-              'Creative Equity Specialist (CES)',
+              'Professional Registry Auditor (PRA)',
+              'Creative Rights Specialist (CRS)',
               'Protocol Node Architect (PNA)'
             ].map((cert, i) => (
               <div key={i} className="flex items-center gap-3">

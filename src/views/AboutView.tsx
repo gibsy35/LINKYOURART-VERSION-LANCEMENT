@@ -48,7 +48,7 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange, onNotify }) 
   const stats = [
     { label: t('Evaluated Projects', 'Projets évalués'), value: '10K+', sub: t('Global Database', 'Base de données mondiale') },
     { label: t('Active Users', 'Utilisateurs actifs'), value: '50K+', sub: t('Verified Network', 'Réseau vérifié') },
-    { label: t('Funds Raised', 'Fonds levés'), value: '25M€', sub: t('Creative Equity', 'Equity Créative') },
+    { label: t('Funds Raised', 'Fonds levés'), value: '25M€', sub: t('Creative Value', 'Valeur Créative') },
     { label: t('Success Rate', 'Taux de réussite'), value: '87%', sub: t('Project Completion', 'Finalisation de projet') }
   ];
 
@@ -154,8 +154,8 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange, onNotify }) 
               <div className="p-8 bg-black/40 backdrop-blur-2xl border border-white/10 rounded-2xl">
                 <p className="text-sm font-bold text-white leading-relaxed italic">
                   "{t(
-                    "More than a platform, LINKYOURART stands today as a hybrid creative and financial ecosystem.",
-                    "Plus qu'une plateforme, LINKYOURART s'impose aujourd'hui comme un écosystème créatif et financier hybride."
+                    "More than a platform, LINKYOURART stands today as a hybrid creative ecosystem.",
+                    "Plus qu'une plateforme, LINKYOURART s'impose aujourd'hui comme un écosystème créatif hybride."
                   )}"
                 </p>
               </div>
@@ -198,8 +198,8 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange, onNotify }) 
               title: t('Mission', 'Mission'),
               icon: <Target className="text-primary-cyan" />,
               desc: t(
-                "Transforming creative projects into living assets. We professionally evaluate each project, then break it down into contractual rights indexed to its performance.",
-                "Transformer les projets créatifs en actifs vivants. Nous évaluons professionnellement chaque projet, puis le découpons en droits contractuels indexés sur sa performance."
+                "Transforming creative ideas into living projects. We professionally evaluate each project, then break it down into contractual rights indexed to its performance.",
+                "Transformer les idées créatives en projets vivants. Nous évaluons professionnellement chaque projet, puis le découpons en droits contractuels indexés sur sa performance."
               )
             },
             {
@@ -214,8 +214,8 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange, onNotify }) 
               title: t('Innovation', 'Innovation'),
               icon: <Zap className="text-accent-purple" />,
               desc: t(
-                "We combine professional evaluation, indexed contractual rights, and a P2P market in a spectacular fintech experience. Neural Network LYA, Project DNA, Live Trading Feed.",
-                "Nous combinons évaluation professionnelle, droits contractuels indexés et marché P2P dans une expérience fintech spectaculaire. Neural Network LYA, Project DNA, Live Trading Feed."
+                "We combine professional evaluation, indexed contractual rights, and a community market in a spectacular creative experience. Neural Network LYA, Project DNA, Live Exchange Feed.",
+                "Nous combinons évaluation professionnelle, droits contractuels indexés et marché communautaire dans une expérience créative spectaculaire. Neural Network LYA, Project DNA, Live Exchange Feed."
               )
             },
             {

@@ -40,6 +40,7 @@ import { Ticker } from '../components/ui/Ticker';
 import { CONTRACTS } from '../types';
 import { LYAProtocolBadge } from '../components/LYAProtocol';
 import { Player } from '../components/ui/Player';
+import { ProfessionalTutorial } from '../components/ProfessionalTutorial';
 
 interface HomeViewProps {
   onViewChange: (view: View) => void;
@@ -99,7 +100,6 @@ const NeuralTicker = () => {
 const RealTimeValuation = () => {
   const { t } = useTranslation();
   const { formatPrice } = useCurrency();
-  const [isPositive, setIsPositive] = React.useState(true);
   const [liveFluctuation, setLiveFluctuation] = React.useState(0);
   const [priceDirection, setPriceDirection] = React.useState<'up' | 'down' | 'stable'>('up');
 
@@ -115,80 +115,49 @@ const RealTimeValuation = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // Removed dynamic selectedCategory, fixing it to 'film' to remove "filter system"
-  const selectedCategory = 'film';
+  const [selectedCategory, setSelectedCategory] = React.useState('film');
 
   const categories = [
-    { id: 'film', label: t('Feature Film', 'Long-métrage'), sub: t('Cinema', 'Cinéma'), budget: 1500000, icon: <Clapperboard size={24} /> },
+    { id: 'film', label: t('Feature Film', 'Long-métrage'), sub: t('Neon Ghosts', 'Néons Fantômes'), budget: 1500000, icon: <Clapperboard size={24} /> },
+    { id: 'music', label: t('Music Album', 'Album Musical'), sub: t('Synthetic Dreams', 'Rêves Synthétiques'), budget: 150000, icon: <Music size={24} /> },
+    { id: 'game', label: t('Indie Game', 'Jeu Vidéo Indie'), sub: t('Void Runner', 'Coureur du Vide'), budget: 400000, icon: <Gamepad2 size={24} /> },
   ];
 
   const data: Record<string, any> = {
     film: {
       initialScore: 520,
-      positive: [
-        { title: t('Script Validated + Casting Announced', 'Scénario validé + casting annoncé'), desc: t('Confirmed actors, credible technical team', 'Acteurs confirmés, équipe technique crédible'), scoreAdd: 60 },
-        { title: t('50% Filming Completed', '50% du tournage terminé'), desc: t('Visual proof, reduced production risk', 'Preuves visuelles, risque de production réduit'), scoreAdd: 70 },
-        { title: t('Major Festival Selection', 'Sélection Festival majeur'), desc: t('Maximum international visibility, confirmed credibility', 'Visibilité internationale maximale, crédibilité confirmée'), scoreAdd: 130 },
-        { title: t('International Distributor Signed', 'Distributeur international signé'), desc: t('Multi-country release guaranteed, predictable revenue', 'Sortie multi-pays garantie, revenus prévisibles'), scoreAdd: 70 },
-        { title: t('Box-office Week 1 > Forecast', 'Box-office 1ère semaine > prévisions'), desc: t('Confirmed real revenue, validated commercial success', 'Revenus réels confirmés, succès commercial validé'), scoreAdd: 70 },
-      ],
-      negative: [
-        { title: t('Secondary Market Liquidation', 'Liquidation Marché Secondaire'), desc: t('Sudden sell-off by institutional holder, price floor broken', 'Vente massive par détenteur institutionnel, rupture du prix plancher'), scoreAdd: -120 },
-        { title: t('IP Rights Conflict', 'Conflit de Droits de PI'), desc: t('Legal challenge to underlying assets, asset frozen', 'Contestation juridique des actifs sous-jacents, actif gelé'), scoreAdd: -85 },
-        { title: t('Production Halt', 'Arrêt de Production'), desc: t('Critical staff departure, project timeline suspended', 'Départ de personnel critique, calendrier de projet suspendu'), scoreAdd: -60 },
-        { title: t('Market Sentiment Crash', 'Chute du Sentiment de Marché'), desc: t('Algorithm downgrade after poor social engagement metrics', 'Déclassement de l\'algorithme après de mauvais indicateurs d\'engagement'), scoreAdd: -45 }
+      milestones: [
+        { title: t('Script & Casting Validated', 'Scénario & Casting validés'), desc: t('Confirmed actors, credible technical team', 'Acteurs confirmés, équipe technique crédible'), scoreAdd: 60, type: 'positive' },
+        { title: t('Production Delay (Weather)', 'Retard Production (Météo)'), desc: t('Shoot suspended 2 weeks, insurance claim pending', 'Tournage suspendu 2 semaines, recours assurance'), scoreAdd: -30, type: 'negative' },
+        { title: t('Major Festival Selection', 'Sélection Festival Majeur'), desc: t('Maximum international visibility, confirmed credibility', 'Visibilité internationale maximale, crédibilité confirmée'), scoreAdd: 130, type: 'positive' },
+        { title: t('Global Leak (Rough Cut)', 'Fuite Globale (Premier Montage)'), desc: t('Unfinished version online, security breach managed', 'Version inachevée en ligne, brèche gérée'), scoreAdd: -50, type: 'negative' },
+        { title: t('Box-office Success', 'Succès Box-office'), desc: t('Week 1 returns > Forecast, real revenue confirmed', 'Revenus Semaine 1 > visée, succès confirmé'), scoreAdd: 90, type: 'positive' },
       ]
     },
     music: {
       initialScore: 480,
-      positive: [
-        { title: t('Studio Recording Completed', 'Enregistrement studio terminé'), desc: t('High-quality production, professional mixing', 'Production haute qualité, mixage professionnel'), scoreAdd: 50 },
-        { title: t('Single Release Viral on TikTok', 'Sortie single virale sur TikTok'), desc: t('Massive organic reach, 10M+ views, high streaming potential', 'Portée organique massive, 10M+ vues, fort potentiel streaming'), scoreAdd: 150 },
-        { title: t('Spotify "New Music Friday" Global', 'Spotify "New Music Friday" Global'), desc: t('Featured on top playlists, massive daily listener growth', 'Mis en avant sur les meilleures playlists, croissance massive des auditeurs'), scoreAdd: 80 },
-        { title: t('Major Artist Collaboration', 'Collaboration Artiste Majeur'), desc: t('Confirmed feature with Top 100 artist, cross-audience reach', 'Feature confirmé avec un artiste du Top 100, portée multi-audience'), scoreAdd: 90 },
-        { title: t('European Tour Announced', 'Tournée européenne annoncée'), desc: t('15 dates confirmed, 60% pre-sold tickets, brand partnerships', '15 dates confirmées, 60% de tickets pré-vendus, partenariats'), scoreAdd: 70 },
-      ],
-      negative: [
-        { title: t('Album Leak - Low Quality', 'Fuite d\'album - Basse qualité'), desc: t('Unfinished tracks surfacing online, negative reaction from early fans', 'Pistes inachevées en ligne, réaction négative des premiers fans'), scoreAdd: -55 },
-        { title: t('Copyright Dispute on Lead Single', 'Litige de droits sur le single'), desc: t('Legal risk, potential removal from platforms, revenue freeze', 'Risque juridique, retrait potentiel des plateformes, gel des revenus'), scoreAdd: -120 },
-        { title: t('Tour Cancelled (Low Sales)', 'Tournée annulée (Ventes faibles)'), desc: t('Financial loss, damaged reputation with promoters', 'Perte financière, réputation endommagée auprès des promoteurs'), scoreAdd: -150 },
-        { title: t('PR Controversy Impact', 'Impact de la controverse PR'), desc: t('Artist removed from major editorial playlists after social incident', 'Artiste retiré des playlists éditoriales après un incident social'), scoreAdd: -95 }
+      milestones: [
+        { title: t('Lead Single Viral on TikTok', 'Single Viral sur TikTok'), desc: t('10M+ views, massive streaming potential', '10M+ vues, fort potentiel streaming'), scoreAdd: 150, type: 'positive' },
+        { title: t('Copyright Dispute', 'Litige Droit d\'Auteur'), desc: t('Lead single sample challenged legally', 'Sample principal contesté juridiquement'), scoreAdd: -80, type: 'negative' },
+        { title: t('Major Artist Feature', 'Collaboration Artiste Majeur'), desc: t('Confirmed recording with Top 100 Global artist', 'Feat. confirmé avec artiste Top 100 Global'), scoreAdd: 110, type: 'positive' },
+        { title: t('European Tour Delay', 'Retard Tournée Européenne'), desc: t('Logistics failure, 3 dates décalées', 'Échec logistique, 3 dates décalées'), scoreAdd: -40, type: 'negative' },
+        { title: t('Album Charts Entry #1', 'Entrée Top Charts #1'), desc: t('Platinum sales certification, high residuals', 'Certification Platine, hauts revenus résiduels'), scoreAdd: 120, type: 'positive' },
       ]
     },
     game: {
       initialScore: 550,
-      positive: [
-        { title: t('Prototype Playable', 'Prototype jouable'), desc: t('Core mechanics validated, positive tester feedback', 'Mécaniques validées, retours testeurs positifs'), scoreAdd: 80 },
-        { title: t('Steam Wishlist Target Reached', 'Objectif Wishlist Steam atteint'), desc: t('100k+ wishlists, guaranteed launch visibility', '100k+ wishlists, visibilité lancement garantie'), scoreAdd: 90 },
-        { title: t('Featured in "State of Play"', 'Présenté au "State of Play"'), desc: t('Major platform endorsement, massive viral trailer views', 'Approbation plateforme majeure, vues massives du trailer'), scoreAdd: 100 },
-        { title: t('Major Publisher Deal Signed', 'Accord éditeur majeur signé'), desc: t('Secured marketing budget, global physical distribution', 'Budget marketing sécurisé, distribution physique mondiale'), scoreAdd: 100 },
-        { title: t('Early Access "Overwhelmingly Positive"', 'Early Access "Extrêmement Positif"'), desc: t('95%+ positive reviews, strong long-term sales forecast', '95%+ d\'avis positifs, fortes prévisions de ventes long terme'), scoreAdd: 80 },
-      ],
-      negative: [
-        { title: t('Critical Bug in Beta', 'Bug critique en Bêta'), desc: t('Delayed launch, negative community sentiment, refund risk', 'Lancement retardé, sentiment communauté négatif, risque de remboursement'), scoreAdd: -90 },
-        { title: t('Key Developer Resigns', 'Démission d\'un développeur clé'), desc: t('Technical knowledge loss, production slowdown, morale drop', 'Perte de savoir technique, ralentissement production, baisse de moral'), scoreAdd: -110 },
-        { title: t('DMCA Takedown on Key Asset', 'Retrait DMCA sur un Asset clé'), desc: t('Legal battle, forced redesign, production halt', 'Bataille juridique, refonte forcée, arrêt de la production'), scoreAdd: -180 },
-      ]
-    },
-    series: {
-      initialScore: 500,
-      positive: [
-        { title: t('Pilot Episode Greenlit', 'Épisode Pilote validé'), desc: t('Production budget secured, network interest confirmed', 'Budget production sécurisé, intérêt network confirmé'), scoreAdd: 70 },
-        { title: t('Viral Trailer (10M+ Views)', 'Trailer Viral (10M+ Vues)'), desc: t('Organic hype, high social media engagement', 'Hype organique, fort engagement sur les réseaux sociaux'), scoreAdd: 90 },
-        { title: t('Platform Acquisition (Netflix/HBO)', 'Acquisition plateforme (Netflix/HBO)'), desc: t('Global distribution, guaranteed residuals, massive reach', 'Distribution mondiale, revenus résiduels garantis, portée massive'), scoreAdd: 200 },
-        { title: t('Emmy Award Nomination', 'Nomination aux Emmy Awards'), desc: t('Critical acclaim, institutional prestige, increased value', 'Succès critique, prestige institutionnel, valeur accrue'), scoreAdd: 120 },
-        { title: t('Season 2 Renewal', 'Renouvellement Saison 2'), desc: t('Long-term value confirmed, loyal audience, expanded budget', 'Valeur long terme confirmée, audience fidèle, budget élargi'), scoreAdd: 100 },
-      ],
-      negative: [
-        { title: t('Pilot Rejected by Networks', 'Pilote rejeté par les networks'), desc: t('High risk of cancellation, loss of investment, re-pitching needed', 'Risque élevé d\'annulation, perte d\'investissement, re-pitch nécessaire'), scoreAdd: -150 },
-        { title: t('Viewership Below Target', 'Audience sous les objectifs'), desc: t('Low ad revenue, renewal unlikely, platform disappointment', 'Faibles revenus pub, renouvellement improbable, déception plateforme'), scoreAdd: -80 },
-        { title: t('Production Shutdown (Budget)', 'Arrêt Production (Budget)'), desc: t('Mismanagement, frozen assets, legal disputes', 'Mauvaise gestion, actifs gelés, litiges juridiques'), scoreAdd: -200 },
+      milestones: [
+        { title: t('Stable Alpha Demo', 'Démo Alpha Stable'), desc: t('Core mechanics validated, positive tester feedback', 'Mécaniques validées, retours testeurs positifs'), scoreAdd: 80, type: 'positive' },
+        { title: t('Critical Engine Bug', 'Bug Moteur Critique'), desc: t('Beta delayed monthly, shader rebuild required', 'Bêta retardée d\'un mois, refonte shader requise'), scoreAdd: -60, type: 'negative' },
+        { title: t('Steam Wishlist Success', 'Succès Wishlist Steam'), desc: t('100k+ wishlists reached, high launch probability', '100k+ wishlists, forte probabilité lancement'), scoreAdd: 100, type: 'positive' },
+        { title: t('Lead Artist Departure', 'Départ Lead Artist'), desc: t('Art style recalibration needed, production slow', 'Refonte style nécessaire, ralentissement prod'), scoreAdd: -90, type: 'negative' },
+        { title: t('Overwhelmingly Positive', 'Extrêmement Positifs'), desc: t('Launch review score > 90%, strong long-term sales', 'Note lancement > 90%, fortes ventes long-terme'), scoreAdd: 140, type: 'positive' },
       ]
     }
   };
 
   const currentData = data[selectedCategory];
-  const milestones = isPositive ? currentData.positive : currentData.negative;
+  const milestones = currentData.milestones;
 
   // Calculate cumulative scores and values for display (Starting from the $50 fixed unit at launch)
   let runningScore = currentData.initialScore;
@@ -197,13 +166,13 @@ const RealTimeValuation = () => {
     runningScore += m.scoreAdd;
     const scoreAfter = runningScore;
     
-    // Formula: Value = (LYA Score / 1000) * 50 USD
-    // This matches the user's data: 580 score = $29, 450 score = $22.5
-    const valBefore = (scoreBefore / 1000) * 50;
-    const valAfter = (scoreAfter / 1000) * 50;
+    // New Formula: Valeur = 50 + (Score LYA - 500) * 0.10 
+    // baseline 500 = $50. At 1000, value is $100 (doubles). Each point is $0.10.
+    const valBefore = 50 + (scoreBefore - 500) * 0.10;
+    const valAfter = 50 + (scoreAfter - 500) * 0.10;
     
     // Calculate actual variation percentage based on value change
-    const actualVariation = (((valAfter - valBefore) / valBefore) * 100).toFixed(1);
+    const actualVariation = (((valAfter - valBefore) / Math.max(1, valBefore)) * 100).toFixed(1);
     const variation = `${m.scoreAdd >= 0 ? '+' : ''}${actualVariation}%`;
 
     return { ...m, scoreBefore, scoreAfter, valBefore, valAfter, variation };
@@ -228,8 +197,11 @@ const RealTimeValuation = () => {
             <Cpu size={12} className="text-primary-cyan animate-spin-slow" />
             <span className="text-[10px] font-mono text-primary-cyan uppercase tracking-widest font-bold">{t('Neural Algorithm Active', 'Algorithme Neural Actif')}</span>
           </div>
-          <p className="text-on-surface text-lg max-w-3xl mx-auto leading-relaxed">
+          <p className="text-on-surface text-lg max-w-3xl mx-auto leading-relaxed mb-4">
             {t('As soon as it is received on LinkYourArt, a project receives an LYA Score /1000. This score evolves in real-time according to project milestones, directly impacting the resale value on the Exchange Center.', 'Dès sa réception sur LinkYourArt, un projet reçoit un Score LYA /1000. Ce score évolue en temps réel selon les jalons du projet, impactant directement la valeur de revente sur le Centre d\'Échanges.')}
+          </p>
+          <p className="text-[11px] font-mono text-primary-cyan uppercase tracking-wider max-w-2xl mx-auto opacity-80 border border-primary-cyan/20 bg-primary-cyan/5 p-4 rounded-sm">
+            {t('The resale value of an LYA Unit starts at 50 USD. Each point earned in the LYA Score adds +$0.10 to its resale value. Each point lost removes -$0.10. A project reaching 1000/1000 doubles the value of its units.', 'La valeur de revente d\'une LYA Unit démarre à 50 USD. Chaque point gagné au Score LYA ajoute +0,10$ à sa valeur de revente. Chaque point perdu retire -0,10$. Un projet atteignant 1000/1000 double la valeur de ses units.')}
           </p>
         </div>
 
@@ -263,56 +235,72 @@ const RealTimeValuation = () => {
           </div>
         </div>
 
-        {/* Removed category selection grid to eliminate "filter system" */}
-        <div className="flex justify-center mb-16">
-           <div className="px-6 py-4 bg-primary-cyan/5 border border-primary-cyan/20 rounded-sm flex items-center gap-4">
-              <div className="text-primary-cyan"><Clapperboard size={24} /></div>
-              <div>
-                <div className="text-sm font-black text-white uppercase">{t('Feature Film Case Study', 'Étude de cas : Long-métrage')}</div>
-                <div className="text-[10px] font-mono text-on-surface-variant uppercase tracking-widest">{t('PROJECTION DATA ALPHA v4', 'DONNÉES DE PROJECTION ALPHA v4')}</div>
-              </div>
-           </div>
+        {/* Category Selector GRID */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl mx-auto mb-16">
+          {categories.map((cat) => (
+            <button
+              key={cat.id}
+              onClick={() => setSelectedCategory(cat.id)}
+              className={`p-6 border transition-all text-left relative overflow-hidden group ${
+                selectedCategory === cat.id 
+                  ? 'bg-primary-cyan/10 border-primary-cyan shadow-[0_0_20px_rgba(0,224,255,0.2)]' 
+                  : 'bg-surface-high border-white/5 opacity-60 hover:opacity-100 hover:border-white/10'
+              }`}
+            >
+              <div className={`mb-3 ${selectedCategory === cat.id ? 'text-primary-cyan' : 'text-on-surface-variant'}`}>{cat.icon}</div>
+              <div className="text-sm font-black text-white uppercase mb-1">{cat.label}</div>
+              <div className="text-[9px] font-mono text-on-surface-variant uppercase tracking-widest leading-none">{cat.sub}</div>
+              {selectedCategory === cat.id && (
+                <div className="absolute top-2 right-2">
+                  <CheckCircle2 size={12} className="text-primary-cyan" />
+                </div>
+              )}
+            </button>
+          ))}
         </div>
-
-        {/* Toggle removed to simplify */}
 
         {/* Detail View */}
         <div className="max-w-5xl mx-auto">
           <motion.div
-            key={`${selectedCategory}-${isPositive}`}
+            key={selectedCategory}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-surface-dim border border-white/5 rounded-sm p-8 md:p-12 relative overflow-hidden shadow-2xl"
+            className="bg-surface-dim border border-white/5 rounded-sm p-4 sm:p-8 md:p-12 relative overflow-hidden shadow-2xl"
           >
-            <div className={`absolute top-0 left-0 w-full h-1 ${isPositive ? 'bg-emerald-500' : 'bg-red-500'} opacity-30`} />
+            <div className="absolute top-0 left-0 w-full h-1 bg-primary-cyan opacity-30" />
             
             {/* Header Info */}
-            <div className="flex flex-col md:flex-row justify-between items-center gap-8 mb-16">
-              <div className="flex items-center gap-6">
-                <div className={`w-20 h-20 rounded-sm flex items-center justify-center border ${isPositive ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-500' : 'border-red-500/30 bg-red-500/10 text-red-500'}`}>
+            <div className="flex flex-col lg:flex-row justify-between items-center gap-8 mb-12 lg:mb-16">
+              <div className="flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-sm flex items-center justify-center border border-primary-cyan/30 bg-primary-cyan/10 text-primary-cyan shrink-0">
                   {categories.find(c => c.id === selectedCategory)?.icon}
                 </div>
                 <div>
-                  <h3 className="text-3xl font-black text-white uppercase">{categories.find(c => c.id === selectedCategory)?.label}</h3>
-                  <div className="text-xs font-mono text-on-surface-variant uppercase tracking-widest">Total Budget: {formatPrice(categories.find(c => c.id === selectedCategory)?.budget || 0)}</div>
+                  <h3 className="text-2xl sm:text-3xl font-black text-white uppercase italic">{categories.find(c => c.id === selectedCategory)?.label}</h3>
+                  <div className="text-[10px] sm:text-xs font-mono text-on-surface-variant uppercase tracking-widest flex flex-wrap items-center justify-center sm:justify-start gap-2">
+                    {t('Case Study', 'Étude de Cas')} : {categories.find(c => c.id === selectedCategory)?.sub}
+                    <span className="hidden sm:block w-1 h-1 bg-white/20 rounded-full" />
+                    <span className="text-primary-cyan">{formatPrice(categories.find(c => c.id === selectedCategory)?.budget || 0)} TOTAL CAP.</span>
+                  </div>
                 </div>
               </div>
-              <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-                <div className="px-6 py-4 bg-white/5 border border-white/10 rounded-sm text-center min-w-[140px] flex-1 sm:flex-none">
-                  <div className="text-[10px] font-mono text-on-surface-variant uppercase tracking-widest mb-1">{t('Initial LYA Score', 'Score LYA Initial')}</div>
-                  <div className="text-2xl font-black text-white">{currentData.initialScore}/1000</div>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full lg:w-auto">
+                <div className="px-4 py-3 bg-white/5 border border-white/10 rounded-sm text-center">
+                  <div className="text-[8px] font-mono text-on-surface-variant uppercase tracking-widest mb-1">{t('Total Budget', 'Budget Total')}</div>
+                  <div className="text-lg font-black text-white whitespace-nowrap">{formatPrice(categories.find(c => c.id === selectedCategory)?.budget || 0)}</div>
                 </div>
-                <div className="px-6 py-4 bg-primary-cyan/5 border border-primary-cyan/20 rounded-sm text-center min-w-[140px] relative overflow-hidden flex-1 sm:flex-none">
-                  <div className="text-[10px] font-mono text-primary-cyan uppercase tracking-widest mb-1">{t('Fixed Unit Price', 'Prix Unit Fixe')}</div>
+                <div className="px-4 py-3 bg-white/5 border border-white/10 rounded-sm text-center">
+                  <div className="text-[8px] font-mono text-on-surface-variant uppercase tracking-widest mb-1">{t('Initial Score', 'Score Initial')}</div>
+                  <div className="text-lg font-black text-white">{currentData.initialScore}/1000</div>
+                </div>
+                <div className="px-4 py-3 bg-primary-cyan/5 border border-primary-cyan/20 rounded-sm text-center relative overflow-hidden">
+                  <div className="text-[8px] font-mono text-primary-cyan uppercase tracking-widest mb-1">{t('Current Value', 'Valeur Actuelle')}</div>
                   <div className="flex flex-col items-center">
-                    <div className="text-2xl font-black text-primary-cyan flex items-center gap-2">
+                    <div className="text-lg font-black text-primary-cyan flex items-center gap-2">
                       {formatPrice(50 + liveFluctuation)}
                       <div className={`flex items-center text-[10px] ${priceDirection === 'up' ? 'text-emerald-400' : 'text-red-400'}`}>
-                        {priceDirection === 'up' ? <TrendingUp size={12} /> : <TrendingDown size={12} />}
+                        {priceDirection === 'up' ? <TrendingUp size={10} /> : <TrendingDown size={10} />}
                       </div>
-                    </div>
-                    <div className={`text-[9px] font-mono font-bold ${priceDirection === 'up' ? 'text-emerald-400' : 'text-red-400'}`}>
-                      {priceDirection === 'up' ? '+' : ''}{liveFluctuation.toFixed(2)}
                     </div>
                   </div>
                   <motion.div 
@@ -325,8 +313,8 @@ const RealTimeValuation = () => {
             </div>
 
             {/* Timeline */}
-            <div className="relative space-y-8">
-              <div className={`absolute left-[19px] top-4 bottom-4 w-px ${isPositive ? 'bg-emerald-500/20' : 'bg-red-500/20'}`} />
+            <div className="relative space-y-6 sm:space-y-8">
+              <div className="absolute left-[15px] sm:left-[19px] top-4 bottom-4 w-px bg-white/10" />
               
               {milestonesWithScores.map((m: any, idx: number) => (
                 <motion.div
@@ -334,51 +322,51 @@ const RealTimeValuation = () => {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: idx * 0.1 }}
-                  className="relative pl-12"
+                  className="relative pl-10 sm:pl-12"
                 >
-                  <div className={`absolute left-0 top-1 w-10 h-10 rounded-full flex items-center justify-center z-10 border-4 border-surface-dim ${isPositive ? 'bg-emerald-500 text-white shadow-[0_0_15px_rgba(16,185,129,0.4)]' : 'bg-red-500 text-white shadow-[0_0_15px_rgba(239,68,68,0.4)]'}`}>
-                    {isPositive ? <CheckCircle2 size={16} /> : <AlertTriangle size={16} />}
+                  <div className={`absolute left-0 top-1 w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center z-10 border-2 sm:border-4 border-surface-dim ${m.type === 'positive' ? 'bg-emerald-500 text-white shadow-[0_0_15px_rgba(16,185,129,0.4)]' : 'bg-red-500 text-white shadow-[0_0_15px_rgba(239,68,68,0.4)]'}`}>
+                    {m.type === 'positive' ? <CheckCircle2 size={12} className="sm:size-16" /> : <AlertTriangle size={12} className="sm:size-16" />}
                   </div>
                   
-                  <div className="bg-surface-low/50 border border-white/5 p-6 rounded-sm group hover:border-white/10 transition-all hover:bg-surface-low/80">
-                    <div className="flex flex-col md:flex-row justify-between gap-8">
+                  <div className="bg-surface-low/50 border border-white/5 p-4 sm:p-6 rounded-sm group hover:border-white/10 transition-all hover:bg-surface-low/80">
+                    <div className="flex flex-col lg:flex-row justify-between gap-6 sm:gap-8">
                       <div className="flex-1">
-                        <div className="flex items-center gap-3 mb-2">
-                          <h4 className="text-xl font-black text-white uppercase">{m.title}</h4>
-                          <div className={`px-2 py-0.5 text-[9px] font-black uppercase tracking-widest rounded-full ${isPositive ? 'bg-emerald-500/20 text-emerald-400' : 'bg-red-500/20 text-red-400'}`}>
-                            {isPositive ? t('Milestone', 'Jalon') : t('Risk', 'Risque')}
+                        <div className="flex flex-wrap items-center gap-3 mb-2">
+                          <h4 className="text-lg sm:text-xl font-black text-white uppercase italic">{m.title}</h4>
+                          <div className={`px-2 py-0.5 text-[8px] sm:text-[9px] font-black uppercase tracking-widest rounded-full ${m.type === 'positive' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-red-500/20 text-red-400'}`}>
+                            {m.type === 'positive' ? t('Milestone', 'Jalon') : t('Risk', 'Risque')}
                           </div>
                         </div>
-                        <p className="text-sm text-on-surface leading-relaxed">{m.desc}</p>
+                        <p className="text-xs sm:text-sm text-on-surface leading-relaxed opacity-60">{m.desc}</p>
                       </div>
                       
                       <div className="flex flex-col sm:flex-row gap-4 shrink-0 items-stretch sm:items-center">
-                        <div className="px-5 py-3 bg-black/20 border border-white/5 rounded-sm min-w-[130px] flex-1 sm:flex-none">
-                          <div className="text-[9px] font-mono text-on-surface-variant uppercase tracking-widest mb-2 flex items-center gap-2">
+                        <div className="px-4 py-2 bg-black/20 border border-white/5 rounded-sm min-w-[120px] flex-1 sm:flex-none">
+                          <div className="text-[8px] font-mono text-on-surface-variant uppercase tracking-widest mb-1.5 flex items-center gap-2">
                             <BarChart3 size={10} />
-                            Score LYA
+                            Index Score
                           </div>
                           <div className="flex items-center justify-between gap-4">
-                            <span className="text-xs text-on-surface-variant/40 font-mono">{m.scoreBefore}</span>
-                            <div className={`flex items-center gap-1 text-xs font-black ${isPositive ? 'text-emerald-400' : 'text-red-400'}`}>
-                              {isPositive ? <ArrowUp size={10} /> : <ArrowDown size={10} />}
+                            <span className="text-[10px] text-on-surface-variant/40 font-mono">{m.scoreBefore}</span>
+                            <div className={`flex items-center gap-1 text-[10px] font-black ${m.type === 'positive' ? 'text-emerald-400' : 'text-red-400'}`}>
+                              {m.type === 'positive' ? <ArrowUp size={8} /> : <ArrowDown size={8} />}
                               {Math.abs(m.scoreAdd)}
                             </div>
-                            <span className="text-sm font-black text-white">{m.scoreAfter}</span>
+                            <span className="text-xs font-black text-white">{m.scoreAfter}</span>
                           </div>
                         </div>
                         
-                        <div className="px-5 py-3 bg-primary-cyan/5 border border-primary-cyan/10 rounded-sm min-w-[150px] flex-1 sm:flex-none">
-                          <div className="text-[9px] font-mono text-primary-cyan uppercase tracking-widest mb-2 flex items-center gap-2">
+                        <div className="px-4 py-2 bg-primary-cyan/5 border border-primary-cyan/10 rounded-sm min-w-[140px] flex-1 sm:flex-none">
+                          <div className="text-[8px] font-mono text-primary-cyan uppercase tracking-widest mb-1.5 flex items-center gap-2">
                             <TrendingUp size={10} />
-                            {t('Resale Value', 'Valeur de Revente')}
+                            {t('Project Value', 'Valeur Projet')}
                           </div>
                           <div className="flex items-center justify-between gap-4">
-                            <span className="text-xs text-on-surface-variant/40 font-mono">{formatPrice(m.valBefore + liveFluctuation * (m.valBefore/50))}</span>
-                            <ArrowRight size={10} className="text-primary-cyan/40" />
-                            <span className="text-sm font-black text-white">{formatPrice(m.valAfter + liveFluctuation * (m.valAfter/50))}</span>
+                            <span className="text-[10px] text-on-surface-variant/40 font-mono">{formatPrice(m.valBefore + liveFluctuation * (m.valBefore/50))}</span>
+                            <ArrowRight size={8} className="text-primary-cyan/40" />
+                            <span className="text-xs font-black text-white">{formatPrice(m.valAfter + liveFluctuation * (m.valAfter/50))}</span>
                           </div>
-                          <div className={`text-[10px] font-black mt-1 text-right ${isPositive ? 'text-emerald-400' : 'text-red-400'}`}>
+                          <div className={`text-[9px] font-black mt-1 text-right italic ${m.type === 'positive' ? 'text-emerald-400' : 'text-red-400'}`}>
                             {m.variation}
                           </div>
                         </div>
@@ -392,19 +380,13 @@ const RealTimeValuation = () => {
             {/* Footer Message */}
             <div className="mt-16 text-center pt-8 border-t border-white/5">
               <div className="flex items-center justify-center gap-3 mb-6">
-                <BarChart3 size={20} className={isPositive ? 'text-emerald-500' : 'text-red-500'} />
+                <BarChart3 size={20} className="text-primary-cyan" />
                 <h4 className="text-xl font-black text-white uppercase">
-                  {isPositive 
-                    ? t('Each positive milestone = LYA Score rises', 'Chaque jalon positif = Score LYA monte')
-                    : t('Warning: Stagnation = LYA Score drops', 'Attention : Stagnation = Score LYA baisse')
-                  }
+                  {t('Real-Time Score Analytics', 'Analyse du Score en Temps Réel')}
                 </h4>
               </div>
               <p className="text-sm text-on-surface-variant opacity-60 max-w-2xl mx-auto leading-relaxed mb-8">
-                {isPositive 
-                  ? t('Every new validated step (casting, production, festivals, revenue...) makes the LYA Score climb. The higher the score, the more the resale value increases on the Exchange Center. It is transparent and documented in real-time.', 'Chaque nouvelle étape validée (casting, production, festivals, revenus...) fait grimper le Score LYA. Plus le score monte, plus la valeur de revente augmente sur le Centre d\'Échanges. C\'est transparent et documenté en temps réel.')
-                  : t('It is crucial: that is why we value in real-time. Investors immediately see problems through the drop in LYA Score. Creators, stay transparent!', 'C\'est crucial : c\'est pour cela qu\'on valorise en temps réel. Les investisseurs voient immédiatement les problèmes via la baisse du Score LYA. Créateurs, restez transparents !')
-                }
+                {t('The LYA Score is a living index. Every breakthrough expands the value floor, while every delay or risk documented causes an immediate recalibration. This transparency ensures that the market price always reflects the project\'s actual health.', 'Le Score LYA est un index vivant. Chaque avancée augmente le prix plancher, tandis que chaque retard ou risque documenté provoque une recalibration immédiate. Cette transparence garantit que le prix du marché reflète toujours la santé réelle du projet.')}
               </p>
               
               <div className="inline-flex items-center gap-3 px-6 py-3 bg-primary-cyan/5 border border-primary-cyan/20 rounded-sm">
@@ -420,8 +402,6 @@ const RealTimeValuation = () => {
     </section>
   );
 };
-
-import { InstitutionalTutorial } from '../components/InstitutionalTutorial';
 
 interface ProjectCardProps {
   id: string;
@@ -480,10 +460,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ label, sub, budget, icon, act
 const ProjectSlider = ({ onNav }: { onNav: (v: View) => void }) => {
   const { t } = useTranslation();
   const projects = [
-    { id: 'film', label: t('Feature Film', 'Long-métrage'), sub: t('High-Yield Cinema Equity', 'Équité Cinéma Haute Performance'), budget: '1.5M$', icon: <Clapperboard /> },
-    { id: 'music', label: t('Music Album', 'Album Musical'), sub: t('Global IP Rights Registry', 'Registre de droits PI mondiaux'), budget: '150K$', icon: <Music /> },
-    { id: 'game', label: t('Indie Game', 'Jeu Vidéo Indie'), sub: t('Software Equity Index', 'Index d\'équité logicielle'), budget: '400K$', icon: <Gamepad2 /> },
-    { id: 'series', label: t('Web Series', 'Série Web / Doc'), sub: t('Digital Content Ledger', 'Grand livre de contenu digital'), budget: '250K$', icon: <Video /> },
+    { id: 'film', label: t('Feature Film', 'Long-métrage'), sub: t('Professional Cinema Rights', 'Droits Cinéma Professionnels'), budget: '1.5M$', icon: <Clapperboard /> },
+    { id: 'music', label: t('Music Album', 'Album Musical'), sub: t('Verified Creative Portfolio', 'Portfolio Créatif Vérifié'), budget: '150K$', icon: <Music /> },
+    { id: 'series', label: t('TV Series', 'Série TV'), sub: t('Digital Content Rights', 'Droits de Contenu Digital'), budget: '400K$', icon: <Video /> },
+    { id: 'comedy', label: t('Musical Comedy', 'Comédie Musicale'), sub: t('Creative Arts Index', 'Index des Arts Créatifs'), budget: '250K$', icon: <Zap /> },
   ];
 
   return (
@@ -507,7 +487,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
 
   return (
     <div className="relative min-h-screen bg-surface-dim overflow-x-hidden">
-      <InstitutionalTutorial />
+      <ProfessionalTutorial />
       {/* Legal Popup Modal */}
       <AnimatePresence>
         {showLegalPopup && (
@@ -606,7 +586,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
               </p>
 
               <p className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-on-surface-variant max-w-3xl mb-6 lg:mb-8 xl:mb-12 font-medium leading-relaxed opacity-90 border-l-4 lg:border-l-8 border-primary-cyan pl-6 lg:pl-10 py-2 lg:py-3 italic">
-                "{t('From fractional issuance to secondary exchange, navigate a secure ecosystem built on artistic excellence and institutional transparency.', 'De l\'émission fractionnée à l\'échange secondaire, naviguez dans un écosystème sécurisé bâti sur l\'excellence artistique et la transparence institutionnelle.')}"
+                "{t('From project issuance to secondary exchange, navigate a secure ecosystem built on artistic excellence and creative transparency.', 'De l\'émission de projet à l\'échange secondaire, naviguez dans un écosystème sécurisé bâti sur l\'excellence artistique et la transparence créative.')}"
               </p>
 
             <div className="flex flex-col sm:flex-row items-center gap-4 mb-6 lg:mb-12">
@@ -823,7 +803,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
             </div>
             <h3 className="text-xl font-black font-headline uppercase tracking-widest mb-4">Professionals</h3>
             <p className="text-on-surface-variant text-sm leading-relaxed opacity-70">
-              The validators of excellence. Industry leaders (Netflix, Amazon, Labels, Producers) rate projects, ensuring the LYA Score reflects real-market potential and institutional quality.
+              The validators of excellence. Industry leaders (Netflix, Amazon, Labels, Producers) rate projects, ensuring the LYA Score reflects real-market potential and expert quality.
             </p>
           </div>
 
@@ -912,7 +892,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
           <div className="text-center mb-16 px-4">
             <h3 className="text-xs font-mono text-accent-gold uppercase tracking-[0.5em] mb-4 font-bold">{t('Validation Network', 'Réseau de Validation')}</h3>
             <h2 className="text-2xl md:text-4xl font-black uppercase tracking-tighter">
-              Institutional <span className="text-primary-cyan">{t('Expert Hubs', 'Hubs d\'Experts')}</span>
+              Professional <span className="text-primary-cyan">{t('Expert Hubs', 'Hubs d\'Experts')}</span>
             </h2>
             <div className="mt-6 inline-flex items-center gap-2 px-4 py-2 bg-accent-gold/10 border border-accent-gold/20 rounded-full">
               <div className="w-2 h-2 bg-accent-gold rounded-full animate-pulse" />
@@ -1028,7 +1008,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
           className="mt-16 text-center"
         >
           <p className="text-base text-on-surface-variant/60 uppercase tracking-[0.2em] max-w-3xl mx-auto leading-relaxed">
-            "The LYA Score represents the definitive index of a creative contract's living value, updated in real-time through market feedback and periodic institutional audits."
+            "The LYA Score represents the definitive index of a creative contract's living value, updated in real-time through market feedback and periodic professional audits."
           </p>
         </motion.div>
       </section>
@@ -1049,7 +1029,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
             <span className="text-primary-cyan">Engagement</span>
           </h2>
           <p className="text-xl text-on-surface-variant mb-12 max-w-xl mx-auto opacity-80">
-            Join the institutional creative registry and start trading contract units today.
+            Join the professional creative registry and start trading contract units today.
           </p>
           <button 
             onClick={() => onViewChange('DASHBOARD')}
@@ -1068,14 +1048,14 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
         </motion.div>
       </section>
 
-      {/* Clean Institutional Footer */}
+      {/* Clean Professional Footer */}
       <footer className="relative z-10 py-16 bg-surface-dim px-6 border-t border-white/5">
         <div className="max-w-[1800px] mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="flex items-center gap-4">
             <Logo size={40} className="opacity-40" showBeta />
             <div className="text-[10px] font-mono text-on-surface-variant/40 uppercase tracking-widest">
               © 2026 LINKYOURART <br/>
-              INSTITUTIONAL REGISTRY
+              CREATIVE REGISTRY
             </div>
           </div>
           <p className="text-[9px] text-on-surface-variant/30 uppercase tracking-[0.2em] max-w-sm text-center md:text-right">

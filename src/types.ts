@@ -97,7 +97,7 @@ export const LYA_SIMULATOR_STEPS: LYASimulatorStep[] = [
   {
     id: 2,
     title: 'Professional Recognition',
-    description: 'Awards, distinctions, and institutional collaborations.',
+    description: 'Awards, distinctions, and professional collaborations.',
     questions: [
       {
         id: 1,
@@ -643,7 +643,7 @@ export const CONTRACTS: Contract[] = [
     growth: -18.2,
     image: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&q=80&w=800',
     status: 'LIVE',
-    description: 'Award-winning independent film. Sharp post-release correction as initial streaming demand underperforms against institutional projections.',
+    description: 'Award-winning independent film. Sharp post-release correction as initial streaming demand underperforms against market projections.',
     totalUnits: 9000,
     availableUnits: 450,
     registryAddress: 'LYA_REG_0xFILM9900',
@@ -2816,7 +2816,7 @@ export const CONTRACTS: Contract[] = [
     growth: 4.2,
     image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=800',
     status: 'LIVE',
-    description: 'Fractional ownership of a curated collection of contemporary masterpieces. Secured by institutional insurance.',
+    description: 'Fractional ownership of a curated collection of contemporary masterpieces. Secured by expert insurance.',
     totalUnits: 100000,
     availableUnits: 5000,
     registryAddress: 'LYA_REG_0xLOUVRE26',
@@ -5028,7 +5028,7 @@ export const CONTRACTS: Contract[] = [
     growth: 8.5,
     image: 'https://images.unsplash.com/photo-1507413245164-6160d8298b31?auto=format&fit=crop&q=80&w=800',
     status: 'LIVE',
-    description: 'Science education podcast. Revenue from institutional licensing and sponsorships.',
+    description: 'Science education podcast. Revenue from professional licensing and sponsorships.',
     totalUnits: 2000,
     availableUnits: 250,
     registryAddress: 'LYA_REG_0xSCIENCEPOD',

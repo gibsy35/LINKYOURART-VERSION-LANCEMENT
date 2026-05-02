@@ -32,7 +32,7 @@ export const IssuerProfileView: React.FC<IssuerProfileProps> = ({ issuerId, onBa
   // Mock data for the issuer
   const issuerData = {
     name: issuerId,
-    description: "LinkYourArt Institutional registry specializing in high-frequency creative equity and neural asset distribution. This issuer maintains a triple-A rating within the LYA compliance framework.",
+    description: "LinkYourArt Professional registry specializing in high-frequency creative rights and neural project distribution. This issuer maintains a triple-A rating within the LYA compliance framework.",
     founded: "2024",
     location: "Geneva, CH / Metaverse Sector 7",
     rating: "AAA+",
@@ -46,7 +46,7 @@ export const IssuerProfileView: React.FC<IssuerProfileProps> = ({ issuerId, onBa
     ],
     stats: [
       { label: "Market Dominance", value: "14.2%", growth: "+2.1%" },
-      { label: "Asset Liquidity", value: "High", growth: "Stable" },
+      { label: "Project Liquidity", value: "High", growth: "Stable" },
       { label: "Compliance Score", value: "998/1000", growth: "+5" }
     ]
   };
@@ -156,7 +156,7 @@ export const IssuerProfileView: React.FC<IssuerProfileProps> = ({ issuerId, onBa
                  <h3 className="text-2xl font-black text-white uppercase italic tracking-tighter flex items-center gap-4">
                    <LayoutGrid className="text-primary-cyan" size={24} /> {t('ACTIVE CONTRACTS', 'CONTRATS ACTIFS')}
                  </h3>
-                 <span className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest opacity-40">{issuerData.activeContracts} {t('Indexed Assets', 'Actifs Indexés')}</span>
+                 <span className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest opacity-40">{issuerData.activeContracts} {t('Indexed Projects', 'Projets Indexés')}</span>
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -171,11 +171,11 @@ export const IssuerProfileView: React.FC<IssuerProfileProps> = ({ issuerId, onBa
                         <span className="text-[10px] font-mono text-on-surface-variant font-bold opacity-30">#LYA-CX-0{i}</span>
                       </div>
                       <h4 className="text-xl font-black text-white uppercase mb-1 tracking-tight group-hover:text-primary-cyan transition-colors truncate">Project Delta {i}</h4>
-                      <p className="text-[9px] text-on-surface-variant uppercase tracking-widest font-bold opacity-40 mb-6">Equity Growth • 24.5% Cap</p>
+                      <p className="text-[9px] text-on-surface-variant uppercase tracking-widest font-bold opacity-40 mb-6">Value Growth • 24.5% Cap</p>
                       
                       <div className="flex justify-between items-center border-t border-white/5 pt-4">
                          <div>
-                            <p className="text-[8px] text-on-surface-variant uppercase tracking-widest font-black opacity-30">{t('Asset Value', 'Valeur Actif')}</p>
+                            <p className="text-[8px] text-on-surface-variant uppercase tracking-widest font-black opacity-30">{t('Project Value', 'Valeur Projet')}</p>
                             <p className="text-lg font-black text-accent-gold">$842k</p>
                          </div>
                          <ArrowRight size={20} className="text-white/20 group-hover:text-primary-cyan transition-colors" />

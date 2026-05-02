@@ -28,7 +28,7 @@ import { CONTRACTS } from '../types';
 
 interface NewsItem {
   id: string;
-  category: 'GLOBAL' | 'MARKET' | 'INNOVATION' | 'INSTITUTIONAL';
+  category: 'GLOBAL' | 'MARKET' | 'INNOVATION' | 'PROFESSIONAL';
   title: string;
   summary: string;
   timestamp: string;
@@ -44,7 +44,7 @@ interface NewsItem {
 const INITIAL_NEWS: NewsItem[] = [
   {
     id: '1',
-    category: 'INSTITUTIONAL',
+    category: 'PROFESSIONAL',
     title: 'Netflix Announces New $500M European Production Center',
     summary: 'The streaming giant is expanding its footprint in Europe, focusing on local language content and regional talent development.',
     timestamp: '10m ago',
@@ -73,8 +73,8 @@ const INITIAL_NEWS: NewsItem[] = [
   {
     id: '2',
     category: 'MARKET',
-    title: 'Creative Equity Index Reaches All-Time High',
-    summary: 'Global creative assets are outperforming traditional tech stocks as institutional investors seek alternative yields.',
+    title: 'Creative Rights Index Reaches All-Time High',
+    summary: 'Global creative projects are outperforming traditional tech stocks as professional associates seek alternative yields.',
     timestamp: '45m ago',
     impact: {
       score: 8,
@@ -114,9 +114,9 @@ const INITIAL_NEWS: NewsItem[] = [
   },
   {
     id: '7',
-    category: 'INSTITUTIONAL',
+    category: 'PROFESSIONAL',
     title: 'Cybersecurity Alert: Registry Sync Latency',
-    summary: 'Several institutional registries in the Asia-Pacific region are reporting synchronization delays due to a coordinated DDoS attempt.',
+    summary: 'Several professional registries in the Asia-Pacific region are reporting synchronization delays due to a coordinated DDoS attempt.',
     timestamp: '15h ago',
     impact: {
       score: -45,
@@ -170,14 +170,14 @@ const INITIAL_NEWS: NewsItem[] = [
   },
   {
     id: '10',
-    category: 'INSTITUTIONAL',
-    title: 'Goldman Sachs Launches Creative Equity Desk',
+    category: 'PROFESSIONAL',
+    title: 'Goldman Sachs Launches Creative Rights Desk',
     summary: 'The investment bank is the first major Wall Street player to open a dedicated trading desk for creative contracts.',
     timestamp: '1d ago',
     impact: {
       score: 55,
       trend: 'UP',
-      description: 'Ultimate institutional validation. Market depth expected to double in the next quarter.'
+      description: 'Ultimate expert validation. Market depth expected to double in the next quarter.'
     },
     source: 'Wall Street Journal',
     imageUrl: 'https://picsum.photos/seed/goldman/800/400'
@@ -219,14 +219,14 @@ const INITIAL_NEWS: NewsItem[] = [
     impact: {
       score: 35,
       trend: 'UP',
-      description: 'Massive expansion in regional creative economies backed by institutional liquidity.'
+      description: 'Massive expansion in regional creative economies backed by professional liquidity.'
     },
     source: 'Nikkei Asia',
     imageUrl: 'https://picsum.photos/seed/asia/800/400'
   },
   {
     id: '14',
-    category: 'INSTITUTIONAL',
+    category: 'PROFESSIONAL',
     title: 'Hollywood Reporter: Major Studios Form IP Consortium',
     summary: 'Disney, Warner Bros, and Paramount are collaborating on a shared registry for legacy IP rights management.',
     timestamp: '1d ago',
@@ -242,7 +242,7 @@ const INITIAL_NEWS: NewsItem[] = [
     id: '15',
     category: 'MARKET',
     title: 'Le Monde: French Government Backs Creative Tokenization',
-    summary: 'The Ministry of Culture announces tax incentives for projects using institutional creative registries.',
+    summary: 'The Ministry of Culture announces tax incentives for projects using professional creative registries.',
     timestamp: '2d ago',
     impact: {
       score: 45,
@@ -335,7 +335,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
         impact: {
           score: +35,
           trend: 'UP',
-          description: 'Massive institutional validation. Music sector contracts expected to surge.'
+          description: 'Massive professional validation. Music sector contracts expected to surge.'
         },
         source: 'Reuters',
         imageUrl: `https://picsum.photos/seed/${Date.now()}/800/400`
@@ -507,7 +507,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
       {/* Filter Controls */}
       <div className="flex items-center justify-between gap-4 mb-24">
         <div className="flex bg-surface-low border border-white/5 p-1.5 rounded-sm shadow-2xl">
-          {['ALL', 'GLOBAL', 'MARKET', 'INNOVATION', 'INSTITUTIONAL'].map((cat) => (
+          {['ALL', 'GLOBAL', 'MARKET', 'INNOVATION', 'PROFESSIONAL'].map((cat) => (
             <button
               key={cat}
               onClick={() => setFilter(cat)}
@@ -651,7 +651,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
             <div className="space-y-6">
               <div>
                 <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest mb-2">
-                  <span className="text-white">Institutional Trust</span>
+                  <span className="text-white">Professional Trust</span>
                   <span className="text-primary-cyan">88%</span>
                 </div>
                 <div className="h-1 bg-white/5 rounded-full overflow-hidden">

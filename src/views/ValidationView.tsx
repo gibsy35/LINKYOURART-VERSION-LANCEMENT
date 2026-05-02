@@ -59,7 +59,7 @@ export const ValidationView: React.FC<{
           {t('Access Restricted', 'Accès Restreint')}
         </h2>
         <p className="text-on-surface-variant max-w-lg mb-10 text-sm md:text-base leading-relaxed opacity-70">
-          {t('The Validation Queue is reserved for Institutional Partners and Certified Professionals. This section contains sensitive legal and financial data protected by the LYA Protocol.', 'La file d\'attente de validation est réservée aux partenaires institutionnels et aux professionnels certifiés. Cette section contient des données juridiques et financières sensibles protégées par le protocole LYA.')}
+          {t('The Validation Queue is reserved for Professional Associates and Certified Professionals. This section contains sensitive legal and financial data protected by the LYA Protocol.', 'La file d\'attente de validation est réservée aux associés professionnels et aux professionnels certifiés. Cette section contient des données juridiques et financières sensibles protégées par le protocole LYA.')}
         </p>
         <div className="flex flex-col sm:flex-row gap-4">
           <button 
@@ -83,7 +83,7 @@ export const ValidationView: React.FC<{
     { id: 'legal', label: t('Legal Review', 'Révision Légale'), status: isApproved ? 'COMPLETED' : 'PENDING', icon: <ShieldCheck size={14} /> },
     { id: 'financial', label: t('Financial Audit', 'Audit Financier'), status: isApproved ? 'COMPLETED' : 'PENDING', icon: <TrendingUp size={14} /> },
     { id: 'ip', label: t('IP Verification', 'Vérification PI'), status: isApproved ? 'COMPLETED' : 'PENDING', icon: <Award size={14} /> },
-    { id: 'signoff', label: t('Institutional Sign-off', 'Signature Institutionnelle'), status: isApproved ? 'COMPLETED' : 'PENDING', icon: <CheckCircle size={14} /> }
+    { id: 'signoff', label: t('Professional Sign-off', 'Signature Professionnelle'), status: isApproved ? 'COMPLETED' : 'PENDING', icon: <CheckCircle size={14} /> }
   ];
 
   const [requests, setRequests] = useState<ValidationRequest[]>(
@@ -237,7 +237,7 @@ export const ValidationView: React.FC<{
           icon={<ShieldCheck size={20} />} 
           trend="+12%" 
           color="cyan" 
-          subValue="INSTITUTIONAL GRADE"
+          subValue="EXPERT GRADE"
         />
         <StatCard 
           title={t('Pending Audit', 'Audit en Attente')} 
@@ -461,7 +461,7 @@ export const ValidationView: React.FC<{
             <h3 className="font-black font-headline uppercase tracking-widest text-sm">{t('Reputation Tier', 'Niveau de Réputation')}</h3>
           </div>
           <p className="text-[10px] text-on-surface-variant leading-relaxed uppercase tracking-[0.2em] font-bold opacity-70 group-hover:opacity-100 transition-opacity">
-            {t('Your Registry currently holds "Institutional" status. High-value contracts (> $1M) require your signature for settlement.', 'Votre centre détient actuellement le statut "Institutionnel". Les contrats de haute valeur (> 1M $) nécessitent votre signature pour le règlement.')}
+            {t('Your Registry currently holds "Expert" status. High-value contracts (> $1M) require your signature for settlement.', 'Votre centre détient actuellement le statut "Expert". Les contrats de haute valeur (> 1M $) nécessitent votre signature pour le règlement.')}
           </p>
         </div>
         <div className="bg-surface-low/40 backdrop-blur-xl border border-white/5 p-8 rounded-xl shadow-2xl group hover:border-primary-cyan/30 transition-all">
@@ -499,7 +499,7 @@ export const ValidationView: React.FC<{
               </div>
               <h4 className="text-[10px] font-black text-white uppercase tracking-[0.3em] mb-4 group-hover:text-primary-cyan transition-colors">{service.title}</h4>
               <div className="text-[8px] text-on-surface-variant uppercase tracking-widest font-black opacity-40 leading-relaxed mb-6">
-                Institutional access to underlying protocol logic and registry maintenance.
+                Professional access to underlying protocol logic and registry maintenance.
               </div>
               <button className="text-[9px] font-black text-primary-cyan uppercase tracking-widest hover:text-white transition-colors border-b border-primary-cyan/20 pb-1">
                 {t('ACCESS_SERVICE', 'ACCÉDER_AU_SERVICE')}

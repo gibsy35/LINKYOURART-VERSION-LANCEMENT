@@ -20,7 +20,7 @@ export const generateAssetAnalysis = async (assetName: string, description: stri
     return response.text;
   } catch (error) {
     console.error("AI Analysis failed:", error);
-    return "Analysis currently unavailable due to high institutional load.";
+    return "Analysis currently unavailable due to high professional load.";
   }
 };
 
@@ -64,7 +64,7 @@ export const generateInvestmentThesis = async (assetName: string, description: s
     return {
       bullCase: "Strong artistic fundamentals and growing secondary market demand.",
       bearCase: "Market volatility and potential liquidity constraints in the short term.",
-      milestones: ["Next institutional audit", "Major gallery exhibition", "Quarterly yield distribution"]
+      milestones: ["Next professional audit", "Major gallery exhibition", "Quarterly yield distribution"]
     };
   }
 };

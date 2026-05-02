@@ -103,7 +103,7 @@ const CheckoutForm: React.FC<{
           <CheckCircle2 className="w-10 h-10 text-emerald-400" />
         </div>
         <h2 className="text-2xl font-black uppercase tracking-tighter mb-2">Payment Successful</h2>
-        <p className="text-on-surface-variant text-sm uppercase tracking-widest">Your institutional access is being upgraded...</p>
+        <p className="text-on-surface-variant text-sm uppercase tracking-widest">Your professional access is being upgraded...</p>
       </motion.div>
     );
   }
@@ -198,7 +198,7 @@ export const PaymentView: React.FC<{
             <div className="h-[2px] w-12 bg-primary-cyan"></div>
             <span>Secure <span className="text-primary-cyan">Checkout</span></span>
           </h1>
-          <p className="text-[10px] font-mono text-on-surface-variant uppercase tracking-widest">Institutional Payment Gateway</p>
+          <p className="text-[10px] font-mono text-on-surface-variant uppercase tracking-widest">Professional Payment Gateway</p>
         </div>
       </div>
 
@@ -252,7 +252,7 @@ export const PaymentView: React.FC<{
       </div>
 
       <p className="mt-8 text-center text-[9px] text-on-surface-variant uppercase tracking-widest leading-relaxed opacity-40">
-        By completing this transaction, you agree to the LYA Institutional Terms of Service. 
+        By completing this transaction, you agree to the LYA Professional Terms of Service. 
         Payments are processed securely via Stripe. No card data is stored on our servers.
       </p>
     </div>

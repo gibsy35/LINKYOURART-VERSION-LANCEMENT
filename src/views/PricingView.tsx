@@ -14,7 +14,7 @@ interface PricingViewProps {
 const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => {
   const { t } = useTranslation();
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly');
-  const [showcaseFeature, setShowcaseFeature] = useState<'CREATOR' | 'INVESTOR' | 'PRO' | 'INSTITUTIONAL_AUDIT' | 'LIQUIDITY_POOL' | 'PREDICTIVE_SCORE' | null>(null);
+  const [showcaseFeature, setShowcaseFeature] = useState<'CREATOR' | 'INVESTOR' | 'PRO' | 'EXPERT_AUDIT' | 'LIQUIDITY_POOL' | 'PREDICTIVE_SCORE' | null>(null);
 
   const plans = [
     {
@@ -53,7 +53,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
       monthlyPrice: 890,
       description: t('For independent professionals and agents.', 'Pour les professionnels et agents indépendants.'),
       features: [
-        t('Institutional audit tools', 'Outils d\'audit institutionnel'),
+        t('Professional audit tools', 'Outils d\'audit professionnel'),
         t('API access for valuation', 'Accès API pour l\'évaluation'),
         t('Lowest P2P fees (2%)', 'Frais P2P les plus bas (2%)'),
         t('White-label reporting', 'Rapports en marque blanche'),
@@ -66,12 +66,12 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
       id: 'PRO',
       name: t('Pro Enterprise', 'Pro Entreprise'),
       monthlyPrice: 5900,
-      description: t('For galleries, studios, and large institutions.', 'Pour les galeries, studios et grandes institutions.'),
+      description: t('For galleries, studios, and agencies.', 'Pour les galeries, studios et agences.'),
       features: [
         t('Multi-user access (up to 10)', 'Accès multi-utilisateurs (jusqu\'à 10)'),
         t('Advanced compliance suite', 'Suite de conformité avancée'),
         t('Custom API integration', 'Intégration API personnalisée'),
-        t('Institutional liquidity access', 'Accès à la liquidité institutionnelle'),
+        t('Direct market liquidity access', 'Accès à la liquidité du marché direct'),
         t('Full Academy certification', 'Certification complète de l\'Académie'),
       ],
       color: 'accent-purple',
@@ -90,9 +90,9 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
   return (
     <div className="max-w-[1600px] mx-auto space-y-12 pb-24 relative min-h-screen px-6 md:px-12">
       <PageHeader 
-        titleWhite={t('Institutional', 'INSTITUTIONAL')}
+        titleWhite={t('Market', 'MARKET')}
         titleAccent={t('Pricing', 'PRICING')}
-        description={t('UNLOC ACCESS TO PROFESSIONAL DATA FEEDS, DEEP MARKET ANALYTICS, AND INSTITUTIONAL SETTLEMENT INFRASTRUCTURE.', 'DÉBLOQUEZ L\'ACCÈS AUX FLUX DE DONNÉES PROFESSIONNELS, AUX ANALYSES DE MARCHÉ APPROFONDIES ET À L\'INFRASTRUCTURE DE RÈGLEMENT INSTITUTIONNELLE.')}
+        description={t('UNLOCK ACCESS TO PROFESSIONAL DATA FEEDS, DEEP MARKET ANALYTICS, AND PROFESSIONAL SETTLEMENT INFRASTRUCTURE.', 'DÉBLOQUEZ L\'ACCÈS AUX FLUX DE DONNÉES PROFESSIONNELS, AUX ANALYSES DE MARCHÉ APPROFONDIES ET À L\'INFRASTRUCTURE DE RÈGLEMENT PROFESSIONNELLE.')}
         accentColor="text-primary-cyan"
       />
 
@@ -220,7 +220,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
                   <ul className="space-y-3">
                     {[
                       t('Advanced LYA Score breakdown', 'Décomposition avancée du Score LYA'),
-                      t('Institutional audit access', 'Accès à l\'audit institutionnel'),
+                      t('Expert audit access', 'Accès à l\'audit d\'expert'),
                       t('Market sentiment analysis', 'Analyse du sentiment du marché'),
                       t('Custom portfolio alerts', 'Alertes de portefeuille personnalisées')
                     ].map((f, i) => (
@@ -259,7 +259,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
                 </div>
                 <div>
                   <h3 className="text-xl font-black uppercase tracking-tighter text-accent-purple">{t('Pro Enterprise', 'Pro Entreprise')}</h3>
-                  <p className="text-[10px] text-on-surface-variant uppercase tracking-widest font-bold">{t('Institutional Scale & Compliance', 'Échelle Institutionnelle et Conformité')}</p>
+                  <p className="text-[10px] text-on-surface-variant uppercase tracking-widest font-bold">{t('Professional Scale & Compliance', 'Échelle Professionnelle et Conformité')}</p>
                 </div>
               </div>
               
@@ -280,13 +280,13 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
                   </ul>
                 </div>
                 <div className="space-y-4">
-                  <h4 className="text-xs font-black text-accent-gold uppercase tracking-widest border-b border-accent-gold/20 pb-2">{t('Institutional Power', 'Puissance Institutionnelle')}</h4>
+                  <h4 className="text-xs font-black text-accent-gold uppercase tracking-widest border-b border-accent-gold/20 pb-2">{t('Market Power', 'Puissance du Marché')}</h4>
                   <ul className="space-y-3">
                     {[
                       t('Direct liquidity pool access', 'Accès direct au pool de liquidité'),
                       t('Underwriting capabilities', 'Capacités de souscription'),
                       t('Bulk contract indexing', 'Indexation de contrats en masse'),
-                      t('24/7 Institutional support', 'Support institutionnel 24/7')
+                      t('24/7 Professional support', 'Support professionnel 24/7')
                     ].map((f, i) => (
                       <li key={i} className="flex items-center gap-3 text-[10px] text-on-surface-variant uppercase font-bold tracking-wide">
                         <div className="w-4 h-[1px] bg-accent-gold opacity-40" /> {f}
@@ -337,7 +337,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
             </div>
           </div>
           <p className="text-on-surface-variant text-[10px] uppercase tracking-widest font-bold opacity-60 mb-8 max-w-2xl">
-            {t('Customize your institutional experience with specialized add-on modules. Perfect for organizations requiring specific analytical depth.', 'Personnalisez votre expérience institutionnelle avec des modules complémentaires spécialisés. Parfait pour les organisations nécessitant une profondeur d\'analyse spécifique.')}
+            {t('Customize your professional experience with specialized add-on modules. Perfect for organizations requiring specific analytical depth.', 'Personnalisez votre expérience professionnelle avec des modules complémentaires spécialisés. Parfait pour les organisations nécessitant une profondeur d\'analyse spécifique.')}
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[

@@ -74,7 +74,7 @@ export const GovernanceView: React.FC<GovernanceViewProps> = ({ user, onNotify }
     {
       id: 'LYA-P-42',
       title: 'Protocol Upgrade: V3.0 Implementation',
-      description: 'Migration of all creative equity hubs to the new high-throughput validation engine.',
+      description: 'Migration of all creative rights hubs to the new high-throughput validation engine.',
       status: 'ACTIVE',
       votesFor: 1250000,
       votesAgainst: 45000,
@@ -83,7 +83,7 @@ export const GovernanceView: React.FC<GovernanceViewProps> = ({ user, onNotify }
     },
     {
       id: 'LYA-P-41',
-      title: 'Expansion of Institutional Custody Partners',
+      title: 'Expansion of Professional Custody Partners',
       description: 'Onboarding of three new tier-1 banks for multi-sig asset custody.',
       status: 'PASSED',
       votesFor: 2800000,
@@ -118,7 +118,7 @@ export const GovernanceView: React.FC<GovernanceViewProps> = ({ user, onNotify }
           {t('Governance Access Restricted', 'Accès à la Gouvernance Restreint')}
         </h2>
         <p className="text-on-surface-variant max-w-lg mb-10 text-sm md:text-base leading-relaxed opacity-70">
-          {t('Protocol Governance is reserved for institutional partners and verified professionals. Your LYA Score and holdings determine your voting power.', 'La gouvernance du protocole est réservée aux partenaires institutionnels et aux professionnels vérifiés. Votre score LYA et vos avoirs déterminent votre pouvoir de vote.')}
+          {t('Protocol Governance is reserved for professional associates and verified experts. Your LYA Score and holdings determine your voting power.', 'La gouvernance du protocole est réservée aux associés professionnels et aux experts vérifiés. Votre score LYA et vos avoirs déterminent votre pouvoir de vote.')}
         </p>
         <button 
           onClick={() => onNotify('Redirecting to Pricing...')}
@@ -154,7 +154,7 @@ export const GovernanceView: React.FC<GovernanceViewProps> = ({ user, onNotify }
             <div className="px-8 py-5 bg-surface-low border border-white/5 rounded-2xl backdrop-blur-3xl shadow-2xl relative overflow-hidden group">
               <div className="absolute inset-0 bg-primary-cyan/5 opacity-0 group-hover:opacity-100 transition-opacity" />
               <div className="text-[10px] text-primary-cyan uppercase tracking-widest font-black mb-1 opacity-70">{t('Voting Power', 'Pouvoir de Vote')}</div>
-              <div className="text-3xl font-black text-white italic tracking-tighter uppercase">{t('Institutional', 'INSTITUTIONNEL')}</div>
+              <div className="text-3xl font-black text-white italic tracking-tighter uppercase">{t('Expert', 'EXPERT')}</div>
             </div>
             <div className="px-8 py-5 bg-surface-low border border-white/5 rounded-2xl backdrop-blur-3xl shadow-2xl relative overflow-hidden group">
               <div className="absolute inset-0 bg-accent-gold/5 opacity-0 group-hover:opacity-100 transition-opacity" />

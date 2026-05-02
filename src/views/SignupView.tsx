@@ -168,7 +168,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
     {
       id: UserRole.PROFESSIONAL,
       title: t('Professional', 'Professionnel'),
-      description: t('Evaluate projects and manage institutional assets.', 'Évaluez les projets et gérez les actifs.'),
+      description: t('Evaluate projects and manage professional assets.', 'Évaluez les projets et gérez les actifs professionnels.'),
       icon: Briefcase,
       color: 'accent-purple'
     }

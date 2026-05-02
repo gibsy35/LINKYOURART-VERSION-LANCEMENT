@@ -92,16 +92,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const { t } = useTranslation();
 
   const menuItems = [
-    { id: 'HOME', icon: Home, label: t('TERMINAL', 'TERMINAL'), category: 'SYSTÈME' },
-    { id: 'DASHBOARD', icon: LayoutDashboard, label: t('DASHBOARD', 'DASHBOARD'), category: 'ANALYTIQUES' },
-    { id: 'EXCHANGE', icon: ArrowLeftRight, label: t('ART MARKET', 'MARCHÉ DE L\'ART'), category: 'INVESTISSEMENT' },
-    { id: 'SWIPE', icon: Target, label: t('LYA SWIPE', 'LYA SWIPE'), category: 'INVESTISSEMENT' },
-    { id: 'COMPARE', icon: Calculator, label: t('COMPARE', 'COMPARER'), category: 'ANALYTIQUES' },
-    { id: 'WATCHLIST', icon: CheckCircle, label: t('WATCHLIST', 'FAVORIS'), category: 'ANALYTIQUES', count: watchlist.length },
-    { id: 'VALIDATION', icon: ShieldCheck, label: t('VALIDATION', 'CERTIFICATIONS'), category: 'CONFIANCE' },
-    { id: 'HOLDINGS', icon: Briefcase, label: t('COLLECTION', 'COLLECTION'), category: 'PORTFOLIO' },
-    { id: 'REGISTRY', icon: BookOpen, label: t('REGISTRY', 'REGISTRE'), category: 'CONFIANCE' },
-    { id: 'LINK_ART', icon: Link2, label: t('THE PROTOCOL', 'LE PROTOCOLE'), category: 'SYSTÈME' },
+    { id: 'HOME', icon: Home, label: t('TERMINAL', 'TERMINAL'), category: 'SYSTEM' },
+    { id: 'DASHBOARD', icon: LayoutDashboard, label: t('DASHBOARD', 'DASHBOARD'), category: 'INDEX' },
+    { id: 'EXCHANGE', icon: ArrowLeftRight, label: t('CREATIVE MARKET', 'MARCHÉ CRÉATIF'), category: 'DEVELOPMENT' },
+    { id: 'SWIPE', icon: Target, label: t('LYA DISCOVER', 'DÉCOUVERTE LYA'), category: 'DEVELOPMENT' },
+    { id: 'COMPARE', icon: Calculator, label: t('COMPARATOR', 'COMPARATEUR'), category: 'INDEX' },
+    { id: 'WATCHLIST', icon: CheckCircle, label: t('WATCHLIST', 'FAVORIS'), category: 'INDEX', count: watchlist.length },
+    { id: 'VALIDATION', icon: ShieldCheck, label: t('INDEXING', 'INDEXATION'), category: 'PROTOCOL' },
+    { id: 'HOLDINGS', icon: Briefcase, label: t('COLLECTION', 'COLLECTION'), category: 'VAULT' },
+    { id: 'REGISTRY', icon: BookOpen, label: t('REGISTRY', 'REGISTRE'), category: 'PROTOCOL' },
+    { id: 'LINK_ART', icon: Link2, label: t('THE PROTOCOL', 'LE PROTOCOLE'), category: 'SYSTEM' },
     { id: 'SOCIAL_FEED', icon: Users, label: t('SOCIAL', 'SOCIAL'), category: 'COMMUNAUTÉ' },
     { id: 'LOUNGE', icon: Coffee, label: t('LOUNGE', 'SALON'), category: 'COMMUNAUTÉ' },
     { id: 'ACADEMY', icon: Globe, label: t('ACADEMY', 'ACADÉMIE'), category: 'RESSOURCES' },
@@ -132,7 +132,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             </div>
             <div className="flex flex-col min-w-0 flex-1">
               <span className="text-white font-bold tracking-tighter text-xl leading-[0.8] truncate italic uppercase">LINKYOURART</span>
-              <span className="text-[10px] text-primary-cyan font-black tracking-tighter uppercase mt-1 opacity-70">THE INSTITUTIONAL TERMINAL</span>
+              <span className="text-[10px] text-primary-cyan font-black tracking-tighter uppercase mt-1 opacity-70">THE CREATIVE TERMINAL</span>
             </div>
           </motion.div>
         )}

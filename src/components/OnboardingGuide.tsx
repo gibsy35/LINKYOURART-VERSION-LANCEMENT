@@ -28,16 +28,16 @@ export const OnboardingGuide: React.FC = () => {
 
   const steps = [
     {
-      title: t("ASSET INDEXING", "INDEXATION D'ACTIF"),
-      subtitle: t("INSTITUTIONAL PROTOCOL", "PROTOCOLE INSTITUTIONNEL"),
-      content: t("Creators submit projects for institutional audit and LYA Score calculation. This is where creative equity begins its journey into the financial ecosystem.", "Les créateurs soumettent leurs projets pour un audit institutionnel et le calcul du Score LYA. C'est ici que l'équité créative commence son voyage dans l'écosystème financier."),
+      title: t("PROJECT INDEXING", "INDEXATION DE PROJET"),
+      subtitle: t("CREATIVE RIGHTS PROTOCOL", "PROTOCOLE DES DROITS CRÉATIFS"),
+      content: t("Creators submit projects for professional audit and LYA Score calculation. This is where creative rights begin their journey into the global ecosystem.", "Les créateurs soumettent leurs projets pour un audit professionnel et le calcul du Score LYA. C'est ici que les droits créatifs commencent leur voyage dans l'écosystème mondial."),
       icon: Layers,
       color: "text-primary-cyan",
       bgColor: "bg-primary-cyan/10"
     },
     {
       title: t("LEGAL VALIDATION", "VALIDATION LÉGALE"),
-      subtitle: t("INSTITUTIONAL PROTOCOL", "PROTOCOLE INSTITUTIONNEL"),
+      subtitle: t("PROFESSIONAL PROTOCOL", "PROTOCOLE PROFESSIONNEL"),
       content: t("Our protocol verifies IP rights and contractual robustness across jurisdictions. We ensure every unit is backed by solid legal frameworks.", "Notre protocole vérifie les droits de PI et la robustesse contractuelle à travers les juridictions. Nous garantissons que chaque unité est soutenue par des cadres juridiques solides."),
       icon: ShieldCheck,
       color: "text-emerald-400",
@@ -45,7 +45,7 @@ export const OnboardingGuide: React.FC = () => {
     },
     {
       title: t("UNIT ISSUANCE", "ÉMISSION D'UNITÉS"),
-      subtitle: t("INSTITUTIONAL PROTOCOL", "PROTOCOLE INSTITUTIONNEL"),
+      subtitle: t("EXPERT PROTOCOL", "PROTOCOLE EXPERT"),
       content: t("Contracts are divided into tradable LYA Units. This fractionalization allows for unprecedented liquidity in the creative market.", "Les contrats sont divisés en unités LYA négociables. Cette fractionnalisation permet une liquidité sans précédent sur le marché de la création."),
       icon: Zap,
       color: "text-amber-400",
@@ -53,24 +53,24 @@ export const OnboardingGuide: React.FC = () => {
     },
     {
       title: t("GLOBAL REGISTRY", "REGISTRE MONDIAL"),
-      subtitle: t("INSTITUTIONAL PROTOCOL", "PROTOCOLE INSTITUTIONNEL"),
-      content: t("Assets are listed on the LYA Institutional Registry. Global visibility meets institutional transparency for every creative asset.", "Les actifs sont listés sur le Registre Institutionnel LYA. La visibilité mondiale rencontre la transparence institutionnelle pour chaque actif créatif."),
+      subtitle: t("CREATIVE PROTOCOL", "PROTOCOLE CRÉATIF"),
+      content: t("Projects are listed on the LYA Global Registry. Global visibility meets creative transparency for every creative project.", "Les projets sont listés sur le Registre Mondial LYA. La visibilité mondiale rencontre la transparence créative pour chaque projet créatif."),
       icon: Globe,
       color: "text-blue-400",
       bgColor: "bg-blue-400/10"
     },
     {
-      title: t("REAL-TIME YIELD", "RENDEMENT TEMPS RÉEL"),
-      subtitle: t("INSTITUTIONAL PROTOCOL", "PROTOCOLE INSTITUTIONNEL"),
-      content: t("Track performance and revenue shares through our live indexing engine. Watch your creative equity grow in real-time.", "Suivez la performance et les parts de revenus via notre moteur d'indexation en direct. Regardez votre équité créative croître en temps réel."),
+      title: t("REAL-TIME INDEXING", "INDEXATION TEMPS RÉEL"),
+      subtitle: t("CREATIVE PROTOCOL", "PROTOCOLE CRÉATIF"),
+      content: t("Track performance and revenue shares through our live indexing engine. Watch your creative rights grow in real-time.", "Suivez la performance et les parts de revenus via notre moteur d'indexation en direct. Regardez vos droits créatifs croître en temps réel."),
       icon: Activity,
       color: "text-rose-400",
       bgColor: "bg-rose-400/10"
     },
     {
       title: t("P2P EXCHANGE", "ÉCHANGE P2P"),
-      subtitle: t("INSTITUTIONAL PROTOCOL", "PROTOCOLE INSTITUTIONNEL"),
-      content: t("Trade units 24/7 on the secondary market. Institutional liquidity at your fingertips, powered by atomic settlement.", "Échangez des unités 24/7 sur le marché secondaire. La liquidité institutionnelle à portée de main, propulsée par un règlement atomique."),
+      subtitle: t("MARKET PROTOCOL", "PROTOCOLE DE MARCHÉ"),
+      content: t("Trade units 24/7 on the secondary market. Professional liquidity at your fingertips, powered by atomic settlement.", "Échangez des unités 24/7 sur le marché secondaire. La liquidité professionnelle à portée de main, propulsée par un règlement atomique."),
       icon: RefreshCw,
       color: "text-primary-cyan",
       bgColor: "bg-primary-cyan/10"
@@ -200,7 +200,7 @@ export const OnboardingGuide: React.FC = () => {
               </div>
               <div className="flex items-center gap-1.5">
                 <div className="w-1 h-1 rounded-full bg-amber-500" />
-                <span className="text-[6px] font-black text-white/40 uppercase tracking-[0.2em]">INSTITUTIONAL</span>
+                <span className="text-[6px] font-black text-white/40 uppercase tracking-[0.2em]">PROFESSIONAL</span>
               </div>
             </div>
           </div>

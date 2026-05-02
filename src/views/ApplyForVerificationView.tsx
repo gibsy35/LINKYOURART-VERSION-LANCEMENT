@@ -39,7 +39,7 @@ export const ApplyForVerificationView: React.FC<{ onNotify: (msg: string) => voi
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onNotify(t('SUBMITTING INSTITUTIONAL VERIFICATION REQUEST...', 'SOUMISSION DE LA DEMANDE DE VÉRIFICATION INSTITUTIONNELLE...'));
+    onNotify(t('SUBMITTING PROFESSIONAL VERIFICATION REQUEST...', 'SOUMISSION DE LA DEMANDE DE VÉRIFICATION PROFESSIONNELLE...'));
     setTimeout(() => {
       setStep(3);
       onNotify(t('REQUEST RECEIVED. AUDIT PENDING.', 'DEMANDE REÇUE. AUDIT EN ATTENTE.'));
@@ -66,8 +66,8 @@ export const ApplyForVerificationView: React.FC<{ onNotify: (msg: string) => voi
       ]
     },
     {
-      id: 'institutional',
-      name: t('INSTITUTIONAL', 'INSTITUTIONNEL'),
+      id: 'expert',
+      name: t('MARKET EXPERT', 'EXPERT DU MARCHÉ'),
       icon: <Lock size={24} />,
       color: 'text-accent-gold',
       borderColor: 'border-accent-gold/20',
@@ -78,7 +78,7 @@ export const ApplyForVerificationView: React.FC<{ onNotify: (msg: string) => voi
         t('Regulatory Compliance Sync', 'Synchronisation de Conformité')
       ],
       benefits: [
-        t('Pro Lounge Access', 'Accès au Salon Pro'),
+        { label: t('Lounge Access', 'Accès au Salon'), desc: t('Access to the professional lounge and dedicated hubs.', 'Accès au salon professionnel et aux hubs dédiés.') },
         t('Sub-Registry Issuance', 'Émission de Sous-Registre'),
         t('Advanced Risk Tools', 'Outils de Risque Avancés')
       ]
@@ -92,7 +92,7 @@ export const ApplyForVerificationView: React.FC<{ onNotify: (msg: string) => voi
       bgColor: 'bg-accent-magenta/5',
       requirements: [
         t('Invitation Only', 'Sur Invitation Uniquement'),
-        t('Creative Equity Mastery', 'Maîtrise de l\'Equity Créative'),
+        t('Creative Rights Mastery', 'Maîtrise des Droits Créatifs'),
         t('Min. $1M Asset Holding', 'Min. 1M$ de Détention d\'Actifs')
       ],
       benefits: [
@@ -238,7 +238,7 @@ export const ApplyForVerificationView: React.FC<{ onNotify: (msg: string) => voi
                     </div>
                     <div>
                       <h3 className="text-3xl font-black uppercase italic tracking-tighter text-white">{t('Audit Registry', 'Registre d\'Audit')}</h3>
-                      <p className="text-[11px] text-primary-cyan uppercase tracking-[0.4em] font-black italic opacity-60">{t('Institutional Protocol V4.2', 'Protocole Institutionnel V4.2')}</p>
+                      <p className="text-[11px] text-primary-cyan uppercase tracking-[0.4em] font-black italic opacity-60">{t('Expert Protocol V4.2', 'Protocole Expert V4.2')}</p>
                     </div>
                   </div>
                   <div className="h-[2px] w-full bg-gradient-to-r from-primary-cyan via-white/5 to-transparent mb-6 opacity-30" />
@@ -285,7 +285,7 @@ export const ApplyForVerificationView: React.FC<{ onNotify: (msg: string) => voi
 
                     <div className="group relative">
                       <div className="absolute -left-4 top-1/2 -translate-y-1/2 w-1 h-0 group-focus-within:h-8 bg-primary-cyan transition-all duration-500 rounded-full" />
-                      <label className="block text-[9px] font-black uppercase tracking-[0.4em] text-on-surface-variant mb-3 group-focus-within:text-primary-cyan transition-colors">{t('Institutional Network Endpoint', 'Point d\'Accès Réseau Institutionnel')}</label>
+                      <label className="block text-[9px] font-black uppercase tracking-[0.4em] text-on-surface-variant mb-3 group-focus-within:text-primary-cyan transition-colors">{t('Professional Network Endpoint', 'Point d\'Accès Réseau Professionnel')}</label>
                       <div className="relative">
                         <input 
                           required
@@ -337,7 +337,7 @@ export const ApplyForVerificationView: React.FC<{ onNotify: (msg: string) => voi
                 {t('Audit Initialized', 'Audit Initialisé')}
               </h2>
               <p className="text-xl text-on-surface-variant uppercase tracking-[0.2em] font-black italic mb-12 opacity-60">
-                {t('Your institutional dossier is now being reviewed by the LYA Registry.', 'Votre dossier institutionnel est en cours d\'examen par le Registre LYA.')}
+                {t('Your professional dossier is now being reviewed by the LYA Registry.', 'Votre dossier professionnel est en cours d\'examen par le Registre LYA.')}
               </p>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-lg mx-auto">

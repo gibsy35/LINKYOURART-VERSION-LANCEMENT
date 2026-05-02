@@ -77,7 +77,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
   const [message, setMessage] = useState('');
   const [chatMessages, setChatMessages] = useState([
     { id: '1', sender: 'LYA Protocol', content: 'Secure communication channel established for this project.', time: 'System' },
-    { id: '2', sender: 'Institutional Terminal', content: 'Verification complete. Project ready for institutional engagement.', time: '10:45 AM' },
+    { id: '2', sender: 'Professional Node', content: 'Verification complete. Project ready for creative engagement.', time: '10:45 AM' },
   ]);
 
   const [aiAnalysis, setAiAnalysis] = useState<string | null>(null);
@@ -356,7 +356,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                           {t('AI EXECUTIVE SUMMARY', 'RÉSUMÉ EXÉCUTIF IA')}
                         </h3>
                       </div>
-                      <p className="text-[10px] text-on-surface-variant uppercase tracking-[0.2em] font-bold opacity-60 italic">{t('REAL-TIME GENERATIVE SYNOPSIS FOR INSTITUTIONAL ALLOCATION', 'SYNOPSIS GÉNÉRATIF EN TEMPS RÉEL POUR L\'ALLOCATION INSTITUTIONNELLE')}</p>
+                      <p className="text-[10px] text-on-surface-variant uppercase tracking-[0.2em] font-bold opacity-60 italic">{t('REAL-TIME GENERATIVE SYNOPSIS FOR CREATIVE ALLOCATION', 'SYNOPSIS GÉNÉRATIF EN TEMPS RÉEL POUR L\'ALLOCATION CRÉATIVE')}</p>
                     </div>
                     {!aiAnalysis && (
                       <button 
@@ -521,7 +521,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                 </motion.div>
               ) : (
                 <p className="text-[10px] text-on-surface-variant uppercase tracking-widest leading-relaxed opacity-40">
-                  {t('Initiate predictive intelligence to map market trajectories and risk factors for this specific creative equity node.', 'Initiez l\'intelligence prédictive pour cartographier les trajectoires de marché et les facteurs de risque pour ce nœud d\'equity créative spécifique.')}
+                  {t('Initiate predictive intelligence to map market trajectories and risk factors for this specific creative rights node.', 'Initiez l\'intelligence prédictive pour cartographier les trajectoires de marché et les facteurs de risque pour ce nœud de droits créatifs spécifique.')}
                 </p>
               )}
             </div>
@@ -617,13 +617,13 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
 
             {activeTab === 'financials' && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                {/* Institutional Liquidity Risk Matrix */}
+                {/* Professional Liquidity Risk Matrix */}
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                   {[
                     { label: t('Slippage Index', 'Indice de Glissement'), value: '0.04%', desc: t('Low impact on large volume executions', 'Faible impact sur les exécutions à gros volume'), status: 'OPTIMAL' },
                     { label: t('Volatility Tier', 'Palier de Volatilité'), value: 'LEVEL_02', desc: t('Low standard deviation in peer exchange', 'Faible écart-type dans l\'échange de pairs'), status: 'STABLE' },
                     { label: t('Regulatory Score', 'Score Réglementaire'), value: '98/100', desc: t('Full compliance with LYA v2 standards', 'Conformité totale avec les normes LYA v2'), status: 'SECURE' },
-                    { label: t('Institutional Depth', 'Profondeur Institutionnelle'), value: '$45.2M', desc: t('Available liquidity at current peg', 'Liquidité disponible au peg actuel'), status: 'LIQUID' }
+                    { label: t('Market Depth', 'Profondeur de Marché'), value: '$45.2M', desc: t('Available liquidity at current peg', 'Liquidité disponible au peg actuel'), status: 'LIQUID' }
                   ].map((risk, i) => (
                     <div key={i} className="bg-surface-low/40 backdrop-blur-xl border border-white/10 p-6 rounded-2xl group hover:border-primary-cyan/20 transition-all">
                       <div className="flex justify-between items-start mb-4">
@@ -653,10 +653,10 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                           className="text-sm font-black uppercase tracking-[0.3em] text-primary-cyan flex items-center gap-3 whitespace-nowrap"
                         >
                           <Activity size={18} className="animate-pulse shrink-0" />
-                          {t('INSTITUTIONAL PEER-TO-PEER CLEARING', 'COMPENSATION INSTITUTIONNELLE PAIR À PAIR')}
+                          {t('PROFESSIONAL PEER-TO-PEER CLEARING', 'COMPENSATION PROFESSIONNELLE PAIR À PAIR')}
                         </motion.h3>
                       </div>
-                      <p className="text-[8px] text-primary-cyan font-black uppercase tracking-widest opacity-40">{t('Verified registry for creative equity transfer', 'Registre vérifié pour le transfert d\'equity créative')}</p>
+                      <p className="text-[8px] text-primary-cyan font-black uppercase tracking-widest opacity-40">{t('Verified registry for creative rights transfer', 'Registre vérifié pour le transfert de droits créatifs')}</p>
                     </div>
                     <div className="flex flex-col items-end gap-1">
                        <div className="flex items-center gap-2">
@@ -874,7 +874,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                          <Sparkles size={16} className="animate-pulse text-accent-gold" />
                          {t('AI Registry Prospectus Analysis', 'Analyse du Prospectus du Registre par IA')}
                        </h3>
-                       <p className="text-[10px] text-on-surface-variant uppercase tracking-widest">{t('Institutional Synthesis of Creative Equity', 'Synthèse Institutionnelle du Capital Créatif')}</p>
+                       <p className="text-[10px] text-on-surface-variant uppercase tracking-widest">{t('Professional Synthesis of Creative Rights', 'Synthèse Professionnelle des Droits Créatifs')}</p>
                      </div>
                      {!aiAnalysis && (
                        <button 
@@ -919,7 +919,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                         <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center text-on-surface-variant/20">
                            <ShieldCheck size={32} />
                         </div>
-                        <p className="text-[10px] text-on-surface-variant uppercase tracking-widest max-w-xs">{t('Click synthesize to generate an exhaustive institutional overview of this creative contract using LYA Intelligence Grid.', 'Cliquez sur synthétiser pour générer un aperçu institutionnel exhaustif de ce contrat créatif via la Grille d\'Intelligence LYA.')}</p>
+                        <p className="text-[10px] text-on-surface-variant uppercase tracking-widest max-w-xs">{t('Click synthesize to generate an exhaustive professional overview of this creative contract using LYA Intelligence Grid.', 'Cliquez sur synthétiser pour générer un aperçu professionnel exhaustif de ce contrat créatif via la Grille d\'Intelligence LYA.')}</p>
                      </div>
                    )}
                 </div>
@@ -1038,7 +1038,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                         <MessageSquare size={24} />
                       </div>
                       <div>
-                        <h3 className="text-sm font-black text-white uppercase tracking-widest">{t('Institutional Channel', 'Canal Institutionnel')}</h3>
+                        <h3 className="text-sm font-black text-white uppercase tracking-widest">{t('Professional Channel', 'Canal Professionnel')}</h3>
                         <p className="text-[10px] text-on-surface-variant font-bold uppercase tracking-widest opacity-50">{t('End-to-end Encrypted', 'Chiffré de bout en bout')}</p>
                       </div>
                     </div>
@@ -1190,7 +1190,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
           <div className="bg-primary-cyan/5 border border-primary-cyan/20 rounded-2xl p-8 space-y-6">
             <h3 className="text-xs font-black uppercase tracking-[0.3em] text-primary-cyan flex items-center gap-2">
               <Lock size={14} />
-              {t('Institutional Tools', 'Outils Institutionnels')}
+              {t('Expert Tools', 'Outils Experts')}
             </h3>
             <div className="space-y-3">
               <button 
