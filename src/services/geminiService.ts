@@ -1,12 +1,26 @@
 
 import { GoogleGenAI, Type } from "@google/genai";
 
-const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY });
+let aiInstance: GoogleGenAI | null = null;
+
+const getAI = () => {
+  if (!aiInstance) {
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      throw new Error("GEMINI_API_KEY is not configured");
+    }
+    aiInstance = new GoogleGenAI({ apiKey });
+  }
+  return aiInstance;
+};
+
+const DEFAULT_MODEL = "gemini-1.5-flash";
 
 export const generateAssetAnalysis = async (assetName: string, description: string, score: number) => {
   try {
+    const ai = getAI();
     const response = await ai.models.generateContent({
-      model: "gemini-flash-latest",
+      model: DEFAULT_MODEL,
       contents: `Analyze the following creative asset for an investment platform. 
       Asset Name: ${assetName}
       Description: ${description}
@@ -26,6 +40,7 @@ export const generateAssetAnalysis = async (assetName: string, description: stri
 
 export const generateInvestmentThesis = async (assetName: string, description: string, marketData?: any) => {
   try {
+    const ai = getAI();
     const marketContext = marketData ? `
       Market Data:
       - Total Valuation: $${marketData.totalValue.toLocaleString()}
@@ -36,7 +51,7 @@ export const generateInvestmentThesis = async (assetName: string, description: s
     ` : "";
 
     const response = await ai.models.generateContent({
-      model: "gemini-flash-latest",
+      model: DEFAULT_MODEL,
       contents: `Generate a professional investment thesis for the creative asset: ${assetName}. 
       Description: ${description}
       ${marketContext}
@@ -58,7 +73,7 @@ export const generateInvestmentThesis = async (assetName: string, description: s
         }
       }
     });
-    return JSON.parse(response.text);
+    return JSON.parse(response.text || "{}");
   } catch (error) {
     console.error("AI Thesis failed:", error);
     return {
@@ -71,8 +86,9 @@ export const generateInvestmentThesis = async (assetName: string, description: s
 
 export const askCopilotStream = async (query: string, context: string) => {
   try {
+    const ai = getAI();
     return await ai.models.generateContentStream({
-      model: "gemini-flash-latest",
+      model: DEFAULT_MODEL,
       contents: `User Query: ${query}
       Context: ${context}
       
@@ -91,19 +107,32 @@ export const askCopilotStream = async (query: string, context: string) => {
   }
 };
 
-export const askCopilot = async (query: string, context: string) => {
+export const askCopilot = async (query: string, history: { role: 'USER' | 'AI', content: string }[] = []) => {
   try {
+    const ai = getAI();
+    
+    // Include current query in history if not already there
+    const contents = history.map(msg => ({
+      role: msg.role === 'USER' ? 'user' : 'model',
+      parts: [{ text: msg.content }]
+    }));
+
+    // Add the current query as the latest user message
+    contents.push({
+      role: 'user',
+      parts: [{ text: query }]
+    });
+
     const response = await ai.models.generateContent({
-      model: "gemini-flash-latest",
-      contents: `User Query: ${query}
-      Context: ${context}
-      
-      Answer the user's question about LinkYourArt and its creative ecosystem. Be helpful, artistic, and precise.`,
+      model: DEFAULT_MODEL,
+      contents: contents,
       config: {
-        systemInstruction: `You are the LYA Artistic Guide, an expert AI specialized in creative projects and art investment. 
+        systemInstruction: `You are the LYA Artistic Guide (Copilot v1.2), an expert AI specialized in creative projects and art investment. 
         Your tone is elegant, professional, and inspiring. 
         Use art and creativity-related terminology (e.g., 'artistic merit', 'creative journey', 'certified works'). 
-        If asked about the platform, explain that LinkYourArt is the nexus for creators and patrons. 
+        LinkYourArt is the nexus for creators and patrons. 
+        LYA Score explanation: It's the average of Score ALGO (algorithmic) and Score PRO (human expert audit). Both out of 1000.
+        P2P Fees: range from 2% (Pro) to 5% (Standard).
         Keep responses concise (under 4 sentences).`,
       },
     });
@@ -116,8 +145,9 @@ export const askCopilot = async (query: string, context: string) => {
 
 export const suggestMilestones = async (description: string) => {
   try {
+    const ai = getAI();
     const response = await ai.models.generateContent({
-      model: "gemini-flash-latest",
+      model: DEFAULT_MODEL,
       contents: `Based on the following project description, suggest 3 relevant milestones for a creative contract.
       Description: ${description}
       
@@ -141,7 +171,7 @@ export const suggestMilestones = async (description: string) => {
         }
       }
     });
-    return JSON.parse(response.text);
+    return JSON.parse(response.text || "[]");
   } catch (error) {
     console.error("Milestone suggestion failed:", error);
     return [

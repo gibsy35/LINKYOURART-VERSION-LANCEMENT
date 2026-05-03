@@ -40,7 +40,7 @@ import { TaxOptimizerView } from './views/TaxOptimizerView';
 import { IssuerProfileView } from './views/IssuerProfileView';
 import { OfferModal, TransferModal } from './components/TransactionModals';
 import { AuthModal } from './components/auth/AuthModal';
-import { OnboardingGuide } from './components/OnboardingGuide';
+import { ConceptTutorial } from './components/ConceptTutorial';
 import { LYACopilot } from './components/LYACopilot';
 import { BreakingNewsTicker } from './components/BreakingNewsTicker';
 import { Ticker } from './components/ui/Ticker';
@@ -183,6 +183,7 @@ export default function App() {
 
   const [isAuthReady, setIsAuthReady] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [showConceptTutorial, setShowConceptTutorial] = useState(false);
   const [isProfessionalChatActive, setIsProfessionalChatActive] = useState(false);
 
   // Live Notification Simulator
@@ -219,8 +220,20 @@ export default function App() {
       setViewingContract(contract);
       setCurrentView('CONTRACT_DETAIL');
     };
+    const handleOpenTutorial = () => setShowConceptTutorial(true);
+
+    const hasSeenTutorial = localStorage.getItem('lya_concept_tutorial_seen');
+    if (!hasSeenTutorial) {
+      setShowConceptTutorial(true);
+    }
+
+
     window.addEventListener('ticker-contract-select', handleTickerSelect);
-    return () => window.removeEventListener('ticker-contract-select', handleTickerSelect);
+    window.addEventListener('open-concept-tutorial', handleOpenTutorial);
+    return () => {
+      window.removeEventListener('ticker-contract-select', handleTickerSelect);
+      window.removeEventListener('open-concept-tutorial', handleOpenTutorial);
+    };
   }, []);
 
   useEffect(() => {
@@ -240,11 +253,17 @@ export default function App() {
           if (docSnap.exists()) {
             const userData = docSnap.data() as UserProfile;
             const userEmail = firebaseUser.email?.toLowerCase();
-            if (userEmail === 'linkyourart@gmail.com' || userEmail === 'lequimejeanbaptiste@gmail.com') {
+            if (userEmail === 'linkyourart@gmail.com' || userEmail === 'lequimejeanbaptiste@gmail.com' || userEmail === 'linkart@gmail.com') {
               userData.role = UserRole.ADMIN;
               userData.isPro = true;
             }
             setUser(userData);
+            
+            // Show tutorial if not seen
+            const localSeen = localStorage.getItem('lya_concept_tutorial_seen') === 'true';
+            if ((userData.hasSeenTutorial === undefined || userData.hasSeenTutorial === false) && !localSeen) {
+              setShowConceptTutorial(true);
+            }
             if (userData.watchlist) {
               setWatchlist(userData.watchlist);
             }
@@ -256,7 +275,7 @@ export default function App() {
             }
           } else {
             const userEmail = firebaseUser.email?.toLowerCase();
-            const isAdmin = userEmail === 'linkyourart@gmail.com' || userEmail === 'lequimejeanbaptiste@gmail.com';
+            const isAdmin = userEmail === 'linkyourart@gmail.com' || userEmail === 'lequimejeanbaptiste@gmail.com' || userEmail === 'linkart@gmail.com';
             
             setUser({
               uid: firebaseUser.uid,
@@ -269,6 +288,8 @@ export default function App() {
           }
           setIsAuthReady(true);
         }, (error) => {
+          // ENSURE the app boots even if profile fails
+          setIsAuthReady(true);
           // Only handle error if user is still authenticated to avoid errors during logout
           if (auth.currentUser) {
             handleFirestoreError(error, OperationType.GET, `users/${firebaseUser.uid}`);
@@ -643,6 +664,17 @@ export default function App() {
           setUser={setUser}
         />
 
+        <ConceptTutorial 
+          isOpen={showConceptTutorial}
+          onClose={() => {
+            setShowConceptTutorial(false);
+            localStorage.setItem('lya_concept_tutorial_seen', 'true');
+            if (user?.uid) {
+              updateDoc(doc(db, 'users', user.uid), { hasSeenTutorial: true });
+            }
+          }}
+        />
+
         {!isAuthView && (
           <>
             <Sidebar 
@@ -694,18 +726,7 @@ export default function App() {
 
         <main className={`transition-all duration-300 ${!isAuthView ? (isSidebarCollapsed ? 'lg:ml-20' : 'lg:ml-72') : ''} ${!isAuthView ? 'pt-14 pb-20' : ''} min-h-screen relative flex flex-col`}>
           <div className="max-w-[1800px] mx-auto w-full">
-            <AnimatePresence mode="wait">
-              {currentView === 'HOME' && (
-                <motion.div
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.5, ease: "easeOut" }}
-                >
-                  <OnboardingGuide />
-                </motion.div>
-              )}
-            </AnimatePresence>
+            {/* Main content area */}
           </div>
 
           <AnimatePresence mode="wait">

@@ -93,23 +93,23 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   const menuItems = [
     { id: 'HOME', icon: Home, label: t('TERMINAL', 'TERMINAL'), category: 'SYSTEM' },
-    { id: 'DASHBOARD', icon: LayoutDashboard, label: t('DASHBOARD', 'DASHBOARD'), category: 'INDEX' },
-    { id: 'EXCHANGE', icon: ArrowLeftRight, label: t('CREATIVE MARKET', 'MARCHÉ CRÉATIF'), category: 'DEVELOPMENT' },
-    { id: 'SWIPE', icon: Target, label: t('LYA DISCOVER', 'DÉCOUVERTE LYA'), category: 'DEVELOPMENT' },
-    { id: 'COMPARE', icon: Calculator, label: t('COMPARATOR', 'COMPARATEUR'), category: 'INDEX' },
-    { id: 'WATCHLIST', icon: CheckCircle, label: t('WATCHLIST', 'FAVORIS'), category: 'INDEX', count: watchlist.length },
-    { id: 'VALIDATION', icon: ShieldCheck, label: t('INDEXING', 'INDEXATION'), category: 'PROTOCOL' },
-    { id: 'HOLDINGS', icon: Briefcase, label: t('COLLECTION', 'COLLECTION'), category: 'VAULT' },
-    { id: 'REGISTRY', icon: BookOpen, label: t('REGISTRY', 'REGISTRE'), category: 'PROTOCOL' },
-    { id: 'LINK_ART', icon: Link2, label: t('THE PROTOCOL', 'LE PROTOCOLE'), category: 'SYSTEM' },
-    { id: 'SOCIAL_FEED', icon: Users, label: t('SOCIAL', 'SOCIAL'), category: 'COMMUNAUTÉ' },
-    { id: 'LOUNGE', icon: Coffee, label: t('LOUNGE', 'SALON'), category: 'COMMUNAUTÉ' },
+    { id: 'DASHBOARD', icon: LayoutDashboard, label: t('common.dashboard', 'DASHBOARD'), category: 'INDEX' },
+    { id: 'EXCHANGE', icon: ArrowLeftRight, label: t('sidebar.exchange', 'CREATIVE MARKET'), category: 'DEVELOPMENT' },
+    { id: 'SWIPE', icon: Target, label: t('sidebar.swipe', 'DÉCOUVERTE LYA'), category: 'DEVELOPMENT' },
+    { id: 'COMPARE', icon: Calculator, label: t('sidebar.compare', 'COMPARATEUR'), category: 'INDEX' },
+    { id: 'WATCHLIST', icon: CheckCircle, label: t('sidebar.watchlist', 'FAVORIS'), category: 'INDEX', count: watchlist.length },
+    { id: 'VALIDATION', icon: ShieldCheck, label: t('sidebar.validation', 'INDEXATION'), category: 'PROTOCOL' },
+    { id: 'HOLDINGS', icon: Briefcase, label: t('sidebar.holdings', 'COLLECTION'), category: 'VAULT' },
+    { id: 'REGISTRY', icon: BookOpen, label: t('sidebar.registry', 'REGISTRE'), category: 'PROTOCOL' },
+    { id: 'LINK_ART', icon: Link2, label: t('sidebar.link_art', 'LE PROTOCOLE'), category: 'SYSTEM' },
+    { id: 'SOCIAL_FEED', icon: Users, label: t('sidebar.community', 'SOCIAL'), category: 'COMMUNAUTÉ' },
+    { id: 'LOUNGE', icon: Coffee, label: t('sidebar.lounge', 'SALON'), category: 'COMMUNAUTÉ' },
     { id: 'ACADEMY', icon: Globe, label: t('ACADEMY', 'ACADÉMIE'), category: 'RESSOURCES' },
   ];
 
   const secondaryItems = [
-    { id: 'SETTINGS', icon: Settings, label: t('SETTINGS', 'REGLAGES') },
-    { id: 'PRICING', icon: CreditCard, label: t('PRICING', 'TARIFICATION') },
+    { id: 'SETTINGS', icon: Settings, label: t('common.settings', 'REGLAGES') },
+    { id: 'PRICING', icon: CreditCard, label: t('sidebar.pricing', 'TARIFICATION') },
     { id: 'API', icon: Database, label: t('API', 'API') },
   ];
 
@@ -260,8 +260,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
       {/* Mobile Menu Button - Fixed position, high z-index, distinct style */}
       <div className="fixed top-4 left-6 z-[2000] lg:hidden">
         <button
-          onClick={() => (isOpen ? onClose() : onClose()) /* Toggle logic is handled by parent but we need it here if it's local */}
-          className="hidden" // Handled by App.tsx or parent usually, but let's assume it needs a trigger
+          onClick={() => (isOpen ? onClose() : onClose())}
+          className="hidden"
         >
         </button>
       </div>
@@ -276,7 +276,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             className="fixed inset-0 z-[1000] lg:hidden shadow-[0_0_100px_rgba(0,0,0,1)]"
           >
             {/* Background with blur and noise for high-end look */}
-            <div className="absolute inset-0 bg-surface-dim/95 backdrop-blur-3xl" onClick={onClose} />
+            <div className="absolute inset-0 bg-surface-dim/95 backdrop-blur-xl" onClick={onClose} />
             <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay pointer-events-none" />
             
             {/* Menu Content - Side Drawer with glassmorphism */}

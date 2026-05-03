@@ -129,17 +129,17 @@ export const Topbar: React.FC<TopbarProps> = ({
           {/* Language Toggle */}
           <button 
             onClick={() => setLanguage(language === 'EN' ? 'FR' : 'EN')}
-            className="flex items-center gap-2 text-[10px] font-black text-on-surface-variant hover:text-white transition-all uppercase tracking-[0.2em] bg-white/5 px-3 py-1.5 rounded-full border border-white/10"
+            className="flex items-center gap-2 text-[10px] font-black text-on-surface-variant hover:text-white transition-all uppercase tracking-[0.2em] bg-white/5 px-2 md:px-3 py-1.5 rounded-full border border-white/10"
           >
             <Globe size={12} />
-            {language}
+            <span className="hidden sm:inline">{language}</span>
           </button>
 
           {/* Currency Selector */}
           <select 
             value={currency}
             onChange={(e) => setCurrency(e.target.value as any)}
-            className="bg-transparent border-none text-[10px] font-bold text-on-surface-variant hover:text-white focus:ring-0 uppercase tracking-widest cursor-pointer"
+            className="hidden xs:block bg-transparent border-none text-[10px] font-bold text-on-surface-variant hover:text-white focus:ring-0 uppercase tracking-widest cursor-pointer"
           >
             <option value="USD">USD</option>
             <option value="EUR">EUR</option>

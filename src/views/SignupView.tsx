@@ -86,8 +86,13 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
           'Password must be at least 6 characters.',
           'Le mot de passe doit comporter au moins 6 caractères.'
         ));
+      } else if (err.code === 'auth/invalid-email') {
+        setError(t(
+          'Invalid email format.',
+          'Format d\'e-mail invalide.'
+        ));
       } else {
-        setError(err.message || 'Registration failed.');
+        setError(err.message || t('Registration failed. Please try again.', 'L\'inscription a échoué. Veuillez réessayer.'));
       }
     } finally {
       setIsLoading(false);
@@ -267,6 +272,11 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
                   ))}
                   
                   <div className="pt-4">
+                    {!role && (
+                      <p className="text-[9px] text-accent-gold font-bold uppercase tracking-widest text-center mb-4 animate-pulse">
+                        {t('PLEASE SELECT A ROLE TO CONTINUE', 'VEUILLEZ SÉLECTIONNER UN RÔLE POUR CONTINUER')}
+                      </p>
+                    )}
                     <button 
                       onClick={() => { if(role) setStep(2); }}
                       disabled={!role}

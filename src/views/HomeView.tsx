@@ -40,7 +40,6 @@ import { Ticker } from '../components/ui/Ticker';
 import { CONTRACTS } from '../types';
 import { LYAProtocolBadge } from '../components/LYAProtocol';
 import { Player } from '../components/ui/Player';
-import { ProfessionalTutorial } from '../components/ProfessionalTutorial';
 
 interface HomeViewProps {
   onViewChange: (view: View) => void;
@@ -220,14 +219,6 @@ const RealTimeValuation = () => {
             </div>
             <div className="flex flex-wrap justify-center gap-4">
               <div className="px-4 py-2 bg-white/5 border border-white/10 rounded-sm text-center">
-                <div className="text-[10px] font-mono text-on-surface-variant uppercase tracking-widest mb-1">EUR</div>
-                <div className="text-sm font-black text-white">≈ 46.00€</div>
-              </div>
-              <div className="px-4 py-2 bg-white/5 border border-white/10 rounded-sm text-center">
-                <div className="text-[10px] font-mono text-on-surface-variant uppercase tracking-widest mb-1">GBP</div>
-                <div className="text-sm font-black text-white">≈ 39.50£</div>
-              </div>
-              <div className="px-4 py-2 bg-white/5 border border-white/10 rounded-sm text-center">
                 <div className="text-[10px] font-mono text-on-surface-variant uppercase tracking-widest mb-1">Status</div>
                 <div className="text-[10px] font-black text-emerald-400 uppercase">{t('Immutable Price', 'Prix Immuable')}</div>
               </div>
@@ -392,7 +383,7 @@ const RealTimeValuation = () => {
               <div className="inline-flex items-center gap-3 px-6 py-3 bg-primary-cyan/5 border border-primary-cyan/20 rounded-sm">
                 <Zap size={14} className="text-primary-cyan" />
                 <span className="text-xs font-mono text-on-surface-variant uppercase tracking-widest">
-                  <span className="text-white font-bold">Rappel :</span> {t('LYA Units are bought at a fixed 50 USD (≈ 46€ / 39.5£). On the Exchange Center (secondary market), their price varies according to the project\'s LYA Score /1000.', 'Les LYA Units s\'achètent à 50 USD fixe (≈ 46€ / 39.5£). Sur le Centre d\'Échanges (marché secondaire), leur prix varie selon le Score LYA /1000 du projet.')}
+                  <span className="text-white font-bold">{t('Reminder:', 'Rappel :')}</span> {t('LYA Units are bought at a fixed 50 USD. On the Exchange Center (secondary market), their price varies according to the project\'s LYA Score /1000.', 'Les LYA Units s\'achètent à 50 USD fixe. Sur le Centre d\'Échanges (marché secondaire), leur prix varie selon le Score LYA /1000 du projet.')}
                 </span>
               </div>
             </div>
@@ -487,7 +478,6 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
 
   return (
     <div className="relative min-h-screen bg-surface-dim overflow-x-hidden">
-      <ProfessionalTutorial />
       {/* Legal Popup Modal */}
       <AnimatePresence>
         {showLegalPopup && (
@@ -589,29 +579,39 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
                 "{t('From project issuance to secondary exchange, navigate a secure ecosystem built on artistic excellence and creative transparency.', 'De l\'émission de projet à l\'échange secondaire, naviguez dans un écosystème sécurisé bâti sur l\'excellence artistique et la transparence créative.')}"
               </p>
 
-            <div className="flex flex-col sm:flex-row items-center gap-4 mb-6 lg:mb-12">
+            <div className="flex flex-col sm:flex-row items-center gap-3 mb-6 lg:mb-12">
               <button 
                 onClick={() => onViewChange('LOGIN')}
-                className="w-full sm:w-auto px-6 py-3 lg:py-4 bg-primary-cyan text-surface-dim font-bold uppercase tracking-[0.2em] group overflow-hidden shadow-[0_0_30px_rgba(0,224,255,0.3)] text-[10px] md:text-xs"
+                className="w-full sm:w-auto px-4 py-2.5 lg:px-8 lg:py-4 bg-primary-cyan text-surface-dim font-black uppercase tracking-[0.2em] group overflow-hidden shadow-[0_0_30px_rgba(0,224,255,0.3)] text-[10px] md:text-xs transition-all active:scale-95"
               >
                 <span className="relative z-10 flex items-center justify-center gap-2">
                   {t('Enter the Gallery', 'Entrer dans la Galerie')}
-                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </span>
               </button>
               <button 
                 onClick={() => onViewChange('SIGNUP')}
-                className="w-full sm:w-auto px-6 py-3 lg:py-4 border border-white/10 hover:border-primary-cyan/50 text-white font-bold uppercase tracking-[0.2em] transition-all bg-white/5 backdrop-blur-sm group text-[10px] md:text-xs"
+                className="w-full sm:w-auto px-4 py-2.5 lg:px-8 lg:py-4 border border-white/20 hover:border-primary-cyan/50 text-white font-bold uppercase tracking-[0.2em] transition-all bg-white/5 backdrop-blur-sm group text-[10px] md:text-xs active:scale-95 text-center"
               >
                 <span className="flex items-center justify-center gap-2">
                   {t('Create an Account', 'Créer un Compte')}
-                  <Layers className="w-3.5 h-3.5 group-hover:rotate-12 transition-transform" />
+                  <Layers className="w-4 h-4 group-hover:rotate-12 transition-transform" />
                 </span>
               </button>
             </div>
 
             {/* Floating Badges */}
             <div className="flex flex-wrap gap-2 lg:gap-4 pt-2">
+              <motion.button 
+                onClick={() => window.dispatchEvent(new CustomEvent('open-concept-tutorial'))}
+                whileHover={{ scale: 1.05 }}
+                animate={{ y: [0, -4, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.1 }}
+                className="px-3 lg:px-4 py-1.5 lg:py-2 bg-primary-cyan/10 border border-primary-cyan/30 rounded-full backdrop-blur-md flex items-center gap-2 shadow-[0_0_20px_rgba(0,224,255,0.1)] hover:bg-primary-cyan hover:text-surface-dim transition-all group"
+              >
+                <Info size={14} className="group-hover:rotate-12 transition-transform" />
+                <span className="text-[10px] font-bold uppercase tracking-widest">{t('How it Works', 'Comment ça marche')}</span>
+              </motion.button>
               <motion.div 
                 animate={{ y: [0, -5, 0] }}
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
@@ -706,7 +706,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
       <section className="relative z-10 py-32 px-6 bg-surface-low/50">
         <div className="max-w-[1800px] mx-auto">
           <h2 className="text-2xl font-black tracking-tighter mb-16 uppercase text-center">
-            What <span className="text-primary-cyan">LinkYourArt</span> is not
+            {t('home.not_lya.title', 'What LinkYourArt')} <span className="text-primary-cyan">{t('home.not_lya.title_cyan', 'is not')}</span>
           </h2>
           <div className="grid md:grid-cols-2 gap-8">
             <motion.div 
@@ -716,19 +716,19 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
               className="p-10 border border-white/5 bg-surface-dim relative overflow-hidden"
             >
               <div className="absolute top-0 left-0 w-full h-1 bg-red-500/30" />
-              <h3 className="text-xl font-black text-white mb-6 uppercase tracking-widest">Classic Crowdfunding</h3>
+              <h3 className="text-xl font-black text-white mb-6 uppercase tracking-widest">{t('home.not_lya.crowdfunding.title', 'Classic Crowdfunding')}</h3>
               <ul className="space-y-4 text-sm text-on-surface-variant/70">
                 <li className="flex items-center gap-3">
                   <div className="w-1.5 h-1.5 bg-red-500 rounded-full" />
-                  Rigid all-or-nothing
+                  {t('home.not_lya.crowdfunding.p1', 'Rigid all-or-nothing')}
                 </li>
                 <li className="flex items-center gap-3">
                   <div className="w-1.5 h-1.5 bg-red-500 rounded-full" />
-                  No secondary value
+                  {t('home.not_lya.crowdfunding.p2', 'No secondary value')}
                 </li>
                 <li className="flex items-center gap-3">
                   <div className="w-1.5 h-1.5 bg-red-500 rounded-full" />
-                  Symbolic rewards only
+                  {t('home.not_lya.crowdfunding.p3', 'Symbolic rewards only')}
                 </li>
               </ul>
             </motion.div>
@@ -740,19 +740,19 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
               className="p-10 border border-white/5 bg-surface-dim relative overflow-hidden"
             >
               <div className="absolute top-0 left-0 w-full h-1 bg-red-500/30" />
-              <h3 className="text-xl font-black text-white mb-6 uppercase tracking-widest">Equity Crowdfunding</h3>
+              <h3 className="text-xl font-black text-white mb-6 uppercase tracking-widest">{t('home.not_lya.equity.title', 'Equity Crowdfunding')}</h3>
               <ul className="space-y-4 text-sm text-on-surface-variant/70">
                 <li className="flex items-center gap-3">
                   <div className="w-1.5 h-1.5 bg-red-500 rounded-full" />
-                  Heavy and costly regulation
+                  {t('home.not_lya.equity.p1', 'Heavy and costly regulation')}
                 </li>
                 <li className="flex items-center gap-3">
                   <div className="w-1.5 h-1.5 bg-red-500 rounded-full" />
-                  Legal complexity
+                  {t('home.not_lya.equity.p2', 'Legal complexity')}
                 </li>
                 <li className="flex items-center gap-3">
                   <div className="w-1.5 h-1.5 bg-red-500 rounded-full" />
-                  Unsuitable for creative projects
+                  {t('home.not_lya.equity.p3', 'Unsuitable for creative projects')}
                 </li>
               </ul>
             </motion.div>
@@ -766,10 +766,10 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
       <section className="relative z-10 py-40 max-w-[1800px] mx-auto px-6">
         <div className="text-center mb-24">
           <h2 className="text-3xl font-black uppercase tracking-tighter mb-6">
-            The <span className="text-primary-cyan">Four Pillars</span>
+            {t('home.pillars.title', 'The')} <span className="text-primary-cyan">{t('home.pillars.title_cyan', 'Four Pillars')}</span>
           </h2>
           <p className="text-on-surface-variant text-lg opacity-80 max-w-2xl mx-auto">
-            LinkYourArt unites the major actors of the creative economy and the public in a single, secure, and transparent ecosystem.
+            {t('home.pillars.subtitle', 'LinkYourArt unites the major actors of the creative economy and the public in a single, secure, and transparent ecosystem.')}
           </p>
         </div>
 
@@ -779,9 +779,9 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
             <div className="w-12 h-12 bg-primary-cyan/10 flex items-center justify-center text-primary-cyan border border-primary-cyan/20 mb-6 group-hover:scale-110 transition-transform">
               <Users size={24} />
             </div>
-            <h3 className="text-xl font-black font-headline uppercase tracking-widest mb-4">Creators</h3>
+            <h3 className="text-xl font-black font-headline uppercase tracking-widest mb-4">{t('home.pillars.creators.title', 'Creators')}</h3>
             <p className="text-on-surface-variant text-sm leading-relaxed opacity-70">
-              The heartbeat of the ecosystem. Creators tokenize their vision into Indexed Creative Contracts, offering future revenue shares to fuel their growth while maintaining creative control.
+              {t('home.pillars.creators.desc', 'The heartbeat of the ecosystem. Creators tokenize their vision into Indexed Creative Contracts, offering future revenue shares to fuel their growth while maintaining creative control.')}
             </p>
           </div>
 
@@ -790,9 +790,9 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
             <div className="w-12 h-12 bg-accent-gold/10 flex items-center justify-center text-accent-gold border border-accent-gold/20 mb-6 group-hover:scale-110 transition-transform">
               <TrendingUp size={24} />
             </div>
-            <h3 className="text-xl font-black font-headline uppercase tracking-widest mb-4">Investors</h3>
+            <h3 className="text-xl font-black font-headline uppercase tracking-widest mb-4">{t('home.pillars.investors.title', 'Investors')}</h3>
             <p className="text-on-surface-variant text-sm leading-relaxed opacity-70">
-              Back the next generation of masterpieces. Investors acquire LYA Units representing future revenue shares, participating in the success of verified creative projects through a secure P2P exchange.
+              {t('home.pillars.investors.desc', 'Back the next generation of masterpieces. Investors acquire LYA Units representing future revenue shares, participating in the success of verified creative projects through a secure P2P exchange.')}
             </p>
           </div>
 
@@ -801,9 +801,9 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
             <div className="w-12 h-12 bg-emerald-400/10 flex items-center justify-center text-emerald-400 border border-emerald-400/20 mb-6 group-hover:scale-110 transition-transform">
               <ShieldCheck size={24} />
             </div>
-            <h3 className="text-xl font-black font-headline uppercase tracking-widest mb-4">Professionals</h3>
+            <h3 className="text-xl font-black font-headline uppercase tracking-widest mb-4">{t('home.pillars.professionals.title', 'Professionals')}</h3>
             <p className="text-on-surface-variant text-sm leading-relaxed opacity-70">
-              The validators of excellence. Industry leaders (Netflix, Amazon, Labels, Producers) rate projects, ensuring the LYA Score reflects real-market potential and expert quality.
+              {t('home.pillars.professionals.desc', 'The validators of excellence. Industry leaders (Netflix, Amazon, Labels, Producers) rate projects, ensuring the LYA Score reflects real-market potential and expert quality.')}
             </p>
           </div>
 
@@ -812,9 +812,9 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
             <div className="w-12 h-12 bg-primary-cyan/10 flex items-center justify-center text-primary-cyan border border-primary-cyan/20 mb-6 group-hover:scale-110 transition-transform">
               <Eye size={24} />
             </div>
-            <h3 className="text-xl font-black font-headline uppercase tracking-widest mb-4">The Public</h3>
+            <h3 className="text-xl font-black font-headline uppercase tracking-widest mb-4">{t('home.pillars.public.title', 'The Public')}</h3>
             <p className="text-on-surface-variant text-sm leading-relaxed opacity-70">
-              Discover the projects of tomorrow. The general public can explore the registry, track the creative journey, and contribute to the growth of masterpieces they believe in.
+              {t('home.pillars.public.desc', 'Discover the projects of tomorrow. The general public can explore the registry, track the creative journey, and contribute to the growth of masterpieces they believe in.')}
             </p>
           </div>
         </div>
@@ -825,14 +825,14 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
             <div className="order-2 lg:order-1">
               <div className="text-xs font-mono text-accent-gold uppercase tracking-[0.5em] mb-4 font-bold">{t('Valuation Model', 'Modèle de Valorisation')}</div>
                   <h2 className="text-2xl font-black uppercase tracking-tighter mb-8">
-                The <span className="text-primary-cyan">Price Formula</span>
+                {t('home.formula.title', 'The')} <span className="text-primary-cyan">{t('home.formula.title_cyan', 'Price Formula')}</span>
               </h2>
               <div className="space-y-6">
                 <div className="flex items-start gap-6 p-6 bg-white/5 border border-white/10 rounded-sm">
                   <div className="w-12 h-12 shrink-0 bg-primary-cyan/10 flex items-center justify-center text-primary-cyan border border-primary-cyan/20 font-black">01</div>
                   <div>
-                    <h4 className="text-white font-black uppercase tracking-widest mb-1">{t('Creator Base Price', 'Prix de Base Créateur')}</h4>
-                    <p className="text-xs text-on-surface-variant opacity-70 uppercase tracking-widest">{t('The initial valuation set by the creator at project inception.', 'La valorisation initiale fixée par le créateur lors de la création du projet.')}</p>
+                    <h4 className="text-white font-black uppercase tracking-widest mb-1">{t('home.formula.p1.title', 'Creator Base Price')}</h4>
+                    <p className="text-xs text-on-surface-variant opacity-70 uppercase tracking-widest">{t('home.formula.p1.desc', 'The initial valuation set by the creator at project inception.')}</p>
                   </div>
                 </div>
                 <div className="flex items-center justify-center py-2">
@@ -841,8 +841,8 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
                 <div className="flex items-start gap-6 p-6 bg-white/5 border border-white/10 rounded-sm">
                   <div className="w-12 h-12 shrink-0 bg-accent-pink/10 flex items-center justify-center text-accent-pink border border-accent-pink/20 font-black">02</div>
                   <div>
-                    <h4 className="text-white font-black uppercase tracking-widest mb-1">{t('LYA Algorithm Index', 'Index Algorithme LYA')}</h4>
-                    <p className="text-xs text-on-surface-variant opacity-70 uppercase tracking-widest">{t('Real-time data analysis across 5 critical pillars of project health.', 'Analyse de données en temps réel sur 5 piliers critiques de la santé du projet.')}</p>
+                    <h4 className="text-white font-black uppercase tracking-widest mb-1">{t('home.formula.p2.title', 'LYA Algorithm Index')}</h4>
+                    <p className="text-xs text-on-surface-variant opacity-70 uppercase tracking-widest">{t('home.formula.p2.desc', 'Real-time data analysis across 5 critical pillars of project health.')}</p>
                   </div>
                 </div>
                 <div className="flex items-center justify-center py-2">
@@ -851,8 +851,8 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
                 <div className="flex items-start gap-6 p-6 bg-emerald-400/10 border border-emerald-400/20 rounded-sm">
                   <div className="w-12 h-12 shrink-0 bg-emerald-400/20 flex items-center justify-center text-emerald-400 border border-emerald-400/30 font-black">03</div>
                   <div>
-                    <h4 className="text-white font-black uppercase tracking-widest mb-1">{t('Professional Validation', 'Validation Professionnelle')}</h4>
-                    <p className="text-xs text-on-surface-variant opacity-70 uppercase tracking-widest">{t('Expert ratings from industry leaders (Netflix, Amazon, Producers).', 'Notes d\'experts des leaders de l\'industrie (Netflix, Amazon, Producteurs).')}</p>
+                    <h4 className="text-white font-black uppercase tracking-widest mb-1">{t('home.formula.p3.title', 'Professional Validation')}</h4>
+                    <p className="text-xs text-on-surface-variant opacity-70 uppercase tracking-widest">{t('home.formula.p3.desc', 'Expert ratings from industry leaders (Netflix, Amazon, Producers).')}</p>
                   </div>
                 </div>
               </div>
@@ -890,30 +890,30 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
         {/* Professional Network Section */}
         <div className="mb-40">
           <div className="text-center mb-16 px-4">
-            <h3 className="text-xs font-mono text-accent-gold uppercase tracking-[0.5em] mb-4 font-bold">{t('Validation Network', 'Réseau de Validation')}</h3>
+            <h3 className="text-xs font-mono text-accent-gold uppercase tracking-[0.5em] mb-4 font-bold">{t('home.partners.subtitle', 'Validation Network')}</h3>
             <h2 className="text-2xl md:text-4xl font-black uppercase tracking-tighter">
-              Professional <span className="text-primary-cyan">{t('Expert Hubs', 'Hubs d\'Experts')}</span>
+              {t('Professional', 'Professionnel')} <span className="text-primary-cyan">{t('home.partners.title', 'Expert Hubs')}</span>
             </h2>
             <div className="mt-6 inline-flex items-center gap-2 px-4 py-2 bg-accent-gold/10 border border-accent-gold/20 rounded-full">
               <div className="w-2 h-2 bg-accent-gold rounded-full animate-pulse" />
               <span className="text-[10px] font-black text-accent-gold uppercase tracking-widest">
-                {t('Strategic partners and industry validators', 'Partenaires stratégiques et validateurs industriels')}
+                {t('home.partners.subtitle_long', 'Strategic partners and industry validators')}
               </span>
             </div>
           </div>
           
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
             {[
-              { name: 'Universal Music Group', logo: 'UMG', industry: 'Music' },
-              { name: 'A24 Films', logo: 'A24', industry: 'Cinema' },
-              { name: 'Sony Interactive', logo: 'SIE', industry: 'Gaming' },
-              { name: 'Netflix Studios', logo: 'NFX', industry: 'Streaming' },
-              { name: 'LVMH Group', logo: 'LVMH', industry: 'Fashion/IP' },
-              { name: 'Epic Games', logo: 'EPIC', industry: 'Tech/IP' },
-              { name: 'A-Cold-Wall*', logo: 'ACW', industry: 'Design' },
-              { name: 'Condé Nast', logo: 'CN', industry: 'Publishing' },
-              { name: 'Ubisoft', logo: 'UBI', industry: 'Gaming' },
-              { name: 'Paramount+', logo: 'PMT', industry: 'Media' },
+              { name: 'Universal Music Group', logo: 'UMG', industry: t('home.partners.industries.music', 'Music') },
+              { name: 'A24 Films', logo: 'A24', industry: t('home.partners.industries.cinema', 'Cinema') },
+              { name: 'Sony Interactive', logo: 'SIE', industry: t('home.partners.industries.gaming', 'Gaming') },
+              { name: 'Netflix Studios', logo: 'NFX', industry: t('home.partners.industries.streaming', 'Streaming') },
+              { name: 'LVMH Group', logo: 'LVMH', industry: t('home.partners.industries.fashion', 'Fashion/IP') },
+              { name: 'Epic Games', logo: 'EPIC', industry: t('home.partners.industries.tech', 'Tech/IP') },
+              { name: 'A-Cold-Wall*', logo: 'ACW', industry: t('home.partners.industries.design', 'Design') },
+              { name: 'Condé Nast', logo: 'CN', industry: t('home.partners.industries.publishing', 'Publishing') },
+              { name: 'Ubisoft', logo: 'UBI', industry: t('home.partners.industries.gaming', 'Gaming') },
+              { name: 'Paramount+', logo: 'PMT', industry: t('home.partners.industries.media', 'Media') },
             ].map((partner, i) => (
               <motion.div 
                 key={i}
@@ -951,9 +951,9 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
               </div>
             </div>
             <div>
-              <h3 className="text-3xl font-black font-headline uppercase tracking-[0.2em] mb-4">The LYA Unit Standard</h3>
+              <h3 className="text-3xl font-black font-headline uppercase tracking-[0.2em] mb-4">{t('home.standard.title', 'The LYA')} <span className="text-white">{t('home.standard.title_cyan', 'Unit Standard')}</span></h3>
               <p className="text-on-surface-variant text-lg leading-relaxed opacity-80">
-                LinkYourArt introduces the <span className="text-white font-bold">unique rating index</span> for the creative market. Each <span className="text-primary-cyan font-bold">LYA Unit</span> represents a standardized $50 value of future revenue potential. This peer-to-peer system allows for the exchange of revenue shares based on project advancement and milestones, providing the only objective measure of creative value.
+                {t('home.standard.desc', 'LinkYourArt introduces the unique rating index for the creative market. Each LYA Unit represents a standardized $50 value of future revenue potential. This peer-to-peer system allows for the exchange of revenue shares based on project advancement and milestones, providing the only objective measure of creative value.')}
               </p>
             </div>
           </div>
@@ -965,21 +965,20 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
       <section className="relative z-10 py-40 max-w-[1800px] mx-auto px-6">
         <div className="text-center mb-24">
           <h2 className="text-4xl font-black uppercase tracking-tighter mb-6 italic">
-            The LYA <span className="text-primary-cyan">Scoring System</span>
+            {t('home.scoring.title', 'The LYA')} <span className="text-primary-cyan">{t('home.scoring.title_cyan', 'Scoring System')}</span>
           </h2>
           <p className="text-on-surface-variant text-lg opacity-80 max-w-2xl mx-auto">
-            Our proprietary algorithm evaluates every contract across <span className="text-white font-bold">5 critical notation criteria</span>, 
-            providing a transparent and objective <span className="text-primary-cyan">System Yield Index</span> out of 1000.
+            {t('home.scoring.subtitle', 'Our proprietary algorithm evaluates every contract across 5 critical notation criteria, providing a transparent and objective System Yield Index out of 1000.')}
           </p>
         </div>
 
         <div className="grid md:grid-cols-5 gap-4">
           {[
-            { label: 'Project Quality', score: '200', desc: 'Evaluation of artistic merit, historical significance, and creative execution.', color: 'text-primary-cyan', bg: 'bg-primary-cyan/5', border: 'border-primary-cyan/20' },
-            { label: 'Marketability', score: '200', desc: 'Analysis of secondary market demand, liquidity potential, and audience reach.', color: 'text-accent-pink', bg: 'bg-accent-pink/5', border: 'border-accent-pink/20' },
-            { label: 'Legal Security', score: '200', desc: 'Verification of contractual rights, IP protection, and regulatory compliance.', color: 'text-accent-green', bg: 'bg-accent-green/5', border: 'border-accent-green/20' },
-            { label: 'Technical Innovation', score: '200', desc: 'Assessment of technological uniqueness, smart contract complexity, and digital durability.', color: 'text-accent-purple', bg: 'bg-accent-purple/5', border: 'border-accent-purple/20' },
-            { label: 'Growth Potential', score: '200', desc: 'Projections of future value appreciation based on market trends and roadmap.', color: 'text-accent-gold', bg: 'bg-accent-gold/5', border: 'border-accent-gold/20' },
+            { label: t('home.scoring.c1.label', 'Project Quality'), score: '200', desc: t('home.scoring.c1.desc', 'Evaluation of artistic merit, historical significance, and creative execution.'), color: 'text-primary-cyan', bg: 'bg-primary-cyan/5', border: 'border-primary-cyan/20' },
+            { label: t('home.scoring.c2.label', 'Marketability'), score: '200', desc: t('home.scoring.c2.desc', 'Analysis of secondary market demand, liquidity potential, and audience reach.'), color: 'text-accent-pink', bg: 'bg-accent-pink/5', border: 'border-accent-pink/20' },
+            { label: t('home.scoring.c3.label', 'Legal Security'), score: '200', desc: t('home.scoring.c3.desc', 'Verification of contractual rights, IP protection, and regulatory compliance.'), color: 'text-accent-green', bg: 'bg-accent-green/5', border: 'border-accent-green/20' },
+            { label: t('home.scoring.c4.label', 'Technical Innovation'), score: '200', desc: t('home.scoring.c4.desc', 'Assessment of technological uniqueness, smart contract complexity, and digital durability.'), color: 'text-accent-purple', bg: 'bg-accent-purple/5', border: 'border-accent-purple/20' },
+            { label: t('home.scoring.c5.label', 'Growth Potential'), score: '200', desc: t('home.scoring.c5.desc', 'Projections of future value appreciation based on market trends and roadmap.'), color: 'text-accent-gold', bg: 'bg-accent-gold/5', border: 'border-accent-gold/20' },
           ].map((criterion, i) => (
             <motion.div 
               key={i}
@@ -1008,7 +1007,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
           className="mt-16 text-center"
         >
           <p className="text-base text-on-surface-variant/60 uppercase tracking-[0.2em] max-w-3xl mx-auto leading-relaxed">
-            "The LYA Score represents the definitive index of a creative contract's living value, updated in real-time through market feedback and periodic professional audits."
+            "{t('home.quotes.scoring', 'The LYA Score represents the definitive index of a creative contract\'s living value, updated in real-time through market feedback and periodic professional audits.')}"
           </p>
         </motion.div>
       </section>
@@ -1025,24 +1024,24 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
         >
           <div className="absolute top-0 left-0 w-full h-1 bg-primary-cyan shadow-[0_0_20px_rgba(0,255,255,0.5)]" />
           <h2 className="text-4xl md:text-5xl font-black tracking-tighter mb-8 uppercase leading-none">
-            Start <br/>
-            <span className="text-primary-cyan">Engagement</span>
+            {t('home.cta.title', 'Start')} <br/>
+            <span className="text-primary-cyan">{t('home.cta.title_cyan', 'Engagement')}</span>
           </h2>
           <p className="text-xl text-on-surface-variant mb-12 max-w-xl mx-auto opacity-80">
-            Join the professional creative registry and start trading contract units today.
+            {t('home.cta.desc', 'Join the professional creative registry and start trading contract units today.')}
           </p>
           <button 
             onClick={() => onViewChange('DASHBOARD')}
             className="px-5 py-2 bg-white text-surface-dim font-black uppercase tracking-[0.3em] hover:bg-primary-cyan transition-all shadow-2xl active:scale-95 text-xs"
           >
-            Open Dashboard
+            {t('home.cta.button', 'Open Dashboard')}
           </button>
           
           {/* Decorative Corner */}
           <div className="absolute bottom-0 right-0 w-32 h-32 opacity-10">
             <div className="absolute bottom-4 right-4 text-[8px] font-mono text-primary-cyan text-right uppercase">
               LYA_SYSTEM_V4.2 <br/>
-              ESTABLISHING_LINK...
+              {t('ESTABLISHING_LINK...', 'ÉTABLISSEMENT_DU_LIEN...')}
             </div>
           </div>
         </motion.div>
@@ -1054,12 +1053,11 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
           <div className="flex items-center gap-4">
             <Logo size={40} className="opacity-40" showBeta />
             <div className="text-[10px] font-mono text-on-surface-variant/40 uppercase tracking-widest">
-              © 2026 LINKYOURART <br/>
-              CREATIVE REGISTRY
+              {t('home.footer.copyright', '© 2026 LINKYOURART CREATIVE REGISTRY')}
             </div>
           </div>
           <p className="text-[9px] text-on-surface-variant/30 uppercase tracking-[0.2em] max-w-sm text-center md:text-right">
-            {t('LinkYourArt Protocol operates as a technological layer for contractual valuation. Not a financial service.', 'Le Protocole LinkYourArt opère comme une couche technologique pour la valorisation contractuelle. Pas un service financier.')}
+            {t('home.footer.disclaimer', 'LinkYourArt Protocol operates as a technological layer for contractual valuation. Not a financial service.')}
           </p>
         </div>
       </footer>

@@ -109,9 +109,20 @@ export const ContractDetailModal: React.FC<{
   );
 };
 
+import { simulatePDFDownload } from '../utils/download';
+
 export const ComplianceCertificateModal: React.FC<{ isOpen: boolean; onClose: () => void; contractId: string | null }> = ({ isOpen, onClose, contractId }) => {
   const { t } = useTranslation();
   if (!contractId) return null;
+
+  const handleDownload = () => {
+    simulatePDFDownload(
+      `Compliance_Audit_${contractId}`,
+      `This document certifies that the creative contract associated with Registry ID ${contractId} has passed all professional audit stages as of ${new Date().toLocaleDateString()}.
+       Standards: KYC/AML, SEC Rule 506(c), GDPR, MiCA.
+       Audit Score: 99.8/100.`
+    );
+  };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="COMPLIANCE_CERTIFICATE_AUDIT">
@@ -177,9 +188,10 @@ export const ComplianceCertificateModal: React.FC<{ isOpen: boolean; onClose: ()
         </div>
 
         <button 
-          onClick={() => window.print()}
-          className="w-full py-4 bg-white/5 border border-white/20 text-on-surface text-[10px] font-black uppercase tracking-[0.3em] flex items-center justify-center gap-3 hover:bg-white/10 transition-all"
+          onClick={handleDownload}
+          className="w-full py-4 bg-white/5 border border-white/20 text-on-surface text-[10px] font-black uppercase tracking-[0.3em] flex items-center justify-center gap-3 hover:bg-white/10 transition-all active:scale-95 shadow-[0_4px_20px_rgba(0,0,0,0.3)]"
         >
+          <Zap size={14} className="text-primary-cyan" />
           {t('DOWNLOAD_CERTIFICATE_PDF', 'TÉLÉCHARGER_CERTIFICAT_PDF')}
         </button>
       </div>
@@ -245,37 +257,103 @@ export const FeatureShowcaseModal: React.FC<{ isOpen: boolean; onClose: () => vo
 export const ProfessionalOnboardingModal: React.FC<{ 
   isOpen: boolean; 
   onClose: () => void;
-  onVerify?: () => void;
+  onVerify?: (data: any) => void;
   isVerifying?: boolean;
 }> = ({ isOpen, onClose, onVerify, isVerifying }) => {
   const { t } = useTranslation();
+  const [step, setStep] = useState(1);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    firm: '',
+    registrationId: '',
+  });
+
+  const handleNext = () => setStep(prev => prev + 1);
+  const handleSubmit = () => {
+    onVerify?.(formData);
+  };
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="PROFESSIONAL_ONBOARDING">
       <div className="space-y-6 text-center max-w-md mx-auto">
         <div className="w-16 h-16 bg-primary-cyan/10 rounded-full flex items-center justify-center mx-auto mb-4">
           <Shield size={32} className={`text-primary-cyan ${isVerifying ? 'animate-pulse' : ''}`} />
         </div>
-        <h3 className="text-lg font-black text-white uppercase">{t('UPGRADE TO PROFESSIONAL ACCESS', 'PASSER À L\'ACCÈS PROFESSIONNEL')}</h3>
-        <p className="text-[11px] text-on-surface-variant/60 uppercase leading-relaxed font-bold">
-          {t('UNLOCK UNLIMITED TRANSACTIONS, PRIORITY CLEARING, AND ADVANCED ANALYTICS HUBS.', 'DÉBLOQUEZ DES TRANSACTIONS ILLIMITÉES, UNE COMPENSATION PRIORITAIRE ET DES HUBS ANALYTIQUES AVANCÉS.')}
-        </p>
-        <div className="space-y-2 py-4">
-          <div className="flex items-center gap-3 text-[10px] text-white font-bold uppercase bg-white/5 p-3 text-left">
-            <Zap size={14} className="text-primary-cyan" />
-            <span>{t('ZERO TRADING FEES FOR 30 DAYS', 'ZÉRO FRAIS DE TRADING PENDANT 30 JOURS')}</span>
+        
+        {step === 1 ? (
+          <>
+            <h3 className="text-lg font-black text-white uppercase">{t('UPGRADE TO PROFESSIONAL ACCESS', 'PASSER À L\'ACCÈS PROFESSIONNEL')}</h3>
+            <p className="text-[11px] text-on-surface-variant/60 uppercase leading-relaxed font-bold">
+              {t('UNLOCK UNLIMITED TRANSACTIONS, PRIORITY CLEARING, AND ADVANCED ANALYTICS HUBS.', 'DÉBLOQUEZ DES TRANSACTIONS ILLIMITÉES, UNE COMPENSATION PRIORITAIRE ET DES HUBS ANALYTIQUES AVANCÉS.')}
+            </p>
+            <div className="space-y-2 py-4">
+              <div className="flex items-center gap-3 text-[10px] text-white font-bold uppercase bg-white/5 p-3 text-left">
+                <Zap size={14} className="text-primary-cyan" />
+                <span>{t('ZERO TRADING FEES FOR 30 DAYS', 'ZÉRO FRAIS DE TRADING PENDANT 30 JOURS')}</span>
+              </div>
+              <div className="flex items-center gap-3 text-[10px] text-white font-bold uppercase bg-white/5 p-3 text-left">
+                <ArrowRight size={14} className="text-primary-cyan" />
+                <span>{t('PRIORITY ORDER MATCHING', 'CORRESPONDANCE D\'ORDRE PRIORITAIRE')}</span>
+              </div>
+            </div>
+            <button 
+              onClick={handleNext}
+              className="w-full py-3 bg-primary-cyan text-surface-dim text-xs font-black uppercase tracking-widest hover:bg-white transition-all shadow-[0_10px_20px_rgba(0,224,255,0.2)]"
+            >
+              {t('BEGIN VERIFICATION', 'COMMENCER LA VÉRIFICATION')}
+            </button>
+          </>
+        ) : (
+          <div className="space-y-4 text-left">
+            <h3 className="text-sm font-black text-white uppercase tracking-widest mb-4 border-b border-white/5 pb-2">{t('PROFESSIONAL DOSSIER', 'DOSSIER PROFESSIONNEL')}</h3>
+            <div className="space-y-4">
+              <div className="space-y-1">
+                <label className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest">{t('FULL NAME', 'NOM COMPLET')}</label>
+                <input 
+                  type="text" 
+                  value={formData.name}
+                  onChange={(e) => setFormData({...formData, name: e.target.value})}
+                  className="w-full bg-surface-dim border border-white/10 p-3 text-[11px] font-bold text-white focus:outline-none focus:border-primary-cyan transition-colors"
+                  placeholder="e.g. JONATHAN REISS"
+                />
+              </div>
+              <div className="space-y-1">
+                <label className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest">{t('INSTITUTIONAL EMAIL', 'EMAIL INSTITUTIONNEL')}</label>
+                <input 
+                  type="email" 
+                  value={formData.email}
+                  onChange={(e) => setFormData({...formData, email: e.target.value})}
+                  className="w-full bg-surface-dim border border-white/10 p-3 text-[11px] font-bold text-white focus:outline-none focus:border-primary-cyan transition-colors"
+                  placeholder="e.g. reiss@institution.com"
+                />
+              </div>
+              <div className="space-y-1">
+                <label className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest">{t('FIRM / ORGANIZATION', 'ENTREPRISE / ORGANISATION')}</label>
+                <input 
+                  type="text" 
+                  value={formData.firm}
+                  onChange={(e) => setFormData({...formData, firm: e.target.value})}
+                  className="w-full bg-surface-dim border border-white/10 p-3 text-[11px] font-bold text-white focus:outline-none focus:border-primary-cyan transition-colors"
+                  placeholder="e.g. CREATIVE CAPITAL HUB"
+                />
+              </div>
+            </div>
+            <button 
+              onClick={handleSubmit}
+              disabled={isVerifying || !formData.name || !formData.email}
+              className="w-full py-4 bg-emerald-400 text-surface-dim text-xs font-black uppercase tracking-widest hover:bg-white transition-all disabled:opacity-50 mt-6 shadow-[0_10px_20px_rgba(52,211,153,0.2)]"
+            >
+              {isVerifying ? t('PROCESSING PROTOCOL...', 'PROTOCOLE EN COURS...') : t('SUBMIT DOSSIER', 'SOUMETTRE LE DOSSIER')}
+            </button>
+            <button 
+              onClick={() => setStep(1)}
+              className="w-full py-2 text-on-surface-variant text-[9px] font-black uppercase tracking-widest hover:text-white transition-colors"
+            >
+              {t('GO BACK', 'RETOUR')}
+            </button>
           </div>
-          <div className="flex items-center gap-3 text-[10px] text-white font-bold uppercase bg-white/5 p-3 text-left">
-            <ArrowRight size={14} className="text-primary-cyan" />
-            <span>{t('PRIORITY ORDER MATCHING', 'CORRESPONDANCE D\'ORDRE PRIORITAIRE')}</span>
-          </div>
-        </div>
-        <button 
-          onClick={onVerify}
-          disabled={isVerifying}
-          className="w-full py-3 bg-primary-cyan text-surface-dim text-xs font-black uppercase tracking-widest hover:bg-white transition-all disabled:opacity-50"
-        >
-          {isVerifying ? t('VERIFYING...', 'VÉRIFICATION...') : t('BEGIN VERIFICATION', 'COMMENCER LA VÉRIFICATION')}
-        </button>
+        )}
       </div>
     </Modal>
   );

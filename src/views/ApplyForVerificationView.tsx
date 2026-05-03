@@ -176,12 +176,15 @@ export const ApplyForVerificationView: React.FC<{ onNotify: (msg: string) => voi
                     </div>
                     <div className="space-y-4">
                       <p className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant opacity-40 italic">{t('Benefits', 'Avantages')}</p>
-                      {tier.benefits.map(benefit => (
-                        <div key={benefit} className="flex items-center gap-3">
-                          <Zap size={14} className={selectedTier === tier.id ? tier.color : 'text-white/10'} />
-                          <span className="text-[11px] font-bold text-white/90 tracking-tight uppercase">{benefit}</span>
-                        </div>
-                      ))}
+                      {tier.benefits.map((benefit, index) => {
+                        const label = typeof benefit === 'string' ? benefit : benefit.label;
+                        return (
+                          <div key={`${tier.id}-benefit-${index}`} className="flex items-center gap-3">
+                            <Zap size={14} className={selectedTier === tier.id ? tier.color : 'text-white/10'} />
+                            <span className="text-[11px] font-bold text-white/90 tracking-tight uppercase">{label}</span>
+                          </div>
+                        );
+                      })}
                     </div>
                     
                     <div className={`mt-10 pt-10 border-t border-white/5 flex items-center justify-between ${selectedTier === tier.id ? 'opacity-100' : 'opacity-0'}`}>

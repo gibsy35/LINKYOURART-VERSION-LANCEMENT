@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { motion } from 'motion/react';
+import { simulatePDFDownload } from '../utils/download';
 import { 
   ShieldCheck, 
   TrendingUp, 
@@ -113,15 +114,25 @@ export const ContractCard: React.FC<ContractCardProps> = ({
         </div>
 
         {/* Comparison/Selection Marker */}
-        <div className="absolute top-4 right-4 group-hover:block hidden">
+        <div className="absolute top-4 right-4 group-hover:flex hidden flex-col gap-2">
           <button 
             onClick={(e) => {
               e.stopPropagation();
               onSelect?.(contract);
             }}
-            className="p-2 bg-primary-cyan text-surface-dim hover:bg-white transition-all shadow-[0_0_15px_rgba(0,224,255,0.4)]"
+            className="p-2 bg-primary-cyan text-surface-dim hover:bg-white transition-all shadow-[0_0_15px_rgba(0,224,255,0.4)] rounded-sm"
           >
             <Plus size={16} />
+          </button>
+          <button 
+            onClick={(e) => {
+              e.stopPropagation();
+              simulatePDFDownload(`Prospectus_${contract.registryIndex}`, `Professional Prospectus for ${contract.name}.\nRegistry ID: ${contract.id}\nCategory: ${contract.category}\nUnit Value: $${contract.unitValue}`);
+            }}
+            className="p-2 bg-white/10 text-white backdrop-blur-md hover:bg-white hover:text-surface-dim transition-all shadow-xl rounded-sm border border-white/20"
+            title="Download Prospectus"
+          >
+            <ChevronRight size={16} className="rotate-90" />
           </button>
         </div>
       </div>

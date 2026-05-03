@@ -31,6 +31,7 @@ import { PageHeader } from '../components/ui/PageHeader';
 import { ComplianceCertificateModal } from '../components/Modals';
 import { CompareView } from './CompareView';
 import { Loader2 } from 'lucide-react';
+import { downloadAsCSV } from '../utils/download';
 
 export const RegistryView: React.FC<{ 
   user: UserProfile | null;
@@ -200,6 +201,19 @@ export const RegistryView: React.FC<{
     );
   };
 
+  const handleExport = () => {
+    downloadAsCSV(allRegistryItems.map(item => ({
+      name: item.contractName,
+      address: item.registryId,
+      date: item.creationDate,
+      score: item.totalScore,
+      status: item.status,
+      type: item.agreementType,
+      jurisdiction: item.jurisdiction
+    })), 'LYA_Legal_Registry_Export');
+    onNotify('REGISTRY EXPORT INITIALIZED. DOWNLOAD STARTING...');
+  };
+
   return (
     <div className="space-y-12 pb-20">
       <PageHeader 
@@ -209,7 +223,7 @@ export const RegistryView: React.FC<{
         accentColor="text-accent-gold"
       />
 
-      <div className="flex flex-col lg:flex-row lg:items-center justify-end gap-8 -mt-32 mb-12 relative z-20">
+      <div className="px-6 md:px-12 flex flex-col lg:flex-row lg:items-center justify-between gap-8 mb-12">
           <div className="flex gap-4">
             <div className="bg-surface-low/20 backdrop-blur-xl border border-white/5 p-4 text-center min-w-[120px] rounded-xl shadow-2xl">
               <div className="text-[10px] text-primary-cyan uppercase tracking-widest mb-1 font-black opacity-80">{t('Total Contracts', 'Total Contrats')}</div>
@@ -218,6 +232,20 @@ export const RegistryView: React.FC<{
             <div className="bg-surface-low/20 backdrop-blur-xl border border-white/5 p-4 text-center min-w-[120px] rounded-xl shadow-2xl">
               <div className="text-[10px] text-emerald-400 uppercase tracking-widest mb-1 font-black opacity-80">{t('Verified DNA', 'DNA Vérifié')}</div>
               <div className="text-2xl font-black text-white">100%</div>
+            </div>
+          </div>
+
+          <div className="flex gap-4">
+            <button 
+              onClick={handleExport}
+              className="px-6 py-3 bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-[0.2em] hover:bg-white/10 hover:text-primary-cyan transition-all flex items-center gap-2 rounded-xl"
+            >
+              <Download size={14} />
+              {t('Export registry', 'Exporter le registre')}
+            </button>
+            <div className="px-6 py-3 bg-accent-purple/10 border border-accent-purple/20 text-[10px] font-black uppercase tracking-[0.2em] text-accent-purple flex items-center gap-2 rounded-xl">
+              <Lock size={14} />
+              {t('Secure hub active', 'Hub sécurisé actif')}
             </div>
           </div>
       </div>
@@ -313,8 +341,8 @@ export const RegistryView: React.FC<{
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 px-6 md:px-12">
         <div className="lg:col-span-2 space-y-3">
           {/* Filters */}
-          <div className="flex flex-wrap gap-2 p-2 bg-surface-low border border-white/5 rounded-sm">
-            <div className="flex flex-col gap-1.5">
+          <div className="flex flex-wrap md:flex-nowrap gap-2 p-2 bg-surface-low border border-white/5 rounded-sm overflow-x-auto scrollbar-hide">
+            <div className="flex flex-col gap-1.5 shrink-0">
               <label className="text-[10px] uppercase tracking-[0.2em] text-on-surface-variant font-black ml-1">Agreement Type</label>
               <select 
                 value={filterAgreementType}
@@ -636,13 +664,19 @@ export const RegistryView: React.FC<{
                       <Zap size={12} /> Deep Dive
                     </button>
                     <button 
-                      onClick={() => onNotify(`VIEWING LEGAL TERMS FOR ${item.contractName.toUpperCase()}...`)}
+                      onClick={() => {
+                        simulatePDFDownload(`Legal_Terms_${item.contractName}`, `Official Legal Terms for ${item.contractName}.\nRegistry ID: ${item.registryId}\nJurisdiction: ${item.jurisdiction}\nEffective Date: ${item.creationDate}`);
+                        onNotify(`DOWNLOADING LEGAL TERMS FOR ${item.contractName.toUpperCase()}...`);
+                      }}
                       className="text-sm font-bold uppercase tracking-widest text-on-surface-variant hover:text-primary-cyan transition-colors flex items-center gap-2"
                     >
                       <Scale size={12} /> Legal Terms
                     </button>
                     <button 
-                      onClick={() => onNotify(`CONFIGURING PERMISSIONS FOR ${item.contractName.toUpperCase()}...`)}
+                      onClick={() => {
+                        downloadAsJSON(item, `Config_${item.registryId}`);
+                        onNotify(`EXPORTING CONFIGURATION FOR ${item.contractName.toUpperCase()}...`);
+                      }}
                       className="text-sm font-bold uppercase tracking-widest text-on-surface-variant hover:text-primary-cyan transition-colors flex items-center gap-2"
                     >
                       <Lock size={12} /> Permissions

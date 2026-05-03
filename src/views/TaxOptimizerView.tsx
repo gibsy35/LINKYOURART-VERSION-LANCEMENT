@@ -212,7 +212,7 @@ export const TaxOptimizerView: React.FC<{ onNotify: (msg: string) => void }> = (
           <div className="space-y-10 pt-8">
             <div className="flex items-center justify-between">
               <h3 className="text-[10px] font-black text-white uppercase tracking-[0.4em]">{t('INVESTMENT SIMULATION', 'SIMULATION D\'INVESTISSEMENT')}</h3>
-              <p className="font-mono text-xl font-black text-white italic">{investmentAmount.toLocaleString()} €</p>
+              <p className="font-mono text-xl font-black text-white italic">$ {investmentAmount.toLocaleString()}</p>
             </div>
             
             <div className="relative pt-4">

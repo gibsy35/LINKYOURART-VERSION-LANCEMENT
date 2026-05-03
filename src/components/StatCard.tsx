@@ -40,7 +40,7 @@ export const StatCard: React.FC<StatCardProps> = ({
   };
 
   return (
-    <div className="bg-surface-low/30 backdrop-blur-2xl border border-white/5 rounded-sm p-6 relative group overflow-hidden">
+    <div className="bg-surface-low/30 backdrop-blur-xl border border-white/5 rounded-sm p-6 relative group overflow-hidden">
       <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
       
       <div className="flex justify-between items-start mb-6">

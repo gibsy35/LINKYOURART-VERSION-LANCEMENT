@@ -26,9 +26,9 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
            transition={{ duration: 0.8 }}
         >
           {/* Title Area with Horizontal Bar */}
-          <div className="flex items-center gap-6 mb-4">
-            <div className={`w-12 md:w-16 lg:w-20 h-[2px] ${accentColor.replace('text-', 'bg-')} shadow-[0_0_15px_rgba(0,224,255,0.3)]`}></div>
-            <h1 className="text-2xl md:text-3xl lg:text-5xl font-bold font-headline tracking-tighter leading-none uppercase italic flex flex-wrap items-baseline gap-x-2 md:gap-x-4">
+          <div className="flex items-center gap-4 mb-4">
+            <div className={`w-10 md:w-16 lg:w-20 h-[2px] ${accentColor.replace('text-', 'bg-')} shadow-[0_0_15px_rgba(0,224,255,0.3)]`}></div>
+            <h1 className="text-xl md:text-3xl lg:text-5xl font-bold font-headline tracking-tighter leading-none uppercase italic flex flex-wrap items-baseline gap-x-2 md:gap-x-4">
               <span className="text-white drop-shadow-2xl">{titleWhite}</span>
               <span className={`${accentColor} drop-shadow-[0_0_30px_rgba(0,224,255,0.2)]`}>
                 {titleAccent}

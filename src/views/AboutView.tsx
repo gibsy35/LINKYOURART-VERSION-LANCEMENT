@@ -48,7 +48,7 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange, onNotify }) 
   const stats = [
     { label: t('Evaluated Projects', 'Projets évalués'), value: '10K+', sub: t('Global Database', 'Base de données mondiale') },
     { label: t('Active Users', 'Utilisateurs actifs'), value: '50K+', sub: t('Verified Network', 'Réseau vérifié') },
-    { label: t('Funds Raised', 'Fonds levés'), value: '25M€', sub: t('Creative Value', 'Valeur Créative') },
+    { label: t('Funds Raised', 'Fonds levés'), value: '$25M', sub: t('Creative Value', 'Valeur Créative') },
     { label: t('Success Rate', 'Taux de réussite'), value: '87%', sub: t('Project Completion', 'Finalisation de projet') }
   ];
 

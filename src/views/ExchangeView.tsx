@@ -82,6 +82,8 @@ interface ExchangeViewProps {
 
 import { useMarketData } from '../hooks/useMarketData';
 
+import { downloadAsCSV } from '../utils/download';
+
 export const ExchangeView: React.FC<ExchangeViewProps> = ({
   orders,
   activities,
@@ -89,7 +91,6 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
   onOpenTrade,
   onSelectContract,
   onCancelOrder,
-  onExportOrders,
   rarityFilter,
   setRarityFilter,
   statusFilter,
@@ -118,6 +119,11 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
   const { formatPrice, formatLYA } = useCurrency();
   const { contracts, marketStats, lastUpdate } = useMarketData();
   const [activeTab, setActiveTab] = useState<'overview' | 'predictive' | 'exchange'>('exchange');
+
+  const onExportOrders = () => {
+    downloadAsCSV(orders, 'LYA_Exchange_Orders_Export');
+    onNotify(t('EXPORTING ORDER BOOK DATA...', 'EXPORTATION DES DONNÉES DU CARNET D\'ORDRES...'));
+  };
   const [indexTimeframe, setIndexTimeframe] = useState<'1D' | '1W' | '1M' | '1Y'>('1D');
   const [selectedOrderBookContractId, setSelectedOrderBookContractId] = useState(contracts[0].id);
   const [currentPage, setCurrentPage] = useState(1);
@@ -277,7 +283,7 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
         accentColor="text-primary-cyan"
       />
 
-      <div className="space-y-12 px-6 md:px-10 lg:px-20">
+      <div className="space-y-12 px-4 md:px-10 lg:px-20">
         <div className="flex flex-col lg:flex-row lg:items-center justify-end gap-8 mb-12 relative z-20">
             <div className="flex gap-8 border-b border-white/5">
               <button 
@@ -722,11 +728,11 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
               <table className="w-full text-left font-mono text-xs">
                 <thead>
                   <tr className="text-on-surface-variant/50 bg-white/[0.02]">
-                    <th className="px-6 py-5 font-bold uppercase tracking-widest">Timestamp</th>
-                    <th className="px-6 py-5 font-bold uppercase tracking-widest">Contract Registry</th>
-                    <th className="px-6 py-5 font-bold uppercase tracking-widest">Operation</th>
-                    <th className="px-6 py-5 font-bold uppercase tracking-widest">Registry Units</th>
-                    <th className="px-6 py-5 font-bold uppercase tracking-widest text-right">Settlement Index</th>
+                    <th className="px-3 md:px-6 py-5 font-bold uppercase tracking-widest">Timestamp</th>
+                    <th className="px-3 md:px-6 py-5 font-bold uppercase tracking-widest">Contract Registry</th>
+                    <th className="px-3 md:px-6 py-5 font-bold uppercase tracking-widest">Operation</th>
+                    <th className="px-3 md:px-6 py-5 font-bold uppercase tracking-widest">Registry Units</th>
+                    <th className="px-3 md:px-6 py-5 font-bold uppercase tracking-widest text-right">Settlement Index</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-white/5">
@@ -738,12 +744,12 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
                       transition={{ delay: idx * 0.05 }}
                       className="hover:bg-white/[0.03] transition-colors group relative"
                     >
-                      <td className="px-6 py-5 text-on-surface-variant/70">{activity.timestamp}</td>
-                      <td className="px-6 py-5">
-                        <span className="font-bold text-on-surface group-hover:text-primary-cyan transition-colors">{activity.contract}</span>
+                      <td className="px-3 md:px-6 py-5 text-on-surface-variant/70 text-[10px] md:text-xs">{activity.timestamp}</td>
+                      <td className="px-3 md:px-6 py-5">
+                        <span className="font-bold text-on-surface group-hover:text-primary-cyan transition-colors text-[10px] md:text-xs">{activity.contract}</span>
                       </td>
-                      <td className="px-6 py-5">
-                        <span className={`px-3 py-1 rounded-full text-[9px] font-black ${
+                      <td className="px-3 md:px-6 py-5">
+                        <span className={`px-2 md:px-3 py-1 rounded-full text-[8px] md:text-[9px] font-black ${
                           activity.type === 'BUY' 
                             ? 'bg-emerald-400/10 text-emerald-400 border-emerald-400/20' 
                             : 'bg-red-400/10 text-red-400 border-red-400/20'
@@ -751,9 +757,9 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
                           {activity.type === 'BUY' ? 'REGISTRY ACQUISITION' : 'PROTOCOL TRANSFER'}
                         </span>
                       </td>
-                      <td className="px-6 py-5 text-on-surface-variant font-bold">{activity.volume} <span className="text-[9px] opacity-50">UNITS</span></td>
-                      <td className="px-6 py-5 text-right">
-                        <span className="text-primary-cyan font-black text-sm italic">
+                      <td className="px-3 md:px-6 py-5 text-on-surface-variant font-bold text-[10px] md:text-xs">{activity.volume} <span className="text-[8px] md:text-[9px] opacity-50 uppercase">Units</span></td>
+                      <td className="px-3 md:px-6 py-5 text-right">
+                        <span className="text-primary-cyan font-black text-xs md:text-sm italic">
                           {(activity.price / LYA_UNIT_VALUE).toFixed(2)}
                         </span>
                       </td>
@@ -929,14 +935,14 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
               <div className="mt-8 space-y-4">
                 <div className="flex justify-between text-[10px] uppercase tracking-[0.3em] text-on-surface-variant font-black px-1">
                   <span>Verification Status</span>
-                  <span className={verificationLevel === 'Institutional' ? 'text-accent-gold' : 'text-primary-cyan'}>{verificationLevel}</span>
+                  <span className={verificationLevel === 'Expert' ? 'text-accent-gold' : 'text-primary-cyan'}>{verificationLevel}</span>
                 </div>
                 <button 
                   onClick={onOpenVerification}
                   className="w-full py-5 px-6 bg-surface-dim/80 border border-white/10 text-[10px] font-black uppercase tracking-[0.3em] hover:border-primary-cyan hover:text-primary-cyan transition-all flex items-center justify-center gap-3 group active:scale-95 rounded-2xl shadow-2xl"
                 >
                   <ShieldCheck size={20} className="group-hover:text-primary-cyan transition-colors" />
-                  Access Institutional Registry
+                  Access Expert Registry
                 </button>
               </div>
             </div>

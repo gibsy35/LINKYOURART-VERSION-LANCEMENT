@@ -1,0 +1,180 @@
+{
+  "common": {
+    "dashboard": "Dashboard",
+    "profile": "Profile",
+    "settings": "Settings",
+    "logout": "Logout",
+    "login": "Login",
+    "signup": "Sign Up",
+    "home": "Home",
+    "back": "Back",
+    "next": "Next",
+    "skip": "Skip",
+    "cancel": "Cancel",
+    "save": "Save",
+    "loading": "Loading...",
+    "search": "Search",
+    "notifications": "Notifications"
+  },
+  "sidebar": {
+    "exchange": "Exchange",
+    "registry": "LYA Registry",
+    "holdings": "Holdings",
+    "validation": "Validation",
+    "link_art": "Link Art",
+    "settlement": "Settlement",
+    "lounge": "Lounge",
+    "community": "Community",
+    "governance": "Governance",
+    "watchlist": "Watchlist",
+    "compare": "Compare",
+    "swipe": "Swipe Discovery",
+    "pricing": "Pricing",
+    "legal": "Legal Audit"
+  },
+  "home": {
+    "enter_gallery": "Enter the Gallery",
+    "create_account": "Create an Account",
+    "how_it_works": "How it Works"
+  },
+  "tutorial": {
+    "title": "LYA Guide",
+    "get_started": "Get Started!",
+    "step1": {
+      "title": "Welcome to LinkYourArt",
+      "desc": "The first investment platform that transforms creative projects into living and listed assets",
+      "p1": "Triangular ecosystem: Creators, Investors & Pros",
+      "p2": "Objective listing with LYA score out of 1000 points",
+      "p3": "P2P Marketplace to trade your shares"
+    },
+    "step2": {
+      "title": "What is the LYA Score?",
+      "desc": "A revolutionary algorithm that evaluates each project on 1000 points objectively",
+      "p1": "40% - Industry Expertise + AI Audit",
+      "p2": "30% - Social and community engagement",
+      "p3": "30% - Market performance and indicators"
+    },
+    "step3": {
+      "title": "For Creators",
+      "desc": "Submit your creative projects and obtain transparent financing",
+      "p1": "Professional evaluation by sector experts",
+      "p2": "Fast and transparent financing",
+      "p3": "Keep total creative control"
+    },
+    "step4": {
+      "title": "For Investors",
+      "desc": "Buy indexed contractual rights of promising creative projects",
+      "p1": "Transparent listing (LYA Score)",
+      "p2": "Diversify your portfolio in art",
+      "p3": "Trade your shares on the P2P market"
+    },
+    "step9": {
+      "title": "Integrated P2P Market",
+      "desc": "Trade your contractual rights with immediate liquidity",
+      "p1": "Transaction fees between 2 and 5%",
+      "p2": "Prices based on objective LYA listing",
+      "p3": "Secured smart contracts"
+    }
+  },
+  "home": {
+    "enter_gallery": "Enter the Gallery",
+    "create_account": "Create an Account",
+    "how_it_works": "How it Works",
+    "pillars": {
+      "title": "The",
+      "title_cyan": "Four Pillars",
+      "subtitle": "LinkYourArt unites the major actors of the creative economy and the public in a single, secure, and transparent ecosystem.",
+      "creators": {
+        "title": "Creators",
+        "desc": "The heartbeat of the ecosystem. Creators tokenize their vision into Indexed Creative Contracts, offering future revenue shares to fuel their growth while maintaining creative control."
+      },
+      "investors": {
+        "title": "Investors",
+        "desc": "Back the next generation of masterpieces. Investors acquire LYA Units representing future revenue shares, participating in the success of verified creative projects."
+      },
+      "professionals": {
+        "title": "Professionals",
+        "desc": "The validators of excellence. Industry leaders, Labels, and Producers rate projects, ensuring the LYA Score reflects real-market potential and expert quality."
+      },
+      "public": {
+        "title": "The Public",
+        "desc": "Discover the projects of tomorrow. The general public can explore the registry, track the creative journey, and contribute to the growth of masterpieces they believe in."
+      }
+    },
+    "standard": {
+      "title": "The LYA",
+      "title_cyan": "Unit Standard",
+      "desc": "LinkYourArt introduces the unique rating index for the creative market. Each LYA Unit represents a standardized $50 value of future revenue potential. This peer-to-peer system allows for the exchange of revenue shares based on project advancement and milestones, providing the only objective measure of creative value."
+    },
+    "not_lya": {
+      "title": "What LinkYourArt",
+      "title_cyan": "IS NOT",
+      "crowdfunding": {
+        "title": "Classic Crowdfunding",
+        "p1": "Rigid all-or-nothing",
+        "p2": "No secondary value",
+        "p3": "Symbolic rewards only"
+      },
+      "equity": {
+        "title": "Equity Crowdfunding",
+        "p1": "Heavy and costly regulation",
+        "p2": "Legal complexity",
+        "p3": "Unsuitable for creative projects"
+      }
+    },
+    "formula": {
+      "title": "The",
+      "title_cyan": "Price Formula",
+      "p1": {
+        "title": "Creator Base Price",
+        "desc": "The initial valuation set by the creator at project inception."
+      },
+      "p2": {
+        "title": "LYA Algorithm Index",
+        "desc": "Real-time data analysis across 5 critical pillars of project health."
+      },
+      "p3": {
+        "title": "Professional Validation",
+        "desc": "Expert ratings from industry leaders (Netflix, Amazon, Producers)."
+      }
+    },
+    "scoring": {
+      "title": "The LYA",
+      "title_cyan": "Scoring System",
+      "subtitle": "Our proprietary algorithm evaluates every contract across 5 critical notation criteria, providing a transparent and objective System Yield Index out of 1000.",
+      "c1": { "label": "Project Quality", "desc": "Evaluation of artistic merit, historical significance, and creative execution." },
+      "c2": { "label": "Marketability", "desc": "Analysis of secondary market demand, liquidity potential, and audience reach." },
+      "c3": { "label": "Legal Security", "desc": "Verification of contractual rights, IP protection, and regulatory compliance." },
+      "c4": { "label": "Technical Innovation", "desc": "Assessment of technological uniqueness, smart contract complexity, and digital durability." },
+      "c5": { "label": "Growth Potential", "desc": "Projections of future value appreciation based on market trends and roadmap." }
+    },
+    "cta": {
+      "title": "Start",
+      "title_cyan": "Engagement",
+      "desc": "Join the professional creative registry and start trading contract units today.",
+      "button": "Open Dashboard"
+    },
+    "partners": {
+      "title": "Expert Hubs",
+      "subtitle": "Strategic partners and industry validators",
+      "industries": {
+        "music": "Music",
+        "cinema": "Cinema",
+        "gaming": "Gaming",
+        "streaming": "Streaming",
+        "fashion": "Fashion/IP",
+        "tech": "Tech/IP",
+        "design": "Design",
+        "publishing": "Publishing",
+        "media": "Media"
+      }
+    },
+    "quotes": {
+      "scoring": "The LYA Score represents the definitive index of a creative contract's living value, updated in real-time through market feedback and periodic professional audits."
+    },
+    "footer": {
+      "copyright": "© 2026 LINKYOURART CREATIVE REGISTRY",
+      "disclaimer": "LinkYourArt Protocol operates as a technological layer for contractual valuation. Not a financial service."
+    }
+  }
+}

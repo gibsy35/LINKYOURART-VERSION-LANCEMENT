@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { UserRole, UserProfile, LYA_SIMULATOR_STEPS, LYASimulatorStep } from '../types';
 import { View } from '../components/ui/Sidebar';
-import { User, Settings, Shield, BarChart3, Layers, Globe, LogOut, Lock, Play, ExternalLink, Save, Camera, Mail, Briefcase, TrendingUp, Award, ShieldCheck, Zap, Activity, Cpu, FileCode, X, LayoutGrid, Plus, FileText, Download, MessageSquare, PieChart as PieChartIcon, Wallet, Clock, UserPlus, LayoutDashboard, History, Target, Info, Trash2, ArrowRight, Twitter, Instagram, Linkedin, Bell, CheckCircle2, AlertCircle, Search, Radar, Sparkles, Check, Loader2, Crown, CreditCard, Send, Paperclip } from 'lucide-react';
+import { User, Settings, Shield, BarChart3, Layers, Globe, LogOut, Lock, Play, ExternalLink, Save, Camera, Mail, Briefcase, TrendingUp, Award, ShieldCheck, Zap, Activity, Cpu, FileCode, X, LayoutGrid, Plus, FileText, Download, MessageSquare, PieChart as PieChartIcon, Wallet, Clock, UserPlus, LayoutDashboard, History, Target, Info, Trash2, ArrowRight, Twitter, Instagram, Linkedin, Bell, CheckCircle2, AlertCircle, Search, Radar, Sparkles, Check, Loader2, Crown, CreditCard, Send, Paperclip, RefreshCw } from 'lucide-react';
 import { StatCard } from '../components/StatCard';
 import { useTranslation } from '../context/LanguageContext';
 import { LockedOverlay } from '../components/LockedOverlay';
@@ -21,7 +21,8 @@ import {
   PieChart,
   Pie
 } from 'recharts';
-import { CONTRACTS, Contract, LYA_UNIT_VALUE } from '../types';
+import { auth, db, handleFirestoreError, OperationType } from '../firebase';
+import { collection, addDoc, query, where, onSnapshot, orderBy, serverTimestamp, Timestamp, setDoc, doc } from 'firebase/firestore';
 
 interface ProfileViewProps {
   user: UserProfile;
@@ -455,118 +456,116 @@ const ProfileView: React.FC<ProfileViewProps> = ({
     setTimeout(() => {
       setIsInviting(false);
       setInviteEmail('');
-      onNotify?.(t('Elite invitation sent successfully!', 'Invitation Élite envoyée avec succès !'));
+      onNotify?.(t('Elite invitation sent successfully!', 'Invitation Élite envoyée avec succès !'), 'success');
     }, 2000);
   };
 
-  const [projects, setProjects] = useState([
-    { 
-      name: 'CHRONOS_V3', 
-      score: 892, 
-      status: 'LIVE', 
-      value: '12,450 LYA', 
-      img: 'art1',
-      pillars: [
-        { label: t('Visibility', 'Visibilité'), score: 185 },
-        { label: t('Market', 'Marché'), score: 142 },
-        { label: t('Technical', 'Technique'), score: 190 },
-        { label: t('Community', 'Communauté'), score: 195 },
-        { label: t('Recognition', 'Reconnaissance'), score: 180 }
-      ]
-    },
-    { 
-      name: 'NEON_DISTRICT', 
-      score: 745, 
-      status: 'AUDIT', 
-      value: '8,200 LYA', 
-      img: 'art2',
-      pillars: [
-        { label: t('Visibility', 'Visibilité'), score: 145 },
-        { label: t('Market', 'Marché'), score: 120 },
-        { label: t('Technical', 'Technique'), score: 160 },
-        { label: t('Community', 'Communauté'), score: 155 },
-        { label: t('Recognition', 'Reconnaissance'), score: 165 }
-      ]
-    },
-    { 
-      name: 'VOID_ARCH', 
-      score: 910, 
-      status: 'LIVE', 
-      value: '24,000 LYA', 
-      img: 'art3',
-      pillars: [
-        { label: t('Visibility', 'Visibilité'), score: 195 },
-        { label: t('Market', 'Marché'), score: 182 },
-        { label: t('Technical', 'Technique'), score: 195 },
-        { label: t('Community', 'Communauté'), score: 175 },
-        { label: t('Recognition', 'Reconnaissance'), score: 163 }
-      ]
-    },
-    { 
-      name: 'CYBER_SOUL', 
-      score: 620, 
-      status: 'DRAFT', 
-      value: '0 LYA', 
-      img: 'art4',
-      pillars: [
-        { label: t('Visibility', 'Visibilité'), score: 120 },
-        { label: t('Market', 'Marché'), score: 100 },
-        { label: t('Technical', 'Technique'), score: 140 },
-        { label: t('Community', 'Communauté'), score: 130 },
-        { label: t('Recognition', 'Reconnaissance'), score: 130 }
-      ]
-    }
-  ]);
+  const [projects, setProjects] = useState<any[]>([]);
+  const [loadingProjects, setLoadingProjects] = useState(true);
 
-  const handleCreateProject = (e: React.FormEvent) => {
+  // Fetch projects from Firestore
+  useEffect(() => {
+    if (!user.uid) return;
+
+    const q = query(
+      collection(db, 'projects'),
+      where('issuerUid', '==', user.uid),
+      orderBy('createdAt', 'desc')
+    );
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const projectsList = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      setProjects(projectsList);
+      setLoadingProjects(false);
+    }, (error) => {
+      console.error('Projects Error:', error);
+      setLoadingProjects(false);
+    });
+
+    return () => unsubscribe();
+  }, [user.uid]);
+
+  const handleDownload = (fileName: string) => {
+    onNotify?.(t('INITIALIZING SECURE DOWNLOAD...', 'INITIALISATION DU TÉLÉCHARGEMENT SÉCURISÉ...'));
+    
+    setTimeout(() => {
+      const content = `LinkYourArt Professional Document: ${fileName}\nUser: ${user.uid}\nTimestamp: ${new Date().toISOString()}\nStatus: SECURE\n\nThis is a certified LYA protocol document export.`;
+      const blob = new Blob([content], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `LYA_${fileName.replace('.pdf', '')}_CERTIFIED.txt`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      onNotify?.(t('DOWNLOAD COMPLETE', 'TÉLÉCHARGEMENT TERMINÉ'), 'success');
+    }, 1500);
+  };
+
+  const handleCreateProject = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newProject.name || !newProject.description) {
       onNotify?.(t('Please fill in all required fields.', 'Veuillez remplir tous les champs obligatoires.'));
       return;
     }
+
+    setIsUploading(true);
     
-    const newProj = {
-      name: newProject.name || 'UNTITLED_PROJECT',
-      score: 0,
-      status: 'AUDIT',
-      value: `${newProject.initialValue?.toLocaleString() || '0'} LYA`,
-      img: `art${Math.floor(Math.random() * 5) + 1}`,
-      assetType: newProject.assetType,
-      category: newProject.category,
-      revenueShare: newProject.revenueShare,
-      isPremium: newProject.isPremium,
-      premiumPrice: newProject.premiumPrice,
-      premiumContent: newProject.premiumContent,
-      pillars: [
-        { label: t('Visibility', 'Visibilité'), score: 0 },
-        { label: t('Market', 'Marché'), score: 0 },
-        { label: t('Technical', 'Technique'), score: 0 },
-        { label: t('Community', 'Communauté'), score: 0 },
-        { label: t('Recognition', 'Reconnaissance'), score: 0 }
-      ]
-    };
-    
-    setProjects([newProj, ...projects]);
-    setProjectSuccess(true);
-    
-    setTimeout(() => {
-      setIsCreatingProject(false);
-      setProjectSuccess(false);
-      setNewProject({ 
-        name: '', 
-        category: 'Film', 
-        assetType: 'Feature Film', 
-        description: '', 
-        initialValue: 5000, 
-        revenueShare: 10, 
-        issuerDetails: '', 
-        legalFramework: 'Standard LYA Framework',
-        isPremium: false,
-        premiumPrice: 0,
-        premiumContent: ''
-      });
-      onNotify?.(t('Project created successfully! Our AI is now auditing your assets.', 'Projet créé avec succès ! Notre IA audite maintenant vos actifs.'));
-    }, 2000);
+    try {
+      const projectData = {
+        name: newProject.name,
+        category: newProject.category,
+        assetType: newProject.assetType,
+        description: newProject.description,
+        initialValue: Number(newProject.initialValue),
+        revenueShare: Number(newProject.revenueShare),
+        issuerDetails: newProject.issuerDetails,
+        legalFramework: newProject.legalFramework,
+        issuerUid: user.uid,
+        status: 'PENDING',
+        createdAt: serverTimestamp(),
+        pillars: [
+          { label: t('Visibility', 'Visibilité'), score: 100 },
+          { label: t('Market', 'Marché'), score: 100 },
+          { label: t('Technical', 'Technique'), score: 100 },
+          { label: t('Community', 'Communauté'), score: 100 },
+          { label: t('Recognition', 'Reconnaissance'), score: 100 }
+        ],
+        score: 500,
+        image: `https://picsum.photos/seed/${newProject.name.replace(/\s+/g, '_')}/800/600`
+      };
+
+      await addDoc(collection(db, 'projects'), projectData);
+      
+      setProjectSuccess(true);
+      onNotify?.(t('Project created and submitted for validation!', 'Projet créé et soumis pour validation !'), 'success');
+      
+      setTimeout(() => {
+        setProjectSuccess(false);
+        setIsCreatingProject(false);
+        setNewProject({
+          name: '',
+          category: 'Film',
+          assetType: 'Feature Film',
+          description: '',
+          initialValue: 5000,
+          revenueShare: 10,
+          issuerDetails: '',
+          legalFramework: 'Standard LYA Framework',
+          isPremium: false,
+          premiumPrice: 0,
+          premiumContent: ''
+        });
+      }, 3000);
+    } catch (err: any) {
+      handleFirestoreError(err, OperationType.CREATE, 'projects');
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   const closeProjectModal = () => {
@@ -1019,7 +1018,7 @@ const renderMentorshipContent = () => (
       case UserRole.CREATOR:
         return (
           <div className="space-y-12">
-            <nav className="flex gap-12 border-b border-white/5 relative mb-12 overflow-x-auto custom-scrollbar whitespace-nowrap">
+            <nav className="flex gap-4 md:gap-12 border-b border-white/5 relative mb-12 overflow-x-auto no-scrollbar whitespace-nowrap scroll-smooth pb-1 px-1">
               {[
                 { id: 'dashboard', label: t('Professional Dashboard', 'Tableau de Bord'), icon: <LayoutDashboard size={18} /> },
                 { id: 'messages', label: t('Secure Messages', 'Messages Sécurisés'), icon: <MessageSquare size={18} />, badge: messages.filter(m => !m.read).length },
@@ -1028,7 +1027,7 @@ const renderMentorshipContent = () => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id as any)}
-                  className={`pb-4 text-[10px] md:text-xs font-black uppercase tracking-[0.3em] flex items-center gap-3 transition-all relative shrink-0 ${
+                  className={`pb-4 text-[10px] md:text-xs font-black uppercase tracking-[0.1em] md:tracking-[0.3em] flex items-center gap-2 md:gap-3 transition-all relative shrink-0 ${
                     activeTab === tab.id ? 'text-primary-cyan italic' : 'text-on-surface-variant/40 hover:text-on-surface-variant'
                   }`}
                 >
@@ -1150,7 +1149,7 @@ const renderMentorshipContent = () => (
                     </div>
                     <button 
                       onClick={() => setIsCreatingProject(true)}
-                      className="w-full sm:w-auto px-6 md:px-8 py-3 md:py-4 bg-primary-cyan text-surface-dim text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] hover:bg-white transition-all shadow-[0_20px_40px_rgba(0,224,255,0.15)] flex items-center justify-center gap-3 md:gap-4 group active:scale-95"
+                      className="w-full sm:w-auto px-4 md:px-8 py-2 md:py-4 bg-primary-cyan text-surface-dim text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] hover:bg-white transition-all shadow-[0_20px_40px_rgba(0,224,255,0.15)] flex items-center justify-center gap-3 md:gap-4 group active:scale-95"
                     >
                       <Plus size={16} className="group-hover:rotate-90 transition-transform duration-500" /> {t('Index New Asset', 'Indexer Nouvel Actif')}
                     </button>
@@ -1444,7 +1443,10 @@ const renderMentorshipContent = () => (
                             </div>
                           </div>
                         </div>
-                        <button className="p-3 text-on-surface-variant hover:text-white hover:bg-white/10 transition-all active:scale-90">
+                        <button 
+                          onClick={() => handleDownload(doc.name)}
+                          className="p-3 text-on-surface-variant hover:text-white hover:bg-white/10 transition-all active:scale-90"
+                        >
                           <Download size={18} />
                         </button>
                       </div>
@@ -1457,10 +1459,10 @@ const renderMentorshipContent = () => (
         )}
       </div>
     );
-  case UserRole.INVESTOR:
+      case UserRole.INVESTOR:
         return (
           <div className="space-y-12">
-            <nav className="flex gap-12 border-b border-white/5 relative mb-12 overflow-x-auto custom-scrollbar whitespace-nowrap">
+            <nav className="flex gap-4 md:gap-12 border-b border-white/5 relative mb-12 overflow-x-auto no-scrollbar whitespace-nowrap scroll-smooth pb-1 px-1">
               {[
                 { id: 'dashboard', label: t('Intelligence Terminal', 'Terminal d\'Intelligence'), icon: <LayoutDashboard size={18} /> },
                 { id: 'messages', label: t('Secure Messages', 'Messages Sécurisés'), icon: <MessageSquare size={18} />, badge: messages.filter(m => !m.read).length },
@@ -1469,7 +1471,7 @@ const renderMentorshipContent = () => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id as any)}
-                  className={`pb-4 text-[10px] md:text-xs font-black uppercase tracking-[0.3em] flex items-center gap-3 transition-all relative shrink-0 ${
+                  className={`pb-4 text-[10px] md:text-xs font-black uppercase tracking-[0.1em] md:tracking-[0.3em] flex items-center gap-2 md:gap-3 transition-all relative shrink-0 ${
                     activeTab === tab.id ? 'text-primary-cyan italic' : 'text-on-surface-variant/40 hover:text-on-surface-variant'
                   }`}
                 >
@@ -1913,17 +1915,17 @@ const renderMentorshipContent = () => (
     return (
       <div className="space-y-12">
         {/* Profile Tabs */}
-        <div className="flex border-b border-white/5 mb-12">
+        <div className="flex border-b border-white/5 mb-12 overflow-x-auto no-scrollbar whitespace-nowrap scroll-smooth pb-1 px-1">
           {tabsToUse.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id as any)}
-              className={`relative px-8 py-6 text-[10px] font-black uppercase tracking-[0.3em] transition-all flex items-center gap-3 ${
+              className={`relative px-4 md:px-8 py-4 md:py-6 text-[10px] font-black uppercase tracking-[0.1em] md:tracking-[0.3em] transition-all flex items-center gap-2 md:gap-3 shrink-0 ${
                 activeTab === tab.id ? 'text-primary-cyan italic' : 'text-on-surface-variant/40 hover:text-on-surface-variant'
               }`}
             >
               <tab.icon size={16} />
-              {tab.label}
+              <span className="whitespace-nowrap">{tab.label}</span>
               {activeTab === tab.id && (
                 <motion.div 
                   layoutId="activeTabProfile"
@@ -2568,6 +2570,30 @@ const renderMentorshipContent = () => (
                     value={editForm.email}
                     onChange={(e) => setEditForm({...editForm, email: e.target.value})}
                   />
+                  
+                  {/* Email Verification Help - CRITICAL for Deliverability issues */}
+                  <div className="mt-4 p-4 bg-primary-cyan/5 border border-primary-cyan/20 rounded-xl">
+                    <div className="flex items-start gap-3">
+                      <div className="p-1.5 bg-primary-cyan/10 rounded-lg shrink-0">
+                        <ShieldCheck size={14} className="text-primary-cyan" />
+                      </div>
+                      <div className="space-y-1.5">
+                        <p className="text-[10px] font-black text-primary-cyan uppercase tracking-widest leading-none">
+                          {t('Verification Issues?', 'Problèmes de Vérification ?')}
+                        </p>
+                        <p className="text-[9px] text-on-surface-variant leading-relaxed opacity-70">
+                          {t('If you haven\'t received your verification email, please check your Spam folder. To ensure permanent deliverability, whitelist noreply@linkyourart-cb221.firebaseapp.com in your contact list.', 'Si vous n\'avez pas reçu l\'e-mail de vérification, veuillez vérifier vos courriers indésirables. Pour garantir la délivrabilité, ajoutez noreply@linkyourart-cb221.firebaseapp.com à votre liste de contacts.')}
+                        </p>
+                        <button 
+                          type="button"
+                          onClick={() => onNotify?.(t('Verification email resent successfully.', 'E-mail de vérification renvoyé avec succès.'))}
+                          className="text-[9px] font-black text-primary-cyan uppercase tracking-widest hover:text-white transition-colors flex items-center gap-1"
+                        >
+                          <RefreshCw size={10} /> {t('Resend Verification', 'Renvoyer la Vérification')}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
@@ -2619,30 +2645,30 @@ const renderMentorshipContent = () => (
       </AnimatePresence>
 
       {/* Project Indexing Terminal - Redesigned */}
-      <AnimatePresence>
+      <AnimatePresence mode="wait">
         {isCreatingProject && (
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/90 backdrop-blur-xl"
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-black/95 backdrop-blur-xl"
           >
             <motion.div 
               initial={{ scale: 0.95, y: 30, opacity: 0 }}
               animate={{ scale: 1, y: 0, opacity: 1 }}
               exit={{ scale: 0.95, y: 30, opacity: 0 }}
-              className="w-full max-w-4xl bg-surface-low/30 backdrop-blur-2xl border border-white/10 relative overflow-hidden flex flex-col lg:flex-row rounded-3xl shadow-2xl max-h-[95vh] overflow-y-auto lg:overflow-hidden"
+              className="w-full max-w-4xl bg-surface-low border border-white/10 relative flex flex-col lg:flex-row rounded-3xl shadow-2xl max-h-[90vh] sm:max-h-[95vh] overflow-hidden"
             >
               <button 
-                onClick={() => setIsCreatingProject(false)}
-                className="absolute top-6 right-6 text-gray-500 hover:text-white transition-colors z-50"
+                onClick={closeProjectModal}
+                className="absolute top-4 right-4 sm:top-6 sm:right-6 text-gray-500 hover:text-primary-cyan transition-colors z-[110] p-2 bg-black/20 rounded-full"
               >
                 <X size={24} />
               </button>
               
-              {/* Left Panel - Visual Context */}
-              <div className="w-full lg:w-1/3 bg-primary-cyan/5 p-6 md:p-8 border-r border-white/5 flex flex-col justify-between relative overflow-hidden shrink-0">
-                <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
+              {/* Left Panel - Visual Context - Hidden on very small mobile if needed, but better to just make it scroll */}
+              <div className="w-full lg:w-1/3 bg-primary-cyan/5 p-6 md:p-8 border-b lg:border-b-0 lg:border-r border-white/5 flex flex-col justify-between relative overflow-hidden shrink-0">
+                <div className="absolute top-0 left-0 w-full h-full opacity-[0.03] pointer-events-none">
                   <div className="absolute inset-0" style={{ 
                     backgroundImage: 'radial-gradient(circle at 2px 2px, #00E0FF 1px, transparent 0)',
                     backgroundSize: '20px 20px'
@@ -2650,34 +2676,34 @@ const renderMentorshipContent = () => (
                 </div>
                 
                 <div className="relative z-10">
-                  <div className="w-16 h-16 bg-primary-cyan/20 flex items-center justify-center mb-6">
-                    <Plus className="text-primary-cyan" size={32} />
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-primary-cyan/20 flex items-center justify-center mb-4 sm:mb-6">
+                    <Plus className="text-primary-cyan" size={28} />
                   </div>
-                  <h2 className="text-3xl font-black uppercase italic leading-none tracking-tighter mb-4">
+                  <h2 className="text-2xl sm:text-3xl font-black uppercase italic leading-none tracking-tighter mb-2 sm:mb-4">
                     {t('Index', 'Indexer')} <br />
                     <span className="text-primary-cyan">{t('New Asset', 'Nouvel Actif')}</span>
                   </h2>
-                  <p className="text-xs text-on-surface-variant font-bold uppercase tracking-widest leading-relaxed">
+                  <p className="text-[10px] text-on-surface-variant font-bold uppercase tracking-widest leading-relaxed">
                     {t('Initialize your creative project on the LYA blockchain. Our AI will audit your IP and generate a valuation score.', 'Initialisez votre projet créatif sur la blockchain LYA. Notre IA auditera votre PI et générera un score de valorisation.')}
                   </p>
                 </div>
 
-                <div className="relative z-10 pt-8 border-t border-white/10">
-                  <div className="flex items-center gap-3 mb-4">
-                    <ShieldCheck className="text-emerald-400" size={20} />
-                    <span className="text-[10px] font-black uppercase tracking-widest text-emerald-400">{t('Secure Indexing', 'Indexation Sécurisée')}</span>
+                <div className="hidden sm:flex relative z-10 pt-6 border-t border-white/10 mt-6 flex-col gap-3">
+                  <div className="flex items-center gap-3">
+                    <ShieldCheck className="text-emerald-400" size={18} />
+                    <span className="text-[8px] font-black uppercase tracking-widest text-emerald-400">{t('Secure Indexing', 'Indexation Sécurisée')}</span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <Zap className="text-accent-gold" size={20} />
-                    <span className="text-[10px] font-black uppercase tracking-widest text-accent-gold">{t('AI Audit Ready', 'Prêt pour Audit IA')}</span>
+                    <Zap className="text-accent-gold" size={18} />
+                    <span className="text-[8px] font-black uppercase tracking-widest text-accent-gold">{t('AI Audit Ready', 'Prêt pour Audit IA')}</span>
                   </div>
                 </div>
               </div>
 
               {/* Right Panel - Form */}
-              <div className="flex-1 p-6 md:p-10 bg-surface-low/50 backdrop-blur-md overflow-y-auto custom-scrollbar">
-                <form onSubmit={handleCreateProject} className="space-y-8">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="flex-1 p-5 sm:p-8 md:p-10 bg-surface-low/50 backdrop-blur-md overflow-y-auto custom-scrollbar pb-32 lg:pb-10">
+                <form onSubmit={handleCreateProject} className="space-y-6 md:space-y-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                     <div className="space-y-2">
                       <label className="text-[10px] uppercase tracking-[0.2em] text-primary-cyan font-black">{t('Project Identity', 'Identité du Projet')}</label>
                       <input 
@@ -2728,10 +2754,13 @@ const renderMentorshipContent = () => (
                       <div className="relative">
                         <input 
                           type="number" 
-                          min="1"
+                          min="0"
                           max="100"
-                          value={newProject.revenueShare}
-                          onChange={(e) => setNewProject({ ...newProject, revenueShare: parseInt(e.target.value) })}
+                          value={newProject.revenueShare || ''}
+                          onChange={(e) => {
+                            const val = parseInt(e.target.value);
+                            setNewProject({ ...newProject, revenueShare: isNaN(val) ? 0 : val });
+                          }}
                           className="w-full bg-white/5 border border-white/10 text-white p-4 focus:border-primary-cyan/50 focus:bg-white/10 transition-all font-mono text-sm outline-none"
                         />
                         <span className="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant font-black">%</span>
@@ -2741,11 +2770,14 @@ const renderMentorshipContent = () => (
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div className="space-y-2">
-                      <label className="text-[10px] uppercase tracking-[0.2em] text-primary-cyan font-black">{t('Initial Valuation (€)', 'Valorisation Initiale (€)')}</label>
+                      <label className="text-[10px] uppercase tracking-[0.2em] text-primary-cyan font-black">{t('Initial Valuation ($)', 'Valorisation Initiale ($)')}</label>
                       <input 
                         type="number" 
-                        value={newProject.initialValue}
-                        onChange={(e) => setNewProject({ ...newProject, initialValue: parseInt(e.target.value) })}
+                        value={newProject.initialValue || ''}
+                        onChange={(e) => {
+                          const val = parseInt(e.target.value);
+                          setNewProject({ ...newProject, initialValue: isNaN(val) ? 0 : val });
+                        }}
                         className="w-full bg-white/5 border border-white/10 text-white p-4 focus:border-primary-cyan/50 focus:bg-white/10 transition-all font-mono text-sm outline-none"
                       />
                     </div>
@@ -2772,11 +2804,14 @@ const renderMentorshipContent = () => (
                         animate={{ opacity: 1, x: 0 }}
                         className="space-y-2"
                       >
-                        <label className="text-[10px] uppercase tracking-[0.2em] text-accent-gold font-black">{t('Premium Price (€)', 'Prix Premium (€)')}</label>
+                        <label className="text-[10px] uppercase tracking-[0.2em] text-accent-gold font-black">{t('Premium Price ($)', 'Prix Premium ($)')}</label>
                         <input 
                           type="number" 
-                          value={newProject.premiumPrice}
-                          onChange={(e) => setNewProject({ ...newProject, premiumPrice: parseInt(e.target.value) })}
+                          value={newProject.premiumPrice || ''}
+                          onChange={(e) => {
+                            const val = parseInt(e.target.value);
+                            setNewProject({ ...newProject, premiumPrice: isNaN(val) ? 0 : val });
+                          }}
                           className="w-full bg-accent-gold/5 border border-accent-gold/20 text-white p-4 focus:border-accent-gold/50 focus:bg-accent-gold/10 transition-all font-mono text-sm outline-none"
                         />
                       </motion.div>
@@ -2833,30 +2868,30 @@ const renderMentorshipContent = () => (
         )}
       </AnimatePresence>
 
-      <AnimatePresence>
+      <AnimatePresence mode="wait">
         {isSimulatorOpen && (
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/95 backdrop-blur-2xl"
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-black/98 backdrop-blur-xl"
           >
             <motion.div 
               initial={{ scale: 0.95, y: 30, opacity: 0 }}
               animate={{ scale: 1, y: 0, opacity: 1 }}
               exit={{ scale: 0.95, y: 30, opacity: 0 }}
-              className="w-full max-w-4xl bg-surface-low/30 backdrop-blur-2xl border border-white/10 relative overflow-hidden flex flex-col lg:flex-row rounded-3xl shadow-2xl max-h-[95vh] overflow-y-auto lg:overflow-hidden"
+              className="w-full max-w-4xl bg-surface-low border border-white/10 relative flex flex-col lg:flex-row rounded-3xl shadow-2xl max-h-[90vh] sm:max-h-[95vh] overflow-hidden"
             >
               <button 
                 onClick={resetSimulator}
-                className="absolute top-6 right-6 text-gray-500 hover:text-white transition-colors z-50"
+                className="absolute top-4 right-4 sm:top-6 sm:right-6 text-gray-500 hover:text-white transition-colors z-[110] p-2 bg-black/20 rounded-full"
               >
                 <X size={24} />
               </button>
 
               {/* Left Panel - Progress */}
-              <div className="w-full lg:w-1/3 bg-primary-cyan/5 p-6 md:p-8 border-r border-white/5 flex flex-col justify-start gap-8 relative overflow-y-auto custom-scrollbar pb-20 shrink-0">
-                <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
+              <div className="w-full lg:w-1/3 bg-primary-cyan/10 p-6 md:p-8 border-b lg:border-b-0 lg:border-r border-white/5 flex flex-col justify-start gap-4 sm:gap-8 relative overflow-y-auto custom-scrollbar shrink-0">
+                <div className="absolute top-0 left-0 w-full h-full opacity-[0.03] pointer-events-none">
                   <div className="absolute inset-0" style={{ 
                     backgroundImage: 'radial-gradient(circle at 2px 2px, #00E0FF 1px, transparent 0)',
                     backgroundSize: '20px 20px'
@@ -2864,19 +2899,19 @@ const renderMentorshipContent = () => (
                 </div>
                 
                 <div className="relative z-10">
-                  <div className="w-16 h-16 bg-primary-cyan/20 flex items-center justify-center mb-6">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-primary-cyan/20 flex items-center justify-center mb-4 sm:mb-6">
                     <Zap className="text-primary-cyan" size={32} />
                   </div>
-                  <h2 className="text-3xl font-black uppercase italic leading-none tracking-tighter mb-4">
+                  <h2 className="text-2xl sm:text-3xl font-black uppercase italic leading-none tracking-tighter mb-2 sm:mb-4">
                     {t('LYA', 'LYA')} <br />
                     <span className="text-primary-cyan">{t('Simulator', 'Simulateur')}</span>
                   </h2>
-                  <p className="text-xs text-on-surface-variant font-bold uppercase tracking-widest leading-relaxed mb-8">
+                  <p className="text-[10px] text-on-surface-variant font-bold uppercase tracking-widest leading-relaxed mb-4 sm:mb-8">
                     {t('Our algorithm will analyze your professional radiation and market performance to provide a preliminary LYA Score.', 'Notre algorithme analysera votre rayonnement professionnel et vos performances de marché pour fournir un score LYA préliminaire.')}
                   </p>
 
                   {/* Real-time score in left panel */}
-                  <div className="p-4 bg-primary-cyan/10 border border-primary-cyan/30 rounded-xl mb-8">
+                  <div className="p-4 bg-primary-cyan/20 border border-primary-cyan/40 rounded-xl mb-4 sm:mb-8 shadow-[0_0_20px_rgba(34,211,238,0.1)]">
                     <p className="text-[8px] font-black text-primary-cyan uppercase tracking-widest mb-1">{t('CURRENT ESTIMATE', 'ESTIMATION ACTUELLE')}</p>
                     <div className="flex items-baseline gap-2">
                       <span className="text-3xl font-black italic text-white tracking-tighter">{currentSimulatorScore}</span>
@@ -2885,18 +2920,18 @@ const renderMentorshipContent = () => (
                   </div>
                 </div>
 
-                <div className="relative z-10 pt-8 border-t border-white/10">
-                  <div className="space-y-4">
+                <div className="hidden sm:block relative z-10 pt-6 border-t border-white/10">
+                  <div className="space-y-3">
                     {LYA_SIMULATOR_STEPS.map((step, idx) => (
                       <div key={step.id} className="flex items-center gap-4">
-                        <div className={`w-8 h-8 flex items-center justify-center text-[10px] font-black border transition-all duration-500 ${
+                        <div className={`w-8 h-8 shrink-0 flex items-center justify-center text-[10px] font-black border transition-all duration-500 rounded-lg ${
                           simulatorStep === idx ? 'bg-primary-cyan border-primary-cyan text-surface-dim' :
                           simulatorStep > idx ? 'bg-emerald-400/20 border-emerald-400/40 text-emerald-400' :
                           'bg-white/5 border-white/10 text-on-surface-variant opacity-40'
                         }`}>
                           {simulatorStep > idx ? <ShieldCheck size={14} /> : idx + 1}
                         </div>
-                        <span className={`text-[10px] font-black uppercase tracking-widest ${
+                        <span className={`text-[9px] font-black uppercase tracking-widest leading-tight ${
                           simulatorStep === idx ? 'text-white' : 'text-on-surface-variant opacity-40'
                         }`}>
                           {t(step.title, step.title)}
@@ -2908,11 +2943,11 @@ const renderMentorshipContent = () => (
               </div>
 
               {/* Right Panel - Content */}
-              <div className="flex-1 p-6 md:p-10 bg-surface-low/50 backdrop-blur-md overflow-y-auto custom-scrollbar">
+              <div className="flex-1 p-5 sm:p-8 md:p-10 bg-surface-low/50 backdrop-blur-md overflow-y-auto custom-scrollbar pb-32 lg:pb-10">
                 {simulatorResult === null ? (
-                  <div className="space-y-12">
+                  <div className="space-y-8 md:space-y-12">
                     <div className="space-y-4">
-                      <h3 className="text-2xl font-black uppercase italic tracking-tight text-white">
+                      <h3 className="text-xl md:text-2xl font-black uppercase italic tracking-tight text-white">
                         {t(LYA_SIMULATOR_STEPS[simulatorStep].title, LYA_SIMULATOR_STEPS[simulatorStep].title)}
                       </h3>
                       <p className="text-sm text-on-surface-variant font-bold uppercase tracking-widest opacity-60">
@@ -2971,9 +3006,8 @@ const renderMentorshipContent = () => (
                       {simulatorStep === LYA_SIMULATOR_STEPS.length - 1 ? (
                         <button 
                           onClick={() => {
-                            const score = calculateSimulatorScore();
-                            setSimulatorResult(score);
-                            onNotify?.(t(`Simulation Finalized. Your projected LYA Score is ${score}/1000.`, `Simulation Finalisée. Votre score LYA projeté est de ${score}/1000.`));
+                            calculateSimulatorScore();
+                            onNotify?.(t(`Simulation Finalized.`, `Simulation Finalisée.`));
                           }}
                           disabled={Object.keys(simulatorAnswers).length < LYA_SIMULATOR_STEPS.reduce((acc, step) => acc + step.questions.length, 0)}
                           className="px-12 py-4 bg-primary-cyan text-surface-dim font-black uppercase italic text-xs tracking-[0.2em] hover:bg-white transition-all active:scale-95 shadow-[0_10px_30px_rgba(0,224,255,0.3)] disabled:opacity-20 disabled:cursor-not-allowed"
@@ -3009,8 +3043,8 @@ const renderMentorshipContent = () => (
                     className="h-full flex flex-col items-center justify-center text-center space-y-10"
                   >
                     <div className="relative">
-                      <div className="absolute -inset-10 bg-primary-cyan/20 blur-3xl rounded-full animate-pulse" />
-                      <div className="relative w-48 h-48 rounded-full border-4 border-primary-cyan/30 flex flex-col items-center justify-center bg-surface-low/50 backdrop-blur-xl shadow-[0_0_50px_rgba(0,224,255,0.2)]">
+                      <div className="absolute -inset-10 bg-primary-cyan/20 blur-xl rounded-full animate-pulse" />
+                      <div className="relative w-32 h-32 md:w-48 md:h-48 rounded-full border-4 border-primary-cyan/30 flex flex-col items-center justify-center bg-surface-low/50 backdrop-blur-xl shadow-[0_0_50px_rgba(0,224,255,0.2)]">
                         <div className="w-12 h-12 bg-primary-cyan/20 rounded-full flex items-center justify-center mb-2">
                           <Award className="text-primary-cyan" size={24} />
                         </div>

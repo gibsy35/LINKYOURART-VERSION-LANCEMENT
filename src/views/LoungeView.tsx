@@ -38,7 +38,8 @@ import {
 } from 'lucide-react';
 import { UserProfile, UserRole } from '../types';
 import { useTranslation } from '../context/LanguageContext';
-import { SecureMail } from '../components/ui/SecureMail';
+import { db, auth, handleFirestoreError, OperationType } from '../firebase';
+import { collection, addDoc, query, onSnapshot, orderBy, serverTimestamp, Timestamp, doc, updateDoc, increment } from 'firebase/firestore';
 
 type LoungeTab = 'FEED' | 'MEMBERS' | 'EVENTS' | 'MENTORSHIP';
 
@@ -106,6 +107,45 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
   const [monitorImage, setMonitorImage] = React.useState<string | null>(null);
   const [showMail, setShowMail] = useState(false);
   const [selectedRecipient, setSelectedRecipient] = useState<{name: string, role: string} | null>(null);
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [loadingPosts, setLoadingPosts] = useState(true);
+
+  // Fetch posts from Firestore
+  React.useEffect(() => {
+    const q = query(
+      collection(db, 'lounge_posts'),
+      orderBy('timestamp', 'desc')
+    );
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const postsList = snapshot.docs.map(doc => {
+        const data = doc.data();
+        return {
+          id: doc.id,
+          author: data.authorName,
+          handle: data.authorHandle,
+          role: data.authorRole,
+          content: data.content,
+          time: data.timestamp ? new Date(data.timestamp.toDate()).toLocaleString() : t('Pending...', 'En attente...'),
+          likes: data.likes || 0,
+          comments: data.commentsCount || 0,
+          tags: data.tags || [],
+          verified: data.verified || false,
+          authorId: data.authorId
+        };
+      });
+      setPosts(postsList);
+      setLoadingPosts(false);
+    }, (error) => {
+      console.error('Lounge Posts Error:', error);
+      setLoadingPosts(false);
+    });
+
+    return () => unsubscribe();
+  }, [t]);
+
+  const [likedPosts, setLikedPosts] = useState<Set<string>>(new Set());
+  const [pinnedPosts, setPinnedPosts] = useState<Set<string>>(new Set());
 
   const handleRequestAdmission = (eventId: string, title: string) => {
     onNotify(t('INITIATING ADMISSION PROTOCOL...', 'INITIALISATION DU PROTOCOLE D\'ADMISSION...'));
@@ -192,65 +232,56 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
     onProfessionalChatToggle?.(false);
   };
 
+  const handleLike = async (postId: string) => {
+    const isLiked = likedPosts.has(postId);
+    
+    try {
+      setLikedPosts(prev => {
+        const newSet = new Set(prev);
+        if (isLiked) newSet.delete(postId);
+        else newSet.add(postId);
+        return newSet;
+      });
+
+      const postRef = doc(db, 'lounge_posts', postId);
+      await updateDoc(postRef, {
+        likes: increment(isLiked ? -1 : 1)
+      });
+      
+      onNotify(isLiked ? 'INSIGHT UNLIKED' : 'INSIGHT LIKED');
+    } catch (error) {
+      console.error('Like error:', error);
+    }
+  };
+
+  const handlePostInsight = async () => {
+    if (!postContent.trim() || !user) return;
+    
+    try {
+      const postData = {
+        authorId: user.uid,
+        authorName: user.displayName || 'Anonymous',
+        authorHandle: `@${(user.displayName || 'User').toUpperCase().replace(/\s+/g, '_')}`,
+        authorRole: user.role || 'MEMBER',
+        content: postContent,
+        timestamp: serverTimestamp(),
+        likes: 0,
+        commentsCount: 0,
+        tags: ['INSIGHT'],
+        verified: user.isPro || false
+      };
+
+      await addDoc(collection(db, 'lounge_posts'), postData);
+      setPostContent('');
+      onNotify(t('INSIGHT POSTED TO SECURE FEED', 'APERÇU POSTÉ SUR LE FLUX SÉCURISÉ'));
+    } catch (error) {
+      handleFirestoreError(error, OperationType.CREATE, 'lounge_posts');
+    }
+  };
+
   const handleOpenChat = (memberId: string) => {
     setActiveChat(memberId);
     onProfessionalChatToggle?.(true);
-  };
-
-  const [posts, setPosts] = useState<Post[]>([
-    {
-      id: '1',
-      author: 'FUND_CENTER_721',
-      handle: '@ALPHA_FUND_ALPHA',
-      role: 'ELITE INVESTOR',
-      content: "Just analyzed the new LYA-721 contracts for the 'Digital Renaissance' collection. The yield projections are looking solid at 12.5%. Anyone else seeing similar stability metrics?",
-      time: '12m ago',
-      likes: 24,
-      comments: 8,
-      tags: ['ANALYSIS', 'YIELD'],
-      verified: true
-    },
-    {
-      id: '2',
-      author: 'GENESIS_CENTER_042',
-      handle: '@NEO_JAZZ_SESSION',
-      role: 'ELITE CREATOR',
-      content: "Working on a new generative series that integrates real-time market sentiment into the visual output. Looking for a legal expert to discuss IP rights for dynamic assets.",
-      time: '1h ago',
-      likes: 42,
-      comments: 15,
-      tags: ['CREATIVE', 'LEGAL'],
-      verified: true
-    },
-    {
-      id: '3',
-      author: 'AUDIT_REGISTRY_156',
-      handle: '@COMPLIANCE_ALPHA',
-      role: 'REGISTRY AUDITOR',
-      content: "Reminder: The new EU regulations on creative rights come into effect next month. Make sure your indexing documentation is up to date to maintain your LYA Score.",
-      time: '3h ago',
-      likes: 156,
-      comments: 34,
-      tags: ['REGULATION', 'COMPLIANCE'],
-      verified: true
-    }
-  ]);
-
-  const [likedPosts, setLikedPosts] = useState<Set<string>>(new Set());
-  const [pinnedPosts, setPinnedPosts] = useState<Set<string>>(new Set());
-
-  const handleLike = (postId: string) => {
-    const isLiked = likedPosts.has(postId);
-    
-    setLikedPosts(prev => {
-      const newSet = new Set(prev);
-      if (isLiked) newSet.delete(postId);
-      else newSet.add(postId);
-      return newSet;
-    });
-
-    setPosts(currentPosts => currentPosts.map(p => p.id === postId ? { ...p, likes: isLiked ? Math.max(0, p.likes - 1) : p.likes + 1 } : p));
-    onNotify(isLiked ? 'INSIGHT UNLIKED' : 'INSIGHT LIKED');
   };
 
   const handlePin = (postId: string) => {
@@ -600,27 +631,6 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
     { tag: '#Smart IP Contracts', insights: 27, trend: '+10%' }
   ];
 
-  const handlePostInsight = () => {
-    if (!postContent.trim()) return;
-    
-    const newPost: Post = {
-      id: Date.now().toString(),
-      author: 'Global Index',
-      handle: `@${user?.displayName?.toLowerCase() || 'user'}`,
-      role: 'SYSTEM ADMINISTRATOR',
-      content: postContent,
-      time: 'Just now',
-      likes: 0,
-      comments: 0,
-      tags: ['GLOBAL_INDEX', 'INSIGHT'],
-      verified: true
-    };
-
-    setPosts([newPost, ...posts]);
-    setPostContent('');
-    onNotify('INSIGHT POSTED TO SECURE FEED');
-  };
-
   // Access Control: Only Admin or Pro users can access the Lounge
   if (user?.role !== UserRole.ADMIN && !user?.isPro) {
     return (
@@ -663,49 +673,51 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
         <div className="h-px flex-1 bg-gradient-to-r from-accent-gold/20 to-transparent"></div>
       </div>
 
-      <div className="relative z-20 -mt-24 mb-12">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-end gap-8 px-6 md:px-12">
+      <div className="relative z-20 lg:-mt-24 mb-12">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-end gap-6 md:gap-8 px-6 md:px-12">
           <div className="hidden lg:block mr-auto">
             <div className="text-[10px] font-black text-accent-gold uppercase tracking-[0.5em] opacity-40 animate-pulse">LYA UNITS ARE INDEXED</div>
           </div>
-          <div className="flex flex-wrap gap-4">
-            <div className="px-8 py-5 bg-surface-low border border-white/5 rounded-2xl backdrop-blur-3xl shadow-2xl relative overflow-hidden group">
+          <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
+            <div className="flex-1 lg:flex-none px-6 md:px-8 py-4 md:py-5 bg-surface-low border border-white/5 rounded-2xl backdrop-blur-3xl shadow-2xl relative overflow-hidden group">
               <div className="absolute inset-0 bg-accent-gold/5 opacity-0 group-hover:opacity-100 transition-opacity" />
               <div className="text-[10px] text-accent-gold uppercase tracking-widest font-black mb-1 opacity-70">{t('Verified Members', 'Membres Vérifiés')}</div>
-              <div className="text-3xl font-black text-white tracking-tighter">1,248</div>
+              <div className="text-2xl md:text-3xl font-black text-white tracking-tighter">1,248</div>
             </div>
-            <div className="px-8 py-5 bg-surface-low border border-white/5 rounded-2xl backdrop-blur-3xl shadow-2xl relative overflow-hidden group">
+            <div className="flex-1 lg:flex-none px-6 md:px-8 py-4 md:py-5 bg-surface-low border border-white/5 rounded-2xl backdrop-blur-3xl shadow-2xl relative overflow-hidden group">
               <div className="absolute inset-0 bg-accent-gold/5 opacity-0 group-hover:opacity-100 transition-opacity" />
               <div className="text-[10px] text-accent-gold uppercase tracking-widest font-black mb-1 opacity-70">{t('Power Staked', 'Pouvoir Staké')}</div>
-              <div className="text-3xl font-black text-white tracking-tighter">85.4M <span className="text-xs opacity-40">LYA</span></div>
+              <div className="text-2xl md:text-3xl font-black text-white tracking-tighter">85.4M <span className="text-xs opacity-40">LYA</span></div>
             </div>
           </div>
         </div>
 
-        <nav className="flex gap-12 border-b border-white/5 relative mx-6 md:mx-12 mt-12 mb-12">
-          {[
-            { id: 'FEED', label: t('Insight Feed', 'Flux d\'Insights'), icon: <Activity size={16} /> },
-            { id: 'MEMBERS', label: t('Protocol Member', 'PROTOCOL MEMBER'), icon: <Users size={16} /> },
-            { id: 'EVENTS', label: t('Private Events', 'Événements Privés'), icon: <Calendar size={16} /> },
-            { id: 'MENTORSHIP', label: t('Elite Mentorship', 'Mentorat d\'Élite'), icon: <Crown size={16} /> }
-          ].map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id as LoungeTab)}
-              className={`pb-4 text-xs font-black uppercase tracking-[0.3em] flex items-center gap-3 transition-all relative ${
-                activeTab === tab.id ? 'text-primary-cyan italic' : 'text-on-surface-variant/40 hover:text-on-surface-variant'
-              }`}
-            >
-              {tab.icon}
-              {tab.label}
-              {activeTab === tab.id && (
-                <motion.div 
-                  layoutId="active-tab"
-                  className="absolute bottom-0 left-0 right-0 h-[2px] bg-primary-cyan shadow-[0_0_10px_rgba(0,224,255,0.5)]" 
-                />
-              )}
-            </button>
-          ))}
+        <nav className="flex border-b border-white/5 relative mt-12 mb-12 overflow-x-auto no-scrollbar whitespace-nowrap scroll-smooth pb-1 -mx-6 px-6 md:mx-12 md:px-0">
+          <div className="flex min-w-max gap-6 md:gap-12">
+            {[
+              { id: 'FEED', label: t('Insight Feed', 'Flux d\'Insights'), icon: <Activity size={16} /> },
+              { id: 'MEMBERS', label: t('Protocol Member', 'PROTOCOL MEMBER'), icon: <Users size={16} /> },
+              { id: 'EVENTS', label: t('Private Events', 'Événements Privés'), icon: <Calendar size={16} /> },
+              { id: 'MENTORSHIP', label: t('Elite Mentorship', 'Mentorat d\'Élite'), icon: <Crown size={16} /> }
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id as LoungeTab)}
+                className={`pb-4 text-[10px] md:text-xs font-black uppercase tracking-[0.1em] md:tracking-[0.3em] flex items-center gap-2 md:gap-3 transition-all relative whitespace-nowrap ${
+                  activeTab === tab.id ? 'text-primary-cyan italic' : 'text-on-surface-variant/40 hover:text-on-surface-variant'
+                }`}
+              >
+                {tab.icon}
+                {tab.label}
+                {activeTab === tab.id && (
+                  <motion.div 
+                    layoutId="active-tab"
+                    className="absolute bottom-0 left-0 right-0 h-[2px] bg-primary-cyan shadow-[0_0_10px_rgba(0,224,255,0.5)]" 
+                  />
+                )}
+              </button>
+            ))}
+          </div>
         </nav>
       </div>
 
@@ -778,7 +790,9 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
                   </div>
                   <div>
                     <p className="text-[10px] font-black text-on-surface-variant uppercase tracking-[0.3em] mb-1 opacity-50">{t('ACTIVE IDENTITY', 'IDENTITÉ ACTIVE')}</p>
-                    <p className="text-lg font-black text-white italic tracking-tighter underline decoration-accent-gold/30">ID-USER.LYA_CORE_JB</p>
+                    <p className="text-lg font-black text-white italic tracking-tighter underline decoration-accent-gold/30">
+                      ID-{user?.displayName?.toUpperCase().replace(/\s/g, '_') || 'USER.LYA_CORE_JB'}
+                    </p>
                   </div>
                 </div>
                 <div className="hidden md:flex items-center gap-4">

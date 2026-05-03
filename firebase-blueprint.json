@@ -87,6 +87,25 @@
         "read": { "type": "boolean" }
       },
       "required": ["fromId", "toId", "subject", "body", "timestamp"]
+    },
+    "LoungePost": {
+      "title": "LoungePost",
+      "description": "Professional insights and discussions shared in the Lounge feed.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "authorId": { "type": "string" },
+        "authorName": { "type": "string" },
+        "authorHandle": { "type": "string" },
+        "authorRole": { "type": "string" },
+        "content": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "likes": { "type": "number" },
+        "commentsCount": { "type": "number" },
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "verified": { "type": "boolean" }
+      },
+      "required": ["authorId", "authorName", "content", "timestamp"]
     }
   },
   "firestore": {
@@ -101,6 +120,10 @@
     "/messages/{messageId}": {
       "schema": "Message",
       "description": "Secure messages between professional members."
+    },
+    "/lounge_posts/{postId}": {
+      "schema": "LoungePost",
+      "description": "Public insights shared by elite and professional members."
     }
   }
 }

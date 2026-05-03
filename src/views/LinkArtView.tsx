@@ -162,7 +162,10 @@ export const LinkArtView: React.FC<{
     onNotify(t('GENERATING CONCEPT VISUALIZATIONS...', 'GÉNÉRATION DES VISUALISATIONS DE CONCEPT...'));
 
     try {
-      const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
+      if (!process.env.GEMINI_API_KEY) {
+        throw new Error('GEMINI_API_KEY is not configured');
+      }
+      const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
       
       // We'll generate 3 different style variations
       const styles = [
@@ -176,7 +179,7 @@ export const LinkArtView: React.FC<{
       for (const style of styles) {
         try {
           const response = await ai.models.generateContent({
-            model: 'gemini-1.5-flash',
+            model: 'gemini-2.5-flash-image',
             contents: {
               parts: [
                 {

@@ -50,8 +50,13 @@ const LoginView: React.FC<LoginViewProps> = ({ onViewChange, setUser }) => {
           'Account temporarily locked due to too many attempts.',
           'Compte temporairement verrouillé suite à trop de tentatives.'
         ));
+      } else if (err.code === 'auth/user-disabled') {
+        setError(t(
+          'This account has been disabled.',
+          'Ce compte a été désactivé.'
+        ));
       } else {
-        setError(err.message || 'Authentication failed.');
+        setError(err.message || t('Authentication failed. Please try again.', 'L\'authentification a échoué. Veuillez réessayer.'));
       }
     } finally {
       setIsLoading(false);
@@ -87,24 +92,37 @@ const LoginView: React.FC<LoginViewProps> = ({ onViewChange, setUser }) => {
     try {
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
-      const user = result.user;
+      const firebaseUser = result.user;
 
       let userDoc;
       try {
-        userDoc = await getDoc(doc(db, 'users', user.uid));
+        userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
       } catch (err: any) {
-        handleFirestoreError(err, OperationType.GET, `users/${user.uid}`);
+        handleFirestoreError(err, OperationType.GET, `users/${firebaseUser.uid}`);
         return;
       }
       
       if (userDoc.exists()) {
         onViewChange('PROFILE');
       } else {
-        setError(t(
-          'Account not found. Please sign up first.',
-          'Compte non trouvé. Veuillez d\'abord vous inscrire.'
-        ));
-        await auth.signOut();
+        // Auto-signup with default role if first time Google Login
+        const emailLower = firebaseUser.email?.toLowerCase() || '';
+        const isAdmin = emailLower === 'linkyourart@gmail.com' || emailLower === 'lequimejeanbaptiste@gmail.com' || emailLower === 'linkart@gmail.com';
+        
+        const newProfile: UserProfile = {
+          uid: firebaseUser.uid,
+          email: firebaseUser.email || '',
+          displayName: firebaseUser.displayName || firebaseUser.email?.split('@')[0].toUpperCase() || 'USER',
+          role: isAdmin ? UserRole.ADMIN : UserRole.CREATOR,
+          isPro: isAdmin,
+          createdAt: new Date().toISOString(),
+          watchlist: [],
+          comparisonList: [],
+          usageStats: { simulator: 0, swipe: 0, compare: 0, scan: 0, talent: 0 }
+        };
+        
+        await setDoc(doc(db, 'users', firebaseUser.uid), newProfile);
+        onViewChange('PROFILE');
       }
     } catch (err: any) {
       setError(err.message || 'Google authentication failed.');

@@ -36,7 +36,7 @@ export const IssuerProfileView: React.FC<IssuerProfileProps> = ({ issuerId, onBa
     founded: "2024",
     location: "Geneva, CH / Metaverse Sector 7",
     rating: "AAA+",
-    totalVolume: "1.2B €",
+    totalVolume: "$1.2B",
     activeContracts: 14,
     successRate: "98.2%",
     team: [

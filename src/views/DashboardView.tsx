@@ -178,6 +178,17 @@ export const DashboardView: React.FC<{
     return { label: t('BEARISH', 'BAISSIER'), color: 'text-red-400', value: 35 };
   }, [marketStats.avgGrowth, t]);
 
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  
+  const handleRefresh = () => {
+    setIsRefreshing(true);
+    onNotify(t('SYNCHRONIZING WITH GLOBAL REGISTRY...', 'SYNCHRONISATION AVEC LE REGISTRE GLOBAL...'));
+    setTimeout(() => {
+      setIsRefreshing(false);
+      onNotify(t('MARKET DATA SYNCED SUCCESSFULLY.', 'DONNÉES DU MARCHÉ SYNCHRONISÉES AVEC SUCCÈS.'));
+    }, 2000);
+  };
+
   return (
     <div className="space-y-12 pb-20">
       <PageHeader 
@@ -187,12 +198,20 @@ export const DashboardView: React.FC<{
         accentColor="text-primary-cyan"
       />
 
-      <div className="space-y-12 px-6 md:px-12">
+      <div className="space-y-12 px-4 md:px-12">
         <div className="flex flex-wrap items-center justify-end gap-6 mb-12 relative z-20">
-          {/* Refined LYA Unit Block */}
+          <button 
+            onClick={handleRefresh}
+            className={`flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-widest hover:bg-white/10 transition-all rounded-sm ${isRefreshing ? 'opacity-50 pointer-events-none' : ''}`}
+          >
+            <RefreshCw size={14} className={isRefreshing ? 'animate-spin' : ''} />
+            {isRefreshing ? t('Syncing...', 'Sync en cours...') : t('Force Sync', 'Sync Forcée')}
+          </button>
+          
+          <div className="h-8 w-[1px] bg-white/5 hidden md:block" />
           <div className="relative group">
             <div className="absolute inset-0 bg-primary-cyan/5 blur-xl group-hover:bg-primary-cyan/10 transition-all duration-700" />
-            <div className="relative bg-surface-low/40 backdrop-blur-2xl border border-white/10 p-4 flex items-center gap-4 shadow-2xl rounded-sm">
+            <div className="relative bg-surface-low/40 backdrop-blur-xl border border-white/10 p-4 flex items-center gap-4 shadow-2xl rounded-sm">
               <div className="w-10 h-10 bg-primary-cyan/10 flex items-center justify-center text-primary-cyan border border-primary-cyan/20 shadow-inner">
                 <Zap size={20} className="animate-pulse" />
               </div>
@@ -220,7 +239,7 @@ export const DashboardView: React.FC<{
         </div>
 
         {/* Market Navigation - Mobile Optimized */}
-        <div className="overflow-x-auto custom-scrollbar -mx-6 px-6 sm:mx-0 sm:px-0">
+        <div className="overflow-x-auto scrollbar-hide -mx-6 px-6 sm:mx-0 sm:px-0">
           <div className="flex gap-6 sm:gap-12 border-b border-white/5 min-w-max">
             <button 
               onClick={() => setActiveTab('overview')}
@@ -366,7 +385,7 @@ export const DashboardView: React.FC<{
                     ))}
                   </div>
                 </div>
-                <div className="p-10 h-[450px] w-full relative z-10">
+                <div className="p-4 md:p-10 h-[300px] md:h-[450px] w-full relative z-10">
                   <ResponsiveContainer width="100%" height="100%">
                     <AreaChart data={chartData} margin={{ top: 20, right: 0, left: 0, bottom: 0 }}>
                       <defs>

@@ -23,6 +23,7 @@ export interface UserProfile {
   linkedin?: string;
   createdAt: string;
   isPro?: boolean;
+  hasSeenTutorial?: boolean;
   stripeCustomerId?: string;
   watchlist?: string[];
   comparisonList?: string[];
@@ -140,10 +141,10 @@ export const LYA_SIMULATOR_STEPS: LYASimulatorStep[] = [
         id: 1,
         text: 'Annual turnover from creative activity',
         options: [
-          { text: '< 10k€', points: 10 },
-          { text: '10k€ - 50k€', points: 30 },
-          { text: '50k€ - 200k€', points: 50 },
-          { text: '> 200k€', points: 67 },
+          { text: '< 10k$', points: 10 },
+          { text: '10k$ - 50k$', points: 30 },
+          { text: '50k$ - 200k$', points: 50 },
+          { text: '> 200k$', points: 67 },
         ]
       },
       {

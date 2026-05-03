@@ -206,10 +206,10 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
           </div>
         </div>
 
-        <div className="flex items-center gap-4 w-full lg:w-auto">
+        <div className="flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto">
           <button
             onClick={(e) => onToggleWatchlist?.(e, contract.id)}
-            className={`p-4 rounded-2xl border transition-all active:scale-95 ${
+            className={`p-4 rounded-2xl border transition-all active:scale-95 w-full sm:w-auto flex justify-center ${
               isWatchlisted 
                 ? 'bg-primary-cyan/10 border-primary-cyan/30 text-primary-cyan shadow-[0_0_15px_rgba(0,224,255,0.2)]' 
                 : 'bg-white/5 border-white/10 text-on-surface-variant hover:text-white hover:border-white/20'
@@ -217,16 +217,16 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
           >
             <Star size={24} className={isWatchlisted ? 'fill-primary-cyan' : ''} />
           </button>
-          <div className="flex gap-3 flex-1 lg:flex-none">
+          <div className="flex gap-3 w-full sm:w-auto">
             <button 
               onClick={() => onTrade(contract, 'BUY')}
-              className="flex-1 lg:flex-none px-10 py-4 bg-primary-cyan text-surface-dim text-[11px] font-black uppercase tracking-[0.2em] rounded-2xl hover:bg-white transition-all shadow-[0_20px_40px_rgba(0,224,255,0.2)] active:scale-95"
+              className="flex-1 sm:flex-none px-6 md:px-10 py-4 bg-primary-cyan text-surface-dim text-[11px] font-black uppercase tracking-[0.2em] rounded-2xl hover:bg-white transition-all shadow-[0_20px_40px_rgba(0,224,255,0.2)] active:scale-95"
             >
               {t('Buy Units', 'Acheter des Unités')}
             </button>
             <button 
               onClick={() => onTrade(contract, 'SELL')}
-              className="flex-1 lg:flex-none px-10 py-4 bg-accent-pink text-white text-[11px] font-black uppercase tracking-[0.2em] rounded-2xl hover:bg-white hover:text-accent-pink transition-all shadow-[0_20px_40px_rgba(255,0,255,0.2)] active:scale-95"
+              className="flex-1 sm:flex-none px-6 md:px-10 py-4 bg-accent-pink text-white text-[11px] font-black uppercase tracking-[0.2em] rounded-2xl hover:bg-white hover:text-accent-pink transition-all shadow-[0_20px_40px_rgba(255,0,255,0.2)] active:scale-95"
             >
               {t('Sell Units', 'Vendre des Unités')}
             </button>
@@ -239,67 +239,69 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
         {/* Left Column: Info & Stats */}
         <div className="lg:col-span-2 space-y-8">
           {/* Hero Image & Quick Stats */}
-          <div className="relative h-[400px] rounded-3xl overflow-hidden border border-white/10 shadow-2xl group">
+          <div className="relative min-h-[400px] lg:h-[400px] rounded-3xl overflow-hidden border border-white/10 shadow-2xl group">
             <img 
               src={contract.image} 
               alt={contract.name} 
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 absolute inset-0" 
               referrerPolicy="no-referrer" 
             />
             <div className="absolute inset-0 bg-gradient-to-t from-surface-dim via-surface-dim/20 to-transparent" />
             
-            <div className="absolute bottom-0 left-0 right-0 p-8 flex flex-wrap gap-6 items-end justify-between">
-              <div className="space-y-4">
-                <div className="flex flex-wrap items-center gap-6">
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center text-white">
-                      <BarChart3 size={24} />
+            <div className="relative h-full flex flex-col justify-end p-6 md:p-8">
+              <div className="flex flex-wrap lg:flex-nowrap items-end justify-between gap-6">
+                <div className="space-y-4">
+                  <div className="flex flex-wrap items-center gap-4 md:gap-6">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center text-white">
+                        <BarChart3 size={20} />
+                      </div>
+                      <div>
+                        <div className="text-[8px] md:text-[10px] text-white/50 uppercase tracking-widest font-bold">{t('Algorithmic Score', 'Score Algorithmique')}</div>
+                        <div className="text-xl md:text-2xl font-black text-white font-headline">{contract.scoreAlgo || 0}/500</div>
+                      </div>
                     </div>
-                    <div>
-                      <div className="text-[10px] text-white/50 uppercase tracking-widest font-bold">{t('Algorithmic Score', 'Score Algorithmique')}</div>
-                      <div className="text-2xl font-black text-white font-headline">{contract.scoreAlgo || 0}/500</div>
+                    <div className="flex items-center gap-3 md:border-l border-white/10 md:pl-6">
+                      <div className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center text-white">
+                        <ShieldCheck size={20} />
+                      </div>
+                      <div>
+                        <div className="text-[8px] md:text-[10px] text-white/50 uppercase tracking-widest font-bold">{t('Professional Rating', 'Évaluation Pro')}</div>
+                        <div className="text-xl md:text-2xl font-black text-white font-headline">{contract.scorePro || 0}/500</div>
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex items-center gap-3 border-l border-white/10 pl-6">
-                    <div className="w-12 h-12 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center text-white">
-                      <ShieldCheck size={24} />
-                    </div>
-                    <div>
-                      <div className="text-[10px] text-white/50 uppercase tracking-widest font-bold">{t('Professional Rating', 'Évaluation Pro')}</div>
-                      <div className="text-2xl font-black text-white font-headline">{contract.scorePro || 0}/500</div>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3 border-l border-white/10 pl-6">
-                    <div className="w-12 h-12 rounded-2xl bg-primary-cyan/10 backdrop-blur-xl border border-primary-cyan/20 flex items-center justify-center text-primary-cyan shadow-[0_0_20px_rgba(0,224,255,0.3)]">
-                      <Zap size={24} className="animate-pulse" />
-                    </div>
-                    <div>
-                      <div className="text-[10px] text-primary-cyan uppercase tracking-widest font-black">{t('Final LYA Score', 'Score LYA Final')}</div>
-                      <div className="text-2xl font-black text-primary-cyan font-headline">
-                        {Math.round(((contract.scoreAlgo || 0) + (contract.scorePro || 0)) / 2)}/1000
+                    <div className="flex items-center gap-3 md:border-l border-white/10 md:pl-6">
+                      <div className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-primary-cyan/10 backdrop-blur-xl border border-primary-cyan/20 flex items-center justify-center text-primary-cyan shadow-[0_0_20px_rgba(0,224,255,0.3)]">
+                        <Zap size={20} className="animate-pulse" />
+                      </div>
+                      <div>
+                        <div className="text-[8px] md:text-[10px] text-primary-cyan uppercase tracking-widest font-black">{t('Final LYA Score', 'Score LYA Final')}</div>
+                        <div className="text-xl md:text-2xl font-black text-primary-cyan font-headline">
+                          {Math.round(((contract.scoreAlgo || 0) + (contract.scorePro || 0)) / 2)}/1000
+                        </div>
                       </div>
                     </div>
                   </div>
+                  <p className="text-xs md:text-sm text-white/80 max-w-xl leading-relaxed">
+                    {contract.description}
+                  </p>
                 </div>
-                <p className="text-sm text-white/80 max-w-xl leading-relaxed">
-                  {contract.description}
-                </p>
-              </div>
-              <div className="bg-white/10 backdrop-blur-2xl border border-white/20 rounded-2xl p-4 flex gap-8">
-                <div className="text-center">
-                  <div className="text-[9px] text-white/50 uppercase tracking-widest font-bold mb-1">{t('Total Value', 'Valeur Totale')}</div>
-                  <div className="text-lg font-black text-white font-headline">${(contract.totalValue / 1000).toFixed(0)}K</div>
-                </div>
-                <div className="w-[1px] h-10 bg-white/10" />
-                <div className="text-center">
-                  <div className="text-[9px] text-white/50 uppercase tracking-widest font-bold mb-1">{t('Unit Price', 'Prix Unitaire')}</div>
-                  <div className="text-lg font-black text-primary-cyan font-headline">${contract.unitValue}</div>
-                </div>
-                <div className="w-[1px] h-10 bg-white/10" />
-                <div className="text-center">
-                  <div className="text-[9px] text-white/50 uppercase tracking-widest font-bold mb-1">{t('Growth', 'Croissance')}</div>
-                  <div className={`text-lg font-black font-headline ${contract.growth >= 0 ? 'text-emerald-400' : 'text-accent-pink'}`}>
-                    {contract.growth >= 0 ? '+' : ''}{contract.growth}%
+                <div className="bg-white/10 backdrop-blur-2xl border border-white/20 rounded-2xl p-4 flex gap-4 md:gap-8 w-full lg:w-auto justify-between lg:justify-start">
+                  <div className="text-center">
+                    <div className="text-[8px] md:text-[9px] text-white/50 uppercase tracking-widest font-bold mb-1">{t('Total Value', 'Valeur Totale')}</div>
+                    <div className="text-base md:text-lg font-black text-white font-headline">${(contract.totalValue / 1000).toFixed(0)}K</div>
+                  </div>
+                  <div className="w-[1px] h-10 bg-white/10" />
+                  <div className="text-center">
+                    <div className="text-[8px] md:text-[9px] text-white/50 uppercase tracking-widest font-bold mb-1">{t('Unit Price', 'Prix Unitaire')}</div>
+                    <div className="text-base md:text-lg font-black text-primary-cyan font-headline">${contract.unitValue}</div>
+                  </div>
+                  <div className="w-[1px] h-10 bg-white/10" />
+                  <div className="text-center">
+                    <div className="text-[8px] md:text-[9px] text-white/50 uppercase tracking-widest font-bold mb-1">{t('Growth', 'Croissance')}</div>
+                    <div className={`text-base md:text-lg font-black font-headline ${contract.growth >= 0 ? 'text-emerald-400' : 'text-accent-pink'}`}>
+                      {contract.growth >= 0 ? '+' : ''}{contract.growth}%
+                    </div>
                   </div>
                 </div>
               </div>
@@ -307,31 +309,33 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
           </div>
 
           {/* Tabs Navigation */}
-          <div className="flex border-b border-white/10">
-            {[
-              { id: 'overview', label: t('Overview', 'Aperçu'), icon: <Activity size={16} /> },
-              { id: 'financials', label: t('Financials', 'Finances'), icon: <TrendingUp size={16} /> },
-              { id: 'legal', label: t('Legal & Compliance', 'Juridique & Conformité'), icon: <ShieldCheck size={16} /> },
-              { id: 'milestones', label: t('Milestones', 'Jalons'), icon: <Clock size={16} /> },
-              { id: 'messaging', label: t('Instant messaging', 'Messagerie Instantanée'), icon: <MessageSquare size={16} /> },
-            ].map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id as any)}
-                className={`px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-2 transition-all relative ${
-                  activeTab === tab.id ? 'text-primary-cyan' : 'text-on-surface-variant hover:text-white'
-                }`}
-              >
-                {tab.icon}
-                {tab.label}
-                {activeTab === tab.id && (
-                  <motion.div 
-                    layoutId="activeTabUnderline"
-                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-cyan shadow-[0_0_10px_rgba(0,224,255,0.5)]"
-                  />
-                )}
-              </button>
-            ))}
+          <div className="flex border-b border-white/10 overflow-x-auto no-scrollbar whitespace-nowrap scroll-smooth pb-1 -mx-6 px-6 md:mx-0 md:px-0">
+            <div className="flex min-w-max">
+              {[
+                { id: 'overview', label: t('Overview', 'Aperçu'), icon: <Activity size={16} /> },
+                { id: 'financials', label: t('Financials', 'Finances'), icon: <TrendingUp size={16} /> },
+                { id: 'legal', label: t('Legal & Compliance', 'Juridique & Conformité'), icon: <ShieldCheck size={16} /> },
+                { id: 'milestones', label: t('Milestones', 'Jalons'), icon: <Clock size={16} /> },
+                { id: 'messaging', label: t('Instant messaging', 'Messagerie Instantanée'), icon: <MessageSquare size={16} /> },
+              ].map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id as any)}
+                  className={`px-4 md:px-6 py-4 text-[10px] font-black uppercase tracking-[0.1em] md:tracking-[0.2em] flex items-center gap-1.5 md:gap-2 transition-all relative shrink-0 ${
+                    activeTab === tab.id ? 'text-primary-cyan' : 'text-on-surface-variant hover:text-white'
+                  }`}
+                >
+                  {tab.icon}
+                  <span className="whitespace-nowrap">{tab.label}</span>
+                  {activeTab === tab.id && (
+                    <motion.div 
+                      layoutId="activeTabUnderline"
+                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-cyan shadow-[0_0_10px_rgba(0,224,255,0.5)]"
+                    />
+                  )}
+                </button>
+              ))}
+            </div>
           </div>
 
           {/* Tab Content */}
