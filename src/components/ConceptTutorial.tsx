@@ -68,8 +68,8 @@ const TUTORIAL_STEPS: (t: any) => Step[] = (t) => [
   },
   {
     id: 5,
-    title: t('tutorial.step5.title', 'For Professionals'),
-    description: t('tutorial.step5.desc', 'Evaluate creative projects and enhance your expertise'),
+    title: t('For Professionals', 'Pour les Professionnels'),
+    description: t('Evaluate creative projects and enhance your expertise', 'Évaluez les projets créatifs et valorisez votre expertise'),
     color: 'text-pink-400',
     glowColor: 'rgba(244, 114, 182, 0.3)',
     icon: <Users size={48} className="text-pink-400" />,
