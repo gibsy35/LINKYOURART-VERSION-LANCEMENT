@@ -14,7 +14,7 @@ const getAI = () => {
   return aiInstance;
 };
 
-const DEFAULT_MODEL = "gemini-1.5-flash";
+const DEFAULT_MODEL = "gemini-2.0-flash";
 
 export const generateAssetAnalysis = async (assetName: string, description: string, score: number) => {
   try {
