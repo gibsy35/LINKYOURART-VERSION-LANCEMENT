@@ -129,7 +129,8 @@ const CreatorVisual = () => (
       <text key={i} x={67 + i * 38} y="117" textAnchor="middle" fill="#34D399" fontSize="5.5" fontFamily="monospace">{tag}</text>
     ))}
   </svg>
-  const InvestorVisual = () => (
+);
+const InvestorVisual
   <svg viewBox="0 0 200 160" className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
     <defs>
       <linearGradient id="chartGrad" x1="0%" y1="100%" x2="0%" y2="0%">
