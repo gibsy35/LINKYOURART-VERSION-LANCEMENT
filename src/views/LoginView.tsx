@@ -6,7 +6,7 @@ import { View } from '../components/ui/Sidebar';
 import { useTranslation } from '../context/LanguageContext';
 import { auth, db } from '../firebase';
 import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail } from 'firebase/auth';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { handleFirestoreError, OperationType } from '../firebase';
 import { Logo } from '../components/ui/Logo';
 import { OracleWidget } from '../components/ui/OracleWidget';
