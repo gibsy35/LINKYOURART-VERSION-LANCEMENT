@@ -488,7 +488,6 @@ const TUTORIAL_STEPS = (): Step[] => [
   },
 ];
 
-);
 interface Props {
   isOpen: boolean;
   onClose: () => void;
