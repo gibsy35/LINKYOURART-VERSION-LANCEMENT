@@ -581,7 +581,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
 
             <div className="flex flex-col sm:flex-row items-center gap-3 mb-6 lg:mb-12">
               <button 
-                onClick={() => onViewChange('LOGIN')}
+                onClick={() => onViewChange('DASHBOARD')}
                 className="w-full sm:w-auto px-4 py-2.5 lg:px-8 lg:py-4 bg-primary-cyan text-surface-dim font-black uppercase tracking-[0.2em] group overflow-hidden shadow-[0_0_30px_rgba(0,224,255,0.3)] text-[10px] md:text-xs transition-all active:scale-95"
               >
                 <span className="relative z-10 flex items-center justify-center gap-2">
