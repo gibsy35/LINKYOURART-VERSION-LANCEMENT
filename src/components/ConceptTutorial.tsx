@@ -130,7 +130,7 @@ const CreatorVisual = () => (
     ))}
   </svg>
 );
-const InvestorVisual
+const InvestorVisual = () => (
   <svg viewBox="0 0 200 160" className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
     <defs>
       <linearGradient id="chartGrad" x1="0%" y1="100%" x2="0%" y2="0%">
