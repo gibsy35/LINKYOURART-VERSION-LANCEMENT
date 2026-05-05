@@ -38,6 +38,7 @@ import { ApplyForVerificationView } from './views/ApplyForVerificationView';
 import { AboutView } from './views/AboutView';
 import { TaxOptimizerView } from './views/TaxOptimizerView';
 import { IssuerProfileView } from './views/IssuerProfileView';
+import { AdminView } from './views/AdminView';
 import { OfferModal, TransferModal } from './components/TransactionModals';
 import { AuthModal } from './components/auth/AuthModal';
 import { ConceptTutorial } from './components/ConceptTutorial';
@@ -50,7 +51,7 @@ import { UserRole, UserProfile } from './types';
 import { useTranslation } from './context/LanguageContext';
 import { auth, db, handleFirestoreError, OperationType } from './firebase';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
-import { doc, onSnapshot, getDoc, updateDoc, setDoc } from 'firebase/firestore';
+import { doc, onSnapshot, getDoc, updateDoc, setDoc, collection } from 'firebase/firestore';
 
 export default function App() {
   const { t } = useTranslation();
@@ -84,6 +85,29 @@ export default function App() {
   const [tradePrice, setTradePrice] = useState(0);
   
   const [selectedPlan, setSelectedPlan] = useState<{ name: string, price: number, billingCycle: 'monthly' | 'yearly' } | null>(null);
+  const [checkoutData, setCheckoutData] = useState<{
+    type: 'PRO_UPGRADE' | 'ASSET_PURCHASE';
+    amount: number;
+    metadata: any;
+    title: string;
+    projectName?: string;
+  } | null>(null);
+
+  const [userContracts, setUserContracts] = useState<any[]>([]);
+
+  useEffect(() => {
+    if (user?.uid) {
+      const contractsRef = collection(db, 'users', user.uid, 'contracts');
+      return onSnapshot(contractsRef, (snapshot) => {
+        const contracts = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        setUserContracts(contracts);
+      }, (error) => {
+        handleFirestoreError(error, OperationType.GET, `users/${user.uid}/contracts`);
+      });
+    } else {
+      setUserContracts([]);
+    }
+  }, [user?.uid]);
 
   const [activeIssuerId, setActiveIssuerId] = useState<string | null>(null);
   const [isOfferModalOpen, setIsOfferModalOpen] = useState(false);
@@ -253,9 +277,26 @@ export default function App() {
           if (docSnap.exists()) {
             const userData = docSnap.data() as UserProfile;
             const userEmail = firebaseUser.email?.toLowerCase();
-            if (userEmail === 'linkyourart@gmail.com' || userEmail === 'lequimejeanbaptiste@gmail.com' || userEmail === 'linkart@gmail.com') {
+            const isAdminEmail = userEmail === 'linkyourart@gmail.com' || 
+                                 userEmail === 'lequimejeanbaptiste@gmail.com' || 
+                                 userEmail === 'jeanbaptistelequime@gmail.com' ||
+                                 userEmail === 'lyacontactpro@gmail.com' ||
+                                 userEmail === 'linkart@gmail.com' ||
+                                 userEmail === 'admin@linkyourart.com' ||
+                                 userEmail === 'superadmin@linkyourart.com';
+
+            if (isAdminEmail) {
               userData.role = UserRole.ADMIN;
               userData.isPro = true;
+              if (firebaseUser.metadata.lastSignInTime === firebaseUser.metadata.creationTime || !isAuthReady) {
+                setTimeout(() => {
+                   addNotification(
+                    'ROOT ACCESS GRANTED', 
+                    t(`WELCOME OPERATOR. ALL SYSTEMS ONLINE.`, `BIENVENUE OPÉRATEUR. TOUS LES SYSTÈMES SONT EN LIGNE.`), 
+                    'SUCCESS'
+                  );
+                }, 2000);
+              }
             }
             setUser(userData);
             
@@ -275,7 +316,13 @@ export default function App() {
             }
           } else {
             const userEmail = firebaseUser.email?.toLowerCase();
-            const isAdmin = userEmail === 'linkyourart@gmail.com' || userEmail === 'lequimejeanbaptiste@gmail.com' || userEmail === 'linkart@gmail.com';
+            const isAdmin = userEmail === 'linkyourart@gmail.com' || 
+                            userEmail === 'lequimejeanbaptiste@gmail.com' || 
+                            userEmail === 'jeanbaptistelequime@gmail.com' ||
+                            userEmail === 'lyacontactpro@gmail.com' ||
+                            userEmail === 'linkart@gmail.com' ||
+                            userEmail === 'admin@linkyourart.com' ||
+                            userEmail === 'superadmin@linkyourart.com';
             
             setUser({
               uid: firebaseUser.uid,
@@ -388,6 +435,32 @@ export default function App() {
   };
 
   const handlePlaceOrder = (contract: Contract, type: 'BUY' | 'SELL', price: number, volume: number) => {
+    if (type === 'BUY') {
+      if (!user) {
+        notify(t('Please sign in to place an order', 'Veuillez vous connecter pour passer une commande'));
+        setIsAuthModalOpen(true);
+        return;
+      }
+      
+      setCheckoutData({
+        type: 'ASSET_PURCHASE',
+        amount: price * volume * 1.032, // Including fees
+        title: `INVESTMENT: ${contract.name}`,
+        projectName: contract.name,
+        metadata: {
+          type: 'ASSET_PURCHASE',
+          contractId: contract.id,
+          units: volume,
+          price: price,
+          projectName: contract.name,
+          userId: user.uid,
+          userEmail: user.email
+        }
+      });
+      setTradingContract(null);
+      return;
+    }
+
     const newOrder: Order = {
       id: Math.random().toString(36).substr(2, 9),
       contractId: contract.id,
@@ -737,7 +810,7 @@ export default function App() {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
             >
-              {currentView === 'HOME' && <HomeView onViewChange={handleViewChange} />}
+              {currentView === 'HOME' && <HomeView user={user} onViewChange={handleViewChange} />}
               {currentView === 'SIGNUP' && <SignupView onViewChange={handleViewChange} setUser={(u) => {
                 setUser(u);
                 addNotification('ACCOUNT CREATED', 'Your professional account has been successfully initialized.', 'SUCCESS');
@@ -763,6 +836,7 @@ export default function App() {
               )}
               {currentView === 'DASHBOARD' && <DashboardView 
                 onViewChange={handleViewChange}
+                onNotify={notify}
                 onSelectContract={(c) => {
                   setViewingContract(c);
                   setCurrentView('CONTRACT_DETAIL');
@@ -821,8 +895,8 @@ export default function App() {
                   usageStats={usageStats}
                 />
               )}
-              {currentView === 'VALIDATION' && <ValidationView user={user} onNotify={notify} />}
-              {currentView === 'HOLDINGS' && <HoldingsView onNotify={notify} />}
+              {currentView === 'VALIDATION' && <ValidationView user={user} onNotify={notify} onViewChange={setCurrentView} />}
+              {currentView === 'HOLDINGS' && <HoldingsView onNotify={notify} userContracts={userContracts} onViewChange={setCurrentView} />}
               {currentView === 'REGISTRY' && (
                 <RegistryView 
                   user={user}
@@ -832,6 +906,7 @@ export default function App() {
                     setViewingContract(c);
                     setCurrentView('CONTRACT_DETAIL');
                   }}
+                  onViewChange={setCurrentView}
                 />
               )}
               {currentView === 'LINK_ART' && (
@@ -841,7 +916,7 @@ export default function App() {
                   onViewChange={setCurrentView} 
                 />
               )}
-              {currentView === 'SETTLEMENT' && <SettlementView user={user} onNotify={notify} />}
+              {currentView === 'SETTLEMENT' && <SettlementView user={user} onNotify={notify} onViewChange={setCurrentView} />}
               {currentView === 'LOUNGE' && (
                 <LoungeView 
                   user={user} 
@@ -853,21 +928,24 @@ export default function App() {
               {currentView === 'PRICING' && (
                 <PricingView 
                   onSelectPlan={(plan) => {
-                    setSelectedPlan(plan);
-                    setCurrentView('PAYMENT');
+                    if (!user) {
+                      notify(t('Please sign in to upgrade', 'Veuillez vous connecter pour passer au Pro'));
+                      setIsAuthModalOpen(true);
+                      return;
+                    }
+                    setCheckoutData({
+                      type: 'PRO_UPGRADE',
+                      amount: plan.price,
+                      title: plan.name,
+                      metadata: {
+                        type: 'PRO_UPGRADE',
+                        planName: plan.name,
+                        userEmail: user.email,
+                        userId: user.uid
+                      }
+                    });
                   }} 
-                  onNotify={notify}
-                />
-              )}
-              {currentView === 'PAYMENT' && selectedPlan && (
-                <PaymentView 
-                  plan={selectedPlan}
-                  userEmail={user?.email}
-                  onSuccess={() => {
-                    addNotification('PAYMENT SUCCESSFUL', `Your account has been upgraded to ${selectedPlan.name}.`, 'SUCCESS');
-                    setCurrentView('PROFILE');
-                  }}
-                  onCancel={() => setCurrentView('PRICING')}
+                  onNotify={notify} 
                 />
               )}
               {currentView === 'SWIPE' && (
@@ -915,6 +993,7 @@ export default function App() {
               {currentView === 'GOVERNANCE' && <GovernanceView user={user} onNotify={notify} />}
               {currentView === 'API' && <APIView user={user} onNotify={notify} />}
               {currentView === 'ACADEMY' && <AcademyView user={user} onNotify={notify} />}
+              {currentView === 'ADMIN_PANEL' && <AdminView user={user} onNotify={notify} onViewChange={setCurrentView} />}
               {currentView === 'APPLY_VERIFICATION' && <ApplyForVerificationView onNotify={notify} />}
               {currentView === 'TAX_OPTIMIZER' && <TaxOptimizerView onNotify={notify} />}
               {currentView === 'ISSUER_PROFILE' && (
@@ -930,6 +1009,33 @@ export default function App() {
         </main>
 
         <LYACopilot />
+
+        <AnimatePresence>
+          {checkoutData && (
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[200] bg-surface-dim/95 backdrop-blur-2xl overflow-y-auto pt-24 pb-12 px-6"
+            >
+              <PaymentView 
+                checkoutData={checkoutData}
+                userEmail={user?.email}
+                stripeCustomerId={user?.stripeCustomerId}
+                onSuccess={() => {
+                  notify(t('TRANSACTION SUCCESSFUL', 'TRANSACTION RÉUSSIE'));
+                  setCheckoutData(null);
+                  if (checkoutData.type === 'PRO_UPGRADE') {
+                    setCurrentView('PROFILE');
+                  } else {
+                    setCurrentView('HOLDINGS');
+                  }
+                }}
+                onCancel={() => setCheckoutData(null)}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Modals */}
         <ContractDetailModal 

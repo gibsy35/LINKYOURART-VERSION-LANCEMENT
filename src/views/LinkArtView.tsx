@@ -40,6 +40,7 @@ export const LinkArtView: React.FC<{
   onViewChange: (view: any) => void;
 }> = ({ user, onNotify, onViewChange }) => {
   const { t } = useTranslation();
+  const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
   // Access Control: Only Admin or Pro users can issue new contracts
   if (user?.role !== UserRole.ADMIN && !user?.isPro) {
@@ -162,11 +163,6 @@ export const LinkArtView: React.FC<{
     onNotify(t('GENERATING CONCEPT VISUALIZATIONS...', 'GÉNÉRATION DES VISUALISATIONS DE CONCEPT...'));
 
     try {
-      if (!process.env.GEMINI_API_KEY) {
-        throw new Error('GEMINI_API_KEY is not configured');
-      }
-      const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-      
       // We'll generate 3 different style variations
       const styles = [
         "Minimalist, professional, high-end digital art",
@@ -178,28 +174,17 @@ export const LinkArtView: React.FC<{
 
       for (const style of styles) {
         try {
+          const prompt = `Generate a square, high-quality, professional digital art piece for a creative contract described as: ${description}. Style: ${style}. High resolution, clean composition.`;
+          
           const response = await ai.models.generateContent({
-            model: 'gemini-2.5-flash-image',
-            contents: {
-              parts: [
-                {
-                  text: `Generate a square, high-quality, professional digital art piece for a creative contract described as: ${description}. Style: ${style}. High resolution, clean composition.`,
-                },
-              ],
-            },
-            config: {
-              imageConfig: {
-                aspectRatio: "1:1"
-              },
-            },
+            model: "gemini-2.5-flash-image",
+            contents: prompt
           });
 
-          if (response.candidates?.[0]?.content?.parts) {
-            for (const part of response.candidates[0].content.parts) {
-              if (part.inlineData) {
-                newOptions.push(`data:image/png;base64,${part.inlineData.data}`);
-                break;
-              }
+          for (const part of response.candidates?.[0]?.content?.parts || []) {
+            if (part.inlineData) {
+              const url = `data:image/png;base64,${part.inlineData.data}`;
+              newOptions.push(url);
             }
           }
         } catch (e) {
@@ -209,7 +194,6 @@ export const LinkArtView: React.FC<{
 
       if (newOptions.length > 0) {
         setGeneratedOptions(newOptions);
-        // Automatically select the first one if none selected
         if (!generatedImage) {
           setGeneratedImage(newOptions[0]);
         }

@@ -30,7 +30,7 @@ export const downloadAsJSON = (data: any, fileName: string) => {
   downloadAnchorNode.setAttribute("download", fileName + ".json");
   document.body.appendChild(downloadAnchorNode);
   downloadAnchorNode.click();
-  downloadAnchorNode.removeChild(downloadAnchorNode);
+  document.body.removeChild(downloadAnchorNode);
 };
 
 export const simulatePDFDownload = (title: string, content: string) => {
@@ -54,5 +54,5 @@ export const simulatePDFDownload = (title: string, content: string) => {
   downloadAnchorNode.setAttribute("download", `${title.replace(/\s+/g, '_')}_CERTIFICATE.txt`);
   document.body.appendChild(downloadAnchorNode);
   downloadAnchorNode.click();
-  downloadAnchorNode.removeChild(downloadAnchorNode);
+  document.body.removeChild(downloadAnchorNode);
 };

@@ -63,16 +63,16 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
       icon: <User size={24} />,
     },
     {
-      id: 'PRO',
-      name: t('Pro Enterprise', 'Pro Entreprise'),
-      monthlyPrice: 5900,
-      description: t('For galleries, studios, and agencies.', 'Pour les galeries, studios et agences.'),
+      id: 'PRO_ENTERPRISE',
+      name: t('Institutional Enterprise', 'Entreprise Institutionnelle'),
+      monthlyPrice: 5000,
+      description: t('Strategic infrastructure for major studios, publishers, and labels.', 'Infrastructure stratégique pour les grands studios, éditeurs et labels.'),
       features: [
-        t('Multi-user access (up to 10)', 'Accès multi-utilisateurs (jusqu\'à 10)'),
-        t('Advanced compliance suite', 'Suite de conformité avancée'),
-        t('Custom API integration', 'Intégration API personnalisée'),
-        t('Direct market liquidity access', 'Accès à la liquidité du marché direct'),
-        t('Full Academy certification', 'Certification complète de l\'Académie'),
+        t('Full Catalog Indexing & Migration', 'Indexation et Migration de Catalogue Complet'),
+        t('Externalized Editorial Management', 'Gestion Éditoriale Externalisée'),
+        t('Custom Valuation Indexing', 'Indexation de Valeur Personnalisée'),
+        t('Institutional Liquidity Bridges', 'Ponts de Liquidité Institutionnels'),
+        t('Advanced Protocol Governance', 'Gouvernance Avancée du Protocole'),
       ],
       color: 'accent-purple',
       icon: <Building2 size={24} />,
@@ -249,7 +249,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
             </div>
           </div>
 
-          {/* Pro Enterprise Details */}
+          {/* Institutional Enterprise Details */}
           <div className="bg-surface-low/30 border border-accent-purple/20 p-8 rounded-sm relative overflow-hidden group">
             <div className="absolute top-0 right-0 w-64 h-64 bg-accent-purple/5 rounded-full -mr-32 -mt-32 blur-3xl group-hover:bg-accent-purple/10 transition-all" />
             <div className="relative z-10">
@@ -258,20 +258,20 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
                   <Building2 size={24} />
                 </div>
                 <div>
-                  <h3 className="text-xl font-black uppercase tracking-tighter text-accent-purple">{t('Pro Enterprise', 'Pro Entreprise')}</h3>
-                  <p className="text-[10px] text-on-surface-variant uppercase tracking-widest font-bold">{t('Professional Scale & Compliance', 'Échelle Professionnelle et Conformité')}</p>
+                  <h3 className="text-xl font-black uppercase tracking-tighter text-accent-purple">{t('Institutional Enterprise', 'Entreprise Institutionnelle')}</h3>
+                  <p className="text-[10px] text-on-surface-variant uppercase tracking-widest font-bold">{t('Asset Management & Externalized Validation', 'Gestion d\'Actifs et Validation Externalisée')}</p>
                 </div>
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="space-y-4">
-                  <h4 className="text-xs font-black text-primary-cyan uppercase tracking-widest border-b border-primary-cyan/20 pb-2">{t('Enterprise Suite', 'Suite Entreprise')}</h4>
+                  <h4 className="text-xs font-black text-primary-cyan uppercase tracking-widest border-b border-primary-cyan/20 pb-2">{t('Operational Impact', 'Impact Opérationnel')}</h4>
                   <ul className="space-y-3">
                     {[
-                      t('Multi-seat management (10+)', 'Gestion multi-sièges (10+)'),
-                      t('Full API & SDK access', 'Accès complet API et SDK'),
-                      t('Custom compliance workflows', 'Flux de conformité personnalisés'),
-                      t('White-label client portal', 'Portail client en marque blanche')
+                      t('Global Catalog Onboarding', 'Onboarding de Catalogue Global'),
+                      t('Editorial Cost Optimization', 'Optimisation des Coûts Éditoriaux'),
+                      t('Automated Initial Vetting', 'Vérification Initiale Automatisée'),
+                      t('Externalized IP Acquisition', 'Acquisition d\'IP Externalisée')
                     ].map((f, i) => (
                       <li key={i} className="flex items-center gap-3 text-[10px] text-on-surface-variant uppercase font-bold tracking-wide">
                         <div className="w-4 h-[1px] bg-primary-cyan opacity-40" /> {f}
@@ -280,13 +280,13 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
                   </ul>
                 </div>
                 <div className="space-y-4">
-                  <h4 className="text-xs font-black text-accent-gold uppercase tracking-widest border-b border-accent-gold/20 pb-2">{t('Market Power', 'Puissance du Marché')}</h4>
+                  <h4 className="text-xs font-black text-accent-gold uppercase tracking-widest border-b border-accent-gold/20 pb-2">{t('Decision Support', 'Soutien à la Décision')}</h4>
                   <ul className="space-y-3">
                     {[
-                      t('Direct liquidity pool access', 'Accès direct au pool de liquidité'),
-                      t('Underwriting capabilities', 'Capacités de souscription'),
-                      t('Bulk contract indexing', 'Indexation de contrats en masse'),
-                      t('24/7 Professional support', 'Support professionnel 24/7')
+                      t('Real-time Valuation index', 'Indice de Valorisation en tps réel'),
+                      t('Predictive Performance data', 'Données de Performance Prédictives'),
+                      t('Institutional Funding Suite', 'Suite de Financement Institutionnel'),
+                      t('Master Registry Governance', 'Gouvernance du Registre Maître')
                     ].map((f, i) => (
                       <li key={i} className="flex items-center gap-3 text-[10px] text-on-surface-variant uppercase font-bold tracking-wide">
                         <div className="w-4 h-[1px] bg-accent-gold opacity-40" /> {f}

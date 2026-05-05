@@ -38,6 +38,7 @@ import {
 } from 'lucide-react';
 import { UserProfile, UserRole } from '../types';
 import { useTranslation } from '../context/LanguageContext';
+import { SecureMail } from '../components/ui/SecureMail';
 import { db, auth, handleFirestoreError, OperationType } from '../firebase';
 import { collection, addDoc, query, onSnapshot, orderBy, serverTimestamp, Timestamp, doc, updateDoc, increment } from 'firebase/firestore';
 

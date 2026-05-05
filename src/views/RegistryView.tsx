@@ -31,14 +31,15 @@ import { PageHeader } from '../components/ui/PageHeader';
 import { ComplianceCertificateModal } from '../components/Modals';
 import { CompareView } from './CompareView';
 import { Loader2 } from 'lucide-react';
-import { downloadAsCSV } from '../utils/download';
+import { downloadAsCSV, downloadAsJSON, simulatePDFDownload } from '../utils/download';
 
 export const RegistryView: React.FC<{ 
   user: UserProfile | null;
   onNotify: (msg: string) => void;
   allContracts: Contract[];
   onSelectContract?: (contract: Contract) => void;
-}> = ({ user, onNotify, allContracts, onSelectContract }) => {
+  onViewChange?: (view: any) => void;
+}> = ({ user, onNotify, allContracts, onSelectContract, onViewChange }) => {
   const { t } = useTranslation();
 
   // Access Control: Only Admin or Pro users can access the Legal Registry
@@ -60,7 +61,7 @@ export const RegistryView: React.FC<{
         </p>
         <div className="flex flex-col sm:flex-row gap-4">
           <button 
-            onClick={() => onNotify(t('Redirecting to membership plans...', 'Redirection vers les plans d\'adhésion...'))}
+            onClick={() => onViewChange?.('PRICING')}
             className="px-10 py-4 bg-primary-cyan text-surface-dim font-black uppercase tracking-[0.2em] hover:bg-white transition-all shadow-[0_0_20px_rgba(0,224,255,0.3)]"
           >
             {t('Upgrade to Pro', 'Passer à Pro')}
@@ -223,29 +224,30 @@ export const RegistryView: React.FC<{
         accentColor="text-accent-gold"
       />
 
-      <div className="px-6 md:px-12 flex flex-col lg:flex-row lg:items-center justify-between gap-8 mb-12">
-          <div className="flex gap-4">
+      <div className="px-6 md:px-12 grid grid-cols-2 lg:flex lg:flex-row lg:items-center justify-between gap-6 md:gap-8 mb-12">
+          <div className="contents lg:flex lg:gap-4">
             <div className="bg-surface-low/20 backdrop-blur-xl border border-white/5 p-4 text-center min-w-[120px] rounded-xl shadow-2xl">
               <div className="text-[10px] text-primary-cyan uppercase tracking-widest mb-1 font-black opacity-80">{t('Total Contracts', 'Total Contrats')}</div>
-              <div className="text-2xl font-black text-white">1,248</div>
+              <div className="text-xl md:text-2xl font-black text-white">1,248</div>
             </div>
             <div className="bg-surface-low/20 backdrop-blur-xl border border-white/5 p-4 text-center min-w-[120px] rounded-xl shadow-2xl">
               <div className="text-[10px] text-emerald-400 uppercase tracking-widest mb-1 font-black opacity-80">{t('Verified DNA', 'DNA Vérifié')}</div>
-              <div className="text-2xl font-black text-white">100%</div>
+              <div className="text-xl md:text-2xl font-black text-white">100%</div>
             </div>
           </div>
 
-          <div className="flex gap-4">
+          <div className="contents lg:flex lg:gap-4">
             <button 
               onClick={handleExport}
-              className="px-6 py-3 bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-[0.2em] hover:bg-white/10 hover:text-primary-cyan transition-all flex items-center gap-2 rounded-xl"
+              className="px-4 md:px-6 py-3 bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-[0.2em] hover:bg-white/10 hover:text-primary-cyan transition-all flex items-center justify-center gap-2 rounded-xl"
             >
               <Download size={14} />
-              {t('Export registry', 'Exporter le registre')}
+              <span className="hidden sm:inline">{t('Export registry', 'Exporter le registre')}</span>
+              <span className="sm:hidden">{t('Export', 'Exporter')}</span>
             </button>
-            <div className="px-6 py-3 bg-accent-purple/10 border border-accent-purple/20 text-[10px] font-black uppercase tracking-[0.2em] text-accent-purple flex items-center gap-2 rounded-xl">
+            <div className="px-4 md:px-6 py-3 bg-accent-purple/10 border border-accent-purple/20 text-[10px] font-black uppercase tracking-[0.2em] text-accent-purple flex items-center justify-center gap-2 rounded-xl">
               <Lock size={14} />
-              {t('Secure hub active', 'Hub sécurisé actif')}
+              <span className="truncate">{t('Secure hub active', 'Hub sécurisé actif')}</span>
             </div>
           </div>
       </div>
@@ -276,7 +278,7 @@ export const RegistryView: React.FC<{
               onClick={() => setIsComparing(true)}
               className="bg-primary-cyan text-surface-dim px-4 py-2 text-[9px] font-black uppercase tracking-[0.2em] border border-primary-cyan hover:bg-white hover:border-white transition-all active:scale-95 shadow-[0_0_20px_rgba(0,255,255,0.3)]"
             >
-              Compare {selectedIds.length} Contracts
+              {t('Compare', 'Comparer')} {selectedIds.length} {t('Contracts', 'Contrats')}
             </button>
           )}
           <div className="relative group">

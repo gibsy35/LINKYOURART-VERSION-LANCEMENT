@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { UserRole, UserProfile, LYA_SIMULATOR_STEPS, LYASimulatorStep } from '../types';
+import { UserRole, UserProfile, LYA_SIMULATOR_STEPS, LYASimulatorStep, CONTRACTS } from '../types';
 import { View } from '../components/ui/Sidebar';
 import { User, Settings, Shield, BarChart3, Layers, Globe, LogOut, Lock, Play, ExternalLink, Save, Camera, Mail, Briefcase, TrendingUp, Award, ShieldCheck, Zap, Activity, Cpu, FileCode, X, LayoutGrid, Plus, FileText, Download, MessageSquare, PieChart as PieChartIcon, Wallet, Clock, UserPlus, LayoutDashboard, History, Target, Info, Trash2, ArrowRight, Twitter, Instagram, Linkedin, Bell, CheckCircle2, AlertCircle, Search, Radar, Sparkles, Check, Loader2, Crown, CreditCard, Send, Paperclip, RefreshCw } from 'lucide-react';
 import { StatCard } from '../components/StatCard';
@@ -319,13 +319,13 @@ const ProfileView: React.FC<ProfileViewProps> = ({
       ]
     },
     'Expert Terminal': {
-      description: t('Deploy your own professional terminal to participate in the governance, validation, and security of the LYA ecosystem.', 'Déployez votre propre terminal professionnel pour participer à la gouvernance, à la validation et à la sécurité de l\'écosystème LYA.'),
-      previewImage: 'https://picsum.photos/seed/blockchain-registry/800/400',
+      description: t('Deploy your own Institutional Terminal to manage massive creative catalogs and provide deep market liquidity to your sub-entities. Outsource your initial vetting directly to the LYA security protocol.', 'Déployez votre propre Terminal Institutionnel pour gérer des catalogues créatifs massifs et fournir une liquidité de marché profonde à vos sous-entités. Externalisez votre vérification initiale directement au protocole de sécurité LYA.'),
+      previewImage: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800',
       benefits: [
-        { label: t('Governance Rights', 'Droits de Gouvernance'), desc: t('Vote on protocol updates, new listings, and strategic parameters.', 'Votez sur les mises à jour du protocole, les nouveaux listings et les paramètres stratégiques.') },
-        { label: t('Validation Rewards', 'Récompenses de Validation'), desc: t('Earn LYA units for securing the network and validating transactions.', 'Gagnez des unités LYA pour sécuriser le réseau et valider les transactions.') },
-        { label: t('Direct API Access', 'Accès API Direct'), desc: t('High-speed, low-latency access to raw registry and market data.', 'Accès haute vitesse et faible latence aux données brutes du registre et du marché.') },
-        { label: t('Custom Indexing', 'Indexation Personnalisée'), desc: t('Create your own sub-indices and professional tracking tools.', 'Créez vos propres sous-indices et outils de suivi professionnels.') }
+        { label: t('Catalog Management', 'Gestion de Catalogue'), desc: t('Bulk boarding of 1000+ assets with automated indexing.', 'Intégration en masse de 1000+ actifs avec indexation automatisée.') },
+        { label: t('Editorial Externalization', 'Externalisation Éditoriale'), desc: t('Eliminate internal "slush pile" costs via decentralized validation.', 'Éliminez les coûts des comités de lecture via la validation décentralisée.') },
+        { label: t('Institutional Funding', 'Financement Institutionnel'), desc: t('Access private liquidity pools for large-scale IP development.', 'Accédez aux pools de liquidité privés pour le développement d\'IP à grande échelle.') },
+        { label: t('Master Registry Access', 'Accès au Registre Maître'), desc: t('Full control over sub-indices and corporate valuation benchmarks.', 'Contrôle total sur les sous-indices et benchmarks de valorisation.') }
       ]
     },
     'Lounge Access': {
@@ -481,7 +481,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
       setProjects(projectsList);
       setLoadingProjects(false);
     }, (error) => {
-      console.error('Projects Error:', error);
+      handleFirestoreError(error, OperationType.LIST, 'projects');
       setLoadingProjects(false);
     });
 
@@ -2418,9 +2418,9 @@ const renderMentorshipContent = () => (
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div>
                     <div className="flex flex-col mb-4">
-                        <h1 className="text-3xl md:text-5xl font-black font-headline tracking-tighter text-on-surface leading-[1.1] md:leading-[0.9] uppercase italic flex flex-wrap items-center gap-4">
-                          <div className="h-[2px] w-8 md:w-14 bg-primary-cyan"></div>
-                          <span>REGISTRY_{user.displayName?.toUpperCase().replace(/\s+/g, '_') || 'ANONYMOUS'}</span>
+                        <h1 className="text-xl sm:text-2xl md:text-5xl font-black font-headline tracking-tighter text-on-surface leading-[1.1] md:leading-[0.9] uppercase italic flex flex-wrap items-center gap-3 md:gap-4 whitespace-normal break-words">
+                          <div className="h-[2px] w-6 md:w-14 bg-primary-cyan hidden sm:block"></div>
+                          <span className="max-w-full">REGISTRY_{user.displayName?.toUpperCase().replace(/\s+/g, '_') || 'ANONYMOUS'}</span>
                         </h1>
                         {badge && (
                           <span className={`px-3 py-1 ${badge.bg} ${badge.color} ${badge.border} border text-[10px] font-black uppercase tracking-widest rounded-full shadow-lg backdrop-blur-md`}>
@@ -2510,6 +2510,14 @@ const renderMentorshipContent = () => (
                     </>
                   ) : (
                     <>
+                      {user.role === UserRole.ADMIN && (
+                        <button 
+                          onClick={() => onViewChange?.('ADMIN_PANEL')}
+                          className="px-8 py-3 bg-accent-gold/20 border border-accent-gold/40 text-accent-gold text-[10px] font-black uppercase tracking-widest hover:bg-accent-gold hover:text-surface-dim transition-all rounded-xl flex items-center gap-2 shadow-[0_10px_20px_rgba(255,215,0,0.1)]"
+                        >
+                          <Shield size={16} /> {t('ADMIN HUB', 'HUB ADMIN')}
+                        </button>
+                      )}
                       {user.isPro && (
                         <button 
                           onClick={handleManageSubscription}

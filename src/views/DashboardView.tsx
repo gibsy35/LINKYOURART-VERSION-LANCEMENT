@@ -71,9 +71,10 @@ import { SecondaryMarket } from '../components/SecondaryMarket';
 export const DashboardView: React.FC<{ 
   onSelectContract?: (contract: Contract) => void,
   onViewChange?: (view: any) => void,
+  onNotify?: (msg: string) => void,
   watchlist?: string[],
   onToggleWatchlist?: (e: React.MouseEvent, contractId: string) => void
-}> = ({ onSelectContract, onViewChange, watchlist = [], onToggleWatchlist }) => {
+}> = ({ onSelectContract, onViewChange, onNotify, watchlist = [], onToggleWatchlist }) => {
   const { t } = useTranslation();
   const { formatPrice, formatLYA } = useCurrency();
   const { contracts, marketStats, lastUpdate } = useMarketData();
@@ -182,10 +183,10 @@ export const DashboardView: React.FC<{
   
   const handleRefresh = () => {
     setIsRefreshing(true);
-    onNotify(t('SYNCHRONIZING WITH GLOBAL REGISTRY...', 'SYNCHRONISATION AVEC LE REGISTRE GLOBAL...'));
+    onNotify?.(t('SYNCHRONIZING WITH GLOBAL REGISTRY...', 'SYNCHRONISATION AVEC LE REGISTRE GLOBAL...'));
     setTimeout(() => {
       setIsRefreshing(false);
-      onNotify(t('MARKET DATA SYNCED SUCCESSFULLY.', 'DONNÉES DU MARCHÉ SYNCHRONISÉES AVEC SUCCÈS.'));
+      onNotify?.(t('MARKET DATA SYNCED SUCCESSFULLY.', 'DONNÉES DU MARCHÉ SYNCHRONISÉES AVEC SUCCÈS.'));
     }, 2000);
   };
 
@@ -199,40 +200,40 @@ export const DashboardView: React.FC<{
       />
 
       <div className="space-y-12 px-4 md:px-12">
-        <div className="flex flex-wrap items-center justify-end gap-6 mb-12 relative z-20">
+        <div className="flex flex-wrap items-center justify-between sm:justify-end gap-3 sm:gap-6 mb-8 sm:mb-12 relative z-20">
           <button 
             onClick={handleRefresh}
-            className={`flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-widest hover:bg-white/10 transition-all rounded-sm ${isRefreshing ? 'opacity-50 pointer-events-none' : ''}`}
+            className={`flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 bg-white/5 border border-white/10 text-[9px] sm:text-[10px] font-black uppercase tracking-widest hover:bg-white/10 transition-all rounded-sm ${isRefreshing ? 'opacity-50 pointer-events-none' : ''}`}
           >
-            <RefreshCw size={14} className={isRefreshing ? 'animate-spin' : ''} />
+            <RefreshCw size={12} className={isRefreshing ? 'animate-spin' : ''} />
             {isRefreshing ? t('Syncing...', 'Sync en cours...') : t('Force Sync', 'Sync Forcée')}
           </button>
           
-          <div className="h-8 w-[1px] bg-white/5 hidden md:block" />
-          <div className="relative group">
+          <div className="h-6 w-[1px] bg-white/5 hidden sm:block" />
+          <div className="relative group flex-1 sm:flex-none">
             <div className="absolute inset-0 bg-primary-cyan/5 blur-xl group-hover:bg-primary-cyan/10 transition-all duration-700" />
-            <div className="relative bg-surface-low/40 backdrop-blur-xl border border-white/10 p-4 flex items-center gap-4 shadow-2xl rounded-sm">
-              <div className="w-10 h-10 bg-primary-cyan/10 flex items-center justify-center text-primary-cyan border border-primary-cyan/20 shadow-inner">
-                <Zap size={20} className="animate-pulse" />
+            <div className="relative bg-surface-low/40 backdrop-blur-xl border border-white/10 p-2 sm:p-4 flex items-center gap-2 sm:gap-4 shadow-2xl rounded-sm">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-primary-cyan/10 flex items-center justify-center text-primary-cyan border border-primary-cyan/20 shadow-inner">
+                <Zap size={16} className="animate-pulse" />
               </div>
               <div>
-                <div className="text-[8px] text-accent-gold uppercase tracking-[0.3em] font-black mb-1 flex items-center gap-2">
+                <div className="text-[7px] md:text-[8px] text-accent-gold uppercase tracking-[0.2em] sm:tracking-[0.3em] font-black mb-0.5 sm:mb-1 flex items-center gap-1 sm:gap-2">
                   {t('LYA Standard Unit', 'Unité Standard LYA')}
                   <div className="w-1 h-1 rounded-full bg-emerald-400 animate-pulse" />
                 </div>
-                <p className="text-lg font-black font-mono text-on-surface leading-none tracking-tighter">1 LYA = {formatLYA()}</p>
+                <p className="text-xs sm:text-lg font-black font-mono text-on-surface leading-none tracking-tighter truncate">1 LYA = {formatLYA()}</p>
               </div>
             </div>
           </div>
 
-          <div className="h-12 w-[1px] bg-white/5 hidden md:block" />
+          <div className="h-10 w-[1px] bg-white/5 hidden lg:block" />
 
-          <div className="space-y-2">
-            <div className="flex items-center gap-3">
-              <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse shadow-[0_0_10px_rgba(52,211,153,0.5)]" />
-              <span className="text-[10px] font-black text-on-surface uppercase tracking-[0.3em]">{t('Terminal: LYA-MAIN-01', 'Terminal : LYA-MAIN-01')}</span>
+          <div className="space-y-1 sm:space-y-2 text-right">
+            <div className="flex items-center justify-end gap-2 sm:gap-3">
+              <div className="w-1.5 h-1.5 sm:w-2 h-2 bg-emerald-400 rounded-full animate-pulse shadow-[0_0_10px_rgba(52,211,153,0.5)]" />
+              <span className="text-[8px] sm:text-[10px] font-black text-on-surface uppercase tracking-[0.2em] sm:tracking-[0.3em]">{t('Terminal: LYA-MAIN-01', 'Terminal : LYA-MAIN-01')}</span>
             </div>
-            <div className="text-[10px] font-mono text-on-surface-variant uppercase tracking-widest opacity-40 text-right">
+            <div className="text-[8px] sm:text-[10px] font-mono text-on-surface-variant uppercase tracking-widest opacity-40">
               {t('Last Sync:', 'Dernière Sync :')} {lastUpdate.toLocaleTimeString('en-GB', { hour12: false })}
             </div>
           </div>
@@ -361,20 +362,20 @@ export const DashboardView: React.FC<{
               {/* Market Index Performance Chart */}
               <div className="bg-surface-low/30 backdrop-blur-2xl border border-white/10 rounded-sm shadow-2xl relative group overflow-hidden">
                 <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary-cyan/50 to-transparent" />
-                <div className="bg-white/[0.02] px-8 py-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 border-b border-white/5 relative z-10">
+                <div className="bg-white/[0.02] px-4 sm:px-8 py-4 sm:py-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-6 border-b border-white/5 relative z-10">
                   <div>
-                    <h2 className="text-xl font-black font-headline uppercase tracking-[0.3em] flex items-center gap-4">
-                      <TrendingUp size={24} className="text-primary-cyan" />
+                    <h2 className="text-sm sm:text-lg md:text-xl font-black font-headline uppercase tracking-[0.2em] sm:tracking-[0.3em] flex items-center gap-3 sm:gap-4">
+                      <TrendingUp size={20} className="text-primary-cyan" />
                       {t('Market Index Performance', 'Performance de l\'Indice du Marché')}
                     </h2>
-                    <p className="text-[10px] text-on-surface-variant uppercase tracking-[0.4em] font-bold opacity-40 mt-2">{t('Aggregate creative equity value across all registries', 'Valeur agrégée des fonds propres créatifs sur tous les registres')}</p>
+                    <p className="text-[8px] sm:text-[10px] text-on-surface-variant uppercase tracking-[0.2em] sm:tracking-[0.4em] font-bold opacity-40 mt-1 sm:mt-2">{t('Aggregate creative equity value across all registries', 'Valeur agrégée des fonds propres créatifs sur tous les registres')}</p>
                   </div>
-                  <div className="flex bg-surface-dim/60 p-1 border border-white/5 rounded-sm shadow-inner">
+                  <div className="flex bg-surface-dim/60 p-1 border border-white/5 rounded-sm shadow-inner w-full sm:w-auto overflow-x-auto no-scrollbar">
                     {['1D', '1W', '1M', '1Y', 'ALL'].map(time => (
                       <button 
                         key={time} 
                         onClick={() => setActiveRange(time)}
-                        className={`px-6 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] transition-all active:scale-95 ${
+                        className={`flex-1 sm:flex-none px-3 sm:px-5 py-2 sm:py-2.5 text-[9px] sm:text-[10px] font-black uppercase tracking-[0.1em] sm:tracking-[0.2em] transition-all active:scale-95 whitespace-nowrap ${
                           activeRange === time 
                             ? 'bg-primary-cyan text-surface-dim shadow-[0_0_15px_rgba(0,224,255,0.3)]' 
                             : 'text-on-surface-variant hover:text-on-surface hover:bg-white/5'

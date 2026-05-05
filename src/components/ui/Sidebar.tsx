@@ -5,6 +5,7 @@ import {
   Home, 
   LayoutDashboard, 
   ArrowLeftRight, 
+  Shield,
   ShieldCheck, 
   Briefcase, 
   BookOpen, 
@@ -62,6 +63,7 @@ export type View =
   | 'APPLY_VERIFICATION' 
   | 'ABOUT' 
   | 'TAX_OPTIMIZER' 
+  | 'ADMIN_PANEL'
   | 'ISSUER_PROFILE';
 
 interface SidebarProps {
@@ -106,6 +108,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: 'LOUNGE', icon: Coffee, label: t('sidebar.lounge', 'SALON'), category: 'COMMUNAUTÉ' },
     { id: 'ACADEMY', icon: Globe, label: t('ACADEMY', 'ACADÉMIE'), category: 'RESSOURCES' },
   ];
+
+  if (user?.role === UserRole.ADMIN) {
+    menuItems.push({ id: 'ADMIN_PANEL', icon: Shield, label: t('ADMIN HUB', 'ADMIN HUB'), category: 'SYSTEM' });
+  }
 
   const secondaryItems = [
     { id: 'SETTINGS', icon: Settings, label: t('common.settings', 'REGLAGES') },
@@ -257,15 +263,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   return (
     <>
-      {/* Mobile Menu Button - Fixed position, high z-index, distinct style */}
-      <div className="fixed top-4 left-6 z-[2000] lg:hidden">
-        <button
-          onClick={() => (isOpen ? onClose() : onClose())}
-          className="hidden"
-        >
-        </button>
-      </div>
-
       {/* Sidebar Mobile Overlay */}
       <AnimatePresence>
         {isOpen && (

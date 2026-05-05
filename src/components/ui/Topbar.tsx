@@ -135,18 +135,28 @@ export const Topbar: React.FC<TopbarProps> = ({
             <span className="hidden sm:inline">{language}</span>
           </button>
 
-          {/* Currency Selector */}
-          <select 
-            value={currency}
-            onChange={(e) => setCurrency(e.target.value as any)}
-            className="hidden xs:block bg-transparent border-none text-[10px] font-bold text-on-surface-variant hover:text-white focus:ring-0 uppercase tracking-widest cursor-pointer"
-          >
-            <option value="USD">USD</option>
-            <option value="EUR">EUR</option>
-            <option value="GBP">GBP</option>
-            <option value="JPY">JPY</option>
-            <option value="CHF">CHF</option>
-          </select>
+          {/* Currency Switcher */}
+          <div className="flex items-center gap-1 bg-white/5 p-0.5 rounded-full border border-white/10 ml-1">
+            {[
+              { id: 'USD', symbol: '$' },
+              { id: 'EUR', symbol: '€' },
+              { id: 'GBP', symbol: '£' },
+              { id: 'JPY', symbol: '¥' }
+            ].map((curr) => (
+              <button
+                key={curr.id}
+                onClick={() => setCurrency(curr.id as any)}
+                className={`w-7 h-7 flex items-center justify-center text-[10px] font-black transition-all rounded-full ${
+                  currency === curr.id 
+                    ? 'bg-primary-cyan text-surface-dim shadow-[0_0_15px_rgba(0,224,255,0.6)]' 
+                    : 'text-on-surface-variant/60 hover:text-white hover:bg-white/10'
+                }`}
+                title={curr.id}
+              >
+                {curr.symbol}
+              </button>
+            ))}
+          </div>
 
           {/* Notifications */}
           <div className="relative">
@@ -278,6 +288,14 @@ export const Topbar: React.FC<TopbarProps> = ({
                       <div className="text-[9px] text-on-surface-variant/60 truncate">{user.email}</div>
                     </div>
                     <div className="p-2">
+                      {user.role === UserRole.ADMIN && (
+                        <button 
+                          onClick={() => { onViewChange('ADMIN_PANEL'); setIsUserMenuOpen(false); }}
+                          className="w-full flex items-center gap-3 px-3 py-2 text-[10px] font-bold text-accent-gold hover:text-white hover:bg-accent-gold/10 transition-all uppercase tracking-widest border border-accent-gold/20 mb-1 rounded-sm"
+                        >
+                          <Shield size={14} /> {t('ADMIN HUB', 'HUB ADMIN')}
+                        </button>
+                      )}
                       <button 
                         onClick={() => { onViewChange('PROFILE'); setIsUserMenuOpen(false); }}
                         className="w-full flex items-center gap-3 px-3 py-2 text-[10px] font-bold text-on-surface-variant hover:text-white hover:bg-white/5 transition-all uppercase tracking-widest"

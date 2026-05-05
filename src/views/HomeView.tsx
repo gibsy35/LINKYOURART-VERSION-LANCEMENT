@@ -41,7 +41,10 @@ import { CONTRACTS } from '../types';
 import { LYAProtocolBadge } from '../components/LYAProtocol';
 import { Player } from '../components/ui/Player';
 
+import { UserProfile } from '../types';
+
 interface HomeViewProps {
+  user: UserProfile | null;
   onViewChange: (view: View) => void;
 }
 
@@ -227,23 +230,23 @@ const RealTimeValuation = () => {
         </div>
 
         {/* Category Selector GRID */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl mx-auto mb-16">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-4 max-w-4xl mx-auto mb-16">
           {categories.map((cat) => (
             <button
               key={cat.id}
               onClick={() => setSelectedCategory(cat.id)}
-              className={`p-6 border transition-all text-left relative overflow-hidden group ${
+              className={`p-4 sm:p-6 border transition-all text-left relative overflow-hidden group ${
                 selectedCategory === cat.id 
                   ? 'bg-primary-cyan/10 border-primary-cyan shadow-[0_0_20px_rgba(0,224,255,0.2)]' 
                   : 'bg-surface-high border-white/5 opacity-60 hover:opacity-100 hover:border-white/10'
               }`}
             >
-              <div className={`mb-3 ${selectedCategory === cat.id ? 'text-primary-cyan' : 'text-on-surface-variant'}`}>{cat.icon}</div>
-              <div className="text-sm font-black text-white uppercase mb-1">{cat.label}</div>
-              <div className="text-[9px] font-mono text-on-surface-variant uppercase tracking-widest leading-none">{cat.sub}</div>
+              <div className={`mb-2 sm:mb-3 ${selectedCategory === cat.id ? 'text-primary-cyan' : 'text-on-surface-variant'}`}>{cat.icon}</div>
+              <div className="text-[10px] sm:text-sm font-black text-white uppercase mb-1">{cat.label}</div>
+              <div className="text-[7px] sm:text-[9px] font-mono text-on-surface-variant uppercase tracking-widest leading-none">{cat.sub}</div>
               {selectedCategory === cat.id && (
                 <div className="absolute top-2 right-2">
-                  <CheckCircle2 size={12} className="text-primary-cyan" />
+                  <CheckCircle2 size={10} className="text-primary-cyan sm:size-12" />
                 </div>
               )}
             </button>
@@ -261,30 +264,30 @@ const RealTimeValuation = () => {
             <div className="absolute top-0 left-0 w-full h-1 bg-primary-cyan opacity-30" />
             
             {/* Header Info */}
-            <div className="flex flex-col lg:flex-row justify-between items-center gap-8 mb-12 lg:mb-16">
-              <div className="flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
-                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-sm flex items-center justify-center border border-primary-cyan/30 bg-primary-cyan/10 text-primary-cyan shrink-0">
+            <div className="flex flex-col lg:flex-row justify-between items-center gap-6 sm:gap-8 mb-10 sm:mb-12 lg:mb-16">
+              <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 text-center sm:text-left">
+                <div className="w-14 h-14 sm:w-20 sm:h-20 rounded-sm flex items-center justify-center border border-primary-cyan/30 bg-primary-cyan/10 text-primary-cyan shrink-0">
                   {categories.find(c => c.id === selectedCategory)?.icon}
                 </div>
                 <div>
-                  <h3 className="text-2xl sm:text-3xl font-black text-white uppercase italic">{categories.find(c => c.id === selectedCategory)?.label}</h3>
-                  <div className="text-[10px] sm:text-xs font-mono text-on-surface-variant uppercase tracking-widest flex flex-wrap items-center justify-center sm:justify-start gap-2">
+                  <h3 className="text-xl sm:text-3xl font-black text-white uppercase italic leading-tight">{categories.find(c => c.id === selectedCategory)?.label}</h3>
+                  <div className="text-[9px] sm:text-xs font-mono text-on-surface-variant uppercase tracking-widest flex flex-wrap items-center justify-center sm:justify-start gap-1 sm:gap-2">
                     {t('Case Study', 'Étude de Cas')} : {categories.find(c => c.id === selectedCategory)?.sub}
                     <span className="hidden sm:block w-1 h-1 bg-white/20 rounded-full" />
-                    <span className="text-primary-cyan">{formatPrice(categories.find(c => c.id === selectedCategory)?.budget || 0)} TOTAL CAP.</span>
+                    <span className="text-primary-cyan font-bold">{formatPrice(categories.find(c => c.id === selectedCategory)?.budget || 0)} TOTAL CAP.</span>
                   </div>
                 </div>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full lg:w-auto">
-                <div className="px-4 py-3 bg-white/5 border border-white/10 rounded-sm text-center">
-                  <div className="text-[8px] font-mono text-on-surface-variant uppercase tracking-widest mb-1">{t('Total Budget', 'Budget Total')}</div>
-                  <div className="text-lg font-black text-white whitespace-nowrap">{formatPrice(categories.find(c => c.id === selectedCategory)?.budget || 0)}</div>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3 w-full lg:w-auto">
+                <div className="px-3 py-2 sm:px-4 sm:py-3 bg-white/5 border border-white/10 rounded-sm text-center">
+                  <div className="text-[7px] sm:text-[8px] font-mono text-on-surface-variant uppercase tracking-widest mb-1">{t('Total Budget', 'Budget Total')}</div>
+                  <div className="text-sm sm:text-lg font-black text-white whitespace-nowrap">{formatPrice(categories.find(c => c.id === selectedCategory)?.budget || 0)}</div>
                 </div>
-                <div className="px-4 py-3 bg-white/5 border border-white/10 rounded-sm text-center">
-                  <div className="text-[8px] font-mono text-on-surface-variant uppercase tracking-widest mb-1">{t('Initial Score', 'Score Initial')}</div>
-                  <div className="text-lg font-black text-white">{currentData.initialScore}/1000</div>
+                <div className="px-3 py-2 sm:px-4 sm:py-3 bg-white/5 border border-white/10 rounded-sm text-center">
+                  <div className="text-[7px] sm:text-[8px] font-mono text-on-surface-variant uppercase tracking-widest mb-1">{t('Initial Score', 'Score Initial')}</div>
+                  <div className="text-sm sm:text-lg font-black text-white">{currentData.initialScore}/1000</div>
                 </div>
-                <div className="px-4 py-3 bg-primary-cyan/5 border border-primary-cyan/20 rounded-sm text-center relative overflow-hidden">
+                <div className="col-span-2 sm:col-span-1 px-3 py-2 sm:px-4 sm:py-3 bg-primary-cyan/5 border border-primary-cyan/20 rounded-sm text-center relative overflow-hidden">
                   <div className="text-[8px] font-mono text-primary-cyan uppercase tracking-widest mb-1">{t('Current Value', 'Valeur Actuelle')}</div>
                   <div className="flex flex-col items-center">
                     <div className="text-lg font-black text-primary-cyan flex items-center gap-2">
@@ -404,73 +407,157 @@ interface ProjectCardProps {
   onClick: () => void;
 }
 
-const ProjectCard: React.FC<ProjectCardProps> = ({ label, sub, budget, icon, active, onClick }) => (
-  <motion.div 
-    onClick={onClick}
-    whileHover={{ y: -5, scale: 1.02 }}
-    className={`p-6 border transition-all text-left relative overflow-hidden group min-w-[280px] h-[350px] cursor-pointer flex flex-col justify-between ${
-      active 
-        ? 'bg-primary-cyan/10 border-primary-cyan shadow-[0_0_30px_rgba(0,224,255,0.2)]' 
-        : 'bg-surface-low/40 border-white/5 backdrop-blur-md opacity-80 hover:opacity-100 hover:border-primary-cyan/30'
-    }`}
-  >
-    {/* Specialized Value Badge */}
-    <div className="absolute top-4 left-4 z-20">
-      <div className={`px-2 py-1 ${active ? 'bg-white text-primary-cyan' : 'bg-primary-cyan text-surface-dim'} text-[8px] font-black uppercase tracking-widest rounded-sm shadow-xl flex items-center gap-1.5 border border-white/10 group-hover:scale-110 transition-transform`}>
-        <Coins size={10} />
-        LYA UNIT $50
-      </div>
-    </div>
+const ProjectCard: React.FC<ProjectCardProps & { score?: string; status?: string; color?: string; isAbsoluteHighest?: boolean }> = ({ label, sub, budget, icon, active, onClick, score = '742', status = 'VALIDATED', color = 'primary-cyan', isAbsoluteHighest = false }) => {
+  const { t } = useTranslation();
+  const numericScore = parseInt(score);
+  
+  // Only the absolute highest gets the super-enhanced beam
+  // Others use the same standard beam when active or hovered
+  return (
+    <motion.div 
+      onClick={onClick}
+      whileHover={{ y: -5, scale: 1.02 }}
+      className={`p-4 sm:p-6 border transition-all text-left relative group min-w-[220px] sm:min-w-[280px] h-[320px] sm:h-[380px] cursor-pointer flex flex-col justify-between ${
+        isAbsoluteHighest 
+          ? `bg-${color}/10 border-${color}/60 shadow-[0_0_100px_rgba(0,224,255,0.8)]` 
+          : active
+            ? `bg-${color}/5 border-${color}/20 shadow-[0_0_40px_rgba(0,224,255,0.15)]`
+            : 'bg-surface-low/40 border-white/5 backdrop-blur-md opacity-80 hover:opacity-100 hover:border-primary-cyan/30'
+      }`}
+    >
+      {/* Animated Light Beam / Border */}
+      <div className="absolute inset-0 overflow-hidden rounded-[inherit] pointer-events-none z-0">
+        <motion.div 
+          initial={{ rotate: 0 }}
+          animate={{ rotate: 360 }}
+          transition={{ duration: isAbsoluteHighest ? 1 : 8, repeat: Infinity, ease: "linear" }}
+          className={`absolute -inset-[150%] opacity-0 ${isAbsoluteHighest ? 'opacity-100' : active ? 'opacity-10' : 'group-hover:opacity-30'} transition-opacity duration-700`}
+        >
+          <div className={`w-full h-full bg-conic-gradient from-transparent via-primary-cyan/${isAbsoluteHighest ? '100' : '15'} to-transparent ${isAbsoluteHighest ? 'blur-[80px]' : 'blur-3xl'}`} />
+        </motion.div>
+        
+        {/* Dynamic Beam Edge */}
+        <div className={`absolute inset-0 border-[2px] transition-all duration-700 ${
+          isAbsoluteHighest 
+            ? `border-primary-cyan shadow-[0_0_20px_rgba(0,224,255,0.8)] opacity-100` 
+            : active 
+              ? 'border-primary-cyan/30 opacity-50' 
+              : 'border-white/5 opacity-50 group-hover:border-primary-cyan/40 group-hover:opacity-100'
+        }`} />
 
-    <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-      {icon}
-    </div>
-    <div className="relative z-10">
-      <div className={`mb-6 transition-transform group-hover:scale-110 p-4 bg-white/5 rounded-sm inline-block ${active ? 'text-primary-cyan' : 'text-on-surface-variant'} [&_svg]:w-8 [&_svg]:h-8`}>
+        {/* Additional pulse glow for high scores */}
+        {(active || isAbsoluteHighest) && (
+          <motion.div 
+            animate={{ 
+              opacity: isAbsoluteHighest ? [0.2, 0.6, 0.2] : [0.1, 0.3, 0.1],
+              scale: isAbsoluteHighest ? [1, 1.1, 1] : [1, 1.02, 1]
+            }}
+            transition={{ duration: isAbsoluteHighest ? 1.5 : 3, repeat: Infinity, ease: "easeInOut" }}
+            className={`absolute inset-0 bg-primary-cyan/${isAbsoluteHighest ? '30' : '15'} blur-3xl z-[-1]`}
+          />
+        )}
+      </div>
+
+      {/* Internal Content Wrapper to respect overflow */}
+      <div className="absolute inset-0 overflow-hidden rounded-[inherit] z-0">
+        <div className="absolute inset-0 bg-gradient-to-tr from-primary-cyan/5 via-transparent to-white/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+      </div>
+      {/* Specialized Value Badge */}
+      <div className="absolute top-4 left-4 z-20 flex flex-col gap-2">
+        <div className={`px-2.5 py-1.5 ${active ? 'bg-primary-cyan text-surface-dim' : 'bg-black/80 text-primary-cyan'} text-[9px] font-black uppercase tracking-widest rounded shadow-[0_0_20px_rgba(0,0,0,0.5)] flex items-center gap-1.5 border border-white/10 group-hover:scale-110 transition-transform`}>
+          <Coins size={10} />
+          LYA UNIT $50
+        </div>
+        <div className="flex items-center gap-2 px-2.5 py-1 bg-black/90 border border-white/20 text-[8px] font-black uppercase tracking-widest text-emerald-400 rounded shadow-2xl">
+          <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse shadow-[0_0_5px_rgba(52,211,153,1)]" />
+          {status}
+        </div>
+      </div>
+  
+      <div className="absolute top-4 right-4 z-20">
+        <div className="flex flex-col items-center bg-black/40 backdrop-blur-md p-2 rounded-lg border border-white/5">
+          <div className="text-[7px] font-mono text-on-surface-variant uppercase tracking-widest opacity-60 mb-0.5">Score LYA</div>
+          <div className={`text-base font-black italic tracking-tighter ${active ? 'text-primary-cyan' : 'text-white'}`}>{score}</div>
+        </div>
+      </div>
+  
+      <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
         {icon}
       </div>
-      <div className="text-xl font-black text-white uppercase mb-1 tracking-tighter italic">{label}</div>
-      <div className="text-[10px] font-mono text-on-surface-variant uppercase tracking-widest mb-4 opacity-60 leading-none">{sub}</div>
-    </div>
-    
-    <div className="relative z-10">
-      <div className="h-px w-full bg-white/5 mb-6" />
-      <div className="flex justify-between items-end">
-        <div className="flex flex-col gap-1">
-          <div className="text-[9px] font-mono text-on-surface-variant uppercase tracking-widest opacity-40">Capitalisation</div>
-          <div className="text-sm font-black text-white">{budget}</div>
+      <div className="relative z-10 mt-12 px-1">
+        <div className={`mb-6 transition-all group-hover:scale-110 p-4 rounded-xl inline-block ${active ? 'bg-primary-cyan/20 text-primary-cyan shadow-[0_0_20px_rgba(0,224,255,0.2)]' : 'bg-white/5 text-on-surface-variant'} [&_svg]:w-9 [&_svg]:h-9`}>
+          {icon}
         </div>
-        <div className="w-8 h-8 bg-primary-cyan/20 rounded-full flex items-center justify-center text-primary-cyan opacity-0 group-hover:opacity-100 transition-opacity">
-          <ArrowUpRight size={14} />
+        <div className="text-2xl font-black text-white uppercase mb-1 tracking-tighter italic leading-none">{label}</div>
+        <div className="text-[11px] font-mono text-primary-cyan/80 uppercase tracking-widest mb-6 opacity-90 leading-none font-bold">{sub}</div>
+  
+        {/* Progress Bar (financing) */}
+        <div className="space-y-1.5 mb-6">
+          <div className="flex justify-between text-[8px] font-black uppercase tracking-widest opacity-60">
+            <span>{t('Financing', 'Financement')}</span>
+            <span className="text-primary-cyan">68% / $250k</span>
+          </div>
+          <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+            <motion.div 
+              initial={{ width: 0 }}
+              whileInView={{ width: '68%' }}
+              className="h-full bg-gradient-to-r from-primary-cyan to-indigo-500 shadow-[0_0_10px_rgba(0,224,255,0.5)]"
+            />
+          </div>
         </div>
       </div>
-    </div>
-  </motion.div>
-);
+      
+      <div className="relative z-10">
+        <div className="h-[2px] w-12 bg-primary-cyan mb-6 group-hover:w-full transition-all duration-500" />
+        <div className="flex justify-between items-end">
+          <div className="flex flex-col gap-1">
+            <div className="text-[8px] font-bold text-on-surface-variant uppercase tracking-widest opacity-40">{t('Min Allocation', 'Allocation Min')}</div>
+            <div className="text-sm font-black text-white group-hover:text-primary-cyan transition-colors">{budget}</div>
+          </div>
+          <div className="flex flex-col items-end gap-1">
+            <div className="text-[8px] font-bold text-on-surface-variant uppercase tracking-widest opacity-40">{t('Industry Hub', 'Hub Sectoriel')}</div>
+            <div className="text-[10px] font-black text-accent-gold uppercase tracking-tighter flex items-center gap-1">
+              <Shield size={10} /> {t('VERIFIED', 'VÉRIFIÉ')}
+            </div>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
 
 const ProjectSlider = ({ onNav }: { onNav: (v: View) => void }) => {
   const { t } = useTranslation();
   const projects = [
-    { id: 'film', label: t('Feature Film', 'Long-métrage'), sub: t('Professional Cinema Rights', 'Droits Cinéma Professionnels'), budget: '1.5M$', icon: <Clapperboard /> },
-    { id: 'music', label: t('Music Album', 'Album Musical'), sub: t('Verified Creative Portfolio', 'Portfolio Créatif Vérifié'), budget: '150K$', icon: <Music /> },
-    { id: 'series', label: t('TV Series', 'Série TV'), sub: t('Digital Content Rights', 'Droits de Contenu Digital'), budget: '400K$', icon: <Video /> },
-    { id: 'comedy', label: t('Musical Comedy', 'Comédie Musicale'), sub: t('Creative Arts Index', 'Index des Arts Créatifs'), budget: '250K$', icon: <Zap /> },
+    { id: 'film', label: t('Feature Film', 'Long-métrage'), sub: t('Professional Cinema Rights', 'Droits Cinéma Professionnels'), budget: '1.5M$', score: '978', status: 'AUDITED', color: 'primary-cyan', icon: <Clapperboard /> },
+    { id: 'music', label: t('Music Album', 'Album Musical'), sub: t('Verified Creative Portfolio', 'Portfolio Créatif Vérifié'), budget: '150K$', score: '984', status: 'VALIDATED', color: 'rose-400', icon: <Music /> },
+    { id: 'series', label: t('TV Series', 'Série TV'), sub: t('Digital Content Rights', 'Droits de Contenu Digital'), budget: '400K$', score: '992', status: 'MINTING', color: 'indigo-400', icon: <Video /> },
+    { id: 'comedy', label: t('Musical Comedy', 'Comédie Musicale'), sub: t('Creative Arts Index', 'Index des Arts Créatifs'), budget: '250K$', score: '965', status: 'PENDING', color: 'accent-gold', icon: <Zap /> },
   ];
 
   return (
-    <div className="relative w-full overflow-hidden py-10 mt-12 lg:mt-0 flex items-center min-h-[450px]">
-      <div className="flex gap-6 animate-marquee">
-        {[...projects, ...projects, ...projects].map((p, i) => (
-          <ProjectCard key={i} {...p} active={i % 4 === 0} onClick={() => onNav('EXCHANGE')} />
-        ))}
+    <div className="relative w-full overflow-hidden py-10 mt-12 lg:mt-0 flex items-center min-h-[400px] sm:min-h-[450px]">
+      <div className="flex gap-4 sm:gap-6 animate-marquee">
+        {[...projects, ...projects, ...projects].map((p, i) => {
+          const isHighest = p.score === '992'; // TV Series
+          return (
+            <ProjectCard 
+              key={i} 
+              {...p} 
+              active={true} 
+              isAbsoluteHighest={isHighest}
+              onClick={() => onNav('EXCHANGE')} 
+            />
+          );
+        })}
       </div>
-      <div className="absolute left-0 top-0 h-full w-40 bg-gradient-to-r from-surface-dim to-transparent z-10 pointer-events-none" />
-      <div className="absolute right-0 top-0 h-full w-40 bg-gradient-to-l from-surface-dim to-transparent z-10 pointer-events-none" />
+      <div className="absolute left-0 top-0 h-full w-12 md:w-40 bg-gradient-to-r from-surface-dim to-transparent z-10 pointer-events-none" />
+      <div className="absolute right-0 top-0 h-full w-12 md:w-40 bg-gradient-to-l from-surface-dim to-transparent z-10 pointer-events-none" />
     </div>
   );
 };
 
-export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
+export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange }) => {
 
   const { t } = useTranslation();
 
@@ -562,27 +649,27 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 1, ease: "easeOut" }}
-              className="text-left z-20 relative pt-10 lg:pt-20"
+              className="text-left z-20 relative pt-16 sm:pt-20 lg:pt-24"
             >
-              <div className="relative mb-6 lg:mb-10 xl:mb-16">
-                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-[11rem] font-black tracking-tighter leading-[0.85] md:leading-[0.75] uppercase text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.2)]">
-                  {t('ART IS AN', 'L\'ART EST UN')} <br className="hidden lg:block" />
+              <div className="relative mb-4 sm:mb-8 lg:mb-12 xl:mb-16">
+                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-[10rem] font-black tracking-tighter leading-[0.9] md:leading-[0.8] uppercase text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.2)]">
+                  {t('ART IS AN', 'L\'ART EST UN')} <br className="hidden sm:block" />
                   <span className="text-primary-cyan drop-shadow-[0_0_80px_rgba(0,224,255,0.6)] font-black">{t('EXCHANGE.', 'ÉCHANGE.')}</span>
                 </h1>
               </div>
               
-              <p className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-white max-w-5xl mb-4 lg:mb-8 xl:mb-12 font-black uppercase tracking-tight leading-tight drop-shadow-lg">
+              <p className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-white max-w-5xl mb-4 sm:mb-6 lg:mb-8 xl:mb-12 font-black uppercase tracking-tight leading-tight drop-shadow-lg">
                 "{t('LINKYOURART UNITES CREATORS, INVESTORS, INDUSTRY & AUDIENCES—POWERING TOMORROW’S MASTERPIECES.', 'LINKYOURART UNIT CRÉATEURS, INVESTISSEURS, INDUSTRIE ET PUBLICS—PROPULSANT LES CHEFS-D\'ŒUVRE DE DEMAIN.')}"
               </p>
 
-              <p className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-on-surface-variant max-w-3xl mb-6 lg:mb-8 xl:mb-12 font-medium leading-relaxed opacity-90 border-l-4 lg:border-l-8 border-primary-cyan pl-6 lg:pl-10 py-2 lg:py-3 italic">
+              <p className="text-base sm:text-base md:text-lg lg:text-xl xl:text-2xl text-on-surface-variant max-w-3xl mb-6 lg:mb-8 xl:mb-12 font-medium leading-relaxed opacity-90 border-l-4 lg:border-l-8 border-primary-cyan pl-6 lg:pl-10 py-2 lg:py-3 italic">
                 "{t('From project issuance to secondary exchange, navigate a secure ecosystem built on artistic excellence and creative transparency.', 'De l\'émission de projet à l\'échange secondaire, naviguez dans un écosystème sécurisé bâti sur l\'excellence artistique et la transparence créative.')}"
               </p>
 
-            <div className="flex flex-col sm:flex-row items-center gap-3 mb-6 lg:mb-12">
+            <div className="flex flex-col sm:flex-row items-center gap-3 mb-4 sm:mb-8 lg:mb-12 w-full sm:w-auto">
               <button 
-                onClick={() => onViewChange('DASHBOARD')}
-                className="w-full sm:w-auto px-4 py-2.5 lg:px-8 lg:py-4 bg-primary-cyan text-surface-dim font-black uppercase tracking-[0.2em] group overflow-hidden shadow-[0_0_30px_rgba(0,224,255,0.3)] text-[10px] md:text-xs transition-all active:scale-95"
+                onClick={() => onViewChange(user ? 'EXCHANGE' : 'LOGIN')}
+                className="w-full sm:w-auto px-6 py-3 lg:px-8 lg:py-4 bg-primary-cyan text-surface-dim font-black uppercase tracking-[0.2em] group overflow-hidden shadow-[0_0_30px_rgba(0,224,255,0.3)] text-[11px] md:text-xs transition-all active:scale-95"
               >
                 <span className="relative z-10 flex items-center justify-center gap-2">
                   {t('Enter the Gallery', 'Entrer dans la Galerie')}
@@ -590,11 +677,11 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
                 </span>
               </button>
               <button 
-                onClick={() => onViewChange('SIGNUP')}
-                className="w-full sm:w-auto px-4 py-2.5 lg:px-8 lg:py-4 border border-white/20 hover:border-primary-cyan/50 text-white font-bold uppercase tracking-[0.2em] transition-all bg-white/5 backdrop-blur-sm group text-[10px] md:text-xs active:scale-95 text-center"
+                onClick={() => onViewChange(user ? 'DASHBOARD' : 'SIGNUP')}
+                className="w-full sm:w-auto px-6 py-3 lg:px-8 lg:py-4 border border-white/20 hover:border-primary-cyan/50 text-white font-bold uppercase tracking-[0.2em] transition-all bg-white/5 backdrop-blur-sm group text-[11px] md:text-xs active:scale-95 text-center"
               >
                 <span className="flex items-center justify-center gap-2">
-                  {t('Create an Account', 'Créer un Compte')}
+                  {user ? t('Go to Dashboard', 'Aller au Tableau de Bord') : t('Create an Account', 'Créer un Compte')}
                   <Layers className="w-4 h-4 group-hover:rotate-12 transition-transform" />
                 </span>
               </button>
@@ -890,14 +977,14 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
         {/* Professional Network Section */}
         <div className="mb-40">
           <div className="text-center mb-16 px-4">
-            <h3 className="text-xs font-mono text-accent-gold uppercase tracking-[0.5em] mb-4 font-bold">{t('home.partners.subtitle', 'Validation Network')}</h3>
+            <h3 className="text-xs font-mono text-accent-gold uppercase tracking-[0.5em] mb-4 font-bold">{t('Expert Hubs & Creative Legacy', 'Hub d\'Experts & Héritage Créatif')}</h3>
             <h2 className="text-2xl md:text-4xl font-black uppercase tracking-tighter">
-              {t('Professional', 'Professionnel')} <span className="text-primary-cyan">{t('home.partners.title', 'Expert Hubs')}</span>
+              {t('Professional', 'Professionnel')} <span className="text-primary-cyan">{t('Expert Hubs', 'Hub d\'Experts')}</span>
             </h2>
-            <div className="mt-6 inline-flex items-center gap-2 px-4 py-2 bg-accent-gold/10 border border-accent-gold/20 rounded-full">
-              <div className="w-2 h-2 bg-accent-gold rounded-full animate-pulse" />
-              <span className="text-[10px] font-black text-accent-gold uppercase tracking-widest">
-                {t('home.partners.subtitle_long', 'Strategic partners and industry validators')}
+            <div className="mt-6 inline-flex items-center gap-2 px-6 py-4 bg-accent-gold/10 border border-accent-gold/20 rounded-xl max-w-4xl mx-auto">
+              <div className="w-2 h-2 shrink-0 bg-accent-gold rounded-full animate-pulse hidden sm:block" />
+              <span className="text-[10px] md:text-xs font-black text-accent-gold uppercase tracking-widest text-center leading-relaxed">
+                {t('WE HAVE ESTABLISHED OVER THE PAST 20 YEARS SOLID RELATIONSHIPS WITH THE LARGEST COMPANIES AND VALIDATORS IN THE CREATIVE INDUSTRIES.', 'NOUS AVONS ÉTABLI AU COURS DES 20 DERNIÈRES ANNÉES DE SOLIDES RELATIONS AVEC LES PLUS GRANDES ENTREPRISES ET VALIDATEURS DES INDUSTRIES CRÉATIVES.')}
               </span>
             </div>
           </div>

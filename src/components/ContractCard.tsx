@@ -56,20 +56,20 @@ export const ContractCard: React.FC<ContractCardProps> = ({
   const scoreFinalValue = contract.scoreLYA || Math.round((scoreAlgoValue + scoreProValue) / 2);
 
   const categoryColors: Record<string, string> = {
-    'Fine Art': 'text-accent-gold bg-accent-gold/10 border-accent-gold/20',
-    'Film': 'text-primary-cyan bg-primary-cyan/10 border-primary-cyan/20',
-    'TV Series': 'text-indigo-400 bg-indigo-400/10 border-indigo-400/20',
-    'Music': 'text-rose-400 bg-rose-400/10 border-rose-400/20',
-    'Digital Art': 'text-purple-400 bg-purple-400/10 border-purple-400/20',
-    'Gaming': 'text-emerald-400 bg-emerald-400/10 border-emerald-400/20',
-    'Literature': 'text-amber-400 bg-amber-400/10 border-amber-400/20',
-    'Fashion': 'text-pink-400 bg-pink-400/10 border-pink-400/20',
-    'Architecture': 'text-slate-400 bg-slate-400/10 border-slate-400/20',
-    'Design': 'text-orange-400 bg-orange-400/10 border-orange-400/20',
-    'Photography': 'text-blue-400 bg-blue-400/10 border-blue-400/20',
-    'Podcast': 'text-violet-400 bg-violet-400/10 border-violet-400/20',
-    'Performing Arts': 'text-fuchsia-400 bg-fuchsia-400/10 border-fuchsia-400/20',
-    'Gastronomy': 'text-lime-400 bg-lime-400/10 border-lime-400/20',
+    'Fine Art': 'text-accent-gold bg-accent-gold/20 border-accent-gold/40',
+    'Film': 'text-primary-cyan bg-primary-cyan/20 border-primary-cyan/40',
+    'TV Series': 'text-indigo-400 bg-indigo-400/20 border-indigo-400/40',
+    'Music': 'text-rose-400 bg-rose-400/20 border-rose-400/40',
+    'Digital Art': 'text-purple-400 bg-purple-400/20 border-purple-400/40',
+    'Gaming': 'text-emerald-400 bg-emerald-400/20 border-emerald-400/40',
+    'Literature': 'text-amber-400 bg-amber-400/20 border-amber-400/40',
+    'Fashion': 'text-pink-400 bg-pink-400/20 border-pink-400/40',
+    'Architecture': 'text-slate-400 bg-slate-400/20 border-slate-400/40',
+    'Design': 'text-orange-400 bg-orange-400/20 border-orange-400/40',
+    'Photography': 'text-blue-400 bg-blue-400/20 border-blue-400/40',
+    'Podcast': 'text-violet-400 bg-violet-400/20 border-violet-400/40',
+    'Performing Arts': 'text-fuchsia-400 bg-fuchsia-400/20 border-fuchsia-400/40',
+    'Gastronomy': 'text-lime-400 bg-lime-400/20 border-lime-400/40',
   };
 
   const categoryStyle = categoryColors[contract.category] || 'text-white bg-white/10 border-white/5';

@@ -76,7 +76,7 @@ export const LYACopilot: React.FC = () => {
             initial={{ opacity: 0, y: 40, scale: 0.95, filter: 'blur(10px)' }}
             animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
             exit={{ opacity: 0, y: 40, scale: 0.95, filter: 'blur(10px)' }}
-            className="fixed bottom-6 right-6 md:bottom-24 md:right-6 w-[calc(100vw-3rem)] md:w-[450px] bg-surface-dim/95 backdrop-blur-3xl border border-primary-cyan/20 shadow-[0_0_100px_rgba(0,0,0,0.8)] z-[1000] font-mono flex flex-col overflow-hidden h-[600px] rounded-3xl"
+            className="fixed bottom-[5.5rem] right-4 sm:right-6 md:bottom-24 md:right-6 w-[calc(100vw-2rem)] sm:w-[calc(100vw-3rem)] md:w-[450px] bg-surface-dim/95 backdrop-blur-3xl border border-primary-cyan/20 shadow-[0_0_100px_rgba(0,0,0,0.8)] z-[1000] font-mono flex flex-col overflow-hidden h-[500px] sm:h-[600px] max-h-[75vh] sm:max-h-[80vh] rounded-3xl md:rounded-[2.5rem]"
           >
             {/* Header */}
             <div className="p-6 border-b border-white/5 flex items-center justify-between bg-primary-cyan/5">

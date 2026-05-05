@@ -28,10 +28,10 @@ const CheckoutForm: React.FC<{
   amount: number; 
   onSuccess: () => void; 
   onCancel: () => void;
-  planName: string;
+  metadata: any;
   userEmail?: string;
   stripeCustomerId?: string;
-}> = ({ amount, onSuccess, onCancel, planName, userEmail, stripeCustomerId }) => {
+}> = ({ amount, onSuccess, onCancel, metadata, userEmail, stripeCustomerId }) => {
   const stripe = useStripe();
   const elements = useElements();
   const { t } = useTranslation();
@@ -57,7 +57,7 @@ const CheckoutForm: React.FC<{
         body: JSON.stringify({ 
           amount, 
           metadata: { 
-            planName,
+            ...metadata,
             userEmail: userEmail || 'anonymous'
           },
           customerId: stripeCustomerId
@@ -103,7 +103,7 @@ const CheckoutForm: React.FC<{
           <CheckCircle2 className="w-10 h-10 text-emerald-400" />
         </div>
         <h2 className="text-2xl font-black uppercase tracking-tighter mb-2">Payment Successful</h2>
-        <p className="text-on-surface-variant text-sm uppercase tracking-widest">Your professional access is being upgraded...</p>
+        <p className="text-on-surface-variant text-sm uppercase tracking-widest">{t('Finalizing transaction...', 'Finalisation de la transaction...')}</p>
       </motion.div>
     );
   }
@@ -176,12 +176,17 @@ const CheckoutForm: React.FC<{
 };
 
 export const PaymentView: React.FC<{ 
-  plan: { name: string, price: number, billingCycle: 'monthly' | 'yearly' };
+  checkoutData: {
+    type: 'PRO_UPGRADE' | 'ASSET_PURCHASE';
+    amount: number;
+    metadata: any;
+    title: string;
+  };
   onSuccess: () => void;
   onCancel: () => void;
   userEmail?: string;
   stripeCustomerId?: string;
-}> = ({ plan, onSuccess, onCancel, userEmail, stripeCustomerId }) => {
+}> = ({ checkoutData, onSuccess, onCancel, userEmail, stripeCustomerId }) => {
   const { t } = useTranslation();
   
   return (
@@ -206,17 +211,17 @@ export const PaymentView: React.FC<{
         <div className="p-8 border-b border-white/5 bg-white/5">
           <div className="flex justify-between items-end">
             <div>
-              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary-cyan block mb-2">{t('Selected Plan', 'Formule Sélectionnée')}</span>
-              <h2 className="text-2xl font-black uppercase tracking-tight text-white italic">{plan.name}</h2>
+              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary-cyan block mb-2">{t('Transaction Detail', 'Détail de la Transaction')}</span>
+              <h2 className="text-2xl font-black uppercase tracking-tight text-white italic">{checkoutData.title}</h2>
               <p className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mt-1">
-                {plan.billingCycle === 'yearly' ? t('Billed Annually (10% Discount Applied)', 'Facturé Annuellement (Remise de 10% Appliquée)') : t('Billed Monthly', 'Facturé Mensuellement')}
+                {checkoutData.type === 'PRO_UPGRADE' ? t('LYA Membership Activation', 'Activation Adhésion LYA') : t('Asset Rights Acquisition', 'Acquisition de Droits d\'Actifs')}
               </p>
             </div>
             <div className="text-right">
               <span className="text-[10px] font-black uppercase tracking-[0.3em] text-on-surface-variant block mb-1">{t('Total Amount', 'Montant Total')}</span>
-              <div className="text-3xl font-black text-white italic">${plan.price.toLocaleString()}</div>
+              <div className="text-3xl font-black text-white italic">${checkoutData.amount.toLocaleString()}</div>
               <div className="text-[9px] font-bold text-primary-cyan uppercase tracking-widest">
-                {plan.billingCycle === 'yearly' ? `${t('Annual Payment', 'Paiement Annuel')}` : `${t('Monthly Payment', 'Paiement Mensuel')}`}
+                {t('ONE-TIME PAYMENT', 'PAIEMENT UNIQUE')}
               </div>
             </div>
           </div>
@@ -225,8 +230,8 @@ export const PaymentView: React.FC<{
         <div className="p-8">
           <Elements stripe={stripePromise}>
             <CheckoutForm 
-              amount={plan.price} 
-              planName={plan.name}
+              amount={checkoutData.amount} 
+              metadata={checkoutData.metadata}
               onSuccess={onSuccess} 
               onCancel={onCancel} 
               userEmail={userEmail}

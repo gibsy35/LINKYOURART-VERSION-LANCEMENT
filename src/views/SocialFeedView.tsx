@@ -385,7 +385,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
         </div>
 
         {/* Top-Left Metadata Overlay - Perfectly aligned with right pagination */}
-        <div className="absolute top-24 left-28 md:left-48 z-20">
+        <div className="absolute top-20 md:top-32 left-6 md:left-24 lg:left-48 z-20">
           <AnimatePresence mode="popLayout">
             <motion.div
               key={`meta-${news[activeNewsIndex].id}`}
@@ -393,21 +393,21 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 10 }}
               transition={{ duration: 0.5 }}
-              className="flex items-center gap-4"
+              className="flex items-center gap-2 md:gap-4 shrink-0 transition-all"
             >
-              <span className="px-4 py-1.5 bg-primary-cyan text-surface-dim text-[10px] font-black uppercase tracking-[0.3em] rounded-sm shadow-[0_0_20px_rgba(0,224,255,0.4)]">
+              <span className="px-3 py-1 md:px-4 md:py-1.5 bg-primary-cyan text-surface-dim text-[8px] md:text-[10px] font-black uppercase tracking-[0.3em] rounded-sm shadow-[0_0_20px_rgba(0,224,255,0.4)] whitespace-nowrap">
                 {activeNewsIndex === 0 ? t('Breaking News', 'Flash Info') : t('Featured Story', 'À la Une')}
               </span>
-              <div className="hidden md:flex items-center gap-3 bg-black/40 backdrop-blur-md border border-white/10 px-4 py-1.5 rounded-sm">
-                <span className="text-white/80 text-[10px] font-mono uppercase tracking-widest">
-                  {news[activeNewsIndex].timestamp} • {news[activeNewsIndex].source}
+              <div className="flex items-center gap-2 md:gap-3 bg-black/40 backdrop-blur-md border border-white/10 px-3 py-1 md:px-4 md:py-1.5 rounded-sm overflow-hidden truncate">
+                <span className="text-white/80 text-[8px] md:text-[10px] font-mono uppercase tracking-widest whitespace-nowrap">
+                  {news[activeNewsIndex].timestamp}
                 </span>
-                <div className="h-3 w-[1px] bg-white/20" />
-                <div className={`flex items-center gap-1 text-[10px] font-black font-mono ${
+                <div className="h-3 w-[1px] bg-white/20 hidden sm:block" />
+                <div className={`hidden sm:flex items-center gap-1 text-[8px] md:text-[10px] font-black font-mono ${
                   news[activeNewsIndex].impact.trend === 'UP' ? 'text-emerald-400' : 'text-red-400'
                 }`}>
-                  {news[activeNewsIndex].impact.trend === 'UP' ? <ArrowUpRight size={12} /> : <ArrowDownRight size={12} />}
-                  LYA IMPACT: {news[activeNewsIndex].impact.score > 0 ? '+' : ''}{news[activeNewsIndex].impact.score}%
+                  {news[activeNewsIndex].impact.trend === 'UP' ? <ArrowUpRight size={10} /> : <ArrowDownRight size={10} />}
+                  {news[activeNewsIndex].impact.score > 0 ? '+' : ''}{news[activeNewsIndex].impact.score}%
                 </div>
               </div>
             </motion.div>
@@ -415,7 +415,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
         </div>
 
       {/* Content Overlay - Bottom Left */}
-      <div className="relative z-10 h-full flex flex-col justify-end p-8 md:p-12 lg:p-16 max-w-[1800px] mx-auto">
+      <div className="relative z-10 h-full flex flex-col justify-end p-6 md:p-12 lg:p-16 max-w-[1800px] mx-auto">
         <AnimatePresence mode="popLayout">
           <motion.div
             key={news[activeNewsIndex].id}
@@ -423,27 +423,27 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 20 }}
             transition={{ duration: 0.6 }}
-            className="max-w-6xl pb-12"
+            className="max-w-6xl pb-8 md:pb-12"
           >
-            <h2 className="text-4xl md:text-5xl lg:text-7xl font-black text-white font-headline tracking-tighter leading-[1.05] uppercase mb-8 drop-shadow-2xl line-clamp-3 max-w-xl">
+            <h2 className="text-3xl md:text-5xl lg:text-7xl font-black text-white font-headline tracking-tighter leading-[1.1] uppercase mb-6 md:mb-8 drop-shadow-2xl line-clamp-2 md:line-clamp-3 max-w-2xl">
               {news[activeNewsIndex].title}
             </h2>
             
-            <p className="border-l-2 border-primary-cyan pl-6 text-base md:text-lg text-white/80 max-w-3xl mb-10 font-medium leading-relaxed drop-shadow-lg line-clamp-2">
+            <p className="border-l-2 border-primary-cyan pl-4 md:pl-6 text-sm md:text-lg text-white/80 max-w-2xl mb-8 md:mb-10 font-medium leading-relaxed drop-shadow-lg line-clamp-2">
               {news[activeNewsIndex].summary}
             </p>
             
-            <div className="flex flex-wrap items-center gap-5">
+            <div className="flex flex-wrap items-center gap-3 md:gap-5">
               <button 
                 onClick={() => {
                   setSelectedNews(news[activeNewsIndex]);
                   onNotify(t('Opening full story...', 'Ouverture de l\'article...'));
                 }}
-                className="px-8 py-3 bg-white text-surface-dim text-[10px] font-black uppercase tracking-[0.3em] hover:bg-primary-cyan transition-all rounded-sm shadow-xl active:scale-95 group"
+                className="px-6 py-2.5 md:px-8 md:py-3 bg-white text-surface-dim text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] hover:bg-primary-cyan transition-all rounded-sm shadow-xl active:scale-95 group"
               >
                 <span className="flex items-center gap-2">
                   {t('Read Full Story', 'Lire l\'article')}
-                  <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                  <ArrowUpRight className="w-3.5 h-3.5 md:w-4 md:h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                 </span>
               </button>
               
@@ -467,15 +467,15 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
       </div>
 
       {/* Pagination dots - Aligned with top-left */}
-      <div className="absolute top-24 right-12 flex flex-col items-end gap-3 opacity-80 z-20">
-        <div className="text-[10px] font-mono text-primary-cyan uppercase tracking-[0.4em] font-bold">LYA_INTELLIGENCE_STREAM</div>
-        <div className="text-[10px] font-mono text-white uppercase tracking-[0.4em]">CENTER_REF_00{activeNewsIndex + 1}</div>
-        <div className="flex gap-1 mt-2">
+      <div className="absolute top-20 md:top-32 right-6 md:right-12 flex flex-col items-end gap-2 md:gap-3 opacity-80 z-20">
+        <div className="text-[8px] md:text-[10px] font-mono text-primary-cyan uppercase tracking-[0.3em] md:tracking-[0.4em] font-bold">LYA_INTELLIGENCE_STREAM</div>
+        <div className="text-[8px] md:text-[10px] font-mono text-white uppercase tracking-[0.3em] md:tracking-[0.4em]">CENTER_REF_00{activeNewsIndex + 1}</div>
+        <div className="flex gap-1 mt-1 md:mt-2">
           {[0, 1, 2, 3, 4].map(i => (
             <button 
               key={i} 
               onClick={() => setActiveNewsIndex(i)}
-              className={`w-1.5 h-1.5 rounded-full transition-all ${i === activeNewsIndex ? 'bg-primary-cyan w-4' : 'bg-white/20 hover:bg-white/40'}`} 
+              className={`w-1 h-1 md:w-1.5 md:h-1.5 rounded-full transition-all ${i === activeNewsIndex ? 'bg-primary-cyan w-3 md:w-4' : 'bg-white/20 hover:bg-white/40'}`} 
             />
           ))}
         </div>

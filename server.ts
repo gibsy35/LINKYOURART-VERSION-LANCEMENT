@@ -53,33 +53,60 @@ async function startServer() {
     switch (event.type) {
       case 'payment_intent.succeeded':
         const paymentIntent = event.data.object as Stripe.PaymentIntent;
-        console.log(`[PAYMENT_SUCCESS] PaymentIntent was successful!`);
+        console.log(`[PAYMENT_SUCCESS] PaymentIntent: ${paymentIntent.id}`);
         
-        // Extract metadata to identify the user
+        const type = paymentIntent.metadata.type; // PRO_UPGRADE or ASSET_PURCHASE
         const userEmail = paymentIntent.metadata.userEmail;
-        const planName = paymentIntent.metadata.planName;
         const customerId = paymentIntent.customer as string;
 
         if (userEmail && firebaseAdminApp) {
-          try {
-            const db = firebaseAdminApp.firestore();
-            const usersRef = db.collection('users');
-            const snapshot = await usersRef.where('email', '==', userEmail).get();
-            
-            if (!snapshot.empty) {
-              const batch = db.batch();
-              snapshot.docs.forEach(doc => {
-                const updateData: any = { isPro: true };
-                if (customerId) updateData.stripeCustomerId = customerId;
-                batch.update(doc.ref, updateData);
-              });
-              await batch.commit();
-              console.log(`[PRO_ACTIVATED] User ${userEmail} upgraded to ${planName} in Firestore`);
-            } else {
-              console.warn(`[PRO_ERROR] User ${userEmail} not found in Firestore`);
+          const db = firebaseAdminApp.firestore();
+          
+          if (type === 'PRO_UPGRADE') {
+            try {
+              const usersRef = db.collection('users');
+              const snapshot = await usersRef.where('email', '==', userEmail).get();
+              if (!snapshot.empty) {
+                const batch = db.batch();
+                snapshot.docs.forEach(doc => {
+                  const updateData: any = { isPro: true };
+                  if (customerId) updateData.stripeCustomerId = customerId;
+                  batch.update(doc.ref, updateData);
+                });
+                await batch.commit();
+                console.log(`[PRO_ACTIVATED] User ${userEmail} upgraded to Pro`);
+              }
+            } catch (err) {
+              console.error(`[PRO_ERROR] Failed for ${userEmail}:`, err);
             }
-          } catch (err) {
-            console.error(`[PRO_ERROR] Failed to update Firestore for ${userEmail}:`, err);
+          } else if (type === 'ASSET_PURCHASE') {
+            try {
+              const { contractId, units, price, projectName, userId } = paymentIntent.metadata;
+              if (userId && contractId) {
+                const contractRef = db.collection('users').doc(userId).collection('contracts').doc(contractId);
+                const doc = await contractRef.get();
+                
+                if (doc.exists) {
+                  const existingUnits = doc.data()?.units || 0;
+                  await contractRef.update({
+                    units: existingUnits + Number(units),
+                    updatedAt: admin.firestore.FieldValue.serverTimestamp()
+                  });
+                } else {
+                  await contractRef.set({
+                    uid: userId,
+                    projectId: contractId,
+                    projectName: projectName || 'Unknown Project',
+                    units: Number(units),
+                    entryPrice: Number(price),
+                    purchaseDate: admin.firestore.FieldValue.serverTimestamp()
+                  });
+                }
+                console.log(`[ASSET_PURCHASE] ${units} units of ${contractId} granted to ${userId}`);
+              }
+            } catch (err) {
+              console.error(`[ASSET_ERROR] Failed for ${userEmail}:`, err);
+            }
           }
         }
         break;
@@ -137,6 +164,7 @@ async function startServer() {
     }
     res.json({ isPro: false });
   });
+
 
   // Stripe Payment Intent
   app.post('/api/create-payment-intent', async (req, res) => {

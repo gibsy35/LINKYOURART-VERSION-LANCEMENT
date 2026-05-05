@@ -79,6 +79,21 @@
   
   .text-on-surface { color: var(--color-on-surface); }
   .text-on-surface-variant { color: var(--color-on-surface-variant); }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
 }
 
 @layer components {
@@ -141,5 +156,39 @@
   .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;
+  }
+
+  /* Table responsiveness */
+  .responsive-table-container {
+    @apply w-full overflow-x-auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .responsive-table-container::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Mobile bottom padding for floating navigation if any */
+  .mobile-safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* Text balance for headings */
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@layer base {
+  /* Fix for iOS momentum scrolling */
+  .overflow-y-auto {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Better focus states for mobile */
+  button:focus-visible, 
+  a:focus-visible {
+    @apply ring-2 ring-primary-cyan ring-offset-2 ring-offset-surface-dim outline-none;
   }
 }

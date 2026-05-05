@@ -41,7 +41,8 @@ interface ValidationRequest {
 export const ValidationView: React.FC<{ 
   user: UserProfile | null;
   onNotify: (msg: string) => void;
-}> = ({ user, onNotify }) => {
+  onViewChange?: (view: any) => void;
+}> = ({ user, onNotify, onViewChange }) => {
   const { t } = useTranslation();
 
   // Access Control: Only Admin or Pro users can access the Validation Queue
@@ -63,7 +64,7 @@ export const ValidationView: React.FC<{
         </p>
         <div className="flex flex-col sm:flex-row gap-4">
           <button 
-            onClick={() => onNotify(t('Redirecting to membership plans...', 'Redirection vers les plans d\'adhésion...'))}
+            onClick={() => onViewChange?.('PRICING')}
             className="px-10 py-4 bg-primary-cyan text-surface-dim font-black uppercase tracking-[0.2em] hover:bg-white transition-all shadow-[0_0_20px_rgba(0,224,255,0.3)]"
           >
             {t('Upgrade to Pro', 'Passer à Pro')}

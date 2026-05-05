@@ -29,19 +29,32 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange, onNotify }) 
   const { t } = useTranslation();
   
   const backgroundImages = [
-    'https://images.unsplash.com/photo-1541963463532-d68292c34b19?auto=format&fit=crop&q=80&w=2000',
-    'https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&q=80&w=2000',
-    'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?auto=format&fit=crop&q=80&w=2000',
-    'https://images.unsplash.com/photo-1550684848-fa11341e73ad?auto=format&fit=crop&q=80&w=2000',
-    'https://images.unsplash.com/photo-1492037766660-2a56f9eb3fcb?auto=format&fit=crop&q=80&w=2000'
+    'https://images.unsplash.com/photo-1492691523567-307301430bb6?auto=format&fit=crop&q=80&w=2000', // Cinema
+    'https://images.unsplash.com/photo-1550745165-9bc0b25272a7?auto=format&fit=crop&q=80&w=2000', // Digital Tech
+    'https://images.unsplash.com/photo-1614850523296-d8c1af93d400?auto=format&fit=crop&q=80&w=2000', // Abstract
+    'https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?auto=format&fit=crop&q=80&w=2000', // Modern Art
+    'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&q=80&w=2000', // Stage/Music
+    'https://images.unsplash.com/photo-1542623024-a79797abc60b?auto=format&fit=crop&q=80&w=2000', // 3D/Avatar
+    'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&q=80&w=2000', // Recording studio
+    'https://images.unsplash.com/photo-1551918120-9739cb430c6d?auto=format&fit=crop&q=80&w=2000', // Painting Studio
+    'https://images.unsplash.com/photo-1633167606207-d840b5070fc2?auto=format&fit=crop&q=80&w=2000', // Film Plate
+    'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=2000'  // Digital Abstract
   ];
 
-  const [randomImage, setRandomImage] = React.useState(backgroundImages[Math.floor(Math.random() * backgroundImages.length)]);
+  const [activeImageBatch, setActiveImageBatch] = React.useState<string[]>([]);
 
   React.useEffect(() => {
+    // Select 3 random unique images for a layered effect
+    const getRandomBatch = () => {
+      const shuffled = [...backgroundImages].sort(() => 0.5 - Math.random());
+      return shuffled.slice(0, 3);
+    };
+    
+    setActiveImageBatch(getRandomBatch());
+
     const interval = setInterval(() => {
-      setRandomImage(backgroundImages[Math.floor(Math.random() * backgroundImages.length)]);
-    }, 8000);
+      setActiveImageBatch(getRandomBatch());
+    }, 6000);
     return () => clearInterval(interval);
   }, []);
 
@@ -54,38 +67,99 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange, onNotify }) 
 
   return (
     <div className="space-y-24 pb-24 px-6 md:px-16 lg:px-24">
-      {/* Interactive Hero Section - Full width within its container or absolute bleed */}
-      <section className="relative h-[80vh] min-h-[600px] flex items-center justify-center overflow-hidden group -mx-6 md:-mx-16 lg:-mx-24 rounded-3xl shadow-2xl">
-        <div className="absolute inset-0 z-0 grayscale transition-all duration-700 group-hover:grayscale-0">
-          <AnimatePresence mode="wait">
-            <motion.img 
-              key={randomImage}
-              initial={{ opacity: 0, scale: 1.1 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 1.1 }}
-              transition={{ duration: 1.5 }}
-              src={randomImage} 
-              alt="About Background" 
-              className="w-full h-full object-cover"
-            />
+      {/* Interactive Hero Section - Creative Collage Background */}
+      <section className="relative h-[80vh] min-h-[700px] flex items-center justify-center overflow-hidden group -mx-6 md:-mx-16 lg:-mx-24 rounded-[3rem] shadow-2xl transition-all duration-700 bg-black">
+        {/* Layered Random Backgrounds */}
+        <div className="absolute inset-0 z-0">
+          <AnimatePresence mode="popLayout">
+            {activeImageBatch.map((img, idx) => (
+              <motion.div
+                key={`${img}-${idx}`}
+                initial={{ opacity: 0, scale: 1.2, rotate: (idx - 1) * 5 }}
+                animate={{ 
+                  opacity: idx === 0 ? 0.6 : 0.3, 
+                  scale: 1, 
+                  rotate: (idx - 1) * 2,
+                  x: idx === 1 ? -100 : idx === 2 ? 100 : 0,
+                  y: idx !== 0 ? 50 : 0
+                }}
+                exit={{ opacity: 0, scale: 1.1 }}
+                transition={{ duration: 2, ease: "easeInOut" }}
+                className={`absolute inset-0 transition-grayscale duration-1000 ${idx === 0 ? 'group-hover:grayscale-0 grayscale' : 'grayscale'}`}
+                style={{ 
+                  zIndex: 3 - idx,
+                  filter: idx === 0 ? 'none' : 'blur(4px)'
+                }}
+              >
+                <img 
+                  src={img} 
+                  alt="" 
+                  className="w-full h-full object-cover"
+                />
+              </motion.div>
+            ))}
           </AnimatePresence>
-          <div className="absolute inset-0 bg-black/60 transition-opacity duration-700 group-hover:opacity-40" />
+          
+          {/* Creative Overlays */}
+          <div className="absolute inset-0 bg-gradient-to-b from-surface-dim/40 via-transparent to-surface-dim/90 z-[4]" />
+          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10 mix-blend-overlay z-[5]" />
+          
+          {/* Animated SVG Frame */}
+          <svg className="absolute inset-0 w-full h-full z-[6] opacity-20 pointer-events-none">
+            <motion.rect 
+              x="5%" y="5%" width="90%" height="90%" 
+              fill="none" stroke="white" strokeWidth="1"
+              strokeDasharray="10 20"
+              animate={{ strokeDashoffset: [0, 100] }}
+              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+            />
+          </svg>
         </div>
 
-        <div className="relative z-10 text-center px-6">
+        <div className="relative z-10 text-center px-6 mt-12">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1 }}
           >
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-white uppercase italic tracking-tighter transition-colors duration-700 group-hover:text-primary-cyan drop-shadow-[0_0_30px_rgba(0,0,0,0.5)]">
+            <div className="mb-6">
+              <span className="px-4 py-1.5 bg-primary-cyan text-surface-dim text-[10px] font-black uppercase tracking-[0.4em] rounded-sm shadow-[0_0_20px_rgba(0,224,255,0.4)]">
+                EST. 2006
+              </span>
+            </div>
+            
+            <h1 className="text-6xl md:text-8xl lg:text-9xl font-black text-white uppercase italic tracking-tighter leading-[0.85] transition-all duration-700 drop-shadow-[0_20px_50px_rgba(0,0,0,0.8)]">
               ABOUT <br />
-              <span className="group-hover:text-white">LINKYOURART</span>
+              <motion.span 
+                animate={{ color: ["#FFFFFF", "#00e0ff", "#FFFFFF"] }}
+                transition={{ duration: 4, repeat: Infinity }}
+                className="text-primary-cyan"
+              >
+                LINKYOURART
+              </motion.span>
             </h1>
-            <div className="h-1.5 w-24 bg-primary-cyan mx-auto mt-8 mb-8 transition-all duration-700 group-hover:w-64 shadow-[0_0_20px_rgba(0,224,255,0.5)]" />
-            <p className="text-xl md:text-2xl text-white font-black uppercase tracking-[0.2em] max-w-3xl mx-auto italic transition-colors duration-700 group-hover:text-accent-gold">
+            
+            <div className="flex items-center justify-center gap-6 my-10">
+              <div className="h-[1px] w-12 md:w-32 bg-gradient-to-r from-transparent to-white/40" />
+              <div className="h-2 w-2 rounded-full bg-primary-cyan animate-ping" />
+              <div className="h-[1px] w-12 md:w-32 bg-gradient-to-l from-transparent to-white/40" />
+            </div>
+
+            <p className="text-xl md:text-3xl text-white font-black uppercase tracking-[0.2em] max-w-4xl mx-auto italic drop-shadow-xl">
               {t('World First Creative Exchange System', 'Premier Système d\'Échange Créatif au Monde')}
             </p>
+            
+            <div className="mt-12 flex justify-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+              <div className="px-4 py-2 bg-white/10 backdrop-blur-md rounded-full border border-white/20 text-[10px] font-bold text-white tracking-widest uppercase">
+                {t('Photography', 'Photographie')}
+              </div>
+              <div className="px-4 py-2 bg-white/10 backdrop-blur-md rounded-full border border-white/20 text-[10px] font-bold text-white tracking-widest uppercase">
+                {t('Cinema', 'Cinéma')}
+              </div>
+              <div className="px-4 py-2 bg-white/10 backdrop-blur-md rounded-full border border-white/20 text-[10px] font-bold text-white tracking-widest uppercase">
+                {t('Digital Art', 'Art Digital')}
+              </div>
+            </div>
           </motion.div>
         </div>
 

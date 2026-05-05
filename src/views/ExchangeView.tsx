@@ -284,18 +284,18 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
       />
 
       <div className="space-y-12 px-4 md:px-10 lg:px-20">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-end gap-8 mb-12 relative z-20">
-            <div className="flex gap-8 border-b border-white/5">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-end gap-4 sm:gap-8 mb-8 sm:mb-12 relative z-20">
+            <div className="flex gap-4 sm:gap-8 border-b border-white/5 overflow-x-auto no-scrollbar">
               <button 
                 onClick={() => setActiveTab('overview')}
-                className={`pb-4 text-[10px] font-black uppercase tracking-[0.3em] transition-all relative ${activeTab === 'overview' ? 'text-primary-cyan' : 'text-on-surface-variant hover:text-on-surface'}`}
+                className={`pb-4 text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] sm:tracking-[0.3em] transition-all relative whitespace-nowrap ${activeTab === 'overview' ? 'text-primary-cyan' : 'text-on-surface-variant hover:text-on-surface'}`}
               >
                 {t('Market Overview', 'Vue d\'Ensemble')}
                 {activeTab === 'overview' && <motion.div layoutId="exchangeTab" className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-cyan shadow-[0_0_10px_rgba(0,224,255,0.4)]" />}
               </button>
               <button 
                 onClick={() => setActiveTab('predictive')}
-                className={`pb-4 text-[10px] font-black uppercase tracking-[0.3em] transition-all relative flex items-center gap-2 ${activeTab === 'predictive' ? 'text-primary-cyan' : 'text-on-surface-variant hover:text-on-surface'}`}
+                className={`pb-4 text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] sm:tracking-[0.3em] transition-all relative flex items-center gap-2 whitespace-nowrap ${activeTab === 'predictive' ? 'text-primary-cyan' : 'text-on-surface-variant hover:text-on-surface'}`}
               >
                 <Zap size={14} className={activeTab === 'predictive' ? 'text-primary-cyan' : 'text-on-surface-variant'} />
                 {t('Predictive Analytics', 'Analyses Prédictives')}
@@ -303,7 +303,7 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
               </button>
               <button 
                 onClick={() => setActiveTab('exchange')}
-                className={`pb-4 text-[10px] font-black uppercase tracking-[0.3em] transition-all relative flex items-center gap-2 ${activeTab === 'exchange' ? 'text-primary-cyan' : 'text-on-surface-variant hover:text-on-surface'}`}
+                className={`pb-4 text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] sm:tracking-[0.3em] transition-all relative flex items-center gap-2 whitespace-nowrap ${activeTab === 'exchange' ? 'text-primary-cyan' : 'text-on-surface-variant hover:text-on-surface'}`}
               >
                 <RefreshCw size={14} className={activeTab === 'exchange' ? 'text-primary-cyan' : 'text-on-surface-variant'} />
                 {t('Secondary Market', 'Marché Secondaire')}
@@ -314,56 +314,56 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
             
         {activeTab === 'exchange' && (
           <Fragment>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
                 <div className="relative group rounded-2xl">
                   <div className="absolute inset-0 bg-gradient-to-br from-primary-cyan/10 to-transparent opacity-50 rounded-2xl" />
-                  <div className="relative bg-surface-low/30 backdrop-blur-2xl border-l-4 border-primary-cyan p-4 md:p-5 lg:p-10 flex flex-col justify-center min-h-[120px] md:min-h-[140px] lg:min-h-[200px] shadow-2xl border border-white/10 rounded-2xl group-hover:border-primary-cyan/30 transition-all duration-500">
-                    <div className="text-[8px] md:text-[9px] lg:text-[12px] text-primary-cyan uppercase tracking-[0.2em] lg:tracking-[0.3em] font-black opacity-70 mb-1 lg:mb-4 flex items-center gap-2">
+                  <div className="relative bg-surface-low/30 backdrop-blur-2xl border-l-2 md:border-l-4 border-primary-cyan p-4 md:p-5 lg:p-10 flex flex-col justify-center min-h-[100px] md:min-h-[140px] lg:min-h-[200px] shadow-2xl border border-white/10 rounded-2xl group-hover:border-primary-cyan/30 transition-all duration-500">
+                    <div className="text-[7px] md:text-[9px] lg:text-[12px] text-primary-cyan uppercase tracking-[0.2em] lg:tracking-[0.3em] font-black opacity-70 mb-1 lg:mb-4 flex items-center gap-1 md:gap-2">
                       {t('Protocol Unit Valuation', 'Évaluation Unité Protocole')}
                       <span className="px-1.5 py-0.5 bg-primary-cyan/20 text-primary-cyan text-[8px] font-black uppercase tracking-widest border border-primary-cyan/30 rounded-sm">Protocol</span>
                       <InfoTooltip position="top" title="Protocol Unit Valuation" content="The standard valuation assigned to one unit of an indexed contract. All unit exchanges are settled via this baseline." />
                     </div>
                     <div className="flex items-baseline gap-1.5 lg:gap-3">
-                      <h3 className="text-sm md:text-lg lg:text-2xl font-bold font-headline text-on-surface tracking-tighter truncate">1 UNIT = {formatLYA()}</h3>
+                  <h3 className="text-xs md:text-lg lg:text-2xl font-bold font-headline text-on-surface tracking-tighter truncate">1 UNIT = {formatLYA()}</h3>
                     </div>
                   </div>
                 </div>
                   
                   <div className="relative group rounded-2xl">
                     <div className="absolute inset-0 bg-gradient-to-br from-accent-gold/10 to-transparent opacity-50 rounded-2xl" />
-                    <div className="relative bg-surface-low/30 backdrop-blur-2xl border-l-4 border-accent-gold p-4 md:p-5 lg:p-10 flex flex-col justify-center min-h-[120px] md:min-h-[140px] lg:min-h-[200px] shadow-2xl border border-white/10 rounded-2xl group-hover:border-accent-gold/30 transition-all duration-500">
-                      <div className="text-[8px] md:text-[9px] lg:text-[12px] text-accent-gold uppercase tracking-[0.2em] lg:tracking-[0.3em] font-black opacity-70 mb-1 lg:mb-4 flex items-center">
+                    <div className="relative bg-surface-low/30 backdrop-blur-2xl border-l-2 md:border-l-4 border-accent-gold p-4 md:p-5 lg:p-10 flex flex-col justify-center min-h-[100px] md:min-h-[140px] lg:min-h-[200px] shadow-2xl border border-white/10 rounded-2xl group-hover:border-accent-gold/30 transition-all duration-500">
+                      <div className="text-[7px] md:text-[9px] lg:text-[12px] text-accent-gold uppercase tracking-[0.2em] lg:tracking-[0.3em] font-black opacity-70 mb-1 lg:mb-4 flex items-center">
                         {t('Total Market Cap', 'Capitalisation Totale')}
                         <InfoTooltip position="top" title="Total Market Cap" content="The aggregate value of all creative contracts currently indexed on the platform." />
                       </div>
-                      <div className="flex items-baseline gap-1.5 lg:gap-3">
-                        <h3 className="text-base md:text-lg lg:text-3xl font-bold font-headline text-on-surface tracking-tighter truncate">${marketStats.totalCap?.toLocaleString() || '0'}</h3>
+                      <div className="flex items-baseline gap-1 lg:gap-3">
+                        <h3 className="text-sm md:text-lg lg:text-3xl font-bold font-headline text-on-surface tracking-tighter truncate">${marketStats.totalCap?.toLocaleString() || '0'}</h3>
                       </div>
                     </div>
                   </div>
 
                   <div className="relative group rounded-2xl">
                     <div className="absolute inset-0 bg-gradient-to-br from-emerald-400/10 to-transparent opacity-50 rounded-2xl" />
-                    <div className="relative bg-surface-low/30 backdrop-blur-2xl border-l-4 border-emerald-400 p-4 md:p-5 lg:p-10 flex flex-col justify-center min-h-[120px] md:min-h-[140px] lg:min-h-[200px] shadow-2xl border border-white/10 rounded-2xl group-hover:border-emerald-400/30 transition-all duration-500">
-                      <div className="text-[8px] md:text-[9px] lg:text-[12px] text-emerald-400 uppercase tracking-[0.2em] lg:tracking-[0.3em] font-black opacity-70 mb-1 lg:mb-4 flex items-center">
+                    <div className="relative bg-surface-low/30 backdrop-blur-2xl border-l-2 md:border-l-4 border-emerald-400 p-4 md:p-5 lg:p-10 flex flex-col justify-center min-h-[100px] md:min-h-[140px] lg:min-h-[200px] shadow-2xl border border-white/10 rounded-2xl group-hover:border-emerald-400/30 transition-all duration-500">
+                      <div className="text-[7px] md:text-[9px] lg:text-[12px] text-emerald-400 uppercase tracking-[0.2em] lg:tracking-[0.3em] font-black opacity-70 mb-1 lg:mb-4 flex items-center">
                         {t('P2P Liquidity', 'Liquidité P2P')}
                         <InfoTooltip position="top" title="P2P Liquidity" content="Total number of contract units currently available for direct peer-to-peer exchange." />
                       </div>
-                      <div className="flex items-baseline gap-1.5 lg:gap-3">
-                        <h3 className="text-base md:text-lg lg:text-3xl font-bold font-headline text-on-surface tracking-tighter truncate">{marketStats.totalAvailable?.toLocaleString() || '0'} Units</h3>
+                      <div className="flex items-baseline gap-1 lg:gap-3">
+                        <h3 className="text-sm md:text-lg lg:text-3xl font-bold font-headline text-on-surface tracking-tighter truncate">{marketStats.totalAvailable?.toLocaleString() || '0'} Units</h3>
                       </div>
                     </div>
                   </div>
 
                   <div className="relative group rounded-2xl">
                     <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-50 rounded-2xl" />
-                    <div className="relative bg-surface-low/30 backdrop-blur-2xl border-l-4 border-white/20 p-4 md:p-5 lg:p-10 flex flex-col justify-center min-h-[120px] md:min-h-[140px] lg:min-h-[200px] shadow-2xl border border-white/10 rounded-2xl group-hover:border-white/30 transition-all duration-500">
-                      <div className="text-[8px] md:text-[9px] lg:text-[12px] text-on-surface-variant uppercase tracking-[0.2em] lg:tracking-[0.3em] font-black opacity-70 mb-1 lg:mb-4 flex items-center">
+                    <div className="relative bg-surface-low/30 backdrop-blur-2xl border-l-2 md:border-l-4 border-white/20 p-4 md:p-5 lg:p-10 flex flex-col justify-center min-h-[100px] md:min-h-[140px] lg:min-h-[200px] shadow-2xl border border-white/10 rounded-2xl group-hover:border-white/30 transition-all duration-500">
+                      <div className="text-[7px] md:text-[9px] lg:text-[12px] text-on-surface-variant uppercase tracking-[0.2em] lg:tracking-[0.3em] font-black opacity-70 mb-1 lg:mb-4 flex items-center">
                         {t('Avg. Growth', 'Croissance Moy.')}
                         <InfoTooltip position="top" title="Avg. Growth" content="The weighted average performance of all creative assets over the last 24 hours." />
                       </div>
-                      <div className="flex items-baseline gap-1.5 lg:gap-3">
-                        <h3 className="text-base md:text-lg lg:text-3xl font-bold font-headline text-emerald-400 tracking-tighter truncate">+{marketStats.avgGrowth.toFixed(1)}%</h3>
+                      <div className="flex items-baseline gap-1 lg:gap-3">
+                        <h3 className="text-sm md:text-lg lg:text-3xl font-bold font-headline text-emerald-400 tracking-tighter truncate">+{marketStats.avgGrowth.toFixed(1)}%</h3>
                       </div>
                     </div>
                   </div>

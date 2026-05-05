@@ -55,7 +55,7 @@ export const StatCard: React.FC<StatCardProps> = ({
 
       <div className="flex flex-col gap-1">
         <div className="flex items-baseline gap-3">
-          <h3 className="text-2xl font-black font-mono text-white tracking-tighter truncate">
+          <h3 className="text-xl sm:text-2xl font-black font-mono text-white tracking-tighter truncate">
             {isCurrency && typeof value === 'number' ? formatPrice(value) : value}
           </h3>
           <span className={`text-[10px] font-black font-mono ${trendDown ? 'text-red-500' : 'text-emerald-400'}`}>
