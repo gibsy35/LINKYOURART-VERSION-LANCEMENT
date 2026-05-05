@@ -1045,7 +1045,7 @@ export const ConceptTutorial: React.FC<Props> = ({ isOpen, onClose }) => {
     if (currentStep < steps.length - 1) {
       setCurrentStep(curr => curr + 1);
     } else {
-      onClose();
+      handleClose();
     }
   };
 
@@ -1053,6 +1053,11 @@ export const ConceptTutorial: React.FC<Props> = ({ isOpen, onClose }) => {
     if (currentStep > 0) {
       setCurrentStep(curr => curr - 1);
     }
+  };
+
+  const handleClose = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    onClose();
   };
 
   if (!isOpen) return null;
@@ -1102,14 +1107,14 @@ export const ConceptTutorial: React.FC<Props> = ({ isOpen, onClose }) => {
             </div>
 
             <button 
-              onClick={onClose}
+              onClick={handleClose}
               className="p-2 rounded-full hover:bg-white/5 text-on-surface-variant hover:text-white transition-all"
             >
               <X size={20} />
             </button>
           </div>
 
-          <div className="flex-1 min-h-0 p-4 md:p-6 lg:p-8 flex flex-col md:grid md:grid-cols-2 gap-4 md:gap-8 lg:gap-12 items-center overflow-hidden h-[55vh] md:h-[65vh] max-h-[550px] min-h-[300px]">
+          <div className="flex-1 min-h-0 p-3 md:p-6 lg:p-8 flex flex-col md:grid md:grid-cols-2 gap-3 md:gap-8 lg:gap-12 items-center overflow-hidden">
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentStep}
@@ -1118,9 +1123,9 @@ export const ConceptTutorial: React.FC<Props> = ({ isOpen, onClose }) => {
                 exit={{ x: -20, opacity: 0 }}
                 className="space-y-3 md:space-y-4 lg:space-y-8 w-full flex flex-col justify-center overflow-hidden"
               >
-                <div className="space-y-2 md:space-y-3">
-                  <div className={`inline-flex items-center justify-center p-2 md:p-2.5 rounded-xl bg-white/5 border border-white/10 ${step.color} shrink-0`}>
-                    <div className="w-5 h-5 md:w-7 md:h-7 flex items-center justify-center">
+                <div className="space-y-1 md:space-y-3">
+                  <div className={`inline-flex items-center justify-center p-1.5 md:p-2.5 rounded-lg bg-white/5 border border-white/10 ${step.color} shrink-0`}>
+                    <div className="w-4 h-4 md:w-7 md:h-7 flex items-center justify-center">
                       {step.icon}
                     </div>
                   </div>
@@ -1142,9 +1147,9 @@ export const ConceptTutorial: React.FC<Props> = ({ isOpen, onClose }) => {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: i * 0.1 }}
                       key={i} 
-                      className="flex items-center gap-2 md:gap-3 p-1.5 md:p-3 bg-black/40 border border-white/5 rounded-xl text-left hover:border-white/10 transition-colors"
+                      className="flex items-center gap-1.5 md:gap-3 p-1 md:p-2 bg-black/30 border border-white/5 rounded-xl text-left hover:border-white/10 transition-colors"
                     >
-                      <div className={`w-4 h-4 md:w-6 md:h-6 shrink-0 rounded-full flex items-center justify-center text-[7px] md:text-[10px] font-black italic border bg-black/60 shadow-lg ${step.color.replace('text-', 'border-')} ${step.color}`}>
+                      <div className={`w-3.5 h-3.5 md:w-6 md:h-6 shrink-0 rounded-full flex items-center justify-center text-[6px] md:text-[10px] font-black italic border bg-black/60 shadow-lg ${step.color.replace('text-', 'border-')} ${step.color}`}>
                         {i + 1}
                       </div>
                       <span className="text-[7px] md:text-[9px] lg:text-[11px] font-black text-white uppercase tracking-[0.1em] leading-tight">
@@ -1171,7 +1176,7 @@ export const ConceptTutorial: React.FC<Props> = ({ isOpen, onClose }) => {
             </AnimatePresence>
           </div>
 
-            <div className="p-4 md:p-6 lg:p-8 flex flex-col items-center gap-3 md:gap-4 lg:gap-6 bg-surface-low border-t border-white/5 shrink-0 z-10">
+            <div className="p-3 md:p-5 flex flex-col items-center gap-2 md:gap-4 bg-black/60 backdrop-blur-xl border-t border-white/5 shrink-0 z-10 transition-all">
               {/* Progress Dots */}
               <div className="hidden md:flex gap-1.5 md:gap-2">
                 {steps.map((_, i) => (
@@ -1193,7 +1198,7 @@ export const ConceptTutorial: React.FC<Props> = ({ isOpen, onClose }) => {
               </button>
 
               <button 
-                onClick={onClose}
+                onClick={handleClose}
                 className="text-[8px] md:text-xs font-black uppercase tracking-[0.2em] md:tracking-[0.4em] text-on-surface-variant hover:text-white transition-colors p-2 md:p-4"
               >
                 {t('Skip', 'Passer')}
