@@ -372,10 +372,10 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
 
                 <button 
                   onClick={() => setShowDemoModal(true)}
-                  className="hidden sm:flex bg-white/5 border border-white/10 hover:border-primary-cyan/50 hover:bg-primary-cyan hover:text-black transition-all px-4 md:px-6 py-2 md:py-3 rounded-full text-[10px] font-bold tracking-widest uppercase items-center gap-2"
+                  className="flex bg-white/5 border border-white/10 hover:border-primary-cyan/50 hover:bg-primary-cyan hover:text-black transition-all px-3 md:px-6 py-2 md:py-3 rounded-full text-[10px] font-bold tracking-widest uppercase items-center gap-2"
                 >
                   <Lock size={12} />
-                  {t('DEMO ACCESS', 'ACCÈS DÉMO')}
+                  <span className="hidden sm:inline">{t('DEMO ACCESS', 'ACCÈS DÉMO')}</span>
                 </button>
               </div>
             </nav>
