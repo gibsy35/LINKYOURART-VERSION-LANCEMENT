@@ -964,7 +964,7 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-surface-dim text-on-surface font-body selection:bg-primary-cyan/30 relative shadow-2xl overflow-hidden">
+    <div className="min-h-screen bg-surface-dim text-on-surface font-body selection:bg-primary-cyan/30 relative shadow-2xl overflow-x-hidden">
         <Notification message={notification} />
         
         <CommandPalette 

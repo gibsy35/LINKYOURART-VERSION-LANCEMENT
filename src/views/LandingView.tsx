@@ -311,7 +311,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
             </div>
 
             {/* Navigation */}
-            <nav className="px-8 py-6 flex justify-between items-center max-w-[1600px] mx-auto relative z-[60]">
+            <nav className="px-4 md:px-8 py-4 md:py-6 flex justify-between items-center max-w-[1600px] mx-auto relative z-[60]">
               <div className="flex items-center gap-3">
                 <Logo size={48} color="multi" showBeta={true} />
                 <div className="flex flex-col">
@@ -381,7 +381,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
             </nav>
 
             {/* Hero Section */}
-            <div className="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 px-8 pt-20 pb-32 items-center relative z-10">
+            <div className="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 px-4 md:px-8 pt-12 md:pt-20 pb-20 md:pb-32 items-center relative z-10">
               <div className="lg:col-span-7 space-y-10 relative z-20">
                 <motion.div
                   initial={{ opacity: 0, x: -50 }}
@@ -577,7 +577,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
             </div>
 
             {/* Institutional Footer */}
-            <footer className="relative z-10 border-t border-white/5 bg-black/40 backdrop-blur-xl py-16 px-8">
+            <footer className="relative z-10 border-t border-white/5 bg-black/40 backdrop-blur-xl py-10 md:py-16 px-4 md:px-8">
               <div className="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-16">
                 <div className="space-y-6">
                   <div className="flex items-center gap-2">
