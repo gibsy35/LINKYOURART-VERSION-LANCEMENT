@@ -1156,7 +1156,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
               {t('home.not_lya.title', 'What LinkYourArt')} <span className="text-primary-cyan">{t('home.not_lya.title_cyan', 'is and is NOT')}</span>
             </h2>
             <p className="text-on-surface-variant text-base max-w-2xl mx-auto opacity-75">
-              {t('Compare the structural advantages of the LYA Contractual Exchange against legacy galleries, institution websites, and classic crowdfunding.', "Comparez la structure innovante de l'Échange Contractuel LYA face aux galeries d'art traditionnelles, sites d'institutions et plateformes de financement classiques.")}
+              {t('Compare the structural advantages of the LYA Contractual Exchange against legacy creative industry intermediaries: labels, agents, studios, and classic crowdfunding.', "Comparez la structure innovante de l'Échange Contractuel LYA face aux intermédiaires traditionnels des industries créatives : labels, agents, studios, et plateformes de financement classiques.")}
             </p>
           </div>
 
@@ -1166,7 +1166,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
                 <tr className="border-b border-white/10 bg-white/[0.01]">
                   <th className="p-6 text-xs font-black uppercase tracking-widest text-white/50 w-1/4">{t('CRITERIA', 'PILIER DE COMPARAISON')}</th>
                   <th className="p-6 text-xs font-black uppercase tracking-widest text-primary-cyan bg-primary-cyan/5 w-1/3 border-x border-white/10">{t('LINKYOURART PROTOCOL', 'CORE PROTOCOLE LINKYOURART')}</th>
-                  <th className="p-6 text-xs font-black uppercase tracking-widest text-rose-400 w-1/4">{t('TRADITIONAL GALLERIES / SITES', 'GALERIES / PORTAILS TRADITIONNELS')}</th>
+                  <th className="p-6 text-xs font-black uppercase tracking-widest text-rose-400 w-1/4">{t('TRADITIONAL INTERMEDIARIES', 'INTERMÉDIAIRES TRADITIONNELS')}</th>
                   <th className="p-6 text-xs font-black uppercase tracking-widest text-white/30 w-1/4">{t('CLASSIC CROWDFUNDING', 'CROWDFUNDING CLASSIQUE')}</th>
                 </tr>
               </thead>
@@ -1178,8 +1178,8 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
                     <p className="text-xs text-white/70 leading-relaxed">{t('Standardized indexed contracts representing future royalties and creative growth on-chain.', 'Contrats standardisés représentant des redevances d\'audimat et de droits contractuels réels.')}</p>
                   </td>
                   <td className="p-6 text-xs text-white/40 leading-relaxed">
-                    <span className="text-rose-400/70 font-bold block mb-1">✗ {t('Physical asset or static info', 'Achat physique indivisible ou site vitrine')}</span>
-                    {t('Static art purchase with no yield correlation, complex and illiquid paperwork.', 'Simple achat physique d\'un bloc indivisible, sans flux financier dynamique.')}
+                    <span className="text-rose-400/70 font-bold block mb-1">✗ {t('Exclusive rights locked by majors', 'Droits exclusifs réservés aux majors')}</span>
+                    {t('Labels, studios, publishers and agents capture most revenues. Creators sign away rights with no transparent valuation mechanism.', 'Simple achat physique d\'un bloc indivisible, sans flux financier dynamique.')}
                   </td>
                   <td className="p-6 text-xs text-white/30 leading-relaxed">
                     <span className="text-white/40 font-bold block mb-1">✗ {t('Donation or symbolic rewards', 'Donation ou goodies')}</span>
@@ -1195,7 +1195,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
                   </td>
                   <td className="p-6 text-xs text-white/40 leading-relaxed">
                     <span className="text-rose-400/70 font-bold block mb-1">✗ {t('Illiquid long-term locking', 'Aucune liquidité possible')}</span>
-                    {t('Requires years to locate a buyer via auction houses or brokers, with premium fees up to 25%.', 'Nécessite des intermédiaires, commissaires-priseurs lourds, sans liquidité avant plusieurs années.')}
+                    {t('Rights locked in long-term contracts with labels, agents or studios. No partial resale or transfer possible.', 'Droits bloqués dans des contrats longue durée chez les labels, agents ou studios. Aucune revente ou cession partielle possible.')}
                   </td>
                   <td className="p-6 text-xs text-white/30 leading-relaxed">
                     <span className="text-white/40 font-bold block mb-1">✗ {t('No market trade option', 'Créateur unique')}</span>
@@ -1211,7 +1211,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
                   </td>
                   <td className="p-6 text-xs text-white/40 leading-relaxed">
                     <span className="text-rose-400/70 font-bold block mb-1">✗ {t('Opaque discresionary valuations', 'Valorisation discrétionnaire')}</span>
-                    {t('Arbitrary pricing set behind closed doors by gallery owners, based on reputation and speculation.', 'Cote fixée unilatéralement, propice à la spéculation opaque en arrière-boutique.')}
+                    {t('Valuation imposed by majors, agents or distributors based on opaque and unverifiable criteria.', 'Valorisation imposée par les majors, agents ou diffuseurs selon des critères opaques et non vérifiables.')}
                   </td>
                   <td className="p-6 text-xs text-white/30 leading-relaxed">
                     <span className="text-white/40 font-bold block mb-1">✗ {t('Unmonitored milestones', 'Aucun suivi financier')}</span>
@@ -1223,11 +1223,11 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
                   <td className="p-6 font-headline font-bold text-white text-sm uppercase tracking-wider">{t('Accessibility Ticket', 'Ticket d\'Entrée & Droits')}</td>
                   <td className="p-6 text-sm text-white font-medium bg-primary-cyan/[0.02] border-x border-white/10">
                     <span className="text-primary-cyan font-black block mb-1">✓ {t('Micro-fractioning ($50)', 'Micro-fractionnement dès 50 $')}</span>
-                    <p className="text-xs text-white/70 leading-relaxed">{t('Democratizing luxury art and cinematic registries for both professional curators and public.', 'Démocratisation des actifs de prestige pour les professionnels comme pour le public.')}</p>
+                    <p className="text-xs text-white/70 leading-relaxed">{t('Democratizing creative asset valuation across all sectors: music, film, fashion, gaming, architecture, design and more.', 'Démocratisation de la valorisation créative pour tous les secteurs : musique, cinéma, mode, jeux vidéo, architecture, design et bien plus.')}</p>
                   </td>
                   <td className="p-6 text-xs text-white/40 leading-relaxed">
                      <span className="text-rose-400/70 font-bold block mb-1">✗ {t('Elitist entry cost only', 'Ticket d\'accès élitiste')}</span>
-                     {t('High physical entry barrier typically starting from $50k+, excluding minor collectors.', 'Filtres drastiques limitant l\'accès uniquement aux grandes fortunes et institutionnels.')}
+                     {t('Access reserved for creators signed by majors, agencies or studios. Independent creators are structurally excluded.', 'Filtres drastiques limitant l\'accès uniquement aux grandes fortunes et institutionnels.')}
                   </td>
                   <td className="p-6 text-xs text-white/30 leading-relaxed">
                     <span className="text-white/40 font-bold block mb-1">✗ {t('Siloed platform profiles', 'Silo sans transfert de droits')}</span>
@@ -1259,7 +1259,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
               <ul className="space-y-4 text-xs text-left">
                 <li>
                   <strong className="text-white/80 uppercase block text-[10px] tracking-wider mb-1">✗ {t('CLASSIC EXCLUSIONS', 'SYSTEMES TRADITIONNELS OPALISE')}</strong>
-                  <span className="text-white/50 leading-relaxed">{t('Traditional galleries run on opaque offline bidding without secondary market options and feature prohibitive multi-thousand ticket sizes with zero live updates.', 'Les galeries d\'art classiques limitent l\'accès aux gros budgets et manquent cruellement de transparence et d\'un marché de revente immédiat.')}</span>
+                  <span className="text-white/50 leading-relaxed">{t('Traditional intermediaries (labels, agents, studios) capture rights and revenues with no transparency or resale mechanism for the creator.', 'Les galeries d\'art classiques limitent l\'accès aux gros budgets et manquent cruellement de transparence et d\'un marché de revente immédiat.')}</span>
                 </li>
                 <li className="pt-2 border-t border-white/5">
                   <strong className="text-white/80 uppercase block text-[10px] tracking-wider mb-1">✗ {t('SYMBOLIC REWARDS ONLY', 'CROWDFUNDING SANS RETOURS')}</strong>

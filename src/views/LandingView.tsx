@@ -410,8 +410,8 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                   </h2>
                   <p className="text-white/80 text-lg md:text-xl xl:text-[22px] font-medium leading-relaxed mb-10 max-w-3xl text-justify">
                     {t(
-                      "LinkYourArt is the world's first fintech platform specifically designed for the valuation of creative projects. It transforms artistic projects into living, tradable assets, valued according to a proprietary unit called LYA/1000, accompanied by objective scoring, continuous liquidity and transparency secured by blockchain technology.",
-                      "LinkYourArt est la première plateforme fintech au monde conçue spécifiquement pour la valorisation de projets créatifs. Elle transforme les projets artistiques en actifs vivants et échangeables, cotés selon une unité propriétaire dénommée LYA/1000, assortis d'un scoring objectif, d'une liquidité continue et d'une transparence sécurisée par technologie blockchain."
+                      "LinkYourArt is the world's first fintech protocol dedicated to the valuation of all creative industries — music, film, fashion, gaming, design, architecture, performing arts and beyond. It transforms creative projects into living, tradable assets valued via a proprietary unit called LYA/1000, with objective scoring, continuous liquidity and blockchain-secured transparency.",
+                      "LinkYourArt est le premier protocole fintech mondial dédié à la valorisation de toutes les industries créatives — musique, cinéma, mode, jeux vidéo, design, architecture, arts de la scène et bien d'autres. Il transforme les projets créatifs en actifs vivants et échangeables, cotés selon une unité propriétaire dénommée LYA/1000, assortis d'un scoring objectif, d'une liquidité continue et d'une transparence sécurisée par blockchain."
                     )}
                   </p>
                 </motion.div>
