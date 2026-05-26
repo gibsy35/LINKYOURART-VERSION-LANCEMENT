@@ -319,7 +319,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                   <span className="text-[9px] font-black tracking-[0.4em] text-primary-cyan uppercase opacity-70 mt-1">{t('ART ASSET PROTOCOL', 'ART ASSET PROTOCOL')}</span>
                 </div>
               </div>
-              <div className="flex items-center gap-4 md:gap-12">
+              <div className="flex items-center gap-2 md:gap-12">
                 <div className="hidden xl:flex items-center gap-12 text-[15px] font-black tracking-[0.25em] uppercase">
                   <motion.button 
                     whileHover={{ scale: 1.05, x: 5 }}
@@ -372,7 +372,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
 
                 <button 
                   onClick={() => setShowDemoModal(true)}
-                  className="bg-white/5 border border-white/10 hover:border-primary-cyan/50 hover:bg-primary-cyan hover:text-black transition-all px-6 py-3 rounded-full text-[10px] font-bold tracking-widest uppercase flex items-center gap-2"
+                  className="hidden sm:flex bg-white/5 border border-white/10 hover:border-primary-cyan/50 hover:bg-primary-cyan hover:text-black transition-all px-4 md:px-6 py-2 md:py-3 rounded-full text-[10px] font-bold tracking-widest uppercase items-center gap-2"
                 >
                   <Lock size={12} />
                   {t('DEMO ACCESS', 'ACCÈS DÉMO')}
@@ -738,7 +738,8 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
               exit={{ opacity: 0, scale: 0.95, y: 30 }}
               className="relative w-full max-w-xl max-h-[95vh] lg:max-h-[90vh] overflow-y-auto scrollbar-thin bg-[#0D1117] border border-white/10 rounded-[2.5rem] p-6 sm:p-8 md:p-10 shadow-3xl"
             >
-              <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-primary-cyan via-[#FF007F] to-[#9D00FF]" />
+              <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-primary-cyan via-[#FF007F] to-[#9D00FF] rounded-t-[2.5rem]" />
+              <div className="absolute top-0 left-0 w-full h-20 bg-gradient-to-b from-[#FF007F]/20 to-transparent rounded-t-[2.5rem] pointer-events-none" />
               
               {!demoSubmitted ? (
                 <div className="space-y-6 md:space-y-8">
