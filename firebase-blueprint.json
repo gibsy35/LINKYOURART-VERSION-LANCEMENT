@@ -1,0 +1,49 @@
+{
+  "entities": {
+    "user": {
+      "title": "User Profile",
+      "description": "Standard user profile for creators, investors, and professionals.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase UID" },
+        "email": { "type": "string", "format": "email" },
+        "displayName": { "type": "string" },
+        "role": { "type": "string", "enum": ["ADMIN", "PROFESSIONAL", "CREATOR"] },
+        "country": { "type": "string", "description": "ISO Country Name or Code" },
+        "isPro": { "type": "boolean" },
+        "avatarUrl": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "watchlist": { "type": "array", "items": { "type": "string" } },
+        "comparisonList": { "type": "array", "items": { "type": "string" } },
+        "usageStats": { "type": "object" }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "project": {
+      "title": "Project Contract",
+      "description": "Creative project contract listed on the registry.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "issuerId": { "type": "string" },
+        "status": { "type": "string", "enum": ["PENDING", "APPROVED", "REJECTED"] },
+        "totalUnits": { "type": "number" },
+        "unitPrice": { "type": "number" },
+        "image": { "type": "string" }
+      },
+      "required": ["name", "issuerId", "status"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "user",
+      "description": "Store user profiles."
+    },
+    "/projects/{projectId}": {
+      "schema": "project",
+      "description": "Store creative projects."
+    }
+  }
+}
