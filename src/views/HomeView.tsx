@@ -1292,7 +1292,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
             </div>
             <h3 className="text-xl font-black font-headline uppercase tracking-widest mb-4">{t('home.pillars.creators.title', 'Creators')}</h3>
             <p className="text-on-surface-variant text-sm leading-relaxed opacity-70 text-justify">
-              {t('home.pillars.creators.desc', 'The heartbeat of the ecosystem. Creators contractualiser their vision into Indexed Creative Contracts, offering future revenue shares to fuel their growth while maintaining creative control.')}
+              {t('home.pillars.creators.desc', 'Le cœur battant de l\'écosystème. Les créateurs indexent leur vision en Contrats Créatifs Indexés, offrant des droits contractuels futurs pour alimenter leur croissance tout en gardant le contrôle créatif.')}
             </p>
           </div>
 
@@ -1301,9 +1301,9 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
             <div className="w-12 h-12 bg-accent-gold/10 flex items-center justify-center text-accent-gold border border-accent-gold/20 mb-6 group-hover:scale-110 transition-transform">
               <TrendingUp size={24} />
             </div>
-            <h3 className="text-xl font-black font-headline uppercase tracking-widest mb-4">{t('home.pillars.creative partners.title', 'Creative Partners')}</h3>
+            <h3 className="text-xl font-black font-headline uppercase tracking-widest mb-4">{t('home.pillars.creative partners.title', 'Partenaires Créatifs')}</h3>
             <p className="text-on-surface-variant text-sm leading-relaxed opacity-70 text-justify">
-              {t('home.pillars.creative partners.desc', 'Back the next generation of masterpieces. Creative Partners acquire LYA Units representing future revenue shares, participating in the success of verified creative projects through a secure pair à pair exchange.')}
+              {t('home.pillars.creative partners.desc', 'Soutenez la prochaine génération de projets créatifs. Les Partenaires Créatifs acquièrent des Unités LYA représentant des droits contractuels futurs, participant au succès de projets créatifs vérifiés via une cession directe sécurisée.')}
             </p>
           </div>
 
