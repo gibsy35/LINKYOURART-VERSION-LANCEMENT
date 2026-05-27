@@ -327,16 +327,25 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
 
             {/* Navigation */}
             <nav className="px-4 md:px-8 py-4 md:py-6 flex justify-between items-center max-w-[1600px] mx-auto relative z-[60]">
-              <div className="flex items-center gap-3 cursor-pointer" onClick={handleLogoTap}>
-                <div className="relative flex flex-col items-center md:items-start md:flex-row md:gap-3">
-                  <Logo size={96} color="multi" showBeta={true} className="md:hidden" />
-                  <Logo size={48} color="multi" showBeta={true} className="hidden md:block" />
-                  <div className="hidden md:flex flex-col">
-                    <ElevatedTextLogo size="text-2xl" />
-                    <span className="text-[9px] font-black tracking-[0.4em] text-primary-cyan uppercase opacity-70 mt-1">{t('ART ASSET PROTOCOL', 'ART ASSET PROTOCOL')}</span>
+              
+              {/* Mobile: centered logo layout */}
+              <div className="flex md:hidden w-full items-center justify-center relative py-2">
+                {/* Buttons right */}
+                <div className="absolute right-0 flex items-center gap-2">
+                  <div className="flex items-center bg-white/5 border border-white/5 rounded-full p-0.5">
+                    <button onClick={() => setLanguage?.('FR')} className={`px-2 py-1 rounded-full text-[9px] font-black tracking-widest transition-all ${language === 'FR' ? 'bg-white text-black' : 'text-white/40'}`}>FR</button>
+                    <button onClick={() => setLanguage?.('EN')} className={`px-2 py-1 rounded-full text-[9px] font-black tracking-widest transition-all ${language === 'EN' ? 'bg-white text-black' : 'text-white/40'}`}>EN</button>
                   </div>
+                  <button onClick={() => setShowDemoModal(true)} className="flex bg-white/5 border border-white/10 hover:border-primary-cyan/50 hover:bg-primary-cyan hover:text-black transition-all p-2.5 rounded-full items-center">
+                    <Lock size={13} />
+                  </button>
+                </div>
+
+                {/* Centered logo */}
+                <div className="flex flex-col items-center cursor-pointer" onClick={handleLogoTap}>
+                  <Logo size={80} color="multi" showBeta={true} />
                   <motion.span
-                    className="md:hidden text-[10px] font-black tracking-[0.35em] text-primary-cyan uppercase mt-2 block"
+                    className="text-[9px] font-black tracking-[0.4em] text-primary-cyan uppercase mt-2 block"
                     animate={{ opacity: [0.4, 1, 0.4] }}
                     transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
                   >
@@ -344,7 +353,16 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                   </motion.span>
                 </div>
               </div>
-              <div className="flex items-center gap-2 md:gap-12">
+
+              {/* Desktop: original layout */}
+              <div className="hidden md:flex items-center gap-3 cursor-pointer" onClick={handleLogoTap}>
+                <Logo size={48} color="multi" showBeta={true} />
+                <div className="flex flex-col">
+                  <ElevatedTextLogo size="text-2xl" />
+                  <span className="text-[9px] font-black tracking-[0.4em] text-primary-cyan uppercase opacity-70 mt-1">{t('ART ASSET PROTOCOL', 'ART ASSET PROTOCOL')}</span>
+                </div>
+              </div>
+              <div className="hidden md:flex items-center gap-2 md:gap-12">
                 <div className="hidden xl:flex items-center gap-12 text-[15px] font-black tracking-[0.25em] uppercase">
                   <motion.button 
                     whileHover={{ scale: 1.05, x: 5 }}
