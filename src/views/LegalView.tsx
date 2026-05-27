@@ -137,7 +137,7 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify }) => {
       },
       { 
         q: t('What are the platform fees?', 'Quels sont les frais de la plateforme ?'), 
-        a: t('Transparency is key. We apply a fee of 2% to 5% on transactions de transfert direct and a 3% fee upon objective finalization of a project. These fees support the ecosystem\'s security and evolution.', 'La transparence est essentielle. Nous appliquons des frais de 2% à 5% sur les transactions de l\'Plateforme de Transfert et une commission de 3% lors de la finalisation des objectifs d\'un projet.') 
+        a: t('Transparency is key. We apply a fee of 2% to 5% on transactions de transfert direct and a 3% fee upon objective finalization of a project. These fees support the ecosystem\'s security and evolution.', 'La transparence est essentielle. Nous appliquons des frais de 2% à 5% sur les transactions de la Plateforme de Transfert et une commission de 3% lors de la finalisation des objectifs d\'un projet.') 
       }
     ],
     Creators: [
@@ -150,10 +150,10 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify }) => {
         a: t('Access to immediate financing via LYA UNITS without selling shares. You maintain control of your IP while creating a financial layer for your work. Success is directly linked to the respect of your milestones, which increases the unit value for everyone.', 'Accès à un financement immédiat via les LYA UNITS sans céder de parts sociales. Vous gardez le contrôle de votre PI tout en créant une couche financière pour votre œuvre. Le succès est lié au respect de vos jalons, ce qui augmente la valeur de l\'unité.') 
       }
     ],
-    Partenaire créatifs: [
+    'Partenaires créatifs': [
       { 
         q: t('How do I earn with LYA?', 'Comment gagner avec LYA ?'), 
-        a: t('By holding LYA UNITS of a project. If the creator respects their milestones and the project develops well, the LYA Score increases and the LYA UNIT value rises above the initial 50 USD. You can resale your units on the plateforme de transfert at any time.', 'En détenant des LYA UNITS d\'un projet. Si le créateur respecte ses jalons, le Score LYA monte et la valeur de l\'unité LYA dépasse les 50 USD initiaux. Vous pouvez revendre vos unités sur l\'Plateforme de Transfert à tout moment.') 
+        a: t('By holding LYA UNITS of a project. If the creator respects their milestones and the project develops well, the LYA Score increases and the LYA UNIT value rises above the initial 50 USD. You can resale your units on the plateforme de transfert at any time.', 'En détenant des LYA UNITS d\'un projet. Si le créateur respecte ses jalons, le Score LYA monte et la valeur de l\'unité LYA dépasse les 50 USD initiaux. Vous pouvez revendre vos unités sur la Plateforme de Transfert à tout moment.') 
       },
       { 
         q: t('How is the value of LYA UNITS calculated?', 'Comment est calculée la valeur des LYA UNITS ?'), 
