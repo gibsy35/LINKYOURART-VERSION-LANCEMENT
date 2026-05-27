@@ -88,6 +88,9 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
   const [isVerifyingKey, setIsVerifyingKey] = useState(false);
   const [showKeyInput, setShowKeyInput] = useState(false);
   const [activeLegal, setActiveLegal] = useState<'GDPR' | 'PRIVACY' | 'TERMS' | null>(null);
+  const [logoTapCount, setLogoTapCount] = useState(0);
+  const [showLoginEaster, setShowLoginEaster] = useState(false);
+  const logoTapTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
   
   // Countdown timer logic
   const [timeLeft, setTimeLeft] = useState({
@@ -238,6 +241,18 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
     }
   };
 
+  const handleLogoTap = () => {
+    const newCount = logoTapCount + 1;
+    setLogoTapCount(newCount);
+    if (logoTapTimer.current) clearTimeout(logoTapTimer.current);
+    if (newCount >= 3) {
+      setShowLoginEaster(true);
+      setLogoTapCount(0);
+    } else {
+      logoTapTimer.current = setTimeout(() => setLogoTapCount(0), 1500);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#06080C] text-white font-body selection:bg-primary-cyan/30 overflow-x-hidden relative">
       <AnimatePresence mode="wait">
@@ -312,7 +327,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
 
             {/* Navigation */}
             <nav className="px-4 md:px-8 py-4 md:py-6 flex justify-between items-center max-w-[1600px] mx-auto relative z-[60]">
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 cursor-pointer" onClick={handleLogoTap}>
                 <Logo size={48} color="multi" showBeta={true} />
                 <div className="flex flex-col">
                   <ElevatedTextLogo size="text-2xl" />
@@ -895,6 +910,36 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
           </div>
         )}
       </AnimatePresence>
+
+      {/* Easter Egg Admin Login - 3 taps on logo */}
+      {showLoginEaster && (
+        <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/80 backdrop-blur-xl px-6">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="w-full max-w-sm bg-[#0D1117] border border-white/10 rounded-3xl p-8 relative"
+          >
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary-cyan via-[#FF007F] to-[#9D00FF] rounded-t-3xl" />
+            <div className="text-center mb-8">
+              <Logo size={48} color="multi" showBeta={false} className="mx-auto mb-4" />
+              <h3 className="font-headline text-xl font-black uppercase tracking-widest text-white">ACCÈS ADMIN</h3>
+              <p className="text-white/30 text-xs mt-1 tracking-widest uppercase">Protocole Sécurisé</p>
+            </div>
+            <button
+              onClick={() => { setShowLoginEaster(false); if (onViewChange) onViewChange('LOGIN'); }}
+              className="w-full py-4 bg-primary-cyan text-black font-black text-xs tracking-widest uppercase rounded-xl mb-3 hover:bg-primary-cyan/80 transition-all"
+            >
+              SE CONNECTER
+            </button>
+            <button
+              onClick={() => setShowLoginEaster(false)}
+              className="w-full py-3 bg-white/5 border border-white/10 text-white/40 font-black text-xs tracking-widest uppercase rounded-xl hover:text-white transition-all"
+            >
+              FERMER
+            </button>
+          </motion.div>
+        </div>
+      )}
     </div>
   );
 };
