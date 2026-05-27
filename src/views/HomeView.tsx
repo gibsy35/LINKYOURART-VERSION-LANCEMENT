@@ -1314,7 +1314,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
             </div>
             <h3 className="text-xl font-black font-headline uppercase tracking-widest mb-4">{t('home.pillars.professionals.title', 'Professionals')}</h3>
             <p className="text-on-surface-variant text-sm leading-relaxed opacity-70 text-justify">
-              {t('home.pillars.professionals.desc', 'The validators of excellence. Industry leaders (Netflix, Amazon, Labels, Producers) rate projects, ensuring the Indice LYA reflects real-market potential and expert quality.')}
+              {t('home.pillars.professionals.desc', 'Les validateurs de l\'excellence créative. Experts sectoriels, labels, studios et producteurs évaluent les projets, garantissant que l\'Indice LYA reflète le potentiel réel du marché.')}
             </p>
           </div>
 
@@ -1363,7 +1363,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
                   <div className="w-12 h-12 shrink-0 bg-emerald-400/20 flex items-center justify-center text-emerald-400 border border-emerald-400/30 font-black">03</div>
                   <div>
                     <h4 className="text-white font-black uppercase tracking-widest mb-1">{t('home.formula.p3.title', 'Professional Validation')}</h4>
-                    <p className="text-xs text-on-surface-variant opacity-70 uppercase tracking-widest">{t('home.formula.p3.desc', 'Expert ratings from industry leaders (Netflix, Amazon, Producers).')}</p>
+                    <p className="text-xs text-on-surface-variant opacity-70 uppercase tracking-widest">{t('home.formula.p3.desc', 'Notes d\'experts issus des leaders des industries créatives.')}</p>
                   </div>
                 </div>
               </div>
@@ -1500,20 +1500,20 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
       <section className="relative z-10 py-40 max-w-[1800px] mx-auto px-6">
         <div className="text-center mb-24">
           <h2 className="text-3xl md:text-5xl font-black font-headline text-white tracking-tighter uppercase mb-6 drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]">
-            {t('home.évaluation créative.title', 'The LYA')} <span className="text-primary-cyan">{t('home.évaluation créative.title_cyan', 'Evaluation System')}</span>
+            {t('home.scoring.title', 'THE LYA')} <span className="text-primary-cyan">{t('home.scoring.title_cyan', 'EVALUATION SYSTEM')}</span>
           </h2>
           <p className="text-on-surface-variant text-lg opacity-80 max-w-2xl mx-auto text-justify">
-            {t('home.évaluation créative.subtitle', 'Our proprietary algorithm evaluates every contract across 5 critical notation criteria, providing a transparent and objective Creative Performance Index out of 1000.')}
+            {t('home.scoring.subtitle', 'Notre algorithme propriétaire évalue chaque contrat selon 5 critères critiques, fournissant un Indice de Performance Créative objectif et transparent sur 1000.')}
           </p>
         </div>
 
         <div className="grid md:grid-cols-5 gap-4">
           {[
-            { label: t('home.évaluation créative.c1.label', 'Project Quality'), score: '200', desc: t('home.évaluation créative.c1.desc', 'Evaluation of artistic merit, historical significance, and creative execution.'), color: 'text-primary-cyan', bg: 'bg-primary-cyan/5', border: 'border-primary-cyan/20' },
-            { label: t('home.évaluation créative.c2.label', 'Marketability'), score: '200', desc: t('home.évaluation créative.c2.desc', 'Analysis of direct transfer platform demand, accessibility potential, and audience reach.'), color: 'text-accent-pink', bg: 'bg-accent-pink/5', border: 'border-accent-pink/20' },
-            { label: t('home.évaluation créative.c3.label', 'Legal Security'), score: '200', desc: t('home.évaluation créative.c3.desc', 'Verification of contractual rights, IP protection, and regulatory compliance.'), color: 'text-accent-green', bg: 'bg-accent-green/5', border: 'border-accent-green/20' },
-            { label: t('home.évaluation créative.c4.label', 'Technical Innovation'), score: '200', desc: t('home.évaluation créative.c4.desc', 'Assessment of technological uniqueness, contrat numérique certifié complexity, and digital durability.'), color: 'text-accent-purple', bg: 'bg-accent-purple/5', border: 'border-accent-purple/20' },
-            { label: t('home.évaluation créative.c5.label', 'Growth Potential'), score: '200', desc: t('home.évaluation créative.c5.desc', 'Projections of future value appreciation based on market trends and roadmap.'), color: 'text-accent-gold', bg: 'bg-accent-gold/5', border: 'border-accent-gold/20' },
+            { label: t('home.scoring.c1.label', 'Qualité du Projet'), score: '200', desc: t('home.scoring.c1.desc', "Évaluation du mérite créatif, de la singularité du projet et de la qualité d'exécution."), color: 'text-primary-cyan', bg: 'bg-primary-cyan/5', border: 'border-primary-cyan/20' },
+            { label: t('home.scoring.c2.label', 'Potentiel de Marché'), score: '200', desc: t('home.scoring.c2.desc', "Analyse de la demande sur la plateforme de transfert, du potentiel d'accessibilité et de l'audience cible."), color: 'text-accent-pink', bg: 'bg-accent-pink/5', border: 'border-accent-pink/20' },
+            { label: t('home.scoring.c3.label', 'Sécurité Juridique'), score: '200', desc: t('home.scoring.c3.desc', "Vérification des droits contractuels, protection de la propriété intellectuelle et conformité réglementaire."), color: 'text-accent-green', bg: 'bg-accent-green/5', border: 'border-accent-green/20' },
+            { label: t('home.scoring.c4.label', 'Innovation Technique'), score: '200', desc: t('home.scoring.c4.desc', "Évaluation de l'unicité technologique, de la complexité du contrat certifié et de la durabilité numérique."), color: 'text-accent-purple', bg: 'bg-accent-purple/5', border: 'border-accent-purple/20' },
+            { label: t('home.scoring.c5.label', 'Potentiel de Croissance'), score: '200', desc: t('home.scoring.c5.desc', "Projections d'appréciation future basées sur les tendances du marché créatif et la feuille de route."), color: 'text-accent-gold', bg: 'bg-accent-gold/5', border: 'border-accent-gold/20' },
           ].map((criterion, i) => (
             <motion.div 
               key={i}

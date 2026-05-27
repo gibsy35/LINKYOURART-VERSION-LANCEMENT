@@ -531,7 +531,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
                         {t('Forecasted Platform Benefits', 'Retombées Plateforme Estimées')}
                       </h5>
                       <ul className="space-y-1 text-on-surface/85">
-                        {assessmentResult.projectedBenefits.map((b, i) => (
+                        {(assessmentResult.projectedBenefits || []).map((b, i) => (
                           <li key={i} className="text-[9px] font-black uppercase tracking-wider flex items-start gap-1.5 leading-snug">
                             <span className="text-primary-cyan text-xs leading-none">•</span>
                             <span>{b}</span>
@@ -546,7 +546,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
                         {t('Suggested Specialty Modules', 'Modules Certifiés Suggérés')}
                       </h5>
                       <div className="space-y-2">
-                        {assessmentResult.suggestedAddons.map((addon, i) => (
+                        {(assessmentResult.suggestedAddons || []).map((addon, i) => (
                           <div key={i} className="p-2 bg-white/5 border border-white/5 rounded-sm">
                             <span className="text-[9px] font-black text-accent-gold block uppercase tracking-wider">{addon.name}</span>
                             <span className="text-[8px] text-on-surface-variant font-bold uppercase leading-tight mt-0.5 block">{addon.reason}</span>
