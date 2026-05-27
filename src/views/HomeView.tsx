@@ -1291,7 +1291,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
             </div>
             <h3 className="text-xl font-black font-headline uppercase tracking-widest mb-4">{t('home.pillars.creators.title', 'Creators')}</h3>
             <p className="text-on-surface-variant text-sm leading-relaxed opacity-70 text-justify">
-              {t('home.pillars.creators.desc', 'Le cœur battant de l\'écosystème. Les créateurs indexent leur vision en Contrats Créatifs Indexés, offrant des droits contractuels futurs pour alimenter leur croissance tout en gardant le contrôle créatif.')}
+              {t('The heart of the ecosystem. Creative works are indexed into Certified Creative Contracts, offering future contractual rights to fuel their growth while keeping full creative control.', 'Le cœur de l\'écosystème. Les créations sont indexées en Contrats Créatifs Certifiés, offrant des droits contractuels futurs pour alimenter leur croissance tout en gardant le contrôle créatif.')}
             </p>
           </div>
 
@@ -1313,7 +1313,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
             </div>
             <h3 className="text-xl font-black font-headline uppercase tracking-widest mb-4">{t('home.pillars.professionals.title', 'Professionals')}</h3>
             <p className="text-on-surface-variant text-sm leading-relaxed opacity-70 text-justify">
-              {t('home.pillars.professionals.desc', 'Les validateurs de l\'excellence créative. Experts sectoriels, labels, studios et producteurs évaluent les projets, garantissant que l\'Indice LYA reflète le potentiel réel du marché.')}
+              {t('The guardians of creative excellence. Industry experts, labels, studios and producers evaluate creative works, ensuring the LYA Index reflects their true market potential.', 'Les gardiens de l\'excellence créative. Experts sectoriels, labels, studios et producteurs évaluent les créations, garantissant que l\'Indice LYA reflète leur véritable potentiel de marché.')}
             </p>
           </div>
 
@@ -1324,7 +1324,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
             </div>
             <h3 className="text-xl font-black font-headline uppercase tracking-widest mb-4">{t('home.pillars.public.title', 'The Public')}</h3>
             <p className="text-on-surface-variant text-sm leading-relaxed opacity-70 text-justify">
-              {t('home.pillars.public.desc', 'Découvrez les projets de demain. Le public peut explorer le registre, suivre le parcours créatif et contribuer à la croissance des projets en lesquels il croit.')}
+              {t('Discover the creations of tomorrow. Explore the registry, follow the creative journey and contribute to the growth of the works you believe in.', 'Découvrez les créations de demain. Explorez le registre, suivez le parcours créatif et contribuez à la croissance des œuvres en lesquelles vous croyez.')}
             </p>
           </div>
         </div>
@@ -1541,7 +1541,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
           className="mt-16 text-center"
         >
           <p className="text-base text-on-surface-variant/60 uppercase tracking-[0.2em] max-w-3xl mx-auto leading-relaxed text-justify">
-            "{t('home.quotes.évaluation créative', 'The Indice LYA represents the definitive index of a creative contract\'s living value, updated in real-time through market feedback and periodic professional audits.')}"
+            "{t('The LYA Index is the definitive measure of a creative work\'s living value — updated in real-time through market signals and periodic professional audits.', 'L\'Indice LYA est la mesure définitive de la valeur vivante d\'une création — mise à jour en temps réel grâce aux signaux du marché et aux audits professionnels périodiques.')}"
           </p>
         </motion.div>
       </section>
