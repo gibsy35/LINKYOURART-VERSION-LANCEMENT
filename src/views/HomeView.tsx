@@ -896,9 +896,7 @@ const ProjectSlider = ({ onNav }: { onNav: (v: View) => void }) => {
 
 export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveContracts = CONTRACTS }) => {
 
-  const { t } = useTranslation();
-
-  const [showLegalPopup, setShowLegalPopup] = useState(false);
+  const { t, language } = useTranslation();
 
   return (
     <div className="relative min-h-screen bg-surface-dim overflow-x-hidden">
@@ -1280,7 +1278,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
             {t('home.pillars.title', 'The')} <span className="text-primary-cyan">{t('home.pillars.title_cyan', 'Four Pillars')}</span>
           </h2>
           <p className="text-on-surface-variant text-lg opacity-80 max-w-2xl mx-auto text-justify">
-            {t('home.pillars.subtitle', 'LinkYourArt unites the major actors of the creative economy and the public in a single, secure, and transparent ecosystem.')}
+            {t('home.pillars.subtitle', 'LinkYourArt réunit les acteurs majeurs de l\'économie créative et le public dans un écosystème unique, sécurisé et transparent.')}
           </p>
         </div>
 
@@ -1301,9 +1299,9 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
             <div className="w-12 h-12 bg-accent-gold/10 flex items-center justify-center text-accent-gold border border-accent-gold/20 mb-6 group-hover:scale-110 transition-transform">
               <TrendingUp size={24} />
             </div>
-            <h3 className="text-xl font-black font-headline uppercase tracking-widest mb-4">{t('home.pillars.creative partners.title', 'Partenaires Créatifs')}</h3>
+            <h3 className="text-xl font-black font-headline uppercase tracking-widest mb-4">{language === 'FR' ? 'PARTENAIRES CRÉATIFS' : 'CREATIVE PARTNERS'}</h3>
             <p className="text-on-surface-variant text-sm leading-relaxed opacity-70 text-justify">
-              {t('home.pillars.creative partners.desc', 'Soutenez la prochaine génération de projets créatifs. Les Partenaires Créatifs acquièrent des Unités LYA représentant des droits contractuels futurs, participant au succès de projets créatifs vérifiés via une cession directe sécurisée.')}
+              {language === 'FR' ? 'Soutenez la prochaine génération de projets créatifs. Les Partenaires Créatifs acquièrent des Unités LYA représentant des droits contractuels futurs, participant au succès de projets vérifiés via une cession directe sécurisée.' : 'Support the next generation of creative projects. Creative Partners acquire LYA Units representing future contractual rights, participating in the success of verified creative projects through a secure direct transfer.'}
             </p>
           </div>
 
@@ -1325,7 +1323,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
             </div>
             <h3 className="text-xl font-black font-headline uppercase tracking-widest mb-4">{t('home.pillars.public.title', 'The Public')}</h3>
             <p className="text-on-surface-variant text-sm leading-relaxed opacity-70 text-justify">
-              {t('home.pillars.public.desc', 'Discover the projects of tomorrow. The general public can explore the registry, track the creative journey, and contribute to the growth of masterpieces they believe in.')}
+              {t('home.pillars.public.desc', 'Découvrez les projets de demain. Le public peut explorer le registre, suivre le parcours créatif et contribuer à la croissance des projets en lesquels il croit.')}
             </p>
           </div>
         </div>
@@ -1500,17 +1498,17 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
       <section className="relative z-10 py-40 max-w-[1800px] mx-auto px-6">
         <div className="text-center mb-24">
           <h2 className="text-3xl md:text-5xl font-black font-headline text-white tracking-tighter uppercase mb-6 drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]">
-            {t('home.scoring.title', 'THE LYA')} <span className="text-primary-cyan">{t('home.scoring.title_cyan', 'EVALUATION SYSTEM')}</span>
+            {t('home.scoring.title', 'LE SYSTÈME')} <span className="text-primary-cyan">{t('home.scoring.title_cyan', "D'ÉVALUATION LYA")}</span>
           </h2>
           <p className="text-on-surface-variant text-lg opacity-80 max-w-2xl mx-auto text-justify">
-            {t('home.scoring.subtitle', 'Notre algorithme propriétaire évalue chaque contrat selon 5 critères critiques, fournissant un Indice de Performance Créative objectif et transparent sur 1000.')}
+            {t('home.scoring.subtitle', 'Notre algorithme propriétaire évalue chaque projet selon 5 critères critiques, fournissant un Indice de Performance Créative objectif et transparent sur 1000.')}
           </p>
         </div>
 
         <div className="grid md:grid-cols-5 gap-4">
           {[
             { label: t('home.scoring.c1.label', 'Qualité du Projet'), score: '200', desc: t('home.scoring.c1.desc', "Évaluation du mérite créatif, de la singularité du projet et de la qualité d'exécution."), color: 'text-primary-cyan', bg: 'bg-primary-cyan/5', border: 'border-primary-cyan/20' },
-            { label: t('home.scoring.c2.label', 'Potentiel de Marché'), score: '200', desc: t('home.scoring.c2.desc', "Analyse de la demande sur la plateforme de transfert, du potentiel d'accessibilité et de l'audience cible."), color: 'text-accent-pink', bg: 'bg-accent-pink/5', border: 'border-accent-pink/20' },
+            { label: t('home.scoring.c2.label', 'Potentiel de Marché'), score: '200', desc: t('home.scoring.c2.desc', "Analyse de la demande sur notre plateforme, du potentiel d'accessibilité et de l'audience cible."), color: 'text-accent-pink', bg: 'bg-accent-pink/5', border: 'border-accent-pink/20' },
             { label: t('home.scoring.c3.label', 'Sécurité Juridique'), score: '200', desc: t('home.scoring.c3.desc', "Vérification des droits contractuels, protection de la propriété intellectuelle et conformité réglementaire."), color: 'text-accent-green', bg: 'bg-accent-green/5', border: 'border-accent-green/20' },
             { label: t('home.scoring.c4.label', 'Innovation Technique'), score: '200', desc: t('home.scoring.c4.desc', "Évaluation de l'unicité technologique, de la complexité du contrat certifié et de la durabilité numérique."), color: 'text-accent-purple', bg: 'bg-accent-purple/5', border: 'border-accent-purple/20' },
             { label: t('home.scoring.c5.label', 'Potentiel de Croissance'), score: '200', desc: t('home.scoring.c5.desc', "Projections d'appréciation future basées sur les tendances du marché créatif et la feuille de route."), color: 'text-accent-gold', bg: 'bg-accent-gold/5', border: 'border-accent-gold/20' },
