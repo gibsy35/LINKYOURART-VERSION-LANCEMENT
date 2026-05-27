@@ -328,10 +328,19 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
             {/* Navigation */}
             <nav className="px-4 md:px-8 py-4 md:py-6 flex justify-between items-center max-w-[1600px] mx-auto relative z-[60]">
               <div className="flex items-center gap-3 cursor-pointer" onClick={handleLogoTap}>
-                <Logo size={48} color="multi" showBeta={true} />
-                <div className="hidden md:flex flex-col">
-                  <ElevatedTextLogo size="text-2xl" />
-                  <span className="text-[9px] font-black tracking-[0.4em] text-primary-cyan uppercase opacity-70 mt-1">{t('ART ASSET PROTOCOL', 'ART ASSET PROTOCOL')}</span>
+                <div className="relative flex flex-col items-center md:items-start md:flex-row md:gap-3">
+                  <Logo size={48} color="multi" showBeta={true} />
+                  <div className="hidden md:flex flex-col">
+                    <ElevatedTextLogo size="text-2xl" />
+                    <span className="text-[9px] font-black tracking-[0.4em] text-primary-cyan uppercase opacity-70 mt-1">{t('ART ASSET PROTOCOL', 'ART ASSET PROTOCOL')}</span>
+                  </div>
+                  <motion.span
+                    className="md:hidden text-[7px] font-black tracking-[0.3em] text-primary-cyan uppercase mt-1 block"
+                    animate={{ opacity: [0.4, 1, 0.4] }}
+                    transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
+                  >
+                    ALL CREATIVE INDUSTRIES
+                  </motion.span>
                 </div>
               </div>
               <div className="flex items-center gap-2 md:gap-12">
