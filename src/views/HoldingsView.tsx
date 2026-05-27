@@ -513,9 +513,9 @@ export const HoldingsView: React.FC<{ onNotify: (msg: string) => void; userContr
               <Activity size={32} />
             </div>
             <div>
-              <h3 className="text-lg md:text-xl font-bold font-headline uppercase tracking-widest mb-2 text-white">{t('Yield Generation', 'Génération de Rendement')}</h3>
+              <h3 className="text-lg md:text-xl font-bold font-headline uppercase tracking-widest mb-2 text-white">{t('Performance Generation', 'Génération de Performance')}</h3>
               <p className="text-xs md:text-sm text-on-surface-variant leading-relaxed max-w-md">
-                {t('Your holdings are currently générant une progression estimée à 8.4% through automated creative rights participation.', 'Vos avoirs progressent actuellement d'une valeur estimée à 8,4 % grâce à la participation automatisée aux droits créatifs.')}
+                {t('Your holdings are currently generating an estimated 8.4% progression through automated creative rights participation.', "Vos avoirs progressent actuellement d'une valeur estimée à 8,4 % grâce à la participation automatisée aux droits créatifs.")}
               </p>
             </div>
           </div>
