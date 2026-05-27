@@ -328,29 +328,32 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
             {/* Navigation */}
             <nav className="px-4 md:px-8 py-4 md:py-6 flex justify-between items-center max-w-[1600px] mx-auto relative z-[60]">
               
-              {/* Mobile: centered logo layout */}
-              <div className="flex md:hidden w-full items-center justify-center relative py-2">
-                {/* Buttons right */}
-                <div className="absolute right-0 flex items-center gap-2">
-                  <div className="flex items-center bg-white/5 border border-white/5 rounded-full p-0.5">
-                    <button onClick={() => setLanguage?.('FR')} className={`px-2 py-1 rounded-full text-[9px] font-black tracking-widest transition-all ${language === 'FR' ? 'bg-white text-black' : 'text-white/40'}`}>FR</button>
-                    <button onClick={() => setLanguage?.('EN')} className={`px-2 py-1 rounded-full text-[9px] font-black tracking-widest transition-all ${language === 'EN' ? 'bg-white text-black' : 'text-white/40'}`}>EN</button>
-                  </div>
-                  <button onClick={() => setShowDemoModal(true)} className="flex bg-white/5 border border-white/10 hover:border-primary-cyan/50 hover:bg-primary-cyan hover:text-black transition-all p-2.5 rounded-full items-center">
-                    <Lock size={13} />
-                  </button>
-                </div>
+              {/* Mobile: 3 col balanced nav */}
+              <div className="flex md:hidden w-full items-center justify-between py-2">
+                {/* Left spacer - same width as right buttons */}
+                <div className="w-16" />
 
-                {/* Centered logo */}
+                {/* Center: logo */}
                 <div className="flex flex-col items-center cursor-pointer" onClick={handleLogoTap}>
-                  <Logo size={80} color="multi" showBeta={true} />
+                  <Logo size={110} color="multi" showBeta={true} />
                   <motion.span
-                    className="text-[9px] font-black tracking-[0.4em] text-primary-cyan uppercase mt-2 block"
+                    className="text-[8px] font-black tracking-[0.35em] text-primary-cyan uppercase mt-1.5 block"
                     animate={{ opacity: [0.4, 1, 0.4] }}
                     transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
                   >
                     ALL CREATIVE INDUSTRIES
                   </motion.span>
+                </div>
+
+                {/* Right: compact buttons */}
+                <div className="flex flex-col items-end gap-2 w-16">
+                  <button onClick={() => setShowDemoModal(true)} className="flex bg-white/5 border border-white/10 hover:border-primary-cyan/50 transition-all p-2 rounded-full items-center justify-center">
+                    <Lock size={12} />
+                  </button>
+                  <div className="flex items-center bg-white/5 border border-white/5 rounded-full p-0.5">
+                    <button onClick={() => setLanguage?.('FR')} className={`px-1.5 py-0.5 rounded-full text-[8px] font-black tracking-wider transition-all ${language === 'FR' ? 'bg-white text-black' : 'text-white/40'}`}>FR</button>
+                    <button onClick={() => setLanguage?.('EN')} className={`px-1.5 py-0.5 rounded-full text-[8px] font-black tracking-wider transition-all ${language === 'EN' ? 'bg-white text-black' : 'text-white/40'}`}>EN</button>
+                  </div>
                 </div>
               </div>
 
