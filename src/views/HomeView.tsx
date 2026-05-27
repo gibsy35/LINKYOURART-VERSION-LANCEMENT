@@ -897,6 +897,7 @@ const ProjectSlider = ({ onNav }: { onNav: (v: View) => void }) => {
 export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveContracts = CONTRACTS }) => {
 
   const { t, language } = useTranslation();
+  const [showLegalPopup, setShowLegalPopup] = useState(false);
 
   return (
     <div className="relative min-h-screen bg-surface-dim overflow-x-hidden">
