@@ -410,8 +410,8 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                   </h2>
                   <p className="text-white/80 text-lg md:text-xl xl:text-[22px] font-medium leading-relaxed mb-10 max-w-3xl text-justify">
                     {t(
-                      "LinkYourArt is the world's first fintech protocol dedicated to the valuation of all creative industries — music, film, fashion, gaming, design, architecture, performing arts and beyond. It transforms creative projects into living, tradable assets valued via a proprietary unit called LYA/1000, with objective scoring, continuous liquidity and blockchain-secured transparency.",
-                      "LinkYourArt est le premier protocole fintech mondial dédié à la valorisation de toutes les industries créatives — musique, cinéma, mode, jeux vidéo, design, architecture, arts de la scène et bien d'autres. Il transforme les projets créatifs en actifs vivants et échangeables, cotés selon une unité propriétaire dénommée LYA/1000, assortis d'un scoring objectif, d'une liquidité continue et d'une transparence sécurisée par blockchain."
+                      "LinkYourArt is the world's first creative valuation protocol dedicated to the valuation of all creative industries — music, film, fashion, gaming, design, architecture, performing arts and beyond. It transforms creative projects into living, documented contractual rights valued via a proprietary unit called LYA/1000, with objective evaluation, continuous accessibility and registre public certifié-secured transparency.",
+                      "LinkYourArt est le premier premier protocole mondial de valorisation créative dédié à la valorisation de toutes les industries créatives — musique, cinéma, mode, jeux vidéo, design, architecture, arts de la scène et bien d'autres. Il transforme les projets créatifs en droits créatifs vivants et certifiés, cotés selon une unité propriétaire dénommée LYA/1000, assortis d'un évaluation objective, d'une disponibilité continue et d'une transparence sécurisée par registre public certifié."
                     )}
                   </p>
                 </motion.div>
@@ -472,7 +472,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                       <div className="space-y-2">
                         <h3 className="font-headline text-3xl font-black uppercase tracking-tighter">{t('PRE-REGISTRATION', 'PRÉ-INSCRIPTION')}</h3>
                         <p className="text-white/40 text-sm font-medium tracking-wide leading-relaxed">
-                          {t('Join the elite circle of selected creators, professionals and visionary investors prior to our global rollout.', 'Rejoignez le cercle d\'élite des créateurs, professionnels et investisseurs visionnaires avant notre déploiement mondial.')}
+                          {t('Join the elite circle of selected creators, professionals and visionary creative partners prior to our global rollout.', 'Rejoignez le cercle d\'élite des créateurs, professionnels et partenaire créatifs visionnaires avant notre déploiement mondial.')}
                         </p>
                       </div>
 
@@ -585,7 +585,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                     <ElevatedTextLogo size="text-xl" />
                   </div>
                   <p className="text-white/30 text-sm font-medium leading-relaxed max-w-xs">
-                    {t('Building the definitive exchange layer for creative intellectual property.', 'Construire la couche d’échange définitive pour la propriété intellectuelle créative.')}
+                    {t('Building the definitive transfer layer for creative intellectual property.', 'Construire la couche d’échange définitive pour la propriété intellectuelle créative.')}
                   </p>
                 </div>
                 
@@ -657,8 +657,8 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                     <div className="space-y-6">
                       <p>
                         {t(
-                          "LINKYOURART (LYA) is committed to protecting your personal data in accordance with the General Data Protection Regulation (GDPR). We implement state-of-the-art security measures to ensure the integrity, confidentiality, and availability of your creative assets and identity.",
-                          "LINKYOURART (LYA) s'engage à protéger vos données personnelles conformément au Règlement Général sur la Protection des Données (RGPD). Nous mettons en œuvre des mesures de sécurité de pointe pour garantir l'intégrité, la confidentialité et la disponibilité de vos actifs créatifs et de votre identité."
+                          "LINKYOURART (LYA) is committed to protecting your personal data in accordance with the General Data Protection Regulation (GDPR). We implement state-of-the-art security measures to ensure the integrity, confidentiality, and availability of your creative creative rights and identity.",
+                          "LINKYOURART (LYA) s'engage à protéger vos données personnelles conformément au Règlement Général sur la Protection des Données (RGPD). Nous mettons en œuvre des mesures de sécurité de pointe pour garantir l'intégrité, la confidentialité et la disponibilité de vos droit contractuels créatifs et de votre identité."
                         )}
                       </p>
                       <ul className="list-disc pl-6 space-y-4">
@@ -693,8 +693,8 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                       </p>
                       <p>
                         {t(
-                          "Our Privacy-by-Design architecture ensures that no unauthorized third party can decrypt your portfolio or trace your liquidity movements across the network.",
-                          "Notre architecture Privacy-by-Design garantit qu'aucun tiers non autorisé ne peut décrypter votre portefeuille ou tracer vos mouvements de liquidité sur le réseau."
+                          "Our Privacy-by-Design architecture ensures that no unauthorized third party can decrypt your espace créatif or trace your accessibility movements across the network.",
+                          "Notre architecture Privacy-by-Design garantit qu'aucun tiers non autorisé ne peut décrypter votre espace créatif ou tracer vos mouvements de droits sur le réseau."
                         )}
                       </p>
                     </div>

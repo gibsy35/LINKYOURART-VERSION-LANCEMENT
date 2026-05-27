@@ -85,7 +85,7 @@ export const DashboardView: React.FC<{
   const { formatPrice, formatLYA } = useCurrency();
   const { contracts: hookContracts, marketStats, lastUpdate } = useMarketData();
   const contracts = liveContracts || hookContracts;
-  const [activeTab, setActiveTab] = React.useState<'overview' | 'predictive' | 'liquidity' | 'management'>('overview');
+  const [activeTab, setActiveTab] = React.useState<'overview' | 'predictive' | 'accessibilité' | 'management'>('overview');
   
   const isAdmin = user?.email?.toLowerCase() === 'linkyourart@gmail.com' || user?.role === 'ADMIN';
 
@@ -103,8 +103,8 @@ export const DashboardView: React.FC<{
 
   const activeContractsCount = userContracts.length;
 
-  const totalIndexYield = useMemo(() => {
-    // Simulated yield for demonstration, but weighted by holdings
+  const totalIndexProgression = useMemo(() => {
+    // Simulated progression for demonstration, but weighted by holdings
     return holdingsValue * 0.084; // 8.4% APY simulation
   }, [holdingsValue]);
 
@@ -172,8 +172,8 @@ export const DashboardView: React.FC<{
   const [visibleActivities, setVisibleActivities] = useState(5);
 
   const [news, setNews] = useState<any[]>([
-    { id: '1', title: 'Netflix Announces New $500M European Production Center', source: 'Variety', time: '10m ago', timestamp: '10m ago', impact: '+15%', impactDetail: 'Direct boost to Film and TV alternative registries, raising European settlement liquidity.', targetProject: 'RENAISSANCE REBORN' },
-    { id: '2', title: 'Creative Equity Index Reaches All-Time High', source: 'Bloomberg', time: '45m ago', timestamp: '45m ago', impact: '+8%', impactDetail: 'Heightened institutional demand for alternative artistic content yields.', targetProject: 'SKY GARDENS V4' },
+    { id: '1', title: 'Netflix Announces New $500M European Production Center', source: 'Variety', time: '10m ago', timestamp: '10m ago', impact: '+15%', impactDetail: 'Direct boost to Film and TV registres alternatifs, raising European settlement accessibilité.', targetProject: 'RENAISSANCE REBORN' },
+    { id: '2', title: 'Creative Equity Index Reaches All-Time High', source: 'Bloomberg', time: '45m ago', timestamp: '45m ago', impact: '+8%', impactDetail: 'Heightened institutional demand for performance des droits créatifs alternatifs.', targetProject: 'SKY GARDENS V4' },
     { id: '3', title: 'New AI Protocol for Automated IP Validation', source: 'TechCrunch', time: '2h ago', timestamp: '2h ago', impact: '+22%', impactDetail: 'Smart-contract speed appreciation reducing verification validation friction.', targetProject: 'THE FUTURE VOICE' },
     { id: '4', title: 'South Korean K-Pop Labels Adopt LYA Protocol', source: 'The Korea Herald', time: '15h ago', timestamp: '15h ago', impact: '+42%', impactDetail: 'Massive East Asian volume surge and traction boost across entertainment indexes.', targetProject: 'THE FUTURE VOICE' },
     { id: '5', title: 'Goldman Sachs Launches Creative Equity Desk', source: 'WSJ', time: '1d ago', timestamp: '1d ago', impact: '+55%', impactDetail: 'Ultimate validation of creative intellectual property co-valuation models.', targetProject: 'RENAISSANCE REBORN' },
@@ -340,12 +340,12 @@ export const DashboardView: React.FC<{
               <div className="absolute inset-0 bg-primary-cyan/0 group-hover:bg-primary-cyan/5 transition-all duration-300 -mb-0.5" />
             </button>
             <button 
-              onClick={() => setActiveTab('liquidity')}
-              className={`pb-4 text-[10px] font-black uppercase tracking-[0.4em] transition-all relative group flex items-center gap-3 shrink-0 ${activeTab === 'liquidity' ? 'text-primary-cyan' : 'text-on-surface-variant hover:text-on-surface'}`}
+              onClick={() => setActiveTab('accessibilité')}
+              className={`pb-4 text-[10px] font-black uppercase tracking-[0.4em] transition-all relative group flex items-center gap-3 shrink-0 ${activeTab === 'accessibilité' ? 'text-primary-cyan' : 'text-on-surface-variant hover:text-on-surface'}`}
             >
-              <ActivityIcon size={14} className={activeTab === 'liquidity' ? 'text-primary-cyan' : 'text-on-surface-variant opacity-40'} />
+              <ActivityIcon size={14} className={activeTab === 'accessibilité' ? 'text-primary-cyan' : 'text-on-surface-variant opacity-40'} />
               <span className="relative z-10">{t('Exchange Center', 'Centre d\'Échanges')}</span>
-              {activeTab === 'liquidity' && (
+              {activeTab === 'accessibilité' && (
                 <motion.div layoutId="activeTab" className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-cyan shadow-[0_0_10px_rgba(0,224,255,0.5)]" />
               )}
               <div className="absolute inset-0 bg-primary-cyan/0 group-hover:bg-primary-cyan/5 transition-all duration-300 -mb-0.5" />
@@ -371,9 +371,9 @@ export const DashboardView: React.FC<{
           <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
             {[
               { label: t('Holdings Value', 'Valeur des Contrats'), value: holdingsValue || 0, trend: '+12.5%', color: 'border-primary-cyan', icon: <Layers size={16} />, tooltip: t('The current market value of all the creative contract units you own.', 'La valeur marchande actuelle de toutes les unités de contrat créatif que vous possédez.') },
-              { label: t('Total Index Yield', 'Rendement d\'Indice Total'), value: totalIndexYield || 0, trend: '+$142.50', color: 'border-primary-cyan', icon: <TrendingUp size={16} />, tooltip: t('The cumulative yield generated by your indexed assets.', 'Le rendement cumulé généré par vos actifs indexés.') },
+              { label: t('Total Index Progression', 'Rendement d\'Indice Total'), value: totalIndexProgression || 0, trend: '+$142.50', color: 'border-primary-cyan', icon: <TrendingUp size={16} />, tooltip: t('The cumulative progression generated by your indexed assets.', 'Le progression cumulé généré par vos actifs indexés.') },
               { label: t('Active Contracts', 'Contrats Actifs'), value: activeContractsCount || 0, trend: `${activeContractsCount} Registries`, color: 'border-white/20', icon: <LayoutGrid size={16} />, tooltip: t('The number of unique creative contracts currently in your portfolio.', 'Le nombre de contrats créatifs uniques actuellement dans votre portefeuille.') },
-              { label: t('Market Sentiment', 'Sentiment du Marché'), value: marketSentiment.label, trend: `${marketSentiment.value}%`, color: 'border-accent-gold', icon: <ActivityIcon size={16} />, tooltip: t('Real-time analysis of investor confidence.', 'Analyse en temps réel de la confiance des investisseurs.') }
+              { label: t('Market Sentiment', 'Sentiment du Marché'), value: marketSentiment.label, trend: `${marketSentiment.value}%`, color: 'border-accent-gold', icon: <ActivityIcon size={16} />, tooltip: t('Real-time analysis of partenaire créatif confidence.', 'Analyse en temps réel de la confiance des investisseurs.') }
             ].map((stat, i) => (
                 <div key={i} className="relative group">
                   <div className="absolute inset-0 bg-surface-low/30 backdrop-blur-2xl border border-white/10 rounded-sm group-hover:border-primary-cyan/30 transition-all duration-500" />
@@ -436,7 +436,7 @@ export const DashboardView: React.FC<{
               tooltip={t('Total number of unique creative projects with active professional indexing.', 'Nombre total de projets créatifs uniques avec une indexation professionnelle active.')}
             />
             <StatCard 
-              title={t('Avg Index Yield', 'Rendement Moyen de l\'Indice')} 
+              title={t('Avg Index Progression', 'Rendement Moyen de l\'Indice')} 
               value={marketStats.avgGrowth} 
               isCurrency={false}
               icon={marketStats.avgGrowth >= 0 ? <TrendingUp size={20} /> : <TrendingDown size={20} />} 

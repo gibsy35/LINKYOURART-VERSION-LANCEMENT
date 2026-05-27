@@ -282,7 +282,7 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
       <PageHeader 
         titleWhite={t('Creative', 'Marché')}
         titleAccent={t('Market', 'Créatif')}
-        description={t('AUTHORIZED P2P SETTLEMENT & LIQUIDITY TERMINAL', 'TERMINAL DE LIQUIDITÉ & RÈGLEMENT P2P AUTORISÉ')}
+        description={t('TERMINAL DE TRANSFERT DE DROITS AUTORISÉ', 'TERMINAL DE TRANSFERT DE DROITS AUTORISÉ')}
         accentColor="text-primary-cyan"
       />
 
@@ -349,8 +349,8 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
                     <div className="absolute inset-0 bg-gradient-to-br from-emerald-400/10 to-transparent opacity-50 rounded-2xl" />
                     <div className="relative bg-surface-low/30 backdrop-blur-2xl border-l-2 md:border-l-4 border-emerald-400 p-4 md:p-5 lg:p-10 flex flex-col justify-center min-h-[100px] md:min-h-[140px] lg:min-h-[200px] shadow-2xl border border-white/10 rounded-2xl group-hover:border-emerald-400/30 transition-all duration-500">
                       <div className="text-[7px] md:text-[9px] lg:text-[12px] text-emerald-400 uppercase tracking-[0.2em] lg:tracking-[0.3em] font-black opacity-70 mb-1 lg:mb-4 flex items-center">
-                        {t('P2P Liquidity', 'Liquidité P2P')}
-                        <InfoTooltip position="top" title={t('P2P Liquidity', 'Liquidité P2P')} content={t('Total number of contract units currently available for direct peer-to-peer exchange.', 'Nombre total d\'unités de contrat actuellement disponibles pour un échange direct de pair à pair.')} />
+                        {t('Transferts Directs', 'Transferts Directs')}
+                        <InfoTooltip position="top" title={t('Transferts Directs', 'Transferts Directs')} content={t('Total number of contract units currently available for direct transfert direct.', 'Nombre total d\'unités de contrat actuellement disponibles pour un échange direct de transfert direct entre créateurs.')} />
                       </div>
                       <div className="flex items-baseline gap-1 lg:gap-3">
                         <h3 className="text-sm md:text-lg lg:text-3xl font-bold font-headline text-on-surface tracking-tighter truncate">{marketStats.totalAvailable?.toLocaleString() || '0'} Units</h3>

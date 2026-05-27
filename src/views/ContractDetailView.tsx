@@ -84,7 +84,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
   const [activeTab, setActiveTab] = useState<'overview' | 'financials' | 'ai-simulator' | 'legal' | 'milestones' | 'messaging'>('overview');
   const [priceTimeframe, setPriceTimeframe] = useState<'1D' | '1W' | '1M' | '1Y' | 'ALL'>('1M');
   
-  // Scoring values
+  // Évaluation values
   const scoreAlgoValue = contract.scoreAlgo || 885;
   const scoreProValue = contract.scorePro || 912;
   const scoreFinalValue = Math.round((scoreAlgoValue + scoreProValue) / 2);
@@ -94,7 +94,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
   const [simAmount, setSimAmount] = useState<number>(5000);
 
   const [simulationScenario, setSimulationScenario] = useState<string>('balanced');
-  const [simulationGoal, setSimulationGoal] = useState<string>('maximize_yield');
+  const [simulationGoal, setSimulationGoal] = useState<string>('maximize_performance');
   const [simulationPersona, setSimulationPersona] = useState<string>('algo_oracle');
   const [isSimulatingAI, setIsSimulatingAI] = useState<boolean>(false);
   const [aiSimulationOutput, setAiSimulationOutput] = useState<{
@@ -130,7 +130,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
       if (simulationScenario === 'aggressive') scale = 1.8;
 
       let goalImpact = 1.0;
-      if (simulationGoal === 'maximize_yield') goalImpact = 1.1;
+      if (simulationGoal === 'maximize_performance') goalImpact = 1.1;
       if (simulationGoal === 'arbitrage') goalImpact = 0.9;
 
       const baseMulti = Math.round(contract.growth * 2.5 * scale * goalImpact);
@@ -140,7 +140,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
 
       const systemPrompt = `Analyze alternative creative asset '${contract.name}' (${contract.category}) with LYA Index ${scoreFinalValue}/1000 under the scenario model '${simulationScenario}' and investment strategic target '${simulationGoal}'. 
       Synthesize an executive prediction paragraph of exactly 3 sentences. Write from the perspective of a senior AI '${simulationPersona}'. 
-      Focus on capital allocations, yields, and compliance. Write in ${language === 'FR' ? 'French' : 'English'}. Do not output JSON.`;
+      Focus on capital allocations, progressions, and compliance. Write in ${language === 'FR' ? 'French' : 'English'}. Do not output JSON.`;
 
       const response = await askCopilot(systemPrompt, [], language);
 
@@ -148,7 +148,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
         multi: computedMulti,
         volCorrection: computedVol,
         score: computedScore > 1000 ? 1000 : computedScore,
-        narrative: response || "Analysis compiled: Sovereign indices indicate positive liquidity and strategic alignment with alternative portfolio standards."
+        narrative: response || "Analysis compiled: Les indices indiquent une progression positive and strategic alignment with standards créatifs alternatifs."
       });
     } catch (err) {
       onNotify?.("Simulation failed. Retrying...");
@@ -477,7 +477,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                        </div>
 
                        <p className="text-xs text-white/70 leading-relaxed max-w-4xl text-justify">
-                         {t('The baseline LYA UNIT pricing starts fixed at $50.00 representing the initial fractioned value. The price then fluctuates dynamically up (Jalon +) or down (Jalon -) exclusively based on the operational quality. Real-time smart contracts automatically adjust secondary market quotes the second a milestone is certified or missed.', 'Le cours du LYA UNIT (valeur initiale de $50,00) varie de façon autonome en fonction de la validation ou du retard des jalons opérationnels. C\'est l\'indicateur exclusif de la qualité de notre fonctionnement : l\'atteinte des jalons (Jalon +) revalorise l\'index, tandis que les retards de livraison (Jalon -) l\'ajustent à la baisse.')}
+                         {t('The baseline LYA UNIT pricing starts fixed at $50.00 representing the initial fractioned value. The price then fluctuates dynamically up (Jalon +) or down (Jalon -) exclusively based on the operational quality. Real-time contrat numérique certifiés automatically adjust indices de référence the second a milestone is certified or missed.', 'Le cours du LYA UNIT (valeur initiale de $50,00) varie de façon autonome en fonction de la validation ou du retard des jalons opérationnels. C\'est l\'indicateur exclusif de la qualité de notre fonctionnement : l\'atteinte des jalons (Jalon +) revalorise l\'index, tandis que les retards de livraison (Jalon -) l\'ajustent à la baisse.')}
                        </p>
 
                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
@@ -707,7 +707,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                              </div>
                           </div>
 
-                          {/* Calculated Yield Metrics */}
+                          {/* Calculated Progression Metrics */}
                           <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-6 bg-black/40 p-8 rounded-[2rem] border border-white/5 shadow-inner">
                              <div className="p-4 bg-white/[0.02] border border-white/5 rounded-xl">
                                 <span className="text-[9px] font-black text-white/30 uppercase tracking-widest block mb-1">{t('UNITS ACQUIRED', 'UNITÉS ACQUISES')}</span>
@@ -718,7 +718,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                              <div className="p-4 bg-white/[0.02] border border-white/5 rounded-xl">
                                 <span className="text-[9px] font-black text-white/30 uppercase tracking-widest block mb-1">{t('EST. ANNUAL INCOME', 'REVENUS ANNUELS EST.')}</span>
                                 <span className="text-2xl font-headline font-black text-emerald-400">+{formatPrice(simAnnual)}</span>
-                                <span className="text-[10px] text-emerald-400/60 block mt-1 tracking-widest">({contract.growth}% {t('yield', 'rendement')})</span>
+                                <span className="text-[10px] text-emerald-400/60 block mt-1 tracking-widest">({contract.growth}% {t('progression', 'progression')})</span>
                              </div>
 
                              <div className="p-4 bg-white/[0.02] border border-white/5 rounded-xl">
@@ -859,9 +859,9 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                           </div>
                           <div className="space-y-2">
                              {[
-                               { id: 'conservative', label: t('CONSERVATIVE (STABLE)', 'CONSERVATEUR (STABLE)'), desc: '+4% to +6% yield, robust preservation.' },
-                               { id: 'balanced', label: t('BALANCED (OPTIMAL)', 'EQUILIBRÉ (OPTIMAL)'), desc: '+12% to +18% yield, high predictability.' },
-                               { id: 'aggressive', label: t('BULL / ALPHA (AGGRESSIVE)', 'BULL / ALPHA (OFFENSIF)'), desc: '+25% to +45% yield, artistic boom.' }
+                               { id: 'conservative', label: t('CONSERVATIVE (STABLE)', 'CONSERVATEUR (STABLE)'), desc: '+4% to +6% de progression, robust preservation.' },
+                               { id: 'balanced', label: t('BALANCED (OPTIMAL)', 'EQUILIBRÉ (OPTIMAL)'), desc: '+12% to +18% de progression, high predictability.' },
+                               { id: 'aggressive', label: t('BULL / ALPHA (AGGRESSIVE)', 'BULL / ALPHA (OFFENSIF)'), desc: '+25% to +45% de progression, artistic boom.' }
                              ].map((scen) => (
                                <button 
                                  key={scen.id}
@@ -884,7 +884,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                           </div>
                           <div className="space-y-2">
                              {[
-                               { id: 'maximize_yield', label: t('MAXIMIZE RECURRING YIELDS', 'MAXIMISER LES RENDEMENTS RECURRENTS'), desc: 'Focuses on monthly royalty recaptures.' },
+                               { id: 'maximize_performance', label: t('MAXIMISER LA PERFORMANCE RÉCURRENTE', 'MAXIMISER LA PERFORMANCE RÉCURRENTE'), desc: 'Axé sur la récupération mensuelle des redevances.' },
                                { id: 'portfolio_hedge', label: t('INFLATION & ASSET HEDGING', 'PROTECTION CONTRE L\'INFLATION'), desc: 'Focuses on asset-backed valuation floor.' },
                                { id: 'arbitrage', label: t('SECONDARY SWAP ARBITRAGE', 'ARBITRAGE ET SWAP RAPIDE'), desc: 'Focuses on liquid short-term spreads.' }
                              ].map((goal) => (
@@ -911,7 +911,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                              {[
                                { id: 'algo_oracle', label: t('ALGORITHMIC ORACLE', 'L\'ORACLE ALGORITHMIQUE'), desc: 'Mathematical modeling & quantitative metrics.' },
                                { id: 'sovereign_curator', label: t('SOVEREIGN CURATOR', 'LE CONSERVATEUR SOUVERAIN'), desc: 'Focuses on cultural prestige & historical value.' },
-                               { id: 'defi_whale', label: t('DEFI ARBITRAGE WHALE', 'LE SPÉCULATEUR BLOCKCHAIN'), desc: 'Maximizing compounding yield rates.' }
+                               { id: 'defi_whale', label: t('STRATÉGIE MAXIMISATION', 'STRATÉGIE MAXIMISATION'), desc: 'Maximiser la progression des droits.' }
                              ].map((person) => (
                                <button 
                                  key={person.id}
@@ -931,7 +931,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                     <div className="flex flex-col gap-6 md:flex-row items-center justify-between p-8 bg-white/5 border border-white/10 rounded-[2.5rem] relative overflow-hidden">
                        <div className="space-y-2">
                           <h5 className="text-lg font-headline font-black uppercase tracking-tighter leading-none">{t('RUN MULTI-SCENARIO COGNITIVE GRAPH', 'LANCER LE GRAPH DE PRÉDICTION SOUVERAIN')}</h5>
-                          <p className="text-xs text-white/40">{t('Initiates real-time AI modeling of yield, secondary trading spreads and long-term liquidity index.', 'Simule en temps réel le rendement, l\'arbitrage secondaire et l\'indice de liquidité.')}</p>
+                          <p className="text-xs text-white/40">{t('Initiates real-time AI modeling of progression, transferts de droits and long-term indice de disponibilité.', 'Simule en temps réel le progression, l\'arbitrage secondaire et l\'indice de accessibilité.')}</p>
                        </div>
                        <button 
                          onClick={handleAISimulationRun}

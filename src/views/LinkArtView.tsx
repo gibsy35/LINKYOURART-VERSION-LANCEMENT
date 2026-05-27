@@ -932,8 +932,8 @@ export const LinkArtView: React.FC<{
                       )}
                       <span className="text-on-surface font-bold text-sm">{formatLYA()}</span>. 
                       {t(
-                        ' Your contract will be traded in LYA Units on the exchange to ensure global liquidity and stability.',
-                        ' Votre contrat sera échangé en Unités LYA sur la bourse pour assurer la liquidité et la stabilité mondiales.'
+                        ' Your contract will be référencé en Unités LYA sur la plateforme to ensure accessibilité et stabilité globales.',
+                        ' Votre contrat sera référencé en Unités LYA sur la plateforme pour assurer la accessibilité et stabilité mondiales.'
                       )}
                     </p>
                     <div className="pt-4 border-t border-primary-cyan/10 space-y-2">
@@ -982,8 +982,8 @@ export const LinkArtView: React.FC<{
                   <Info className="text-accent-gold shrink-0" size={20} />
                   <p className="text-xs text-accent-gold leading-relaxed uppercase tracking-wider">
                     {t(
-                      'Legal rights are hard-coded into the smart contract. Once deployed, these terms are immutable and enforceable across all jurisdictions via the LYA Legal Framework.',
-                      'Les droits légaux sont codés en dur dans le smart contract. Une fois déployés, ces termes sont immuables et exécutoires dans toutes les juridictions via le Cadre Légal LYA.'
+                      'Legal rights are hard-coded into the contrat numérique certifié. Once deployed, these terms are immutable and enforceable across all jurisdictions via the LYA Legal Framework.',
+                      'Les droits légaux sont codés en dur dans le contrat numérique certifié. Une fois déployés, ces termes sont immuables et exécutoires dans toutes les juridictions via le Cadre Légal LYA.'
                     )}
                   </p>
                 </div>
@@ -1077,8 +1077,8 @@ export const LinkArtView: React.FC<{
                 <div className="p-6 bg-primary-cyan/5 border border-primary-cyan/20">
                   <p className="text-xs text-primary-cyan leading-relaxed uppercase tracking-wider text-center">
                     {t(
-                      'By clicking "Deploy Contract", you authorize the LYA Protocol to generate a smart contract on the mainnet. This action is irreversible.',
-                      'En cliquant sur "Déployer le Contrat", vous autorisez le Protocole LYA à générer un smart contract sur le mainnet. Cette action est irréversible.'
+                      'By clicking "Deploy Contract", you authorize the LYA Protocol to generate a contrat numérique certifié on the registre certifié. This action is irreversible.',
+                      'En cliquant sur "Déployer le Contrat", vous autorisez le Protocole LYA à générer un contrat numérique certifié sur le registre certifié. Cette action est irréversible.'
                     )}
                   </p>
                 </div>

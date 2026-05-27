@@ -75,12 +75,12 @@ const INITIAL_NEWS: NewsItem[] = [
     id: '2',
     category: 'MARKET',
     title: 'Creative Rights Index Reaches All-Time High',
-    summary: 'Global creative projects are outperforming traditional tech stocks as professional associates seek alternative yields.',
+    summary: 'Global creative projects are outperforming traditional tech stocks as professional associates seek alternative progressions.',
     timestamp: '45m ago',
     impact: {
       score: 8,
       trend: 'UP',
-      description: 'LYA Unit floor price adjusted to $52.40. Market liquidity at record levels.'
+      description: 'LYA Unit floor price adjusted to $52.40. Market disponibilité à des niveaux records.'
     },
     source: 'Bloomberg Creative',
     imageUrl: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800'
@@ -220,7 +220,7 @@ const INITIAL_NEWS: NewsItem[] = [
     impact: {
       score: 35,
       trend: 'UP',
-      description: 'Massive expansion in regional creative economies backed by professional liquidity.'
+      description: 'Massive expansion in regional creative economies soutenu par des partenaires professionnels.'
     },
     source: 'Nikkei Asia',
     imageUrl: 'https://images.unsplash.com/photo-1504609773096-104ff2c73ba4?auto=format&fit=crop&q=80&w=800'
@@ -257,7 +257,7 @@ const INITIAL_NEWS: NewsItem[] = [
     id: '16',
     category: 'INNOVATION',
     title: 'New Protocol for Real-Time Royalty Settlement',
-    summary: 'A breakthrough in smart contract technology allows for micro-payments to be settled instantly upon content consumption.',
+    summary: 'A breakthrough in contrat numérique certifié technology allows for micro-payments to be settled instantly upon content consumption.',
     timestamp: '3d ago',
     impact: {
       score: 62,

@@ -338,7 +338,7 @@ export const HoldingsView: React.FC<{ onNotify: (msg: string) => void; userContr
                   <Zap size={14} className="text-accent-gold" />
                   <span className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest">{t('Strategic Yield: +14.2%', 'Rendement Stratégique : +14,2 %')}</span>
                   <div className="absolute bottom-full right-0 mb-2 w-48 p-3 bg-surface-high border border-white/10 text-[9px] text-on-surface-variant uppercase tracking-widest leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 shadow-2xl backdrop-blur-xl">
-                    {t('This metric represents the excess return of your portfolio relative to the market benchmark, adjusted for risk.', 'Cette mesure représente le rendement excédentaire de votre portefeuille par rapport à l\'indice de référence du marché, ajusté au risque.')}
+                    {t('This metric represents the performance excédentaire de vos droits relative to the market benchmark, adjusted for risk.', 'Cette mesure représente le performance excédentaire de vos droits par rapport à l\'indice de référence du marché, ajusté au risque.')}
                   </div>
                 </div>
               </div>
@@ -515,7 +515,7 @@ export const HoldingsView: React.FC<{ onNotify: (msg: string) => void; userContr
             <div>
               <h3 className="text-lg md:text-xl font-bold font-headline uppercase tracking-widest mb-2 text-white">{t('Yield Generation', 'Génération de Rendement')}</h3>
               <p className="text-xs md:text-sm text-on-surface-variant leading-relaxed max-w-md">
-                {t('Your holdings are currently generating an estimated 8.4% APY through automated creative rights participation.', 'Vos avoirs génèrent actuellement un rendement annuel estimé à 8,4 % grâce à la participation automatisée aux droits créatifs.')}
+                {t('Your holdings are currently générant une progression estimée à 8.4% through automated creative rights participation.', 'Vos avoirs progressent actuellement d'une valeur estimée à 8,4 % grâce à la participation automatisée aux droits créatifs.')}
               </p>
             </div>
           </div>

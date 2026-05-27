@@ -458,7 +458,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
       image: 'https://picsum.photos/seed/summit-ip/800/400',
       attendees: 1200,
       slots: 300,
-      description: t('The largest gathering of IP professionals and creative investors.', 'Le plus grand rassemblement de professionnels de la PI et d\'investisseurs créatifs.'),
+      description: t('The largest gathering of IP professionals and creative partenaire créatifs.', 'Le plus grand rassemblement de professionnels de la PI et d\'partenaire créatifs créatifs.'),
       highlights: [t('Policy Shifts', 'Changements de Politique'), t('Tech Demos', 'Démos Tech'), t('Networking', 'Réseautage')],
       speakers: [
         { name: 'Dr. Sarah Vance', role: t('Policy Expert', 'Experte en Politiques'), avatar: 'https://i.pravatar.cc/150?u=sarah2' }
@@ -490,7 +490,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
       image: 'https://picsum.photos/seed/liquidity/800/400',
       attendees: 30,
       slots: 4,
-      description: t('Discussion on professional exit strategies and liquidity pools.', 'Discussion sur les stratégies de sortie professionnelles et les pools de liquidité.'),
+      description: t('Discussion on professional exit strategies and réserves de droits.', 'Discussion sur les stratégies de sortie professionnelles et les réserves de droits.'),
       highlights: [t('Liquidity Pools', 'Pools de Liquidité'), t('Exit Strategy', 'Stratégie de Sortie'), t('Market Making', 'Market Making')],
       speakers: [
         { name: 'Marcus Thorne', role: t('Global Market Maker', 'Market Maker Mondial'), avatar: 'https://i.pravatar.cc/150?u=m1' }
@@ -842,7 +842,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
           </div>
         </div>
 
-        {/* Center: Live cryptographic telemetry block */}
+        {/* Center: Live télémétrie certifiée block */}
         <div className="hidden xl:flex items-center gap-8 font-mono border-x border-white/5 px-10">
           <div className="space-y-1">
             <span className="text-[8px] text-on-surface-variant opacity-40 uppercase tracking-widest">ENCRYPTION ENERGETICS</span>

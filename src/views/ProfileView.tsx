@@ -139,7 +139,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
           roi: { label: t('ROI Potential', 'Potentiel ROI'), score: 170, status: 'HIGH', color: 'bg-primary-cyan/20 text-primary-cyan' },
           risk: { label: t('Risk Assessment', 'Évaluation Risque'), score: 195, status: 'LOW', color: 'bg-accent-gold/20 text-accent-gold' },
           diversification: { label: t('Diversification Index', 'Indice Diversification'), score: 165, status: 'STABLE', color: 'bg-accent-magenta/20 text-accent-magenta' },
-          liquidity: { label: t('Liquidity Ratio', 'Ratio Liquidité'), score: 145, status: 'FLUID', color: 'bg-accent-purple/20 text-accent-purple' }
+          liquidity: { label: t('Ratio de Disponibilité', 'Ratio de Disponibilité'), score: 145, status: 'FLUID', color: 'bg-accent-purple/20 text-accent-purple' }
         };
       } else if (user.role === UserRole.PROFESSIONAL) {
         return { 
@@ -387,7 +387,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
       if (type === 'users') {
         const countries = ['FRANCE', 'USA', 'JAPAN', 'UK', 'ITALY', 'BRAZIL', 'GERMANY', 'SPAIN', 'CANADA', 'KOREA'];
         const activities = ['CREATIVE_RIGHTS', 'MUSIC_EQUITY', 'VISUAL_ARTS', 'FILM_PROD', 'GAMING_ASSETS', 'FASHION_IP'];
-        const actions = ['BUY_UNITS', 'SELL_UNITS', 'MINT_NFTS', 'VOTING', 'STAKING'];
+        const actions = ['BUY_UNITS', 'SELL_UNITS', 'MINT_UNITS', 'VOTING', 'HOLDING'];
         
         for (let i = 0; i < 100; i++) {
           const id = `mock_u_${Date.now()}_${i}`;
@@ -469,7 +469,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
   };
 
   const [messages, setMessages] = useState([
-    { id: '1', from: 'Marcus Thorne', senderRole: 'Global Market Maker', subject: 'Strategic Partnership', content: 'I reviewed your project CHRONOS_V3. The valuation metrics are impressive. Let\'s schedule a call to discuss market liquidity options.', time: '1h ago', read: false, avatar: 'm1' },
+    { id: '1', from: 'Marcus Thorne', senderRole: 'Global Market Maker', subject: 'Strategic Partnership', content: 'I reviewed your project CHRONOS_V3. The valuation metrics are impressive. Let\'s schedule a call to discuss market options de transfert.', time: '1h ago', read: false, avatar: 'm1' },
     { id: '2', from: 'Elena Vance', senderRole: 'Grammy Legacy Curator', subject: 'IP Protection Audit', content: 'Your latest music catalog shows potential for a LYA-721 migration. I have some suggestions for the metadata structure.', time: '3h ago', read: true, avatar: 'm2' },
     { id: '3', from: 'Aurelius Art', senderRole: 'Master Curator', subject: 'Gallery Feature', content: 'We are interested in featuring your Fine Art collection in our upcoming digital auction.', time: '1d ago', read: true, avatar: 'm3' }
   ]);
@@ -517,7 +517,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
 
   const PREMIUM_FEATURES_CONTENT: Record<string, { description: string, previewImage?: string, benefits: { label: string, desc: string }[] }> = {
     'LYA Score': {
-      description: t('Access the full LYA scoring algorithm to precisely evaluate your market potential and professional radiation. Get a deep-dive audit of your creative assets.', 'Accédez à l\'algorithme complet de scoring LYA pour évaluer précisément votre potentiel de marché et votre rayonnement professionnel. Obtenez un audit approfondi de vos actifs créatifs.'),
+      description: t('Access the full algorithme d'évaluation LYA to precisely evaluate your market potential and professional radiation. Get a deep-dive audit of your creative assets.', 'Accédez à l\'algorithme complet de évaluation LYA pour évaluer précisément votre potentiel de marché et votre rayonnement professionnel. Obtenez un audit approfondi de vos actifs créatifs.'),
       previewImage: 'https://picsum.photos/seed/lya-score-audit/800/400',
       benefits: [
         { label: t('Full AI Audit', 'Audit IA Complet'), desc: t('Deep analysis of 50+ data points across 5 strategic pillars.', 'Analyse approfondie de 50+ points de données sur 5 piliers stratégiques.') },
@@ -547,12 +547,12 @@ const ProfileView: React.FC<ProfileViewProps> = ({
       ]
     },
     'Expert Terminal': {
-      description: t('Deploy your own Institutional Terminal to manage massive creative catalogs and provide deep market liquidity to your sub-entities. Outsource your initial vetting directly to the LYA security protocol.', 'Déployez votre propre Terminal Institutionnel pour gérer des catalogues créatifs massifs et fournir une liquidité de marché profonde à vos sous-entités. Externalisez votre vérification initiale directement au protocole de sécurité LYA.'),
+      description: t('Deploy your own Institutional Terminal to manage massive creative catalogs and provide grande accessibilité de marché to your sub-entities. Outsource your initial vetting directly to the LYA security protocol.', 'Déployez votre propre Terminal Institutionnel pour gérer des catalogues créatifs massifs et fournir une grande accessibilité de marché à vos sous-entités. Externalisez votre vérification initiale directement au protocole de sécurité LYA.'),
       previewImage: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800',
       benefits: [
         { label: t('Catalog Management', 'Gestion de Catalogue'), desc: t('Bulk boarding of 1000+ assets with automated indexing.', 'Intégration en masse de 1000+ actifs avec indexation automatisée.') },
         { label: t('Editorial Externalization', 'Externalisation Éditoriale'), desc: t('Eliminate internal "slush pile" costs via decentralized validation.', 'Éliminez les coûts des comités de lecture via la validation décentralisée.') },
-        { label: t('Institutional Funding', 'Financement Institutionnel'), desc: t('Access private liquidity pools for large-scale IP development.', 'Accédez aux pools de liquidité privés pour le développement d\'IP à grande échelle.') },
+        { label: t('Accès Institutionnel', 'Accès Institutionnel'), desc: t('Access private réserves de droits for large-scale IP development.', 'Accédez aux réserves de droits privés pour le développement d\'IP à grande échelle.') },
         { label: t('Master Registry Access', 'Accès au Registre Maître'), desc: t('Full control over sub-indices and corporate valuation benchmarks.', 'Contrôle total sur les sous-indices et benchmarks de valorisation.') }
       ]
     },
@@ -1746,7 +1746,7 @@ const renderMentorshipContent = () => (
                       <h3 className="text-lg md:text-2xl font-black uppercase tracking-tight flex items-center gap-3 md:gap-4 mb-2">
                         <TrendingUp className="text-primary-cyan" size={28} /> {t('Revenue Analytics', 'Analyses de Revenus')}
                       </h3>
-                      <p className="text-[9px] md:text-xs text-accent-gold uppercase tracking-widest font-bold opacity-40">{t('Real-time yield and royalty tracking', 'Suivi en temps réel du rendement et des redevances')}</p>
+                      <p className="text-[9px] md:text-xs text-accent-gold uppercase tracking-widest font-bold opacity-40">{t('Suivi en temps réel des redevances et droits', 'Suivi en temps réel des redevances et droits')}</p>
                     </div>
                     <div className="flex gap-6 md:gap-8">
                       <div className="text-right">
@@ -2603,7 +2603,7 @@ const renderMentorshipContent = () => (
                       <h3 className="text-xl md:text-2xl lg:text-3xl font-black uppercase italic tracking-tight flex items-center gap-3 md:gap-4 mb-2">
                         <Zap className="text-emerald-400" size={28} /> {t('Yield Optimization', 'Optimisation du Rendement')}
                       </h3>
-                      <p className="text-[9px] md:text-xs text-on-surface-variant uppercase tracking-widest font-bold opacity-40">{t('Advanced liquidity and valuation protocols', 'Protocoles avancés de liquidité et de valorisation')}</p>
+                      <p className="text-[9px] md:text-xs text-on-surface-variant uppercase tracking-widest font-bold opacity-40">{t('Protocoles avancés de valorisation et de droits', 'Protocoles avancés de valorisation et de droits')}</p>
                     </div>
                   </div>
                   
@@ -2845,7 +2845,7 @@ const renderMentorshipContent = () => (
                       {t('The Pro Lounge is your gateway to institutional deal flow and regulatory intelligence. Discuss professional frameworks, creative equity, and strategic partnerships with verified peers.', 'Le Salon Pro est votre porte d\'entrée vers le deal flow institutionnel et l\'intelligence réglementaire. Discutez des cadres professionnels, de l\'equity créative et des partenaires stratégiques avec des pairs vérifiés.')}
                     </p>
                     <p className="text-[10px] md:text-sm italic text-on-surface-variant leading-relaxed opacity-80">
-                      "Join the private discussion on the latest regulatory updates and their impact on creative asset indexing and secondary market liquidity."
+                      "Join the private discussion on the latest regulatory updates and their impact on creative asset indexing and secondary accessibilité de marché."
                     </p>
                   </div>
                   <button 
@@ -3195,7 +3195,7 @@ const renderMentorshipContent = () => (
                     <span className="text-primary-cyan">{t('New Asset', 'Nouvel Actif')}</span>
                   </h2>
                   <p className="text-[10px] text-on-surface-variant font-bold uppercase tracking-widest leading-relaxed">
-                    {t('Initialize your creative project on the LYA blockchain. Our AI will audit your IP and generate a valuation score.', 'Initialisez votre projet créatif sur la blockchain LYA. Notre IA auditera votre PI et générera un score de valorisation.')}
+                    {t('Initialize your creative project on the registre certifié LYA. Our AI will audit your IP and generate a indice de valorisation.', 'Initialisez votre projet créatif sur la registre certifié LYA. Notre IA auditera votre PI et générera un indice de valorisation.')}
                   </p>
                 </div>
 
@@ -3403,7 +3403,7 @@ const renderMentorshipContent = () => (
                             onNotify?.(t('AI Generator: Analyzing market potential...', 'Générateur IA : Analyse du potentiel de marché...'));
                             try {
                               // Mock for demo stability
-                              const description = `This ${newProject.category} venture focusing on ${newProject.assetType} is strategically engineered for high yield within the LYA ecosystem.`;
+                              const description = `This ${newProject.category} venture focusing on ${newProject.assetType} is strategically engineered for haute performance dans l'écosystème LYA.`;
                               setNewProject(prev => ({ ...prev, description }));
                               onNotify?.(t('AI Synopsis Generated!', 'Synopsis IA Généré !'), 'success');
                             } catch (err) {

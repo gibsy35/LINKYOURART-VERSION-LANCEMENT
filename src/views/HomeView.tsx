@@ -292,7 +292,7 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
         idx: 1,
         title: t('REVENUE SHARE DYNAMICS', 'DYNAMIQUE REVENUE SHARE'),
         subtitle: t('SKY GARDENS V4', 'SKY GARDENS V4'),
-        description: t('Architectural blueprint royalties distributed as dynamic yield stream indexes. Price adapts instantly to validated commercial license signings.', 'Redevances de plans d\'architectes distribuées en flux de rendement. L\'indice s\'adapte en temps réel aux signatures de licences.'),
+        description: t('Architectural blueprint royalties distributed as dynamic flux de performance indexes. Price adapts instantly to validated commercial license signings.', 'Redevances de plans d\'architectes distribuées en flux de performance. L\'indice s\'adapte en temps réel aux signatures de licences.'),
         icon: <Activity className="text-accent-gold" size={32} />,
         metric: sky ? `${sky.growth >= 0 ? '+' : ''}${sky.growth.toFixed(2)}%` : '+8.4%',
         metricLabel: t('INDEX PERF', 'PERF DE L\'INDEX LYA'),
@@ -309,7 +309,7 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
         idx: 2,
         title: t('TV SERIES MASTER IP', 'SCÉNARIO & DROITS DE SÉRIE TV'),
         subtitle: t('CHRONICLES OF ELDON', 'CHRONICLES OF ELDON'),
-        description: t('Global broadcasting rights and revenue share metrics for the international sci-fi premium series. Multi-territory SVOD presales, broadcasting signatures, and streaming collection milestones govern secondary market index appreciation.', 'Indexation d\'un projet de série TV internationale. Les signatures de droits de diffusion SVOD et accords de syndication TV mondiaux pilotent la valorisation du cours unitaire.'),
+        description: t('Global broadcasting rights and revenue share metrics for the international sci-fi premium series. Multi-territory SVOD presales, broadcasting signatures, and streaming collection milestones govern direct transfer platform index appreciation.', 'Indexation d\'un projet de série TV internationale. Les signatures de droits de diffusion SVOD et accords de syndication TV mondiaux pilotent la valorisation du cours unitaire.'),
         icon: <Clapperboard className="text-accent-pink" size={32} />,
         metric: bio ? `${bio.growth >= 0 ? '+' : ''}${bio.growth.toFixed(2)}%` : '+32.5%',
         metricLabel: t('MARKET MOVEMENT', 'CONTRAT LYA INITIAL'),
@@ -337,7 +337,7 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
             <span className="text-[10px] font-black font-mono text-primary-cyan uppercase tracking-[0.2em]">{t('Interactive Simulation Active', 'Modélisation Interactive Active')}</span>
           </div>
           <p className="text-on-surface text-lg sm:text-xl max-w-4xl mx-auto leading-relaxed border-l-2 border-primary-cyan pl-8 text-justify opacity-80">
-            {t('The initial funding budget of a project is fixed by the creator to unlock a set quantity of units. Rather than arbitrary growth, the LYA UNIT acts as a live market index, fluctuating dynamically in real-time based on the performance of specific milestones (Jalon +) or delays (Jalon -). Select a case study to test these live market variations.', 'La valeur globale de financement d\'un projet est fixée à l\'origine par le créateur pour libérer un nombre constant de parts (LYA UNITS). Ce n\'est pas cette enveloppe initiale qui change unilatéralement, mais plutôt le cours unitaire du LYA UNIT, qui agit comme un index sur le marché secondaire et varie en temps réel selon la validation de jalons de performances (Jalon +) ou de contre-performances (Jalon -).')}
+            {t('The initial valorisation budget of a project is fixed by the creator to unlock a set quantity of units. Rather than arbitrary growth, the LYA UNIT acts as a live market index, fluctuating dynamically in real-time based on the performance of specific milestones (Jalon +) or delays (Jalon -). Select a case study to test these live market variations.', 'La valeur globale de valorisation d\'un projet est fixée à l\'origine par le créateur pour libérer un nombre constant de parts (LYA UNITS). Ce n\'est pas cette enveloppe initiale qui change unilatéralement, mais plutôt le cours unitaire du LYA UNIT, qui agit comme un index sur le espace de cession directe et varie en temps réel selon la validation de jalons de performances (Jalon +) ou de contre-performances (Jalon -).')}
           </p>
         </div>
 
@@ -561,7 +561,7 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
                          <Target size={14} />
                          {t('STRATEGIC THESIS', 'THÈSE STRATÉGIQUE')}
                       </div>
-                      <p className="text-xs text-white/60 font-medium max-w-sm">"{t('Masterpiece tokenization allows for unprecedented liquidity in the fine art market sector.', 'La tokenisation des chefs-d\'œuvre permet une liquidité sans précédent dans le secteur du marché des beaux-arts.')}"</p>
+                      <p className="text-xs text-white/60 font-medium max-w-sm">"{t('Masterpiece contractualisation indexée allows for unprecedented accessibility in the fine art market sector.', 'La contractualisation indexée des chefs-d\'œuvre permet une accessibilité sans précédent dans le secteur du marché des beaux-arts.')}"</p>
                    </div>
                    <div className="text-right">
                       <div className="text-xs font-black text-emerald-400 uppercase tracking-widest mb-1">STRONG BUY</div>
@@ -933,10 +933,10 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
                 </h2>
                 <div className="h-[2px] w-24 bg-red-500 mb-8" />
                 <p className="text-base md:text-lg text-on-surface-variant font-bold leading-relaxed mb-8 text-justify">
-                  {t('LYA Units are strictly indexed contractual rights and do NOT constitute shares, financial securities, or regulated investment products. The LinkYourArt Protocol acts solely as a technological layer for valuation and registry.', 'Les unités LYA sont strictement des droits contractuels indexés et ne constituent PAS des actions, des titres financiers ou des produits d\'investissement réglementés. Le protocole LinkYourArt agit uniquement en tant que couche technologique pour l\'évaluation et le registre.')}
+                  {t('LYA Units are strictly indexed contractual rights and do NOT constitute shares, financial securities, or regulated investment products. The LinkYourArt Protocol acts solely as a technological layer for valuation and registry.', 'Les unités LYA sont strictement des droits contractuels indexés et ne constituent PAS des actions, des titres financiers ou des produits d\'engagement créatif réglementés. Le protocole LinkYourArt agit uniquement en tant que couche technologique pour l\'évaluation et le registre.')}
                 </p>
                 <p className="text-sm text-on-surface-variant opacity-70 mb-10 text-justify">
-                  {t('LinkYourArt acts as a trusted third party for analysis and valuation. No promise of yield is guaranteed. The value can evolve based on objective indicators documented in real-time.', 'LinkYourArt agit en tant que tiers de confiance pour l\'analyse et la valorisation. Aucune promesse de rendement n\'est garantie. La valeur peut évoluer selon des indicateurs objectifs documentés en temps réel.')}
+                  {t('LinkYourArt acts as a trusted third party for analysis and valuation. No promise of performance is guaranteed. The value can evolve based on objective indicators documented in real-time.', 'LinkYourArt agit en tant que tiers de confiance pour l\'analyse et la valorisation. Aucune promesse de performance n\'est garantie. La valeur peut évoluer selon des indicateurs objectifs documentés en temps réel.')}
                 </p>
                 <button 
                   onClick={() => setShowLegalPopup(false)}
@@ -1082,11 +1082,11 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
               </h2>
               <div className="space-y-6">
                 <p className="text-xl text-on-surface-variant leading-relaxed opacity-90 font-medium text-justify">
-                  {t('Traditional creative financing is broken. LinkYourArt (LYA) bridges the gap between artistic vision and institutional liquidity by indexing creative rights as tradable assets.', 'Le financement créatif traditionnel est obsolète. LinkYourArt (LYA) comble le fossé entre vision artistique et liquidité institutionnelle en indexant les droits comme des actifs échangeables.')}
+                  {t('Traditional creative financing is broken. LinkYourArt (LYA) bridges the gap between artistic vision and institutional accessibility by indexing creative rights as documented contractual rights.', 'Le valorisation créative traditionnelle est obsolète. LinkYourArt (LYA) comble le fossé entre vision artistique et accessibilité professionnelle en indexant les droits comme des droits contractuels documentés.')}
                 </p>
                 <div className="p-6 bg-white/5 border-l-4 border-primary-cyan">
                   <p className="text-base text-white opacity-80 leading-relaxed text-justify">
-                    "{t('We do not just finance projects; we create a liquid ecosystem where the value of a masterpiece is documented, verified, and tradeable in real-time.', 'Nous ne finançons pas seulement des projets ; nous créons un écosystème liquide où la valeur d\'un chef-d\'œuvre est documentée, vérifiée et échangeable en temps réel.')}"
+                    "{t('We do not just finance projects; we create a liquid ecosystem where the value of a masterpiece is documented, verified, and verifiable in real-time.', 'Nous ne finançons pas seulement des projets ; nous créons un écosystème liquide où la valeur d\'un chef-d\'œuvre est documentée, vérifiée et consultable en temps réel.')}"
                   </p>
                 </div>
               </div>
@@ -1106,7 +1106,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
                 { 
                   id: '02', 
                   title: t('Neural Valuation', 'Valorisation Neurale'), 
-                  desc: t('Real-time LYA Score based on artist trajectory and project milestones.', 'Score LYA en temps réel basé sur la trajectoire et les jalons du projet.'),
+                  desc: t('Real-time Indice LYA based on artist trajectory and project milestones.', 'Score LYA en temps réel basé sur la trajectoire et les jalons du projet.'),
                   icon: <Activity size={24} />
                 },
                 { 
@@ -1156,7 +1156,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
               {t('home.not_lya.title', 'What LinkYourArt')} <span className="text-primary-cyan">{t('home.not_lya.title_cyan', 'is and is NOT')}</span>
             </h2>
             <p className="text-on-surface-variant text-base max-w-2xl mx-auto opacity-75">
-              {t('Compare the structural advantages of the LYA Contractual Exchange against legacy creative industry intermediaries: labels, agents, studios, and classic crowdfunding.', "Comparez la structure innovante de l'Échange Contractuel LYA face aux intermédiaires traditionnels des industries créatives : labels, agents, studios, et plateformes de financement classiques.")}
+              {t('Compare the structural advantages of the LYA Contractual Protocol against legacy creative industry intermediaries: labels, agents, studios, and classic crowdvalorisation.', "Comparez la structure innovante de l'Protocole Contractuel LYA face aux intermédiaires traditionnels des industries créatives : labels, agents, studios, et plateformes de systèmes traditionnels.")}
             </p>
           </div>
 
@@ -1190,11 +1190,11 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
                 <tr>
                   <td className="p-6 font-headline font-bold text-white text-sm uppercase tracking-wider">{t('Secondary Exchange / Liquidity', 'Marché Secondaire & Échange')}</td>
                   <td className="p-6 text-sm text-white font-medium bg-primary-cyan/[0.02] border-x border-white/10">
-                    <span className="text-primary-cyan font-black block mb-1">✓ {t('P2P Exchange Live Market', 'Marché P2P de Gré à Gré en Direct')}</span>
+                    <span className="text-primary-cyan font-black block mb-1">✓ {t('Cession Directe entre Pairs', 'Cession Directe de Droits entre Pairs')}</span>
                     <p className="text-xs text-white/70 leading-relaxed">{t('Continuous liquid matching. Users can buy/sell LYA Units on secondary terminal instantly.', 'Retraits et reventes d\'unités instantanés sur l\'Exchange interne sans intermédiaires.')}</p>
                   </td>
                   <td className="p-6 text-xs text-white/40 leading-relaxed">
-                    <span className="text-rose-400/70 font-bold block mb-1">✗ {t('Illiquid long-term locking', 'Aucune liquidité possible')}</span>
+                    <span className="text-rose-400/70 font-bold block mb-1">✗ {t('Illiquid long-term locking', 'Aucune accessibilité possible')}</span>
                     {t('Rights locked in long-term contracts with labels, agents or studios. No partial resale or transfer possible.', 'Droits bloqués dans des contrats longue durée chez les labels, agents ou studios. Aucune revente ou cession partielle possible.')}
                   </td>
                   <td className="p-6 text-xs text-white/30 leading-relaxed">
@@ -1231,7 +1231,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
                   </td>
                   <td className="p-6 text-xs text-white/30 leading-relaxed">
                     <span className="text-white/40 font-bold block mb-1">✗ {t('Siloed platform profiles', 'Silo sans transfert de droits')}</span>
-                    {t('No institutional clearance, no smart ledger contracts certifying your priority rights.', 'Pas d\'inscription authentifié par huissier ou registre de clearing certifiant vos droits.')}
+                    {t('No institutional clearance, no smart registre certifié contracts certifying your priority rights.', 'Pas d\'inscription authentifié par huissier ou registre de clearing certifiant vos droits.')}
                   </td>
                 </tr>
               </tbody>
@@ -1245,11 +1245,11 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
               <ul className="space-y-4 text-xs text-left">
                 <li>
                   <strong className="text-white uppercase block text-[10px] tracking-wider mb-1">⚡ {t('MICRO-FRACTIONAL RIGHTS', 'DROIT DE PROPRIÉTÉ FRACTIONNÉ')}</strong>
-                  <span className="text-white/70 leading-relaxed">{t('The initial funding cap is constant. LYA Units trade from $50 and fluctuate strictly on verified milestone achievements.', 'Le budget de financement est bloqué. Les parts s\'échangent dès 50 $ et s\'adaptent au cours des jalons validés.')}</span>
+                  <span className="text-white/70 leading-relaxed">{t('The initial valorisation cap is constant. LYA Units trade from $50 and fluctuate strictly on verified milestone achievements.', 'Le budget de valorisation est bloqué. Les parts s\'échangent dès 50 $ et s\'adaptent au cours des jalons validés.')}</span>
                 </li>
                 <li className="pt-2 border-t border-white/5">
-                  <strong className="text-white uppercase block text-[10px] tracking-wider mb-1">🔄 {t('SECURE SECONDARY MARKET', 'MARCHÉ SECONDAIRE P2P LIQUIDE')}</strong>
-                  <span className="text-white/70 leading-relaxed">{t('All peer-to-peer exchanges are cleared instantly inside our unified secure exchange layout.', 'Les reventes et arbitrages sont immédiats et sécurisés via notre terminal de gré à gré.')}</span>
+                  <strong className="text-white uppercase block text-[10px] tracking-wider mb-1">🔄 {t('SECURE DIRECT RIGHTS TRANSFER', 'TRANSFERT DIRECT DE DROITS')}</strong>
+                  <span className="text-white/70 leading-relaxed">{t('All de pair à pair exchanges are cleared instantly inside our unified secure transfer platform.', 'Les reventes et arbitrages sont immédiats et sécurisés via notre terminal de gré à gré.')}</span>
                 </li>
               </ul>
             </div>
@@ -1263,7 +1263,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
                 </li>
                 <li className="pt-2 border-t border-white/5">
                   <strong className="text-white/80 uppercase block text-[10px] tracking-wider mb-1">✗ {t('SYMBOLIC REWARDS ONLY', 'CROWDFUNDING SANS RETOURS')}</strong>
-                  <span className="text-white/50 leading-relaxed">{t('Classic crowdfunding platforms provide only symbolic rewards (t-shirts, digital copies) without index capitalization or contractual claims.', 'Le crowdfunding classique ne transmet aucun droit financier réel, offrant de simples goodies non-valorisables.')}</span>
+                  <span className="text-white/50 leading-relaxed">{t('Classic crowdvalorisation platforms provide only symbolic rewards (t-shirts, digital copies) without index capitalization or contractual claims.', 'Le crowdvalorisation classique ne transmet aucun droit financier réel, offrant de simples goodies non-valorisables.')}</span>
                 </li>
               </ul>
             </div>
@@ -1292,7 +1292,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
             </div>
             <h3 className="text-xl font-black font-headline uppercase tracking-widest mb-4">{t('home.pillars.creators.title', 'Creators')}</h3>
             <p className="text-on-surface-variant text-sm leading-relaxed opacity-70 text-justify">
-              {t('home.pillars.creators.desc', 'The heartbeat of the ecosystem. Creators tokenize their vision into Indexed Creative Contracts, offering future revenue shares to fuel their growth while maintaining creative control.')}
+              {t('home.pillars.creators.desc', 'The heartbeat of the ecosystem. Creators contractualiser their vision into Indexed Creative Contracts, offering future revenue shares to fuel their growth while maintaining creative control.')}
             </p>
           </div>
 
@@ -1301,9 +1301,9 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
             <div className="w-12 h-12 bg-accent-gold/10 flex items-center justify-center text-accent-gold border border-accent-gold/20 mb-6 group-hover:scale-110 transition-transform">
               <TrendingUp size={24} />
             </div>
-            <h3 className="text-xl font-black font-headline uppercase tracking-widest mb-4">{t('home.pillars.investors.title', 'Investors')}</h3>
+            <h3 className="text-xl font-black font-headline uppercase tracking-widest mb-4">{t('home.pillars.creative partners.title', 'Creative Partners')}</h3>
             <p className="text-on-surface-variant text-sm leading-relaxed opacity-70 text-justify">
-              {t('home.pillars.investors.desc', 'Back the next generation of masterpieces. Investors acquire LYA Units representing future revenue shares, participating in the success of verified creative projects through a secure P2P exchange.')}
+              {t('home.pillars.creative partners.desc', 'Back the next generation of masterpieces. Creative Partners acquire LYA Units representing future revenue shares, participating in the success of verified creative projects through a secure pair à pair exchange.')}
             </p>
           </div>
 
@@ -1314,7 +1314,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
             </div>
             <h3 className="text-xl font-black font-headline uppercase tracking-widest mb-4">{t('home.pillars.professionals.title', 'Professionals')}</h3>
             <p className="text-on-surface-variant text-sm leading-relaxed opacity-70 text-justify">
-              {t('home.pillars.professionals.desc', 'The validators of excellence. Industry leaders (Netflix, Amazon, Labels, Producers) rate projects, ensuring the LYA Score reflects real-market potential and expert quality.')}
+              {t('home.pillars.professionals.desc', 'The validators of excellence. Industry leaders (Netflix, Amazon, Labels, Producers) rate projects, ensuring the Indice LYA reflects real-market potential and expert quality.')}
             </p>
           </div>
 
@@ -1488,7 +1488,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
             <div>
               <h3 className="text-3xl font-black font-headline uppercase tracking-[0.2em] mb-4">{t('home.standard.title', 'The LYA')} <span className="text-white">{t('home.standard.title_cyan', 'Unit Standard')}</span></h3>
               <p className="text-on-surface-variant text-lg leading-relaxed opacity-80 text-justify">
-                {t('home.standard.desc', 'LinkYourArt introduces the unique rating index for the creative market. Each LYA Unit represents a standardized $50 value of future revenue potential. This peer-to-peer system allows for the exchange of revenue shares based on project advancement and milestones, providing the only objective measure of creative value.')}
+                {t('home.standard.desc', 'LinkYourArt introduces the unique rating index for the creative market. Each LYA Unit represents a standardized $50 value of future revenue potential. This de pair à pair system allows for the exchange of revenue shares based on project advancement and milestones, providing the only objective measure of creative value.')}
               </p>
             </div>
           </div>
@@ -1500,20 +1500,20 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
       <section className="relative z-10 py-40 max-w-[1800px] mx-auto px-6">
         <div className="text-center mb-24">
           <h2 className="text-3xl md:text-5xl font-black font-headline text-white tracking-tighter uppercase mb-6 drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]">
-            {t('home.scoring.title', 'The LYA')} <span className="text-primary-cyan">{t('home.scoring.title_cyan', 'Scoring System')}</span>
+            {t('home.évaluation créative.title', 'The LYA')} <span className="text-primary-cyan">{t('home.évaluation créative.title_cyan', 'Evaluation System')}</span>
           </h2>
           <p className="text-on-surface-variant text-lg opacity-80 max-w-2xl mx-auto text-justify">
-            {t('home.scoring.subtitle', 'Our proprietary algorithm evaluates every contract across 5 critical notation criteria, providing a transparent and objective System Yield Index out of 1000.')}
+            {t('home.évaluation créative.subtitle', 'Our proprietary algorithm evaluates every contract across 5 critical notation criteria, providing a transparent and objective Creative Performance Index out of 1000.')}
           </p>
         </div>
 
         <div className="grid md:grid-cols-5 gap-4">
           {[
-            { label: t('home.scoring.c1.label', 'Project Quality'), score: '200', desc: t('home.scoring.c1.desc', 'Evaluation of artistic merit, historical significance, and creative execution.'), color: 'text-primary-cyan', bg: 'bg-primary-cyan/5', border: 'border-primary-cyan/20' },
-            { label: t('home.scoring.c2.label', 'Marketability'), score: '200', desc: t('home.scoring.c2.desc', 'Analysis of secondary market demand, liquidity potential, and audience reach.'), color: 'text-accent-pink', bg: 'bg-accent-pink/5', border: 'border-accent-pink/20' },
-            { label: t('home.scoring.c3.label', 'Legal Security'), score: '200', desc: t('home.scoring.c3.desc', 'Verification of contractual rights, IP protection, and regulatory compliance.'), color: 'text-accent-green', bg: 'bg-accent-green/5', border: 'border-accent-green/20' },
-            { label: t('home.scoring.c4.label', 'Technical Innovation'), score: '200', desc: t('home.scoring.c4.desc', 'Assessment of technological uniqueness, smart contract complexity, and digital durability.'), color: 'text-accent-purple', bg: 'bg-accent-purple/5', border: 'border-accent-purple/20' },
-            { label: t('home.scoring.c5.label', 'Growth Potential'), score: '200', desc: t('home.scoring.c5.desc', 'Projections of future value appreciation based on market trends and roadmap.'), color: 'text-accent-gold', bg: 'bg-accent-gold/5', border: 'border-accent-gold/20' },
+            { label: t('home.évaluation créative.c1.label', 'Project Quality'), score: '200', desc: t('home.évaluation créative.c1.desc', 'Evaluation of artistic merit, historical significance, and creative execution.'), color: 'text-primary-cyan', bg: 'bg-primary-cyan/5', border: 'border-primary-cyan/20' },
+            { label: t('home.évaluation créative.c2.label', 'Marketability'), score: '200', desc: t('home.évaluation créative.c2.desc', 'Analysis of direct transfer platform demand, accessibility potential, and audience reach.'), color: 'text-accent-pink', bg: 'bg-accent-pink/5', border: 'border-accent-pink/20' },
+            { label: t('home.évaluation créative.c3.label', 'Legal Security'), score: '200', desc: t('home.évaluation créative.c3.desc', 'Verification of contractual rights, IP protection, and regulatory compliance.'), color: 'text-accent-green', bg: 'bg-accent-green/5', border: 'border-accent-green/20' },
+            { label: t('home.évaluation créative.c4.label', 'Technical Innovation'), score: '200', desc: t('home.évaluation créative.c4.desc', 'Assessment of technological uniqueness, contrat numérique certifié complexity, and digital durability.'), color: 'text-accent-purple', bg: 'bg-accent-purple/5', border: 'border-accent-purple/20' },
+            { label: t('home.évaluation créative.c5.label', 'Growth Potential'), score: '200', desc: t('home.évaluation créative.c5.desc', 'Projections of future value appreciation based on market trends and roadmap.'), color: 'text-accent-gold', bg: 'bg-accent-gold/5', border: 'border-accent-gold/20' },
           ].map((criterion, i) => (
             <motion.div 
               key={i}
@@ -1542,7 +1542,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
           className="mt-16 text-center"
         >
           <p className="text-base text-on-surface-variant/60 uppercase tracking-[0.2em] max-w-3xl mx-auto leading-relaxed text-justify">
-            "{t('home.quotes.scoring', 'The LYA Score represents the definitive index of a creative contract\'s living value, updated in real-time through market feedback and periodic professional audits.')}"
+            "{t('home.quotes.évaluation créative', 'The Indice LYA represents the definitive index of a creative contract\'s living value, updated in real-time through market feedback and periodic professional audits.')}"
           </p>
         </motion.div>
       </section>
@@ -1563,7 +1563,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
             <span className="text-primary-cyan">{t('home.cta.title_cyan', 'Engagement')}</span>
           </h2>
           <p className="text-xl text-on-surface-variant mb-12 max-w-xl mx-auto opacity-80 text-justify">
-            {t('home.cta.desc', 'Join the professional creative registry and start trading contract units today.')}
+            {t('home.cta.desc', 'Join the professional creative registry and start transferring contract rights today.')}
           </p>
           <button 
             onClick={() => onViewChange('DASHBOARD')}

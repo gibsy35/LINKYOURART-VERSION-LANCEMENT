@@ -289,8 +289,8 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange, onNotify }) 
               title: t('International', 'International'),
               icon: <Globe className="text-primary-cyan" />,
               desc: t(
-                "LinkYourArt is multilingual and open to creative projects, investors, and professionals from all over the world. The creative industry has no borders.",
-                "LinkYourArt est multilingue et ouvert aux projets créatifs, investisseurs et professionnels du monde entier. L'industrie créative n'a pas de frontières."
+                "LinkYourArt is multilingual and open to creative projects, partenaire créatifs, and professionals from all over the world. The creative industry has no borders.",
+                "LinkYourArt est multilingue et ouvert aux projets créatifs, partenaire créatifs et professionnels du monde entier. L'industrie créative n'a pas de frontières."
               )
             }
           ].map((value, i) => (
@@ -320,8 +320,8 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange, onNotify }) 
             </h2>
             <p className="text-on-surface-variant max-w-2xl mx-auto text-lg font-medium opacity-80 text-justify">
               {t(
-                "Whether you are a creator, investor, or art professional, LinkYourArt is made for you.",
-                "Que vous soyez créateur, investisseur, ou professionnel de l'art, LinkYourArt est fait pour vous."
+                "Whether you are a creator, partenaire créatif, or art professional, LinkYourArt is made for you.",
+                "Que vous soyez créateur, partenaire créatif, ou professionnel de l'art, LinkYourArt est fait pour vous."
               )}
             </p>
           </div>

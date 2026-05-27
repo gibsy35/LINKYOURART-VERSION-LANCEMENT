@@ -86,7 +86,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
           analysis: "Votre profil dans le domaine de la création reflète des besoins d'évaluation et d'indexation d'actifs. Notre analyse de vos activités indique une excellente opportunité de valorisation de votre propriété intellectuelle et de vos droits d'auteur via les modules d'indexation de LinkYourArt.",
           recommendedPlanId: projectSize.includes('Enterprise') ? 'PRO_ENTERPRISE' : customRole.includes('Producer') || creativeField.includes('Cinema') ? 'PRO' : 'INVESTOR',
           recommendedPlanName: projectSize.includes('Enterprise') ? 'Entreprise Institutionnelle' : customRole.includes('Producer') || creativeField.includes('Cinema') ? 'Pro Personnel' : 'Investisseur',
-          primaryReason: "Recommandé pour optimiser d'importants portefeuilles de propriété intellectuelle avec rapports personnalisés pour les investisseurs.",
+          primaryReason: "Recommandé pour optimiser d'importants portefeuilles de propriété intellectuelle avec rapports personnalisés pour les partenaire créatifs.",
           estimatedMonthlyCost: projectSize.includes('Enterprise') ? 15000 : 890,
           suggestedAddons: [
             { name: "Risk Audit Pro", reason: "Sécurise l'audit préliminaire de vos contrats d'exploitation de manière automatisée." },
@@ -114,7 +114,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
       features: [
         t('Project indexing (up to 4)', 'Indexation de projets (jusqu\'à 4)'),
         t('LYA Score basic analysis', 'Analyse de base du Score LYA'),
-        t('Standard P2P access (5% fee)', 'Accès P2P standard (frais de 5%)'),
+        t('Accès transfert direct (frais de 5%)', 'Accès transfert direct (frais de 5%)'),
         t('Basic portfolio tracking', 'Suivi de portefeuille de base'),
       ],
       color: 'primary-cyan',
@@ -124,11 +124,11 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
       id: 'INVESTOR',
       name: t('Investor', 'Investisseur'),
       monthlyPrice: 149,
-      description: t('For active collectors and investors.', 'Pour les collectionneurs et investisseurs actifs.'),
+      description: t('For active collectors and partenaire créatifs.', 'Pour les collectionneurs et partenaire créatifs actifs.'),
       features: [
         t('Unlimited project tracking', 'Suivi de projets illimité'),
         t('Advanced market analytics', 'Analyses de marché avancées'),
-        t('Reduced P2P fees (3%)', 'Frais P2P réduits (3%)'),
+        t('Frais de transfert réduits (3%)', 'Frais de transfert réduits (3%)'),
         t('Priority settlement access', 'Accès prioritaire au règlement'),
         t('LYA Academy access', 'Accès à l\'Académie LYA'),
       ],
@@ -144,7 +144,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
       features: [
         t('Professional audit tools', 'Outils d\'audit professionnel'),
         t('API access for valuation', 'Accès API pour l\'évaluation'),
-        t('Lowest P2P fees (2%)', 'Frais P2P les plus bas (2%)'),
+        t('Frais de transfert les plus bas (2%)', 'Frais de transfert les plus bas (2%)'),
         t('White-label reporting', 'Rapports en marque blanche'),
         t('Dedicated account manager', 'Gestionnaire de compte dédié'),
       ],
@@ -639,7 +639,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
                   <h4 className="text-xs font-black text-accent-gold uppercase tracking-widest border-b border-accent-gold/20 pb-2">{t('Financial Benefits', 'Avantages Financiers')}</h4>
                   <ul className="space-y-3">
                     {[
-                      t('2% P2P Transaction fees', '2% de frais de transaction P2P'),
+                      t('2% de frais de transfert', '2% de frais de transfert'),
                       t('Priority settlement engine', 'Moteur de règlement prioritaire'),
                       t('Tax optimization reports', 'Rapports d\'optimisation fiscale'),
                       t('Direct equity lending', 'Prêt direct de fonds propres'),
@@ -690,7 +690,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
                     {[
                       t('Real-time Valuation index', 'Indice de Valorisation en tps réel'),
                       t('Predictive Performance data', 'Données de Performance Prédictives'),
-                      t('Institutional Funding Suite', 'Suite de Financement Institutionnel'),
+                      t('Accès Institutionnel Suite', 'Suite de Accès Institutionnel'),
                       t('Master Registry Governance', 'Gouvernance du Registre Maître'),
                     ].map((f, i) => (
                       <li key={i} className="flex items-center gap-3 text-[10px] text-on-surface-variant uppercase font-bold tracking-wide">
@@ -746,7 +746,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { label: t('Market Access Plus', 'Accès Marché Plus'), price: '2,500', icon: Globe, desc: t('Global liquidity registry access', 'Accès aux registres de liquidité mondiaux') },
+              { label: t('Accès Étendu au Marché', 'Accès Étendu au Marché'), price: '2,500', icon: Globe, desc: t('Global accès aux registres de disponibilité', 'Accès aux registres de disponibilité mondiaux') },
               { label: t('Risk Audit Pro', 'Audit de Risque Pro'), price: '1,200', icon: Shield, desc: t('Deep-dive compliance reports', 'Rapports de conformité approfondis') },
               { label: t('Portfolio AI', 'IA de Portefeuille'), price: '1,800', icon: Zap, desc: t('Automated rebalancing engine', 'Moteur de rééquilibrage automatisé') },
               { label: t('Tax & Legal Suite', 'Suite Fiscale et Juridique'), price: '950', icon: BarChart3, desc: t('Multi-jurisdictional reporting', 'Rapports multi-juridictionnels') },
@@ -777,9 +777,9 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
                 <Shield size={32} className="text-primary-cyan" />
               </div>
               <div>
-                <h4 className="text-xl font-black uppercase mb-1 tracking-tighter">{t('P2P Transaction Fees', 'Frais de Transaction P2P')}</h4>
+                <h4 className="text-xl font-black uppercase mb-1 tracking-tighter">{t('Frais de Transfert Direct', 'Frais de Transfert Direct')}</h4>
                 <p className="text-sm text-on-surface-variant text-justify">
-                  {t('LinkYourArt relies on a peer-to-peer exchange model. We charge a small fee on every successful trade to maintain the network and ensure settlement security.', 'LinkYourArt repose sur un modèle d\'échange de pair à pair. Nous prélevons une petite commission sur chaque transaction réussie pour maintenir le réseau et assurer la sécurité du règlement.')}
+                  {t('LinkYourArt relies on a transfert direct model. We charge a small fee on every successful trade to maintain the network and ensure settlement security.', 'LinkYourArt repose sur un modèle d\'échange de transfert direct entre créateurs. Nous prélevons une petite commission sur chaque transaction réussie pour maintenir le réseau et assurer la sécurité du règlement.')}
                 </p>
               </div>
             </div>

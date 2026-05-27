@@ -17,7 +17,7 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify }) => {
   const faqThemes = [
     { id: 'General', label: t('General', 'Général') },
     { id: 'Creators', label: t('Creators', 'Créateurs') },
-    { id: 'Investors', label: t('Investors', 'Investisseurs') },
+    { id: 'Partenaire créatifs', label: t('Partenaire créatifs', 'Investisseurs') },
     { id: 'Professionals', label: t('Professionals', 'Professionnels') },
     { id: 'Public', label: t('Public', 'Public') },
     { id: 'Security', label: t('Security', 'Sécurité') }
@@ -30,7 +30,7 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify }) => {
       sections: [
         {
           title: t('1. Philosophy & Accessibility', '1. Philosophie & Accessibilité'),
-          text: t('LinkYourArt (LYA) is an inclusive ecosystem open to creators, investors, professionals, and the general public. We break down the barriers of the traditional art world to offer everyone a place in the creative economy. Our model is based on simplicity and fairness.', 'LinkYourArt (LYA) est un écosystème inclusif ouvert aux créateurs, aux investisseurs, aux professionnels et au grand public. Nous brisons les barrières du monde de l\'art traditionnel pour offrir à chacun une place dans l\'économie de la création. Notre modèle repose sur la simplicité et l\'équité.')
+          text: t('LinkYourArt (LYA) is an inclusive ecosystem open to creators, partenaire créatifs, professionals, and the general public. We break down the barriers of the traditional art world to offer everyone a place in the creative economy. Our model is based on simplicity and fairness.', 'LinkYourArt (LYA) est un écosystème inclusif ouvert aux créateurs, aux partenaire créatifs, aux professionnels et au grand public. Nous brisons les barrières du monde de l\'art traditionnel pour offrir à chacun une place dans l\'économie de la création. Notre modèle repose sur la simplicité et l\'équité.')
         },
         {
           title: t('2. The Indexed Contract Model', '2. Le Modèle du Contrat Indexé'),
@@ -74,7 +74,7 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify }) => {
       sections: [
         {
           title: t('1. Universal Rights Registry', '1. Registre de Droits Universel'),
-          text: t('The LYA Registry is not a financial ledger, but a creative one. It documents the ownership and history of each indexed project, ensuring that every creator and investor has an immutable proof of their rights, transparent and accessible to everyone.', 'Le Registre LYA n\'est pas un livre de comptes financier, mais un registre créatif. Il documente la propriété et l\'historique de chaque projet indexé, assurant que chaque créateur et investisseur possède une preuve immuable de ses droits.')
+          text: t('The LYA Registry is not a registre financier, but a creative one. It documents the ownership and history of each indexed project, ensuring that every creator and partenaire créatif has an immutable proof of their rights, transparent and accessible to everyone.', 'Le Registre LYA n\'est pas un livre de comptes financier, mais un registre créatif. Il documente la propriété et l\'historique de chaque projet indexé, assurant que chaque créateur et partenaire créatif possède une preuve immuable de ses droits.')
         },
         {
           title: t('2. Beyond Traditional Audits', '2. Au-delà des Audits Classiques'),
@@ -92,7 +92,7 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify }) => {
         },
         {
           title: t('2. Infrastructure', '2. Infrastructure'),
-          text: t('The LYA ecosystem is powered by a modern and secure technical architecture, ensuring a smooth experience for all creators, investors, professionals and audiences worldwide.', 'L\'écosystème LYA est propulsé par une architecture technique moderne et sécurisée, assurant une expérience fluide pour tous les créateurs, investisseurs, professionnels et publics du monde entier.')
+          text: t('The LYA ecosystem is powered by a modern and secure technical architecture, ensuring a smooth experience for all creators, partenaire créatifs, professionals and audiences worldwide.', 'L\'écosystème LYA est propulsé par une architecture technique moderne et sécurisée, assurant une expérience fluide pour tous les créateurs, partenaire créatifs, professionnels et publics du monde entier.')
         }
       ]
     },
@@ -129,7 +129,7 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify }) => {
       },
       { 
         q: t('Who can use LYA?', 'Qui peut utiliser LYA ?'), 
-        a: t('Everyone! LYA is designed for creators, investors, professionals, and the general public. We offer a simple and fair model for all actors in the artistic world.', 'Tout le monde ! LYA est conçu pour les créateurs, investisseurs, professionnels et le grand public. Nous proposons un modèle simple et équitable pour tous les acteurs du monde artistique.') 
+        a: t('Everyone! LYA is designed for creators, partenaire créatifs, professionals, and the general public. We offer a simple and fair model for all actors in the artistic world.', 'Tout le monde ! LYA est conçu pour les créateurs, partenaire créatifs, professionnels et le grand public. Nous proposons un modèle simple et équitable pour tous les acteurs du monde artistique.') 
       },
       { 
         q: t('Is LYA regulated like a bank or by MICA/SEC?', 'LYA est-elle réglementée par MICA ou la SEC ?'), 
@@ -137,7 +137,7 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify }) => {
       },
       { 
         q: t('What are the platform fees?', 'Quels sont les frais de la plateforme ?'), 
-        a: t('Transparency is key. We apply a fee of 2% to 5% on P2P Exchange transactions and a 3% fee upon objective finalization of a project. These fees support the ecosystem\'s security and evolution.', 'La transparence est essentielle. Nous appliquons des frais de 2% à 5% sur les transactions de l\'Exchange P2P et une commission de 3% lors de la finalisation des objectifs d\'un projet.') 
+        a: t('Transparency is key. We apply a fee of 2% to 5% on transactions de transfert direct and a 3% fee upon objective finalization of a project. These fees support the ecosystem\'s security and evolution.', 'La transparence est essentielle. Nous appliquons des frais de 2% à 5% sur les transactions de l\'Plateforme de Transfert et une commission de 3% lors de la finalisation des objectifs d\'un projet.') 
       }
     ],
     Creators: [
@@ -150,10 +150,10 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify }) => {
         a: t('Access to immediate financing via LYA UNITS without selling shares. You maintain control of your IP while creating a financial layer for your work. Success is directly linked to the respect of your milestones, which increases the unit value for everyone.', 'Accès à un financement immédiat via les LYA UNITS sans céder de parts sociales. Vous gardez le contrôle de votre PI tout en créant une couche financière pour votre œuvre. Le succès est lié au respect de vos jalons, ce qui augmente la valeur de l\'unité.') 
       }
     ],
-    Investors: [
+    Partenaire créatifs: [
       { 
         q: t('How do I earn with LYA?', 'Comment gagner avec LYA ?'), 
-        a: t('By holding LYA UNITS of a project. If the creator respects their milestones and the project develops well, the LYA Score increases and the LYA UNIT value rises above the initial 50 USD. You can resale your units on the P2P exchange at any time.', 'En détenant des LYA UNITS d\'un projet. Si le créateur respecte ses jalons, le Score LYA monte et la valeur de l\'unité LYA dépasse les 50 USD initiaux. Vous pouvez revendre vos unités sur l\'Exchange P2P à tout moment.') 
+        a: t('By holding LYA UNITS of a project. If the creator respects their milestones and the project develops well, the LYA Score increases and the LYA UNIT value rises above the initial 50 USD. You can resale your units on the plateforme de transfert at any time.', 'En détenant des LYA UNITS d\'un projet. Si le créateur respecte ses jalons, le Score LYA monte et la valeur de l\'unité LYA dépasse les 50 USD initiaux. Vous pouvez revendre vos unités sur l\'Plateforme de Transfert à tout moment.') 
       },
       { 
         q: t('How is the value of LYA UNITS calculated?', 'Comment est calculée la valeur des LYA UNITS ?'), 
