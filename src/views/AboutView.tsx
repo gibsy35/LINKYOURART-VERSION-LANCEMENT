@@ -178,14 +178,14 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange, onNotify }) 
             <div className="space-y-6 text-on-surface-variant leading-relaxed text-base md:text-lg font-medium opacity-70 text-justify">
               <p>
                 {t(
-                  "LINKYOURART, founded in 2006, is among the first representation and networking hubs dedicated to creative talents on an international scale. From its beginnings, the platform's mission has been to create bridges between artists and cultural industries, supporting directors, screenwriters, producers, composers, musicians, 3D artists, animators, designers, illustrators, photographers, visual and contemporary artists, video game developers, as well as creators from digital arts, performing arts, and new media.",
-                  "LINKYOURART, fondé en 2006, figure parmi les premiers hubs de représentation et de mise en relation dédiés aux talents créatifs à l'échelle internationale. Dès ses débuts, la plateforme s'est donnée pour mission de créer des passerelles entre les artistes et les industries culturelles, en accompagnant des réalisateurs, scénaristes, producteurs, compositeurs, musiciens, artistes 3D, animateurs, designers, illustrateurs, photographes, artistes visuels et contemporains, développeurs de jeux vidéo, ainsi que des créateurs issus des arts numériques, de la scène et des nouveaux médias."
+                  "In 2006, Jean-Baptiste Lequime founded LINKYOURART with a single, clear-eyed ambition: to build the first international bridge between creative works and the industries that need them. Music, film, fashion, gaming, design, architecture, performing arts — every creation found a home here, at a time when no platform dared to unite them all.",
+                  "En 2006, Jean-Baptiste Lequime fonde LINKYOURART avec une ambition claire et pionnière : bâtir le premier pont international entre les créations et les industries qui en ont besoin. Musique, cinéma, mode, jeux vidéo, design, architecture, arts de la scène — chaque création y trouve sa place, à une époque où aucune plateforme n'osait encore toutes les réunir."
                 )}
               </p>
               <p>
                 {t(
-                  "Conceived as a space for convergence between art, technology, and industry, LINKYOURART has contributed to revealing and supporting both emerging and established talents, fostering collaborations, visibility, and the realization of ambitious artistic projects.",
-                  "Pensé comme un espace de convergence entre l'art, la technologie et l'industrie, LINKYOURART a contribué à révéler et accompagner des talents émergents comme confirmés, en favorisant les collaborations, la visibilité et la concrétisation de projets artistiques ambitieux."
+                  "For nearly two decades, LINKYOURART has quietly shaped the creative economy — revealing emerging works, forging collaborations, and giving the most ambitious projects the visibility they deserve. A space where creation meets technology, and vision meets opportunity.",
+                  "Pendant près de deux décennies, LINKYOURART a façonné en silence l'économie créative — révélant des créations émergentes, tissant des collaborations, et offrant aux projets les plus ambitieux la visibilité qu'ils méritent. Un espace où la création rencontre la technologie, et la vision rencontre l'opportunité."
                 )}
               </p>
               <p>
