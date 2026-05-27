@@ -330,8 +330,16 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
               
               {/* Mobile: 3 col balanced nav */}
               <div className="flex md:hidden w-full items-center justify-between py-2">
-                {/* Left spacer */}
-                <div className="flex-1" />
+                {/* Left: compact buttons side by side */}
+                <div className="flex items-center gap-1.5 justify-start">
+                  <button onClick={() => setShowDemoModal(true)} className="flex bg-white/5 border border-white/10 hover:border-primary-cyan/50 transition-all p-2 rounded-full items-center justify-center">
+                    <Lock size={12} />
+                  </button>
+                  <div className="flex items-center bg-white/5 border border-white/5 rounded-full p-0.5">
+                    <button onClick={() => setLanguage?.('FR')} className={`px-1.5 py-0.5 rounded-full text-[8px] font-black tracking-wider transition-all ${language === 'FR' ? 'bg-white text-black' : 'text-white/40'}`}>FR</button>
+                    <button onClick={() => setLanguage?.('EN')} className={`px-1.5 py-0.5 rounded-full text-[8px] font-black tracking-wider transition-all ${language === 'EN' ? 'bg-white text-black' : 'text-white/40'}`}>EN</button>
+                  </div>
+                </div>
 
                 {/* Center: logo */}
                 <div className="flex flex-col items-center cursor-pointer" onClick={handleLogoTap}>
@@ -345,16 +353,8 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                   </motion.span>
                 </div>
 
-                {/* Right: compact buttons side by side */}
-                <div className="flex items-center gap-1.5 justify-end">
-                  <div className="flex items-center bg-white/5 border border-white/5 rounded-full p-0.5">
-                    <button onClick={() => setLanguage?.('FR')} className={`px-1.5 py-0.5 rounded-full text-[8px] font-black tracking-wider transition-all ${language === 'FR' ? 'bg-white text-black' : 'text-white/40'}`}>FR</button>
-                    <button onClick={() => setLanguage?.('EN')} className={`px-1.5 py-0.5 rounded-full text-[8px] font-black tracking-wider transition-all ${language === 'EN' ? 'bg-white text-black' : 'text-white/40'}`}>EN</button>
-                  </div>
-                  <button onClick={() => setShowDemoModal(true)} className="flex bg-white/5 border border-white/10 hover:border-primary-cyan/50 transition-all p-2 rounded-full items-center justify-center">
-                    <Lock size={12} />
-                  </button>
-                </div>
+                {/* Right spacer */}
+                <div className="flex-1" />
               </div>
 
               {/* Desktop: original layout */}
