@@ -328,10 +328,10 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
             {/* Navigation */}
             <nav className="px-4 md:px-8 py-4 md:py-6 flex justify-between items-center max-w-[1600px] mx-auto relative z-[60]">
               
-              {/* Mobile: 3 col balanced nav */}
-              <div className="flex md:hidden w-full items-center justify-between py-2">
-                {/* Left: compact buttons side by side */}
-                <div className="flex items-center gap-1.5 justify-start">
+              {/* Mobile: buttons top-left, logo center */}
+              <div className="flex md:hidden w-full items-start justify-between py-1">
+                {/* Top-left: compact buttons */}
+                <div className="flex flex-col items-start gap-1.5">
                   <button onClick={() => setShowDemoModal(true)} className="flex bg-white/5 border border-white/10 hover:border-primary-cyan/50 transition-all p-2 rounded-full items-center justify-center">
                     <Lock size={12} />
                   </button>
@@ -342,7 +342,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                 </div>
 
                 {/* Center: logo */}
-                <div className="flex flex-col items-center cursor-pointer" onClick={handleLogoTap}>
+                <div className="flex flex-col items-center cursor-pointer absolute left-1/2 -translate-x-1/2" onClick={handleLogoTap}>
                   <Logo size={110} color="multi" showBeta={true} />
                   <motion.span
                     className="text-[8px] font-black tracking-[0.35em] text-primary-cyan uppercase mt-1.5 block"
