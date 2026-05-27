@@ -517,7 +517,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
 
   const PREMIUM_FEATURES_CONTENT: Record<string, { description: string, previewImage?: string, benefits: { label: string, desc: string }[] }> = {
     'LYA Score': {
-      description: t('Access the full algorithme d'évaluation LYA to precisely evaluate your market potential and professional radiation. Get a deep-dive audit of your creative assets.', 'Accédez à l\'algorithme complet de évaluation LYA pour évaluer précisément votre potentiel de marché et votre rayonnement professionnel. Obtenez un audit approfondi de vos actifs créatifs.'),
+      description: t('Access the full LYA evaluation algorithm to precisely evaluate your market potential and professional radiation. Get a deep-dive audit of your creative rights.', "Accédez à l'algorithme complet d'évaluation LYA pour évaluer précisément votre potentiel de marché et votre rayonnement professionnel. Obtenez un audit approfondi de vos droits créatifs."),
       previewImage: 'https://picsum.photos/seed/lya-score-audit/800/400',
       benefits: [
         { label: t('Full AI Audit', 'Audit IA Complet'), desc: t('Deep analysis of 50+ data points across 5 strategic pillars.', 'Analyse approfondie de 50+ points de données sur 5 piliers stratégiques.') },
