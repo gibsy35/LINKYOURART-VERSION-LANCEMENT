@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { downloadLegalDocument } from '../utils/premiumDownload';
 import { PageHeader } from '../components/ui/PageHeader';
 import { Shield, Lock, FileText, Scale, Globe, AlertCircle, Target, MessageSquare, HelpCircle } from 'lucide-react';
 import { useTranslation } from '../context/LanguageContext';
@@ -347,14 +348,8 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify }) => {
           <div className="flex gap-6">
             <button 
               onClick={() => {
-                const content = document.querySelector('.legal-content')?.textContent || 'LYA Legal Document';
-                const blob = new Blob([content], { type: 'text/plain' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'LYA_Legal_Document.txt';
-                a.click();
-                URL.revokeObjectURL(url);
+                const content = document.querySelector('article')?.innerText || 'LYA Legal Document';
+                downloadLegalDocument('LYA Protocol Terms', content);
                 onNotify('DOCUMENT DOWNLOADED');
               }}
               className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant hover:text-white transition-colors"

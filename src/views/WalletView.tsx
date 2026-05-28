@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { PageHeader } from '../components/ui/PageHeader';
+import { downloadWalletStatement } from '../utils/premiumDownload';
 import { 
   Wallet, 
   ArrowUpRight, 
@@ -54,19 +55,8 @@ export const WalletView: React.FC<WalletViewProps> = ({ user, onNotify, onViewCh
   };
 
   const handleDownloadStatement = () => {
-    const header = 'Date,Type,Method,Status,Amount\n';
-    const rows = transactions.map(tx =>
-      `${tx.date},${tx.type},${tx.method},${tx.status},${tx.amount}`
-    ).join('\n');
-    const csv = header + rows;
-    const blob = new Blob([csv], { type: 'text/csv' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `LYA_Wallet_Statement_${new Date().toISOString().split('T')[0]}.csv`;
-    a.click();
-    URL.revokeObjectURL(url);
-    onNotify(t('STATEMENT DOWNLOADED', 'RELEVÉ TÉLÉCHARGÉ'));
+    downloadWalletStatement(transactions, user?.displayName || 'LYA MEMBER', cashBalance, lyaUnits);
+    onNotify(t('PREMIUM STATEMENT GENERATED', 'RELEVÉ PREMIUM GÉNÉRÉ'));
   };
 
   const handleWithdrawSubmit = () => {

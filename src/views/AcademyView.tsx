@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { motion } from 'motion/react';
+import { downloadResourceDocument } from '../utils/premiumDownload';
 import { PageHeader } from '../components/ui/PageHeader';
 import { 
   GraduationCap, 
@@ -325,13 +326,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({ user, onNotify, onView
               <button 
                 key={i} 
                 onClick={() => {
-                  const blob = new Blob([`LYA Document: ${resource.title}\nGenerated: ${new Date().toISOString()}\n\nThis document is available for verified LYA Protocol members.`], { type: 'text/plain' });
-                  const url = URL.createObjectURL(blob);
-                  const a = document.createElement('a');
-                  a.href = url;
-                  a.download = `LYA_${resource.title.replace(/\s/g, '_')}.txt`;
-                  a.click();
-                  URL.revokeObjectURL(url);
+                  downloadResourceDocument(resource.title);
                   onNotify(t(`DOWNLOADING ${resource.title.toUpperCase()}`, `TÉLÉCHARGEMENT ${resource.title.toUpperCase()}`));
                 }}
                 className="flex items-center justify-between p-4 bg-black/20 border border-white/5 rounded-xl hover:border-primary-cyan/30 transition-all group"
