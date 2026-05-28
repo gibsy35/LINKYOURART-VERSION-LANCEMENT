@@ -38,6 +38,7 @@ interface APIViewProps {
 export const APIView: React.FC<APIViewProps> = ({ user, onNotify }) => {
   const { t } = useTranslation();
   const [showKey, setShowKey] = useState<string | null>(null);
+  const [sdkTab, setSdkTab] = useState<'JS' | 'PYTHON' | 'CURL'>('JS');
   const [keys, setKeys] = useState<APIKey[]>([
     {
       id: '1',
@@ -75,24 +76,12 @@ export const APIView: React.FC<APIViewProps> = ({ user, onNotify }) => {
     onNotify('API KEY REVOKED. ACCESS TERMINATED.');
   };
 
-  const codeSnippet = `
-// Initialize LYA SDK
-import { LYAClient } from '@lya/protocol-sdk';
-
-const client = new LYAClient({
-  apiKey: 'YOUR_API_KEY',
-  environment: 'production'
-});
-
-// Fetch Creative Equity Index
-const index = await client.registry.getIndex('GLOBAL_ART');
-console.log('Current Value:', index.unitValue);
-
-// Subscribe to Real-time Settlements
-client.settlements.on('complete', (data) => {
-  console.log('New Settlement:', data.id);
-});
-  `.trim();
+  const codeSnippets = {
+    JS: `// Initialize LYA SDK\nimport { LYAClient } from '@lya/protocol-sdk';\n\nconst client = new LYAClient({\n  apiKey: 'YOUR_API_KEY',\n  environment: 'production'\n});\n\n// Fetch Creative Equity Index\nconst index = await client.registry.getIndex('GLOBAL_ART');\nconsole.log('Current Value:', index.unitValue);\n\n// Subscribe to Real-time Settlements\nclient.settlements.on('complete', (data) => {\n  console.log('New Settlement:', data.id);\n});`,
+    PYTHON: `# Initialize LYA SDK\nfrom lya_sdk import LYAClient\n\nclient = LYAClient(\n    api_key='YOUR_API_KEY',\n    environment='production'\n)\n\n# Fetch Creative Equity Index\nindex = client.registry.get_index('GLOBAL_ART')\nprint('Current Value:', index.unit_value)\n\n# List settlements\nsettlements = client.settlements.list(limit=10)\nfor s in settlements:\n    print('Settlement:', s.id)`,
+    CURL: `# Fetch Creative Equity Index\ncurl -X GET https://api.linkyourart.com/v1/registry/GLOBAL_ART \\\n  -H "Authorization: Bearer YOUR_API_KEY" \\\n  -H "Content-Type: application/json"\n\n# List settlements\ncurl -X GET https://api.linkyourart.com/v1/settlements?limit=10 \\\n  -H "Authorization: Bearer YOUR_API_KEY"`
+  };
+  const codeSnippet = codeSnippets[sdkTab];
 
   // Access Control: Only Admin or Pro users can access API
   if (user?.role !== UserRole.ADMIN && !user?.isPro) {
@@ -112,7 +101,7 @@ client.settlements.on('complete', (data) => {
           {t('API access and developer tools are exclusive to Professional accounts. Build custom integrations and automate your creative equity workflows.', 'L\'accès à l\'API et aux outils de développement sont exclusifs aux comptes Professionnels. Créez des intégrations personnalisées et automatisez vos flux de travail d\'équité créative.')}
         </p>
         <button 
-          onClick={() => onNotify('Redirecting to Pricing...')}
+          onClick={() => onViewChange('PRICING')}
           className="px-10 py-5 bg-primary-cyan text-surface-dim font-black uppercase italic tracking-[0.2em] text-[11px] hover:bg-white transition-all active:scale-95 shadow-[0_15px_30px_rgba(0,224,255,0.2)]"
         >
           {t('Upgrade to Professional', 'Passer au Professionnel')}
@@ -228,20 +217,20 @@ client.settlements.on('complete', (data) => {
               </h2>
               <div className="flex bg-black/40 p-1 rounded-sm">
                 <button 
-                  onClick={() => onNotify('SWITCHING TO JAVASCRIPT SDK DOCS...')}
-                  className="px-4 py-1 text-[9px] font-black uppercase tracking-widest bg-primary-cyan text-surface-dim"
+                  onClick={() => setSdkTab('JS')}
+                  className={`px-4 py-1 text-[9px] font-black uppercase tracking-widest transition-all ${sdkTab === 'JS' ? 'bg-primary-cyan text-surface-dim' : 'text-on-surface-variant hover:text-white'}`}
                 >
                   JAVASCRIPT
                 </button>
                 <button 
-                  onClick={() => onNotify('SWITCHING TO PYTHON SDK DOCS...')}
-                  className="px-4 py-1 text-[9px] font-black uppercase tracking-widest text-on-surface-variant hover:text-white"
+                  onClick={() => setSdkTab('PYTHON')}
+                  className={`px-4 py-1 text-[9px] font-black uppercase tracking-widest transition-all ${sdkTab === 'PYTHON' ? 'bg-primary-cyan text-surface-dim' : 'text-on-surface-variant hover:text-white'}`}
                 >
                   PYTHON
                 </button>
                 <button 
-                  onClick={() => onNotify('SWITCHING TO CURL EXAMPLES...')}
-                  className="px-4 py-1 text-[9px] font-black uppercase tracking-widest text-on-surface-variant hover:text-white"
+                  onClick={() => setSdkTab('CURL')}
+                  className={`px-4 py-1 text-[9px] font-black uppercase tracking-widest transition-all ${sdkTab === 'CURL' ? 'bg-primary-cyan text-surface-dim' : 'text-on-surface-variant hover:text-white'}`}
                 >
                   CURL
                 </button>
@@ -273,27 +262,18 @@ client.settlements.on('complete', (data) => {
               API STATUS
             </h4>
             <div className="space-y-6">
-              <button 
-                onClick={() => onNotify('VIEWING REST API STATUS...')}
-                className="w-full flex items-center justify-between hover:bg-white/5 p-1 rounded transition-colors"
-              >
+              <div className="w-full flex items-center justify-between p-1">
                 <span className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest">REST API</span>
                 <span className="text-[10px] font-black text-emerald-400 uppercase tracking-widest">OPERATIONAL</span>
-              </button>
-              <button 
-                onClick={() => onNotify('VIEWING WEBSOCKETS STATUS...')}
-                className="w-full flex items-center justify-between hover:bg-white/5 p-1 rounded transition-colors"
-              >
+              </div>
+              <div className="w-full flex items-center justify-between p-1">
                 <span className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest">WEBSOCKETS</span>
                 <span className="text-[10px] font-black text-emerald-400 uppercase tracking-widest">OPERATIONAL</span>
-              </button>
-              <button 
-                onClick={() => onNotify('VIEWING REGISTRY HUBS STATUS...')}
-                className="w-full flex items-center justify-between hover:bg-white/5 p-1 rounded transition-colors"
-              >
+              </div>
+              <div className="w-full flex items-center justify-between p-1">
                 <span className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest">REGISTRY HUBS</span>
                 <span className="text-[10px] font-black text-emerald-400 uppercase tracking-widest">99.9% UPTIME</span>
-              </button>
+              </div>
               <div className="pt-4 border-t border-white/5">
                 <div className="flex justify-between text-[10px] font-black uppercase tracking-widest mb-2">
                   <span className="text-white">RATE LIMIT USAGE</span>

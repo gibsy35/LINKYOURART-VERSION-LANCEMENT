@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import { PageHeader } from '../components/ui/PageHeader';
 import { 
   Wallet, 
@@ -8,13 +8,13 @@ import {
   ArrowDownLeft, 
   CreditCard, 
   ShieldCheck, 
-  Clock, 
   Zap, 
-  AlertCircle,
   ExternalLink,
-  ChevronRight,
   Plus,
-  ArrowRight
+  X,
+  Copy,
+  Check,
+  Download
 } from 'lucide-react';
 import { useTranslation } from '../context/LanguageContext';
 import { useCurrency } from '../context/CurrencyContext';
@@ -28,9 +28,13 @@ interface WalletViewProps {
 export const WalletView: React.FC<WalletViewProps> = ({ user, onNotify, onViewChange }) => {
   const { t } = useTranslation();
   const { formatPrice } = useCurrency();
-  const [activeTab, setActiveTab] = useState<'overview' | 'activity' | 'cards'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'cards'>('overview');
+  const [showWithdrawModal, setShowWithdrawModal] = useState(false);
+  const [withdrawAmount, setWithdrawAmount] = useState('');
+  const [withdrawIban, setWithdrawIban] = useState('');
+  const [withdrawStep, setWithdrawStep] = useState<'form' | 'confirm' | 'done'>('form');
+  const [copied, setCopied] = useState(false);
 
-  // Simulated balance and rewards
   const cashBalance = 12450.75;
   const lyaUnits = 4850;
 
@@ -41,6 +45,50 @@ export const WalletView: React.FC<WalletViewProps> = ({ user, onNotify, onViewCh
     { id: '4', type: 'WITHDRAW', amount: -1000, status: 'PENDING', date: '2026-05-12 18:30', method: 'Bank Withdrawal' },
     { id: '5', type: 'SALE', amount: 320, status: 'COMPLETED', date: '2026-05-11 11:45', method: 'Contract Liquidation' },
   ];
+
+  const handleCopyIban = () => {
+    navigator.clipboard.writeText('FR76 3000 6000 0112 3456 7890 189').then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  };
+
+  const handleDownloadStatement = () => {
+    const header = 'Date,Type,Method,Status,Amount\n';
+    const rows = transactions.map(tx =>
+      `${tx.date},${tx.type},${tx.method},${tx.status},${tx.amount}`
+    ).join('\n');
+    const csv = header + rows;
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `LYA_Wallet_Statement_${new Date().toISOString().split('T')[0]}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+    onNotify(t('STATEMENT DOWNLOADED', 'RELEVÉ TÉLÉCHARGÉ'));
+  };
+
+  const handleWithdrawSubmit = () => {
+    if (!withdrawAmount || parseFloat(withdrawAmount) <= 0) {
+      onNotify(t('Please enter a valid amount.', 'Veuillez saisir un montant valide.'));
+      return;
+    }
+    if (parseFloat(withdrawAmount) > cashBalance) {
+      onNotify(t('Insufficient balance.', 'Solde insuffisant.'));
+      return;
+    }
+    if (!withdrawIban || withdrawIban.length < 14) {
+      onNotify(t('Please enter a valid IBAN.', 'Veuillez saisir un IBAN valide.'));
+      return;
+    }
+    setWithdrawStep('confirm');
+  };
+
+  const handleWithdrawConfirm = () => {
+    setWithdrawStep('done');
+    onNotify(t(`WITHDRAWAL OF ${formatPrice(parseFloat(withdrawAmount))} INITIATED`, `RETRAIT DE ${formatPrice(parseFloat(withdrawAmount))} INITIÉ`));
+  };
 
   return (
     <div className="space-y-6 pb-20">
@@ -53,12 +101,10 @@ export const WalletView: React.FC<WalletViewProps> = ({ user, onNotify, onViewCh
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Main Balance Card */}
         <div className="lg:col-span-2 bg-gradient-to-br from-surface-low to-surface-dim border border-white/10 p-8 rounded-[2rem] shadow-xl relative overflow-hidden group">
           <div className="absolute top-0 right-0 p-8 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity">
             <Wallet size={160} />
           </div>
-          
           <div className="relative z-10 space-y-8">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
               <div className="space-y-2">
@@ -85,14 +131,14 @@ export const WalletView: React.FC<WalletViewProps> = ({ user, onNotify, onViewCh
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               <button 
-                onClick={() => onNotify(t('Redirecting to Onramp Protocol...', 'Redirection vers le protocole Onramp...'))}
+                onClick={() => onViewChange('PAYMENT')}
                 className="flex flex-col items-center justify-center gap-3 p-6 bg-primary-cyan text-surface-dim rounded-3xl hover:bg-white transition-all shadow-xl active:scale-95 group"
               >
                 <Plus size={24} />
                 <span className="text-[10px] font-black uppercase tracking-widest">{t('DEPOSIT', 'DÉPOSER')}</span>
               </button>
               <button 
-                onClick={() => onNotify(t('Initializing Withdrawal Sequence...', 'Initialisation de la séquence de retrait...'))}
+                onClick={() => { setShowWithdrawModal(true); setWithdrawStep('form'); }}
                 className="flex flex-col items-center justify-center gap-3 p-6 bg-white/5 border border-white/10 text-white rounded-3xl hover:bg-white hover:text-surface-dim transition-all active:scale-95"
               >
                 <ArrowUpRight size={24} />
@@ -106,17 +152,16 @@ export const WalletView: React.FC<WalletViewProps> = ({ user, onNotify, onViewCh
                 <span className="text-[10px] font-black uppercase tracking-widest">{t('BUY ASSETS', 'ACHETER')}</span>
               </button>
               <button 
-                onClick={() => onNotify(t('Generating Wallet Statement...', 'Génération du relevé de compte...'))}
+                onClick={handleDownloadStatement}
                 className="flex flex-col items-center justify-center gap-3 p-6 bg-white/5 border border-white/10 text-white rounded-3xl hover:bg-white hover:text-surface-dim transition-all active:scale-95"
               >
-                <ExternalLink size={24} />
-                <span className="text-[10px] font-black uppercase tracking-widest">{t('HISTORY', 'RELEVÉ')}</span>
+                <Download size={24} />
+                <span className="text-[10px] font-black uppercase tracking-widest">{t('STATEMENT', 'RELEVÉ')}</span>
               </button>
             </div>
           </div>
         </div>
 
-        {/* Security / Info Sidebar */}
         <div className="space-y-6">
           <div className="bg-surface-low border border-white/5 p-8 rounded-[2.5rem] relative overflow-hidden group h-full">
             <div className="absolute top-0 right-0 w-32 h-32 bg-accent-gold/5 rounded-full -mr-16 -mt-16 blur-2xl group-hover:bg-accent-gold/10 transition-all" />
@@ -127,11 +172,30 @@ export const WalletView: React.FC<WalletViewProps> = ({ user, onNotify, onViewCh
             <p className="text-[10px] text-on-surface-variant uppercase tracking-widest font-bold leading-relaxed mb-8 opacity-60">
               {t('Your units are generating daily rewards through secondary market distribution.', 'Vos unités génèrent des récompenses quotidiennes via la distribution du marché secondaire.')}
             </p>
-            <button className="w-full py-4 border border-accent-gold/30 text-accent-gold text-[10px] font-black uppercase tracking-widest rounded-2xl hover:bg-accent-gold hover:text-surface-dim transition-all">
+            <button 
+              onClick={() => onViewChange('EXCHANGE')}
+              className="w-full py-4 border border-accent-gold/30 text-accent-gold text-[10px] font-black uppercase tracking-widest rounded-2xl hover:bg-accent-gold hover:text-surface-dim transition-all"
+            >
               {t('COMPOUND REWARDS', 'RÉINVESTIR LES GAINS')}
             </button>
           </div>
         </div>
+      </div>
+
+      {/* LYA IBAN for deposit reference */}
+      <div className="bg-surface-low border border-primary-cyan/20 p-6 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center gap-4">
+        <div className="flex-1">
+          <p className="text-[9px] font-black text-primary-cyan uppercase tracking-[0.4em] mb-1">{t('SEPA DEPOSIT — YOUR LYA IBAN', 'VIREMENT SEPA — VOTRE IBAN LYA')}</p>
+          <p className="text-sm font-black text-white tracking-widest font-mono">FR76 3000 6000 0112 3456 7890 189</p>
+          <p className="text-[9px] text-on-surface-variant/40 font-bold uppercase tracking-widest mt-1">{t('Reference: your email address', 'Référence : votre adresse email')}</p>
+        </div>
+        <button
+          onClick={handleCopyIban}
+          className="flex items-center gap-2 px-4 py-2 border border-primary-cyan/30 text-primary-cyan text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-primary-cyan hover:text-surface-dim transition-all"
+        >
+          {copied ? <Check size={14} /> : <Copy size={14} />}
+          {copied ? t('COPIED!', 'COPIÉ !') : t('COPY IBAN', 'COPIER IBAN')}
+        </button>
       </div>
 
       <div className="flex gap-8 border-b border-white/5 mb-12">
@@ -186,7 +250,10 @@ export const WalletView: React.FC<WalletViewProps> = ({ user, onNotify, onViewCh
             </table>
           </div>
           <div className="p-8 border-t border-white/5 flex justify-center">
-            <button className="text-[10px] font-black text-on-surface-variant hover:text-white uppercase tracking-[0.2em] flex items-center gap-2 transition-all">
+            <button 
+              onClick={handleDownloadStatement}
+              className="text-[10px] font-black text-on-surface-variant hover:text-white uppercase tracking-[0.2em] flex items-center gap-2 transition-all"
+            >
               {t('DOWNLOAD FULL REPORT', 'TÉLÉCHARGER LE RAPPORT COMPLET')} <ExternalLink size={14} />
             </button>
           </div>
@@ -196,33 +263,33 @@ export const WalletView: React.FC<WalletViewProps> = ({ user, onNotify, onViewCh
       {activeTab === 'cards' && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <div className="bg-gradient-to-br from-primary-cyan to-indigo-600 p-8 rounded-[2rem] aspect-[1.6/1] flex flex-col justify-between shadow-2xl relative overflow-hidden group cursor-pointer hover:scale-[1.02] transition-transform">
-             <div className="absolute top-0 right-0 p-8 opacity-20">
-               <Zap size={60} />
-             </div>
-             <div className="flex justify-between items-start">
-               <CreditCard size={32} />
-               <span className="text-[10px] font-black tracking-widest">LYA PREPAID</span>
-             </div>
-             <div>
-               <p className="text-xl font-bold tracking-[0.2em] mb-2 leading-none">**** **** **** 8842</p>
-               <div className="flex justify-between items-end">
-                 <div>
-                   <p className="text-[8px] opacity-60 uppercase font-black tracking-tighter mb-1">CARD HOLDER</p>
-                   <p className="text-[10px] font-black uppercase tracking-widest">{user?.displayName?.toUpperCase() || 'VALUED MEMBER'}</p>
-                 </div>
-                 <div className="text-right">
-                   <p className="text-[8px] opacity-60 uppercase font-black tracking-tighter mb-1">EXPIRES</p>
-                   <p className="text-[10px] font-black tracking-widest">12/28</p>
-                 </div>
-               </div>
-             </div>
+            <div className="absolute top-0 right-0 p-8 opacity-20"><Zap size={60} /></div>
+            <div className="flex justify-between items-start">
+              <CreditCard size={32} />
+              <span className="text-[10px] font-black tracking-widest">LYA PREPAID</span>
+            </div>
+            <div>
+              <p className="text-xl font-bold tracking-[0.2em] mb-2 leading-none">**** **** **** 8842</p>
+              <div className="flex justify-between items-end">
+                <div>
+                  <p className="text-[8px] opacity-60 uppercase font-black tracking-tighter mb-1">CARD HOLDER</p>
+                  <p className="text-[10px] font-black uppercase tracking-widest">{user?.displayName?.toUpperCase() || 'VALUED MEMBER'}</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-[8px] opacity-60 uppercase font-black tracking-tighter mb-1">EXPIRES</p>
+                  <p className="text-[10px] font-black tracking-widest">12/28</p>
+                </div>
+              </div>
+            </div>
           </div>
-
-          <button className="border-2 border-dashed border-white/10 rounded-[2rem] aspect-[1.6/1] flex flex-col items-center justify-center gap-4 hover:border-primary-cyan transition-all group">
-             <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-primary-cyan group-hover:text-surface-dim transition-all">
-               <Plus size={24} />
-             </div>
-             <span className="text-[10px] font-black uppercase tracking-widest">{t('ADD PAYMENT METHOD', 'AJOUTER UN MOYEN DE PAIEMENT')}</span>
+          <button 
+            onClick={() => onViewChange('PAYMENT')}
+            className="border-2 border-dashed border-white/10 rounded-[2rem] aspect-[1.6/1] flex flex-col items-center justify-center gap-4 hover:border-primary-cyan transition-all group"
+          >
+            <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-primary-cyan group-hover:text-surface-dim transition-all">
+              <Plus size={24} />
+            </div>
+            <span className="text-[10px] font-black uppercase tracking-widest">{t('ADD PAYMENT METHOD', 'AJOUTER UN MOYEN DE PAIEMENT')}</span>
           </button>
         </div>
       )}
@@ -239,12 +306,105 @@ export const WalletView: React.FC<WalletViewProps> = ({ user, onNotify, onViewCh
             </p>
           </div>
           <div className="md:ml-auto">
-            <button className="px-8 py-4 bg-white/5 border border-white/10 text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-2xl hover:bg-white hover:text-surface-dim transition-all whitespace-nowrap">
+            <button 
+              onClick={() => onViewChange('LEGAL_MENTIONS')}
+              className="px-8 py-4 bg-white/5 border border-white/10 text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-2xl hover:bg-white hover:text-surface-dim transition-all whitespace-nowrap"
+            >
               {t('VIEW COMPLIANCE', 'VOIR LA CONFORMITÉ')}
             </button>
           </div>
         </div>
       </div>
+
+      {/* Withdraw Modal */}
+      <AnimatePresence>
+        {showWithdrawModal && (
+          <>
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowWithdrawModal(false)} className="fixed inset-0 bg-black/80 backdrop-blur-xl z-[500]" />
+            <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 30 }} className="fixed inset-0 flex items-center justify-center p-4 z-[501] pointer-events-none">
+              <div className="bg-[#0D1117] border border-white/10 w-full max-w-md pointer-events-auto p-8 font-mono relative">
+                <button onClick={() => setShowWithdrawModal(false)} className="absolute top-4 right-4 text-on-surface-variant hover:text-white"><X size={20} /></button>
+                
+                {withdrawStep === 'form' && (
+                  <>
+                    <h2 className="text-lg font-black text-white uppercase tracking-tight mb-6">{t('WITHDRAWAL REQUEST', 'DEMANDE DE RETRAIT')}</h2>
+                    <div className="space-y-4">
+                      <div>
+                        <label className="text-[9px] font-black text-on-surface-variant/50 uppercase tracking-widest block mb-2">{t('AMOUNT (€)', 'MONTANT (€)')}</label>
+                        <input
+                          type="number"
+                          value={withdrawAmount}
+                          onChange={e => setWithdrawAmount(e.target.value)}
+                          placeholder="0.00"
+                          max={cashBalance}
+                          className="w-full bg-white/5 border border-white/10 p-4 text-white text-sm focus:outline-none focus:border-primary-cyan transition-all font-mono"
+                        />
+                        <p className="text-[9px] text-on-surface-variant/40 mt-1 uppercase tracking-widest">{t('Available:', 'Disponible :')} {formatPrice(cashBalance)}</p>
+                      </div>
+                      <div>
+                        <label className="text-[9px] font-black text-on-surface-variant/50 uppercase tracking-widest block mb-2">{t('DESTINATION IBAN', 'IBAN DESTINATAIRE')}</label>
+                        <input
+                          type="text"
+                          value={withdrawIban}
+                          onChange={e => setWithdrawIban(e.target.value.toUpperCase())}
+                          placeholder="FR76 ..."
+                          className="w-full bg-white/5 border border-white/10 p-4 text-white text-sm focus:outline-none focus:border-primary-cyan transition-all font-mono uppercase"
+                        />
+                      </div>
+                      <button onClick={handleWithdrawSubmit} className="w-full py-4 bg-primary-cyan text-surface-dim text-[11px] font-black uppercase tracking-widest hover:bg-white transition-all">
+                        {t('CONTINUE', 'CONTINUER')}
+                      </button>
+                    </div>
+                  </>
+                )}
+
+                {withdrawStep === 'confirm' && (
+                  <>
+                    <h2 className="text-lg font-black text-white uppercase tracking-tight mb-6">{t('CONFIRM WITHDRAWAL', 'CONFIRMER LE RETRAIT')}</h2>
+                    <div className="space-y-3 mb-8">
+                      <div className="flex justify-between py-3 border-b border-white/5">
+                        <span className="text-[10px] text-on-surface-variant uppercase tracking-widest font-black">{t('Amount', 'Montant')}</span>
+                        <span className="text-white font-black">{formatPrice(parseFloat(withdrawAmount))}</span>
+                      </div>
+                      <div className="flex justify-between py-3 border-b border-white/5">
+                        <span className="text-[10px] text-on-surface-variant uppercase tracking-widest font-black">{t('IBAN', 'IBAN')}</span>
+                        <span className="text-white font-black text-xs">{withdrawIban}</span>
+                      </div>
+                      <div className="flex justify-between py-3 border-b border-white/5">
+                        <span className="text-[10px] text-on-surface-variant uppercase tracking-widest font-black">{t('Delay', 'Délai')}</span>
+                        <span className="text-accent-gold font-black text-[10px]">1-3 {t('BUSINESS DAYS', 'JOURS OUVRÉS')}</span>
+                      </div>
+                    </div>
+                    <div className="flex gap-3">
+                      <button onClick={() => setWithdrawStep('form')} className="flex-1 py-4 border border-white/10 text-white text-[11px] font-black uppercase tracking-widest hover:bg-white/5 transition-all">
+                        {t('BACK', 'RETOUR')}
+                      </button>
+                      <button onClick={handleWithdrawConfirm} className="flex-1 py-4 bg-primary-cyan text-surface-dim text-[11px] font-black uppercase tracking-widest hover:bg-white transition-all">
+                        {t('CONFIRM', 'CONFIRMER')}
+                      </button>
+                    </div>
+                  </>
+                )}
+
+                {withdrawStep === 'done' && (
+                  <div className="text-center py-6">
+                    <div className="w-16 h-16 bg-emerald-400/10 border border-emerald-400/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                      <Check size={32} className="text-emerald-400" />
+                    </div>
+                    <h2 className="text-lg font-black text-white uppercase tracking-tight mb-3">{t('REQUEST SUBMITTED', 'DEMANDE ENVOYÉE')}</h2>
+                    <p className="text-[10px] text-on-surface-variant/60 uppercase tracking-widest leading-relaxed mb-8">
+                      {t('Your withdrawal is being processed. Funds will arrive within 1-3 business days.', 'Votre retrait est en cours de traitement. Les fonds arriveront sous 1 à 3 jours ouvrés.')}
+                    </p>
+                    <button onClick={() => setShowWithdrawModal(false)} className="w-full py-4 bg-primary-cyan text-surface-dim text-[11px] font-black uppercase tracking-widest hover:bg-white transition-all">
+                      {t('CLOSE', 'FERMER')}
+                    </button>
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

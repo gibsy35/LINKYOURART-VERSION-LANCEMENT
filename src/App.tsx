@@ -421,6 +421,14 @@ export default function App() {
               userData.isPro = true;
             }
 
+            // Force isPro=true for Professional and Investor roles
+            if (
+              userData.role === UserRole.PROFESSIONAL ||
+              userData.role === UserRole.INVESTOR
+            ) {
+              userData.isPro = true;
+            }
+
             // Caching user for quota recovery
             localStorage.setItem(`lya_user_${firebaseUser.uid}`, JSON.stringify(userData));
 

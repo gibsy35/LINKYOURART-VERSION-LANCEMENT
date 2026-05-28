@@ -261,7 +261,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({ user, onNotify, onView
             ))}
           </div>
           <button 
-            onClick={() => onNotify(t('INITIATING ACADEMY CERTIFICATION PROTOCOL...', 'INITIALISATION DU PROTOCOLE DE CERTIFICATION ACADÉMIE...'))}
+            onClick={() => onViewChange('APPLY_VERIFICATION')}
             className="px-10 py-4 bg-primary-cyan text-surface-dim font-black uppercase italic tracking-widest text-[11px] hover:bg-white transition-all shadow-2xl"
           >
             {t('VIEW CERTIFICATIONS', 'VOIR LES CERTIFICATIONS')}
@@ -292,7 +292,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({ user, onNotify, onView
             ))}
           </div>
           <button 
-            onClick={() => onNotify(t('OPENING EXPERT WORKSHOPS PORTAL...', 'OUVERTURE DU PORTAIL DES ATELIERS D\'EXPERTS...'))}
+            onClick={() => onViewChange('SOCIAL_FEED')}
             className="px-10 py-4 bg-accent-purple text-white font-black uppercase italic tracking-widest text-[11px] hover:bg-white hover:text-surface-dim transition-all shadow-2xl"
           >
             {t('BROWSE WORKSHOPS', 'PARCOURIR LES ATELIERS')}
@@ -324,7 +324,16 @@ export const AcademyView: React.FC<AcademyViewProps> = ({ user, onNotify, onView
             ].map((resource, i) => (
               <button 
                 key={i} 
-                onClick={() => onNotify(t(`DOWNLOADING ${resource.title.toUpperCase()}...`, `TÉLÉCHARGEMENT DE ${resource.title.toUpperCase()}...`))}
+                onClick={() => {
+                  const blob = new Blob([`LYA Document: ${resource.title}\nGenerated: ${new Date().toISOString()}\n\nThis document is available for verified LYA Protocol members.`], { type: 'text/plain' });
+                  const url = URL.createObjectURL(blob);
+                  const a = document.createElement('a');
+                  a.href = url;
+                  a.download = `LYA_${resource.title.replace(/\s/g, '_')}.txt`;
+                  a.click();
+                  URL.revokeObjectURL(url);
+                  onNotify(t(`DOWNLOADING ${resource.title.toUpperCase()}`, `TÉLÉCHARGEMENT ${resource.title.toUpperCase()}`));
+                }}
                 className="flex items-center justify-between p-4 bg-black/20 border border-white/5 rounded-xl hover:border-primary-cyan/30 transition-all group"
               >
                 <div className="flex items-center gap-3">

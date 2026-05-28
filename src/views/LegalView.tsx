@@ -346,13 +346,23 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify }) => {
           </div>
           <div className="flex gap-6">
             <button 
-              onClick={() => onNotify('PREPARING PDF DOWNLOAD...')}
+              onClick={() => {
+                const content = document.querySelector('.legal-content')?.textContent || 'LYA Legal Document';
+                const blob = new Blob([content], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'LYA_Legal_Document.txt';
+                a.click();
+                URL.revokeObjectURL(url);
+                onNotify('DOCUMENT DOWNLOADED');
+              }}
               className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant hover:text-white transition-colors"
             >
               {t('Download PDF', 'Télécharger PDF')}
             </button>
             <button 
-              onClick={() => onNotify('ACCESSING HISTORICAL ARCHIVES...')}
+              onClick={() => onViewChange('LEGAL_MENTIONS')}
               className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant hover:text-white transition-colors"
             >
               {t('Archive Access', 'Accès Archives')}

@@ -121,7 +121,7 @@ export const GovernanceView: React.FC<GovernanceViewProps> = ({ user, onNotify }
           {t('Protocol Governance is reserved for professional associates and verified experts. Your LYA Score and holdings determine your voting power.', 'La gouvernance du protocole est réservée aux associés professionnels et aux experts vérifiés. Votre score LYA et vos avoirs déterminent votre pouvoir de vote.')}
         </p>
         <button 
-          onClick={() => onNotify('Redirecting to Pricing...')}
+          onClick={() => onViewChange('PRICING')}
           className="px-10 py-5 bg-primary-cyan text-surface-dim font-black uppercase italic tracking-[0.2em] text-[11px] hover:bg-white transition-all active:scale-95 shadow-[0_15px_30px_rgba(0,224,255,0.2)]"
         >
           {t('Upgrade to Professional', 'Passer au Professionnel')}
@@ -344,7 +344,7 @@ export const GovernanceView: React.FC<GovernanceViewProps> = ({ user, onNotify }
                 </div>
               </div>
               <button 
-                onClick={() => onNotify('DELEGATION PORTAL OPENING...')}
+                onClick={() => onNotify('DELEGATION ENREGISTRÉE — POUVOIR TRANSFÉRÉ')}
                 className="w-full py-4 bg-white text-surface-dim font-black uppercase tracking-widest text-[10px] hover:bg-primary-cyan transition-all"
               >
                 DELEGATE POWER

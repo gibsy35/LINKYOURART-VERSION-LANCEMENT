@@ -172,13 +172,13 @@ export const HoldingsView: React.FC<{ onNotify: (msg: string) => void; userContr
           </div>
           <div className="mt-8 grid grid-cols-2 gap-4">
              <button 
-               onClick={() => onNotify(t('Opening Deposit Terminal...', 'Ouverture du Terminal de Dépôt...'))}
+               onClick={() => onViewChange('PAYMENT')}
                className="py-3 bg-primary-cyan text-surface-dim text-[9px] font-black uppercase tracking-widest rounded-xl hover:bg-white transition-all shadow-xl active:scale-95"
              >
                {t('DEPOSIT', 'DÉPOSER')}
              </button>
              <button 
-               onClick={() => onNotify(t('Opening Withdrawal Protocol...', 'Ouverture du Protocole de Retrait...'))}
+               onClick={() => onViewChange('WALLET')}
                className="py-3 bg-white/5 border border-white/10 text-white text-[9px] font-black uppercase tracking-widest rounded-xl hover:bg-white hover:text-surface-dim transition-all active:scale-95"
              >
                {t('WITHDRAW', 'RETIRER')}
@@ -482,7 +482,7 @@ export const HoldingsView: React.FC<{ onNotify: (msg: string) => void; userContr
                 {t('Load More Transfers', 'Voir Plus de Transferts')} <ChevronRight size={14} />
               </button>
               <button 
-                onClick={() => onNotify('DOWNLOADING FULL TRANSACTION HISTORY...')}
+                onClick={() => { onViewChange('WALLET'); }}
                 className="w-full mt-4 py-3 border border-white/10 text-[10px] md:text-xs uppercase tracking-[0.2em] font-black hover:bg-white/5 hover:border-white/30 transition-all flex items-center justify-center gap-2 active:scale-95 rounded-xl"
               >
                 {t('Full Transaction History', 'Historique Complet des Transactions')} <ExternalLink size={10} />
