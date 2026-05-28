@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, LogIn, UserPlus, Mail, Lock, ShieldCheck, Globe } from 'lucide-react';
+import { X, LogIn, UserPlus, Mail, Lock, ShieldCheck, Globe, Palette, TrendingUp, Briefcase } from 'lucide-react';
 import { useTranslation } from '../../context/LanguageContext';
 import { auth, db } from '../../firebase';
 import { 
@@ -20,65 +20,102 @@ interface AuthModalProps {
   setUser: (user: UserProfile | null) => void;
 }
 
+const ROLE_OPTIONS = [
+  {
+    role: UserRole.CREATOR,
+    icon: Palette,
+    label: 'CREATOR',
+    labelFr: 'CRÉATEUR',
+    desc: 'Artists, musicians, filmmakers, designers',
+    descFr: 'Artistes, musiciens, cinéastes, designers',
+    color: 'border-primary-cyan',
+    bg: 'bg-primary-cyan/10',
+  },
+  {
+    role: UserRole.INVESTOR,
+    icon: TrendingUp,
+    label: 'PARTNER / INVESTOR',
+    labelFr: 'PARTENAIRE / INVESTISSEUR',
+    desc: 'Collectors, investors, creative partners',
+    descFr: 'Collectionneurs, investisseurs, partenaires créatifs',
+    color: 'border-yellow-400',
+    bg: 'bg-yellow-400/10',
+  },
+  {
+    role: UserRole.PROFESSIONAL,
+    icon: Briefcase,
+    label: 'PROFESSIONAL',
+    labelFr: 'PROFESSIONNEL',
+    desc: 'Agents, galleries, labels, publishers',
+    descFr: 'Agents, galeries, labels, éditeurs',
+    color: 'border-purple-400',
+    bg: 'bg-purple-400/10',
+  },
+];
+
 export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onNotify, setUser }) => {
   const { t } = useTranslation();
   const [mode, setMode] = useState<'LOGIN' | 'SIGNUP'>('LOGIN');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedRole, setSelectedRole] = useState<UserRole>(UserRole.CREATOR);
+
+  const buildProfile = (uid: string, email: string, displayName: string, role: UserRole, isAdmin: boolean): UserProfile => ({
+    uid,
+    email,
+    displayName,
+    role: isAdmin ? UserRole.ADMIN : role,
+    isPro: isAdmin || role === UserRole.PROFESSIONAL || role === UserRole.INVESTOR,
+    createdAt: new Date().toISOString(),
+    watchlist: [],
+    comparisonList: [],
+    usageStats: { simulator: 0, swipe: 0, compare: 0, scan: 0, talent: 0 }
+  });
+
+  const isAdminEmail = (email: string) => {
+    const e = email.toLowerCase();
+    return e === 'linkyourart@gmail.com' || e === 'lequimejeanbaptiste@gmail.com' || e === 'linkart@gmail.com';
+  };
 
   const handleGoogleAuth = async () => {
     setIsLoading(true);
     try {
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
-      const user = result.user;
+      const firebaseUser = result.user;
 
-      // Check if user exists in Firestore
       let userDoc;
       try {
-        const userDocRef = doc(db, 'users', user.uid);
-        userDoc = await getDoc(userDocRef);
+        userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
       } catch (err) {
-        console.warn('Firestore fetch failed during Google Auth (Quota?):', err);
-        // doc remains undefined, we'll hit the fallback below
+        console.warn('Firestore fetch failed during Google Auth:', err);
       }
 
       if (userDoc && userDoc.exists()) {
         setUser(userDoc.data() as UserProfile);
       } else {
-        const emailLower = user.email?.toLowerCase() || '';
-        const isAdmin = emailLower === 'linkyourart@gmail.com' || 
-                        emailLower === 'lequimejeanbaptiste@gmail.com' ||
-                        emailLower === 'linkart@gmail.com';
-        
-        const newProfile: UserProfile = {
-          uid: user.uid,
-          email: user.email || '',
-          displayName: user.displayName || user.email?.split('@')[0].toUpperCase() || 'USER',
-          role: isAdmin ? UserRole.ADMIN : UserRole.CREATOR,
-          isPro: isAdmin,
-          createdAt: new Date().toISOString(),
-          watchlist: [],
-          comparisonList: [],
-          usageStats: { simulator: 0, swipe: 0, compare: 0, scan: 0, talent: 0 }
-        };
-
-        // Try to save, but don't block if it fails (Offline/Quota mode)
+        const isAdmin = isAdminEmail(firebaseUser.email || '');
+        const newProfile = buildProfile(
+          firebaseUser.uid,
+          firebaseUser.email || '',
+          firebaseUser.displayName || firebaseUser.email?.split('@')[0].toUpperCase() || 'USER',
+          selectedRole,
+          isAdmin
+        );
         try {
-          await setDoc(doc(db, 'users', user.uid), newProfile);
+          await setDoc(doc(db, 'users', firebaseUser.uid), newProfile);
         } catch (saveErr) {
-          console.warn('Could not save profile to Firestore (Quota?), using local fallback:', saveErr);
+          console.warn('Could not save profile to Firestore:', saveErr);
         }
-        
         setUser(newProfile);
       }
-      
+
       onNotify(t('ACCESS GRANTED', 'ACCÈS AUTORISÉ'));
       onClose();
     } catch (err) {
       console.error('Auth Error:', err);
-      onNotify(t('AUTHENTICATION FAILED', 'ÉCHEC DE L\'AUTHENTIFICATION'));
+      onNotify(t('AUTHENTICATION FAILED', "ÉCHEC DE L'AUTHENTIFICATION"));
     } finally {
       setIsLoading(false);
     }
@@ -91,21 +128,18 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onNotify,
       if (mode === 'SIGNUP') {
         const result = await createUserWithEmailAndPassword(auth, email, password);
         const firebaseUser = result.user;
-        const newProfile: UserProfile = {
-          uid: firebaseUser.uid,
-          email: firebaseUser.email || '',
-          displayName: email.split('@')[0].toUpperCase(),
-          role: UserRole.CREATOR,
-          isPro: false,
-          createdAt: new Date().toISOString(),
-          watchlist: [],
-          comparisonList: [],
-          usageStats: { simulator: 0, swipe: 0, compare: 0, scan: 0, talent: 0 }
-        };
+        const isAdmin = isAdminEmail(email);
+        const newProfile = buildProfile(
+          firebaseUser.uid,
+          firebaseUser.email || '',
+          email.split('@')[0].toUpperCase(),
+          selectedRole,
+          isAdmin
+        );
         try {
           await setDoc(doc(db, 'users', firebaseUser.uid), newProfile);
         } catch (saveErr) {
-          console.warn('Profile creation failed (Quota?), using local fallback:', saveErr);
+          console.warn('Profile creation failed:', saveErr);
         }
         setUser(newProfile);
       } else {
@@ -115,8 +149,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onNotify,
       onClose();
     } catch (err: any) {
       console.error('Auth Error:', err);
-      // Friendly error mapping
-      const msg = err.code === 'auth/invalid-credential' 
+      const msg = err.code === 'auth/invalid-credential'
         ? t('Invalid credentials', 'Identifiants invalides')
         : (err.message || 'Error');
       onNotify(msg);
@@ -131,27 +164,27 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onNotify,
         <>
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} className="fixed inset-0 bg-surface-dim/95 backdrop-blur-xl z-[400]" />
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 20 }} className="fixed inset-0 flex items-center justify-center p-4 z-[401] pointer-events-none">
-            <div className="bg-surface-dim border border-white/10 w-full max-w-md pointer-events-auto p-8 relative overflow-hidden font-mono">
+            <div className="bg-surface-dim border border-white/10 w-full max-w-lg pointer-events-auto p-8 relative overflow-hidden font-mono max-h-[90vh] overflow-y-auto">
               <div className="absolute top-0 right-0 p-4">
                 <button onClick={onClose} className="text-on-surface-variant hover:text-white"><X size={20} /></button>
               </div>
 
-              <div className="text-center mb-8">
-                <div className="w-16 h-16 border border-primary-cyan flex items-center justify-center mx-auto mb-6 relative">
+              <div className="text-center mb-6">
+                <div className="w-16 h-16 border border-primary-cyan flex items-center justify-center mx-auto mb-4 relative">
                   <div className="w-8 h-8 border-2 border-primary-cyan animate-pulse" />
                 </div>
-                <h2 className="text-xl font-black text-white uppercase tracking-tighter mb-2">{t('LYA TERMINAL v2.5.0', 'TERMINAL LYA v2.5.0')}</h2>
+                <h2 className="text-xl font-black text-white uppercase tracking-tighter mb-1">{t('LYA TERMINAL v2.5.0', 'TERMINAL LYA v2.5.0')}</h2>
                 <p className="text-[10px] text-on-surface-variant/60 font-bold uppercase tracking-widest">{t('SECURE PROTOCOL ACCESS', 'ACCÈS PROTOCOLE SÉCURISÉ')}</p>
               </div>
 
-              <div className="flex border-b border-white/5 mb-8">
-                <button 
+              <div className="flex border-b border-white/5 mb-6">
+                <button
                   onClick={() => setMode('LOGIN')}
                   className={`flex-1 py-3 text-[10px] font-black uppercase tracking-widest transition-all ${mode === 'LOGIN' ? 'text-primary-cyan border-b-2 border-primary-cyan' : 'text-on-surface-variant/40'}`}
                 >
                   {t('LOGIN', 'CONNEXION')}
                 </button>
-                <button 
+                <button
                   onClick={() => setMode('SIGNUP')}
                   className={`flex-1 py-3 text-[10px] font-black uppercase tracking-widest transition-all ${mode === 'SIGNUP' ? 'text-primary-cyan border-b-2 border-primary-cyan' : 'text-on-surface-variant/40'}`}
                 >
@@ -159,11 +192,48 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onNotify,
                 </button>
               </div>
 
+              {/* Role selection — SIGNUP only */}
+              {mode === 'SIGNUP' && (
+                <div className="mb-6">
+                  <p className="text-[9px] text-on-surface-variant/50 font-bold uppercase tracking-widest mb-3">
+                    {t('SELECT YOUR PROFILE', 'SÉLECTIONNEZ VOTRE PROFIL')}
+                  </p>
+                  <div className="space-y-2">
+                    {ROLE_OPTIONS.map(({ role, icon: Icon, label, labelFr, desc, descFr, color, bg }) => (
+                      <button
+                        key={role}
+                        type="button"
+                        onClick={() => setSelectedRole(role)}
+                        className={`w-full flex items-center gap-3 p-3 border transition-all text-left ${
+                          selectedRole === role
+                            ? `${color} ${bg}`
+                            : 'border-white/10 hover:border-white/20 hover:bg-white/5'
+                        }`}
+                      >
+                        <Icon size={20} className={selectedRole === role ? 'text-primary-cyan' : 'text-on-surface-variant/40'} />
+                        <div>
+                          <p className="text-[10px] font-black text-white uppercase tracking-widest">{t(label, labelFr)}</p>
+                          <p className="text-[9px] text-on-surface-variant/50 mt-0.5">{t(desc, descFr)}</p>
+                        </div>
+                        {selectedRole === role && (
+                          <div className="ml-auto w-2 h-2 rounded-full bg-primary-cyan" />
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                  {(selectedRole === UserRole.PROFESSIONAL || selectedRole === UserRole.INVESTOR) && (
+                    <p className="text-[9px] text-primary-cyan/70 font-bold mt-2 tracking-widest uppercase">
+                      ✓ {t('PRO ACCESS INCLUDED', 'ACCÈS PRO INCLUS')}
+                    </p>
+                  )}
+                </div>
+              )}
+
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="relative">
                   <Mail size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant/40" />
-                  <input 
-                    type="email" 
+                  <input
+                    type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder={t('EMAIL_ADDRESS', 'ADRESSE_EMAIL')}
@@ -173,8 +243,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onNotify,
                 </div>
                 <div className="relative">
                   <Lock size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant/40" />
-                  <input 
-                    type="password" 
+                  <input
+                    type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder={t('SECURITY_PHRASE', 'PHRASE_SÉCURITÉ')}
@@ -183,7 +253,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onNotify,
                   />
                 </div>
 
-                <button 
+                <button
                   disabled={isLoading}
                   type="submit"
                   className="w-full py-4 bg-primary-cyan text-surface-dim text-[11px] font-black uppercase tracking-widest hover:bg-white transition-all transform hover:-translate-y-1 active:translate-y-0 disabled:opacity-50"
@@ -192,7 +262,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onNotify,
                 </button>
               </form>
 
-              <div className="relative my-8">
+              <div className="relative my-6">
                 <div className="absolute inset-0 flex items-center">
                   <div className="w-full border-t border-white/5"></div>
                 </div>
@@ -201,7 +271,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onNotify,
                 </div>
               </div>
 
-              <button 
+              <button
                 onClick={handleGoogleAuth}
                 className="w-full py-3 border border-white/10 flex items-center justify-center gap-3 text-[10px] font-black text-white hover:bg-white/5 transition-all uppercase tracking-widest"
               >
@@ -209,7 +279,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onNotify,
                 {t('GOVERNMENT_ID / GOOGLE', 'ID_GOUVERNEMENTAL / GOOGLE')}
               </button>
 
-              <div className="mt-8 pt-6 border-t border-white/5 flex items-center justify-center gap-2 text-[8px] text-on-surface-variant/30 font-bold uppercase tracking-[0.2em]">
+              <div className="mt-6 pt-4 border-t border-white/5 flex items-center justify-center gap-2 text-[8px] text-on-surface-variant/30 font-bold uppercase tracking-[0.2em]">
                 <ShieldCheck size={12} />
                 {t('ENCRYPTION ACTIVE: AES-256', 'CHIFFREMENT ACTIF: AES-256')}
               </div>
