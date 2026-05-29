@@ -49,6 +49,8 @@ import { ConceptTutorial } from './components/ConceptTutorial';
 import { LYACopilot } from './components/LYACopilot';
 import { BreakingNewsTicker } from './components/BreakingNewsTicker';
 import { Ticker } from './components/ui/Ticker';
+import { RoleSimulatorBar, SimulatedRole } from './components/ui/RoleSimulatorBar';
+import { GuestPreviewOverlay } from './components/ui/GuestPreviewOverlay';
 import { CommandPalette } from './components/CommandPalette';
 import { Search, RefreshCw } from 'lucide-react';
 import { UserRole, UserProfile } from './types';
@@ -65,6 +67,20 @@ export default function App() {
   const [previousView, setPreviousView] = useState<View>('HOME');
   const [user, _setUser] = useState<UserProfile | null>(null);
   const setUser = (u: UserProfile | null) => _setUser(u);
+
+  // ── Role Simulator (Admin only) ────────────────────────────────────────
+  const [simulatedRole, setSimulatedRole] = React.useState<SimulatedRole | null>(null);
+
+  // effectiveUser: ce que la plateforme "voit" — vrai user sauf si admin simule
+  const effectiveUser = React.useMemo<UserProfile | null>(() => {
+    if (!user) return null;
+    if (user.role !== UserRole.ADMIN) return user;
+    if (simulatedRole === 'VISITOR') return null;
+    if (simulatedRole && simulatedRole !== UserRole.ADMIN) {
+      return { ...user, role: simulatedRole as UserRole, isPro: simulatedRole === UserRole.PROFESSIONAL || simulatedRole === UserRole.INVESTOR };
+    }
+    return user;
+  }, [user, simulatedRole]);
 
   const handleUpdateUser = async (updatedData: Partial<UserProfile>) => {
     if (!user?.uid) return;
@@ -535,22 +551,21 @@ export default function App() {
     // If auth is not ready or we're booting, don't redirect yet
     if (!isAuthReady || isBooting) return;
 
+    // Toujours accessibles sans login
     const publicViews: View[] = ['LANDING', 'LOGIN', 'SIGNUP', 'OUR_MODEL', 'FAQ', 'LEGAL_MENTIONS', 'TERMS', 'PRIVACY', 'LEGAL_REGISTRY'];
-    const hasDemoAccess = localStorage.getItem('lya_demo_access') === 'true';
-    
-    // If view is public, it's always allowed
+    // Accessibles en lecture seule pour visiteurs (overlay affiché dedans)
+    const previewViews: View[] = ['HOME', 'EXCHANGE', 'REGISTRY', 'PRICING'];
+
     if (publicViews.includes(currentView)) return;
+    if (previewViews.includes(currentView)) return;
 
-    // If user is logged in or has demo access, allowed
-    if (user || hasDemoAccess) return;
+    // Vue privée — login requis
+    if (user) return;
 
-    // Otherwise, redirect to landing - but only if not currently transitioning to a public view
+    // Non connecté sur vue privée → HOME visiteur
     const timer = setTimeout(() => {
-      if (!user && !localStorage.getItem('lya_demo_access')) {
-        setCurrentView('LANDING');
-      }
-    }, 500); // Small grace period for state updates
-
+      if (!user) setCurrentView('HOME');
+    }, 500);
     return () => clearTimeout(timer);
   }, [user, currentView, isAuthReady, isBooting]);
 
@@ -889,9 +904,9 @@ export default function App() {
   const handleLogout = async () => {
     try {
       await signOut(auth);
+      setSimulatedRole(null); // Reset simulation
       setNotification(t('LOGGED OUT SUCCESSFULLY', 'DÉCONNEXION RÉUSSIE'));
-      localStorage.removeItem('lya_demo_access'); // Clear demo access on logout
-      setCurrentView('LANDING');
+      setCurrentView('HOME'); // Retour HOME visiteur, pas la landing de pré-inscription
     } catch (err) {
       console.error('Logout Error:', err);
     }
@@ -1066,7 +1081,7 @@ export default function App() {
                   className="flex-1 flex flex-col"
                 >
               {currentView === 'LANDING' && <LandingView onEnterDemo={handleEnterDemo} onViewChange={handleViewChange} />}
-              {currentView === 'HOME' && <HomeView user={user} onViewChange={handleViewChange} liveContracts={liveContracts} />}
+              {currentView === 'HOME' && <HomeView user={effectiveUser} onViewChange={handleViewChange} liveContracts={liveContracts} />}
               {currentView === 'SIGNUP' && <SignupView onViewChange={handleViewChange} setUser={(u) => {
                 setUser(u);
                 addNotification('ACCOUNT CREATED', 'Your professional account has been successfully initialized.', 'SUCCESS');
@@ -1131,6 +1146,7 @@ export default function App() {
               {currentView === 'PRIVACY' && <LegalView type="PRIVACY" onNotify={notify} />}
               {currentView === 'LEGAL_REGISTRY' && <LegalView type="REGISTRY" onNotify={notify} />}
               {currentView === 'EXCHANGE' && (
+              <>
                 <ExchangeView 
                   orders={orders}
                   activities={activities}
@@ -1164,18 +1180,26 @@ export default function App() {
                   setCategoryFilter={setCategoryFilter}
                   jurisdictionFilter={jurisdictionFilter}
                   setJurisdictionFilter={setJurisdictionFilter}
-                  user={user}
+                  user={effectiveUser}
                   usageStats={usageStats}
                   liveContracts={liveContracts}
                 />
+                {!effectiveUser && (
+                  <GuestPreviewOverlay
+                    onOpenAuth={() => setIsAuthModalOpen(true)}
+                    viewName="l'Exchange"
+                  />
+                )}
+              </>
               )}
-              {currentView === 'VALIDATION' && <ValidationView user={user} onNotify={notify} onViewChange={setCurrentView} />}
+              {currentView === 'VALIDATION' && <ValidationView user={effectiveUser} onNotify={notify} onViewChange={setCurrentView} />}
               {currentView === 'HOLDINGS' && <HoldingsView onNotify={notify} userContracts={userContracts} onViewChange={setCurrentView} />}
-              {currentView === 'WALLET' && <WalletView user={user} onNotify={notify} onViewChange={setCurrentView} />}
+              {currentView === 'WALLET' && <WalletView user={effectiveUser} onNotify={notify} onViewChange={setCurrentView} />}
               {currentView === 'REGISTRY' && (
+              <>
                 <RegistryView 
-                  user={user}
-                  onNotify={notify} 
+                  user={effectiveUser}
+                  onNotify={notify}
                   allContracts={liveContracts}
                   onSelectContract={(c) => {
                     setViewingContract(c);
@@ -1183,6 +1207,13 @@ export default function App() {
                   }}
                   onViewChange={setCurrentView}
                 />
+                {!effectiveUser && (
+                  <GuestPreviewOverlay
+                    onOpenAuth={() => setIsAuthModalOpen(true)}
+                    viewName="le Registre"
+                  />
+                )}
+              </>
               )}
               {currentView === 'LINK_ART' && (
                 <LinkArtView 
@@ -1203,7 +1234,7 @@ export default function App() {
               {currentView === 'PRICING' && (
                 <PricingView 
                   onSelectPlan={(plan) => {
-                    if (!user) {
+                    if (!effectiveUser) {
                       notify(t('Please sign in to upgrade', 'Veuillez vous connecter pour passer au Pro'));
                       setIsAuthModalOpen(true);
                       return;
@@ -1215,8 +1246,8 @@ export default function App() {
                       metadata: {
                         type: 'PRO_UPGRADE',
                         planName: plan.name,
-                        userEmail: user.email,
-                        userId: user.uid
+                        userEmail: effectiveUser.email,
+                        userId: effectiveUser.uid
                       }
                     });
                   }} 
@@ -1225,7 +1256,7 @@ export default function App() {
               )}
               {currentView === 'SWIPE' && (
                 <SwipeView 
-                  user={user}
+                  user={effectiveUser}
                   usageStats={usageStats}
                   onUsageUpdate={handleUsageUpdate}
                   onNotify={notify} 
@@ -1395,6 +1426,14 @@ export default function App() {
               </div>
             </div>
           </footer>
+        )}
+
+        {/* Role Simulator — Admin only, always real user check */}
+        {user?.role === UserRole.ADMIN && (
+          <RoleSimulatorBar
+            simulatedRole={simulatedRole}
+            onRoleChange={setSimulatedRole}
+          />
         )}
     </div>
   );

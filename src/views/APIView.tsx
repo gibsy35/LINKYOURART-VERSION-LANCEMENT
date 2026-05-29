@@ -33,9 +33,10 @@ interface APIKey {
 interface APIViewProps {
   user: UserProfile | null;
   onNotify: (msg: string) => void;
+  onViewChange?: (view: any) => void;
 }
 
-export const APIView: React.FC<APIViewProps> = ({ user, onNotify }) => {
+export const APIView: React.FC<APIViewProps> = ({ user, onNotify, onViewChange }) => {
   const { t } = useTranslation();
   const [showKey, setShowKey] = useState<string | null>(null);
   const [sdkTab, setSdkTab] = useState<'JS' | 'PYTHON' | 'CURL'>('JS');

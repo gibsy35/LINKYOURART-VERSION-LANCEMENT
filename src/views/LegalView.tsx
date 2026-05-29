@@ -9,9 +9,10 @@ import { useTranslation } from '../context/LanguageContext';
 interface LegalViewProps {
   type: 'TERMS' | 'PRIVACY' | 'REGISTRY' | 'OUR_MODEL' | 'FAQ' | 'MENTIONS';
   onNotify: (msg: string) => void;
+  onViewChange?: (view: any) => void;
 }
 
-export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify }) => {
+export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify, onViewChange }) => {
   const { t } = useTranslation();
   const [activeFaqTab, setActiveFaqTab] = React.useState('General');
 

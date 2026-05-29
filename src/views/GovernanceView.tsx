@@ -32,6 +32,7 @@ interface Proposal {
 interface GovernanceViewProps {
   user: UserProfile | null;
   onNotify: (msg: string) => void;
+  onViewChange?: (view: any) => void;
 }
 
 const votingHistory = [
@@ -53,7 +54,7 @@ const networkHubs = [
   { label: 'Dubai Gateway', status: 'ONLINE', load: '22%', type: 'Relay' }
 ];
 
-export const GovernanceView: React.FC<GovernanceViewProps> = ({ user, onNotify }) => {
+export const GovernanceView: React.FC<GovernanceViewProps> = ({ user, onNotify, onViewChange }) => {
   const { t } = useTranslation();
   
   const [votedProposals, setVotedProposals] = useState<Record<string, 'FOR' | 'AGAINST'>>({});
