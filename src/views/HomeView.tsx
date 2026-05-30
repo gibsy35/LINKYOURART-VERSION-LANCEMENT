@@ -224,17 +224,21 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
 
   const priceHistory = React.useMemo(() => {
     const baseVal = 50.00;
-    const growth = activeContractStats.growth || 0;
-    const currentPrice = activeContractStats.unitValue;
-    return [
-      { date: '2025-10', price: baseVal * 0.82 },
-      { date: '2025-11', price: baseVal * 0.88 },
-      { date: '2025-12', price: baseVal * 0.95 },
-      { date: '2026-01', price: baseVal },
-      { date: '2026-02', price: baseVal * (1 + (growth * 0.4) / 100) },
-      { date: '2026-03', price: currentPrice },
-    ];
-  }, [activeContractStats]);
+    const growth = Math.max(activeContractStats.growth || 0, 2);
+    const currentPrice = Math.max(activeContractStats.unitValue || baseVal, baseVal);
+    const months = ['Oct', 'Nov', 'Déc', 'Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep'];
+    const totalPoints = 12;
+    // Simulate realistic price curve: starts at -35% of growth, ends at current price
+    const startPrice = baseVal * (1 - (growth * 0.35) / 100);
+    return months.map((month, i) => {
+      const t = i / (totalPoints - 1);
+      // Smooth S-curve interpolation with micro volatility
+      const smooth = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+      const volatility = (Math.sin(i * 2.3 + selectedCaseIdx) * 0.012) * currentPrice;
+      const price = startPrice + (currentPrice - startPrice) * smooth + volatility;
+      return { date: month, price: Math.round(Math.max(price, baseVal * 0.7) * 100) / 100 };
+    });
+  }, [activeContractStats, selectedCaseIdx]);
 
   const escalatedUnitPrice = activeContractStats.unitValue;
 
@@ -505,52 +509,78 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
 
              {/* Price History & Sentiment */}
              <div className="flex flex-col gap-10">
-                <div className="bg-surface-low/30 backdrop-blur-3xl border border-white/5 rounded-[3rem] p-10 flex flex-col gap-8 shadow-3xl flex-1">
-                   <div className="flex justify-between items-center">
-                     <h3 className="text-sm font-black uppercase tracking-[0.4em] text-primary-cyan flex items-center gap-4">
-                        <TrendingUp size={18} />
-                        {t('PRICE HISTORY', 'HISTORIQUE DES PRIX')}
-                     </h3>
+                <div className="bg-surface-low/30 backdrop-blur-3xl border border-white/5 rounded-[3rem] p-8 flex flex-col gap-6 shadow-3xl">
+                   <div className="flex justify-between items-start">
+                     <div>
+                       <h3 className="text-sm font-black uppercase tracking-[0.4em] text-primary-cyan flex items-center gap-3">
+                          <TrendingUp size={18} />
+                          {t('PRICE HISTORY', 'HISTORIQUE DES PRIX')}
+                       </h3>
+                       <p className="text-[9px] text-white/30 font-bold uppercase tracking-widest mt-1">{t('12-month simulation', 'Simulation 12 mois')}</p>
+                     </div>
+                     <div className="text-right">
+                       <div className="text-2xl font-black font-headline text-primary-cyan">{formatPrice(escalatedUnitPrice)}</div>
+                       <div className="text-[8px] font-black text-emerald-400 uppercase tracking-widest mt-0.5">+{selectedContract.growth}% {t('GROWTH', 'CROISSANCE')}</div>
+                     </div>
                    </div>
-                   <div className="h-[250px] w-full">
-                      <ResponsiveContainer width="100%" height="100%">
-                        <AreaChart data={priceHistory}>
+                   <div style={{ width: '100%', height: 220 }}>
+                      <ResponsiveContainer width="100%" height={220}>
+                        <AreaChart data={priceHistory} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
                           <defs>
                             <linearGradient id="colorPriceHome" x1="0" y1="0" x2="0" y2="1">
-                              <stop offset="5%" stopColor="#00E0FF" stopOpacity={0.3}/>
+                              <stop offset="5%" stopColor="#00E0FF" stopOpacity={0.35}/>
                               <stop offset="95%" stopColor="#00E0FF" stopOpacity={0}/>
                             </linearGradient>
                           </defs>
-                          <CartesianGrid strokeDasharray="3 3" stroke="#ffffff05" vertical={false} />
-                          <XAxis dataKey="date" hide />
-                          <YAxis hide domain={['dataMin - 5', 'dataMax + 5']} />
+                          <CartesianGrid strokeDasharray="3 3" stroke="#ffffff08" vertical={false} />
+                          <XAxis 
+                            dataKey="date" 
+                            tick={{ fill: '#ffffff30', fontSize: 9, fontWeight: 700 }}
+                            axisLine={false}
+                            tickLine={false}
+                            interval={2}
+                          />
+                          <YAxis 
+                            hide={false}
+                            tick={{ fill: '#ffffff25', fontSize: 9 }}
+                            axisLine={false}
+                            tickLine={false}
+                            tickFormatter={(v) => `€${v.toFixed(0)}`}
+                            width={40}
+                            domain={['dataMin - 2', 'dataMax + 2']}
+                          />
                           <Tooltip 
                             contentStyle={{ 
-                              backgroundColor: '#0A0A0A', 
-                              border: '1px solid rgba(0,224,255,0.2)', 
+                              backgroundColor: '#0D1117', 
+                              border: '1px solid rgba(0,224,255,0.25)', 
                               borderRadius: '8px',
-                              boxShadow: '0 10px 30px rgba(0,0,0,0.5)',
-                              padding: '12px'
+                              boxShadow: '0 10px 30px rgba(0,0,0,0.6)',
+                              padding: '10px 14px'
                             }}
-                            itemStyle={{ color: '#00E0FF', fontSize: '12px', fontWeight: 'bold' }}
-                            labelStyle={{ color: '#ffffff40', fontSize: '10px', marginBottom: '6px', textTransform: 'uppercase' }}
+                            itemStyle={{ color: '#00E0FF', fontSize: '12px', fontWeight: 800 }}
+                            labelStyle={{ color: '#ffffff60', fontSize: '10px', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.1em' }}
+                            formatter={(value: number) => [`€${value.toFixed(2)}`, t('Unit Price', 'Prix Unitaire')]}
                           />
-                          <Area type="monotone" dataKey="price" stroke="#00E0FF" strokeWidth={3} fillOpacity={1} fill="url(#colorPriceHome)" />
+                          <Area type="monotone" dataKey="price" stroke="#00E0FF" strokeWidth={2.5} fillOpacity={1} fill="url(#colorPriceHome)" dot={false} activeDot={{ r: 5, fill: '#00E0FF', strokeWidth: 0 }} />
                         </AreaChart>
                       </ResponsiveContainer>
                    </div>
-                   <div className="grid grid-cols-3 gap-6 pt-4 border-t border-white/5">
+                   <div className="grid grid-cols-4 gap-4 pt-4 border-t border-white/5">
                       <div>
-                        <div className="text-[8px] font-black text-on-surface-variant/40 uppercase tracking-widest mb-1">{t('TOTAL VALUE', 'VALEUR TOTALE')}</div>
-                        <div className="text-xl font-headline font-black text-white">{formatPrice(selectedContract.totalValue)}</div>
+                        <div className="text-[8px] font-black text-on-surface-variant/40 uppercase tracking-widest mb-1">{t('TOTAL VALUE', 'VALORISATION')}</div>
+                        <div className="text-base font-headline font-black text-white">{formatPrice(selectedContract.totalValue)}</div>
                       </div>
                       <div>
-                        <div className="text-[8px] font-black text-on-surface-variant/40 uppercase tracking-widest mb-1">{t('UNIT PRICE', 'PRIX UNITAIRE')}</div>
-                        <div className="text-xl font-headline font-black text-primary-cyan">{formatPrice(escalatedUnitPrice)}</div>
+                        <div className="text-[8px] font-black text-on-surface-variant/40 uppercase tracking-widest mb-1">{t('UNIT PRICE', 'PRIX UNIT.')}</div>
+                        <div className="text-base font-headline font-black text-primary-cyan">{formatPrice(escalatedUnitPrice)}</div>
                       </div>
                       <div>
-                        <div className="text-[8px] font-black text-on-surface-variant/40 uppercase tracking-widest mb-1">{t('GROWTH', 'CROISSANCE')}</div>
-                        <div className="text-xl font-headline font-black text-emerald-400">+{selectedContract.growth}%</div>
+                        <div className="text-[8px] font-black text-on-surface-variant/40 uppercase tracking-widest mb-1">{t('LYA SCORE', 'SCORE LYA')}</div>
+                        <div className="text-base font-headline font-black text-accent-gold">{activeContractStats.totalScore}<span className="text-[9px] text-white/30 ml-0.5">/1000</span></div>
+                      </div>
+                      <div>
+                        <div className="text-[8px] font-black text-on-surface-variant/40 uppercase tracking-widest mb-1">{t('RARITY', 'RARETÉ')}</div>
+                        <div className="text-base font-headline font-black text-accent-purple">{selectedContract.rarity?.toUpperCase()}</div>
                       </div>
                    </div>
                 </div>
