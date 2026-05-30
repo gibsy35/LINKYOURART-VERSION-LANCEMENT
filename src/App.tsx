@@ -86,10 +86,13 @@ export default function App() {
     if (!user?.uid) return;
     
     try {
+      // Update local state immediately so avatar syncs everywhere instantly
+      const merged = { ...user, ...updatedData };
+      _setUser(merged);
+
+      // Then persist to Firestore
       const userRef = doc(db, 'users', user.uid);
-      // Use setDoc with merge: true to ensure document exists before update
       await setDoc(userRef, updatedData, { merge: true });
-      // Local state will be updated via onSnapshot
       notify(t('Profile updated successfully.', 'Profil mis à jour avec succès.'));
     } catch (err) {
       console.error('Error updating user profile:', err);
@@ -553,7 +556,7 @@ export default function App() {
 
     // Toujours accessibles sans login
     const publicViews: View[] = ['LANDING', 'LOGIN', 'SIGNUP', 'OUR_MODEL', 'FAQ', 'LEGAL_MENTIONS', 'TERMS', 'PRIVACY', 'LEGAL_REGISTRY'];
-    // Accessibles en lecture seule pour visiteurs (overlay affiché dedans)
+    // Accessibles en lecture seule (aperçu visiteur)
     const previewViews: View[] = ['HOME', 'EXCHANGE', 'REGISTRY', 'PRICING'];
 
     if (publicViews.includes(currentView)) return;
@@ -561,6 +564,12 @@ export default function App() {
 
     // Vue privée — login requis
     if (user) return;
+
+    // Mode visiteur après déconnexion — rester sur HOME, ne pas renvoyer vers Landing
+    if (sessionStorage.getItem('lya_visitor_mode') === 'true') {
+      setCurrentView('HOME');
+      return;
+    }
 
     // Non connecté sur vue privée → HOME visiteur
     const timer = setTimeout(() => {
@@ -903,10 +912,13 @@ export default function App() {
 
   const handleLogout = async () => {
     try {
+      // Set visitor flag BEFORE signOut to prevent navigation guard from redirecting
+      sessionStorage.setItem('lya_visitor_mode', 'true');
       await signOut(auth);
-      setSimulatedRole(null); // Reset simulation
+      setSimulatedRole(null);
+      setUser(null);
       setNotification(t('LOGGED OUT SUCCESSFULLY', 'DÉCONNEXION RÉUSSIE'));
-      setCurrentView('HOME'); // Retour HOME visiteur, pas la landing de pré-inscription
+      setCurrentView('HOME');
     } catch (err) {
       console.error('Logout Error:', err);
     }
@@ -1022,7 +1034,7 @@ export default function App() {
         {!isAuthView && !isLandingView && currentView !== 'CONTRACT_DETAIL' && (
           <>
             <Sidebar 
-              user={user}
+              user={effectiveUser}
               watchlist={watchlist}
               comparisonList={comparisonList}
               onNotify={notify} 
@@ -1035,12 +1047,12 @@ export default function App() {
             />
 
             <Topbar 
-              user={user}
+              user={effectiveUser}
               onNotify={notify} 
               onToggleMobileMenu={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               currentView={currentView}
               onViewChange={(view) => {
-                if ((view === 'LOGIN' || view === 'PROFILE') && !user) {
+                if ((view === 'LOGIN' || view === 'PROFILE') && !effectiveUser) {
                   setCurrentView('LOGIN'); // Switch to full screen login
                 } else {
                   setCurrentView(view);
@@ -1091,9 +1103,9 @@ export default function App() {
                 addNotification('LOGIN SUCCESSFUL', `Welcome back to the LYA terminal, ${u.displayName}.`, 'SUCCESS');
               }} />}
               {currentView === 'PROFILE' && (
-                user ? (
+                effectiveUser ? (
                   <ProfileView 
-                    user={user} 
+                    user={effectiveUser ?? user!} 
                     onUpdateUser={handleUpdateUser} 
                     onNotify={notify} 
                     onViewChange={handleViewChange}
@@ -1106,8 +1118,8 @@ export default function App() {
                     checkUsageLimit={checkUsageLimit}
                   />
                 ) : (
-                  <div className="flex-1 flex flex-col items-center justify-center p-12 text-center">
-                    <div className="w-20 h-20 bg-primary-cyan/10 rounded-full flex items-center justify-center mb-6 border border-primary-cyan/20">
+                  <div className="flex-1 flex flex-col items-center justify-center p-12 text-center" onClick={() => setIsAuthModalOpen(true)}>
+                    <div className="w-20 h-20 bg-primary-cyan/10 rounded-full flex items-center justify-center mb-6 border border-primary-cyan/20 cursor-pointer">
                       <RefreshCw size={32} className="text-primary-cyan animate-spin-slow" />
                     </div>
                     <h2 className="text-2xl font-black text-white uppercase tracking-tighter mb-4">{t('AUTHENTICATING...', 'AUTHENTIFICATION...')}</h2>
@@ -1129,7 +1141,7 @@ export default function App() {
                 onToggleWatchlist={handleToggleWatchlist}
                 userContracts={userContracts}
                 liveContracts={liveContracts}
-                user={user}
+                user={effectiveUser}
               />}
               {currentView === 'CONTRACT_DETAIL' && viewingContract && (
                 <ContractDetailView 
@@ -1185,10 +1197,11 @@ export default function App() {
                   liveContracts={liveContracts}
                 />
                 {!effectiveUser && (
-                  <GuestPreviewOverlay
-                    onOpenAuth={() => setIsAuthModalOpen(true)}
-                    viewName="l'Exchange"
-                  />
+                  <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 flex items-center gap-4 px-6 py-4 bg-[#0D1117]/95 border border-primary-cyan/30 backdrop-blur-xl shadow-2xl font-mono">
+                    <span className="text-[10px] font-black text-white/60 uppercase tracking-widest">Aperçu visiteur</span>
+                    <button onClick={() => setIsAuthModalOpen(true)} className="px-5 py-2 bg-primary-cyan text-surface-dim text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all">Créer un compte</button>
+                    <button onClick={() => setIsAuthModalOpen(true)} className="px-5 py-2 border border-white/10 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white/5 transition-all">Se connecter</button>
+                  </div>
                 )}
               </>
               )}
@@ -1208,24 +1221,25 @@ export default function App() {
                   onViewChange={setCurrentView}
                 />
                 {!effectiveUser && (
-                  <GuestPreviewOverlay
-                    onOpenAuth={() => setIsAuthModalOpen(true)}
-                    viewName="le Registre"
-                  />
+                  <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 flex items-center gap-4 px-6 py-4 bg-[#0D1117]/95 border border-primary-cyan/30 backdrop-blur-xl shadow-2xl font-mono">
+                    <span className="text-[10px] font-black text-white/60 uppercase tracking-widest">Aperçu visiteur</span>
+                    <button onClick={() => setIsAuthModalOpen(true)} className="px-5 py-2 bg-primary-cyan text-surface-dim text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all">Créer un compte</button>
+                    <button onClick={() => setIsAuthModalOpen(true)} className="px-5 py-2 border border-white/10 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white/5 transition-all">Se connecter</button>
+                  </div>
                 )}
               </>
               )}
               {currentView === 'LINK_ART' && (
                 <LinkArtView 
-                  user={user} 
+                  user={effectiveUser} 
                   onNotify={notify} 
                   onViewChange={setCurrentView} 
                 />
               )}
-              {currentView === 'SETTLEMENT' && <SettlementView user={user} onNotify={notify} onViewChange={setCurrentView} />}
+              {currentView === 'SETTLEMENT' && <SettlementView user={effectiveUser} onNotify={notify} onViewChange={setCurrentView} />}
               {currentView === 'LOUNGE' && (
                 <LoungeView 
-                  user={user} 
+                  user={effectiveUser} 
                   onNotify={notify} 
                   onViewChange={setCurrentView} 
                   onProfessionalChatToggle={setIsProfessionalChatActive}
@@ -1296,9 +1310,9 @@ export default function App() {
                 />
               )}
               {currentView === 'SOCIAL_FEED' && <SocialFeedView onNotify={notify} />}
-              {currentView === 'GOVERNANCE' && <GovernanceView user={user} onNotify={notify} />}
-              {currentView === 'API' && <APIView user={user} onNotify={notify} />}
-              {currentView === 'ACADEMY' && <AcademyView user={user} onNotify={notify} onViewChange={handleViewChange} />}
+              {currentView === 'GOVERNANCE' && <GovernanceView user={effectiveUser} onNotify={notify} />}
+              {currentView === 'API' && <APIView user={effectiveUser} onNotify={notify} />}
+              {currentView === 'ACADEMY' && <AcademyView user={effectiveUser} onNotify={notify} onViewChange={handleViewChange} />}
               {currentView === 'ADMIN_PANEL' && <AdminView user={user} onNotify={notify} onViewChange={setCurrentView} liveContracts={liveContracts} />}
               {currentView === 'APPLY_VERIFICATION' && <ApplyForVerificationView onNotify={notify} />}
               {currentView === 'TAX_OPTIMIZER' && <TaxOptimizerView onNotify={notify} />}
