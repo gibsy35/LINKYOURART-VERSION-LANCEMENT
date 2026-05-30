@@ -575,25 +575,25 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
                initial={{ opacity: 0 }}
                animate={{ opacity: 1 }}
                exit={{ opacity: 0 }}
-               className="fixed inset-0 z-[6000] flex items-center justify-center p-4 md:p-6 backdrop-blur-2xl bg-black/85 overflow-y-auto"
+               className="fixed inset-0 z-[6000] flex items-center justify-center p-3 md:p-6 backdrop-blur-2xl bg-black/85"
+               onClick={(e) => { if (e.target === e.currentTarget) setIsModelizerOpen(false); }}
              >
                <motion.div 
                  initial={{ scale: 0.93, y: 15 }}
                  animate={{ scale: 1, y: 0 }}
                  exit={{ scale: 0.93, y: 15 }}
-                 className="bg-black/90 border border-primary-cyan/20 max-w-5xl w-full p-6 md:p-10 relative shadow-[0_0_80px_rgba(0,224,255,0.15)] rounded-2xl flex flex-col gap-6 my-auto text-left"
+                 className="bg-[#0a0f18] border border-primary-cyan/20 max-w-5xl w-full relative shadow-[0_0_80px_rgba(0,224,255,0.15)] rounded-2xl flex flex-col text-left"
+                 style={{ maxHeight: 'calc(100vh - 32px)' }}
                >
-                 {/* Close Button */}
-                 <button 
-                   onClick={() => setIsModelizerOpen(false)}
-                   className="absolute top-6 right-6 text-white/50 hover:text-primary-cyan hover:bg-white/5 p-2 rounded-full transition-all"
-                   title={t('Close Modal', 'Fermer')}
-                 >
-                   <X size={20} />
-                 </button>
-
-                 {/* Title Header */}
-                 <div className="border-b border-white/5 pb-4">
+                 {/* Sticky Header */}
+                 <div className="flex-shrink-0 px-6 md:px-10 pt-6 pb-4 border-b border-white/10 relative bg-[#0a0f18] rounded-t-2xl">
+                   <button 
+                     onClick={() => setIsModelizerOpen(false)}
+                     className="absolute top-4 right-4 text-white/50 hover:text-primary-cyan hover:bg-white/5 p-2 rounded-full transition-all z-10"
+                     title={t('Close Modal', 'Fermer')}
+                   >
+                     <X size={20} />
+                   </button>
                    <div className="flex items-center gap-3 text-primary-cyan mb-1 animate-pulse">
                      <Cpu size={18} />
                      <span className="text-[10px] font-mono tracking-[0.3em] uppercase">{t('LYA CONSTRUCT ENGINE V4.2', 'MOTEUR DE SIMULATION LYA V4.2')}</span>
@@ -607,6 +607,9 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
                    </p>
                  </div>
 
+                 {/* Scrollable Body */}
+                 <div className="flex-1 overflow-y-auto overscroll-contain">
+                 <div className="px-6 md:px-10 py-6">
                  {/* Main Grid Content */}
                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start text-left">
                    {/* Left Controls Column (Sliders) */}
@@ -756,8 +759,8 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
                      </div>
                    </div>
 
-                   {/* Right Side Live Results Vector math Display */}
-                   <div className="lg:col-span-5 flex flex-col gap-6 h-full lg:sticky lg:top-0">
+                   {/* Right Side Live Results */}
+                   <div className="lg:col-span-5 flex flex-col gap-6">
                      <div className="bg-primary-cyan/5 border border-primary-cyan/25 p-6 rounded-lg shadow-2xl space-y-6">
                        <div className="text-center font-black py-2 tracking-[0.2em] font-mono text-[10px] text-primary-cyan uppercase bg-primary-cyan/10 border border-primary-cyan/10 rounded-sm">
                          {t('SIMULATION REAL-TIME LEDGER', 'REGISTRE DE SIMULATION TEMPS-RÉEL')}
@@ -854,6 +857,8 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
                        {t('* ANANLYTICAL PROJECTIONS BASED ON ACTIVE DECENTRALIZED PROTOCOL FORMULAS. NON-CONTRACTUAL ILLUSTRATION.', '* SIMULATIONS ESTIMATIVES BASÉES EN TEMPS-RÉEL SUR LES FORMULES OPÉRATIONNELLES DU PROTOCOLE. NON-CONTRACTUEL.')}
                      </p>
                    </div>
+                 </div>
+                 </div>
                  </div>
                </motion.div>
              </motion.div>
