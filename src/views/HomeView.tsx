@@ -1,5 +1,6 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   ArrowRight, 
@@ -401,13 +402,13 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
           </h2>
           <p className="text-white/50 text-base max-w-2xl mx-auto leading-relaxed font-medium">
             {t(
-              'Each project starts at €50/unit. Every milestone validated pushes the score up and the price with it. Every risk declared pulls it down. Transparently. In real time.',
-              'Chaque projet démarre à 50€/unité. Chaque jalon validé fait monter le score — et le prix avec. Chaque risque déclaré le fait baisser. En toute transparence, en temps réel.'
+              'Each project starts at $50/unit. Every milestone validated pushes the score up and the price with it. Every risk declared pulls it down. Transparently. In real time.',
+              'Chaque projet démarre à $50/unité. Chaque jalon validé fait monter le score — et le prix avec. Chaque risque déclaré le fait baisser. En toute transparence, en temps réel.'
             )}
           </p>
         </div>
 
-        {/* ── 1 LYA UNIT = 50€ ANCHOR ──────────────────────────── */}
+        {/* ── 1 LYA UNIT = $50 ANCHOR ──────────────────────────── */}
         <div className="flex items-center justify-center gap-6 mb-16">
           <div className="h-px flex-1 bg-gradient-to-r from-transparent to-white/10" />
           <div className="flex items-center gap-4 px-6 py-3 border border-white/10 bg-white/[0.02]">
@@ -462,7 +463,7 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
                   <div>
                     <p className="text-[8px] text-white/30 uppercase font-black tracking-widest mb-0.5">{t('Final price / unit', 'Prix final / unité')}</p>
                     <p className={`text-xl font-black font-mono ${isActive ? 'text-primary-cyan' : 'text-white'}`}>
-                      €{price.toFixed(2)}
+                      ${price.toFixed(2)}
                     </p>
                   </div>
                   <div className={`px-2 py-1 text-[9px] font-black font-mono ${
@@ -619,8 +620,8 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
                 <div className="mt-6 pt-4 border-t border-white/10">
                   <p className="text-[9px] text-white/30 font-bold uppercase tracking-widest leading-relaxed">
                     {t(
-                      'An investor who bought at \u20ac50 now holds units worth $' + finalPrice.toFixed(2) + ' on the secondary market.',
-                      'Un investisseur qui a souscrit à 50\u20ac détient des unités valant $' + finalPrice.toFixed(2) + ' sur le marché secondaire.'
+                      'An investor who bought at $50 now holds units worth $' + finalPrice.toFixed(2) + ' on the secondary market.',
+                      'Un investisseur qui a souscrit à $50 détient des unités valant $' + finalPrice.toFixed(2) + ' sur le marché secondaire.'
                     )}
                   </p>
                 </div>
@@ -668,7 +669,7 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
                 <p className="text-[11px] text-white/50 leading-relaxed font-medium">
                   {t(
                     'Each point gained on the LYA Score adds +$0.10 to the unit price on the secondary market. Each point lost removes -$0.10. A project reaching 1000/1000 doubles its unit value.',
-                    'Chaque point gagné au Score LYA ajoute +0,10€ au prix unitaire sur le marché secondaire. Chaque point perdu retire -0,10€. Un projet atteignant 1000/1000 double la valeur de ses unités.'
+                    'Chaque point gagné au Score LYA ajoute +$0.10 au prix unitaire sur le marché secondaire. Chaque point perdu retire -$0.10. Un projet atteignant 1000/1000 double la valeur de ses unités.'
                   )}
                 </p>
               </div>
@@ -688,7 +689,8 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
 
       {/* ── MODÉLISATEUR MODAL ─────────────────────────────────── */}
 
-      {/* LYA Mathematical Modelizer Modal */}
+      {/* LYA Mathematical Modelizer Modal — Portal renders at body level to avoid transform stacking */}
+         {typeof document !== 'undefined' && createPortal(
          <AnimatePresence>
            {isModelizerOpen && (
              <motion.div 
@@ -984,7 +986,9 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
                </motion.div>
              </motion.div>
            )}
-         </AnimatePresence>
+         </AnimatePresence>,
+             document.body
+           )}
     </section>
   );
 };
