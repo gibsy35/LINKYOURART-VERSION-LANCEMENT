@@ -329,276 +329,367 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
     ];
   }, [liveContracts, t]);
 
+
+  // Jalons data for each case study
+  const CASE_JALONS = [
+    // 0 — RENAISSANCE REBORN (Fine Art)
+    [
+      { type: 'jalon', title: 'Certification Authentification', desc: 'Expertise validée par 3 maisons internationales', scoreFrom: 520, scoreDelta: 80, priceFrom: 50.00 },
+      { type: 'risk',  title: 'Retard Assurance Transport', desc: 'Sinistre logistique pendant l\'exposition', scoreFrom: 600, scoreDelta: -45, priceFrom: 54.00 },
+      { type: 'jalon', title: 'Exposition Grand Palais Paris', desc: 'Couverture presse internationale confirmée', scoreFrom: 555, scoreDelta: 110, priceFrom: 49.50 },
+      { type: 'risk',  title: 'Litige Droit de Suite', desc: 'Héritiers contestent la cession de revenus', scoreFrom: 665, scoreDelta: -55, priceFrom: 60.50 },
+      { type: 'jalon', title: 'Entrée Collection Pinault', desc: 'Acquisition institutionnelle majeure', scoreFrom: 610, scoreDelta: 130, priceFrom: 55.00 },
+    ],
+    // 1 — SKY GARDENS V4 (Architecture)
+    [
+      { type: 'jalon', title: 'Permis de Construire Validé', desc: 'Mairie approuve le projet urbanistique', scoreFrom: 480, scoreDelta: 70, priceFrom: 50.00 },
+      { type: 'risk',  title: 'Retard Livraison Matériaux', desc: 'Pénurie acier, chantier suspendu 6 semaines', scoreFrom: 550, scoreDelta: -60, priceFrom: 53.50 },
+      { type: 'jalon', title: 'Contrat Hôtelier International', desc: 'Licence usage 15 ans signée avec chaîne 5★', scoreFrom: 490, scoreDelta: 120, priceFrom: 47.00 },
+      { type: 'risk',  title: 'Normes Parasismiques Révisées', desc: 'Mise à niveau structure requise', scoreFrom: 610, scoreDelta: -40, priceFrom: 59.00 },
+      { type: 'jalon', title: 'Prix Architecture Internationale', desc: 'Récompense Dezeen Awards catégorie résidentiel', scoreFrom: 570, scoreDelta: 100, priceFrom: 55.00 },
+    ],
+    // 2 — CHRONICLES OF ELDON (TV Series)
+    [
+      { type: 'jalon', title: 'Accord Netflix Distribution', desc: 'Prévente SVOD confirmée 42 territoires', scoreFrom: 500, scoreDelta: 95, priceFrom: 50.00 },
+      { type: 'risk',  title: 'Retard VFX Post-Production', desc: 'Studio effets spéciaux en liquidation', scoreFrom: 595, scoreDelta: -70, priceFrom: 57.50 },
+      { type: 'jalon', title: 'Sélection Festival Sundance', desc: 'Pilote primé, couverture mondiale', scoreFrom: 525, scoreDelta: 115, priceFrom: 47.50 },
+      { type: 'risk',  title: 'Grève Scénaristes SAG-AFTRA', desc: 'Production interrompue 2 mois', scoreFrom: 640, scoreDelta: -80, priceFrom: 63.75 },
+      { type: 'jalon', title: 'Renouvellement Saison 2', desc: 'Confirmation Netflix + bonus audience', scoreFrom: 560, scoreDelta: 150, priceFrom: 56.00 },
+    ],
+  ];
+
+  const CASE_META = [
+    { category: 'BEAUX-ARTS', name: 'RENAISSANCE REBORN', budget: '500 000 €', units: '10 000', icon: '🖼️', color: 'primary-cyan', finalScore: 740, initialScore: 520 },
+    { category: 'ARCHITECTURE', name: 'SKY GARDENS V4', budget: '2 500 000 €', units: '50 000', icon: '🏗️', color: 'accent-gold', finalScore: 670, initialScore: 480 },
+    { category: 'SÉRIE TV', name: 'CHRONICLES OF ELDON', budget: '1 200 000 €', units: '24 000', icon: '🎬', color: 'accent-pink', finalScore: 710, initialScore: 500 },
+  ];
+
+  const activeJalons = CASE_JALONS[selectedCaseIdx];
+  const activeMeta = CASE_META[selectedCaseIdx];
+  const activeColor = selectedCaseIdx === 0 ? '#00E0FF' : selectedCaseIdx === 1 ? '#FFD700' : '#FF007F';
+
+  // Compute running price for each jalon
+  const jalonPrices = React.useMemo(() => {
+    let score = activeMeta.initialScore;
+    return activeJalons.map(j => {
+      const prevScore = score;
+      score = Math.max(0, Math.min(1000, score + j.scoreDelta));
+      const prevPrice = j.priceFrom;
+      const newPrice = Math.round(prevPrice * (score / prevScore) * 100) / 100;
+      const pct = Math.round(((newPrice - prevPrice) / prevPrice) * 1000) / 10;
+      return { prevScore, newScore: score, prevPrice, newPrice, pct };
+    });
+  }, [selectedCaseIdx]);
+
+  const finalPrice = jalonPrices[jalonPrices.length - 1]?.newPrice ?? 50;
+  const totalReturn = Math.round(((finalPrice - 50) / 50) * 1000) / 10;
+
   return (
-    <section className="relative z-10 py-12 sm:py-24 px-4 sm:px-6">
-      <div className="max-w-[1600px] mx-auto">
-        <div className="text-center mb-16 sm:mb-24">
-          <h2 className="text-3xl md:text-5xl font-black font-headline text-white tracking-tighter uppercase mb-6 drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]">
-            {t('Case Studies &', 'Études de Cas &')} <span className="text-primary-cyan">{t('Real Valuation', 'Valorisation Réelle')}</span>
-          </h2>
-          <div className="inline-flex items-center gap-3 px-4 py-2 bg-primary-cyan/10 border border-primary-cyan/20 rounded-full mb-8">
-            <Cpu size={14} className="text-primary-cyan animate-spin-slow" />
-            <span className="text-[10px] font-black font-mono text-primary-cyan uppercase tracking-[0.2em]">{t('Interactive Simulation Active', 'Modélisation Interactive Active')}</span>
+    <section className="relative z-10 py-16 sm:py-28 px-4 sm:px-6 overflow-hidden">
+      <div className="max-w-[1400px] mx-auto">
+
+        {/* ── HEADER ───────────────────────────────────────────── */}
+        <div className="text-center mb-20">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary-cyan/10 border border-primary-cyan/20 mb-6">
+            <Activity size={12} className="text-primary-cyan animate-pulse" />
+            <span className="text-[9px] font-black font-mono text-primary-cyan uppercase tracking-[0.4em]">
+              {t('Live Protocol Simulation', 'Simulation Protocole En Direct')}
+            </span>
           </div>
-          <p className="text-on-surface text-lg sm:text-xl max-w-4xl mx-auto leading-relaxed border-l-2 border-primary-cyan pl-8 text-justify opacity-80">
-            {t('The initial valorisation budget of a project is fixed by the creator to unlock a set quantity of units. Rather than arbitrary growth, the LYA UNIT acts as a live market index, fluctuating dynamically in real-time based on the performance of specific milestones (Jalon +) or delays (Jalon -). Select a case study to test these live market variations.', 'La valeur globale de valorisation d\'un projet est fixée à l\'origine par le créateur pour libérer un nombre constant de parts (LYA UNITS). Ce n\'est pas cette enveloppe initiale qui change unilatéralement, mais plutôt le cours unitaire du LYA UNIT, qui agit comme un index sur le espace de cession directe et varie en temps réel selon la validation de jalons de performances (Jalon +) ou de contre-performances (Jalon -).')}
+          <h2 className="text-4xl md:text-6xl font-black font-headline text-white tracking-tighter uppercase mb-6">
+            {t('How does', 'Comment le')} <span className="text-primary-cyan">{t('LYA Score', 'Score LYA')}</span><br/>
+            {t('impact your investment?', 'impacte votre investissement ?')}
+          </h2>
+          <p className="text-white/50 text-base max-w-2xl mx-auto leading-relaxed font-medium">
+            {t(
+              'Each project starts at €50/unit. Every milestone validated pushes the score up and the price with it. Every risk declared pulls it down. Transparently. In real time.',
+              'Chaque projet démarre à 50€/unité. Chaque jalon validé fait monter le score — et le prix avec. Chaque risque déclaré le fait baisser. En toute transparence, en temps réel.'
+            )}
           </p>
         </div>
 
-        {/* Real-Time Valuation Section - 3 Case Studies */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-           {caseStudies.map((caseStudy) => {
-             const isSelected = selectedCaseIdx === caseStudy.idx;
-             return (
-               <motion.div 
-                 key={caseStudy.idx}
-                 onClick={() => {
-                   setSelectedCaseIdx(caseStudy.idx);
-                   
-                   // Set default slider states based on selected caseStudy
-                   const targetContract = caseStudy.idx === 0 ? (liveContracts.find(c => c.name === 'RENAISSANCE REBORN') || CONTRACTS[0]) :
-                                          caseStudy.idx === 1 ? (liveContracts.find(c => c.name === 'SKY GARDENS V4') || CONTRACTS[1]) :
-                                          (liveContracts.find(c => c.name === 'CHRONICLES OF ELDON') || CONTRACTS[3]);
-
-                   const currentPillars = targetContract.pillars || [];
-                   setDemoPillars({
-                     quality: currentPillars[0]?.score || 180,
-                     marketability: currentPillars[1]?.score || 175,
-                     security: currentPillars[2]?.score || 190,
-                     innovation: currentPillars[3]?.score || 165,
-                     growth: currentPillars[4]?.score || 185
-                   });
-                   setDemoCommitteeScore(targetContract.totalScore || 850);
-                   setDemoMilestones(targetContract.growth ? Math.min(5, Math.ceil(targetContract.growth / 10)) : 3);
-                   setIsModelizerOpen(true);
-                 }}
-                 initial={{ opacity: 0, y: 20 }}
-                 whileInView={{ opacity: 1, y: 0 }}
-                 viewport={{ once: true }}
-                 transition={{ delay: caseStudy.idx * 0.1 }}
-                 className={`cursor-pointer bg-surface-low/30 backdrop-blur-3xl border rounded-[3rem] p-8 flex flex-col gap-6 shadow-3xl transition-all group relative ${
-                   isSelected ? 'border-primary-cyan ring-1 ring-primary-cyan/40 bg-white/[0.03]' : 'border-white/5 hover:border-white/10'
-                 }`}
-               >
-                 {isSelected && (
-                   <span className="absolute top-6 right-8 text-[8px] font-black text-primary-cyan tracking-widest bg-primary-cyan/10 px-3 py-1 rounded-full uppercase">
-                     {t('ACTIVE SIMULATION', 'SIMULATION ACTIVE')}
-                   </span>
-                 )}
-                 
-                 <div className="flex justify-between items-start">
-                    <div className="p-4 bg-white/5 rounded-2xl group-hover:scale-110 transition-transform">
-                       {caseStudy.icon}
-                    </div>
-                    <div className="text-right">
-                       <div className="text-2xl font-black font-headline text-white">{caseStudy.metric}</div>
-                       <div className="text-[8px] font-black text-white/40 uppercase tracking-widest">{caseStudy.metricLabel}</div>
-                    </div>
-                 </div>
-                 
-                 <div className="space-y-4">
-                    <div>
-                      <h4 className="text-[10px] font-black text-primary-cyan uppercase tracking-[0.3em] mb-1">{caseStudy.title}</h4>
-                      <h3 className="text-2xl font-black font-headline text-white uppercase tracking-tighter">{caseStudy.subtitle}</h3>
-                    </div>
-                    <p className="text-xs text-white/70 font-medium leading-relaxed opacity-80 text-justify">
-                      "{caseStudy.description}"
-                    </p>
-                 </div>
-
-                 {/* Fluctuation milestones display */}
-                  <div className="pt-4 border-t border-white/5 space-y-3">
-                    <div className="p-3 bg-emerald-500/5 border border-emerald-500/10 rounded-xl space-y-1 text-left">
-                      <div className="flex justify-between items-center">
-                        <span className="text-[9px] font-black text-emerald-400 uppercase tracking-widest">✅ Jalon + (Performance)</span>
-                        <span className="text-[10px] font-mono font-black text-emerald-400">{caseStudy.jalonPlusImpact}</span>
-                      </div>
-                      <p className="text-[11px] text-white/70 text-left">"{caseStudy.jalonPlus}"</p>
-                    </div>
-
-                    <div className="p-3 bg-rose-500/5 border border-rose-500/10 rounded-xl space-y-1 text-left">
-                      <div className="flex justify-between items-center">
-                        <span className="text-[9px] font-black text-rose-400 uppercase tracking-widest">⚠️ Jalon - (Contre-Performance)</span>
-                        <span className="text-[10px] font-mono font-black text-rose-400">{caseStudy.jalonMinusImpact}</span>
-                      </div>
-                      <p className="text-[11px] text-white/70 text-left">"{caseStudy.jalonMinus}"</p>
-                    </div>
-                  </div>
-                 <div className="grid grid-cols-2 gap-4 pt-4 border-t border-white/5">
-                   <div className="space-y-1">
-                     <span className="text-[8px] font-black text-primary-cyan tracking-wider uppercase block">{t('LYA UNIT INDEX PRICE', 'COURS INDEX LYA')}</span>
-                     <div className="text-xs font-mono font-black text-white flex items-center gap-1.5 flex-wrap">
-                       <span className="line-through text-white/35 font-medium">{formatPrice(caseStudy.baselineUnitVal)}</span>
-                       <span className="text-emerald-400 font-bold">→ {formatPrice(caseStudy.currentUnitVal)}</span>
-                     </div>
-                   </div>
-                   <div className="space-y-1">
-                     <span className="text-[8px] font-black text-white/30 tracking-wider uppercase block">{t('PROJECT FINANCING CAP', 'BUDGET LEVÉ (FIXE)')}</span>
-                     <div className="text-xs font-mono font-black text-white/40 mt-1">
-                       {formatPrice(caseStudy.baselineProjectVal)} <span className="text-[8px] font-sans font-extrabold text-[#FF007F] opacity-70 uppercase tracking-widest">{t('CONSTANT', 'BLOQUÉ')}</span>
-                     </div>
-                   </div>
-                 </div>
-                 
-                 <div className="pt-4 border-s-0 flex justify-between items-center group-hover:translate-x-1 transition-transform">
-                    <span className="text-[10px] font-black text-primary-cyan uppercase tracking-[0.2em] bg-primary-cyan/10 border border-primary-cyan/20 px-3 py-1.5 rounded-sm hover:bg-primary-cyan hover:text-black transition-all">{t('CLICK TO MODEL', 'CLIQUER POUR MODÉLISER')}</span>
-                    <ArrowRight size={14} className={isSelected ? 'text-primary-cyan' : 'text-white/20'} />
-                 </div>
-               </motion.div>
-             );
-           })}
+        {/* ── 1 LYA UNIT = 50€ ANCHOR ──────────────────────────── */}
+        <div className="flex items-center justify-center gap-6 mb-16">
+          <div className="h-px flex-1 bg-gradient-to-r from-transparent to-white/10" />
+          <div className="flex items-center gap-4 px-6 py-3 border border-white/10 bg-white/[0.02]">
+            <div className="w-8 h-8 rounded-full border border-primary-cyan/40 flex items-center justify-center">
+              <Coins size={14} className="text-primary-cyan" />
+            </div>
+            <div>
+              <p className="text-[8px] font-black uppercase tracking-[0.4em] text-white/30">{t('Fixed issuance price', 'Prix d\'émission fixe')}</p>
+              <p className="text-lg font-black text-white font-mono">1 LYA UNIT = <span className="text-primary-cyan">50,00 €</span></p>
+            </div>
+            <div className="ml-4 px-3 py-1 bg-emerald-400/10 border border-emerald-400/20">
+              <p className="text-[8px] font-black uppercase tracking-widest text-emerald-400">{t('Immutable', 'Immuable')}</p>
+            </div>
+          </div>
+          <div className="h-px flex-1 bg-gradient-to-l from-transparent to-white/10" />
         </div>
 
-        <div className="mt-24 grid grid-cols-1 lg:grid-cols-2 gap-10">
-             {/* Radar Matrix */}
-             <div className="bg-surface-low/30 backdrop-blur-3xl border border-white/5 rounded-[3rem] p-10 flex flex-col gap-10 shadow-3xl">
-                <div className="flex items-center justify-between">
-                   <div className="flex flex-col gap-3">
-                      <h3 className="text-sm font-black uppercase tracking-[0.4em] text-white flex items-center gap-4">
-                         <div className="w-2 h-8 bg-primary-cyan/20" />
-                         {t('INTELLIGENCE RADAR MATRIX', 'MATRICE INTELLIGENCE RADAR')}
-                       </h3>
-                       {appliedSimulation[selectedContract.id] && (
-                         <div className="flex items-center gap-2 mt-1.5 bg-accent-gold/15 border border-accent-gold/20 px-2.5 py-1 rounded-md text-[9px] text-accent-gold max-w-fit">
-                           <span className="w-1.5 h-1.5 bg-accent-gold rounded-full animate-ping" />
-                           <span className="font-mono font-black uppercase tracking-widest">{t('SIMULATED', 'SIMULÉ')}</span>
-                           <button onClick={() => handleResetSimulation(selectedContract.id)} className="font-black text-white/60 hover:text-white uppercase ml-1.5 underline cursor-pointer">
-                             ({t('RESET', 'RESET')})
-                           </button>
-                         </div>
-                       )}
-
-                   </div>
-                   <div className="flex flex-col items-end">
-                      <div className="text-3xl font-headline font-black text-primary-cyan">{activeContractStats.totalScore}<span className="text-on-surface-variant/40 text-xs font-mono ml-1">/1000</span></div>
-                      <div className="text-[8px] font-black text-on-surface-variant/40 uppercase tracking-[0.3em]">{t('CONSOLIDATED LYA SCORE', 'SCORE LYA CONSOLIDÉ')}</div>
-                   </div>
+        {/* ── CASE SELECTOR ────────────────────────────────────── */}
+        <div className="grid grid-cols-3 gap-4 mb-12">
+          {CASE_META.map((meta, idx) => {
+            const isActive = selectedCaseIdx === idx;
+            const jalons = CASE_JALONS[idx];
+            let sc = meta.initialScore;
+            let price = 50;
+            jalons.forEach(j => {
+              sc = Math.max(0, Math.min(1000, sc + j.scoreDelta));
+              price = Math.round(price * (sc / Math.max(1, sc - j.scoreDelta)) * 100) / 100;
+            });
+            const ret = Math.round(((price - 50) / 50) * 1000) / 10;
+            const isPositive = ret >= 0;
+            return (
+              <motion.button
+                key={idx}
+                onClick={() => setSelectedCaseIdx(idx)}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className={`relative p-6 text-left border transition-all duration-300 ${
+                  isActive
+                    ? 'border-primary-cyan bg-primary-cyan/5 shadow-[0_0_30px_rgba(0,224,255,0.1)]'
+                    : 'border-white/10 bg-white/[0.02] hover:border-white/20'
+                }`}
+              >
+                {isActive && <div className="absolute top-0 left-0 right-0 h-0.5 bg-primary-cyan" />}
+                <div className="flex justify-between items-start mb-4">
+                  <div>
+                    <p className="text-[8px] font-black uppercase tracking-[0.4em] text-white/30 mb-1">{meta.category}</p>
+                    <p className="text-sm font-black text-white uppercase tracking-tight leading-tight">{meta.name}</p>
+                  </div>
+                  <span className="text-2xl">{meta.icon}</span>
                 </div>
+                <div className="flex items-end justify-between">
+                  <div>
+                    <p className="text-[8px] text-white/30 uppercase font-black tracking-widest mb-0.5">{t('Final price / unit', 'Prix final / unité')}</p>
+                    <p className={`text-xl font-black font-mono ${isActive ? 'text-primary-cyan' : 'text-white'}`}>
+                      €{price.toFixed(2)}
+                    </p>
+                  </div>
+                  <div className={`px-2 py-1 text-[9px] font-black font-mono ${
+                    isPositive ? 'bg-emerald-400/10 text-emerald-400' : 'bg-rose-400/10 text-rose-400'
+                  }`}>
+                    {isPositive ? '+' : ''}{ret}%
+                  </div>
+                </div>
+                {isActive && (
+                  <div className="absolute bottom-3 right-3 w-2 h-2 rounded-full bg-primary-cyan animate-pulse" />
+                )}
+              </motion.button>
+            );
+          })}
+        </div>
 
-                <div className="h-[400px] w-full flex items-center justify-center">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <RadarChart cx="50%" cy="50%" outerRadius="80%" data={pillarData}>
-                      <PolarGrid stroke="#ffffff10" />
-                      <PolarAngleAxis dataKey="name" tick={{ fill: '#a1a1aa', fontSize: 10, fontWeight: 900 }} />
-                      <PolarRadiusAxis angle={30} domain={[0, 200]} tick={false} axisLine={false} />
-                      <Radar
-                        name={selectedContract.name}
-                        dataKey="value"
-                        stroke="#00e0ff"
-                        fill="#00e0ff"
-                        fillOpacity={0.4}
+        {/* ── MAIN CONTENT ──────────────────────────────────────── */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={selectedCaseIdx}
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -16 }}
+            transition={{ duration: 0.35 }}
+            className="grid grid-cols-1 lg:grid-cols-5 gap-8"
+          >
+            {/* Left — Jalon Timeline */}
+            <div className="lg:col-span-3 space-y-3">
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <p className="text-[9px] font-black uppercase tracking-[0.4em] text-white/30 mb-1">{t('Score journey', 'Parcours du score')}</p>
+                  <h3 className="text-xl font-black text-white uppercase tracking-tight">{activeMeta.name}</h3>
+                </div>
+                <div className="text-right">
+                  <p className="text-[8px] font-black uppercase tracking-widest text-white/30">{t('Budget', 'Budget')}</p>
+                  <p className="text-sm font-black text-white font-mono">{activeMeta.budget}</p>
+                  <p className="text-[8px] font-black uppercase tracking-widest text-white/30 mt-1">{activeMeta.units} {t('units', 'unités')}</p>
+                </div>
+              </div>
+
+              {/* Score start */}
+              <div className="flex items-center gap-4 px-5 py-3 border border-white/5 bg-white/[0.02]">
+                <div className="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center text-white/40 shrink-0">
+                  <span className="text-[9px] font-black">→</span>
+                </div>
+                <div className="flex-1">
+                  <p className="text-[9px] font-black uppercase tracking-widest text-white/40">{t('Issuance — Starting Score', 'Émission — Score de Départ')}</p>
+                </div>
+                <div className="flex items-center gap-3 text-right shrink-0">
+                  <div>
+                    <p className="text-[8px] text-white/30 uppercase font-black">{t('Score', 'Score')}</p>
+                    <p className="text-sm font-black text-white font-mono">{activeMeta.initialScore}<span className="text-white/20 text-[9px]">/1000</span></p>
+                  </div>
+                  <div className="w-px h-8 bg-white/10" />
+                  <div>
+                    <p className="text-[8px] text-white/30 uppercase font-black">{t('Unit price', 'Prix/unité')}</p>
+                    <p className="text-sm font-black text-white font-mono">€50.00</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Jalons */}
+              {activeJalons.map((j, i) => {
+                const p = jalonPrices[i];
+                if (!p) return null;
+                const isJalon = j.type === 'jalon';
+                return (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.06 }}
+                    className={`flex items-start gap-4 px-5 py-4 border transition-all ${
+                      isJalon
+                        ? 'border-emerald-500/20 bg-emerald-500/[0.03] hover:bg-emerald-500/[0.06]'
+                        : 'border-rose-500/20 bg-rose-500/[0.03] hover:bg-rose-500/[0.06]'
+                    }`}
+                  >
+                    {/* Icon */}
+                    <div className={`w-8 h-8 rounded-full border flex items-center justify-center shrink-0 mt-0.5 ${
+                      isJalon ? 'border-emerald-500/40 bg-emerald-500/10' : 'border-rose-500/40 bg-rose-500/10'
+                    }`}>
+                      {isJalon
+                        ? <CheckCircle2 size={14} className="text-emerald-400" />
+                        : <AlertTriangle size={14} className="text-rose-400" />
+                      }
+                    </div>
+
+                    {/* Content */}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1 flex-wrap">
+                        <p className="text-xs font-black text-white uppercase tracking-tight">{j.title}</p>
+                        <span className={`px-2 py-0.5 text-[8px] font-black uppercase tracking-widest border ${
+                          isJalon
+                            ? 'border-emerald-500/30 text-emerald-400 bg-emerald-500/10'
+                            : 'border-rose-500/30 text-rose-400 bg-rose-500/10'
+                        }`}>
+                          {isJalon ? t('MILESTONE', 'JALON') : t('RISK', 'RISQUE')}
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-white/45 leading-relaxed">{j.desc}</p>
+                    </div>
+
+                    {/* Score + Price impact */}
+                    <div className="flex items-center gap-3 shrink-0 text-right">
+                      <div>
+                        <p className="text-[8px] text-white/30 uppercase font-black tracking-widest">{t('Score', 'Score')}</p>
+                        <p className="text-xs font-black text-white font-mono">{p.prevScore} → <span className={isJalon ? 'text-emerald-400' : 'text-rose-400'}>{p.newScore}</span></p>
+                        <p className={`text-[9px] font-black font-mono ${isJalon ? 'text-emerald-400' : 'text-rose-400'}`}>
+                          {j.scoreDelta > 0 ? '+' : ''}{j.scoreDelta}
+                        </p>
+                      </div>
+                      <div className="w-px h-10 bg-white/10" />
+                      <div className="min-w-[72px]">
+                        <p className="text-[8px] text-white/30 uppercase font-black tracking-widest">{t('Price', 'Prix')}</p>
+                        <p className="text-xs font-black text-white font-mono">€{p.newPrice.toFixed(2)}</p>
+                        <p className={`text-[9px] font-black font-mono ${p.pct >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+                          {p.pct >= 0 ? '+' : ''}{p.pct}%
+                        </p>
+                      </div>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+
+            {/* Right — Summary Panel */}
+            <div className="lg:col-span-2 space-y-6">
+
+              {/* Final result hero */}
+              <div className="border border-primary-cyan/30 bg-primary-cyan/[0.04] p-8 relative overflow-hidden">
+                <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary-cyan to-transparent" />
+                <p className="text-[9px] font-black uppercase tracking-[0.4em] text-primary-cyan/60 mb-4">{t('Final result', 'Résultat final')}</p>
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center py-3 border-b border-white/5">
+                    <span className="text-[10px] font-black text-white/40 uppercase tracking-widest">{t('Initial price', 'Prix initial')}</span>
+                    <span className="text-sm font-black text-white font-mono">€50.00</span>
+                  </div>
+                  <div className="flex justify-between items-center py-3 border-b border-white/5">
+                    <span className="text-[10px] font-black text-white/40 uppercase tracking-widest">{t('Final price', 'Prix final')}</span>
+                    <span className="text-xl font-black text-primary-cyan font-mono">€{finalPrice.toFixed(2)}</span>
+                  </div>
+                  <div className="flex justify-between items-center py-3 border-b border-white/5">
+                    <span className="text-[10px] font-black text-white/40 uppercase tracking-widest">{t('Total return', 'Rendement total')}</span>
+                    <span className={`text-xl font-black font-mono ${totalReturn >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+                      {totalReturn >= 0 ? '+' : ''}{totalReturn}%
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center py-3">
+                    <span className="text-[10px] font-black text-white/40 uppercase tracking-widest">{t('Final LYA Score', 'Score LYA Final')}</span>
+                    <span className="text-xl font-black text-accent-gold font-mono">{activeMeta.finalScore}<span className="text-[10px] text-white/20">/1000</span></span>
+                  </div>
+                </div>
+                <div className="mt-6 pt-4 border-t border-white/10">
+                  <p className="text-[9px] text-white/30 font-bold uppercase tracking-widest leading-relaxed">
+                    {t(
+                      'An investor who bought at \u20ac50 now holds units worth \u20ac' + finalPrice.toFixed(2) + ' on the secondary market.',
+                      'Un investisseur qui a souscrit à 50\u20ac détient des unités valant \u20ac' + finalPrice.toFixed(2) + ' sur le marché secondaire.'
+                    )}
+                  </p>
+                </div>
+              </div>
+
+              {/* Price chart mini */}
+              <div className="border border-white/10 bg-white/[0.02] p-6">
+                <p className="text-[9px] font-black uppercase tracking-[0.4em] text-white/30 mb-4">{t('Price evolution', 'Évolution du prix')}</p>
+                <div style={{ width: '100%', height: 140 }}>
+                  <ResponsiveContainer width="100%" height={140}>
+                    <AreaChart
+                      data={[{ step: 'Départ', price: 50 }, ...activeJalons.map((j, i) => ({
+                        step: j.title.split(' ').slice(0, 2).join(' '),
+                        price: jalonPrices[i]?.newPrice ?? 50
+                      }))]}
+                      margin={{ top: 5, right: 5, left: 0, bottom: 0 }}
+                    >
+                      <defs>
+                        <linearGradient id="priceGradCS" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="5%" stopColor={activeColor} stopOpacity={0.3} />
+                          <stop offset="95%" stopColor={activeColor} stopOpacity={0} />
+                        </linearGradient>
+                      </defs>
+                      <CartesianGrid strokeDasharray="2 2" stroke="#ffffff06" vertical={false} />
+                      <YAxis hide domain={['dataMin - 2', 'dataMax + 2']} />
+                      <XAxis dataKey="step" hide />
+                      <Tooltip
+                        contentStyle={{ background: '#0D1117', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 4, padding: '8px 12px' }}
+                        itemStyle={{ color: activeColor, fontSize: 11, fontWeight: 800 }}
+                        labelStyle={{ color: 'rgba(255,255,255,0.3)', fontSize: 9, textTransform: 'uppercase' }}
+                        formatter={(v: number) => [`€${v.toFixed(2)}`, 'Prix']}
                       />
-                    </RadarChart>
+                      <Area type="monotone" dataKey="price" stroke={activeColor} strokeWidth={2} fill="url(#priceGradCS)" dot={{ fill: activeColor, r: 3, strokeWidth: 0 }} activeDot={{ r: 5, strokeWidth: 0 }} />
+                    </AreaChart>
                   </ResponsiveContainer>
                 </div>
+              </div>
 
-                <div className="grid grid-cols-2 gap-y-6 gap-x-12 mt-4 px-4 overflow-hidden h-[120px]">
-                  {pillarData.map((pillar, idx) => (
-                    <div key={idx} className="flex flex-col gap-2 group">
-                       <div className="flex items-center justify-between">
-                          <span className="text-[9px] font-black uppercase tracking-[0.3em] text-on-surface-variant/60 group-hover:text-primary-cyan transition-colors truncate">{pillar.name}</span>
-                          <span className="text-xs font-mono font-black text-white">{pillar.value}</span>
-                       </div>
-                       <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
-                          <div className="h-full bg-white/10 group-hover:bg-primary-cyan transition-all duration-1000" style={{ width: `${(pillar.value / 200) * 100}%` }} />
-                       </div>
-                    </div>
-                  ))}
+              {/* Key rule */}
+              <div className="border border-white/5 bg-white/[0.01] p-5">
+                <div className="flex items-center gap-2 mb-3">
+                  <Zap size={12} className="text-accent-gold" />
+                  <p className="text-[9px] font-black uppercase tracking-[0.4em] text-accent-gold/70">{t('The LYA Rule', 'La Règle LYA')}</p>
                 </div>
-             </div>
+                <p className="text-[11px] text-white/50 leading-relaxed font-medium">
+                  {t(
+                    'Each point gained on the LYA Score adds +€0.10 to the unit price on the secondary market. Each point lost removes -€0.10. A project reaching 1000/1000 doubles its unit value.',
+                    'Chaque point gagné au Score LYA ajoute +0,10€ au prix unitaire sur le marché secondaire. Chaque point perdu retire -0,10€. Un projet atteignant 1000/1000 double la valeur de ses unités.'
+                  )}
+                </p>
+              </div>
 
-             {/* Price History & Sentiment */}
-             <div className="flex flex-col gap-10">
-                <div className="bg-surface-low/30 backdrop-blur-3xl border border-white/5 rounded-[3rem] p-8 flex flex-col gap-6 shadow-3xl">
-                   <div className="flex justify-between items-start">
-                     <div>
-                       <h3 className="text-sm font-black uppercase tracking-[0.4em] text-primary-cyan flex items-center gap-3">
-                          <TrendingUp size={18} />
-                          {t('PRICE HISTORY', 'HISTORIQUE DES PRIX')}
-                       </h3>
-                       <p className="text-[9px] text-white/30 font-bold uppercase tracking-widest mt-1">{t('12-month simulation', 'Simulation 12 mois')}</p>
-                     </div>
-                     <div className="text-right">
-                       <div className="text-2xl font-black font-headline text-primary-cyan">{formatPrice(escalatedUnitPrice)}</div>
-                       <div className="text-[8px] font-black text-emerald-400 uppercase tracking-widest mt-0.5">+{selectedContract.growth}% {t('GROWTH', 'CROISSANCE')}</div>
-                     </div>
-                   </div>
-                   <div style={{ width: '100%', height: 220 }}>
-                      <ResponsiveContainer width="100%" height={220}>
-                        <AreaChart data={priceHistory} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-                          <defs>
-                            <linearGradient id="colorPriceHome" x1="0" y1="0" x2="0" y2="1">
-                              <stop offset="5%" stopColor="#00E0FF" stopOpacity={0.35}/>
-                              <stop offset="95%" stopColor="#00E0FF" stopOpacity={0}/>
-                            </linearGradient>
-                          </defs>
-                          <CartesianGrid strokeDasharray="3 3" stroke="#ffffff08" vertical={false} />
-                          <XAxis 
-                            dataKey="date" 
-                            tick={{ fill: '#ffffff30', fontSize: 9, fontWeight: 700 }}
-                            axisLine={false}
-                            tickLine={false}
-                            interval={2}
-                          />
-                          <YAxis 
-                            hide={false}
-                            tick={{ fill: '#ffffff25', fontSize: 9 }}
-                            axisLine={false}
-                            tickLine={false}
-                            tickFormatter={(v) => `€${v.toFixed(0)}`}
-                            width={40}
-                            domain={['dataMin - 2', 'dataMax + 2']}
-                          />
-                          <Tooltip 
-                            contentStyle={{ 
-                              backgroundColor: '#0D1117', 
-                              border: '1px solid rgba(0,224,255,0.25)', 
-                              borderRadius: '8px',
-                              boxShadow: '0 10px 30px rgba(0,0,0,0.6)',
-                              padding: '10px 14px'
-                            }}
-                            itemStyle={{ color: '#00E0FF', fontSize: '12px', fontWeight: 800 }}
-                            labelStyle={{ color: '#ffffff60', fontSize: '10px', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.1em' }}
-                            formatter={(value: number) => [`€${value.toFixed(2)}`, t('Unit Price', 'Prix Unitaire')]}
-                          />
-                          <Area type="monotone" dataKey="price" stroke="#00E0FF" strokeWidth={2.5} fillOpacity={1} fill="url(#colorPriceHome)" dot={false} activeDot={{ r: 5, fill: '#00E0FF', strokeWidth: 0 }} />
-                        </AreaChart>
-                      </ResponsiveContainer>
-                   </div>
-                   <div className="grid grid-cols-4 gap-4 pt-4 border-t border-white/5">
-                      <div>
-                        <div className="text-[8px] font-black text-on-surface-variant/40 uppercase tracking-widest mb-1">{t('TOTAL VALUE', 'VALORISATION')}</div>
-                        <div className="text-base font-headline font-black text-white">{formatPrice(selectedContract.totalValue)}</div>
-                      </div>
-                      <div>
-                        <div className="text-[8px] font-black text-on-surface-variant/40 uppercase tracking-widest mb-1">{t('UNIT PRICE', 'PRIX UNIT.')}</div>
-                        <div className="text-base font-headline font-black text-primary-cyan">{formatPrice(escalatedUnitPrice)}</div>
-                      </div>
-                      <div>
-                        <div className="text-[8px] font-black text-on-surface-variant/40 uppercase tracking-widest mb-1">{t('LYA SCORE', 'SCORE LYA')}</div>
-                        <div className="text-base font-headline font-black text-accent-gold">{activeContractStats.totalScore}<span className="text-[9px] text-white/30 ml-0.5">/1000</span></div>
-                      </div>
-                      <div>
-                        <div className="text-[8px] font-black text-on-surface-variant/40 uppercase tracking-widest mb-1">{t('RARITY', 'RARETÉ')}</div>
-                        <div className="text-base font-headline font-black text-accent-purple">{selectedContract.rarity?.toUpperCase()}</div>
-                      </div>
-                   </div>
-                </div>
+              {/* CTA */}
+              <button
+                onClick={() => setIsModelizerOpen(true)}
+                className="w-full py-4 bg-primary-cyan text-surface-dim text-[10px] font-black uppercase tracking-[0.3em] hover:bg-white transition-all flex items-center justify-center gap-3 group"
+              >
+                <Cpu size={14} className="group-hover:rotate-12 transition-transform" />
+                {t('Test with the Modélisateur', 'Tester avec le Modélisateur')}
+              </button>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+      </div>
 
-                <div className="bg-surface-low/30 backdrop-blur-3xl border border-white/5 rounded-[2rem] p-8 flex items-center justify-between shadow-2xl">
-                   <div className="flex flex-col gap-2">
-                      <div className="text-[10px] font-black text-accent-gold uppercase tracking-[0.3em] flex items-center gap-2">
-                         <Target size={14} />
-                         {t('STRATEGIC THESIS', 'THÈSE STRATÉGIQUE')}
-                      </div>
-                      <p className="text-xs text-white/60 font-medium max-w-sm">"{t('Masterpiece contractualisation indexée allows for unprecedented accessibility in the fine art market sector.', 'La contractualisation indexée des chefs-d\'œuvre permet une accessibilité sans précédent dans le secteur du marché des beaux-arts.')}"</p>
-                   </div>
-                   <div className="text-right">
-                      <div className="text-xs font-black text-emerald-400 uppercase tracking-widest mb-1">STRONG BUY</div>
-                      <div className="text-[8px] font-black text-on-surface-variant/40 uppercase tracking-widest font-mono">94.2% CONFIDENCE</div>
-                    </div>
+      {/* ── MODÉLISATEUR MODAL ─────────────────────────────────── */}
 
-         {/* LYA Mathematical Modelizer Modal */}
+      {/* LYA Mathematical Modelizer Modal */}
          <AnimatePresence>
            {isModelizerOpen && (
              <motion.div 
@@ -894,11 +985,7 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
              </motion.div>
            )}
          </AnimatePresence>
-                    </div>
-                 </div>
-              </div>
-           </div>
-     </section>
+    </section>
   );
 };
 
