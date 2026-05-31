@@ -112,7 +112,7 @@ export const KidiWorldModal: React.FC<KidiWorldModalProps> = ({ isOpen, onClose 
                   </motion.div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '6px 14px', background: 'rgba(255,215,0,0.08)', border: '1px solid rgba(255,215,0,0.25)', borderRadius: '2px' }}>
                     <span style={{ fontSize: '9px', fontWeight: 900, color: '#FFD700', textTransform: 'uppercase', letterSpacing: '0.35em', fontFamily: 'monospace' }}>
-                      4 — 18 {t('ans', 'yrs')} · {t('BIENTÔT', 'COMING SOON')}
+                      4 — 18 {t('yrs', 'ans')} · {t('COMING SOON', 'BIENTÔT')}
                     </span>
                   </div>
                   <motion.div
@@ -179,12 +179,12 @@ export const KidiWorldModal: React.FC<KidiWorldModalProps> = ({ isOpen, onClose 
                 {/* Industry pills */}
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '32px' }}>
                   {[
-                    { icon: Music, label: t('Musique', 'Music'), color: '#FF6BFF' },
-                    { icon: Film, label: t('Cinéma', 'Cinema'), color: '#00E0FF' },
-                    { icon: Palette, label: t('Arts Visuels', 'Visual Arts'), color: '#FFD700' },
+                    { icon: Music, label: t('Music', 'Musique'), color: '#FF6BFF' },
+                    { icon: Film, label: t('Cinema', 'Cinéma'), color: '#00E0FF' },
+                    { icon: Palette, label: t('Visual Arts', 'Arts Visuels'), color: '#FFD700' },
                     { icon: Gamepad2, label: t('Gaming', 'Gaming'), color: '#6BFF9E' },
                     { icon: Camera, label: t('Photo', 'Photo'), color: '#FF9E6B' },
-                    { icon: Mic, label: t('Danse', 'Dance'), color: '#B06BFF' },
+                    { icon: Mic, label: t('Dance', 'Danse'), color: '#B06BFF' },
                   ].map((item, i) => (
                     <motion.div
                       key={i}
@@ -203,7 +203,7 @@ export const KidiWorldModal: React.FC<KidiWorldModalProps> = ({ isOpen, onClose 
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '20px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
                   <div>
                     <p style={{ fontSize: '8px', fontWeight: 900, color: 'rgba(255,255,255,0.2)', textTransform: 'uppercase', letterSpacing: '0.35em', fontFamily: 'monospace' }}>
-                      {t('LANCEMENT IMMINENT', 'LAUNCHING SOON')}
+                      {t('LAUNCHING SOON', 'LANCEMENT IMMINENT')}
                     </p>
                     <p style={{ fontSize: '11px', fontWeight: 900, color: 'rgba(255,107,255,0.6)', textTransform: 'uppercase', letterSpacing: '0.3em', marginTop: '2px', fontFamily: 'monospace' }}>
                       kidi.world
@@ -228,7 +228,7 @@ export const KidiWorldModal: React.FC<KidiWorldModalProps> = ({ isOpen, onClose 
                       boxShadow: '0 8px 30px rgba(255,107,255,0.25)',
                     }}
                   >
-                    {t('✨ COMPRIS !', '✨ GOT IT!')}
+                    {t('✨ GOT IT!', '✨ COMPRIS !')}
                   </motion.button>
                 </div>
               </div>
