@@ -205,9 +205,16 @@ export const KidiWorldModal: React.FC<KidiWorldModalProps> = ({ isOpen, onClose 
                     <p style={{ fontSize: '8px', fontWeight: 900, color: 'rgba(255,255,255,0.2)', textTransform: 'uppercase', letterSpacing: '0.35em', fontFamily: 'monospace' }}>
                       {t('LAUNCHING SOON', 'LANCEMENT IMMINENT')}
                     </p>
-                    <p style={{ fontSize: '11px', fontWeight: 900, color: 'rgba(255,107,255,0.6)', textTransform: 'uppercase', letterSpacing: '0.3em', marginTop: '2px', fontFamily: 'monospace' }}>
-                      kidi.world
-                    </p>
+                    <a
+                      href="https://kidi.world"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ fontSize: '11px', fontWeight: 900, color: 'rgba(255,107,255,0.6)', textTransform: 'uppercase', letterSpacing: '0.3em', marginTop: '2px', fontFamily: 'monospace', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '6px', transition: 'color 0.2s' }}
+                      onMouseEnter={e => (e.currentTarget.style.color = 'rgba(255,107,255,1)')}
+                      onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,107,255,0.6)')}
+                    >
+                      kidi.world ↗
+                    </a>
                   </div>
 
                   <motion.button
