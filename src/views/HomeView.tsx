@@ -369,22 +369,31 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
   const activeMeta = CASE_META[selectedCaseIdx];
   const activeColor = selectedCaseIdx === 0 ? '#00E0FF' : selectedCaseIdx === 1 ? '#FFD700' : '#FF007F';
 
-  // Compute running price — same algorithm as the card selector (starts at $50, compounds)
-  const jalonPrices = React.useMemo(() => {
-    let score = activeMeta.initialScore;
-    let price = 50; // always start at $50 issuance price
-    return activeJalons.map(j => {
-      const prevScore = score;
-      const prevPrice = price;
-      score = Math.max(0, Math.min(1000, score + j.scoreDelta));
-      price = Math.round(price * (score / prevScore) * 100) / 100;
-      const pct = Math.round(((price - prevPrice) / prevPrice) * 1000) / 10;
-      return { prevScore, newScore: score, prevPrice, newPrice: price, pct };
+  // ── SINGLE SOURCE OF TRUTH for all price computations ─────────────────────
+  // Computes final price and step-by-step prices for ALL case studies in one place.
+  // Both the selector cards and the right panel read from this same object.
+  const allCasePrices = React.useMemo(() => {
+    return CASE_JALONS.map((jalons, idx) => {
+      const initialScore = CASE_META[idx].initialScore;
+      let score = initialScore;
+      let price = 50; // always $50 issuance
+      const steps = jalons.map(j => {
+        const prevScore = score;
+        const prevPrice = price;
+        score = Math.max(0, Math.min(1000, score + j.scoreDelta));
+        price = Math.round(price * (score / prevScore) * 100) / 100;
+        const pct = Math.round(((price - prevPrice) / prevPrice) * 1000) / 10;
+        return { prevScore, newScore: score, prevPrice, newPrice: price, pct };
+      });
+      const finalPrice = steps[steps.length - 1]?.newPrice ?? 50;
+      const totalReturn = Math.round(((finalPrice - 50) / 50) * 1000) / 10;
+      return { steps, finalPrice, totalReturn };
     });
-  }, [selectedCaseIdx]);
+  }, []); // never changes — data is static
 
-  const finalPrice = jalonPrices[jalonPrices.length - 1]?.newPrice ?? 50;
-  const totalReturn = Math.round(((finalPrice - 50) / 50) * 1000) / 10;
+  const jalonPrices = allCasePrices[selectedCaseIdx].steps;
+  const finalPrice   = allCasePrices[selectedCaseIdx].finalPrice;
+  const totalReturn  = allCasePrices[selectedCaseIdx].totalReturn;
 
   return (
     <section className="relative z-10 py-16 sm:py-28 px-4 sm:px-6 overflow-hidden">
@@ -431,14 +440,9 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
         <div className="grid grid-cols-3 gap-4 mb-12">
           {CASE_META.map((meta, idx) => {
             const isActive = selectedCaseIdx === idx;
-            const jalons = CASE_JALONS[idx];
-            let sc = meta.initialScore;
-            let price = 50;
-            jalons.forEach(j => {
-              sc = Math.max(0, Math.min(1000, sc + j.scoreDelta));
-              price = Math.round(price * (sc / Math.max(1, sc - j.scoreDelta)) * 100) / 100;
-            });
-            const ret = Math.round(((price - 50) / 50) * 1000) / 10;
+            // Read from the single source of truth — guaranteed to match the right panel
+            const price = allCasePrices[idx].finalPrice;
+            const ret   = allCasePrices[idx].totalReturn;
             const isPositive = ret >= 0;
             return (
               <motion.button
