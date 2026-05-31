@@ -658,10 +658,13 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                   <div className="text-[9px] font-black text-white/10 tracking-[0.2em]">© 2026 LINKYOURART INDUSTRIES. ALL RIGHTS RESERVED.</div>
                   <button
                     onClick={() => setShowKidiModal(true)}
-                    className="flex items-center gap-1.5 mt-3 opacity-30 hover:opacity-70 transition-opacity group justify-end"
+                    className="flex items-center gap-2 mt-4 group"
                   >
-                    <span className="text-[8px] font-black text-accent-gold uppercase tracking-[0.3em]">KIDI.WORLD</span>
-                    <span className="w-1 h-1 rounded-full bg-accent-gold animate-pulse" />
+                    <div className="flex items-center gap-1.5 px-3 py-1.5 border border-white/10 bg-white/[0.03] group-hover:border-accent-gold/40 group-hover:bg-accent-gold/5 transition-all">
+                      <span className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-[#FF6BFF] to-[#00E0FF] animate-pulse" />
+                      <span className="text-[9px] font-black uppercase tracking-[0.35em] text-white/40 group-hover:text-accent-gold transition-colors">KIDI.WORLD</span>
+                      <span className="text-[8px] text-white/20 group-hover:text-white/40 transition-colors font-bold uppercase tracking-widest">{t('— COMING SOON', '— BIENTÔT')}</span>
+                    </div>
                   </button>
                 </div>
               </div>
