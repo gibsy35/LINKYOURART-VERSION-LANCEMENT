@@ -139,6 +139,8 @@ export const AdminView: React.FC<{
   const [loadingProjects, setLoadingProjects] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterRole, setFilterRole] = useState<string>('ALL');
+  const [usersPage, setUsersPage] = useState(1);
+  const USERS_PER_PAGE = 100;
   const [isSeeding, setIsSeeding] = useState(false);
   const [viewingUser, setViewingUser] = useState<UserProfile | null>(null);
   const [editingProject, setEditingProject] = useState<any | null>(null);
@@ -161,12 +163,12 @@ export const AdminView: React.FC<{
       return;
     }
     const usersRef = collection(db, 'users');
-    const q = query(usersRef, limit(25));
+    const q = query(usersRef, limit(500));
 
     let unsubscribe: () => void = () => {};
     
     try {
-      unsubscribe = onSnapshot(query(usersRef, limit(25)), (snapshot) => {
+      unsubscribe = onSnapshot(query(usersRef, limit(500)), (snapshot) => {
         const usersList = snapshot.docs.map(doc => ({ uid: doc.id, ...doc.data() } as UserProfile));
         setUsers(usersList);
         setLoading(false);
@@ -764,14 +766,14 @@ export const AdminView: React.FC<{
           <input 
             placeholder={t('Search by name, email or UID...', 'Recherche par nom, email ou UID...')}
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e) => { setSearchTerm(e.target.value); setUsersPage(1); }}
             className="w-full bg-surface-low border border-white/10 p-4 pl-12 text-xs font-mono uppercase outline-none focus:border-accent-gold rounded-xl transition-all"
           />
         </div>
         <div className="flex gap-2">
           <select 
             value={filterRole} 
-            onChange={(e) => setFilterRole(e.target.value)}
+            onChange={(e) => { setFilterRole(e.target.value); setUsersPage(1); }}
             className="bg-surface-low border border-white/10 px-6 text-[10px] font-black uppercase tracking-widest outline-none focus:border-accent-gold rounded-xl"
           >
             <option value="ALL">ALL ROLES</option>
@@ -780,6 +782,32 @@ export const AdminView: React.FC<{
             <option value={UserRole.PROFESSIONAL}>PROFESSIONALS</option>
             <option value="PRO">PRO HUB ONLY</option>
           </select>
+        </div>
+      </div>
+
+      {/* Pagination info */}
+      <div className="flex items-center justify-between mb-3 px-1">
+        <p className="text-[9px] font-black text-white/30 uppercase tracking-widest">
+          {filteredUsers.length} {t('users found', 'utilisateurs trouvés')} · {t('Page', 'Page')} {usersPage}/{Math.max(1, Math.ceil(filteredUsers.length / USERS_PER_PAGE))}
+        </p>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setUsersPage(p => Math.max(1, p - 1))}
+            disabled={usersPage === 1}
+            className="px-4 py-2 text-[9px] font-black uppercase tracking-widest border border-white/10 text-white/50 hover:text-white hover:border-white/30 disabled:opacity-20 disabled:cursor-not-allowed transition-all"
+          >
+            ← {t('Prev', 'Préc.')}
+          </button>
+          <span className="text-[9px] font-mono text-white/30 px-2">
+            {(usersPage - 1) * USERS_PER_PAGE + 1}–{Math.min(usersPage * USERS_PER_PAGE, filteredUsers.length)}
+          </span>
+          <button
+            onClick={() => setUsersPage(p => Math.min(Math.ceil(filteredUsers.length / USERS_PER_PAGE), p + 1))}
+            disabled={usersPage >= Math.ceil(filteredUsers.length / USERS_PER_PAGE)}
+            className="px-4 py-2 text-[9px] font-black uppercase tracking-widest border border-white/10 text-white/50 hover:text-white hover:border-white/30 disabled:opacity-20 disabled:cursor-not-allowed transition-all"
+          >
+            {t('Next', 'Suiv.')} →
+          </button>
         </div>
       </div>
 
@@ -795,7 +823,7 @@ export const AdminView: React.FC<{
               </tr>
             </thead>
             <tbody>
-              {filteredUsers.map(u => (
+              {filteredUsers.slice((usersPage - 1) * USERS_PER_PAGE, usersPage * USERS_PER_PAGE).map(u => (
                 <tr 
                   key={u.uid} 
                   className="border-t border-white/5 hover:bg-white/[0.02] cursor-pointer transition-colors group" 
@@ -845,6 +873,28 @@ export const AdminView: React.FC<{
           </table>
         </div>
       </div>
+
+      {/* Bottom pagination shortcut */}
+      {filteredUsers.length > USERS_PER_PAGE && (
+        <div className="flex justify-center gap-3 pt-4">
+          {Array.from({ length: Math.ceil(filteredUsers.length / USERS_PER_PAGE) }, (_, i) => i + 1).slice(0, 10).map(p => (
+            <button
+              key={p}
+              onClick={() => setUsersPage(p)}
+              className={`w-8 h-8 text-[10px] font-black border transition-all ${
+                usersPage === p
+                  ? 'bg-primary-cyan text-surface-dim border-primary-cyan'
+                  : 'border-white/10 text-white/40 hover:border-white/30 hover:text-white'
+              }`}
+            >
+              {p}
+            </button>
+          ))}
+          {Math.ceil(filteredUsers.length / USERS_PER_PAGE) > 10 && (
+            <span className="text-[10px] text-white/20 font-black self-center">…{Math.ceil(filteredUsers.length / USERS_PER_PAGE)}</span>
+          )}
+        </div>
+      )}
     </div>
   );
 
