@@ -369,16 +369,17 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
   const activeMeta = CASE_META[selectedCaseIdx];
   const activeColor = selectedCaseIdx === 0 ? '#00E0FF' : selectedCaseIdx === 1 ? '#FFD700' : '#FF007F';
 
-  // Compute running price for each jalon
+  // Compute running price — same algorithm as the card selector (starts at $50, compounds)
   const jalonPrices = React.useMemo(() => {
     let score = activeMeta.initialScore;
+    let price = 50; // always start at $50 issuance price
     return activeJalons.map(j => {
       const prevScore = score;
+      const prevPrice = price;
       score = Math.max(0, Math.min(1000, score + j.scoreDelta));
-      const prevPrice = j.priceFrom;
-      const newPrice = Math.round(prevPrice * (score / prevScore) * 100) / 100;
-      const pct = Math.round(((newPrice - prevPrice) / prevPrice) * 1000) / 10;
-      return { prevScore, newScore: score, prevPrice, newPrice, pct };
+      price = Math.round(price * (score / prevScore) * 100) / 100;
+      const pct = Math.round(((price - prevPrice) / prevPrice) * 1000) / 10;
+      return { prevScore, newScore: score, prevPrice, newPrice: price, pct };
     });
   }, [selectedCaseIdx]);
 
