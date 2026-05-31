@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { 
+import { ExternalLink, 
   Home, 
   LayoutDashboard, 
   ArrowLeftRight, 
@@ -252,6 +252,25 @@ export const Sidebar: React.FC<SidebarProps> = ({
             </>
           )}
         </button>
+
+        {/* KIDI.WORLD partnership */}
+        {!isCollapsed && (
+          <a
+            href="https://kidi.world"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-3 px-3 py-2.5 mt-1 border border-accent-gold/20 bg-accent-gold/5 hover:bg-accent-gold/10 hover:border-accent-gold/40 transition-all group"
+          >
+            <div className="w-5 h-5 border border-accent-gold/40 flex items-center justify-center shrink-0">
+              <span className="text-accent-gold text-[8px] font-black">K</span>
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-[9px] font-black text-accent-gold uppercase tracking-widest leading-none">KIDI.WORLD</p>
+              <p className="text-[7px] text-white/25 uppercase tracking-widest mt-0.5 truncate">{t('Creative ecosystem', 'Écosystème créatif')}</p>
+            </div>
+            <ExternalLink size={10} className="text-accent-gold/40 group-hover:text-accent-gold shrink-0" />
+          </a>
+        )}
       </div>
 
       {/* User Status Area */}

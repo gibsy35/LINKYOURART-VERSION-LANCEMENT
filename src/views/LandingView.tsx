@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useTranslation } from '../context/LanguageContext';
 import { Logo } from '../components/ui/Logo';
-import { 
+import { ExternalLink, 
   Users, 
   Briefcase, 
   TrendingUp, 
@@ -642,6 +642,25 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                       contact@linkyourart.com
                     </a>
                     <div className="text-[10px] font-bold tracking-widest text-white/20 uppercase">Response within 24h GMT</div>
+                  </div>
+                  {/* KIDI.WORLD partnership link */}
+                  <div className="pt-4 border-t border-white/5">
+                    <p className="text-[8px] font-black uppercase tracking-[0.4em] text-white/20 mb-3">{t('OUR CREATIVE ECOSYSTEM', 'NOTRE ÉCOSYSTÈME CRÉATIF')}</p>
+                    <a
+                      href="https://kidi.world"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex items-center gap-3 hover:gap-4 transition-all"
+                    >
+                      <div className="w-8 h-8 border border-accent-gold/40 bg-accent-gold/10 flex items-center justify-center shrink-0 group-hover:border-accent-gold/80 group-hover:bg-accent-gold/20 transition-all">
+                        <span className="text-accent-gold text-[9px] font-black">K</span>
+                      </div>
+                      <div>
+                        <p className="text-sm font-black text-white group-hover:text-accent-gold transition-colors uppercase tracking-widest">KIDI.WORLD</p>
+                        <p className="text-[8px] text-white/30 font-bold uppercase tracking-widest">{t('Creative intelligence platform', 'Plateforme d\'intelligence créative')}</p>
+                      </div>
+                      <ExternalLink size={12} className="text-white/20 group-hover:text-accent-gold transition-colors ml-auto" />
+                    </a>
                   </div>
                 </div>
 

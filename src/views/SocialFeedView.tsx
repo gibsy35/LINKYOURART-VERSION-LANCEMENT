@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Activity, 
@@ -285,7 +285,25 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
   const [visibleSectors, setVisibleSectors] = useState(9);
   const [selectedNews, setSelectedNews] = useState<NewsItem | null>(null);
   const [imageLoadedStates, setImageLoadedStates] = useState<Record<string, boolean>>({});
+  const [liveFilter, setLiveFilter] = useState(99.4);
   const pageSize = 6;
+
+  // Animate the neural filter percentage slightly in real time
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setLiveFilter(prev => {
+        const delta = (Math.random() - 0.48) * 0.3;
+        return Math.round(Math.min(99.9, Math.max(98.5, prev + delta)) * 10) / 10;
+      });
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const avgImpact = React.useMemo(() => {
+    if (!news.length) return 0;
+    const sum = news.reduce((acc, n) => acc + (n.impact.trend === 'UP' ? n.impact.score : -n.impact.score), 0);
+    return Math.round(sum / news.length);
+  }, [news]);
 
   const nodes = [
     { label: 'Paris Registry', status: 'SYNCED', latency: '12ms' },
@@ -522,12 +540,23 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
         </div>
         <div className="flex gap-4">
           <div className="bg-surface-low border border-white/5 p-4 text-center min-w-[120px]">
-            <div className="text-[10px] text-on-surface-variant uppercase tracking-widest mb-1">{t('Active Feeds', 'Flux Actifs')}</div>
-            <div className="text-2xl font-black text-primary-cyan">12</div>
+            <div className="text-[10px] text-on-surface-variant uppercase tracking-widest mb-1">{t('Live Articles', 'Articles Live')}</div>
+            <div className="text-2xl font-black text-primary-cyan tabular-nums">
+              {news.length}
+              <span className="text-xs text-primary-cyan/50 ml-1 animate-pulse">●</span>
+            </div>
           </div>
           <div className="bg-surface-low border border-white/5 p-4 text-center min-w-[120px]">
             <div className="text-[10px] text-on-surface-variant uppercase tracking-widest mb-1">{t('Neural Filter', 'Filtre Neural')}</div>
-            <div className="text-2xl font-black text-emerald-400">99.4%</div>
+            <div className="text-2xl font-black text-emerald-400 tabular-nums">
+              {liveFilter}<span className="text-sm">%</span>
+            </div>
+          </div>
+          <div className="bg-surface-low border border-white/5 p-4 text-center min-w-[120px]">
+            <div className="text-[10px] text-on-surface-variant uppercase tracking-widest mb-1">{t('Avg Impact', 'Impact Moy.')}</div>
+            <div className={`text-2xl font-black tabular-nums ${avgImpact >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+              {avgImpact >= 0 ? '+' : ''}{avgImpact}
+            </div>
           </div>
         </div>
       </header>
@@ -575,15 +604,23 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
                 className="bg-surface-low/40 backdrop-blur-xl border border-white/5 overflow-hidden group hover:border-primary-cyan/30 transition-all rounded-xl shadow-2xl"
               >
                 <div className="flex flex-col md:flex-row">
-                  <div className="w-full md:w-64 h-48 md:h-auto overflow-hidden relative shrink-0">
-                    {item.imageUrl && (
-                      <img 
-                        src={item.imageUrl} 
-                        alt={item.title} 
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-60 group-hover:opacity-100" 
-                        referrerPolicy="no-referrer"
-                      />
-                    )}
+                  <div className="w-full md:w-64 h-48 md:h-auto overflow-hidden relative shrink-0 bg-surface-low">
+                    {/* Placeholder gradient shown until image loads */}
+                    <div className={`absolute inset-0 bg-gradient-to-br from-primary-cyan/10 to-surface-dim flex items-center justify-center transition-opacity duration-500 ${imageLoadedStates[item.id] ? 'opacity-0' : 'opacity-100'}`}>
+                      <div className="w-10 h-10 border-2 border-primary-cyan/30 border-t-primary-cyan rounded-full animate-spin" />
+                    </div>
+                    <img 
+                      src={item.imageUrl || `https://picsum.photos/seed/${item.id}/800/600`}
+                      alt={item.title} 
+                      onLoad={() => setImageLoadedStates(prev => ({ ...prev, [item.id]: true }))}
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = `https://picsum.photos/seed/${item.id}${item.category}/800/600`;
+                        setImageLoadedStates(prev => ({ ...prev, [item.id]: true }));
+                      }}
+                      className={`w-full h-full object-cover group-hover:scale-110 transition-all duration-700 ${imageLoadedStates[item.id] ? 'opacity-70 group-hover:opacity-100' : 'opacity-0'}`}
+                      referrerPolicy="no-referrer"
+                      crossOrigin="anonymous"
+                    />
                     <div className="absolute inset-0 bg-gradient-to-t from-surface-dim via-transparent to-transparent opacity-60" />
                     <div className="absolute top-4 left-4">
                       <span className="px-3 py-1 bg-surface-dim/80 backdrop-blur-md border border-white/10 text-[9px] font-black uppercase tracking-widest text-primary-cyan">
@@ -656,12 +693,14 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
           </AnimatePresence>
 
           {hasMore && (
-            <div className="pt-8 text-center">
+            <div className="pt-8 flex justify-center">
               <button 
                 onClick={() => setCurrentPage(prev => prev + 1)}
-                className="px-12 py-4 bg-white/5 border border-white/10 text-white text-xs font-black uppercase tracking-[0.3em] hover:bg-white hover:text-surface-dim transition-all active:scale-95"
+                className="flex items-center gap-3 px-12 py-4 border border-primary-cyan/30 text-primary-cyan text-[10px] font-black uppercase tracking-[0.3em] hover:bg-primary-cyan hover:text-surface-dim transition-all active:scale-95 group"
               >
-                {t('Load More Intelligence', 'Charger plus d\'informations')}
+                <RefreshCw size={14} className="group-hover:rotate-180 transition-transform duration-500" />
+                {t('LOAD MORE NEWS', 'CHARGER PLUS D\'ACTUALITÉS')}
+                <span className="text-white/30 font-mono text-[9px] ml-1">({filteredNews.length - paginatedNews.length} {t('left', 'restants')})</span>
               </button>
             </div>
           )}

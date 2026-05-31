@@ -161,12 +161,12 @@ export const AdminView: React.FC<{
       return;
     }
     const usersRef = collection(db, 'users');
-    const q = query(usersRef, limit(100));
+    const q = query(usersRef, limit(25));
 
     let unsubscribe: () => void = () => {};
     
     try {
-      unsubscribe = onSnapshot(query(usersRef, limit(100)), (snapshot) => {
+      unsubscribe = onSnapshot(query(usersRef, limit(25)), (snapshot) => {
         const usersList = snapshot.docs.map(doc => ({ uid: doc.id, ...doc.data() } as UserProfile));
         setUsers(usersList);
         setLoading(false);
