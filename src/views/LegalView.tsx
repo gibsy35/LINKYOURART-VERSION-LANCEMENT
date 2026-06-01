@@ -142,50 +142,74 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify, onViewChan
         a: t('Transparency is key. We apply a fee of 2% to 5% on transactions de transfert direct and a 3% fee upon objective finalization of a project. These fees support the ecosystem\'s security and evolution.', 'La transparence est essentielle. Nous appliquons des frais de 2% à 5% sur les transactions de la Plateforme de Transfert et une commission de 3% lors de la finalisation des objectifs d\'un projet.') 
       }
     ],
-    Creators: [
-      { 
-        q: t('How to list a creation?', 'Comment lister une création ?'), 
-        a: t('Submit your project through our interface. Once indexed by our experts and the LYA Score, you can emit LYA UNITS (reference index initially set at 50 USD) to raise funds. Its value will then fluctuate according to the project development and milestones.', 'Soumettez votre projet via notre interface. Une fois indexé par nos experts et le Score LYA, vous pouvez émettre des LYA UNITS (indice de référence fixé à 50 USD au départ). Sa valeur fluctuera ensuite selon le développement du projet et ses jalons.') 
-      },
-      { 
-        q: t('What are the benefits for project holders?', 'Quels sont les avantages pour les porteurs de projets ?'), 
-        a: t('Access to immediate financing via LYA UNITS without selling shares. You maintain control of your IP while creating a financial layer for your work. Success is directly linked to the respect of your milestones, which increases the unit value for everyone.', 'Accès à un financement immédiat via les LYA UNITS sans céder de parts sociales. Vous gardez le contrôle de votre PI tout en créant une couche financière pour votre œuvre. Le succès est lié au respect de vos jalons, ce qui augmente la valeur de l\'unité.') 
-      }
-    ],
-    'Partenaires créatifs': [
-      { 
-        q: t('How do I earn with LYA?', 'Comment gagner avec LYA ?'), 
-        a: t('By holding LYA UNITS of a project. If the creator respects their milestones and the project develops well, the LYA Score increases and the LYA UNIT value rises above the initial 50 USD. You can resale your units on the plateforme de transfert at any time.', 'En détenant des LYA UNITS d\'un projet. Si le créateur respecte ses jalons, le Score LYA monte et la valeur de l\'unité LYA dépasse les 50 USD initiaux. Vous pouvez revendre vos unités sur la Plateforme de Transfert à tout moment.') 
-      },
-      { 
-        q: t('How is the value of LYA UNITS calculated?', 'Comment est calculée la valeur des LYA UNITS ?'), 
-        a: t('The LYA UNIT has a fixed reference index of 50 USD at issuance. Its variations depend solely on the LYA Score (0-1000). Every point earned above the baseline increases the unit value, while missing a milestone recalibrates it downwards.', 'L\'unité LYA a un indice de référence de 50 USD à l\'émission. Ses variations dépendent du Score LYA (0-1000). Chaque point gagné au-dessus de la ligne de base augmente la valeur, tandis qu\'un jalon manqué la recalibre à la baisse.') 
-      }
-    ],
-    Professionals: [
-      { 
-        q: t('As a professional, what is my role in LYA?', 'En tant que professionnel, quel est mon rôle ?'), 
-        a: t('Independents, agencies, studios, labels, or production companies acts as validators. Your expertise contributes to the LYA Score. LYA allows professionals to identify talents and potentially acquisition creative rights via the Exchange.', 'Les indépendants, agences, studios, labels ou entreprises de production agissent comme validateurs. Votre expertise contribue au Score LYA. LYA permet d\'identifier des talents et d\'acquérir des droits créatifs via l\'Exchange.') 
-      },
-      { 
-        q: t('Can I manage a portfolio for my clients?', 'Puis-je gérer un portefeuille pour mes clients ?'), 
-        a: t('Absolutely. Professionals have advanced tools to track multiple projects and act as advisors or brokers within the creative economy ecosystem.', 'Absolument. Les professionnels disposent d\'outils avancés pour suivre plusieurs projets et agir en tant que conseillers ou courtiers au sein de l\'écosystème.') 
-      }
-    ],
-    Public: [
-      { 
-        q: t('Is LYA accessible to the general public?', 'LYA est-elle accessible au grand public ?'), 
-        a: t('Absolutely. LYA democratizes creation support. Anyone can acquire LYA UNITS of a specific project through a simple interface. You support the work, not just the person.', 'Absolument. LYA démocratise le soutien à la création. N\'importe qui peut acquérir des LYA UNITS d\'un projet via une interface simple. Vous soutenez l\'œuvre.') 
-      },
-      { 
-        q: t('How are creators and projects identified?', 'Comment sont identifiés les créateurs et les projets ?'), 
-        a: t('All projects are designated by unique identifiers to focus on the work. Identification/Networking is reserved for professional actors via the Lounge Pro to connect with project holders.', 'Tous les projets sont désignés par des identifiants uniques. L\'identification et le networking sont réservés aux acteurs professionnels via le Lounge Pro pour se connecter avec les porteurs de projets.') 
-      }
-    ],
     Security: [
       { 
         q: t('Is my investment safe?', 'Mon investissement est-il sûr ?'), 
         a: t('All rights are registered in our secure immutable registry. Because we operate with indexed contracts independent of traditional banking regulations like MICA, our focus is purely on the security of your creative rights and LYA UNITS.', 'Tous les droits sont enregistrés dans notre registre immuable. Comme nous opérons avec des contrats indexés indépendants des régulations bancaires type MICA, notre focus est la sécurité de vos droits créatifs et de vos LYA UNITS.') 
+      },
+      {
+        q: t('Is my personal data protected?', 'Mes données personnelles sont-elles protégées ?'),
+        a: t('Yes. LYA uses AES-256 encryption and never shares your data with third parties. You can request deletion of your account and all associated data at any time.', 'Oui. LYA utilise le chiffrement AES-256 et ne partage jamais vos données avec des tiers. Vous pouvez demander la suppression de votre compte et de toutes les données associées à tout moment.')
+      }
+    ],
+    Creators: [
+      {
+        q: t('How do I submit a creative project?', 'Comment soumettre un projet créatif ?'),
+        a: t('Go to the LinkArt section and fill in your project details: title, category, description, budget and milestones. Once submitted, your project enters the LYA validation queue.', 'Rendez-vous dans la section LinkArt et renseignez les détails de votre projet : titre, catégorie, description, budget et jalons. Une fois soumis, votre projet entre dans la file de validation LYA.')
+      },
+      {
+        q: t('What types of projects are accepted?', 'Quels types de projets sont acceptés ?'),
+        a: t('LYA accepts all creative industries: cinema, music, visual arts, architecture, gaming, fashion, photography, literature and more. Any project with commercial potential and documented creative rights can be submitted.', 'LYA accepte toutes les industries créatives : cinéma, musique, arts visuels, architecture, gaming, mode, photographie, littérature et plus encore. Tout projet avec un potentiel commercial et des droits créatifs documentés peut être soumis.')
+      },
+      {
+        q: t('How is the LYA Score calculated for my project?', 'Comment est calculé le Score LYA pour mon projet ?'),
+        a: t('The LYA Score (0-1000) combines 5 dimensions: Creative Quality (25%), Market Potential (25%), Legal Compliance (20%), Innovation Index (15%) and Growth Trajectory (15%). It is evaluated by certified Professional validators and updated as milestones are completed.', 'Le Score LYA (0-1000) combine 5 dimensions : Qualité Créative (25%), Potentiel de Marché (25%), Conformité Juridique (20%), Indice d\'Innovation (15%) et Trajectoire de Croissance (15%). Il est évalué par des validateurs Professionnels certifiés et mis à jour au fil des jalons.')
+      },
+      {
+        q: t('Do I keep full creative control of my project?', 'Est-ce que je garde le contrôle créatif de mon projet ?'),
+        a: t('Absolutely. Creators retain all moral rights and creative control. LYA Unit holders only receive economic participation rights. You can also exercise a buyback option after a 24-month lock-up period.', 'Absolument. Les créateurs conservent tous leurs droits moraux et le contrôle créatif. Les détenteurs d\'unités LYA ne reçoivent que des droits de participation économique. Vous pouvez également exercer une option de rachat après une période de blocage de 24 mois.')
+      }
+    ],
+    "Partenaire créatifs": [
+      {
+        q: t('How do I invest in a creative project?', 'Comment investir dans un projet créatif ?'),
+        a: t('Browse the Registry or Exchange to find projects. Each LYA Unit costs $50 at issuance. You can acquire units directly from the creator during the initial offering or on the secondary market via the Exchange.', 'Parcourez le Registre ou le Centre d\'Échanges pour trouver des projets. Chaque Unité LYA coûte 50$ à l\'émission. Vous pouvez acquérir des unités directement auprès du créateur lors de l\'offre initiale ou sur le marché secondaire via l\'Exchange.')
+      },
+      {
+        q: t('How do I earn returns on my investment?', 'Comment obtenir des rendements sur mon investissement ?'),
+        a: t('Returns come from two sources: value appreciation (the LYA Score rising with each validated milestone increases the unit price on the secondary market) and revenue distributions automatically triggered when verified milestone events are completed.', 'Les rendements proviennent de deux sources : l\'appréciation de valeur (le Score LYA qui monte avec chaque jalon validé augmente le prix unitaire sur le marché secondaire) et les distributions de revenus déclenchées automatiquement lors de la complétion de jalons vérifiés.')
+      },
+      {
+        q: t('Can I resell my LYA Units?', 'Puis-je revendre mes Unités LYA ?'),
+        a: t('Yes. LYA Units can be traded on the secondary market (Exchange) at any time after the initial lock-up period defined in each contract. The resale price is dynamic and directly linked to the project\'s LYA Score.', 'Oui. Les Unités LYA peuvent être échangées sur le marché secondaire (Exchange) à tout moment après la période de blocage initiale définie dans chaque contrat. Le prix de revente est dynamique et directement lié au Score LYA du projet.')
+      }
+    ],
+    Professionals: [
+      {
+        q: t('How do I become a validated Professional on LYA?', 'Comment devenir un Professionnel validé sur LYA ?'),
+        a: t('Submit a Professional Verification request in the Apply for Verification section. Provide your professional credentials, portfolio and references. Validation is reviewed by the LYA committee within 5 to 10 business days.', 'Soumettez une demande de Vérification Professionnelle dans la section Postuler à la Vérification. Fournissez vos accréditations professionnelles, portfolio et références. La validation est examinée par le comité LYA sous 5 à 10 jours ouvrés.')
+      },
+      {
+        q: t('What does Pro status unlock?', 'Qu\'est-ce que le statut Pro débloque ?'),
+        a: t('Pro status gives access to: the Validation hub to evaluate projects and earn fees, the Lounge Pro for professional networking, advanced AI analytics, settlement batch management, governance voting rights and API access.', 'Le statut Pro donne accès à : le hub de Validation pour évaluer les projets et percevoir des honoraires, le Lounge Pro pour le réseautage professionnel, les analyses IA avancées, la gestion des lots de règlement, les droits de vote en gouvernance et l\'accès API.')
+      },
+      {
+        q: t('How are Professional validators compensated?', 'Comment les validateurs Professionnels sont-ils rémunérés ?'),
+        a: t('Validators earn a validation fee (percentage of the contract value) for each project they evaluate. Fees are paid in LYA Units and distributed automatically upon completion of the validation process.', 'Les validateurs perçoivent des honoraires de validation (pourcentage de la valeur du contrat) pour chaque projet évalué. Les honoraires sont versés en Unités LYA et distribués automatiquement à la complétion du processus de validation.')
+      }
+    ],
+    Public: [
+      {
+        q: t('Do I need an account to browse LYA?', 'Ai-je besoin d\'un compte pour naviguer sur LYA ?'),
+        a: t('No. The home page, Registry and Exchange are accessible in read-only mode without an account. To invest, submit a project or interact with the platform, you need to create a free account.', 'Non. La page d\'accueil, le Registre et le Centre d\'Échanges sont accessibles en lecture seule sans compte. Pour investir, soumettre un projet ou interagir avec la plateforme, vous devez créer un compte gratuit.')
+      },
+      {
+        q: t('Is LYA free to use?', 'LYA est-il gratuit ?'),
+        a: t('Creating an account and browsing the platform is completely free. Fees only apply to unit transactions (1.5% settlement fee on secondary market trades) and Pro subscription for advanced features.', 'La création d\'un compte et la navigation sur la plateforme sont entièrement gratuites. Des frais s\'appliquent uniquement aux transactions d\'unités (1,5% de frais de règlement sur les échanges du marché secondaire) et à l\'abonnement Pro pour les fonctionnalités avancées.')
+      },
+      {
+        q: t('In which countries is LYA available?', 'Dans quels pays LYA est-il disponible ?'),
+        a: t('LYA is available worldwide. The platform currently supports contracts under French Law, English Law and US Federal IP frameworks, with more jurisdictions being added regularly.', 'LYA est disponible dans le monde entier. La plateforme supporte actuellement les contrats sous droit français, droit anglais et cadres de PI fédéraux américains, avec d\'autres juridictions ajoutées régulièrement.')
       }
     ]
   };
@@ -258,7 +282,7 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify, onViewChan
                   transition={{ duration: 0.4, ease: "circOut" }}
                   className="grid grid-cols-1 md:grid-cols-2 gap-10 col-span-2"
                 >
-                  {faqContent[activeFaqTab as keyof typeof faqContent].map((item, i) => (
+                  {(faqContent[activeFaqTab as keyof typeof faqContent] || []).map((item, i) => (
                     <motion.div
                       key={i}
                       initial={{ opacity: 0, scale: 0.95 }}

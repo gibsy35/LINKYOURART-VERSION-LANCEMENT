@@ -1,25 +1,34 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { GoogleGenAI } from "@google/genai";
-
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || '' });
-const DEFAULT_MODEL = "gemini-2.5-flash";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+  const { assetName, description, score, language } = req.body;
+  const isFr = language === 'FR';
   try {
-    const { assetName, description, score, language } = req.body;
-    const responseLang = language === 'FR' ? 'French' : 'English';
-    const response = await ai.models.generateContent({
-      model: DEFAULT_MODEL,
-      config: { systemInstruction: `You are a senior analyst specializing in creative rights valuation. Write in ${responseLang}.` },
-      contents: `Analyze this creative project for LYA platform. Name: ${assetName}. Description: ${description}. LYA Score: ${score}/1000. Provide a concise 2-sentence summary in ${responseLang}.`
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': process.env.ANTHROPIC_API_KEY || '',
+        'anthropic-version': '2023-06-01'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 300,
+        system: `You are a senior LYA Protocol analyst specializing in creative rights valuation. Write concisely in ${isFr ? 'French' : 'English'}.`,
+        messages: [{
+          role: 'user',
+          content: `Analyze this creative asset for the LYA platform. Name: ${assetName}. Description: ${description || 'N/A'}. LYA Score: ${score}/1000. Provide exactly 2 sentences of analysis in ${isFr ? 'French' : 'English'}.`
+        }]
+      })
     });
-    res.json({ analysis: response.text });
-  } catch (error: any) {
-    const isFr = req.body?.language === 'FR';
+    const data = await response.json();
+    const text = data.content?.[0]?.text || (isFr ? 'Analyse indisponible.' : 'Analysis unavailable.');
+    res.json({ analysis: text });
+  } catch {
     res.json({ analysis: isFr
-      ? `Ce projet créatif présente d'excellentes perspectives. Établi sur nos indicateurs certifiés LYA, ${req.body?.assetName || "le projet"} préserve une dynamique solide.`
-      : `This creative project shows strong prospects. Based on LYA certified indicators, ${req.body?.assetName || "the project"} maintains solid dynamics.`
+      ? `${assetName} présente d'excellentes perspectives sur le marché créatif LYA. Avec un score de ${score}/1000, ce projet maintient une dynamique solide et un potentiel d'appréciation notable.`
+      : `${assetName} shows strong prospects on the LYA creative market. With a score of ${score}/1000, this project maintains solid momentum and notable appreciation potential.`
     });
   }
 }

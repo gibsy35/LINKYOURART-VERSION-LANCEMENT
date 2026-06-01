@@ -335,34 +335,34 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
   const CASE_JALONS = [
     // 0 — RENAISSANCE REBORN (Fine Art)
     [
-      { type: 'jalon', title: 'Certification Authentification', desc: 'Expertise validée par 3 maisons internationales', scoreFrom: 520, scoreDelta: 80, priceFrom: 50.00 },
-      { type: 'risk',  title: 'Retard Assurance Transport', desc: 'Sinistre logistique pendant l\'exposition', scoreFrom: 600, scoreDelta: -45, priceFrom: 54.00 },
-      { type: 'jalon', title: 'Exposition Grand Palais Paris', desc: 'Couverture presse internationale confirmée', scoreFrom: 555, scoreDelta: 110, priceFrom: 49.50 },
-      { type: 'risk',  title: 'Litige Droit de Suite', desc: 'Héritiers contestent la cession de revenus', scoreFrom: 665, scoreDelta: -55, priceFrom: 60.50 },
-      { type: 'jalon', title: 'Entrée Collection Pinault', desc: 'Acquisition institutionnelle majeure', scoreFrom: 610, scoreDelta: 130, priceFrom: 55.00 },
+      { type: 'jalon', title: t('Authentication Certification', 'Certification Authentification'), desc: t('Expertise validated by 3 international houses', 'Expertise validée par 3 maisons internationales'), scoreFrom: 520, scoreDelta: 80, priceFrom: 50.00 },
+      { type: 'risk',  title: t('Transport Insurance Delay', 'Retard Assurance Transport'), desc: t('Logistics incident during the exhibition', 'Sinistre logistique pendant l\'exposition'), scoreFrom: 600, scoreDelta: -45, priceFrom: 54.00 },
+      { type: 'jalon', title: t('Grand Palais Paris Exhibition', 'Exposition Grand Palais Paris'), desc: t('International press coverage confirmed', 'Couverture presse internationale confirmée'), scoreFrom: 555, scoreDelta: 110, priceFrom: 49.50 },
+      { type: 'risk',  title: t('Resale Right Dispute', 'Litige Droit de Suite'), desc: t('Heirs contest the revenue assignment', 'Héritiers contestent la cession de revenus'), scoreFrom: 665, scoreDelta: -55, priceFrom: 60.50 },
+      { type: 'jalon', title: t('Pinault Collection Entry', 'Entrée Collection Pinault'), desc: t('Major institutional acquisition', 'Acquisition institutionnelle majeure'), scoreFrom: 610, scoreDelta: 130, priceFrom: 55.00 },
     ],
     // 1 — SKY GARDENS V4 (Architecture)
     [
-      { type: 'jalon', title: 'Permis de Construire Validé', desc: 'Mairie approuve le projet urbanistique', scoreFrom: 480, scoreDelta: 70, priceFrom: 50.00 },
-      { type: 'risk',  title: 'Retard Livraison Matériaux', desc: 'Pénurie acier, chantier suspendu 6 semaines', scoreFrom: 550, scoreDelta: -60, priceFrom: 53.50 },
-      { type: 'jalon', title: 'Contrat Hôtelier International', desc: 'Licence usage 15 ans signée avec chaîne 5★', scoreFrom: 490, scoreDelta: 120, priceFrom: 47.00 },
-      { type: 'risk',  title: 'Normes Parasismiques Révisées', desc: 'Mise à niveau structure requise', scoreFrom: 610, scoreDelta: -40, priceFrom: 59.00 },
-      { type: 'jalon', title: 'Prix Architecture Internationale', desc: 'Récompense Dezeen Awards catégorie résidentiel', scoreFrom: 570, scoreDelta: 100, priceFrom: 55.00 },
+      { type: 'jalon', title: t('Building Permit Approved', 'Permis de Construire Validé'), desc: t('City hall approves the urban project', 'Mairie approuve le projet urbanistique'), scoreFrom: 480, scoreDelta: 70, priceFrom: 50.00 },
+      { type: 'risk',  title: t('Materials Delivery Delay', 'Retard Livraison Matériaux'), desc: t('Steel shortage, construction suspended 6 weeks', 'Pénurie acier, chantier suspendu 6 semaines'), scoreFrom: 550, scoreDelta: -60, priceFrom: 53.50 },
+      { type: 'jalon', title: t('International Hotel Contract', 'Contrat Hôtelier International'), desc: t('15-year usage license signed with 5★ chain', 'Licence usage 15 ans signée avec chaîne 5★'), scoreFrom: 490, scoreDelta: 120, priceFrom: 47.00 },
+      { type: 'risk',  title: t('Revised Seismic Standards', 'Normes Parasismiques Révisées'), desc: t('Structure upgrade required', 'Mise à niveau structure requise'), scoreFrom: 610, scoreDelta: -40, priceFrom: 59.00 },
+      { type: 'jalon', title: t('International Architecture Prize', 'Prix Architecture Internationale'), desc: t('Dezeen Awards residential category winner', 'Récompense Dezeen Awards catégorie résidentiel'), scoreFrom: 570, scoreDelta: 100, priceFrom: 55.00 },
     ],
     // 2 — CHRONICLES OF ELDON (TV Series)
     [
-      { type: 'jalon', title: 'Accord Netflix Distribution', desc: 'Prévente SVOD confirmée 42 territoires', scoreFrom: 500, scoreDelta: 95, priceFrom: 50.00 },
-      { type: 'risk',  title: 'Retard VFX Post-Production', desc: 'Studio effets spéciaux en liquidation', scoreFrom: 595, scoreDelta: -70, priceFrom: 57.50 },
-      { type: 'jalon', title: 'Sélection Festival Sundance', desc: 'Pilote primé, couverture mondiale', scoreFrom: 525, scoreDelta: 115, priceFrom: 47.50 },
-      { type: 'risk',  title: 'Grève Scénaristes SAG-AFTRA', desc: 'Production interrompue 2 mois', scoreFrom: 640, scoreDelta: -80, priceFrom: 63.75 },
-      { type: 'jalon', title: 'Renouvellement Saison 2', desc: 'Confirmation Netflix + bonus audience', scoreFrom: 560, scoreDelta: 150, priceFrom: 56.00 },
+      { type: 'jalon', title: t('Netflix Distribution Deal', 'Accord Netflix Distribution'), desc: t('SVOD presale confirmed in 42 territories', 'Prévente SVOD confirmée 42 territoires'), scoreFrom: 500, scoreDelta: 95, priceFrom: 50.00 },
+      { type: 'risk',  title: t('VFX Post-Production Delay', 'Retard VFX Post-Production'), desc: t('Visual effects studio in liquidation', 'Studio effets spéciaux en liquidation'), scoreFrom: 595, scoreDelta: -70, priceFrom: 57.50 },
+      { type: 'jalon', title: t('Sundance Festival Selection', 'Sélection Festival Sundance'), desc: t('Award-winning pilot, global coverage', 'Pilote primé, couverture mondiale'), scoreFrom: 525, scoreDelta: 115, priceFrom: 47.50 },
+      { type: 'risk',  title: t('SAG-AFTRA Writers Strike', 'Grève Scénaristes SAG-AFTRA'), desc: t('Production halted for 2 months', 'Production interrompue 2 mois'), scoreFrom: 640, scoreDelta: -80, priceFrom: 63.75 },
+      { type: 'jalon', title: t('Season 2 Renewal', 'Renouvellement Saison 2'), desc: t('Netflix confirmation + audience bonus', 'Confirmation Netflix + bonus audience'), scoreFrom: 560, scoreDelta: 150, priceFrom: 56.00 },
     ],
   ];
 
   const CASE_META = [
-    { category: 'BEAUX-ARTS', name: 'RENAISSANCE REBORN', budget: '$500,000', units: '10 000', icon: '🖼️', color: 'primary-cyan', finalScore: 740, initialScore: 520 },
-    { category: 'ARCHITECTURE', name: 'SKY GARDENS V4', budget: '$2,500,000', units: '50 000', icon: '🏗️', color: 'accent-gold', finalScore: 670, initialScore: 480 },
-    { category: 'SÉRIE TV', name: 'CHRONICLES OF ELDON', budget: '$1,200,000', units: '24 000', icon: '🎬', color: 'accent-pink', finalScore: 710, initialScore: 500 },
+    { category: t('FINE ART', 'BEAUX-ARTS'), name: 'RENAISSANCE REBORN', budget: '$500,000', units: '10,000', icon: '🖼️', color: 'primary-cyan', finalScore: 740, initialScore: 520 },
+    { category: t('ARCHITECTURE', 'ARCHITECTURE'), name: 'SKY GARDENS V4', budget: '$2,500,000', units: '50,000', icon: '🏗️', color: 'accent-gold', finalScore: 670, initialScore: 480 },
+    { category: t('TV SERIES', 'SÉRIE TV'), name: 'CHRONICLES OF ELDON', budget: '$1,200,000', units: '24,000', icon: '🎬', color: 'accent-pink', finalScore: 710, initialScore: 500 },
   ];
 
   const activeJalons = CASE_JALONS[selectedCaseIdx];
