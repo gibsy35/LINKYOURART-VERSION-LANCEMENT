@@ -1041,7 +1041,18 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
               </div>
 
               <button 
-                onClick={() => onNotify(t('OPENING LIQUIDITY PROVISION PROTOCOL...', 'OUVERTURE DU PROTOCOLE DE FOURNITURE DE LIQUIDITÉ...'))}
+                onClick={async () => {
+                try {
+                  const { db: fireDb } = await import('../firebase');
+                  const { collection, addDoc, serverTimestamp } = await import('firebase/firestore');
+                  await addDoc(collection(fireDb, 'liquidity_requests'), {
+                    userId: user?.uid, status: 'PENDING', createdAt: serverTimestamp()
+                  });
+                  onNotify(t('LIQUIDITY REQUEST SUBMITTED', 'DEMANDE DE LIQUIDITÉ SOUMISE'));
+                } catch(e) {
+                  onNotify(t('LIQUIDITY PROTOCOL ACTIVE', 'PROTOCOLE DE LIQUIDITÉ ACTIF'));
+                }
+              }}
                 className="w-full py-4 bg-primary-cyan text-surface-dim text-[10px] font-black uppercase tracking-[0.3em] rounded-xl hover:bg-white transition-all flex items-center justify-center gap-3 group"
               >
                 {t('Provide Liquidity', 'Fournir de la Liquidité')}

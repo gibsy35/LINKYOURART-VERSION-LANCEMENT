@@ -788,7 +788,18 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
                   {t('UPGRADE PROTOCOL STATUS', 'PASSER AU STATUT PROFESSIONNEL')}
                 </button>
                 <button 
-                  onClick={() => onNotify(t('INITIATING SUPPORT APPLICATION DEPLOYMENT...', 'INITIALISATION DU STATUT DE CANDIDATURE EXPRESS...'))}
+                  onClick={async () => {
+                  try {
+                    await addDoc(collection(db, 'support_applications'), {
+                      userId: user?.uid, userEmail: user?.email,
+                      type: 'SUPPORT_REQUEST', status: 'PENDING',
+                      createdAt: serverTimestamp()
+                    });
+                    onNotify(t('APPLICATION SUBMITTED', 'CANDIDATURE SOUMISE'));
+                  } catch(e) {
+                    handleFirestoreError(e as any, OperationType.CREATE, 'support_applications');
+                  }
+                }}
                   className="px-8 py-4 border border-white/10 hover:border-white/30 text-white font-black uppercase tracking-[0.2em] text-[10px] bg-white/5 rounded-xl transition-all"
                 >
                   {t('CONTACT CONTROLLER', 'CONTACTER LE CONTRÔLEUR')}
@@ -956,15 +967,15 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
                       {t('CREATIVE', 'CRÉATIF')} <span className="bg-gradient-to-r from-accent-gold via-white to-accent-gold bg-clip-text text-transparent bg-[length:200%_auto] animate-shimmer">{t('INSIGHTS MONITOR', 'MONITEUR D\'INSIGHTS')}</span>
                     </h2>
                     <div className="flex flex-wrap gap-6 mt-8">
-                      <div className="flex flex-col cursor-pointer group/stat" onClick={() => onNotify(t('ACCESSING DEPTH DATA...', 'ACCÈS AUX DONNÉES DE PROFONDEUR...'))}>
+                      <div className="flex flex-col cursor-pointer group/stat" onClick={() => onNotify('DEPTH DATA — ' + t('Live data active', 'Données live actives'))}>
                         <span className="text-[10px] text-accent-gold font-black uppercase tracking-widest mb-1 opacity-60 group-hover/stat:opacity-100 transition-opacity">{t('Global Volume', 'Volume Global')}</span>
                         <span className="text-xl font-black text-white tracking-tighter group-hover/stat:text-accent-gold transition-colors">${pulseStats.volume} <span className="text-[10px] text-emerald-400 ml-1">{pulseStats.volumeTrend}</span></span>
                       </div>
-                      <div className="flex flex-col border-l border-white/10 pl-6 cursor-pointer group/stat" onClick={() => onNotify(t('ANALYZING SECTOR DOMINANCE...', 'ANALYSE DE LA DOMINANCE DU SECTEUR...'))}>
+                      <div className="flex flex-col border-l border-white/10 pl-6 cursor-pointer group/stat" onClick={() => onNotify('SECTOR ANALYSIS — ' + t('Live data active', 'Données live actives'))}>
                         <span className="text-[10px] text-accent-gold font-black uppercase tracking-widest mb-1 opacity-60 group-hover/stat:opacity-100 transition-opacity">{t('Top Sector', 'Meilleur Secteur')}</span>
                         <span className="text-xl font-black text-white tracking-tighter uppercase group-hover/stat:text-accent-gold transition-colors">{t(pulseStats.topSector, pulseStats.topSector)}</span>
                       </div>
-                      <div className="flex flex-col border-l border-white/10 pl-6 cursor-pointer group/stat" onClick={() => onNotify(t('CALCULATING VOLATILITY TRACE...', 'CALCUL DE LA TRACE DE VOLATILITÉ...'))}>
+                      <div className="flex flex-col border-l border-white/10 pl-6 cursor-pointer group/stat" onClick={() => onNotify('VOLATILITY TRACE — ' + t('Live data active', 'Données live actives'))}>
                         <span className="text-[10px] text-accent-gold font-black uppercase tracking-widest mb-1 opacity-60 group-hover/stat:opacity-100 transition-opacity">{t('Volatility Index', 'Indice de Volatilité')}</span>
                         <span className="text-xl font-black text-white tracking-tighter uppercase text-primary-cyan group-hover/stat:text-accent-gold transition-colors">{t(pulseStats.volatility, pulseStats.volatility)}</span>
                       </div>
@@ -996,14 +1007,14 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
                 </div>
                 <div className="hidden md:flex items-center gap-4">
                   <button 
-                    onClick={() => onNotify(t('INITIATING NODE SYNCHRONIZATION...', 'INITIALISATION DE LA SYNCHRONISATION DU NŒUD...'))}
+                    onClick={() => onNotify(t('NODE SYNCHRONIZED', 'NŒUD SYNCHRONISÉ'))}
                     className="flex items-center gap-3 bg-black/40 px-5 py-2.5 rounded-xl border border-emerald-500/20 hover:border-emerald-500/50 backdrop-blur-md transition-all group/node"
                   >
                     <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.6)]" />
                     <span className="text-[10px] font-black text-emerald-400 uppercase tracking-widest">{t('NODE ACTIVE', 'NŒUD ACTIF')}</span>
                   </button>
                   <button 
-                    onClick={() => onNotify(t('OPENING PROFESSIONAL CONTROL PANEL...', 'OUVERTURE DU PANNEAU DE CONTRÔLE PROFESSIONNEL...'))}
+                    onClick={() => onNotify(t('PRO PANEL ACTIVE', 'PANNEAU PRO ACTIF'))}
                     className="flex items-center gap-3 bg-white/5 px-5 py-2.5 rounded-xl border border-white/10 hover:border-accent-gold/30 backdrop-blur-md transition-all"
                   >
                     <Settings size={14} className="text-on-surface-variant" />
@@ -1092,7 +1103,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
                             <span className="text-xs font-black italic">{post.likes}</span>
                           </button>
                           <button 
-                            onClick={() => onNotify(t('OPENING SECURE COMMENTS THREAD...', 'OUVERTURE DU FIL DE COMMENTAIRES SÉCURISÉS...'))}
+                            onClick={() => onNotify(t('COMMENTS — FEATURE COMING SOON', 'COMMENTAIRES — FONCTIONNALITÉ PROCHAINEMENT'))}
                             className="flex items-center gap-3 text-on-surface-variant hover:text-white transition-all group/btn"
                           >
                             <div className="p-2.5 rounded-xl bg-white/5 group-hover/btn:bg-white/10 transition-all">

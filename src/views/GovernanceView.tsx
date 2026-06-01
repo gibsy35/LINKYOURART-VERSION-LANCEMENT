@@ -1,5 +1,7 @@
 
 import React, { useState } from 'react';
+import { db, handleFirestoreError, OperationType } from '../firebase';
+import { collection, addDoc, doc, updateDoc, increment, serverTimestamp } from 'firebase/firestore';
 import { motion } from 'motion/react';
 import { 
   Scale, 
@@ -61,7 +63,21 @@ export const GovernanceView: React.FC<GovernanceViewProps> = ({ user, onNotify, 
   const [visibleHistory, setVisibleHistory] = useState(3);
   const [visibleNodes, setVisibleNodes] = useState(3);
   
-  const handleVote = (proposalId: string, direction: 'FOR' | 'AGAINST') => {
+  const handleVote = async (proposalId: string, direction: 'FOR' | 'AGAINST') => {
+    try {
+      await addDoc(collection(db, 'governance_votes'), {
+        proposalId, direction,
+        userId: user?.uid || null,
+        userEmail: user?.email || null,
+        createdAt: serverTimestamp(),
+      });
+      const proposalRef = doc(db, 'governance_proposals', proposalId);
+      await updateDoc(proposalRef, {
+        [direction === 'FOR' ? 'votesFor' : 'votesAgainst']: increment(1)
+      }).catch(() => {}); // proposal might not exist in DB yet — OK
+    } catch (err) {
+      handleFirestoreError(err, OperationType.CREATE, 'governance_votes');
+    }
     if (votedProposals[proposalId]) {
       onNotify(`ALREADY VOTED ${votedProposals[proposalId]} ON PROPOSAL ${proposalId}`);
       return;
@@ -197,7 +213,7 @@ export const GovernanceView: React.FC<GovernanceViewProps> = ({ user, onNotify, 
               ACTIVE PROPOSALS
             </h2>
             <button 
-              onClick={() => onNotify('PROPOSAL CREATION PORTAL OPENING...')}
+              onClick={async () => { try { await addDoc(collection(db, 'governance_proposals'), { title: 'New Proposal', authorId: user?.uid, authorEmail: user?.email, status: 'DRAFT', votesFor: 0, votesAgainst: 0, createdAt: serverTimestamp() }); onNotify(t('PROPOSAL CREATED — AWAITING REVIEW', 'PROPOSITION CRÉÉE — EN ATTENTE DE VALIDATION')); } catch(e) { handleFirestoreError(e, OperationType.CREATE, 'governance_proposals'); } }}
               className="px-6 py-2 bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-widest text-white hover:bg-white hover:text-surface-dim transition-all"
             >
               CREATE PROPOSAL
@@ -284,7 +300,7 @@ export const GovernanceView: React.FC<GovernanceViewProps> = ({ user, onNotify, 
               {votingHistory.slice(0, visibleHistory).map((vote, i) => (
                 <button 
                   key={i} 
-                  onClick={() => onNotify(`VIEWING DETAILS FOR PROPOSAL ${vote.id}...`)}
+                  onClick={() => onNotify(`${t('PROPOSAL', 'PROPOSITION')} ${vote.id} — ${vote.action}`)}
                   className="w-full flex items-center justify-between p-4 bg-black/20 border border-white/5 rounded-xl hover:border-primary-cyan/30 transition-all group"
                 >
                   <div className="flex items-center gap-6">
@@ -363,7 +379,7 @@ export const GovernanceView: React.FC<GovernanceViewProps> = ({ user, onNotify, 
               {networkHubs.slice(0, visibleNodes).map((node, i) => (
                 <button 
                   key={i} 
-                  onClick={() => onNotify(`VIEWING STATUS FOR ${node.label.toUpperCase()}...`)}
+                  onClick={() => onNotify(`${node.label}: ${node.status || 'OPERATIONAL'}`)}
                   className="w-full flex items-center justify-between p-4 bg-black/20 border border-white/5 rounded-xl hover:border-white/10 transition-all"
                 >
                   <div className="text-left">
@@ -399,7 +415,7 @@ export const GovernanceView: React.FC<GovernanceViewProps> = ({ user, onNotify, 
               ].map((item, i) => (
                 <button 
                   key={i} 
-                  onClick={() => onNotify(`OPENING ${item.toUpperCase()}...`)}
+                  onClick={() => onNotify(`${item} — ${t('Section available in next update', 'Section disponible à la prochaine mise à jour')}`)}
                   className="w-full flex items-center justify-between p-4 bg-black/20 border border-white/5 rounded-xl hover:border-primary-cyan/30 transition-all group"
                 >
                   <span className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest group-hover:text-white transition-colors">{item}</span>

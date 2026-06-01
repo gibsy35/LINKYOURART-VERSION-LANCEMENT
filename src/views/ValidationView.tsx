@@ -1,5 +1,7 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { db, handleFirestoreError, OperationType } from '../firebase';
+import { collection, getDocs, query, orderBy, limit, doc, updateDoc, serverTimestamp } from 'firebase/firestore';
 import { motion, AnimatePresence } from 'motion/react';
 import { PageHeader } from '../components/ui/PageHeader';
 import { 
@@ -288,7 +290,16 @@ export const ValidationView: React.FC<{
             </div>
 
             <button 
-              onClick={() => onNotify('REFRESHING VALIDATION QUEUE...')}
+              onClick={async () => {
+                onNotify(t('REFRESHING QUEUE...', 'RAFRAÎCHISSEMENT...'));
+                try {
+                  const q = query(collection(db, 'validation_requests'), orderBy('createdAt', 'desc'), limit(20));
+                  const snap = await getDocs(q);
+                  onNotify(t(`QUEUE REFRESHED — ${snap.size} requests`, `FILE MISE À JOUR — ${snap.size} demandes`));
+                } catch(e) {
+                  handleFirestoreError(e as any, OperationType.GET, 'validation_requests');
+                }
+              }}
               className="flex items-center gap-2 bg-primary-cyan text-surface-dim hover:bg-white border border-primary-cyan hover:border-white px-6 py-3 text-[10px] font-black uppercase tracking-[0.2em] transition-all active:scale-95 shadow-[0_0_20px_rgba(0,224,255,0.3)] rounded-lg"
             >
               <RefreshCw size={16} />
@@ -429,7 +440,7 @@ export const ValidationView: React.FC<{
                         </motion.div>
                       )}
                       <button 
-                        onClick={() => onNotify(`OPENING CONTRACT DOSSIER FOR ${req.contract.name}...`)}
+                        onClick={async () => { try { await updateDoc(doc(db, 'validation_requests', req.id || req.contract.id), { lastViewedAt: serverTimestamp(), lastViewedBy: user?.uid }).catch(() => {}); onNotify(`${req.contract.name} — ${t('Dossier opened', 'Dossier ouvert')}`); } catch(e) { onNotify(`${req.contract.name}`); } }}
                         className="p-3 bg-white/5 text-on-surface-variant hover:text-primary-cyan hover:bg-white/10 transition-all rounded-lg border border-white/5"
                       >
                         <ExternalLink size={18} />
@@ -503,7 +514,7 @@ export const ValidationView: React.FC<{
                 Professional access to underlying protocol logic and registry maintenance.
               </div>
               <button 
-                onClick={() => onNotify(`${t('ACCESSING', 'ACCÈS AU')} ${service.title.toUpperCase()}...`)}
+                onClick={() => onNotify(`${service.title} — ${t('Service available for Pro members', 'Service disponible pour les membres Pro')}`)}
                 className="text-[9px] font-black text-primary-cyan uppercase tracking-widest hover:text-white transition-colors border-b border-primary-cyan/20 pb-1"
               >
                 {t('ACCESS SERVICE', 'ACCÉDER AU SERVICE')}

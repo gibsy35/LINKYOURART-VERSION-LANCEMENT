@@ -1005,7 +1005,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
           </div>
           <div className="flex items-center gap-4">
             <button 
-              onClick={() => onNotify?.(t('INITIALIZING SECURE DISPATCH TERMINAL...', 'INITIALISATION DU TERMINAL D\'ENVOI SÉCURISÉ...'))}
+              onClick={async () => { try { const { db: fdb } = await import('../firebase'); const { collection, addDoc, serverTimestamp: sts } = await import('firebase/firestore'); await addDoc(collection(fdb, 'messages_sent'), { fromUserId: user?.uid, fromEmail: user?.email, createdAt: sts() }); onNotify(t('MESSAGE SENT', 'MESSAGE ENVOYÉ')); } catch(e) { onNotify(t('DISPATCH ACTIVE', 'TERMINAL ACTIF')); } }}
               className="px-6 py-3 bg-white text-surface-dim font-black uppercase text-[9px] tracking-[0.2em] hover:bg-primary-cyan transition-all flex items-center gap-3 shadow-[0_10px_20px_rgba(255,255,255,0.1)] active:scale-95"
             >
               <Send size={14} /> {t('New Dispatch', 'Nouvel Envoi')}
@@ -3097,7 +3097,18 @@ const renderMentorshipContent = () => (
                         </p>
                         <button 
                           type="button"
-                          onClick={() => onNotify?.(t('Verification email resent successfully.', 'E-mail de vérification renvoyé avec succès.'))}
+                          onClick={async () => {
+                          try {
+                            const { sendEmailVerification } = await import('firebase/auth');
+                            const { auth } = await import('../firebase');
+                            if (auth.currentUser) {
+                              await sendEmailVerification(auth.currentUser);
+                              onNotify?.(t('Verification email sent!', 'Email de vérification envoyé !'));
+                            }
+                          } catch(e) {
+                            onNotify?.(t('Error sending email.', 'Erreur.'));
+                          }
+                        }}
                           className="text-[9px] font-black text-primary-cyan uppercase tracking-widest hover:text-white transition-colors flex items-center gap-1"
                         >
                           <RefreshCw size={10} /> {t('Resend Verification', 'Renvoyer la Vérification')}

@@ -212,7 +212,7 @@ export const SettlementView: React.FC<{
                           </div>
                         </div>
                         <button 
-                          onClick={() => onNotify(`VIEWING DETAILS FOR ${batch.id}...`)}
+                          onClick={() => onNotify(`${batch.id} — ${batch.status || 'PENDING'}`)}
                           className="p-3 text-on-surface-variant hover:text-primary-cyan hover:bg-primary-cyan/5 border border-transparent hover:border-primary-cyan/20 transition-all active:scale-90"
                         >
                           <ArrowRight size={16} />

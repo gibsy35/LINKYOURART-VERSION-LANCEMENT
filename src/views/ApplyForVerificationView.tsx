@@ -1,5 +1,7 @@
 
 import React, { useState } from 'react';
+import { db, handleFirestoreError, OperationType } from '../firebase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   ShieldCheck, 
@@ -25,7 +27,7 @@ import {
 import { useTranslation } from '../context/LanguageContext';
 import { PageHeader } from '../components/ui/PageHeader';
 
-export const ApplyForVerificationView: React.FC<{ onNotify: (msg: string) => void }> = ({ onNotify }) => {
+export const ApplyForVerificationView: React.FC<{ onNotify: (msg: string) => void; user?: any }> = ({ onNotify, user }) => {
   const { t } = useTranslation();
   const [step, setStep] = useState(1);
   const [selectedTier, setSelectedTier] = useState<string | null>(null);
@@ -38,13 +40,26 @@ export const ApplyForVerificationView: React.FC<{ onNotify: (msg: string) => voi
     notes: ''
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     onNotify(t('SUBMITTING PROFESSIONAL VERIFICATION REQUEST...', 'SOUMISSION DE LA DEMANDE DE VÉRIFICATION PROFESSIONNELLE...'));
-    setTimeout(() => {
+    try {
+      await addDoc(collection(db, 'verification_requests'), {
+        userId: user?.uid || null,
+        userEmail: user?.email || null,
+        userDisplayName: user?.displayName || null,
+        selectedTier,
+        formData: formData,
+        status: 'PENDING',
+        createdAt: serverTimestamp(),
+      });
       setStep(3);
       onNotify(t('REQUEST RECEIVED. AUDIT PENDING.', 'DEMANDE REÇUE. AUDIT EN ATTENTE.'));
-    }, 2000);
+    } catch (err) {
+      console.error(err);
+      handleFirestoreError(err, OperationType.CREATE, 'verification_requests');
+      onNotify(t('Submission error. Please try again.', 'Erreur. Veuillez réessayer.'));
+    }
   };
 
   const tiers = [
