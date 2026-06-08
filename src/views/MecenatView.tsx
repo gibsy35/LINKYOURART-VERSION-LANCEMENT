@@ -114,12 +114,12 @@ const getTier = (units: number) => {
 };
 
 const CATEGORIES = [
-  { id: 'all',          label: 'Toutes les Œuvres',    labelEn: 'All Works'        },
-  { id: 'Fine Art',     label: 'Arts Visuels & Mode',  labelEn: 'Visual Arts'      },
-  { id: 'Film',         label: 'Cinéma & Récits',      labelEn: 'Cinema & Stories' },
-  { id: 'Music',        label: 'Musique & Scène',      labelEn: 'Music & Stage'    },
-  { id: 'Architecture', label: 'Architecture',         labelEn: 'Architecture'     },
-  { id: 'Digital Art',  label: 'Art Numérique',        labelEn: 'Digital Art'      },
+  { id: 'all',          label: 'Toutes les Œuvres',      labelEn: 'All Masterpieces'       },
+  { id: 'Fine Art',     label: 'Arts Visuels & Mode',    labelEn: 'Visual Arts & Fashion'  },
+  { id: 'Film',         label: 'Cinéma & Récits',        labelEn: 'Cinema & Narratives'    },
+  { id: 'Music',        label: 'Musique & Concerts',     labelEn: 'Music & Concerts'       },
+  { id: 'Architecture', label: 'Littérature & Espaces',  labelEn: 'Literature & Spaces'    },
+  { id: 'Digital Art',  label: 'Art Numérique',          labelEn: 'Digital Art'            },
 ];
 
 const CAT_MAP: Record<string, string[]> = {
@@ -203,7 +203,7 @@ export const MecenatView: React.FC<MecenatViewProps> = ({ user, onNotify, onView
       {/* Category tabs */}
       <div className="flex items-center gap-3 overflow-x-auto pb-1 scrollbar-hide">
         <span className="text-[8px] font-black text-white/25 uppercase tracking-[0.4em] shrink-0">
-          {t('SELECT A THEME', 'SÉLECTIONNEZ UN THÈME ARTISTIQUE')}
+          {t('CHOOSE AN ART MOOD', 'CHOISISSEZ UNE AMBIANCE ARTISTIQUE')}
         </span>
         {CATEGORIES.map(cat => (
           <button key={cat.id} onClick={() => setActiveCategory(cat.id)}
@@ -246,11 +246,14 @@ export const MecenatView: React.FC<MecenatViewProps> = ({ user, onNotify, onView
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
 
                 {/* Top badges */}
-                <div className="absolute top-3 left-3 flex gap-2">
-                  <span className="px-2 py-0.5 bg-black/70 backdrop-blur-sm text-[8px] font-black text-white uppercase tracking-widest">
+                <div className="absolute top-3 left-3 flex flex-col gap-1.5">
+                  <span className="px-2 py-0.5 bg-black/70 backdrop-blur-sm text-[8px] font-black text-white uppercase tracking-widest self-start">
                     {c.category.toUpperCase()}
                   </span>
-                  <span className={`px-2 py-0.5 text-[8px] font-black uppercase tracking-widest border ${RARITY_COLORS[c.rarity] || RARITY_COLORS.Common}`}>
+                  <span className="px-2 py-0.5 bg-accent-gold/80 backdrop-blur-sm text-[8px] font-black text-black uppercase tracking-widest self-start flex items-center gap-1">
+                    ★ LYA SCORE: {c.totalScore}
+                  </span>
+                  <span className={`px-2 py-0.5 text-[8px] font-black uppercase tracking-widest border self-start ${RARITY_COLORS[c.rarity] || RARITY_COLORS.Common}`}>
                     {c.rarity.toUpperCase()}
                   </span>
                 </div>
@@ -285,6 +288,16 @@ export const MecenatView: React.FC<MecenatViewProps> = ({ user, onNotify, onView
                   <p className="text-[12px] text-white/55 leading-relaxed font-sans">
                     {t(c.description, DESCRIPTIONS_FR[c.name] || c.description)}
                   </p>
+                </div>
+
+                {/* LYA Quality Score */}
+                <div className="flex items-center justify-between py-2 border-b border-white/5">
+                  <span className="text-[8px] font-black text-white/40 uppercase tracking-[0.3em] flex items-center gap-1">
+                    ★ {t('LYA QUALITY SCORE', 'SCORE QUALITÉ LYA')}
+                  </span>
+                  <span className="text-base font-black text-accent-gold font-mono">
+                    {c.totalScore} <span className="text-[9px] text-white/25 font-bold">/ 1000</span>
+                  </span>
                 </div>
 
                 {/* Funding progress */}
@@ -625,9 +638,9 @@ export const MecenatView: React.FC<MecenatViewProps> = ({ user, onNotify, onView
 
                     {/* Form fields */}
                     {[
-                      { label: t('BILLING EMAIL ADDRESS', 'ADRESSE EMAIL DE FACTURATION'), key: 'email', type: 'email', placeholder: 'email@example.com' },
-                      { label: t('CARDHOLDER NAME', 'NOM DU PORTEUR'), key: 'name', type: 'text', placeholder: 'FULL NAME' },
-                      { label: t('CARD CREDENTIALS', 'IDENTIFIANTS DE CARTE'), key: 'card', type: 'text', placeholder: '4242 4242 4242 4242', extra: 'VISA' },
+                      { label: t('BILLING EMAIL ADDRESS', 'ADRESSE EMAIL DE FACTURATION'), key: 'email', type: 'email', placeholder: user?.email || 'email@example.com' },
+                      { label: t('CARDHOLDER NAME', 'NOM DU PORTEUR'), key: 'name', type: 'text', placeholder: 'JANE DOE' },
+                      { label: t('CARD CREDENTIALS', 'IDENTIFIANTS DE CARTE'), key: 'card', type: 'text', placeholder: '4242 4242 4242 4242', extra: 'brands' },
                     ].map(f => (
                       <div key={f.key}>
                         <label className="text-[8px] font-black text-white/30 uppercase tracking-[0.3em] block mb-1.5">{f.label}</label>
@@ -636,7 +649,13 @@ export const MecenatView: React.FC<MecenatViewProps> = ({ user, onNotify, onView
                             onChange={e => setPayForm(p => ({ ...p, [f.key]: e.target.value }))}
                             className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-primary-cyan transition-all"
                           />
-                          {f.extra && <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[9px] font-black text-white/30">{f.extra}</span>}
+                          {f.extra === 'brands' && (
+                          <div className="absolute right-3 top-1/2 -translate-y-1/2 flex gap-1">
+                            {['VISA', 'MC', 'AMEX', 'CB'].map(b => (
+                              <span key={b} className="px-1.5 py-0.5 bg-white/10 border border-white/15 text-[7px] font-black text-white/50 rounded">{b}</span>
+                            ))}
+                          </div>
+                        )}
                         </div>
                       </div>
                     ))}
@@ -644,7 +663,7 @@ export const MecenatView: React.FC<MecenatViewProps> = ({ user, onNotify, onView
                     <div className="grid grid-cols-2 gap-3">
                       <div>
                         <label className="text-[8px] font-black text-white/30 uppercase tracking-[0.3em] block mb-1.5">{t('EXPIRY DATE', 'DATE D\'EXPIRATION')}</label>
-                        <input type="text" value={payForm.expiry} placeholder="MM/YY"
+                        <input type="text" value={payForm.expiry} placeholder="MM/YY" maxLength={5}
                           onChange={e => setPayForm(p => ({ ...p, expiry: e.target.value }))}
                           className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-primary-cyan transition-all"
                         />

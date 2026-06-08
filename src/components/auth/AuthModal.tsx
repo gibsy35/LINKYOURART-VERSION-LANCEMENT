@@ -143,14 +143,36 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onNotify,
         }
         setUser(newProfile);
       } else {
-        await signInWithEmailAndPassword(auth, email, password);
+        const result = await signInWithEmailAndPassword(auth, email, password);
+        // Load profile from Firestore and set user immediately
+        try {
+          const { getDoc: gd, doc: d } = await import('firebase/firestore');
+          const userDoc = await gd(d(db, 'users', result.user.uid));
+          if (userDoc.exists()) {
+            setUser(userDoc.data() as any);
+          } else {
+            // Fallback profile if Firestore is slow
+            const isAdmin = isAdminEmail(email);
+            setUser(buildProfile(result.user.uid, email, email.split('@')[0].toUpperCase(), selectedRole, isAdmin));
+          }
+        } catch {
+          // Firestore might be blocked — still allow login with minimal profile
+          const isAdmin = isAdminEmail(email);
+          setUser(buildProfile(result.user.uid, email, email.split('@')[0].toUpperCase(), UserRole.CREATOR, isAdmin));
+        }
       }
       onNotify(t('TERMINAL ACCESS INITIALIZED', 'ACCÈS TERMINAL INITIALISÉ'));
       onClose();
     } catch (err: any) {
       console.error('Auth Error:', err);
-      const msg = err.code === 'auth/invalid-credential'
+      const msg = err.code === 'auth/invalid-credential' || err.code === 'auth/wrong-password'
         ? t('Invalid credentials', 'Identifiants invalides')
+        : err.code === 'auth/user-not-found'
+        ? t('No account found with this email.', 'Aucun compte trouvé pour cet email.')
+        : err.code === 'auth/too-many-requests'
+        ? t('Too many attempts. Please wait.', 'Trop de tentatives. Veuillez patienter.')
+        : err.code === 'auth/network-request-failed'
+        ? t('Network error. Check your connection.', 'Erreur réseau. Vérifiez votre connexion.')
         : (err.message || 'Error');
       onNotify(msg);
     } finally {

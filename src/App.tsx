@@ -42,6 +42,7 @@ import { AboutView } from './views/AboutView';
 import { TaxOptimizerView } from './views/TaxOptimizerView';
 import { IssuerProfileView } from './views/IssuerProfileView';
 import { AdminView } from './views/AdminView';
+import { MecenatView } from './views/MecenatView';
 import { PendingApprovalView } from './views/PendingApprovalView';
 import { OfferModal, TransferModal } from './components/TransactionModals';
 import { AuthModal } from './components/auth/AuthModal';
@@ -557,7 +558,7 @@ export default function App() {
     // Toujours accessibles sans login
     const publicViews: View[] = ['LANDING', 'LOGIN', 'SIGNUP', 'OUR_MODEL', 'FAQ', 'LEGAL_MENTIONS', 'TERMS', 'PRIVACY', 'LEGAL_REGISTRY'];
     // Accessibles en lecture seule (aperçu visiteur)
-    const previewViews: View[] = ['HOME', 'EXCHANGE', 'REGISTRY', 'PRICING'];
+    const previewViews: View[] = ['HOME', 'EXCHANGE', 'REGISTRY', 'PRICING', 'MECENAT'];
 
     if (publicViews.includes(currentView)) return;
     if (previewViews.includes(currentView)) return;
@@ -1281,6 +1282,14 @@ export default function App() {
                   onToggleComparison={handleToggleComparison}
                   onViewChange={setCurrentView}
                   checkUsageLimit={checkUsageLimit}
+                />
+              )}
+              {currentView === 'MECENAT' && (
+                <MecenatView
+                  user={effectiveUser}
+                  onNotify={notify}
+                  onViewChange={setCurrentView}
+                  liveContracts={liveContracts}
                 />
               )}
               {currentView === 'COMPARE' && (

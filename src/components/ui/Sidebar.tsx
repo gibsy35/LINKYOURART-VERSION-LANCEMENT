@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ExternalLink, Sparkles,
+import { ExternalLink, Sparkles, Star,
   Home, 
   LayoutDashboard, 
   ArrowLeftRight, 
@@ -54,6 +54,7 @@ export type View =
   | 'PROFILE' 
   | 'PRICING' 
   | 'SWIPE' 
+  | 'MECENAT'
   | 'WATCHLIST' 
   | 'SETTINGS' 
   | 'COMPARE' 
@@ -108,6 +109,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: 'DASHBOARD', icon: LayoutDashboard, label: t('DASHBOARD', 'TABLEAU DE BORD'), category: t('INDEX', 'INDEX') },
     { id: 'EXCHANGE', icon: ArrowLeftRight, label: t('CREATIVE MARKET', 'MARCHÉ CRÉATIF'), category: t('DEVELOPMENT', 'DÉVELOPPEMENT') },
     { id: 'SWIPE', icon: Target, label: t('SWIPE DISCOVERY', 'DÉCOUVERTE SWIPE'), category: t('DEVELOPMENT', 'DÉVELOPPEMENT') },
+    { id: 'MECENAT', icon: Star, label: 'PATRONAGE HUB', category: t('DEVELOPMENT', 'DÉVELOPPEMENT') },
     { id: 'COMPARE', icon: Calculator, label: t('COMPARATOR', 'COMPARATEUR'), category: t('INDEX', 'INDEX') },
     { id: 'WATCHLIST', icon: CheckCircle, label: t('WATCHLIST', 'MA VEILLE'), category: t('INDEX', 'INDEX'), count: watchlist.length },
     { id: 'VALIDATION', icon: ShieldCheck, label: t('Administrative Services', 'Services Administratifs'), category: t('PROTOCOL', 'PROTOCOLE') },
