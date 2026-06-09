@@ -1,752 +1,797 @@
-import React, { useState, useMemo } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { Heart, X, ChevronLeft, ChevronRight, ShieldCheck, Star, Lock, Trophy } from 'lucide-react';
-import { useTranslation } from '../context/LanguageContext';
-import { Contract, CONTRACTS } from '../types';
-import { db } from '../firebase';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { useState, useMemo } from "react";
 
-interface MecenatViewProps {
-  user: any;
-  onNotify: (msg: string) => void;
-  onViewChange: (view: any) => void;
-  liveContracts?: Contract[];
+// ─── TYPES ────────────────────────────────────────────────────────────────────
+
+interface Project {
+  id: string;
+  ticker: string;
+  name: string;
+  subtitle: string;
+  category: "DIGITAL ART" | "PODCAST" | "FILM" | "MUSIC" | "LITERATURE";
+  rarity: "EPIC" | "RARE" | "LEGENDARY" | "COMMON";
+  lyaScore: number;          // /1000
+  pricePerUnit: number;      // en USD (fluctue)
+  revenueShare: number;      // %
+  description: string;
+  pitch: string;
+  fundingRaised: number;
+  fundingGoal: number;
+  milestones: { label: string; done: boolean }[];
+  gradient: string;          // classes Tailwind pour le fond de carte
 }
 
-/* ── DATA ──────────────────────────────────────────────────────────────── */
-const SUBTITLES: Record<string, { en: string; fr: string }> = {
-  'RENAISSANCE REBORN':  { en: 'FINE ART CO-PRODUCTION INITIATIVE',      fr: 'INITIATIVE DE CO-PRODUCTION ART CLASSIQUE' },
-  'SKY GARDENS V4':      { en: 'ARCHITECTURE CO-PRODUCTION INITIATIVE',   fr: 'INITIATIVE DE CO-PRODUCTION ARCHITECTURE' },
-  'THE FUTURE VOICE':    { en: 'PODCAST CO-PRODUCTION INITIATIVE',        fr: 'INITIATIVE DE CO-PRODUCTION PODCAST' },
-  'CHRONICLES OF ELDON': { en: 'TV SERIES CO-PRODUCTION INITIATIVE',      fr: 'INITIATIVE DE CO-PRODUCTION SÉRIE TV' },
-  'NEON DISTRICT #4':    { en: 'MUSIC CO-PRODUCTION INITIATIVE',          fr: 'INITIATIVE DE CO-PRODUCTION MUSICALE' },
-  'SHADOWS OF SEOUL':    { en: 'FILM CO-PRODUCTION INITIATIVE',           fr: 'INITIATIVE DE CO-PRODUCTION CINÉMA' },
-  'QUANTUM REALM':       { en: 'DIGITAL ART CO-PRODUCTION INITIATIVE',    fr: 'INITIATIVE DE CO-PRODUCTION ART NUMÉRIQUE' },
-  'RENAISSANCE OS V3':   { en: 'ALGORITHMIC TEMPORAL GENERATIVE ART SYSTEM', fr: "SYSTÈME D'ART GÉNÉRATIF ALGORITHMIQUE" },
-};
+// ─── DONNÉES PROJETS ──────────────────────────────────────────────────────────
 
-const GALLERY: Record<string, string[]> = {
-  'RENAISSANCE REBORN': [
-    'https://images.unsplash.com/photo-1578926288207-a90a5366e0a4?w=900&q=80',
-    'https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=400&q=80',
-    'https://images.unsplash.com/photo-1541427468627-a89a96e5ca1d?w=400&q=80',
-  ],
-  'SKY GARDENS V4': [
-    'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=900&q=80',
-    'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=400&q=80',
-    'https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=400&q=80',
-  ],
-  'THE FUTURE VOICE': [
-    'https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=900&q=80',
-    'https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=400&q=80',
-    'https://images.unsplash.com/photo-1593697909687-7f3e2a2c9e30?w=400&q=80',
-  ],
-  'CHRONICLES OF ELDON': [
-    'https://images.unsplash.com/photo-1535016120720-40c646be5580?w=900&q=80',
-    'https://images.unsplash.com/photo-1574267432553-4b4628081c31?w=400&q=80',
-    'https://images.unsplash.com/photo-1519669417670-68775a50919c?w=400&q=80',
-  ],
-  'NEON DISTRICT #4': [
-    'https://images.unsplash.com/photo-1571330735066-03aaa9429d89?w=900&q=80',
-    'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&q=80',
-    'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400&q=80',
-  ],
-  'SHADOWS OF SEOUL': [
-    'https://images.unsplash.com/photo-1485846234645-a62644f84728?w=900&q=80',
-    'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400&q=80',
-    'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=400&q=80',
-  ],
-  'QUANTUM REALM': [
-    'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=900&q=80',
-    'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80',
-    'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&q=80',
-  ],
-};
-
-const DESCRIPTIONS_FR: Record<string, string> = {
-  'RENAISSANCE REBORN':  "Copropriété fractionnée d'un chef-d'œuvre de la Renaissance physique. Chaque unité LYA représente un droit contractuel direct sur l'appréciation future de sa valeur et les revenus du jumeau numérique.",
-  'SKY GARDENS V4':      "Droits de conception d'une architecture verticale durable. Parts de revenus issues de la licence des plans architecturaux et des redevances d'intégration smart-city.",
-  'THE FUTURE VOICE':    "Réseau de podcasts d'investigation de premier plan. La chute significative des métriques d'audience et des cibles de revenus publicitaires a fortement impacté la valorisation.",
-  'CHRONICLES OF ELDON': "Droits de synchronisation mondiale et de diffusion SVOD pour la série TV sci-fi premium. Chaque unité indexe une part proportionnelle des revenus récurrents et des licences multi-territoires.",
-  'NEON DISTRICT #4':    "Série musicale expérimentale en édition limitée. Parts sur les flux de streaming, les synchronisations publicitaires et les ventes de produits dérivés physiques.",
-  'SHADOWS OF SEOUL':    "Film indépendant primé. Correction post-lancement significative car la demande streaming initiale est inférieure aux projections de marché.",
-  'QUANTUM REALM':       "Visualisation scientifique des champs de probabilité. Parts de revenus liées aux licences de publication de recherche.",
-};
-
-const COMPLIANCE: Record<string, { auditor: string; jurisdiction: string; ledger: string }> = {
-  'RENAISSANCE REBORN':  { auditor: 'Louvre Digital Hub', jurisdiction: 'EU (MiCA)', ledger: 'LYA_REG_0x1A3F' },
-  'SKY GARDENS V4':      { auditor: 'Dezeen Architecture Council', jurisdiction: 'EU (MiCA)', ledger: 'LYA_REG_0x4C2A' },
-  'THE FUTURE VOICE':    { auditor: 'Warner Music Hub', jurisdiction: 'EU (MiCA)', ledger: 'LYA_REG_0x71C4F2A' },
-  'CHRONICLES OF ELDON': { auditor: 'Netflix Content Audit', jurisdiction: 'US (SEC)', ledger: 'LYA_REG_0x8B3D' },
-  'SHADOWS OF SEOUL':    { auditor: 'Sundance Film Foundation', jurisdiction: 'EU Markets', ledger: 'LYA_REG_0x2E9F' },
-  'QUANTUM REALM':       { auditor: 'CNRS Digital Labs', jurisdiction: 'EU (MiCA)', ledger: 'LYA_REG_0x6A1C' },
-};
-
-const RARITY_COLORS: Record<string, string> = {
-  Legendary: 'bg-yellow-400/30 text-yellow-300 border-yellow-400/40',
-  Epic:      'bg-purple-400/30 text-purple-300 border-purple-400/40',
-  Rare:      'bg-cyan-400/20 text-cyan-300 border-cyan-400/30',
-  Common:    'bg-white/10 text-white/50 border-white/20',
-};
-
-const getUnitPrice = (c: Contract): number =>
-  Math.max(15, Math.round(c.unitValue * (1 + c.growth / 100) * 100) / 100);
-
-const getFundingPct = (c: Contract): number =>
-  Math.min(98, Math.round(50 + (c.totalScore / 1000) * 48));
-
-/* ── 4 TIERS ──────────────────────────────────────────────────────────── */
-const getTier = (units: number) => {
-  // TIER 4 — 100+ units : CO-MÉCÈNE PRESTIGE SYNDICATE
-  if (units >= 100) return {
-    label: 'CO-MÉCÈNE PRESTIGE SYNDICATE',
-    labelEn: 'PRESTIGE SYNDICATE CO-PATRON',
-    desc: "Classe Copropriétaire Prestige. Accès prioritaire absolu aux audits de licences mondiales. Bonus d'unités LYA : +5 Unités (valeur offerte !).",
-    descEn: `Prestige Co-ownership Class. Absolute priority access to global license audits. Bonus LYA Units: +${Math.floor(units * 0.05)} Units (+$${(Math.floor(units * 0.05) * 50).toLocaleString()}.00 offered!).`,
-    color: 'text-yellow-300', bg: 'bg-yellow-900/30 border-yellow-500/50',
-    icon: '👑',
-  };
-  // TIER 3 — 50–99 units : STATUS CO-FONDATEUR D'ŒUVRE
-  if (units >= 50) return {
-    label: "STATUS CO-FONDATEUR D'ŒUVRE",
-    labelEn: 'CO-FOUNDER HOLDING STATUS',
-    desc: `Privilèges de Co-fondateur. Priorité absolue de distribution de licences de diffusion futures. Bonus d'unités LYA : +${Math.floor(units * 0.04)} Unités (+$${(Math.floor(units * 0.04) * 50).toLocaleString()} offerts !).`,
-    descEn: `Co-founder co-ownership privileges. VIP priority on future licensing distributions. Bonus LYA Units: +${Math.floor(units * 0.04)} Units (+$${(Math.floor(units * 0.04) * 50).toLocaleString()}.00 Value offered!).`,
-    color: 'text-amber-400', bg: 'bg-amber-900/30 border-amber-600/40',
-    icon: '🏆',
-  };
-  // TIER 2 — 10–49 units : MÉCÈNE STRATÉGIQUE
-  if (units >= 10) return {
-    label: 'MÉCÈNE STRATÉGIQUE',
-    labelEn: 'STRATEGIC PATRON',
-    desc: "Statut Copropriétaire Stratégique. Influenceur de volume sur les gains futurs. Bonus d'unités LYA : +0 Unité (+$0.00 offerte !).",
-    descEn: 'Strategic co-ownership status. Volume influencer on future gains. Active rights with priority access to milestone events and distribution updates.',
-    color: 'text-primary-cyan', bg: 'bg-primary-cyan/10 border-primary-cyan/30',
-    icon: '⭐',
-  };
-  // TIER 1 — 1–9 units : COPROPRIÉTAIRE ASSOCIÉ
-  return {
-    label: 'COPROPRIÉTAIRE ASSOCIÉ',
-    labelEn: 'ASSOCIATE CO-OWNER',
-    desc: "Droits de copropriété standard proportionnels aux unités détenues. Bonus d'unités LYA : Aucun.",
-    descEn: 'Standard co-ownership rights for future commercial release. Bonus Units: None.',
-    color: 'text-white/50', bg: 'bg-white/5 border-white/10',
-    icon: '○',
-  };
-};
-
-const CATEGORIES = [
-  { id: 'all',          label: 'Toutes les Œuvres',       labelEn: 'All Masterpieces',      icon: '⭐' },
-  { id: 'Fine Art',     label: 'Arts Visuels & Mode',     labelEn: 'Visual Arts & Fashion', icon: '🎨' },
-  { id: 'Film',         label: 'Cinéma & Récits',         labelEn: 'Cinema & Narratives',   icon: '🎬' },
-  { id: 'Music',        label: 'Musique & Scène',         labelEn: 'Music & Concerts',      icon: '🎵' },
-  { id: 'Architecture', label: 'Lettres & Architecture',  labelEn: 'Literature & Spaces',   icon: '📚' },
-  { id: 'Digital Art',  label: 'Art Numérique',           labelEn: 'Digital Art',           icon: '💻' },
+const PROJECTS: Project[] = [
+  {
+    id: "chronos-v3",
+    ticker: "LYA-CHRON",
+    name: "CHRONOS_V3",
+    subtitle: "ALGORITHMIC TEMPORAL GENERATIVE ART SYSTEM",
+    category: "DIGITAL ART",
+    rarity: "EPIC",
+    lyaScore: 892,
+    pricePerUnit: 57.20,
+    revenueShare: 15,
+    description:
+      "A high-frequency algorithmic art generation system rendering continuous, high-fidelity visual streams. Revenue shares are distributed based on system performance milestones.",
+    pitch:
+      '"Chronos V3 tracks microscopic atmospheric pressure and global transaction volumes, translating them into perpetual, sublime vector graphics. Holding units lets you acquire the intellectual property streams generated by this node."',
+    fundingRaised: 112500,
+    fundingGoal: 150000,
+    milestones: [
+      { label: "Mainframe server integration completed", done: true },
+      { label: "API access token distribution in June", done: false },
+      { label: "Global visual exhibition in Paris", done: false },
+    ],
+    gradient: "from-[#6c3b9f] via-[#3b6fbf] to-[#1db8c4]",
+  },
+  {
+    id: "future-voice",
+    ticker: "LYA-FUTV",
+    name: "THE FUTURE VOICE",
+    subtitle: "PODCAST CO-PRODUCTION INITIATIVE",
+    category: "PODCAST",
+    rarity: "RARE",
+    lyaScore: 840,
+    pricePerUnit: 38.93,
+    revenueShare: 12,
+    description:
+      "Top-tier podcast network. Significant drop in listener metrics and ad-revenue targets has severely impacted valuation.",
+    pitch:
+      '"The Future Voice is a distributed audio co-production platform. Unit holders receive proportional rights on ad-revenue and licensing fees generated across all syndicated episodes."',
+    fundingRaised: 52210,
+    fundingGoal: 85000,
+    milestones: [
+      { label: "Studio infrastructure deployed", done: true },
+      { label: "Season 2 production launch", done: false },
+      { label: "International distribution deal", done: false },
+    ],
+    gradient: "from-[#1a1a2e] via-[#16213e] to-[#0f3460]",
+  },
+  {
+    id: "renaissance-reborn",
+    ticker: "LYA-ART-REN",
+    name: "RENAISSANCE REBORN",
+    subtitle: "AI-POWERED CLASSICAL ART REIMAGINATION",
+    category: "DIGITAL ART",
+    rarity: "LEGENDARY",
+    lyaScore: 960,
+    pricePerUnit: 52.52,
+    revenueShare: 18,
+    description:
+      "Award-winning digital art collection reimagining classical masterpieces through generative AI. Sharp post-release correction as initial demand stabilises.",
+    pitch:
+      '"Renaissance Reborn fuses 15th-century composition principles with neural rendering engines. Each unit grants fractional IP rights over the generated collection and future licensing revenues."',
+    fundingRaised: 198000,
+    fundingGoal: 250000,
+    milestones: [
+      { label: "Collection v1 minted and verified", done: true },
+      { label: "Museum partnership agreement signed", done: true },
+      { label: "Secondary market activation", done: false },
+    ],
+    gradient: "from-[#b45309] via-[#92400e] to-[#1c1917]",
+  },
+  {
+    id: "quantum-realm",
+    ticker: "LYA-QNTM",
+    name: "QUANTUM REALM",
+    subtitle: "SCIENTIFIC VISUALIZATION SERIES",
+    category: "DIGITAL ART",
+    rarity: "EPIC",
+    lyaScore: 810,
+    pricePerUnit: 49.18,
+    revenueShare: 10,
+    description:
+      "Scientific visualization of probability fields. Revenue shares are tied to research publication licensing.",
+    pitch:
+      '"Quantum Realm renders quantum probability distributions as immersive visual art. Unit holders earn a share of licensing fees paid by research institutions and educational publishers."',
+    fundingRaised: 67400,
+    fundingGoal: 120000,
+    milestones: [
+      { label: "Physics lab collaboration established", done: true },
+      { label: "First publication licensing deal", done: false },
+      { label: "VR experience release", done: false },
+    ],
+    gradient: "from-[#0c4a6e] via-[#075985] to-[#0f172a]",
+  },
 ];
 
-const CAT_MAP: Record<string, string[]> = {
-  'Fine Art':     ['Fine Art', 'Photography', 'Fashion'],
-  'Film':         ['Film', 'TV Series', 'Performing Arts'],
-  'Music':        ['Music', 'Podcast'],
-  'Architecture': ['Architecture', 'Literature'],
-  'Digital Art':  ['Digital Art', 'Gaming', 'Design'],
+// ─── THÈMES (EN ANGLAIS selon screenshot) ────────────────────────────────────
+
+const THEMES = [
+  { id: "all",        label: "All Masterpieces",      icon: "⭐", categories: null },
+  { id: "visual",    label: "Visual Arts & Fashion",  icon: "🎨", categories: ["DIGITAL ART"] },
+  { id: "cinema",    label: "Cinema & Narratives",    icon: "🎬", categories: ["FILM"] },
+  { id: "music",     label: "Music & Concerts",       icon: "🎵", categories: ["MUSIC", "PODCAST"] },
+  { id: "archi",     label: "Literature & Spaces",    icon: "🏛️", categories: ["LITERATURE"] },
+];
+
+// ─── COULEURS RARITY ─────────────────────────────────────────────────────────
+
+const RARITY_COLORS: Record<string, string> = {
+  EPIC:      "bg-purple-600 text-white",
+  RARE:      "bg-cyan-500 text-black",
+  LEGENDARY: "bg-amber-500 text-black",
+  COMMON:    "bg-gray-500 text-white",
 };
 
-/* ── COMPONENT ─────────────────────────────────────────────────────────── */
-export const MecenatView: React.FC<MecenatViewProps> = ({ user, onNotify, onViewChange, liveContracts }) => {
-  const { t } = useTranslation();
+// ─── NIVEAUX MÉCÈNE ───────────────────────────────────────────────────────────
 
-  const [activeCategory, setActiveCategory] = useState('all');
-  const [units, setUnits] = useState<Record<string, number>>({});
-  const [liked, setLiked] = useState<Record<string, boolean>>({});
-  const [galleryIdx, setGalleryIdx] = useState<Record<string, number>>({});
-  const [detailContract, setDetailContract] = useState<Contract | null>(null);
-  const [detailGalleryIdx, setDetailGalleryIdx] = useState(0);
-  const [payContract, setPayContract] = useState<Contract | null>(null);
-  const [payUnits, setPayUnits] = useState(5);
-  const [payForm, setPayForm] = useState({ email: user?.email || '', name: user?.displayName || '', card: '', expiry: '', cvv: '' });
-  const [payLoading, setPayLoading] = useState(false);
+const PATRON_LEVELS = [
+  {
+    min: 1, max: 10,
+    label: "ACTIVE PATRON",
+    color: "text-cyan-400",
+    desc: "Your name is immortalised in the LYA decentralised co-ownership register.",
+  },
+  {
+    min: 11, max: 30,
+    label: "GRAND PATRON LYA",
+    color: "text-amber-400",
+    desc: "Grand Collector level. Receive a signed physical art print and certified co-ownership rights.",
+  },
+  {
+    min: 31, max: 60,
+    label: "ELITE CO-OWNER",
+    color: "text-purple-400",
+    desc: "Elite Co-Owner level. VIP invitations to artwork galas, premium physical products and active voting rights.",
+  },
+  {
+    min: 61, max: 100,
+    label: "ELITE CO-OWNER",
+    color: "text-purple-400",
+    desc: "Elite Co-Owner level. VIP invitations to artwork galas, premium physical products and active voting rights.",
+  },
+];
 
-  const contracts = useMemo(() =>
-    (liveContracts || CONTRACTS).filter(c => c.status === 'LIVE' && c.totalValue > 0 && c.unitValue > 0),
-  [liveContracts]);
+function getPatronLevel(units: number) {
+  return PATRON_LEVELS.find((l) => units >= l.min && units <= l.max) || PATRON_LEVELS[0];
+}
 
-  const filtered = useMemo(() => {
-    if (activeCategory === 'all') return contracts;
-    const cats = CAT_MAP[activeCategory] || [activeCategory];
-    return contracts.filter(c => cats.includes(c.category));
-  }, [activeCategory, contracts]);
+// ─── MODAL PAIEMENT STRIPE ────────────────────────────────────────────────────
 
-  const getUnits = (id: string) => units[id] ?? 5;
-  const getGallery = (name: string) => GALLERY[name] || [`https://picsum.photos/seed/${name}/900/500`];
+interface PaymentModalProps {
+  project: Project;
+  units: number;
+  totalCost: number;
+  onClose: () => void;
+}
 
-  const openDetail = (c: Contract) => { setDetailContract(c); setDetailGalleryIdx(0); };
-  const openPay = (c: Contract) => {
-    if (!user) { onNotify(t('Please sign in.', 'Veuillez vous connecter.')); onViewChange('LOGIN'); return; }
-    setPayContract(c);
-    setPayUnits(getUnits(c.id));
-    setPayForm({ email: user?.email || '', name: user?.displayName || '', card: '', expiry: '', cvv: '' });
-  };
+function PaymentModal({ project, units, totalCost, onClose }: PaymentModalProps) {
+  const [email, setEmail] = useState("linkyourart@gmail.com");
+  const [cardName, setCardName] = useState("");
+  const [cardNumber, setCardNumber] = useState("");
+  const [expiry, setExpiry] = useState("");
+  const [cvv, setCvv] = useState("");
 
-  const handlePay = async () => {
-    if (!payContract) return;
-    setPayLoading(true);
-    try {
-      await addDoc(collection(db, 'mecenat_acquisitions'), {
-        userId: user?.uid, userEmail: user?.email,
-        contractId: payContract.id, contractName: payContract.name,
-        units: payUnits, unitPrice: getUnitPrice(payContract),
-        totalAmount: payUnits * getUnitPrice(payContract),
-        status: 'PENDING_PAYMENT', createdAt: serverTimestamp(),
-      });
-      setTimeout(() => {
-        setPayLoading(false);
-        setPayContract(null);
-        onNotify(t('Payment registered! Units will appear in Holdings.', 'Paiement enregistré ! Vos unités apparaîtront dans Holdings.'));
-        onViewChange('HOLDINGS');
-      }, 1800);
-    } catch {
-      setPayLoading(false);
-      onNotify(t('Error. Please try again.', 'Erreur. Veuillez réessayer.'));
-    }
-  };
+  const formatCard = (val: string) =>
+    val.replace(/\D/g, "").slice(0, 16).replace(/(.{4})/g, "$1 ").trim();
+  const formatExpiry = (val: string) =>
+    val.replace(/\D/g, "").slice(0, 4).replace(/(.{2})/, "$1/");
 
   return (
-    /* ── FIX: mt-4 pour éviter que le hero touche le menu ── */
-    <div className="space-y-6 pb-20 mt-4">
-
-      {/* ── HERO BLOCK ─────────────────────────────────────────────────────── */}
-      <div className="relative rounded-3xl overflow-hidden border border-white/8 bg-gradient-to-br from-surface-dim via-[#0a0f1a] to-surface-dim shadow-2xl">
-        <div className="absolute inset-0 bg-gradient-to-r from-primary-cyan/5 via-transparent to-accent-pink/5 pointer-events-none" />
-        <div className="relative flex flex-col md:flex-row items-center justify-between gap-6 p-8 md:p-10">
-          <div className="flex-1">
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 bg-primary-cyan/10 border border-primary-cyan/20 rounded-full text-[9px] font-black text-primary-cyan uppercase tracking-[0.35em] mb-5">
-              <span className="w-1.5 h-1.5 rounded-full bg-primary-cyan animate-pulse" />
-              {t('LYA PATRONAGE SPACE', 'ESPACE MÉCÉNAT LYA')}
-            </span>
-            <h1 className="text-4xl md:text-5xl font-black uppercase leading-[1.05] tracking-tighter text-white mb-4">
-              {t("CO-OWN TOMORROW'S MASTERPIECES,", "CO-POSSÉDEZ LES CHEFS-D'ŒUVRE DE DEMAIN")}
-              <br /><span className="text-primary-cyan">{t('IN A SINGLE CLICK', 'EN UN CLIC')}</span>
-            </h1>
-            <p className="text-white/50 text-sm leading-relaxed max-w-xl">
-              {t(
-                'Welcome to our accessible discovery space. No complex financial tables, order books, or algorithmic charts here. Just exquisite art, raw talent, and a simple interactive way to support your favorite artists and share their future success.',
-                "Bienvenue dans notre espace de découverte simplifié. Ici, pas de graphiques financiers ou de carnets d'ordres rebutants. Juste de l'art sublime, du talent brut, et un moyen simple et interactif de soutenir vos créateurs favoris et de partager leurs futurs succès."
-              )}
-            </p>
+    <div className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+      <div className="bg-[#0d1117] border border-[#1e2a3a] rounded-2xl w-full max-w-md shadow-2xl">
+        {/* Header */}
+        <div className="flex items-center justify-between px-6 py-4 border-b border-[#1e2a3a]">
+          <div className="flex items-center gap-2">
+            <span className="text-[#00ff88] text-sm">🔒</span>
+            <span className="text-white font-mono text-sm tracking-widest">STRIPE SECURE CHECKOUT</span>
           </div>
-          <div className="shrink-0 flex flex-col items-center justify-center bg-black/30 border border-white/10 rounded-2xl px-8 py-6 text-center min-w-[180px]">
-            <span className="text-[9px] font-black text-white/30 uppercase tracking-[0.35em] mb-2">{t('FIXED FACE VALUE', 'VALEUR FIXE FONDATRICE')}</span>
-            <div className="text-3xl font-black text-white">1 Unit = <span className="text-primary-cyan">$50.00</span></div>
-            <span className="mt-3 px-4 py-1 bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-[9px] font-black uppercase tracking-widest rounded-full">
-              {t('ACCESSIBLE TO ALL', 'ACCESSIBLE À TOUS')}
-            </span>
+          <button
+            onClick={onClose}
+            className="text-gray-400 hover:text-white w-7 h-7 flex items-center justify-center rounded border border-[#1e2a3a] hover:border-[#00d4ff] transition-colors"
+          >
+            ✕
+          </button>
+        </div>
+
+        <div className="p-6 space-y-5">
+          {/* Récap commande */}
+          <div className="bg-[#1e2a3a]/40 rounded-xl p-4 flex justify-between items-start">
+            <div>
+              <p className="text-gray-500 text-xs font-mono mb-1">PATRONAGE PLEDGE:</p>
+              <p className="text-white font-bold font-mono italic">{project.name}</p>
+              <p className="text-gray-400 text-xs font-mono mt-1">
+                {units} units supported × ${project.pricePerUnit.toFixed(2)}
+              </p>
+            </div>
+            <div className="text-right">
+              <p className="text-gray-500 text-xs font-mono mb-1">TOTAL COST</p>
+              <p className="text-[#00ff88] font-bold text-2xl font-mono">${totalCost.toFixed(2)}</p>
+            </div>
           </div>
-        </div>
-      </div>
 
-      {/* ── LYA UNIT EXPLANATION ───────────────────────────────────────────── */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-0 rounded-2xl overflow-hidden border border-white/8 bg-surface-dim/60">
-        <div className="p-6 border-r border-white/8">
-          <div className="text-[8px] font-black text-white/25 uppercase tracking-[0.3em] mb-2">{t('OFFICIAL DEFINITION', 'DÉFINITION OFFICIELLE')}</div>
-          <div className="text-base font-black text-white uppercase leading-tight">{t('WHAT IS THE LYA UNIT?', "QU'EST-CE QUE LE LYA UNIT ?")}</div>
-          <div className="h-0.5 w-8 bg-primary-cyan mt-3" />
-        </div>
-        <div className="p-6 border-r border-white/8">
-          <div className="text-[8px] font-black text-primary-cyan/70 uppercase tracking-[0.25em] mb-2">{t('01. EVOLUTIONARY MEASURE', '01. MESURE ÉVOLUTIVE')}</div>
-          <div className="text-[11px] text-white/60 leading-relaxed">{t("It is the official quotation unit that measures the evolutionary value of a creation.", "C'est l'unité de cotation officielle qui mesure la valeur évolutive d'une création.")}</div>
-        </div>
-        <div className="p-6 border-r border-white/8">
-          <div className="text-[8px] font-black text-accent-pink/70 uppercase tracking-[0.25em] mb-2">{t('02. NOT A CRYPTO', '02. NI CRYPTO, NI DEVISE')}</div>
-          <div className="text-[11px] text-white/60 leading-relaxed">{t('It is NOT a classic currency or a crypto.', "Ce n'est PAS une monnaie classique ou une crypto.")}</div>
-        </div>
-        <div className="p-6">
-          <div className="text-[8px] font-black text-accent-gold/70 uppercase tracking-[0.25em] mb-2">{t('03. STRUCTURED VALUE', '03. VALEUR STRUCTURELLE')}</div>
-          <div className="text-[11px] text-white/60 leading-relaxed">{t("It is a structured unit of value that represents the real state, solidity, and trajectory of a creation.", "C'est une unité de valeur structurée qui représente l'état réel, la solidité et la trajectoire d'une création.")}</div>
-        </div>
-      </div>
+          {/* Email */}
+          <div>
+            <label className="text-gray-400 text-xs font-mono tracking-widest block mb-2">
+              BILLING EMAIL ADDRESS
+            </label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full bg-[#1a2233] border border-[#1e2a3a] rounded-lg px-4 py-3 text-white font-mono text-sm focus:border-[#00d4ff] focus:outline-none transition-colors"
+            />
+          </div>
 
-      {/* ── CATEGORY TABS ──────────────────────────────────────────────────── */}
-      <div className="space-y-3">
-        <div className="flex items-center gap-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-primary-cyan animate-pulse" />
-          <span className="text-[9px] font-black text-white/30 uppercase tracking-[0.4em]">
-            {t('SELECT AN ARTISTIC THEME', 'SÉLECTIONNEZ UN THÈME ARTISTIQUE')}
-          </span>
-        </div>
-        <div className="flex items-center gap-2.5 overflow-x-auto pb-2 scrollbar-hide">
-          {CATEGORIES.map(cat => (
-            <button key={cat.id} onClick={() => setActiveCategory(cat.id)}
-              className={`shrink-0 flex items-center gap-2 px-4 py-2.5 text-[10px] font-black uppercase tracking-widest rounded-2xl transition-all duration-200 ${
-                activeCategory === cat.id
-                  ? 'bg-primary-cyan text-surface-dim shadow-[0_0_25px_rgba(0,224,255,0.35)] scale-105'
-                  : 'bg-white/4 border border-white/8 text-white/45 hover:text-white hover:border-white/25 hover:bg-white/8'
-              }`}
-            >
-              <span className="text-sm leading-none">{cat.icon}</span>
-              <span>{t(cat.labelEn, cat.label)}</span>
-            </button>
-          ))}
-        </div>
-      </div>
+          {/* Nom */}
+          <div>
+            <label className="text-gray-400 text-xs font-mono tracking-widest block mb-2">
+              CARDHOLDER NAME
+            </label>
+            <input
+              type="text"
+              value={cardName}
+              onChange={(e) => setCardName(e.target.value)}
+              placeholder="JANE DOE"
+              className="w-full bg-[#1a2233] border border-[#1e2a3a] rounded-lg px-4 py-3 text-white font-mono text-sm placeholder-gray-600 focus:border-[#00d4ff] focus:outline-none transition-colors"
+            />
+          </div>
 
-      {/* ── CARDS GRID ─────────────────────────────────────────────────────── */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {filtered.map((c, i) => {
-          const u = getUnits(c.id);
-          const unitPrice = getUnitPrice(c);
-          const totalCost = u * unitPrice;
-          const revenueShare = c.revenueSharePercentage > 0
-            ? ((u / c.totalUnits) * c.revenueSharePercentage).toFixed(3)
-            : '0.000';
-          const tier = getTier(u);
-          const gallery = getGallery(c.name);
-          const gIdx = galleryIdx[c.id] || 0;
-          const fundingPct = getFundingPct(c);
-          const raisedAmt = (c.totalValue * fundingPct / 100);
-
-          return (
-            <motion.div key={c.id} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}
-              className="bg-surface-low border border-white/8 rounded-2xl overflow-hidden flex flex-col hover:border-primary-cyan/20 transition-all duration-300 group"
-            >
-              {/* ── Image — hauteur réduite ── */}
-              <div className="relative h-40 overflow-hidden bg-black group cursor-pointer" onClick={() => openDetail(c)}>
-                <img src={gallery[gIdx]} alt={c.name}
-                  onError={e => { (e.target as HTMLImageElement).src = `https://picsum.photos/seed/${c.id}/900/500`; }}
-                  className="w-full h-full object-cover opacity-70 group-hover:opacity-85 group-hover:scale-105 transition-all duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
-
-                {/* Top badges */}
-                <div className="absolute top-2 left-2 flex flex-row gap-1.5 flex-wrap">
-                  <span className="px-2 py-0.5 bg-black/70 backdrop-blur-sm text-[7px] font-black text-white uppercase tracking-widest">
-                    {c.category.toUpperCase()}
-                  </span>
-                  <span className="px-2 py-0.5 bg-accent-gold/80 backdrop-blur-sm text-[7px] font-black text-black uppercase tracking-widest flex items-center gap-1">
-                    ★ {c.totalScore}
-                  </span>
-                  <span className={`px-2 py-0.5 text-[7px] font-black uppercase tracking-widest border ${RARITY_COLORS[c.rarity] || RARITY_COLORS.Common}`}>
-                    {c.rarity.toUpperCase()}
-                  </span>
-                </div>
-                <button onClick={e => { e.stopPropagation(); setLiked(p => ({ ...p, [c.id]: !p[c.id] })); if (!liked[c.id]) onNotify(t('Added to favourites', 'Ajouté aux favoris')); }}
-                  className="absolute top-2 right-2 w-7 h-7 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center"
-                >
-                  <Heart size={12} className={liked[c.id] ? 'fill-rose-400 text-rose-400' : 'text-white/60'} />
-                </button>
-
-                {/* Bottom info */}
-                <div className="absolute bottom-0 left-0 right-0 p-3">
-                  <p className="text-[7px] font-black text-white/50 uppercase tracking-[0.3em] mb-0.5">{t('CREATIVE VENTURE', 'INITIATIVE CRÉATIVE')}</p>
-                  <div className="flex items-end justify-between">
-                    <p className="text-lg font-black text-white uppercase tracking-tight leading-tight">{c.name}</p>
-                    <div className="text-right font-mono">
-                      <p className="text-[10px] font-black text-primary-cyan">${unitPrice.toFixed(2)} / {t('Unit', 'Unité')}</p>
-                      {c.revenueSharePercentage > 0 && (
-                        <p className="text-[9px] font-black text-emerald-400">{c.revenueSharePercentage}% {t('Revenue Rights', 'Part Revenus')}</p>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="p-4 flex flex-col flex-1 gap-3">
-                {/* Subtitle + description — condensé */}
-                <div>
-                  <p className="text-[8px] font-black text-white/40 uppercase tracking-[0.3em] mb-1">
-                    {t(SUBTITLES[c.name]?.en || `${c.category.toUpperCase()} CO-PRODUCTION INITIATIVE`,
-                       SUBTITLES[c.name]?.fr || `INITIATIVE ${c.category.toUpperCase()}`)}
-                  </p>
-                  <p className="text-[11px] text-white/55 leading-snug font-sans line-clamp-2">
-                    {t(c.description, DESCRIPTIONS_FR[c.name] || c.description)}
-                  </p>
-                </div>
-
-                {/* Score + funding — même ligne */}
-                <div className="flex items-center justify-between gap-3">
-                  <div className="flex items-center gap-1">
-                    <span className="text-[8px] font-black text-white/40 uppercase tracking-[0.2em]">★ {t('SCORE', 'SCORE')}</span>
-                    <span className="text-sm font-black text-accent-gold font-mono">{c.totalScore}<span className="text-[8px] text-white/25">/1000</span></span>
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex justify-between mb-0.5">
-                      <span className="text-[7px] font-black text-white/30 uppercase tracking-[0.2em]">{t('FUNDING', 'FINANCEMENT')}</span>
-                      <span className="text-[8px] font-black text-primary-cyan font-mono">{fundingPct}%</span>
-                    </div>
-                    <div className="h-1 bg-white/5 rounded-full overflow-hidden">
-                      <motion.div initial={{ width: 0 }} animate={{ width: `${fundingPct}%` }} transition={{ duration: 1, delay: i * 0.1 }}
-                        className="h-full bg-gradient-to-r from-primary-cyan to-emerald-400 rounded-full" />
-                    </div>
-                  </div>
-                </div>
-
-                {/* Slider */}
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <span className="text-[8px] font-black text-white uppercase tracking-[0.2em]">
-                      {t("UNITS", "UNITÉS LYA")}
-                    </span>
-                    <span className="px-2 py-0.5 bg-surface-dim border border-white/10 text-[8px] font-black text-white font-mono rounded-lg">
-                      {u} {t('Units', 'Unités')}
-                    </span>
-                  </div>
-                  <input type="range" min={1} max={100} value={u}
-                    onChange={e => setUnits(p => ({ ...p, [c.id]: parseInt(e.target.value) }))}
-                    className="w-full accent-primary-cyan cursor-pointer" style={{ height: '4px' }}
-                  />
-                  <div className="flex justify-between text-[7px] font-black text-white/25 uppercase tracking-widest">
-                    <span>1</span><span>50</span><span>100</span>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-2">
-                    <div className="bg-black/30 rounded-xl p-2.5 border border-white/5">
-                      <p className="text-[7px] font-black text-white/30 uppercase tracking-widest mb-0.5">{t('CONTRIBUTION', 'CONTRIBUTION')}</p>
-                      <p className="text-sm font-black text-white font-mono">${totalCost.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
-                    </div>
-                    <div className="bg-black/30 rounded-xl p-2.5 border border-white/5">
-                      <p className="text-[7px] font-black text-white/30 uppercase tracking-widest mb-0.5">{t('REVENUE RIGHTS', 'DROITS REVENUS')}</p>
-                      <p className="text-sm font-black text-emerald-400 font-mono">{revenueShare}%</p>
-                    </div>
-                  </div>
-
-                  {/* ── TIER — 4 statuts ── */}
-                  <div className={`p-2.5 rounded-xl border ${tier.bg}`}>
-                    <p className={`text-[8px] font-black uppercase tracking-widest mb-0.5 ${tier.color}`}>
-                      {tier.icon} {t(tier.labelEn, tier.label)}
-                    </p>
-                    <p className="text-[9px] text-white/40 font-sans leading-snug">{t(tier.descEn, tier.desc)}</p>
-                  </div>
-                </div>
-
-                {/* Buttons */}
-                <div className="flex gap-2 mt-auto pt-1">
-                  <button onClick={() => openDetail(c)}
-                    className="flex-1 py-3 border border-white/15 text-white text-[9px] font-black uppercase tracking-widest rounded-xl hover:bg-white/5 transition-all"
-                  >
-                    {t('VIEW PROJECT', 'VOIR LE PROJET')}
-                  </button>
-                  <button onClick={() => openPay(c)}
-                    className="flex-1 py-3 bg-primary-cyan text-surface-dim text-[9px] font-black uppercase tracking-widest rounded-xl hover:bg-white transition-all flex items-center justify-center gap-1.5 shadow-[0_0_20px_rgba(0,224,255,0.2)]"
-                  >
-                    <Star size={11} fill="currentColor" />
-                    {t("SUPPORT", "SOUTENIR L'ŒUVRE")}
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          );
-        })}
-      </div>
-
-      {/* ── DETAIL MODAL ──────────────────────────────────────────────────── */}
-      <AnimatePresence>
-        {detailContract && (() => {
-          const c = detailContract;
-          const u = getUnits(c.id);
-          const unitPrice = getUnitPrice(c);
-          const gallery = getGallery(c.name);
-          const compliance = COMPLIANCE[c.name] || { auditor: 'LYA Protocol Hub', jurisdiction: c.jurisdiction, ledger: `LYA_REG_${c.registryIndex}` };
-          const fundingPct = getFundingPct(c);
-          const revenueShare = c.revenueSharePercentage > 0
-            ? ((u / c.totalUnits) * c.revenueSharePercentage).toFixed(3)
-            : '0.000';
-
-          return (
-            <>
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                onClick={() => setDetailContract(null)}
-                style={{ position: 'fixed', inset: 0, zIndex: 9998, background: 'rgba(0,0,0,0.92)', backdropFilter: 'blur(20px)' }}
+          {/* Numéro de carte + logos */}
+          <div>
+            <label className="text-gray-400 text-xs font-mono tracking-widest block mb-2">
+              CARD CREDENTIALS
+            </label>
+            <div className="relative">
+              <input
+                type="text"
+                value={cardNumber}
+                onChange={(e) => setCardNumber(formatCard(e.target.value))}
+                placeholder="4242 4242 4242 4242"
+                maxLength={19}
+                className="w-full bg-[#1a2233] border border-[#1e2a3a] rounded-lg px-4 py-3 text-white font-mono text-sm placeholder-gray-600 focus:border-[#00d4ff] focus:outline-none transition-colors pr-36"
               />
-              <motion.div initial={{ opacity: 0, scale: 0.94 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.94 }}
-                style={{ position: 'fixed', inset: 0, zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px', pointerEvents: 'none' }}
-              >
-                <div style={{ pointerEvents: 'auto', maxWidth: '1000px', width: '100%', maxHeight: 'calc(100vh - 32px)', overflowY: 'auto' }}
-                  className="bg-[#0A0F1A] border border-white/10 rounded-3xl overflow-hidden"
-                >
-                  <button onClick={() => setDetailContract(null)}
-                    className="absolute top-4 right-4 z-10 w-9 h-9 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white transition-all"
-                    style={{ position: 'sticky', float: 'right', margin: '16px 16px 0 0' }}
-                  >
-                    <X size={16} />
-                  </button>
+              {/* Logos cartes */}
+              <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
+                {/* VISA */}
+                <span className="bg-[#1a1f71] text-white text-[10px] font-bold px-2 py-0.5 rounded font-sans italic">VISA</span>
+                {/* MC */}
+                <span className="flex">
+                  <span className="w-4 h-4 rounded-full bg-[#eb001b] opacity-90 -mr-1.5" />
+                  <span className="w-4 h-4 rounded-full bg-[#f79e1b] opacity-90" />
+                </span>
+                {/* AMEX */}
+                <span className="bg-[#2557d6] text-white text-[9px] font-bold px-1.5 py-0.5 rounded font-sans">AMEX</span>
+                {/* CB */}
+                <span className="bg-[#00a1e0] text-white text-[10px] font-bold px-1.5 py-0.5 rounded font-sans">CB</span>
+              </div>
+            </div>
+          </div>
 
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
-                    {/* LEFT — Gallery */}
-                    <div className="p-6 space-y-4 bg-black/20">
-                      <div className="flex items-center gap-2 mb-2">
-                        <div className="w-5 h-5 border border-primary-cyan/40 flex items-center justify-center">
-                          <span className="text-primary-cyan text-[8px] font-black">🖼</span>
-                        </div>
-                        <span className="text-[8px] font-black text-white/40 uppercase tracking-[0.35em]">{t('ART PROJECT GALLERY', 'GALERIE DU PROJET ARTISTIQUE')}</span>
-                      </div>
-                      <div className="relative rounded-2xl overflow-hidden bg-black" style={{ aspectRatio: '4/3' }}>
-                        <img src={gallery[detailGalleryIdx]} alt={c.name}
-                          onError={e => { (e.target as HTMLImageElement).src = `https://picsum.photos/seed/${c.id}main/800/600`; }}
-                          className="w-full h-full object-cover"
-                        />
-                        {gallery.length > 1 && (
-                          <>
-                            <button onClick={() => setDetailGalleryIdx(i => (i - 1 + gallery.length) % gallery.length)}
-                              className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 bg-black/60 rounded-full flex items-center justify-center text-white hover:bg-black/80 transition-all"
-                            ><ChevronLeft size={16} /></button>
-                            <button onClick={() => setDetailGalleryIdx(i => (i + 1) % gallery.length)}
-                              className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 bg-black/60 rounded-full flex items-center justify-center text-white hover:bg-black/80 transition-all"
-                            ><ChevronRight size={16} /></button>
-                            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
-                              {gallery.map((_, gi) => (
-                                <button key={gi} onClick={() => setDetailGalleryIdx(gi)}
-                                  className={`w-1.5 h-1.5 rounded-full transition-all ${detailGalleryIdx === gi ? 'bg-white' : 'bg-white/30'}`}
-                                />
-                              ))}
-                            </div>
-                          </>
-                        )}
-                      </div>
-                      <div className="flex gap-2">
-                        {gallery.map((img, gi) => (
-                          <button key={gi} onClick={() => setDetailGalleryIdx(gi)}
-                            className={`w-20 h-14 rounded-lg overflow-hidden border-2 transition-all ${detailGalleryIdx === gi ? 'border-primary-cyan' : 'border-white/10'}`}
-                          >
-                            <img src={img} alt="" className="w-full h-full object-cover"
-                              onError={e => { (e.target as HTMLImageElement).src = `https://picsum.photos/seed/${c.id}${gi}/200/150`; }}
-                            />
-                          </button>
-                        ))}
-                      </div>
-                      <div className="border border-primary-cyan/20 bg-primary-cyan/5 rounded-2xl p-4">
-                        <div className="flex items-center gap-2 mb-2">
-                          <ShieldCheck size={14} className="text-primary-cyan" />
-                          <span className="text-[8px] font-black text-primary-cyan uppercase tracking-[0.35em]">{t('LYA COMPLIANCE ASSURANCE', 'ASSURANCE DE CONFORMITÉ LYA')}</span>
-                        </div>
-                        <p className="text-[10px] text-white/50 font-sans leading-relaxed mb-3">
-                          {t(
-                            `Audited and verified by ${compliance.auditor} under ${compliance.jurisdiction} guidelines. Smart contract addresses are permanently etched on the LYA register.`,
-                            `Audité et vérifié par ${compliance.auditor} selon les directives ${compliance.jurisdiction}. Les adresses de contrats intelligents sont gravées de façon permanente sur le registre LYA.`
-                          )}
-                        </p>
-                        <div className="flex gap-2 flex-wrap">
-                          <span className="px-2 py-1 bg-black/30 border border-white/10 text-[8px] font-black text-white/40 uppercase tracking-widest rounded">
-                            {t('Jurisdiction:', 'Juridiction :')} {compliance.jurisdiction}
-                          </span>
-                          <span className="px-2 py-1 bg-black/30 border border-white/10 text-[8px] font-black text-white/40 uppercase tracking-widest rounded">
-                            {t('Ledger:', 'Registre :')} {compliance.ledger}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* RIGHT — Details */}
-                    <div className="p-6 space-y-5">
-                      <div>
-                        <div className="flex items-center gap-2 mb-2">
-                          <span className={`px-2 py-0.5 text-[8px] font-black uppercase tracking-widest border ${RARITY_COLORS[c.rarity] || RARITY_COLORS.Common}`}>
-                            {c.category.toUpperCase()}
-                          </span>
-                          <span className="text-[8px] font-mono text-white/30">ID: {c.name.replace(/\s/g, '_').toUpperCase()}</span>
-                        </div>
-                        <h2 className="text-3xl font-black text-white italic uppercase tracking-tight leading-tight">{c.name}</h2>
-                        <p className="text-[9px] font-black text-primary-cyan uppercase tracking-[0.3em] mt-1">
-                          {t(SUBTITLES[c.name]?.en || `${c.category.toUpperCase()} CO-PRODUCTION INITIATIVE`,
-                             SUBTITLES[c.name]?.fr || `INITIATIVE ${c.category.toUpperCase()}`)}
-                        </p>
-                      </div>
-                      <div>
-                        <div className="flex justify-between items-center mb-1">
-                          <span className="text-[8px] font-black text-white/30 uppercase tracking-[0.3em]">{t('TARGET PROJECT BUDGET', 'BUDGET CIBLE DU PROJET')}</span>
-                          <span className="text-[9px] font-black text-primary-cyan font-mono">{fundingPct}%</span>
-                        </div>
-                        <div className="h-2 bg-white/5 rounded-full overflow-hidden mb-1">
-                          <div className="h-full bg-gradient-to-r from-primary-cyan to-emerald-400 rounded-full" style={{ width: `${fundingPct}%` }} />
-                        </div>
-                        <div className="flex justify-between">
-                          <div>
-                            <p className="text-[7px] text-white/25 uppercase tracking-widest">{t('RAISED AMOUNT', 'MONTANT LEVÉ')}</p>
-                            <p className="text-sm font-black text-white font-mono">${(c.totalValue * fundingPct / 100).toLocaleString('en-US', { minimumFractionDigits: 2 })}</p>
-                          </div>
-                          <div className="text-right">
-                            <p className="text-[7px] text-white/25 uppercase tracking-widest">{t('GLOBAL GOAL', 'OBJECTIF GLOBAL')}</p>
-                            <p className="text-sm font-black text-white font-mono">${c.totalValue.toLocaleString()}.00</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div>
-                        <p className="text-[8px] font-black text-white/30 uppercase tracking-[0.3em] mb-2">{t('PROJECT PITCH & SYNOPSIS', 'PITCH & SYNOPSIS DU PROJET')}</p>
-                        <blockquote className="border-l-2 border-primary-cyan/40 pl-3 text-[11px] text-white/60 italic font-sans leading-relaxed">
-                          "{t(c.description, DESCRIPTIONS_FR[c.name] || c.description)}"
-                        </blockquote>
-                      </div>
-                      {c.milestones && c.milestones.length > 0 && (
-                        <div>
-                          <p className="text-[8px] font-black text-white/30 uppercase tracking-[0.3em] mb-2">{t('DEVELOPMENT MILESTONES', 'JALONS DE DÉVELOPPEMENT')}</p>
-                          <ul className="space-y-1.5">
-                            {c.milestones.slice(0, 3).map((m, mi) => (
-                              <li key={mi} className="flex items-center gap-2">
-                                <span className={`w-4 h-4 rounded-full flex items-center justify-center shrink-0 ${m.status === 'COMPLETED' ? 'border border-primary-cyan' : 'border border-white/20'}`}>
-                                  {m.status === 'COMPLETED' && <span className="w-1.5 h-1.5 rounded-full bg-primary-cyan" />}
-                                </span>
-                                <span className={`text-[10px] font-sans ${m.status === 'COMPLETED' ? 'line-through text-white/30' : 'text-white/60'}`}>{m.label}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-                      <div className="bg-black/30 border border-white/5 rounded-2xl p-4">
-                        <p className="text-[8px] font-black text-white/30 uppercase tracking-[0.3em] mb-3">
-                          {t(`ESTIMATED BENEFITS FOR: ${u} UNITS SUPPORTING`, `BÉNÉFICES ESTIMÉS POUR : ${u} UNITÉS`)}
-                        </p>
-                        <div className="space-y-2">
-                          <div className="flex justify-between">
-                            <span className="text-[10px] text-white/40 font-sans">{t('Total backing pledge:', 'Engagement total :')}</span>
-                            <span className="text-[10px] font-black text-white font-mono">${(u * unitPrice).toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-[10px] text-white/40 font-sans">{t('Cumulative Revenue rights:', 'Droits revenus cumulés :')}</span>
-                            <span className="text-[10px] font-black text-emerald-400 font-mono">{revenueShare}%</span>
-                          </div>
-                        </div>
-                        <p className="text-[8px] text-white/20 font-sans mt-3 leading-relaxed">
-                          * {t('Note: Support pledge proceeds are securely held in trust. Benefits triggering aligns automatically with validated milestone release dates.', 'Note : Les fonds sont sécurisés en fidéicommis. Les bénéfices sont déclenchés automatiquement à la validation des jalons.')}
-                        </p>
-                      </div>
-                      <div className="flex gap-3 pt-2">
-                        <button onClick={() => setDetailContract(null)}
-                          className="flex-1 py-3.5 border border-white/15 text-white text-[10px] font-black uppercase tracking-widest rounded-2xl hover:bg-white/5 transition-all"
-                        >
-                          {t('CLOSE', 'FERMER')}
-                        </button>
-                        <button onClick={() => { setDetailContract(null); openPay(c); }}
-                          className="flex-1 py-3.5 bg-primary-cyan text-surface-dim text-[10px] font-black uppercase tracking-widest rounded-2xl hover:bg-white transition-all"
-                        >
-                          {t(`SUPPORT WITH ${u} UNITS`, `SOUTENIR AVEC ${u} UNITÉS`)}
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            </>
-          );
-        })()}
-      </AnimatePresence>
-
-      {/* ── PAYMENT MODAL ─────────────────────────────────────────────────── */}
-      <AnimatePresence>
-        {payContract && (() => {
-          const c = payContract;
-          const unitPrice = getUnitPrice(c);
-          const total = payUnits * unitPrice;
-
-          return (
-            <>
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                onClick={() => !payLoading && setPayContract(null)}
-                style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(0,0,0,0.90)', backdropFilter: 'blur(20px)' }}
+          {/* Expiry + CVV */}
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="text-gray-400 text-xs font-mono tracking-widest block mb-2">
+                EXPIRY DATE
+              </label>
+              <input
+                type="text"
+                value={expiry}
+                onChange={(e) => setExpiry(formatExpiry(e.target.value))}
+                placeholder="MM/YY"
+                maxLength={5}
+                className="w-full bg-[#1a2233] border border-[#1e2a3a] rounded-lg px-4 py-3 text-white font-mono text-sm placeholder-gray-600 focus:border-[#00d4ff] focus:outline-none transition-colors"
               />
-              <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 16 }}
-                style={{ position: 'fixed', inset: 0, zIndex: 10000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px', pointerEvents: 'none' }}
-              >
-                <div style={{ pointerEvents: 'auto', maxWidth: '480px', width: '100%' }}
-                  className="bg-[#0D1117] border border-white/10 rounded-3xl overflow-hidden font-mono shadow-2xl"
-                >
-                  <div className="flex items-center justify-between px-7 py-5 border-b border-white/5">
-                    <div className="flex items-center gap-2">
-                      <Lock size={14} className="text-emerald-400" />
-                      <span className="text-[10px] font-black text-white uppercase tracking-[0.35em]">{t('STRIPE SECURE CHECKOUT', 'PAIEMENT SÉCURISÉ STRIPE')}</span>
-                    </div>
-                    {!payLoading && (
-                      <button onClick={() => setPayContract(null)} className="text-white/30 hover:text-white transition-colors">
-                        <X size={16} />
-                      </button>
-                    )}
-                  </div>
+            </div>
+            <div>
+              <label className="text-gray-400 text-xs font-mono tracking-widest block mb-2">
+                CVV CODE
+              </label>
+              <input
+                type="password"
+                value={cvv}
+                onChange={(e) => setCvv(e.target.value.replace(/\D/g, "").slice(0, 4))}
+                placeholder="•••"
+                maxLength={4}
+                className="w-full bg-[#1a2233] border border-[#1e2a3a] rounded-lg px-4 py-3 text-white font-mono text-sm placeholder-gray-600 focus:border-[#00d4ff] focus:outline-none transition-colors"
+              />
+            </div>
+          </div>
 
-                  <div className="p-7 space-y-5">
-                    <div className="bg-white/[0.03] border border-white/5 rounded-2xl p-4">
-                      <div className="flex justify-between items-start">
-                        <div>
-                          <p className="text-[8px] text-white/30 uppercase tracking-[0.3em]">{t('PATRONAGE PLEDGE:', 'ENGAGEMENT MÉCÉNAT :')}</p>
-                          <p className="text-base font-black text-white italic mt-0.5">{c.name}</p>
-                          <p className="text-[10px] text-white/40 mt-0.5">{payUnits} {t('units supported', 'unités soutenues')} × ${unitPrice.toFixed(2)}</p>
-                        </div>
-                        <div className="text-right">
-                          <p className="text-[8px] text-white/30 uppercase tracking-[0.3em]">{t('TOTAL COST', 'COÛT TOTAL')}</p>
-                          <p className="text-xl font-black text-emerald-400 font-mono mt-0.5">${total.toLocaleString('en-US', { minimumFractionDigits: 2 })}</p>
-                        </div>
-                      </div>
-                    </div>
+          {/* Bouton payer */}
+          <button className="w-full bg-[#00ff88] hover:bg-[#00cc66] text-black font-bold font-mono py-4 rounded-xl transition-colors text-sm tracking-widest">
+            ✦ CONFIRM PATRONAGE — ${totalCost.toFixed(2)}
+          </button>
 
-                    {[
-                      { label: t('BILLING EMAIL ADDRESS', 'ADRESSE EMAIL DE FACTURATION'), key: 'email', type: 'email', placeholder: user?.email || 'email@example.com' },
-                      { label: t('CARDHOLDER NAME', 'NOM DU PORTEUR'), key: 'name', type: 'text', placeholder: 'JANE DOE' },
-                      { label: t('CARD CREDENTIALS', 'IDENTIFIANTS DE CARTE'), key: 'card', type: 'text', placeholder: '4242 4242 4242 4242', extra: 'brands' },
-                    ].map(f => (
-                      <div key={f.key}>
-                        <label className="text-[8px] font-black text-white/30 uppercase tracking-[0.3em] block mb-1.5">{f.label}</label>
-                        <div className="relative">
-                          <input type={f.type} value={(payForm as any)[f.key]} placeholder={f.placeholder}
-                            onChange={e => setPayForm(p => ({ ...p, [f.key]: e.target.value }))}
-                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-primary-cyan transition-all"
-                          />
-                          {f.extra === 'brands' && (
-                            <div className="absolute right-3 top-1/2 -translate-y-1/2 flex gap-1">
-                              {['VISA', 'MC', 'AMEX', 'CB'].map(b => (
-                                <span key={b} className="px-1.5 py-0.5 bg-white/10 border border-white/15 text-[7px] font-black text-white/50 rounded">{b}</span>
-                              ))}
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    ))}
-
-                    <div className="grid grid-cols-2 gap-3">
-                      <div>
-                        <label className="text-[8px] font-black text-white/30 uppercase tracking-[0.3em] block mb-1.5">{t("EXPIRY DATE", "DATE D'EXPIRATION")}</label>
-                        <input type="text" value={payForm.expiry} placeholder="MM/YY" maxLength={5}
-                          onChange={e => setPayForm(p => ({ ...p, expiry: e.target.value }))}
-                          className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-primary-cyan transition-all"
-                        />
-                      </div>
-                      <div>
-                        <label className="text-[8px] font-black text-white/30 uppercase tracking-[0.3em] block mb-1.5">{t('CVV CODE', 'CODE CVV')}</label>
-                        <input type="password" value={payForm.cvv} placeholder="***"
-                          onChange={e => setPayForm(p => ({ ...p, cvv: e.target.value }))}
-                          className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-primary-cyan transition-all"
-                        />
-                      </div>
-                    </div>
-
-                    <p className="text-[9px] text-white/25 font-sans leading-relaxed flex gap-2">
-                      <span className="text-white/40 mt-0.5">ℹ</span>
-                      {t(
-                        `Your payment of $${total.toFixed(2)} will be processed and locked inside the safe LYA smart contract. Your shares will appear instantly under holdings.`,
-                        `Votre paiement de $${total.toFixed(2)} sera traité et verrouillé dans le contrat intelligent sécurisé LYA. Vos parts apparaîtront instantanément dans Holdings.`
-                      )}
-                    </p>
-
-                    <div className="flex gap-3 pt-1">
-                      <button onClick={() => setPayContract(null)} disabled={payLoading}
-                        className="flex-1 py-4 border border-white/10 text-white text-[10px] font-black uppercase tracking-widest rounded-2xl hover:bg-white/5 transition-all disabled:opacity-40"
-                      >
-                        {t('CANCEL', 'ANNULER')}
-                      </button>
-                      <button onClick={handlePay} disabled={payLoading}
-                        className="flex-1 py-4 bg-emerald-500 text-white text-[10px] font-black uppercase tracking-widest rounded-2xl hover:bg-emerald-400 transition-all disabled:opacity-60 flex items-center justify-center gap-2"
-                      >
-                        {payLoading ? (
-                          <><span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" /> {t('PROCESSING...', 'TRAITEMENT...')}</>
-                        ) : (
-                          <><Lock size={12} /> {t('PAY SECURELY NOW', 'PAYER EN SÉCURITÉ')}</>
-                        )}
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            </>
-          );
-        })()}
-      </AnimatePresence>
-
+          <p className="text-center text-gray-600 text-xs font-mono">
+            Secured by Stripe · EU MiCA compliant · LYA Ledger registered
+          </p>
+        </div>
+      </div>
     </div>
   );
-};
+}
+
+// ─── MODAL DÉTAIL PROJET ──────────────────────────────────────────────────────
+
+interface ProjectDetailModalProps {
+  project: Project;
+  units: number;
+  onClose: () => void;
+  onPay: () => void;
+}
+
+function ProjectDetailModal({ project, units, onClose, onPay }: ProjectDetailModalProps) {
+  const totalCost = units * project.pricePerUnit;
+  const revenueRights = ((units * project.revenueShare) / 10000).toFixed(3);
+  const fundingPct = Math.round((project.fundingRaised / project.fundingGoal) * 100);
+
+  return (
+    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+      <div className="bg-[#0d1117] border border-[#1e2a3a] rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-2xl">
+        <div className="grid grid-cols-1 lg:grid-cols-2">
+          {/* Colonne gauche — visuels */}
+          <div className="p-6 border-b lg:border-b-0 lg:border-r border-[#1e2a3a]">
+            {/* Badge galerie */}
+            <div className="flex items-center gap-2 mb-4">
+              <span className="text-[#00d4ff] text-xs">🖼</span>
+              <span className="text-[#00d4ff] text-xs font-mono tracking-widest border border-[#00d4ff]/30 px-3 py-1 rounded">
+                ART PROJECT GALLERY
+              </span>
+            </div>
+
+            {/* Image principale */}
+            <div className={`rounded-xl aspect-video bg-gradient-to-br ${project.gradient} mb-3 flex items-center justify-center`}>
+              <span className="text-white/20 font-mono text-xs">{project.ticker}</span>
+            </div>
+
+            {/* Thumbnails */}
+            <div className="flex gap-2 mb-5">
+              {[0, 1, 2].map((i) => (
+                <div
+                  key={i}
+                  className={`flex-1 aspect-video rounded-lg bg-gradient-to-br ${project.gradient} opacity-${i === 0 ? "100" : i === 1 ? "60" : "30"} border-2 ${i === 0 ? "border-[#00d4ff]" : "border-transparent"} cursor-pointer`}
+                />
+              ))}
+            </div>
+
+            {/* LYA Compliance */}
+            <div className="bg-[#0a1628] border border-[#1e2a3a] rounded-xl p-4">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-[#00ff88] text-sm">✓</span>
+                <span className="text-[#00ff88] text-xs font-mono tracking-widest">LYA COMPLIANCE ASSURANCE</span>
+              </div>
+              <p className="text-gray-400 text-xs mb-3">
+                Audited and verified by Warner Music Hub under EU MiCA guidelines. Smart contract addresses are permanently etched on the LYA register.
+              </p>
+              <div className="flex gap-3">
+                <span className="border border-[#1e2a3a] text-gray-400 text-xs font-mono px-3 py-1 rounded">
+                  Jurisdiction: EU (MiCA)
+                </span>
+                <span className="border border-[#1e2a3a] text-gray-400 text-xs font-mono px-3 py-1 rounded">
+                  Ledger: LYA_REG_0x71C4F2A
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Colonne droite — infos */}
+          <div className="p-6">
+            {/* Header */}
+            <div className="flex justify-between items-start mb-4">
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="bg-[#1e2a3a] text-[#00d4ff] text-xs font-mono px-2 py-1 rounded">
+                    {project.category}
+                  </span>
+                  <span className="text-gray-500 text-xs font-mono">ID: {project.id.toUpperCase()}</span>
+                </div>
+                <h2 className="text-white font-black text-2xl font-mono italic mb-1">{project.name}</h2>
+                <p className="text-[#00d4ff] text-xs font-mono tracking-widest">{project.subtitle}</p>
+              </div>
+              <button
+                onClick={onClose}
+                className="w-9 h-9 rounded-full border border-[#1e2a3a] flex items-center justify-center text-gray-400 hover:text-white hover:border-[#00d4ff] transition-colors"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Financement */}
+            <div className="mb-5">
+              <div className="flex justify-between items-center mb-1">
+                <span className="text-gray-500 text-xs font-mono">TARGET PROJECT BUDGET</span>
+                <span className="text-[#00ff88] text-xs font-mono font-bold">{fundingPct}%</span>
+              </div>
+              <div className="w-full bg-[#1e2a3a] rounded-full h-1.5 mb-1">
+                <div
+                  className="bg-[#00ff88] h-1.5 rounded-full"
+                  style={{ width: `${fundingPct}%` }}
+                />
+              </div>
+              <div className="flex justify-between text-xs font-mono text-gray-500">
+                <span>RAISED AMOUNT: ${project.fundingRaised.toLocaleString()}.00</span>
+                <span>GLOBAL GOAL: ${project.fundingGoal.toLocaleString()}.00</span>
+              </div>
+            </div>
+
+            {/* Pitch */}
+            <div className="mb-5">
+              <p className="text-gray-500 text-xs font-mono tracking-widest mb-2">PROJECT PITCH & SYNOPSIS</p>
+              <p className="text-gray-300 text-sm italic border-l-2 border-[#00d4ff]/30 pl-3">
+                {project.pitch}
+              </p>
+            </div>
+
+            {/* Milestones */}
+            <div className="mb-5">
+              <p className="text-gray-500 text-xs font-mono tracking-widest mb-3">DEVELOPMENT MILESTONES</p>
+              <div className="space-y-2">
+                {project.milestones.map((m, i) => (
+                  <div key={i} className="flex items-center gap-2">
+                    <span className={`w-4 h-4 rounded-full flex items-center justify-center text-xs ${m.done ? "bg-[#00ff88]/20 text-[#00ff88]" : "border border-[#1e2a3a] text-gray-600"}`}>
+                      {m.done ? "✓" : "○"}
+                    </span>
+                    <span className={`text-xs font-mono ${m.done ? "text-gray-500 line-through" : "text-gray-300"}`}>
+                      {m.label}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Bénéfices estimés */}
+            <div className="bg-[#0a1628] border border-[#1e2a3a] rounded-xl p-4 mb-5">
+              <p className="text-gray-500 text-xs font-mono tracking-widest mb-3">
+                ESTIMATED BENEFITS FOR: {units} UNITS SUPPORTING
+              </p>
+              <div className="flex justify-between items-center mb-1">
+                <span className="text-gray-400 text-sm">Total backing pledge:</span>
+                <span className="text-white font-mono font-bold">${totalCost.toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-gray-400 text-sm">Cumulative Revenue rights:</span>
+                <span className="text-[#00ff88] font-mono font-bold">{revenueRights}%</span>
+              </div>
+              <p className="text-gray-600 text-xs mt-3">
+                * Note: Support pledge proceeds are securely held in trust. Benefits triggering aligns automatically with validated milestone release dates.
+              </p>
+            </div>
+
+            {/* Bouton payer */}
+            <button
+              onClick={onPay}
+              className="w-full bg-[#00ff88] hover:bg-[#00cc66] text-black font-bold font-mono py-4 rounded-xl transition-colors text-sm tracking-widest"
+            >
+              ✦ SUPPORT THIS PROJECT — ${totalCost.toFixed(2)}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── CARD PROJET ──────────────────────────────────────────────────────────────
+
+interface ProjectCardProps {
+  project: Project;
+  onOpenDetail: (project: Project, units: number) => void;
+}
+
+function ProjectCard({ project, onOpenDetail }: ProjectCardProps) {
+  const [units, setUnits] = useState(5);
+  const [liked, setLiked] = useState(false);
+
+  const totalCost = units * project.pricePerUnit;
+  const coShare = ((units * project.revenueShare) / 10000).toFixed(3);
+  const level = getPatronLevel(units);
+  const fundingPct = Math.round((project.fundingRaised / project.fundingGoal) * 100);
+
+  return (
+    <div className="bg-[#0d1117] border border-[#1e2a3a] rounded-2xl overflow-hidden flex flex-col">
+
+      {/* ── Visuel carte ───────────────────────────────────────────────────── */}
+      <div
+        className={`relative bg-gradient-to-br ${project.gradient} aspect-video flex items-end p-4 cursor-pointer`}
+        onClick={() => onOpenDetail(project, units)}
+      >
+        {/* Badges haut gauche */}
+        <div className="absolute top-3 left-3 flex flex-col gap-1.5">
+          <span className="bg-[#0d1117]/80 text-[#00d4ff] text-xs px-2 py-0.5 rounded font-mono w-fit">
+            {project.category}
+          </span>
+          <span className="bg-amber-500 text-black text-xs px-2 py-0.5 rounded font-mono font-bold w-fit flex items-center gap-1">
+            ★ LYA SCORE: {project.lyaScore}
+          </span>
+          <span className={`text-xs px-2 py-0.5 rounded font-mono font-bold w-fit ${RARITY_COLORS[project.rarity]}`}>
+            {project.rarity}
+          </span>
+        </div>
+
+        {/* Like */}
+        <button
+          onClick={(e) => { e.stopPropagation(); setLiked(!liked); }}
+          className={`absolute top-3 right-3 w-8 h-8 rounded-full bg-[#0d1117]/60 flex items-center justify-center transition-colors ${liked ? "text-red-500" : "text-gray-400 hover:text-red-400"}`}
+        >
+          ♥
+        </button>
+
+        {/* Infos bas */}
+        <div className="w-full">
+          <p className="text-xs text-gray-400 font-mono mb-1">CREATIVE VENTURE</p>
+          <div className="flex justify-between items-end">
+            <h3 className="text-white font-black text-lg font-mono italic">{project.name}</h3>
+            <div className="text-right">
+              <p className="text-white text-sm font-mono">${project.pricePerUnit.toFixed(2)} / Unit</p>
+              <p className="text-[#00ff88] text-xs font-mono">{project.revenueShare}% Revenue Rights</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Description + sous-titre ────────────────────────────────────────── */}
+      <div className="px-5 pt-4 pb-3 border-b border-[#1e2a3a]">
+        <p className="text-[#00d4ff] text-xs font-mono tracking-widest mb-1">{project.subtitle}</p>
+        <p className="text-gray-400 text-sm">{project.description}</p>
+      </div>
+
+      {/* ── LYA Quality Score + Funding ─────────────────────────────────────── */}
+      <div className="px-5 py-4 border-b border-[#1e2a3a] space-y-3">
+        {/* Score */}
+        <div className="flex items-center justify-between">
+          <span className="text-gray-500 text-xs font-mono flex items-center gap-1">
+            ★ LYA QUALITY SCORE
+          </span>
+          <span className="text-amber-400 font-mono font-bold">
+            {project.lyaScore} <span className="text-gray-600 font-normal">/ 1000</span>
+          </span>
+        </div>
+        <div className="w-full bg-[#1e2a3a] rounded-full h-0.5">
+          <div
+            className="bg-amber-400 h-0.5 rounded-full"
+            style={{ width: `${(project.lyaScore / 1000) * 100}%` }}
+          />
+        </div>
+
+        {/* Funding */}
+        <div>
+          <div className="flex justify-between items-center mb-1">
+            <span className="text-gray-500 text-xs font-mono">FUNDING PROGRESS</span>
+            <span className="text-[#00ff88] text-xs font-mono font-bold">{fundingPct}%</span>
+          </div>
+          <div className="w-full bg-[#1e2a3a] rounded-full h-1.5 mb-1">
+            <div
+              className="bg-[#00ff88] h-1.5 rounded-full"
+              style={{ width: `${fundingPct}%` }}
+            />
+          </div>
+          <div className="flex justify-between text-xs font-mono text-gray-600">
+            <span>${project.fundingRaised.toLocaleString()}.00</span>
+            <span>Goal: ${project.fundingGoal.toLocaleString()}.00</span>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Curseur interactif ───────────────────────────────────────────────── */}
+      <div className="px-5 py-4 space-y-3">
+        <div className="flex justify-between items-center">
+          <span className="text-white text-xs font-mono font-bold tracking-widest">LYA UNITS ACQUISITION VOLUME</span>
+          <span className="bg-[#1e2a3a] text-[#00d4ff] text-xs px-3 py-1 rounded font-mono">
+            {units} Units Supporting
+          </span>
+        </div>
+
+        <input
+          type="range"
+          min={1}
+          max={100}
+          value={units}
+          onChange={(e) => setUnits(Number(e.target.value))}
+          className="w-full h-1 bg-[#1e2a3a] rounded-full appearance-none cursor-pointer accent-[#00d4ff]"
+        />
+
+        <div className="flex justify-between text-xs text-gray-600 font-mono">
+          <span>MIN (1 UNIT)</span>
+          <span>CURATOR (50)</span>
+          <span>MAX (100 UNITS)</span>
+        </div>
+
+        <div className="grid grid-cols-2 gap-3">
+          <div className="bg-[#1e2a3a]/50 rounded-lg p-3">
+            <p className="text-gray-500 text-xs font-mono mb-1">YOUR PLEDGE</p>
+            <p className="text-white font-bold font-mono">${totalCost.toFixed(2)}</p>
+          </div>
+          <div className="bg-[#1e2a3a]/50 rounded-lg p-3">
+            <p className="text-gray-500 text-xs font-mono mb-1">REVENUE CO-SHARE</p>
+            <p className="text-[#00ff88] font-bold font-mono">{coShare}%</p>
+          </div>
+        </div>
+
+        {/* Niveau */}
+        <div className="border border-[#1e2a3a] rounded-lg p-3">
+          <p className={`text-xs font-mono font-bold mb-1 ${level.color}`}>{level.label}</p>
+          <p className="text-gray-400 text-xs">{level.desc}</p>
+        </div>
+
+        <div className="grid grid-cols-2 gap-3">
+          <button
+            onClick={() => onOpenDetail(project, units)}
+            className="border border-[#1e2a3a] text-white py-3 rounded-xl font-mono text-xs hover:border-[#00d4ff] transition-colors tracking-wider"
+          >
+            GRAND REGISTER
+          </button>
+          <button
+            onClick={() => onOpenDetail(project, units)}
+            className="bg-[#00ff88] text-black py-3 rounded-xl font-mono text-xs font-bold hover:bg-[#00cc66] transition-colors flex items-center justify-center gap-1 tracking-wider"
+          >
+            ✦ SUPPORT PROJECT
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── SECTION "WHAT IS THE LYA UNIT?" ─────────────────────────────────────────
+
+function WhatIsLyaUnit() {
+  return (
+    <div className="bg-[#0a1628] border border-[#1e2a3a] rounded-2xl p-6 grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div>
+        <p className="text-gray-500 text-xs font-mono tracking-widest mb-2">OFFICIAL DEFINITION</p>
+        <h3 className="text-white font-black text-xl leading-tight">WHAT IS THE LYA UNIT?</h3>
+        <div className="w-8 h-0.5 bg-[#00d4ff] mt-2" />
+      </div>
+      <div>
+        <p className="text-[#00d4ff] text-xs font-mono tracking-widest mb-2">01. EVOLUTIONARY MEASURE</p>
+        <p className="text-gray-300 text-sm">
+          It is the official quotation unit that measures the evolutionary value of a creation.
+        </p>
+      </div>
+      <div>
+        <p className="text-[#00d4ff] text-xs font-mono tracking-widest mb-2">02. NOT A CRYPTO</p>
+        <p className="text-gray-300 text-sm">
+          It is NOT a classic currency or a crypto.
+        </p>
+      </div>
+      <div>
+        <p className="text-[#00d4ff] text-xs font-mono tracking-widest mb-2">03. STRUCTURED STATE</p>
+        <p className="text-gray-300 text-sm">
+          It is a structured unit of value that represents the real state, solidity, and trajectory of a creation.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+// ─── COMPOSANT PRINCIPAL ──────────────────────────────────────────────────────
+
+export function MecenatGrandPublic() {
+  const [activeTheme, setActiveTheme] = useState("all");
+  const [detailProject, setDetailProject] = useState<{ project: Project; units: number } | null>(null);
+  const [showPayment, setShowPayment] = useState(false);
+
+  const filteredProjects = useMemo(() => {
+    const theme = THEMES.find((t) => t.id === activeTheme);
+    if (!theme || !theme.categories) return PROJECTS;
+    return PROJECTS.filter((p) => theme.categories!.includes(p.category));
+  }, [activeTheme]);
+
+  return (
+    <section className="bg-[#080c10] min-h-screen">
+
+      {/* ── Header ──────────────────────────────────────────────────────────── */}
+      <div className="px-6 py-10 max-w-7xl mx-auto">
+        <div className="flex items-center gap-2 mb-6">
+          <span className="text-[#00d4ff] text-xs font-mono">✦</span>
+          <span className="text-[#00d4ff] text-xs font-mono tracking-widest border border-[#00d4ff]/30 px-3 py-1 rounded-full">
+            LYA PATRONAGE HUB
+          </span>
+        </div>
+
+        <div className="flex flex-col lg:flex-row justify-between items-start gap-8 mb-10">
+          <div>
+            <h1 className="text-4xl lg:text-5xl font-black text-white leading-tight mb-4">
+              CO-OWN TOMORROW'S<br />MASTERPIECES IN ONE CLICK
+            </h1>
+            <p className="text-gray-400 max-w-xl text-sm">
+              Welcome to our simplified discovery space. No financial charts or intimidating order books.
+              Just sublime art, raw talent, and a simple interactive way to support your favourite
+              creators and share in their future success.
+            </p>
+          </div>
+          <div className="bg-[#0d1117] border border-[#1e2a3a] rounded-2xl p-6 min-w-[200px] text-center shrink-0">
+            <p className="text-gray-500 text-xs font-mono mb-2">FOUNDING FIXED VALUE</p>
+            <p className="text-white text-2xl font-bold font-mono">
+              1 Unit = <span className="text-[#00d4ff]">$50.00</span>
+            </p>
+            <div className="mt-3 bg-[#00ff88] text-black text-xs font-mono font-bold px-4 py-2 rounded-lg">
+              ACCESSIBLE TO ALL
+            </div>
+          </div>
+        </div>
+
+        {/* ── Filtres thématiques ──────────────────────────────────────────── */}
+        <div className="mb-8">
+          <p className="text-[#00d4ff] text-xs font-mono tracking-widest mb-4">
+            ● CHOOSE AN ART MOOD
+          </p>
+          <div className="flex flex-wrap gap-3">
+            {THEMES.map((theme) => (
+              <button
+                key={theme.id}
+                onClick={() => setActiveTheme(theme.id)}
+                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-mono transition-all ${
+                  activeTheme === theme.id
+                    ? "bg-[#00d4ff] text-black font-bold"
+                    : "border border-[#1e2a3a] text-gray-400 hover:border-[#00d4ff]/50"
+                }`}
+              >
+                <span>{theme.icon}</span>
+                {theme.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* ── Section LYA Unit ────────────────────────────────────────────── */}
+        <WhatIsLyaUnit />
+      </div>
+
+      {/* ── Grille projets ──────────────────────────────────────────────────── */}
+      <div className="px-6 pb-16 max-w-7xl mx-auto">
+        {filteredProjects.length === 0 ? (
+          <div className="text-center py-20 text-gray-600 font-mono">
+            No projects in this category yet.
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {filteredProjects.map((project) => (
+              <ProjectCard
+                key={project.id}
+                project={project}
+                onOpenDetail={(p, u) => setDetailProject({ project: p, units: u })}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* ── Modal détail ────────────────────────────────────────────────────── */}
+      {detailProject && !showPayment && (
+        <ProjectDetailModal
+          project={detailProject.project}
+          units={detailProject.units}
+          onClose={() => setDetailProject(null)}
+          onPay={() => setShowPayment(true)}
+        />
+      )}
+
+      {/* ── Modal paiement ──────────────────────────────────────────────────── */}
+      {detailProject && showPayment && (
+        <PaymentModal
+          project={detailProject.project}
+          units={detailProject.units}
+          totalCost={detailProject.units * detailProject.project.pricePerUnit}
+          onClose={() => { setShowPayment(false); setDetailProject(null); }}
+        />
+      )}
+    </section>
+  );
+}
+
+export default MecenatGrandPublic;
