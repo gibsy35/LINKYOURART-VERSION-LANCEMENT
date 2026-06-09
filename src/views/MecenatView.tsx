@@ -200,10 +200,61 @@ export const MecenatView: React.FC<MecenatViewProps> = ({ user, onNotify, onView
   return (
     <div className="space-y-6 pb-20">
 
-      {/* Category tabs */}
+      {/* ── HERO BLOCK ─────────────────────────────────────────────────────── */}
+      <div className="relative rounded-3xl overflow-hidden border border-white/8 bg-gradient-to-br from-surface-dim via-[#0a0f1a] to-surface-dim shadow-2xl">
+        <div className="absolute inset-0 bg-gradient-to-r from-primary-cyan/5 via-transparent to-accent-pink/5 pointer-events-none" />
+        <div className="relative flex flex-col md:flex-row items-center justify-between gap-6 p-8 md:p-10">
+          <div className="flex-1">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 bg-primary-cyan/10 border border-primary-cyan/20 rounded-full text-[9px] font-black text-primary-cyan uppercase tracking-[0.35em] mb-5">
+              <span className="w-1.5 h-1.5 rounded-full bg-primary-cyan animate-pulse" />
+              {t('LYA PATRONAGE SPACE', 'ESPACE MÉCÉNAT LYA')}
+            </span>
+            <h1 className="text-4xl md:text-5xl font-black uppercase leading-[1.05] tracking-tighter text-white mb-4">
+              {t('CO-OWN TOMORROW'S MASTERPIECES,', 'CO-POSSÉDEZ LES CHEFS-D'ŒUVRE DE DEMAIN')}
+              <br /><span className="text-primary-cyan">{t('IN A SINGLE CLICK', 'EN UN CLIC')}</span>
+            </h1>
+            <p className="text-white/50 text-sm leading-relaxed max-w-xl">
+              {t(
+                'Welcome to our accessible discovery space. No complex financial tables, order books, or algorithmic charts here. Just exquisite art, raw talent, and a simple interactive way to support your favorite artists and share their future success.',
+                'Bienvenue dans notre espace de découverte simplifié. Ici, pas de graphiques financiers ou de carnets d'ordres rebutants. Juste de l'art sublime, du talent brut, et un moyen simple et interactif de soutenir vos créateurs favoris et de partager leurs futurs succès.'
+              )}
+            </p>
+          </div>
+          <div className="shrink-0 flex flex-col items-center justify-center bg-black/30 border border-white/10 rounded-2xl px-8 py-6 text-center min-w-[180px]">
+            <span className="text-[9px] font-black text-white/30 uppercase tracking-[0.35em] mb-2">{t('FIXED FACE VALUE', 'VALEUR FIXE FONDATRICE')}</span>
+            <div className="text-3xl font-black text-white">1 Unit = <span className="text-primary-cyan">$50.00</span></div>
+            <span className="mt-3 px-4 py-1 bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-[9px] font-black uppercase tracking-widest rounded-full">
+              {t('ACCESSIBLE TO ALL', 'ACCESSIBLE À TOUS')}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* ── LYA UNIT EXPLANATION ───────────────────────────────────────────── */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-0 rounded-2xl overflow-hidden border border-white/8 bg-surface-dim/60">
+        <div className="p-6 border-r border-white/8">
+          <div className="text-[8px] font-black text-white/25 uppercase tracking-[0.3em] mb-2">{t('OFFICIAL DEFINITION', 'DÉFINITION OFFICIELLE')}</div>
+          <div className="text-base font-black text-white uppercase leading-tight">{t('WHAT IS THE LYA UNIT?', 'QU'EST-CE QUE LE LYA UNIT ?')}</div>
+          <div className="h-0.5 w-8 bg-primary-cyan mt-3" />
+        </div>
+        <div className="p-6 border-r border-white/8">
+          <div className="text-[8px] font-black text-primary-cyan/70 uppercase tracking-[0.25em] mb-2">{t('01. EVOLUTIONARY MEASURE', '01. MESURE ÉVOLUTIVE')}</div>
+          <div className="text-[11px] text-white/60 leading-relaxed">{t('It is the official quotation unit that measures the evolutionary value of a creation.', 'C'est l'unité de cotation officielle qui mesure la valeur évolutive d'une création.')}</div>
+        </div>
+        <div className="p-6 border-r border-white/8">
+          <div className="text-[8px] font-black text-accent-pink/70 uppercase tracking-[0.25em] mb-2">{t('02. NOT A CRYPTO', '02. NI CRYPTO, NI DEVISE')}</div>
+          <div className="text-[11px] text-white/60 leading-relaxed">{t('It is NOT a classic currency or a crypto.', 'Ce n'est PAS une monnaie classique ou une crypto.')}</div>
+        </div>
+        <div className="p-6">
+          <div className="text-[8px] font-black text-accent-gold/70 uppercase tracking-[0.25em] mb-2">{t('03. STRUCTURED VALUE', '03. VALEUR STRUCTURELLE')}</div>
+          <div className="text-[11px] text-white/60 leading-relaxed">{t('It is a structured unit of value that represents the real state, solidity, and trajectory of a creation.', 'C'est une unité de valeur structurée qui représente l'état réel, la solidité et la trajectoire d'une création.')}</div>
+        </div>
+      </div>
+
+      {/* ── CATEGORY TABS ──────────────────────────────────────────────────── */}
       <div className="flex items-center gap-3 overflow-x-auto pb-1 scrollbar-hide">
         <span className="text-[8px] font-black text-white/25 uppercase tracking-[0.4em] shrink-0">
-          {t('CHOOSE AN ART MOOD', 'CHOISISSEZ UNE AMBIANCE ARTISTIQUE')}
+          {t('CHOOSE AN ART MOOD', 'SÉLECTIONNEZ UN THÈME ARTISTIQUE')}
         </span>
         {CATEGORIES.map(cat => (
           <button key={cat.id} onClick={() => setActiveCategory(cat.id)}
