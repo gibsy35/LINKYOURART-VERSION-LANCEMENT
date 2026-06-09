@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Heart, X, ChevronLeft, ChevronRight, ShieldCheck, Star, Lock, CreditCard } from 'lucide-react';
+import { Heart, X, ChevronLeft, ChevronRight, ShieldCheck, Star, Lock, Trophy } from 'lucide-react';
 import { useTranslation } from '../context/LanguageContext';
 import { Contract, CONTRACTS } from '../types';
 import { db } from '../firebase';
@@ -95,21 +95,43 @@ const getUnitPrice = (c: Contract): number =>
 const getFundingPct = (c: Contract): number =>
   Math.min(98, Math.round(50 + (c.totalScore / 1000) * 48));
 
+/* ── 4 TIERS ──────────────────────────────────────────────────────────── */
 const getTier = (units: number) => {
+  // TIER 4 — 100+ units : CO-MÉCÈNE PRESTIGE SYNDICATE
+  if (units >= 100) return {
+    label: 'CO-MÉCÈNE PRESTIGE SYNDICATE',
+    labelEn: 'PRESTIGE SYNDICATE CO-PATRON',
+    desc: "Classe Copropriétaire Prestige. Accès prioritaire absolu aux audits de licences mondiales. Bonus d'unités LYA : +5 Unités (valeur offerte !).",
+    descEn: `Prestige Co-ownership Class. Absolute priority access to global license audits. Bonus LYA Units: +${Math.floor(units * 0.05)} Units (+$${(Math.floor(units * 0.05) * 50).toLocaleString()}.00 offered!).`,
+    color: 'text-yellow-300', bg: 'bg-yellow-900/30 border-yellow-500/50',
+    icon: '👑',
+  };
+  // TIER 3 — 50–99 units : STATUS CO-FONDATEUR D'ŒUVRE
   if (units >= 50) return {
-    label: 'CO-FOUNDER HOLDING STATUS',
-    desc: `Co-founder co-ownership privileges. VIP priority on future licensing distributions. Bonus LYA Units: +${Math.floor(units * 0.15)} Units (+$${(Math.floor(units * 0.15) * 50).toLocaleString()}.00 Value offered!).`,
+    label: "STATUS CO-FONDATEUR D'ŒUVRE",
+    labelEn: 'CO-FOUNDER HOLDING STATUS',
+    desc: `Privilèges de Co-fondateur. Priorité absolue de distribution de licences de diffusion futures. Bonus d'unités LYA : +${Math.floor(units * 0.04)} Unités (+$${(Math.floor(units * 0.04) * 50).toLocaleString()} offerts !).`,
+    descEn: `Co-founder co-ownership privileges. VIP priority on future licensing distributions. Bonus LYA Units: +${Math.floor(units * 0.04)} Units (+$${(Math.floor(units * 0.04) * 50).toLocaleString()}.00 Value offered!).`,
     color: 'text-amber-400', bg: 'bg-amber-900/30 border-amber-600/40',
+    icon: '🏆',
   };
+  // TIER 2 — 10–49 units : MÉCÈNE STRATÉGIQUE
   if (units >= 10) return {
-    label: 'CREATIVE PARTNER',
-    desc: 'Active co-ownership rights with priority access to milestone events and distribution updates.',
+    label: 'MÉCÈNE STRATÉGIQUE',
+    labelEn: 'STRATEGIC PATRON',
+    desc: "Statut Copropriétaire Stratégique. Influenceur de volume sur les gains futurs. Bonus d'unités LYA : +0 Unité (+$0.00 offerte !).",
+    descEn: 'Strategic co-ownership status. Volume influencer on future gains. Active rights with priority access to milestone events and distribution updates.',
     color: 'text-primary-cyan', bg: 'bg-primary-cyan/10 border-primary-cyan/30',
+    icon: '⭐',
   };
+  // TIER 1 — 1–9 units : COPROPRIÉTAIRE ASSOCIÉ
   return {
-    label: 'ASSOCIATE CO-OWNER',
-    desc: 'Standard co-ownership rights for future commercial release. Bonus Units: None.',
+    label: 'COPROPRIÉTAIRE ASSOCIÉ',
+    labelEn: 'ASSOCIATE CO-OWNER',
+    desc: "Droits de copropriété standard proportionnels aux unités détenues. Bonus d'unités LYA : Aucun.",
+    descEn: 'Standard co-ownership rights for future commercial release. Bonus Units: None.',
     color: 'text-white/50', bg: 'bg-white/5 border-white/10',
+    icon: '○',
   };
 };
 
@@ -189,16 +211,9 @@ export const MecenatView: React.FC<MecenatViewProps> = ({ user, onNotify, onView
     }
   };
 
-  const getSubtitle = (name: string, isFr: boolean) => {
-    const s = SUBTITLES[name];
-    if (!s) return `${name.split(' ')[0]} CO-PRODUCTION INITIATIVE`;
-    return isFr ? s.fr : s.en;
-  };
-
-  const isFr = false; // will use t() instead
-
   return (
-    <div className="space-y-6 pb-20">
+    /* ── FIX: mt-4 pour éviter que le hero touche le menu ── */
+    <div className="space-y-6 pb-20 mt-4">
 
       {/* ── HERO BLOCK ─────────────────────────────────────────────────────── */}
       <div className="relative rounded-3xl overflow-hidden border border-white/8 bg-gradient-to-br from-surface-dim via-[#0a0f1a] to-surface-dim shadow-2xl">
@@ -269,8 +284,8 @@ export const MecenatView: React.FC<MecenatViewProps> = ({ user, onNotify, onView
         ))}
       </div>
 
-      {/* Cards grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      {/* ── CARDS GRID ─────────────────────────────────────────────────────── */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {filtered.map((c, i) => {
           const u = getUnits(c.id);
           const unitPrice = getUnitPrice(c);
@@ -286,10 +301,10 @@ export const MecenatView: React.FC<MecenatViewProps> = ({ user, onNotify, onView
 
           return (
             <motion.div key={c.id} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}
-              className="bg-surface-low border border-white/5 rounded-3xl overflow-hidden flex flex-col"
+              className="bg-surface-low border border-white/5 rounded-2xl overflow-hidden flex flex-col"
             >
-              {/* Image */}
-              <div className="relative h-56 overflow-hidden bg-black group cursor-pointer" onClick={() => openDetail(c)}>
+              {/* ── Image — hauteur réduite ── */}
+              <div className="relative h-40 overflow-hidden bg-black group cursor-pointer" onClick={() => openDetail(c)}>
                 <img src={gallery[gIdx]} alt={c.name}
                   onError={e => { (e.target as HTMLImageElement).src = `https://picsum.photos/seed/${c.id}/900/500`; }}
                   className="w-full h-full object-cover opacity-70 group-hover:opacity-85 group-hover:scale-105 transition-all duration-700"
@@ -297,126 +312,118 @@ export const MecenatView: React.FC<MecenatViewProps> = ({ user, onNotify, onView
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
 
                 {/* Top badges */}
-                <div className="absolute top-3 left-3 flex flex-col gap-1.5">
-                  <span className="px-2 py-0.5 bg-black/70 backdrop-blur-sm text-[8px] font-black text-white uppercase tracking-widest self-start">
+                <div className="absolute top-2 left-2 flex flex-row gap-1.5 flex-wrap">
+                  <span className="px-2 py-0.5 bg-black/70 backdrop-blur-sm text-[7px] font-black text-white uppercase tracking-widest">
                     {c.category.toUpperCase()}
                   </span>
-                  <span className="px-2 py-0.5 bg-accent-gold/80 backdrop-blur-sm text-[8px] font-black text-black uppercase tracking-widest self-start flex items-center gap-1">
-                    ★ LYA SCORE: {c.totalScore}
+                  <span className="px-2 py-0.5 bg-accent-gold/80 backdrop-blur-sm text-[7px] font-black text-black uppercase tracking-widest flex items-center gap-1">
+                    ★ {c.totalScore}
                   </span>
-                  <span className={`px-2 py-0.5 text-[8px] font-black uppercase tracking-widest border self-start ${RARITY_COLORS[c.rarity] || RARITY_COLORS.Common}`}>
+                  <span className={`px-2 py-0.5 text-[7px] font-black uppercase tracking-widest border ${RARITY_COLORS[c.rarity] || RARITY_COLORS.Common}`}>
                     {c.rarity.toUpperCase()}
                   </span>
                 </div>
                 <button onClick={e => { e.stopPropagation(); setLiked(p => ({ ...p, [c.id]: !p[c.id] })); if (!liked[c.id]) onNotify(t('Added to favourites', 'Ajouté aux favoris')); }}
-                  className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center"
+                  className="absolute top-2 right-2 w-7 h-7 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center"
                 >
-                  <Heart size={14} className={liked[c.id] ? 'fill-rose-400 text-rose-400' : 'text-white/60'} />
+                  <Heart size={12} className={liked[c.id] ? 'fill-rose-400 text-rose-400' : 'text-white/60'} />
                 </button>
 
                 {/* Bottom info */}
-                <div className="absolute bottom-0 left-0 right-0 p-4">
-                  <p className="text-[8px] font-black text-white/50 uppercase tracking-[0.3em] mb-0.5">{t('CREATIVE VENTURE', 'INITIATIVE CRÉATIVE')}</p>
+                <div className="absolute bottom-0 left-0 right-0 p-3">
+                  <p className="text-[7px] font-black text-white/50 uppercase tracking-[0.3em] mb-0.5">{t('CREATIVE VENTURE', 'INITIATIVE CRÉATIVE')}</p>
                   <div className="flex items-end justify-between">
-                    <p className="text-xl font-black text-white uppercase tracking-tight leading-tight">{c.name}</p>
+                    <p className="text-lg font-black text-white uppercase tracking-tight leading-tight">{c.name}</p>
                     <div className="text-right font-mono">
-                      <p className="text-[11px] font-black text-primary-cyan">${unitPrice.toFixed(2)} / {t('Unit', 'Unité')}</p>
+                      <p className="text-[10px] font-black text-primary-cyan">${unitPrice.toFixed(2)} / {t('Unit', 'Unité')}</p>
                       {c.revenueSharePercentage > 0 && (
-                        <p className="text-[10px] font-black text-emerald-400">{c.revenueSharePercentage}% {t('Revenue Rights', 'Part Revenus')}</p>
+                        <p className="text-[9px] font-black text-emerald-400">{c.revenueSharePercentage}% {t('Revenue Rights', 'Part Revenus')}</p>
                       )}
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="p-6 flex flex-col flex-1 gap-4">
-                {/* Subtitle + description */}
+              <div className="p-4 flex flex-col flex-1 gap-3">
+                {/* Subtitle + description — condensé */}
                 <div>
-                  <p className="text-[9px] font-black text-white/40 uppercase tracking-[0.35em] mb-2">
+                  <p className="text-[8px] font-black text-white/40 uppercase tracking-[0.3em] mb-1">
                     {t(SUBTITLES[c.name]?.en || `${c.category.toUpperCase()} CO-PRODUCTION INITIATIVE`,
                        SUBTITLES[c.name]?.fr || `INITIATIVE ${c.category.toUpperCase()}`)}
                   </p>
-                  <p className="text-[12px] text-white/55 leading-relaxed font-sans">
+                  <p className="text-[11px] text-white/55 leading-snug font-sans line-clamp-2">
                     {t(c.description, DESCRIPTIONS_FR[c.name] || c.description)}
                   </p>
                 </div>
 
-                {/* LYA Quality Score */}
-                <div className="flex items-center justify-between py-2 border-b border-white/5">
-                  <span className="text-[8px] font-black text-white/40 uppercase tracking-[0.3em] flex items-center gap-1">
-                    ★ {t('LYA QUALITY SCORE', 'SCORE QUALITÉ LYA')}
-                  </span>
-                  <span className="text-base font-black text-accent-gold font-mono">
-                    {c.totalScore} <span className="text-[9px] text-white/25 font-bold">/ 1000</span>
-                  </span>
-                </div>
-
-                {/* Funding progress */}
-                <div>
-                  <div className="flex justify-between mb-1">
-                    <span className="text-[8px] font-black text-white/30 uppercase tracking-[0.3em]">{t('FUNDING PROGRESS', 'AVANCEMENT DU FINANCEMENT')}</span>
-                    <span className="text-[9px] font-black text-primary-cyan font-mono">{fundingPct}%</span>
+                {/* Score + funding — même ligne */}
+                <div className="flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-1">
+                    <span className="text-[8px] font-black text-white/40 uppercase tracking-[0.2em]">★ {t('SCORE', 'SCORE')}</span>
+                    <span className="text-sm font-black text-accent-gold font-mono">{c.totalScore}<span className="text-[8px] text-white/25">/1000</span></span>
                   </div>
-                  <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
-                    <motion.div initial={{ width: 0 }} animate={{ width: `${fundingPct}%` }} transition={{ duration: 1, delay: i * 0.1 }}
-                      className="h-full bg-gradient-to-r from-primary-cyan to-emerald-400 rounded-full" />
-                  </div>
-                  <div className="flex justify-between mt-1">
-                    <span className="text-[8px] text-white/25 font-mono">${raisedAmt.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
-                    <span className="text-[8px] text-white/25">{t('Goal:', 'Objectif :')} ${c.totalValue.toLocaleString()}.00</span>
+                  <div className="flex-1">
+                    <div className="flex justify-between mb-0.5">
+                      <span className="text-[7px] font-black text-white/30 uppercase tracking-[0.2em]">{t('FUNDING', 'FINANCEMENT')}</span>
+                      <span className="text-[8px] font-black text-primary-cyan font-mono">{fundingPct}%</span>
+                    </div>
+                    <div className="h-1 bg-white/5 rounded-full overflow-hidden">
+                      <motion.div initial={{ width: 0 }} animate={{ width: `${fundingPct}%` }} transition={{ duration: 1, delay: i * 0.1 }}
+                        className="h-full bg-gradient-to-r from-primary-cyan to-emerald-400 rounded-full" />
+                    </div>
                   </div>
                 </div>
 
                 {/* Slider */}
-                <div className="space-y-3">
+                <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-[9px] font-black text-white uppercase tracking-[0.3em]">
-                      {t("LYA UNITS ACQUISITION VOLUME", "VOLUME D'ACQUISITION UNITÉS LYA")}
+                    <span className="text-[8px] font-black text-white uppercase tracking-[0.2em]">
+                      {t("UNITS", "UNITÉS LYA")}
                     </span>
-                    <span className="px-3 py-1 bg-surface-dim border border-white/10 text-[9px] font-black text-white font-mono rounded-lg">
-                      {u} {t('Units Supporting', 'Unités de Soutien')}
+                    <span className="px-2 py-0.5 bg-surface-dim border border-white/10 text-[8px] font-black text-white font-mono rounded-lg">
+                      {u} {t('Units', 'Unités')}
                     </span>
                   </div>
                   <input type="range" min={1} max={100} value={u}
                     onChange={e => setUnits(p => ({ ...p, [c.id]: parseInt(e.target.value) }))}
                     className="w-full accent-primary-cyan cursor-pointer" style={{ height: '4px' }}
                   />
-                  <div className="flex justify-between text-[8px] font-black text-white/25 uppercase tracking-widest">
-                    <span>1 {t('UNIT', 'UNITÉ')}</span>
-                    <span>50 {t('UNITS', 'UNITÉS')}</span>
-                    <span>100 {t('UNITS', 'UNITÉS')}</span>
+                  <div className="flex justify-between text-[7px] font-black text-white/25 uppercase tracking-widest">
+                    <span>1</span><span>50</span><span>100</span>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-3">
-                    <div className="bg-black/30 rounded-xl p-3 border border-white/5">
-                      <p className="text-[7px] font-black text-white/30 uppercase tracking-widest mb-1">{t('YOUR CONTRIBUTION', 'VOTRE CONTRIBUTION')}</p>
-                      <p className="text-base font-black text-white font-mono">${totalCost.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+                  <div className="grid grid-cols-2 gap-2">
+                    <div className="bg-black/30 rounded-xl p-2.5 border border-white/5">
+                      <p className="text-[7px] font-black text-white/30 uppercase tracking-widest mb-0.5">{t('CONTRIBUTION', 'CONTRIBUTION')}</p>
+                      <p className="text-sm font-black text-white font-mono">${totalCost.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
                     </div>
-                    <div className="bg-black/30 rounded-xl p-3 border border-white/5">
-                      <p className="text-[7px] font-black text-white/30 uppercase tracking-widest mb-1">{t('FUTURE REVENUE RIGHTS', 'DROITS REVENUS FUTURS')}</p>
-                      <p className="text-base font-black text-emerald-400 font-mono">{revenueShare}%</p>
+                    <div className="bg-black/30 rounded-xl p-2.5 border border-white/5">
+                      <p className="text-[7px] font-black text-white/30 uppercase tracking-widest mb-0.5">{t('REVENUE RIGHTS', 'DROITS REVENUS')}</p>
+                      <p className="text-sm font-black text-emerald-400 font-mono">{revenueShare}%</p>
                     </div>
                   </div>
 
-                  {/* Tier */}
-                  <div className={`p-3 rounded-xl border ${tier.bg}`}>
-                    <p className={`text-[8px] font-black uppercase tracking-widest mb-1 ${tier.color}`}>{tier.label}</p>
-                    <p className="text-[10px] text-white/40 font-sans leading-snug">{tier.desc}</p>
+                  {/* ── TIER — 4 statuts ── */}
+                  <div className={`p-2.5 rounded-xl border ${tier.bg}`}>
+                    <p className={`text-[8px] font-black uppercase tracking-widest mb-0.5 ${tier.color}`}>
+                      {tier.icon} {t(tier.labelEn, tier.label)}
+                    </p>
+                    <p className="text-[9px] text-white/40 font-sans leading-snug">{t(tier.descEn, tier.desc)}</p>
                   </div>
                 </div>
 
                 {/* Buttons */}
-                <div className="flex gap-3 mt-auto pt-1">
+                <div className="flex gap-2 mt-auto pt-1">
                   <button onClick={() => openDetail(c)}
-                    className="flex-1 py-3.5 border border-white/15 text-white text-[10px] font-black uppercase tracking-widest rounded-2xl hover:bg-white/5 transition-all"
+                    className="flex-1 py-3 border border-white/15 text-white text-[9px] font-black uppercase tracking-widest rounded-xl hover:bg-white/5 transition-all"
                   >
                     {t('VIEW PROJECT', 'VOIR LE PROJET')}
                   </button>
                   <button onClick={() => openPay(c)}
-                    className="flex-1 py-3.5 bg-primary-cyan text-surface-dim text-[10px] font-black uppercase tracking-widest rounded-2xl hover:bg-white transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(0,224,255,0.2)]"
+                    className="flex-1 py-3 bg-primary-cyan text-surface-dim text-[9px] font-black uppercase tracking-widest rounded-xl hover:bg-white transition-all flex items-center justify-center gap-1.5 shadow-[0_0_20px_rgba(0,224,255,0.2)]"
                   >
-                    <Star size={12} fill="currentColor" />
-                    {t("BACK MASTERPIECE", "SOUTENIR L'ŒUVRE")}
+                    <Star size={11} fill="currentColor" />
+                    {t("SUPPORT", "SOUTENIR L'ŒUVRE")}
                   </button>
                 </div>
               </div>
@@ -450,7 +457,6 @@ export const MecenatView: React.FC<MecenatViewProps> = ({ user, onNotify, onView
                 <div style={{ pointerEvents: 'auto', maxWidth: '1000px', width: '100%', maxHeight: 'calc(100vh - 32px)', overflowY: 'auto' }}
                   className="bg-[#0A0F1A] border border-white/10 rounded-3xl overflow-hidden"
                 >
-                  {/* Close */}
                   <button onClick={() => setDetailContract(null)}
                     className="absolute top-4 right-4 z-10 w-9 h-9 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white transition-all"
                     style={{ position: 'sticky', float: 'right', margin: '16px 16px 0 0' }}
@@ -467,8 +473,6 @@ export const MecenatView: React.FC<MecenatViewProps> = ({ user, onNotify, onView
                         </div>
                         <span className="text-[8px] font-black text-white/40 uppercase tracking-[0.35em]">{t('ART PROJECT GALLERY', 'GALERIE DU PROJET ARTISTIQUE')}</span>
                       </div>
-
-                      {/* Main image */}
                       <div className="relative rounded-2xl overflow-hidden bg-black" style={{ aspectRatio: '4/3' }}>
                         <img src={gallery[detailGalleryIdx]} alt={c.name}
                           onError={e => { (e.target as HTMLImageElement).src = `https://picsum.photos/seed/${c.id}main/800/600`; }}
@@ -478,15 +482,10 @@ export const MecenatView: React.FC<MecenatViewProps> = ({ user, onNotify, onView
                           <>
                             <button onClick={() => setDetailGalleryIdx(i => (i - 1 + gallery.length) % gallery.length)}
                               className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 bg-black/60 rounded-full flex items-center justify-center text-white hover:bg-black/80 transition-all"
-                            >
-                              <ChevronLeft size={16} />
-                            </button>
+                            ><ChevronLeft size={16} /></button>
                             <button onClick={() => setDetailGalleryIdx(i => (i + 1) % gallery.length)}
                               className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 bg-black/60 rounded-full flex items-center justify-center text-white hover:bg-black/80 transition-all"
-                            >
-                              <ChevronRight size={16} />
-                            </button>
-                            {/* Dots */}
+                            ><ChevronRight size={16} /></button>
                             <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
                               {gallery.map((_, gi) => (
                                 <button key={gi} onClick={() => setDetailGalleryIdx(gi)}
@@ -497,8 +496,6 @@ export const MecenatView: React.FC<MecenatViewProps> = ({ user, onNotify, onView
                           </>
                         )}
                       </div>
-
-                      {/* Thumbnails */}
                       <div className="flex gap-2">
                         {gallery.map((img, gi) => (
                           <button key={gi} onClick={() => setDetailGalleryIdx(gi)}
@@ -510,8 +507,6 @@ export const MecenatView: React.FC<MecenatViewProps> = ({ user, onNotify, onView
                           </button>
                         ))}
                       </div>
-
-                      {/* Compliance */}
                       <div className="border border-primary-cyan/20 bg-primary-cyan/5 rounded-2xl p-4">
                         <div className="flex items-center gap-2 mb-2">
                           <ShieldCheck size={14} className="text-primary-cyan" />
@@ -536,7 +531,6 @@ export const MecenatView: React.FC<MecenatViewProps> = ({ user, onNotify, onView
 
                     {/* RIGHT — Details */}
                     <div className="p-6 space-y-5">
-                      {/* Header */}
                       <div>
                         <div className="flex items-center gap-2 mb-2">
                           <span className={`px-2 py-0.5 text-[8px] font-black uppercase tracking-widest border ${RARITY_COLORS[c.rarity] || RARITY_COLORS.Common}`}>
@@ -550,8 +544,6 @@ export const MecenatView: React.FC<MecenatViewProps> = ({ user, onNotify, onView
                              SUBTITLES[c.name]?.fr || `INITIATIVE ${c.category.toUpperCase()}`)}
                         </p>
                       </div>
-
-                      {/* Budget progress */}
                       <div>
                         <div className="flex justify-between items-center mb-1">
                           <span className="text-[8px] font-black text-white/30 uppercase tracking-[0.3em]">{t('TARGET PROJECT BUDGET', 'BUDGET CIBLE DU PROJET')}</span>
@@ -571,16 +563,12 @@ export const MecenatView: React.FC<MecenatViewProps> = ({ user, onNotify, onView
                           </div>
                         </div>
                       </div>
-
-                      {/* Pitch */}
                       <div>
                         <p className="text-[8px] font-black text-white/30 uppercase tracking-[0.3em] mb-2">{t('PROJECT PITCH & SYNOPSIS', 'PITCH & SYNOPSIS DU PROJET')}</p>
                         <blockquote className="border-l-2 border-primary-cyan/40 pl-3 text-[11px] text-white/60 italic font-sans leading-relaxed">
                           "{t(c.description, DESCRIPTIONS_FR[c.name] || c.description)}"
                         </blockquote>
                       </div>
-
-                      {/* Milestones */}
                       {c.milestones && c.milestones.length > 0 && (
                         <div>
                           <p className="text-[8px] font-black text-white/30 uppercase tracking-[0.3em] mb-2">{t('DEVELOPMENT MILESTONES', 'JALONS DE DÉVELOPPEMENT')}</p>
@@ -596,8 +584,6 @@ export const MecenatView: React.FC<MecenatViewProps> = ({ user, onNotify, onView
                           </ul>
                         </div>
                       )}
-
-                      {/* Estimated benefits */}
                       <div className="bg-black/30 border border-white/5 rounded-2xl p-4">
                         <p className="text-[8px] font-black text-white/30 uppercase tracking-[0.3em] mb-3">
                           {t(`ESTIMATED BENEFITS FOR: ${u} UNITS SUPPORTING`, `BÉNÉFICES ESTIMÉS POUR : ${u} UNITÉS`)}
@@ -616,8 +602,6 @@ export const MecenatView: React.FC<MecenatViewProps> = ({ user, onNotify, onView
                           * {t('Note: Support pledge proceeds are securely held in trust. Benefits triggering aligns automatically with validated milestone release dates.', 'Note : Les fonds sont sécurisés en fidéicommis. Les bénéfices sont déclenchés automatiquement à la validation des jalons.')}
                         </p>
                       </div>
-
-                      {/* Buttons */}
                       <div className="flex gap-3 pt-2">
                         <button onClick={() => setDetailContract(null)}
                           className="flex-1 py-3.5 border border-white/15 text-white text-[10px] font-black uppercase tracking-widest rounded-2xl hover:bg-white/5 transition-all"
@@ -658,7 +642,6 @@ export const MecenatView: React.FC<MecenatViewProps> = ({ user, onNotify, onView
                 <div style={{ pointerEvents: 'auto', maxWidth: '480px', width: '100%' }}
                   className="bg-[#0D1117] border border-white/10 rounded-3xl overflow-hidden font-mono shadow-2xl"
                 >
-                  {/* Header */}
                   <div className="flex items-center justify-between px-7 py-5 border-b border-white/5">
                     <div className="flex items-center gap-2">
                       <Lock size={14} className="text-emerald-400" />
@@ -672,7 +655,6 @@ export const MecenatView: React.FC<MecenatViewProps> = ({ user, onNotify, onView
                   </div>
 
                   <div className="p-7 space-y-5">
-                    {/* Order summary */}
                     <div className="bg-white/[0.03] border border-white/5 rounded-2xl p-4">
                       <div className="flex justify-between items-start">
                         <div>
@@ -687,7 +669,6 @@ export const MecenatView: React.FC<MecenatViewProps> = ({ user, onNotify, onView
                       </div>
                     </div>
 
-                    {/* Form fields */}
                     {[
                       { label: t('BILLING EMAIL ADDRESS', 'ADRESSE EMAIL DE FACTURATION'), key: 'email', type: 'email', placeholder: user?.email || 'email@example.com' },
                       { label: t('CARDHOLDER NAME', 'NOM DU PORTEUR'), key: 'name', type: 'text', placeholder: 'JANE DOE' },
@@ -701,12 +682,12 @@ export const MecenatView: React.FC<MecenatViewProps> = ({ user, onNotify, onView
                             className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-primary-cyan transition-all"
                           />
                           {f.extra === 'brands' && (
-                          <div className="absolute right-3 top-1/2 -translate-y-1/2 flex gap-1">
-                            {['VISA', 'MC', 'AMEX', 'CB'].map(b => (
-                              <span key={b} className="px-1.5 py-0.5 bg-white/10 border border-white/15 text-[7px] font-black text-white/50 rounded">{b}</span>
-                            ))}
-                          </div>
-                        )}
+                            <div className="absolute right-3 top-1/2 -translate-y-1/2 flex gap-1">
+                              {['VISA', 'MC', 'AMEX', 'CB'].map(b => (
+                                <span key={b} className="px-1.5 py-0.5 bg-white/10 border border-white/15 text-[7px] font-black text-white/50 rounded">{b}</span>
+                              ))}
+                            </div>
+                          )}
                         </div>
                       </div>
                     ))}
