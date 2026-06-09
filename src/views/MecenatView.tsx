@@ -136,12 +136,12 @@ const getTier = (units: number) => {
 };
 
 const CATEGORIES = [
-  { id: 'all',          label: 'Toutes les Œuvres',      labelEn: 'All Masterpieces'       },
-  { id: 'Fine Art',     label: 'Arts Visuels & Mode',    labelEn: 'Visual Arts & Fashion'  },
-  { id: 'Film',         label: 'Cinéma & Récits',        labelEn: 'Cinema & Narratives'    },
-  { id: 'Music',        label: 'Musique & Concerts',     labelEn: 'Music & Concerts'       },
-  { id: 'Architecture', label: 'Littérature & Espaces',  labelEn: 'Literature & Spaces'    },
-  { id: 'Digital Art',  label: 'Art Numérique',          labelEn: 'Digital Art'            },
+  { id: 'all',          label: 'Toutes les Œuvres',       labelEn: 'All Masterpieces',      icon: '⭐' },
+  { id: 'Fine Art',     label: 'Arts Visuels & Mode',     labelEn: 'Visual Arts & Fashion', icon: '🎨' },
+  { id: 'Film',         label: 'Cinéma & Récits',         labelEn: 'Cinema & Narratives',   icon: '🎬' },
+  { id: 'Music',        label: 'Musique & Scène',         labelEn: 'Music & Concerts',      icon: '🎵' },
+  { id: 'Architecture', label: 'Lettres & Architecture',  labelEn: 'Literature & Spaces',   icon: '📚' },
+  { id: 'Digital Art',  label: 'Art Numérique',           labelEn: 'Digital Art',           icon: '💻' },
 ];
 
 const CAT_MAP: Record<string, string[]> = {
@@ -267,21 +267,27 @@ export const MecenatView: React.FC<MecenatViewProps> = ({ user, onNotify, onView
       </div>
 
       {/* ── CATEGORY TABS ──────────────────────────────────────────────────── */}
-      <div className="flex items-center gap-3 overflow-x-auto pb-1 scrollbar-hide">
-        <span className="text-[8px] font-black text-white/25 uppercase tracking-[0.4em] shrink-0">
-          {t('CHOOSE AN ART MOOD', 'SÉLECTIONNEZ UN THÈME ARTISTIQUE')}
-        </span>
-        {CATEGORIES.map(cat => (
-          <button key={cat.id} onClick={() => setActiveCategory(cat.id)}
-            className={`shrink-0 px-5 py-2.5 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all ${
-              activeCategory === cat.id
-                ? 'bg-primary-cyan text-surface-dim shadow-[0_0_20px_rgba(0,224,255,0.3)]'
-                : 'bg-white/5 border border-white/10 text-white/50 hover:text-white hover:border-white/20'
-            }`}
-          >
-            {t(cat.labelEn, cat.label)}
-          </button>
-        ))}
+      <div className="space-y-3">
+        <div className="flex items-center gap-2">
+          <span className="w-1.5 h-1.5 rounded-full bg-primary-cyan animate-pulse" />
+          <span className="text-[9px] font-black text-white/30 uppercase tracking-[0.4em]">
+            {t('SELECT AN ARTISTIC THEME', 'SÉLECTIONNEZ UN THÈME ARTISTIQUE')}
+          </span>
+        </div>
+        <div className="flex items-center gap-2.5 overflow-x-auto pb-2 scrollbar-hide">
+          {CATEGORIES.map(cat => (
+            <button key={cat.id} onClick={() => setActiveCategory(cat.id)}
+              className={`shrink-0 flex items-center gap-2 px-4 py-2.5 text-[10px] font-black uppercase tracking-widest rounded-2xl transition-all duration-200 ${
+                activeCategory === cat.id
+                  ? 'bg-primary-cyan text-surface-dim shadow-[0_0_25px_rgba(0,224,255,0.35)] scale-105'
+                  : 'bg-white/4 border border-white/8 text-white/45 hover:text-white hover:border-white/25 hover:bg-white/8'
+              }`}
+            >
+              <span className="text-sm leading-none">{cat.icon}</span>
+              <span>{t(cat.labelEn, cat.label)}</span>
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* ── CARDS GRID ─────────────────────────────────────────────────────── */}
@@ -301,7 +307,7 @@ export const MecenatView: React.FC<MecenatViewProps> = ({ user, onNotify, onView
 
           return (
             <motion.div key={c.id} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}
-              className="bg-surface-low border border-white/5 rounded-2xl overflow-hidden flex flex-col"
+              className="bg-surface-low border border-white/8 rounded-2xl overflow-hidden flex flex-col hover:border-primary-cyan/20 transition-all duration-300 group"
             >
               {/* ── Image — hauteur réduite ── */}
               <div className="relative h-40 overflow-hidden bg-black group cursor-pointer" onClick={() => openDetail(c)}>
