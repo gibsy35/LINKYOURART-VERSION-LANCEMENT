@@ -22,7 +22,7 @@ const SUBTITLES: Record<string, { en: string; fr: string }> = {
   'NEON DISTRICT #4':    { en: 'MUSIC CO-PRODUCTION INITIATIVE',          fr: 'INITIATIVE DE CO-PRODUCTION MUSICALE' },
   'SHADOWS OF SEOUL':    { en: 'FILM CO-PRODUCTION INITIATIVE',           fr: 'INITIATIVE DE CO-PRODUCTION CINÉMA' },
   'QUANTUM REALM':       { en: 'DIGITAL ART CO-PRODUCTION INITIATIVE',    fr: 'INITIATIVE DE CO-PRODUCTION ART NUMÉRIQUE' },
-  'RENAISSANCE OS V3':   { en: 'ALGORITHMIC TEMPORAL GENERATIVE ART SYSTEM', fr: 'SYSTÈME D\'ART GÉNÉRATIF ALGORITHMIQUE' },
+  'RENAISSANCE OS V3':   { en: 'ALGORITHMIC TEMPORAL GENERATIVE ART SYSTEM', fr: "SYSTÈME D'ART GÉNÉRATIF ALGORITHMIQUE" },
 };
 
 const GALLERY: Record<string, string[]> = {
@@ -64,13 +64,13 @@ const GALLERY: Record<string, string[]> = {
 };
 
 const DESCRIPTIONS_FR: Record<string, string> = {
-  'RENAISSANCE REBORN':  'Copropriété fractionnée d\'un chef-d\'œuvre de la Renaissance physique. Chaque unité LYA représente un droit contractuel direct sur l\'appréciation future de sa valeur et les revenus du jumeau numérique.',
-  'SKY GARDENS V4':      'Droits de conception d\'une architecture verticale durable. Parts de revenus issues de la licence des plans architecturaux et des redevances d\'intégration smart-city.',
-  'THE FUTURE VOICE':    'Réseau de podcasts d\'investigation de premier plan. La chute significative des métriques d\'audience et des cibles de revenus publicitaires a fortement impacté la valorisation.',
-  'CHRONICLES OF ELDON': 'Droits de synchronisation mondiale et de diffusion SVOD pour la série TV sci-fi premium. Chaque unité indexe une part proportionnelle des revenus récurrents et des licences multi-territoires.',
-  'NEON DISTRICT #4':    'Série musicale expérimentale en édition limitée. Parts sur les flux de streaming, les synchronisations publicitaires et les ventes de produits dérivés physiques.',
-  'SHADOWS OF SEOUL':    'Film indépendant primé. Correction post-lancement significative car la demande streaming initiale est inférieure aux projections de marché.',
-  'QUANTUM REALM':       'Visualisation scientifique des champs de probabilité. Parts de revenus liées aux licences de publication de recherche.',
+  'RENAISSANCE REBORN':  "Copropriété fractionnée d'un chef-d'œuvre de la Renaissance physique. Chaque unité LYA représente un droit contractuel direct sur l'appréciation future de sa valeur et les revenus du jumeau numérique.",
+  'SKY GARDENS V4':      "Droits de conception d'une architecture verticale durable. Parts de revenus issues de la licence des plans architecturaux et des redevances d'intégration smart-city.",
+  'THE FUTURE VOICE':    "Réseau de podcasts d'investigation de premier plan. La chute significative des métriques d'audience et des cibles de revenus publicitaires a fortement impacté la valorisation.",
+  'CHRONICLES OF ELDON': "Droits de synchronisation mondiale et de diffusion SVOD pour la série TV sci-fi premium. Chaque unité indexe une part proportionnelle des revenus récurrents et des licences multi-territoires.",
+  'NEON DISTRICT #4':    "Série musicale expérimentale en édition limitée. Parts sur les flux de streaming, les synchronisations publicitaires et les ventes de produits dérivés physiques.",
+  'SHADOWS OF SEOUL':    "Film indépendant primé. Correction post-lancement significative car la demande streaming initiale est inférieure aux projections de marché.",
+  'QUANTUM REALM':       "Visualisation scientifique des champs de probabilité. Parts de revenus liées aux licences de publication de recherche.",
 };
 
 const COMPLIANCE: Record<string, { auditor: string; jurisdiction: string; ledger: string }> = {
@@ -216,7 +216,7 @@ export const MecenatView: React.FC<MecenatViewProps> = ({ user, onNotify, onView
             <p className="text-white/50 text-sm leading-relaxed max-w-xl">
               {t(
                 'Welcome to our accessible discovery space. No complex financial tables, order books, or algorithmic charts here. Just exquisite art, raw talent, and a simple interactive way to support your favorite artists and share their future success.',
-                `Bienvenue dans notre espace de découverte simplifié. Ici, pas de graphiques financiers ou de carnets d'ordres rebutants. Juste de l'art sublime, du talent brut, et un moyen simple et interactif de soutenir vos créateurs favoris et de partager leurs futurs succès.`
+                "Bienvenue dans notre espace de découverte simplifié. Ici, pas de graphiques financiers ou de carnets d'ordres rebutants. Juste de l'art sublime, du talent brut, et un moyen simple et interactif de soutenir vos créateurs favoris et de partager leurs futurs succès."
               )}
             </p>
           </div>
@@ -234,20 +234,20 @@ export const MecenatView: React.FC<MecenatViewProps> = ({ user, onNotify, onView
       <div className="grid grid-cols-1 md:grid-cols-4 gap-0 rounded-2xl overflow-hidden border border-white/8 bg-surface-dim/60">
         <div className="p-6 border-r border-white/8">
           <div className="text-[8px] font-black text-white/25 uppercase tracking-[0.3em] mb-2">{t('OFFICIAL DEFINITION', 'DÉFINITION OFFICIELLE')}</div>
-          <div className="text-base font-black text-white uppercase leading-tight">{t('WHAT IS THE LYA UNIT?', 'QU'EST-CE QUE LE LYA UNIT ?')}</div>
+          <div className="text-base font-black text-white uppercase leading-tight">{t('WHAT IS THE LYA UNIT?', "QU'EST-CE QUE LE LYA UNIT ?")}</div>
           <div className="h-0.5 w-8 bg-primary-cyan mt-3" />
         </div>
         <div className="p-6 border-r border-white/8">
           <div className="text-[8px] font-black text-primary-cyan/70 uppercase tracking-[0.25em] mb-2">{t('01. EVOLUTIONARY MEASURE', '01. MESURE ÉVOLUTIVE')}</div>
-          <div className="text-[11px] text-white/60 leading-relaxed">{t('It is the official quotation unit that measures the evolutionary value of a creation.', 'C'est l'unité de cotation officielle qui mesure la valeur évolutive d'une création.')}</div>
+          <div className="text-[11px] text-white/60 leading-relaxed">{t("It is the official quotation unit that measures the evolutionary value of a creation.", "C'est l'unité de cotation officielle qui mesure la valeur évolutive d'une création.")}</div>
         </div>
         <div className="p-6 border-r border-white/8">
           <div className="text-[8px] font-black text-accent-pink/70 uppercase tracking-[0.25em] mb-2">{t('02. NOT A CRYPTO', '02. NI CRYPTO, NI DEVISE')}</div>
-          <div className="text-[11px] text-white/60 leading-relaxed">{t('It is NOT a classic currency or a crypto.', 'Ce n'est PAS une monnaie classique ou une crypto.')}</div>
+          <div className="text-[11px] text-white/60 leading-relaxed">{t('It is NOT a classic currency or a crypto.', "Ce n'est PAS une monnaie classique ou une crypto.")}</div>
         </div>
         <div className="p-6">
           <div className="text-[8px] font-black text-accent-gold/70 uppercase tracking-[0.25em] mb-2">{t('03. STRUCTURED VALUE', '03. VALEUR STRUCTURELLE')}</div>
-          <div className="text-[11px] text-white/60 leading-relaxed">{t('It is a structured unit of value that represents the real state, solidity, and trajectory of a creation.', 'C'est une unité de valeur structurée qui représente l'état réel, la solidité et la trajectoire d'une création.')}</div>
+          <div className="text-[11px] text-white/60 leading-relaxed">{t("It is a structured unit of value that represents the real state, solidity, and trajectory of a creation.", "C'est une unité de valeur structurée qui représente l'état réel, la solidité et la trajectoire d'une création.")}</div>
         </div>
       </div>
 
@@ -371,7 +371,7 @@ export const MecenatView: React.FC<MecenatViewProps> = ({ user, onNotify, onView
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
                     <span className="text-[9px] font-black text-white uppercase tracking-[0.3em]">
-                      {t('LYA UNITS ACQUISITION VOLUME', 'VOLUME D\'ACQUISITION UNITÉS LYA')}
+                      {t("LYA UNITS ACQUISITION VOLUME", "VOLUME D'ACQUISITION UNITÉS LYA")}
                     </span>
                     <span className="px-3 py-1 bg-surface-dim border border-white/10 text-[9px] font-black text-white font-mono rounded-lg">
                       {u} {t('Units Supporting', 'Unités de Soutien')}
@@ -416,7 +416,7 @@ export const MecenatView: React.FC<MecenatViewProps> = ({ user, onNotify, onView
                     className="flex-1 py-3.5 bg-primary-cyan text-surface-dim text-[10px] font-black uppercase tracking-widest rounded-2xl hover:bg-white transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(0,224,255,0.2)]"
                   >
                     <Star size={12} fill="currentColor" />
-                    {t('BACK MASTERPIECE', 'SOUTENIR L\'ŒUVRE')}
+                    {t("BACK MASTERPIECE", "SOUTENIR L'ŒUVRE")}
                   </button>
                 </div>
               </div>
@@ -713,7 +713,7 @@ export const MecenatView: React.FC<MecenatViewProps> = ({ user, onNotify, onView
 
                     <div className="grid grid-cols-2 gap-3">
                       <div>
-                        <label className="text-[8px] font-black text-white/30 uppercase tracking-[0.3em] block mb-1.5">{t('EXPIRY DATE', 'DATE D\'EXPIRATION')}</label>
+                        <label className="text-[8px] font-black text-white/30 uppercase tracking-[0.3em] block mb-1.5">{t("EXPIRY DATE", "DATE D'EXPIRATION")}</label>
                         <input type="text" value={payForm.expiry} placeholder="MM/YY" maxLength={5}
                           onChange={e => setPayForm(p => ({ ...p, expiry: e.target.value }))}
                           className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-primary-cyan transition-all"
