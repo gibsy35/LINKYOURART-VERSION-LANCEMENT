@@ -215,7 +215,7 @@ export const MecenatView: React.FC<MecenatViewProps> = ({ user, onNotify, onView
             </h1>
             <p className="text-white/50 text-sm leading-relaxed max-w-xl">
               {t(
-                'Welcome to our accessible discovery space. No complex financial tables, order books, or algorithmic charts here. Just exquisite art, raw talent, and a simple interactive way to support your favorite artists and share their future success.",
+                'Welcome to our accessible discovery space. No complex financial tables, order books, or algorithmic charts here. Just exquisite art, raw talent, and a simple interactive way to support your favorite artists and share their future success.',
                 'Bienvenue dans notre espace de découverte simplifié. Ici, pas de graphiques financiers ou de carnets d'ordres rebutants. Juste de l'art sublime, du talent brut, et un moyen simple et interactif de soutenir vos créateurs favoris et de partager leurs futurs succès.'
               )}
             </p>
