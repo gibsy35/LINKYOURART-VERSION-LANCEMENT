@@ -1134,20 +1134,20 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
                 "{t('From project issuance to secondary exchange, navigate a secure ecosystem built on artistic excellence and creative transparency.', 'De l\'émission de projet à l\'échange secondaire, naviguez dans un écosystème sécurisé bâti sur l\'excellence artistique et la transparence créative.')}"
               </p>
 
-              <div className="flex flex-col sm:flex-row items-center gap-6 mb-4 sm:mb-8 lg:mb-12 w-full sm:w-auto">
-                <button 
-                  onClick={() => onViewChange(user ? 'EXCHANGE' : 'LOGIN')}
-                  className="w-full sm:w-auto px-10 py-5 bg-primary-cyan text-surface-dim font-black uppercase tracking-[0.3em] group overflow-hidden shadow-[0_0_50px_rgba(0,224,255,0.4)] hover:shadow-[0_0_70px_rgba(0,224,255,0.6)] text-[12px] md:text-sm transition-all active:scale-95 rounded-xl flex items-center justify-center gap-3"
+              <div className="flex flex-col sm:flex-row items-start gap-4 mb-4 sm:mb-8 lg:mb-12 w-full sm:w-auto">
+                <button
+                  onClick={() => onViewChange('MECENAT')}
+                  className="w-full sm:w-auto px-8 py-4 bg-primary-cyan text-surface-dim font-black uppercase tracking-[0.25em] text-[11px] rounded-xl flex items-center justify-center gap-2.5 shadow-[0_0_40px_rgba(0,224,255,0.35)] hover:shadow-[0_0_60px_rgba(0,224,255,0.55)] hover:scale-105 transition-all active:scale-95"
                 >
-                  {t('Enter the Gallery', 'Entrer dans la Galerie')}
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
+                  <span>🏛</span>
+                  {t('POPULAR PATRONAGE (SIMPLE)', 'MÉCÉNAT POPULAIRE (SIMPLE)')}
                 </button>
-                <button 
-                  onClick={() => onViewChange(user ? 'DASHBOARD' : 'SIGNUP')}
-                  className="w-full sm:w-auto px-10 py-5 border-2 border-white/20 hover:border-primary-cyan text-white font-black uppercase tracking-[0.3em] transition-all bg-white/5 backdrop-blur-xl group text-[12px] md:text-sm active:scale-95 text-center rounded-xl flex items-center justify-center gap-3 hover:bg-white hover:text-black"
+                <button
+                  onClick={() => onViewChange('EXCHANGE')}
+                  className="w-full sm:w-auto px-8 py-4 border border-white/20 hover:border-white/50 text-white font-black uppercase tracking-[0.25em] text-[11px] rounded-xl flex items-center justify-center gap-2.5 bg-white/4 hover:bg-white/8 transition-all active:scale-95 group"
                 >
-                  {user ? t('Go to Dashboard', 'Tableau de Bord') : t('Create an Account', 'Créer un Compte')}
-                  <Layers className="w-5 h-5 group-hover:rotate-12 transition-transform" />
+                  {t('CREATIVE MARKET (PRO)', 'CREATIVE MARKET (PRO)')}
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </button>
               </div>
 
