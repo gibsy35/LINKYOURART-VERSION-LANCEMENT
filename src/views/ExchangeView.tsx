@@ -1,6 +1,6 @@
 
 import React, { useState, useMemo, useEffect, Fragment } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { ArrowRight, motion, AnimatePresence } from 'motion/react';
 import { 
   BarChart, 
   Bar, 
@@ -121,7 +121,7 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
   const { formatPrice, formatLYA } = useCurrency();
   const { contracts: hookContracts, marketStats, lastUpdate } = useMarketData();
   const contracts = liveContracts || hookContracts;
-  const [activeTab, setActiveTab] = useState<'overview' | 'predictive' | 'exchange'>('exchange');
+  const [activeTab, setActiveTab] = useState<'overview' | 'predictive' | 'exchange' | 'mecenat'>('mecenat');
 
   const onExportOrders = () => {
     downloadAsCSV(orders, 'LYA_Exchange_Orders_Export');
@@ -290,6 +290,14 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
         <div className="flex flex-col lg:flex-row lg:items-center justify-end gap-4 sm:gap-8 mb-8 sm:mb-12 relative z-20">
             <div className="flex gap-4 sm:gap-8 border-b border-white/5 overflow-x-auto no-scrollbar">
               <button 
+                onClick={() => setActiveTab('mecenat')}
+                className={`pb-4 text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] sm:tracking-[0.3em] transition-all relative flex items-center gap-2 whitespace-nowrap ${activeTab === 'mecenat' ? 'text-primary-cyan' : 'text-on-surface-variant hover:text-on-surface'}`}
+              >
+                <span className="text-sm">🏛</span>
+                {t('Public Patronage', 'Mécénat Grand Public')}
+                {activeTab === 'mecenat' && <motion.div layoutId="exchangeTab" className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-cyan shadow-[0_0_10px_rgba(0,224,255,0.4)]" />}
+              </button>
+              <button 
                 onClick={() => setActiveTab('overview')}
                 className={`pb-4 text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] sm:tracking-[0.3em] transition-all relative whitespace-nowrap ${activeTab === 'overview' ? 'text-primary-cyan' : 'text-on-surface-variant hover:text-on-surface'}`}
               >
@@ -315,6 +323,47 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
             </div>
         </div>
             
+        {activeTab === 'mecenat' && (
+          <div className="space-y-6">
+            <div className="relative rounded-3xl overflow-hidden border border-white/8 bg-gradient-to-br from-[#08101a] via-[#060d14] to-[#08101a] shadow-2xl">
+              <div className="absolute inset-0 bg-gradient-to-r from-primary-cyan/6 via-transparent to-accent-pink/6 pointer-events-none" />
+              <div className="relative flex flex-col md:flex-row items-center justify-between gap-8 p-8 md:p-12">
+                <div className="flex-1">
+                  <span className="inline-flex items-center gap-2 px-4 py-1.5 bg-primary-cyan/10 border border-primary-cyan/20 rounded-full text-[9px] font-black text-primary-cyan uppercase tracking-[0.35em] mb-6">
+                    <span className="w-1.5 h-1.5 rounded-full bg-primary-cyan animate-pulse" />
+                    {t('LYA PUBLIC PATRONAGE', 'ESPACE MÉCÉNAT GRAND PUBLIC')}
+                  </span>
+                  <h2 className="text-4xl md:text-5xl font-black uppercase leading-[1.0] tracking-tighter text-white mb-5">
+                    {t("CO-OWN TOMORROW'S MASTERPIECES", "CO-POSSÉDEZ LES CHEFS-D'ŒUVRE")}
+                    <br /><span className="text-primary-cyan">{t('IN A SINGLE CLICK.', 'DE DEMAIN, EN UN CLIC.')}</span>
+                  </h2>
+                  <p className="text-white/50 text-sm leading-relaxed max-w-xl mb-8">
+                    {t(
+                      "Welcome to our accessible discovery space. No complex financial tables or order books. Just exquisite art, raw talent, and a simple way to support your favorite creators.",
+                      "Bienvenue dans notre espace de découverte simplifié. Pas de graphiques financiers ou de carnets d'ordres. Juste de l'art sublime, du talent brut, et un moyen simple de soutenir vos créateurs favoris."
+                    )}
+                  </p>
+                  <button
+                    onClick={() => onViewChange('MECENAT')}
+                    className="px-8 py-4 bg-primary-cyan text-surface-dim font-black uppercase tracking-[0.25em] text-[11px] rounded-xl flex items-center gap-2.5 shadow-[0_0_40px_rgba(0,224,255,0.35)] hover:shadow-[0_0_60px_rgba(0,224,255,0.55)] hover:scale-105 transition-all active:scale-95"
+                  >
+                    <span>🏛</span>
+                    {t('ACCESS FULL PATRONAGE SPACE', 'ACCÉDER À L'ESPACE MÉCÉNAT COMPLET')}
+                    <ArrowRight size={16} />
+                  </button>
+                </div>
+                <div className="shrink-0 flex flex-col items-center justify-center bg-black/30 border border-white/10 rounded-2xl px-8 py-6 text-center min-w-[180px]">
+                  <span className="text-[9px] font-black text-white/30 uppercase tracking-[0.35em] mb-2">{t('FIXED FACE VALUE', 'VALEUR FIXE FONDATRICE')}</span>
+                  <div className="text-3xl font-black text-white">1 Unit = <span className="text-primary-cyan">$50.00</span></div>
+                  <span className="mt-3 px-4 py-1 bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-[9px] font-black uppercase tracking-widest rounded-full">
+                    {t('ACCESSIBLE TO ALL', 'ACCESSIBLE À TOUS')}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {activeTab === 'exchange' && (
           <Fragment>
             <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
