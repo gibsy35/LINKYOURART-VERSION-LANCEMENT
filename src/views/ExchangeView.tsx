@@ -340,7 +340,7 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
                   <p className="text-white/50 text-sm leading-relaxed max-w-xl mb-8">
                     {t(
                       "Welcome to our accessible discovery space. No complex financial tables or order books. Just exquisite art, raw talent, and a simple way to support your favorite creators.",
-                      "Bienvenue dans notre espace de découverte simplifié. Pas de graphiques financiers ou de carnets d'ordres. Juste de l'art sublime, du talent brut, et un moyen simple de soutenir vos créateurs favoris."
+                      "Bienvenue dans notre espace de découverte simplifié. Pas de graphiques financiers. Juste de l'art sublime et un moyen simple de soutenir vos créateurs."
                     )}
                   </p>
                   <button
@@ -348,7 +348,7 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
                     className="px-8 py-4 bg-primary-cyan text-surface-dim font-black uppercase tracking-[0.25em] text-[11px] rounded-xl flex items-center gap-2.5 shadow-[0_0_40px_rgba(0,224,255,0.35)] hover:shadow-[0_0_60px_rgba(0,224,255,0.55)] hover:scale-105 transition-all active:scale-95"
                   >
                     <span>🏛</span>
-                    {t('ACCESS FULL PATRONAGE SPACE', 'ACCÉDER À L'ESPACE MÉCÉNAT COMPLET')}
+                    {t("ACCESS FULL PATRONAGE SPACE", "ACCÉDER À L'ESPACE MÉCÉNAT COMPLET")}
                     <ArrowRight size={16} />
                   </button>
                 </div>
