@@ -346,10 +346,12 @@ export function WhatIsLyaUnit({ lang }: { lang: "FR" | "EN" }) {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-10">
         <div>
           <p className="text-on-surface-variant/50 text-[10px] font-mono tracking-widest mb-3">{T("DÉFINITION OFFICIELLE", "OFFICIAL DEFINITION")}</p>
-          <h3 className="text-on-surface font-black leading-tight text-xl md:text-2xl" style={{ fontFamily: "Georgia,serif" }}>
-            {T("QU'EST-CE QUE LE LYA UNIT ?", "WHAT IS THE LYA UNIT?")}
-          </h3>
-          <div className="w-16 h-1 rounded-full mt-3" style={{ background: "linear-gradient(90deg,#00d4ff,#a78bfa)" }} />
+          <div className="inline-block border border-white/20 rounded-lg px-3 py-2 bg-white/5 mb-3">
+            <h3 className="text-on-surface font-black leading-tight text-sm md:text-base" style={{ fontFamily: "Georgia,serif" }}>
+              {T("QU'EST-CE QUE LE LYA UNIT ?", "WHAT IS THE LYA UNIT?")}
+            </h3>
+          </div>
+          <div className="w-16 h-1 rounded-full mt-1" style={{ background: "linear-gradient(90deg,#00d4ff,#a78bfa)" }} />
         </div>
         {cols.map(col => (
           <div key={col.num}>
@@ -551,3 +553,4 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
     </div>
   );
 }
+
