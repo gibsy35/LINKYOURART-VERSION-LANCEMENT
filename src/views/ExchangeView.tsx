@@ -87,39 +87,42 @@ const PatronageHubTab: React.FC<{
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
 
-      {/* ── Badge espace mécénat ── */}
-      <div className="flex justify-start items-center mt-4">
-        <span className="text-[#00d4ff] text-xs font-mono tracking-widest border border-[#00d4ff]/30 px-3 py-1 rounded-full">
-          ✦ {T('ESPACE MÉCÉNAT LYA', 'LYA PATRONAGE SPACE')}
-        </span>
-      </div>
-
-      {/* ── Hero ── */}
-      <div className="flex flex-col lg:flex-row justify-between items-start gap-8">
-        <div>
-          <h2 className="font-black text-on-surface leading-tight mb-5" style={{ fontFamily: 'Georgia,serif', fontSize: 'clamp(1.8rem,4vw,3rem)' }}>
-            {T("CO-POSSÉDEZ LES CHEFS-D'ŒUVRE", "CO-OWN TOMORROW'S MASTERPIECES,")}<br />
-            {T('DE DEMAIN EN UN CLIC', 'IN A SINGLE CLICK')}
-          </h2>
-          <p className="text-on-surface-variant max-w-xl text-sm leading-relaxed opacity-80">
-            {T(
-              "Bienvenue dans notre espace de découverte simplifié. Ici, pas de graphiques financiers ou de carnets d'ordres rebutants. Juste de l'art sublime, du talent brut, et un moyen simple et interactif de soutenir vos créateurs favoris et de partager leurs futurs succès.",
-              'Welcome to our simplified discovery space. No financial charts or intimidating order books. Just sublime art, raw talent, and a simple interactive way to support your favourite creators and share in their future success.'
-            )}
-          </p>
-        </div>
-        <div className="bg-[#0d1117] border border-[#1e2a3a] rounded-2xl p-6 min-w-[200px] text-center shrink-0">
-          <p className="text-gray-500 text-[10px] font-mono mb-2">{T('VALEUR FIXE FONDATRICE', 'FIXED FOUNDING VALUE')}</p>
-          <p className="text-white text-2xl font-bold font-mono">1 Unit = <span className="text-[#00d4ff]">{formatPrice(LYA_UNIT_VALUE)}</span></p>
-          <div className="mt-3 bg-[#00ff88] text-black text-[10px] font-mono font-bold px-4 py-2 rounded-lg">
-            {T('ACCESSIBLE À TOUS', 'ACCESSIBLE TO ALL')}
+      {/* ── Hero encadré ── */}
+      <div className="relative bg-surface-low/60 border border-white/10 rounded-2xl p-6 md:p-10 mt-4 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary-cyan/5 to-transparent pointer-events-none" />
+        <div className="relative z-10 space-y-6">
+          <div className="flex justify-start items-center">
+            <span className="text-primary-cyan text-xs font-mono tracking-widest border border-primary-cyan/30 px-3 py-1 rounded-full">
+              ✦ {T('ESPACE MÉCÉNAT LYA', 'LYA PATRONAGE SPACE')}
+            </span>
+          </div>
+          <div className="flex flex-col lg:flex-row justify-between items-start gap-8">
+            <div>
+              <h2 className="font-black text-on-surface leading-tight mb-5" style={{ fontFamily: 'Georgia,serif', fontSize: 'clamp(1.8rem,4vw,3rem)' }}>
+                {T("CO-POSSÉDEZ LES CHEFS-D'ŒUVRE", "CO-OWN TOMORROW'S MASTERPIECES,")}<br />
+                {T('DE DEMAIN EN UN CLIC', 'IN A SINGLE CLICK')}
+              </h2>
+              <p className="text-on-surface-variant max-w-xl text-sm leading-relaxed opacity-80">
+                {T(
+                  "Bienvenue dans notre espace de découverte simplifié. Ici, pas de graphiques financiers ou de carnets d'ordres rebutants. Juste de l'art sublime, du talent brut, et un moyen simple et interactif de soutenir vos créateurs favoris et de partager leurs futurs succès.",
+                  'Welcome to our simplified discovery space. No financial charts or intimidating order books. Just sublime art, raw talent, and a simple interactive way to support your favourite creators and share in their future success.'
+                )}
+              </p>
+            </div>
+            <div className="bg-surface-high/60 border border-white/10 rounded-2xl p-6 min-w-[200px] text-center shrink-0">
+              <p className="text-on-surface-variant/60 text-[10px] font-mono mb-2 tracking-widest">{T('VALEUR FIXE FONDATRICE', 'FIXED FOUNDING VALUE')}</p>
+              <p className="text-on-surface text-2xl font-bold font-mono">1 Unit = <span className="text-primary-cyan">{formatPrice(LYA_UNIT_VALUE)}</span></p>
+              <div className="mt-3 bg-[#00ff88] text-surface-dim text-[10px] font-mono font-bold px-4 py-2 rounded-lg">
+                {T('ACCESSIBLE À TOUS', 'ACCESSIBLE TO ALL')}
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
       {/* ── Filtres thématiques ── */}
       <div>
-        <p className="text-[#00d4ff] text-[10px] font-mono tracking-widest mb-4">
+        <p className="text-primary-cyan text-[10px] font-mono tracking-widest mb-4">
           ● {T('SÉLECTIONNEZ UN THÈME ARTISTIQUE', 'CHOOSE AN ART MOOD')}
         </p>
         <div className="flex flex-wrap gap-3">
@@ -127,7 +130,7 @@ const PatronageHubTab: React.FC<{
             <button
               key={theme.id}
               onClick={() => setActiveTheme(theme.id)}
-              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-mono transition-all ${activeTheme === theme.id ? 'bg-[#00d4ff] text-black font-bold' : 'border border-[#1e2a3a] text-gray-400 hover:border-[#00d4ff]/50 hover:text-white'}`}
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-mono transition-all ${activeTheme === theme.id ? 'bg-primary-cyan text-surface-dim font-bold' : 'border border-white/10 text-on-surface-variant hover:border-primary-cyan/50 hover:text-on-surface'}`}
             >
               <span>{theme.icon}</span>
               {T(theme.labelFR, theme.labelEN)}
@@ -153,7 +156,7 @@ const PatronageHubTab: React.FC<{
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
             {filtered.map((contract) => (
               <ProjectCard
                 key={contract.id}
