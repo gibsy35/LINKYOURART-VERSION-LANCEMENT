@@ -294,10 +294,10 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                   </div>
 
                   {/* ── TITRE : 2 lignes, typo ultra grasse ── */}
-                  <h2 className="font-headline text-5xl md:text-6xl xl:text-7xl font-black uppercase tracking-tighter leading-[0.88] text-white mb-6">
+                  <h2 className="font-headline text-6xl md:text-7xl xl:text-8xl font-black uppercase tracking-[-0.04em] leading-[0.84] text-white mb-6" style={{ fontStretch: "condensed", textShadow: "0 0 60px rgba(0,212,255,0.15)" }}>
                     <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}>
                       {t("THE SOVEREIGN BENCHMARK", "L'ÉTALON SOUVERAIN")}<br />
-                      <span className="text-primary-cyan">{t("FOR CREATIVE CAPITAL", "DES ACTIFS CRÉATIFS")}</span>
+                      <span className="text-primary-cyan" style={{ WebkitTextStroke: "1px rgba(0,212,255,0.3)" }}>{t("FOR CREATIVE CAPITAL", "DES ACTIFS CRÉATIFS")}</span>
                     </motion.div>
                   </h2>
 
@@ -308,23 +308,6 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                     )}
                   </p>
 
-                  {/* ── 2 BOUTONS HERO ── */}
-                  <div className="flex flex-col sm:flex-row gap-3 mt-6">
-                    <button
-                      onClick={() => { onEnterDemo(); setTimeout(() => onViewChange?.('EXCHANGE'), 100); }}
-                      className="flex items-center justify-center gap-2 bg-primary-cyan text-black font-black uppercase tracking-widest text-[11px] px-8 py-4 rounded-2xl hover:bg-white transition-all shadow-[0_0_30px_rgba(0,224,255,0.3)] active:scale-95"
-                    >
-                      <span>✦</span>
-                      {t('POPULAR PATRONAGE (SIMPLE)', 'MÉCÉNAT POPULAIRE (SIMPLE)')}
-                    </button>
-                    <button
-                      onClick={() => { onEnterDemo(); setTimeout(() => onViewChange?.('EXCHANGE'), 100); }}
-                      className="flex items-center justify-center gap-2 border border-white/20 text-white font-black uppercase tracking-widest text-[11px] px-8 py-4 rounded-2xl hover:border-primary-cyan hover:text-primary-cyan transition-all active:scale-95"
-                    >
-                      {t('CREATIVE MARKET (PRO)', 'CREATIVE MARKET (PRO)')}
-                      <span>→</span>
-                    </button>
-                  </div>
                 </motion.div>
 
                 {/* Countdown */}
@@ -622,3 +605,4 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
     </div>
   );
 };
+
