@@ -1285,12 +1285,7 @@ export default function App() {
                 />
               )}
               {currentView === 'MECENAT' && (
-                <MecenatView
-                  user={effectiveUser}
-                  onNotify={notify}
-                  onViewChange={setCurrentView}
-                  liveContracts={liveContracts}
-                />
+                <MecenatView />
               )}
               {currentView === 'COMPARE' && (
                 <CompareView 

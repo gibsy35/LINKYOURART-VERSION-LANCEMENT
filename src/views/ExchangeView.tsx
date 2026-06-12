@@ -6,9 +6,7 @@ import {
 import { 
   ChevronDown, RefreshCw, Download, ArrowUpRight,
   ShieldCheck, ChevronLeft, ChevronRight, TrendingUp,
-  Droplets, Zap, Layers, ArrowRight, Star,
-  Palette, Film, Music, BookOpen, Sparkles,
-  Heart, ChevronUp, Rocket, Info
+  Droplets, Zap, ArrowRight, Star
 } from 'lucide-react';
 import { CONTRACTS, Contract, Order, Activity, LYA_UNIT_VALUE } from '../types';
 import { PageHeader } from '../components/ui/PageHeader';
@@ -19,7 +17,13 @@ import { useCurrency } from '../context/CurrencyContext';
 import { CandlestickChart } from '../components/ui/CandlestickChart';
 import { useMarketData } from '../hooks/useMarketData';
 import { downloadAsCSV } from '../utils/download';
-import { getSafeImageUrl } from '../utils/image';
+import {
+  MECENAT_THEMES,
+  WhatIsLyaUnit,
+  ProjectCard,
+  DetailModal,
+  PaymentModal,
+} from '../components/mecenat/MecenatShared';
 
 interface ExchangeViewProps {
   orders: Order[];
@@ -55,300 +59,9 @@ interface ExchangeViewProps {
   liveContracts?: Contract[];
 }
 
-// ─── CO-OWNER STATUSES ───────────────────────────────────────────────────────
-
-const CO_OWNER_STATUSES = [
-  {
-    key: 'assoc',
-    labelFR: 'COPROPRIÉTAIRE ASSOCIÉ',
-    labelEN: 'ASSOCIATED CO-OWNER',
-    descFR: 'Droits de copropriété standard proportionnels aux unités détenues.',
-    descEN: 'Standard co-ownership rights proportional to units held.',
-    bonusFR: 'Bonus d\'unités LYA : Aucun.',
-    bonusEN: 'LYA unit bonus: None.',
-    threshold: 1,
-    bgClass: 'bg-primary-cyan/5',
-    borderClass: 'border-primary-cyan/20',
-    textClass: 'text-primary-cyan',
-    isPrestige: false,
-  },
-  {
-    key: 'strat',
-    labelFR: 'MÉCÈNE STRATÉGIQUE',
-    labelEN: 'STRATEGIC PATRON',
-    descFR: 'Statut Copropriétaire Stratégique. Influenceur de volume sur les gains futurs.',
-    descEN: 'Strategic Co-owner. Volume influencer on future gains.',
-    bonusFR: 'Bonus d\'unités LYA : +0 Unité (+$0.00 offerte !).',
-    bonusEN: 'LYA unit bonus: +0 Unit (+$0.00 offered!).',
-    threshold: 20,
-    bgClass: 'bg-blue-500/5',
-    borderClass: 'border-blue-500/20',
-    textClass: 'text-blue-400',
-    isPrestige: false,
-  },
-  {
-    key: 'major',
-    labelFR: 'ASSOCIÉ MAJEUR LYA',
-    labelEN: 'LYA MAJOR ASSOCIATE',
-    descFR: 'Copropriétaire Associé Majeur. Consultation directe du registre complet de l\'œuvre.',
-    descEN: 'Major Associate Co-owner. Direct access to the full artwork registry.',
-    bonusFR: 'Bonus d\'unités LYA : +1 Unité (+$41.24 offerts !).',
-    bonusEN: 'LYA unit bonus: +1 Unit (+$41.24 offered!).',
-    threshold: 30,
-    bgClass: 'bg-purple-500/5',
-    borderClass: 'border-purple-500/20',
-    textClass: 'text-purple-400',
-    isPrestige: false,
-  },
-  {
-    key: 'prestige',
-    labelFR: 'CO-MÉCÈNE PRESTIGE SYNDICATE',
-    labelEN: 'PRESTIGE SYNDICATE CO-PATRON',
-    descFR: 'Classe Copropriétaire Prestige. Accès prioritaire absolu aux audits de licences mondiales.',
-    descEN: 'Prestige Co-owner Class. Absolute priority access to global license audits.',
-    bonusFR: 'Bonus d\'unités LYA : +5 Unités (+$276.70 offerts !).',
-    bonusEN: 'LYA unit bonus: +5 Units (+$276.70 offered!).',
-    threshold: 100,
-    bgClass: 'bg-amber-500/5',
-    borderClass: 'border-amber-500/30',
-    textClass: 'text-amber-400',
-    isPrestige: true,
-  },
-];
-
-const ART_CATEGORIES = [
-  { key: 'ALL', labelFR: 'Toutes les Œuvres', labelEN: 'All Masterpieces', icon: <Sparkles size={13} />, cats: [] as string[] },
-  { key: 'VISUAL', labelFR: 'Arts Visuels & Mode', labelEN: 'Visual Arts & Fashion', icon: <Palette size={13} />, cats: ['Fine Art','Digital Art','Photography','Fashion','Design'] },
-  { key: 'CINEMA', labelFR: 'Cinéma & Récits', labelEN: 'Cinema & Narratives', icon: <Film size={13} />, cats: ['Film','TV Series','Gaming'] },
-  { key: 'MUSIC', labelFR: 'Musique & Scène', labelEN: 'Music & Concerts', icon: <Music size={13} />, cats: ['Music','Performing Arts','Podcast'] },
-  { key: 'LIT', labelFR: 'Lettres & Architecture', labelEN: 'Literature & Spaces', icon: <BookOpen size={13} />, cats: ['Architecture','Gastronomy','Literature'] },
-];
-
-// ─── PATRON CARD ──────────────────────────────────────────────────────────────
-
-const PatronCard: React.FC<{
-  contract: Contract;
-  onSelect: (c: Contract) => void;
-  onSupport: (c: Contract) => void;
-  onToggleWatchlist: (e: React.MouseEvent, id: string) => void;
-  isWatchlisted: boolean;
-  lang: 'FR' | 'EN';
-  formatPrice: (n: number) => string;
-}> = ({ contract, onSelect, onSupport, onToggleWatchlist, isWatchlisted, lang, formatPrice }) => {
-  const [units, setUnits] = useState(5);
-  const [expandPrestige, setExpandPrestige] = useState(false);
-
-  const baseValue = 50;
-  const growthRate = contract.growth || 0;
-  const unitPrice = Math.round((baseValue * (1 + growthRate / 100)) * 100) / 100;
-
-  // Simulated funding data from score (deterministic)
-  const score = contract.totalScore || 750;
-  const fundingPct = Math.min(95, Math.round(40 + (score / 1000) * 55));
-  const totalBudget = Math.round((score * 200) / 1000) * 1000 + 50000;
-  const fundingRaised = Math.round(totalBudget * (fundingPct / 100));
-  const revenueShare = Math.round(8 + (score / 1000) * 12);
-
-  const engagement = (units * LYA_UNIT_VALUE).toFixed(2);
-  const coShare = ((units / totalBudget) * 100 * revenueShare).toFixed(3);
-
-  const getStatus = (u: number) => {
-    let s = CO_OWNER_STATUSES[0];
-    for (const st of CO_OWNER_STATUSES) { if (u >= st.threshold) s = st; }
-    return s;
-  };
-  const status = getStatus(units);
-
-  const rarityColor = contract.rarity === 'EPIC'
-    ? 'text-purple-400 bg-purple-500/10 border-purple-500/30'
-    : contract.rarity === 'LEGENDARY'
-    ? 'text-amber-400 bg-amber-500/10 border-amber-500/30'
-    : 'text-blue-400 bg-blue-500/10 border-blue-500/30';
-
-  return (
-    <motion.div
-      layout
-      initial={{ opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="bg-surface-low/40 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden hover:border-white/20 transition-all duration-300 flex flex-col"
-    >
-      {/* ── Image fixe 16/7, pas d'étirement ── */}
-      <div
-        className="relative w-full overflow-hidden cursor-pointer flex-shrink-0"
-        style={{ height: '140px' }}
-        onClick={() => onSelect(contract)}
-      >
-        <img
-          src={getSafeImageUrl(contract.image, contract.category)}
-          alt={contract.name}
-          className="w-full h-full object-cover object-center"
-          referrerPolicy="no-referrer"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-
-        {/* Prix haut-droite */}
-        <div className="absolute top-0 right-0 bg-black/70 backdrop-blur-sm px-2.5 py-1.5 rounded-bl-xl">
-          <div className="text-primary-cyan font-black text-sm font-mono leading-none">{formatPrice(unitPrice)} / Unit</div>
-          <div className="text-emerald-400 text-[9px] font-bold mt-0.5 text-right">{revenueShare}% {lang === 'FR' ? 'Droit de Partage' : 'Revenue Share'}</div>
-        </div>
-
-        {/* Badges bas-gauche */}
-        <div className="absolute bottom-0 left-0 p-2 flex flex-wrap gap-1">
-          <span className="text-[8px] font-black uppercase px-2 py-0.5 rounded-md bg-black/60 text-white/70 border border-white/10">{contract.category}</span>
-          <span className={`text-[8px] font-black uppercase px-2 py-0.5 rounded-md border ${rarityColor}`}>★ {contract.totalScore}</span>
-          <span className={`text-[8px] font-black uppercase px-2 py-0.5 rounded-md border ${rarityColor}`}>{contract.rarity}</span>
-        </div>
-
-        {/* Watchlist */}
-        <button
-          onClick={(e) => { e.stopPropagation(); onToggleWatchlist(e, contract.id); }}
-          className={`absolute top-2 left-2 p-1.5 rounded-full transition-all border ${isWatchlisted ? 'bg-amber-500/20 text-amber-400 border-amber-500/40' : 'bg-black/50 text-white/40 hover:text-white border-white/10'}`}
-        >
-          <Heart size={11} fill={isWatchlisted ? 'currentColor' : 'none'} />
-        </button>
-      </div>
-
-      {/* ── Corps ── */}
-      <div className="p-4 flex flex-col gap-3.5 flex-1">
-        {/* Titre */}
-        <div className="cursor-pointer" onClick={() => onSelect(contract)}>
-          <h3 className="font-headline font-black text-[15px] text-on-surface uppercase tracking-tight leading-tight hover:text-primary-cyan transition-colors">
-            {contract.name}
-          </h3>
-          <p className="text-[8px] text-on-surface-variant uppercase tracking-[0.15em] font-bold mt-0.5">
-            {lang === 'FR' ? `INITIATIVE DE CO-PRODUCTION ${contract.category.toUpperCase()}` : `${contract.category.toUpperCase()} CO-PRODUCTION`}
-          </p>
-        </div>
-
-        {/* Barre financement */}
-        <div>
-          <div className="flex justify-between items-center mb-1">
-            <span className="text-[8px] uppercase tracking-[0.15em] text-on-surface-variant font-black">{lang === 'FR' ? 'FINANCEMENT DU BUDGET' : 'BUDGET FUNDING'}</span>
-            <span className="text-[9px] font-black text-primary-cyan">{fundingPct}%</span>
-          </div>
-          <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
-            <div className="h-full rounded-full bg-primary-cyan transition-all" style={{ width: `${fundingPct}%` }} />
-          </div>
-          <div className="flex justify-between mt-0.5">
-            <span className="text-[8px] text-on-surface-variant font-mono">{formatPrice(fundingRaised)}</span>
-            <span className="text-[8px] text-on-surface-variant font-mono">{lang === 'FR' ? 'Cible' : 'Target'} : {formatPrice(totalBudget)}</span>
-          </div>
-        </div>
-
-        {/* Slider */}
-        <div>
-          <div className="flex justify-between items-center mb-1.5">
-            <span className="text-[8px] uppercase tracking-[0.12em] text-on-surface-variant font-black">
-              {lang === 'FR' ? 'VOLUME D\'ACQUISITION DES PARTS LYA' : 'LYA SHARE ACQUISITION VOLUME'}
-            </span>
-            <span className="text-[9px] font-black text-on-surface bg-white/8 border border-white/10 rounded px-1.5 py-0.5">
-              {units} {lang === 'FR' ? 'Unités' : 'Units'}
-            </span>
-          </div>
-          <input
-            type="range" min={1} max={100} step={1} value={units}
-            onChange={(e) => setUnits(parseInt(e.target.value))}
-            className="w-full cursor-pointer h-0.5 accent-primary-cyan"
-          />
-          <div className="flex justify-between mt-0.5">
-            <span className="text-[7px] text-on-surface-variant/50 uppercase">1</span>
-            <span className="text-[7px] text-on-surface-variant/50 uppercase">50</span>
-            <span className="text-[7px] text-on-surface-variant/50 uppercase">100</span>
-          </div>
-        </div>
-
-        {/* Métriques */}
-        <div className="grid grid-cols-2 gap-2">
-          <div className="bg-white/4 border border-white/8 rounded-xl p-2.5">
-            <div className="text-[7px] uppercase tracking-[0.12em] text-on-surface-variant font-black mb-1">
-              {lang === 'FR' ? 'VOTRE ENGAGEMENT' : 'YOUR COMMITMENT'}
-            </div>
-            <div className="text-sm font-black font-mono text-on-surface">${parseFloat(engagement).toLocaleString('en-US', { minimumFractionDigits: 2 })}</div>
-          </div>
-          <div className="bg-white/4 border border-white/8 rounded-xl p-2.5">
-            <div className="text-[7px] uppercase tracking-[0.12em] text-on-surface-variant font-black mb-1 flex items-center gap-1">
-              {lang === 'FR' ? 'CO-PARTAGE DES GAINS' : 'REVENUE CO-SHARE'}
-              <Info size={9} className="opacity-40" />
-            </div>
-            <div className="text-sm font-black font-mono text-emerald-400">{coShare}%</div>
-          </div>
-        </div>
-
-        {/* ── Badge statut CO-PROPRIÉTAIRE (4 phases) ── */}
-        <div className={`rounded-xl p-3 border ${status.bgClass} ${status.borderClass}`}>
-          <div className={`text-[8px] font-black uppercase tracking-[0.12em] mb-1 ${status.textClass}`}>
-            {lang === 'FR' ? status.labelFR : status.labelEN}
-          </div>
-          <div className="text-[9px] text-on-surface-variant leading-snug">
-            {lang === 'FR' ? status.descFR : status.descEN}
-          </div>
-          <div className={`text-[8px] font-bold mt-1 ${status.textClass}`}>
-            {lang === 'FR' ? status.bonusFR : status.bonusEN}
-          </div>
-        </div>
-
-        {/* ── Upgrade Prestige (dropdown jaune, uniquement au palier 100) ── */}
-        {status.isPrestige && (
-          <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 overflow-hidden">
-            <button
-              onClick={() => setExpandPrestige(!expandPrestige)}
-              className="w-full flex items-center justify-between px-3 py-2.5 text-left"
-            >
-              <span className="text-[8px] font-black uppercase tracking-[0.12em] text-amber-400">
-                🏆 {lang === 'FR' ? 'STATUT INVESTISSEUR RECOMMANDÉ :' : 'RECOMMENDED INVESTOR STATUS:'}
-              </span>
-              {expandPrestige
-                ? <ChevronUp size={13} className="text-amber-400 shrink-0" />
-                : <ChevronDown size={13} className="text-amber-400 shrink-0" />}
-            </button>
-            <AnimatePresence>
-              {expandPrestige && (
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: 'auto', opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.22 }}
-                  className="overflow-hidden"
-                >
-                  <div className="px-3 pb-3 space-y-2">
-                    <p className="text-[9px] text-amber-300/80 leading-relaxed">
-                      {lang === 'FR'
-                        ? 'À partir de 100 unités LYA, configurez un compte Investisseur pour accéder au marché de l\'Art et aux dividendes de licence.'
-                        : 'From 100 LYA units, set up an Investor account to access the Art market and license dividends.'}
-                    </p>
-                    <button className="w-full py-2 bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 rounded-lg text-amber-400 text-[8px] font-black uppercase tracking-[0.15em] transition-all flex items-center justify-center gap-1.5">
-                      <Rocket size={11} />
-                      {lang === 'FR' ? 'ACTIVER LE PROTOCOLE INVESTISSEUR' : 'ACTIVATE INVESTOR PROTOCOL'}
-                    </button>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        )}
-
-        {/* Actions */}
-        <div className="flex gap-2 mt-auto pt-0.5">
-          <button
-            onClick={() => onSelect(contract)}
-            className="flex-1 py-2 border border-white/10 hover:border-white/25 text-[8px] font-black uppercase tracking-[0.12em] text-on-surface-variant hover:text-on-surface rounded-xl transition-all"
-          >
-            {lang === 'FR' ? 'VOIR LE PROJET' : 'VIEW PROJECT'}
-          </button>
-          <button
-            onClick={() => onSupport(contract)}
-            className="flex-1 py-2 bg-primary-cyan hover:bg-white border border-primary-cyan text-surface-dim text-[8px] font-black uppercase tracking-[0.12em] rounded-xl transition-all flex items-center justify-center gap-1 shadow-[0_0_15px_rgba(0,224,255,0.15)]"
-          >
-            <Heart size={10} />
-            {lang === 'FR' ? 'SOUTENIR CE PROJET' : 'SUPPORT THIS PROJECT'}
-          </button>
-        </div>
-      </div>
-    </motion.div>
-  );
-};
-
 // ─── PATRONAGE HUB TAB ────────────────────────────────────────────────────────
+// Utilise les composants partagés (MecenatShared) afin de garantir une parité
+// visuelle totale avec la page autonome "Espace Mécénat" (MecenatView / route MECENAT).
 
 const PatronageHubTab: React.FC<{
   contracts: Contract[];
@@ -359,142 +72,122 @@ const PatronageHubTab: React.FC<{
   lang: 'FR' | 'EN';
   formatPrice: (n: number) => string;
 }> = ({ contracts, onSelectContract, onOpenOffer, onToggleWatchlist, watchlist, lang, formatPrice }) => {
-  const [activeCat, setActiveCat] = useState('ALL');
+  const [activeTheme, setActiveTheme] = useState('all');
+  const [detail, setDetail] = useState<{ contract: Contract; units: number } | null>(null);
+  const [showPayment, setShowPayment] = useState(false);
+
+  const T = (fr: string, en: string) => lang === 'FR' ? fr : en;
 
   const filtered = useMemo(() => {
-    if (activeCat === 'ALL') return contracts;
-    const cat = ART_CATEGORIES.find(c => c.key === activeCat);
-    if (!cat || cat.cats.length === 0) return contracts;
-    return contracts.filter(c => cat.cats.includes(c.category));
-  }, [activeCat, contracts]);
+    const theme = MECENAT_THEMES.find(t => t.id === activeTheme);
+    if (!theme || theme.cats.length === 0) return contracts;
+    return contracts.filter(c => theme.cats.includes(c.category));
+  }, [activeTheme, contracts]);
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
 
-      {/* ── Hero card ── */}
-      <div className="relative bg-surface-low/30 backdrop-blur-2xl border border-white/10 rounded-2xl p-8 overflow-hidden mt-4">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary-cyan/5 to-transparent pointer-events-none" />
-        <div className="flex flex-col lg:flex-row gap-8 items-start relative z-10">
-          <div className="flex-1">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-primary-cyan/10 border border-primary-cyan/20 rounded-full mb-5">
-              <div className="w-1.5 h-1.5 bg-primary-cyan rounded-full animate-pulse" />
-              <span className="text-[9px] font-black uppercase tracking-[0.2em] text-primary-cyan">
-                {lang === 'FR' ? 'MODE SIMPLICITÉ ACTIVÉ' : 'SIMPLICITY MODE ACTIVE'}
-              </span>
-            </div>
-            {/* 2 lignes, ultra-gras */}
-            <h2 className="font-headline font-black text-[clamp(1.35rem,2.8vw,1.95rem)] uppercase leading-[1.08] tracking-tight text-on-surface mb-5">
-              {lang === 'FR'
-                ? <><span>CO-POSSÉDEZ LES CHEFS-D'ŒUVRE</span><br /><span>DE DEMAIN EN UN CLIC</span></>
-                : <><span>CO-OWN TOMORROW'S MASTERPIECES</span><br /><span>IN A SINGLE CLICK</span></>}
-            </h2>
-            <p className="text-sm text-on-surface-variant leading-relaxed max-w-xl opacity-80">
-              {lang === 'FR'
-                ? 'Bienvenue dans notre espace de découverte simplifié. Ici, pas de graphiques financiers ou de carnets d\'ordres rebutants. Juste de l\'art sublime, du talent brut, et un moyen simple et interactif de soutenir vos créateurs favoris.'
-                : 'Welcome to our accessible discovery space. No complex financial tables or order books. Just exquisite art, raw talent, and a simple interactive way to support your favorite artists.'}
-            </p>
-          </div>
-          {/* Unit box */}
-          <div className="shrink-0 bg-primary-cyan/8 border border-primary-cyan/20 rounded-xl p-6 text-center min-w-[175px]">
-            <div className="text-[8px] uppercase tracking-[0.2em] text-on-surface-variant font-black mb-3">
-              {lang === 'FR' ? 'VALEUR FIXE FONDATRICE' : 'FIXED FOUNDING VALUE'}
-            </div>
-            <div className="text-xl font-black font-headline text-on-surface tracking-tight">
-              1 Unit = <span className="text-primary-cyan">{formatPrice(LYA_UNIT_VALUE)}</span>
-            </div>
-            <div className="mt-3 px-3 py-1 bg-primary-cyan/10 rounded-full text-[8px] font-black text-primary-cyan uppercase tracking-[0.15em] inline-block">
-              {lang === 'FR' ? 'ACCESSIBLE À TOUS' : 'ACCESSIBLE TO ALL'}
-            </div>
+      {/* ── Badge espace mécénat ── */}
+      <div className="flex justify-start items-center mt-4">
+        <span className="text-[#00d4ff] text-xs font-mono tracking-widest border border-[#00d4ff]/30 px-3 py-1 rounded-full">
+          ✦ {T('ESPACE MÉCÉNAT LYA', 'LYA PATRONAGE SPACE')}
+        </span>
+      </div>
+
+      {/* ── Hero ── */}
+      <div className="flex flex-col lg:flex-row justify-between items-start gap-8">
+        <div>
+          <h2 className="font-black text-on-surface leading-tight mb-5" style={{ fontFamily: 'Georgia,serif', fontSize: 'clamp(1.8rem,4vw,3rem)' }}>
+            {T("CO-POSSÉDEZ LES CHEFS-D'ŒUVRE", "CO-OWN TOMORROW'S MASTERPIECES,")}<br />
+            {T('DE DEMAIN EN UN CLIC', 'IN A SINGLE CLICK')}
+          </h2>
+          <p className="text-on-surface-variant max-w-xl text-sm leading-relaxed opacity-80">
+            {T(
+              "Bienvenue dans notre espace de découverte simplifié. Ici, pas de graphiques financiers ou de carnets d'ordres rebutants. Juste de l'art sublime, du talent brut, et un moyen simple et interactif de soutenir vos créateurs favoris et de partager leurs futurs succès.",
+              'Welcome to our simplified discovery space. No financial charts or intimidating order books. Just sublime art, raw talent, and a simple interactive way to support your favourite creators and share in their future success.'
+            )}
+          </p>
+        </div>
+        <div className="bg-[#0d1117] border border-[#1e2a3a] rounded-2xl p-6 min-w-[200px] text-center shrink-0">
+          <p className="text-gray-500 text-[10px] font-mono mb-2">{T('VALEUR FIXE FONDATRICE', 'FIXED FOUNDING VALUE')}</p>
+          <p className="text-white text-2xl font-bold font-mono">1 Unit = <span className="text-[#00d4ff]">{formatPrice(LYA_UNIT_VALUE)}</span></p>
+          <div className="mt-3 bg-[#00ff88] text-black text-[10px] font-mono font-bold px-4 py-2 rounded-lg">
+            {T('ACCESSIBLE À TOUS', 'ACCESSIBLE TO ALL')}
           </div>
         </div>
       </div>
 
-      {/* ── Filtres catégories avec icônes ── */}
+      {/* ── Filtres thématiques ── */}
       <div>
-        <div className="flex items-center gap-2 mb-3">
-          <div className="w-1.5 h-1.5 rounded-full bg-primary-cyan animate-pulse" />
-          <span className="text-[8px] font-black uppercase tracking-[0.22em] text-on-surface-variant">
-            {lang === 'FR' ? 'SÉLECTIONNEZ UN THÈME ARTISTIQUE' : 'SELECT AN ART MOOD'}
-          </span>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          {ART_CATEGORIES.map((cat) => (
+        <p className="text-[#00d4ff] text-[10px] font-mono tracking-widest mb-4">
+          ● {T('SÉLECTIONNEZ UN THÈME ARTISTIQUE', 'CHOOSE AN ART MOOD')}
+        </p>
+        <div className="flex flex-wrap gap-3">
+          {MECENAT_THEMES.map(theme => (
             <button
-              key={cat.key}
-              onClick={() => setActiveCat(cat.key)}
-              className={`flex items-center gap-2 px-4 py-2 rounded-xl border text-[10px] font-black uppercase tracking-[0.08em] transition-all duration-200 ${
-                activeCat === cat.key
-                  ? 'bg-primary-cyan/15 border-primary-cyan/40 text-primary-cyan shadow-[0_0_12px_rgba(0,224,255,0.12)]'
-                  : 'bg-surface-low/30 border-white/10 text-on-surface-variant hover:border-white/25 hover:text-on-surface'
-              }`}
+              key={theme.id}
+              onClick={() => setActiveTheme(theme.id)}
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-mono transition-all ${activeTheme === theme.id ? 'bg-[#00d4ff] text-black font-bold' : 'border border-[#1e2a3a] text-gray-400 hover:border-[#00d4ff]/50 hover:text-white'}`}
             >
-              <span className={activeCat === cat.key ? 'text-primary-cyan' : 'text-on-surface-variant'}>
-                {cat.icon}
-              </span>
-              {lang === 'FR' ? cat.labelFR : cat.labelEN}
+              <span>{theme.icon}</span>
+              {T(theme.labelFR, theme.labelEN)}
             </button>
           ))}
         </div>
       </div>
 
       {/* ── LYA Unit définition ── */}
-      <div className="bg-surface-low/20 border border-white/8 rounded-xl overflow-hidden">
-        <div className="grid grid-cols-1 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-white/8">
-          <div className="p-4">
-            <div className="text-[8px] uppercase tracking-[0.18em] text-on-surface-variant font-black mb-1.5">
-              {lang === 'FR' ? 'DÉFINITION OFFICIELLE' : 'OFFICIAL DEFINITION'}
-            </div>
-            <h4 className="text-sm font-black text-on-surface uppercase tracking-tight leading-tight">
-              {lang === 'FR' ? 'QU\'EST-CE QUE LE LYA UNIT ?' : 'WHAT IS THE LYA UNIT?'}
-            </h4>
-          </div>
-          {[
-            { num: '01', titleFR: 'MESURE ÉVOLUTIVE', titleEN: 'EVOLUTIONARY MEASURE', textFR: 'L\'unité de cotation officielle qui mesure la valeur évolutive d\'une création.', textEN: 'The official quotation unit that measures the evolving value of a creation.' },
-            { num: '02', titleFR: 'NI CRYPTO, NI DEVISE', titleEN: 'NOT A CRYPTO', textFR: 'Ce n\'est PAS une monnaie classique ou une crypto.', textEN: 'It is NOT a classic currency or a crypto.' },
-            { num: '03', titleFR: 'VALEUR STRUCTURELLE', titleEN: 'STRUCTURED STATE', textFR: 'Une unité de valeur structurée qui représente l\'état réel et la trajectoire d\'une création.', textEN: 'A structured unit of value representing the real state and trajectory of a creation.' },
-          ].map((col) => (
-            <div key={col.num} className="p-4">
-              <div className="text-[8px] uppercase tracking-[0.15em] text-primary-cyan font-black mb-1.5">{col.num}. {lang === 'FR' ? col.titleFR : col.titleEN}</div>
-              <p className="text-[10px] text-on-surface-variant leading-relaxed">{lang === 'FR' ? col.textFR : col.textEN}</p>
-            </div>
-          ))}
-        </div>
-      </div>
+      <WhatIsLyaUnit lang={lang} />
 
       {/* ── Grille projets ── */}
       <div>
         <div className="flex items-center gap-3 mb-4">
-          <Layers size={13} className="text-primary-cyan" />
-          <span className="text-[8px] font-black uppercase tracking-[0.22em] text-on-surface-variant">
-            {lang === 'FR' ? 'PROJETS CRÉATIFS' : 'CREATIVE PROJECTS'}
-          </span>
-          <span className="px-2 py-0.5 bg-primary-cyan/10 border border-primary-cyan/20 rounded-full text-[8px] font-black text-primary-cyan">
-            {filtered.length} {lang === 'FR' ? 'ŒUVRES' : 'WORKS'}
+          <span className="text-gray-500 text-[10px] font-mono tracking-widest">
+            {T('PROJETS CRÉATIFS', 'CREATIVE PROJECTS')} — <span className="text-[#00d4ff]">{filtered.length} {T('ŒUVRES', 'WORKS')}</span>
           </span>
         </div>
         {filtered.length === 0 ? (
           <div className="py-16 text-center">
             <p className="text-[10px] font-black uppercase tracking-[0.3em] text-on-surface-variant/30">
-              {lang === 'FR' ? 'Aucun projet dans cette catégorie' : 'No projects in this category'}
+              {T('Aucun projet dans cette catégorie.', 'No projects in this category.')}
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {filtered.map((contract) => (
-              <PatronCard
+              <ProjectCard
                 key={contract.id}
                 contract={contract}
-                onSelect={onSelectContract}
-                onSupport={onOpenOffer}
-                onToggleWatchlist={onToggleWatchlist}
-                isWatchlisted={watchlist.includes(contract.id)}
                 lang={lang}
-                formatPrice={formatPrice}
+                isWatchlisted={watchlist.includes(contract.id)}
+                onToggleWatchlist={onToggleWatchlist}
+                onViewProject={(c, u) => { setShowPayment(false); setDetail({ contract: c, units: u }); }}
+                onSupport={(c, u) => { setShowPayment(true); setDetail({ contract: c, units: u }); }}
               />
             ))}
           </div>
         )}
       </div>
+
+      {/* ── Modals ── */}
+      {detail && !showPayment && (
+        <DetailModal
+          contract={detail.contract}
+          units={detail.units}
+          onUnitsChange={(u) => setDetail(d => d ? { ...d, units: u } : d)}
+          onClose={() => setDetail(null)}
+          onPay={() => setShowPayment(true)}
+          lang={lang}
+        />
+      )}
+      {detail && showPayment && (
+        <PaymentModal
+          contract={detail.contract}
+          units={detail.units}
+          onClose={() => { setShowPayment(false); setDetail(null); }}
+          lang={lang}
+        />
+      )}
     </div>
   );
 };
@@ -629,9 +322,9 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
   return (
     <div className="space-y-12 pb-20">
       <PageHeader
-        titleWhite={t('ÉCHANGE', 'ÉCHANGE')}
-        titleAccent={t('PROFESSIONNEL', 'PROFESSIONNEL')}
-        description={t('TERMINAL DE LIQUIDITÉ & RÈGLEMENT P2P AUTORISÉ', 'TERMINAL DE LIQUIDITÉ & RÈGLEMENT P2P AUTORISÉ')}
+        titleWhite={t('EXCHANGE', 'ÉCHANGE')}
+        titleAccent={t('PROFESSIONAL', 'PROFESSIONNEL')}
+        description={t('AUTHORIZED LIQUIDITY & P2P SETTLEMENT TERMINAL', 'TERMINAL DE LIQUIDITÉ & RÈGLEMENT P2P AUTORISÉ')}
         accentColor="text-primary-cyan"
       />
 
@@ -674,7 +367,7 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
               {[
                 { label: t('Protocol Unit Valuation', 'Évaluation Unité Protocole'), value: `1 UNIT = ${formatLYA()}`, border: 'border-primary-cyan', color: 'text-primary-cyan', badge: 'Protocol' },
                 { label: t('Total Market Cap', 'Capitalisation Totale'), value: formatPrice(marketStats.totalCap || 0), border: 'border-accent-gold', color: 'text-accent-gold', badge: null },
-                { label: t('Transferts Directs', 'Transferts Directs'), value: `${marketStats.totalAvailable?.toLocaleString() || '0'} Units`, border: 'border-emerald-400', color: 'text-emerald-400', badge: null },
+                { label: t('Direct Transfers', 'Transferts Directs'), value: `${marketStats.totalAvailable?.toLocaleString() || '0'} Units`, border: 'border-emerald-400', color: 'text-emerald-400', badge: null },
                 { label: t('Avg. Growth', 'Croissance Moy.'), value: `${marketStats.avgGrowth >= 0 ? '+' : ''}${marketStats.avgGrowth?.toFixed(1)}%`, border: 'border-white/20', color: marketStats.avgGrowth >= 0 ? 'text-emerald-400' : 'text-rose-400', badge: null },
               ].map((stat, i) => (
                 <div key={i} className={`relative group rounded-2xl bg-surface-low/30 backdrop-blur-2xl border-l-4 ${stat.border} p-5 lg:p-8 flex flex-col justify-center min-h-[120px] lg:min-h-[180px] shadow-2xl border border-white/10 hover:border-white/20 transition-all`}>
