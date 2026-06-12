@@ -413,16 +413,42 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
         <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
 
         {/* Badges top-left */}
-        <div className="absolute top-3 left-3 flex flex-col gap-1.5">
-          <span className="bg-surface-dim/80 text-primary-cyan text-[10px] px-2 py-0.5 rounded font-mono font-bold backdrop-blur-sm">
-            {contract.category.toUpperCase()}
-          </span>
-          <span className="bg-amber-500/90 text-black text-[10px] px-2 py-0.5 rounded font-mono font-bold">
-            ★ LYA SCORE: {contract.totalScore}
-          </span>
-          <span className={`text-[10px] px-2 py-0.5 rounded font-mono font-bold ${RARITY_STYLE[contract.rarity] || "bg-gray-500/80 text-on-surface"}`}>
-            {contract.rarity.toUpperCase()}
-          </span>
+        <div className="absolute top-3 left-3 flex flex-col gap-2">
+          {/* Catégorie + Rareté */}
+          <div className="flex gap-1.5 items-center">
+            <span className="bg-surface-dim/80 text-primary-cyan text-[9px] px-2 py-0.5 rounded font-mono font-bold backdrop-blur-sm">
+              {contract.category.toUpperCase()}
+            </span>
+            <span className={`text-[9px] px-2 py-0.5 rounded font-mono font-bold ${RARITY_STYLE[contract.rarity] || "bg-gray-500/80 text-on-surface"}`}>
+              {contract.rarity.toUpperCase()}
+            </span>
+          </div>
+
+          {/* Badge LYA SCORE — premium */}
+          <div style={{
+            background: "linear-gradient(135deg, rgba(245,158,11,0.95) 0%, rgba(234,88,12,0.95) 100%)",
+            boxShadow: "0 0 12px rgba(245,158,11,0.6), 0 2px 8px rgba(0,0,0,0.5)",
+            border: "1px solid rgba(255,200,50,0.5)",
+          }} className="rounded-lg px-2.5 py-1.5 backdrop-blur-sm">
+            <p className="text-[8px] font-mono font-bold text-amber-900/80 tracking-widest leading-none mb-0.5">LYA SCORE</p>
+            <p className="text-white font-black font-mono text-sm leading-none tracking-tight">
+              {contract.totalScore}
+              <span className="text-amber-200/60 font-normal text-[9px] ml-0.5">/1000</span>
+            </p>
+          </div>
+
+          {/* Badge LYA UNIT — premium */}
+          <div style={{
+            background: "linear-gradient(135deg, rgba(0,212,255,0.95) 0%, rgba(99,102,241,0.95) 100%)",
+            boxShadow: "0 0 12px rgba(0,212,255,0.5), 0 2px 8px rgba(0,0,0,0.5)",
+            border: "1px solid rgba(0,212,255,0.4)",
+          }} className="rounded-lg px-2.5 py-1.5 backdrop-blur-sm">
+            <p className="text-[8px] font-mono font-bold text-cyan-900/80 tracking-widest leading-none mb-0.5">LYA UNIT</p>
+            <p className="text-white font-black font-mono text-sm leading-none tracking-tight">
+              ${unitPrice.toFixed(2)}
+              <span className="text-cyan-200/60 font-normal text-[9px] ml-0.5">/ unit</span>
+            </p>
+          </div>
         </div>
 
         {/* Bouton like */}
@@ -454,12 +480,17 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
 
       {/* Score LYA + Financement */}
       <div className="px-4 py-3 border-b border-white/10 space-y-2.5">
-        <div className="flex items-center justify-between">
-          <span className="text-on-surface-variant/50 text-[10px] font-mono">★ {T("ÉVALUATION QUALITÉ LYA", "LYA QUALITY SCORE")}</span>
-          <span className="text-amber-400 font-mono font-bold text-sm">{contract.totalScore} <span className="text-on-surface-variant/40 font-normal text-xs">/ 1000</span></span>
-        </div>
-        <div className="w-full bg-surface-high rounded-full h-0.5">
-          <div className="bg-amber-400 h-0.5 rounded-full" style={{ width: `${(contract.totalScore / 1000) * 100}%` }} />
+        {/* LYA SCORE premium row */}
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-1.5">
+            <span className="text-[9px] font-mono font-bold tracking-widest" style={{ color: "#f59e0b" }}>★ LYA SCORE</span>
+          </div>
+          <div className="flex items-center gap-1.5 flex-1 min-w-0">
+            <div className="flex-1 bg-surface-high rounded-full h-1.5 overflow-hidden">
+              <div className="h-1.5 rounded-full" style={{ width: `${(contract.totalScore / 1000) * 100}%`, background: "linear-gradient(90deg,#f59e0b,#ef4444)" }} />
+            </div>
+            <span className="text-amber-400 font-mono font-black text-sm shrink-0">{contract.totalScore}<span className="text-on-surface-variant/30 font-normal text-[9px]">/1k</span></span>
+          </div>
         </div>
         <div>
           <div className="flex justify-between items-center mb-1">
@@ -482,8 +513,12 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
           <span className="text-on-surface text-[10px] font-mono font-bold tracking-wider">
             {T("VOLUME D'ACQUISITION DES PARTS LYA", "LYA UNITS ACQUISITION VOLUME")}
           </span>
-          <span className="bg-[#00d4ff]/15 border border-primary-cyan/40 text-primary-cyan text-[10px] px-2.5 py-1 rounded-md font-mono font-bold shrink-0">
-            {units} {T("Unités", "Units")}
+          <span style={{
+            background: "linear-gradient(135deg, rgba(0,212,255,0.2) 0%, rgba(99,102,241,0.2) 100%)",
+            boxShadow: "0 0 8px rgba(0,212,255,0.25)",
+            border: "1px solid rgba(0,212,255,0.4)",
+          }} className="text-primary-cyan text-[10px] px-2.5 py-1 rounded-md font-mono font-black shrink-0">
+            {units} {T("Units", "Units")}
           </span>
         </div>
         <input
