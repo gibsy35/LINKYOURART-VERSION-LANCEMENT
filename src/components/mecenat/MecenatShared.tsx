@@ -23,7 +23,7 @@ export const CO_STATUTS = [
     descEN: "Standard co-ownership rights proportional to units held.",
     bonusFR: "Bonus d'unités LYA : Aucun.",
     bonusEN: "LYA unit bonus: None.",
-    color: "text-[#00d4ff]", border: "border-[#00d4ff]/25", bg: "bg-[#00d4ff]/5",
+    color: "text-[#00d4ff]", border: "border-[#1e2a3a]", bg: "bg-[#1a2233]",
     isPrestige: false,
   },
   {
@@ -34,7 +34,7 @@ export const CO_STATUTS = [
     descEN: "Strategic co-owner. Volume influencer on future gains.",
     bonusFR: "Bonus d'unités LYA : +0 Unité (+$0.00 offerte !).",
     bonusEN: "LYA unit bonus: +0 Unit (+$0.00 offered!).",
-    color: "text-blue-400", border: "border-blue-500/25", bg: "bg-blue-500/5",
+    color: "text-[#00ff88]", border: "border-[#00ff88]/20", bg: "bg-[#0f2418]",
     isPrestige: false,
   },
   {
@@ -45,7 +45,7 @@ export const CO_STATUTS = [
     descEN: "Major Associate Co-owner. Direct access to the full artwork registry.",
     bonusFR: "Bonus d'unités LYA : +1 Unité (+$41.24 offerts !).",
     bonusEN: "LYA unit bonus: +1 Unit (+$41.24 offered!).",
-    color: "text-purple-400", border: "border-purple-500/25", bg: "bg-purple-500/5",
+    color: "text-[#a78bfa]", border: "border-[#a78bfa]/20", bg: "bg-[#1f1b3a]",
     isPrestige: false,
   },
   {
@@ -56,7 +56,7 @@ export const CO_STATUTS = [
     descEN: "Prestige Co-owner Class. Absolute priority access to global license audits.",
     bonusFR: "Bonus d'unités LYA : +5 Unités (+$276.70 offerts !).",
     bonusEN: "LYA unit bonus: +5 Units (+$276.70 offered!).",
-    color: "text-amber-400", border: "border-amber-500/30", bg: "bg-amber-500/5",
+    color: "text-amber-400", border: "border-amber-500/25", bg: "bg-[#2a2210]",
     isPrestige: true,
   },
 ];
@@ -74,6 +74,12 @@ export const RARITY_STYLE: Record<string, string> = {
   Common:    "bg-gray-500/80 text-white",
 };
 
+export function getUnitPrice(contract: Contract): number {
+  return contract.unitValue && contract.unitValue !== LYA_UNIT_VALUE
+    ? contract.unitValue
+    : LYA_UNIT_VALUE * (1 + (contract.growth || 0) / 100);
+}
+
 // ─── MODAL PAIEMENT ───────────────────────────────────────────────────────────
 
 interface PaymentModalProps { contract: Contract; units: number; onClose: () => void; lang: "FR" | "EN"; }
@@ -83,7 +89,7 @@ export function PaymentModal({ contract, units, onClose, lang }: PaymentModalPro
   const [cardNumber, setCardNumber] = useState("");
   const [expiry, setExpiry] = useState("");
   const [cvv, setCvv] = useState("");
-  const totalCost = units * (contract.unitValue || LYA_UNIT_VALUE);
+  const totalCost = units * getUnitPrice(contract);
   const fmt4 = (v: string) => v.replace(/\D/g, "").slice(0, 16).replace(/(.{4})/g, "$1 ").trim();
   const fmtExp = (v: string) => v.replace(/\D/g, "").slice(0, 4).replace(/(.{2})/, "$1/");
   const T = (fr: string, en: string) => lang === "FR" ? fr : en;
@@ -103,7 +109,7 @@ export function PaymentModal({ contract, units, onClose, lang }: PaymentModalPro
             <div>
               <p className="text-gray-500 text-xs font-mono mb-1">{T("ENGAGEMENT DE SOUTIEN :", "PATRONAGE PLEDGE:")}</p>
               <p className="text-white font-bold font-mono italic">{contract.name}</p>
-              <p className="text-gray-400 text-xs font-mono mt-1">{units} {T("unités", "units")} × ${(contract.unitValue || LYA_UNIT_VALUE).toFixed(2)}</p>
+              <p className="text-gray-400 text-xs font-mono mt-1">{units} {T("unités", "units")} × ${getUnitPrice(contract).toFixed(2)}</p>
             </div>
             <div className="text-right">
               <p className="text-gray-500 text-xs font-mono mb-1">{T("TOTAL", "TOTAL COST")}</p>
@@ -165,7 +171,7 @@ interface DetailModalProps {
 }
 export function DetailModal({ contract, onClose, onPay, units, onUnitsChange, lang }: DetailModalProps) {
   const T = (fr: string, en: string) => lang === "FR" ? fr : en;
-  const totalCost = units * (contract.unitValue || LYA_UNIT_VALUE);
+  const totalCost = units * getUnitPrice(contract);
   const revenueRights = ((units * (contract.revenueSharePercentage || 10)) / 10000).toFixed(3);
   const fundingPct = contract.availableUnits != null
     ? Math.round(((contract.totalUnits - contract.availableUnits) / contract.totalUnits) * 100)
@@ -326,25 +332,29 @@ export function DetailModal({ contract, onClose, onPay, units, onUnitsChange, la
 
 export function WhatIsLyaUnit({ lang }: { lang: "FR" | "EN" }) {
   const T = (fr: string, en: string) => lang === "FR" ? fr : en;
+  const cols = [
+    { num: "01", color: "#00d4ff", titleFR: "MESURE ÉVOLUTIVE", titleEN: "EVOLUTIONARY MEASURE", textFR: "C'est l'unité de cotation officielle qui mesure la valeur évolutive d'une création.", textEN: "It is the official quotation unit that measures the evolving value of a creation." },
+    { num: "02", color: "#ff6b6b", titleFR: "NI CRYPTO, NI DEVISE", titleEN: "NOT A CRYPTO", textFR: "Ce n'est PAS une monnaie classique ou une crypto.", textEN: "It is NOT a classic currency or a crypto." },
+    { num: "03", color: "#00ff88", titleFR: "VALEUR STRUCTURELLE", titleEN: "STRUCTURED STATE", textFR: "C'est une unité de valeur structurée qui représente l'état réel, la solidité et la trajectoire d'une création.", textEN: "It is a structured unit of value representing the real state, solidity and trajectory of a creation." },
+  ];
   return (
-    <div className="bg-[#0a1628] border border-[#1e2a3a] rounded-2xl p-6 grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-      <div>
-        <p className="text-gray-500 text-[10px] font-mono tracking-widest mb-2">{T("DÉFINITION OFFICIELLE", "OFFICIAL DEFINITION")}</p>
-        <h3 className="text-white font-black text-lg leading-tight" style={{ fontFamily: "Georgia,serif" }}>
-          {T("QU'EST-CE QUE LE LYA UNIT ?", "WHAT IS THE LYA UNIT?")}
+    <div className="bg-[#0a1117] border border-[#1e2a3a] rounded-2xl p-8 md:p-10 mb-8">
+      <div className="mb-8">
+        <p className="text-gray-500 text-[10px] font-mono tracking-widest mb-3">{T("DÉFINITION OFFICIELLE", "OFFICIAL DEFINITION")}</p>
+        <h3 className="text-white font-black leading-tight" style={{ fontFamily: "Georgia,serif", fontSize: "clamp(1.5rem,3.2vw,2.4rem)" }}>
+          {T("QU'EST-CE QUE LE LYA", "WHAT IS THE LYA")}<br />
+          {T("UNIT ?", "UNIT?")}
         </h3>
-        <div className="w-8 h-0.5 bg-[#00d4ff] mt-2" />
+        <div className="w-16 h-1 rounded-full mt-3" style={{ background: "linear-gradient(90deg,#00d4ff,#a78bfa)" }} />
       </div>
-      {[
-        { num: "01", titleFR: "MESURE ÉVOLUTIVE", titleEN: "EVOLUTIONARY MEASURE", textFR: "C'est l'unité de cotation officielle qui mesure la valeur évolutive d'une création.", textEN: "It is the official quotation unit that measures the evolving value of a creation." },
-        { num: "02", titleFR: "NI CRYPTO, NI DEVISE", titleEN: "NOT A CRYPTO", textFR: "Ce n'est PAS une monnaie classique ou une crypto.", textEN: "It is NOT a classic currency or a crypto." },
-        { num: "03", titleFR: "VALEUR STRUCTURELLE", titleEN: "STRUCTURED STATE", textFR: "C'est une unité de valeur structurée qui représente l'état réel, la solidité et la trajectoire d'une création.", textEN: "It is a structured unit of value representing the real state, solidity and trajectory of a creation." },
-      ].map(col => (
-        <div key={col.num}>
-          <p className="text-[#00d4ff] text-[10px] font-mono tracking-widest mb-2">{col.num}. {T(col.titleFR, col.titleEN)}</p>
-          <p className="text-gray-300 text-sm leading-relaxed">{T(col.textFR, col.textEN)}</p>
-        </div>
-      ))}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
+        {cols.map(col => (
+          <div key={col.num}>
+            <p className="text-[10px] font-mono tracking-widest mb-2 font-bold" style={{ color: col.color }}>{col.num}. {T(col.titleFR, col.titleEN)}</p>
+            <p className="text-gray-300 text-sm leading-relaxed">{T(col.textFR, col.textEN)}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
@@ -362,10 +372,9 @@ export interface ProjectCardProps {
 export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchlisted, onToggleWatchlist }: ProjectCardProps) {
   const [units, setUnits] = useState(5);
   const [liked, setLiked] = useState(!!isWatchlisted);
-  const [prestigeOpen, setPrestigeOpen] = useState(false);
   const T = (fr: string, en: string) => lang === "FR" ? fr : en;
 
-  const unitPrice = contract.unitValue || LYA_UNIT_VALUE;
+  const unitPrice = getUnitPrice(contract);
   const totalCost = units * unitPrice;
   const revenueShare = contract.revenueSharePercentage || 10;
   const coShare = ((units * revenueShare) / 10000).toFixed(3);
@@ -383,7 +392,7 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
   };
 
   return (
-    <div className="bg-[#0d1117] border border-[#1e2a3a] rounded-2xl overflow-hidden flex flex-col hover:border-[#1e3a5a] transition-colors h-full">
+    <div className="bg-[#0d1117] border-2 border-[#1e2a3a] rounded-2xl overflow-hidden flex flex-col hover:border-[#00d4ff]/40 transition-colors h-full shadow-xl shadow-black/40">
       {/* Image — ratio fixe 16/9, pas d'étirement */}
       <div
         className="relative cursor-pointer overflow-hidden flex-shrink-0 w-full"
@@ -468,7 +477,7 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
           <span className="text-white text-[10px] font-mono font-bold tracking-wider">
             {T("VOLUME D'ACQUISITION DES PARTS LYA", "LYA UNITS ACQUISITION VOLUME")}
           </span>
-          <span className="bg-[#1e2a3a] text-[#00d4ff] text-[10px] px-2.5 py-0.5 rounded font-mono shrink-0">
+          <span className="bg-[#00d4ff]/15 border border-[#00d4ff]/40 text-[#00d4ff] text-[10px] px-2.5 py-1 rounded-md font-mono font-bold shrink-0">
             {units} {T("Unités", "Units")}
           </span>
         </div>
@@ -478,74 +487,61 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
           className="w-full h-1 bg-[#1e2a3a] rounded-full appearance-none cursor-pointer accent-[#00d4ff]"
         />
         <div className="flex justify-between text-[10px] text-gray-600 font-mono">
-          <span>1 {T("UNITÉ", "UNIT")}</span><span>50</span><span>100</span>
+          <span>1 {T("UNITÉ", "UNIT")}</span><span>50 {T("UNITÉS", "UNITS")}</span><span>100 {T("UNITÉS", "UNITS")}</span>
         </div>
 
         <div className="grid grid-cols-2 gap-2.5">
-          <div className="bg-[#1e2a3a]/50 rounded-lg p-2.5">
-            <p className="text-gray-500 text-[9px] font-mono mb-1">{T("VOTRE ENGAGEMENT", "YOUR PLEDGE")}</p>
-            <p className="text-white font-bold font-mono text-sm">${totalCost.toFixed(2)}</p>
+          <div className="bg-[#1a2233] border border-[#1e2a3a] rounded-lg p-3">
+            <p className="text-gray-500 text-[9px] font-mono tracking-widest mb-1.5">{T("VOTRE ENGAGEMENT", "YOUR PLEDGE")}</p>
+            <p className="text-white font-bold font-mono text-base">${totalCost.toFixed(2)}</p>
           </div>
-          <div className="bg-[#1e2a3a]/50 rounded-lg p-2.5">
-            <p className="text-gray-500 text-[9px] font-mono mb-1">{T("CO-PARTAGE DES GAINS", "REVENUE CO-SHARE")}</p>
-            <p className="text-[#00ff88] font-bold font-mono text-sm">{coShare}%</p>
+          <div className="bg-[#1a2233] border border-[#1e2a3a] rounded-lg p-3">
+            <p className="text-gray-500 text-[9px] font-mono tracking-widest mb-1.5">{T("CO-PARTAGE DES GAINS", "REVENUE CO-SHARE")} <span className="opacity-50">ⓘ</span></p>
+            <p className="text-[#00ff88] font-bold font-mono text-base">{coShare}%</p>
           </div>
         </div>
 
         {/* Statut co-propriétaire */}
         <div className={`border rounded-lg p-3 ${statut.border} ${statut.bg}`}>
-          <p className={`text-[10px] font-mono font-bold mb-1 ${statut.color}`}>
+          <p className={`text-[10px] font-mono font-bold mb-1.5 tracking-wider ${statut.color}`}>
             {T(statut.labelFR, statut.labelEN)}
           </p>
-          <p className="text-gray-400 text-[10px] leading-relaxed">
-            {T(statut.descFR, statut.descEN)}
-          </p>
-          <p className={`text-[9px] font-bold mt-1 ${statut.color}`}>
-            {T(statut.bonusFR, statut.bonusEN)}
+          <p className="text-gray-300 text-[10px] leading-relaxed">
+            {T(statut.descFR, statut.descEN)} {T(statut.bonusFR, statut.bonusEN)}
           </p>
         </div>
 
-        {/* Upgrade Prestige — dropdown, visible uniquement au palier 100 */}
+        {/* Statut Investisseur recommandé — visible uniquement au palier 100 */}
         {statut.isPrestige && (
-          <div className="border border-amber-500/30 bg-amber-500/5 rounded-lg overflow-hidden">
-            <button
-              onClick={() => setPrestigeOpen(!prestigeOpen)}
-              className="w-full flex items-center justify-between px-3 py-2.5 text-left"
-            >
-              <span className="text-amber-400 text-[10px] font-mono font-bold">
-                🏆 {T("STATUT INVESTISSEUR RECOMMANDÉ :", "RECOMMENDED INVESTOR STATUS:")}
-              </span>
-              <span className="text-amber-400 text-xs">{prestigeOpen ? "▲" : "▼"}</span>
+          <div className="border border-[#1e2a3a] bg-[#0d1117] rounded-lg p-3 space-y-2.5">
+            <p className="text-amber-400 text-[10px] font-mono font-bold tracking-wider">
+              👑 {T("STATUT INVESTISSEUR RECOMMANDÉ :", "RECOMMENDED INVESTOR STATUS:")}
+            </p>
+            <p className="text-gray-300 text-[10px] leading-relaxed">
+              {T(
+                "À partir de 100 unités LYA, configurez un compte Investisseur pour accéder au marché de l'Art et aux dividendes de licence.",
+                "From 100 LYA units, set up an Investor account to access the Art market and license dividends."
+              )}
+            </p>
+            <button className="w-full py-2.5 bg-amber-500 hover:bg-amber-400 rounded-lg text-black text-[10px] font-mono font-black tracking-wider transition-colors flex items-center justify-center gap-1.5">
+              🚀 {T("ACTIVER LE PROTOCOLE INVESTISSEUR", "ACTIVATE INVESTOR PROTOCOL")}
             </button>
-            {prestigeOpen && (
-              <div className="px-3 pb-3 space-y-2">
-                <p className="text-amber-300/80 text-[10px] leading-relaxed">
-                  {T(
-                    "À partir de 100 unités LYA, configurez un compte Investisseur pour accéder au marché de l'Art et aux dividendes de licence.",
-                    "From 100 LYA units, set up an Investor account to access the Art market and license dividends."
-                  )}
-                </p>
-                <button className="w-full py-2 bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 rounded-lg text-amber-400 text-[10px] font-mono font-bold transition-all">
-                  🚀 {T("ACTIVER LE PROTOCOLE INVESTISSEUR", "ACTIVATE INVESTOR PROTOCOL")}
-                </button>
-              </div>
-            )}
           </div>
         )}
 
         {/* Boutons action — distincts : Voir le Projet -> détail / Soutenir -> paiement direct */}
-        <div className="grid grid-cols-2 gap-2.5 mt-auto pt-1">
+        <div className="grid grid-cols-2 gap-3 mt-auto pt-1">
           <button
             onClick={() => onViewProject(contract, units)}
-            className="border border-[#1e2a3a] text-white py-2.5 rounded-xl font-mono text-[10px] hover:border-[#00d4ff] hover:text-[#00d4ff] transition-colors tracking-wider"
+            className="border border-[#1e2a3a] text-white py-3 rounded-full font-mono text-[10px] font-bold hover:border-[#00d4ff] hover:text-[#00d4ff] transition-colors tracking-wider"
           >
             {T("VOIR LE PROJET", "VIEW PROJECT")}
           </button>
           <button
             onClick={() => onSupport(contract, units)}
-            className="bg-gradient-to-r from-[#00ff88] to-[#00d4ff] text-black py-2.5 rounded-xl font-mono text-[10px] font-bold hover:opacity-90 transition-opacity flex items-center justify-center gap-1 tracking-wider"
+            className="bg-gradient-to-r from-[#00ff88] to-[#00d4ff] text-[#0a1117] py-3 rounded-full font-mono text-[10px] font-black hover:opacity-90 transition-opacity flex items-center justify-center gap-1.5 tracking-wider"
           >
-            ✦ {T("SOUTENIR", "SUPPORT")}
+            ✦ {T("SOUTENIR CE PROJET", "SUPPORT THIS PROJECT")}
           </button>
         </div>
       </div>
