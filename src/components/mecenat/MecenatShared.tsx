@@ -424,29 +424,27 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
             </span>
           </div>
 
-          {/* Badge LYA SCORE — premium */}
+          {/* Badge LYA SCORE — premium compact */}
           <div style={{
-            background: "linear-gradient(135deg, rgba(245,158,11,0.95) 0%, rgba(234,88,12,0.95) 100%)",
-            boxShadow: "0 0 12px rgba(245,158,11,0.6), 0 2px 8px rgba(0,0,0,0.5)",
-            border: "1px solid rgba(255,200,50,0.5)",
-          }} className="rounded-lg px-2.5 py-1.5 backdrop-blur-sm">
-            <p className="text-[8px] font-mono font-bold text-amber-900/80 tracking-widest leading-none mb-0.5">LYA SCORE</p>
-            <p className="text-white font-black font-mono text-sm leading-none tracking-tight">
-              {contract.totalScore}
-              <span className="text-amber-200/60 font-normal text-[9px] ml-0.5">/1000</span>
+            background: "linear-gradient(135deg, rgba(245,158,11,0.9) 0%, rgba(234,88,12,0.9) 100%)",
+            boxShadow: "0 0 8px rgba(245,158,11,0.5), 0 1px 4px rgba(0,0,0,0.4)",
+            border: "1px solid rgba(255,200,50,0.4)",
+          }} className="rounded-md px-2 py-1 backdrop-blur-sm w-[80px]">
+            <p className="text-[7px] font-mono font-bold text-amber-900/70 tracking-widest leading-none mb-0.5">LYA SCORE</p>
+            <p className="text-white font-black font-mono text-xs leading-none">
+              {contract.totalScore}<span className="text-amber-200/50 font-normal text-[8px]">/1k</span>
             </p>
           </div>
 
-          {/* Badge LYA UNIT — premium */}
+          {/* Badge LYA UNIT — premium compact */}
           <div style={{
-            background: "linear-gradient(135deg, rgba(0,212,255,0.95) 0%, rgba(99,102,241,0.95) 100%)",
-            boxShadow: "0 0 12px rgba(0,212,255,0.5), 0 2px 8px rgba(0,0,0,0.5)",
-            border: "1px solid rgba(0,212,255,0.4)",
-          }} className="rounded-lg px-2.5 py-1.5 backdrop-blur-sm">
-            <p className="text-[8px] font-mono font-bold text-cyan-900/80 tracking-widest leading-none mb-0.5">LYA UNIT</p>
-            <p className="text-white font-black font-mono text-sm leading-none tracking-tight">
-              ${unitPrice.toFixed(2)}
-              <span className="text-cyan-200/60 font-normal text-[9px] ml-0.5">/ unit</span>
+            background: "linear-gradient(135deg, rgba(0,212,255,0.9) 0%, rgba(99,102,241,0.9) 100%)",
+            boxShadow: "0 0 8px rgba(0,212,255,0.4), 0 1px 4px rgba(0,0,0,0.4)",
+            border: "1px solid rgba(0,212,255,0.35)",
+          }} className="rounded-md px-2 py-1 backdrop-blur-sm w-[80px]">
+            <p className="text-[7px] font-mono font-bold text-cyan-900/70 tracking-widest leading-none mb-0.5">LYA UNIT</p>
+            <p className="text-white font-black font-mono text-xs leading-none">
+              ${unitPrice.toFixed(2)}<span className="text-cyan-200/50 font-normal text-[8px]">/u</span>
             </p>
           </div>
         </div>
