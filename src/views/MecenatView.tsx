@@ -69,6 +69,9 @@ export function MecenatView() {
           </div>
         </div>
 
+        {/* LYA Unit définition */}
+        <WhatIsLyaUnit lang={lang} />
+
         {/* Filtres thématiques */}
         <div className="mb-8">
           <p className="text-primary-cyan text-[10px] font-mono tracking-widest mb-4">
@@ -87,9 +90,6 @@ export function MecenatView() {
             ))}
           </div>
         </div>
-
-        {/* LYA Unit définition */}
-        <WhatIsLyaUnit lang={lang} />
       </div>
 
       {/* ── Grille projets ── */}

@@ -120,6 +120,9 @@ const PatronageHubTab: React.FC<{
         </div>
       </div>
 
+      {/* ── LYA Unit définition ── */}
+      <WhatIsLyaUnit lang={lang} />
+
       {/* ── Filtres thématiques ── */}
       <div>
         <p className="text-primary-cyan text-[10px] font-mono tracking-widest mb-4">
@@ -138,9 +141,6 @@ const PatronageHubTab: React.FC<{
           ))}
         </div>
       </div>
-
-      {/* ── LYA Unit définition ── */}
-      <WhatIsLyaUnit lang={lang} />
 
       {/* ── Grille projets ── */}
       <div>

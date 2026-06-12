@@ -342,16 +342,15 @@ export function WhatIsLyaUnit({ lang }: { lang: "FR" | "EN" }) {
     { num: "03", color: "#00ff88", titleFR: "VALEUR STRUCTURELLE", titleEN: "STRUCTURED STATE", textFR: "C'est une unité de valeur structurée qui représente l'état réel, la solidité et la trajectoire d'une création.", textEN: "It is a structured unit of value representing the real state, solidity and trajectory of a creation." },
   ];
   return (
-    <div className="mb-8">
-      <div className="mb-8">
-        <p className="text-on-surface-variant/50 text-[10px] font-mono tracking-widest mb-3">{T("DÉFINITION OFFICIELLE", "OFFICIAL DEFINITION")}</p>
-        <h3 className="text-on-surface font-black leading-tight" style={{ fontFamily: "Georgia,serif", fontSize: "clamp(1.5rem,3.2vw,2.4rem)" }}>
-          {T("QU'EST-CE QUE LE LYA", "WHAT IS THE LYA")}<br />
-          {T("UNIT ?", "UNIT?")}
-        </h3>
-        <div className="w-16 h-1 rounded-full mt-3" style={{ background: "linear-gradient(90deg,#00d4ff,#a78bfa)" }} />
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
+    <div className="bg-surface-low/60 border border-white/10 rounded-2xl p-6 md:p-10 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-10">
+        <div>
+          <p className="text-on-surface-variant/50 text-[10px] font-mono tracking-widest mb-3">{T("DÉFINITION OFFICIELLE", "OFFICIAL DEFINITION")}</p>
+          <h3 className="text-on-surface font-black leading-tight text-xl md:text-2xl" style={{ fontFamily: "Georgia,serif" }}>
+            {T("QU'EST-CE QUE LE LYA UNIT ?", "WHAT IS THE LYA UNIT?")}
+          </h3>
+          <div className="w-16 h-1 rounded-full mt-3" style={{ background: "linear-gradient(90deg,#00d4ff,#a78bfa)" }} />
+        </div>
         {cols.map(col => (
           <div key={col.num}>
             <p className="text-[10px] font-mono tracking-widest mb-2 font-bold" style={{ color: col.color }}>{col.num}. {T(col.titleFR, col.titleEN)}</p>
