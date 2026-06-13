@@ -237,7 +237,7 @@ export function DetailModal({ contract, onClose, onPay, units, onUnitsChange, la
                   <span className="bg-surface-high text-primary-cyan text-xs font-mono px-2 py-1 rounded">{contract.category.toUpperCase()}</span>
                   <span className="text-on-surface-variant/50 text-xs font-mono">ID: {contract.registryIndex}</span>
                 </div>
-                <h2 className="text-on-surface font-black text-2xl leading-tight mb-1" style={{ fontFamily: "Georgia,serif" }}>{contract.name}</h2>
+                <h2 className="text-on-surface font-black text-2xl leading-tight mb-1" style={{ fontFamily: "Inter,system-ui,-apple-system,sans-serif", letterSpacing: "-0.02em" }}>{contract.name}</h2>
                 <p className="text-primary-cyan text-xs font-mono tracking-widest">
                   {T("INITIATIVE DE CO-PRODUCTION", "CO-PRODUCTION INITIATIVE")} · {contract.category.toUpperCase()}
                 </p>
@@ -347,7 +347,7 @@ export function WhatIsLyaUnit({ lang }: { lang: "FR" | "EN" }) {
         <div>
           <p className="text-on-surface-variant/50 text-[10px] font-mono tracking-widest mb-3">{T("DÉFINITION OFFICIELLE", "OFFICIAL DEFINITION")}</p>
           <div className="inline-block border border-white/20 rounded-lg px-3 py-2 bg-white/5 mb-3">
-            <h3 className="text-on-surface font-black leading-tight text-sm md:text-base" style={{ fontFamily: "Georgia,serif" }}>
+            <h3 className="text-on-surface font-black leading-tight text-sm md:text-base" style={{ fontFamily: "Inter,system-ui,-apple-system,sans-serif", letterSpacing: "-0.01em" }}>
               {T("QU'EST-CE QUE LE LYA UNIT ?", "WHAT IS THE LYA UNIT?")}
             </h3>
           </div>
@@ -459,7 +459,7 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
         <div className="absolute bottom-0 left-0 right-0 p-3">
           <p className="text-on-surface-variant/70 text-[10px] font-mono mb-0.5">{T("PROJET CRÉATIF", "CREATIVE VENTURE")}</p>
           <div className="flex justify-between items-end gap-2">
-            <h3 className="text-on-surface font-black text-base leading-tight min-w-0 break-words" style={{ fontFamily: "Georgia,serif" }}>{contract.name}</h3>
+            <h3 className="text-on-surface font-black text-base leading-tight min-w-0 break-words" style={{ fontFamily: "Inter,system-ui,-apple-system,sans-serif", letterSpacing: "-0.01em" }}>{contract.name}</h3>
             <div className="text-right shrink-0 ml-2">
               <p className="text-on-surface text-xs font-mono">${unitPrice.toFixed(2)} / Unit</p>
               <p className="text-[#00ff88] text-[10px] font-mono">{revenueShare}% {T("Droit de Partage", "Revenue Rights")}</p>
@@ -586,4 +586,5 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
     </div>
   );
 }
+
 
