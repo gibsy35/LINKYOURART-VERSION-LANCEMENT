@@ -50,16 +50,15 @@ export function MecenatView() {
                 <h1 className="font-black text-on-surface mb-5" style={{
                   fontFamily: "'Arial Black','Arial Bold',Arial,system-ui,sans-serif",
                   fontSize: "clamp(2.6rem,6vw,4.8rem)",
-                  lineHeight: "0.97",
+                  lineHeight: "1.0",
                   letterSpacing: "-0.04em",
                   fontWeight: 900,
                   fontStretch: "condensed",
                 }}>
-                  {T("CO-POSSÉDEZ LES", "CO-OWN TOMORROW'S MASTERPIECES,")}<br />
-                  {T("CHEFS-D'ŒUVRE DE DEMAIN", "")}<br />
-                  <span style={{ color: "#00d4ff" }}>
-                    {T("EN UN CLIC", "IN A SINGLE CLICK")}
-                  </span>
+                  {T(
+                    <>CO-POSSÉDEZ LES<br />CHEFS-D&apos;ŒUVRE DE DEMAIN<br /><span style={{ color: "#00d4ff" }}>EN UN CLIC</span></>,
+                    <>CO-OWN TOMORROW&apos;S<br />MASTERPIECES,<br /><span style={{ color: "#00d4ff" }}>IN A SINGLE CLICK</span></>
+                  )}
                 </h1>
                 <p className="text-on-surface-variant max-w-xl text-sm leading-relaxed opacity-80">
                   {T(
@@ -154,6 +153,7 @@ export function MecenatView() {
 
 export { MecenatView as MecenatGrandPublic };
 export default MecenatView;
+
 
 
 
