@@ -47,9 +47,17 @@ export function MecenatView() {
             {/* Hero — 2 lignes, typo classique et premium */}
             <div className="flex flex-col lg:flex-row justify-between items-start gap-8">
               <div>
-                <h1 className="font-black text-on-surface leading-tight mb-5" style={{ fontFamily: "Georgia,serif", fontSize: "clamp(1.8rem,4vw,3rem)" }}>
+                <h1 className="font-black text-on-surface mb-5" style={{
+                  fontFamily: "Georgia,serif",
+                  fontSize: "clamp(2.4rem,5.5vw,4.2rem)",
+                  lineHeight: "1.0",
+                  letterSpacing: "-0.02em",
+                  textShadow: "0 0 40px rgba(0,212,255,0.08)"
+                }}>
                   {T("CO-POSSÉDEZ LES CHEFS-D'ŒUVRE", "CO-OWN TOMORROW'S MASTERPIECES,")}<br />
-                  {T("DE DEMAIN EN UN CLIC", "IN A SINGLE CLICK")}
+                  <span style={{ color: "#00d4ff", WebkitTextStroke: "1px rgba(0,212,255,0.2)" }}>
+                    {T("DE DEMAIN EN UN CLIC", "IN A SINGLE CLICK")}
+                  </span>
                 </h1>
                 <p className="text-on-surface-variant max-w-xl text-sm leading-relaxed opacity-80">
                   {T(
@@ -144,3 +152,4 @@ export function MecenatView() {
 
 export { MecenatView as MecenatGrandPublic };
 export default MecenatView;
+
