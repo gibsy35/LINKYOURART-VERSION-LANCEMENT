@@ -55,9 +55,10 @@ export function MecenatView() {
                   fontWeight: 900,
                   fontStretch: "condensed",
                 }}>
-                  {T("CO-POSSÉDEZ LES CHEFS-D'ŒUVRE", "CO-OWN TOMORROW'S MASTERPIECES,")}<br />
+                  {T("CO-POSSÉDEZ LES", "CO-OWN TOMORROW'S MASTERPIECES,")}<br />
+                  {T("CHEFS-D'ŒUVRE DE DEMAIN", "")}<br />
                   <span style={{ color: "#00d4ff" }}>
-                    {T("DE DEMAIN EN UN CLIC", "IN A SINGLE CLICK")}
+                    {T("EN UN CLIC", "IN A SINGLE CLICK")}
                   </span>
                 </h1>
                 <p className="text-on-surface-variant max-w-xl text-sm leading-relaxed opacity-80">
@@ -153,6 +154,7 @@ export function MecenatView() {
 
 export { MecenatView as MecenatGrandPublic };
 export default MecenatView;
+
 
 
 
