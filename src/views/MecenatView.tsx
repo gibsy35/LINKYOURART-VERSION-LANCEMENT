@@ -48,11 +48,12 @@ export function MecenatView() {
             <div className="flex flex-col lg:flex-row justify-between items-start gap-8">
               <div>
                 <h1 className="font-black text-on-surface mb-5" style={{
-                  fontFamily: "Inter,system-ui,-apple-system,sans-serif",
-                  fontSize: "clamp(2.2rem,5vw,3.8rem)",
-                  lineHeight: "1.05",
-                  letterSpacing: "-0.03em",
+                  fontFamily: "'Arial Black','Arial Bold',Arial,system-ui,sans-serif",
+                  fontSize: "clamp(2.6rem,6vw,4.8rem)",
+                  lineHeight: "0.97",
+                  letterSpacing: "-0.04em",
                   fontWeight: 900,
+                  fontStretch: "condensed",
                 }}>
                   {T("CO-POSSÉDEZ LES CHEFS-D'ŒUVRE", "CO-OWN TOMORROW'S MASTERPIECES,")}<br />
                   <span style={{ color: "#00d4ff" }}>
@@ -152,5 +153,6 @@ export function MecenatView() {
 
 export { MecenatView as MecenatGrandPublic };
 export default MecenatView;
+
 
 
