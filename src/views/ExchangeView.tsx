@@ -98,9 +98,18 @@ const PatronageHubTab: React.FC<{
           </div>
           <div className="flex flex-col lg:flex-row justify-between items-start gap-8">
             <div>
-              <h2 className="font-black text-on-surface leading-tight mb-5" style={{ fontFamily: 'Georgia,serif', fontSize: 'clamp(1.8rem,4vw,3rem)' }}>
-                {T("CO-POSSÉDEZ LES CHEFS-D'ŒUVRE", "CO-OWN TOMORROW'S MASTERPIECES,")}<br />
-                {T('DE DEMAIN EN UN CLIC', 'IN A SINGLE CLICK')}
+              <h2 className="font-black text-on-surface mb-5" style={{
+                fontFamily: "'Arial Black','Arial Bold',Arial,system-ui,sans-serif",
+                fontSize: "clamp(2.6rem,6vw,4.8rem)",
+                lineHeight: "1.0",
+                letterSpacing: "-0.04em",
+                fontWeight: 900,
+                fontStretch: "condensed",
+              }}>
+                {T(
+                  <>CO-POSSÉDEZ LES<br />CHEFS-D&apos;ŒUVRE DE DEMAIN<br /><span style={{ color: "#00d4ff" }}>EN UN CLIC</span></>,
+                  <>CO-OWN TOMORROW&apos;S<br />MASTERPIECES,<br /><span style={{ color: "#00d4ff" }}>IN A SINGLE CLICK</span></>
+                )}
               </h2>
               <p className="text-on-surface-variant max-w-xl text-sm leading-relaxed opacity-80">
                 {T(
@@ -799,3 +808,4 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
 };
 
 export default ExchangeView;
+
