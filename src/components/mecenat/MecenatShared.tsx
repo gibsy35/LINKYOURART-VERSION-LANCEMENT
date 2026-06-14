@@ -299,51 +299,89 @@ export function DetailModal({ contract, onClose, onPay, units, onUnitsChange, la
                     </div>
                   </div>
 
-                  {/* 5 Piliers LYA SCORE */}
-                  <div className="mb-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <p className="text-on-surface-variant/50 text-[10px] font-mono tracking-widest">✦ {T("LYA SCORE — 5 PILIERS (MAX 1000)", "LYA SCORE — 5 PILLARS (MAX 1000)")}</p>
-                      <span className="text-amber-400 font-black font-mono text-sm">{score}<span className="text-on-surface-variant/30 font-normal text-[10px]">/1000</span></span>
-                    </div>
-                    <div className="grid grid-cols-5 gap-1.5 mb-3">
-                      {piliers.map((p, i) => (
-                        <div key={i} className="bg-surface-high rounded-lg p-2 text-center border border-white/5">
-                          <p className="font-black font-mono text-sm mb-0.5" style={{ color: p.color }}>{p.pts}</p>
-                          <p className="text-on-surface-variant/40 text-[8px] leading-tight">{T(p.labelFR, p.labelEN)}</p>
+                  {/* 5 Piliers LYA SCORE — source de vérité directe depuis contract.pillars */}
+                  {(() => {
+                    const PILLAR_COLORS = ["#00d4ff","#a78bfa","#00ff88","#f59e0b","#ff6b6b"];
+                    const PILLAR_LABELS_FR = ["Intégrité conceptuelle","Maturité actuelle","Capacité d'évolution","Faisabilité","Incarnation réelle"];
+                    const PILLAR_LABELS_EN = ["Conceptual Integrity","Current Maturity","Growth Capacity","Feasibility","Real Embodiment"];
+                    // Sous-critères : chaque pilier = 2 sous-critères sur 10, leur moyenne × 20 = score pilier /200
+                    // On reconstitue les notes /10 depuis le score pilier réel
+                    const pillars = contract.pillars ?? [];
+                    const realTotal = pillars.reduce((a, p) => a + p.score, 0);
+                    // 6 sous-critères affichés = 1 par pilier (les 5) + 1 synthèse globale
+                    const subCriteria = [
+                      { pillarIdx: 0, labelFR: "Vision artistique",      labelEN: "Artistic Vision",       color: "#00d4ff" },
+                      { pillarIdx: 1, labelFR: "Traction actuelle",       labelEN: "Current Traction",      color: "#a78bfa" },
+                      { pillarIdx: 2, labelFR: "Potentiel de croissance", labelEN: "Growth Potential",      color: "#00ff88" },
+                      { pillarIdx: 3, labelFR: "Solidité du projet",      labelEN: "Project Solidity",      color: "#f59e0b" },
+                      { pillarIdx: 4, labelFR: "Impact réel",             labelEN: "Real Impact",           color: "#ff6b6b" },
+                      { pillarIdx: -1, labelFR: "Score global LYA",       labelEN: "Overall LYA Score",     color: "#ffffff" },
+                    ];
+                    return (
+                      <>
+                        <div className="mb-4">
+                          <div className="flex items-center justify-between mb-2">
+                            <p className="text-on-surface-variant/50 text-[10px] font-mono tracking-widest">✦ {T("LYA SCORE — 5 PILIERS (MAX 1000)", "LYA SCORE — 5 PILLARS (MAX 1000)")}</p>
+                            <span className="text-amber-400 font-black font-mono text-sm">{realTotal}<span className="text-on-surface-variant/30 font-normal text-[10px]">/1000</span></span>
+                          </div>
+                          <div className="grid grid-cols-5 gap-1.5 mb-2">
+                            {pillars.slice(0,5).map((p, i) => (
+                              <div key={i} className="bg-surface-high rounded-lg p-2 text-center border border-white/5">
+                                <p className="font-black font-mono text-sm mb-0.5" style={{ color: PILLAR_COLORS[i] }}>{p.score}</p>
+                                <p className="text-on-surface-variant/40 text-[7px] leading-tight">{T(PILLAR_LABELS_FR[i], PILLAR_LABELS_EN[i])}</p>
+                                <p className="text-on-surface-variant/20 text-[7px]">/200</p>
+                              </div>
+                            ))}
+                          </div>
+                          <div className="w-full bg-surface-high rounded-full h-1.5 overflow-hidden">
+                            <div className="h-1.5 rounded-full" style={{ width: `${(realTotal/1000)*100}%`, background: "linear-gradient(90deg,#00d4ff,#a78bfa,#ff6b6b)" }} />
+                          </div>
+                          <p className="text-on-surface-variant/25 text-[8px] font-mono mt-1 text-center">
+                            {T("Comme Moody's pour la finance — mais pour la création.", "Like Moody's for finance — but for creative works.")}
+                          </p>
                         </div>
-                      ))}
-                    </div>
-                    {/* Barre globale */}
-                    <div className="w-full bg-surface-high rounded-full h-1.5 overflow-hidden">
-                      <div className="h-1.5 rounded-full" style={{ width: `${(score/1000)*100}%`, background: "linear-gradient(90deg,#00d4ff,#a78bfa,#ff6b6b)" }} />
-                    </div>
-                    <p className="text-on-surface-variant/30 text-[9px] font-mono mt-1 text-center">
-                      {T("Comment le LYA évolue →", "How LYA evolves →")} {T("Comme Moody's pour la finance, mais pour la création.", "Like Moody's for finance, but for creative works.")}
-                    </p>
-                  </div>
 
-                  {/* Évaluation complète 2×3 */}
-                  <div className="mb-4">
-                    <p className="text-on-surface-variant/50 text-[10px] font-mono tracking-widest mb-2">◆ {T("ÉVALUATION COMPLÈTE", "COMPLETE EVALUATION")}</p>
-                    <div className="grid grid-cols-2 gap-2">
-                      {evalItems.map((item, i) => (
-                        <div key={i} className="rounded-xl p-3 border" style={{ borderColor: `${item.color}30`, background: `${item.color}08` }}>
-                          <div className="flex justify-between items-start mb-1.5">
-                            <div>
-                              <p className="text-xs font-bold" style={{ color: item.color }}>★ {T(item.labelFR, item.labelEN)}</p>
-                              <p className="text-on-surface-variant/50 text-[9px]">{T(item.descFR, item.descEN)}</p>
-                            </div>
-                            <div className="w-7 h-7 rounded-full flex items-center justify-center text-white font-black text-xs shrink-0" style={{ background: item.color }}>
-                              {Math.min(item.note, 9)}<span className="text-[7px] font-normal">/10</span>
-                            </div>
+                        {/* Évaluation 2×3 — notes /10 dérivées mathématiquement des piliers réels */}
+                        <div className="mb-4">
+                          <p className="text-on-surface-variant/50 text-[10px] font-mono tracking-widest mb-2">◆ {T("ÉVALUATION DÉTAILLÉE", "DETAILED EVALUATION")}</p>
+                          <div className="grid grid-cols-2 gap-2">
+                            {subCriteria.map((sc, i) => {
+                              const note10 = sc.pillarIdx >= 0
+                                ? Math.round((pillars[sc.pillarIdx]?.score ?? 0) / 20)  // score/200 × 10
+                                : Math.round(realTotal / 100); // score global /1000 × 10
+                              const pct = (note10 / 10) * 100;
+                              const descFR = sc.pillarIdx >= 0
+                                ? `${pillars[sc.pillarIdx]?.score ?? 0} pts sur 200`
+                                : `${realTotal} pts sur 1000`;
+                              const descEN = sc.pillarIdx >= 0
+                                ? `${pillars[sc.pillarIdx]?.score ?? 0} pts out of 200`
+                                : `${realTotal} pts out of 1000`;
+                              return (
+                                <div key={i} className="rounded-xl p-3 border" style={{ borderColor: `${sc.color}30`, background: `${sc.color}08` }}>
+                                  <div className="flex justify-between items-start mb-1.5">
+                                    <div>
+                                      <p className="text-xs font-bold" style={{ color: sc.color }}>★ {T(sc.labelFR, sc.labelEN)}</p>
+                                      <p className="text-on-surface-variant/40 text-[9px]">{T(descFR, descEN)}</p>
+                                    </div>
+                                    <div className="w-8 h-8 rounded-full flex flex-col items-center justify-center text-white font-black shrink-0" style={{ background: sc.color }}>
+                                      <span className="text-xs leading-none">{note10}</span>
+                                      <span className="text-[7px] font-normal leading-none opacity-70">/10</span>
+                                    </div>
+                                  </div>
+                                  <div className="w-full bg-black/20 rounded-full h-0.5">
+                                    <div className="h-0.5 rounded-full transition-all" style={{ width: `${pct}%`, background: sc.color }} />
+                                  </div>
+                                </div>
+                              );
+                            })}
                           </div>
-                          <div className="w-full bg-black/20 rounded-full h-0.5">
-                            <div className="h-0.5 rounded-full" style={{ width: `${Math.min(item.note,9)*11}%`, background: item.color }} />
-                          </div>
+                          <p className="text-on-surface-variant/20 text-[8px] font-mono mt-2 text-center">
+                            {T("Note /10 = score pilier ÷ 20 · Score global /10 = LYA SCORE ÷ 100", "Score /10 = pillar score ÷ 20 · Global /10 = LYA SCORE ÷ 100")}
+                          </p>
                         </div>
-                      ))}
-                    </div>
-                  </div>
+                      </>
+                    );
+                  })()}
                 </>
               );
             })()}
@@ -633,6 +671,7 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
     </div>
   );
 }
+
 
 
 
