@@ -23,140 +23,140 @@ const TUTORIAL_STEPS: (t: any) => Step[] = (t) => [
   {
     id: 1,
     title: t('WELCOME TO LINKYOURART', 'BIENVENUE SUR LINKYOURART'),
-    description: t('The first investment platform that transforms creative projects into living financial assets.', 'La première plateforme d\'investissement qui transforme les projets créatifs en actifs financiers vivants.'),
+    description: t('The first creative benchmark platform that certifies artistic works through the LYA UNIT — a structured unit of value exclusive to the creative world.', 'La première plateforme de cotation créative qui certifie les œuvres artistiques via le LYA UNIT — une unité de valeur structurée et exclusive au monde de la création.'),
     color: 'text-primary-cyan',
     glowColor: 'rgba(0, 224, 255, 0.3)',
     icon: <Globe size={48} />,
     points: [
-      t('OBJECTIVE LISTING WITH LYA SCORE OUT OF 1000 POINTS', 'COTATION OBJECTIVE AVEC LE SCORE LYA SUR 1000 POINTS'),
-      t('1 LYA UNIT = $50 (FIXED ENTRY VALUE)', '1 UNITÉ LYA = $50 (VALEUR D\'ENTRÉE FIXE)'),
-      t('P2P MARKETPLACE TO TRADE YOUR SHARES', 'PLACE DE MARCHÉ P2P POUR ÉCHANGER VOS PARTS')
+      t('OBJECTIVE CERTIFICATION WITH LYA SCORE OUT OF 1000 POINTS', 'CERTIFICATION OBJECTIVE AVEC LE LYA SCORE SUR 1000 POINTS'),
+      t('1 LYA UNIT = $50 (FIXED FOUNDING VALUE)', '1 LYA UNIT = $50 (VALEUR FIXE FONDATRICE)'),
+      t('6 ARTISTIC UNIVERSES — MUSIC · FILM · FASHION · GAMING · ARCHITECTURE · STAGE', '6 UNIVERS ARTISTIQUES — MUSIQUE · CINÉMA · MODE · JEU · ARCHITECTURE · SCÈNE')
     ],
     illustration: 'welcome'
   },
   {
     id: 2,
-    title: t('THE LYA SCORING SYSTEM', 'LE SYSTÈME DE SCORING LYA'),
-    description: t('Our proprietary algorithm evaluates each contract according to 5 critical rating criteria, providing a transparent System Performance Index out of 1000.', 'Notre algorithme propriétaire évalue chaque contrat selon 5 critères de notation critiques, fournissant un Index de Rendement Système transparent sur 1000.'),
+    title: t('THE LYA SCORE — 5 PILLARS', 'LE LYA SCORE — 5 PILIERS'),
+    description: t('Our proprietary benchmark evaluates each creative work across 5 certified pillars, delivering a transparent quality index out of 1000. Like Moody\'s for finance — but for creative works.', 'Notre étalon propriétaire évalue chaque œuvre selon 5 piliers certifiés, produisant un indice de qualité transparent sur 1000. Comme Moody\'s pour la finance — mais pour la création.'),
     color: 'text-purple-400',
     glowColor: 'rgba(192, 132, 252, 0.3)',
     icon: <Zap size={48} />,
     points: [
-      t('01 Quality, 02 Market, 03 Legal, 04 Tech, 05 Growth', '01 Qualité, 02 Marché, 03 Sécurité, 04 Innovation, 05 Croissance'),
-      t('EACH PILLAR MAX 200 PTS — TOTAL 1000', 'CHAQUE PILIER MAX 200 PTS — TOTAL 1000'),
-      t('REAL-TIME UPDATES VIA MARKET FEEDBACK', 'MISES À JOUR EN TEMPS RÉEL VIA RETOURS MARCHÉ')
+      t('01 CONCEPTUAL INTEGRITY · 02 CURRENT MATURITY · 03 GROWTH CAPACITY', '01 INTÉGRITÉ CONCEPTUELLE · 02 MATURITÉ ACTUELLE · 03 CAPACITÉ D\'ÉVOLUTION'),
+      t('04 FEASIBILITY · 05 REAL EMBODIMENT — EACH MAX 200 PTS', '04 FAISABILITÉ · 05 INCARNATION RÉELLE — CHACUN MAX 200 PTS'),
+      t('TOTAL LYA SCORE OUT OF 1000 — VERIFIABLE & TRANSPARENT', 'LYA SCORE TOTAL SUR 1000 — VÉRIFIABLE & TRANSPARENT')
     ],
     illustration: 'score'
   },
   {
     id: 3,
     title: t('FOR CREATORS', 'POUR LES CRÉATEURS'),
-    description: t('Transform your creative vision into indexed contractual rights without losing artistic control.', 'Transformez vos projets créatifs en droits contractuels indexés sans renoncer au contrôle artistique.'),
+    description: t('Get your creative work officially certified and valued by LinkYourArt. Connect with supporters who believe in your vision from day one.', 'Faites certifier et valoriser officiellement votre œuvre par LinkYourArt. Connectez-vous avec des mécènes qui croient en votre vision dès le premier jour.'),
     color: 'text-emerald-400',
     glowColor: 'rgba(52, 211, 153, 0.3)',
     icon: <Sparkles size={48} />,
     points: [
-      t('IP PROTECTION & LEGAL CERTIFICATION', 'PROTECTION PI & CERTIFICATION JURIDIQUE'),
-      t('PROFESSIONAL EVALUATION BY INDUSTRY EXPERTS', 'ÉVALUATION PROFESSIONNELLE PAR DES EXPERTS DU MÉTIER'),
-      t('FAST FUNDING THROUGH ASSET FRACTIONALIZATION', 'FINANCEMENT RAPIDE VIA FRACTIONNEMENT D\'ACTIFS')
+      t('OFFICIAL LYA CERTIFICATION — YOUR WORK EVALUATED BY EXPERTS', 'CERTIFICATION LYA OFFICIELLE — VOTRE ŒUVRE ÉVALUÉE PAR DES EXPERTS'),
+      t('KEEP FULL ARTISTIC CONTROL OF YOUR CREATION', 'CONSERVEZ LE CONTRÔLE ARTISTIQUE TOTAL DE VOTRE CRÉATION'),
+      t('BUILD YOUR COMMUNITY OF SUPPORTERS FROM LAUNCH', 'CONSTRUISEZ VOTRE COMMUNAUTÉ DE SOUTIENS DÈS LE LANCEMENT')
     ],
     illustration: 'creators'
   },
   {
     id: 4,
-    title: t('FOR INVESTORS', 'POUR LES INVESTISSEURS'),
-    description: t('Acquire indexed rights of promising creative projects with institutional-grade transparency.', 'Achetez des droits contractuels indexés sur des projets créatifs prometteurs en toute transparence.'),
+    title: t('FOR SUPPORTERS', 'POUR LES MÉCÈNES'),
+    description: t('Support the creative works you believe in and share in their future success. Simple, accessible, meaningful.', 'Soutenez les œuvres créatives en lesquelles vous croyez et partagez leurs succès futurs. Simple, accessible, significatif.'),
     color: 'text-accent-gold',
     glowColor: 'rgba(255, 215, 0, 0.3)',
     icon: <Target size={48} />,
     points: [
-      t('OBJECTIVE INDEXING BASED ON REAL DATA', 'INDEXATION OBJECTIVE BASÉE SUR DES DONNÉES RÉELLES'),
-      t('LIQUIDITY THROUGH LYA EXCHANGE CENTER', 'LIQUIDITÉ VIA LE CENTRE D\'ÉCHANGES LYA'),
-      t('ASSETS BACKED BY REAL CONTRACTUAL RIGHTS', 'ACTIFS ADOSSÉS À DES DROITS CONTRACTUELS RÉELS')
+      t('ACQUIRE LYA UNITS FROM $50 — ACCESSIBLE TO ALL', 'ACQUÉRIR DES LYA UNITS DÈS $50 — ACCESSIBLE À TOUS'),
+      t('CERTIFIED QUALITY — LYA SCORE GUARANTEES SELECTION RIGOR', 'QUALITÉ CERTIFIÉE — LE LYA SCORE GARANTIT LA RIGUEUR DE SÉLECTION'),
+      t('FOLLOW YOUR SUPPORTED WORKS IN REAL TIME', 'SUIVEZ VOS ŒUVRES SOUTENUES EN TEMPS RÉEL')
     ],
     illustration: 'investors'
   },
   {
     id: 5,
     title: t('FOR PROFESSIONALS', 'POUR LES PROFESSIONNELS'),
-    description: t('Join our network of Validation Experts to evaluate and mentor high-potential creative contracts.', 'Rejoignez notre réseau d\'Experts en Validation pour évaluer et mentorer des contrats créatifs à haut potentiel.'),
+    description: t('Join our network of certified validation experts. Evaluate creative works and contribute to the most rigorous quality benchmark in the creative industry.', 'Rejoignez notre réseau d\'experts en validation certifiés. Évaluez des œuvres créatives et contribuez à l\'étalon de qualité le plus rigoureux du secteur.'),
     color: 'text-pink-400',
     glowColor: 'rgba(244, 114, 182, 0.3)',
     icon: <Users size={48} />,
     points: [
-      t('BECOME A CERTIFIED VALIDATION AGENT', 'DEVENEZ AGENT DE VALIDATION CERTIFIÉ'),
-      t('MONETIZE YOUR INDUSTRY EXPERTISE', 'MONÉTISEZ VOTRE EXPERTISE MÉTIER'),
-      t('EXCLUSIVE CROSS-INDUSTRY NETWORK', 'RÉSEAU EXCLUSIF INTER-SECTEURS')
+      t('BECOME A CERTIFIED LYA VALIDATION EXPERT', 'DEVENEZ EXPERT LYA EN VALIDATION CERTIFIÉ'),
+      t('EVALUATE WORKS ACROSS YOUR FIELD OF EXPERTISE', 'ÉVALUEZ DES ŒUVRES DANS VOTRE DOMAINE D\'EXPERTISE'),
+      t('EXCLUSIVE CROSS-INDUSTRY PROFESSIONAL NETWORK', 'RÉSEAU PROFESSIONNEL EXCLUSIF INTER-SECTEURS')
     ],
     illustration: 'professionals'
   },
   {
     id: 6,
-    title: t('EXPLORE PROJECTS', 'EXPLOREZ LES PROJETS'),
-    description: t('Several ways to discover creative projects that match your interests and investment strategy.', 'Plusieurs façons de découvrir les projets créatifs qui correspondent à vos intérêts.'),
+    title: t('EXPLORE CREATIVE WORKS', 'EXPLOREZ LES ŒUVRES'),
+    description: t('Several ways to discover creative projects across 6 artistic universes — find what resonates with you.', 'Plusieurs façons de découvrir des projets créatifs à travers 6 univers artistiques — trouvez ce qui vous correspond.'),
     color: 'text-cyan-400',
     glowColor: 'rgba(34, 211, 238, 0.3)',
     icon: <Layers size={48} />,
     points: [
-      t('SWIPE MODE FOR QUICK DISCOVERY', 'MODE SWIPE POUR UNE DÉCOUVERTE RAPIDE'),
-      t('LYA EXCHANGE CENTER TO FOLLOW TRENDS', 'CENTRE D\'ÉCHANGES LYA POUR SUIVRE LES TENDANCES'),
-      t('ADVANCED FILTERS BY CATEGORY, SCORE, BUDGET', 'FILTRES AVANCÉS PAR CATÉGORIE, SCORE, BUDGET')
+      t('SWIPE MODE — QUICK INTUITIVE DISCOVERY', 'MODE SWIPE — DÉCOUVERTE RAPIDE ET INTUITIVE'),
+      t('PATRONAGE HUB — SUPPORT YOUR FAVOURITE CREATORS', 'PATRONAGE HUB — SOUTENEZ VOS CRÉATEURS FAVORIS'),
+      t('ADVANCED FILTERS BY UNIVERSE, LYA SCORE & RARITY', 'FILTRES AVANCÉS PAR UNIVERS, LYA SCORE & RARETÉ')
     ],
     illustration: 'explore'
   },
   {
     id: 7,
-    title: t('CREATE YOUR WATCHLIST', 'CRÉEZ VOTRE WATCHLIST'),
-    description: t('Follow your favorite projects and never miss an opportunity in the creative market.', 'Suivez vos projets favoris et ne manquez aucune opportunité.'),
+    title: t('YOUR WATCHLIST', 'VOTRE WATCHLIST'),
+    description: t('Follow the creative works that matter to you and never miss an update on their LYA SCORE evolution.', 'Suivez les œuvres créatives qui vous importent et ne manquez aucune évolution de leur LYA SCORE.'),
     color: 'text-red-400',
     glowColor: 'rgba(248, 113, 113, 0.3)',
     icon: <Target size={48} />,
     points: [
-      t('REAL-TIME PERFORMANCE NOTIFICATIONS', 'NOTIFICATIONS DE PERFORMANCE EN TEMPS RÉEL'),
-      t('PRICE LISTING CHANGE ALERTS', 'ALERTES SUR CHANGEMENTS DE COTATION'),
-      t('PERSONALIZED PORTFOLIO TRACKING', 'SUIVI PERSONNALISÉ DE VOTRE PORTEFEUILLE')
+      t('REAL-TIME LYA SCORE EVOLUTION ALERTS', 'ALERTES D\'ÉVOLUTION DU LYA SCORE EN TEMPS RÉEL'),
+      t('LYA UNIT PRICE CHANGE NOTIFICATIONS', 'NOTIFICATIONS DE CHANGEMENT DE VALEUR LYA UNIT'),
+      t('PERSONALISED TRACKING OF YOUR SUPPORTED WORKS', 'SUIVI PERSONNALISÉ DE VOS ŒUVRES SOUTENUES')
     ],
     illustration: 'watchlist'
   },
   {
     id: 8,
-    title: t('INVEST SMARTLY', 'INVESTISSEZ INTELLIGEMMENT'),
-    description: t('Analyze data and invest in projects that suit you with professional-grade tools.', 'Analysez les données et investissez dans les projets qui vous correspondent.'),
+    title: t('ANALYSE & COMPARE', 'ANALYSEZ & COMPAREZ'),
+    description: t('Use professional-grade tools to analyse and compare creative works before supporting them.', 'Utilisez des outils de niveau professionnel pour analyser et comparer les œuvres avant de les soutenir.'),
     color: 'text-indigo-400',
     glowColor: 'rgba(129, 140, 248, 0.3)',
     icon: <BarChart3 size={48} />,
     points: [
-      t('DETAILED ANALYTICAL DASHBOARDS', 'TABLEAUX DE BORD ANALYTIQUES DÉTAILLÉS'),
-      t('SIDE-BY-SIDE PROJECT COMPARISON', 'COMPARAISON DE PROJETS CÔTE À CÔTE'),
-      t('FULL PERFORMANCE HISTORY', 'HISTORIQUE COMPLET DES PERFORMANCES')
+      t('DETAILED LYA SCORE BREAKDOWN BY PILLAR', 'DÉTAIL DU LYA SCORE PAR PILIER'),
+      t('SIDE-BY-SIDE CREATIVE WORK COMPARISON', 'COMPARAISON D\'ŒUVRES CÔTE À CÔTE'),
+      t('PREDICTIVE ANALYTICS POWERED BY AI', 'ANALYSES PRÉDICTIVES PROPULSÉES PAR L\'IA')
     ],
     illustration: 'invest-smartly'
   },
   {
     id: 9,
-    title: t('INTEGRATED P2P MARKET', 'MARCHÉ P2P INTÉGRÉ'),
-    description: t('Trade your contractual rights with immediate liquidity on our secure marketplace.', 'Échangez vos droits contractuels avec une liquidité immédiate.'),
+    title: t('CREATIVE MARKET', 'MARCHÉ CRÉATIF'),
+    description: t('The professional space where certified creative works are exchanged between qualified partners with full transparency.', 'L\'espace professionnel où les œuvres certifiées s\'échangent entre partenaires qualifiés en toute transparence.'),
     color: 'text-amber-400',
     glowColor: 'rgba(251, 191, 36, 0.3)',
     icon: <TrendingUp size={48} />,
     points: [
-      t('TRANSACTION FEES BETWEEN 2 AND 5%', 'FRAIS DE TRANSACTION ENTRE 2 ET 5%'),
-      t('PRICES BASED ON OBJECTIVE LYA LISTING', 'PRIX BASÉS SUR LA COTATION OBJECTIVE LYA'),
-      t('SECURED SMART CONTRACTS', 'SMART CONTRACTS SÉCURISÉS')
+      t('SECONDARY MARKET (PRO) — RESERVED FOR QUALIFIED PARTNERS', 'MARCHÉ SECONDAIRE (PRO) — RÉSERVÉ AUX PARTENAIRES QUALIFIÉS'),
+      t('LYA UNIT PRICES BASED ON CERTIFIED LYA SCORE', 'PRIX LYA UNIT BASÉS SUR LE LYA SCORE CERTIFIÉ'),
+      t('MARKET OVERVIEW & PREDICTIVE ANALYTICS', 'VUE D\'ENSEMBLE DU MARCHÉ & ANALYSES PRÉDICTIVES')
     ],
     illustration: 'market'
   },
   {
     id: 10,
-    title: t('SECURITY & COMPLIANCE', 'SÉCURITÉ & CONFORMITÉ'),
-    description: t('Secure platform with GDPR compliance and strict legal framework for all transactions.', 'Plateforme sécurisée avec conformité RGPD et cadre légal strict.'),
+    title: t('SECURITY & TRUST', 'SÉCURITÉ & CONFIANCE'),
+    description: t('LinkYourArt is built on a foundation of rigorous legal compliance, data protection and creative rights certification.', 'LinkYourArt est bâti sur des fondations de conformité juridique rigoureuse, protection des données et certification des droits créatifs.'),
     color: 'text-emerald-500',
     glowColor: 'rgba(16, 185, 129, 0.3)',
     icon: <Shield size={48} />,
     points: [
-      t('END-TO-END ENCRYPTION OF ALL DATA', 'CHIFFREMENT DE BOUT EN BOUT DES DONNÉES'),
-      t('MULTI-FACTOR AUTHENTICATION (2FA)', 'AUTHENTIFICATION MULTI-FACTEURS (2FA)'),
-      t('CERTIFIED CONTRACTUAL RIGHTS AND KYC/AML', 'DROITS CONTRACTUELS CERTIFIÉS ET KYC/AML')
+      t('GDPR COMPLIANT — END-TO-END DATA PROTECTION', 'CONFORME RGPD — PROTECTION DES DONNÉES DE BOUT EN BOUT'),
+      t('CREATIVE RIGHTS LEGALLY CERTIFIED AT EVERY STAGE', 'DROITS CRÉATIFS CERTIFIÉS LÉGALEMENT À CHAQUE ÉTAPE'),
+      t('MULTI-FACTOR AUTHENTICATION & SECURE INFRASTRUCTURE', 'AUTHENTIFICATION MULTI-FACTEURS & INFRASTRUCTURE SÉCURISÉE')
     ],
     illustration: 'security'
   }
@@ -1271,4 +1271,5 @@ export const ConceptTutorial: React.FC<Props> = ({ isOpen, onClose }) => {
     </AnimatePresence>
   );
 };
+
 
