@@ -69,6 +69,7 @@ const ElevatedTextLogo = ({ size = 'text-2xl' }: { size?: string }) => {
 };
 
 export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewChange }) => {
+  const introLang = (typeof navigator !== 'undefined' && navigator.language?.startsWith('fr')) ? 'FR' : 'EN';
   const { t, language, setLanguage } = useTranslation();
   const [stage, setStage] = useState<'INTRO' | 'MAIN'>(() => {
     if (typeof window !== 'undefined' && sessionStorage.getItem('lya_intro_completed') === 'true') {
@@ -242,7 +243,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                 transition={{ delay: 0.8, duration: 1, ease: [0.22, 1, 0.36, 1] }}
                 className="text-white/40 text-xs font-mono tracking-[0.4em] uppercase mb-4"
               >
-                {lang === 'FR' ? 'Depuis 2006' : 'Since 2006'}
+                {introLang === 'FR' ? 'Depuis 2006' : 'Since 2006'}
               </motion.p>
 
               <motion.h1
@@ -252,7 +253,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                 className="font-black uppercase text-white mb-2"
                 style={{ fontFamily: "'Arial Black', Arial, sans-serif", fontSize: "clamp(2rem,6vw,4rem)", letterSpacing: "-0.03em", lineHeight: 1 }}
               >
-                {lang === 'FR' ? 'La création a de la valeur.' : 'Creativity has value.'}
+                {introLang === 'FR' ? 'La création a de la valeur.' : 'Creativity has value.'}
               </motion.h1>
 
               <motion.h1
@@ -262,7 +263,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                 className="font-black uppercase mb-8"
                 style={{ fontFamily: "'Arial Black', Arial, sans-serif", fontSize: "clamp(2rem,6vw,4rem)", letterSpacing: "-0.03em", lineHeight: 1, color: "#00d4ff" }}
               >
-                {lang === 'FR' ? 'LinkYourArt la certifie.' : 'LinkYourArt certifies it.'}
+                {introLang === 'FR' ? 'LinkYourArt la certifie.' : 'LinkYourArt certifies it.'}
               </motion.h1>
 
               {/* ACTE 3 — LYA UNIT pill */}
@@ -278,7 +279,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                 <span className="text-white font-black font-mono text-sm">1 UNIT = $50</span>
                 <span className="w-px h-4 bg-white/10" />
                 <span className="text-[10px] font-mono tracking-widest" style={{ color: "#00d4ff" }}>
-                  {lang === 'FR' ? 'ACCESSIBLE À TOUS' : 'ACCESSIBLE TO ALL'}
+                  {introLang === 'FR' ? 'ACCESSIBLE À TOUS' : 'ACCESSIBLE TO ALL'}
                 </span>
               </motion.div>
 
@@ -297,7 +298,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                     transition={{ delay: 2.8 + i * 0.1, duration: 0.5 }}
                     className="text-white/30 text-[9px] font-mono tracking-widest border border-white/10 px-3 py-1 rounded-full"
                   >
-                    {lang === 'FR' ? u : ['Music', 'Film', 'Fashion', 'Gaming', 'Architecture', 'Stage'][i]}
+                    {introLang === 'FR' ? u : ['Music', 'Film', 'Fashion', 'Gaming', 'Architecture', 'Stage'][i]}
                   </motion.span>
                 ))}
               </motion.div>
@@ -315,7 +316,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                 transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
                 className="text-white/20 text-[10px] font-mono tracking-widest"
               >
-                {lang === 'FR' ? '↓ APPUYER POUR ENTRER' : '↓ TAP TO ENTER'}
+                {introLang === 'FR' ? '↓ APPUYER POUR ENTRER' : '↓ TAP TO ENTER'}
               </motion.div>
             </motion.div>
 
@@ -742,6 +743,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
     </div>
   );
 };
+
 
 
 
