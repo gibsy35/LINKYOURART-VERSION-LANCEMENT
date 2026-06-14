@@ -179,7 +179,7 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
   const contracts = liveContracts || hookContracts;
   const lang: 'FR' | 'EN' = language === 'FR' ? 'FR' : 'EN';
 
-  const [activeTab, setActiveTab] = useState<'patronage' | 'exchange' | 'overview' | 'predictive'>('patronage');
+  const [activeTab, setActiveTab] = useState<'exchange' | 'overview' | 'predictive'>('exchange');
   const [indexTimeframe, setIndexTimeframe] = useState<'1D' | '1W' | '1M' | '1Y'>('1D');
   const [selectedOrderBookContractId, setSelectedOrderBookContractId] = useState(contracts[0].id);
   const [currentPage, setCurrentPage] = useState(1);
@@ -283,7 +283,6 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
   });
 
   const TABS = [
-    { key: 'patronage' as const, labelFR: '✦ MÉCÉNAT GRAND PUBLIC', labelEN: '✦ PUBLIC PATRONAGE' },
     { key: 'exchange' as const, labelFR: '⟳ MARCHÉ SECONDAIRE (PRO)', labelEN: '⟳ SECONDARY MARKET (PRO)', icon: <RefreshCw size={12} /> },
     { key: 'overview' as const, labelFR: 'VUE D\'ENSEMBLE', labelEN: 'MARKET OVERVIEW' },
     { key: 'predictive' as const, labelFR: '⚡ ANALYSES PRÉDICTIVES', labelEN: '⚡ PREDICTIVE ANALYTICS', icon: <Zap size={12} /> },
@@ -316,19 +315,6 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
             </button>
           ))}
         </div>
-
-        {/* ══ TAB : MÉCÉNAT GRAND PUBLIC ══ */}
-        {activeTab === 'patronage' && (
-          <PatronageHubTab
-            contracts={contracts}
-            onSelectContract={onSelectContract}
-            onOpenOffer={onOpenOffer}
-            onToggleWatchlist={onToggleWatchlist}
-            watchlist={watchlist}
-            lang={lang}
-            formatPrice={formatPrice}
-          />
-        )}
 
         {/* ══ TAB : MARCHÉ SECONDAIRE PRO — stats ══ */}
         {activeTab === 'exchange' && (
