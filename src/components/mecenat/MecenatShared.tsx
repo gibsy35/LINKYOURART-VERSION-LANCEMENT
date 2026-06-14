@@ -266,63 +266,110 @@ export function DetailModal({ contract, onClose, onPay, units, onUnitsChange, la
               <p className="text-on-surface-variant text-sm italic border-l-2 border-primary-cyan/30 pl-3 leading-relaxed">"{contract.description}"</p>
             </div>
 
-            {/* Jalons */}
-            {contract.milestones && contract.milestones.length > 0 && (
-              <div className="mb-4">
-                <p className="text-on-surface-variant/50 text-xs font-mono tracking-widest mb-3">{T("JALONS DE DÉVELOPPEMENT", "DEVELOPMENT MILESTONES")}</p>
-                <div className="space-y-2">
-                  {contract.milestones.slice(0, 3).map((m, i) => (
-                    <div key={i} className="flex items-center gap-2">
-                      <span className={`w-4 h-4 rounded-full flex items-center justify-center text-xs shrink-0 ${m.status === "COMPLETED" ? "bg-[#00ff88]/20 text-[#00ff88]" : m.status === "IN_PROGRESS" ? "bg-[#00d4ff]/20 text-primary-cyan" : "border border-white/10 text-on-surface-variant/40"}`}>
-                        {m.status === "COMPLETED" ? "✓" : "○"}
-                      </span>
-                      <span className={`text-xs font-mono ${m.status === "COMPLETED" ? "text-on-surface-variant/50 line-through" : m.status === "IN_PROGRESS" ? "text-primary-cyan" : "text-on-surface-variant"}`}>{m.label}</span>
+            {/* ── LYA SCORE — 5 PILIERS ── */}
+            {(() => {
+              const score = contract.totalScore ?? 800;
+              const piliers = [
+                { labelFR: "Intégrité conceptuelle", labelEN: "Conceptual Integrity", pts: Math.round(score * 0.22), color: "#00d4ff" },
+                { labelFR: "Maturité actuelle",      labelEN: "Current Maturity",      pts: Math.round(score * 0.20), color: "#a78bfa" },
+                { labelFR: "Capacité d'évolution",   labelEN: "Growth Capacity",       pts: Math.round(score * 0.20), color: "#00ff88" },
+                { labelFR: "Faisabilité",             labelEN: "Feasibility",           pts: Math.round(score * 0.19), color: "#f59e0b" },
+                { labelFR: "Incarnation réelle",      labelEN: "Real Embodiment",       pts: Math.round(score * 0.19), color: "#ff6b6b" },
+              ];
+              const evalItems = [
+                { labelFR: "Qualité Artistique",   labelEN: "Artistic Quality",   note: Math.round(score / 111), descFR: "Vision créative exceptionnelle",  descEN: "Exceptional creative vision",    color: "#ec4899" },
+                { labelFR: "Viabilité Économique", labelEN: "Economic Viability", note: Math.round(score / 125), descFR: "Modèle financier solide",          descEN: "Solid financial model",          color: "#00ff88" },
+                { labelFR: "Équipe",               labelEN: "Team",               note: Math.round(score / 111), descFR: "Réalisateurs primés",             descEN: "Award-winning directors",        color: "#3b82f6" },
+                { labelFR: "Budget",               labelEN: "Budget",             note: Math.round(score / 125), descFR: "Réaliste et justifié",            descEN: "Realistic and justified",        color: "#f59e0b" },
+                { labelFR: "Calendrier",           labelEN: "Timeline",           note: Math.round(score / 125), descFR: "Planification détaillée",         descEN: "Detailed planning",              color: "#8b5cf6" },
+                { labelFR: "Potentiel Impact",     labelEN: "Impact Potential",   note: Math.round(score / 111), descFR: "Large audience potentielle",      descEN: "Large potential audience",       color: "#06b6d4" },
+              ];
+              return (
+                <>
+                  {/* Badge Certifié LYA */}
+                  <div className="flex items-start gap-3 bg-gradient-to-r from-[#a78bfa]/10 to-[#00d4ff]/10 border border-[#a78bfa]/30 rounded-xl p-3 mb-4">
+                    <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#a78bfa] to-[#00d4ff] flex items-center justify-center shrink-0">
+                      <span className="text-white text-sm">✓</span>
                     </div>
-                  ))}
-                </div>
-              </div>
-            )}
+                    <div>
+                      <p className="text-[#a78bfa] text-xs font-mono font-bold tracking-widest mb-0.5">{T("✦ CERTIFIÉ LINKYOURART", "✦ LINKYOURART CERTIFIED")}</p>
+                      <p className="text-on-surface-variant/60 text-xs leading-relaxed">
+                        {T("Ce projet a été sélectionné après une étude approfondie. Chaque création est évaluée selon nos 5 piliers de cotation créative.", "This project was selected after thorough review. Each creation is assessed across our 5 creative valuation pillars.")}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* 5 Piliers LYA SCORE */}
+                  <div className="mb-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <p className="text-on-surface-variant/50 text-[10px] font-mono tracking-widest">✦ {T("LYA SCORE — 5 PILIERS (MAX 1000)", "LYA SCORE — 5 PILLARS (MAX 1000)")}</p>
+                      <span className="text-amber-400 font-black font-mono text-sm">{score}<span className="text-on-surface-variant/30 font-normal text-[10px]">/1000</span></span>
+                    </div>
+                    <div className="grid grid-cols-5 gap-1.5 mb-3">
+                      {piliers.map((p, i) => (
+                        <div key={i} className="bg-surface-high rounded-lg p-2 text-center border border-white/5">
+                          <p className="font-black font-mono text-sm mb-0.5" style={{ color: p.color }}>{p.pts}</p>
+                          <p className="text-on-surface-variant/40 text-[8px] leading-tight">{T(p.labelFR, p.labelEN)}</p>
+                        </div>
+                      ))}
+                    </div>
+                    {/* Barre globale */}
+                    <div className="w-full bg-surface-high rounded-full h-1.5 overflow-hidden">
+                      <div className="h-1.5 rounded-full" style={{ width: `${(score/1000)*100}%`, background: "linear-gradient(90deg,#00d4ff,#a78bfa,#ff6b6b)" }} />
+                    </div>
+                    <p className="text-on-surface-variant/30 text-[9px] font-mono mt-1 text-center">
+                      {T("Comment le LYA évolue →", "How LYA evolves →")} {T("Comme Moody's pour la finance, mais pour la création.", "Like Moody's for finance, but for creative works.")}
+                    </p>
+                  </div>
+
+                  {/* Évaluation complète 2×3 */}
+                  <div className="mb-4">
+                    <p className="text-on-surface-variant/50 text-[10px] font-mono tracking-widest mb-2">◆ {T("ÉVALUATION COMPLÈTE", "COMPLETE EVALUATION")}</p>
+                    <div className="grid grid-cols-2 gap-2">
+                      {evalItems.map((item, i) => (
+                        <div key={i} className="rounded-xl p-3 border" style={{ borderColor: `${item.color}30`, background: `${item.color}08` }}>
+                          <div className="flex justify-between items-start mb-1.5">
+                            <div>
+                              <p className="text-xs font-bold" style={{ color: item.color }}>★ {T(item.labelFR, item.labelEN)}</p>
+                              <p className="text-on-surface-variant/50 text-[9px]">{T(item.descFR, item.descEN)}</p>
+                            </div>
+                            <div className="w-7 h-7 rounded-full flex items-center justify-center text-white font-black text-xs shrink-0" style={{ background: item.color }}>
+                              {Math.min(item.note, 9)}<span className="text-[7px] font-normal">/10</span>
+                            </div>
+                          </div>
+                          <div className="w-full bg-black/20 rounded-full h-0.5">
+                            <div className="h-0.5 rounded-full" style={{ width: `${Math.min(item.note,9)*11}%`, background: item.color }} />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </>
+              );
+            })()}
 
             {/* Sélecteur d'unités */}
             <div className="mb-4">
               <div className="flex justify-between items-center mb-1.5">
-                <span className="text-on-surface-variant/50 text-xs font-mono tracking-widest">{T("VOLUME D'ACQUISITION DES PARTS LYA", "LYA UNITS ACQUISITION VOLUME")}</span>
-                <span className="bg-surface-high text-primary-cyan text-xs px-2.5 py-0.5 rounded font-mono">{units} {T("Unités", "Units")}</span>
+                <span className="text-on-surface-variant/50 text-xs font-mono tracking-widest">{T("LYA UNITS À ACQUÉRIR", "LYA UNITS TO ACQUIRE")}</span>
+                <span style={{ background: "linear-gradient(135deg,rgba(0,212,255,0.2),rgba(99,102,241,0.2))", border: "1px solid rgba(0,212,255,0.4)" }} className="text-primary-cyan text-[10px] px-2.5 py-1 rounded-md font-mono font-black">
+                  {units} {T("Units", "Units")}
+                </span>
               </div>
-              <input
-                type="range" min={1} max={100} value={units}
-                onChange={e => onUnitsChange(Number(e.target.value))}
-                className="w-full h-1 bg-surface-high rounded-full appearance-none cursor-pointer accent-primary-cyan"
-              />
-            </div>
-
-            {/* Bénéfices */}
-            <div className="bg-surface-low border border-white/10 rounded-xl p-4 mb-4">
-              <p className="text-on-surface-variant/50 text-xs font-mono tracking-widest mb-3">
-                {T(`ESTIMATION POUR ${units} UNITÉS`, `ESTIMATED BENEFITS FOR ${units} UNITS`)}
-              </p>
-              <div className="flex justify-between items-center mb-1">
-                <span className="text-on-surface-variant/70 text-sm">{T("Total de votre soutien :", "Total backing pledge:")}</span>
-                <span className="text-on-surface font-mono font-bold">${totalCost.toFixed(2)}</span>
+              <input type="range" min={1} max={100} value={units} onChange={e => onUnitsChange(Number(e.target.value))}
+                className="w-full h-1 bg-surface-high rounded-full appearance-none cursor-pointer accent-primary-cyan" />
+              <div className="flex justify-between text-[10px] font-mono text-on-surface-variant/30 mt-1">
+                <span>1 unit = ${getUnitPrice(contract).toFixed(2)}</span>
+                <span>{T("Total :", "Total:")} <span className="text-white font-bold">${(units * getUnitPrice(contract)).toFixed(2)}</span></span>
               </div>
-              <div className="flex justify-between items-center">
-                <span className="text-on-surface-variant/70 text-sm">{T("Co-gains de redevance bruts :", "Cumulative Revenue rights:")}</span>
-                <span className="text-[#00ff88] font-mono font-bold">{revenueRights}%</span>
-              </div>
-              <p className="text-on-surface-variant/40 text-xs mt-3">
-                {T(
-                  "* Les fonds de soutien sont conservés sous séquestre sécurisé. Le déclenchement des dividendes est synchronisé avec les jalons de validation.",
-                  "* Support pledge proceeds are securely held in trust. Benefits triggering aligns with validated milestone dates."
-                )}
-              </p>
             </div>
 
             <div className="grid grid-cols-2 gap-3">
-              <button onClick={onClose} className="w-full border border-white/10 text-on-surface-variant hover:text-on-surface hover:border-primary-cyan/50 font-bold font-mono py-4 rounded-xl transition-colors text-sm tracking-widest">
+              <button onClick={onClose} className="w-full border border-white/10 text-on-surface-variant hover:text-on-surface hover:border-primary-cyan/50 font-bold font-mono py-3.5 rounded-xl transition-colors text-xs tracking-widest">
                 {T("QUITTER", "EXIT")}
               </button>
-              <button onClick={onPay} className="w-full bg-gradient-to-r from-[#00ff88] to-[#00d4ff] hover:opacity-90 text-black font-bold font-mono py-4 rounded-xl transition-opacity text-sm tracking-widest">
-                ✦ {T(`SOUTENIR AVEC ${units} UNITÉS`, `BACK WITH ${units} UNITS`)}
+              <button onClick={onPay} className="w-full font-bold font-mono py-3.5 rounded-xl transition-opacity text-xs tracking-widest text-black" style={{ background: "linear-gradient(135deg,#00ff88,#00d4ff)" }}>
+                ✦ {T(`ACQUÉRIR ${units} LYA UNITS`, `ACQUIRE ${units} LYA UNITS`)}
               </button>
             </div>
           </div>
@@ -586,5 +633,6 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
     </div>
   );
 }
+
 
 
