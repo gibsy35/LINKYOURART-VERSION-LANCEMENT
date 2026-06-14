@@ -325,20 +325,38 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                   ))}
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 pt-4">
+                {/* Preuve sociale */}
+                <div className="grid grid-cols-3 gap-4 pt-4">
                   {[
-                    { icon: Terminal, label: 'TERMINAL v0.9', val: 'STAGING' },
-                    { icon: Cpu, label: 'PROCESSING', val: 'REAL-TIME' },
-                    { icon: Layers, label: 'NETWORK', val: 'SECURE' }
+                    {
+                      value: "20 ans",
+                      label: t("d'histoire créative", "of creative history"),
+                      sub: t("Fondé en 2006", "Founded in 2006"),
+                      color: "#00d4ff"
+                    },
+                    {
+                      value: "6",
+                      label: t("univers artistiques", "artistic universes"),
+                      sub: t("Musique · Film · Mode · Jeu · Architecture · Scène", "Music · Film · Fashion · Gaming · Architecture · Stage"),
+                      color: "#a78bfa"
+                    },
+                    {
+                      value: "1",
+                      label: t("étalon de valeur", "value benchmark"),
+                      sub: t("Le LYA UNIT — exclusif & souverain", "The LYA UNIT — exclusive & sovereign"),
+                      color: "#00ff88"
+                    }
                   ].map((stat, i) => (
-                    <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8 + (i * 0.1) }} className="flex items-center gap-4 group">
-                      <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center text-white group-hover:bg-primary-cyan/10 group-hover:text-primary-cyan transition-all">
-                        <stat.icon size={20} />
-                      </div>
-                      <div>
-                        <div className="text-[9px] font-black tracking-widest text-white/30 uppercase">{stat.label}</div>
-                        <div className="text-xs font-bold text-white tracking-widest">{stat.val}</div>
-                      </div>
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.8 + (i * 0.15) }}
+                      className="bg-white/[0.03] border border-white/10 rounded-2xl p-4 hover:border-white/20 transition-all"
+                    >
+                      <div className="font-black font-mono text-2xl md:text-3xl mb-1" style={{ color: stat.color }}>{stat.value}</div>
+                      <div className="text-white text-xs font-bold mb-1">{stat.label}</div>
+                      <div className="text-white/30 text-[9px] leading-tight">{stat.sub}</div>
                     </motion.div>
                   ))}
                 </div>
@@ -605,4 +623,5 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
     </div>
   );
 };
+
 
