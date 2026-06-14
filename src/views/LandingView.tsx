@@ -193,143 +193,24 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
     <div className="min-h-screen bg-[#06080C] text-white font-body selection:bg-primary-cyan/30 overflow-x-hidden relative">
       <AnimatePresence mode="wait">
         {stage === 'INTRO' ? (
-          <motion.div
+          <motion.div 
             key="intro"
-            exit={{ opacity: 0, scale: 1.05, filter: 'blur(16px)' }}
-            transition={{ duration: 1.2, ease: "easeInOut" }}
-            className="fixed inset-0 z-[200] bg-black flex flex-col items-center justify-center overflow-hidden cursor-pointer"
-            onClick={() => { setStage('MAIN'); sessionStorage.setItem('lya_intro_completed', 'true'); }}
+            exit={{ opacity: 0, scale: 1.1, filter: 'blur(20px)' }}
+            transition={{ duration: 1.5, ease: "easeInOut" }}
+            className="fixed inset-0 z-[200] bg-black flex flex-col items-center justify-center overflow-hidden"
           >
-            {/* Fond ambiant animé */}
-            <div className="absolute inset-0 pointer-events-none">
-              <motion.div
-                animate={{ scale: [1, 1.4, 1], opacity: [0.08, 0.18, 0.08] }}
-                transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full"
-                style={{ background: "radial-gradient(circle, rgba(0,212,255,0.3) 0%, transparent 70%)" }}
-              />
-              <motion.div
-                animate={{ scale: [1.2, 1, 1.2], opacity: [0.06, 0.12, 0.06] }}
-                transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full"
-                style={{ background: "radial-gradient(circle, rgba(167,139,250,0.2) 0%, transparent 70%)" }}
-              />
-              {/* Grille scanline */}
-              <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: "linear-gradient(rgba(0,212,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.5) 1px, transparent 1px)", backgroundSize: "60px 60px" }} />
-            </div>
-
-            {/* ACTE 1 — Logo */}
-            <motion.div
-              initial={{ scale: 0.6, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-              className="relative mb-10"
-            >
-              <Logo size={80} color="multi" showBeta={false} className="z-10" />
-              <motion.div
-                initial={{ scale: 0.5, opacity: 0.6 }}
-                animate={{ scale: 2.5, opacity: 0 }}
-                transition={{ duration: 2, ease: "easeOut", delay: 0.3 }}
-                className="absolute inset-0 rounded-full"
-                style={{ background: "radial-gradient(circle, rgba(0,212,255,0.4) 0%, transparent 70%)" }}
-              />
+            <motion.div initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 2, ease: "easeOut" }} className="relative">
+              <Logo size={120} color="multi" showBeta={true} className="z-10" />
+              <motion.div initial={{ scale: 0, opacity: 0 }} animate={{ scale: [0, 4], opacity: [0.5, 0] }} transition={{ duration: 2, times: [0, 1] }} className="absolute inset-0 bg-primary-cyan/20 rounded-full blur-2xl" />
             </motion.div>
-
-            {/* ACTE 2 — Phrase manifeste */}
-            <div className="text-center px-6 max-w-2xl">
-              <motion.p
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.8, duration: 1, ease: [0.22, 1, 0.36, 1] }}
-                className="text-white/40 text-xs font-mono tracking-[0.4em] uppercase mb-4"
-              >
-                {introLang === 'FR' ? 'Depuis 2006' : 'Since 2006'}
-              </motion.p>
-
-              <motion.h1
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.1, duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
-                className="font-black uppercase text-white mb-2"
-                style={{ fontFamily: "'Arial Black', Arial, sans-serif", fontSize: "clamp(2rem,6vw,4rem)", letterSpacing: "-0.03em", lineHeight: 1 }}
-              >
-                {introLang === 'FR' ? 'La création a de la valeur.' : 'Creativity has value.'}
-              </motion.h1>
-
-              <motion.h1
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.5, duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
-                className="font-black uppercase mb-8"
-                style={{ fontFamily: "'Arial Black', Arial, sans-serif", fontSize: "clamp(2rem,6vw,4rem)", letterSpacing: "-0.03em", lineHeight: 1, color: "#00d4ff" }}
-              >
-                {introLang === 'FR' ? 'LinkYourArt la certifie.' : 'LinkYourArt certifies it.'}
-              </motion.h1>
-
-              {/* ACTE 3 — LYA UNIT pill */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 2.2, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                className="inline-flex items-center gap-3 border rounded-full px-6 py-3 mb-10"
-                style={{ borderColor: "rgba(0,212,255,0.3)", background: "rgba(0,212,255,0.06)" }}
-              >
-                <span className="text-white/40 text-[10px] font-mono tracking-widest">LYA UNIT</span>
-                <span className="w-px h-4 bg-white/10" />
-                <span className="text-white font-black font-mono text-sm">1 UNIT = $50</span>
-                <span className="w-px h-4 bg-white/10" />
-                <span className="text-[10px] font-mono tracking-widest" style={{ color: "#00d4ff" }}>
-                  {introLang === 'FR' ? 'ACCESSIBLE À TOUS' : 'ACCESSIBLE TO ALL'}
-                </span>
-              </motion.div>
-
-              {/* ACTE 4 — 6 univers */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 2.8, duration: 1 }}
-                className="flex flex-wrap justify-center gap-2 mb-12"
-              >
-                {['Musique', 'Cinéma', 'Mode', 'Jeu', 'Architecture', 'Scène'].map((u, i) => (
-                  <motion.span
-                    key={u}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 2.8 + i * 0.1, duration: 0.5 }}
-                    className="text-white/30 text-[9px] font-mono tracking-widest border border-white/10 px-3 py-1 rounded-full"
-                  >
-                    {introLang === 'FR' ? u : ['Music', 'Film', 'Fashion', 'Gaming', 'Architecture', 'Stage'][i]}
-                  </motion.span>
-                ))}
-              </motion.div>
-            </div>
-
-            {/* CTA skip */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 3.2, duration: 0.8 }}
-              className="flex flex-col items-center gap-3"
-            >
-              <motion.div
-                animate={{ y: [0, 6, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-                className="text-white/20 text-[10px] font-mono tracking-widest"
-              >
-                {introLang === 'FR' ? '↓ APPUYER POUR ENTRER' : '↓ TAP TO ENTER'}
-              </motion.div>
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1, duration: 1 }} className="mt-12 text-center">
+              <h2 className="font-headline font-light text-2xl tracking-[0.5em] text-white/40 uppercase">
+                INITIATING <span className="text-white font-bold">LINKYOURART</span>
+              </h2>
+              <div className="mt-4 w-48 h-[1px] bg-gradient-to-r from-transparent via-primary-cyan/40 to-transparent mx-auto overflow-hidden">
+                <motion.div animate={{ x: [-200, 200] }} transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }} className="w-1/2 h-full bg-primary-cyan" />
+              </div>
             </motion.div>
-
-            {/* Skip button */}
-            <motion.button
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1, duration: 0.5 }}
-              onClick={(e) => { e.stopPropagation(); setStage('MAIN'); sessionStorage.setItem('lya_intro_completed', 'true'); }}
-              className="absolute top-6 right-6 text-white/20 hover:text-white/60 text-[10px] font-mono tracking-widest transition-colors border border-white/10 hover:border-white/30 px-3 py-1.5 rounded-full"
-            >
-              SKIP →
-            </motion.button>
           </motion.div>
         ) : (
           <motion.div key="main" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 2 }} className="relative z-10">
