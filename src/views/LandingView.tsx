@@ -178,50 +178,50 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
     if (!email || !name) return;
     setIsSubmitting(true);
     const code = generateReferralCode(name);
+
+    // 1. Position en file — best-effort via le compteur public, repli local si indisponible
+    let position: number;
     try {
-      // Transaction : incrémente le compteur public et récupère la position en file
       const counterRef = doc(db, 'public_stats', 'pre_registrations');
-      const newPosition = await runTransaction(db, async (tx) => {
+      position = await runTransaction(db, async (tx) => {
         const snap = await tx.get(counterRef);
         const current = snap.exists() ? (snap.data().count || 0) : 0;
         const next = current + 1;
         tx.set(counterRef, { count: next, updatedAt: serverTimestamp() }, { merge: true });
         return next;
       });
+    } catch (counterError) {
+      console.warn('Public counter unavailable, using local fallback position:', counterError);
+      const localPre = JSON.parse(localStorage.getItem('lya_local_pre_registrations') || '[]');
+      position = (totalRegistrations || localPre.length) + 1;
+    }
 
+    // 2. Enregistrement Firestore — best-effort, ne doit jamais bloquer la confirmation
+    try {
       await addDoc(collection(db, 'pre_registrations'), {
         name, email, category,
         timestamp: serverTimestamp(),
         type: 'PRE_REGISTRATION',
-        position: newPosition,
+        position,
         referralCode: code,
         referredBy: referredBy || null,
       });
-
-      const localPre = JSON.parse(localStorage.getItem('lya_local_pre_registrations') || '[]');
-      localPre.push({ id: 'local_pre_' + Date.now(), name, email, category, position: newPosition, referralCode: code, timestamp: { toDate: () => new Date() }, type: 'PRE_REGISTRATION' });
-      localStorage.setItem('lya_local_pre_registrations', JSON.stringify(localPre));
-
-      setQueuePosition(newPosition);
-      setTotalRegistrations(newPosition);
-      setReferralCode(code);
-      try { localStorage.setItem('lya_my_referral_code', code); } catch {}
-      setSubmitted(true);
-    } catch (error) {
-      console.error("Error saving pre-registration:", error);
-      handleFirestoreError(error, OperationType.CREATE, 'pre_registrations');
-      // Repli hors-ligne : position estimée localement
-      const localPre = JSON.parse(localStorage.getItem('lya_local_pre_registrations') || '[]');
-      const fallbackPosition = (totalRegistrations || localPre.length) + 1;
-      localPre.push({ id: 'local_pre_' + Date.now(), name, email, category, position: fallbackPosition, referralCode: code, timestamp: { toDate: () => new Date() }, type: 'PRE_REGISTRATION' });
-      localStorage.setItem('lya_local_pre_registrations', JSON.stringify(localPre));
-      setQueuePosition(fallbackPosition);
-      setReferralCode(code);
-      try { localStorage.setItem('lya_my_referral_code', code); } catch {}
-      setSubmitted(true);
-    } finally {
-      setIsSubmitting(false);
+    } catch (writeError) {
+      console.error("Error saving pre-registration:", writeError);
+      try { handleFirestoreError(writeError, OperationType.CREATE, 'pre_registrations'); } catch {}
     }
+
+    // 3. Toujours persister localement et confirmer à l'utilisateur
+    const localPre = JSON.parse(localStorage.getItem('lya_local_pre_registrations') || '[]');
+    localPre.push({ id: 'local_pre_' + Date.now(), name, email, category, position, referralCode: code, timestamp: { toDate: () => new Date() }, type: 'PRE_REGISTRATION' });
+    localStorage.setItem('lya_local_pre_registrations', JSON.stringify(localPre));
+
+    setQueuePosition(position);
+    setTotalRegistrations(position);
+    setReferralCode(code);
+    try { localStorage.setItem('lya_my_referral_code', code); } catch {}
+    setSubmitted(true);
+    setIsSubmitting(false);
   };
 
   const handleDemoRequest = async (e: React.FormEvent) => {
