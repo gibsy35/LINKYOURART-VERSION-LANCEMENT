@@ -23,10 +23,13 @@ import { ExternalLink,
   Zap,
   Info,
   RefreshCw,
-  X
+  X,
+  Copy,
+  Share2,
+  Users2
 } from 'lucide-react';
 import { db, handleFirestoreError, OperationType } from '../firebase';
-import { collection, addDoc, serverTimestamp, getDocs, query, where, limit } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp, getDocs, query, where, limit, doc, runTransaction } from 'firebase/firestore';
 
 interface LandingViewProps {
   onEnterDemo: () => void;
@@ -82,6 +85,11 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
   const [category, setCategory] = useState<'CREATOR' | 'PROFESSIONAL' | 'INVESTOR'>('CREATOR');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [queuePosition, setQueuePosition] = useState<number | null>(null);
+  const [referralCode, setReferralCode] = useState<string | null>(null);
+  const [referredBy, setReferredBy] = useState<string | null>(null);
+  const [totalRegistrations, setTotalRegistrations] = useState<number | null>(null);
+  const [linkCopied, setLinkCopied] = useState(false);
   const [showDemoModal, setShowDemoModal] = useState(false);
   const [demoRequestReason, setDemoRequestReason] = useState('');
   const [demoSubmitted, setDemoSubmitted] = useState(false);
@@ -125,19 +133,91 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
     }
   }, [stage]);
 
+  // ── Parrainage : capture du code ?ref= dans l'URL ──
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const params = new URLSearchParams(window.location.search);
+    const ref = params.get('ref');
+    if (ref) {
+      setReferredBy(ref.toUpperCase());
+      try { localStorage.setItem('lya_referred_by', ref.toUpperCase()); } catch {}
+    } else {
+      try {
+        const stored = localStorage.getItem('lya_referred_by');
+        if (stored) setReferredBy(stored);
+      } catch {}
+    }
+  }, []);
+
+  // ── Compteur public : nombre total de pré-inscriptions (preuve sociale) ──
+  useEffect(() => {
+    (async () => {
+      try {
+        const snap = await import('firebase/firestore').then(({ getDoc, doc: docRef }) =>
+          getDoc(docRef(db, 'public_stats', 'pre_registrations'))
+        );
+        if (snap.exists()) {
+          setTotalRegistrations(snap.data().count || 0);
+        } else {
+          setTotalRegistrations(0);
+        }
+      } catch {
+        setTotalRegistrations(null);
+      }
+    })();
+  }, []);
+
+  const generateReferralCode = (n: string) => {
+    const initials = n.trim().replace(/[^a-zA-Z]/g, '').slice(0, 3).toUpperCase() || 'LYA';
+    const suffix = Math.random().toString(36).substring(2, 6).toUpperCase();
+    return `${initials}-${suffix}`;
+  };
+
   const handlePreRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !name) return;
     setIsSubmitting(true);
+    const code = generateReferralCode(name);
     try {
+      // Transaction : incrémente le compteur public et récupère la position en file
+      const counterRef = doc(db, 'public_stats', 'pre_registrations');
+      const newPosition = await runTransaction(db, async (tx) => {
+        const snap = await tx.get(counterRef);
+        const current = snap.exists() ? (snap.data().count || 0) : 0;
+        const next = current + 1;
+        tx.set(counterRef, { count: next, updatedAt: serverTimestamp() }, { merge: true });
+        return next;
+      });
+
+      await addDoc(collection(db, 'pre_registrations'), {
+        name, email, category,
+        timestamp: serverTimestamp(),
+        type: 'PRE_REGISTRATION',
+        position: newPosition,
+        referralCode: code,
+        referredBy: referredBy || null,
+      });
+
       const localPre = JSON.parse(localStorage.getItem('lya_local_pre_registrations') || '[]');
-      localPre.push({ id: 'local_pre_' + Date.now(), name, email, category, timestamp: { toDate: () => new Date() }, type: 'PRE_REGISTRATION' });
+      localPre.push({ id: 'local_pre_' + Date.now(), name, email, category, position: newPosition, referralCode: code, timestamp: { toDate: () => new Date() }, type: 'PRE_REGISTRATION' });
       localStorage.setItem('lya_local_pre_registrations', JSON.stringify(localPre));
-      await addDoc(collection(db, 'pre_registrations'), { name, email, category, timestamp: serverTimestamp(), type: 'PRE_REGISTRATION' });
+
+      setQueuePosition(newPosition);
+      setTotalRegistrations(newPosition);
+      setReferralCode(code);
+      try { localStorage.setItem('lya_my_referral_code', code); } catch {}
       setSubmitted(true);
     } catch (error) {
       console.error("Error saving pre-registration:", error);
       handleFirestoreError(error, OperationType.CREATE, 'pre_registrations');
+      // Repli hors-ligne : position estimée localement
+      const localPre = JSON.parse(localStorage.getItem('lya_local_pre_registrations') || '[]');
+      const fallbackPosition = (totalRegistrations || localPre.length) + 1;
+      localPre.push({ id: 'local_pre_' + Date.now(), name, email, category, position: fallbackPosition, referralCode: code, timestamp: { toDate: () => new Date() }, type: 'PRE_REGISTRATION' });
+      localStorage.setItem('lya_local_pre_registrations', JSON.stringify(localPre));
+      setQueuePosition(fallbackPosition);
+      setReferralCode(code);
+      try { localStorage.setItem('lya_my_referral_code', code); } catch {}
       setSubmitted(true);
     } finally {
       setIsSubmitting(false);
@@ -178,6 +258,36 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
       if (accessKey.trim().length >= 4) { onEnterDemo(); } else { setKeyError(true); }
     } finally {
       setIsVerifyingKey(false);
+    }
+  };
+
+  const referralLink = referralCode && typeof window !== 'undefined'
+    ? `${window.location.origin}${window.location.pathname}?ref=${referralCode}`
+    : '';
+
+  const handleCopyReferralLink = async () => {
+    if (!referralLink) return;
+    try {
+      await navigator.clipboard.writeText(referralLink);
+      setLinkCopied(true);
+      setTimeout(() => setLinkCopied(false), 2000);
+    } catch {
+      setLinkCopied(false);
+    }
+  };
+
+  const handleShareReferralLink = async () => {
+    if (!referralLink) return;
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: 'LinkYourArt',
+          text: t('Join me on LinkYourArt — the LYA Protocol pre-registration.', 'Rejoins-moi sur LinkYourArt — pré-inscription au Protocole LYA.'),
+          url: referralLink,
+        });
+      } catch {}
+    } else {
+      handleCopyReferralLink();
     }
   };
 
@@ -384,6 +494,24 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                         </p>
                       </div>
 
+                      {totalRegistrations !== null && totalRegistrations > 0 && (
+                        <div className="flex items-center gap-2 px-4 py-2.5 bg-primary-cyan/5 border border-primary-cyan/20 rounded-2xl">
+                          <Users2 size={14} className="text-primary-cyan shrink-0" />
+                          <p className="text-primary-cyan text-[10px] font-black uppercase tracking-widest">
+                            {t(`${totalRegistrations.toLocaleString('en-US')} people already on the waitlist`, `${totalRegistrations.toLocaleString('fr-FR')} personnes déjà sur la liste d'attente`)}
+                          </p>
+                        </div>
+                      )}
+
+                      {referredBy && (
+                        <div className="flex items-center gap-2 px-4 py-2.5 bg-white/5 border border-white/10 rounded-2xl">
+                          <Share2 size={14} className="text-white/40 shrink-0" />
+                          <p className="text-white/50 text-[10px] font-bold uppercase tracking-widest">
+                            {t(`Invited via code ${referredBy}`, `Invité via le code ${referredBy}`)}
+                          </p>
+                        </div>
+                      )}
+
                       <form onSubmit={handlePreRegister} className="space-y-6">
                         <div className="p-1 bg-white/5 rounded-2xl border border-white/10 flex gap-1">
                           {['CREATOR', 'PROFESSIONAL', 'INVESTOR'].map((cat) => (
@@ -426,18 +554,47 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                       </div>
                     </div>
                   ) : (
-                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="py-20 text-center space-y-10">
+                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="py-12 text-center space-y-8">
                       <div className="w-24 h-24 bg-primary-cyan/10 rounded-full flex items-center justify-center mx-auto border border-primary-cyan/20 relative">
                         <CheckCircle2 size={48} className="text-primary-cyan" />
                         <motion.div animate={{ scale: [1, 1.5, 1], opacity: [0, 0.5, 0] }} transition={{ duration: 2, repeat: Infinity }} className="absolute inset-0 bg-primary-cyan rounded-full" />
                       </div>
+
                       <div>
-                        <h3 className="font-headline text-4xl font-black tracking-tighter uppercase mb-4">{t('IN QUEUE', 'EN ATTENTE')}</h3>
+                        <h3 className="font-headline text-4xl font-black tracking-tighter uppercase mb-3">{t('IN QUEUE', 'EN ATTENTE')}</h3>
                         <p className="text-white/40 font-medium max-w-xs mx-auto leading-relaxed">
                           {t('Your entry has been validated. Our team will contact you once the terminal is ready for your profile.', 'Votre inscription a été validée. Notre équipe vous contactera une fois que le terminal sera prêt pour votre profil.')}
                         </p>
                       </div>
-                      <button onClick={() => setSubmitted(false)} className="text-[10px] font-black tracking-widest text-primary-cyan uppercase hover:underline">
+
+                      {queuePosition !== null && (
+                        <div className="bg-white/[0.03] border border-primary-cyan/20 rounded-3xl p-6">
+                          <p className="text-[10px] font-black tracking-widest text-white/30 uppercase mb-2">{t('YOUR POSITION', 'VOTRE POSITION')}</p>
+                          <p className="font-headline text-5xl font-black text-primary-cyan tracking-tighter">#{queuePosition.toLocaleString('fr-FR')}</p>
+                        </div>
+                      )}
+
+                      {referralLink && (
+                        <div className="space-y-3">
+                          <p className="text-[10px] font-black tracking-widest text-white/30 uppercase">
+                            {t('Move up the list — invite your network', "Montez dans la liste — invitez votre réseau")}
+                          </p>
+                          <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-2xl p-2">
+                            <p className="flex-1 text-left text-white/60 text-xs font-mono px-3 truncate">{referralLink}</p>
+                            <button onClick={handleCopyReferralLink} className="shrink-0 w-10 h-10 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-white/60 hover:text-white transition-all">
+                              <Copy size={14} />
+                            </button>
+                            <button onClick={handleShareReferralLink} className="shrink-0 w-10 h-10 rounded-xl bg-primary-cyan/10 hover:bg-primary-cyan/20 border border-primary-cyan/20 flex items-center justify-center text-primary-cyan transition-all">
+                              <Share2 size={14} />
+                            </button>
+                          </div>
+                          {linkCopied && (
+                            <p className="text-primary-cyan text-[10px] font-black uppercase tracking-widest">{t('Link copied!', 'Lien copié !')}</p>
+                          )}
+                        </div>
+                      )}
+
+                      <button onClick={() => { setSubmitted(false); setQueuePosition(null); setReferralCode(null); }} className="text-[10px] font-black tracking-widest text-primary-cyan uppercase hover:underline">
                         {t('SUBMIT ANOTHER', 'NOUVELLE INSCRIPTION')}
                       </button>
                     </motion.div>

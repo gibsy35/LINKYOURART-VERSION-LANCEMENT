@@ -6,7 +6,7 @@ import { ArrowRight, User, Briefcase, TrendingUp, Loader2, ShieldCheck, Mail, Lo
 import { useTranslation } from '../context/LanguageContext';
 import { auth, db, handleFirestoreError, OperationType } from '../firebase';
 import { createUserWithEmailAndPassword, updateProfile, GoogleAuthProvider, signInWithPopup, sendEmailVerification } from 'firebase/auth';
-import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { doc, setDoc, getDoc, collection, query, where, getDocs, limit } from 'firebase/firestore';
 import { Logo } from '../components/ui/Logo';
 import { OracleWidget } from '../components/ui/OracleWidget';
 
@@ -51,7 +51,32 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
       await updateProfile(firebaseUser, { displayName: formData.name });
 
       const codeInput = formData.accessCode.trim().toUpperCase();
-      const isValidCode = ['LYA2026', 'VC2026', 'LYA-DEMO-2026', 'DEMO', 'LYADOCK', 'LYAPARTNER', 'LYA_DEMO_2026', 'VC_DEMO'].includes(codeInput);
+      let isValidCode = false;
+      if (codeInput) {
+        // 1. Codes historiques conservés pour compatibilité (partenaires/démos déjà distribués)
+        const LEGACY_CODES = ['LYA2026', 'VC2026', 'LYA-DEMO-2026', 'DEMO', 'LYADOCK', 'LYAPARTNER', 'LYA_DEMO_2026', 'VC_DEMO'];
+        isValidCode = LEGACY_CODES.includes(codeInput);
+
+        // 2. Cache local hors-ligne (cohérent avec LandingView / AdminKeysManagement)
+        if (!isValidCode) {
+          try {
+            const localKeys = JSON.parse(localStorage.getItem('lya_local_access_keys') || '[]');
+            isValidCode = localKeys.some((k: any) => k.key?.trim().toUpperCase() === codeInput && k.status !== 'REVOKED');
+          } catch {}
+        }
+
+        // 3. Source de vérité unique : collection Firestore access_keys (gérée par AdminKeysManagement)
+        if (!isValidCode) {
+          try {
+            const keysRef = collection(db, 'access_keys');
+            const q = query(keysRef, where('key', '==', codeInput), where('status', '==', 'ACTIVE'), limit(1));
+            const snap = await getDocs(q);
+            isValidCode = !snap.empty;
+          } catch (keyErr) {
+            console.warn('Access key lookup failed:', keyErr);
+          }
+        }
+      }
 
       const newUser: UserProfile = {
         uid: firebaseUser.uid,

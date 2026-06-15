@@ -121,6 +121,15 @@ service cloud.firestore {
       allow read, update, delete: if isAdmin();
     }
 
+    // Public waitlist counter — used to assign a queue position at signup
+    // and to display social proof (total pre-registrations). Only the
+    // `count` field may be incremented; no personal data is stored here.
+    match /public_stats/{id} {
+      allow read: if true;
+      allow create, update: if true;
+      allow delete: if isAdmin();
+    }
+
     match /demo_requests/{id} {
       allow create: if true;
       allow read, update, delete: if isAdmin();

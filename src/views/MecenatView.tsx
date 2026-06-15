@@ -15,7 +15,7 @@ import type { Contract } from "../types";
 export function MecenatView() {
   const { language } = useTranslation();
   const lang: "FR" | "EN" = language === "FR" ? "FR" : "EN";
-  const T = (fr: string, en: string) => lang === "FR" ? fr : en;
+  const T = (fr: React.ReactNode, en: React.ReactNode) => lang === "FR" ? fr : en;
 
   const [activeTheme, setActiveTheme] = useState("all");
   const [detail, setDetail] = useState<{ contract: Contract; units: number } | null>(null);
