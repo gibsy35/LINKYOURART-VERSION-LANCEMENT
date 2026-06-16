@@ -255,7 +255,7 @@ const ValidationQueue: React.FC<{
 
       {/* Liste */}
       <div className="space-y-4">
-        <AnimatePresence mode="popLayout">
+        <AnimatePresence mode="sync">
           {filtered.map((req, idx) => {
             const allDone = VALIDATION_STEPS.every(s => req.steps[s.id] === 'COMPLETED');
             const progress = VALIDATION_STEPS.filter(s => req.steps[s.id] === 'COMPLETED').length;
