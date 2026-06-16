@@ -341,8 +341,8 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                     <Lock size={13} />
                   </button>
                   <div className="flex items-center bg-white/5 border border-white/10 rounded-full p-0.5">
-                    <button onClick={() => setLanguage?.('FR')} className={`px-2 py-1 rounded-full text-[9px] font-black tracking-wider transition-all ${language === 'FR' ? 'bg-white text-black' : 'text-white/40'}`}>FR</button>
-                    <button onClick={() => setLanguage?.('EN')} className={`px-2 py-1 rounded-full text-[9px] font-black tracking-wider transition-all ${language === 'EN' ? 'bg-white text-black' : 'text-white/40'}`}>EN</button>
+                    <button onClick={() => setLanguage('FR')} className={`px-2 py-1 rounded-full text-[9px] font-black tracking-wider transition-all ${language === 'FR' ? 'bg-white text-black' : 'text-white/40'}`}>FR</button>
+                    <button onClick={() => setLanguage('EN')} className={`px-2 py-1 rounded-full text-[9px] font-black tracking-wider transition-all ${language === 'EN' ? 'bg-white text-black' : 'text-white/40'}`}>EN</button>
                   </div>
                 </div>
                 <div className="absolute left-0 right-0 flex flex-col items-center cursor-pointer" onClick={handleLogoTap}>
@@ -367,11 +367,11 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                     <div className="w-1.5 h-1.5 rounded-full bg-primary-cyan opacity-80 shadow-[0_0_8px_rgba(0,224,255,1)]" />
                   </motion.button>
                   <motion.button whileHover={{ scale: 1.05, x: 5 }} whileTap={{ scale: 0.95 }} className="text-white/40 transition-colors hover:text-[#FF007F] group flex items-center gap-2">
-                    Liquidity
+                    {t('Liquidity', 'Liquidité')}
                     <div className="w-1.5 h-1.5 rounded-full bg-[#FF007F] opacity-80 shadow-[0_0_8px_rgba(255,0,127,1)]" />
                   </motion.button>
                   <motion.button whileHover={{ scale: 1.05, x: 5 }} whileTap={{ scale: 0.95 }} className="text-white/40 transition-colors hover:text-[#9D00FF] group flex items-center gap-2">
-                    Security
+                    {t('Security', 'Sécurité')}
                     <div className="w-1.5 h-1.5 rounded-full bg-[#9D00FF] opacity-80 shadow-[0_0_8px_rgba(157,0,255,1)]" />
                   </motion.button>
                 </div>
