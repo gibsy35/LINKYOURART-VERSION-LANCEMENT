@@ -358,7 +358,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                 <Logo size={48} color="multi" showBeta={true} />
                 <div className="flex flex-col">
                   <ElevatedTextLogo size="text-2xl" />
-                  <span className="text-[9px] font-black tracking-[0.4em] text-primary-cyan uppercase opacity-70 mt-1">{t('ART ASSET PROTOCOL', 'ART ASSET PROTOCOL')}</span>
+                  <span className="text-[9px] font-black tracking-[0.4em] text-primary-cyan uppercase opacity-70 mt-1">{t('ART IS AN EXCHANGE', 'ART IS AN EXCHANGE')}</span>
                 </div>
               </div>
               <div className="hidden md:flex items-center gap-2 md:gap-12">
@@ -405,7 +405,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                   </div>
 
                   {/* ── TITRE : 2 lignes, typo ultra grasse ── */}
-                  <h2 className="font-headline text-6xl md:text-7xl xl:text-8xl font-black uppercase tracking-[-0.04em] leading-[0.84] text-white mb-6" style={{ fontStretch: "condensed", textShadow: "0 0 60px rgba(0,212,255,0.15)" }}>
+                  <h2 className="font-headline text-5xl md:text-6xl xl:text-7xl font-black uppercase tracking-tighter leading-[0.88] text-on-surface mb-6" style={{ textShadow: "0 0 60px rgba(0,212,255,0.12)" }}>
                     <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}>
                       {t("THE SOVEREIGN BENCHMARK", "L'ÉTALON SOUVERAIN")}<br />
                       <span className="text-primary-cyan" style={{ WebkitTextStroke: "1px rgba(0,212,255,0.3)" }}>{t("FOR CREATIVE CAPITAL", "DES ACTIFS CRÉATIFS")}</span>
@@ -606,32 +606,35 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
 
             {/* Footer */}
             <footer className="relative z-10 border-t border-white/5 bg-black/40 backdrop-blur-xl py-10 md:py-16 px-4 md:px-8">
-              <div className="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-16">
-                <div className="space-y-6">
-                  <div className="flex items-center gap-2">
+              <div className="max-w-[1600px] mx-auto flex flex-col md:flex-row items-start gap-16">
+                <div className="space-y-4 md:w-1/3">
+                  <div className="flex items-center gap-3">
                     <Logo size={40} color="multi" showBeta={true} />
-                    <ElevatedTextLogo size="text-xl" />
+                    <div className="flex flex-col">
+                      <ElevatedTextLogo size="text-xl" />
+                      <span className="text-[9px] font-black tracking-[0.4em] text-primary-cyan uppercase opacity-70 mt-0.5">{t('ART IS AN EXCHANGE', 'ART IS AN EXCHANGE')}</span>
+                    </div>
                   </div>
                   <p className="text-white/30 text-sm font-medium leading-relaxed max-w-xs">
                     {t('Building the definitive transfer layer for creative intellectual property.', "Construire la couche d'échange définitive pour la propriété intellectuelle créative.")}
                   </p>
                 </div>
-                <div className="space-y-6">
+                <div className="space-y-6 md:w-1/3">
                   <h5 className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20">{t('INSTITUTIONAL ENQUIRIES', 'DEMANDES INSTITUTIONNELLES')}</h5>
                   <div className="space-y-3">
                     <a href="mailto:contact@linkyourart.com" className="block text-xl font-headline font-light text-white hover:text-primary-cyan transition-colors">contact@linkyourart.com</a>
                     <div className="text-[10px] font-bold tracking-widest text-white/20 uppercase">Response within 24h GMT</div>
                   </div>
                 </div>
-                <div className="space-y-6 text-right">
+                <div className="space-y-6 md:w-1/3 md:text-right">
                   <h5 className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20">{t('LEGAL & COMPLIANCE', 'LÉGAL & CONFORMITÉ')}</h5>
-                  <div className="flex flex-wrap justify-end gap-4 text-[10px] font-bold tracking-widest text-white/40 uppercase">
+                  <div className="flex flex-wrap md:justify-end gap-4 text-[10px] font-bold tracking-widest text-white/40 uppercase">
                     <span onClick={() => setActiveLegal('GDPR')} className="hover:text-white cursor-pointer transition-colors">GDPR</span>
                     <span onClick={() => setActiveLegal('PRIVACY')} className="hover:text-white cursor-pointer transition-colors">Digital Privacy</span>
                     <span onClick={() => setActiveLegal('TERMS')} className="hover:text-white cursor-pointer transition-colors">Terms</span>
                   </div>
                   <div className="text-[9px] font-black text-white/10 tracking-[0.2em]">© 2026 LINKYOURART INDUSTRIES. ALL RIGHTS RESERVED.</div>
-                  <button onClick={() => setShowKidiModal(true)} className="flex items-center gap-2 mt-4 group">
+                  <button onClick={() => setShowKidiModal(true)} className="flex items-center gap-2 mt-4 group md:ml-auto">
                     <div className="flex items-center gap-1.5 px-3 py-1.5 border border-white/10 bg-white/[0.03] group-hover:border-accent-gold/40 group-hover:bg-accent-gold/5 transition-all">
                       <span className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-[#FF6BFF] to-[#00E0FF] animate-pulse" />
                       <span className="text-[9px] font-black uppercase tracking-[0.35em] text-white/40 group-hover:text-accent-gold transition-colors">KIDI.WORLD</span>
