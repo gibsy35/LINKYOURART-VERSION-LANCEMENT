@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { useTranslation } from '../context/LanguageContext';
 import { useCurrency } from '../context/CurrencyContext';
 import { UserProfile, CONTRACTS } from '../types';
+import { PageHeader } from '../components/ui/PageHeader';
 import {
   Search, Shield, Award, Users, TrendingUp, ChevronDown, Star,
   CheckCircle, Clock, BarChart2, DollarSign, Briefcase, Zap, ArrowRight
@@ -76,15 +77,15 @@ export const ProfessionalDashboardView: React.FC<{ user: UserProfile | null; onN
 
   return (
     <div className="space-y-8 pb-12">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-2 mb-1">
-            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary-cyan border border-primary-cyan/20 bg-primary-cyan/8 px-3 py-1 rounded-full">{T('ESPACE PROFESSIONNEL PREMIUM', 'PREMIUM PROFESSIONAL SPACE')}</span>
-          </div>
-          <h1 className="font-headline font-black text-on-surface text-3xl tracking-tight uppercase">{T('Dashboard Professionnel', 'Professional Dashboard')}</h1>
-          <p className="text-sm text-on-surface-variant/50 mt-1">• {T('Expertise de niveau institutionnel pour accompagner l\'excellence artistique', 'Institutional-level expertise to support artistic excellence')}</p>
-        </div>
+      <PageHeader
+        titleWhite={T('DASHBOARD', 'PROFESSIONAL')}
+        titleAccent={T('PROFESSIONNEL', 'DASHBOARD')}
+        description={T('Expertise de niveau institutionnel pour accompagner l\'excellence artistique', 'Institutional-level expertise to support artistic excellence')}
+        accentColor="text-primary-cyan"
+      />
+
+      {/* Bouton recherche */}
+      <div className="flex items-center gap-3">
         <button onClick={() => setActiveSection('dealfinder')} className="flex items-center gap-2 px-5 py-2.5 bg-primary-cyan text-surface-dim text-sm font-black rounded-xl hover:bg-white transition-all uppercase tracking-wider shadow-[0_0_20px_rgba(0,212,255,0.2)]">
           <Search size={14} /> {T('Rechercher Projets', 'Search Projects')}
         </button>

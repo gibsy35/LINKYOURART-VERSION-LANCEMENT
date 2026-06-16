@@ -4,6 +4,7 @@ import { useTranslation } from '../context/LanguageContext';
 import { useCurrency } from '../context/CurrencyContext';
 import { UserProfile, CONTRACTS, LYA_UNIT_VALUE } from '../types';
 import { RealtimeChart } from '../components/RealtimeChart';
+import { PageHeader } from '../components/ui/PageHeader';
 import {
   TrendingUp, Users, DollarSign, Zap, Upload, FileText, Music,
   Image, Plus, ChevronDown, CheckCircle, Clock, Star, BarChart2,
@@ -270,26 +271,24 @@ export const CreatorDashboardView: React.FC<{ user: UserProfile | null; onNotify
 
   return (
     <div className="space-y-8 pb-12">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-2 mb-1">
-            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[#a78bfa] border border-[#a78bfa]/20 bg-[#a78bfa]/8 px-3 py-1 rounded-full">CRÉATEUR</span>
-          </div>
-          <h1 className="font-headline font-black text-on-surface text-3xl tracking-tight uppercase">{T('Mes Créations', 'My Creations')}</h1>
-          <p className="text-sm text-on-surface-variant/50 mt-1">• {T('Gérez vos projets et jalons', 'Manage your projects and milestones')} 🚀</p>
-        </div>
-        <div className="flex items-center gap-3">
-          <button onClick={() => setActiveSection('analytics')} className="flex items-center gap-2 px-4 py-2.5 bg-surface-high/40 border border-white/10 text-sm font-black rounded-xl hover:border-white/25 transition-all uppercase tracking-wider">
-            <BarChart2 size={14} /> {T('Analytics', 'Analytics')}
-          </button>
-          <button onClick={() => setActiveSection('simulator')} className="flex items-center gap-2 px-4 py-2.5 bg-primary-cyan/10 border border-primary-cyan/30 text-primary-cyan text-sm font-black rounded-xl hover:bg-primary-cyan/20 transition-all uppercase tracking-wider">
-            <Target size={14} /> {T('Simuler mon score', 'Simulate my score')}
-          </button>
-          <button onClick={() => onNotify(T('Nouvelle création en cours...', 'New creation in progress...'))} className="flex items-center gap-2 px-4 py-2.5 bg-[#a78bfa] text-surface-dim text-sm font-black rounded-xl hover:bg-white transition-all uppercase tracking-wider">
-            <Plus size={14} /> {T('Nouvelle création', 'New creation')}
-          </button>
-        </div>
+      <PageHeader
+        titleWhite={T('MES', 'MY')}
+        titleAccent={T('CRÉATIONS', 'CREATIONS')}
+        description={T('Gérez vos projets, jalons et analytics créatifs', 'Manage your projects, milestones and creative analytics')}
+        accentColor="text-[#a78bfa]"
+      />
+
+      {/* Actions */}
+      <div className="flex flex-wrap items-center gap-3">
+        <button onClick={() => setActiveSection('analytics')} className="flex items-center gap-2 px-4 py-2.5 bg-surface-high/40 border border-white/10 text-sm font-black rounded-xl hover:border-white/25 transition-all uppercase tracking-wider">
+          <BarChart2 size={14} /> {T('Analytics', 'Analytics')}
+        </button>
+        <button onClick={() => setActiveSection('simulator')} className="flex items-center gap-2 px-4 py-2.5 bg-[#a78bfa]/10 border border-[#a78bfa]/30 text-[#a78bfa] text-sm font-black rounded-xl hover:bg-[#a78bfa]/20 transition-all uppercase tracking-wider">
+          <Target size={14} /> {T('Simuler mon score', 'Simulate my score')}
+        </button>
+        <button onClick={() => onNotify(T('Nouvelle création en cours...', 'New creation in progress...'))} className="flex items-center gap-2 px-4 py-2.5 bg-[#a78bfa] text-surface-dim text-sm font-black rounded-xl hover:bg-white transition-all uppercase tracking-wider">
+          <Plus size={14} /> {T('Nouvelle création', 'New creation')}
+        </button>
       </div>
 
       {/* Onglets */}

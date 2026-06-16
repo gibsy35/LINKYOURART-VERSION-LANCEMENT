@@ -4,6 +4,7 @@ import { useTranslation } from '../context/LanguageContext';
 import { useCurrency } from '../context/CurrencyContext';
 import { UserProfile, CONTRACTS, LYA_UNIT_VALUE } from '../types';
 import { RealtimeChart } from '../components/RealtimeChart';
+import { PageHeader } from '../components/ui/PageHeader';
 import {
   TrendingUp, DollarSign, Zap, Star, BarChart2, ArrowUpRight,
   Bell, Users, Filter, ChevronDown, ExternalLink, Sparkles, Target
@@ -74,15 +75,15 @@ export const InvestorDashboardView: React.FC<{ user: UserProfile | null; onNotif
 
   return (
     <div className="space-y-8 pb-12">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-2 mb-1">
-            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-emerald-400 border border-emerald-400/20 bg-emerald-400/8 px-3 py-1 rounded-full">{T('MÉCÈNE', 'PATRON')} · LIVE</span>
-          </div>
-          <h1 className="font-headline font-black text-on-surface text-3xl tracking-tight uppercase">{T('Mon Portfolio', 'My Portfolio')}</h1>
-          <p className="text-sm text-on-surface-variant/50 mt-1">• {T('Suivez vos soutiens et collections en temps réel', 'Track your pledges and collections in real time')} ⚡</p>
-        </div>
+      <PageHeader
+        titleWhite={T('MON', 'MY')}
+        titleAccent={T('PORTFOLIO', 'PORTFOLIO')}
+        description={T('Suivez vos soutiens et collections en temps réel', 'Track your pledges and collections in real time')}
+        accentColor="text-emerald-400"
+      />
+
+      {/* Bouton analytics */}
+      <div className="flex items-center gap-3">
         <button onClick={() => setActiveSection('analytics')} className="flex items-center gap-2 px-5 py-2.5 bg-surface-high/40 border border-white/10 text-sm font-black rounded-xl hover:border-white/25 transition-all uppercase tracking-wider">
           <BarChart2 size={14} /> {T('Analytics Avancées', 'Advanced Analytics')}
         </button>
