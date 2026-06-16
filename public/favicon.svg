@@ -1,69 +1,74 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
   <defs>
-    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#0D1117"/>
-      <stop offset="100%" style="stop-color:#0A1628"/>
-    </linearGradient>
-    <linearGradient id="cyan" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#00E0FF"/>
-      <stop offset="100%" style="stop-color:#00B4CC"/>
-    </linearGradient>
-    <filter id="glow">
-      <feGaussianBlur stdDeviation="8" result="blur"/>
+    <!-- Fond sombre -->
+    <radialGradient id="bg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#111827"/>
+      <stop offset="100%" style="stop-color:#0D1117"/>
+    </radialGradient>
+    <!-- Glow blanc central -->
+    <filter id="glow-white">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <!-- Glow rose -->
+    <filter id="glow-pink">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <!-- Glow cyan -->
+    <filter id="glow-cyan">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <!-- Glow violet -->
+    <filter id="glow-purple">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
       <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
   </defs>
 
-  <!-- Background -->
-  <rect width="512" height="512" rx="96" fill="url(#bg)"/>
+  <!-- Fond arrondi -->
+  <rect width="512" height="512" rx="110" fill="url(#bg)"/>
 
-  <!-- Subtle border -->
-  <rect x="2" y="2" width="508" height="508" rx="95" fill="none" stroke="#00E0FF" stroke-width="3" opacity="0.25"/>
+  <!-- Halo central blanc (blur) -->
+  <circle cx="256" cy="256" r="38" fill="white" opacity="0.08" filter="url(#glow-white)"/>
 
-  <!-- Top cyan accent line -->
-  <rect x="64" y="64" width="384" height="3" rx="2" fill="url(#cyan)" opacity="0.6"/>
+  <!-- Cercle intérieur — ROSE (#FF007F), r≈102px, dasharray 60/65 -->
+  <circle cx="256" cy="256" r="102"
+    fill="none"
+    stroke="#FF007F"
+    stroke-width="18"
+    stroke-dasharray="188 205"
+    stroke-dashoffset="32"
+    stroke-linecap="round"
+    opacity="0.95"
+    filter="url(#glow-pink)"/>
 
-  <!-- Chain link icon — top link -->
-  <path d="M 180 185
-    C 180 155 200 135 230 135
-    L 282 135
-    C 312 135 332 155 332 185
-    C 332 215 312 235 282 235
-    L 262 235
-    L 262 205
-    L 282 205
-    C 296 205 302 196 302 185
-    C 302 174 296 165 282 165
-    L 230 165
-    C 216 165 210 174 210 185
-    C 210 194 214 202 222 205
-    L 222 235
-    C 198 228 180 210 180 185 Z"
-    fill="url(#cyan)" filter="url(#glow)" opacity="0.95"/>
+  <!-- Cercle intermédiaire — CYAN (#00E0FF), r≈163px, dasharray 120/80 -->
+  <circle cx="256" cy="256" r="163"
+    fill="none"
+    stroke="#00E0FF"
+    stroke-width="16"
+    stroke-dasharray="378 252"
+    stroke-dashoffset="141"
+    stroke-linecap="round"
+    opacity="0.95"
+    filter="url(#glow-cyan)"/>
 
-  <!-- Chain link icon — bottom link (offset) -->
-  <path d="M 180 327
-    C 180 297 200 277 230 277
-    L 250 277
-    L 250 307
-    L 230 307
-    C 216 307 210 316 210 327
-    C 210 338 216 347 230 347
-    L 282 347
-    C 296 347 302 338 302 327
-    C 302 318 298 310 290 307
-    L 290 277
-    C 314 284 332 302 332 327
-    C 332 357 312 377 282 377
-    L 230 377
-    C 200 377 180 357 180 327 Z"
-    fill="url(#cyan)" filter="url(#glow)" opacity="0.95"/>
+  <!-- Cercle extérieur — VIOLET (#9D00FF), r≈224px, dasharray 200/75 -->
+  <circle cx="256" cy="256" r="224"
+    fill="none"
+    stroke="#9D00FF"
+    stroke-width="14"
+    stroke-dasharray="630 236"
+    stroke-dashoffset="567"
+    stroke-linecap="round"
+    opacity="0.95"
+    filter="url(#glow-purple)"/>
 
-  <!-- Connection dots between links -->
-  <circle cx="256" cy="228" r="8" fill="#00E0FF" opacity="0.5"/>
-  <circle cx="256" cy="256" r="5" fill="#00E0FF" opacity="0.8"/>
-  <circle cx="256" cy="284" r="8" fill="#00E0FF" opacity="0.5"/>
+  <!-- Halo blanc central (glow) -->
+  <circle cx="256" cy="256" r="22" fill="white" opacity="0.15" filter="url(#glow-white)"/>
 
-  <!-- Bottom cyan accent line -->
-  <rect x="64" y="445" width="384" height="3" rx="2" fill="url(#cyan)" opacity="0.6"/>
+  <!-- Point central blanc -->
+  <circle cx="256" cy="256" r="13" fill="white" opacity="1" filter="url(#glow-white)"/>
 </svg>
