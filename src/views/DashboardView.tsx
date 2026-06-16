@@ -29,8 +29,7 @@ import {
   ShieldCheck,
   Star,
   Globe,
-  Shield
-} from 'lucide-react';
+  Shield} from 'lucide-react';
 import { 
   AreaChart, 
   Area, 
@@ -69,6 +68,7 @@ import { useMarketData } from '../hooks/useMarketData';
 import { LYAAlgorithm } from '../components/LYAAlgorithm';
 import { SecondaryMarket } from '../components/SecondaryMarket';
 import { AdminKeysManagement } from '../components/AdminKeysManagement';
+import { WorkspaceWidgets } from '../components/WorkspaceWidgets';
 import { fetchRealtimeNews } from '../services/geminiService';
 
 export const DashboardView: React.FC<{ 
@@ -85,7 +85,7 @@ export const DashboardView: React.FC<{
   const { formatPrice, formatLYA } = useCurrency();
   const { contracts: hookContracts, marketStats, lastUpdate } = useMarketData();
   const contracts = liveContracts || hookContracts;
-  const [activeTab, setActiveTab] = React.useState<'overview' | 'predictive' | 'accessibilité' | 'management'>('overview');
+  const [activeTab, setActiveTab] = React.useState<'overview' | 'predictive' | 'accessibilité' | 'workspace' | 'management'>('overview');
   
   const isAdmin = user?.email?.toLowerCase() === 'linkyourart@gmail.com' || user?.role === 'ADMIN';
 
@@ -346,6 +346,18 @@ export const DashboardView: React.FC<{
               <ActivityIcon size={14} className={activeTab === 'accessibilité' ? 'text-primary-cyan' : 'text-on-surface-variant opacity-40'} />
               <span className="relative z-10">{t('Exchange Center', 'Centre d\'Échanges')}</span>
               {activeTab === 'accessibilité' && (
+                <motion.div layoutId="activeTab" className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-cyan shadow-[0_0_10px_rgba(0,224,255,0.5)]" />
+              )}
+              <div className="absolute inset-0 bg-primary-cyan/0 group-hover:bg-primary-cyan/5 transition-all duration-300 -mb-0.5" />
+            </button>
+
+            <button
+              onClick={() => setActiveTab('workspace')}
+              className={`pb-4 text-[10px] font-black uppercase tracking-[0.4em] transition-all relative group flex items-center gap-3 shrink-0 ${activeTab === 'workspace' ? 'text-primary-cyan' : 'text-on-surface-variant hover:text-on-surface'}`}
+            >
+              <LayoutGrid size={14} className={activeTab === 'workspace' ? 'text-primary-cyan' : 'text-on-surface-variant opacity-40'} />
+              <span className="relative z-10">{t('My Workspace', 'Mon Espace')}</span>
+              {activeTab === 'workspace' && (
                 <motion.div layoutId="activeTab" className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-cyan shadow-[0_0_10px_rgba(0,224,255,0.5)]" />
               )}
               <div className="absolute inset-0 bg-primary-cyan/0 group-hover:bg-primary-cyan/5 transition-all duration-300 -mb-0.5" />
@@ -869,6 +881,8 @@ export const DashboardView: React.FC<{
         <div className="bg-surface-low/30 backdrop-blur-2xl border border-white/10 rounded-2xl overflow-hidden shadow-2xl p-8">
           <LYAAlgorithm />
         </div>
+      ) : activeTab === 'workspace' ? (
+        <WorkspaceWidgets />
       ) : activeTab === 'management' ? (
         <AdminKeysManagement />
       ) : (
