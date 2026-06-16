@@ -4,6 +4,7 @@ import { useTranslation } from '../context/LanguageContext';
 import { useCurrency } from '../context/CurrencyContext';
 import { UserProfile, CONTRACTS } from '../types';
 import { PageHeader } from '../components/ui/PageHeader';
+import { ServiceContactModal } from '../components/DashboardModals';
 import {
   Search, Shield, Award, Users, TrendingUp, ChevronDown, Star,
   CheckCircle, Clock, BarChart2, DollarSign, Briefcase, Zap, ArrowRight
@@ -26,6 +27,7 @@ export const ProfessionalDashboardView: React.FC<{ user: UserProfile | null; onN
   const T = (fr: string, en: string) => lang === 'FR' ? fr : en;
 
   const [activeSection, setActiveSection] = useState<'dashboard' | 'dealfinder' | 'missions' | 'services'>('dashboard');
+  const [serviceModal, setServiceModal] = useState<{name:string;price:string}|null>(null);
   const [searchCat, setSearchCat] = useState('');
   const [searchGenre, setSearchGenre] = useState('');
   const [searchBudget, setSearchBudget] = useState('');
@@ -313,7 +315,7 @@ export const ProfessionalDashboardView: React.FC<{ user: UserProfile | null; onN
                         <p className="text-[10px] text-on-surface-variant/40 uppercase tracking-widest">{T('Tarif','Price')}</p>
                         <p className="text-2xl font-black text-on-surface">{s.price}</p>
                       </div>
-                      <button onClick={() => onNotify(T(`Demande envoyée pour ${s.titleFR}`,`Request sent for ${s.titleEN}`))} className={`px-5 py-2.5 text-sm font-black rounded-xl transition-all uppercase tracking-wider flex items-center gap-2 ${s.btnColor}`}>
+                      <button onClick={() => setServiceModal({name: T(s.titleFR, s.titleEN), price: s.price})} className={`px-5 py-2.5 text-sm font-black rounded-xl transition-all uppercase tracking-wider flex items-center gap-2 ${s.btnColor}`}>
                         {T('Modifier','Modify')} <ArrowRight size={14} />
                       </button>
                     </div>
@@ -348,6 +350,15 @@ export const ProfessionalDashboardView: React.FC<{ user: UserProfile | null; onN
           )}
         </motion.div>
       </AnimatePresence>
+
+      <ServiceContactModal
+        open={!!serviceModal}
+        onClose={() => setServiceModal(null)}
+        lang={lang}
+        serviceName={serviceModal?.name}
+        servicePrice={serviceModal?.price}
+        onSubmit={() => { onNotify(T('✦ Demande envoyée — Réponse sous 24h', '✦ Request sent — Reply within 24h')); setServiceModal(null); }}
+      />
     </div>
   );
 };

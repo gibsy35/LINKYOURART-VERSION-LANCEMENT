@@ -5,6 +5,7 @@ import { useCurrency } from '../context/CurrencyContext';
 import { UserProfile, CONTRACTS, LYA_UNIT_VALUE } from '../types';
 import { RealtimeChart } from '../components/RealtimeChart';
 import { PageHeader } from '../components/ui/PageHeader';
+import { NewCreationModal, MilestoneModal, UploadModal } from '../components/DashboardModals';
 import {
   TrendingUp, Users, DollarSign, Zap, Upload, FileText, Music,
   Image, Plus, ChevronDown, CheckCircle, Clock, Star, BarChart2,
@@ -250,6 +251,12 @@ export const CreatorDashboardView: React.FC<{ user: UserProfile | null; onNotify
   const T = (fr: string, en: string) => lang === 'FR' ? fr : en;
 
   const [activeSection, setActiveSection] = useState<'overview' | 'documents' | 'milestones' | 'simulator' | 'analytics'>('overview');
+  const [showNewCreation, setShowNewCreation] = useState(false);
+  const [showMilestone, setShowMilestone] = useState(false);
+  const [showUpload, setShowUpload] = useState(false);
+  const [milestoneProject, setMilestoneProject] = useState('');
+  const [uploadedFiles, setUploadedFiles] = useState<{name:string;access:string;price:string}[]>([]);
+  const [localMilestones, setLocalMilestones] = useState<{projectId:string;title:string;impact:string;done:boolean}[]>([]);
 
   // Projets du créateur (les 2 premiers comme mock)
   const myProjects = CONTRACTS.filter(c => c.status === 'LIVE').slice(0, 2);
@@ -286,7 +293,7 @@ export const CreatorDashboardView: React.FC<{ user: UserProfile | null; onNotify
         <button onClick={() => setActiveSection('simulator')} className="flex items-center gap-2 px-4 py-2.5 bg-[#a78bfa]/10 border border-[#a78bfa]/30 text-[#a78bfa] text-sm font-black rounded-xl hover:bg-[#a78bfa]/20 transition-all uppercase tracking-wider">
           <Target size={14} /> {T('Simuler mon score', 'Simulate my score')}
         </button>
-        <button onClick={() => onNotify(T('Nouvelle création en cours...', 'New creation in progress...'))} className="flex items-center gap-2 px-4 py-2.5 bg-[#a78bfa] text-surface-dim text-sm font-black rounded-xl hover:bg-white transition-all uppercase tracking-wider">
+        <button onClick={() => setShowNewCreation(true)} className="flex items-center gap-2 px-4 py-2.5 bg-[#a78bfa] text-surface-dim text-sm font-black rounded-xl hover:bg-white transition-all uppercase tracking-wider">
           <Plus size={14} /> {T('Nouvelle création', 'New creation')}
         </button>
       </div>
@@ -380,7 +387,7 @@ export const CreatorDashboardView: React.FC<{ user: UserProfile | null; onNotify
                             </div>
                           ))}
                         </div>
-                        <button onClick={() => onNotify(T('Jalon publié avec succès', 'Milestone published successfully'))} className="w-full py-2.5 bg-[#a78bfa]/10 border border-[#a78bfa]/20 text-[#a78bfa] text-xs font-black rounded-xl hover:bg-[#a78bfa]/20 transition-all uppercase tracking-widest flex items-center justify-center gap-2">
+                        <button onClick={() => { setMilestoneProject(proj.name); setShowMilestone(true); }} className="w-full py-2.5 bg-[#a78bfa]/10 border border-[#a78bfa]/20 text-[#a78bfa] text-xs font-black rounded-xl hover:bg-[#a78bfa]/20 transition-all uppercase tracking-widest flex items-center justify-center gap-2">
                           <Upload size={12} /> {T('Publier un jalon', 'Publish a milestone')}
                         </button>
                       </div>
@@ -422,7 +429,7 @@ export const CreatorDashboardView: React.FC<{ user: UserProfile | null; onNotify
                     <h3 className="text-base font-black text-on-surface uppercase tracking-wider">{T('Gestion des Documents & Médias', 'Document & Media Management')}</h3>
                     <p className="text-sm text-on-surface-variant/50 mt-0.5">{T('Uploadez et définissez les accès pour', 'Upload and set access for')} <span className="text-[#a78bfa]">{T('mécènes', 'patrons')}</span> {T('et', 'and')} <span className="text-emerald-400">{T('professionnels', 'professionals')}</span></p>
                   </div>
-                  <button className="flex items-center gap-2 px-5 py-2.5 bg-[#a78bfa] text-surface-dim text-sm font-black rounded-xl hover:bg-white transition-all uppercase tracking-wider">
+                  <button onClick={() => setShowUpload(true)} className="flex items-center gap-2 px-5 py-2.5 bg-[#a78bfa] text-surface-dim text-sm font-black rounded-xl hover:bg-white transition-all uppercase tracking-wider">
                     <Upload size={14} /> {T('Uploader', 'Upload')}
                   </button>
                 </div>
@@ -467,7 +474,7 @@ export const CreatorDashboardView: React.FC<{ user: UserProfile | null; onNotify
                       <p className="text-[10px] text-on-surface-variant/40 font-mono uppercase">{proj.registryIndex}</p>
                       <h3 className="text-base font-black text-on-surface">{proj.name}</h3>
                     </div>
-                    <button onClick={() => onNotify(T('Nouveau jalon ajouté', 'New milestone added'))} className="flex items-center gap-2 px-4 py-2 bg-[#a78bfa]/10 border border-[#a78bfa]/20 text-[#a78bfa] text-xs font-black rounded-xl hover:bg-[#a78bfa]/20 transition-all">
+                    <button onClick={() => { setMilestoneProject(proj.name); setShowMilestone(true); }} className="flex items-center gap-2 px-4 py-2 bg-[#a78bfa]/10 border border-[#a78bfa]/20 text-[#a78bfa] text-xs font-black rounded-xl hover:bg-[#a78bfa]/20 transition-all">
                       <Plus size={12} /> {T('Ajouter', 'Add')}
                     </button>
                   </div>
@@ -487,7 +494,7 @@ export const CreatorDashboardView: React.FC<{ user: UserProfile | null; onNotify
                           <p className="text-xs text-primary-cyan font-bold mt-1">{T('Impact:', 'Impact:')} {m.impact}</p>
                         </div>
                         {!m.done && (
-                          <button onClick={() => onNotify(T('Jalon publié !', 'Milestone published!'))} className="px-3 py-1.5 bg-[#a78bfa] text-surface-dim text-[10px] font-black rounded-lg hover:bg-white transition-all uppercase tracking-widest flex items-center gap-1">
+                          <button onClick={() => { setMilestoneProject(proj.name); setShowMilestone(true); }} className="px-3 py-1.5 bg-[#a78bfa] text-surface-dim text-[10px] font-black rounded-lg hover:bg-white transition-all uppercase tracking-widest flex items-center gap-1">
                             <Flag size={10} /> {T('Publier', 'Publish')}
                           </button>
                         )}
@@ -624,6 +631,13 @@ export const CreatorDashboardView: React.FC<{ user: UserProfile | null; onNotify
           )}
         </motion.div>
       </AnimatePresence>
+
+      <NewCreationModal open={showNewCreation} onClose={() => setShowNewCreation(false)} lang={lang}
+        onSubmit={(data) => { onNotify(T(`✦ ${data.name} soumis en validation LYA`, `✦ ${data.name} submitted to LYA validation`)); }} />
+      <MilestoneModal open={showMilestone} onClose={() => setShowMilestone(false)} lang={lang} projectName={milestoneProject}
+        onSubmit={(data) => { setLocalMilestones(prev => [...prev, { projectId: milestoneProject, title: data.title, impact: data.impact, done: true }]); onNotify(T(`✦ Jalon "${data.title}" publié`, `✦ Milestone "${data.title}" published`)); }} />
+      <UploadModal open={showUpload} onClose={() => setShowUpload(false)} lang={lang}
+        onSubmit={(data) => { setUploadedFiles(prev => [...prev, data]); onNotify(T(`✦ ${data.name} uploadé`, `✦ ${data.name} uploaded`)); }} />
     </div>
   );
 };

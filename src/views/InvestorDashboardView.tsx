@@ -5,6 +5,7 @@ import { useCurrency } from '../context/CurrencyContext';
 import { UserProfile, CONTRACTS, LYA_UNIT_VALUE } from '../types';
 import { RealtimeChart } from '../components/RealtimeChart';
 import { PageHeader } from '../components/ui/PageHeader';
+import { Modal } from '../components/DashboardModals';
 import {
   TrendingUp, DollarSign, Zap, Star, BarChart2, ArrowUpRight,
   Bell, Users, Filter, ChevronDown, ExternalLink, Sparkles, Target
@@ -29,6 +30,13 @@ export const InvestorDashboardView: React.FC<{ user: UserProfile | null; onNotif
   const T = (fr: string, en: string) => lang === 'FR' ? fr : en;
 
   const [activeSection, setActiveSection] = useState<'portfolio' | 'investments' | 'analytics' | 'social'>('portfolio');
+  const [contactProject, setContactProject] = useState<string|null>(null);
+  const [socialMessage, setSocialMessage] = useState('');
+  const [socialPosts, setSocialPosts] = useState<{user:string;avatar:string;action:string;project:string;time:string;likes:number;comments:number;liked:boolean;quote?:string}[]>([
+    { user: 'Emma Laurent', avatar: '👩', action: T('a soutenu 5000€ dans','pledged €5000 in'), project: 'Digital Dreams', time: T('Il y a 3h','3h ago'), likes: 24, comments: 8, liked: false },
+    { user: 'Thomas Martin', avatar: '👨', action: T('a commenté','commented on'), project: 'Future Memories', time: T('Il y a 5h','5h ago'), likes: 15, comments: 3, liked: false, quote: T('"Projet incroyable ! La trajectoire LYA est excellente 🚀"','"Incredible project! The LYA trajectory is excellent 🚀"') },
+    { user: 'Sophie Bernard', avatar: '👩', action: T('a aimé','liked'), project: 'Urban Canvas', time: T('Il y a 7h','7h ago'), likes: 32, comments: 12, liked: false },
+  ]);
   const [compareMode, setCompareMode] = useState<'bars' | 'radar'>('bars');
   const [predHorizon, setPredHorizon] = useState<'7j' | '30j' | '90j' | '1an'>('30j');
   const [showFilters, setShowFilters] = useState(false);
@@ -206,7 +214,7 @@ export const InvestorDashboardView: React.FC<{ user: UserProfile | null; onNotif
                         <h3 className="text-base font-black text-on-surface">{proj.name}</h3>
                         <span className="inline-block px-2 py-0.5 bg-emerald-400/10 border border-emerald-400/20 rounded-full text-[10px] font-black text-emerald-400 mt-1">● {T('ACCÉLÉRATION','ACCELERATION')}</span>
                       </div>
-                      <button onClick={() => onNotify(`${proj.name} — ${T('Dossier ouvert','File opened')}`)} className="p-2 text-on-surface-variant hover:text-primary-cyan transition-colors">
+                      <button onClick={() => setContactProject(proj.name)} className="p-2 text-on-surface-variant hover:text-primary-cyan transition-colors">
                         <ExternalLink size={16} />
                       </button>
                     </div>
@@ -457,7 +465,7 @@ export const InvestorDashboardView: React.FC<{ user: UserProfile | null; onNotif
                       </div>
                       {post.quote && <p className="text-xs text-on-surface-variant/70 italic pl-12">{post.quote}</p>}
                       <div className="flex items-center gap-4 pl-12 text-[10px] text-on-surface-variant/40">
-                        <button className="hover:text-rose-400 transition-colors flex items-center gap-1">♡ {post.likes}</button>
+                        <button onClick={() => { const cur = socialPosts[i]; setSocialPosts(prev => prev.map((p,pi) => pi === i ? {...p, liked: !cur.liked, likes: cur.liked ? cur.likes-1 : cur.likes+1} : p)); }} className="hover:text-rose-400 transition-colors flex items-center gap-1">{socialPosts[i]?.liked ? "♥" : "♡"} {post.likes}</button>
                         <button className="hover:text-primary-cyan transition-colors flex items-center gap-1">💬 {post.comments}</button>
                         <button className="hover:text-[#a78bfa] transition-colors">↗</button>
                       </div>
@@ -468,8 +476,8 @@ export const InvestorDashboardView: React.FC<{ user: UserProfile | null; onNotif
                 <div className="flex items-center gap-3 pt-2">
                   <div className="w-9 h-9 rounded-full bg-surface-dim border border-white/10 flex items-center justify-center text-lg">🙂</div>
                   <div className="flex-1 bg-surface-high/40 border border-white/10 rounded-xl px-4 py-2.5 flex items-center justify-between">
-                    <span className="text-sm text-on-surface-variant/40">{T('Partagez votre expérience...','Share your experience...')}</span>
-                    <button className="w-7 h-7 bg-[#a78bfa] rounded-lg flex items-center justify-center text-surface-dim hover:bg-white transition-all">↗</button>
+                    <input value={socialMessage} onChange={e => setSocialMessage(e.target.value)} placeholder={T('Partagez votre expérience...','Share your experience...')} className="flex-1 bg-transparent text-sm text-on-surface focus:outline-none" />
+                    <button onClick={() => { if (socialMessage.trim()) { setSocialPosts(prev => [{ user: user?.displayName || 'Vous', avatar: '🙂', action: T('a partagé','shared'), project: 'LinkYourArt', time: T('À l\'instant','Just now'), likes: 0, comments: 0, liked: false }, ...prev]); setSocialMessage(''); } }} className="w-7 h-7 bg-[#a78bfa] rounded-lg flex items-center justify-center text-surface-dim hover:bg-white transition-all">↗</button>
                   </div>
                 </div>
               </div>
@@ -477,6 +485,15 @@ export const InvestorDashboardView: React.FC<{ user: UserProfile | null; onNotif
           )}
         </motion.div>
       </AnimatePresence>
+
+      <Modal open={!!contactProject} onClose={() => setContactProject(null)} title={T('Contacter le créateur','Contact creator')}>
+        <p className="text-sm text-on-surface-variant/60">{T('Projet :','Project:')} <span className="text-primary-cyan font-black">{contactProject}</span></p>
+        <p className="text-sm text-on-surface-variant/60 leading-relaxed">{T('Votre demande sera transmise au créateur via la plateforme LYA. Délai de réponse : 24-48h.','Your request will be forwarded to the creator via the LYA platform. Response time: 24-48h.')}</p>
+        <button onClick={() => { onNotify(T(`✦ Message envoyé`, `✦ Message sent`)); setContactProject(null); }}
+          className="w-full py-3 bg-primary-cyan text-surface-dim text-sm font-black rounded-xl hover:bg-white transition-all uppercase tracking-widest">
+          {T('Envoyer la demande', 'Send request')}
+        </button>
+      </Modal>
     </div>
   );
 };
