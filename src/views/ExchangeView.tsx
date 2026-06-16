@@ -87,6 +87,38 @@ const PatronageHubTab: React.FC<{
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
 
+      {/* ── Hero encadré ── */}
+      <div className="relative bg-surface-low/60 border border-white/10 rounded-2xl p-6 md:p-10 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary-cyan/5 to-transparent pointer-events-none" />
+        <div className="relative z-10 space-y-5">
+          <span className="text-primary-cyan text-xs font-mono tracking-widest border border-primary-cyan/30 px-3 py-1 rounded-full inline-block">
+            ✦ {T('ESPACE MÉCÉNAT LYA', 'LYA PATRONAGE SPACE')}
+          </span>
+          <div className="flex flex-col lg:flex-row justify-between items-start gap-8">
+            <div>
+              <h2 className="font-headline font-black text-on-surface uppercase tracking-tighter leading-[0.88] mb-5" style={{ fontSize: 'clamp(2rem,4.5vw,3.6rem)' }}>
+                {T("CO-POSSÉDEZ LES CHEFS-D'ŒUVRE", "CO-OWN TOMORROW'S")}<br />
+                {T('DE DEMAIN', 'MASTERPIECES,')}{' '}
+                <span className="text-primary-cyan">{T('EN UN CLIC', 'IN A SINGLE CLICK')}</span>
+              </h2>
+              <p className="text-on-surface-variant max-w-xl text-sm leading-relaxed opacity-80">
+                {T(
+                  "Bienvenue dans notre espace de découverte simplifié. Ici, pas de graphiques financiers ou de carnets d'ordres rebutants. Juste de l'art sublime, du talent brut, et un moyen simple et interactif de soutenir vos créateurs favoris et de partager leurs futurs succès.",
+                  'Welcome to our simplified discovery space. No financial charts or intimidating order books. Just sublime art, raw talent, and a simple interactive way to support your favourite creators and share in their future success.'
+                )}
+              </p>
+            </div>
+            <div className="bg-surface-high/60 border border-white/10 rounded-2xl p-6 min-w-[200px] text-center shrink-0">
+              <p className="text-on-surface-variant/60 text-[10px] font-mono mb-2 tracking-widest">{T('VALEUR FIXE FONDATRICE', 'FIXED FOUNDING VALUE')}</p>
+              <p className="text-on-surface text-2xl font-black font-headline tracking-tighter">1 Unit = <span className="text-primary-cyan">{formatPrice(LYA_UNIT_VALUE)}</span></p>
+              <div className="mt-3 bg-[#00ff88] text-surface-dim text-[10px] font-mono font-bold px-4 py-2 rounded-lg">
+                {T('ACCESSIBLE À TOUS', 'ACCESSIBLE TO ALL')}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* ── LYA Unit définition ── */}
       <WhatIsLyaUnit lang={lang} />
 

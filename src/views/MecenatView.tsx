@@ -44,20 +44,15 @@ export function MecenatView() {
               </span>
             </div>
 
-            {/* Hero — 2 lignes, typo classique et premium */}
+            {/* Hero — 2 lignes, typo douce et premium (Outfit, identique à ART IS AN EXCHANGE) */}
             <div className="flex flex-col lg:flex-row justify-between items-start gap-8">
               <div>
-                <h1 className="font-black text-on-surface mb-5" style={{
-                  fontFamily: "'Arial Black','Arial Bold',Arial,system-ui,sans-serif",
-                  fontSize: "clamp(2.6rem,6vw,4.8rem)",
-                  lineHeight: "1.0",
-                  letterSpacing: "-0.04em",
-                  fontWeight: 900,
-                  fontStretch: "condensed",
+                <h1 className="font-headline font-black text-on-surface mb-5 uppercase tracking-tighter leading-[0.88]" style={{
+                  fontSize: "clamp(2.4rem,5.5vw,4.2rem)",
                 }}>
                   {T(
-                    <>CO-POSSÉDEZ LES<br />CHEFS-D&apos;ŒUVRE DE DEMAIN<br /><span style={{ color: "#00d4ff" }}>EN UN CLIC</span></>,
-                    <>CO-OWN TOMORROW&apos;S<br />MASTERPIECES,<br /><span style={{ color: "#00d4ff" }}>IN A SINGLE CLICK</span></>
+                    <>CO-POSSÉDEZ LES<br />CHEFS-D&apos;ŒUVRE DE DEMAIN<br /><span className="text-primary-cyan">EN UN CLIC</span></>,
+                    <>CO-OWN TOMORROW&apos;S<br />MASTERPIECES,<br /><span className="text-primary-cyan">IN A SINGLE CLICK</span></>
                   )}
                 </h1>
                 <p className="text-on-surface-variant max-w-xl text-sm leading-relaxed opacity-80">
