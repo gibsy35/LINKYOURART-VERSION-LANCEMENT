@@ -62,11 +62,32 @@ export function MecenatView() {
                   )}
                 </p>
               </div>
-              <div className="bg-surface-high/60 border border-white/10 rounded-2xl p-6 min-w-[200px] text-center shrink-0">
-                <p className="text-on-surface-variant/60 text-[10px] font-mono mb-2 tracking-widest">{T("VALEUR FIXE FONDATRICE", "FIXED FOUNDING VALUE")}</p>
-                <p className="text-on-surface text-2xl font-bold font-mono">1 Unit = <span className="text-primary-cyan">$50.00</span></p>
-                <div className="mt-3 bg-[#00ff88] text-surface-dim text-[10px] font-mono font-bold px-4 py-2 rounded-lg">
-                  {T("ACCESSIBLE À TOUS", "ACCESSIBLE TO ALL")}
+              <div className="relative shrink-0 min-w-[220px]">
+                <div className="absolute inset-0 rounded-2xl blur-2xl opacity-30" style={{ background: 'radial-gradient(ellipse at center, #f59e0b 0%, transparent 70%)' }} />
+                <div className="relative rounded-2xl p-[1px]" style={{ background: 'linear-gradient(135deg, #f59e0b 0%, #fbbf24 40%, #9D00FF 100%)' }}>
+                  <div className="bg-surface-dim rounded-2xl p-6 text-center">
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full mb-4 text-[9px] font-black tracking-[0.2em] uppercase" style={{ background: 'linear-gradient(90deg, rgba(245,158,11,0.15), rgba(251,191,36,0.10))', border: '1px solid rgba(245,158,11,0.35)', color: '#fbbf24' }}>
+                      ✦ {T('LA RÉVOLUTION LYA', 'THE LYA REVOLUTION')}
+                    </div>
+                    <p className="text-[10px] font-mono tracking-[0.25em] mb-1" style={{ color: 'rgba(251,191,36,0.6)' }}>
+                      {T('VALEUR UNIQUE AU MONDE', "WORLD'S UNIQUE VALUE")}
+                    </p>
+                    <p className="font-headline font-black tracking-tighter mb-1 leading-none" style={{ fontSize: 'clamp(1.5rem,3vw,2rem)', background: 'linear-gradient(90deg, #fbbf24, #f59e0b)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                      LYA UNIT
+                    </p>
+                    <p className="text-on-surface text-lg font-black font-headline tracking-tighter mb-4">
+                      = <span className="text-primary-cyan">$50.00</span>
+                    </p>
+                    <p className="text-on-surface-variant/60 text-[10px] font-mono leading-relaxed mb-4">
+                      {T(
+                        "L'index de valeur créative souverain et exclusif qui propulse chaque projet LYA.",
+                        "The sovereign and exclusive creative value index powering every LYA project."
+                      )}
+                    </p>
+                    <div className="py-2 px-4 rounded-lg text-[9px] font-black uppercase tracking-widest" style={{ background: 'linear-gradient(90deg, rgba(245,158,11,0.20), rgba(251,191,36,0.15))', border: '1px solid rgba(245,158,11,0.30)', color: '#fbbf24' }}>
+                      ★ {T('INDEX CRÉATIF SOUVERAIN', 'SOVEREIGN CREATIVE INDEX')}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
