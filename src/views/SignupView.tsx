@@ -16,7 +16,7 @@ interface SignupViewProps {
 }
 
 const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
   const [role, setRole] = useState<UserRole | null>(null);
   const [step, setStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
@@ -116,6 +116,17 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
       
       try {
         await sendEmailVerification(firebaseUser);
+        // Email de bienvenue personnalisé selon le rôle (best-effort)
+        fetch('/api/email/welcome', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            to: formData.email,
+            name: formData.name,
+            role: role === UserRole.CREATOR ? 'CREATOR' : role === UserRole.PROFESSIONAL ? 'PROFESSIONAL' : 'INVESTOR',
+            lang: language
+          })
+        }).catch(() => {});
         setIsVerificationSent(true);
       } catch (verifyErr) {
         console.error('Error sending verification email:', verifyErr);
