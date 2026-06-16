@@ -22,7 +22,7 @@ const ai = new GoogleGenAI({
   }
 });
 
-const DEFAULT_MODEL = "gemini-3.5-flash";
+const DEFAULT_MODEL = "gemini-2.0-flash";
 
 // Initialize Firebase Admin
 const firebaseConfigPath = path.join(process.cwd(), 'firebase-applet-config.json');
@@ -273,7 +273,7 @@ async function startServer() {
       const responseLang = isFr ? 'French' : 'English';
 
       const response = await ai.models.generateContent({
-        model: "gemini-3.5-flash",
+        model: DEFAULT_MODEL,
         contents: `Retrieve 4 or 5 of the absolute latest and most relevant news headlines or breaking stories *today* from around the world that concern the creative industries, fine arts, Hollywood, Netflix, generative music platforms, fashion conglomerates, architecture designs, or digital intellectual property rights. Ground this with Google Search. Return a beautifully formatted JSON output containing specific details and calculating estimated percentages of co-valuation/price fluctuations on the LINKYOURART alternative asset registry. IMPORTANT: All text properties including headline title, summary, and impact.description MUST be written completely in ${responseLang}.`,
         config: {
           tools: [{ googleSearch: {} }],

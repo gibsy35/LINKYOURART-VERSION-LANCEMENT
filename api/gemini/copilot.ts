@@ -17,7 +17,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
+        model: 'claude-sonnet-4-6',
         max_tokens: 500,
         system: `You are COPILOT, the LYA Protocol AI assistant. You help users understand creative asset valuation, LYA Scores, contracts, investments and the platform. Be concise, professional and helpful. Always respond in ${isFr ? 'French' : 'English'}.`,
         messages
