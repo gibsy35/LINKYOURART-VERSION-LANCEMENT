@@ -13,6 +13,9 @@ import { ContractDetailModal, ProfessionalOnboardingModal, TradeModal } from './
 // Views
 import { LandingView } from './views/LandingView';
 import { DashboardView } from './views/DashboardView';
+import { CreatorDashboardView } from './views/CreatorDashboardView';
+import { InvestorDashboardView } from './views/InvestorDashboardView';
+import { ProfessionalDashboardView } from './views/ProfessionalDashboardView';
 import { ExchangeView } from './views/ExchangeView';
 import { ValidationView } from './views/ValidationView';
 import { HoldingsView } from './views/HoldingsView';
@@ -1144,6 +1147,9 @@ export default function App() {
                 liveContracts={liveContracts}
                 user={effectiveUser}
               />}
+              {currentView === 'CREATOR_DASHBOARD' && <CreatorDashboardView user={effectiveUser} onNotify={notify} onViewChange={handleViewChange} />}
+              {currentView === 'INVESTOR_DASHBOARD' && <InvestorDashboardView user={effectiveUser} onNotify={notify} onViewChange={handleViewChange} />}
+              {currentView === 'PROFESSIONAL_DASHBOARD' && <ProfessionalDashboardView user={effectiveUser} onNotify={notify} onViewChange={handleViewChange} />}
               {currentView === 'CONTRACT_DETAIL' && viewingContract && (
                 <ContractDetailView 
                   contract={liveContracts.find(c => c.id === viewingContract.id) || viewingContract} 

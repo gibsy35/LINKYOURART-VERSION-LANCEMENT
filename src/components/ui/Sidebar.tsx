@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ExternalLink, Sparkles, Star,
+import { ExternalLink, Sparkles, Star, TrendingUp,
   Home, 
   LayoutDashboard, 
   ArrowLeftRight, 
@@ -74,7 +74,10 @@ export type View =
   | 'ISSUER_PROFILE'
   | 'OUR_MODEL'
   | 'FAQ'
-  | 'LEGAL_MENTIONS';
+  | 'LEGAL_MENTIONS'
+  | 'CREATOR_DASHBOARD'
+  | 'INVESTOR_DASHBOARD'
+  | 'PROFESSIONAL_DASHBOARD';
 
 interface SidebarProps {
   user: UserProfile | null;
@@ -107,6 +110,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const menuItems = [
     { id: 'HOME', icon: Home, label: t('TERMINAL', 'TERMINAL'), category: t('SYSTEM', 'SYSTÈME') },
     { id: 'DASHBOARD', icon: LayoutDashboard, label: t('DASHBOARD', 'TABLEAU DE BORD'), category: t('INDEX', 'INDEX') },
+    ...(user?.role === 'CREATOR' ? [{ id: 'CREATOR_DASHBOARD' as const, icon: Sparkles, label: t('MY CREATIONS', 'MES CRÉATIONS'), category: t('CREATOR', 'CRÉATEUR') }] : []),
+    ...(user?.role === 'INVESTOR' ? [{ id: 'INVESTOR_DASHBOARD' as const, icon: TrendingUp, label: t('MY PORTFOLIO', 'MON PORTFOLIO'), category: t('PATRON', 'MÉCÈNE') }] : []),
+    ...(user?.role === 'PROFESSIONAL' || user?.isPro ? [{ id: 'PROFESSIONAL_DASHBOARD' as const, icon: Briefcase, label: t('PRO SPACE', 'ESPACE PRO'), category: t('PROFESSIONAL', 'PROFESSIONNEL') }] : []),
     { id: 'EXCHANGE', icon: ArrowLeftRight, label: t('CREATIVE MARKET', 'MARCHÉ CRÉATIF'), category: t('DEVELOPMENT', 'DÉVELOPPEMENT') },
     { id: 'SWIPE', icon: Target, label: t('SWIPE DISCOVERY', 'DÉCOUVERTE SWIPE'), category: t('DEVELOPMENT', 'DÉVELOPPEMENT') },
     { id: 'MECENAT', icon: Star, label: t('PATRONAGE HUB', 'ESPACE MÉCÉNAT'), category: t('DEVELOPMENT', 'DÉVELOPPEMENT') },
