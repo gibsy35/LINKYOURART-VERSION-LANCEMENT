@@ -108,35 +108,22 @@ const PatronageHubTab: React.FC<{
                 )}
               </p>
             </div>
-            <div className="relative shrink-0 min-w-[220px]">
-              {/* Halo doré derrière la carte */}
-              <div className="absolute inset-0 rounded-2xl blur-2xl opacity-30" style={{ background: 'radial-gradient(ellipse at center, #f59e0b 0%, transparent 70%)' }} />
-              <div className="relative rounded-2xl p-[1px]" style={{ background: 'linear-gradient(135deg, #f59e0b 0%, #fbbf24 40%, #9D00FF 100%)' }}>
-                <div className="bg-surface-dim rounded-2xl p-6 text-center">
-                  {/* Badge exclusif */}
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full mb-4 text-[9px] font-black tracking-[0.2em] uppercase" style={{ background: 'linear-gradient(90deg, rgba(245,158,11,0.15), rgba(251,191,36,0.10))', border: '1px solid rgba(245,158,11,0.35)', color: '#fbbf24' }}>
-                    ✦ {T('LA RÉVOLUTION LYA', 'THE LYA REVOLUTION')}
-                  </div>
-                  {/* Titre LYA UNIT */}
-                  <p className="text-[10px] font-mono tracking-[0.25em] mb-1" style={{ color: 'rgba(251,191,36,0.6)' }}>
-                    {T('VALEUR UNIQUE AU MONDE', 'WORLD\'S UNIQUE VALUE')}
+            <div className="shrink-0 w-[180px]">
+              <div className="relative rounded-2xl p-px" style={{ background: 'linear-gradient(145deg, rgba(251,191,36,0.4) 0%, rgba(255,255,255,0.06) 60%)' }}>
+                <div className="bg-surface-low/80 rounded-2xl p-5 text-center space-y-3">
+                  <p className="text-[9px] font-mono tracking-[0.22em] uppercase" style={{ color: 'rgba(251,191,36,0.55)' }}>
+                    {T('INDEX DE VALEUR', 'VALUE INDEX')}
                   </p>
-                  <p className="font-headline font-black tracking-tighter mb-1 leading-none" style={{ fontSize: 'clamp(1.5rem,3vw,2rem)', background: 'linear-gradient(90deg, #fbbf24, #f59e0b)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-                    LYA UNIT
+                  <p className="font-headline font-black tracking-tighter leading-none text-on-surface text-lg">
+                    LYA <span style={{ color: '#fbbf24' }}>UNIT</span>
                   </p>
-                  <p className="text-on-surface text-lg font-black font-headline tracking-tighter mb-4">
-                    = <span className="text-primary-cyan">{formatPrice(LYA_UNIT_VALUE)}</span>
+                  <p className="font-mono font-black text-2xl text-primary-cyan tracking-tight">
+                    {formatPrice(LYA_UNIT_VALUE)}
                   </p>
-                  {/* Description courte */}
-                  <p className="text-on-surface-variant/60 text-[10px] font-mono leading-relaxed mb-4">
-                    {T(
-                      "L'index de valeur créative souverain et exclusif qui propulse chaque projet LYA.",
-                      "The sovereign and exclusive creative value index powering every LYA project."
-                    )}
+                  <div className="h-px w-full" style={{ background: 'linear-gradient(90deg, transparent, rgba(251,191,36,0.3), transparent)' }} />
+                  <p className="text-[9px] font-mono text-on-surface-variant/50 leading-relaxed">
+                    {T('Étalon créatif souverain', 'Sovereign creative standard')}
                   </p>
-                  <div className="py-2 px-4 rounded-lg text-[9px] font-black uppercase tracking-widest" style={{ background: 'linear-gradient(90deg, rgba(245,158,11,0.20), rgba(251,191,36,0.15))', border: '1px solid rgba(245,158,11,0.30)', color: '#fbbf24' }}>
-                    ★ {T('INDEX CRÉATIF SOUVERAIN', 'SOVEREIGN CREATIVE INDEX')}
-                  </div>
                 </div>
               </div>
             </div>
