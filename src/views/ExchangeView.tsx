@@ -103,8 +103,8 @@ const PatronageHubTab: React.FC<{
               </h2>
               <p className="text-on-surface-variant max-w-xl text-sm leading-relaxed opacity-80">
                 {T(
-                  "Bienvenue dans notre espace de découverte simplifié. Ici, pas de graphiques financiers ou de carnets d'ordres rebutants. Juste de l'art sublime, du talent brut, et un moyen simple et interactif de soutenir vos créateurs favoris et de partager leurs futurs succès.",
-                  'Welcome to our simplified discovery space. No financial charts or intimidating order books. Just sublime art, raw talent, and a simple interactive way to support your favourite creators and share in their future success.'
+                  "Bienvenue dans notre espace de découverte simplifié. Ici, pas de graphiques financiers ou de carnets d'ordres rebutants. Juste de l'art sublime, du talent brut, et un moyen simple et interactif de soutenir vos créations favorites et de partager leurs futurs succès.",
+                  'Welcome to our simplified discovery space. No financial charts or intimidating order books. Just sublime art, raw talent, and a simple interactive way to support your favourite creations and share in their future success.'
                 )}
               </p>
             </div>
