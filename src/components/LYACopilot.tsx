@@ -7,18 +7,39 @@ import { askCopilot } from '../services/geminiService';
 
 export const LYACopilot: React.FC = () => {
   const { t, language } = useTranslation();
+  const isFR = language === 'FR';
+
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<{ role: 'USER' | 'AI', content: string }[]>([
-    { role: 'AI', content: 'LYA_TERMINAL READY. SYSTEM STABILIZED. STATE YOUR ANALYTICAL REQUIREMENT.' }
+    { role: 'AI', content: isFR
+        ? 'LYA COPILOT PRÊT. Comment puis-je vous aider ? Posez-moi vos questions sur la plateforme, le LYA Score, les projets ou le Protocole LYA.'
+        : 'LYA COPILOT READY. How can I help you? Ask me anything about the platform, LYA Score, creative projects or the LYA Protocol.'
+    }
   ]);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const suggestions = [
-    { title: t('What is LYA Score?', 'Qu\'est-ce que le Score LYA ?'), query: 'Explain how the LYA Score is calculated and what it represents.' },
-    { title: t('P2P Exchange Fees', 'Frais d\'Échange P2P'), query: 'What are the fees for buying and selling creative units on the secondary market?' },
-    { title: t('How to start?', 'Comment commencer ?'), query: 'How can I start investing in creative projects on LinkYourArt?' },
+  // Réinitialise le message d'accueil quand la langue change
+  useEffect(() => {
+    setMessages([{
+      role: 'AI',
+      content: isFR
+        ? 'LYA COPILOT PRÊT. Comment puis-je vous aider ? Posez-moi vos questions sur la plateforme, le LYA Score, les projets ou le Protocole LYA.'
+        : 'LYA COPILOT READY. How can I help you? Ask me anything about the platform, LYA Score, creative projects or the LYA Protocol.'
+    }]);
+  }, [language]);
+
+  const suggestions = isFR ? [
+    { title: 'Qu\'est-ce que le Score LYA ?', query: 'Explique comment le Score LYA est calculé et ce qu\'il représente.' },
+    { title: 'Frais d\'échange P2P', query: 'Quels sont les frais pour acheter et vendre des unités créatives sur le marché secondaire ?' },
+    { title: 'Comment commencer ?', query: 'Comment puis-je commencer à soutenir des projets créatifs sur LinkYourArt ?' },
+    { title: 'C\'est quoi le LYA Unit ?', query: 'Explique-moi ce qu\'est le LYA Unit et comment il fonctionne comme étalon de valeur créative.' },
+  ] : [
+    { title: 'What is LYA Score?', query: 'Explain how the LYA Score is calculated and what it represents.' },
+    { title: 'P2P Exchange Fees', query: 'What are the fees for buying and selling creative units on the secondary market?' },
+    { title: 'How to start?', query: 'How can I start supporting creative projects on LinkYourArt?' },
+    { title: 'What is the LYA Unit?', query: 'Explain what the LYA Unit is and how it works as a creative value standard.' },
   ];
 
   const scrollToBottom = () => {
@@ -46,11 +67,11 @@ export const LYACopilot: React.FC = () => {
       if (aiResponse) {
         setMessages(prev => [...prev, { role: 'AI', content: aiResponse }]);
       } else {
-        setMessages(prev => [...prev, { role: 'AI', content: 'SYSTEM_FAILURE: NO_RESPONSE_RECEIVED.' }]);
+        setMessages(prev => [...prev, { role: 'AI', content: isFR ? 'Aucune réponse reçue. Veuillez réessayer.' : 'No response received. Please try again.' }]);
       }
     } catch (error) {
-      console.error("Gemini Error:", error);
-      setMessages(prev => [...prev, { role: 'AI', content: 'SYSTEM_FAILURE: NEURAL_BRIDGE_OFFLINE. PLEASE RETRY COMMAND.' }]);
+      console.error("Copilot Error:", error);
+      setMessages(prev => [...prev, { role: 'AI', content: isFR ? 'Connexion temporairement indisponible. Réessayez dans un instant.' : 'Connection temporarily unavailable. Please retry in a moment.' }]);
     } finally {
       setIsTyping(false);
     }
@@ -86,12 +107,14 @@ export const LYACopilot: React.FC = () => {
                 </div>
                 <div>
                   <div className="text-xs font-black text-white uppercase tracking-widest flex items-center gap-2">
-                    LYA_COPILOT_CORE
-                    <span className="px-1.5 py-0.5 bg-emerald-500/20 text-emerald-400 text-[8px] rounded border border-emerald-500/20">LIVE v2.1</span>
+                    LYA COPILOT
+                    <span className="px-1.5 py-0.5 bg-emerald-500/20 text-emerald-400 text-[8px] rounded border border-emerald-500/20">LIVE v2.2</span>
                   </div>
                   <div className="flex items-center gap-2 mt-1">
                     <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
-                    <div className="text-[8px] text-primary-cyan font-bold uppercase tracking-[0.2em]">{t('NEURAL_BRIDGE_ACTIVE', 'PONT_NEURAL_ACTIF')}</div>
+                    <div className="text-[8px] text-primary-cyan font-bold uppercase tracking-[0.2em]">
+                      {isFR ? 'ASSISTANT ACTIF' : 'ASSISTANT ACTIVE'}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -107,7 +130,7 @@ export const LYACopilot: React.FC = () => {
             <div className="flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar pb-12">
               <div className="flex justify-center">
                 <div className="px-4 py-1.5 bg-white/5 border border-white/10 rounded-full text-[8px] font-black uppercase tracking-[0.3em] text-on-surface-variant/60">
-                   {new Date().toLocaleDateString()} — {t('SECURE_SESSION_ENCRYPTED', 'SESSION_SÉCURISÉE_CHIFFRÉE')}
+                   {new Date().toLocaleDateString(isFR ? 'fr-FR' : 'en-US')} — {isFR ? 'SESSION SÉCURISÉE' : 'SECURE SESSION'}
                 </div>
               </div>
 
@@ -146,7 +169,7 @@ export const LYACopilot: React.FC = () => {
                         <motion.div animate={{ opacity: [0.2, 1, 0.2] }} transition={{ repeat: Infinity, duration: 1, delay: 0.2 }} className="w-1.5 h-1.5 bg-primary-cyan rounded-full" />
                         <motion.div animate={{ opacity: [0.2, 1, 0.2] }} transition={{ repeat: Infinity, duration: 1, delay: 0.4 }} className="w-1.5 h-1.5 bg-primary-cyan rounded-full" />
                       </div>
-                      <span className="text-[8px] font-black uppercase text-primary-cyan tracking-widest animate-pulse">{t('THINKING...', 'ANALYSE...')}</span>
+                      <span className="text-[8px] font-black uppercase text-primary-cyan tracking-widest animate-pulse">{isFR ? 'ANALYSE...' : 'THINKING...'}</span>
                     </div>
                   </div>
                 </div>
@@ -176,7 +199,7 @@ export const LYACopilot: React.FC = () => {
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-                  placeholder={t('INITIATE COMMAND...', 'INITIALISER COMMANDE...')}
+                  placeholder={isFR ? 'Posez votre question...' : 'Ask your question...'}
                   disabled={isTyping}
                   className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 pr-14 text-xs text-white focus:outline-none focus:border-primary-cyan/50 focus:bg-white/[0.08] transition-all font-mono font-bold placeholder:text-white/20 disabled:opacity-50"
                 />
@@ -189,9 +212,9 @@ export const LYACopilot: React.FC = () => {
                 </button>
               </div>
               <div className="mt-4 flex items-center justify-center gap-4 text-[7px] font-mono text-white/20 uppercase tracking-[0.4em]">
-                <span>Neural Bridge Configured</span>
+                <span>{isFR ? 'Connexion sécurisée' : 'Secure connection'}</span>
                 <span className="w-1 h-1 bg-white/10 rounded-full" />
-                <span>AES-256 Protocol</span>
+                <span>{isFR ? 'Protocole AES-256' : 'AES-256 Protocol'}</span>
               </div>
             </div>
           </motion.div>

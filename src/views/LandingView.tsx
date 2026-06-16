@@ -440,21 +440,21 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                 <div className="grid grid-cols-3 gap-4 pt-4">
                   {[
                     {
-                      value: "20 ans",
-                      label: t("d'histoire créative", "of creative history"),
-                      sub: t("Fondé en 2006", "Founded in 2006"),
+                      value: "20",
+                      label: t("years of creative history", "ans d'histoire créative"),
+                      sub: t("Founded in 2006", "Fondé en 2006"),
                       color: "#00d4ff"
                     },
                     {
-                      value: "6",
-                      label: t("univers artistiques", "artistic universes"),
-                      sub: t("Musique · Film · Mode · Jeu · Architecture · Scène", "Music · Film · Fashion · Gaming · Architecture · Stage"),
+                      value: "6+",
+                      label: t("artistic universes & beyond", "univers artistiques & plus"),
+                      sub: t("Music · Film · Fashion · Gaming · Architecture · Stage · and more", "Musique · Film · Mode · Jeu · Architecture · Scène · et plus"),
                       color: "#a78bfa"
                     },
                     {
                       value: "1",
-                      label: t("étalon de valeur", "value benchmark"),
-                      sub: t("Le LYA UNIT — exclusif & souverain", "The LYA UNIT — exclusive & sovereign"),
+                      label: t("unique value standard", "valeur unique au monde"),
+                      sub: t("The LYA UNIT — a sovereign creative index", "Le LYA UNIT — un index créatif souverain"),
                       color: "#00ff88"
                     }
                   ].map((stat, i) => (
@@ -518,7 +518,10 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                             <button key={cat} type="button" onClick={() => setCategory(cat as any)}
                               className={`flex-1 py-3 rounded-xl text-[9px] font-black tracking-widest transition-all uppercase ${category === cat ? 'bg-primary-cyan text-black shadow-lg shadow-primary-cyan/20' : 'text-white/40 hover:text-white'}`}
                             >
-                              {t(cat, cat === 'CREATOR' ? 'CRÉATEUR' : cat === 'PROFESSIONAL' ? 'PROFESSIONNEL' : 'INVESTISSEUR')}
+                              {t(
+                                cat === 'CREATOR' ? 'CREATOR' : cat === 'PROFESSIONAL' ? 'PROFESSIONAL' : 'INVESTOR',
+                                cat === 'CREATOR' ? 'CRÉATEUR' : cat === 'PROFESSIONAL' ? 'PROFESSIONNEL' : 'INVESTISSEUR'
+                              )}
                             </button>
                           ))}
                         </div>
