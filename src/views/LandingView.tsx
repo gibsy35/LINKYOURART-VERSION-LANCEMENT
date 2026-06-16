@@ -624,7 +624,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                 <div className="space-y-6 md:w-1/3">
                   <h5 className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20">{t('INSTITUTIONAL ENQUIRIES', 'DEMANDES INSTITUTIONNELLES')}</h5>
                   <div className="space-y-3">
-                    <a href="mailto:contact@linkyourart.com" className="block text-xl font-headline font-light text-white hover:text-primary-cyan transition-colors">contact@linkyourart.com</a>
+                    <a href="mailto:contact@linkyourart.com" className="block text-base font-mono font-light text-white/35 hover:text-white/60 transition-colors tracking-widest">contact@linkyourart.com</a>
                     <div className="text-[10px] font-bold tracking-widest text-white/20 uppercase">Response within 24h GMT</div>
                   </div>
                 </div>
