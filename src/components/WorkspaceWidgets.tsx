@@ -90,12 +90,12 @@ const ProjectAnalysisWidget: React.FC<{ lang: 'FR' | 'EN' }> = ({ lang }) => {
   const contracts = CONTRACTS.filter(c => c.status === 'LIVE').slice(0, 4);
   return (
     <div className="space-y-3">
-      <p className="text-[9px] font-mono text-on-surface-variant/50 uppercase tracking-widest">{T('PROJETS LES MIEUX NOTÉS', 'TOP RATED PROJECTS')}</p>
+      <p className="text-[11px] font-mono text-on-surface-variant/50 uppercase tracking-widest">{T('PROJETS LES MIEUX NOTÉS', 'TOP RATED PROJECTS')}</p>
       {contracts.map(c => (
         <div key={c.id} className="flex items-center gap-3">
           <div className="flex-1 min-w-0">
             <p className="text-[10px] font-black text-on-surface truncate">{c.name}</p>
-            <p className="text-[9px] text-on-surface-variant/50 font-mono">{c.category}</p>
+            <p className="text-[11px] text-on-surface-variant/50 font-mono">{c.category}</p>
           </div>
           <div className="text-right shrink-0">
             <p className="text-[10px] font-black text-primary-cyan">{c.totalScore}<span className="text-on-surface-variant/40 font-normal">/1000</span></p>
@@ -123,20 +123,20 @@ const CreativeNetworkWidget: React.FC<{ lang: 'FR' | 'EN' }> = ({ lang }) => {
   return (
     <div className="space-y-3">
       <div className="flex justify-between items-center">
-        <p className="text-[9px] font-mono text-on-surface-variant/50 uppercase tracking-widest">{T('HUBS CRÉATIFS ACTIFS', 'ACTIVE CREATIVE HUBS')}</p>
+        <p className="text-[11px] font-mono text-on-surface-variant/50 uppercase tracking-widest">{T('HUBS CRÉATIFS ACTIFS', 'ACTIVE CREATIVE HUBS')}</p>
         <div className="flex items-center gap-1.5">
           <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-          <span className="text-[9px] font-mono text-emerald-400">LIVE</span>
+          <span className="text-[11px] font-mono text-emerald-400">LIVE</span>
         </div>
       </div>
       {nodes.map(n => (
         <div key={n.city} className="flex items-center gap-3">
           <div className={`w-1.5 h-1.5 rounded-full shrink-0 ${n.active ? 'bg-emerald-400' : 'bg-white/20'}`} />
           <div className="flex-1">
-            <p className="text-[10px] font-black text-on-surface">{n.city} <span className="text-on-surface-variant/40 font-normal text-[9px]">{n.country}</span></p>
+            <p className="text-[10px] font-black text-on-surface">{n.city} <span className="text-on-surface-variant/40 font-normal text-[11px]">{n.country}</span></p>
           </div>
-          <p className="text-[9px] font-mono text-on-surface-variant/50">{n.projects} {T('projets', 'projects')}</p>
-          <p className="text-[9px] font-mono text-primary-cyan w-8 text-right">{n.ms}ms</p>
+          <p className="text-[11px] font-mono text-on-surface-variant/50">{n.projects} {T('projets', 'projects')}</p>
+          <p className="text-[11px] font-mono text-primary-cyan w-8 text-right">{n.ms}ms</p>
         </div>
       ))}
     </div>
@@ -159,7 +159,7 @@ const SupportSimulatorWidget: React.FC<{ lang: 'FR' | 'EN', formatPrice: (n: num
   return (
     <div className="space-y-4">
       <div className="space-y-1.5">
-        <p className="text-[9px] font-mono text-on-surface-variant/50 uppercase tracking-widest">{T('PROJET CIBLÉ', 'TARGET PROJECT')}</p>
+        <p className="text-[11px] font-mono text-on-surface-variant/50 uppercase tracking-widest">{T('PROJET CIBLÉ', 'TARGET PROJECT')}</p>
         <div className="relative">
           <select value={selectedId} onChange={e => setSelectedId(e.target.value)} className="w-full bg-surface-high/50 border border-white/10 text-[10px] font-black text-on-surface py-2 pl-3 pr-8 rounded-xl appearance-none focus:outline-none focus:border-primary-cyan transition-colors">
             {contracts.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
@@ -169,18 +169,18 @@ const SupportSimulatorWidget: React.FC<{ lang: 'FR' | 'EN', formatPrice: (n: num
       </div>
       <div className="space-y-1.5">
         <div className="flex justify-between">
-          <p className="text-[9px] font-mono text-on-surface-variant/50 uppercase tracking-widest">{T('UNITÉS LYA', 'LYA UNITS')}</p>
-          <p className="text-[9px] font-black text-primary-cyan">{units} {T('unités', 'units')}</p>
+          <p className="text-[11px] font-mono text-on-surface-variant/50 uppercase tracking-widest">{T('UNITÉS LYA', 'LYA UNITS')}</p>
+          <p className="text-[11px] font-black text-primary-cyan">{units} {T('unités', 'units')}</p>
         </div>
         <input type="range" min={1} max={100} value={units} onChange={e => setUnits(+e.target.value)} className="w-full h-1 bg-white/10 rounded-full appearance-none cursor-pointer accent-primary-cyan" />
       </div>
       <div className="grid grid-cols-2 gap-2">
         <div className="bg-surface-high/40 border border-white/8 rounded-xl p-3">
-          <p className="text-[8px] font-mono text-on-surface-variant/40 uppercase tracking-widest mb-1">{T('SOUTIEN TOTAL', 'TOTAL PLEDGE')}</p>
+          <p className="text-xs font-mono text-on-surface-variant/40 uppercase tracking-widest mb-1">{T('SOUTIEN TOTAL', 'TOTAL PLEDGE')}</p>
           <p className="text-sm font-black font-mono text-on-surface">{formatPrice(totalCost)}</p>
         </div>
         <div className="bg-surface-high/40 border border-white/8 rounded-xl p-3">
-          <p className="text-[8px] font-mono text-on-surface-variant/40 uppercase tracking-widest mb-1">{T('CO-PARTAGE', 'CO-SHARE')}</p>
+          <p className="text-xs font-mono text-on-surface-variant/40 uppercase tracking-widest mb-1">{T('CO-PARTAGE', 'CO-SHARE')}</p>
           <p className="text-sm font-black font-mono text-[#00ff88]">{coShare}%</p>
         </div>
       </div>
@@ -209,7 +209,7 @@ const RevenueProjectionWidget: React.FC<{ lang: 'FR' | 'EN', formatPrice: (n: nu
     <div className="space-y-4">
       <div className="flex items-center gap-2">
         {(['3M', '6M', '12M'] as const).map(h => (
-          <button key={h} onClick={() => setHorizon(h)} className={`px-3 py-1.5 rounded-lg text-[9px] font-black transition-all ${horizon === h ? 'bg-primary-cyan/15 border border-primary-cyan/40 text-primary-cyan' : 'bg-white/5 border border-white/10 text-on-surface-variant hover:text-on-surface'}`}>{h}</button>
+          <button key={h} onClick={() => setHorizon(h)} className={`px-3 py-1.5 rounded-lg text-[11px] font-black transition-all ${horizon === h ? 'bg-primary-cyan/15 border border-primary-cyan/40 text-primary-cyan' : 'bg-white/5 border border-white/10 text-on-surface-variant hover:text-on-surface'}`}>{h}</button>
         ))}
       </div>
       <div className="h-24">
@@ -228,10 +228,10 @@ const RevenueProjectionWidget: React.FC<{ lang: 'FR' | 'EN', formatPrice: (n: nu
       </div>
       <div className="flex justify-between items-end">
         <div>
-          <p className="text-[9px] font-mono text-on-surface-variant/50 uppercase tracking-widest">{T('PROJECTION', 'PROJECTION')} {horizon}</p>
+          <p className="text-[11px] font-mono text-on-surface-variant/50 uppercase tracking-widest">{T('PROJECTION', 'PROJECTION')} {horizon}</p>
           <p className="text-xl font-black font-mono text-[#a78bfa]">{formatPrice(projected)}</p>
         </div>
-        <p className="text-[9px] font-mono text-[#00ff88]">+{((multiplier - 1) * 100).toFixed(1)}% {T('estimé', 'estimated')}</p>
+        <p className="text-[11px] font-mono text-[#00ff88]">+{((multiplier - 1) * 100).toFixed(1)}% {T('estimé', 'estimated')}</p>
       </div>
     </div>
   );
@@ -252,7 +252,7 @@ const ProjectAlertsWidget: React.FC<{ lang: 'FR' | 'EN' }> = ({ lang }) => {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div className={`w-1.5 h-1.5 rounded-full ${active ? 'bg-[#00ff88] animate-pulse' : 'bg-white/20'}`} />
-          <p className="text-[9px] font-mono text-on-surface-variant/50 uppercase tracking-widest">{active ? T('SURVEILLANCE ACTIVE', 'MONITORING ACTIVE') : T('EN PAUSE', 'PAUSED')}</p>
+          <p className="text-[11px] font-mono text-on-surface-variant/50 uppercase tracking-widest">{active ? T('SURVEILLANCE ACTIVE', 'MONITORING ACTIVE') : T('EN PAUSE', 'PAUSED')}</p>
         </div>
         <button onClick={() => setActive(!active)} className="text-on-surface-variant/40 hover:text-on-surface transition-colors">
           {active ? <Pause size={12} /> : <Play size={12} />}
@@ -263,9 +263,9 @@ const ProjectAlertsWidget: React.FC<{ lang: 'FR' | 'EN' }> = ({ lang }) => {
           <div className={`w-1.5 h-1.5 rounded-full mt-1 shrink-0 ${a.color}`} />
           <div className="flex-1 min-w-0">
             <p className="text-[10px] font-black text-on-surface">{a.project}</p>
-            <p className="text-[9px] text-on-surface-variant/60">{lang === 'FR' ? a.eventFR : a.eventEN}</p>
+            <p className="text-[11px] text-on-surface-variant/60">{lang === 'FR' ? a.eventFR : a.eventEN}</p>
           </div>
-          <p className="text-[9px] font-mono text-on-surface-variant/30 shrink-0">{a.time}</p>
+          <p className="text-[11px] font-mono text-on-surface-variant/30 shrink-0">{a.time}</p>
         </div>
       ))}
     </div>
@@ -286,23 +286,23 @@ const LYAConverterWidget: React.FC<{ lang: 'FR' | 'EN' }> = ({ lang }) => {
     <div className="space-y-4">
       <div className="flex gap-1.5">
         {(['EUR', 'USD', 'GBP'] as const).map(c => (
-          <button key={c} onClick={() => setCurrency(c)} className={`flex-1 py-1.5 rounded-lg text-[9px] font-black transition-all ${currency === c ? 'bg-rose-400/15 border border-rose-400/40 text-rose-400' : 'bg-white/5 border border-white/10 text-on-surface-variant hover:text-on-surface'}`}>{c}</button>
+          <button key={c} onClick={() => setCurrency(c)} className={`flex-1 py-1.5 rounded-lg text-[11px] font-black transition-all ${currency === c ? 'bg-rose-400/15 border border-rose-400/40 text-rose-400' : 'bg-white/5 border border-white/10 text-on-surface-variant hover:text-on-surface'}`}>{c}</button>
         ))}
       </div>
       <div className="space-y-1.5">
         <div className="flex justify-between">
-          <p className="text-[9px] font-mono text-on-surface-variant/50 uppercase tracking-widest">{T('UNITÉS LYA', 'LYA UNITS')}</p>
-          <p className="text-[9px] font-black text-on-surface">{units}</p>
+          <p className="text-[11px] font-mono text-on-surface-variant/50 uppercase tracking-widest">{T('UNITÉS LYA', 'LYA UNITS')}</p>
+          <p className="text-[11px] font-black text-on-surface">{units}</p>
         </div>
         <input type="range" min={1} max={250} value={units} onChange={e => setUnits(+e.target.value)} className="w-full h-1 bg-white/10 rounded-full appearance-none cursor-pointer accent-rose-400" />
-        <div className="flex justify-between text-[8px] font-mono text-on-surface-variant/30">
+        <div className="flex justify-between text-xs font-mono text-on-surface-variant/30">
           <span>1</span><span>125</span><span>250</span>
         </div>
       </div>
       <div className="bg-surface-high/40 border border-white/8 rounded-xl p-4 text-center">
-        <p className="text-[9px] font-mono text-on-surface-variant/50 mb-1">{units} LYA UNIT{units > 1 ? 'S' : ''} =</p>
+        <p className="text-[11px] font-mono text-on-surface-variant/50 mb-1">{units} LYA UNIT{units > 1 ? 'S' : ''} =</p>
         <p className="text-2xl font-black font-mono text-rose-400">{symbols[currency]}{converted}</p>
-        <p className="text-[8px] font-mono text-on-surface-variant/30 mt-1">1 LYA UNIT = {symbols[currency]}{(LYA_UNIT_VALUE * rates[currency]).toFixed(2)}</p>
+        <p className="text-xs font-mono text-on-surface-variant/30 mt-1">1 LYA UNIT = {symbols[currency]}{(LYA_UNIT_VALUE * rates[currency]).toFixed(2)}</p>
       </div>
     </div>
   );
@@ -350,7 +350,7 @@ export const WorkspaceWidgets: React.FC = () => {
             <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary-cyan">
               {T('ESPACE PERSONNALISÉ', 'MY WORKSPACE')}
             </span>
-            <span className="px-2 py-0.5 bg-primary-cyan/10 border border-primary-cyan/20 rounded-full text-[8px] font-black text-primary-cyan uppercase tracking-widest">BETA</span>
+            <span className="px-2 py-0.5 bg-primary-cyan/10 border border-primary-cyan/20 rounded-full text-xs font-black text-primary-cyan uppercase tracking-widest">BETA</span>
           </div>
           <p className="text-on-surface-variant/50 text-xs">
             {T('Configurez votre espace de travail avec les widgets qui vous correspondent.', 'Set up your workspace with the widgets that suit you best.')}
@@ -375,7 +375,7 @@ export const WorkspaceWidgets: React.FC = () => {
             className="overflow-hidden"
           >
             <div className="bg-surface-low/40 border border-white/10 rounded-2xl p-6">
-              <p className="text-[9px] font-black uppercase tracking-[0.3em] text-on-surface-variant/50 mb-4">
+              <p className="text-[11px] font-black uppercase tracking-[0.3em] text-on-surface-variant/50 mb-4">
                 {T('MODULES DISPONIBLES', 'AVAILABLE MODULES')} — {activeWidgets.length}/6 {T('actifs', 'active')}
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -392,7 +392,7 @@ export const WorkspaceWidgets: React.FC = () => {
                         <p className={`text-[10px] font-black truncate ${isActive ? 'text-on-surface' : 'text-on-surface-variant/50'}`}>
                           {lang === 'FR' ? w.titleFR : w.titleEN}
                         </p>
-                        <p className="text-[9px] text-on-surface-variant/40 leading-relaxed mt-0.5 line-clamp-2">
+                        <p className="text-[11px] text-on-surface-variant/40 leading-relaxed mt-0.5 line-clamp-2">
                           {lang === 'FR' ? w.descFR : w.descEN}
                         </p>
                       </div>
@@ -439,7 +439,7 @@ export const WorkspaceWidgets: React.FC = () => {
                   </div>
                   <div className="flex items-center gap-1.5">
                     <div className={`w-1.5 h-1.5 rounded-full ${def.color.replace('text-', 'bg-')} opacity-70 animate-pulse`} />
-                    <span className="text-[8px] font-mono text-on-surface-variant/30 uppercase">LIVE</span>
+                    <span className="text-xs font-mono text-on-surface-variant/30 uppercase">LIVE</span>
                   </div>
                 </div>
                 {/* Contenu */}

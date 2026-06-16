@@ -1,73 +1,120 @@
-
 import React from 'react';
 import { motion } from 'motion/react';
-import { Cpu, Zap, Activity, Shield } from 'lucide-react';
+import { Cpu, Zap, TrendingUp, Shield, Star } from 'lucide-react';
 import { useTranslation } from '../context/LanguageContext';
+import { CONTRACTS } from '../types';
 
 export const LYAAlgorithm: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
+  const isFR = language === 'FR';
+  const T = (fr: string, en: string) => isFR ? fr : en;
+
+  const topContracts = CONTRACTS
+    .filter(c => c.status === 'LIVE')
+    .sort((a, b) => b.totalScore - a.totalScore)
+    .slice(0, 5);
+
+  const insights = [
+    {
+      icon: <TrendingUp size={16} className="text-emerald-400" />,
+      titleFR: 'Tendance haussière détectée',
+      titleEN: 'Upward trend detected',
+      bodyFR: 'Les projets dans la catégorie Arts Visuels affichent une progression soutenue du LYA Score sur les 7 derniers jours. Moment favorable pour élargir votre soutien.',
+      bodyEN: 'Projects in the Visual Arts category show sustained LYA Score growth over the last 7 days. Favourable moment to broaden your support.',
+      accent: 'text-emerald-400',
+    },
+    {
+      icon: <Star size={16} className="text-accent-gold" />,
+      titleFR: 'Projets à surveiller',
+      titleEN: 'Projects to watch',
+      bodyFR: '3 projets Musique ont franchi le seuil de 800 points LYA Score cette semaine, signalant une forte dynamique créative et commerciale.',
+      bodyEN: '3 Music projects crossed the 800 LYA Score threshold this week, signalling strong creative and commercial momentum.',
+      accent: 'text-accent-gold',
+    },
+    {
+      icon: <Zap size={16} className="text-primary-cyan" />,
+      titleFR: 'Opportunité de co-soutien',
+      titleEN: 'Co-support opportunity',
+      bodyFR: 'CHRONOS_V3 affiche le meilleur rapport qualité/financement de la plateforme. Son budget est financé à 68% — une fenêtre de soutien stratégique est ouverte.',
+      bodyEN: 'CHRONOS_V3 shows the best quality/funding ratio on the platform. Its budget is 68% funded — a strategic support window is open.',
+      accent: 'text-primary-cyan',
+    },
+  ];
 
   return (
-    <div className="space-y-8 font-mono">
-      <div className="flex items-center justify-between border-b border-white/5 pb-6">
+    <div className="space-y-8">
+      {/* Header */}
+      <div className="flex items-start justify-between border-b border-white/8 pb-6">
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12 bg-primary-cyan/10 border border-primary-cyan/20 flex items-center justify-center text-primary-cyan">
-            <Cpu size={24} className="animate-spin-slow" />
+          <div className="w-12 h-12 bg-primary-cyan/10 border border-primary-cyan/20 rounded-xl flex items-center justify-center text-primary-cyan">
+            <Cpu size={22} />
           </div>
           <div>
-            <h2 className="text-xl font-black text-white uppercase italic tracking-tighter">{t('Predictive Analysis Engine', 'Moteur d\'Analyse Prédictive')}</h2>
-            <p className="text-[10px] text-primary-cyan font-bold uppercase tracking-widest">{t('LYA_NEURAL_v4.2.0 ACTIVE', 'LYA_NEURAL_v4.2.0 ACTIF')}</p>
+            <h2 className="text-xl font-black text-on-surface uppercase tracking-tight">
+              {T('Moteur d\'Analyse LYA', 'LYA Analysis Engine')}
+            </h2>
+            <p className="text-xs text-primary-cyan font-bold uppercase tracking-widest mt-0.5">
+              {T('Recommandations personnalisées · Mise à jour quotidienne', 'Personalised recommendations · Updated daily')}
+            </p>
           </div>
         </div>
         <div className="text-right">
-          <div className="text-[10px] text-on-surface-variant/40 font-bold uppercase mb-1">{t('CONFIDENCE_SCORE', 'SCORE_CONFIANCE')}</div>
+          <div className="text-[10px] text-on-surface-variant/40 font-bold uppercase mb-1">{T('FIABILITÉ', 'RELIABILITY')}</div>
           <div className="text-2xl font-black text-emerald-400">98.4%</div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="p-6 bg-white/2 border border-white/5 space-y-4">
-           <h3 className="text-xs font-black text-white uppercase tracking-widest flex items-center gap-2">
-             <Activity size={14} className="text-primary-cyan" />
-             {t('MARKET_SANS_BIAS', 'SANS_BIAIS_MARCHÉ')}
-           </h3>
-           <p className="text-[10px] text-on-surface-variant/60 leading-relaxed uppercase font-bold">
-             {t('NEURAL CLUSTERS ARE CURRENTLY PROCESSING 12,000+ CREATIVE DATA POINTS PER SECOND. BIAS MITIGATION AT 99.9%.', 'LES CLUSTERS NEURONAUX TRAITENT ACTUELLEMENT PLUS DE 12 000 POINTS DE DONNÉES CRÉATIVES PAR SECONDE. ATTÉNUATION DU BIAIS À 99,9 %.')}
-           </p>
-           <div className="h-1 w-full bg-white/5 overflow-hidden">
-             <motion.div 
-               className="h-full bg-emerald-400"
-               initial={{ width: '0%' }}
-               animate={{ width: '99.9%' }}
-               transition={{ duration: 2, repeat: Infinity, repeatType: 'reverse' }}
-             />
-           </div>
-        </div>
-
-        <div className="p-6 bg-white/2 border border-white/5 space-y-4">
-           <h3 className="text-xs font-black text-white uppercase tracking-widest flex items-center gap-2">
-             <Shield size={14} className="text-primary-cyan" />
-             {t('PROTOCOL_SAFETY', 'SÉCURITÉ_PROTOCOLE')}
-           </h3>
-           <p className="text-[10px] text-on-surface-variant/60 leading-relaxed uppercase font-bold">
-             {t('QUANTUM_PRIME ENCRYPTION SECURING ALL PREDICTIVE MODELS. NO UNAUTHORIZED EXFILTRATION DETECTED.', 'CHIFFREMENT QUANTUM_PRIME SÉCURISANT TOUS LES MODÈLES PRÉDICTIFS. AUCUNE EXFILTRATION NON AUTORISÉE DÉTECTÉE.')}
-           </p>
-           <div className="flex gap-2">
-             {[1,2,3,4,5,6,7,8].map(i => (
-               <div key={i} className="flex-1 h-3 bg-primary-cyan/20 animate-pulse" style={{ animationDelay: `${i * 0.2}s` }} />
-             ))}
-           </div>
-        </div>
+      {/* Insights */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        {insights.map((ins, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: i * 0.1 }}
+            className="bg-surface-high/30 border border-white/8 rounded-2xl p-5 space-y-3 hover:border-white/20 transition-all"
+          >
+            <div className="flex items-center gap-2">
+              {ins.icon}
+              <h3 className={`text-xs font-black uppercase tracking-wide ${ins.accent}`}>
+                {isFR ? ins.titleFR : ins.titleEN}
+              </h3>
+            </div>
+            <p className="text-sm text-on-surface-variant/70 leading-relaxed">
+              {isFR ? ins.bodyFR : ins.bodyEN}
+            </p>
+          </motion.div>
+        ))}
       </div>
 
-      <div className="p-8 border border-primary-cyan/20 bg-primary-cyan/5 relative">
-         <div className="flex items-center justify-between mb-4">
-            <span className="text-[10px] font-black text-white uppercase tracking-widest">{t('ALGORITHM_INSIGHT', 'APERÇU_ALGORITHME')}</span>
-            <Zap size={14} className="text-primary-cyan" />
-         </div>
-         <p className="text-[11px] text-primary-cyan font-bold italic leading-relaxed uppercase">
-           {t('"THE NEXT 12 HOURS INDICATE A SIGNIFICANT LIQUIDITY SURGE IN THE SECTOR 0xAF. INSTITUTIONAL REBALANCING IS IMMINENT."', '"LES 12 PROCHAINES HEURES INDIQUENT UNE POUSSÉE DE LIQUIDITÉ SIGNIFICATIVE DANS LE SECTEUR 0xAF. LE RÉÉQUILIBRAGE INSTITUTIONNEL EST IMMINENT."')}
-         </p>
+      {/* Top projets */}
+      <div className="bg-surface-high/20 border border-white/8 rounded-2xl p-6 space-y-4">
+        <div className="flex items-center gap-2 mb-5">
+          <Shield size={14} className="text-primary-cyan" />
+          <h3 className="text-xs font-black uppercase tracking-widest text-on-surface">
+            {T('Top 5 Projets — LYA Score', 'Top 5 Projects — LYA Score')}
+          </h3>
+        </div>
+        {topContracts.map((c, i) => (
+          <div key={c.id} className="flex items-center gap-4">
+            <span className="text-sm font-black text-on-surface-variant/30 w-5 text-center">{i + 1}</span>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-black text-on-surface truncate">{c.name}</p>
+              <p className="text-xs text-on-surface-variant/50">{c.category}</p>
+            </div>
+            <div className="text-right shrink-0">
+              <p className="text-sm font-black text-primary-cyan">{c.totalScore}<span className="text-xs text-on-surface-variant/30 font-normal">/1000</span></p>
+              <div className="w-20 h-1.5 bg-white/8 rounded-full mt-1 overflow-hidden">
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{ width: `${(c.totalScore / 1000) * 100}%` }}
+                  transition={{ duration: 1, delay: i * 0.1 }}
+                  className="h-full bg-primary-cyan rounded-full"
+                />
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

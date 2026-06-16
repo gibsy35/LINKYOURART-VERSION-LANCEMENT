@@ -207,12 +207,12 @@ export const DashboardView: React.FC<{
   }, [language]);
 
   const networkActivity = [
-    { label: 'Paris Registry', status: 'SYNCED', latency: '12ms' },
-    { label: 'Tokyo Registry', status: 'SYNCED', latency: '45ms' },
-    { label: 'NY Registry', status: 'SYNCED', latency: '28ms' },
-    { label: 'London Center', status: 'SYNCED', latency: '15ms' },
-    { label: 'Singapore Registry', status: 'SYNCED', latency: '32ms' },
-    { label: 'Berlin Registry', status: 'SYNCED', latency: '18ms' },
+    { label: 'Paris Registry', status: 'ACTIF', latency: '12ms' },
+    { label: 'Tokyo Registry', status: 'ACTIF', latency: '45ms' },
+    { label: 'NY Registry', status: 'ACTIF', latency: '28ms' },
+    { label: 'London Center', status: 'ACTIF', latency: '15ms' },
+    { label: 'Singapore Registry', status: 'ACTIF', latency: '32ms' },
+    { label: 'Berlin Registry', status: 'ACTIF', latency: '18ms' },
   ];
 
   const sectors = useMemo(() => [
@@ -272,7 +272,7 @@ export const DashboardView: React.FC<{
         <div className="flex flex-wrap items-center justify-between sm:justify-end gap-3 sm:gap-6 mb-8 sm:mb-12 relative z-20">
           <button 
             onClick={handleRefresh}
-            className={`flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 bg-white/5 border border-white/10 text-[9px] sm:text-[10px] font-black uppercase tracking-widest hover:bg-white/10 transition-all rounded-sm ${isRefreshing ? 'opacity-50 pointer-events-none' : ''}`}
+            className={`flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 bg-white/5 border border-white/10 text-[11px] sm:text-[10px] font-black uppercase tracking-widest hover:bg-white/10 transition-all rounded-sm ${isRefreshing ? 'opacity-50 pointer-events-none' : ''}`}
           >
             <RefreshCw size={12} className={isRefreshing ? 'animate-spin' : ''} />
             {isRefreshing ? t('Syncing...', 'Sync en cours...') : t('Force Sync', 'Sync Forcée')}
@@ -286,7 +286,7 @@ export const DashboardView: React.FC<{
                 <Zap size={16} className="animate-pulse" />
               </div>
               <div>
-                <div className="text-[7px] md:text-[8px] text-accent-gold uppercase tracking-[0.2em] sm:tracking-[0.3em] font-black mb-0.5 sm:mb-1 flex items-center gap-1 sm:gap-2">
+                <div className="text-[7px] md:text-xs text-accent-gold uppercase tracking-[0.2em] sm:tracking-[0.3em] font-black mb-0.5 sm:mb-1 flex items-center gap-1 sm:gap-2">
                   {t('LYA Standard Unit', 'Unité Standard LYA')}
                   <div className="w-1 h-1 rounded-full bg-emerald-400 animate-pulse" />
                 </div>
@@ -305,11 +305,11 @@ export const DashboardView: React.FC<{
           <div className="space-y-1 sm:space-y-2 text-right">
             <div className="flex items-center justify-end gap-2 sm:gap-3">
               <div className={`w-1.5 h-1.5 sm:w-2 h-2 ${userContracts ? 'bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.5)]' : 'bg-red-400 shadow-[0_0_10px_rgba(248,113,113,0.5)]'} rounded-full animate-pulse`} />
-              <span className="text-[8px] sm:text-[10px] font-black text-on-surface uppercase tracking-[0.2em] sm:tracking-[0.3em]">
+              <span className="text-xs sm:text-[10px] font-black text-on-surface uppercase tracking-[0.2em] sm:tracking-[0.3em]">
                 {t('Terminal: LYA-MAIN-01', 'Terminal : LYA-MAIN-01')} | <span className="text-primary-cyan">{t('CORE: SYNCED', 'CORE : SYNCHRONISÉ')}</span>
               </span>
             </div>
-            <div className="text-[8px] sm:text-[10px] font-mono text-on-surface-variant uppercase tracking-widest opacity-40">
+            <div className="text-xs sm:text-[10px] font-mono text-on-surface-variant uppercase tracking-widest opacity-40">
               {t('Last Sync:', 'Dernière Sync :')} {lastUpdate.toLocaleTimeString('en-GB', { hour12: false })}
             </div>
           </div>
@@ -391,7 +391,7 @@ export const DashboardView: React.FC<{
                   <div className="absolute inset-0 bg-surface-low/30 backdrop-blur-2xl border border-white/10 rounded-sm group-hover:border-primary-cyan/30 transition-all duration-500" />
                   <div className={`relative p-6 border-l-2 ${stat.color} flex flex-col justify-between min-h-[160px]`}>
                     <div className="flex justify-between items-start">
-                      <div className="text-[9px] text-on-surface-variant uppercase tracking-[0.3em] font-black opacity-40 flex items-center gap-2">
+                      <div className="text-[11px] text-on-surface-variant uppercase tracking-[0.3em] font-black opacity-40 flex items-center gap-2">
                         {stat.label}
                         <InfoTooltip position="top" title={stat.label} content={stat.tooltip} />
                       </div>
@@ -470,14 +470,14 @@ export const DashboardView: React.FC<{
                       <TrendingUp size={20} className="text-primary-cyan" />
                       {t('Market Index Performance', 'Performance de l\'Indice du Marché')}
                     </h2>
-                    <p className="text-[8px] sm:text-[10px] text-on-surface-variant uppercase tracking-[0.2em] sm:tracking-[0.4em] font-bold opacity-40 mt-1 sm:mt-2 text-justify">{t('Aggregate creative equity value across all registries', 'Valeur agrégée des fonds propres créatifs sur tous les registres')}</p>
+                    <p className="text-xs sm:text-[10px] text-on-surface-variant uppercase tracking-[0.2em] sm:tracking-[0.4em] font-bold opacity-40 mt-1 sm:mt-2 text-justify">{t('Aggregate creative equity value across all registries', 'Valeur agrégée des fonds propres créatifs sur tous les registres')}</p>
                   </div>
                   <div className="flex bg-surface-dim/60 p-1 border border-white/5 rounded-sm shadow-inner w-full sm:w-auto overflow-x-auto no-scrollbar">
                     {['1D', '1W', '1M', '1Y', 'ALL'].map(time => (
                       <button 
                         key={time} 
                         onClick={() => setActiveRange(time)}
-                        className={`flex-1 sm:flex-none px-3 sm:px-5 py-2 sm:py-2.5 text-[9px] sm:text-[10px] font-black uppercase tracking-[0.1em] sm:tracking-[0.2em] transition-all active:scale-95 whitespace-nowrap ${
+                        className={`flex-1 sm:flex-none px-3 sm:px-5 py-2 sm:py-2.5 text-[11px] sm:text-[10px] font-black uppercase tracking-[0.1em] sm:tracking-[0.2em] transition-all active:scale-95 whitespace-nowrap ${
                           activeRange === time 
                             ? 'bg-primary-cyan text-surface-dim shadow-[0_0_15px_rgba(0,224,255,0.3)]' 
                             : 'text-on-surface-variant hover:text-on-surface hover:bg-white/5'
@@ -554,7 +554,7 @@ export const DashboardView: React.FC<{
                       <TrendingUp size={16} className="text-emerald-400" />
                       {t('Top Progressions', 'Top Progressions')}
                     </h2>
-                    <div className="text-[8px] font-black uppercase tracking-widest text-on-surface-variant opacity-40">24H DELTA</div>
+                    <div className="text-xs font-black uppercase tracking-widest text-on-surface-variant opacity-40">VARIATION 24H</div>
                   </div>
                   <div className="p-6 space-y-4">
                     {topProgressions.map((contract, i) => (
@@ -581,7 +581,7 @@ export const DashboardView: React.FC<{
                           </div>
                           <div>
                             <div className="text-xs font-black uppercase tracking-wider text-on-surface group-hover:text-primary-cyan transition-colors">{contract.name}</div>
-                            <div className="text-[9px] text-on-surface-variant uppercase tracking-[0.2em] font-bold opacity-40 mt-1">{contract.registryIndex}</div>
+                            <div className="text-[11px] text-on-surface-variant uppercase tracking-[0.2em] font-bold opacity-40 mt-1">{contract.registryIndex}</div>
                           </div>
                         </div>
                         <div className="flex items-center gap-4">
@@ -589,7 +589,7 @@ export const DashboardView: React.FC<{
                             <div className={`text-[11px] sm:text-sm font-mono font-black ${contract.growth >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
                               {formatPrice(contract.unitValue)}
                             </div>
-                            <div className={`text-[9px] font-black opacity-60 mt-0.5 ${contract.growth >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+                            <div className={`text-[11px] font-black opacity-60 mt-0.5 ${contract.growth >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
                               {contract.growth >= 0 ? '+' : ''}{contract.growth}%
                             </div>
                           </div>
@@ -629,7 +629,7 @@ export const DashboardView: React.FC<{
                       <RefreshCw size={16} className="text-primary-cyan" />
                       {t('Stable Progressions', 'Progressions Stables')}
                     </h2>
-                    <div className="text-[8px] font-black uppercase tracking-widest text-on-surface-variant opacity-40">7D VOLATILITY: LOW</div>
+                    <div className="text-xs font-black uppercase tracking-widest text-on-surface-variant opacity-40">TENDANCE 7J : STABLE</div>
                   </div>
                   <div className="p-6 space-y-4">
                     {stableProgressions.map((contract, i) => (
@@ -656,7 +656,7 @@ export const DashboardView: React.FC<{
                           </div>
                           <div>
                             <div className="text-xs font-black uppercase tracking-wider text-on-surface group-hover:text-primary-cyan transition-colors">{contract.name}</div>
-                            <div className="text-[9px] text-on-surface-variant uppercase tracking-[0.2em] font-bold opacity-40 mt-1">{contract.registryIndex}</div>
+                            <div className="text-[11px] text-on-surface-variant uppercase tracking-[0.2em] font-bold opacity-40 mt-1">{contract.registryIndex}</div>
                           </div>
                         </div>
                         <div className="flex items-center gap-4">
@@ -664,7 +664,7 @@ export const DashboardView: React.FC<{
                             <div className={`text-[11px] sm:text-sm font-mono font-black ${contract.growth >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
                               {formatPrice(contract.unitValue)}
                             </div>
-                            <div className={`text-[9px] font-black opacity-60 mt-0.5 ${contract.growth >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+                            <div className={`text-[11px] font-black opacity-60 mt-0.5 ${contract.growth >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
                               {contract.growth >= 0 ? '+' : ''}{contract.growth}%
                             </div>
                           </div>
@@ -707,7 +707,7 @@ export const DashboardView: React.FC<{
                     <LayoutGrid size={16} className="text-primary-cyan" />
                     {t('Sector Heatmap', 'Carte de Chaleur Sectorielle')}
                   </h2>
-                  <div className="text-[8px] font-black uppercase tracking-widest text-on-surface-variant opacity-40">BY WEIGHT & PERF</div>
+                  <div className="text-xs font-black uppercase tracking-widest text-on-surface-variant opacity-40">PAR SCORE LYA</div>
                 </div>
                 <div className="p-6 space-y-4 flex-1">
                   {sectors.map((sector, i) => (
@@ -718,7 +718,7 @@ export const DashboardView: React.FC<{
                           <span className="text-[10px] font-black uppercase tracking-widest text-white group-hover:text-primary-cyan transition-colors">{sector.name}</span>
                         </div>
                         <div className="flex items-center gap-3">
-                          <span className="text-[9px] font-mono text-on-surface-variant/40">{sector.weight}%</span>
+                          <span className="text-[11px] font-mono text-on-surface-variant/40">{sector.weight}%</span>
                           <span className={`text-[10px] font-black font-mono ${sector.growth >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
                             {sector.growth >= 0 ? '+' : ''}{sector.growth}%
                           </span>
@@ -735,7 +735,7 @@ export const DashboardView: React.FC<{
                   ))}
                 </div>
                 <div className="p-8 bg-white/[0.01] border-t border-white/5 flex flex-col gap-4">
-                  <div className="flex items-center justify-between text-[8px] font-black uppercase tracking-widest text-on-surface-variant opacity-40">
+                  <div className="flex items-center justify-between text-xs font-black uppercase tracking-widest text-on-surface-variant opacity-40">
                     <span>SECTOR AGGREGATE</span>
                     <span className={marketStats.avgGrowth >= 0 ? 'text-emerald-400' : 'text-rose-400'}>
                       {marketStats.avgGrowth >= 0 ? '+' : ''}{marketStats.avgGrowth.toFixed(1)}%
@@ -761,7 +761,7 @@ export const DashboardView: React.FC<{
                 </h2>
                 <div className="flex items-center gap-3">
                   <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
-                  <span className="text-[8px] font-black uppercase tracking-widest text-on-surface-variant">LIVE FEED</span>
+                  <span className="text-xs font-black uppercase tracking-widest text-on-surface-variant">LIVE FEED</span>
                 </div>
               </div>
               <div className="p-8 space-y-4">
@@ -784,7 +784,7 @@ export const DashboardView: React.FC<{
                           <div className="text-xs font-black uppercase tracking-wider text-on-surface group-hover:text-primary-cyan transition-colors">
                             {i % 2 === 0 ? t('Professional Acquisition', 'Acquisition Professionnelle') : t('Market Transfer', 'Transfert de Marché')}
                           </div>
-                          <div className="text-[9px] text-on-surface-variant uppercase tracking-[0.2em] font-bold opacity-40 mt-1">TX-{Math.random().toString(16).slice(2, 8).toUpperCase()}</div>
+                          <div className="text-[11px] text-on-surface-variant uppercase tracking-[0.2em] font-bold opacity-40 mt-1">TX-{Math.random().toString(16).slice(2, 8).toUpperCase()}</div>
                         </div>
                       </div>
                       <div className="text-right">
@@ -817,7 +817,7 @@ export const DashboardView: React.FC<{
                   <ActivityIcon size={16} className="text-primary-cyan" />
                   {t('Registry Distribution', 'Répartition du Registre')}
                 </h2>
-                <div className="text-[8px] font-black uppercase tracking-widest text-on-surface-variant opacity-40">GLOBAL COVERAGE</div>
+                <div className="text-xs font-black uppercase tracking-widest text-on-surface-variant opacity-40">GLOBAL COVERAGE</div>
               </div>
               <div className="h-[300px] w-full">
                 <ResponsiveContainer width="100%" height="100%">
@@ -870,9 +870,9 @@ export const DashboardView: React.FC<{
               <div className="mt-10 flex justify-between items-center bg-surface-dim/30 p-6 rounded-sm border border-white/5 shadow-inner">
                 <div className="flex items-center gap-4">
                   <div className="w-3 h-3 bg-primary-cyan rounded-full shadow-[0_0_15px_rgba(0,224,255,0.6)]"></div>
-                  <span className="text-[9px] uppercase tracking-[0.3em] text-on-surface-variant font-black opacity-60">{t('Primary Registry: North America', 'Registre Principal : Amérique du Nord')}</span>
+                  <span className="text-[11px] uppercase tracking-[0.3em] text-on-surface-variant font-black opacity-60">{t('Primary Registry: North America', 'Registre Principal : Amérique du Nord')}</span>
                 </div>
-                <span className="text-[9px] font-black text-primary-cyan uppercase tracking-[0.3em]">128 {t('ACTIVE REGISTRIES', 'REGISTRES ACTIFS')}</span>
+                <span className="text-[11px] font-black text-primary-cyan uppercase tracking-[0.3em]">128 {t('ACTIVE REGISTRIES', 'REGISTRES ACTIFS')}</span>
               </div>
             </div>
           </div>
@@ -917,7 +917,7 @@ export const DashboardView: React.FC<{
               news.slice(0, visibleNews).map((item) => (
                 <div key={item.id} className="p-4 bg-white/5 border border-white/5 rounded-xl group hover:border-primary-cyan/30 transition-all cursor-pointer">
                   <div className="flex justify-between items-start mb-2">
-                    <span className="text-[9px] font-mono text-on-surface-variant/60 uppercase tracking-widest">{item.time} • {item.source}</span>
+                    <span className="text-[11px] font-mono text-on-surface-variant/60 uppercase tracking-widest">{item.time} • {item.source}</span>
                     <span className={`text-[10px] font-black uppercase tracking-widest ${
                       item.impact.startsWith('-') ? 'text-rose-400' : 'text-emerald-400'
                     }`}>
@@ -933,7 +933,7 @@ export const DashboardView: React.FC<{
                     </p>
                   )}
                   {item.targetProject && (
-                    <div className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-primary-cyan/10 border border-primary-cyan/20 rounded-md text-[9px] font-black text-primary-cyan uppercase tracking-widest mt-1">
+                    <div className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-primary-cyan/10 border border-primary-cyan/20 rounded-md text-[11px] font-black text-primary-cyan uppercase tracking-widest mt-1">
                       <span className="w-1.5 h-1.5 bg-primary-cyan rounded-full animate-pulse"></span>
                       Benchmark: {item.targetProject}
                     </div>
@@ -969,7 +969,7 @@ export const DashboardView: React.FC<{
                     <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
                     <span className="text-[10px] font-bold uppercase tracking-widest text-white">{node.label}</span>
                   </div>
-                  <span className="text-[9px] font-mono text-on-surface-variant/40">{node.latency}</span>
+                  <span className="text-[11px] font-mono text-on-surface-variant/40">{node.latency}</span>
                 </div>
               ))}
             </div>
@@ -979,7 +979,7 @@ export const DashboardView: React.FC<{
                   onClick={() => setVisibleNetwork(prev => prev + 2)}
                   className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant hover:text-white transition-colors"
                 >
-                  {t('Load More Nodes', 'Charger Plus de Nœuds')}
+                  {t('Voir plus', 'Voir plus')}
                 </button>
               </div>
             )}
@@ -995,7 +995,7 @@ export const DashboardView: React.FC<{
               {sectors.slice(0, visibleNetwork).map((sector, i) => (
                 <div key={i} className="flex items-center justify-between p-3 bg-white/5 border border-white/5 rounded-lg hover:border-accent-gold/30 transition-all cursor-pointer group">
                   <span className="text-[10px] font-bold uppercase tracking-widest text-white group-hover:text-accent-gold transition-colors">{sector.name}</span>
-                  <span className={`text-[9px] font-mono font-black ${sector.growth >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+                  <span className={`text-[11px] font-mono font-black ${sector.growth >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
                     {sector.growth >= 0 ? '+' : ''}{sector.growth}%
                   </span>
                 </div>
@@ -1004,7 +1004,7 @@ export const DashboardView: React.FC<{
             {visibleNetwork < sectors.length && (
               <button 
                 onClick={() => setVisibleNetwork(prev => prev + 4)}
-                className="w-full py-2 text-[9px] font-black uppercase tracking-widest text-on-surface-variant hover:text-accent-gold transition-colors border-t border-white/5 pt-4"
+                className="w-full py-2 text-[11px] font-black uppercase tracking-widest text-on-surface-variant hover:text-accent-gold transition-colors border-t border-white/5 pt-4"
               >
                 {t('Load More Sectors', 'Voir Plus de Secteurs')}
               </button>
