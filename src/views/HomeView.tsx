@@ -1407,7 +1407,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
       <section className="relative z-10 py-40 max-w-[1800px] mx-auto px-6">
         <div className="text-center mb-24">
           <h2 className="text-3xl md:text-5xl font-black font-headline text-white tracking-tighter uppercase mb-6 drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]">
-            {t('LES', 'THE')} <span className="text-primary-cyan">{t('QUATRE SPHÈRES', 'FOUR SPHERES')}</span>
+            {t('THE', 'LES')} <span className="text-primary-cyan">{t('FOUR SPHERES', 'QUATRE SPHÈRES')}</span>
           </h2>
           <p className="text-on-surface-variant text-lg opacity-80 max-w-2xl mx-auto text-justify">
             {t('home.pillars.subtitle', 'LinkYourArt réunit les acteurs majeurs de l\'économie créative et le public dans un écosystème unique, sécurisé et transparent.')}
