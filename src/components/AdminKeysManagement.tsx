@@ -221,8 +221,8 @@ export const AdminKeysManagement: React.FC = () => {
             <Globe className="text-primary-cyan" size={18} />
             <span className="text-[8px] bg-emerald-500/10 text-emerald-400 font-mono px-1.5 py-0.5 rounded uppercase font-bold">LIVE STREAM</span>
           </div>
-          <span className="text-2xl font-black text-white italic">4 / 4 Nodes</span>
-          <p className="text-[10px] text-white/40 uppercase tracking-widest mt-1">SECURED LEDGER CLUSTERS</p>
+          <span className="text-sm font-black text-white">4 / 4 {t('Hubs actifs', 'Active Hubs')}</span>
+          <p className="text-xs text-white/40 uppercase tracking-widest mt-1">{t('Centres créatifs connectés', 'Connected creative centres')}</p>
         </div>
 
         <div className="p-6 bg-surface-low border border-white/5 rounded-3xl relative overflow-hidden group hover:border-accent-gold/30 transition-all">
@@ -231,8 +231,8 @@ export const AdminKeysManagement: React.FC = () => {
             <Lock className="text-accent-gold" size={18} />
             <span className="text-[8px] bg-emerald-500/10 text-emerald-400 font-mono px-1.5 py-0.5 rounded uppercase font-bold">AES-256</span>
           </div>
-          <span className="text-2xl font-black text-white italic">FIPS 140-2 Compliant</span>
-          <p className="text-[10px] text-white/40 uppercase tracking-widest mt-1">QUANTUM-RESISTANT TUNNEL</p>
+          <span className="text-sm font-black text-white">{t('Sécurité certifiée', 'Certified security')} AES-256</span>
+          <p className="text-xs text-white/40 uppercase tracking-widest mt-1">{t('Chiffrement renforcé', 'Enhanced encryption')}</p>
         </div>
 
         <div className="p-6 bg-surface-low border border-white/5 rounded-3xl relative overflow-hidden group hover:border-accent-magenta/30 transition-all">
@@ -241,8 +241,8 @@ export const AdminKeysManagement: React.FC = () => {
             <Activity className="text-accent-magenta" size={18} />
             <span className="text-[8px] bg-emerald-500/10 text-emerald-400 font-mono px-1.5 py-0.5 rounded uppercase font-bold">STABLE</span>
           </div>
-          <span className="text-2xl font-black text-white italic">{keys.length} Keys Active</span>
-          <p className="text-[10px] text-white/40 uppercase tracking-widest mt-1">ASSIGNED DEMO ENDPOINTS</p>
+          <span className="text-sm font-black text-white">{keys.length} {t('Codes d\'invitation actifs', 'Active invitation codes')}</span>
+          <p className="text-xs text-white/40 uppercase tracking-widest mt-1">{t('Accès en cours', 'Ongoing access')}</p>
         </div>
 
         <div className="p-6 bg-surface-low border border-white/5 rounded-3xl relative overflow-hidden group hover:border-primary-cyan/30 transition-all">
@@ -251,8 +251,8 @@ export const AdminKeysManagement: React.FC = () => {
             <Database className="text-primary-cyan" size={18} />
             <span className="text-[8px] bg-emerald-500/10 text-emerald-400 font-mono px-1.5 py-0.5 rounded uppercase font-bold">100% HEALTH</span>
           </div>
-          <span className="text-2xl font-black text-white italic">0 Fault Sessions</span>
-          <p className="text-[10px] text-white/40 uppercase tracking-widest mt-1">LEDGER COMPLIANCE STATUS</p>
+          <span className="text-sm font-black text-white">0 {t('incident détecté', 'incident detected')}</span>
+          <p className="text-xs text-white/40 uppercase tracking-widest mt-1">{t('Système opérationnel', 'System operational')}</p>
         </div>
       </div>
 

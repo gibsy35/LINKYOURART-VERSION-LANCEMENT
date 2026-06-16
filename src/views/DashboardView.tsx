@@ -418,46 +418,6 @@ export const DashboardView: React.FC<{
 
         {activeTab === 'overview' ? (
           <>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <StatCard 
-              title={t('Total Project Capacity', 'Capacité Totale des Projets')} 
-              value={marketStats.totalCap} 
-              icon={<TrendingUp size={20} />} 
-              trend={`${marketStats.avgGrowth > 0 ? '+' : ''}${marketStats.avgGrowth.toFixed(1)}%`} 
-              trendDown={marketStats.avgGrowth < 0}
-              color="cyan" 
-              subValue={t(`${(marketStats.totalCap / 50 / 1000000).toFixed(1)}M PROJECT UNITS`, `${(marketStats.totalCap / 50 / 1000000).toFixed(1)}M UNITÉS DE PROJETS`)} 
-              tooltip={t('Total aggregate value of all creative projects currently indexed on the LYA Protocol.', 'Valeur agrégée totale de tous les projets créatifs actuellement indexés sur le protocole LYA.')}
-            />
-            <StatCard 
-              title={t('24H Exchange Volume', 'Volume d\'Échange 24H')} 
-              value={marketStats.totalVolume} 
-              icon={<ActivityIcon size={20} />} 
-              trend="+12.8%" 
-              color="cyan" 
-              subValue={t(`${(marketStats.totalVolume / 50 / 1000).toFixed(0)}K CONTRACT UNITS`, `${(marketStats.totalVolume / 50 / 1000).toFixed(0)}K UNITÉS DE CONTRATS`)} 
-              tooltip={t('Total value of contract units exchanged between peers in the last 24 hours.', 'Valeur totale des unités de contrat échangées entre pairs au cours des dernières 24 heures.')}
-            />
-            <StatCard 
-              title={t('Indexed Project Flow', 'Flux de Projets Indexés')} 
-              value={contracts.length} 
-              isCurrency={false}
-              icon={<ExternalLink size={20} />} 
-              trend="+0.5%" 
-              color="cyan" 
-              tooltip={t('Total number of unique creative projects with active professional indexing.', 'Nombre total de projets créatifs uniques avec une indexation professionnelle active.')}
-            />
-            <StatCard 
-              title={t('Avg Index Progression', 'Rendement Moyen de l\'Indice')} 
-              value={marketStats.avgGrowth} 
-              isCurrency={false}
-              icon={marketStats.avgGrowth >= 0 ? <TrendingUp size={20} /> : <TrendingDown size={20} />} 
-              trend={`${marketStats.avgGrowth > 0 ? '+' : ''}${marketStats.avgGrowth.toFixed(1)}%`} 
-              trendDown={marketStats.avgGrowth < 0}
-              color="cyan" 
-              tooltip={t('Weighted average growth rate of all indexed creative assets in the ecosystem.', 'Taux de croissance moyen pondéré de tous les actifs créatifs indexés dans l\'écosystème.')}
-            />
-          </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2 space-y-8">
@@ -466,11 +426,11 @@ export const DashboardView: React.FC<{
                 <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary-cyan/50 to-transparent" />
                 <div className="bg-white/[0.02] px-4 sm:px-8 py-4 sm:py-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-6 border-b border-white/5 relative z-10">
                   <div>
-                    <h2 className="text-sm sm:text-lg md:text-xl font-black font-headline uppercase tracking-[0.2em] sm:tracking-[0.3em] flex items-center gap-3 sm:gap-4">
+                    <h2 className="text-base font-black font-headline uppercase tracking-wider flex items-center gap-3 sm:gap-4">
                       <TrendingUp size={20} className="text-primary-cyan" />
                       {t('Market Index Performance', 'Performance de l\'Indice du Marché')}
                     </h2>
-                    <p className="text-xs sm:text-[10px] text-on-surface-variant uppercase tracking-[0.2em] sm:tracking-[0.4em] font-bold opacity-40 mt-1 sm:mt-2 text-justify">{t('Aggregate creative equity value across all registries', 'Valeur agrégée des fonds propres créatifs sur tous les registres')}</p>
+                    
                   </div>
                   <div className="flex bg-surface-dim/60 p-1 border border-white/5 rounded-sm shadow-inner w-full sm:w-auto overflow-x-auto no-scrollbar">
                     {['1D', '1W', '1M', '1Y', 'ALL'].map(time => (
@@ -550,7 +510,7 @@ export const DashboardView: React.FC<{
                 {/* Top Progressions */}
                 <div className="bg-surface-low/30 backdrop-blur-2xl border border-white/10 rounded-sm overflow-hidden shadow-2xl flex flex-col">
                   <div className="bg-white/[0.02] px-8 py-6 border-b border-white/5 flex items-center justify-between">
-                    <h2 className="text-xs font-black font-headline uppercase tracking-[0.4em] flex items-center gap-4">
+                    <h2 className="text-base font-black font-headline uppercase tracking-wider flex items-center gap-4">
                       <TrendingUp size={16} className="text-emerald-400" />
                       {t('Top Progressions', 'Top Progressions')}
                     </h2>
@@ -625,7 +585,7 @@ export const DashboardView: React.FC<{
                 {/* Stable Progressions */}
                 <div className="bg-surface-low/30 backdrop-blur-2xl border border-white/10 rounded-sm overflow-hidden shadow-2xl flex flex-col">
                   <div className="bg-white/[0.02] px-8 py-6 border-b border-white/5 flex items-center justify-between">
-                    <h2 className="text-xs font-black font-headline uppercase tracking-[0.4em] flex items-center gap-4">
+                    <h2 className="text-base font-black font-headline uppercase tracking-wider flex items-center gap-4">
                       <RefreshCw size={16} className="text-primary-cyan" />
                       {t('Stable Progressions', 'Progressions Stables')}
                     </h2>
@@ -703,7 +663,7 @@ export const DashboardView: React.FC<{
             <div className="lg:col-span-1">
               <div className="bg-surface-low/30 backdrop-blur-2xl border border-white/10 rounded-sm overflow-hidden shadow-2xl h-full flex flex-col">
                 <div className="bg-white/[0.02] px-8 py-6 border-b border-white/5 flex justify-between items-center">
-                  <h2 className="text-xs font-black font-headline uppercase tracking-[0.4em] flex items-center gap-4">
+                  <h2 className="text-base font-black font-headline uppercase tracking-wider flex items-center gap-4">
                     <LayoutGrid size={16} className="text-primary-cyan" />
                     {t('Sector Heatmap', 'Carte de Chaleur Sectorielle')}
                   </h2>
@@ -755,7 +715,7 @@ export const DashboardView: React.FC<{
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <div className="bg-surface-low/30 backdrop-blur-2xl border border-white/10 rounded-sm overflow-hidden shadow-2xl">
               <div className="bg-white/[0.02] px-8 py-6 flex justify-between items-center border-b border-white/5">
-                <h2 className="text-xs font-black font-headline uppercase tracking-[0.4em] flex items-center gap-4">
+                <h2 className="text-base font-black font-headline uppercase tracking-wider flex items-center gap-4">
                   <RefreshCw size={16} className="text-primary-cyan animate-spin-slow" />
                   {t('Recent Exchange Activity', 'Activité d\'Échange Récente')}
                 </h2>
@@ -813,7 +773,7 @@ export const DashboardView: React.FC<{
 
             <div className="bg-surface-low/30 backdrop-blur-2xl border border-white/10 rounded-sm overflow-hidden shadow-2xl p-10">
               <div className="flex items-center justify-between mb-10 border-b border-white/5 pb-6">
-                <h2 className="text-xs font-black font-headline uppercase tracking-[0.4em] flex items-center gap-4">
+                <h2 className="text-base font-black font-headline uppercase tracking-wider flex items-center gap-4">
                   <ActivityIcon size={16} className="text-primary-cyan" />
                   {t('Registry Distribution', 'Répartition du Registre')}
                 </h2>

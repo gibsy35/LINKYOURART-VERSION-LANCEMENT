@@ -94,8 +94,8 @@ const ProjectAnalysisWidget: React.FC<{ lang: 'FR' | 'EN' }> = ({ lang }) => {
       {contracts.map(c => (
         <div key={c.id} className="flex items-center gap-3">
           <div className="flex-1 min-w-0">
-            <p className="text-[10px] font-black text-on-surface truncate">{c.name}</p>
-            <p className="text-[11px] text-on-surface-variant/50 font-mono">{c.category}</p>
+            <p className="text-sm font-black text-on-surface truncate">{c.name}</p>
+            <p className="text-xs text-on-surface-variant/60 font-mono">{c.category}</p>
           </div>
           <div className="text-right shrink-0">
             <p className="text-[10px] font-black text-primary-cyan">{c.totalScore}<span className="text-on-surface-variant/40 font-normal">/1000</span></p>
@@ -133,7 +133,7 @@ const CreativeNetworkWidget: React.FC<{ lang: 'FR' | 'EN' }> = ({ lang }) => {
         <div key={n.city} className="flex items-center gap-3">
           <div className={`w-1.5 h-1.5 rounded-full shrink-0 ${n.active ? 'bg-emerald-400' : 'bg-white/20'}`} />
           <div className="flex-1">
-            <p className="text-[10px] font-black text-on-surface">{n.city} <span className="text-on-surface-variant/40 font-normal text-[11px]">{n.country}</span></p>
+            <p className="text-sm font-black text-on-surface">{n.city} <span className="text-on-surface-variant/40 font-normal text-[11px]">{n.country}</span></p>
           </div>
           <p className="text-[11px] font-mono text-on-surface-variant/50">{n.projects} {T('projets', 'projects')}</p>
           <p className="text-[11px] font-mono text-primary-cyan w-8 text-right">{n.ms}ms</p>
@@ -161,7 +161,7 @@ const SupportSimulatorWidget: React.FC<{ lang: 'FR' | 'EN', formatPrice: (n: num
       <div className="space-y-1.5">
         <p className="text-[11px] font-mono text-on-surface-variant/50 uppercase tracking-widest">{T('PROJET CIBLÉ', 'TARGET PROJECT')}</p>
         <div className="relative">
-          <select value={selectedId} onChange={e => setSelectedId(e.target.value)} className="w-full bg-surface-high/50 border border-white/10 text-[10px] font-black text-on-surface py-2 pl-3 pr-8 rounded-xl appearance-none focus:outline-none focus:border-primary-cyan transition-colors">
+          <select value={selectedId} onChange={e => setSelectedId(e.target.value)} className="w-full bg-surface-high/50 border border-white/10 text-sm font-black text-on-surface py-2 pl-3 pr-8 rounded-xl appearance-none focus:outline-none focus:border-primary-cyan transition-colors">
             {contracts.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
           </select>
           <ChevronDown size={11} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none" />
@@ -262,7 +262,7 @@ const ProjectAlertsWidget: React.FC<{ lang: 'FR' | 'EN' }> = ({ lang }) => {
         <div key={i} className="flex items-start gap-3">
           <div className={`w-1.5 h-1.5 rounded-full mt-1 shrink-0 ${a.color}`} />
           <div className="flex-1 min-w-0">
-            <p className="text-[10px] font-black text-on-surface">{a.project}</p>
+            <p className="text-sm font-black text-on-surface">{a.project}</p>
             <p className="text-[11px] text-on-surface-variant/60">{lang === 'FR' ? a.eventFR : a.eventEN}</p>
           </div>
           <p className="text-[11px] font-mono text-on-surface-variant/30 shrink-0">{a.time}</p>
@@ -392,7 +392,7 @@ export const WorkspaceWidgets: React.FC = () => {
                         <p className={`text-[10px] font-black truncate ${isActive ? 'text-on-surface' : 'text-on-surface-variant/50'}`}>
                           {lang === 'FR' ? w.titleFR : w.titleEN}
                         </p>
-                        <p className="text-[11px] text-on-surface-variant/40 leading-relaxed mt-0.5 line-clamp-2">
+                        <p className="text-xs text-on-surface-variant/50 leading-relaxed mt-0.5 line-clamp-2">
                           {lang === 'FR' ? w.descFR : w.descEN}
                         </p>
                       </div>
@@ -433,7 +433,7 @@ export const WorkspaceWidgets: React.FC = () => {
                 <div className="flex items-center gap-3 px-5 py-4 border-b border-white/8">
                   <span className={def.color}>{def.icon}</span>
                   <div className="flex-1 min-w-0">
-                    <p className="text-[10px] font-black text-on-surface uppercase tracking-wider truncate">
+                    <p className="text-sm font-black text-on-surface uppercase tracking-wider truncate">
                       {lang === 'FR' ? def.titleFR : def.titleEN}
                     </p>
                   </div>
