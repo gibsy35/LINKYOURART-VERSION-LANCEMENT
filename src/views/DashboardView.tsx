@@ -324,7 +324,7 @@ export const DashboardView: React.FC<{
             >
               <span className="relative z-10">{t('General View', 'Vue d\'Ensemble')}</span>
               {activeTab === 'overview' && (
-                <motion.div layoutId="activeTab" className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-cyan shadow-[0_0_10px_rgba(0,224,255,0.5)]" />
+                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-cyan shadow-[0_0_10px_rgba(0,224,255,0.5)] transition-all duration-300" />
               )}
               <div className="absolute inset-0 bg-primary-cyan/0 group-hover:bg-primary-cyan/5 transition-all duration-300 -mb-0.5" />
             </button>
@@ -335,7 +335,7 @@ export const DashboardView: React.FC<{
               <Zap size={14} className={activeTab === 'predictive' ? 'text-primary-cyan' : 'text-on-surface-variant opacity-40'} />
               <span className="relative z-10">{t('Project Analytics', 'Analyses de Projets')}</span>
               {activeTab === 'predictive' && (
-                <motion.div layoutId="activeTab" className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-cyan shadow-[0_0_10px_rgba(0,224,255,0.5)]" />
+                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-cyan shadow-[0_0_10px_rgba(0,224,255,0.5)] transition-all duration-300" />
               )}
               <div className="absolute inset-0 bg-primary-cyan/0 group-hover:bg-primary-cyan/5 transition-all duration-300 -mb-0.5" />
             </button>
@@ -346,7 +346,7 @@ export const DashboardView: React.FC<{
               <ActivityIcon size={14} className={activeTab === 'accessibilité' ? 'text-primary-cyan' : 'text-on-surface-variant opacity-40'} />
               <span className="relative z-10">{t('Exchange Center', 'Centre d\'Échanges')}</span>
               {activeTab === 'accessibilité' && (
-                <motion.div layoutId="activeTab" className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-cyan shadow-[0_0_10px_rgba(0,224,255,0.5)]" />
+                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-cyan shadow-[0_0_10px_rgba(0,224,255,0.5)] transition-all duration-300" />
               )}
               <div className="absolute inset-0 bg-primary-cyan/0 group-hover:bg-primary-cyan/5 transition-all duration-300 -mb-0.5" />
             </button>
@@ -358,7 +358,7 @@ export const DashboardView: React.FC<{
               <LayoutGrid size={14} className={activeTab === 'workspace' ? 'text-primary-cyan' : 'text-on-surface-variant opacity-40'} />
               <span className="relative z-10">{t('My Workspace', 'Mon Espace')}</span>
               {activeTab === 'workspace' && (
-                <motion.div layoutId="activeTab" className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-cyan shadow-[0_0_10px_rgba(0,224,255,0.5)]" />
+                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-cyan shadow-[0_0_10px_rgba(0,224,255,0.5)] transition-all duration-300" />
               )}
               <div className="absolute inset-0 bg-primary-cyan/0 group-hover:bg-primary-cyan/5 transition-all duration-300 -mb-0.5" />
             </button>
@@ -371,7 +371,7 @@ export const DashboardView: React.FC<{
                 <Shield size={14} className={activeTab === 'management' ? 'text-primary-cyan' : 'text-on-surface-variant opacity-40'} />
                 <span className="relative z-10">{t('ACCESS CONTROL', 'CONTRÔLE D\'ACCÈS')}</span>
                 {activeTab === 'management' && (
-                  <motion.div layoutId="activeTab" className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-cyan shadow-[0_0_10px_rgba(0,224,255,0.5)]" />
+                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-cyan shadow-[0_0_10px_rgba(0,224,255,0.5)] transition-all duration-300" />
                 )}
                 <div className="absolute inset-0 bg-primary-cyan/0 group-hover:bg-primary-cyan/5 transition-all duration-300 -mb-0.5" />
               </button>

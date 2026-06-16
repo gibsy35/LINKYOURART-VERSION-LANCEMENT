@@ -109,7 +109,7 @@ export const InvestorDashboardView: React.FC<{ user: UserProfile | null; onNotif
             className={`px-5 pb-4 text-sm font-black uppercase tracking-wider relative whitespace-nowrap transition-all ${activeSection === tab.key ? 'text-emerald-400' : 'text-on-surface-variant hover:text-on-surface'}`}
           >
             {T(tab.labelFR, tab.labelEN)}
-            {activeSection === tab.key && <motion.div layoutId="investorTab" className="absolute bottom-0 left-0 right-0 h-0.5 bg-emerald-400" />}
+            {activeSection === tab.key && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-emerald-400 transition-all duration-300" />}
           </button>
         ))}
       </div>

@@ -97,7 +97,7 @@ export const ProfessionalDashboardView: React.FC<{ user: UserProfile | null; onN
             className={`px-5 pb-4 text-sm font-black uppercase tracking-wider relative whitespace-nowrap transition-all ${activeSection === tab.key ? 'text-primary-cyan' : 'text-on-surface-variant hover:text-on-surface'}`}
           >
             {T(tab.labelFR, tab.labelEN)}
-            {activeSection === tab.key && <motion.div layoutId="proTab" className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-cyan" />}
+            {activeSection === tab.key && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-cyan transition-all duration-300" />}
           </button>
         ))}
       </div>

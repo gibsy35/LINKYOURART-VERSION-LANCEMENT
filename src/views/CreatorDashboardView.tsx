@@ -299,7 +299,7 @@ export const CreatorDashboardView: React.FC<{ user: UserProfile | null; onNotify
             className={`px-5 pb-4 text-sm font-black uppercase tracking-wider relative whitespace-nowrap transition-all ${activeSection === tab.key ? 'text-[#a78bfa]' : 'text-on-surface-variant hover:text-on-surface'}`}
           >
             {T(tab.labelFR, tab.labelEN)}
-            {activeSection === tab.key && <motion.div layoutId="creatorTab" className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#a78bfa]" />}
+            {activeSection === tab.key && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#a78bfa] transition-all duration-300" />}
           </button>
         ))}
       </div>

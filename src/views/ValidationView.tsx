@@ -797,7 +797,7 @@ export const ValidationView: React.FC<{
             {tab.icon}
             {T(tab.labelFR, tab.labelEN)}
             {activeTab === tab.key && (
-              <motion.div layoutId="valTab" className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-cyan shadow-[0_0_10px_rgba(0,224,255,0.4)]" />
+              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-cyan shadow-[0_0_10px_rgba(0,224,255,0.4)] transition-all duration-300" />
             )}
           </button>
         ))}
