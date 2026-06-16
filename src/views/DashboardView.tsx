@@ -893,7 +893,7 @@ export const DashboardView: React.FC<{
                     </p>
                   )}
                   {item.targetProject && (
-                    <div className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-primary-cyan/10 border border-primary-cyan/20 rounded-md text-[11px] font-black text-primary-cyan uppercase tracking-widest mt-1">
+                    <div className="inline-flex items-center gap-1.5 px-3.5 py-1 bg-primary-cyan/10 border border-primary-cyan/20 rounded-md text-[11px] font-black text-primary-cyan uppercase tracking-widest mt-1">
                       <span className="w-1.5 h-1.5 bg-primary-cyan rounded-full animate-pulse"></span>
                       Benchmark: {item.targetProject}
                     </div>

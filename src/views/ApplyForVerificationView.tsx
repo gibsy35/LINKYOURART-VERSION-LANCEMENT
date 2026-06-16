@@ -232,14 +232,14 @@ export const ApplyForVerificationView: React.FC<{ onNotify: (msg: string) => voi
               <div className="flex items-center justify-between mb-8">
                 <button 
                   onClick={() => setStep(1)}
-                  className="flex items-center gap-2 text-on-surface-variant hover:text-white transition-colors uppercase text-[9px] font-black tracking-widest group"
+                  className="flex items-center gap-2 text-on-surface-variant hover:text-white transition-colors uppercase text-xs font-black tracking-widest group"
                 >
                   <ChevronRight size={14} className="rotate-180 group-hover:-translate-x-1 transition-transform" /> 
                   {t('Reverse Selection', 'Inverser la Sélection')}
                 </button>
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 rounded-full bg-primary-cyan animate-pulse"></div>
-                  <span className="text-[9px] font-black text-primary-cyan uppercase tracking-[0.2em]">{t('Secured Channel', 'Canal Sécurisé')}</span>
+                  <span className="text-xs font-black text-primary-cyan uppercase tracking-[0.2em]">{t('Secured Channel', 'Canal Sécurisé')}</span>
                 </div>
               </div>
 
@@ -258,7 +258,7 @@ export const ApplyForVerificationView: React.FC<{ onNotify: (msg: string) => voi
                     </div>
                   </div>
                   <div className="h-[2px] w-full bg-gradient-to-r from-primary-cyan via-white/5 to-transparent mb-6 opacity-30" />
-                  <p className="text-[10px] text-on-surface-variant uppercase tracking-widest opacity-60 italic leading-relaxed px-2">
+                  <p className="text-[10px] text-on-surface-variant uppercase tracking-widest opacity-60 italic leading-relaxed px-3">
                     {t('AUTHORIZED TERMINAL SECURED. MISSION CRITICAL DATA MUST BE INPUT TO GENERATE COMPLIANCE CERTIFICATE.', 'TERMINAL AUTORISÉ SÉCURISÉ. LES DONNÉES CRITIQUES POUR LA MISSION DOIVENT ÊTRE SAISIES POUR GÉNÉRER LE CERTIFICAT DE CONFORMITÉ.')}
                   </p>
                 </header>
@@ -267,7 +267,7 @@ export const ApplyForVerificationView: React.FC<{ onNotify: (msg: string) => voi
                   <div className="space-y-8">
                     <div className="group relative">
                       <div className="absolute -left-4 top-1/2 -translate-y-1/2 w-1 h-0 group-focus-within:h-8 bg-primary-cyan transition-all duration-500 rounded-full" />
-                      <label className="block text-[9px] font-black uppercase tracking-[0.4em] text-on-surface-variant mb-3 group-focus-within:text-primary-cyan transition-colors">{t('Principal Legal Identity', 'Identité Légale Principale')}</label>
+                      <label className="block text-xs font-black uppercase tracking-[0.4em] text-on-surface-variant mb-3 group-focus-within:text-primary-cyan transition-colors">{t('Principal Legal Identity', 'Identité Légale Principale')}</label>
                       <input 
                         required
                         type="text" 
@@ -279,7 +279,7 @@ export const ApplyForVerificationView: React.FC<{ onNotify: (msg: string) => voi
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                       <div className="group relative">
                         <div className="absolute -left-4 top-1/2 -translate-y-1/2 w-1 h-0 group-focus-within:h-8 bg-accent-gold transition-all duration-500 rounded-full" />
-                        <label className="block text-[9px] font-black uppercase tracking-[0.4em] text-on-surface-variant mb-3 group-focus-within:text-accent-gold transition-colors">{t('Organization Entity', 'Entité Organisationnelle')}</label>
+                        <label className="block text-xs font-black uppercase tracking-[0.4em] text-on-surface-variant mb-3 group-focus-within:text-accent-gold transition-colors">{t('Organization Entity', 'Entité Organisationnelle')}</label>
                         <input 
                           required
                           type="text" 
@@ -289,7 +289,7 @@ export const ApplyForVerificationView: React.FC<{ onNotify: (msg: string) => voi
                       </div>
                       <div className="group relative">
                         <div className="absolute -left-4 top-1/2 -translate-y-1/2 w-1 h-0 group-focus-within:h-8 bg-accent-magenta transition-all duration-500 rounded-full" />
-                        <label className="block text-[9px] font-black uppercase tracking-[0.4em] text-on-surface-variant mb-3 group-focus-within:text-accent-magenta transition-colors">{t('Operational Role', 'Rôle Opérationnel')}</label>
+                        <label className="block text-xs font-black uppercase tracking-[0.4em] text-on-surface-variant mb-3 group-focus-within:text-accent-magenta transition-colors">{t('Operational Role', 'Rôle Opérationnel')}</label>
                         <input 
                           required
                           type="text" 
@@ -301,7 +301,7 @@ export const ApplyForVerificationView: React.FC<{ onNotify: (msg: string) => voi
 
                     <div className="group relative">
                       <div className="absolute -left-4 top-1/2 -translate-y-1/2 w-1 h-0 group-focus-within:h-8 bg-primary-cyan transition-all duration-500 rounded-full" />
-                      <label className="block text-[9px] font-black uppercase tracking-[0.4em] text-on-surface-variant mb-3 group-focus-within:text-primary-cyan transition-colors">{t('Professional Network Endpoint', 'Point d\'Accès Réseau Professionnel')}</label>
+                      <label className="block text-xs font-black uppercase tracking-[0.4em] text-on-surface-variant mb-3 group-focus-within:text-primary-cyan transition-colors">{t('Professional Network Endpoint', 'Point d\'Accès Réseau Professionnel')}</label>
                       <div className="relative">
                         <input 
                           required
@@ -323,7 +323,7 @@ export const ApplyForVerificationView: React.FC<{ onNotify: (msg: string) => voi
                     </button>
                     <div className="flex items-center justify-center gap-3 mt-10 opacity-30 select-none">
                       <Shield size={12} className="text-primary-cyan animate-pulse" />
-                      <span className="text-[9px] font-black uppercase tracking-widest text-on-surface-variant">{t('End-to-End Governance Secured', 'Gouvernance de Bout en Bout Sécurisée')}</span>
+                      <span className="text-xs font-black uppercase tracking-widest text-on-surface-variant">{t('End-to-End Governance Secured', 'Gouvernance de Bout en Bout Sécurisée')}</span>
                     </div>
                   </div>
                 </form>

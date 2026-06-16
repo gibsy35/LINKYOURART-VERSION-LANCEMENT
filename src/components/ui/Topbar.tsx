@@ -188,7 +188,7 @@ export const Topbar: React.FC<TopbarProps> = ({
                   >
                     <div className="p-4 border-b border-white/10 flex items-center justify-between">
                       <span className="text-[10px] font-black text-white uppercase tracking-widest">{t('SYSTEM LOGS', 'LOGS SYSTÈME')}</span>
-                      <button onClick={() => setNotifications(notifications.map(n => ({ ...n, read: true })))} className="text-[9px] text-primary-cyan font-bold hover:underline uppercase">
+                      <button onClick={() => setNotifications(notifications.map(n => ({ ...n, read: true })))} className="text-xs text-primary-cyan font-bold hover:underline uppercase">
                         {t('MARK ALL READ', 'TOUT MARQUER COMME LU')}
                       </button>
                     </div>
@@ -217,8 +217,8 @@ export const Topbar: React.FC<TopbarProps> = ({
                               </div>
                               <p className="text-[10px] text-on-surface-variant/60 uppercase font-black leading-relaxed">{notif.message}</p>
                               <div className="flex items-center justify-between mt-2">
-                                <span className="text-[8px] text-on-surface-variant/30 font-bold">{new Date(notif.timestamp).toLocaleTimeString()}</span>
-                                {!notif.read && <span className="text-[8px] text-primary-cyan font-black uppercase tracking-widest">{t('NEW', 'NOUVEAU')}</span>}
+                                <span className="text-[10px] text-on-surface-variant/30 font-bold">{new Date(notif.timestamp).toLocaleTimeString()}</span>
+                                {!notif.read && <span className="text-[10px] text-primary-cyan font-black uppercase tracking-widest">{t('NEW', 'NOUVEAU')}</span>}
                               </div>
                             </div>
                           );
@@ -255,7 +255,7 @@ export const Topbar: React.FC<TopbarProps> = ({
                 </div>
                 <div className="hidden md:block text-left">
                   <div className="text-[10px] font-black text-white uppercase tracking-tight group-hover:text-primary-cyan transition-colors">{user.displayName}</div>
-                  <div className="text-[9px] text-primary-cyan font-bold tracking-widest uppercase opacity-80">{user.role}</div>
+                  <div className="text-xs text-primary-cyan font-bold tracking-widest uppercase opacity-80">{user.role}</div>
                 </div>
               </button>
             ) : (
@@ -285,7 +285,7 @@ export const Topbar: React.FC<TopbarProps> = ({
                   >
                     <div className="p-4 border-b border-white/10 bg-white/5">
                       <div className="text-[10px] font-black text-white uppercase mb-1">{user.displayName}</div>
-                      <div className="text-[9px] text-on-surface-variant/60 truncate">{user.email}</div>
+                      <div className="text-xs text-on-surface-variant/60 truncate">{user.email}</div>
                     </div>
                     <div className="p-2">
                       {user.role === UserRole.ADMIN && (

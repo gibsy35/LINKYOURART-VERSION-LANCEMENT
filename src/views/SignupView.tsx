@@ -332,14 +332,14 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
                       </div>
                       <div className="space-y-0.5">
                         <h3 className={`text-[10px] font-black uppercase tracking-widest transition-colors ${role === r.id ? 'text-primary-cyan' : 'text-white'}`}>{r.title}</h3>
-                        <p className="text-[8px] text-on-surface-variant/70 leading-relaxed uppercase font-bold tracking-tight line-clamp-1">{r.description}</p>
+                        <p className="text-[10px] text-on-surface-variant/70 leading-relaxed uppercase font-bold tracking-tight line-clamp-1">{r.description}</p>
                       </div>
                     </div>
                   ))}
                   
                   <div className="pt-4">
                     {!role && (
-                      <p className="text-[9px] text-accent-gold font-bold uppercase tracking-widest text-center mb-4 animate-pulse">
+                      <p className="text-xs text-accent-gold font-bold uppercase tracking-widest text-center mb-4 animate-pulse">
                         {t('PLEASE SELECT A ROLE TO CONTINUE', 'VEUILLEZ SÉLECTIONNER UN RÔLE POUR CONTINUER')}
                       </p>
                     )}
@@ -357,7 +357,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
                 <div className="mt-6 text-center">
                     <button 
                       onClick={() => onViewChange('LOGIN')}
-                      className="text-[9px] font-black uppercase tracking-[0.2em] text-on-surface-variant hover:text-white transition-colors"
+                      className="text-xs font-black uppercase tracking-[0.2em] text-on-surface-variant hover:text-white transition-colors"
                     >
                       {t('ALREADY REGISTERED? LOG IN', 'DÉJÀ INSCRIT ? SE CONNECTER')}
                     </button>
@@ -373,21 +373,21 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
               >
                 <button 
                   onClick={() => setStep(1)}
-                  className="flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-on-surface-variant hover:text-white transition-colors mb-4 mx-auto"
+                  className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-on-surface-variant hover:text-white transition-colors mb-4 mx-auto"
                 >
                   <ChevronLeft size={14} /> {t('BACK TO PROFILES', 'RETOUR AUX PROFILS')}
                 </button>
 
                 <div className="mb-4 text-center">
                   <h2 className="text-3xl font-black font-headline uppercase tracking-tighter italic mb-2 text-white leading-none">{t('FINALIZE', 'FINALISER')}</h2>
-                  <div className="px-3 py-1 bg-primary-cyan/10 text-primary-cyan border border-primary-cyan/30 rounded-full text-[8px] font-black uppercase tracking-[0.2em] inline-block">
+                  <div className="px-3 py-1 bg-primary-cyan/10 text-primary-cyan border border-primary-cyan/30 rounded-full text-[10px] font-black uppercase tracking-[0.2em] inline-block">
                     {role}
                   </div>
                 </div>
 
                 <form className="space-y-3" onSubmit={handleSignup}>
                   {error && (
-                    <div className="p-3 bg-red-500/10 border border-red-500/20 text-red-500 text-[9px] font-black uppercase tracking-widest rounded-xl text-center">
+                    <div className="p-3 bg-red-500/10 border border-red-500/20 text-red-500 text-xs font-black uppercase tracking-widest rounded-xl text-center">
                       {error}
                     </div>
                   )}
@@ -435,7 +435,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
                     </div>
                   </div>
 
-                  <p className="text-[8px] text-white/30 uppercase tracking-widest font-black leading-normal text-center bg-white/[0.01] p-3 border border-white/5 rounded-2xl">
+                  <p className="text-[10px] text-white/30 uppercase tracking-widest font-black leading-normal text-center bg-white/[0.01] p-3 border border-white/5 rounded-2xl">
                     {t(
                       'No partner code? Leave it blank. Direct bypass and request access are available in the dashboard.',
                       'Pas de code ? Laissez vide. Le bypass d\'évaluation et la demande d\'accès se trouvent dans le dashboard.'
@@ -459,20 +459,20 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
                     <div className="absolute inset-0 flex items-center">
                       <div className="w-full border-t border-white/5" />
                     </div>
-                    <span className="relative z-10 bg-[#0A0C10] px-4 text-[8px] font-black text-on-surface-variant uppercase tracking-[0.3em] italic opacity-50">{t('OR REGISTER WITH', 'OU S\'INSCRIRE AVEC')}</span>
+                    <span className="relative z-10 bg-[#0A0C10] px-4 text-[10px] font-black text-on-surface-variant uppercase tracking-[0.3em] italic opacity-50">{t('OR REGISTER WITH', 'OU S\'INSCRIRE AVEC')}</span>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <button 
                       type="button"
                       onClick={handleGoogleSignup}
-                      className="flex items-center justify-center gap-3 py-3 bg-white/[0.03] border border-white/10 rounded-xl hover:bg-white/10 transition-all text-[9px] font-black uppercase tracking-widest group"
+                      className="flex items-center justify-center gap-3 py-3 bg-white/[0.03] border border-white/10 rounded-xl hover:bg-white/10 transition-all text-xs font-black uppercase tracking-widest group"
                     >
                       <Globe size={14} className="text-primary-cyan group-hover:scale-110 transition-transform" /> GOOGLE
                     </button>
                     <button 
                       type="button"
-                      className="flex items-center justify-center gap-3 py-3 bg-white/[0.03] border border-white/10 rounded-xl hover:bg-white/10 transition-all text-[9px] font-black uppercase tracking-widest group"
+                      className="flex items-center justify-center gap-3 py-3 bg-white/[0.03] border border-white/10 rounded-xl hover:bg-white/10 transition-all text-xs font-black uppercase tracking-widest group"
                     >
                       <Send size={14} className="text-indigo-500 group-hover:scale-110 transition-transform" /> FACEBOOK
                     </button>
@@ -483,7 +483,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
           </AnimatePresence>
         </div>
 
-        <div className="p-6 bg-white/[0.02] border-t border-white/5 flex items-center justify-center gap-8 text-[8px] font-black text-on-surface-variant/40 uppercase tracking-widest">
+        <div className="p-6 bg-white/[0.02] border-t border-white/5 flex items-center justify-center gap-8 text-[10px] font-black text-on-surface-variant/40 uppercase tracking-widest">
           <div className="flex items-center gap-2">
             <ShieldCheck size={10} className="text-emerald-400" />
             MICA COMPLIANT

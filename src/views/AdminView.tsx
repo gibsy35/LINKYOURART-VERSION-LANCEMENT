@@ -632,8 +632,8 @@ export const AdminView: React.FC<{
                     <div className="text-[10px] font-mono opacity-50">{viewingUser.country || 'No Location Data'}</div>
                   </div>
                   <div className="mt-4 pt-4 border-t border-white/5 whitespace-nowrap">
-                    <span className="text-[9px] opacity-30 uppercase font-bold mr-1.5 font-mono">REGISTRY HASH STAMP:</span>
-                    <span className="text-[9px] font-mono font-bold text-primary-cyan uppercase">0x{viewingUser.uid ? viewingUser.uid.substring(0, 10).toUpperCase() : 'E84D2'}...A3F0</span>
+                    <span className="text-xs opacity-30 uppercase font-bold mr-1.5 font-mono">REGISTRY HASH STAMP:</span>
+                    <span className="text-xs font-mono font-bold text-primary-cyan uppercase">0x{viewingUser.uid ? viewingUser.uid.substring(0, 10).toUpperCase() : 'E84D2'}...A3F0</span>
                   </div>
                 </div>
                 <div className="p-5 bg-white/5 border border-white/5 rounded-2xl flex flex-col justify-between">
@@ -646,8 +646,8 @@ export const AdminView: React.FC<{
                   </div>
                   <div className="mt-4 pt-4 border-t border-white/5 flex justify-between items-center">
                     <div>
-                      <span className="text-[9px] opacity-30 uppercase font-bold font-mono mr-1.5">KYC STATUS:</span>
-                      <span className="text-[8px] bg-emerald-500/10 text-emerald-400 border border-emerald-400/20 px-2 py-0.5 rounded-sm uppercase font-mono font-bold">TIER 2 VERIFIED</span>
+                      <span className="text-xs opacity-30 uppercase font-bold font-mono mr-1.5">KYC STATUS:</span>
+                      <span className="text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-400/20 px-3 py-0.5 rounded-sm uppercase font-mono font-bold">TIER 2 VERIFIED</span>
                     </div>
                   </div>
                 </div>
@@ -657,19 +657,19 @@ export const AdminView: React.FC<{
                 <div className="text-[10px] opacity-40 uppercase font-black tracking-widest mb-4">Platform Usage Metrics</div>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   <div>
-                    <div className="text-[9px] opacity-40 uppercase font-bold mb-1">Scans</div>
+                    <div className="text-xs opacity-40 uppercase font-bold mb-1">Scans</div>
                     <div className="text-lg font-black text-white">{viewingUser.usageStats?.scan || 0}</div>
                   </div>
                   <div>
-                    <div className="text-[9px] opacity-40 uppercase font-bold mb-1">Swipes</div>
+                    <div className="text-xs opacity-40 uppercase font-bold mb-1">Swipes</div>
                     <div className="text-lg font-black text-white">{viewingUser.usageStats?.swipe || 0}</div>
                   </div>
                   <div>
-                    <div className="text-[9px] opacity-40 uppercase font-bold mb-1">Compares</div>
+                    <div className="text-xs opacity-40 uppercase font-bold mb-1">Compares</div>
                     <div className="text-lg font-black text-white">{viewingUser.usageStats?.compare || 0}</div>
                   </div>
                   <div>
-                    <div className="text-[9px] opacity-40 uppercase font-bold mb-1">LYA Score</div>
+                    <div className="text-xs opacity-40 uppercase font-bold mb-1">LYA Score</div>
                     <div className="text-lg font-black text-accent-gold">{viewingUser.lyaScore || 750}</div>
                   </div>
                 </div>
@@ -689,18 +689,18 @@ export const AdminView: React.FC<{
                   </div>
                   {verificationRequests.filter(r => r.userId === viewingUser.uid).map(req => (
                     <div key={req.id} className="space-y-4">
-                      <div className="grid grid-cols-2 gap-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                          <div className="text-[9px] opacity-40 uppercase font-bold mb-1">Firm</div>
+                          <div className="text-xs opacity-40 uppercase font-bold mb-1">Firm</div>
                           <div className="text-xs font-bold text-white uppercase">{req.firm || 'N/A'}</div>
                         </div>
                         <div>
-                          <div className="text-[9px] opacity-40 uppercase font-bold mb-1">Registration ID</div>
+                          <div className="text-xs opacity-40 uppercase font-bold mb-1">Registration ID</div>
                           <div className="text-xs font-bold text-white uppercase">{req.registrationId || 'N/A'}</div>
                         </div>
                       </div>
                       <div>
-                        <div className="text-[9px] opacity-40 uppercase font-bold mb-2">Submitted Documents</div>
+                        <div className="text-xs opacity-40 uppercase font-bold mb-2">Submitted Documents</div>
                         <div className="flex flex-wrap gap-2">
                           {req.documents?.map((doc: any, i: number) => (
                             <a 
@@ -787,24 +787,24 @@ export const AdminView: React.FC<{
 
       {/* Pagination info */}
       <div className="flex items-center justify-between mb-3 px-1">
-        <p className="text-[9px] font-black text-white/30 uppercase tracking-widest">
+        <p className="text-xs font-black text-white/30 uppercase tracking-widest">
           {filteredUsers.length} {t('users found', 'utilisateurs trouvés')} · {t('Page', 'Page')} {usersPage}/{Math.max(1, Math.ceil(filteredUsers.length / USERS_PER_PAGE))}
         </p>
         <div className="flex items-center gap-2">
           <button
             onClick={() => setUsersPage(p => Math.max(1, p - 1))}
             disabled={usersPage === 1}
-            className="px-4 py-2 text-[9px] font-black uppercase tracking-widest border border-white/10 text-white/50 hover:text-white hover:border-white/30 disabled:opacity-20 disabled:cursor-not-allowed transition-all"
+            className="px-4 py-2 text-xs font-black uppercase tracking-widest border border-white/10 text-white/50 hover:text-white hover:border-white/30 disabled:opacity-20 disabled:cursor-not-allowed transition-all"
           >
             ← {t('Prev', 'Préc.')}
           </button>
-          <span className="text-[9px] font-mono text-white/30 px-2">
+          <span className="text-xs font-mono text-white/30 px-3">
             {(usersPage - 1) * USERS_PER_PAGE + 1}–{Math.min(usersPage * USERS_PER_PAGE, filteredUsers.length)}
           </span>
           <button
             onClick={() => setUsersPage(p => Math.min(Math.ceil(filteredUsers.length / USERS_PER_PAGE), p + 1))}
             disabled={usersPage >= Math.ceil(filteredUsers.length / USERS_PER_PAGE)}
-            className="px-4 py-2 text-[9px] font-black uppercase tracking-widest border border-white/10 text-white/50 hover:text-white hover:border-white/30 disabled:opacity-20 disabled:cursor-not-allowed transition-all"
+            className="px-4 py-2 text-xs font-black uppercase tracking-widest border border-white/10 text-white/50 hover:text-white hover:border-white/30 disabled:opacity-20 disabled:cursor-not-allowed transition-all"
           >
             {t('Next', 'Suiv.')} →
           </button>
@@ -843,11 +843,11 @@ export const AdminView: React.FC<{
                   <td className="p-6">
                     <div className="flex flex-col gap-1">
                       <span className="text-[10px] font-black text-accent-pink tracking-widest">{u.role}</span>
-                      <span className="text-[9px] opacity-40 uppercase font-bold">{u.country || 'GLOBAL'}</span>
+                      <span className="text-xs opacity-40 uppercase font-bold">{u.country || 'GLOBAL'}</span>
                     </div>
                   </td>
                   <td className="p-6">
-                    <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-[9px] font-black tracking-widest ${u.isPro ? 'bg-emerald-400/10 text-emerald-400' : 'bg-white/5 text-on-surface-variant'}`}>
+                    <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-black tracking-widest ${u.isPro ? 'bg-emerald-400/10 text-emerald-400' : 'bg-white/5 text-on-surface-variant'}`}>
                       <div className={`w-1.5 h-1.5 rounded-full ${u.isPro ? 'bg-emerald-400 animate-pulse' : 'bg-on-surface-variant'}`} />
                       {u.isPro ? 'PRO HUB' : 'BASIC'}
                     </div>
@@ -909,9 +909,9 @@ export const AdminView: React.FC<{
           <div className="flex justify-between items-start mb-4">
             <div>
               <h4 className="text-base font-black text-white uppercase mb-1 truncate max-w-[180px]">{p.name}</h4>
-              <span className="text-[9px] font-black text-accent-gold px-2 py-0.5 bg-accent-gold/10 rounded-full tracking-widest">{p.category}</span>
+              <span className="text-xs font-black text-accent-gold px-3 py-0.5 bg-accent-gold/10 rounded-full tracking-widest">{p.category}</span>
             </div>
-            <div className={`flex items-center gap-1 text-[10px] font-black px-2 py-1 rounded-lg ${p.growth >= 0 ? 'text-emerald-400 bg-emerald-400/10' : 'text-red-400 bg-red-400/10'}`}>
+            <div className={`flex items-center gap-1 text-[10px] font-black px-3 py-1 rounded-lg ${p.growth >= 0 ? 'text-emerald-400 bg-emerald-400/10' : 'text-red-400 bg-red-400/10'}`}>
               {p.growth >= 0 ? <TrendingUp size={12}/> : <ShieldAlert size={12}/>}
               {p.growth}%
             </div>
@@ -928,16 +928,16 @@ export const AdminView: React.FC<{
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <button 
               onClick={() => setEditingProject(p)} 
-              className="flex items-center justify-center gap-2 py-3 bg-white/5 border border-white/10 text-[9px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all rounded-xl"
+              className="flex items-center justify-center gap-2 py-3 bg-white/5 border border-white/10 text-xs font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all rounded-xl"
             >
               <Settings size={12} /> {t('EDIT', 'ÉDITER')}
             </button>
             <button 
               onClick={() => handleUpdateProjectStatus(p.id, p.status === 'LIVE' ? 'PAUSED' : 'LIVE')} 
-              className={`flex items-center justify-center gap-2 py-3 text-[9px] font-black uppercase tracking-widest transition-all rounded-xl border ${
+              className={`flex items-center justify-center gap-2 py-3 text-xs font-black uppercase tracking-widest transition-all rounded-xl border ${
                 p.status === 'LIVE' 
                   ? 'border-red-500/20 bg-red-500/5 text-red-500 hover:bg-red-500 hover:text-white' 
                   : 'border-emerald-500/20 bg-emerald-500/5 text-emerald-500 hover:bg-emerald-500 hover:text-white'
@@ -981,7 +981,7 @@ export const AdminView: React.FC<{
                       <div>
                         <div className="font-black text-white uppercase flex items-center gap-2">
                           {req.userName}
-                          <span className={`text-[7.5px] font-mono font-black tracking-widest px-2 py-0.5 rounded-sm shrink-0 ${
+                          <span className={`text-[7.5px] font-mono font-black tracking-widest px-3 py-0.5 rounded-sm shrink-0 ${
                             req.tier === 'elite' ? 'bg-accent-magenta/10 text-accent-magenta border border-accent-magenta/20' :
                             req.tier === 'expert' ? 'bg-accent-gold/10 text-accent-gold border border-accent-gold/20' :
                             'bg-primary-cyan/10 text-primary-cyan border border-primary-cyan/20'
@@ -989,7 +989,7 @@ export const AdminView: React.FC<{
                             {req.tier ? req.tier.toUpperCase() : 'MARKET EXPERT'}
                           </span>
                         </div>
-                        <div className="opacity-40 font-mono text-[9px] mt-1">{req.userEmail}</div>
+                        <div className="opacity-40 font-mono text-xs mt-1">{req.userEmail}</div>
                       </div>
                     </td>
                     <td className="p-6">
@@ -1011,19 +1011,19 @@ export const AdminView: React.FC<{
                           <>
                             <button 
                               onClick={() => handleApproveVerification(req.id, req.userId)}
-                              className="px-3 py-1.5 bg-emerald-400/10 text-emerald-400 border border-emerald-400/20 rounded font-black uppercase text-[9px] hover:bg-emerald-400 hover:text-surface-dim transition-all"
+                              className="px-3 py-1.5 bg-emerald-400/10 text-emerald-400 border border-emerald-400/20 rounded font-black uppercase text-xs hover:bg-emerald-400 hover:text-surface-dim transition-all"
                             >
                               Approve
                             </button>
                             <button 
                               onClick={() => handleRejectVerification(req.id, req.userId)}
-                              className="px-3 py-1.5 bg-red-400/10 text-red-400 border border-red-400/20 rounded font-black uppercase text-[9px] hover:bg-red-400 hover:text-surface-dim transition-all"
+                              className="px-3 py-1.5 bg-red-400/10 text-red-400 border border-red-400/20 rounded font-black uppercase text-xs hover:bg-red-400 hover:text-surface-dim transition-all"
                             >
                               Reject
                             </button>
                           </>
                         ) : (
-                          <span className={`text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded inline-block ${req.status === 'APPROVED' ? 'text-emerald-400 bg-emerald-400/5' : 'text-red-400 bg-red-400/5'}`}>
+                          <span className={`text-[10px] font-black uppercase tracking-widest px-3.5 py-1 rounded inline-block ${req.status === 'APPROVED' ? 'text-emerald-400 bg-emerald-400/5' : 'text-red-400 bg-red-400/5'}`}>
                             {req.status}
                           </span>
                         )}
@@ -1039,7 +1039,7 @@ export const AdminView: React.FC<{
                         </button>
                         <button 
                           onClick={() => setExpandedVerifId(expandedVerifId === req.id ? null : req.id)}
-                          className={`px-3 py-1.5 border rounded font-black uppercase text-[9px] tracking-wider transition-all flex items-center gap-1.5 ${
+                          className={`px-3 py-1.5 border rounded font-black uppercase text-xs tracking-wider transition-all flex items-center gap-1.5 ${
                             expandedVerifId === req.id 
                               ? 'bg-primary-cyan/20 text-primary-cyan border-primary-cyan/40 shadow-[0_0_15px_rgba(0,224,255,0.1)]' 
                               : 'bg-white/5 border-white/10 text-on-surface-variant hover:text-white hover:border-primary-cyan/30'
@@ -1062,19 +1062,19 @@ export const AdminView: React.FC<{
                             <span className="text-[10px] font-black uppercase text-white/40 tracking-[0.2em] block border-b border-white/5 pb-2">📋 {t('DOSSIER METADATA', 'MÉTA-DONNÉES DU DOSSIER')}</span>
                             <div className="space-y-3">
                               <div>
-                                <span className="text-[9px] font-semibold text-white/30 uppercase tracking-widest block">{t('FULL IDENTITY', 'IDENTITÉ COMPLÈTE')}</span>
+                                <span className="text-xs font-semibold text-white/30 uppercase tracking-widest block">{t('FULL IDENTITY', 'IDENTITÉ COMPLÈTE')}</span>
                                 <span className="text-xs font-black text-white mt-0.5 block">{req.userName || 'ALEXANDER VANCE'}</span>
                               </div>
                               <div>
-                                <span className="text-[9px] font-semibold text-white/30 uppercase tracking-widest block">{t('ORGANIZATION / FIRM', 'ENTITÉ EXPLOITANTE')}</span>
+                                <span className="text-xs font-semibold text-white/30 uppercase tracking-widest block">{t('ORGANIZATION / FIRM', 'ENTITÉ EXPLOITANTE')}</span>
                                 <span className="text-xs font-bold text-accent-gold mt-0.5 block">{req.firm || req.organization || 'ALPHA FUND SERVICES'}</span>
                               </div>
                               <div>
-                                <span className="text-[9px] font-semibold text-white/30 uppercase tracking-widest block">{t('OPERATIONAL ROLE', 'RÔLE OPÉRATIONNEL')}</span>
+                                <span className="text-xs font-semibold text-white/30 uppercase tracking-widest block">{t('OPERATIONAL ROLE', 'RÔLE OPÉRATIONNEL')}</span>
                                 <span className="text-xs font-medium text-white/80 mt-0.5 block">{req.role || 'CHIEF INVESTOR'}</span>
                               </div>
                               <div>
-                                <span className="text-[9px] font-semibold text-white/30 uppercase tracking-widest block">{t('SECURE ENDPOINT URL', 'POINT D\'ACCÈS WEB')}</span>
+                                <span className="text-xs font-semibold text-white/30 uppercase tracking-widest block">{t('SECURE ENDPOINT URL', 'POINT D\'ACCÈS WEB')}</span>
                                 <a href={req.website || '#'} target="_blank" rel="noreferrer" className="text-xs font-semibold text-primary-cyan underline hover:text-white mt-0.5 block break-all">
                                   {req.website || 'https://alpha.ltd/investments'}
                                 </a>
@@ -1127,7 +1127,7 @@ export const AdminView: React.FC<{
                                     <Database size={16} className="text-primary-cyan group-hover:scale-110 transition-transform" />
                                     <div>
                                       <span className="text-[11px] font-black text-white block group-hover:text-primary-cyan transition-colors">{doc.file}</span>
-                                      <span className="text-[9px] font-mono text-white/30 block mt-0.5">{doc.schema} • {doc.size}</span>
+                                      <span className="text-xs font-mono text-white/30 block mt-0.5">{doc.schema} • {doc.size}</span>
                                     </div>
                                   </div>
                                   <Download size={13} className="text-white/30 group-hover:text-primary-cyan" />
@@ -1170,7 +1170,7 @@ export const AdminView: React.FC<{
     <div className="space-y-6">
        <div className="p-8 bg-surface-low border border-white/5 rounded-3xl">
           <h3 className="text-lg font-black text-white uppercase mb-6">{t('DEMO TOOLS', 'OUTILS DÉMO')}</h3>
-          <div className="grid grid-cols-2 gap-4 text-white">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-white">
             <button onClick={seedMockUsers} disabled={isSeeding} className="p-6 bg-white/5 border border-white/10 rounded-xl hover:border-primary-cyan transition-all text-left">
               <Users className="text-primary-cyan mb-2" />
               <div className="text-xs font-black uppercase text-white tracking-widest">{t('SEEDED USERS', 'SÉMENCE USERS')}</div>
@@ -1215,23 +1215,23 @@ export const AdminView: React.FC<{
                   <tr key={r.id} className="border-t border-white/5 hover:bg-white/[0.02]">
                     <td className="p-6">
                       <div className="font-black text-white uppercase">{r.name}</div>
-                      <div className="opacity-40 font-mono text-[9px]">{r.email}</div>
+                      <div className="opacity-40 font-mono text-xs">{r.email}</div>
                     </td>
                     <td className="p-6">
                       <p className="max-w-xs text-on-surface-variant italic">"{r.reason}"</p>
                       {r.codeSent && (
-                        <div className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 bg-primary-cyan/10 border border-primary-cyan/20 rounded font-mono text-[9px] text-primary-cyan">
+                        <div className="mt-2 inline-flex items-center gap-1.5 px-3.5 py-1 bg-primary-cyan/10 border border-primary-cyan/20 rounded font-mono text-xs text-primary-cyan">
                           <span>KEY: {r.codeSent}</span>
                         </div>
                       )}
                     </td>
                     <td className="p-6">
                       {isApproved ? (
-                        <span className="px-2 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded text-[9px] font-black text-emerald-400 uppercase tracking-widest">{t('VALIDATED', 'VALIDÉ')}</span>
+                        <span className="px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded text-xs font-black text-emerald-400 uppercase tracking-widest">{t('VALIDATED', 'VALIDÉ')}</span>
                       ) : isRejected ? (
-                        <span className="px-2 py-1 bg-rose-500/10 border border-rose-500/20 rounded text-[9px] font-black text-rose-400 uppercase tracking-widest">{t('DECLINED', 'REFUSÉ')}</span>
+                        <span className="px-3 py-1 bg-rose-500/10 border border-rose-500/20 rounded text-xs font-black text-rose-400 uppercase tracking-widest">{t('DECLINED', 'REFUSÉ')}</span>
                       ) : (
-                        <span className="px-2 py-1 bg-amber-500/10 border border-amber-500/20 rounded text-[9px] font-black text-amber-500 uppercase tracking-widest animate-pulse">{t('PENDING', 'EN ATTENTE')}</span>
+                        <span className="px-3 py-1 bg-amber-500/10 border border-amber-500/20 rounded text-xs font-black text-amber-500 uppercase tracking-widest animate-pulse">{t('PENDING', 'EN ATTENTE')}</span>
                       )}
                     </td>
                     <td className="p-6 text-right">
@@ -1239,13 +1239,13 @@ export const AdminView: React.FC<{
                         <div className="flex gap-2 justify-end">
                           <button
                             onClick={() => handleApproveDemoRequest(r)}
-                            className="px-3 py-1.5 bg-emerald-500 text-black font-black text-[9px] uppercase tracking-wider rounded-lg transition-all hover:bg-emerald-400 active:scale-95"
+                            className="px-3 py-1.5 bg-emerald-500 text-black font-black text-xs uppercase tracking-wider rounded-lg transition-all hover:bg-emerald-400 active:scale-95"
                           >
                             {t('GRANT ACCESS', 'VALIDER ET ACTIVER')}
                           </button>
                           <button
                             onClick={() => handleRejectDemoRequest(r.id)}
-                            className="px-3 py-1.5 bg-white/5 border border-white/10 text-white/50 hover:text-rose-400 hover:border-rose-400/30 font-black text-[9px] uppercase tracking-wider rounded-lg transition-all active:scale-95"
+                            className="px-3 py-1.5 bg-white/5 border border-white/10 text-white/50 hover:text-rose-400 hover:border-rose-400/30 font-black text-xs uppercase tracking-wider rounded-lg transition-all active:scale-95"
                           >
                             {t('REJECT', 'REFUSER')}
                           </button>
@@ -1256,7 +1256,7 @@ export const AdminView: React.FC<{
                             setGeneratedDemoKey(r.codeSent);
                             setActiveEmailRequest(r);
                           }}
-                          className="px-2.5 py-1.5 bg-primary-cyan/10 border border-primary-cyan/20 hover:bg-primary-cyan hover:text-black rounded text-[9px] font-black text-primary-cyan uppercase tracking-widest transition-all"
+                          className="px-3.5 py-1.5 bg-primary-cyan/10 border border-primary-cyan/20 hover:bg-primary-cyan hover:text-black rounded text-xs font-black text-primary-cyan uppercase tracking-widest transition-all"
                         >
                           {t('SHOW INVITATION EMAIL', 'VOIR E-MAIL ENVOYÉ')}
                         </button>
@@ -1293,10 +1293,10 @@ export const AdminView: React.FC<{
                 <tr key={r.id} className="border-t border-white/5 hover:bg-white/[0.02]">
                   <td className="p-6">
                     <div className="font-black text-white uppercase">{r.name}</div>
-                    <div className="opacity-40 font-mono text-[9px]">{r.email}</div>
+                    <div className="opacity-40 font-mono text-xs">{r.email}</div>
                   </td>
                   <td className="p-6">
-                    <span className="px-2 py-1 bg-primary-cyan/10 text-primary-cyan rounded text-[9px] font-black uppercase">{r.category}</span>
+                    <span className="px-3 py-1 bg-primary-cyan/10 text-primary-cyan rounded text-xs font-black uppercase">{r.category}</span>
                   </td>
                   <td className="p-6 opacity-40 font-mono">
                     {r.timestamp?.toDate ? r.timestamp.toDate().toLocaleString() : 'N/A'}
@@ -1413,7 +1413,7 @@ export const AdminView: React.FC<{
 
                 {/* Golden Key Block */}
                 <div className="my-8 p-6 bg-gradient-to-r from-yellow-500/10 to-transparent border border-yellow-500/20 rounded-2xl flex flex-col items-center justify-center gap-3">
-                  <span className="text-[9px] font-black text-amber-500 uppercase tracking-[0.3em] font-mono">{t('YOUR ACTIVE CO-OPTATION CODE', 'VOTRE CLÉ D\'ACCÈS DÉMO SÉCURISÉE')}</span>
+                  <span className="text-xs font-black text-amber-500 uppercase tracking-[0.3em] font-mono">{t('YOUR ACTIVE CO-OPTATION CODE', 'VOTRE CLÉ D\'ACCÈS DÉMO SÉCURISÉE')}</span>
                   <div className="px-6 py-3 bg-black/60 border border-yellow-500/40 rounded-xl font-mono text-base md:text-lg font-black text-yellow-500 tracking-widest uppercase select-all shadow-inner text-center">
                     {generatedDemoKey}
                   </div>
@@ -1506,7 +1506,7 @@ export const AdminView: React.FC<{
               <div className="flex justify-between items-center mb-6 pb-4 border-b border-white/5">
                 <div>
                   <h2 className="text-xl font-black text-white uppercase tracking-tighter">{t('ADMIN_MODIFY_ASSET_OVERSIGHT', 'GÉSTION ADMINISTRATIVE DE L\'ACTIF')}</h2>
-                  <span className="text-[9px] font-black text-primary-cyan uppercase tracking-widest">{t('ID:', 'REG COGNITIVE ID: ')}{editingProject.id}</span>
+                  <span className="text-xs font-black text-primary-cyan uppercase tracking-widest">{t('ID:', 'REG COGNITIVE ID: ')}{editingProject.id}</span>
                 </div>
                 <button onClick={() => setEditingProject(null)} className="text-on-surface-variant hover:text-white transition-colors">
                   <X size={18} />
@@ -1544,11 +1544,11 @@ export const AdminView: React.FC<{
                 <div className="p-5 bg-primary-cyan/5 border border-primary-cyan/25 rounded-2xl space-y-3">
                    <div className="flex justify-between items-center">
                      <span className="text-[10px] font-black text-primary-cyan uppercase tracking-wider">{t('MARKET_PERF_PRICING', 'CRITÈRE DE COTATION ET VALEUR DU UNIT')}</span>
-                     <span className="text-[8px] font-bold text-accent-gold uppercase tracking-widest">Base: $50.00 Price-Fix</span>
+                     <span className="text-[10px] font-bold text-accent-gold uppercase tracking-widest">Base: $50.00 Price-Fix</span>
                    </div>
                    
                    <div className="space-y-2">
-                     <label className="text-[9px] font-black uppercase text-white/40 tracking-widest block">{t('PERFORMANCE_GROWTH_PERCENT', 'Taux de Croissance du Marché (%)')}</label>
+                     <label className="text-xs font-black uppercase text-white/40 tracking-widest block">{t('PERFORMANCE_GROWTH_PERCENT', 'Taux de Croissance du Marché (%)')}</label>
                      <div className="relative">
                        <input 
                          type="number" 
@@ -1571,7 +1571,7 @@ export const AdminView: React.FC<{
                        <span className="text-[9.5px] font-bold text-white/40 ml-1">LYA SPOT</span>
                      </span>
                    </div>
-                   <p className="text-[8px] text-primary-cyan/60 pl-1">
+                   <p className="text-[10px] text-primary-cyan/60 pl-1">
                      * Modifying this percent instantly updates the trading quote in real-time between $25.00 and $150.00 under algorithmic stability rules, maintaining pricing integrity.
                    </p>
                 </div>
@@ -1582,7 +1582,7 @@ export const AdminView: React.FC<{
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                      
                      <div className="p-4 bg-white/[0.01] border border-white/5 rounded-xl space-y-1.5">
-                       <label className="text-[8px] font-black uppercase text-accent-pink tracking-widest block leading-none">ALGO SCORE</label>
+                       <label className="text-[10px] font-black uppercase text-accent-pink tracking-widest block leading-none">ALGO SCORE</label>
                        <input 
                          type="number" 
                          max={1000} 
@@ -1594,7 +1594,7 @@ export const AdminView: React.FC<{
                      </div>
 
                      <div className="p-4 bg-white/[0.01] border border-white/5 rounded-xl space-y-1.5">
-                       <label className="text-[8px] font-black uppercase text-emerald-400 tracking-widest block leading-none">EXPERT SCORE</label>
+                       <label className="text-[10px] font-black uppercase text-emerald-400 tracking-widest block leading-none">EXPERT SCORE</label>
                        <input 
                          type="number" 
                          max={1000} 
@@ -1606,7 +1606,7 @@ export const AdminView: React.FC<{
                      </div>
 
                      <div className="p-4 bg-white/[0.01] border border-white/5 rounded-xl space-y-1.5">
-                       <label className="text-[8px] font-black uppercase text-primary-cyan tracking-widest block leading-none">CONSOLIDATED LYA</label>
+                       <label className="text-[10px] font-black uppercase text-primary-cyan tracking-widest block leading-none">CONSOLIDATED LYA</label>
                        <input 
                          type="number" 
                          max={1000} 
@@ -1636,7 +1636,7 @@ export const AdminView: React.FC<{
 
                   <div className="p-4 bg-white/5 border border-white/5 rounded-2xl flex items-center justify-between">
                     <div>
-                      <span className="text-[9px] text-white/40 uppercase font-black block leading-none mb-1">Status Preview</span>
+                      <span className="text-xs text-white/40 uppercase font-black block leading-none mb-1">Status Preview</span>
                       <span className={`text-[10px] font-black uppercase tracking-widest ${editingProject.status === 'LIVE' ? 'text-emerald-400' : 'text-rose-500 animate-pulse'}`}>
                         {editingProject.status === 'LIVE' ? '● MARKET RUNNING' : '■ HALTED / SUSPENDED'}
                       </span>

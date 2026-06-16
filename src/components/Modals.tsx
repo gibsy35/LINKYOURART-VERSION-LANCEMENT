@@ -97,7 +97,7 @@ export const ContractDetailModal: React.FC<{
              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
              <div className="absolute bottom-6 left-6 right-6 flex justify-between items-end">
                 <div>
-                   <span className="text-[8px] font-black uppercase text-primary-cyan px-2 py-1 bg-primary-cyan/10 border border-primary-cyan/20 rounded-md tracking-[0.2em]">{contract.category}</span>
+                   <span className="text-[10px] font-black uppercase text-primary-cyan px-3 py-1 bg-primary-cyan/10 border border-primary-cyan/20 rounded-md tracking-[0.2em]">{contract.category}</span>
                    <h3 className="text-2xl font-black text-white mt-3 uppercase tracking-tighter leading-none">{contract.name}</h3>
                 </div>
                 <div className="text-sm font-black text-accent-gold uppercase font-mono tracking-widest">
@@ -106,20 +106,20 @@ export const ContractDetailModal: React.FC<{
              </div>
           </div>
           
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
              <div className="p-5 bg-white/[0.02] border border-white/5 rounded-2xl">
-                <div className="text-[9px] text-white/40 uppercase tracking-widest font-black mb-1">CONSOLIDATED SCORE</div>
+                <div className="text-xs text-white/40 uppercase tracking-widest font-black mb-1">CONSOLIDATED SCORE</div>
                 <div className="text-xl font-black text-primary-cyan">{contract.totalScore || 750}/1000</div>
              </div>
              <div className="p-5 bg-white/[0.02] border border-white/5 rounded-2xl">
-                <div className="text-[9px] text-white/40 uppercase tracking-widest font-black mb-1">LYA UNIT PRICE</div>
+                <div className="text-xs text-white/40 uppercase tracking-widest font-black mb-1">LYA UNIT PRICE</div>
                 <div className="text-xl font-black text-emerald-400">{formatPrice(contract.unitValue)}</div>
              </div>
           </div>
           
           <p className="text-xs text-white/60 leading-relaxed text-justify px-1">{contract.description}</p>
           
-          <div className="grid grid-cols-2 gap-3 pt-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
              <button 
                 onClick={() => { onClose(); if (onTrade) onTrade(contract, 'BUY'); }}
                 className="py-4 bg-emerald-500 text-surface-dim font-black uppercase tracking-widest text-[10px] rounded-xl hover:bg-white transition-all shadow-lg active:scale-95"
@@ -171,7 +171,7 @@ export const ProfessionalOnboardingModal: React.FC<{
                <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-black ${step >= i ? 'bg-primary-cyan text-surface-dim' : 'bg-white/5 text-white/35 border border-white/10'}`}>
                  {i}
                </div>
-               <span className="text-[8px] font-black uppercase tracking-widest text-white/40 hidden sm:inline">
+               <span className="text-[10px] font-black uppercase tracking-widest text-white/40 hidden sm:inline">
                  {i === 1 ? 'Credentials' : i === 2 ? 'Audit Scope' : 'Validation Bond'}
                </span>
              </div>
@@ -313,7 +313,7 @@ export const TradeModal: React.FC<{
        <div className="space-y-6 font-mono text-xs">
           
           {/* BID/ASK TAB TOGGLER */}
-          <div className="grid grid-cols-2 p-1 bg-black/40 border border-white/5 rounded-2xl shrink-0">
+          <div className="grid grid-cols-1 sm:grid-cols-2 p-1 bg-black/40 border border-white/5 rounded-2xl shrink-0">
             <button 
               type="button"
               onClick={() => setInternalTab('BUY')}
@@ -342,21 +342,21 @@ export const TradeModal: React.FC<{
 
             <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
               <div>
-                <span className="text-[9px] text-white/40 font-black uppercase tracking-[0.2em] block mb-1">{t('ASSET PROFILE', 'PROFIL ACTIF')}</span>
+                <span className="text-xs text-white/40 font-black uppercase tracking-[0.2em] block mb-1">{t('ASSET PROFILE', 'PROFIL ACTIF')}</span>
                 <h4 className="text-lg md:text-xl font-black text-white uppercase tracking-tighter leading-none mb-1.5">{contract.name}</h4>
                 <div className="flex gap-2 items-center">
-                  <span className="px-2 py-0.5 bg-white/5 border border-white/10 text-[8px] text-white/50 tracking-widest uppercase font-bold rounded-md">{contract.category}</span>
+                  <span className="px-3 py-0.5 bg-white/5 border border-white/10 text-[10px] text-white/50 tracking-widest uppercase font-bold rounded-md">{contract.category}</span>
                   <span className="w-1.5 h-1.5 rounded-full bg-primary-cyan animate-pulse" />
-                  <span className="text-[9px] text-primary-cyan uppercase tracking-widest font-black">{contract.registryIndex}</span>
+                  <span className="text-xs text-primary-cyan uppercase tracking-widest font-black">{contract.registryIndex}</span>
                 </div>
               </div>
               <div className="text-left md:text-right mt-2 md:mt-0">
-                <span className="text-[9px] text-white/40 font-black uppercase tracking-[0.2em] block mb-1">{t('SPOT EXCHANGE RATE', 'PRODUCTION SPOT')}</span>
+                <span className="text-xs text-white/40 font-black uppercase tracking-[0.2em] block mb-1">{t('SPOT EXCHANGE RATE', 'PRODUCTION SPOT')}</span>
                 <div className="text-2xl font-black font-headline text-primary-cyan flex items-baseline gap-1.5 leading-none">
                   {formatPrice(contract.unitValue)}
                   <span className="text-[10px] font-bold text-white/30">LYA</span>
                 </div>
-                <div className="flex items-center md:justify-end gap-1 mt-1 text-[9px] font-bold">
+                <div className="flex items-center md:justify-end gap-1 mt-1 text-xs font-bold">
                   <span className="text-white/35">Base: {formatPrice(50.00)}</span>
                   <span className={`flex items-center ${isLoss ? 'text-rose-400' : 'text-emerald-400'}`}>
                     ({isLoss ? '' : '+'}{growthRate}%)
@@ -368,29 +368,29 @@ export const TradeModal: React.FC<{
           
           {/* PEER-TO-PEER VALUATIONS CRITICAL DATA (BENTO GRID) */}
           <div className="space-y-2">
-            <span className="text-[9px] font-black text-white/40 uppercase tracking-[0.25em] block pl-1">{t('P2P REGISTRY METRICS', 'MÉTRIQUES DE CO-PROPRIÉTÉ P2P')}</span>
+            <span className="text-xs font-black text-white/40 uppercase tracking-[0.25em] block pl-1">{t('P2P REGISTRY METRICS', 'MÉTRIQUES DE CO-PROPRIÉTÉ P2P')}</span>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                
                {/* 1. PRICE OF THE PROJECT */}
                <div className="p-4 bg-white/[0.02] border border-white/5 hover:border-white/10 rounded-2xl flex flex-col gap-1 transition-all">
-                  <span className="text-[8px] text-white/35 font-black uppercase tracking-widest block leading-none">{t('TOTAL PROJECT PRICE', 'PRIX DU PROJET (VALEUR GLOBAL)')}</span>
+                  <span className="text-[10px] text-white/35 font-black uppercase tracking-widest block leading-none">{t('TOTAL PROJECT PRICE', 'PRIX DU PROJET (VALEUR GLOBAL)')}</span>
                   <span className="text-sm font-black text-white tracking-tight mt-1">{formatPrice(totalValuation)}</span>
-                  <span className="text-[8px] text-white/20 uppercase tracking-widest block font-bold leading-none">{t('TOTAL VALUE', 'VALEUR GLOBALE')}</span>
+                  <span className="text-[10px] text-white/20 uppercase tracking-widest block font-bold leading-none">{t('TOTAL VALUE', 'VALEUR GLOBALE')}</span>
                </div>
 
                {/* 2. TOTAL CREATED FRACTION UNITS */}
                <div className="p-4 bg-white/[0.02] border border-white/5 hover:border-white/10 rounded-2xl flex flex-col gap-1 transition-all">
-                  <span className="text-[8px] text-white/35 font-black uppercase tracking-widest block leading-none">{t('TOTAL FRACTION UNITS', 'UNITÉS TOTALES CRÉÉES')}</span>
-                  <span className="text-sm font-black text-white mt-1">{(totalFractions).toLocaleString()} <span className="text-[8px] text-white/40">Units</span></span>
-                  <span className="text-[8px] text-white/20 uppercase tracking-widest block font-bold leading-none">{t('TOTAL UNITS LIMIT', 'PART TOTAL LIMIT')}</span>
+                  <span className="text-[10px] text-white/35 font-black uppercase tracking-widest block leading-none">{t('TOTAL FRACTION UNITS', 'UNITÉS TOTALES CRÉÉES')}</span>
+                  <span className="text-sm font-black text-white mt-1">{(totalFractions).toLocaleString()} <span className="text-[10px] text-white/40">Units</span></span>
+                  <span className="text-[10px] text-white/20 uppercase tracking-widest block font-bold leading-none">{t('TOTAL UNITS LIMIT', 'PART TOTAL LIMIT')}</span>
                </div>
 
                {/* 3. UNITS AVAILABLE ON PLATFORM */}
                <div className="p-4 bg-primary-cyan/5 border border-primary-cyan/20 rounded-2xl flex flex-col gap-1 relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-8 h-8 bg-primary-cyan/10 blur-md rounded-full" />
-                  <span className="text-[8px] text-primary-cyan font-black uppercase tracking-widest block leading-none relative z-10">{t('TRADING LIQUIDITY QTY', 'VOLUME UNITÉS DISPO (P2P)')}</span>
-                  <span className="text-sm font-black text-white mt-1 relative z-10">{(unitsAvailableOnPlatform).toLocaleString()} <span className="text-[8px] text-primary-cyan">P2P</span></span>
-                  <span className="text-[8px] text-white/30 uppercase tracking-widest block font-bold leading-none relative z-10">{t('POOL FOR EXCHANGE', 'UNITÉS DISPONIBLES')}</span>
+                  <span className="text-[10px] text-primary-cyan font-black uppercase tracking-widest block leading-none relative z-10">{t('TRADING LIQUIDITY QTY', 'VOLUME UNITÉS DISPO (P2P)')}</span>
+                  <span className="text-sm font-black text-white mt-1 relative z-10">{(unitsAvailableOnPlatform).toLocaleString()} <span className="text-[10px] text-primary-cyan">P2P</span></span>
+                  <span className="text-[10px] text-white/30 uppercase tracking-widest block font-bold leading-none relative z-10">{t('POOL FOR EXCHANGE', 'UNITÉS DISPONIBLES')}</span>
                </div>
 
             </div>
@@ -402,7 +402,7 @@ export const TradeModal: React.FC<{
             {/* QUANTITY CONTROL */}
             <div className="space-y-2">
               <div className="flex justify-between items-center px-1">
-                <label className="text-[9px] font-black text-white/40 uppercase tracking-widest">{t('QUANTITY', 'QUANTITÉ')}</label>
+                <label className="text-xs font-black text-white/40 uppercase tracking-widest">{t('QUANTITY', 'QUANTITÉ')}</label>
                 <span className="text-[8.5px] font-bold text-accent-gold">{t('LIMIT: LIQUID', 'MODULABLE')}</span>
               </div>
               
@@ -453,7 +453,7 @@ export const TradeModal: React.FC<{
                     key={pct}
                     type="button"
                     onClick={() => setPercentOfAvailable(pct)}
-                    className="flex-1 py-1.5 bg-white/5 hover:bg-white/10 border border-white/5 rounded text-[8px] font-black text-white/55 hover:text-white hover:border-white/20 transition-all font-mono"
+                    className="flex-1 py-1.5 bg-white/5 hover:bg-white/10 border border-white/5 rounded text-[10px] font-black text-white/55 hover:text-white hover:border-white/20 transition-all font-mono"
                   >
                     {pct}% Pool
                   </button>
@@ -464,7 +464,7 @@ export const TradeModal: React.FC<{
             {/* UNIT LIMIT PRICE ADJUSTER */}
             <div className="space-y-2">
               <div className="flex justify-between items-center px-1">
-                <label className="text-[9px] font-black text-white/40 uppercase tracking-widest">{t('CO-OWN CONVENTION PRICE', 'PRIX DE LA CONVENTION LYA')}</label>
+                <label className="text-xs font-black text-white/40 uppercase tracking-widest">{t('CO-OWN CONVENTION PRICE', 'PRIX DE LA CONVENTION LYA')}</label>
                 <span className="text-[8.5px] font-bold text-primary-cyan">{t('CUSTOM PRICE', 'GRÉ À GRÉ')}</span>
               </div>
               
@@ -476,16 +476,16 @@ export const TradeModal: React.FC<{
                   value={currentActivePrice}
                   onChange={(e) => setTradePrice(Math.max(0.01, parseFloat(e.target.value) || 0.01))}
                 />
-                <div className="absolute right-4 top-1/2 -translate-y-1/2 text-[9px] font-bold text-white/40 uppercase pr-1">
+                <div className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-white/40 uppercase pr-1">
                   LYA PRICE
                 </div>
               </div>
 
               {/* ESTIMATED PREMIUM DEVIATION METRIC */}
-              <div className="flex justify-between items-center text-[9px] font-bold px-1 pt-1 opacity-70">
+              <div className="flex justify-between items-center text-xs font-bold px-1 pt-1 opacity-70">
                 <span>{t('DEVIATION FROM SPOT', 'INFÉRENCE DE PRIX')} :</span>
                 {Math.abs(currentActivePrice - contract.unitValue) < 0.02 ? (
-                  <span className="text-white bg-white/5 px-2 py-0.5 rounded uppercase font-bold text-[8px]">0.0% SPOT Match</span>
+                  <span className="text-white bg-white/5 px-3 py-0.5 rounded uppercase font-bold text-[10px]">0.0% SPOT Match</span>
                 ) : (
                   <span className={currentActivePrice > contract.unitValue ? 'text-emerald-400 font-extrabold' : 'text-rose-400 font-extrabold'}>
                     {currentActivePrice > contract.unitValue ? '+' : ''}{(((currentActivePrice - contract.unitValue)/contract.unitValue)*105).toFixed(1)}% {currentActivePrice > contract.unitValue ? t('PREMIUM Offer', 'de prime') : t('DISCOUNT Offer', 'de décote')}
@@ -498,7 +498,7 @@ export const TradeModal: React.FC<{
 
           {/* REAL PEER-TO-PEER ORDER BOOK MATCHING ACTIVITY LOG (DEMONSTRATOR) */}
           <div className="p-4 bg-black/60 border border-white/5 rounded-2xl space-y-3">
-             <div className="flex items-center justify-between text-[8px] tracking-wider uppercase pl-1">
+             <div className="flex items-center justify-between text-[10px] tracking-wider uppercase pl-1">
                 <span className="font-black text-white/45 flex items-center gap-1.5">
                    <Activity size={10} className="text-primary-cyan animate-pulse" />
                    {t('ON-CHAIN P2P DIRECT REGISTRY MATCHES', 'RÉPERTOIRE DES GRADES & ENTRÉES P2P')}
@@ -507,7 +507,7 @@ export const TradeModal: React.FC<{
              </div>
              
              {/* Simulated bids & asks to clarify how P2P trade operates with specific limits */}
-             <div className="space-y-1.5 font-mono text-[9px] leading-relaxed">
+             <div className="space-y-1.5 font-mono text-xs leading-relaxed">
                 <div className="flex items-center justify-between p-1.5 bg-white/[0.01] hover:bg-white/[0.03] border-b border-white/5">
                    <span className="text-white/40">Acquéreur <span className="text-white/70">P2P_0939</span></span>
                    <span className="font-bold text-emerald-400">Offre d'Achat @ {formatPrice(contract.unitValue * 0.985)}</span>
@@ -521,7 +521,7 @@ export const TradeModal: React.FC<{
                    <span className="text-white/30 truncate max-w-[50px]">DISPONIBLE</span>
                 </div>
                 <div className="flex items-center justify-between p-1.5 bg-primary-cyan/5 text-primary-cyan rounded border border-primary-cyan/15 animate-pulse">
-                   <span className="font-bold uppercase tracking-widest text-[8px]">{t('YOUR PENDING POSITION', 'VOTRE APPORT')}</span>
+                   <span className="font-bold uppercase tracking-widest text-[10px]">{t('YOUR PENDING POSITION', 'VOTRE APPORT')}</span>
                    <span className="font-black font-sans uppercase">
                       {internalTab === 'BUY' ? t('BIDDING', 'DEMANDE') : t('ASKING', 'OFFRE')}
                    </span>
@@ -540,7 +540,7 @@ export const TradeModal: React.FC<{
             <div className="flex justify-between items-center text-[10px] tracking-widest text-white/35">
               <div className="flex items-center gap-2">
                 <span>{t('P2P BROKERAGE FEE', 'PART COMMISSION DE CO-GRADUATION P2P')}</span>
-                <span className="px-1.5 py-0.5 bg-primary-cyan/10 text-primary-cyan text-[8px] font-black rounded font-mono">3.5%</span>
+                <span className="px-1.5 py-0.5 bg-primary-cyan/10 text-primary-cyan text-[10px] font-black rounded font-mono">3.5%</span>
               </div>
               <span className="text-white/80">{formatPrice(brokerageFee)}</span>
             </div>
@@ -548,7 +548,7 @@ export const TradeModal: React.FC<{
             <div className="flex justify-between items-center text-[10px] tracking-widest text-white/35">
               <div className="flex items-center gap-2">
                 <span>{t('DEPOSIT CLEARING FEE', 'FRAIS D\'INSCRIPTION DE CONVENTION')}</span>
-                <span className="px-1.5 py-0.5 bg-primary-cyan/10 text-primary-cyan text-[8px] font-black rounded font-mono font-bold">0.2%</span>
+                <span className="px-1.5 py-0.5 bg-primary-cyan/10 text-primary-cyan text-[10px] font-black rounded font-mono font-bold">0.2%</span>
               </div>
               <span className="text-white/80">{formatPrice(networkFee)}</span>
             </div>
@@ -559,7 +559,7 @@ export const TradeModal: React.FC<{
                 {formatPrice(estimatedTotal)}
               </span>
             </div>
-            <p className="text-[8px] text-white/30 pl-1 leading-normal font-sans font-medium">
+            <p className="text-[10px] text-white/30 pl-1 leading-normal font-sans font-medium">
               * {t('Liquidity matching is validated over the secure on-chain ledger. Subject to distributed registry regulatory confirmation.', 'L\'inscription de transfert de convention est enregistrée sur le registre décentralisé LYA.')}
             </p>
           </div>
@@ -683,7 +683,7 @@ export const FeatureShowcaseModal: React.FC<{
              <h3 className="text-sm font-black text-white uppercase tracking-widest leading-none mb-1">
                {details.title}
              </h3>
-             <span className="text-[9px] text-accent-gold uppercase font-mono tracking-widest">{details.badge}</span>
+             <span className="text-xs text-accent-gold uppercase font-mono tracking-widest">{details.badge}</span>
           </div>
         </div>
 
@@ -733,7 +733,7 @@ export const ComplianceCertificateModal: React.FC<{
              <h3 className="text-sm font-black text-white uppercase tracking-widest">
                REGULATORY COMPLIANCE PASS
              </h3>
-             <span className="text-[9px] text-emerald-400 uppercase font-mono tracking-widest">EU DIRECT CONTRACT COMPLIANT (MiCA)</span>
+             <span className="text-xs text-emerald-400 uppercase font-mono tracking-widest">EU DIRECT CONTRACT COMPLIANT (MiCA)</span>
           </div>
         </div>
 

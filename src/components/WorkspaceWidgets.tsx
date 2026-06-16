@@ -174,7 +174,7 @@ const SupportSimulatorWidget: React.FC<{ lang: 'FR' | 'EN', formatPrice: (n: num
         </div>
         <input type="range" min={1} max={100} value={units} onChange={e => setUnits(+e.target.value)} className="w-full h-1 bg-white/10 rounded-full appearance-none cursor-pointer accent-primary-cyan" />
       </div>
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
         <div className="bg-surface-high/40 border border-white/8 rounded-xl p-3">
           <p className="text-xs font-mono text-on-surface-variant/40 uppercase tracking-widest mb-1">{T('SOUTIEN TOTAL', 'TOTAL PLEDGE')}</p>
           <p className="text-sm font-black font-mono text-on-surface">{formatPrice(totalCost)}</p>
@@ -350,7 +350,7 @@ export const WorkspaceWidgets: React.FC = () => {
             <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary-cyan">
               {T('ESPACE PERSONNALISÉ', 'MY WORKSPACE')}
             </span>
-            <span className="px-2 py-0.5 bg-primary-cyan/10 border border-primary-cyan/20 rounded-full text-xs font-black text-primary-cyan uppercase tracking-widest">BETA</span>
+            <span className="px-3 py-0.5 bg-primary-cyan/10 border border-primary-cyan/20 rounded-full text-xs font-black text-primary-cyan uppercase tracking-widest">BETA</span>
           </div>
           <p className="text-on-surface-variant/50 text-xs">
             {T('Configurez votre espace de travail avec les widgets qui vous correspondent.', 'Set up your workspace with the widgets that suit you best.')}
@@ -417,7 +417,7 @@ export const WorkspaceWidgets: React.FC = () => {
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
           {activeWidgets.map(key => {
             const def = WIDGET_DEFS.find(w => w.key === key)!;
             return (

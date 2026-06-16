@@ -179,7 +179,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
             <h3 className="text-lg md:text-xl font-black uppercase tracking-tight flex items-center gap-3 mb-1">
               <Activity className="text-primary-cyan" size={24} /> {user.role === UserRole.CREATOR ? t('LYA PERFORMANCE SYSTEM', 'SYSTÈME DE PERFORMANCE LYA') : t('PROFESSIONAL STATUS HUB', 'HUB DE STATUT PROFESSIONNEL')}
             </h3>
-            <p className="text-[8px] md:text-[10px] text-accent-gold uppercase tracking-widest font-bold opacity-40">
+            <p className="text-[10px] md:text-[10px] text-accent-gold uppercase tracking-widest font-bold opacity-40">
               {user.role === UserRole.INVESTOR ? t('Optimize your professional capital allocation', 'Optimisez votre allocation de capital professionnel') :
                user.role === UserRole.PROFESSIONAL ? t('Analyze your network validation efficiency', 'Analysez l\'efficacité de validation de votre réseau') :
                t('Predict your professional valuation potential', 'Prédisez votre potentiel de valorisation professionnelle')}
@@ -187,7 +187,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
           </div>
           <div className="flex items-center gap-4">
               <div className="text-right">
-                <p className="text-[8px] font-black text-accent-gold uppercase tracking-widest opacity-40 mb-1">
+                <p className="text-[10px] font-black text-accent-gold uppercase tracking-widest opacity-40 mb-1">
                   {user.role === UserRole.CREATOR ? t('LYA SCORE', 'SCORE LYA') : t('STATUS LEVEL', 'NIVEAU DE STATUT')}
                 </p>
                 {user.role === UserRole.CREATOR ? (
@@ -213,7 +213,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
                   <span className="text-[10px] font-bold text-on-surface-variant opacity-40">/ 200</span>
                 </div>
               </div>
-              <div className={`mt-6 px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest text-center ${data.color} shadow-lg backdrop-blur-md`}>
+              <div className={`mt-6 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest text-center ${data.color} shadow-lg backdrop-blur-md`}>
                 {data.status}
               </div>
             </div>
@@ -229,15 +229,15 @@ const ProfileView: React.FC<ProfileViewProps> = ({
 
         <div className="mt-10 pt-8 border-t border-white/5 grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
           <div className="p-4 bg-white/5 border border-white/10 rounded-xl">
-            <p className="text-[8px] font-black text-accent-gold uppercase tracking-widest opacity-40 mb-2">{t('MARKET POSITION', 'POSITION MARCHÉ')}</p>
+            <p className="text-[10px] font-black text-accent-gold uppercase tracking-widest opacity-40 mb-2">{t('MARKET POSITION', 'POSITION MARCHÉ')}</p>
             <p className="text-sm font-bold text-white uppercase tracking-tight">{t('Top 5% Professional', 'Top 5% Professionnel')}</p>
           </div>
           <div className="p-4 bg-white/5 border border-white/10 rounded-xl">
-            <p className="text-[8px] font-black text-accent-gold uppercase tracking-widest opacity-40 mb-2">{t('GROWTH VELOCITY', 'VÉLOCITÉ CROISSANCE')}</p>
+            <p className="text-[10px] font-black text-accent-gold uppercase tracking-widest opacity-40 mb-2">{t('GROWTH VELOCITY', 'VÉLOCITÉ CROISSANCE')}</p>
             <p className="text-sm font-bold text-emerald-400 uppercase tracking-tight">+18.4% / Q1</p>
           </div>
           <div className="p-4 bg-white/5 border border-white/10 rounded-xl">
-            <p className="text-[8px] font-black text-accent-gold uppercase tracking-widest opacity-40 mb-2">{t('TRUST INDEX', 'INDICE DE CONFIANCE')}</p>
+            <p className="text-[10px] font-black text-accent-gold uppercase tracking-widest opacity-40 mb-2">{t('TRUST INDEX', 'INDICE DE CONFIANCE')}</p>
             <p className="text-sm font-bold text-accent-gold uppercase tracking-tight">AAA+ {t('STABLE', 'STABLE')}</p>
           </div>
         </div>
@@ -331,19 +331,19 @@ const ProfileView: React.FC<ProfileViewProps> = ({
 
                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 py-8 border-y border-white/5">
                         <div className="space-y-1">
-                          <p className="text-[8px] font-black text-on-surface-variant uppercase tracking-widest opacity-40">{t('LYA SCORE', 'SCORE LYA')}</p>
+                          <p className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest opacity-40">{t('LYA SCORE', 'SCORE LYA')}</p>
                           <p className="text-xl font-black text-primary-cyan">{viewingUser.lyaScore || '---'}</p>
                         </div>
                         <div className="space-y-1">
-                          <p className="text-[8px] font-black text-on-surface-variant uppercase tracking-widest opacity-40">{t('LOCATION', 'LOCALISATION')}</p>
+                          <p className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest opacity-40">{t('LOCATION', 'LOCALISATION')}</p>
                           <p className="text-xl font-black text-white uppercase">{viewingUser.country || 'GLOBAL'}</p>
                         </div>
                         <div className="space-y-1">
-                          <p className="text-[8px] font-black text-on-surface-variant uppercase tracking-widest opacity-40">{t('CREDENTIALS', 'CRÉDENTIALS')}</p>
+                          <p className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest opacity-40">{t('CREDENTIALS', 'CRÉDENTIALS')}</p>
                           <p className="text-xl font-black text-emerald-400">VERIFIED</p>
                         </div>
                         <div className="space-y-1">
-                          <p className="text-[8px] font-black text-on-surface-variant uppercase tracking-widest opacity-40">{t('ASSETS', 'ACTIFS')}</p>
+                          <p className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest opacity-40">{t('ASSETS', 'ACTIFS')}</p>
                           <p className="text-xl font-black text-white uppercase">12</p>
                         </div>
                      </div>
@@ -931,7 +931,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
   const renderAcademyContent = () => (
     <div className="mt-6 md:mt-10 bg-surface-low/30 border border-white/10 p-5 md:p-8 backdrop-blur-2xl relative overflow-hidden group rounded-2xl shadow-2xl">
       <div className="absolute top-0 right-0 p-3 md:p-4">
-        <div className="px-2 md:px-3 py-0.5 md:py-1 bg-accent-gold/20 border border-accent-gold/40 text-accent-gold text-[7px] md:text-[8px] font-mono uppercase tracking-widest">
+        <div className="px-2 md:px-3 py-0.5 md:py-1 bg-accent-gold/20 border border-accent-gold/40 text-accent-gold text-[7px] md:text-[10px] font-mono uppercase tracking-widest">
           {t('Premium Access Required', 'Accès Premium Requis')}
         </div>
       </div>
@@ -959,12 +959,12 @@ const ProfileView: React.FC<ProfileViewProps> = ({
               <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 flex items-center justify-center mb-2 md:mb-4 border border-white/20 group-hover/video:bg-primary-cyan/20 group-hover/video:border-primary-cyan/40 transition-all">
                 <Lock className="text-white/40 group-hover/video:text-primary-cyan" size={18} />
               </div>
-              <p className="text-[9px] md:text-xs font-bold uppercase mb-1 line-clamp-2">{video.title}</p>
-              <p className="text-[7px] md:text-[9px] font-mono text-gray-500 uppercase tracking-widest">{video.type} • {video.duration}</p>
+              <p className="text-xs md:text-xs font-bold uppercase mb-1 line-clamp-2">{video.title}</p>
+              <p className="text-[7px] md:text-xs font-mono text-gray-500 uppercase tracking-widest">{video.type} • {video.duration}</p>
             </div>
             
-            <div className="absolute bottom-0 left-0 right-0 p-2 md:p-4 translate-y-full group-hover/video:translate-y-0 transition-transform bg-primary-cyan/90">
-              <button className="w-full text-black text-[8px] md:text-[10px] font-black uppercase flex items-center justify-center gap-2">
+            <div className="absolute bottom-0 left-0 right-0 p-3 md:p-4 translate-y-full group-hover/video:translate-y-0 transition-transform bg-primary-cyan/90">
+              <button className="w-full text-black text-[10px] md:text-[10px] font-black uppercase flex items-center justify-center gap-2">
                 {t('Unlock Access', 'Débloquer l\'Accès')} <ExternalLink size={12} />
               </button>
             </div>
@@ -975,13 +975,13 @@ const ProfileView: React.FC<ProfileViewProps> = ({
       <div className="mt-5 md:mt-8 p-4 md:p-6 border border-dashed border-white/20 flex flex-col lg:flex-row items-center justify-between gap-4 md:gap-6">
         <div className="text-center lg:text-left">
           <p className="text-[10px] md:text-sm font-bold uppercase mb-1">{t('Unlimited Access to YouTube Premium Content', 'Accès Illimité au Contenu Premium YouTube')}</p>
-          <p className="text-[8px] md:text-xs text-gray-500">{t('Continuous training, market analysis, and exclusive tutorials.', 'Formation continue, analyse de marché et tutoriels exclusifs.')}</p>
+          <p className="text-[10px] md:text-xs text-gray-500">{t('Continuous training, market analysis, and exclusive tutorials.', 'Formation continue, analyse de marché et tutoriels exclusifs.')}</p>
         </div>
         <button 
           onClick={() => {
             if (onViewChange) onViewChange('ACADEMY');
           }}
-          className="w-full lg:w-auto px-5 py-2 md:py-3 bg-white text-black font-black uppercase text-[9px] md:text-xs hover:bg-primary-cyan transition-colors active:scale-95"
+          className="w-full lg:w-auto px-5 py-2 md:py-3 bg-white text-black font-black uppercase text-xs md:text-xs hover:bg-primary-cyan transition-colors active:scale-95"
         >
           {t('Subscribe to LYA Academy', 'S\'abonner à l\'Académie LYA')}
         </button>
@@ -1001,12 +1001,12 @@ const ProfileView: React.FC<ProfileViewProps> = ({
             <h3 className="text-lg font-black uppercase tracking-widest text-white flex items-center gap-3 mb-2">
               <Mail className="text-primary-cyan" size={24} /> {t('Secure Professional Inbox', 'Boîte de Réception Professionnelle')}
             </h3>
-            <p className="text-[9px] text-on-surface-variant font-black uppercase tracking-widest opacity-40">{t('Verified end-to-end encrypted communication channel', 'Canal de communication vérifié chiffré de bout en bout')}</p>
+            <p className="text-xs text-on-surface-variant font-black uppercase tracking-widest opacity-40">{t('Verified end-to-end encrypted communication channel', 'Canal de communication vérifié chiffré de bout en bout')}</p>
           </div>
           <div className="flex items-center gap-4">
             <button 
               onClick={async () => { try { const { db: fdb } = await import('../firebase'); const { collection, addDoc, serverTimestamp: sts } = await import('firebase/firestore'); await addDoc(collection(fdb, 'messages_sent'), { fromUserId: user?.uid, fromEmail: user?.email, createdAt: sts() }); onNotify(t('MESSAGE SENT', 'MESSAGE ENVOYÉ')); } catch(e) { onNotify(t('DISPATCH ACTIVE', 'TERMINAL ACTIF')); } }}
-              className="px-6 py-3 bg-white text-surface-dim font-black uppercase text-[9px] tracking-[0.2em] hover:bg-primary-cyan transition-all flex items-center gap-3 shadow-[0_10px_20px_rgba(255,255,255,0.1)] active:scale-95"
+              className="px-6 py-3 bg-white text-surface-dim font-black uppercase text-xs tracking-[0.2em] hover:bg-primary-cyan transition-all flex items-center gap-3 shadow-[0_10px_20px_rgba(255,255,255,0.1)] active:scale-95"
             >
               <Send size={14} /> {t('New Dispatch', 'Nouvel Envoi')}
             </button>
@@ -1048,7 +1048,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
                   <div className="flex flex-col sm:flex-row justify-between items-start gap-2">
                     <div className="flex flex-wrap items-center gap-3">
                       <span className="text-lg font-black text-white group-hover:text-primary-cyan transition-colors tracking-tighter uppercase">{msg.from}</span>
-                      <div className="px-2 py-0.5 bg-accent-gold/10 border border-accent-gold/20 rounded text-[8px] font-black text-accent-gold uppercase tracking-widest">{msg.senderRole}</div>
+                      <div className="px-3 py-0.5 bg-accent-gold/10 border border-accent-gold/20 rounded text-[10px] font-black text-accent-gold uppercase tracking-widest">{msg.senderRole}</div>
                     </div>
                     <span className="text-[10px] font-bold text-on-surface-variant opacity-40 uppercase tracking-widest">{msg.time}</span>
                   </div>
@@ -1061,11 +1061,11 @@ const ProfileView: React.FC<ProfileViewProps> = ({
                   </div>
                   
                   <div className="flex items-center gap-4 pt-2">
-                    <button className="flex items-center gap-2 text-[9px] font-black uppercase text-primary-cyan hover:text-white transition-colors">
+                    <button className="flex items-center gap-2 text-xs font-black uppercase text-primary-cyan hover:text-white transition-colors">
                       <MessageSquare size={12} /> {t('Reply', 'Répondre')}
                     </button>
                     <div className="w-1 h-1 rounded-full bg-white/10" />
-                    <button className="flex items-center gap-2 text-[9px] font-black uppercase text-on-surface-variant hover:text-white transition-colors">
+                    <button className="flex items-center gap-2 text-xs font-black uppercase text-on-surface-variant hover:text-white transition-colors">
                       <Trash2 size={12} /> {t('Archive', 'Archiver')}
                     </button>
                   </div>
@@ -1161,16 +1161,16 @@ const renderMentorshipContent = () => (
                     <div className="flex justify-between items-start mb-6">
                       <div>
                         <p className={`text-sm font-black uppercase tracking-tight group-hover:${m.color} transition-colors mb-1`}>{m.name}</p>
-                        <p className="text-[8px] text-on-surface-variant uppercase tracking-widest font-bold opacity-40">Mentee: {m.student}</p>
+                        <p className="text-[10px] text-on-surface-variant uppercase tracking-widest font-bold opacity-40">Mentee: {m.student}</p>
                       </div>
-                      <div className={`px-2 py-1 rounded text-[7px] font-black uppercase ${m.bg} ${m.color} animate-pulse`}>
+                      <div className={`px-3 py-1 rounded text-[7px] font-black uppercase ${m.bg} ${m.color} animate-pulse`}>
                         {m.impact}
                       </div>
                     </div>
                     
                     <div className="space-y-4">
                       <div className="flex justify-between items-end">
-                        <p className="text-[8px] font-black text-on-surface-variant uppercase tracking-widest opacity-40">{t('SYNC PROGRESS', 'SYNCHRONISATION')}</p>
+                        <p className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest opacity-40">{t('SYNC PROGRESS', 'SYNCHRONISATION')}</p>
                         <p className={`text-xs font-black ${m.color}`}>{m.progress}%</p>
                       </div>
                       <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
@@ -1183,7 +1183,7 @@ const renderMentorshipContent = () => (
                       </div>
                     </div>
 
-                    <button className="w-full mt-8 py-3 px-4 bg-white/5 border border-white/5 rounded-xl text-[9px] font-black uppercase tracking-[0.2em] text-white/40 hover:text-white hover:bg-white/10 transition-all flex items-center justify-center gap-3">
+                    <button className="w-full mt-8 py-3 px-4 bg-white/5 border border-white/5 rounded-xl text-xs font-black uppercase tracking-[0.2em] text-white/40 hover:text-white hover:bg-white/10 transition-all flex items-center justify-center gap-3">
                       <MessageSquare size={12} /> {t('OPEN SECURE CHANNEL', 'CANAL SÉCURISÉ')}
                     </button>
                   </motion.div>
@@ -1216,7 +1216,7 @@ const renderMentorshipContent = () => (
                     </div>
                     <div className="min-w-0">
                       <p className="text-xs font-black text-white truncate">{name}</p>
-                      <p className="text-[8px] text-on-surface-variant font-bold uppercase tracking-widest opacity-40">MEMBER_ID_{100 + i}</p>
+                      <p className="text-[10px] text-on-surface-variant font-bold uppercase tracking-widest opacity-40">MEMBER_ID_{100 + i}</p>
                     </div>
                     {i === 0 && <div className="w-1.5 h-1.5 rounded-full bg-primary-cyan animate-pulse ml-auto" />}
                   </div>
@@ -1233,25 +1233,25 @@ const renderMentorshipContent = () => (
                  </div>
                  <div>
                    <h4 className="text-base font-black text-white uppercase tracking-tighter mb-0.5">MARCUS_V</h4>
-                   <p className="text-[8px] text-primary-cyan font-black uppercase tracking-widest">{t('IDENTITY VERIFIED', 'IDENTITÉ VÉRIFIÉE')}</p>
+                   <p className="text-[10px] text-primary-cyan font-black uppercase tracking-widest">{t('IDENTITY VERIFIED', 'IDENTITÉ VÉRIFIÉE')}</p>
                  </div>
                </div>
                <div className="flex items-center gap-6">
                  <div className="flex items-center gap-2">
                    <Lock size={12} className="text-emerald-400" />
-                   <span className="text-[8px] font-black text-emerald-400 uppercase tracking-widest leading-none">E2E ENCRYPTED</span>
+                   <span className="text-[10px] font-black text-emerald-400 uppercase tracking-widest leading-none">E2E ENCRYPTED</span>
                  </div>
                  <div className="flex items-center gap-2">
                    <ShieldCheck size={12} className="text-primary-cyan" />
-                   <span className="text-[8px] font-black text-primary-cyan uppercase tracking-widest leading-none">VERIFIED BY LYA PROTOCOL</span>
+                   <span className="text-[10px] font-black text-primary-cyan uppercase tracking-widest leading-none">VERIFIED BY LYA PROTOCOL</span>
                  </div>
                  <button className="flex items-center gap-2 px-3 py-1 bg-white/5 border border-white/10 rounded-full hover:bg-white/10 transition-all group">
                    <FileText size={10} className="text-accent-gold group-hover:scale-110" />
-                   <span className="text-[8px] font-black text-white uppercase tracking-widest leading-none">{t('REQUEST AUDIT', 'DEMANDER UN AUDIT')}</span>
+                   <span className="text-[10px] font-black text-white uppercase tracking-widest leading-none">{t('REQUEST AUDIT', 'DEMANDER UN AUDIT')}</span>
                  </button>
                  <div className="flex items-center gap-2 ml-4">
                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                   <span className="text-[8px] font-black text-on-surface-variant font-mono uppercase tracking-widest">GATEWAY_CONNECTED</span>
+                   <span className="text-[10px] font-black text-on-surface-variant font-mono uppercase tracking-widest">GATEWAY_CONNECTED</span>
                  </div>
                </div>
                <div className="flex items-center gap-2">
@@ -1266,7 +1266,7 @@ const renderMentorshipContent = () => (
                    <p className="text-sm text-on-surface leading-relaxed opacity-80">
                      <ScrambleText text="The licensing structure for the neural assets is complex. I need guidance on the secondary rights clause before we move to Phase 2." />
                    </p>
-                   <p className="text-[8px] font-black text-on-surface-variant uppercase tracking-widest mt-4 opacity-40">10:42 AM • DECRYPTED</p>
+                   <p className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest mt-4 opacity-40">10:42 AM • DECRYPTED</p>
                  </div>
                </div>
                
@@ -1276,7 +1276,7 @@ const renderMentorshipContent = () => (
                    <p className="text-sm text-white leading-relaxed relative z-10">
                      <ScrambleText text="Review the Sector 0x4 standard. We focus on cumulative participation rather than direct buyouts. It protects the legacy value of the initial unit." />
                    </p>
-                    <p className="text-[8px] font-black text-primary-cyan uppercase tracking-widest mt-4 relative z-10 text-right">YOU (MENTOR) • ENCRYPTED</p>
+                    <p className="text-[10px] font-black text-primary-cyan uppercase tracking-widest mt-4 relative z-10 text-right">YOU (MENTOR) • ENCRYPTED</p>
                   </div>
                 </div>
               </div>
@@ -1349,18 +1349,18 @@ const renderMentorshipContent = () => (
                 <div>
                   <h4 className="text-sm font-black text-white uppercase truncate max-w-[120px]">{u.displayName || 'Anonymous'}</h4>
                   <div className="flex items-center gap-2 mt-1">
-                    <span className="text-[8px] font-black text-primary-cyan uppercase tracking-widest">{u.role}</span>
+                    <span className="text-[10px] font-black text-primary-cyan uppercase tracking-widest">{u.role}</span>
                     <div className="w-1 h-1 rounded-full bg-white/10" />
-                    <span className="text-[8px] font-black text-on-surface-variant uppercase tracking-widest">{u.country || 'N/A'}</span>
+                    <span className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest">{u.country || 'N/A'}</span>
                   </div>
                 </div>
               </div>
               <div className="space-y-4">
                 <div className="flex justify-between items-center px-4 py-2 bg-white/5 rounded-lg">
-                  <span className="text-[8px] font-black text-white/40 uppercase tracking-widest">LYA SCORE</span>
+                  <span className="text-[10px] font-black text-white/40 uppercase tracking-widest">LYA SCORE</span>
                   <span className="text-sm font-black text-primary-cyan tracking-tighter">{u.lyaScore || 450}</span>
                 </div>
-                <button className="w-full py-3 bg-white/5 border border-white/10 rounded-xl text-[9px] font-black uppercase tracking-[0.2em] text-white hover:bg-primary-cyan hover:text-surface-dim transition-all">
+                <button className="w-full py-3 bg-white/5 border border-white/10 rounded-xl text-xs font-black uppercase tracking-[0.2em] text-white hover:bg-primary-cyan hover:text-surface-dim transition-all">
                   {t('VIEW PROFILE', 'VOIR PROFIL')}
                 </button>
               </div>
@@ -1419,13 +1419,13 @@ const renderMentorshipContent = () => (
                <h4 className="text-lg font-black text-white uppercase tracking-widest flex items-center gap-3">
                 <Activity className="text-accent-gold" size={20} /> {t('Global Metrics', 'Métriques Globales')}
               </h4>
-              <div className="grid grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="p-4 bg-white/5 rounded-2xl border border-white/10">
-                  <p className="text-[8px] font-black text-white/40 uppercase tracking-widest mb-1">{t('REGISTERED USERS', 'UTILISATEURS ENREG.')}</p>
+                  <p className="text-[10px] font-black text-white/40 uppercase tracking-widest mb-1">{t('REGISTERED USERS', 'UTILISATEURS ENREG.')}</p>
                   <p className="text-2xl font-black text-primary-cyan">{allUsers.length}</p>
                 </div>
                 <div className="p-4 bg-white/5 rounded-2xl border border-white/10">
-                  <p className="text-[8px] font-black text-white/40 uppercase tracking-widest mb-1">{t('ACTIVE CONTRACTS', 'CONTRATS ACTIFS')}</p>
+                  <p className="text-[10px] font-black text-white/40 uppercase tracking-widest mb-1">{t('ACTIVE CONTRACTS', 'CONTRATS ACTIFS')}</p>
                   <p className="text-2xl font-black text-accent-magenta">{projects.length}</p>
                 </div>
               </div>
@@ -1460,7 +1460,7 @@ const renderMentorshipContent = () => (
                   {tab.icon}
                   {tab.label}
                   {tab.badge && tab.badge > 0 && (
-                    <span className="bg-accent-magenta text-[8px] text-white px-1.5 py-0.5 rounded-full font-black animate-pulse">
+                    <span className="bg-accent-magenta text-[10px] text-white px-1.5 py-0.5 rounded-full font-black animate-pulse">
                       {tab.badge}
                     </span>
                   )}
@@ -1494,7 +1494,7 @@ const renderMentorshipContent = () => (
                         </div>
                         <div>
                           <h3 className="text-2xl md:text-4xl font-black font-headline text-white uppercase tracking-tighter">{t('Admin Hub Terminal', 'Terminal Hub Admin')}</h3>
-                          <p className="text-[8px] md:text-[10px] text-accent-gold font-black uppercase tracking-[0.4em] opacity-60 italic">{t('Advanced System Control & Data Initialization', 'Contrôle Système Avancé & Initialisation de Données')}</p>
+                          <p className="text-[10px] md:text-[10px] text-accent-gold font-black uppercase tracking-[0.4em] opacity-60 italic">{t('Advanced System Control & Data Initialization', 'Contrôle Système Avancé & Initialisation de Données')}</p>
                         </div>
                       </div>
 
@@ -1530,19 +1530,19 @@ const renderMentorshipContent = () => (
                             <Activity className="text-accent-gold" size={24} />
                             <h4 className="text-sm md:text-lg font-black text-white uppercase tracking-widest">{t('LIVE NETWORK STATUS', 'STATUT DU RÉSEAU LIVE')}</h4>
                           </div>
-                          <div className="grid grid-cols-2 gap-4">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div className="p-4 bg-white/5 rounded-2xl border border-white/10">
-                              <p className="text-[8px] font-black text-white/40 uppercase tracking-widest mb-1">{t('MAPPED IDENTITIES', 'IDENTITÉS CARTOGRAPH.')}</p>
+                              <p className="text-[10px] font-black text-white/40 uppercase tracking-widest mb-1">{t('MAPPED IDENTITIES', 'IDENTITÉS CARTOGRAPH.')}</p>
                               <p className="text-xl md:text-2xl font-black text-primary-cyan">{allUsers.length}</p>
                             </div>
                             <div className="p-4 bg-white/5 rounded-2xl border border-white/10">
-                              <p className="text-[8px] font-black text-white/40 uppercase tracking-widest mb-1">{t('INDEXED ASSETS', 'ACTIFS INDEXÉS')}</p>
+                              <p className="text-[10px] font-black text-white/40 uppercase tracking-widest mb-1">{t('INDEXED ASSETS', 'ACTIFS INDEXÉS')}</p>
                               <p className="text-xl md:text-2xl font-black text-accent-magenta">{projects.length}</p>
                             </div>
                           </div>
                           <div className="flex items-center gap-2 text-emerald-400">
                              <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_10px_rgba(52,211,153,0.5)]" />
-                             <span className="text-[8px] font-black uppercase tracking-[0.2em]">All Systems Nominal | Sync Active</span>
+                             <span className="text-[10px] font-black uppercase tracking-[0.2em]">All Systems Nominal | Sync Active</span>
                           </div>
                         </div>
                       </div>
@@ -1556,7 +1556,7 @@ const renderMentorshipContent = () => (
               <div className="relative bg-surface-low/40 backdrop-blur-3xl border border-white/10 p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8">
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="px-2 py-1 bg-primary-cyan/20 border border-primary-cyan/30 rounded text-[8px] font-black text-primary-cyan uppercase tracking-widest">Beta</div>
+                    <div className="px-3 py-1 bg-primary-cyan/20 border border-primary-cyan/30 rounded text-[10px] font-black text-primary-cyan uppercase tracking-widest">Beta</div>
                     <h2 className="text-2xl md:text-4xl font-black font-headline tracking-tighter text-white uppercase">
                       {t('LYA Simulator', 'Simulateur LYA')}
                     </h2>
@@ -1578,7 +1578,7 @@ const renderMentorshipContent = () => (
                   >
                     <Zap size={18} /> {t('Start Simulation', 'Démarrer la Simulation')}
                     {!user?.isPro && (
-                      <span className="absolute -top-3 -right-3 px-2 py-1 bg-surface-dim border border-white/20 rounded-lg text-[8px] font-black text-white group-hover:border-primary-cyan transition-colors">
+                      <span className="absolute -top-3 -right-3 px-3 py-1 bg-surface-dim border border-white/20 rounded-lg text-[10px] font-black text-white group-hover:border-primary-cyan transition-colors">
                         {usageStats.simulator}/{user?.isPro ? '∞' : '4'}
                       </span>
                     )}
@@ -1667,14 +1667,14 @@ const renderMentorshipContent = () => (
                           <div className="absolute inset-0 bg-gradient-to-t from-surface-dim via-surface-dim/20 to-transparent" />
                           
                           <div className="absolute top-4 md:top-6 right-4 md:right-6 flex flex-col items-end gap-3 z-20">
-                            <div className="px-3 md:px-4 py-1 md:py-1.5 bg-black/80 backdrop-blur-xl border border-white/10 text-[8px] md:text-[9px] font-black uppercase tracking-[0.2em] text-white shadow-2xl rounded-lg">
+                            <div className="px-3 md:px-4 py-1 md:py-1.5 bg-black/80 backdrop-blur-xl border border-white/10 text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-white shadow-2xl rounded-lg">
                               {project.status}
                             </div>
-                            <div className="bg-black/60 backdrop-blur-xl border border-primary-cyan/30 p-2 md:p-3 rounded-xl flex flex-col items-center justify-center min-w-[70px] shadow-2xl">
-                              <div className="text-[7px] md:text-[8px] font-black text-primary-cyan uppercase tracking-widest mb-1">{t('LYA SCORE', 'SCORE LYA')}</div>
+                            <div className="bg-black/60 backdrop-blur-xl border border-primary-cyan/30 p-3 md:p-3 rounded-xl flex flex-col items-center justify-center min-w-[70px] shadow-2xl">
+                              <div className="text-[7px] md:text-[10px] font-black text-primary-cyan uppercase tracking-widest mb-1">{t('LYA SCORE', 'SCORE LYA')}</div>
                               <div className="flex items-baseline gap-0.5">
                                 <span className="text-xl md:text-2xl font-black text-white tracking-tighter leading-none">{project.score}</span>
-                                <span className="text-[8px] text-on-surface-variant opacity-40 font-bold">/1k</span>
+                                <span className="text-[10px] text-on-surface-variant opacity-40 font-bold">/1k</span>
                               </div>
                             </div>
                           </div>
@@ -1683,7 +1683,7 @@ const renderMentorshipContent = () => (
                             <p className="text-xl md:text-3xl font-black uppercase tracking-tight text-white drop-shadow-2xl">{project.name}</p>
                             <div className="flex items-center gap-2 md:gap-3 mt-1 md:mt-2">
                               <div className="w-1.5 h-1.5 rounded-full bg-primary-cyan animate-pulse" />
-                              <span className="text-[8px] md:text-[9px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] text-on-surface-variant">{t('LIVE ON REGISTRY', 'EN DIRECT SUR LE REGISTRE')}</span>
+                              <span className="text-[10px] md:text-xs font-black uppercase tracking-[0.2em] md:tracking-[0.3em] text-on-surface-variant">{t('LIVE ON REGISTRY', 'EN DIRECT SUR LE REGISTRE')}</span>
                             </div>
                           </div>
                         </div>
@@ -1691,7 +1691,7 @@ const renderMentorshipContent = () => (
                         <div className="p-6 md:p-8 flex flex-col flex-1 bg-surface-low/50 backdrop-blur-sm">
                           <div className="grid grid-cols-1 gap-4 md:gap-8 mb-6 md:mb-10">
                             <div className="space-y-1">
-                              <p className="text-[8px] md:text-[9px] text-accent-gold font-black uppercase tracking-[0.2em] md:tracking-[0.3em] opacity-40">{t('Asset Value', 'Valeur Actif')}</p>
+                              <p className="text-[10px] md:text-xs text-accent-gold font-black uppercase tracking-[0.2em] md:tracking-[0.3em] opacity-40">{t('Asset Value', 'Valeur Actif')}</p>
                               <p className="text-xl md:text-2xl font-black tracking-tight text-white">{project.value}</p>
                             </div>
                           </div>
@@ -1710,7 +1710,7 @@ const renderMentorshipContent = () => (
                                   }`}>
                                     {p.score}
                                   </div>
-                                  <div className="text-[8px] text-white uppercase tracking-widest font-bold opacity-80 truncate">
+                                  <div className="text-[10px] text-white uppercase tracking-widest font-bold opacity-80 truncate">
                                     {p.label.split(' ')[0]}
                                   </div>
                                 </div>
@@ -1721,7 +1721,7 @@ const renderMentorshipContent = () => (
                           <div className="mt-auto flex gap-3 md:gap-4">
                             <button 
                               onClick={() => handlePremiumFeature('IP Rights Management')}
-                              className="flex-1 py-3 md:py-4 bg-white/5 border border-white/10 text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] hover:bg-primary-cyan hover:text-surface-dim hover:border-primary-cyan transition-all duration-300 rounded-xl"
+                              className="flex-1 py-3 md:py-4 bg-white/5 border border-white/10 text-xs md:text-[10px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] hover:bg-primary-cyan hover:text-surface-dim hover:border-primary-cyan transition-all duration-300 rounded-xl"
                             >
                               {t('Manage IP Rights', 'Gérer les Droits PI')}
                             </button>
@@ -1746,11 +1746,11 @@ const renderMentorshipContent = () => (
                       <h3 className="text-lg md:text-2xl font-black uppercase tracking-tight flex items-center gap-3 md:gap-4 mb-2">
                         <TrendingUp className="text-primary-cyan" size={28} /> {t('Revenue Analytics', 'Analyses de Revenus')}
                       </h3>
-                      <p className="text-[9px] md:text-xs text-accent-gold uppercase tracking-widest font-bold opacity-40">{t('Suivi en temps réel des redevances et droits', 'Suivi en temps réel des redevances et droits')}</p>
+                      <p className="text-xs md:text-xs text-accent-gold uppercase tracking-widest font-bold opacity-40">{t('Suivi en temps réel des redevances et droits', 'Suivi en temps réel des redevances et droits')}</p>
                     </div>
                     <div className="flex gap-6 md:gap-8">
                       <div className="text-right">
-                        <p className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] text-accent-gold opacity-50 mb-1">{t('Monthly Yield', 'Rendement Mensuel')}</p>
+                        <p className="text-xs md:text-[10px] font-black uppercase tracking-[0.2em] text-accent-gold opacity-50 mb-1">{t('Monthly Yield', 'Rendement Mensuel')}</p>
                         <p className="text-xl md:text-3xl font-black tracking-tight text-emerald-400">+12.4%</p>
                       </div>
                     </div>
@@ -1835,16 +1835,16 @@ const renderMentorshipContent = () => (
                   </h3>
                   <div className="space-y-6 md:space-y-8 relative z-10">
                     <div className="p-6 md:p-8 bg-white/5 border border-white/10 group hover:border-primary-cyan/30 transition-all duration-500 rounded-sm">
-                      <p className="text-[9px] md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] text-on-surface-variant mb-3 md:mb-4 opacity-70">{t('Primary Discipline', 'Discipline Principale')}</p>
+                      <p className="text-xs md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] text-on-surface-variant mb-3 md:mb-4 opacity-70">{t('Primary Discipline', 'Discipline Principale')}</p>
                       <p className="text-sm md:text-base font-black tracking-tighter text-primary-cyan uppercase">Digital Cinematography</p>
                     </div>
                     <div className="p-6 md:p-8 bg-white/5 border border-white/10 group hover:border-emerald-400/30 transition-all duration-500 rounded-sm">
-                      <p className="text-[9px] md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] text-on-surface-variant mb-3 md:mb-4 opacity-70">{t('Verification Status', 'Statut de Vérification')}</p>
+                      <p className="text-xs md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] text-on-surface-variant mb-3 md:mb-4 opacity-70">{t('Verification Status', 'Statut de Vérification')}</p>
                       <div className="flex items-center gap-4 md:gap-6">
                         <ShieldCheck className="text-emerald-400" size={32} />
                         <div>
                           <p className="text-sm md:text-base font-black tracking-tighter text-emerald-400 uppercase">KYC_LEVEL_3</p>
-                          <p className="text-[8px] md:text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mt-2">{t('Expert-Grade Verified', 'Vérifié de Qualité Experte')}</p>
+                          <p className="text-[10px] md:text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mt-2">{t('Expert-Grade Verified', 'Vérifié de Qualité Experte')}</p>
                         </div>
                       </div>
                     </div>
@@ -1859,7 +1859,7 @@ const renderMentorshipContent = () => (
                   <div className="h-64 md:h-72 mb-6 md:mb-10 relative">
                     <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                       <div className="text-center">
-                        <p className="text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant opacity-40">{t('Total', 'Total')}</p>
+                        <p className="text-[10px] md:text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant opacity-40">{t('Total', 'Total')}</p>
                         <p className="text-xl md:text-2xl font-black text-white">100%</p>
                       </div>
                     </div>
@@ -1895,12 +1895,12 @@ const renderMentorshipContent = () => (
                       { label: 'Music Rights', value: '25%', color: 'bg-accent-gold', desc: 'Audio Licensing' },
                       { label: 'Digital Art', value: '20%', color: 'bg-accent-magenta', desc: 'Visual Assets' },
                     ].map((item, i) => (
-                      <div key={i} className="flex items-center justify-between p-3 md:p-4 bg-white/5 border border-white/5 hover:border-white/10 transition-all">
+                      <div key={i} className="flex flex-wrap items-center justify-between gap-3 p-3 md:p-4 bg-white/5 border border-white/5 hover:border-white/10 transition-all">
                         <div className="flex items-center gap-3 md:gap-4">
                           <div className={`w-2.5 h-2.5 rounded-full ${item.color} shadow-[0_0_10px_rgba(255,255,255,0.1)]`} />
                           <div>
-                            <span className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-white block">{item.label}</span>
-                            <span className="text-[7px] md:text-[8px] text-on-surface-variant uppercase tracking-widest font-bold opacity-40">{item.desc}</span>
+                            <span className="text-xs md:text-[10px] font-black uppercase tracking-widest text-white block">{item.label}</span>
+                            <span className="text-[7px] md:text-[10px] text-on-surface-variant uppercase tracking-widest font-bold opacity-40">{item.desc}</span>
                           </div>
                         </div>
                         <span className="text-xs md:text-sm font-black italic text-white">{item.value}</span>
@@ -1935,9 +1935,9 @@ const renderMentorshipContent = () => (
                           <div>
                             <p className="text-[11px] font-black uppercase tracking-widest text-white truncate max-w-[150px]">{doc.name}</p>
                             <div className="flex items-center gap-3 mt-1">
-                              <p className="text-[8px] text-on-surface-variant font-bold uppercase tracking-widest">{doc.size}</p>
+                              <p className="text-[10px] text-on-surface-variant font-bold uppercase tracking-widest">{doc.size}</p>
                               <div className="w-1 h-1 rounded-full bg-white/10" />
-                              <p className="text-[8px] text-on-surface-variant font-bold uppercase tracking-widest">{doc.date}</p>
+                              <p className="text-[10px] text-on-surface-variant font-bold uppercase tracking-widest">{doc.date}</p>
                             </div>
                           </div>
                         </div>
@@ -1976,7 +1976,7 @@ const renderMentorshipContent = () => (
                   {tab.icon}
                   {tab.label}
                   {tab.badge && tab.badge > 0 && (
-                    <span className="bg-accent-magenta text-[8px] text-white px-1.5 py-0.5 rounded-full font-black animate-pulse">
+                    <span className="bg-accent-magenta text-[10px] text-white px-1.5 py-0.5 rounded-full font-black animate-pulse">
                       {tab.badge}
                     </span>
                   )}
@@ -2000,7 +2000,7 @@ const renderMentorshipContent = () => (
               <div className="relative bg-surface-low/40 backdrop-blur-3xl border border-white/10 p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8">
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="px-2 py-1 bg-accent-magenta/20 border border-accent-magenta/30 rounded text-[8px] font-black text-accent-magenta uppercase tracking-widest">Intelligence</div>
+                    <div className="px-3 py-1 bg-accent-magenta/20 border border-accent-magenta/30 rounded text-[10px] font-black text-accent-magenta uppercase tracking-widest">Intelligence</div>
                     <h2 className="text-2xl md:text-4xl font-black font-headline tracking-tighter text-white uppercase">
                       {t('Scan Opportunity', 'Scanner Opportunité')}
                     </h2>
@@ -2085,11 +2085,11 @@ const renderMentorshipContent = () => (
                       <h3 className="text-xl md:text-2xl lg:text-3xl font-black uppercase italic tracking-tight flex items-center gap-3 md:gap-4 mb-2">
                         <TrendingUp className="text-primary-cyan" size={28} /> {t('Portfolio Growth', 'Croissance du Portefeuille')}
                       </h3>
-                      <p className="text-[9px] md:text-xs text-on-surface-variant uppercase tracking-widest font-bold opacity-40">{t('Expert-grade performance tracking', 'Suivi de performance de qualité experte')}</p>
+                      <p className="text-xs md:text-xs text-on-surface-variant uppercase tracking-widest font-bold opacity-40">{t('Expert-grade performance tracking', 'Suivi de performance de qualité experte')}</p>
                     </div>
                     <div className="flex gap-6 md:gap-12">
                       <div className="text-right">
-                        <p className="text-[8px] md:text-[10px] font-black uppercase tracking-[0.15em] md:tracking-[0.2em] text-on-surface-variant opacity-50 mb-1">{t('24h Change', 'Changement 24h')}</p>
+                        <p className="text-[10px] md:text-[10px] font-black uppercase tracking-[0.15em] md:tracking-[0.2em] text-on-surface-variant opacity-50 mb-1">{t('24h Change', 'Changement 24h')}</p>
                         <p className="text-xl md:text-2xl lg:text-3xl font-black tracking-tight text-emerald-400">+$1,240.00</p>
                       </div>
                     </div>
@@ -2154,7 +2154,7 @@ const renderMentorshipContent = () => (
                     <div className="h-60 md:h-72 mb-8 md:mb-10 relative">
                       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                         <div className="text-center">
-                          <p className="text-[8px] md:text-[10px] font-black uppercase tracking-[0.15em] md:tracking-[0.2em] text-on-surface-variant opacity-40">{t('Diversity', 'Diversité')}</p>
+                          <p className="text-[10px] md:text-[10px] font-black uppercase tracking-[0.15em] md:tracking-[0.2em] text-on-surface-variant opacity-40">{t('Diversity', 'Diversité')}</p>
                           <p className="text-lg md:text-2xl font-black text-white">High</p>
                         </div>
                       </div>
@@ -2191,10 +2191,10 @@ const renderMentorshipContent = () => (
                         { label: 'Film Equity', value: '25%', color: 'bg-accent-magenta' },
                         { label: 'Fashion', value: '15%', color: 'bg-emerald-400' },
                       ].map((item, i) => (
-                        <div key={i} className="flex items-center justify-between p-3 md:p-4 bg-white/5 border border-white/5 hover:border-white/10 transition-all">
+                        <div key={i} className="flex flex-wrap items-center justify-between gap-3 p-3 md:p-4 bg-white/5 border border-white/5 hover:border-white/10 transition-all">
                           <div className="flex items-center gap-3 md:gap-4">
                             <div className={`w-2.5 h-2.5 rounded-full ${item.color} shadow-[0_0_10px_rgba(255,255,255,0.1)]`} />
-                            <span className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-white">{item.label}</span>
+                            <span className="text-xs md:text-[10px] font-black uppercase tracking-widest text-white">{item.label}</span>
                           </div>
                           <span className="text-xs md:text-sm font-black italic text-white">{item.value}</span>
                         </div>
@@ -2214,24 +2214,24 @@ const renderMentorshipContent = () => (
                         { id: 'ORD-9915', project: 'VIRTUAL_VOGUE', type: 'BUY', amount: '2,800 LYA', status: 'PENDING', date: '2026-04-02' },
                         { id: 'ORD-9912', project: 'DIGITAL_HORIZON', type: 'BUY', amount: '5,000 LYA', status: 'COMPLETED', date: '2026-04-01' },
                       ].map((order, i) => (
-                        <div key={i} className="flex items-center justify-between p-4 md:p-5 bg-surface-low/30 backdrop-blur-2xl border border-white/10 hover:border-primary-cyan/40 transition-all group relative overflow-hidden rounded-2xl shadow-xl">
+                        <div key={i} className="flex flex-wrap items-center justify-between gap-3 p-4 md:p-5 bg-surface-low/30 backdrop-blur-2xl border border-white/10 hover:border-primary-cyan/40 transition-all group relative overflow-hidden rounded-2xl shadow-xl">
                           <div className="absolute top-0 left-0 w-[2px] h-full bg-primary-cyan opacity-0 group-hover:opacity-100 transition-opacity" />
                           <div className="flex items-center gap-3 md:gap-5">
-                            <div className={`w-10 h-10 md:w-12 md:h-12 flex items-center justify-center font-black text-[8px] md:text-[10px] rounded-lg ${order.type === 'BUY' ? 'bg-emerald-400/10 text-emerald-400 border border-emerald-400/20' : 'bg-rose-400/10 text-rose-400 border border-rose-400/20'}`}>
+                            <div className={`w-10 h-10 md:w-12 md:h-12 flex items-center justify-center font-black text-[10px] md:text-[10px] rounded-lg ${order.type === 'BUY' ? 'bg-emerald-400/10 text-emerald-400 border border-emerald-400/20' : 'bg-rose-400/10 text-rose-400 border border-rose-400/20'}`}>
                               {order.type}
                             </div>
                             <div className="min-w-0">
-                              <p className="text-[9px] md:text-[11px] font-black uppercase tracking-widest group-hover:text-primary-cyan transition-colors truncate max-w-[100px] md:max-w-[140px]">{order.project}</p>
+                              <p className="text-xs md:text-[11px] font-black uppercase tracking-widest group-hover:text-primary-cyan transition-colors truncate max-w-[100px] md:max-w-[140px]">{order.project}</p>
                               <div className="flex items-center gap-2 md:gap-3 mt-1">
-                                <p className="text-[7px] md:text-[8px] text-on-surface-variant font-bold uppercase tracking-widest">{order.id}</p>
+                                <p className="text-[7px] md:text-[10px] text-on-surface-variant font-bold uppercase tracking-widest">{order.id}</p>
                                 <div className="w-1 h-1 rounded-full bg-white/10" />
-                                <p className="text-[7px] md:text-[8px] text-on-surface-variant font-bold uppercase tracking-widest">{order.date}</p>
+                                <p className="text-[7px] md:text-[10px] text-on-surface-variant font-bold uppercase tracking-widest">{order.date}</p>
                               </div>
                             </div>
                           </div>
                           <div className="text-right shrink-0">
                             <p className="text-xs md:text-sm font-black tracking-tighter text-white">{order.amount}</p>
-                            <span className={`text-[7px] md:text-[8px] font-black uppercase tracking-widest ${order.status === 'COMPLETED' ? 'text-emerald-400' : 'text-accent-gold animate-pulse'}`}>
+                            <span className={`text-[7px] md:text-[10px] font-black uppercase tracking-widest ${order.status === 'COMPLETED' ? 'text-emerald-400' : 'text-accent-gold animate-pulse'}`}>
                               {order.status}
                             </span>
                           </div>
@@ -2249,8 +2249,8 @@ const renderMentorshipContent = () => (
                     <Zap size={200} className="text-primary-cyan" />
                   </div>
                   <div className="relative z-10">
-                    <div className="flex items-center justify-between mb-4">
-                      <span className="px-2 py-1 bg-primary-cyan/20 border border-primary-cyan/30 text-primary-cyan text-[8px] font-black uppercase tracking-widest">
+                    <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+                      <span className="px-3 py-1 bg-primary-cyan/20 border border-primary-cyan/30 text-primary-cyan text-[10px] font-black uppercase tracking-widest">
                         {t('PREMIUM SERVICE', 'SERVICE PREMIUM')}
                       </span>
                     </div>
@@ -2280,11 +2280,11 @@ const renderMentorshipContent = () => (
                           <div key={i} className="p-4 bg-white/5 border border-white/10 flex justify-between items-center group hover:border-primary-cyan/30 transition-all">
                             <div>
                               <p className="text-xs font-black text-white uppercase italic">{res.name}</p>
-                              <p className="text-[8px] text-on-surface-variant uppercase font-bold opacity-60">{res.category}</p>
+                              <p className="text-[10px] text-on-surface-variant uppercase font-bold opacity-60">{res.category}</p>
                             </div>
                             <div className="text-right">
                               <p className="text-sm font-black text-emerald-400 italic">{res.potential}</p>
-                              <p className="text-[8px] text-emerald-400/60 uppercase font-bold">{res.growth}</p>
+                              <p className="text-[10px] text-emerald-400/60 uppercase font-bold">{res.growth}</p>
                             </div>
                           </div>
                         ))}
@@ -2303,20 +2303,20 @@ const renderMentorshipContent = () => (
                   </h3>
                   <div className="space-y-6 md:space-y-8 relative z-10">
                     <div className="p-6 md:p-8 bg-white/5 border border-white/10 group hover:border-accent-magenta/30 transition-all duration-500 rounded-sm">
-                      <p className="text-[9px] md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] text-on-surface-variant mb-3 md:mb-4 opacity-70">{t('Risk Tolerance', 'Tolérance au Risque')}</p>
+                      <p className="text-xs md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] text-on-surface-variant mb-3 md:mb-4 opacity-70">{t('Risk Tolerance', 'Tolérance au Risque')}</p>
                       <p className="text-xl md:text-3xl font-black tracking-tighter text-accent-magenta uppercase">Aggressive_Growth</p>
                     </div>
                     <div className="p-6 md:p-8 bg-white/5 border border-white/10 group hover:border-primary-cyan/30 transition-all duration-500 rounded-sm">
-                      <p className="text-[9px] md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] text-on-surface-variant mb-3 md:mb-4 opacity-70">{t('Preferred Sectors', 'Secteurs Préférés')}</p>
+                      <p className="text-xs md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] text-on-surface-variant mb-3 md:mb-4 opacity-70">{t('Preferred Sectors', 'Secteurs Préférés')}</p>
                       <p className="text-lg md:text-xl font-black italic tracking-tighter text-primary-cyan uppercase">Digital Art, Film IP, Fashion</p>
                     </div>
                     <div className="p-6 md:p-8 bg-white/5 border border-white/10 group hover:border-accent-gold/30 transition-all duration-500 rounded-sm">
-                      <p className="text-[9px] md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] text-on-surface-variant mb-3 md:mb-4 opacity-70">{t('Investor Tier', 'Niveau Investisseur')}</p>
+                      <p className="text-xs md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] text-on-surface-variant mb-3 md:mb-4 opacity-70">{t('Investor Tier', 'Niveau Investisseur')}</p>
                       <div className="flex items-center gap-4 md:gap-6">
                         <Award className="text-accent-gold" size={32} />
                         <div>
                           <p className="text-xl md:text-3xl font-black italic tracking-tighter text-accent-gold uppercase">Gold_Member</p>
-                          <p className="text-[8px] md:text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mt-2">{t('Priority Access Enabled', 'Accès Prioritaire Activé')}</p>
+                          <p className="text-[10px] md:text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mt-2">{t('Priority Access Enabled', 'Accès Prioritaire Activé')}</p>
                         </div>
                       </div>
                     </div>
@@ -2359,8 +2359,8 @@ const renderMentorshipContent = () => (
                     <div>
                       <div className="flex justify-between items-end mb-3 md:mb-4">
                         <div>
-                          <span className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.15em] md:tracking-[0.2em] text-white block">{t('Creative Support', 'Support Créatif')}</span>
-                          <span className="text-[7px] md:text-[8px] text-on-surface-variant uppercase tracking-widest font-bold opacity-40">{t('Direct funding to creators', 'Financement direct aux créateurs')}</span>
+                          <span className="text-xs md:text-[10px] font-black uppercase tracking-[0.15em] md:tracking-[0.2em] text-white block">{t('Creative Support', 'Support Créatif')}</span>
+                          <span className="text-[7px] md:text-[10px] text-on-surface-variant uppercase tracking-widest font-bold opacity-40">{t('Direct funding to creators', 'Financement direct aux créateurs')}</span>
                         </div>
                         <span className="text-base md:text-lg font-black italic text-primary-cyan">84%</span>
                       </div>
@@ -2376,8 +2376,8 @@ const renderMentorshipContent = () => (
                     <div>
                       <div className="flex justify-between items-end mb-3 md:mb-4">
                         <div>
-                          <span className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.15em] md:tracking-[0.2em] text-white block">{t('Innovation Index', 'Indice d\'Innovation')}</span>
-                          <span className="text-[7px] md:text-[8px] text-on-surface-variant uppercase tracking-widest font-bold opacity-40">{t('Early-stage project backing', 'Soutien aux projets en phase initiale')}</span>
+                          <span className="text-xs md:text-[10px] font-black uppercase tracking-[0.15em] md:tracking-[0.2em] text-white block">{t('Innovation Index', 'Indice d\'Innovation')}</span>
+                          <span className="text-[7px] md:text-[10px] text-on-surface-variant uppercase tracking-widest font-bold opacity-40">{t('Early-stage project backing', 'Soutien aux projets en phase initiale')}</span>
                         </div>
                         <span className="text-base md:text-lg font-black italic text-accent-gold">92%</span>
                       </div>
@@ -2493,12 +2493,12 @@ const renderMentorshipContent = () => (
                     <stat.icon size={60} />
                   </div>
                   <div className="relative z-10">
-                    <p className="text-[8px] md:text-[9px] font-black uppercase tracking-[0.2em] text-on-surface-variant mb-2 opacity-60">{stat.label}</p>
+                    <p className="text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-on-surface-variant mb-2 opacity-60">{stat.label}</p>
                     <div className="flex items-baseline gap-2 mb-1">
                       <p className="text-xl md:text-2xl font-black italic tracking-tight text-white">{stat.value}</p>
                       <stat.icon size={14} className={`${stat.color} opacity-80`} />
                     </div>
-                    <p className="text-[7px] md:text-[8px] font-bold uppercase tracking-widest text-on-surface-variant/40">{stat.trend}</p>
+                    <p className="text-[7px] md:text-[10px] font-bold uppercase tracking-widest text-on-surface-variant/40">{stat.trend}</p>
                   </div>
                 </div>
               ))}
@@ -2513,7 +2513,7 @@ const renderMentorshipContent = () => (
                       <h3 className="text-lg md:text-xl font-black uppercase italic tracking-tight flex items-center gap-3 mb-1">
                         <Activity className="text-primary-cyan" size={24} /> {t('NETWORK INTEGRITY', 'INTÉGRITÉ DU RÉSEAU')}
                       </h3>
-                      <p className="text-[8px] md:text-[10px] text-on-surface-variant uppercase tracking-widest font-bold opacity-40">{t('Real-time validation and registry performance', 'Validation en temps réel et performance des registres')}</p>
+                      <p className="text-[10px] md:text-[10px] text-on-surface-variant uppercase tracking-widest font-bold opacity-40">{t('Real-time validation and registry performance', 'Validation en temps réel et performance des registres')}</p>
                     </div>
                   </div>
                   <div className="h-[250px] md:h-[350px] w-full">
@@ -2550,9 +2550,9 @@ const renderMentorshipContent = () => (
                       <h3 className="text-xl md:text-2xl lg:text-3xl font-black uppercase italic tracking-tight flex items-center gap-3 md:gap-4 mb-2">
                         <TrendingUp className="text-primary-cyan" size={28} /> {t('Market Intelligence', 'Intelligence Marché')}
                       </h3>
-                      <p className="text-[9px] md:text-xs text-on-surface-variant uppercase tracking-widest font-bold opacity-40">{t('Real-time institutional asset tracking', 'Suivi institutionnel des actifs en temps réel')}</p>
+                      <p className="text-xs md:text-xs text-on-surface-variant uppercase tracking-widest font-bold opacity-40">{t('Real-time institutional asset tracking', 'Suivi institutionnel des actifs en temps réel')}</p>
                     </div>
-                    <div className="px-3 md:px-6 py-1.5 md:py-3 bg-primary-cyan/10 border border-primary-cyan/30 text-primary-cyan text-[8px] md:text-[10px] font-black uppercase tracking-[0.15em] md:tracking-[0.3em] animate-pulse shadow-[0_0_20px_rgba(0,224,255,0.1)]">
+                    <div className="px-3 md:px-6 py-1.5 md:py-3 bg-primary-cyan/10 border border-primary-cyan/30 text-primary-cyan text-[10px] md:text-[10px] font-black uppercase tracking-[0.15em] md:tracking-[0.3em] animate-pulse shadow-[0_0_20px_rgba(0,224,255,0.1)]">
                       {t('LIVE TERMINAL DATA', 'DONNÉES TERMINAL EN DIRECT')}
                     </div>
                   </div>
@@ -2570,19 +2570,19 @@ const renderMentorshipContent = () => (
                           <div className="text-center sm:text-left">
                             <p className="text-lg md:text-2xl font-black uppercase italic tracking-tight group-hover/item:text-primary-cyan transition-colors mb-1 md:mb-2">{project.name}</p>
                     <div className="flex items-center justify-center sm:justify-start gap-2 md:gap-4">
-                      <span className="px-2 md:px-3 py-0.5 md:py-1 bg-white/5 text-[7px] md:text-[9px] font-black uppercase tracking-widest text-on-surface-variant border border-white/5 rounded-md">{project.category}</span>
-                      <span className="text-[7px] md:text-[9px] text-on-surface-variant/40 uppercase tracking-widest font-bold">{project.assetStatus}</span>
+                      <span className="px-2 md:px-3 py-0.5 md:py-1 bg-white/5 text-[7px] md:text-xs font-black uppercase tracking-widest text-on-surface-variant border border-white/5 rounded-md">{project.category}</span>
+                      <span className="text-[7px] md:text-xs text-on-surface-variant/40 uppercase tracking-widest font-bold">{project.assetStatus}</span>
                     </div>
                   </div>
                 </div>
                 <div className="text-center sm:text-right w-full sm:w-auto">
                   <div className="mb-3 md:mb-4">
-                    <p className="text-[8px] md:text-[10px] font-black uppercase tracking-widest text-on-surface-variant opacity-40 mb-1">{t('Growth', 'Croissance')}</p>
+                    <p className="text-[10px] md:text-[10px] font-black uppercase tracking-widest text-on-surface-variant opacity-40 mb-1">{t('Growth', 'Croissance')}</p>
                     <p className="text-xl md:text-2xl font-black text-primary-cyan italic tracking-tight">{(project.growth > 0 ? '+' : '') + project.growth}%</p>
                   </div>
                           <button 
                             onClick={() => handlePremiumFeature('Contact Creator')}
-                            className="w-full sm:w-auto px-5 md:px-8 py-2 md:py-3 bg-white/5 border border-white/10 text-[8px] md:text-[10px] font-black uppercase tracking-[0.15em] md:tracking-[0.2em] text-on-surface-variant hover:text-white hover:border-white/30 flex items-center justify-center gap-2 md:gap-4 transition-all active:scale-95 rounded-xl"
+                            className="w-full sm:w-auto px-5 md:px-8 py-2 md:py-3 bg-white/5 border border-white/10 text-[10px] md:text-[10px] font-black uppercase tracking-[0.15em] md:tracking-[0.2em] text-on-surface-variant hover:text-white hover:border-white/30 flex items-center justify-center gap-2 md:gap-4 transition-all active:scale-95 rounded-xl"
                           >
                             {t('Contact Creator', 'Contacter le Créateur')} <ExternalLink size={14} />
                           </button>
@@ -2603,7 +2603,7 @@ const renderMentorshipContent = () => (
                       <h3 className="text-xl md:text-2xl lg:text-3xl font-black uppercase italic tracking-tight flex items-center gap-3 md:gap-4 mb-2">
                         <Zap className="text-emerald-400" size={28} /> {t('Yield Optimization', 'Optimisation du Rendement')}
                       </h3>
-                      <p className="text-[9px] md:text-xs text-on-surface-variant uppercase tracking-widest font-bold opacity-40">{t('Protocoles avancés de valorisation et de droits', 'Protocoles avancés de valorisation et de droits')}</p>
+                      <p className="text-xs md:text-xs text-on-surface-variant uppercase tracking-widest font-bold opacity-40">{t('Protocoles avancés de valorisation et de droits', 'Protocoles avancés de valorisation et de droits')}</p>
                     </div>
                   </div>
                   
@@ -2613,7 +2613,7 @@ const renderMentorshipContent = () => (
                         <div className="w-8 h-8 md:w-12 md:h-12 bg-emerald-400/10 flex items-center justify-center border border-emerald-400/20">
                           <Activity size={20} className="text-emerald-400" />
                         </div>
-                        <span className="text-[9px] md:text-[11px] font-black uppercase tracking-[0.15em] md:tracking-[0.2em] text-emerald-400">{t('Dynamic LYA Score', 'Score LYA Dynamique')}</span>
+                        <span className="text-xs md:text-[11px] font-black uppercase tracking-[0.15em] md:tracking-[0.2em] text-emerald-400">{t('Dynamic LYA Score', 'Score LYA Dynamique')}</span>
                       </div>
                       <p className="text-[10px] md:text-sm text-on-surface-variant italic mb-6 md:mb-10 leading-relaxed opacity-70">
                         {t('Real-time data indexing for predictive equity valuation based on market velocity and institutional demand.', 'Indexation des données en temps réel pour une valorisation prédictive de l\'equity basée sur la vélocité du marché et la demande institutionnelle.')}
@@ -2622,7 +2622,7 @@ const renderMentorshipContent = () => (
                         <span className="text-2xl md:text-4xl font-black italic tracking-tight text-white">842.5</span>
                         <div className="flex items-center gap-1.5 px-2 md:px-3 py-0.5 md:py-1 bg-emerald-400/10 border border-emerald-400/20">
                           <TrendingUp size={10} className="text-emerald-400" />
-                          <span className="text-[8px] md:text-[10px] text-emerald-400 font-black uppercase tracking-widest">+2.4% LIVE</span>
+                          <span className="text-[10px] md:text-[10px] text-emerald-400 font-black uppercase tracking-widest">+2.4% LIVE</span>
                         </div>
                       </div>
                     </div>
@@ -2632,14 +2632,14 @@ const renderMentorshipContent = () => (
                         <div className="w-8 h-8 md:w-12 md:h-12 bg-primary-cyan/10 flex items-center justify-center border border-primary-cyan/20">
                           <Layers size={20} className="text-primary-cyan" />
                         </div>
-                        <span className="text-[9px] md:text-[11px] font-black uppercase tracking-[0.15em] md:tracking-[0.2em] text-primary-cyan">{t('Staking Protocol', 'Protocole de Staking')}</span>
+                        <span className="text-xs md:text-[11px] font-black uppercase tracking-[0.15em] md:tracking-[0.2em] text-primary-cyan">{t('Staking Protocol', 'Protocole de Staking')}</span>
                       </div>
                       <p className="text-[10px] md:text-sm text-on-surface-variant italic mb-6 md:mb-10 leading-relaxed opacity-70">
                         {t('Stake LYA Units to stabilize creative volatility, secure registry verification, and earn institutional-grade rewards.', 'Staker des Unités LYA pour stabiliser la volatilité créative, sécuriser la vérification du registre et gagner des récompenses de qualité institutionnelle.')}
                       </p>
                       <button 
                         onClick={() => handlePremiumFeature('Staking Management')}
-                        className="w-full py-3.5 md:py-5 bg-primary-cyan/10 border border-primary-cyan/30 text-primary-cyan text-[9px] md:text-[11px] font-black uppercase tracking-[0.15em] md:tracking-[0.3em] hover:bg-primary-cyan hover:text-surface-dim transition-all active:scale-95 shadow-[0_10px_30px_rgba(0,224,255,0.1)]"
+                        className="w-full py-3.5 md:py-5 bg-primary-cyan/10 border border-primary-cyan/30 text-primary-cyan text-xs md:text-[11px] font-black uppercase tracking-[0.15em] md:tracking-[0.3em] hover:bg-primary-cyan hover:text-surface-dim transition-all active:scale-95 shadow-[0_10px_30px_rgba(0,224,255,0.1)]"
                       >
                         {t('Manage Staking', 'Gérer le Staking')}
                       </button>
@@ -2652,14 +2652,14 @@ const renderMentorshipContent = () => (
                   <div className="flex justify-between items-center mb-6 md:mb-10 lg:mb-12">
                     <div>
                       <div className="flex items-center gap-2 mb-4">
-                        <span className="px-2 py-1 bg-primary-cyan/20 border border-primary-cyan/30 text-primary-cyan text-[8px] font-black uppercase tracking-widest">
+                        <span className="px-3 py-1 bg-primary-cyan/20 border border-primary-cyan/30 text-primary-cyan text-[10px] font-black uppercase tracking-widest">
                           {t('PREMIUM SERVICE', 'SERVICE PREMIUM')}
                         </span>
                       </div>
                       <h3 className="text-xl md:text-2xl lg:text-3xl font-black uppercase italic tracking-tight flex items-center gap-3 md:gap-4 mb-2">
                         <Shield className="text-primary-cyan" size={28} /> {t('Validation Queue', 'File de Validation')}
                       </h3>
-                      <p className="text-[9px] md:text-xs text-on-surface-variant uppercase tracking-widest font-bold opacity-40">{t('Institutional asset verification pipeline', 'Pipeline de vérification institutionnelle des actifs')}</p>
+                      <p className="text-xs md:text-xs text-on-surface-variant uppercase tracking-widest font-bold opacity-40">{t('Institutional asset verification pipeline', 'Pipeline de vérification institutionnelle des actifs')}</p>
                     </div>
                   </div>
                   
@@ -2672,7 +2672,7 @@ const renderMentorshipContent = () => (
                       <div key={i} className="p-6 md:p-8 lg:p-10 bg-surface-low/30 backdrop-blur-2xl border border-white/10 flex flex-col sm:flex-row justify-between items-center group/audit hover:bg-white/10 transition-all gap-6 rounded-2xl shadow-2xl">
                         <div className="text-center sm:text-left">
                           <div className="text-xl md:text-2xl lg:text-3xl font-black uppercase italic tracking-tight mb-2 md:mb-3">{audit.name}</div>
-                          <div className="flex justify-center sm:justify-start gap-3 md:gap-5 text-[9px] md:text-[11px] font-bold text-on-surface-variant uppercase tracking-widest opacity-70">
+                          <div className="flex justify-center sm:justify-start gap-3 md:gap-5 text-xs md:text-[11px] font-bold text-on-surface-variant uppercase tracking-widest opacity-70">
                             <span className="text-primary-cyan">{audit.type}</span>
                             <span className="opacity-30">•</span>
                             <span>{audit.date}</span>
@@ -2706,8 +2706,8 @@ const renderMentorshipContent = () => (
                     <Search size={200} className="text-accent-magenta" />
                   </div>
                   <div className="relative z-10">
-                    <div className="flex items-center justify-between mb-4">
-                      <span className="px-2 py-1 bg-accent-magenta/20 border border-accent-magenta/30 text-accent-magenta text-[8px] font-black uppercase tracking-widest">
+                    <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+                      <span className="px-3 py-1 bg-accent-magenta/20 border border-accent-magenta/30 text-accent-magenta text-[10px] font-black uppercase tracking-widest">
                         {t('PREMIUM SERVICE', 'SERVICE PREMIUM')}
                       </span>
                     </div>
@@ -2737,11 +2737,11 @@ const renderMentorshipContent = () => (
                           <div key={i} className="p-4 bg-white/5 border border-white/10 flex justify-between items-center group hover:border-accent-magenta/30 transition-all">
                             <div>
                               <p className="text-xs font-black text-white uppercase italic">{res.id}</p>
-                              <p className="text-[8px] text-on-surface-variant uppercase font-bold opacity-60">{res.specialty}</p>
+                              <p className="text-[10px] text-on-surface-variant uppercase font-bold opacity-60">{res.specialty}</p>
                             </div>
                             <div className="text-right">
                               <p className="text-sm font-black text-primary-cyan italic">LYA {res.score}</p>
-                              <p className="text-[8px] text-on-surface-variant uppercase font-bold opacity-40">{res.availability}</p>
+                              <p className="text-[10px] text-on-surface-variant uppercase font-bold opacity-40">{res.availability}</p>
                             </div>
                           </div>
                         ))}
@@ -2767,7 +2767,7 @@ const renderMentorshipContent = () => (
                     </p>
                     <div className="p-5 md:p-8 bg-accent-gold/5 border border-accent-gold/20 relative overflow-hidden group/invite">
                       <div className="flex justify-between items-center mb-4 md:mb-6">
-                        <span className="text-[8px] md:text-[10px] font-black uppercase tracking-[0.15em] md:tracking-[0.2em] text-accent-gold">{t('Available Invitations', 'Invitations Disponibles')}</span>
+                        <span className="text-[10px] md:text-[10px] font-black uppercase tracking-[0.15em] md:tracking-[0.2em] text-accent-gold">{t('Available Invitations', 'Invitations Disponibles')}</span>
                         <span className="text-lg md:text-2xl font-black italic text-white">1 / 1</span>
                       </div>
                       <div className="space-y-4">
@@ -2775,10 +2775,10 @@ const renderMentorshipContent = () => (
                           <input 
                             type="email" 
                             placeholder={t('Enter professional email...', 'Entrer l\'email professionnel...')}
-                            className="w-full bg-surface-dim border border-white/10 px-4 md:px-6 py-3 md:py-4 text-[9px] md:text-xs font-bold uppercase tracking-widest focus:border-accent-gold/50 transition-all outline-none text-white placeholder:text-white/20"
+                            className="w-full bg-surface-dim border border-white/10 px-4 md:px-6 py-3 md:py-4 text-xs md:text-xs font-bold uppercase tracking-widest focus:border-accent-gold/50 transition-all outline-none text-white placeholder:text-white/20"
                           />
                         </div>
-                        <button className="w-full py-3.5 md:py-5 bg-accent-gold text-surface-dim font-black uppercase tracking-[0.15em] md:tracking-[0.3em] text-[9px] md:text-[11px] hover:bg-white transition-all active:scale-95 shadow-[0_15px_30px_rgba(245,158,11,0.2)]">
+                        <button className="w-full py-3.5 md:py-5 bg-accent-gold text-surface-dim font-black uppercase tracking-[0.15em] md:tracking-[0.3em] text-xs md:text-[11px] hover:bg-white transition-all active:scale-95 shadow-[0_15px_30px_rgba(245,158,11,0.2)]">
                           {t('Send Invitation', 'Envoyer l\'Invitation')}
                         </button>
                       </div>
@@ -2807,7 +2807,7 @@ const renderMentorshipContent = () => (
                         </div>
                         <div>
                           <p className="text-xs md:text-base font-black uppercase tracking-widest text-white">{tool.title}</p>
-                          <p className="text-[8px] md:text-[10px] text-on-surface-variant italic mt-1 font-bold opacity-60">{tool.desc}</p>
+                          <p className="text-[10px] md:text-[10px] text-on-surface-variant italic mt-1 font-bold opacity-60">{tool.desc}</p>
                         </div>
                       </button>
                     ))}
@@ -2833,13 +2833,13 @@ const renderMentorshipContent = () => (
                     </div>
                     <div>
                       <p className="text-xs md:text-base font-black uppercase italic tracking-tight text-white">{t('Exclusive Network', 'Réseau Exclusif')}</p>
-                      <p className="text-[8px] md:text-[11px] text-primary-cyan uppercase tracking-widest font-black">142 {t('Online', 'En Ligne')}</p>
+                      <p className="text-[10px] md:text-[11px] text-primary-cyan uppercase tracking-widest font-black">142 {t('Online', 'En Ligne')}</p>
                     </div>
                   </div>
                   <div className="p-4 md:p-8 bg-black/40 border border-white/5 relative z-10 mb-6 md:mb-10 group/chat">
                     <div className="flex items-center gap-2 md:gap-3 mb-2 md:mb-4">
                       <div className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_10px_rgba(52,211,153,0.5)]" />
-                      <span className="text-[8px] md:text-[11px] font-black uppercase tracking-widest text-emerald-400">{t('Live Global Discussion', 'Discussion Globale en Direct')}</span>
+                      <span className="text-[10px] md:text-[11px] font-black uppercase tracking-widest text-emerald-400">{t('Live Global Discussion', 'Discussion Globale en Direct')}</span>
                     </div>
                     <p className="text-[10px] md:text-sm italic text-on-surface-variant leading-relaxed opacity-80 mb-4">
                       {t('The Pro Lounge is your gateway to institutional deal flow and regulatory intelligence. Discuss professional frameworks, creative equity, and strategic partnerships with verified peers.', 'Le Salon Pro est votre porte d\'entrée vers le deal flow institutionnel et l\'intelligence réglementaire. Discutez des cadres professionnels, de l\'equity créative et des partenaires stratégiques avec des pairs vérifiés.')}
@@ -2850,7 +2850,7 @@ const renderMentorshipContent = () => (
                   </div>
                   <button 
                     onClick={() => handlePremiumFeature('Lounge Access')}
-                    className="w-full py-3.5 md:py-6 bg-white/5 border border-white/10 text-[9px] md:text-[12px] font-black uppercase tracking-[0.15em] md:tracking-[0.4em] hover:bg-primary-cyan hover:text-surface-dim hover:border-primary-cyan transition-all relative z-10 active:scale-95 shadow-[0_10px_30px_rgba(0,0,0,0.3)]"
+                    className="w-full py-3.5 md:py-6 bg-white/5 border border-white/10 text-xs md:text-[12px] font-black uppercase tracking-[0.15em] md:tracking-[0.4em] hover:bg-primary-cyan hover:text-surface-dim hover:border-primary-cyan transition-all relative z-10 active:scale-95 shadow-[0_10px_30px_rgba(0,0,0,0.3)]"
                   >
                     {t('Enter Lounge', 'Entrer dans le Salon')}
                   </button>
@@ -2863,14 +2863,14 @@ const renderMentorshipContent = () => (
                   </h3>
                   <div className="space-y-4 md:space-y-8">
                     <div className="p-4 md:p-8 bg-primary-cyan/5 border border-primary-cyan/20 relative overflow-hidden group hover:border-primary-cyan/40 transition-all duration-500">
-                      <div className="flex items-center justify-between mb-2 md:mb-4">
-                        <p className="text-[9px] md:text-[11px] font-black uppercase tracking-[0.15em] md:tracking-[0.2em] text-primary-cyan">{t('B2B Registry Status', 'Statut du Registre B2B')}</p>
+                      <div className="flex flex-wrap items-center justify-between gap-3 mb-2 md:mb-4">
+                        <p className="text-xs md:text-[11px] font-black uppercase tracking-[0.15em] md:tracking-[0.2em] text-primary-cyan">{t('B2B Registry Status', 'Statut du Registre B2B')}</p>
                         <span className="flex h-2 w-2 md:h-3 md:w-3 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_15px_rgba(52,211,153,0.6)]" />
                       </div>
                       <p className="text-lg md:text-2xl font-black italic uppercase tracking-tight text-white">{t('Active & Synchronized', 'Actif et Synchronisé')}</p>
                     </div>
                     <div className="p-4 md:p-8 bg-white/5 border border-white/10 relative overflow-hidden group hover:border-white/20 transition-all duration-500">
-                      <p className="text-[9px] md:text-[11px] font-black uppercase tracking-[0.15em] md:tracking-[0.2em] text-on-surface-variant mb-1 md:mb-3 opacity-50">{t('Projects Judged', 'Projets Jugés')}</p>
+                      <p className="text-xs md:text-[11px] font-black uppercase tracking-[0.15em] md:tracking-[0.2em] text-on-surface-variant mb-1 md:mb-3 opacity-50">{t('Projects Judged', 'Projets Jugés')}</p>
                       <p className="text-2xl md:text-4xl font-black italic tracking-tight text-white">142</p>
                     </div>
                   </div>
@@ -2984,20 +2984,20 @@ const renderMentorshipContent = () => (
                         >
                           <div className="p-4 border-b border-white/10 flex justify-between items-center">
                             <h4 className="text-[10px] font-black uppercase tracking-widest text-white">{t('Notifications', 'Notifications')}</h4>
-                            <span className="text-[8px] font-bold text-primary-cyan uppercase tracking-widest">3 {t('New', 'Nouvelles')}</span>
+                            <span className="text-[10px] font-bold text-primary-cyan uppercase tracking-widest">3 {t('New', 'Nouvelles')}</span>
                           </div>
                           <div className="max-h-96 overflow-y-auto">
                             {notifications.map((n) => (
                               <div key={n.id} className="p-4 border-b border-white/5 hover:bg-white/5 transition-colors cursor-pointer group">
                                 <div className="flex justify-between items-start mb-1">
                                   <p className="text-[10px] font-black text-primary-cyan uppercase tracking-tight">{n.title}</p>
-                                  <span className="text-[8px] font-bold text-on-surface-variant opacity-40">{n.time}</span>
+                                  <span className="text-[10px] font-bold text-on-surface-variant opacity-40">{n.time}</span>
                                 </div>
                                 <p className="text-[11px] text-on-surface-variant leading-relaxed group-hover:text-white transition-colors">{n.message}</p>
                               </div>
                             ))}
                           </div>
-                          <button className="w-full p-4 text-[9px] font-black uppercase tracking-widest text-on-surface-variant hover:text-primary-cyan transition-colors bg-white/5">
+                          <button className="w-full p-4 text-xs font-black uppercase tracking-widest text-on-surface-variant hover:text-primary-cyan transition-colors bg-white/5">
                             {t('View All Notifications', 'Voir Toutes les Notifications')}
                           </button>
                         </motion.div>
@@ -3092,7 +3092,7 @@ const renderMentorshipContent = () => (
                         <p className="text-[10px] font-black text-primary-cyan uppercase tracking-widest leading-none">
                           {t('Verification Issues?', 'Problèmes de Vérification ?')}
                         </p>
-                        <p className="text-[9px] text-on-surface-variant leading-relaxed opacity-70">
+                        <p className="text-xs text-on-surface-variant leading-relaxed opacity-70">
                           {t('If you haven\'t received your verification email, please check your Spam folder. To ensure permanent deliverability, whitelist noreply@linkyourart-cb221.firebaseapp.com in your contact list.', 'Si vous n\'avez pas reçu l\'e-mail de vérification, veuillez vérifier vos courriers indésirables. Pour garantir la délivrabilité, ajoutez noreply@linkyourart-cb221.firebaseapp.com à votre liste de contacts.')}
                         </p>
                         <button 
@@ -3109,7 +3109,7 @@ const renderMentorshipContent = () => (
                             onNotify?.(t('Error sending email.', 'Erreur.'));
                           }
                         }}
-                          className="text-[9px] font-black text-primary-cyan uppercase tracking-widest hover:text-white transition-colors flex items-center gap-1"
+                          className="text-xs font-black text-primary-cyan uppercase tracking-widest hover:text-white transition-colors flex items-center gap-1"
                         >
                           <RefreshCw size={10} /> {t('Resend Verification', 'Renvoyer la Vérification')}
                         </button>
@@ -3117,7 +3117,7 @@ const renderMentorshipContent = () => (
                     </div>
                   </div>
                 </div>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                   <label className="block text-[10px] font-black uppercase tracking-[0.3em] text-on-surface-variant mb-3 opacity-50">{t('Twitter', 'Twitter')}</label>
                     <input 
@@ -3213,11 +3213,11 @@ const renderMentorshipContent = () => (
                   <div className="hidden sm:flex relative z-10 pt-6 border-t border-white/10 mt-6 flex-col gap-3">
                   <div className="flex items-center gap-3">
                     <ShieldCheck className="text-emerald-400" size={18} />
-                    <span className="text-[8px] font-black uppercase tracking-widest text-emerald-400">{t('Secure Indexing', 'Indexation Sécurisée')}</span>
+                    <span className="text-[10px] font-black uppercase tracking-widest text-emerald-400">{t('Secure Indexing', 'Indexation Sécurisée')}</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <Zap className="text-accent-gold" size={18} />
-                    <span className="text-[8px] font-black uppercase tracking-widest text-accent-gold">{t('AI Audit Ready', 'Prêt pour Audit IA')}</span>
+                    <span className="text-[10px] font-black uppercase tracking-widest text-accent-gold">{t('AI Audit Ready', 'Prêt pour Audit IA')}</span>
                   </div>
                 </div>
               </div>
@@ -3296,9 +3296,9 @@ const renderMentorshipContent = () => (
                         <label className="text-[10px] uppercase tracking-[0.2em] text-primary-cyan font-black mb-4 block">
                           {t('Fractional Issuance', 'Émission Fractionnée')}
                         </label>
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                           <div className="space-y-1">
-                            <label className="text-[9px] uppercase font-bold text-on-surface-variant opacity-60 tracking-widest">{t('Total Units', 'Émission Totale')}</label>
+                            <label className="text-xs uppercase font-bold text-on-surface-variant opacity-60 tracking-widest">{t('Total Units', 'Émission Totale')}</label>
                             <input 
                               type="number"
                               min="1"
@@ -3315,7 +3315,7 @@ const renderMentorshipContent = () => (
                             />
                           </div>
                           <div className="space-y-1">
-                            <label className="text-[9px] uppercase font-bold text-on-surface-variant opacity-60 tracking-widest">{t('Unit Price ($)', 'Prix Unitaire ($)')}</label>
+                            <label className="text-xs uppercase font-bold text-on-surface-variant opacity-60 tracking-widest">{t('Unit Price ($)', 'Prix Unitaire ($)')}</label>
                             <input 
                               type="number"
                               min="1"
@@ -3340,7 +3340,7 @@ const renderMentorshipContent = () => (
                         <div className="text-3xl font-black text-white font-headline tracking-tighter">
                           ${newProject.initialValue.toLocaleString()}
                         </div>
-                        <div className="text-[9px] text-primary-cyan font-bold uppercase tracking-widest mt-1">
+                        <div className="text-xs text-primary-cyan font-bold uppercase tracking-widest mt-1">
                           {t('BASED ON FRACTIONAL PARAMETERS', 'BASÉ SUR LES PARAMÈTRES FRACTIONNÉS')}
                         </div>
                         <Zap size={40} className="absolute -right-4 -bottom-4 text-primary-cyan/10 group-hover:scale-110 transition-transform" />
@@ -3401,7 +3401,7 @@ const renderMentorshipContent = () => (
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div className="space-y-4">
-                      <div className="flex items-center justify-between">
+                      <div className="flex flex-wrap items-center justify-between gap-3">
                         <label className="text-[10px] uppercase tracking-[0.2em] text-primary-cyan font-black">{t('Strategic Synopsis', 'Synopsis Stratégique')}</label>
                         <button
                           type="button"
@@ -3424,7 +3424,7 @@ const renderMentorshipContent = () => (
                               setIsUploading(false);
                             }
                           }}
-                          className="flex items-center gap-2 text-[8px] font-black uppercase text-primary-cyan hover:text-white transition-colors"
+                          className="flex items-center gap-2 text-[10px] font-black uppercase text-primary-cyan hover:text-white transition-colors"
                         >
                           <Sparkles size={12} /> {t('AI Generator', 'Générateur IA')}
                         </button>
@@ -3440,7 +3440,7 @@ const renderMentorshipContent = () => (
                     </div>
                     
                     <div className="space-y-4">
-                      <div className="flex items-center justify-between">
+                      <div className="flex flex-wrap items-center justify-between gap-3">
                         <label className="text-[10px] uppercase tracking-[0.2em] text-primary-cyan font-black">{t('Visual Identity', 'Identité Visuelle')}</label>
                         <button
                           type="button"
@@ -3463,7 +3463,7 @@ const renderMentorshipContent = () => (
                               setIsUploading(false);
                             }
                           }}
-                          className="flex items-center gap-2 text-[8px] font-black uppercase text-accent-gold hover:text-white transition-colors"
+                          className="flex items-center gap-2 text-[10px] font-black uppercase text-accent-gold hover:text-white transition-colors"
                         >
                           <Camera size={12} /> {t('AI Visualization', 'Visualisation IA')}
                         </button>
@@ -3484,7 +3484,7 @@ const renderMentorshipContent = () => (
                         ) : (
                           <div className="h-full flex flex-col items-center justify-center gap-2">
                              <Paperclip size={20} className="text-on-surface-variant opacity-40 group-hover/upload:text-primary-cyan" />
-                             <span className="text-[9px] font-black uppercase tracking-widest text-on-surface-variant group-hover/upload:text-white">
+                             <span className="text-xs font-black uppercase tracking-widest text-on-surface-variant group-hover/upload:text-white">
                                {t('Drop certification or IP docs', 'Déposer les docs de PI ou certifs')}
                              </span>
                           </div>
@@ -3565,7 +3565,7 @@ const renderMentorshipContent = () => (
 
                   {/* Real-time score in left panel */}
                   <div className="p-4 bg-primary-cyan/20 border border-primary-cyan/40 rounded-xl mb-4 sm:mb-8 shadow-[0_0_20px_rgba(34,211,238,0.1)]">
-                    <p className="text-[8px] font-black text-primary-cyan uppercase tracking-widest mb-1">{t('CURRENT ESTIMATE', 'ESTIMATION ACTUELLE')}</p>
+                    <p className="text-[10px] font-black text-primary-cyan uppercase tracking-widest mb-1">{t('CURRENT ESTIMATE', 'ESTIMATION ACTUELLE')}</p>
                     <div className="flex items-baseline gap-2">
                       <span className="text-3xl font-black text-white tracking-tighter">{currentSimulatorScore}</span>
                       <span className="text-[10px] font-bold text-on-surface-variant opacity-40">/ 1000</span>
@@ -3584,7 +3584,7 @@ const renderMentorshipContent = () => (
                         }`}>
                           {simulatorStep > idx ? <ShieldCheck size={14} /> : idx + 1}
                         </div>
-                        <span className={`text-[9px] font-black uppercase tracking-widest leading-tight ${
+                        <span className={`text-xs font-black uppercase tracking-widest leading-tight ${
                           simulatorStep === idx ? 'text-white' : 'text-on-surface-variant opacity-40'
                         }`}>
                           {t(step.title, step.title)}
@@ -3681,7 +3681,7 @@ const renderMentorshipContent = () => (
                           {LYA_SIMULATOR_STEPS[simulatorStep].questions.some(q => 
                             simulatorAnswers[`${LYA_SIMULATOR_STEPS[simulatorStep].id}-${q.id}`] === undefined
                           ) && (
-                            <p className="text-[8px] text-accent-gold uppercase font-bold tracking-widest mt-2 animate-pulse text-right">
+                            <p className="text-[10px] text-accent-gold uppercase font-bold tracking-widest mt-2 animate-pulse text-right">
                               {t('Answer all questions to unlock', 'Répondez à toutes les questions pour débloquer')}
                             </p>
                           )}

@@ -379,13 +379,13 @@ export const RegistryView: React.FC<{
                     </div>
                   </div>
                   <div className="flex flex-col items-end">
-                    <div className={`flex items-center gap-1.5 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest border ${
+                    <div className={`flex items-center gap-1.5 px-3 py-0.5 text-[10px] font-bold uppercase tracking-widest border ${
                       item.status === 'LIVE' ? 'border-emerald-400/30 text-emerald-400 bg-emerald-400/5' : 'border-red-400/30 text-red-400 bg-red-400/5'
                     }`}>
                       {item.status === 'LIVE' ? <ShieldCheck size={8} /> : <AlertTriangle size={8} />}
                       {item.status}
                     </div>
-                    <span className="text-[9px] text-on-surface-variant mt-1 uppercase tracking-widest">Version: {item.version}</span>
+                    <span className="text-xs text-on-surface-variant mt-1 uppercase tracking-widest">Version: {item.version}</span>
                   </div>
                 </div>
 
@@ -561,7 +561,7 @@ export const RegistryView: React.FC<{
 
         {/* LYA Pagination */}
         {totalPages > 1 && (
-          <div className="mt-6 flex flex-row items-center justify-center gap-1.5 px-2 py-6 border-t border-white/5">
+          <div className="mt-6 flex flex-row items-center justify-center gap-1.5 px-3 py-6 border-t border-white/5">
             <button
               onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
               disabled={currentPage === 1}
@@ -581,7 +581,7 @@ export const RegistryView: React.FC<{
                   <button
                     key={pageNum}
                     onClick={() => setCurrentPage(pageNum)}
-                    className={`w-8 h-8 text-[9px] font-black transition-all border rounded-lg ${
+                    className={`w-8 h-8 text-xs font-black transition-all border rounded-lg ${
                       currentPage === pageNum
                         ? 'bg-primary-cyan border-primary-cyan text-surface-dim shadow-[0_0_15px_rgba(0,224,255,0.4)]'
                         : 'border-white/5 text-on-surface-variant hover:border-white/20 hover:text-white'
@@ -704,7 +704,7 @@ export const RegistryView: React.FC<{
               </div>
 
               <div className="overflow-x-auto custom-scrollbar pb-6">
-                <div className="min-w-[800px] grid grid-cols-[200px_repeat(auto-fit,minmax(200px,1fr))] gap-8">
+                <div className="min-w-[800px] overflow-x-auto grid grid-cols-[200px_repeat(auto-fit,minmax(200px,1fr))] gap-8">
                   {/* Labels Column */}
                   <div className="space-y-12 pt-24">
                     <div className="text-sm uppercase tracking-[0.3em] text-on-surface-variant font-bold h-12 flex items-center">{t('Security Score', 'Score de Sécurité')}</div>
@@ -757,7 +757,7 @@ export const RegistryView: React.FC<{
                       </div>
 
                       <div className="h-12 flex items-center">
-                        <div className={`px-2 py-1 text-sm font-bold uppercase tracking-widest border ${
+                        <div className={`px-3 py-1 text-sm font-bold uppercase tracking-widest border ${
                           item.status === 'LIVE' ? 'border-emerald-400/30 text-emerald-400 bg-emerald-400/5' : 'border-red-400/30 text-red-400 bg-red-400/5'
                         }`}>
                           {item.status}

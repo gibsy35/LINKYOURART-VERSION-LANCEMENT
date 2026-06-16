@@ -317,7 +317,7 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
                   className="flex items-center gap-1.5 md:gap-2"
                 >
                   <item.icon className={`w-2.5 h-2.5 md:w-3 md:h-3 ${item.color}`} />
-                  <span className="text-[6px] md:text-[8px] font-black tracking-widest text-white/60">{item.label}</span>
+                  <span className="text-[6px] md:text-[10px] font-black tracking-widest text-white/60">{item.label}</span>
                 </motion.div>
               ))}
             </motion.div>
@@ -361,8 +361,8 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
               >
                 882
               </motion.div>
-              <div className="text-[6px] md:text-[8px] font-black tracking-[0.2em] md:tracking-[0.3em] text-white/60 uppercase">{t('LYA INDEX', 'INDEX LYA')}</div>
-              <div className="mt-0.5 md:mt-1 px-1.5 md:px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/20 rounded-lg text-[4px] md:text-[6px] text-emerald-400 font-bold uppercase tracking-widest">{t('A+ GRADE', 'GRADE A+')}</div>
+              <div className="text-[6px] md:text-[10px] font-black tracking-[0.2em] md:tracking-[0.3em] text-white/60 uppercase">{t('LYA INDEX', 'INDEX LYA')}</div>
+              <div className="mt-0.5 md:mt-1 px-1.5 md:px-3 py-0.5 bg-emerald-500/10 border border-emerald-500/20 rounded-lg text-[4px] md:text-[6px] text-emerald-400 font-bold uppercase tracking-widest">{t('A+ GRADE', 'GRADE A+')}</div>
             </div>
           </div>
           <div className="w-full max-w-[200px] md:max-w-[240px] grid grid-cols-1 gap-1">
@@ -380,7 +380,7 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
                 transition={{ delay: 1.2 + i * 0.1 }}
                 className="space-y-0.5 p-1 bg-white/5 border border-white/5 rounded-lg"
               >
-                <div className="flex justify-between text-[6px] md:text-[8px] font-black text-white/60">
+                <div className="flex justify-between text-[6px] md:text-[10px] font-black text-white/60">
                   <span className="tracking-widest uppercase truncate max-w-[60%]">{item.label}</span>
                   <span className={`text-white ${item.color.replace('bg-', 'text-')}`}>
                     {item.val}
@@ -422,7 +422,7 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
                 <motion.div 
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 0.4 }}
-                  className="text-[8px] md:text-[10px] text-white/40 font-black uppercase tracking-widest"
+                  className="text-[10px] md:text-[10px] text-white/40 font-black uppercase tracking-widest"
                 >
                   Contract ID: #LYA-882-IP
                 </motion.div>
@@ -437,25 +437,25 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
                   <motion.span 
                     animate={{ opacity: [0.5, 1, 0.5] }}
                     transition={{ duration: 2, repeat: Infinity }}
-                    className="px-2 py-0.5 bg-emerald-500/10 text-emerald-400 text-[6px] md:text-[8px] font-bold rounded uppercase"
+                    className="px-3 py-0.5 bg-emerald-500/10 text-emerald-400 text-[6px] md:text-[10px] font-bold rounded uppercase"
                   >
                     Legal Certified
                   </motion.span>
-                  <span className="px-2 py-0.5 bg-white/5 text-white/60 text-[6px] md:text-[8px] font-bold rounded uppercase">IP Anchored</span>
+                  <span className="px-3 py-0.5 bg-white/5 text-white/60 text-[6px] md:text-[10px] font-bold rounded uppercase">IP Anchored</span>
                 </div>
               </div>
 
               <div className="p-3 md:p-4 bg-white/5 border border-white/5 rounded-xl md:rounded-2xl space-y-2 md:space-y-3">
                 <div className="flex justify-between items-end">
                   <div className="space-y-0.5 md:space-y-1">
-                    <div className="text-[7px] md:text-[8px] font-black text-white/40 uppercase">{t('Contractual Value', 'Valeur Contractuelle')}</div>
+                    <div className="text-[7px] md:text-[10px] font-black text-white/40 uppercase">{t('Contractual Value', 'Valeur Contractuelle')}</div>
                     <div className="text-lg md:text-xl font-black text-white">$125,000</div>
                   </div>
                   <div className="text-right">
                     <motion.div 
                       animate={{ scale: [1, 1.05, 1] }}
                       transition={{ duration: 2, repeat: Infinity }}
-                      className="text-[7px] md:text-[8px] font-black text-emerald-400 uppercase"
+                      className="text-[7px] md:text-[10px] font-black text-emerald-400 uppercase"
                     >
                       {t('Indexed', 'Indexé')}
                     </motion.div>
@@ -472,7 +472,7 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-2 md:gap-3 pb-1 md:pb-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-3 pb-1 md:pb-2">
                 {[
                   { label: t('Unit Price', 'Prix Unitaire'), value: '$50.00' },
                   { label: t('Total Units', 'Unités Totales'), value: '2,500' }
@@ -482,7 +482,7 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.8 + i * 0.1 }}
-                    className="bg-white/5 p-2 md:p-2.5 rounded-lg md:rounded-xl"
+                    className="bg-white/5 p-3 md:p-2.5 rounded-lg md:rounded-xl"
                   >
                     <div className="text-[6px] md:text-[7px] text-white/40 font-black uppercase mb-0.5 md:mb-1">{item.label}</div>
                     <div className="text-[10px] md:text-xs font-black text-white">{item.value}</div>
@@ -505,9 +505,9 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
             >
               <div className="flex justify-between items-start mb-4 md:mb-6">
                 <div className="space-y-0.5">
-                  <div className="text-[7px] md:text-[9px] font-black text-accent-gold/60 uppercase tracking-widest">{t('Portfolio Value', 'Valeur Portfolio')}</div>
+                  <div className="text-[7px] md:text-xs font-black text-accent-gold/60 uppercase tracking-widest">{t('Portfolio Value', 'Valeur Portfolio')}</div>
                   <div className="text-lg md:text-2xl font-black text-accent-gold tracking-tighter drop-shadow-[0_0_10px_rgba(255,215,0,0.3)]">$42,850.00</div>
-                  <div className="flex items-center gap-1 text-accent-gold font-bold text-[8px] md:text-[10px]">
+                  <div className="flex items-center gap-1 text-accent-gold font-bold text-[10px] md:text-[10px]">
                     <TrendingUp size={10} /> +24.58% {t('Performance', 'Performance')}
                   </div>
                 </div>
@@ -555,7 +555,7 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
               </div>
             </motion.div>
 
-            <div className="grid grid-cols-2 gap-3 md:gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
               {[
                 { label: t('Royalties Paid', 'Royalties Payées'), value: '$2,450.00', color: 'text-accent-gold' },
                 { label: t('LYA Index Avg', 'Moyenne Index LYA'), value: '842.00', color: 'text-white' }
@@ -567,7 +567,7 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
                   transition={{ delay: 0.8 + i * 0.1 }}
                   className="bg-white/5 border border-white/10 p-3 md:p-4 rounded-xl md:rounded-2xl space-y-0.5 md:space-y-1"
                 >
-                  <div className="text-[8px] md:text-[9px] font-black text-white/40 uppercase">{item.label}</div>
+                  <div className="text-[10px] md:text-xs font-black text-white/40 uppercase">{item.label}</div>
                   <div className={`text-sm md:text-lg font-black ${item.color}`}>{item.value}</div>
                 </motion.div>
               ))}
@@ -597,7 +597,7 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
                 />
                 <div className="w-16 h-16 md:w-24 md:h-24 bg-[#0A0F1A] border-2 md:border-4 border-pink-500/40 rounded-xl md:rounded-[2rem] flex flex-col items-center justify-center z-20 shadow-2xl relative">
                   <Users className="text-pink-400 w-6 h-6 md:w-10 md:h-10 mb-0.5 md:mb-1" />
-                  <span className="text-[6px] md:text-[8px] font-black text-white uppercase tracking-tighter">{t('EXPERT', 'EXPERT')}</span>
+                  <span className="text-[6px] md:text-[10px] font-black text-white uppercase tracking-tighter">{t('EXPERT', 'EXPERT')}</span>
                 </div>
               </div>
             </div>
@@ -627,7 +627,7 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
                   <node.icon className="w-3 h-3 md:w-5 md:h-5 text-pink-400" />
                 </div>
                 <div className="text-center pointer-events-none bg-black/40 backdrop-blur-sm px-1.5 rounded-md mt-1">
-                  <div className="text-[6px] md:text-[8px] font-black text-white uppercase">{node.label}</div>
+                  <div className="text-[6px] md:text-[10px] font-black text-white uppercase">{node.label}</div>
                   <div className="text-[4px] md:text-[5px] font-bold text-white/60 uppercase tracking-widest">{node.sub}</div>
                 </div>
               </motion.div>
@@ -638,7 +638,7 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
 
     case 'explore':
       return (
-        <div className="relative w-full h-full flex flex-col items-center justify-center p-2 md:p-4 overflow-hidden">
+        <div className="relative w-full h-full flex flex-col items-center justify-center p-3 md:p-4 overflow-hidden">
           <div className="relative w-full max-w-[220px] md:max-w-[240px] h-[260px] md:h-[280px]">
             {[1, 0].map((i) => (
               <motion.div
@@ -665,9 +665,9 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
                         {i === 0 ? <Music className="text-cyan-400 w-8 h-8 md:w-12 md:h-12 opacity-40" /> : <Clapperboard className="text-blue-400 w-8 h-8 md:w-12 md:h-12 opacity-40" />}
                       </motion.div>
                    </div>
-                   <div className="absolute top-1.5 left-1.5 bg-black/60 backdrop-blur-md border border-white/10 px-1.5 md:px-2 py-0.5 rounded-full flex items-center gap-1">
+                   <div className="absolute top-1.5 left-1.5 bg-black/60 backdrop-blur-md border border-white/10 px-1.5 md:px-3 py-0.5 rounded-full flex items-center gap-1">
                      <div className="w-1 h-1 rounded-full bg-cyan-400 animate-pulse" />
-                     <span className="text-[7px] md:text-[8px] font-black text-white uppercase">Trending</span>
+                     <span className="text-[7px] md:text-[10px] font-black text-white uppercase">Trending</span>
                    </div>
                 </div>
 
@@ -675,7 +675,7 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
                   <div className="flex justify-between items-start">
                     <div className="space-y-0.5 min-w-0">
                        <h5 className="text-[10px] md:text-xs font-black text-white uppercase tracking-tighter truncate">Cyber-Neo 808</h5>
-                       <span className="text-[7px] md:text-[8px] font-bold text-white/40 uppercase block truncate">Music Royalty Rights</span>
+                       <span className="text-[7px] md:text-[10px] font-bold text-white/40 uppercase block truncate">Music Royalty Rights</span>
                     </div>
                     <div className="text-right shrink-0">
                        <motion.div 
@@ -688,14 +688,14 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
                     </div>
                   </div>
                   
-                  <div className="grid grid-cols-2 gap-1.5">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
                     <div className="bg-white/5 p-1 md:p-1.5 rounded-lg border border-white/5">
                       <div className="text-[5px] md:text-[6px] text-white/40 font-black uppercase">Asset Type</div>
-                      <div className="text-[7px] md:text-[9px] font-bold text-white truncate">LYA RIGHTS</div>
+                      <div className="text-[7px] md:text-xs font-bold text-white truncate">LYA RIGHTS</div>
                     </div>
                     <div className="bg-white/5 p-1 md:p-1.5 rounded-lg border border-white/5">
                       <div className="text-[5px] md:text-[6px] text-white/40 font-black uppercase">Min entry</div>
-                      <div className="text-[7px] md:text-[9px] font-bold text-white">$50.00</div>
+                      <div className="text-[7px] md:text-xs font-bold text-white">$50.00</div>
                     </div>
                   </div>
                 </div>
@@ -704,10 +704,10 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
           </div>
 
           <div className="mt-4 md:mt-6 flex gap-3 md:gap-4">
-            <div className="flex items-center gap-1.5 px-3 md:px-4 py-1 md:py-1.5 bg-rose-500/10 border border-rose-500/20 rounded-full text-rose-400 font-black uppercase text-[7px] md:text-[8px] tracking-widest active:scale-95 transition-transform cursor-pointer">
+            <div className="flex items-center gap-1.5 px-3 md:px-4 py-1 md:py-1.5 bg-rose-500/10 border border-rose-500/20 rounded-full text-rose-400 font-black uppercase text-[7px] md:text-[10px] tracking-widest active:scale-95 transition-transform cursor-pointer">
               <span className="text-[10px] md:text-xs opacity-50">✕</span> DISCARD
             </div>
-            <div className="flex items-center gap-1.5 px-3 md:px-4 py-1 md:py-1.5 bg-emerald-500/10 border border-emerald-500/20 rounded-full text-emerald-400 font-black uppercase text-[7px] md:text-[8px] tracking-widest active:scale-95 transition-transform cursor-pointer shadow-[0_0_20px_rgba(16,185,129,0.2)]">
+            <div className="flex items-center gap-1.5 px-3 md:px-4 py-1 md:py-1.5 bg-emerald-500/10 border border-emerald-500/20 rounded-full text-emerald-400 font-black uppercase text-[7px] md:text-[10px] tracking-widest active:scale-95 transition-transform cursor-pointer shadow-[0_0_20px_rgba(16,185,129,0.2)]">
               INVEST <span className="text-[10px] md:text-xs">♥</span>
             </div>
           </div>
@@ -723,7 +723,7 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
                 <div className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse shadow-[0_0_10px_rgba(239,68,68,0.8)]" />
                 <span className="text-[10px] font-black text-white uppercase tracking-[0.2em]">Real-Time Alerts</span>
               </div>
-              <div className="text-[8px] text-white/40 uppercase font-black tracking-widest">Active Feed</div>
+              <div className="text-[10px] text-white/40 uppercase font-black tracking-widest">Active Feed</div>
             </div>
             <div className="p-4 space-y-3">
               {[
@@ -757,7 +757,7 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
                       >
                         {item.change}
                       </motion.div>
-                      <div className="text-[9px] text-white/30 uppercase font-black">{item.price}</div>
+                      <div className="text-xs text-white/30 uppercase font-black">{item.price}</div>
                     </div>
                   </div>
                   {i === 0 && (
@@ -776,7 +776,7 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
       return (
         <div className="relative w-full h-full flex flex-col items-center justify-center p-3 md:p-4 bg-gradient-to-br from-indigo-900/10 to-transparent">
           <div className="w-full max-w-[320px] md:max-w-[360px] space-y-3 md:space-y-4">
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {[
                 { title: 'Project Alpha', score: '884', roi: '+34%', color: 'text-indigo-400', bg: 'bg-indigo-500/10' },
                 { title: 'Project Beta', score: '762', roi: '+18%', color: 'text-blue-400', bg: 'bg-blue-500/10' }
@@ -798,10 +798,10 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
                      <div className={`w-8 h-8 rounded-lg ${p.bg} flex items-center justify-center ${p.color}`}>
                         <TrendingUp size={16} />
                      </div>
-                     <span className={`text-[8px] md:text-[10px] font-black italic ${p.color}`}>{p.score} LYA</span>
+                     <span className={`text-[10px] md:text-[10px] font-black italic ${p.color}`}>{p.score} LYA</span>
                    </div>
                    <div className="space-y-0.5">
-                     <h6 className="text-[7px] md:text-[8px] font-black text-white/40 uppercase tracking-widest truncate">{p.title}</h6>
+                     <h6 className="text-[7px] md:text-[10px] font-black text-white/40 uppercase tracking-widest truncate">{p.title}</h6>
                      <div className="text-xs md:text-sm font-black text-white italic tracking-tighter">
                       {p.roi} ROI
                     </div>
@@ -853,7 +853,7 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
                  <TrendingUp className="text-amber-400 w-6 h-6" />
                  <span className="text-xs font-black text-white uppercase italic tracking-widest">{t('LYA Exchange Center', 'Centre d\'Échanges LYA')}</span>
                </div>
-               <div className="px-3 py-1 bg-black/60 rounded-full border border-white/10 text-[9px] font-black text-amber-400 italic">{t('2.4% Spread', 'Spread 2.4%')}</div>
+               <div className="px-3 py-1 bg-black/60 rounded-full border border-white/10 text-xs font-black text-amber-400 italic">{t('2.4% Spread', 'Spread 2.4%')}</div>
             </div>
 
             <div className="p-1">
@@ -886,11 +886,11 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
                     </motion.div>
                     <div className="min-w-0">
                       <div className="text-[10px] md:text-xs font-black text-white italic tracking-tighter uppercase truncate">{item.id}</div>
-                      <div className="text-[8px] md:text-[10px] font-bold text-white/40 uppercase tracking-widest">{item.qty}</div>
+                      <div className="text-[10px] md:text-[10px] font-bold text-white/40 uppercase tracking-widest">{item.qty}</div>
                     </div>
                   </div>
                   <div className="text-right shrink-0">
-                    <div className="text-[7px] md:text-[8px] font-black text-on-surface-variant/40 uppercase tracking-widest mb-0.5">{item.totalLabel}</div>
+                    <div className="text-[7px] md:text-[10px] font-black text-on-surface-variant/40 uppercase tracking-widest mb-0.5">{item.totalLabel}</div>
                     <motion.div 
                       animate={{ opacity: [0.8, 1, 0.8] }}
                       transition={{ duration: 2, repeat: Infinity }}
@@ -898,7 +898,7 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
                     >
                       {item.price}
                     </motion.div>
-                    <div className={`text-[7px] md:text-[9px] font-black tracking-[0.2em] uppercase italic mt-1 ${item.type === 'BUY' ? 'text-cyan-400' : 'text-rose-400'}`}>{item.type} ORDER</div>
+                    <div className={`text-[7px] md:text-xs font-black tracking-[0.2em] uppercase italic mt-1 ${item.type === 'BUY' ? 'text-cyan-400' : 'text-rose-400'}`}>{item.type} ORDER</div>
                   </div>
                 </motion.div>
               ))}
@@ -1048,8 +1048,8 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
                     <item.icon className="w-3.5 h-3.5 md:w-5 md:h-5 text-emerald-400" />
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-[8px] md:text-[11px] font-black uppercase tracking-[0.25em] text-emerald-400 leading-none">{item.label}</span>
-                    <span className="text-[6px] md:text-[8px] font-bold text-white/30 uppercase tracking-widest mt-1">{t('PROTECTION_ACTIVE', 'PROTECTION_ACTIVE')}</span>
+                    <span className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.25em] text-emerald-400 leading-none">{item.label}</span>
+                    <span className="text-[6px] md:text-[10px] font-bold text-white/30 uppercase tracking-widest mt-1">{t('PROTECTION_ACTIVE', 'PROTECTION_ACTIVE')}</span>
                   </div>
                   
                   {/* Energy corner highlights */}
@@ -1110,7 +1110,7 @@ export const ConceptTutorial: React.FC<Props> = ({ isOpen, onClose }) => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 z-[9999] flex items-center justify-center p-2 md:p-6 bg-black/98 backdrop-blur-2xl"
+        className="fixed inset-0 z-[9999] flex items-center justify-center p-3 md:p-6 bg-black/98 backdrop-blur-2xl"
       >
         <div className="relative w-full max-w-6xl bg-[#020408]/95 backdrop-blur-3xl border border-white/5 rounded-[2.5rem] shadow-[0_0_120px_rgba(0,0,0,1)] overflow-hidden flex flex-col max-h-[98vh] md:max-h-[90vh]">
           
@@ -1125,7 +1125,7 @@ export const ConceptTutorial: React.FC<Props> = ({ isOpen, onClose }) => {
           {/* Header */}
           <div className="px-4 md:px-6 pt-2 md:pt-4 flex items-center justify-between relative shrink-0 z-20">
             <div className="flex items-center gap-2 md:gap-4">
-              <div className={`px-3 md:px-4 py-1 rounded-full bg-white/5 border border-white/10 text-[8px] md:text-[10px] font-black uppercase tracking-widest text-white/50`}>
+              <div className={`px-3 md:px-4 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] md:text-[10px] font-black uppercase tracking-widest text-white/50`}>
                 STEP {currentStep + 1} / {steps.length}
               </div>
 
@@ -1193,7 +1193,7 @@ export const ConceptTutorial: React.FC<Props> = ({ isOpen, onClose }) => {
                       <div className={`w-3.5 h-3.5 md:w-6 md:h-6 shrink-0 rounded-full flex items-center justify-center text-[6px] md:text-[10px] font-black italic border bg-black/60 shadow-lg ${step.color.replace('text-', 'border-')} ${step.color}`}>
                         {i + 1}
                       </div>
-                      <span className="text-[7px] md:text-[9px] lg:text-[11px] font-black text-white uppercase tracking-[0.1em] leading-tight">
+                      <span className="text-[7px] md:text-xs lg:text-[11px] font-black text-white uppercase tracking-[0.1em] leading-tight">
                         {point}
                       </span>
                     </motion.li>
@@ -1233,7 +1233,7 @@ export const ConceptTutorial: React.FC<Props> = ({ isOpen, onClose }) => {
               <button 
                 onClick={handlePrev}
                 disabled={currentStep === 0}
-                className={`flex items-center gap-1 px-2 md:px-3 py-1 rounded-lg font-black uppercase text-[7px] md:text-[9px] tracking-widest transition-all ${currentStep === 0 ? 'opacity-0 invisible' : 'bg-white/5 hover:bg-white/10 text-white active:scale-95'}`}
+                className={`flex items-center gap-1 px-2 md:px-3 py-1 rounded-lg font-black uppercase text-[7px] md:text-xs tracking-widest transition-all ${currentStep === 0 ? 'opacity-0 invisible' : 'bg-white/5 hover:bg-white/10 text-white active:scale-95'}`}
               >
                 <ChevronLeft size={10} /> {t('Back', 'Retour')}
               </button>
@@ -1248,7 +1248,7 @@ export const ConceptTutorial: React.FC<Props> = ({ isOpen, onClose }) => {
 
                 <button 
                   onClick={handleNext}
-                  className={`flex items-center justify-center gap-1.5 md:gap-3 px-3 md:px-5 py-1 md:py-1.5 rounded-lg font-black uppercase text-[8px] md:text-[11px] tracking-[0.05em] md:tracking-[0.1em] transition-all active:scale-95 shadow-[0_0_10px_rgba(0,224,255,0.1)] relative group overflow-hidden ${step.color.replace('text-', 'bg-')} text-black min-w-[80px] md:min-w-[140px] border border-white/5`}
+                  className={`flex items-center justify-center gap-1.5 md:gap-3 px-3 md:px-5 py-1 md:py-1.5 rounded-lg font-black uppercase text-[10px] md:text-[11px] tracking-[0.05em] md:tracking-[0.1em] transition-all active:scale-95 shadow-[0_0_10px_rgba(0,224,255,0.1)] relative group overflow-hidden ${step.color.replace('text-', 'bg-')} text-black min-w-[80px] md:min-w-[140px] border border-white/5`}
                 >
                   <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
                   <div className="relative z-10 flex items-center gap-1 text-black font-black">

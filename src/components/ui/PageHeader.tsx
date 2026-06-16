@@ -42,7 +42,7 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
           {description && (
             <div className={`flex items-stretch pl-1 transition-all ${compact ? 'gap-3 md:gap-4 pl-1.5' : 'gap-6 md:gap-8 pl-2'}`}>
               <div className={`w-[1px] ${accentColor.replace('text-', 'bg-')} opacity-60 min-h-[30px] md:min-h-[40px]`}></div>
-              <p className={`text-white uppercase tracking-[0.1em] leading-normal opacity-85 max-w-2xl text-justify font-black ${compact ? 'text-[9px] md:text-[10.5px] tracking-widest' : 'text-xs md:text-sm'}`}>
+              <p className={`text-white uppercase tracking-[0.1em] leading-normal opacity-85 max-w-2xl text-justify font-black ${compact ? 'text-xs md:text-[10.5px] tracking-widest' : 'text-xs md:text-sm'}`}>
                 {description}
               </p>
             </div>

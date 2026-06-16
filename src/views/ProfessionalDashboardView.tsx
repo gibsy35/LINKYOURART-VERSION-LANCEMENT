@@ -111,7 +111,7 @@ export const ProfessionalDashboardView: React.FC<{ user: UserProfile | null; onN
           {/* ─── DASHBOARD ─── */}
           {activeSection === 'dashboard' && (
             <div className="space-y-6">
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {[
                   { icon: <Search size={20} className="text-primary-cyan"/>, label: T('Projets en mission','Projects in mission'), value: '24', color: 'bg-primary-cyan/10' },
                   { icon: <Award size={20} className="text-[#a78bfa]"/>, label: T('Certifications délivrées','Certifications delivered'), value: '156', color: 'bg-[#a78bfa]/10' },
@@ -136,7 +136,7 @@ export const ProfessionalDashboardView: React.FC<{ user: UserProfile | null; onN
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-0.5">
                           <p className="text-sm font-black text-on-surface">{proj.name}</p>
-                          {i < 2 && <span className="px-2 py-0.5 bg-emerald-400/10 border border-emerald-400/20 rounded-full text-[9px] font-black text-emerald-400 uppercase">{T('NOUVEAU','NEW')}</span>}
+                          {i < 2 && <span className="px-3 py-0.5 bg-emerald-400/10 border border-emerald-400/20 rounded-full text-xs font-black text-emerald-400 uppercase">{T('NOUVEAU','NEW')}</span>}
                         </div>
                         <p className="text-[10px] text-on-surface-variant/40 font-mono">ID: {proj.registryIndex} · {proj.category}</p>
                       </div>
@@ -166,7 +166,7 @@ export const ProfessionalDashboardView: React.FC<{ user: UserProfile | null; onN
                         <p className="text-[10px] text-on-surface-variant/40 font-mono">{m.id} · {T(m.typeFR, m.typeEN)}</p>
                       </div>
                       <div className="text-right">
-                        <span className={`px-2 py-0.5 border rounded-full text-[9px] font-black uppercase ${m.statusColor}`}>{T(m.statusFR, m.statusEN)}</span>
+                        <span className={`px-3 py-0.5 border rounded-full text-xs font-black uppercase ${m.statusColor}`}>{T(m.statusFR, m.statusEN)}</span>
                         <p className="text-xs font-black text-on-surface mt-1">{m.pct}% {T('complété','completed')}</p>
                       </div>
                     </div>
@@ -193,7 +193,7 @@ export const ProfessionalDashboardView: React.FC<{ user: UserProfile | null; onN
                   <p className="text-base font-black text-on-surface uppercase tracking-wider">{T('Nouvelle Recherche','New Search')}</p>
                 </div>
 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div className="space-y-1.5">
                     <label className="text-[10px] font-black text-on-surface-variant/50 uppercase tracking-widest">{T('Catégorie *','Category *')}</label>
                     <div className="relative">

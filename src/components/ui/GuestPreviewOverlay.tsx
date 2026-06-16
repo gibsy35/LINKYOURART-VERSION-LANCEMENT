@@ -53,7 +53,7 @@ export const GuestPreviewOverlay: React.FC<GuestPreviewOverlayProps> = ({ onOpen
           </div>
 
           {/* Trust signals */}
-          <p className="text-[9px] text-white/20 uppercase tracking-widest font-bold mt-4">
+          <p className="text-xs text-white/20 uppercase tracking-widest font-bold mt-4">
             Gratuit · Sans carte bancaire · Accès immédiat
           </p>
         </div>

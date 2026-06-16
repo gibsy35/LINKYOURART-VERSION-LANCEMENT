@@ -367,7 +367,7 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify, onViewChan
             <Shield className="text-primary-cyan" size={24} />
             <div>
               <div className="text-[10px] font-black uppercase tracking-widest text-white">{t('Verified by LYA Legal', 'Vérifié par LYA Legal')}</div>
-              <div className="text-[8px] font-mono text-on-surface-variant uppercase tracking-widest">Hash: 0x82f...a92e</div>
+              <div className="text-[10px] font-mono text-on-surface-variant uppercase tracking-widest">Hash: 0x82f...a92e</div>
             </div>
           </div>
           <div className="flex gap-6">

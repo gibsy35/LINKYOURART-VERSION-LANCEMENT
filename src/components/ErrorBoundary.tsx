@@ -51,7 +51,7 @@ export class ErrorBoundary extends Component<Props, State> {
                 <p className="text-[10px] font-black text-accent-gold uppercase tracking-widest text-center">
                   ⚠️ Database Quota Limit Reached (Firestore)
                 </p>
-                <p className="text-[9px] text-on-surface-variant mt-1 text-center font-bold">
+                <p className="text-xs text-on-surface-variant mt-1 text-center font-bold">
                   The application is in degraded mode because the free-tier infrastructure quota has been exceeded. 
                 </p>
               </div>

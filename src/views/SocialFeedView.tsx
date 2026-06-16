@@ -441,15 +441,15 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
               transition={{ duration: 0.3 }}
               className="flex items-center gap-2 md:gap-4 shrink-0 transition-all"
             >
-              <span className="px-3 py-1 bg-primary-cyan text-surface-dim text-[8px] md:text-[10px] font-black uppercase tracking-[0.3em] rounded-sm shadow-[0_0_20px_rgba(0,224,255,0.4)] whitespace-nowrap">
+              <span className="px-3 py-1 bg-primary-cyan text-surface-dim text-[10px] md:text-[10px] font-black uppercase tracking-[0.3em] rounded-sm shadow-[0_0_20px_rgba(0,224,255,0.4)] whitespace-nowrap">
                 {activeNewsIndex === 0 ? t('Breaking News', 'Flash Info') : t('Featured Story', 'À la Une')}
               </span>
               <div className="flex items-center gap-2 md:gap-3 bg-black/40 backdrop-blur-md border border-white/10 px-3 py-1 md:px-4 md:py-1.5 rounded-sm overflow-hidden truncate">
-                <span className="text-white/80 text-[8px] md:text-[10px] font-mono uppercase tracking-widest whitespace-nowrap">
+                <span className="text-white/80 text-[10px] md:text-[10px] font-mono uppercase tracking-widest whitespace-nowrap">
                   {activeItem.timestamp}
                 </span>
                 <div className="h-3 w-[1px] bg-white/20 hidden sm:block" />
-                <div className={`hidden sm:flex items-center gap-1 text-[8px] md:text-[10px] font-black font-mono ${
+                <div className={`hidden sm:flex items-center gap-1 text-[10px] md:text-[10px] font-black font-mono ${
                   activeItem.impact.trend === 'UP' ? 'text-emerald-400' : 'text-red-400'
                 }`}>
                   {activeItem.impact.trend === 'UP' ? <ArrowUpRight size={10} /> : <ArrowDownRight size={10} />}
@@ -485,7 +485,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
                   setSelectedNews(activeItem);
                   onNotify(t('Opening full story...', 'Ouverture de l\'article...'));
                 }}
-                className="px-6 py-2.5 md:px-8 md:py-3 bg-white text-surface-dim text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] hover:bg-primary-cyan transition-all rounded-sm shadow-xl active:scale-95 group"
+                className="px-6 py-2.5 md:px-8 md:py-3 bg-white text-surface-dim text-xs md:text-[10px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] hover:bg-primary-cyan transition-all rounded-sm shadow-xl active:scale-95 group"
               >
                 <span className="flex items-center gap-2">
                   {t('Read Full Story', 'Lire l\'article')}
@@ -514,8 +514,8 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
 
       {/* Pagination dots - Aligned with top-left */}
       <div className="absolute top-10 md:top-16 right-6 md:right-12 flex flex-col items-end gap-2 md:gap-2 opacity-80 z-20">
-        <div className="text-[8px] md:text-[9px] font-mono text-primary-cyan uppercase tracking-[0.3em] font-bold">LYA_INTELLIGENCE_STREAM</div>
-        <div className="text-[8px] md:text-[9px] font-mono text-white uppercase tracking-[0.3em]">CENTER_REF_00{activeNewsIndex + 1}</div>
+        <div className="text-[10px] md:text-xs font-mono text-primary-cyan uppercase tracking-[0.3em] font-bold">LYA_INTELLIGENCE_STREAM</div>
+        <div className="text-[10px] md:text-xs font-mono text-white uppercase tracking-[0.3em]">CENTER_REF_00{activeNewsIndex + 1}</div>
         <div className="flex gap-1 mt-1 md:mt-2">
           {[0, 1, 2, 3, 4].map(i => (
             <button 
@@ -623,7 +623,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-surface-dim via-transparent to-transparent opacity-60" />
                     <div className="absolute top-4 left-4">
-                      <span className="px-3 py-1 bg-surface-dim/80 backdrop-blur-md border border-white/10 text-[9px] font-black uppercase tracking-widest text-primary-cyan">
+                      <span className="px-3 py-1 bg-surface-dim/80 backdrop-blur-md border border-white/10 text-xs font-black uppercase tracking-widest text-primary-cyan">
                         {item.category}
                       </span>
                     </div>
@@ -639,7 +639,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
                             {item.source}
                           </div>
                           {item.impact.score > 80 && (
-                            <span className="flex items-center gap-1 px-2 py-0.5 bg-accent-gold/10 text-accent-gold text-[8px] font-black uppercase tracking-widest border border-accent-gold/20 rounded-sm animate-pulse">
+                            <span className="flex items-center gap-1 px-3 py-0.5 bg-accent-gold/10 text-accent-gold text-[10px] font-black uppercase tracking-widest border border-accent-gold/20 rounded-sm animate-pulse">
                               <TrendingUp className="w-2 h-2" />
                               Trending
                             </span>
@@ -700,7 +700,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
               >
                 <RefreshCw size={14} className="group-hover:rotate-180 transition-transform duration-500" />
                 {t('LOAD MORE NEWS', 'CHARGER PLUS D\'ACTUALITÉS')}
-                <span className="text-white/30 font-mono text-[9px] ml-1">({filteredNews.length - paginatedNews.length} {t('left', 'restants')})</span>
+                <span className="text-white/30 font-mono text-xs ml-1">({filteredNews.length - paginatedNews.length} {t('left', 'restants')})</span>
               </button>
             </div>
           )}
@@ -774,14 +774,14 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
                     <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
                     <span className="text-[10px] font-bold uppercase tracking-widest text-white">{node.label}</span>
                   </div>
-                  <span className="text-[9px] font-mono text-on-surface-variant/40">{node.latency}</span>
+                  <span className="text-xs font-mono text-on-surface-variant/40">{node.latency}</span>
                 </div>
               ))}
             </div>
             {visibleNodes < nodes.length && (
               <button 
                 onClick={() => setVisibleNodes(prev => prev + 4)}
-                className="w-full mt-4 py-2 text-[9px] font-black uppercase tracking-widest text-on-surface-variant hover:text-primary-cyan transition-colors border-t border-white/5 pt-4"
+                className="w-full mt-4 py-2 text-xs font-black uppercase tracking-widest text-on-surface-variant hover:text-primary-cyan transition-colors border-t border-white/5 pt-4"
               >
                 {t('Load More Registries', 'Charger plus de Registres')}
               </button>
@@ -800,14 +800,14 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
               {sectors.slice(0, visibleSectors).map((sector, i) => (
                 <div key={i} className="flex items-center justify-between p-3 bg-white/5 border border-white/5 hover:border-white/20 transition-all cursor-pointer group/item">
                   <span className="text-[10px] font-bold uppercase tracking-widest text-white group-hover/item:text-accent-gold transition-colors">{sector.label}</span>
-                  <span className={`text-[9px] font-mono font-black ${sector.color}`}>{sector.trend}</span>
+                  <span className={`text-xs font-mono font-black ${sector.color}`}>{sector.trend}</span>
                 </div>
               ))}
             </div>
             {visibleSectors < sectors.length && (
               <button 
                 onClick={() => setVisibleSectors(prev => prev + 4)}
-                className="w-full mt-4 py-2 text-[9px] font-black uppercase tracking-widest text-on-surface-variant hover:text-accent-gold transition-colors border-t border-white/5 pt-4 relative z-10"
+                className="w-full mt-4 py-2 text-xs font-black uppercase tracking-widest text-on-surface-variant hover:text-accent-gold transition-colors border-t border-white/5 pt-4 relative z-10"
               >
                 {t('Load More Sectors', 'Charger plus de Secteurs')}
               </button>
@@ -815,7 +815,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
           </div>
 
           {/* Quick Stats */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="bg-surface-low border border-white/5 p-4 text-center">
               <div className="text-[10px] font-mono text-on-surface-variant/40 uppercase mb-1">Total News</div>
               <div className="text-2xl font-black text-white">{news.length * 124}</div>

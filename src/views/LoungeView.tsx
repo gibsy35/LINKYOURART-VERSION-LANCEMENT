@@ -683,7 +683,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
                         className="w-24 h-0.5 bg-primary-cyan shadow-[0_0_15px_rgba(0,224,255,1)] mb-4"
                       />
                       <Fingerprint size={54} className="animate-pulse text-primary-cyan/80 mb-3" />
-                      <span className="text-[9px] font-mono font-bold tracking-[0.3em] uppercase animate-pulse">{t('DECRYPTING KEY...', 'CHIFFREMENT EN COURS...')}</span>
+                      <span className="text-xs font-mono font-bold tracking-[0.3em] uppercase animate-pulse">{t('DECRYPTING KEY...', 'CHIFFREMENT EN COURS...')}</span>
                     </motion.div>
                   ) : biometricStatus === 'SUCCESS' ? (
                     <motion.div 
@@ -696,7 +696,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
                       <span className="text-[10px] font-black font-mono tracking-widest text-red-400 uppercase bg-red-950/20 px-3 py-1 border border-red-500/10 rounded-md">
                         {t('VERIFICATION DENIED', 'ACCÈS REFUSÉ')}
                       </span>
-                      <p className="text-[8px] text-red-400/60 uppercase font-bold tracking-wider mt-2 max-w-[180px]">
+                      <p className="text-[10px] text-red-400/60 uppercase font-bold tracking-wider mt-2 max-w-[180px]">
                         {t('LEVEL 3 STATUS REQUIRED', 'STATUT PROFESSIONNEL DE NIVEAU 3 REQUIS')}
                       </p>
                     </motion.div>
@@ -723,7 +723,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
                         }}
                         className="px-5 py-2.5 bg-accent-gold/5 border border-accent-gold/30 hover:border-accent-gold hover:bg-accent-gold/10 rounded-xl transition-all shadow-xl group/scan active:scale-95"
                       >
-                        <span className="flex items-center gap-2 text-[8px] font-black tracking-widest uppercase text-accent-gold">
+                        <span className="flex items-center gap-2 text-[10px] font-black tracking-widest uppercase text-accent-gold">
                           <Fingerprint size={12} className="group-hover/scan:scale-110 transition-transform" />
                           {t('SCAN CREDENTIALS', 'SCANNER IDENTITÉ')}
                         </span>
@@ -743,7 +743,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
             {/* Premium Marketing Tier Card Context */}
             <div className="lg:col-span-7 space-y-6 text-left">
               <div className="space-y-2">
-                <span className="px-4 py-1.5 bg-accent-gold/10 text-accent-gold border border-accent-gold/20 text-[9px] font-black uppercase tracking-[0.3em] rounded-full inline-block">
+                <span className="px-4 py-1.5 bg-accent-gold/10 text-accent-gold border border-accent-gold/20 text-xs font-black uppercase tracking-[0.3em] rounded-full inline-block">
                   🏛️ {t('ELITE PROTOCOL ZONE', 'ZONE DE PROTOCOLE ÉLITE')}
                 </span>
                 <h2 className="text-3xl md:text-4xl lg:text-5xl font-black font-headline tracking-tighter text-white uppercase leading-[0.9]">
@@ -835,13 +835,13 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
                 <Crown className="text-accent-gold text-3xl animate-pulse" size={28} />
               </div>
             </div>
-            <span className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-emerald-500 border-2 border-surface-dim flex items-center justify-center font-black italic shadow-lg text-white text-[8px]">✓</span>
+            <span className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-emerald-500 border-2 border-surface-dim flex items-center justify-center font-black italic shadow-lg text-white text-[10px]">✓</span>
           </div>
 
           <div className="space-y-1 text-center md:text-left">
             <div className="flex items-center justify-center md:justify-start gap-2.5">
-              <span className="px-2 py-0.5 bg-accent-gold/15 border border-accent-gold/40 rounded text-[8px] font-black font-mono tracking-widest text-accent-gold">VERIFIED ELITE PRO V3</span>
-              <span className="text-[9px] font-mono font-bold text-on-surface-variant/40">NODE_REF_399x</span>
+              <span className="px-3 py-0.5 bg-accent-gold/15 border border-accent-gold/40 rounded text-[10px] font-black font-mono tracking-widest text-accent-gold">VERIFIED ELITE PRO V3</span>
+              <span className="text-xs font-mono font-bold text-on-surface-variant/40">NODE_REF_399x</span>
             </div>
             <h3 className="text-xl md:text-2xl font-black font-headline tracking-tighter text-white uppercase italic">
               {user?.displayName || 'LYA_CORE_VIP'}
@@ -856,11 +856,11 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
         {/* Center: Live télémétrie certifiée block */}
         <div className="hidden xl:flex items-center gap-8 font-mono border-x border-white/5 px-10">
           <div className="space-y-1">
-            <span className="text-[8px] text-on-surface-variant opacity-40 uppercase tracking-widest">ENCRYPTION ENERGETICS</span>
+            <span className="text-[10px] text-on-surface-variant opacity-40 uppercase tracking-widest">ENCRYPTION ENERGETICS</span>
             <span className="text-xs text-primary-cyan block font-black leading-none">AES-GCM-256</span>
           </div>
           <div className="space-y-1">
-            <span className="text-[8px] text-on-surface-variant opacity-40 uppercase tracking-widest">VAULT LAYER STATUS</span>
+            <span className="text-[10px] text-on-surface-variant opacity-40 uppercase tracking-widest">VAULT LAYER STATUS</span>
             <span className="text-xs text-accent-gold block font-black leading-none">ROOT_MUTABLE_CY</span>
           </div>
         </div>
@@ -870,12 +870,12 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
           {/* Quick numbers */}
           <div className="flex gap-4 border-l border-white/5 pl-4">
             <div className="text-right">
-              <span className="text-[8px] text-on-surface-variant opacity-45 uppercase tracking-widest block">{t('Verified Members', 'Membres')}</span>
+              <span className="text-[10px] text-on-surface-variant opacity-45 uppercase tracking-widest block">{t('Verified Members', 'Membres')}</span>
               <span className="text-lg font-black text-white">1,248</span>
             </div>
             <div className="text-right border-l border-white/5 pl-4">
-              <span className="text-[8px] text-on-surface-variant opacity-45 uppercase tracking-widest block">{t('Power Staked', 'Staké')}</span>
-              <span className="text-lg font-black text-accent-gold">85.4M <span className="text-[9px] opacity-40">LYA</span></span>
+              <span className="text-[10px] text-on-surface-variant opacity-45 uppercase tracking-widest block">{t('Power Staked', 'Staké')}</span>
+              <span className="text-lg font-black text-accent-gold">85.4M <span className="text-xs opacity-40">LYA</span></span>
             </div>
           </div>
 
@@ -890,7 +890,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
                 }, 1500);
               }}
               disabled={biometricScanning}
-              className={`px-5 py-3 rounded-xl font-mono text-[9px] font-black uppercase tracking-widest border transition-all active:scale-95 flex items-center gap-2 ${
+              className={`px-5 py-3 rounded-xl font-mono text-xs font-black uppercase tracking-widest border transition-all active:scale-95 flex items-center gap-2 ${
                 biometricScanning ? 'bg-primary-cyan/15 border-primary-cyan text-primary-cyan shadow-[0_0_15px_rgba(0,224,255,0.2)]' : 'bg-white/5 border-white/10 text-white hover:border-accent-gold hover:text-accent-gold hover:bg-accent-gold/5'
               }`}
             >
@@ -1120,7 +1120,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
                         </div>
                         <div className="flex items-center gap-2">
                           {post.tags.map(tag => (
-                            <span key={tag} className="px-4 py-1.5 bg-white/5 border border-white/10 text-[9px] font-black text-on-surface-variant uppercase tracking-widest rounded-full opacity-60 hover:opacity-100 transition-opacity">
+                            <span key={tag} className="px-4 py-1.5 bg-white/5 border border-white/10 text-xs font-black text-on-surface-variant uppercase tracking-widest rounded-full opacity-60 hover:opacity-100 transition-opacity">
                               #{tag}
                             </span>
                           ))}
@@ -1162,9 +1162,9 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
                             <div className="opacity-50 scale-75 shrink-0">{member.roleIcon}</div>
                           </div>
                           <div className="flex items-center gap-3 mt-1">
-                             <span className="text-[8px] font-mono font-bold text-primary-cyan uppercase tracking-widest opacity-40">{viewedDossiers.has(member.id) ? member.handle : 'ENCRYPTED_ID'}</span>
+                             <span className="text-[10px] font-mono font-bold text-primary-cyan uppercase tracking-widest opacity-40">{viewedDossiers.has(member.id) ? member.handle : 'ENCRYPTED_ID'}</span>
                              <span className="w-1 h-1 rounded-full bg-white/10" />
-                             <span className="text-[8px] font-black text-on-surface-variant uppercase tracking-widest opacity-60 italic">{member.industry}</span>
+                             <span className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest opacity-60 italic">{member.industry}</span>
                           </div>
                         </div>
                       </div>
@@ -1200,7 +1200,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
                               }
                               handleInitiateContact(member.name, member.role);
                             }}
-                            className={`px-6 py-3 rounded-xl font-black text-[9px] uppercase italic tracking-[0.2em] transition-all ${
+                            className={`px-6 py-3 rounded-xl font-black text-xs uppercase italic tracking-[0.2em] transition-all ${
                               viewedDossiers.has(member.id) ? 'bg-white text-surface-dim hover:bg-primary-cyan' : 'bg-white/5 text-white/10 cursor-not-allowed'
                             }`}
                           >
@@ -1215,7 +1215,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
                 <div className="flex justify-center pt-8">
                   <button 
                     onClick={() => setVisibleMembers(prev => prev + 10)}
-                    className="px-10 py-4 bg-white/5 border border-white/10 text-[9px] font-black uppercase italic tracking-[0.4em] text-white hover:bg-white/10 transition-all rounded-xl"
+                    className="px-10 py-4 bg-white/5 border border-white/10 text-xs font-black uppercase italic tracking-[0.4em] text-white hover:bg-white/10 transition-all rounded-xl"
                   >
                     {t('ACCESS MORE HUBS', 'ACCÉDER À PLUS DE HUBS')}
                   </button>
@@ -1383,13 +1383,13 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
                             </div>
                             <div>
                               <p className="text-sm font-black text-white uppercase italic truncate max-w-[150px]">{conv.name}</p>
-                              <p className="text-[9px] text-accent-gold font-black uppercase tracking-widest">{conv.role}</p>
+                              <p className="text-xs text-accent-gold font-black uppercase tracking-widest">{conv.role}</p>
                             </div>
                           </div>
                           <div className="text-right">
                              <p className="text-[10px] text-on-surface-variant font-bold uppercase opacity-40">{conv.time}</p>
                              <div className="mt-2 flex items-center gap-2 justify-end text-primary-cyan opacity-0 group-hover/conv:opacity-100 transition-opacity">
-                                <span className="text-[8px] font-black uppercase tracking-widest">{t('RESUME', 'REPRENDRE')}</span>
+                                <span className="text-[10px] font-black uppercase tracking-widest">{t('RESUME', 'REPRENDRE')}</span>
                                 <ArrowRight size={12} />
                              </div>
                           </div>
@@ -1419,7 +1419,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
                             </h4>
                             <div className="flex items-center gap-2">
                                <Crown size={12} className="text-accent-gold/60" />
-                               <span className="text-[9px] text-accent-gold font-black uppercase tracking-widest italic">{mentor.role}</span>
+                               <span className="text-xs text-accent-gold font-black uppercase tracking-widest italic">{mentor.role}</span>
                             </div>
                           </div>
                         </div>
@@ -1448,13 +1448,13 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
                           </p>
                         </div>
 
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                            <div className="bg-white/5 p-4 rounded-2xl flex flex-col items-center border border-white/5 transition-colors group-hover:border-accent-gold/10">
-                              <p className="text-[8px] font-black uppercase tracking-[0.2em] opacity-40 mb-1">Sessions</p>
+                              <p className="text-[10px] font-black uppercase tracking-[0.2em] opacity-40 mb-1">Sessions</p>
                               <p className="text-base font-black text-white italic">{mentor.sessions}+</p>
                            </div>
                            <div className="bg-white/5 p-4 rounded-2xl flex flex-col items-center border border-white/5 transition-colors group-hover:border-accent-gold/10">
-                              <p className="text-[8px] font-black uppercase tracking-[0.2em] opacity-40 mb-1">Status</p>
+                              <p className="text-[10px] font-black uppercase tracking-[0.2em] opacity-40 mb-1">Status</p>
                               <p className={`text-base font-black italic ${mentor.availability === 'AVAILABLE' ? 'text-emerald-400 font-headline' : 'text-accent-gold'}`}>{mentor.availability}</p>
                            </div>
                         </div>

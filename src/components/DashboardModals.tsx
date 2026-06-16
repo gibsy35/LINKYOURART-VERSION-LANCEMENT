@@ -17,7 +17,7 @@ export const Modal: React.FC<{
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
           className="absolute inset-0 bg-surface-dim/80 backdrop-blur-xl" onClick={onClose} />
         <motion.div initial={{ scale: 0.92, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.92, opacity: 0 }}
-          className="relative bg-surface-low border border-white/10 rounded-3xl p-7 max-w-md w-full shadow-2xl z-10 space-y-5"
+          className="relative bg-surface-low border border-white/10 rounded-3xl p-5 sm:p-7 max-w-md w-full mx-3 sm:mx-0 shadow-2xl z-10 space-y-5"
         >
           <div className="flex items-center justify-between">
             <h3 className="text-base font-black text-on-surface uppercase tracking-wider">{title}</h3>
@@ -217,7 +217,7 @@ export const UploadModal: React.FC<{
             </div>
             <div className="space-y-1.5">
               <label className="text-xs font-black text-on-surface-variant/60 uppercase tracking-widest">{T('Accès', 'Access')}</label>
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
                 {[
                   { v: 'PUBLIC', l: T('Public', 'Public'), c: 'text-emerald-400 border-emerald-400/30 bg-emerald-400/8' },
                   { v: 'PATRONS', l: T('Mécènes', 'Patrons'), c: 'text-[#a78bfa] border-[#a78bfa]/30 bg-[#a78bfa]/8' },

@@ -226,7 +226,7 @@ export const GovernanceView: React.FC<GovernanceViewProps> = ({ user, onNotify, 
                 <div>
                   <div className="flex items-center gap-3 mb-2">
                     <span className="text-[10px] font-mono text-primary-cyan font-bold">{proposal.id}</span>
-                    <span className={`px-3 py-1 rounded-sm text-[8px] font-black uppercase tracking-widest ${
+                    <span className={`px-3 py-1 rounded-sm text-[10px] font-black uppercase tracking-widest ${
                       proposal.status === 'ACTIVE' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' :
                       proposal.status === 'PASSED' ? 'bg-primary-cyan/20 text-primary-cyan border border-primary-cyan/30' :
                       proposal.status === 'QUEUED' ? 'bg-accent-gold/20 text-accent-gold border border-accent-gold/30' :
@@ -315,7 +315,7 @@ export const GovernanceView: React.FC<GovernanceViewProps> = ({ user, onNotify, 
                   </div>
                   <div className="text-right">
                     <p className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest opacity-50">{vote.date}</p>
-                    <span className={`text-[9px] font-black uppercase tracking-widest ${vote.status === 'PASSED' ? 'text-emerald-400' : 'text-red-400'}`}>
+                    <span className={`text-xs font-black uppercase tracking-widest ${vote.status === 'PASSED' ? 'text-emerald-400' : 'text-red-400'}`}>
                       {vote.status}
                     </span>
                   </div>
@@ -326,7 +326,7 @@ export const GovernanceView: React.FC<GovernanceViewProps> = ({ user, onNotify, 
                 <div className="flex justify-center pt-4">
                   <button 
                     onClick={() => setVisibleHistory(prev => prev + 3)}
-                    className="text-[9px] font-black uppercase tracking-[0.3em] text-primary-cyan hover:text-white transition-colors flex items-center gap-2"
+                    className="text-xs font-black uppercase tracking-[0.3em] text-primary-cyan hover:text-white transition-colors flex items-center gap-2"
                   >
                     <span>LOAD MORE HISTORY</span>
                     <ChevronRight size={10} />
@@ -384,9 +384,9 @@ export const GovernanceView: React.FC<GovernanceViewProps> = ({ user, onNotify, 
                 >
                   <div className="text-left">
                     <p className="text-[10px] font-black text-white uppercase tracking-tight">{node.label}</p>
-                    <p className="text-[9px] text-on-surface-variant font-medium uppercase tracking-widest opacity-50">{node.type} | LOAD: {node.load}</p>
+                    <p className="text-xs text-on-surface-variant font-medium uppercase tracking-widest opacity-50">{node.type} | LOAD: {node.load}</p>
                   </div>
-                  <span className={`text-[9px] font-black uppercase tracking-widest ${node.status === 'ONLINE' ? 'text-emerald-400' : 'text-accent-gold'}`}>
+                  <span className={`text-xs font-black uppercase tracking-widest ${node.status === 'ONLINE' ? 'text-emerald-400' : 'text-accent-gold'}`}>
                     {node.status}
                   </span>
                 </button>
@@ -395,7 +395,7 @@ export const GovernanceView: React.FC<GovernanceViewProps> = ({ user, onNotify, 
               {visibleNodes < networkHubs.length && (
                 <button 
                   onClick={() => setVisibleNodes(prev => prev + 3)}
-                  className="w-full py-2 border border-white/5 rounded-xl text-[8px] font-black uppercase tracking-[0.3em] text-white/40 hover:text-primary-cyan hover:bg-white/5 transition-all"
+                  className="w-full py-2 border border-white/5 rounded-xl text-[10px] font-black uppercase tracking-[0.3em] text-white/40 hover:text-primary-cyan hover:bg-white/5 transition-all"
                 >
                   LOAD MORE HUBS
                 </button>

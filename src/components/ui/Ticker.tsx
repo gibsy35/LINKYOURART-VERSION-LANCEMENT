@@ -13,7 +13,7 @@ export const Ticker: React.FC = () => {
   return (
     <div className="fixed bottom-0 left-0 right-0 h-8 bg-surface-dim border-t border-white/5 z-[80] overflow-hidden flex items-center font-mono">
       <div className="absolute left-0 top-0 bottom-0 px-3 bg-primary-cyan text-surface-dim flex items-center gap-2 z-10 border-r border-white/10">
-        <span className="text-[9px] font-black uppercase tracking-tighter">LIVE_FEED</span>
+        <span className="text-xs font-black uppercase tracking-tighter">LIVE_FEED</span>
         <div className="w-1.5 h-1.5 rounded-full bg-surface-dim animate-pulse" />
       </div>
 

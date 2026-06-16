@@ -94,7 +94,7 @@ const PatronageHubTab: React.FC<{
           <span className="text-primary-cyan text-xs font-mono tracking-widest border border-primary-cyan/30 px-3 py-1 rounded-full inline-block">
             ✦ {T('ESPACE MÉCÉNAT LYA', 'LYA PATRONAGE SPACE')}
           </span>
-          <div className="flex flex-col lg:flex-row justify-between items-start gap-8">
+          <div className="flex flex-col lg:flex-row justify-between items-start gap-6">
             <div>
               <h2 className="font-headline font-black text-on-surface uppercase tracking-tighter leading-[0.88] mb-5" style={{ fontSize: 'clamp(2rem,4.5vw,3.6rem)' }}>
                 {T("CO-POSSÉDEZ LES CHEFS-D'ŒUVRE", "CO-OWN TOMORROW'S")}<br />
@@ -111,7 +111,7 @@ const PatronageHubTab: React.FC<{
             <div className="shrink-0 w-[180px]">
               <div className="relative rounded-2xl p-px" style={{ background: 'linear-gradient(145deg, rgba(251,191,36,0.4) 0%, rgba(255,255,255,0.06) 60%)' }}>
                 <div className="bg-surface-low/80 rounded-2xl p-5 text-center space-y-3">
-                  <p className="text-[9px] font-mono tracking-[0.22em] uppercase" style={{ color: 'rgba(251,191,36,0.55)' }}>
+                  <p className="text-xs font-mono tracking-[0.22em] uppercase" style={{ color: 'rgba(251,191,36,0.55)' }}>
                     {T('INDEX DE VALEUR', 'VALUE INDEX')}
                   </p>
                   <p className="font-headline font-black tracking-tighter leading-none text-on-surface text-lg">
@@ -121,7 +121,7 @@ const PatronageHubTab: React.FC<{
                     {formatPrice(LYA_UNIT_VALUE)}
                   </p>
                   <div className="h-px w-full" style={{ background: 'linear-gradient(90deg, transparent, rgba(251,191,36,0.3), transparent)' }} />
-                  <p className="text-[9px] font-mono text-on-surface-variant/50 leading-relaxed">
+                  <p className="text-xs font-mono text-on-surface-variant/50 leading-relaxed">
                     {T('Étalon créatif souverain', 'Sovereign creative standard')}
                   </p>
                 </div>
@@ -348,7 +348,7 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
             <button
               key={tab.key}
               onClick={() => setActiveTab(tab.key)}
-              className={`pb-4 text-[9px] sm:text-[10px] font-black uppercase tracking-[0.15em] transition-all relative whitespace-nowrap flex items-center gap-1.5 px-1 ${
+              className={`pb-4 text-xs sm:text-[10px] font-black uppercase tracking-[0.15em] transition-all relative whitespace-nowrap flex items-center gap-1.5 px-1 ${
                 activeTab === tab.key ? 'text-primary-cyan' : 'text-on-surface-variant hover:text-on-surface'
               }`}
             >
@@ -371,7 +371,7 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
                 { label: t('Avg. Growth', 'Croissance Moy.'), value: `${marketStats.avgGrowth >= 0 ? '+' : ''}${marketStats.avgGrowth?.toFixed(1)}%`, border: 'border-white/20', color: marketStats.avgGrowth >= 0 ? 'text-emerald-400' : 'text-rose-400', badge: null },
               ].map((stat, i) => (
                 <div key={i} className={`relative group rounded-2xl bg-surface-low/30 backdrop-blur-2xl border-l-4 ${stat.border} p-5 lg:p-8 flex flex-col justify-center min-h-[120px] lg:min-h-[180px] shadow-2xl border border-white/10 hover:border-white/20 transition-all`}>
-                  <div className={`text-[8px] lg:text-[10px] uppercase tracking-[0.25em] font-black opacity-70 mb-3 flex items-center gap-2 ${stat.color}`}>
+                  <div className={`text-[10px] lg:text-[10px] uppercase tracking-[0.25em] font-black opacity-70 mb-3 flex items-center gap-2 ${stat.color}`}>
                     {stat.label}
                     {stat.badge && <span className={`px-1.5 py-0.5 bg-primary-cyan/20 text-[7px] font-black uppercase tracking-widest border border-primary-cyan/30 rounded-sm ${stat.color}`}>{stat.badge}</span>}
                   </div>
@@ -380,7 +380,7 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
               ))}
             </div>
 
-            <p className="border-l-2 border-primary-cyan pl-6 text-on-surface-variant max-w-xl text-[9px] leading-relaxed opacity-70 mt-6 uppercase tracking-[0.25em] font-black text-justify">
+            <p className="border-l-2 border-primary-cyan pl-6 text-on-surface-variant max-w-xl text-xs leading-relaxed opacity-70 mt-6 uppercase tracking-[0.25em] font-black text-justify">
               {t('LINKYOURART STANDARDIZES CREATIVE VALUE. EVERY PROJECT IS INDEXED INTO CONTRACT UNITS.', 'LINKYOURART STANDARDISE LA VALEUR CRÉATIVE. CHAQUE PROJET EST INDEXÉ EN UNITÉS DE CONTRAT.')}
             </p>
 
@@ -392,7 +392,7 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
                 { label: t('Sort By Score', 'Trier par Score'), value: sortOrder, setter: (v: string) => setSortOrder(v as any), options: [['SCORE_DESC', t('Score: High to Low', 'Score : Décroissant')], ['SCORE_ASC', t('Score: Low to High', 'Score : Croissant')]] },
               ].map((sel) => (
                 <div key={sel.label} className="space-y-1 min-w-[140px]">
-                  <span className="text-[8px] text-on-surface-variant uppercase tracking-[0.3em] font-black opacity-50 px-1">{sel.label}</span>
+                  <span className="text-[10px] text-on-surface-variant uppercase tracking-[0.3em] font-black opacity-50 px-1">{sel.label}</span>
                   <div className="relative">
                     <select value={sel.value} onChange={(e) => sel.setter(e.target.value)} className="w-full bg-surface-low/50 backdrop-blur-xl border border-white/10 text-[10px] font-black uppercase tracking-widest py-3 pl-4 pr-10 appearance-none focus:border-primary-cyan outline-none transition-all rounded-xl">
                       {sel.options.map(([v, l]) => <option key={v} value={v}>{l}</option>)}
@@ -460,11 +460,11 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
                             <td className="px-6 py-5 text-on-surface-variant/70 text-[10px]">{activity.timestamp}</td>
                             <td className="px-6 py-5 font-bold text-on-surface text-[10px]">{activity.contract}</td>
                             <td className="px-6 py-5">
-                              <span className={`px-3 py-1 rounded-full text-[9px] font-black border ${activity.type === 'BUY' ? 'bg-emerald-400/10 text-emerald-400 border-emerald-400/20' : 'bg-rose-400/10 text-rose-400 border-rose-400/20'}`}>
+                              <span className={`px-3 py-1 rounded-full text-xs font-black border ${activity.type === 'BUY' ? 'bg-emerald-400/10 text-emerald-400 border-emerald-400/20' : 'bg-rose-400/10 text-rose-400 border-rose-400/20'}`}>
                                 {activity.type === 'BUY' ? t('ACQUISITION', 'ACQUISITION') : t('TRANSFER', 'TRANSFERT')}
                               </span>
                             </td>
-                            <td className="px-6 py-5 text-on-surface-variant font-bold text-[10px]">{activity.volume} <span className="text-[8px] opacity-50">UNITS</span></td>
+                            <td className="px-6 py-5 text-on-surface-variant font-bold text-[10px]">{activity.volume} <span className="text-[10px] opacity-50">UNITS</span></td>
                             <td className="px-6 py-5 text-right text-primary-cyan font-black text-xs">{(activity.price / LYA_UNIT_VALUE).toFixed(2)}</td>
                           </motion.tr>
                         ))}
@@ -522,10 +522,10 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
                                 <tr key={order.id} className="hover:bg-white/[0.02] transition-colors">
                                   <td className="py-5 font-black text-on-surface">{c?.name}</td>
                                   <td className={`py-5 font-black ${order.type === 'BUY' ? 'text-emerald-400' : 'text-rose-400'}`}>{order.type}</td>
-                                  <td className="py-5 font-bold">{order.volume} <span className="text-[9px] opacity-50">U</span></td>
+                                  <td className="py-5 font-bold">{order.volume} <span className="text-xs opacity-50">U</span></td>
                                   <td className="py-5 text-primary-cyan font-black text-sm">{(order.price / LYA_UNIT_VALUE).toFixed(2)}</td>
                                   <td className="py-5 text-right">
-                                    <button onClick={() => onCancelOrder(order.id)} className="px-4 py-2 bg-red-400/10 text-red-400 text-[9px] font-black uppercase tracking-widest border border-red-400/20 rounded-xl hover:bg-red-400 hover:text-white transition-all">{t('Cancel', 'Annuler')}</button>
+                                    <button onClick={() => onCancelOrder(order.id)} className="px-4 py-2 bg-red-400/10 text-red-400 text-xs font-black uppercase tracking-widest border border-red-400/20 rounded-xl hover:bg-red-400 hover:text-white transition-all">{t('Cancel', 'Annuler')}</button>
                                   </td>
                                 </tr>
                               );
@@ -551,12 +551,12 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
                     </div>
                   </div>
                   <div className="p-6">
-                    <div className="grid grid-cols-3 text-[9px] uppercase tracking-[0.2em] text-on-surface-variant/50 mb-4 font-black px-2">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 text-xs uppercase tracking-[0.2em] text-on-surface-variant/50 mb-4 font-black px-3">
                       <span>{t('Price', 'Prix')}</span><span className="text-center">{t('Vol.', 'Vol.')}</span><span className="text-right">$</span>
                     </div>
                     <div className="space-y-1 mb-4">
                       {orderBookData.asks.map((o, i) => (
-                        <div key={i} className="grid grid-cols-3 text-[10px] font-mono py-1.5 px-2 relative cursor-pointer hover:bg-red-400/5 rounded-md overflow-hidden">
+                        <div key={i} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 text-[10px] font-mono py-2 px-3 relative cursor-pointer hover:bg-red-400/5 rounded-md overflow-hidden">
                           <div className="absolute inset-y-0 right-0 bg-red-400/10" style={{ width: `${o.depth}%` }} />
                           <span className="text-red-400 relative z-10 font-bold">{o.price}</span>
                           <span className="text-center relative z-10">{o.volume}</span>
@@ -570,13 +570,13 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
                         <div className="flex items-center gap-1 text-emerald-400"><ArrowUpRight size={18} /><span className="text-[10px] font-black">UNITS</span></div>
                       </div>
                       <div className="text-right">
-                        <div className="text-[9px] text-on-surface-variant uppercase tracking-widest font-black opacity-50">Spread: {orderBookData.spread}</div>
+                        <div className="text-xs text-on-surface-variant uppercase tracking-widest font-black opacity-50">Spread: {orderBookData.spread}</div>
                         <div className="text-[10px] font-mono text-primary-cyan">≈ {formatPrice(parseFloat(orderBookData.currentPrice) * LYA_UNIT_VALUE)}</div>
                       </div>
                     </div>
                     <div className="space-y-1">
                       {orderBookData.bids.map((o, i) => (
-                        <div key={i} className="grid grid-cols-3 text-[10px] font-mono py-1.5 px-2 relative cursor-pointer hover:bg-emerald-400/5 rounded-md overflow-hidden">
+                        <div key={i} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 text-[10px] font-mono py-2 px-3 relative cursor-pointer hover:bg-emerald-400/5 rounded-md overflow-hidden">
                           <div className="absolute inset-y-0 right-0 bg-emerald-400/10" style={{ width: `${o.depth}%` }} />
                           <span className="text-emerald-400 relative z-10 font-bold">{o.price}</span>
                           <span className="text-center relative z-10">{o.volume}</span>
@@ -621,7 +621,7 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
                   <h3 className="font-headline font-bold uppercase tracking-widest text-sm mb-8 flex items-center gap-3">
                     <RefreshCw size={16} className="text-primary-cyan" />
                     {t('Exchange Sentiment Index', 'Indice de Sentiment')}
-                    <span className="px-2 py-0.5 bg-primary-cyan/20 text-primary-cyan text-[9px] font-black uppercase tracking-widest border border-primary-cyan/30 rounded-md ml-auto">Pro</span>
+                    <span className="px-3 py-0.5 bg-primary-cyan/20 text-primary-cyan text-xs font-black uppercase tracking-widest border border-primary-cyan/30 rounded-md ml-auto">Pro</span>
                   </h3>
                   <div className="space-y-6">
                     {[
@@ -652,7 +652,7 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
                   <h3 className="font-headline font-bold uppercase tracking-widest text-sm mb-8 flex items-center gap-3 relative z-10">
                     <Droplets size={16} className="text-primary-cyan" />
                     {t('Liquidity Pool', 'Pool de Liquidité')}
-                    <span className="px-2 py-0.5 bg-accent-gold/20 text-accent-gold text-[9px] font-black uppercase border border-accent-gold/30 rounded-md ml-auto">{t('Institutional', 'Institutionnel')}</span>
+                    <span className="px-3 py-0.5 bg-accent-gold/20 text-accent-gold text-xs font-black uppercase border border-accent-gold/30 rounded-md ml-auto">{t('Institutional', 'Institutionnel')}</span>
                   </h3>
                   <div className="space-y-5 relative z-10">
                     <div className="p-4 bg-white/5 border border-white/10 rounded-xl">
@@ -662,13 +662,13 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
                       </div>
                       <div className="text-2xl font-black font-headline text-white">98.4%</div>
                     </div>
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div className="p-4 bg-white/5 border border-white/10 rounded-xl">
-                        <div className="text-[8px] uppercase tracking-widest text-on-surface-variant font-black mb-2">{t('Pool Depth', 'Profondeur')}</div>
+                        <div className="text-[10px] uppercase tracking-widest text-on-surface-variant font-black mb-2">{t('Pool Depth', 'Profondeur')}</div>
                         <div className="text-lg font-black text-white">4.2M Units</div>
                       </div>
                       <div className="p-4 bg-white/5 border border-white/10 rounded-xl">
-                        <div className="text-[8px] uppercase tracking-widest text-on-surface-variant font-black mb-2">{t('24h Volume', 'Volume 24h')}</div>
+                        <div className="text-[10px] uppercase tracking-widest text-on-surface-variant font-black mb-2">{t('24h Volume', 'Volume 24h')}</div>
                         <div className="text-lg font-black text-white">842K Units</div>
                       </div>
                     </div>
@@ -753,7 +753,7 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
                 <div className="grid md:grid-cols-2 gap-12 items-center text-left">
                   <div className="space-y-6">
                     <h2 className="text-5xl font-black font-headline text-white tracking-tighter">{predictionResult.forecast} <span className="text-primary-cyan text-2xl">{t('GROWTH', 'CROISSANCE')}</span></h2>
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div className="p-4 bg-white/5 border border-white/10 rounded-xl">
                         <div className="text-[10px] font-mono text-on-surface-variant uppercase tracking-widest mb-1">{t('Confidence', 'Confiance')}</div>
                         <div className="text-xl font-black text-primary-cyan">{predictionResult.confidence}</div>
@@ -773,7 +773,7 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
                           <div className="w-8 h-8 bg-primary-cyan/10 rounded-lg flex items-center justify-center text-primary-cyan text-[10px] font-black">{s.category.substring(0, 2)}</div>
                           <div>
                             <div className="text-[10px] font-black text-white uppercase">{s.name}</div>
-                            <div className="text-[8px] font-mono text-on-surface-variant">Score: {s.totalScore}/1000</div>
+                            <div className="text-[10px] font-mono text-on-surface-variant">Score: {s.totalScore}/1000</div>
                           </div>
                         </div>
                         <div className="flex items-center gap-3">

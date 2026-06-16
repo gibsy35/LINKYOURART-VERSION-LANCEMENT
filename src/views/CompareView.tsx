@@ -129,7 +129,7 @@ export const CompareView: React.FC<CompareViewProps> = ({
                     </div>
                     <div className="flex items-center justify-between border-t border-white/5 pt-6">
                        <div>
-                         <div className="text-[8px] font-black text-accent-gold uppercase tracking-widest mb-1">{t('INDEX_SCORE', 'SCORE INDEX')}</div>
+                         <div className="text-[10px] font-black text-accent-gold uppercase tracking-widest mb-1">{t('INDEX_SCORE', 'SCORE INDEX')}</div>
                          <div className="text-xl font-black font-mono text-white tracking-tighter">
                             <NumberTicker value={project.scoreLYA || project.totalScore} />
                          </div>
@@ -147,7 +147,7 @@ export const CompareView: React.FC<CompareViewProps> = ({
       ) : (
         <div className="bg-surface-low/20 backdrop-blur-3xl border border-white/10 rounded-sm overflow-hidden shadow-[0_50px_100px_rgba(0,0,0,0.5)] relative animate-in fade-in zoom-in-95 duration-700 mt-20">
           <div className="overflow-x-auto custom-scrollbar">
-            <table className="w-full text-left border-collapse min-w-[1200px]">
+            <table className="w-full text-left border-collapse min-w-[1200px] overflow-x-auto">
               <thead>
                 <tr className="bg-white/[0.03] border-b border-white/10">
                   <th className="p-10 text-[10px] uppercase tracking-[0.5em] text-on-surface-variant font-black border-r border-white/5 w-[280px] bg-black sticky left-0 z-30 opacity-100">
@@ -159,7 +159,7 @@ export const CompareView: React.FC<CompareViewProps> = ({
                   {selectedContracts.map((contract, idx) => (
                     <th key={contract.id} className="p-10 border-r border-white/5 min-w-[340px] relative">
                       <div className="flex items-center justify-between mb-8">
-                        <span className="text-[9px] font-black text-primary-cyan uppercase tracking-[0.3em] bg-primary-cyan/5 px-3 py-1.5 border border-primary-cyan/20 rounded-sm">
+                        <span className="text-xs font-black text-primary-cyan uppercase tracking-[0.3em] bg-primary-cyan/5 px-3 py-1.5 border border-primary-cyan/20 rounded-sm">
                           {contract.registryIndex}
                         </span>
                         <div className="flex items-center gap-4">
@@ -185,7 +185,7 @@ export const CompareView: React.FC<CompareViewProps> = ({
                         <div className="min-w-0">
                           <div className="text-[10px] font-bold text-primary-cyan uppercase tracking-[0.3em] mb-2 opacity-50">{contract.category}</div>
                           <div className="text-2xl font-black text-white uppercase tracking-tighter truncate leading-none mb-1 italic">{contract.name}</div>
-                          <div className="text-[8px] font-mono text-on-surface-variant/40 uppercase tracking-widest">{contract.issuerId}</div>
+                          <div className="text-[10px] font-mono text-on-surface-variant/40 uppercase tracking-widest">{contract.issuerId}</div>
                         </div>
                       </div>
                     </th>
@@ -198,8 +198,8 @@ export const CompareView: React.FC<CompareViewProps> = ({
                         <div className="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                           <Plus size={20} className="text-white/20 group-hover:text-primary-cyan" />
                         </div>
-                        <span className="text-[9px] font-black uppercase tracking-[0.4em] text-white/20 group-hover:text-primary-cyan transition-colors">{t('ADD_TO_BENCHMARK', 'AJOUTER_POUR_COMPARER')}</span>
-                        <span className="text-[8px] font-bold text-white/10 mt-2">{selectedContracts.length} / 20 SLOTS</span>
+                        <span className="text-xs font-black uppercase tracking-[0.4em] text-white/20 group-hover:text-primary-cyan transition-colors">{t('ADD_TO_BENCHMARK', 'AJOUTER_POUR_COMPARER')}</span>
+                        <span className="text-[10px] font-bold text-white/10 mt-2">{selectedContracts.length} / 20 SLOTS</span>
                       </div>
                     </th>
                   ))}
@@ -209,12 +209,12 @@ export const CompareView: React.FC<CompareViewProps> = ({
                      <th className="p-10 border-r border-white/5 min-w-[340px] bg-accent-gold/[0.02]">
                        <div className="flex flex-col items-center justify-center h-full min-h-[160px] border border-dashed border-accent-gold/20 rounded-sm bg-black/10 group">
                          <Lock size={20} className="text-accent-gold/40 mb-4" />
-                         <span className="text-[9px] font-black uppercase tracking-[0.4em] text-accent-gold/40 text-center px-8 leading-relaxed">
+                         <span className="text-xs font-black uppercase tracking-[0.4em] text-accent-gold/40 text-center px-8 leading-relaxed">
                             {t('UPGRADE_TO_PRO_FOR_UNLIMITED_SLOTS', 'PASSEZ_EN_PRO_POUR_DES_SLOTS_ILLIMITÉS')}
                          </span>
                          <button 
                             onClick={() => onViewChange('PRICING')}
-                            className="mt-6 px-6 py-2 border border-accent-gold/30 text-accent-gold text-[9px] font-black uppercase tracking-widest hover:bg-accent-gold hover:text-surface-dim transition-all"
+                            className="mt-6 px-6 py-2 border border-accent-gold/30 text-accent-gold text-xs font-black uppercase tracking-widest hover:bg-accent-gold hover:text-surface-dim transition-all"
                          >
                             {t('UNLEASH_TERMINAL', 'DÉBRIDER_LE_TERMINAL')}
                          </button>

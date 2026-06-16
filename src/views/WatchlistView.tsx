@@ -53,19 +53,19 @@ export const WatchlistView: React.FC<WatchlistViewProps> = ({
         <div className="flex items-center gap-6 bg-surface-low/80 backdrop-blur-3xl border border-white/10 p-5 rounded-2xl shadow-2xl relative overflow-hidden group">
           <div className="absolute top-0 left-0 w-1 h-full bg-accent-gold" />
           <div className="flex flex-col">
-            <span className="text-[9px] text-accent-gold font-bold uppercase tracking-widest mb-1 opacity-80">{t('TOTAL_MONITORED', 'TOTAL_SURVEILLÉ')}</span>
+            <span className="text-xs text-accent-gold font-bold uppercase tracking-widest mb-1 opacity-80">{t('TOTAL_MONITORED', 'TOTAL_SURVEILLÉ')}</span>
             <div className="flex items-baseline gap-2">
               <span className="text-xl font-black font-mono text-white tracking-tighter">
                 {watchlistedContracts.length}
               </span>
-              <span className="text-[9px] font-bold text-on-surface-variant opacity-30">/ {MAX_WATCHLIST} SLOTS</span>
+              <span className="text-xs font-bold text-on-surface-variant opacity-30">/ {MAX_WATCHLIST} SLOTS</span>
             </div>
           </div>
           <div className="h-8 w-[1px] bg-white/10" />
           <div className="flex items-center gap-3">
              <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse shadow-[0_0_10px_rgba(52,211,153,0.5)]" />
              <div>
-               <span className="block text-[8px] font-bold text-white uppercase tracking-widest leading-none mb-0.5">{t('SYNC_ACTIVE', 'SYNC_ACTIF')}</span>
+               <span className="block text-[10px] font-bold text-white uppercase tracking-widest leading-none mb-0.5">{t('SYNC_ACTIVE', 'SYNC_ACTIF')}</span>
                <span className="block text-[7px] font-mono text-on-surface-variant/40 uppercase tracking-widest leading-none">NODE_04_LYA</span>
              </div>
           </div>
@@ -125,11 +125,11 @@ export const WatchlistView: React.FC<WatchlistViewProps> = ({
                     <div className="absolute inset-0 bg-gradient-to-t from-surface-dim via-surface-dim/20 to-transparent" />
                     
                     <div className="absolute top-6 left-6 flex flex-col gap-3">
-                      <div className="px-3 py-1 bg-accent-gold text-surface-dim text-[9px] font-black uppercase tracking-[0.2em] rounded-lg shadow-xl flex items-center gap-2">
+                      <div className="px-3 py-1 bg-accent-gold text-surface-dim text-xs font-black uppercase tracking-[0.2em] rounded-lg shadow-xl flex items-center gap-2">
                         <Shield size={10} />
                         {contract.rarity}
                       </div>
-                      <div className="px-3 py-1 bg-black/60 backdrop-blur-md border border-white/10 text-white text-[9px] font-black uppercase tracking-[0.2em] rounded-lg">
+                      <div className="px-3 py-1 bg-black/60 backdrop-blur-md border border-white/10 text-white text-xs font-black uppercase tracking-[0.2em] rounded-lg">
                         {contract.category}
                       </div>
                     </div>
@@ -159,19 +159,19 @@ export const WatchlistView: React.FC<WatchlistViewProps> = ({
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-8 py-6 border-y border-white/5 mb-8">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 py-6 border-y border-white/5 mb-8">
                       <div>
-                        <div className="text-[9px] text-on-surface-variant uppercase tracking-[0.3em] font-black mb-2 opacity-40">{t('LYA_SCORE', 'SCORE LYA')}</div>
+                        <div className="text-xs text-on-surface-variant uppercase tracking-[0.3em] font-black mb-2 opacity-40">{t('LYA_SCORE', 'SCORE LYA')}</div>
                         <div className="text-lg font-black font-mono text-primary-cyan flex items-baseline gap-1">
                           <NumberTicker value={contract.scoreLYA || 0} />
-                          <span className="text-[9px] opacity-40 font-sans tracking-widest">/1000</span>
+                          <span className="text-xs opacity-40 font-sans tracking-widest">/1000</span>
                         </div>
                       </div>
                       <div>
-                        <div className="text-[9px] text-on-surface-variant uppercase tracking-[0.3em] font-black mb-2 opacity-40">{t('LIQUIDITY', 'LIQUIDITÉ')}</div>
+                        <div className="text-xs text-on-surface-variant uppercase tracking-[0.3em] font-black mb-2 opacity-40">{t('LIQUIDITY', 'LIQUIDITÉ')}</div>
                         <div className="text-lg font-black font-mono text-white">
                            <NumberTicker value={85.2} decimalPlaces={1} />
-                           <span className="text-[9px] opacity-40 ml-1">%</span>
+                           <span className="text-xs opacity-40 ml-1">%</span>
                         </div>
                       </div>
                     </div>
@@ -207,18 +207,18 @@ export const WatchlistView: React.FC<WatchlistViewProps> = ({
                   <div className="flex-1 flex flex-col md:flex-row md:items-center gap-4 md:gap-8 min-w-0">
                     <div className="min-w-0 flex-1">
                       <h4 className="text-lg font-black text-white uppercase tracking-tighter truncate">{contract.name}</h4>
-                      <span className="text-[8px] font-mono text-on-surface-variant uppercase tracking-widest opacity-40">{contract.issuerId}</span>
+                      <span className="text-[10px] font-mono text-on-surface-variant uppercase tracking-widest opacity-40">{contract.issuerId}</span>
                     </div>
                     <div className="flex gap-8 items-center shrink-0">
                       <div className="text-right">
-                        <div className="text-[8px] font-mono text-on-surface-variant uppercase tracking-widest mb-0.5 opacity-40">Score</div>
+                        <div className="text-[10px] font-mono text-on-surface-variant uppercase tracking-widest mb-0.5 opacity-40">Score</div>
                         <div className="text-sm font-black text-primary-cyan font-mono">{contract.scoreLYA}</div>
                       </div>
                       <div className="text-right">
-                         <div className="text-[8px] font-mono text-on-surface-variant uppercase tracking-widest mb-0.5 opacity-40">Value</div>
+                         <div className="text-[10px] font-mono text-on-surface-variant uppercase tracking-widest mb-0.5 opacity-40">Value</div>
                          <div className="text-sm font-black text-white font-mono">{formatPrice(contract.unitValue || 0)}</div>
                       </div>
-                      <div className={`px-2 py-1 rounded-lg text-[10px] font-black font-mono ${contract.growth >= 0 ? 'bg-emerald-500/10 text-emerald-400' : 'bg-red-500/10 text-red-400'}`}>
+                      <div className={`px-3 py-1 rounded-lg text-[10px] font-black font-mono ${contract.growth >= 0 ? 'bg-emerald-500/10 text-emerald-400' : 'bg-red-500/10 text-red-400'}`}>
                         {contract.growth > 0 ? '+' : ''}{contract.growth}%
                       </div>
                     </div>

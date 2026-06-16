@@ -134,7 +134,7 @@ export const PendingApprovalView: React.FC<PendingApprovalViewProps> = ({ user, 
               </div>
 
               <div className="space-y-3">
-                <div className="inline-flex items-center gap-2 px-3 py-1 bg-amber-500/10 border border-amber-500/20 text-amber-500 text-[8px] font-black uppercase tracking-[0.2em] rounded-full">
+                <div className="inline-flex items-center gap-2 px-3 py-1 bg-amber-500/10 border border-amber-500/20 text-amber-500 text-[10px] font-black uppercase tracking-[0.2em] rounded-full">
                   <Clock size={10} className="animate-pulse" />
                   {t('MEMBER REVIEW PENDING', 'DÉMARCHE DE CO-OPTATION EN COURS')}
                 </div>
@@ -157,7 +157,7 @@ export const PendingApprovalView: React.FC<PendingApprovalViewProps> = ({ user, 
                   <Award size={12} className="text-primary-cyan" />
                   {getRoleLabel(user.role)}
                 </div>
-                <div className="text-[8px] text-white/40 uppercase tracking-widest font-medium pt-1">
+                <div className="text-[10px] text-white/40 uppercase tracking-widest font-medium pt-1">
                   ID: <span className="font-mono text-primary-cyan">{user.uid.slice(0, 12)}...</span> • {user.email}
                 </div>
               </div>
@@ -167,7 +167,7 @@ export const PendingApprovalView: React.FC<PendingApprovalViewProps> = ({ user, 
             <div className="pt-6">
               <button 
                 onClick={onLogout}
-                className="inline-flex items-center gap-2 text-[9px] font-black text-white/40 uppercase tracking-widest hover:text-white transition-all group"
+                className="inline-flex items-center gap-2 text-xs font-black text-white/40 uppercase tracking-widest hover:text-white transition-all group"
               >
                 <LogOut size={12} className="group-hover:-translate-x-1 transition-transform" />
                 {t('LEAVE PREVIEW HUB', 'QUITTER LE HUB DE DÉMONSTRATION')}
@@ -179,15 +179,15 @@ export const PendingApprovalView: React.FC<PendingApprovalViewProps> = ({ user, 
           <div className="lg:col-span-5 p-8 md:p-12 bg-white/[0.01] flex flex-col justify-between space-y-8">
             {/* Timeline Progress */}
             <div className="space-y-6">
-              <h3 className="text-[9px] font-black text-white/40 tracking-[0.4em] uppercase">{t('ADMISSION TIMELINE', 'INSCRIPTION ET SÉLECTION')}</h3>
+              <h3 className="text-xs font-black text-white/40 tracking-[0.4em] uppercase">{t('ADMISSION TIMELINE', 'INSCRIPTION ET SÉLECTION')}</h3>
               
               <div className="space-y-6 relative pl-3 border-l border-white/5">
                 {/* Step 1 */}
                 <div className="relative">
                   <div className="absolute -left-[19px] top-0 w-3 h-3 rounded-full bg-emerald-500 border-2 border-black flex items-center justify-center shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
                   <div className="space-y-0.5">
-                    <div className="text-[9px] font-black text-emerald-400 uppercase tracking-wider">{t('STEP 1: PROFILE APPLICATON', '1. DEMANDE DE CO-OPTATION')}</div>
-                    <p className="text-[8px] text-white/50 lowercase italic leading-none">{t('profile request submitted', 'demande soumise et enregistrée')}</p>
+                    <div className="text-xs font-black text-emerald-400 uppercase tracking-wider">{t('STEP 1: PROFILE APPLICATON', '1. DEMANDE DE CO-OPTATION')}</div>
+                    <p className="text-[10px] text-white/50 lowercase italic leading-none">{t('profile request submitted', 'demande soumise et enregistrée')}</p>
                   </div>
                 </div>
 
@@ -195,8 +195,8 @@ export const PendingApprovalView: React.FC<PendingApprovalViewProps> = ({ user, 
                 <div className="relative">
                   <div className="absolute -left-[19px] top-0 w-3 h-3 rounded-full bg-amber-500 border-2 border-black flex items-center justify-center animate-pulse" />
                   <div className="space-y-0.5">
-                    <div className="text-[9px] font-black text-amber-500 uppercase tracking-wider">{t('STEP 2: COMMITEE OVERVIEW', '2. REVUE DU PORTFOLIO')}</div>
-                    <p className="text-[8px] text-white/50 lowercase italic leading-none">{t('validation of creative or professional alignment', 'relecture de l\'alignement professionnel sous 24h')}</p>
+                    <div className="text-xs font-black text-amber-500 uppercase tracking-wider">{t('STEP 2: COMMITEE OVERVIEW', '2. REVUE DU PORTFOLIO')}</div>
+                    <p className="text-[10px] text-white/50 lowercase italic leading-none">{t('validation of creative or professional alignment', 'relecture de l\'alignement professionnel sous 24h')}</p>
                   </div>
                 </div>
 
@@ -204,8 +204,8 @@ export const PendingApprovalView: React.FC<PendingApprovalViewProps> = ({ user, 
                 <div className="relative opacity-40">
                   <div className="absolute -left-[19px] top-0 w-3 h-3 rounded-full bg-white/20 border-2 border-black flex items-center justify-center" />
                   <div className="space-y-0.5">
-                    <div className="text-[9px] font-black text-white uppercase tracking-wider">{t('STEP 3: ACCESS PROVISIONED', '3. ACTIVATION ET ACCÈS PLÉNIER')}</div>
-                    <p className="text-[8px] text-white/50 lowercase italic leading-none">{t('final onboarding to the representation hub', 'intégration définitive au réseau de talent')}</p>
+                    <div className="text-xs font-black text-white uppercase tracking-wider">{t('STEP 3: ACCESS PROVISIONED', '3. ACTIVATION ET ACCÈS PLÉNIER')}</div>
+                    <p className="text-[10px] text-white/50 lowercase italic leading-none">{t('final onboarding to the representation hub', 'intégration définitive au réseau de talent')}</p>
                   </div>
                 </div>
               </div>
@@ -226,7 +226,7 @@ export const PendingApprovalView: React.FC<PendingApprovalViewProps> = ({ user, 
                 <h3 className="text-sm font-black text-white uppercase tracking-wider">
                   {t('ENTER YOUR CO-OPTATION CODE BELOW', 'RENSEIGNEZ VOTRE CODE D\'ACCÈS PRIVILÉGIÉ')}
                 </h3>
-                <p className="text-[9px] text-white/75 uppercase tracking-wider font-bold leading-normal">
+                <p className="text-xs text-white/75 uppercase tracking-wider font-bold leading-normal">
                   {t(
                     'Input your administrator-delivered clearance code below to instantly bypass the review process and fully activate your profile.',
                     'Si vous possédez une clé d\'accès privilégiée délivrée par le comité de co-optation, saisissez-la ci-dessous pour activer immédiatement votre accès.'
@@ -279,9 +279,9 @@ export const PendingApprovalView: React.FC<PendingApprovalViewProps> = ({ user, 
               <div className="space-y-2 relative z-10">
                 <div className="flex items-center gap-2">
                   <Sparkles size={14} className="text-primary-cyan animate-pulse" />
-                  <span className="text-[9px] font-black text-primary-cyan uppercase tracking-widest">{t('DEMO EVALUATION BYPASS', 'ÉVALUATION DÉMO : ACCÈS DIRECT')}</span>
+                  <span className="text-xs font-black text-primary-cyan uppercase tracking-widest">{t('DEMO EVALUATION BYPASS', 'ÉVALUATION DÉMO : ACCÈS DIRECT')}</span>
                 </div>
-                <p className="text-[8px] text-white/40 uppercase tracking-wider font-bold leading-normal">
+                <p className="text-[10px] text-white/40 uppercase tracking-wider font-bold leading-normal">
                   {t(
                     'Are you evaluating this platform for a demo, investment or partner review? You can bypass the clearance waitlist immediately with one click to test all the hub features.',
                     'Vous examinez la plateforme dans le cadre d\'un test, d\'une évaluation ou d\'un partenariat ? Activez l\'accès démo maintenant pour explorer l\'ensemble des galeries et d\'outils d\'analyse.'

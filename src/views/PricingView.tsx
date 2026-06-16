@@ -203,7 +203,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
             }`}
           >
             {t('Yearly', 'Annuel')}
-            <span className="absolute -top-2 -right-2 bg-accent-gold text-surface-dim text-[8px] px-1.5 py-0.5 font-black rounded-full">
+            <span className="absolute -top-2 -right-2 bg-accent-gold text-surface-dim text-[10px] px-1.5 py-0.5 font-black rounded-full">
               -10%
             </span>
           </button>
@@ -211,7 +211,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
       </div>
 
       <div className="max-w-full overflow-x-auto pb-4">
-        <div className="flex md:grid md:grid-cols-4 gap-6 min-w-[1000px] md:min-w-0">
+        <div className="flex md:grid md:grid-cols-4 gap-6 min-w-[1000px] overflow-x-auto md:min-w-0">
           {plans.map((plan, i) => {
             const currentPrice = calculatePrice(plan.monthlyPrice);
             return (
@@ -243,7 +243,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
                   {plan.id === 'PRO_ENTERPRISE' ? (
                     <div>
                       <span className="text-2xl font-black text-accent-purple tracking-widest block uppercase leading-none">{t('Custom Quote', 'Sur Devis')}</span>
-                      <span className="text-[8px] text-on-surface-variant/75 uppercase tracking-[0.2em] font-black block mt-2">{t('Enterprise Private Node / Dedicated Node', 'Nœud d\'infrastructure Élite / Nœud Dédié')}</span>
+                      <span className="text-[10px] text-on-surface-variant/75 uppercase tracking-[0.2em] font-black block mt-2">{t('Enterprise Private Node / Dedicated Node', 'Nœud d\'infrastructure Élite / Nœud Dédié')}</span>
                     </div>
                   ) : (
                     <div className="flex items-baseline gap-1">
@@ -313,12 +313,12 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
                   <span className="text-white">{t('AI NEEDS SEARCH ENGINE', 'MOTEUR DE RECHERCHE IA')}</span>
                   <span className="text-primary-cyan">& {t('CUSTOM QUOTE', 'DEVIS SUR-MESURE')}</span>
                 </h3>
-                <p className="text-[9px] text-on-surface-variant uppercase tracking-widest font-black leading-tight">
+                <p className="text-xs text-on-surface-variant uppercase tracking-widest font-black leading-tight">
                   {t('Tailored Creative Economy Valuation & Syndication Service Recommendation Engine', 'Moteur d’évaluation de vos besoins de syndication d’actifs et recommandations par IA')}
                 </p>
               </div>
             </div>
-            <div className="px-3 py-1.5 bg-primary-cyan/10 border border-primary-cyan/30 text-[8px] font-black uppercase tracking-wider text-primary-cyan self-start md:self-auto">
+            <div className="px-3 py-1.5 bg-primary-cyan/10 border border-primary-cyan/30 text-[10px] font-black uppercase tracking-wider text-primary-cyan self-start md:self-auto">
               {t('INTELLIGENT BROKER MODEL V3.5 ACTIVE', 'MODÈLE COURTIER LYA ACTIVE V3.5')}
             </div>
           </div>
@@ -330,7 +330,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
                 <label className="text-[10px] font-black uppercase tracking-widest text-primary-cyan block">
                   {t('1. Creative Discipline / Industry', '1. Discipline Créative / Secteur')}
                 </label>
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {[
                     { id: 'Cinema / Film / TV', label: t('Cinema / Series', 'Cinéma / Séries') },
                     { id: 'Music / Sound', label: t('Music / Masters', 'Musique / Catalogues') },
@@ -342,7 +342,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
                     <button
                       key={field.id}
                       onClick={() => setCreativeField(field.id)}
-                      className={`px-3 py-2.5 text-[8px] md:text-[9px] font-black uppercase tracking-wider text-left border transition-all ${
+                      className={`px-3 py-2.5 text-[10px] md:text-xs font-black uppercase tracking-wider text-left border transition-all ${
                         creativeField === field.id
                           ? 'bg-primary-cyan text-surface-dim border-primary-cyan shadow-[0_0_10px_rgba(0,224,255,0.2)]'
                           : 'bg-white/5 border-white/10 text-on-surface-variant hover:text-white hover:border-white/20'
@@ -432,7 +432,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
                   <p className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant">
                     {t('LAUNCH ASSISTANT TO DETERMINE TAILORED FORMULA & PRICING', 'LANCEZ L’ANALYSE POUR CALCULER VOTRE PRE-DEVIS SUR-MESURE')}
                   </p>
-                  <p className="text-[9px] text-on-surface-variant/60 uppercase max-w-sm mt-2 leading-relaxed">
+                  <p className="text-xs text-on-surface-variant/60 uppercase max-w-sm mt-2 leading-relaxed">
                     {t('Our LYA Economizer AI will cross-reference your specific Creative Field, Scale of Projects, and licensing structures to generate an immediate live proposal and highlight matching subscription levels.', 'Notre IA croisera votre secteur de création, le volume de votre catalogue et les structures de licence pour générer une proposition d’indexation immédiate.')}
                   </p>
                 </div>
@@ -467,7 +467,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
                 >
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/5 pb-4">
                     <div>
-                      <span className="text-[8px] bg-primary-cyan/20 border border-primary-cyan/40 px-2 py-0.5 font-bold uppercase tracking-widest text-primary-cyan rounded-full">
+                      <span className="text-[10px] bg-primary-cyan/20 border border-primary-cyan/40 px-3 py-0.5 font-bold uppercase tracking-widest text-primary-cyan rounded-full">
                         {t('AI Econometric Recommendation', 'Recommandation Économétrique IA')}
                       </span>
                       <h4 className="text-lg font-black uppercase tracking-tight text-white mt-1.5 flex items-center gap-2">
@@ -475,7 +475,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
                       </h4>
                     </div>
                     <div className="bg-surface-high border border-white/10 px-4 py-2 text-right">
-                      <span className="text-[8px] text-on-surface-variant block uppercase font-black tracking-widest">{t('ESTIMATED COST', 'COÛT ESTIMATIF')}</span>
+                      <span className="text-[10px] text-on-surface-variant block uppercase font-black tracking-widest">{t('ESTIMATED COST', 'COÛT ESTIMATIF')}</span>
                       <span className="text-xl font-black text-white">
                         {assessmentResult.estimatedMonthlyCost === 15000 
                           ? t('Sur de vis', 'Sur Devis') 
@@ -486,7 +486,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
 
                   {/* Summary/Analysis text */}
                   <div className="space-y-2">
-                    <h5 className="text-[9px] font-black uppercase tracking-widest text-on-surface-variant flex items-center gap-1.5">
+                    <h5 className="text-xs font-black uppercase tracking-widest text-on-surface-variant flex items-center gap-1.5">
                       <Cpu size={12} className="text-primary-cyan" />
                       {t('Ecosystem Diagnostic Report', 'Rapport de Diagnostic d’Écosystème')}
                     </h5>
@@ -498,7 +498,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
                   {/* Matching score slider info */}
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 bg-white/[0.02] border border-white/5 p-4">
                     <div className="md:col-span-2 space-y-1">
-                      <span className="text-[8px] uppercase tracking-widest font-black text-on-surface-variant block">
+                      <span className="text-[10px] uppercase tracking-widest font-black text-on-surface-variant block">
                         {t('ESTIMATED LEDGER COMPLEXITY APPRECIATION', 'INDICE DE FAISABILITÉ D’INDEXATION DE VOS DROITS')}
                       </span>
                       <div className="flex items-center gap-3">
@@ -510,14 +510,14 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
                         </div>
                         <span className="text-xs font-black text-primary-cyan font-mono">{assessmentResult.auditIndexScore}%</span>
                       </div>
-                      <span className="text-[8px] text-on-surface-variant/75 block">
+                      <span className="text-[10px] text-on-surface-variant/75 block">
                         {t('Score representing how easily your contracts can bypass validation buffers.', 'Indice représentant la facilité d\'intégration directe dans notre registre sans sas de conformité légale manuel.')}
                       </span>
                     </div>
                     
                     <div className="border-t md:border-t-0 md:border-l border-white/10 pt-2 md:pt-0 md:pl-4 flex flex-col justify-center">
-                      <span className="text-[8px] text-on-surface-variant uppercase font-black tracking-widest block">{t('PRIMARY REASON', 'MOTIF CLÉ')}</span>
-                      <p className="text-[9px] text-accent-gold font-bold leading-tight mt-1">
+                      <span className="text-[10px] text-on-surface-variant uppercase font-black tracking-widest block">{t('PRIMARY REASON', 'MOTIF CLÉ')}</span>
+                      <p className="text-xs text-accent-gold font-bold leading-tight mt-1">
                         {assessmentResult.primaryReason}
                       </p>
                     </div>
@@ -526,13 +526,13 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
                   {/* Suggested Addons & Benefits */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <h5 className="text-[9px] font-black uppercase tracking-widest text-on-surface-variant flex items-center gap-2">
+                      <h5 className="text-xs font-black uppercase tracking-widest text-on-surface-variant flex items-center gap-2">
                         <CheckCircle size={10} className="text-accent-gold" />
                         {t('Forecasted Platform Benefits', 'Retombées Plateforme Estimées')}
                       </h5>
                       <ul className="space-y-1 text-on-surface/85">
                         {(assessmentResult.projectedBenefits || []).map((b, i) => (
-                          <li key={i} className="text-[9px] font-black uppercase tracking-wider flex items-start gap-1.5 leading-snug">
+                          <li key={i} className="text-xs font-black uppercase tracking-wider flex items-start gap-1.5 leading-snug">
                             <span className="text-primary-cyan text-xs leading-none">•</span>
                             <span>{b}</span>
                           </li>
@@ -541,15 +541,15 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
                     </div>
 
                     <div className="space-y-2">
-                      <h5 className="text-[9px] font-black uppercase tracking-widest text-on-surface-variant flex items-center gap-2">
+                      <h5 className="text-xs font-black uppercase tracking-widest text-on-surface-variant flex items-center gap-2">
                         <Layers size={10} className="text-primary-cyan" />
                         {t('Suggested Specialty Modules', 'Modules Certifiés Suggérés')}
                       </h5>
                       <div className="space-y-2">
                         {(assessmentResult.suggestedAddons || []).map((addon, i) => (
                           <div key={i} className="p-2 bg-white/5 border border-white/5 rounded-sm">
-                            <span className="text-[9px] font-black text-accent-gold block uppercase tracking-wider">{addon.name}</span>
-                            <span className="text-[8px] text-on-surface-variant font-bold uppercase leading-tight mt-0.5 block">{addon.reason}</span>
+                            <span className="text-xs font-black text-accent-gold block uppercase tracking-wider">{addon.name}</span>
+                            <span className="text-[10px] text-on-surface-variant font-bold uppercase leading-tight mt-0.5 block">{addon.reason}</span>
                           </div>
                         ))}
                       </div>
@@ -754,7 +754,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
               <div key={i} className="p-6 bg-white/5 border border-white/10 rounded-xl group hover:border-accent-gold/30 transition-all flex flex-col">
                 <option.icon className="w-6 h-6 text-accent-gold mb-6 opacity-50 group-hover:opacity-100 transition-opacity" />
                 <h4 className="text-sm font-black text-white uppercase tracking-widest mb-1">{option.label}</h4>
-                <p className="text-[9px] text-on-surface-variant uppercase font-bold tracking-tighter mb-4 opacity-60">{option.desc}</p>
+                <p className="text-xs text-on-surface-variant uppercase font-bold tracking-tighter mb-4 opacity-60">{option.desc}</p>
                 <div className="flex items-baseline gap-1 mb-6 mt-auto">
                   <span className="text-2xl font-black text-accent-gold">${option.price}</span>
                   <span className="text-[10px] text-on-surface-variant uppercase font-bold tracking-widest">/ {t('year', 'an')}</span>

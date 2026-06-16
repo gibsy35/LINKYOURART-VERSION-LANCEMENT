@@ -65,7 +65,7 @@ export function MecenatView() {
               <div className="shrink-0 w-[180px]">
                 <div className="relative rounded-2xl p-px" style={{ background: 'linear-gradient(145deg, rgba(251,191,36,0.4) 0%, rgba(255,255,255,0.06) 60%)' }}>
                   <div className="bg-surface-low/80 rounded-2xl p-5 text-center space-y-3">
-                    <p className="text-[9px] font-mono tracking-[0.22em] uppercase" style={{ color: 'rgba(251,191,36,0.55)' }}>
+                    <p className="text-xs font-mono tracking-[0.22em] uppercase" style={{ color: 'rgba(251,191,36,0.55)' }}>
                       {T('INDEX DE VALEUR', 'VALUE INDEX')}
                     </p>
                     <p className="font-headline font-black tracking-tighter leading-none text-on-surface text-lg">
@@ -75,7 +75,7 @@ export function MecenatView() {
                       $50.00
                     </p>
                     <div className="h-px w-full" style={{ background: 'linear-gradient(90deg, transparent, rgba(251,191,36,0.3), transparent)' }} />
-                    <p className="text-[9px] font-mono text-on-surface-variant/50 leading-relaxed">
+                    <p className="text-xs font-mono text-on-surface-variant/50 leading-relaxed">
                       {T('Étalon créatif souverain', 'Sovereign creative standard')}
                     </p>
                   </div>

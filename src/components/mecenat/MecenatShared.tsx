@@ -134,14 +134,14 @@ export function PaymentModal({ contract, units, onClose, lang }: PaymentModalPro
             <div className="relative">
               <input type="text" value={cardNumber} onChange={e => setCardNumber(fmt4(e.target.value))} placeholder="4242 4242 4242 4242" maxLength={19} className="w-full bg-surface-high border border-white/10 rounded-lg px-4 py-3 text-on-surface font-mono text-sm placeholder-on-surface-variant/30 focus:border-primary-cyan focus:outline-none transition-colors pr-36" />
               <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
-                <span className="bg-[#1a1f71] text-on-surface text-[10px] font-bold px-2 py-0.5 rounded italic">VISA</span>
+                <span className="bg-[#1a1f71] text-on-surface text-[10px] font-bold px-3 py-0.5 rounded italic">VISA</span>
                 <span className="flex"><span className="w-4 h-4 rounded-full bg-[#eb001b] opacity-90 -mr-1.5" /><span className="w-4 h-4 rounded-full bg-[#f79e1b] opacity-90" /></span>
-                <span className="bg-[#2557d6] text-on-surface text-[9px] font-bold px-1.5 py-0.5 rounded">AMEX</span>
+                <span className="bg-[#2557d6] text-on-surface text-xs font-bold px-1.5 py-0.5 rounded">AMEX</span>
                 <span className="bg-[#00a1e0] text-on-surface text-[10px] font-bold px-1.5 py-0.5 rounded">CB</span>
               </div>
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="text-on-surface-variant/70 text-xs font-mono tracking-widest block mb-2">{T("EXPIRATION", "EXPIRY DATE")}</label>
               <input type="text" value={expiry} onChange={e => setExpiry(fmtExp(e.target.value))} placeholder="MM/YY" maxLength={5} className="w-full bg-surface-high border border-white/10 rounded-lg px-4 py-3 text-on-surface font-mono text-sm placeholder-on-surface-variant/30 focus:border-primary-cyan focus:outline-none" />
@@ -234,7 +234,7 @@ export function DetailModal({ contract, onClose, onPay, units, onUnitsChange, la
             <div className="flex justify-between items-start mb-4">
               <div>
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="bg-surface-high text-primary-cyan text-xs font-mono px-2 py-1 rounded">{contract.category.toUpperCase()}</span>
+                  <span className="bg-surface-high text-primary-cyan text-xs font-mono px-3 py-1 rounded">{contract.category.toUpperCase()}</span>
                   <span className="text-on-surface-variant/50 text-xs font-mono">ID: {contract.registryIndex}</span>
                 </div>
                 <h2 className="text-on-surface font-black text-2xl leading-tight mb-1" style={{ fontFamily: "Inter,system-ui,-apple-system,sans-serif", letterSpacing: "-0.02em" }}>{contract.name}</h2>
@@ -336,7 +336,7 @@ export function DetailModal({ contract, onClose, onPay, units, onUnitsChange, la
                           <div className="w-full bg-surface-high rounded-full h-1.5 overflow-hidden">
                             <div className="h-1.5 rounded-full" style={{ width: `${(realTotal/1000)*100}%`, background: "linear-gradient(90deg,#00d4ff,#a78bfa,#ff6b6b)" }} />
                           </div>
-                          <p className="text-on-surface-variant/25 text-[8px] font-mono mt-1 text-center">
+                          <p className="text-on-surface-variant/25 text-[10px] font-mono mt-1 text-center">
                             {T("Comme Moody's pour la finance — mais pour la création.", "Like Moody's for finance — but for creative works.")}
                           </p>
                         </div>
@@ -344,7 +344,7 @@ export function DetailModal({ contract, onClose, onPay, units, onUnitsChange, la
                         {/* Évaluation 2×3 — notes /10 dérivées mathématiquement des piliers réels */}
                         <div className="mb-4">
                           <p className="text-on-surface-variant/50 text-[10px] font-mono tracking-widest mb-2">◆ {T("ÉVALUATION DÉTAILLÉE", "DETAILED EVALUATION")}</p>
-                          <div className="grid grid-cols-2 gap-2">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                             {subCriteria.map((sc, i) => {
                               const note10 = sc.pillarIdx >= 0
                                 ? Math.round((pillars[sc.pillarIdx]?.score ?? 0) / 20)  // score/200 × 10
@@ -361,7 +361,7 @@ export function DetailModal({ contract, onClose, onPay, units, onUnitsChange, la
                                   <div className="flex justify-between items-start mb-1.5">
                                     <div>
                                       <p className="text-xs font-bold" style={{ color: sc.color }}>★ {T(sc.labelFR, sc.labelEN)}</p>
-                                      <p className="text-on-surface-variant/40 text-[9px]">{T(descFR, descEN)}</p>
+                                      <p className="text-on-surface-variant/40 text-xs">{T(descFR, descEN)}</p>
                                     </div>
                                     <div className="w-8 h-8 rounded-full flex flex-col items-center justify-center text-white font-black shrink-0" style={{ background: sc.color }}>
                                       <span className="text-xs leading-none">{note10}</span>
@@ -375,7 +375,7 @@ export function DetailModal({ contract, onClose, onPay, units, onUnitsChange, la
                               );
                             })}
                           </div>
-                          <p className="text-on-surface-variant/20 text-[8px] font-mono mt-2 text-center">
+                          <p className="text-on-surface-variant/20 text-[10px] font-mono mt-2 text-center">
                             {T("Note /10 = score pilier ÷ 20 · Score global /10 = LYA SCORE ÷ 100", "Score /10 = pillar score ÷ 20 · Global /10 = LYA SCORE ÷ 100")}
                           </p>
                         </div>
@@ -390,7 +390,7 @@ export function DetailModal({ contract, onClose, onPay, units, onUnitsChange, la
             <div className="mb-4">
               <div className="flex justify-between items-center mb-1.5">
                 <span className="text-on-surface-variant/50 text-xs font-mono tracking-widest">{T("LYA UNITS À ACQUÉRIR", "LYA UNITS TO ACQUIRE")}</span>
-                <span style={{ background: "linear-gradient(135deg,rgba(0,212,255,0.2),rgba(99,102,241,0.2))", border: "1px solid rgba(0,212,255,0.4)" }} className="text-primary-cyan text-[10px] px-2.5 py-1 rounded-md font-mono font-black">
+                <span style={{ background: "linear-gradient(135deg,rgba(0,212,255,0.2),rgba(99,102,241,0.2))", border: "1px solid rgba(0,212,255,0.4)" }} className="text-primary-cyan text-[10px] px-3.5 py-1 rounded-md font-mono font-black">
                   {units} {T("Units", "Units")}
                 </span>
               </div>
@@ -402,7 +402,7 @@ export function DetailModal({ contract, onClose, onPay, units, onUnitsChange, la
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <button onClick={onClose} className="w-full border border-white/10 text-on-surface-variant hover:text-on-surface hover:border-primary-cyan/50 font-bold font-mono py-3.5 rounded-xl transition-colors text-xs tracking-widest">
                 {T("QUITTER", "EXIT")}
               </button>
@@ -501,10 +501,10 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
         <div className="absolute top-3 left-3 flex flex-col gap-2">
           {/* Catégorie + Rareté */}
           <div className="flex gap-1.5 items-center">
-            <span className="bg-surface-dim/80 text-primary-cyan text-[9px] px-2 py-0.5 rounded font-mono font-bold backdrop-blur-sm">
+            <span className="bg-surface-dim/80 text-primary-cyan text-xs px-3 py-0.5 rounded font-mono font-bold backdrop-blur-sm">
               {contract.category.toUpperCase()}
             </span>
-            <span className={`text-[9px] px-2 py-0.5 rounded font-mono font-bold ${RARITY_STYLE[contract.rarity] || "bg-gray-500/80 text-on-surface"}`}>
+            <span className={`text-xs px-3 py-0.5 rounded font-mono font-bold ${RARITY_STYLE[contract.rarity] || "bg-gray-500/80 text-on-surface"}`}>
               {contract.rarity.toUpperCase()}
             </span>
           </div>
@@ -514,10 +514,10 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
             background: "linear-gradient(135deg, rgba(245,158,11,0.9) 0%, rgba(234,88,12,0.9) 100%)",
             boxShadow: "0 0 8px rgba(245,158,11,0.5), 0 1px 4px rgba(0,0,0,0.4)",
             border: "1px solid rgba(255,200,50,0.4)",
-          }} className="rounded-md px-2 py-1 backdrop-blur-sm w-[80px]">
+          }} className="rounded-md px-3 py-1 backdrop-blur-sm w-[80px]">
             <p className="text-[7px] font-mono font-bold text-amber-900/70 tracking-widest leading-none mb-0.5">LYA SCORE</p>
             <p className="text-white font-black font-mono text-xs leading-none">
-              {contract.totalScore}<span className="text-amber-200/50 font-normal text-[8px]">/1k</span>
+              {contract.totalScore}<span className="text-amber-200/50 font-normal text-[10px]">/1k</span>
             </p>
           </div>
 
@@ -526,10 +526,10 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
             background: "linear-gradient(135deg, rgba(0,212,255,0.9) 0%, rgba(99,102,241,0.9) 100%)",
             boxShadow: "0 0 8px rgba(0,212,255,0.4), 0 1px 4px rgba(0,0,0,0.4)",
             border: "1px solid rgba(0,212,255,0.35)",
-          }} className="rounded-md px-2 py-1 backdrop-blur-sm w-[80px]">
+          }} className="rounded-md px-3 py-1 backdrop-blur-sm w-[80px]">
             <p className="text-[7px] font-mono font-bold text-cyan-900/70 tracking-widest leading-none mb-0.5">LYA UNIT</p>
             <p className="text-white font-black font-mono text-xs leading-none">
-              ${unitPrice.toFixed(2)}<span className="text-cyan-200/50 font-normal text-[8px]">/u</span>
+              ${unitPrice.toFixed(2)}<span className="text-cyan-200/50 font-normal text-[10px]">/u</span>
             </p>
           </div>
         </div>
@@ -566,13 +566,13 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
         {/* LYA SCORE premium row */}
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-1.5">
-            <span className="text-[9px] font-mono font-bold tracking-widest" style={{ color: "#f59e0b" }}>★ LYA SCORE</span>
+            <span className="text-xs font-mono font-bold tracking-widest" style={{ color: "#f59e0b" }}>★ LYA SCORE</span>
           </div>
           <div className="flex items-center gap-1.5 flex-1 min-w-0">
             <div className="flex-1 bg-surface-high rounded-full h-1.5 overflow-hidden">
               <div className="h-1.5 rounded-full" style={{ width: `${(contract.totalScore / 1000) * 100}%`, background: "linear-gradient(90deg,#f59e0b,#ef4444)" }} />
             </div>
-            <span className="text-amber-400 font-mono font-black text-sm shrink-0">{contract.totalScore}<span className="text-on-surface-variant/30 font-normal text-[9px]">/1k</span></span>
+            <span className="text-amber-400 font-mono font-black text-sm shrink-0">{contract.totalScore}<span className="text-on-surface-variant/30 font-normal text-xs">/1k</span></span>
           </div>
         </div>
         <div>
@@ -600,7 +600,7 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
             background: "linear-gradient(135deg, rgba(0,212,255,0.2) 0%, rgba(99,102,241,0.2) 100%)",
             boxShadow: "0 0 8px rgba(0,212,255,0.25)",
             border: "1px solid rgba(0,212,255,0.4)",
-          }} className="text-primary-cyan text-[10px] px-2.5 py-1 rounded-md font-mono font-black shrink-0">
+          }} className="text-primary-cyan text-[10px] px-3.5 py-1 rounded-md font-mono font-black shrink-0">
             {units} {T("Units", "Units")}
           </span>
         </div>
@@ -613,13 +613,13 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
           <span>1 {T("UNITÉ", "UNIT")}</span><span>50 {T("UNITÉS", "UNITS")}</span><span>100 {T("UNITÉS", "UNITS")}</span>
         </div>
 
-        <div className="grid grid-cols-2 gap-2.5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
           <div className="bg-surface-high border border-white/10 rounded-lg p-3">
-            <p className="text-on-surface-variant/50 text-[9px] font-mono tracking-widest mb-1.5">{T("VOTRE ENGAGEMENT", "YOUR PLEDGE")}</p>
+            <p className="text-on-surface-variant/50 text-xs font-mono tracking-widest mb-1.5">{T("VOTRE ENGAGEMENT", "YOUR PLEDGE")}</p>
             <p className="text-on-surface font-bold font-mono text-base">${totalCost.toFixed(2)}</p>
           </div>
           <div className="bg-surface-high border border-white/10 rounded-lg p-3">
-            <p className="text-on-surface-variant/50 text-[9px] font-mono tracking-widest mb-1.5">{T("CO-PARTAGE DES GAINS", "REVENUE CO-SHARE")} <span className="opacity-50">ⓘ</span></p>
+            <p className="text-on-surface-variant/50 text-xs font-mono tracking-widest mb-1.5">{T("CO-PARTAGE DES GAINS", "REVENUE CO-SHARE")} <span className="opacity-50">ⓘ</span></p>
             <p className="text-[#00ff88] font-bold font-mono text-base">{coShare}%</p>
           </div>
         </div>
@@ -653,7 +653,7 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
         )}
 
         {/* Boutons action — distincts : Voir le Projet -> détail / Soutenir -> paiement direct */}
-        <div className="grid grid-cols-2 gap-3 mt-auto pt-1">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-auto pt-1">
           <button
             onClick={() => onViewProject(contract, units)}
             className="border border-white/10 text-on-surface py-3 rounded-full font-mono text-[10px] font-bold hover:border-primary-cyan hover:text-primary-cyan transition-colors tracking-wider"

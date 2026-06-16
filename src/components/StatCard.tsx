@@ -44,7 +44,7 @@ export const StatCard: React.FC<StatCardProps> = ({
       <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
       
       <div className="flex justify-between items-start mb-6">
-        <div className="text-[9px] font-black text-on-surface-variant uppercase tracking-[0.3em] flex items-center group-hover:text-white transition-colors">
+        <div className="text-xs font-black text-on-surface-variant uppercase tracking-[0.3em] flex items-center group-hover:text-white transition-colors">
           {title}
           {tooltip && <InfoTooltip title={title} content={tooltip} />}
         </div>

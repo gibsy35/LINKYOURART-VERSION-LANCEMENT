@@ -352,13 +352,13 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                     <Lock size={13} />
                   </button>
                   <div className="flex items-center bg-white/5 border border-white/10 rounded-full p-0.5">
-                    <button onClick={() => setLanguage('FR')} className={`px-2 py-1 rounded-full text-[9px] font-black tracking-wider transition-all ${language === 'FR' ? 'bg-white text-black' : 'text-white/40'}`}>FR</button>
-                    <button onClick={() => setLanguage('EN')} className={`px-2 py-1 rounded-full text-[9px] font-black tracking-wider transition-all ${language === 'EN' ? 'bg-white text-black' : 'text-white/40'}`}>EN</button>
+                    <button onClick={() => setLanguage('FR')} className={`px-3 py-1 rounded-full text-xs font-black tracking-wider transition-all ${language === 'FR' ? 'bg-white text-black' : 'text-white/40'}`}>FR</button>
+                    <button onClick={() => setLanguage('EN')} className={`px-3 py-1 rounded-full text-xs font-black tracking-wider transition-all ${language === 'EN' ? 'bg-white text-black' : 'text-white/40'}`}>EN</button>
                   </div>
                 </div>
                 <div className="absolute left-0 right-0 flex flex-col items-center cursor-pointer" onClick={handleLogoTap}>
                   <Logo size={100} color="multi" showBeta={true} />
-                  <motion.span className="text-[8px] font-black tracking-[0.3em] text-primary-cyan uppercase mt-1.5" animate={{ opacity: [0.4, 1, 0.4] }} transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}>
+                  <motion.span className="text-[10px] font-black tracking-[0.3em] text-primary-cyan uppercase mt-1.5" animate={{ opacity: [0.4, 1, 0.4] }} transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}>
                     ALL CREATIVE INDUSTRIES
                   </motion.span>
                 </div>
@@ -368,7 +368,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                 <Logo size={48} color="multi" showBeta={true} />
                 <div className="flex flex-col">
                   <ElevatedTextLogo size="text-2xl" />
-                  <span className="text-[9px] font-black tracking-[0.4em] text-primary-cyan uppercase opacity-70 mt-1">{t('ART IS AN EXCHANGE', 'ART IS AN EXCHANGE')}</span>
+                  <span className="text-xs font-black tracking-[0.4em] text-primary-cyan uppercase opacity-70 mt-1">{t('ART IS AN EXCHANGE', 'ART IS AN EXCHANGE')}</span>
                 </div>
               </div>
               <div className="hidden md:flex items-center gap-2 md:gap-12">
@@ -387,8 +387,8 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                   </motion.button>
                 </div>
                 <div className="flex items-center gap-2 p-1 bg-white/5 rounded-full border border-white/10">
-                  <button onClick={() => setLanguage('FR')} className={`px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest transition-all ${language === 'FR' ? 'bg-white text-black' : 'text-white/40 hover:text-white'}`}>FR</button>
-                  <button onClick={() => setLanguage('EN')} className={`px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest transition-all ${language === 'EN' ? 'bg-white text-black' : 'text-white/40 hover:text-white'}`}>EN</button>
+                  <button onClick={() => setLanguage('FR')} className={`px-3 py-1.5 rounded-full text-xs font-black uppercase tracking-widest transition-all ${language === 'FR' ? 'bg-white text-black' : 'text-white/40 hover:text-white'}`}>FR</button>
+                  <button onClick={() => setLanguage('EN')} className={`px-3 py-1.5 rounded-full text-xs font-black uppercase tracking-widest transition-all ${language === 'EN' ? 'bg-white text-black' : 'text-white/40 hover:text-white'}`}>EN</button>
                 </div>
                 <button onClick={() => onViewChange?.('LOGIN')} className="hidden md:flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-white/60 hover:text-white transition-colors">
                   <User size={14} />
@@ -432,7 +432,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                 </motion.div>
 
                 {/* Countdown */}
-                <div className="grid grid-cols-4 gap-4 max-w-lg">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-lg">
                   {[
                     { label: 'DAYS', val: timeLeft.days },
                     { label: 'HOURS', val: timeLeft.hours },
@@ -441,13 +441,13 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                   ].map((unit) => (
                     <div key={unit.label} className="bg-white/5 border border-white/5 rounded-2xl p-4 backdrop-blur-sm group hover:border-primary-cyan/30 transition-all">
                       <div className="text-3xl md:text-4xl font-headline font-black text-primary-cyan mb-1 group-hover:scale-110 transition-transform">{unit.val.toString().padStart(2, '0')}</div>
-                      <div className="text-[9px] text-white/30 font-bold tracking-widest uppercase">{t(unit.label, unit.label === 'DAYS' ? 'JOURS' : unit.label === 'MINS' ? 'MINS' : unit.label === 'SECS' ? 'SECS' : 'HEURES')}</div>
+                      <div className="text-xs text-white/30 font-bold tracking-widest uppercase">{t(unit.label, unit.label === 'DAYS' ? 'JOURS' : unit.label === 'MINS' ? 'MINS' : unit.label === 'SECS' ? 'SECS' : 'HEURES')}</div>
                     </div>
                   ))}
                 </div>
 
                 {/* Preuve sociale */}
-                <div className="grid grid-cols-3 gap-4 pt-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-4">
                   {[
                     {
                       value: "20",
@@ -477,7 +477,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                     >
                       <div className="font-black font-mono text-2xl md:text-3xl mb-1" style={{ color: stat.color }}>{stat.value}</div>
                       <div className="text-white text-xs font-bold mb-1">{stat.label}</div>
-                      <div className="text-white/30 text-[9px] leading-tight">{stat.sub}</div>
+                      <div className="text-white/30 text-xs leading-tight">{stat.sub}</div>
                     </motion.div>
                   ))}
                 </div>
@@ -526,7 +526,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                         <div className="p-1 bg-white/5 rounded-2xl border border-white/10 flex gap-1">
                           {['CREATOR', 'PROFESSIONAL', 'INVESTOR'].map((cat) => (
                             <button key={cat} type="button" onClick={() => setCategory(cat as any)}
-                              className={`flex-1 py-3 rounded-xl text-[9px] font-black tracking-widest transition-all uppercase ${category === cat ? 'bg-primary-cyan text-black shadow-lg shadow-primary-cyan/20' : 'text-white/40 hover:text-white'}`}
+                              className={`flex-1 py-3 rounded-xl text-xs font-black tracking-widest transition-all uppercase ${category === cat ? 'bg-primary-cyan text-black shadow-lg shadow-primary-cyan/20' : 'text-white/40 hover:text-white'}`}
                             >
                               {t(
                                 cat === 'CREATOR' ? 'CREATOR' : cat === 'PROFESSIONAL' ? 'PROFESSIONAL' : 'INVESTOR',
@@ -625,7 +625,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                     <Logo size={40} color="multi" showBeta={true} />
                     <div className="flex flex-col">
                       <ElevatedTextLogo size="text-xl" />
-                      <span className="text-[9px] font-black tracking-[0.4em] text-primary-cyan uppercase opacity-70 mt-0.5">{t('ART IS AN EXCHANGE', 'ART IS AN EXCHANGE')}</span>
+                      <span className="text-xs font-black tracking-[0.4em] text-primary-cyan uppercase opacity-70 mt-0.5">{t('ART IS AN EXCHANGE', 'ART IS AN EXCHANGE')}</span>
                     </div>
                   </div>
                   <p className="text-white/30 text-sm font-medium leading-relaxed max-w-xs">
@@ -646,12 +646,12 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                     <span onClick={() => setActiveLegal('PRIVACY')} className="hover:text-white cursor-pointer transition-colors">Digital Privacy</span>
                     <span onClick={() => setActiveLegal('TERMS')} className="hover:text-white cursor-pointer transition-colors">Terms</span>
                   </div>
-                  <div className="text-[9px] font-black text-white/10 tracking-[0.2em]">© 2026 LINKYOURART INDUSTRIES. ALL RIGHTS RESERVED.</div>
+                  <div className="text-xs font-black text-white/10 tracking-[0.2em]">© 2026 LINKYOURART INDUSTRIES. ALL RIGHTS RESERVED.</div>
                   <button onClick={() => setShowKidiModal(true)} className="flex items-center gap-2 mt-4 group md:ml-auto">
                     <div className="flex items-center gap-1.5 px-3 py-1.5 border border-white/10 bg-white/[0.03] group-hover:border-accent-gold/40 group-hover:bg-accent-gold/5 transition-all">
                       <span className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-[#FF6BFF] to-[#00E0FF] animate-pulse" />
-                      <span className="text-[9px] font-black uppercase tracking-[0.35em] text-white/40 group-hover:text-accent-gold transition-colors">KIDI.WORLD</span>
-                      <span className="text-[8px] text-white/20 group-hover:text-white/40 transition-colors font-bold uppercase tracking-widest">{t('— COMING SOON', '— BIENTÔT')}</span>
+                      <span className="text-xs font-black uppercase tracking-[0.35em] text-white/40 group-hover:text-accent-gold transition-colors">KIDI.WORLD</span>
+                      <span className="text-[10px] text-white/20 group-hover:text-white/40 transition-colors font-bold uppercase tracking-widest">{t('— COMING SOON', '— BIENTÔT')}</span>
                     </div>
                   </button>
                 </div>
@@ -722,7 +722,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                     <div className="w-16 h-16 bg-primary-cyan/10 rounded-2xl flex items-center justify-center text-primary-cyan border border-primary-cyan/20"><Lock size={32} /></div>
                     <div>
                       <h3 className="font-headline text-3xl font-black uppercase tracking-tighter">{t('RESTRICTED ACCESS', 'ACCÈS RESTREINT')}</h3>
-                      <p className="text-[9px] text-white/30 font-black uppercase tracking-[0.4em]">{t('VERIFICATION IN PROGRESS', 'VÉRIFICATION EN COURS')}</p>
+                      <p className="text-xs text-white/30 font-black uppercase tracking-[0.4em]">{t('VERIFICATION IN PROGRESS', 'VÉRIFICATION EN COURS')}</p>
                     </div>
                   </div>
                   <form onSubmit={handleDemoRequest} className="space-y-6">
@@ -741,22 +741,22 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                           {!showKeyInput ? (
                             <button type="button" onClick={() => setShowKeyInput(true)} className="w-full py-4 px-6 bg-gradient-to-r from-accent-gold/10 to-primary-cyan/15 hover:from-accent-gold/20 hover:to-primary-cyan/25 border border-accent-gold/30 rounded-2xl flex flex-col items-center justify-center gap-1.5 transition-all duration-300 group">
                               <span className="text-[11px] font-black uppercase tracking-[0.2em] text-accent-gold group-hover:text-primary-cyan transition-colors">🔑 {t('SECURE PARTNER RESERVATION ACCESS', 'RÉSERVATION PARTENAIRE SÉCURISÉE')}</span>
-                              <span className="text-[8px] font-bold text-white/50 uppercase tracking-wider">{t('ENTER SECURITY KEY TO BYPASS WAITLIST & START DEMO', 'SAISISSEZ VOTRE CLÉ POUR ACCÉDER DIRECTEMENT À LA DÉMO')}</span>
+                              <span className="text-[10px] font-bold text-white/50 uppercase tracking-wider">{t('ENTER SECURITY KEY TO BYPASS WAITLIST & START DEMO', 'SAISISSEZ VOTRE CLÉ POUR ACCÉDER DIRECTEMENT À LA DÉMO')}</span>
                             </button>
                           ) : (
                             <motion.div initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} className="p-5 bg-gradient-to-b from-accent-gold/5 to-transparent border border-accent-gold/30 rounded-2xl space-y-4">
-                              <div className="text-center pb-1"><span className="text-[9px] font-black uppercase tracking-[0.25em] text-accent-gold">{t('AUTHORIZED GATEWAY KEY DECRYPTION', 'DÉCRYPTAGE DE LA CLÉ DE PORTAIL AUTORISÉE')}</span></div>
+                              <div className="text-center pb-1"><span className="text-xs font-black uppercase tracking-[0.25em] text-accent-gold">{t('AUTHORIZED GATEWAY KEY DECRYPTION', 'DÉCRYPTAGE DE LA CLÉ DE PORTAIL AUTORISÉE')}</span></div>
                               <div className="relative group">
                                 <Lock className={`absolute left-5 top-1/2 -translate-y-1/2 transition-colors ${keyError ? 'text-rose-500' : 'text-accent-gold/60 group-focus-within:text-primary-cyan'}`} size={14} />
                                 <input type="text" placeholder={t('ENTER TERMINAL REVENUE ACCESS KEY', 'SAISISSEZ LA CLÉ DU TERMINAL DE REVENUS')} value={accessKey} onChange={(e) => { setAccessKey(e.target.value); setKeyError(false); }} className={`w-full bg-black border ${keyError ? 'border-rose-500/50' : 'border-accent-gold/20 focus:border-primary-cyan/50'} rounded-xl py-4 pl-12 pr-4 focus:outline-none text-[10px] font-black uppercase tracking-[0.22em] text-white transition-all`} />
                               </div>
                               <div className="flex gap-2.5">
-                                <button type="button" onClick={verifyKey} disabled={isVerifyingKey || !accessKey} className="flex-1 py-4 bg-accent-gold text-black text-[9px] font-black uppercase tracking-[0.2em] hover:bg-accent-gold/80 transition-all rounded-xl disabled:opacity-30 flex items-center justify-center gap-2">
+                                <button type="button" onClick={verifyKey} disabled={isVerifyingKey || !accessKey} className="flex-1 py-4 bg-accent-gold text-black text-xs font-black uppercase tracking-[0.2em] hover:bg-accent-gold/80 transition-all rounded-xl disabled:opacity-30 flex items-center justify-center gap-2">
                                   {isVerifyingKey ? <RefreshCw className="animate-spin mx-auto" size={14} /> : <span>{t('AUTHENTICATE SECURITY ACCESS', "AUTHENTIFIER L'ACCÈS")}</span>}
                                 </button>
-                                <button type="button" onClick={() => { setShowKeyInput(false); setKeyError(false); }} className="px-4 py-4 bg-white/5 border border-white/10 text-[9px] font-black uppercase hover:bg-white/10 text-white/70 transition-all rounded-xl">X</button>
+                                <button type="button" onClick={() => { setShowKeyInput(false); setKeyError(false); }} className="px-4 py-4 bg-white/5 border border-white/10 text-xs font-black uppercase hover:bg-white/10 text-white/70 transition-all rounded-xl">X</button>
                               </div>
-                              {keyError && <p className="text-[8px] font-black text-rose-500 uppercase tracking-widest text-center animate-bounce">{t('INVALID OR EXPIRED PRIVILEGE KEY', 'CLÉ DE PRIVILÈGE INVALIDE OU EXPIRÉE')}</p>}
+                              {keyError && <p className="text-[10px] font-black text-rose-500 uppercase tracking-widest text-center animate-bounce">{t('INVALID OR EXPIRED PRIVILEGE KEY', 'CLÉ DE PRIVILÈGE INVALIDE OU EXPIRÉE')}</p>}
                             </motion.div>
                           )}
                         </div>

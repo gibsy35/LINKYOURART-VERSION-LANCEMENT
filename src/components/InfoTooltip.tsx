@@ -37,8 +37,8 @@ export const InfoTooltip: React.FC<InfoTooltipProps> = ({ title, content, positi
             exit={{ opacity: 0, scale: 0.9 }}
             className={`absolute z-[1000] w-48 p-3 bg-surface-dim border border-white/10 shadow-2xl pointer-events-none font-mono ${positions[position]}`}
           >
-            <div className="text-[9px] font-black text-primary-cyan uppercase tracking-widest mb-1">{title}</div>
-            <div className="text-[9px] text-on-surface-variant/80 uppercase font-bold leading-tight">{content}</div>
+            <div className="text-xs font-black text-primary-cyan uppercase tracking-widest mb-1">{title}</div>
+            <div className="text-xs text-on-surface-variant/80 uppercase font-bold leading-tight">{content}</div>
             <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-primary-cyan/30" />
             <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-primary-cyan/30" />
           </motion.div>

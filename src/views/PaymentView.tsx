@@ -220,7 +220,7 @@ export const PaymentView: React.FC<{
             <div className="text-right">
               <span className="text-[10px] font-black uppercase tracking-[0.3em] text-on-surface-variant block mb-1">{t('Total Amount', 'Montant Total')}</span>
               <div className="text-3xl font-black text-white italic">${checkoutData.amount.toLocaleString()}</div>
-              <div className="text-[9px] font-bold text-primary-cyan uppercase tracking-widest">
+              <div className="text-xs font-bold text-primary-cyan uppercase tracking-widest">
                 {t('ONE-TIME PAYMENT', 'PAIEMENT UNIQUE')}
               </div>
             </div>
@@ -241,22 +241,22 @@ export const PaymentView: React.FC<{
         </div>
 
         <div className="p-6 bg-surface-dim/50 border-t border-white/5 flex items-center justify-center gap-8">
-          <div className="flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-on-surface-variant">
+          <div className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-on-surface-variant">
             <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
             PCI Compliant
           </div>
-          <div className="flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-on-surface-variant">
+          <div className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-on-surface-variant">
             <Lock className="w-3.5 h-3.5 text-primary-cyan" />
             256-bit SSL
           </div>
-          <div className="flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-on-surface-variant">
+          <div className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-on-surface-variant">
             <CreditCard className="w-3.5 h-3.5 text-accent-gold" />
             Secure Processing
           </div>
         </div>
       </div>
 
-      <p className="mt-8 text-center text-[9px] text-on-surface-variant uppercase tracking-widest leading-relaxed opacity-40">
+      <p className="mt-8 text-center text-xs text-on-surface-variant uppercase tracking-widest leading-relaxed opacity-40">
         By completing this transaction, you agree to the LYA Professional Terms of Service. 
         Payments are processed securely via Stripe. No card data is stored on our servers.
       </p>

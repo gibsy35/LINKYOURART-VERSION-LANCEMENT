@@ -196,7 +196,7 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange, onNotify }) 
               </p>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="p-6 bg-surface-low/30 border border-white/5 rounded-2xl">
                 <p className="text-2xl font-black text-primary-cyan mb-1">2006</p>
                 <p className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest">{t('FOUNDATION', 'FONDATION')}</p>
@@ -233,7 +233,7 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange, onNotify }) 
 
       {/* Stats Section */}
       <section className="px-8">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {stats.map((stat, i) => (
             <div key={i} className="bg-surface-low/30 border border-white/5 p-10 rounded-3xl text-center group hover:border-primary-cyan/30 transition-all shadow-xl">
               <h3 className="text-4xl md:text-5xl font-black text-white tracking-tighter mb-2 group-hover:text-primary-cyan transition-colors">

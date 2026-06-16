@@ -214,12 +214,12 @@ export const AdminKeysManagement: React.FC = () => {
     <div className="space-y-8 animate-in fade-in duration-700">
       
       {/* Node Metrics Panel Header Grid */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="p-6 bg-surface-low border border-white/5 rounded-3xl relative overflow-hidden group hover:border-primary-cyan/30 transition-all">
           <div className="absolute top-0 right-0 w-24 h-24 bg-primary-cyan/5 rounded-full -mr-12 -mt-12 blur-xl" />
           <div className="flex justify-between items-start mb-4">
             <Globe className="text-primary-cyan" size={18} />
-            <span className="text-[8px] bg-emerald-500/10 text-emerald-400 font-mono px-1.5 py-0.5 rounded uppercase font-bold">LIVE STREAM</span>
+            <span className="text-[10px] bg-emerald-500/10 text-emerald-400 font-mono px-1.5 py-0.5 rounded uppercase font-bold">LIVE STREAM</span>
           </div>
           <span className="text-sm font-black text-white">4 / 4 {t('Hubs actifs', 'Active Hubs')}</span>
           <p className="text-xs text-white/40 uppercase tracking-widest mt-1">{t('Centres créatifs connectés', 'Connected creative centres')}</p>
@@ -229,7 +229,7 @@ export const AdminKeysManagement: React.FC = () => {
           <div className="absolute top-0 right-0 w-24 h-24 bg-accent-gold/5 rounded-full -mr-12 -mt-12 blur-xl" />
           <div className="flex justify-between items-start mb-4">
             <Lock className="text-accent-gold" size={18} />
-            <span className="text-[8px] bg-emerald-500/10 text-emerald-400 font-mono px-1.5 py-0.5 rounded uppercase font-bold">AES-256</span>
+            <span className="text-[10px] bg-emerald-500/10 text-emerald-400 font-mono px-1.5 py-0.5 rounded uppercase font-bold">AES-256</span>
           </div>
           <span className="text-sm font-black text-white">{t('Sécurité certifiée', 'Certified security')} AES-256</span>
           <p className="text-xs text-white/40 uppercase tracking-widest mt-1">{t('Chiffrement renforcé', 'Enhanced encryption')}</p>
@@ -239,7 +239,7 @@ export const AdminKeysManagement: React.FC = () => {
           <div className="absolute top-0 right-0 w-24 h-24 bg-accent-magenta/5 rounded-full -mr-12 -mt-12 blur-xl" />
           <div className="flex justify-between items-start mb-4">
             <Activity className="text-accent-magenta" size={18} />
-            <span className="text-[8px] bg-emerald-500/10 text-emerald-400 font-mono px-1.5 py-0.5 rounded uppercase font-bold">STABLE</span>
+            <span className="text-[10px] bg-emerald-500/10 text-emerald-400 font-mono px-1.5 py-0.5 rounded uppercase font-bold">STABLE</span>
           </div>
           <span className="text-sm font-black text-white">{keys.length} {t('Codes d\'invitation actifs', 'Active invitation codes')}</span>
           <p className="text-xs text-white/40 uppercase tracking-widest mt-1">{t('Accès en cours', 'Ongoing access')}</p>
@@ -249,7 +249,7 @@ export const AdminKeysManagement: React.FC = () => {
           <div className="absolute top-0 right-0 w-24 h-24 bg-primary-cyan/5 rounded-full -mr-12 -mt-12 blur-xl" />
           <div className="flex justify-between items-start mb-4">
             <Database className="text-primary-cyan" size={18} />
-            <span className="text-[8px] bg-emerald-500/10 text-emerald-400 font-mono px-1.5 py-0.5 rounded uppercase font-bold">100% HEALTH</span>
+            <span className="text-[10px] bg-emerald-500/10 text-emerald-400 font-mono px-1.5 py-0.5 rounded uppercase font-bold">100% HEALTH</span>
           </div>
           <span className="text-sm font-black text-white">0 {t('incident détecté', 'incident detected')}</span>
           <p className="text-xs text-white/40 uppercase tracking-widest mt-1">{t('Système opérationnel', 'System operational')}</p>
@@ -278,7 +278,7 @@ export const AdminKeysManagement: React.FC = () => {
             <form onSubmit={generateKey} className="grid grid-cols-1 md:grid-cols-12 gap-4 bg-black/30 p-6 rounded-2xl border border-white/5 mb-8">
               
               <div className="md:col-span-4 space-y-1.5">
-                <label className="text-[9px] font-black tracking-widest text-white/40 uppercase block">{t('PARTNER IDENTITY', 'IDENTITÉ CRÉDENTIELLE')}</label>
+                <label className="text-xs font-black tracking-widest text-white/40 uppercase block">{t('PARTNER IDENTITY', 'IDENTITÉ CRÉDENTIELLE')}</label>
                 <input 
                   type="text"
                   required
@@ -290,7 +290,7 @@ export const AdminKeysManagement: React.FC = () => {
               </div>
 
               <div className="md:col-span-4 space-y-1.5">
-                <label className="text-[9px] font-black tracking-widest text-white/40 uppercase block">{t('PRIVILEGE LEVEL', 'NIVEAU DE PRIVILÈGE')}</label>
+                <label className="text-xs font-black tracking-widest text-white/40 uppercase block">{t('PRIVILEGE LEVEL', 'NIVEAU DE PRIVILÈGE')}</label>
                 <select
                   value={keyPrivilege}
                   onChange={(e) => setKeyPrivilege(e.target.value as any)}
@@ -333,10 +333,10 @@ export const AdminKeysManagement: React.FC = () => {
                 <table className="w-full text-left">
                   <thead>
                     <tr className="border-b border-white/5 uppercase">
-                      <th className="pb-4 text-[9px] font-black tracking-[0.2em] text-on-surface-variant/40">{t('ASSIGNED PROTOCOL TARGET', 'CIBLE DU PROTOCOLE')}</th>
-                      <th className="pb-4 text-[9px] font-black tracking-[0.2em] text-on-surface-variant/40">{t('GATEWAY ACCESS SIGNATURE', 'CLE SECRETE')}</th>
-                      <th className="pb-4 text-[9px] font-black tracking-[0.2em] text-on-surface-variant/40">{t('AUTHORIZED', 'AUTORISÉE')}</th>
-                      <th className="pb-4 text-[9px] font-black tracking-[0.2em] text-on-surface-variant/40 text-right">{t('TERMINATE', 'RÉVOQUER')}</th>
+                      <th className="pb-4 text-xs font-black tracking-[0.2em] text-on-surface-variant/40">{t('ASSIGNED PROTOCOL TARGET', 'CIBLE DU PROTOCOLE')}</th>
+                      <th className="pb-4 text-xs font-black tracking-[0.2em] text-on-surface-variant/40">{t('GATEWAY ACCESS SIGNATURE', 'CLE SECRETE')}</th>
+                      <th className="pb-4 text-xs font-black tracking-[0.2em] text-on-surface-variant/40">{t('AUTHORIZED', 'AUTORISÉE')}</th>
+                      <th className="pb-4 text-xs font-black tracking-[0.2em] text-on-surface-variant/40 text-right">{t('TERMINATE', 'RÉVOQUER')}</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-white/[0.02]">
@@ -349,7 +349,7 @@ export const AdminKeysManagement: React.FC = () => {
                             </div>
                             <div>
                               <span className="text-xs font-black uppercase tracking-widest group-hover:text-primary-cyan transition-colors block">{key.assignedTo}</span>
-                              <span className={`text-[8px] font-black tracking-widest uppercase block mt-0.5 ${
+                              <span className={`text-[10px] font-black tracking-widest uppercase block mt-0.5 ${
                                 key.privilege === 'NODE_ADMIN' ? 'text-accent-magenta' :
                                 key.privilege === 'READ_ONLY' ? 'text-primary-cyan' : 'text-accent-gold'
                               }`}>
@@ -426,7 +426,7 @@ export const AdminKeysManagement: React.FC = () => {
           </div>
 
           {/* Console Output Terminal */}
-          <div className="flex-1 p-6 font-mono text-[9px] text-emerald-400/90 space-y-3.5 overflow-y-auto max-h-[480px] bg-black/90 scrollbar-thin select-text">
+          <div className="flex-1 p-6 font-mono text-xs text-emerald-400/90 space-y-3.5 overflow-y-auto max-h-[480px] bg-black/90 scrollbar-thin select-text">
             {terminalLogs.map((log, lIdx) => (
               <div key={lIdx} className="leading-relaxed hover:text-white transition-colors">
                 <span className="text-emerald-500/40 mr-1.5">&gt;</span>
@@ -437,7 +437,7 @@ export const AdminKeysManagement: React.FC = () => {
           </div>
 
           {/* Footer security tag */}
-          <div className="p-4 bg-black/80 border-t border-white/5 font-mono text-[8px] text-emerald-500/30 flex justify-between select-none">
+          <div className="p-4 bg-black/80 border-t border-white/5 font-mono text-[10px] text-emerald-500/30 flex justify-between select-none">
             <span>SECURE ENCLAVE 04 // PARIS</span>
             <span>TLS 1.3 SIGN</span>
           </div>

@@ -497,7 +497,7 @@ export const LinkArtView: React.FC<{
                         title={t('Voice Dictation', 'Dictée Vocale')}
                       >
                         <Mic size={14} className={isListeningName ? 'animate-pulse' : ''} />
-                        <div className="invisible group-hover/mic:visible absolute bottom-full right-0 mb-2 whitespace-nowrap bg-surface-low border border-white/10 px-2.5 py-1.5 text-[8px] uppercase tracking-widest pointer-events-none text-white font-bold shadow-xl rounded-sm z-30">
+                        <div className="invisible group-hover/mic:visible absolute bottom-full right-0 mb-2 whitespace-nowrap bg-surface-low border border-white/10 px-3.5 py-1.5 text-[10px] uppercase tracking-widest pointer-events-none text-white font-bold shadow-xl rounded-sm z-30">
                           {isListeningName ? t('Listening... Stop', 'À l\'écoute... Arrêter') : t('Voice Dictation (Mic Access)', 'Dictée Vocale (Accès Micro)')}
                         </div>
                       </button>
@@ -534,7 +534,7 @@ export const LinkArtView: React.FC<{
                           title={t('Voice Dictation', 'Dictée Vocale')}
                         >
                           <Mic size={14} className={isListeningDesc ? 'animate-pulse' : ''} />
-                          <div className="invisible group-hover/mic-desc:visible absolute bottom-full right-0 mb-2 whitespace-nowrap bg-surface-low border border-white/10 px-2.5 py-1.5 text-[8px] uppercase tracking-widest pointer-events-none text-white font-bold shadow-xl rounded-sm z-30">
+                          <div className="invisible group-hover/mic-desc:visible absolute bottom-full right-0 mb-2 whitespace-nowrap bg-surface-low border border-white/10 px-3.5 py-1.5 text-[10px] uppercase tracking-widest pointer-events-none text-white font-bold shadow-xl rounded-sm z-30">
                             {isListeningDesc ? t('Listening... Stop', 'À l\'écoute... Arrêter') : t('Voice Dictation (Mic Access)', 'Dictée Vocale (Accès Micro)')}
                           </div>
                         </button>
@@ -544,7 +544,7 @@ export const LinkArtView: React.FC<{
                           className="p-2 bg-primary-cyan/10 border border-primary-cyan/20 text-primary-cyan rounded-sm hover:bg-primary-cyan/20 transition-all disabled:opacity-50 group/milestone"
                         >
                           <Sparkles size={14} className={isSuggestingMilestones ? 'animate-pulse' : ''} />
-                          <div className="absolute bottom-full right-0 mb-2 whitespace-nowrap bg-surface-low border border-white/10 px-2 py-1 text-[8px] uppercase tracking-widest opacity-0 group-hover/milestone:opacity-100 transition-opacity pointer-events-none">
+                          <div className="absolute bottom-full right-0 mb-2 whitespace-nowrap bg-surface-low border border-white/10 px-3 py-1 text-[10px] uppercase tracking-widest opacity-0 group-hover/milestone:opacity-100 transition-opacity pointer-events-none">
                             {t('AI Suggest Milestones', 'Suggestions de Jalons par l\'IA')}
                           </div>
                         </button>
@@ -584,7 +584,7 @@ export const LinkArtView: React.FC<{
                           className="p-3 bg-primary-cyan text-surface-dim rounded-full shadow-lg hover:bg-white transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed group/gen"
                         >
                           <Sparkles size={16} className={isGeneratingImage ? 'animate-pulse' : ''} />
-                          <div className="absolute bottom-full right-0 mb-2 whitespace-nowrap bg-surface-low border border-white/10 px-2 py-1 text-[8px] uppercase tracking-widest opacity-0 group-hover/gen:opacity-100 transition-opacity pointer-events-none">
+                          <div className="absolute bottom-full right-0 mb-2 whitespace-nowrap bg-surface-low border border-white/10 px-3 py-1 text-[10px] uppercase tracking-widest opacity-0 group-hover/gen:opacity-100 transition-opacity pointer-events-none">
                             {t('AI Generate Visualization', 'Génération IA de Visualisation')}
                           </div>
                         </button>
@@ -593,7 +593,7 @@ export const LinkArtView: React.FC<{
 
                     {/* Selection Grid */}
                     {generatedOptions.length > 0 && (
-                      <div className="grid grid-cols-3 gap-2">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
                         {generatedOptions.map((opt, i) => (
                           <button
                             key={i}
@@ -621,7 +621,7 @@ export const LinkArtView: React.FC<{
                     </div>
                     <div>
                       <p className="text-[10px] font-bold uppercase tracking-widest">{t('Upload Master Contract File', 'Télécharger le Fichier Maître du Contrat')}</p>
-                      <p className="text-[8px] text-on-surface-variant uppercase tracking-widest mt-1">{t('Max 100MB', 'Max 100 Mo')}</p>
+                      <p className="text-[10px] text-on-surface-variant uppercase tracking-widest mt-1">{t('Max 100MB', 'Max 100 Mo')}</p>
                     </div>
                   </div>
                 </div>
@@ -781,7 +781,7 @@ export const LinkArtView: React.FC<{
                               <div>
                                 <div className="flex items-center gap-2">
                                   <h4 className="text-sm font-bold uppercase tracking-widest text-on-surface">{milestone.label}</h4>
-                                  <span className={`text-[8px] px-1.5 py-0.5 font-bold uppercase tracking-widest border ${
+                                  <span className={`text-[10px] px-1.5 py-0.5 font-bold uppercase tracking-widest border ${
                                     milestone.status === 'COMPLETED' ? 'border-emerald-500/30 text-emerald-400 bg-emerald-500/5' :
                                     milestone.status === 'FAILED' ? 'border-red-500/30 text-red-400 bg-red-500/5' :
                                     milestone.status === 'IN_PROGRESS' ? 'border-amber-500/30 text-amber-500 bg-amber-500/5' :
@@ -905,7 +905,7 @@ export const LinkArtView: React.FC<{
                         <span className="text-[10px] text-on-surface-variant font-mono">50%</span>
                       </div>
                     </div>
-                    <p className="text-[9px] text-on-surface-variant uppercase tracking-widest leading-relaxed mt-2 italic">
+                    <p className="text-xs text-on-surface-variant uppercase tracking-widest leading-relaxed mt-2 italic">
                       {t('This amount must be deposited by the creator to activate the contract issuance protocol.', 'Ce montant doit être déposé par le créateur pour activer le protocole d\'émission du contrat.')}
                     </p>
                   </div>
@@ -1055,7 +1055,7 @@ export const LinkArtView: React.FC<{
                       </div>
                     </div>
                   </div>
-                  <div className="grid grid-cols-2 gap-8 pt-6 border-t border-white/5">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 pt-6 border-t border-white/5">
                     <div className="space-y-4">
                       <div className="flex items-center gap-2 text-emerald-400">
                         <ShieldCheck size={14} />

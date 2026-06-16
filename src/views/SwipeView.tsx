@@ -128,7 +128,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
             <div className="absolute left-0 top-0 w-1 h-full bg-primary-cyan animate-pulse" />
             <Zap size={16} className="text-primary-cyan animate-pulse" />
             <div>
-              <div className="text-[8px] md:text-[10px] text-primary-cyan uppercase tracking-widest font-black mb-0.5 opacity-70 italic">{t('SWIPES HEART', 'SWIPES COEUR')}</div>
+              <div className="text-[10px] md:text-[10px] text-primary-cyan uppercase tracking-widest font-black mb-0.5 opacity-70 italic">{t('SWIPES HEART', 'SWIPES COEUR')}</div>
               <div className="text-lg md:text-xl font-black text-white italic font-mono tracking-tighter">{swipeCount} / {currentSwipeLimitStr}</div>
             </div>
           </div>
@@ -139,7 +139,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
           >
             <div className="absolute left-0 top-0 w-1 h-full bg-accent-gold group-hover:h-full transition-all" />
             <div className="text-left">
-              <div className="text-[8px] md:text-[10px] text-accent-gold uppercase tracking-widest font-black mb-0.5 opacity-70 italic">{t('COMPARE PROJECTS', 'COMPARE INDEX')}</div>
+              <div className="text-[10px] md:text-[10px] text-accent-gold uppercase tracking-widest font-black mb-0.5 opacity-70 italic">{t('COMPARE PROJECTS', 'COMPARE INDEX')}</div>
               <div className="text-lg md:text-xl font-black text-white italic font-mono tracking-tighter">{compareCount} / {currentCompareLimitStr}</div>
             </div>
           </button>
@@ -307,7 +307,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
                         <div className="text-xs font-black text-white leading-none">{currentContract.scorePro || 0}</div>
                       </div>
                       <div className="flex flex-col items-end border-l border-white/10 pl-3 ml-1">
-                        <div className="text-[8px] text-primary-cyan font-bold uppercase tracking-widest leading-none mb-1">{t('Score LYA', 'Score LYA')}</div>
+                        <div className="text-[10px] text-primary-cyan font-bold uppercase tracking-widest leading-none mb-1">{t('Score LYA', 'Score LYA')}</div>
                         <div className="text-lg font-black text-white leading-none">
                           {Math.round(((currentContract.scoreAlgo || 0) + (currentContract.scorePro || 0)) / 2)}
                         </div>
@@ -321,11 +321,11 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
 
                   <div className="flex items-center gap-4 pt-4 border-t border-white/5">
                     <div className="flex-1">
-                      <div className="text-[9px] text-on-surface-variant uppercase tracking-widest font-bold mb-1 opacity-50">{t('Artist', 'Artiste')}</div>
+                      <div className="text-xs text-on-surface-variant uppercase tracking-widest font-bold mb-1 opacity-50">{t('Artist', 'Artiste')}</div>
                       <div className="text-xs font-bold text-white">{currentContract.issuerId}</div>
                     </div>
                     <div className="flex-1">
-                      <div className="text-[9px] text-on-surface-variant uppercase tracking-widest font-bold mb-1 opacity-50">{t('Revenue Share', 'Part de Revenus')}</div>
+                      <div className="text-xs text-on-surface-variant uppercase tracking-widest font-bold mb-1 opacity-50">{t('Revenue Share', 'Part de Revenus')}</div>
                       <div className="text-xs font-bold text-accent-gold">{currentContract.revenueSharePercentage}%</div>
                     </div>
                   </div>
@@ -378,7 +378,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
                   </div>
                   <div className="min-w-0">
                     <div className="text-[10px] font-black text-white truncate group-hover:text-primary-cyan transition-colors">{contract.name}</div>
-                    <div className="text-[8px] text-on-surface-variant uppercase tracking-widest">{contract.issuerId}</div>
+                    <div className="text-[10px] text-on-surface-variant uppercase tracking-widest">{contract.issuerId}</div>
                   </div>
                 </div>
               ))}
@@ -393,7 +393,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
               </div>
               <span className="text-[10px] font-black text-emerald-500">75%</span>
             </div>
-            <div className="text-[8px] text-on-surface-variant uppercase tracking-widest text-center">{t('Strong Bullish Signal', 'Signal Haussier Fort')}</div>
+            <div className="text-[10px] text-on-surface-variant uppercase tracking-widest text-center">{t('Strong Bullish Signal', 'Signal Haussier Fort')}</div>
           </div>
 
           {/* New: Live Activity Feed */}
@@ -405,15 +405,15 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
             <div className="space-y-3">
               <div className="flex items-center gap-2 opacity-60">
                 <div className="w-1 h-1 bg-emerald-400 rounded-full" />
-                <span className="text-[9px] font-mono text-white uppercase tracking-tight">0x4f...2a {t('matched with', 'a matché')} "Neo-Tokyo"</span>
+                <span className="text-xs font-mono text-white uppercase tracking-tight">0x4f...2a {t('matched with', 'a matché')} "Neo-Tokyo"</span>
               </div>
               <div className="flex items-center gap-2 opacity-40">
                 <div className="w-1 h-1 bg-primary-cyan rounded-full" />
-                <span className="text-[9px] font-mono text-white uppercase tracking-tight">0x12...9b {t('added', 'a ajouté')} "CyberPunk"</span>
+                <span className="text-xs font-mono text-white uppercase tracking-tight">0x12...9b {t('added', 'a ajouté')} "CyberPunk"</span>
               </div>
               <div className="flex items-center gap-2 opacity-20">
                 <div className="w-1 h-1 bg-accent-gold rounded-full" />
-                <span className="text-[9px] font-mono text-white uppercase tracking-tight">0x8e...3c {t('analyzing', 'analyse')} "Solaris"</span>
+                <span className="text-xs font-mono text-white uppercase tracking-tight">0x8e...3c {t('analyzing', 'analyse')} "Solaris"</span>
               </div>
             </div>
           </div>
@@ -458,13 +458,13 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
                 </p>
                 <div className="flex items-center justify-between pt-4 border-t border-white/5">
                   <div className="text-left">
-                    <p className="text-[9px] text-primary-cyan font-bold uppercase tracking-widest opacity-60">SCORE LYA</p>
+                    <p className="text-xs text-primary-cyan font-bold uppercase tracking-widest opacity-60">SCORE LYA</p>
                     <p className="text-sm font-black text-white italic">
                       {contract.scoreLYA || ((contract.scoreAlgo || 0) + (contract.scorePro || 0)) || contract.totalScore}
                     </p>
                   </div>
                   <div className="text-right">
-                    <p className="text-[9px] text-on-surface-variant font-bold uppercase tracking-widest opacity-40">{t('Yield', 'Rendement')}</p>
+                    <p className="text-xs text-on-surface-variant font-bold uppercase tracking-widest opacity-40">{t('Yield', 'Rendement')}</p>
                     <p className="text-sm font-black text-emerald-400 italic">+{contract.revenueSharePercentage}%</p>
                   </div>
                 </div>

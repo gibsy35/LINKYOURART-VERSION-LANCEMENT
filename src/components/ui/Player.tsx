@@ -70,7 +70,7 @@ export const Player: React.FC<PlayerProps> = ({ titleWhite, titleAccent, subtitl
         <div className="flex items-end justify-between">
           <div className="flex items-center gap-8">
             <div className="flex flex-col gap-1">
-              <span className="text-[8px] font-black uppercase tracking-widest text-white/30">System Status</span>
+              <span className="text-[10px] font-black uppercase tracking-widest text-white/30">System Status</span>
               <span className="text-[10px] font-black uppercase tracking-widest text-emerald-400 flex items-center gap-2">
                 <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
                 Optimal Sync
@@ -78,7 +78,7 @@ export const Player: React.FC<PlayerProps> = ({ titleWhite, titleAccent, subtitl
             </div>
             <div className="h-4 w-px bg-white/10" />
             <div className="flex flex-col gap-1">
-              <span className="text-[8px] font-black uppercase tracking-widest text-white/30">Registry Access</span>
+              <span className="text-[10px] font-black uppercase tracking-widest text-white/30">Registry Access</span>
               <span className="text-[10px] font-black uppercase tracking-widest text-white">Full Protocol Enabled</span>
             </div>
           </div>

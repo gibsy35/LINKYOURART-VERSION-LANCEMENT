@@ -175,9 +175,9 @@ export const WalletView: React.FC<WalletViewProps> = ({ user, onNotify, onViewCh
       {/* LYA IBAN for deposit reference */}
       <div className="bg-surface-low border border-primary-cyan/20 p-6 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center gap-4">
         <div className="flex-1">
-          <p className="text-[9px] font-black text-primary-cyan uppercase tracking-[0.4em] mb-1">{t('SEPA DEPOSIT — YOUR LYA IBAN', 'VIREMENT SEPA — VOTRE IBAN LYA')}</p>
+          <p className="text-xs font-black text-primary-cyan uppercase tracking-[0.4em] mb-1">{t('SEPA DEPOSIT — YOUR LYA IBAN', 'VIREMENT SEPA — VOTRE IBAN LYA')}</p>
           <p className="text-sm font-black text-white tracking-widest font-mono">FR76 3000 6000 0112 3456 7890 189</p>
-          <p className="text-[9px] text-on-surface-variant/40 font-bold uppercase tracking-widest mt-1">{t('Reference: your email address', 'Référence : votre adresse email')}</p>
+          <p className="text-xs text-on-surface-variant/40 font-bold uppercase tracking-widest mt-1">{t('Reference: your email address', 'Référence : votre adresse email')}</p>
         </div>
         <button
           onClick={handleCopyIban}
@@ -225,7 +225,7 @@ export const WalletView: React.FC<WalletViewProps> = ({ user, onNotify, onViewCh
                     <td className="px-8 py-5 font-bold text-white uppercase tracking-widest">{t(tx.type, tx.type)}</td>
                     <td className="px-8 py-5 text-on-surface-variant uppercase tracking-widest font-black text-[10px]">{tx.method}</td>
                     <td className="px-8 py-5">
-                      <span className={`px-3 py-1 rounded-full text-[9px] font-black ${
+                      <span className={`px-3 py-1 rounded-full text-xs font-black ${
                         tx.status === 'COMPLETED' ? 'bg-emerald-400/10 text-emerald-400' : 'bg-accent-gold/10 text-accent-gold'
                       } border border-current/20 uppercase tracking-widest`}>
                         {t(tx.status, tx.status)}
@@ -262,11 +262,11 @@ export const WalletView: React.FC<WalletViewProps> = ({ user, onNotify, onViewCh
               <p className="text-xl font-bold tracking-[0.2em] mb-2 leading-none">**** **** **** 8842</p>
               <div className="flex justify-between items-end">
                 <div>
-                  <p className="text-[8px] opacity-60 uppercase font-black tracking-tighter mb-1">CARD HOLDER</p>
+                  <p className="text-[10px] opacity-60 uppercase font-black tracking-tighter mb-1">CARD HOLDER</p>
                   <p className="text-[10px] font-black uppercase tracking-widest">{user?.displayName?.toUpperCase() || 'VALUED MEMBER'}</p>
                 </div>
                 <div className="text-right">
-                  <p className="text-[8px] opacity-60 uppercase font-black tracking-tighter mb-1">EXPIRES</p>
+                  <p className="text-[10px] opacity-60 uppercase font-black tracking-tighter mb-1">EXPIRES</p>
                   <p className="text-[10px] font-black tracking-widest">12/28</p>
                 </div>
               </div>
@@ -320,7 +320,7 @@ export const WalletView: React.FC<WalletViewProps> = ({ user, onNotify, onViewCh
                     <h2 className="text-lg font-black text-white uppercase tracking-tight mb-6">{t('WITHDRAWAL REQUEST', 'DEMANDE DE RETRAIT')}</h2>
                     <div className="space-y-4">
                       <div>
-                        <label className="text-[9px] font-black text-on-surface-variant/50 uppercase tracking-widest block mb-2">{t('AMOUNT (€)', 'MONTANT (€)')}</label>
+                        <label className="text-xs font-black text-on-surface-variant/50 uppercase tracking-widest block mb-2">{t('AMOUNT (€)', 'MONTANT (€)')}</label>
                         <input
                           type="number"
                           value={withdrawAmount}
@@ -329,10 +329,10 @@ export const WalletView: React.FC<WalletViewProps> = ({ user, onNotify, onViewCh
                           max={cashBalance}
                           className="w-full bg-white/5 border border-white/10 p-4 text-white text-sm focus:outline-none focus:border-primary-cyan transition-all font-mono"
                         />
-                        <p className="text-[9px] text-on-surface-variant/40 mt-1 uppercase tracking-widest">{t('Available:', 'Disponible :')} {formatPrice(cashBalance)}</p>
+                        <p className="text-xs text-on-surface-variant/40 mt-1 uppercase tracking-widest">{t('Available:', 'Disponible :')} {formatPrice(cashBalance)}</p>
                       </div>
                       <div>
-                        <label className="text-[9px] font-black text-on-surface-variant/50 uppercase tracking-widest block mb-2">{t('DESTINATION IBAN', 'IBAN DESTINATAIRE')}</label>
+                        <label className="text-xs font-black text-on-surface-variant/50 uppercase tracking-widest block mb-2">{t('DESTINATION IBAN', 'IBAN DESTINATAIRE')}</label>
                         <input
                           type="text"
                           value={withdrawIban}

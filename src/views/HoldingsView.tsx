@@ -170,16 +170,16 @@ export const HoldingsView: React.FC<{ onNotify: (msg: string) => void; userContr
               <p className="text-5xl font-black font-headline tracking-tighter text-white">{formatPrice(12450.75)}</p>
             </div>
           </div>
-          <div className="mt-8 grid grid-cols-2 gap-4">
+          <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
              <button 
                onClick={() => onViewChange('PAYMENT')}
-               className="py-3 bg-primary-cyan text-surface-dim text-[9px] font-black uppercase tracking-widest rounded-xl hover:bg-white transition-all shadow-xl active:scale-95"
+               className="py-3 bg-primary-cyan text-surface-dim text-xs font-black uppercase tracking-widest rounded-xl hover:bg-white transition-all shadow-xl active:scale-95"
              >
                {t('DEPOSIT', 'DÉPOSER')}
              </button>
              <button 
                onClick={() => onViewChange('WALLET')}
-               className="py-3 bg-white/5 border border-white/10 text-white text-[9px] font-black uppercase tracking-widest rounded-xl hover:bg-white hover:text-surface-dim transition-all active:scale-95"
+               className="py-3 bg-white/5 border border-white/10 text-white text-xs font-black uppercase tracking-widest rounded-xl hover:bg-white hover:text-surface-dim transition-all active:scale-95"
              >
                {t('WITHDRAW', 'RETIRER')}
              </button>
@@ -202,7 +202,7 @@ export const HoldingsView: React.FC<{ onNotify: (msg: string) => void; userContr
                 {totalProfit >= 0 ? <TrendingUp size={12} /> : <TrendingDown size={12} />}
                 {totalProfitPercent.toFixed(2)}%
               </div>
-              <span className="text-[9px] font-black text-on-surface-variant/40 uppercase tracking-widest">REAL-TIME APY</span>
+              <span className="text-xs font-black text-on-surface-variant/40 uppercase tracking-widest">REAL-TIME APY</span>
            </div>
         </div>
 
@@ -221,7 +221,7 @@ export const HoldingsView: React.FC<{ onNotify: (msg: string) => void; userContr
                </div>
              </div>
            </div>
-           <button className="mt-8 py-3 bg-accent-gold/10 border border-accent-gold/30 text-accent-gold text-[9px] font-black uppercase tracking-widest rounded-xl hover:bg-accent-gold hover:text-surface-dim transition-all">
+           <button className="mt-8 py-3 bg-accent-gold/10 border border-accent-gold/30 text-accent-gold text-xs font-black uppercase tracking-widest rounded-xl hover:bg-accent-gold hover:text-surface-dim transition-all">
              {t('STAKE UNITS', 'STAKER LES UNITÉS')}
            </button>
         </div>
@@ -287,7 +287,7 @@ export const HoldingsView: React.FC<{ onNotify: (msg: string) => void; userContr
                             </div>
                             <div>
                               <div className="font-bold group-hover:text-primary-cyan transition-colors text-xs md:text-sm">{h.contract.name}</div>
-                              <div className="text-[9px] md:text-[10px] text-on-surface-variant uppercase tracking-widest">{h.contract.registryIndex}</div>
+                              <div className="text-xs md:text-[10px] text-on-surface-variant uppercase tracking-widest">{h.contract.registryIndex}</div>
                             </div>
                           </div>
                         </td>
@@ -337,7 +337,7 @@ export const HoldingsView: React.FC<{ onNotify: (msg: string) => void; userContr
                 <div className="flex items-center gap-2 bg-surface-dim px-3 py-1 rounded-lg border border-white/5 group relative cursor-help">
                   <Zap size={14} className="text-accent-gold" />
                   <span className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest">{t('Strategic Yield: +14.2%', 'Rendement Stratégique : +14,2 %')}</span>
-                  <div className="absolute bottom-full right-0 mb-2 w-48 p-3 bg-surface-high border border-white/10 text-[9px] text-on-surface-variant uppercase tracking-widest leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 shadow-2xl backdrop-blur-xl">
+                  <div className="absolute bottom-full right-0 mb-2 w-48 p-3 bg-surface-high border border-white/10 text-xs text-on-surface-variant uppercase tracking-widest leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 shadow-2xl backdrop-blur-xl">
                     {t('This metric represents the performance excédentaire de vos droits relative to the market benchmark, adjusted for risk.', 'Cette mesure représente le performance excédentaire de vos droits par rapport à l\'indice de référence du marché, ajusté au risque.')}
                   </div>
                 </div>
@@ -368,7 +368,7 @@ export const HoldingsView: React.FC<{ onNotify: (msg: string) => void; userContr
                       </PieChart>
                     </ResponsiveContainer>
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {sectorData.map((sector, i) => (
                       <div key={i} className="flex items-center gap-2">
                         <div className="w-2 h-2 rounded-full" style={{ backgroundColor: sector.color }} />
@@ -401,11 +401,11 @@ export const HoldingsView: React.FC<{ onNotify: (msg: string) => void; userContr
                   </div>
                   <div className="flex justify-between items-center p-4 bg-white/5 rounded-xl border border-white/5">
                     <div>
-                      <div className="text-[9px] text-on-surface-variant uppercase tracking-widest font-bold mb-1">{t('Outperformance', 'Surperformance')}</div>
+                      <div className="text-xs text-on-surface-variant uppercase tracking-widest font-bold mb-1">{t('Outperformance', 'Surperformance')}</div>
                       <div className="text-lg font-black text-emerald-400 font-headline">+12.8%</div>
                     </div>
                     <div className="text-right">
-                      <div className="text-[9px] text-on-surface-variant uppercase tracking-widest font-bold mb-1">{t('Risk-Adjusted Ratio', 'Ratio Ajusté au Risque')}</div>
+                      <div className="text-xs text-on-surface-variant uppercase tracking-widest font-bold mb-1">{t('Risk-Adjusted Ratio', 'Ratio Ajusté au Risque')}</div>
                       <div className="text-lg font-black text-primary-cyan font-headline">2.45</div>
                     </div>
                   </div>
@@ -420,7 +420,7 @@ export const HoldingsView: React.FC<{ onNotify: (msg: string) => void; userContr
               <div className="flex justify-between items-center mb-8">
                 <h2 className="text-lg md:text-xl font-bold font-headline uppercase tracking-widest text-white">{t('Contract Allocation', 'Allocation des Contrats')}</h2>
                 <div className="text-right">
-                  <div className="text-[9px] text-on-surface-variant uppercase tracking-widest font-bold mb-1">{t('Diversification', 'Diversification')}</div>
+                  <div className="text-xs text-on-surface-variant uppercase tracking-widest font-bold mb-1">{t('Diversification', 'Diversification')}</div>
                   <div className={`text-sm font-black uppercase tracking-tight ${diversificationScore.value > 50 ? 'text-emerald-400' : 'text-accent-gold'}`}>{diversificationScore.label} ({diversificationScore.value.toFixed(0)}%)</div>
                 </div>
               </div>

@@ -230,15 +230,15 @@ export const TaxOptimizerView: React.FC<{ onNotify: (msg: string) => void }> = (
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
                <div className="bg-white/5 border border-white/10 p-6 rounded-3xl text-center">
-                  <p className="text-[8px] font-black text-on-surface-variant uppercase tracking-widest mb-3 opacity-40">{t('STANDARD TAX', 'TAXE STANDARD')}</p>
+                  <p className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest mb-3 opacity-40">{t('STANDARD TAX', 'TAXE STANDARD')}</p>
                   <p className="text-xl font-black text-red-500 italic">{(standardTax / 1000).toFixed(0)}k</p>
                </div>
                <div className="bg-white/5 border border-accent-magenta/30 p-6 rounded-3xl text-center shadow-[0_15px_30px_rgba(255,0,255,0.1)]">
-                  <p className="text-[8px] font-black text-accent-magenta uppercase tracking-widest mb-3">{t('OPTIMIZED', 'OPTIMISÉE')}</p>
+                  <p className="text-[10px] font-black text-accent-magenta uppercase tracking-widest mb-3">{t('OPTIMIZED', 'OPTIMISÉE')}</p>
                   <p className="text-xl font-black text-primary-cyan italic">{(optimizedTax / 1000).toFixed(0)}k</p>
                </div>
                <div className="bg-emerald-400 font-bold text-surface-dim p-6 rounded-3xl text-center shadow-[0_15px_30px_rgba(52,211,153,0.2)]">
-                  <p className="text-[8px] font-black uppercase tracking-widest mb-3">{t('TOTAL SAVING', 'ÉCONOMIE TOTALE')}</p>
+                  <p className="text-[10px] font-black uppercase tracking-widest mb-3">{t('TOTAL SAVING', 'ÉCONOMIE TOTALE')}</p>
                   <p className="text-xl font-black italic">+{(totalSaving / 1000).toFixed(0)}k</p>
                </div>
             </div>
@@ -258,7 +258,7 @@ export const TaxOptimizerView: React.FC<{ onNotify: (msg: string) => void }> = (
                 <div className="absolute top-0 right-0 p-4 opacity-50">
                   <AlertCircle size={14} className="text-red-500" />
                 </div>
-                <div className="text-[9px] font-black text-red-400 uppercase tracking-widest mb-2 flex items-center gap-2">
+                <div className="text-xs font-black text-red-400 uppercase tracking-widest mb-2 flex items-center gap-2">
                   <span>NEW REGULATION</span>
                   <span className="w-1 h-1 rounded-full bg-red-400" />
                   <span>UK</span>
@@ -270,7 +270,7 @@ export const TaxOptimizerView: React.FC<{ onNotify: (msg: string) => void }> = (
                 <div className="absolute top-0 right-0 p-4 opacity-50">
                   <Info size={14} className="text-emerald-500" />
                 </div>
-                <div className="text-[9px] font-black text-emerald-400 uppercase tracking-widest mb-2 flex items-center gap-2">
+                <div className="text-xs font-black text-emerald-400 uppercase tracking-widest mb-2 flex items-center gap-2">
                   <span>OPPORTUNITY</span>
                   <span className="w-1 h-1 rounded-full bg-emerald-400" />
                   <span>HK</span>

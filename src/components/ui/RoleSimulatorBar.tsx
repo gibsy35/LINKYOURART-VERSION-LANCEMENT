@@ -35,7 +35,7 @@ export const RoleSimulatorBar: React.FC<RoleSimulatorBarProps> = ({ simulatedRol
           className="flex items-center gap-3 px-5 py-3 bg-[#0D1117]/95 border border-emerald-500/30 backdrop-blur-xl shadow-[0_0_30px_rgba(74,222,128,0.15)] hover:border-emerald-500/60 transition-all font-mono"
         >
           <Zap size={12} className="text-emerald-400" />
-          <span className="text-[9px] font-black uppercase tracking-[0.3em] text-emerald-400/70">ADMIN SIMULATOR</span>
+          <span className="text-xs font-black uppercase tracking-[0.3em] text-emerald-400/70">ADMIN SIMULATOR</span>
           <span className="w-px h-4 bg-white/10" />
           <span className={`flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest ${active.color}`}>
             {active.icon} {active.labelFr}
@@ -53,7 +53,7 @@ export const RoleSimulatorBar: React.FC<RoleSimulatorBarProps> = ({ simulatedRol
               className="absolute bottom-full mb-2 left-0 right-0 bg-[#0D1117]/98 border border-white/10 backdrop-blur-xl overflow-hidden shadow-2xl"
             >
               <div className="px-4 pt-3 pb-1">
-                <p className="text-[8px] font-black uppercase tracking-[0.4em] text-white/30">SIMULER UN RÔLE</p>
+                <p className="text-[10px] font-black uppercase tracking-[0.4em] text-white/30">SIMULER UN RÔLE</p>
               </div>
               <div className="p-2 space-y-1">
                 {ROLES.map(role => (
@@ -72,7 +72,7 @@ export const RoleSimulatorBar: React.FC<RoleSimulatorBarProps> = ({ simulatedRol
                     <span className={role.color}>{role.icon}</span>
                     <div className="text-left">
                       <p className={`text-[10px] font-black uppercase tracking-widest ${role.color}`}>{role.labelFr}</p>
-                      <p className="text-[8px] text-white/30 uppercase tracking-widest font-bold">
+                      <p className="text-[10px] text-white/30 uppercase tracking-widest font-bold">
                         {role.key === 'VISITOR' ? 'Non connecté — accès limité' :
                          role.key === UserRole.CREATOR ? 'Accès créateur standard' :
                          role.key === UserRole.INVESTOR ? 'Accès investisseur + Pro' :
@@ -87,7 +87,7 @@ export const RoleSimulatorBar: React.FC<RoleSimulatorBarProps> = ({ simulatedRol
                 ))}
               </div>
               <div className="px-4 py-2 border-t border-white/5">
-                <p className="text-[8px] text-white/20 uppercase tracking-widest font-bold">Visible uniquement par l'administrateur</p>
+                <p className="text-[10px] text-white/20 uppercase tracking-widest font-bold">Visible uniquement par l'administrateur</p>
               </div>
             </motion.div>
           )}

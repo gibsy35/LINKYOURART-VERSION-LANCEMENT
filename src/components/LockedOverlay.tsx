@@ -48,7 +48,7 @@ export const LockedOverlay: React.FC<LockedOverlayProps> = ({
 
         <div className="mt-6 flex items-center justify-center gap-4 text-on-surface-variant/30">
           <Shield size={12} />
-          <span className="text-[8px] font-black uppercase tracking-widest whitespace-nowrap">AES-256 BANK GRADE SECURITY ACTIVE</span>
+          <span className="text-[10px] font-black uppercase tracking-widest whitespace-nowrap">AES-256 BANK GRADE SECURITY ACTIVE</span>
         </div>
       </div>
 

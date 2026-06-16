@@ -132,7 +132,7 @@ const LYASimulator: React.FC<{ lang: 'FR' | 'EN' }> = ({ lang }) => {
             {step.questions.map((q, qi) => (
               <div key={qi} className="space-y-3">
                 <p className="text-sm font-black text-on-surface">{qi + 1}. {T(q.qFR, q.qEN)}</p>
-                <div className="grid grid-cols-2 gap-2.5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                   {q.options.map((opt) => {
                     const pts = parsePoints(opt);
                     const label = opt.split(' — ')[0];
@@ -165,7 +165,7 @@ const LYASimulator: React.FC<{ lang: 'FR' | 'EN' }> = ({ lang }) => {
                                    T('↑ En développement — Continuez à progresser', '↑ Developing — Keep progressing')}
               </p>
             </div>
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
               {steps.map((s, i) => {
                 const stepPts = answers[i]?.reduce((a, b) => a + b, 0) || 0;
                 return (
@@ -200,12 +200,12 @@ const HeatmapCard: React.FC<{ lang: 'FR' | 'EN' }> = ({ lang }) => {
       <div className="overflow-x-auto">
         <div className="flex gap-1" style={{ minWidth: 600 }}>
           <div className="flex flex-col gap-1 pt-6">
-            {days.map(d => <div key={d} className="h-5 w-8 text-[9px] text-on-surface-variant/40 font-mono flex items-center">{d}</div>)}
+            {days.map(d => <div key={d} className="h-5 w-8 text-xs text-on-surface-variant/40 font-mono flex items-center">{d}</div>)}
           </div>
           <div className="flex-1 space-y-1">
             <div className="flex gap-1 mb-1">
               {[T('0h','0h'), T('6h','6h'), T('12h','12h'), T('18h','18h')].map((h, i) => (
-                <div key={i} className="text-[9px] text-on-surface-variant/30 font-mono" style={{ marginLeft: i === 0 ? 0 : '25%' }}>{h}</div>
+                <div key={i} className="text-xs text-on-surface-variant/30 font-mono" style={{ marginLeft: i === 0 ? 0 : '25%' }}>{h}</div>
               ))}
             </div>
             {data.map((row, di) => (
@@ -317,7 +317,7 @@ export const CreatorDashboardView: React.FC<{ user: UserProfile | null; onNotify
           {/* ─── VUE D'ENSEMBLE ─── */}
           {activeSection === 'overview' && (
             <div className="space-y-8">
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {kpis.map((k, i) => <KpiCard key={i} {...k} />)}
               </div>
 
@@ -336,7 +336,7 @@ export const CreatorDashboardView: React.FC<{ user: UserProfile | null; onNotify
                         <p className="text-[10px] text-on-surface-variant/40 font-mono uppercase tracking-widest">{proj.category} · {proj.registryIndex}</p>
                         <h3 className="text-lg font-black text-on-surface">{proj.name}</h3>
                         <div className="flex items-center gap-2 mt-1">
-                          <span className="px-2 py-0.5 bg-emerald-400/10 border border-emerald-400/20 rounded-full text-[10px] font-black text-emerald-400 uppercase tracking-widest">● {T('ACCÉLÉRATION', 'ACCELERATION')}</span>
+                          <span className="px-3 py-0.5 bg-emerald-400/10 border border-emerald-400/20 rounded-full text-[10px] font-black text-emerald-400 uppercase tracking-widest">● {T('ACCÉLÉRATION', 'ACCELERATION')}</span>
                         </div>
                       </div>
                       <div className="text-right shrink-0">
@@ -357,14 +357,14 @@ export const CreatorDashboardView: React.FC<{ user: UserProfile | null; onNotify
                             </AreaChart>
                           </ResponsiveContainer>
                         </div>
-                        <div className="grid grid-cols-3 gap-2">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
                           {[
                             { l: T('Valeur actuelle', 'Current value'), v: formatPrice(chartData[chartData.length-1]?.v || 0), c: 'text-on-surface' },
                             { l: T('Mécènes', 'Patrons'), v: String(87 + idx * 116), c: 'text-on-surface' },
                             { l: T('Variation', 'Change'), v: `+${proj.growth}%`, c: 'text-emerald-400' },
                           ].map((s, i) => (
                             <div key={i} className="bg-surface-high/30 rounded-xl p-2.5">
-                              <p className="text-[9px] text-on-surface-variant/40 uppercase tracking-widest mb-1">{s.l}</p>
+                              <p className="text-xs text-on-surface-variant/40 uppercase tracking-widest mb-1">{s.l}</p>
                               <p className={`text-sm font-black ${s.c}`}>{s.v}</p>
                             </div>
                           ))}
@@ -410,7 +410,7 @@ export const CreatorDashboardView: React.FC<{ user: UserProfile | null; onNotify
           {/* ─── DOCUMENTS & MÉDIAS ─── */}
           {activeSection === 'documents' && (
             <div className="space-y-6">
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {[
                   { l: T('Public', 'Public'), v: 1, c: 'text-primary-cyan' },
                   { l: T('Mécènes', 'Patrons'), v: 1, c: 'text-[#a78bfa]' },
@@ -454,7 +454,7 @@ export const CreatorDashboardView: React.FC<{ user: UserProfile | null; onNotify
                         <p className="text-xs text-on-surface-variant/50">{f.size} · {f.date}</p>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className={`px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${f.access === T('Public','Public') ? 'bg-emerald-400/10 text-emerald-400' : 'bg-[#a78bfa]/10 text-[#a78bfa]'}`}>{f.access}</span>
+                        <span className={`px-3.5 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${f.access === T('Public','Public') ? 'bg-emerald-400/10 text-emerald-400' : 'bg-[#a78bfa]/10 text-[#a78bfa]'}`}>{f.access}</span>
                         {f.price && <span className="text-accent-gold font-black text-sm">$ {f.price}</span>}
                       </div>
                     </div>
@@ -540,7 +540,7 @@ export const CreatorDashboardView: React.FC<{ user: UserProfile | null; onNotify
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {[
                   { l: T('Score LYA Total','Total LYA Score'), v: '2,288', sub: '+8.2% ce mois', c: 'text-[#a78bfa]', icon: <Sparkles size={16}/> },
                   { l: T('Engagement Total','Total Engagement'), v: '24.8K', sub: '+15.7% ce mois', c: 'text-primary-cyan', icon: <Users size={16}/> },
@@ -588,7 +588,7 @@ export const CreatorDashboardView: React.FC<{ user: UserProfile | null; onNotify
                   <div className="w-8 h-8 bg-accent-gold/10 rounded-lg flex items-center justify-center text-accent-gold"><Award size={15}/></div>
                   <p className="text-sm font-black text-on-surface">{T('Jalons & Réalisations','Milestones & Achievements')}</p>
                 </div>
-                <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                   {[
                     { l: T('Score LYA +800','LYA Score +800'), sub: T('Atteint','Achieved'), done: true, c: 'border-emerald-400/20 bg-emerald-400/5 text-emerald-400', icon: <Sparkles size={14}/> },
                     { l: T('10K Followers','10K Followers'), sub: T('Communauté engagée','Engaged community'), done: true, c: 'border-primary-cyan/20 bg-primary-cyan/5 text-primary-cyan', icon: <Users size={14}/> },
@@ -600,7 +600,7 @@ export const CreatorDashboardView: React.FC<{ user: UserProfile | null; onNotify
                     <div key={i} className={`p-4 border rounded-xl ${a.c}`}>
                       <div className="flex items-center justify-between mb-2">
                         {a.icon}
-                        {a.done && <span className="text-[9px] font-black uppercase tracking-widest px-2 py-0.5 bg-emerald-400/10 text-emerald-400 rounded-full">{T('ATTEINT','ACHIEVED')}</span>}
+                        {a.done && <span className="text-xs font-black uppercase tracking-widest px-3 py-0.5 bg-emerald-400/10 text-emerald-400 rounded-full">{T('ATTEINT','ACHIEVED')}</span>}
                       </div>
                       <p className="text-sm font-black text-on-surface">{a.l}</p>
                       <p className="text-xs text-on-surface-variant/50">{a.sub}</p>
@@ -620,7 +620,7 @@ export const CreatorDashboardView: React.FC<{ user: UserProfile | null; onNotify
                     { p: T('Moyenne','Medium'), t: T('Renforcer la communauté sur réseaux','Strengthen community on networks'), imp: '+3K followers estimés' },
                   ].map((a, i) => (
                     <div key={i} className="bg-surface-high/30 border border-white/6 rounded-xl p-4 hover:border-white/15 transition-all">
-                      <span className={`inline-block px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-widest mb-2 ${a.p === T('Haute','High') ? 'bg-rose-400/10 text-rose-400' : 'bg-accent-gold/10 text-accent-gold'}`}>{a.p}</span>
+                      <span className={`inline-block px-3 py-0.5 rounded-full text-xs font-black uppercase tracking-widest mb-2 ${a.p === T('Haute','High') ? 'bg-rose-400/10 text-rose-400' : 'bg-accent-gold/10 text-accent-gold'}`}>{a.p}</span>
                       <p className="text-sm font-black text-on-surface">{a.t}</p>
                       <p className="text-xs text-emerald-400 font-bold mt-1">{a.imp}</p>
                     </div>

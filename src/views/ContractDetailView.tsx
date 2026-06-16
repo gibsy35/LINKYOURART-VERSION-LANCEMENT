@@ -194,9 +194,9 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
           </button>
           <div>
             <div className="flex items-center gap-2 mb-0.5">
-              <span className="text-[8px] font-black text-primary-cyan uppercase tracking-[0.2em]">{contract.registryIndex}</span>
+              <span className="text-[10px] font-black text-primary-cyan uppercase tracking-[0.2em]">{contract.registryIndex}</span>
               <span className="w-1 h-1 rounded-full bg-white/20" />
-              <span className="text-[8px] font-black text-white/40 uppercase tracking-widest">{contract.category}</span>
+              <span className="text-[10px] font-black text-white/40 uppercase tracking-widest">{contract.category}</span>
             </div>
             <h1 className="text-xl font-headline font-black tracking-tighter uppercase leading-none">{contract.name}</h1>
           </div>
@@ -207,13 +207,13 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
           <div className="flex items-center gap-2 p-1 bg-white/5 rounded-full border border-white/10 shrink-0">
             <button 
               onClick={() => setLanguage('FR')}
-              className={`px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest transition-all cursor-pointer ${language === 'FR' ? 'bg-white text-black shadow-md' : 'text-white/40 hover:text-white'}`}
+              className={`px-3 py-1.5 rounded-full text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${language === 'FR' ? 'bg-white text-black shadow-md' : 'text-white/40 hover:text-white'}`}
             >
               FR
             </button>
             <button 
               onClick={() => setLanguage('EN')}
-              className={`px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest transition-all cursor-pointer ${language === 'EN' ? 'bg-white text-black shadow-md' : 'text-white/40 hover:text-white'}`}
+              className={`px-3 py-1.5 rounded-full text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${language === 'EN' ? 'bg-white text-black shadow-md' : 'text-white/40 hover:text-white'}`}
             >
               EN
             </button>
@@ -223,20 +223,20 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
           <div className="flex items-center gap-2 p-1 bg-white/5 rounded-full border border-white/10 shrink-0">
             <button 
               onClick={() => setCurrency('EUR')}
-              className={`px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest transition-all cursor-pointer ${currency === 'EUR' ? 'bg-white text-black shadow-md' : 'text-white/40 hover:text-white'}`}
+              className={`px-3 py-1.5 rounded-full text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${currency === 'EUR' ? 'bg-white text-black shadow-md' : 'text-white/40 hover:text-white'}`}
             >
               EUR
             </button>
             <button 
               onClick={() => setCurrency('USD')}
-              className={`px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest transition-all cursor-pointer ${currency === 'USD' ? 'bg-white text-black shadow-md' : 'text-white/40 hover:text-white'}`}
+              className={`px-3 py-1.5 rounded-full text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${currency === 'USD' ? 'bg-white text-black shadow-md' : 'text-white/40 hover:text-white'}`}
             >
               USD
             </button>
           </div>
 
           <div className="hidden lg:flex flex-col items-end mr-4">
-            <span className="text-[8px] font-black text-white/20 uppercase tracking-widest leading-none mb-1">LYA UNIT VALUE</span>
+            <span className="text-[10px] font-black text-white/20 uppercase tracking-widest leading-none mb-1">LYA UNIT VALUE</span>
             <span className="text-xl font-black font-headline text-emerald-400 leading-none">{formatPrice(contract.unitValue)}</span>
           </div>
           <button 
@@ -336,7 +336,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                        </svg>
                        <div className="absolute inset-0 flex flex-col items-center justify-center">
                           <span className="text-2xl font-headline font-black text-white leading-none">{scoreFinalValue}</span>
-                          <span className="text-[8px] font-black text-primary-cyan uppercase tracking-widest mt-1">LYA INDEX</span>
+                          <span className="text-[10px] font-black text-primary-cyan uppercase tracking-widest mt-1">LYA INDEX</span>
                        </div>
                     </div>
                     <div>
@@ -365,7 +365,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
               <div className="text-2xl font-headline font-black text-white mb-2">{metric.value}</div>
               <div className="flex items-center gap-1.5">
                  <div className={`w-1 h-1 rounded-full bg-${metric.color}-400 group-hover:scale-150 transition-transform`} />
-                 <span className={`text-[9px] font-black text-${metric.color}-400 uppercase tracking-widest`}>{metric.status}</span>
+                 <span className={`text-xs font-black text-${metric.color}-400 uppercase tracking-widest`}>{metric.status}</span>
               </div>
             </div>
           ))}
@@ -443,7 +443,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                               </RadarChart>
                            </ResponsiveContainer>
                          </div>
-                         <div className="grid grid-cols-2 gap-x-12 gap-y-6 w-full mt-8">
+                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-6 w-full mt-8">
                             {pillarData.map((p, i) => (
                               <div key={i} className="space-y-2">
                                  <div className="flex justify-between text-[11px] font-black uppercase tracking-widest">
@@ -484,7 +484,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                          {/* Jalon 1: Setup */}
                          <div className="p-5 bg-emerald-500/5 border border-emerald-500/20 rounded-2xl space-y-3 relative">
                            <div className="flex justify-between items-center">
-                             <span className="text-[9px] font-black text-emerald-400 uppercase tracking-widest bg-emerald-500/10 px-2.5 py-1 rounded-md">
+                             <span className="text-xs font-black text-emerald-400 uppercase tracking-widest bg-emerald-500/10 px-3.5 py-1 rounded-md">
                                {t('Jalon + (Secured)', '✅ JALON + SÉCURISÉ')}
                              </span>
                              <span className="text-[10px] font-mono font-black text-emerald-400">+15.00%</span>
@@ -498,7 +498,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                          {/* Jalon 2: Execution */}
                          <div className="p-5 bg-amber-500/5 border border-amber-500/20 rounded-2xl space-y-3 relative">
                            <div className="flex justify-between items-center">
-                             <span className="text-[9px] font-black text-accent-gold uppercase tracking-widest bg-amber-500/10 px-2.5 py-1 rounded-md">
+                             <span className="text-xs font-black text-accent-gold uppercase tracking-widest bg-amber-500/10 px-3.5 py-1 rounded-md">
                                {t('Jalon + (Pending)', '⏳ JALON EN COURS')}
                              </span>
                              <span className="text-[10px] font-mono font-black text-accent-gold">+20.00%</span>
@@ -512,7 +512,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                          {/* Jalon 3: Risk */}
                          <div className="p-5 bg-rose-500/5 border border-rose-500/20 rounded-2xl space-y-3 relative">
                            <div className="flex justify-between items-center">
-                             <span className="text-[9px] font-black text-rose-400 uppercase tracking-widest bg-rose-500/10 px-2.5 py-1 rounded-md">
+                             <span className="text-xs font-black text-rose-400 uppercase tracking-widest bg-rose-500/10 px-3.5 py-1 rounded-md">
                                {t('Jalon - (Risk factor)', '⚠️ RETARD IMPACT JALON')}
                              </span>
                              <span className="text-[10px] font-mono font-black text-rose-400">-12.50%</span>
@@ -568,7 +568,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                           <div className="space-y-4">
                             <div>
                               <div className="text-[11px] font-black text-white/30 uppercase tracking-widest mb-1">{t('CONTRACTUAL STANDARD', 'FORMAT CONTRACTUEL')}</div>
-                              <span className="px-2.5 py-1 bg-accent-gold/10 border border-accent-gold/20 text-accent-gold text-[9px] font-black uppercase tracking-widest rounded-lg">
+                              <span className="px-3.5 py-1 bg-accent-gold/10 border border-accent-gold/20 text-accent-gold text-xs font-black uppercase tracking-widest rounded-lg">
                                 {contract.contractType || 'Revenue Share'}
                               </span>
                             </div>
@@ -685,13 +685,13 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                                    onChange={(e) => setSimAmount(Number(e.target.value))}
                                    className="w-full h-2 bg-white/10 rounded-lg appearance-none cursor-pointer accent-primary-cyan"
                                 />
-                                <div className="flex justify-between text-[9px] font-mono text-white/20 uppercase font-black">
+                                <div className="flex justify-between text-xs font-mono text-white/20 uppercase font-black">
                                    <span>MIN: {formatPrice(contract.unitValue)}</span>
                                    <span>MAX: {formatPrice(contract.totalValue * 0.1 || 50000)}</span>
                                 </div>
                              </div>
 
-                             <div className="grid grid-cols-2 gap-4">
+                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <button onClick={() => setSimAmount(Math.max(contract.unitValue, 1000))} className="py-3 bg-white/5 hover:bg-white/10 border border-white/5 rounded-xl text-[10px] font-black uppercase text-white tracking-widest transition-all">
                                    $1,000
                                 </button>
@@ -710,32 +710,32 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                           {/* Calculated Progression Metrics */}
                           <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-6 bg-black/40 p-8 rounded-[2rem] border border-white/5 shadow-inner">
                              <div className="p-4 bg-white/[0.02] border border-white/5 rounded-xl">
-                                <span className="text-[9px] font-black text-white/30 uppercase tracking-widest block mb-1">{t('UNITS ACQUIRED', 'UNITÉS ACQUISES')}</span>
+                                <span className="text-xs font-black text-white/30 uppercase tracking-widest block mb-1">{t('UNITS ACQUIRED', 'UNITÉS ACQUISES')}</span>
                                 <span className="text-2xl font-headline font-black text-primary-cyan">{simUnits}</span>
                                 <span className="text-[10px] text-white/40 block mt-1 tracking-widest">({simShare}% {t('of total', 'du total')})</span>
                              </div>
 
                              <div className="p-4 bg-white/[0.02] border border-white/5 rounded-xl">
-                                <span className="text-[9px] font-black text-white/30 uppercase tracking-widest block mb-1">{t('EST. ANNUAL INCOME', 'REVENUS ANNUELS EST.')}</span>
+                                <span className="text-xs font-black text-white/30 uppercase tracking-widest block mb-1">{t('EST. ANNUAL INCOME', 'REVENUS ANNUELS EST.')}</span>
                                 <span className="text-2xl font-headline font-black text-emerald-400">+{formatPrice(simAnnual)}</span>
                                 <span className="text-[10px] text-emerald-400/60 block mt-1 tracking-widest">({contract.growth}% {t('progression', 'progression')})</span>
                              </div>
 
                              <div className="p-4 bg-white/[0.02] border border-white/5 rounded-xl">
-                                <span className="text-[9px] font-black text-white/30 uppercase tracking-widest block mb-1">{t('ROYALTIES RECAPTURE', 'RECAPTURE DES DROITS')}</span>
+                                <span className="text-xs font-black text-white/30 uppercase tracking-widest block mb-1">{t('ROYALTIES RECAPTURE', 'RECAPTURE DES DROITS')}</span>
                                 <span className="text-2xl font-headline font-black text-accent-gold">+{formatPrice(simRoyalty)}</span>
                                 <span className="text-[10px] text-accent-gold/60 block mt-1 tracking-widest">({contract.revenueSharePercentage || 12.5}% {t('rate', 'taux')})</span>
                              </div>
 
                              <div className="p-4 bg-white/[0.02] border border-white/5 rounded-xl">
-                                <span className="text-[9px] font-black text-white/30 uppercase tracking-widest block mb-1">{t('3-YEAR COMPOUNDED VALUE', 'VALEUR CAPITALISÉE 3 ANS')}</span>
+                                <span className="text-xs font-black text-white/30 uppercase tracking-widest block mb-1">{t('3-YEAR COMPOUNDED VALUE', 'VALEUR CAPITALISÉE 3 ANS')}</span>
                                 <span className="text-2xl font-headline font-black text-white">{formatPrice(simProjection)}</span>
                                 <span className="text-[10px] text-teal-400 block mt-1 tracking-widest">(+{((simProjection / simAmount) * 100 - 100).toFixed(1)}% {t('total return', 'retour total')})</span>
                               </div>
                            </div>
                         </div>
                         
-                        <p className="text-[9px] font-bold text-white/20 uppercase tracking-widest leading-relaxed text-center font-mono">
+                        <p className="text-xs font-bold text-white/20 uppercase tracking-widest leading-relaxed text-center font-mono">
                            {t('Note: This simulation represents an analytical estimation of capital appreciation and royalties according to standard active indices. Non-contractual values.', 'Note : Cette simulation représente une estimation analytique de revalorisation et de redevances selon les indices actifs. Valeurs non-contractuelles.')}
                         </p>
                      </div>
@@ -746,13 +746,13 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                        <div className="p-8 bg-white/[0.02] border border-white/5 rounded-[2rem] space-y-6">
                           <div className="flex items-center justify-between">
                              <div className="text-[10px] font-black uppercase tracking-wider text-primary-cyan">{t('ORDERBOOK FEED', "CARNET D'ORDRES EN DIRECT")}</div>
-                             <span className="text-[9px] font-mono font-black text-emerald-400 uppercase tracking-widest">{t('● CLOB ENGINE ACTIVE', '● MOTEUR CLOB ACTIF')}</span>
+                             <span className="text-xs font-mono font-black text-emerald-400 uppercase tracking-widest">{t('● CLOB ENGINE ACTIVE', '● MOTEUR CLOB ACTIF')}</span>
                           </div>
                           
                           <div className="space-y-4">
                              {/* Asks (Sells) */}
                              <div className="space-y-2">
-                                <div className="flex justify-between text-[9px] font-black text-white/30 uppercase tracking-widest">
+                                <div className="flex justify-between text-xs font-black text-white/30 uppercase tracking-widest">
                                    <span>{t('SELL PRICE (ASK)', 'ASK (VENTE)')}</span>
                                    <span>{t('VOLUME', 'VOLUME')}</span>
                                 </div>
@@ -776,7 +776,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
 
                              {/* Bids (Buys) */}
                              <div className="space-y-2">
-                                <div className="flex justify-between text-[9px] font-black text-white/30 uppercase tracking-widest">
+                                <div className="flex justify-between text-xs font-black text-white/30 uppercase tracking-widest">
                                    <span>{t('BUY PRICE (BID)', 'BID (ACHAT)')}</span>
                                    <span>{t('VOLUME', 'VOLUME')}</span>
                                 </div>
@@ -799,21 +799,21 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                           <div className="space-y-6">
                             <div className="text-[10px] font-black uppercase tracking-wider text-accent-pink">{t('EXCHANGE METRICS', 'METRICS DE NÉGOCIATION')}</div>
                             
-                            <div className="grid grid-cols-2 gap-6">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                <div>
-                                  <div className="text-[8px] font-black text-white/30 uppercase tracking-widest mb-1">{t('24H TRANS. VOLUME', 'VOLUME NET 24H')}</div>
+                                  <div className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-1">{t('24H TRANS. VOLUME', 'VOLUME NET 24H')}</div>
                                   <div className="text-lg font-headline font-black text-white">{formatPrice(contract.totalValue * 0.025)}</div>
                                </div>
                                <div>
-                                  <div className="text-[8px] font-black text-white/30 uppercase tracking-widest mb-1">{t('TOTAL TRADES REGISTERED', 'TRANSACTIONS TOTAL NUMÉRO')}</div>
+                                  <div className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-1">{t('TOTAL TRADES REGISTERED', 'TRANSACTIONS TOTAL NUMÉRO')}</div>
                                   <div className="text-lg font-headline font-black text-white">1,482</div>
                                 </div>
                                <div>
-                                  <div className="text-[8px] font-black text-white/30 uppercase tracking-widest mb-1">{t('VOLATILITY INDEX (30D)', 'INDICE VOLATILITÉ (30J)')}</div>
+                                  <div className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-1">{t('VOLATILITY INDEX (30D)', 'INDICE VOLATILITÉ (30J)')}</div>
                                   <div className="text-lg font-headline font-black text-cyan-400">4.12% (Low)</div>
                                </div>
                                <div>
-                                  <div className="text-[8px] font-black text-white/30 uppercase tracking-widest mb-1">{t('LIQUIDITY DEPTH', 'LIQUIDITÉ PROFONDEUR')}</div>
+                                  <div className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-1">{t('LIQUIDITY DEPTH', 'LIQUIDITÉ PROFONDEUR')}</div>
                                   <div className="text-lg font-headline font-black text-emerald-400 font-bold">OPTIMAL (AA)</div>
                                </div>
                             </div>
@@ -870,7 +870,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                                  className={`w-full p-4 rounded-xl text-left border transition-all cursor-pointer ${simulationScenario === scen.id ? 'bg-primary-cyan/10 border-primary-cyan text-white' : 'bg-black/20 border-white/5 text-white/60 hover:text-white'}`}
                                >
                                  <div className="text-[10px] font-black uppercase tracking-wider">{scen.label}</div>
-                                 <div className="text-[9px] opacity-60 mt-1">{scen.desc}</div>
+                                 <div className="text-xs opacity-60 mt-1">{scen.desc}</div>
                                </button>
                              ))}
                           </div>
@@ -895,7 +895,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                                  className={`w-full p-4 rounded-xl text-left border transition-all cursor-pointer ${simulationGoal === goal.id ? 'bg-accent-gold/10 border-accent-gold text-white' : 'bg-black/20 border-white/5 text-white/60 hover:text-white'}`}
                                >
                                  <div className="text-[10px] font-black uppercase tracking-wider">{goal.label}</div>
-                                 <div className="text-[9px] opacity-60 mt-1">{goal.desc}</div>
+                                 <div className="text-xs opacity-60 mt-1">{goal.desc}</div>
                                </button>
                              ))}
                           </div>
@@ -920,7 +920,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                                  className={`w-full p-4 rounded-xl text-left border transition-all cursor-pointer ${simulationPersona === person.id ? 'bg-accent-pink/10 border-accent-pink text-white' : 'bg-black/20 border-white/5 text-white/60 hover:text-white'}`}
                                >
                                  <div className="text-[10px] font-black uppercase tracking-wider">{person.label}</div>
-                                 <div className="text-[9px] opacity-60 mt-1">{person.desc}</div>
+                                 <div className="text-xs opacity-60 mt-1">{person.desc}</div>
                                </button>
                              ))}
                           </div>
@@ -964,19 +964,19 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                          {/* Computed metrics numbers */}
                          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 relative z-10">
                             <div className="p-6 bg-black/40 rounded-2xl border border-white/5">
-                               <span className="text-[8px] font-black uppercase text-white/30 tracking-widest block mb-1">{t('ESTIMATED VALUE multiplier', 'MULTIPLICATEUR DE VALEUR ESTIMÉ')}</span>
+                               <span className="text-[10px] font-black uppercase text-white/30 tracking-widest block mb-1">{t('ESTIMATED VALUE multiplier', 'MULTIPLICATEUR DE VALEUR ESTIMÉ')}</span>
                                <span className="text-3xl font-headline font-black text-emerald-400">+{aiSimulationOutput.multi}%</span>
                             </div>
                             <div className="p-6 bg-black/40 rounded-2xl border border-white/5">
-                               <span className="text-[8px] font-black uppercase text-white/30 tracking-widest block mb-1">{t('ROYALTY CONVERSION DENSITY', 'DENSITÉ DES REDEVANCES RECAPTÉES')}</span>
+                               <span className="text-[10px] font-black uppercase text-white/30 tracking-widest block mb-1">{t('ROYALTY CONVERSION DENSITY', 'DENSITÉ DES REDEVANCES RECAPTÉES')}</span>
                                <span className="text-3xl font-headline font-black text-primary-cyan">{(contract.revenueSharePercentage * (simulationScenario === 'conservative' ? 0.8 : simulationScenario === 'balanced' ? 1.0 : 1.4)).toFixed(1)}%</span>
                             </div>
                             <div className="p-6 bg-black/40 rounded-2xl border border-white/5">
-                               <span className="text-[8px] font-black uppercase text-white/30 tracking-widest block mb-1">{t('VOLATILITY CORRECTION INDEX', 'CORRECTION VOLATILITÉ ESTIMÉE')}</span>
+                               <span className="text-[10px] font-black uppercase text-white/30 tracking-widest block mb-1">{t('VOLATILITY CORRECTION INDEX', 'CORRECTION VOLATILITÉ ESTIMÉE')}</span>
                                <span className="text-3xl font-headline font-black text-accent-pink">-{aiSimulationOutput.volCorrection}%</span>
                             </div>
                             <div className="p-6 bg-black/40 rounded-2xl border border-white/5">
-                               <span className="text-[8px] font-black uppercase text-white/30 tracking-widest block mb-1">{t('LYA CONVICTION SCORE', 'INDICE DE RECONNAISSANCE IA')}</span>
+                               <span className="text-[10px] font-black uppercase text-white/30 tracking-widest block mb-1">{t('LYA CONVICTION SCORE', 'INDICE DE RECONNAISSANCE IA')}</span>
                                <span className="text-3xl font-headline font-black text-accent-gold">{aiSimulationOutput.score}/1000</span>
                             </div>
                          </div>
@@ -1104,7 +1104,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                 <div className="bg-primary-cyan/10 border border-primary-cyan/20 p-8 rounded-[2rem] text-center space-y-4">
                    <div className="text-[10px] font-black text-primary-cyan uppercase tracking-[0.4em]">{t('LYA CONSOLIDATED', 'INDICE CONSOLIDÉ')}</div>
                    <div className="text-6xl font-black font-headline text-white drop-shadow-[0_0_30px_rgba(0,224,255,0.4)]">{scoreFinalValue}</div>
-                   <div className="text-[8px] font-black text-white/30 uppercase tracking-widest">{t('Verified by LinkYourArt Committee', 'Vérifié par le Comité d\'Experts LYA')}</div>
+                   <div className="text-[10px] font-black text-white/30 uppercase tracking-widest">{t('Verified by LinkYourArt Committee', 'Vérifié par le Comité d\'Experts LYA')}</div>
                 </div>
              </div>
           </div>
@@ -1123,17 +1123,17 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                    <div className="text-xl font-headline font-black text-white uppercase tracking-tight">{contract.issuerId}</div>
                    <div className="flex items-center gap-2 mt-1">
                       <div className="w-2 h-2 rounded-full bg-emerald-400" />
-                      <span className="text-[9px] font-black text-emerald-400 uppercase tracking-widest">{t('KYC VERIFIED', 'KYC VÉRIFIÉ')}</span>
+                      <span className="text-xs font-black text-emerald-400 uppercase tracking-widest">{t('KYC VERIFIED', 'KYC VÉRIFIÉ')}</span>
                    </div>
                 </div>
              </div>
-             <div className="grid grid-cols-2 gap-4">
+             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="p-5 bg-white/5 rounded-2xl text-center">
-                   <div className="text-[8px] font-black text-white/20 uppercase tracking-widest mb-1">{t('ASSETS', 'ACTIFS')}</div>
+                   <div className="text-[10px] font-black text-white/20 uppercase tracking-widest mb-1">{t('ASSETS', 'ACTIFS')}</div>
                    <div className="text-lg font-black font-headline text-white">12</div>
                 </div>
                 <div className="p-5 bg-white/5 rounded-2xl text-center">
-                   <div className="text-[8px] font-black text-white/20 uppercase tracking-widest mb-1">{t('PERF.', 'PERF.')}</div>
+                   <div className="text-[10px] font-black text-white/20 uppercase tracking-widest mb-1">{t('PERF.', 'PERF.')}</div>
                    <div className="text-lg font-black font-headline text-emerald-400">+24%</div>
                 </div>
              </div>
@@ -1149,11 +1149,11 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                 {t('ANALYTICS EXPORT', 'EXPORT ANALYTIQUE')}
              </h3>
              <div className="space-y-4">
-                <button className="w-full py-5 bg-white/5 hover:bg-white hover:text-black rounded-2xl border border-white/10 text-[9px] font-black uppercase tracking-[0.3em] transition-all flex items-center justify-center gap-4">
+                <button className="w-full py-5 bg-white/5 hover:bg-white hover:text-black rounded-2xl border border-white/10 text-xs font-black uppercase tracking-[0.3em] transition-all flex items-center justify-center gap-4">
                    <FileText size={16} />
                    {t('RAW MARKET DATA (JSON)', 'DONNÉES BRUTES (JSON)')}
                 </button>
-                <button className="w-full py-5 bg-white/5 hover:bg-white hover:text-black rounded-2xl border border-white/10 text-[9px] font-black uppercase tracking-[0.3em] transition-all flex items-center justify-center gap-4">
+                <button className="w-full py-5 bg-white/5 hover:bg-white hover:text-black rounded-2xl border border-white/10 text-xs font-black uppercase tracking-[0.3em] transition-all flex items-center justify-center gap-4">
                    <ArrowLeft className="rotate-180" size={16} />
                    {t('EXTERNAL REGISTRY DATA', 'DONNÉES RÉGISTRE EXT.')}
                 </button>

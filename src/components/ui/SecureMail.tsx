@@ -62,7 +62,7 @@ export const SecureMail: React.FC<SecureMailProps> = ({ isOpen, onClose, recipie
                   </h3>
                   <div className="flex items-center gap-2 mt-1">
                     <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
-                    <span className="text-[8px] text-emerald-400 font-bold uppercase tracking-widest">{t('ENCRYPTION: AES-256 ACTIVE', 'CHIFFREMENT : AES-256 ACTIF')}</span>
+                    <span className="text-[10px] text-emerald-400 font-bold uppercase tracking-widest">{t('ENCRYPTION: AES-256 ACTIVE', 'CHIFFREMENT : AES-256 ACTIF')}</span>
                   </div>
                 </div>
               </div>
@@ -78,11 +78,11 @@ export const SecureMail: React.FC<SecureMailProps> = ({ isOpen, onClose, recipie
               {/* Recipient Info */}
               <div className="flex items-center justify-between p-4 bg-white/2 border border-white/5">
                 <div>
-                  <div className="text-[9px] text-on-surface-variant/40 font-black uppercase tracking-widest mb-1">{t('RECIPIENT_IDENTITY', 'IDENTITÉ_DESTINATAIRE')}</div>
+                  <div className="text-xs text-on-surface-variant/40 font-black uppercase tracking-widest mb-1">{t('RECIPIENT_IDENTITY', 'IDENTITÉ_DESTINATAIRE')}</div>
                   <div className="text-xs font-black text-white uppercase italic tracking-tight">{recipient?.name || t('SELECT_RECIPIENT', 'SÉLECTIONNER_DESTINATAIRE')}</div>
                 </div>
                 <div className="text-right">
-                  <div className="text-[9px] text-primary-cyan font-black uppercase tracking-widest mb-1">{t('PROTOCOL_LEVEL', 'NIVEAU_PROTOCOLE')}</div>
+                  <div className="text-xs text-primary-cyan font-black uppercase tracking-widest mb-1">{t('PROTOCOL_LEVEL', 'NIVEAU_PROTOCOLE')}</div>
                   <div className="text-[10px] font-black text-white/60">{recipient?.role || '---'}</div>
                 </div>
               </div>
@@ -147,7 +147,7 @@ export const SecureMail: React.FC<SecureMailProps> = ({ isOpen, onClose, recipie
                 )}
               </button>
 
-              <p className="text-[8px] text-on-surface-variant/20 text-center uppercase tracking-widest font-black italic text-justify">
+              <p className="text-[10px] text-on-surface-variant/20 text-center uppercase tracking-widest font-black italic text-justify">
                 {t('BY_EXECUTING_THIS_SEND_YOU_AGREE_TO_OUR_INSTITUTIONAL_COMMUNICATION_PROTOCOL_V2.1', 'EN_EXÉCUTANT_CET_ENVOI_VOUS_ACCEPTEZ_NOTRE_PROTOCOLE_DE_COMMUNICATION_INSTITUTIONNEL_V2.1')}
               </p>
             </div>

@@ -129,7 +129,7 @@ export const InvestorDashboardView: React.FC<{ user: UserProfile | null; onNotif
           {/* ─── PORTFOLIO ─── */}
           {activeSection === 'portfolio' && (
             <div className="space-y-6">
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {[
                   { icon: <DollarSign size={20} className="text-primary-cyan"/>, label: T('Investissement Total','Total Investment'), value: formatPrice(35000), sub: '+12.3% ce mois', color: 'bg-primary-cyan/10' },
                   { icon: <TrendingUp size={20} className="text-emerald-400"/>, label: T('Valeur Actuelle','Current Value'), value: formatPrice(48576), sub: '+38.86% gain', color: 'bg-emerald-400/10' },
@@ -146,7 +146,7 @@ export const InvestorDashboardView: React.FC<{ user: UserProfile | null; onNotif
                     <p className="text-sm font-black text-on-surface uppercase tracking-wider">{T('Performance du portefeuille','Portfolio Performance')}</p>
                     <div className="flex items-center gap-1 ml-auto">
                       {(['7D','1M','3M','1Y','ALL'] as const).map(p => (
-                        <button key={p} className={`px-2.5 py-1 rounded-lg text-[10px] font-black transition-all ${p === '1M' ? 'bg-primary-cyan text-surface-dim' : 'text-on-surface-variant hover:text-on-surface'}`}>{p}</button>
+                        <button key={p} className={`px-3.5 py-1 rounded-lg text-[10px] font-black transition-all ${p === '1M' ? 'bg-primary-cyan text-surface-dim' : 'text-on-surface-variant hover:text-on-surface'}`}>{p}</button>
                       ))}
                     </div>
                   </div>
@@ -212,13 +212,13 @@ export const InvestorDashboardView: React.FC<{ user: UserProfile | null; onNotif
                       <div className="flex-1">
                         <p className="text-[10px] text-on-surface-variant/40 font-mono">ID: {proj.registryIndex}</p>
                         <h3 className="text-base font-black text-on-surface">{proj.name}</h3>
-                        <span className="inline-block px-2 py-0.5 bg-emerald-400/10 border border-emerald-400/20 rounded-full text-[10px] font-black text-emerald-400 mt-1">● {T('ACCÉLÉRATION','ACCELERATION')}</span>
+                        <span className="inline-block px-3 py-0.5 bg-emerald-400/10 border border-emerald-400/20 rounded-full text-[10px] font-black text-emerald-400 mt-1">● {T('ACCÉLÉRATION','ACCELERATION')}</span>
                       </div>
                       <button onClick={() => setContactProject(proj.name)} className="p-2 text-on-surface-variant hover:text-primary-cyan transition-colors">
                         <ExternalLink size={16} />
                       </button>
                     </div>
-                    <div className="grid grid-cols-4 gap-0 divide-x divide-white/6 border-t border-white/6">
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-0 divide-x divide-white/6 border-t border-white/6">
                       {[
                         { l: T('Investi','Invested'), v: formatPrice(invested), c: 'text-on-surface' },
                         { l: T('Valeur','Value'), v: formatPrice(currentVal), c: 'text-primary-cyan' },
@@ -282,7 +282,7 @@ export const InvestorDashboardView: React.FC<{ user: UserProfile | null; onNotif
               </div>
 
               {/* KPIs */}
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {[
                   { l: T('Investissement Total','Total Investment'), v: formatPrice(185400), sub: '+12.3% ce mois', c: 'text-primary-cyan' },
                   { l: T('Valeur Actuelle','Current Value'), v: formatPrice(230800), sub: '+24.5% gain', c: 'text-emerald-400' },
@@ -359,10 +359,10 @@ export const InvestorDashboardView: React.FC<{ user: UserProfile | null; onNotif
                   </ResponsiveContainer>
                 </div>
 
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
                   {compareData.map((d, i) => (
                     <div key={i} className="bg-surface-high/30 rounded-xl p-3 text-center">
-                      <p className="text-[9px] text-on-surface-variant/40 font-mono mb-1">{d.name}</p>
+                      <p className="text-xs text-on-surface-variant/40 font-mono mb-1">{d.name}</p>
                       <div className={`w-2 h-2 rounded-full mx-auto mb-1 ${['bg-[#a78bfa]','bg-primary-cyan','bg-emerald-400'][i]}`}/>
                       <p className="text-sm font-black text-on-surface">{d.score}</p>
                     </div>
@@ -386,7 +386,7 @@ export const InvestorDashboardView: React.FC<{ user: UserProfile | null; onNotif
                   </div>
                 </div>
 
-                <div className="grid grid-cols-4 gap-2">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
                   {(['7j','30j','90j','1an'] as const).map(h => (
                     <button key={h} onClick={() => setPredHorizon(h)} className={`py-2.5 rounded-xl text-sm font-black transition-all ${predHorizon === h ? 'bg-[#a78bfa] text-surface-dim' : 'bg-surface-high/30 border border-white/8 text-on-surface-variant hover:text-on-surface'}`}>
                       {h}
@@ -394,7 +394,7 @@ export const InvestorDashboardView: React.FC<{ user: UserProfile | null; onNotif
                   ))}
                 </div>
 
-                <div className="grid grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                   {[
                     { l: T('Prévision','Forecast'), v: formatPrice(predValue), c: 'text-[#a78bfa]', sub: `+${((predMultiplier-1)*100).toFixed(1)}%` },
                     { l: T('Tendance','Trend'), v: T('Haussière','Bullish'), c: 'text-emerald-400', sub: T('Haute confiance','High confidence') },
@@ -412,7 +412,7 @@ export const InvestorDashboardView: React.FC<{ user: UserProfile | null; onNotif
               {/* ROI par type */}
               <div className="bg-surface-low/40 border border-white/8 rounded-2xl p-5 space-y-4">
                 <p className="text-sm font-black text-on-surface uppercase tracking-wider">{T('ROI par Type de Projet','ROI by Project Type')}</p>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {roiByType.map((r, i) => {
                     const colors = ['text-[#a78bfa]','text-primary-cyan','text-emerald-400','text-accent-gold'];
                     const dots = ['bg-[#a78bfa]','bg-primary-cyan','bg-emerald-400','bg-accent-gold'];

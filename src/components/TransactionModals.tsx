@@ -79,7 +79,7 @@ export const TransferModal: React.FC<TransactionModalProps> = ({ isOpen, onClose
 
                 <div className="p-4 bg-primary-cyan/5 border border-primary-cyan/20 flex gap-3 italic">
                   <Send size={16} className="text-primary-cyan flex-shrink-0" />
-                  <p className="text-[9px] text-primary-cyan leading-relaxed">
+                  <p className="text-xs text-primary-cyan leading-relaxed">
                     {t('WARNING: ASSET TRANSFERS ARE PERMANENT AND CANNOT BE REVERSED ONCE CLEARED BY THE LYA SETTLEMENT LAYER.', 'AVERTISSEMENT: LES TRANSFERTS D\'ACTIFS SONT PERMANENTS ET NE PEUVENT PAS ÊTRE ANNULÉS UNE FOIS COMPENSÉS PAR LA COUCHE DE RÈGLEMENT LYA.')}
                   </p>
                 </div>

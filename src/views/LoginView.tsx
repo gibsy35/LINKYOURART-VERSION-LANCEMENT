@@ -256,7 +256,7 @@ const LoginView: React.FC<LoginViewProps> = ({ onViewChange, setUser }) => {
                     <motion.div 
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className="p-3 bg-red-500/10 border border-red-500/20 text-red-500 text-[9px] font-black uppercase tracking-widest rounded-xl text-center"
+                      className="p-3 bg-red-500/10 border border-red-500/20 text-red-500 text-xs font-black uppercase tracking-widest rounded-xl text-center"
                     >
                       {error}
                     </motion.div>
@@ -314,14 +314,14 @@ const LoginView: React.FC<LoginViewProps> = ({ onViewChange, setUser }) => {
                     <div className="absolute inset-0 flex items-center">
                       <div className="w-full border-t border-white/5" />
                     </div>
-                    <span className="relative z-10 bg-[#0A0C10] px-4 text-[8px] font-black text-on-surface-variant uppercase tracking-[0.3em] italic opacity-50">{t('OR CONTINUE WITH', 'OU CONTINUER AVEC')}</span>
+                    <span className="relative z-10 bg-[#0A0C10] px-4 text-[10px] font-black text-on-surface-variant uppercase tracking-[0.3em] italic opacity-50">{t('OR CONTINUE WITH', 'OU CONTINUER AVEC')}</span>
                   </div>
 
                   <div className="flex flex-col gap-3">
                     <button 
                       type="button"
                       onClick={handleGoogleLogin}
-                      className="w-full flex items-center justify-center gap-3 py-3 bg-white/[0.03] border border-white/10 rounded-xl hover:bg-white/10 transition-all text-[9px] font-black uppercase tracking-widest group"
+                      className="w-full flex items-center justify-center gap-3 py-3 bg-white/[0.03] border border-white/10 rounded-xl hover:bg-white/10 transition-all text-xs font-black uppercase tracking-widest group"
                     >
                       <Globe size={14} className="text-primary-cyan group-hover:scale-110 transition-transform" /> GOOGLE
                     </button>
@@ -331,7 +331,7 @@ const LoginView: React.FC<LoginViewProps> = ({ onViewChange, setUser }) => {
                 <div className="mt-8 text-center">
                     <button 
                       onClick={() => onViewChange('SIGNUP')}
-                      className="text-[9px] font-black uppercase tracking-[0.2em] text-on-surface-variant hover:text-white transition-colors flex items-center justify-center gap-3 mx-auto"
+                      className="text-xs font-black uppercase tracking-[0.2em] text-on-surface-variant hover:text-white transition-colors flex items-center justify-center gap-3 mx-auto"
                     >
                       <span className="w-4 h-[1px] bg-white/10" />
                       {t('CREATE AN ACCOUNT', 'CRÉER UN COMPTE')}
@@ -394,7 +394,7 @@ const LoginView: React.FC<LoginViewProps> = ({ onViewChange, setUser }) => {
         </div>
         
         {/* Footer info fixed to avoid scroll */}
-        <div className="p-6 bg-white/[0.02] border-t border-white/5 flex items-center justify-center gap-8 text-[8px] font-black text-on-surface-variant/40 uppercase tracking-widest">
+        <div className="p-6 bg-white/[0.02] border-t border-white/5 flex items-center justify-center gap-8 text-[10px] font-black text-on-surface-variant/40 uppercase tracking-widest">
           <div className="flex items-center gap-2">
             <ShieldCheck size={10} className="text-emerald-400" />
             SECURED TERMINAL

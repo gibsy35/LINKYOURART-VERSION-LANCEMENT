@@ -177,7 +177,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({ user, onNotify, onView
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-surface-dim via-transparent to-transparent" />
                 <div className="absolute top-4 left-4">
-                  <span className={`px-3 py-1 rounded-sm text-[9px] font-black uppercase tracking-widest text-white ${
+                  <span className={`px-3 py-1 rounded-sm text-xs font-black uppercase tracking-widest text-white ${
                     course.category === 'FINANCE' ? 'bg-accent-gold' :
                     course.category === 'TECH' ? 'bg-accent-purple' :
                     course.category === 'LEGAL' ? 'bg-emerald-500' : 'bg-primary-cyan'

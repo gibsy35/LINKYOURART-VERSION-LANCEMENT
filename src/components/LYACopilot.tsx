@@ -86,7 +86,7 @@ export const LYACopilot: React.FC = () => {
         <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
         <div className="relative z-10 flex flex-col items-center">
           <Bot size={24} />
-          <span className="text-[8px] font-black uppercase tracking-widest mt-0.5">COPILOT</span>
+          <span className="text-[10px] font-black uppercase tracking-widest mt-0.5">COPILOT</span>
         </div>
         <div className="absolute top-2 right-2 w-2 h-2 bg-emerald-400 rounded-full animate-pulse border border-surface-dim" />
       </button>
@@ -108,11 +108,11 @@ export const LYACopilot: React.FC = () => {
                 <div>
                   <div className="text-xs font-black text-white uppercase tracking-widest flex items-center gap-2">
                     LYA COPILOT
-                    <span className="px-1.5 py-0.5 bg-emerald-500/20 text-emerald-400 text-[8px] rounded border border-emerald-500/20">LIVE v2.2</span>
+                    <span className="px-1.5 py-0.5 bg-emerald-500/20 text-emerald-400 text-[10px] rounded border border-emerald-500/20">LIVE v2.2</span>
                   </div>
                   <div className="flex items-center gap-2 mt-1">
                     <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
-                    <div className="text-[8px] text-primary-cyan font-bold uppercase tracking-[0.2em]">
+                    <div className="text-[10px] text-primary-cyan font-bold uppercase tracking-[0.2em]">
                       {isFR ? 'ASSISTANT ACTIF' : 'ASSISTANT ACTIVE'}
                     </div>
                   </div>
@@ -129,7 +129,7 @@ export const LYACopilot: React.FC = () => {
             {/* Messages Area */}
             <div className="flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar pb-12">
               <div className="flex justify-center">
-                <div className="px-4 py-1.5 bg-white/5 border border-white/10 rounded-full text-[8px] font-black uppercase tracking-[0.3em] text-on-surface-variant/60">
+                <div className="px-4 py-1.5 bg-white/5 border border-white/10 rounded-full text-[10px] font-black uppercase tracking-[0.3em] text-on-surface-variant/60">
                    {new Date().toLocaleDateString(isFR ? 'fr-FR' : 'en-US')} — {isFR ? 'SESSION SÉCURISÉE' : 'SECURE SESSION'}
                 </div>
               </div>
@@ -150,7 +150,7 @@ export const LYACopilot: React.FC = () => {
                         ? 'bg-primary-cyan text-surface-dim rounded-tr-none shadow-[0_10px_30px_rgba(0,224,255,0.2)]' 
                         : 'bg-white/5 text-white border border-white/5 rounded-tl-none backdrop-blur-xl'
                     }`}>
-                      <div className="flex items-center gap-2 mb-2 opacity-50 text-[9px] uppercase tracking-widest font-black">
+                      <div className="flex items-center gap-2 mb-2 opacity-50 text-xs uppercase tracking-widest font-black">
                          {m.role === 'AI' ? <Sparkles size={12} /> : <Zap size={12} />}
                          <span>{m.role === 'AI' ? 'LYA_TERMINAL' : 'USER_REQUEST'}</span>
                       </div>
@@ -169,7 +169,7 @@ export const LYACopilot: React.FC = () => {
                         <motion.div animate={{ opacity: [0.2, 1, 0.2] }} transition={{ repeat: Infinity, duration: 1, delay: 0.2 }} className="w-1.5 h-1.5 bg-primary-cyan rounded-full" />
                         <motion.div animate={{ opacity: [0.2, 1, 0.2] }} transition={{ repeat: Infinity, duration: 1, delay: 0.4 }} className="w-1.5 h-1.5 bg-primary-cyan rounded-full" />
                       </div>
-                      <span className="text-[8px] font-black uppercase text-primary-cyan tracking-widest animate-pulse">{isFR ? 'ANALYSE...' : 'THINKING...'}</span>
+                      <span className="text-[10px] font-black uppercase text-primary-cyan tracking-widest animate-pulse">{isFR ? 'ANALYSE...' : 'THINKING...'}</span>
                     </div>
                   </div>
                 </div>
@@ -184,7 +184,7 @@ export const LYACopilot: React.FC = () => {
                   <button
                     key={i}
                     onClick={() => handleSend(s.query)}
-                    className="px-3 py-1.5 bg-white/5 hover:bg-primary-cyan/10 border border-white/10 hover:border-primary-cyan/30 rounded-full text-[9px] font-bold text-on-surface-variant hover:text-primary-cyan transition-all uppercase tracking-widest"
+                    className="px-3 py-1.5 bg-white/5 hover:bg-primary-cyan/10 border border-white/10 hover:border-primary-cyan/30 rounded-full text-xs font-bold text-on-surface-variant hover:text-primary-cyan transition-all uppercase tracking-widest"
                   >
                     {s.title}
                   </button>

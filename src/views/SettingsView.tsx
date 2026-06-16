@@ -231,7 +231,7 @@ export const SettingsView: React.FC = () => {
         <div className="flex items-center gap-3">
           <div className="flex flex-col items-end">
             <span className="text-[10px] font-black text-emerald-400 uppercase tracking-widest">Node: LYA-EU-WEST-2</span>
-            <span className="text-[8px] text-on-surface-variant uppercase tracking-widest">Version 4.2.0-STABLE</span>
+            <span className="text-[10px] text-on-surface-variant uppercase tracking-widest">Version 4.2.0-STABLE</span>
           </div>
           <div className="w-3 h-3 bg-emerald-400 rounded-full animate-pulse shadow-[0_0_10px_rgba(52,211,153,0.5)]" />
         </div>

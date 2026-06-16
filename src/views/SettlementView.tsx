@@ -143,7 +143,7 @@ export const SettlementView: React.FC<{
                     </div>
                   </div>
                 </div>
-                <div className="grid grid-cols-2 gap-4 md:gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-8">
                   <div>
                     <div className="text-[10px] md:text-sm text-on-surface-variant uppercase tracking-widest mb-1">TPS (Peak)</div>
                     <div className="text-lg md:text-2xl font-black text-on-surface font-headline">12,480</div>
@@ -178,7 +178,7 @@ export const SettlementView: React.FC<{
                       className="bg-surface-dim border border-white/5 p-4 md:p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-6 group hover:border-primary-cyan/30 transition-all"
                     >
                       <div className="flex items-center gap-4 md:gap-6">
-                        <div className={`p-2 md:p-3 border ${
+                        <div className={`p-3 md:p-3 border ${
                           batch.status === 'FINALIZED' ? 'border-emerald-400/20 text-emerald-400 bg-emerald-400/5' : 
                           batch.status === 'PROCESSING' ? 'border-primary-cyan/20 text-primary-cyan bg-primary-cyan/5' : 
                           'border-accent-gold/20 text-accent-gold bg-accent-gold/5'
@@ -190,7 +190,7 @@ export const SettlementView: React.FC<{
                         <div>
                           <div className="flex items-center gap-3 mb-1">
                             <h3 className="font-bold uppercase tracking-widest text-sm md:text-base">{batch.id}</h3>
-                            <span className="text-[9px] md:text-sm px-1.5 py-0.5 border border-white/10 text-on-surface-variant uppercase tracking-widest">{batch.timestamp}</span>
+                            <span className="text-xs md:text-sm px-1.5 py-0.5 border border-white/10 text-on-surface-variant uppercase tracking-widest">{batch.timestamp}</span>
                           </div>
                           <div className="flex items-center gap-4 text-[10px] md:text-sm text-on-surface-variant uppercase tracking-widest">
                             <span>{batch.transactions} Settlements</span>

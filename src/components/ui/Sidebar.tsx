@@ -185,7 +185,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         {categories.map(category => (
           <div key={category} className="mb-10">
             {!isCollapsed && (
-              <div className="px-8 mb-4 text-[9px] text-primary-cyan/30 font-black tracking-[0.5em] uppercase flex items-center gap-4">
+              <div className="px-8 mb-4 text-xs text-primary-cyan/30 font-black tracking-[0.5em] uppercase flex items-center gap-4">
                 <div className="w-6 h-[1px] bg-primary-cyan/20" />
                 {category}
               </div>
@@ -220,7 +220,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                       </span>
                     )}
                     {!isCollapsed && item.count !== undefined && item.count > 0 && (
-                      <span className="text-[10px] bg-primary-cyan text-surface-dim px-2 py-0.5 rounded-full font-black shadow-[0_0_10px_rgba(0,224,255,0.5)]">
+                      <span className="text-[10px] bg-primary-cyan text-surface-dim px-3 py-0.5 rounded-full font-black shadow-[0_0_10px_rgba(0,224,255,0.5)]">
                         {item.count}
                       </span>
                     )}
@@ -270,10 +270,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
             className="w-full flex items-center gap-3 px-3 py-2.5 mt-1 border border-accent-gold/20 bg-accent-gold/5 hover:bg-accent-gold/10 hover:border-accent-gold/40 transition-all group text-left"
           >
             <div className="w-5 h-5 border border-accent-gold/40 flex items-center justify-center shrink-0">
-              <span className="text-accent-gold text-[8px] font-black">K</span>
+              <span className="text-accent-gold text-[10px] font-black">K</span>
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-[9px] font-black text-accent-gold uppercase tracking-widest leading-none">KIDI.WORLD</p>
+              <p className="text-xs font-black text-accent-gold uppercase tracking-widest leading-none">KIDI.WORLD</p>
               <p className="text-[7px] text-white/25 uppercase tracking-widest mt-0.5 truncate">{t('Creative ecosystem', 'Écosystème créatif')}</p>
             </div>
             <Sparkles size={10} className="text-accent-gold/40 group-hover:text-accent-gold shrink-0" />
@@ -305,7 +305,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             </div>
             <div className="flex-1 min-w-0">
               <div className="text-sm font-black text-white truncate uppercase tracking-tight leading-tight">{user.displayName}</div>
-              <div className="text-[9px] text-primary-cyan font-black tracking-[0.3em] truncate mt-1 opacity-70 group-hover/user:opacity-100 transition-opacity uppercase">{user.role}</div>
+              <div className="text-xs text-primary-cyan font-black tracking-[0.3em] truncate mt-1 opacity-70 group-hover/user:opacity-100 transition-opacity uppercase">{user.role}</div>
             </div>
           </div>
         </div>
@@ -356,7 +356,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               <div className="flex-1 py-4 px-4">
                 {categories.map(category => (
                   <div key={category} className="mb-8">
-                    <div className="px-5 mb-3 text-[9px] text-on-surface-variant/40 font-black tracking-[0.4em] uppercase">
+                    <div className="px-5 mb-3 text-xs text-on-surface-variant/40 font-black tracking-[0.4em] uppercase">
                       {category}
                     </div>
                     <div className="space-y-1.5">
@@ -386,7 +386,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                               {item.label}
                             </span>
                             {item.count !== undefined && item.count > 0 && (
-                              <span className="text-[9px] bg-primary-cyan/20 text-primary-cyan px-2 py-0.5 rounded-full font-black">
+                              <span className="text-xs bg-primary-cyan/20 text-primary-cyan px-3 py-0.5 rounded-full font-black">
                                 {item.count}
                               </span>
                             )}
@@ -399,7 +399,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
               {/* Secondary Actions */}
               <div className="p-6 border-t border-white/5 space-y-2 bg-white/[0.01]">
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {secondaryItems.map(item => (
                     <button
                       key={item.id}

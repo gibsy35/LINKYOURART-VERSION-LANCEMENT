@@ -125,8 +125,8 @@ export const ContractCard = React.memo<ContractCardProps>(({
 
           <div className="space-y-4">
              <div className="flex items-center gap-2">
-                <span className="px-3 py-1 bg-primary-cyan text-surface-dim text-[8px] font-black uppercase tracking-[0.3em] rounded-md">{contract.registryIndex}</span>
-                <span className={`px-3 py-1 text-[8px] font-black uppercase tracking-[0.3em] border rounded-md ${categoryStyle}`}>{contract.category}</span>
+                <span className="px-3 py-1 bg-primary-cyan text-surface-dim text-[10px] font-black uppercase tracking-[0.3em] rounded-md">{contract.registryIndex}</span>
+                <span className={`px-3 py-1 text-[10px] font-black uppercase tracking-[0.3em] border rounded-md ${categoryStyle}`}>{contract.category}</span>
              </div>
              <h3 className="text-3xl font-black font-headline tracking-tighter uppercase text-white leading-[0.85] group-hover:text-primary-cyan transition-colors">
                 {contract.name}
@@ -137,17 +137,17 @@ export const ContractCard = React.memo<ContractCardProps>(({
 
       {/* Stats Table Section */}
       <div className="p-8 flex-1 flex flex-col gap-8">
-         <div className="grid grid-cols-3 gap-3">
+         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             <div className="p-4 bg-accent-pink/10 border border-accent-pink/20 rounded-2xl flex flex-col items-center justify-center group-hover:scale-105 transition-transform">
-               <span className="text-[8px] font-black text-accent-pink uppercase tracking-widest mb-1.5 leading-none">ALGO</span>
+               <span className="text-[10px] font-black text-accent-pink uppercase tracking-widest mb-1.5 leading-none">ALGO</span>
                <span className="text-xl font-black font-headline text-white leading-none">{scoreAlgoValue}</span>
             </div>
             <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl flex flex-col items-center justify-center group-hover:scale-105 transition-transform">
-               <span className="text-[8px] font-black text-emerald-400 uppercase tracking-widest mb-1.5 leading-none">EXPERT</span>
+               <span className="text-[10px] font-black text-emerald-400 uppercase tracking-widest mb-1.5 leading-none">EXPERT</span>
                <span className="text-xl font-black font-headline text-white leading-none">{scoreProValue}</span>
             </div>
             <div className="p-4 bg-primary-cyan/20 border border-primary-cyan/30 rounded-2xl flex flex-col items-center justify-center shadow-[0_0_30px_rgba(0,224,255,0.2)] group-hover:scale-110 transition-transform">
-               <span className="text-[8px] font-black text-primary-cyan uppercase tracking-widest mb-1.5 leading-none">LYA</span>
+               <span className="text-[10px] font-black text-primary-cyan uppercase tracking-widest mb-1.5 leading-none">LYA</span>
                <span className="text-xl font-black font-headline text-white leading-none">{scoreFinalValue}</span>
             </div>
          </div>
@@ -155,17 +155,17 @@ export const ContractCard = React.memo<ContractCardProps>(({
          <div className="space-y-6">
             <div className="flex justify-between items-end border-b border-white/5 pb-6">
                <div>
-                  <div className="text-[9px] font-black text-white/30 uppercase tracking-[0.3em] mb-1">{t('LYA UNIT', 'UNITÉ LYA')}</div>
+                  <div className="text-xs font-black text-white/30 uppercase tracking-[0.3em] mb-1">{t('LYA UNIT', 'UNITÉ LYA')}</div>
                   <div className="flex flex-col items-start gap-1">
                     <div className="text-2xl font-black font-headline text-primary-cyan flex items-baseline gap-2">
                       {formatPrice(adjustedPrice)}
                       <span className="text-[10px] font-mono text-white/40">LYA</span>
                     </div>
-                    <span className="text-[9px] font-mono text-white/30">({formatPrice(baseValue)} base)</span>
+                    <span className="text-xs font-mono text-white/30">({formatPrice(baseValue)} base)</span>
                   </div>
                </div>
                <div className="text-right">
-                  <div className="text-[9px] font-black text-white/30 uppercase tracking-[0.3em] mb-1">{t('MKT PERF', 'PERF MKT')}</div>
+                  <div className="text-xs font-black text-white/30 uppercase tracking-[0.3em] mb-1">{t('MKT PERF', 'PERF MKT')}</div>
                   <div className={`flex items-center justify-end gap-1.5 text-xl font-black font-headline ${contract.growth >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
                      {contract.growth >= 0 ? <TrendingUp size={16} /> : <TrendingDown size={16} />}
                      {contract.growth >= 0 ? '+' : ''}{contract.growth}%
@@ -180,7 +180,7 @@ export const ContractCard = React.memo<ContractCardProps>(({
                         <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${contract.id}${i}`} alt="user" className="w-full h-full object-cover" />
                      </div>
                   ))}
-                  <div className="w-8 h-8 rounded-full border-2 border-[#0D0D0D] bg-white/10 flex items-center justify-center text-[8px] font-black text-white relative z-10 backdrop-blur-xl">
+                  <div className="w-8 h-8 rounded-full border-2 border-[#0D0D0D] bg-white/10 flex items-center justify-center text-[10px] font-black text-white relative z-10 backdrop-blur-xl">
                      +142
                   </div>
                </div>

@@ -209,7 +209,7 @@ const ValidationQueue: React.FC<{
   return (
     <div className="space-y-6">
       {/* KPIs */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {[
           { label: T('En attente', 'Pending'), value: pending, color: 'text-accent-gold', bg: 'bg-accent-gold/8 border-accent-gold/20' },
           { label: T('Approuvés', 'Approved'), value: approved, color: 'text-emerald-400', bg: 'bg-emerald-400/8 border-emerald-400/20' },
@@ -600,7 +600,7 @@ const DiagnosticConsole: React.FC<{ lang: 'FR' | 'EN'; onNotify: (msg: string) =
               </div>
 
               {/* Détail des critères */}
-              <div className="grid grid-cols-2 gap-2.5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                 {result.details.map((d, i) => (
                   <div key={i} className="bg-surface-high/30 border border-white/6 rounded-xl p-3">
                     <p className="text-xs text-on-surface-variant/70">{d}</p>

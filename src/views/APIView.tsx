@@ -165,7 +165,7 @@ export const APIView: React.FC<APIViewProps> = ({ user, onNotify, onViewChange }
                     <div>
                       <div className="flex items-center gap-3 mb-1">
                         <h4 className="text-base font-black text-white uppercase tracking-tight">{key.name}</h4>
-                        <span className={`text-[8px] font-black px-2 py-0.5 rounded-sm ${key.status === 'ACTIVE' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-red-500/20 text-red-400'}`}>
+                        <span className={`text-[10px] font-black px-3 py-0.5 rounded-sm ${key.status === 'ACTIVE' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-red-500/20 text-red-400'}`}>
                           {key.status}
                         </span>
                       </div>
@@ -219,19 +219,19 @@ export const APIView: React.FC<APIViewProps> = ({ user, onNotify, onViewChange }
               <div className="flex bg-black/40 p-1 rounded-sm">
                 <button 
                   onClick={() => setSdkTab('JS')}
-                  className={`px-4 py-1 text-[9px] font-black uppercase tracking-widest transition-all ${sdkTab === 'JS' ? 'bg-primary-cyan text-surface-dim' : 'text-on-surface-variant hover:text-white'}`}
+                  className={`px-4 py-1 text-xs font-black uppercase tracking-widest transition-all ${sdkTab === 'JS' ? 'bg-primary-cyan text-surface-dim' : 'text-on-surface-variant hover:text-white'}`}
                 >
                   JAVASCRIPT
                 </button>
                 <button 
                   onClick={() => setSdkTab('PYTHON')}
-                  className={`px-4 py-1 text-[9px] font-black uppercase tracking-widest transition-all ${sdkTab === 'PYTHON' ? 'bg-primary-cyan text-surface-dim' : 'text-on-surface-variant hover:text-white'}`}
+                  className={`px-4 py-1 text-xs font-black uppercase tracking-widest transition-all ${sdkTab === 'PYTHON' ? 'bg-primary-cyan text-surface-dim' : 'text-on-surface-variant hover:text-white'}`}
                 >
                   PYTHON
                 </button>
                 <button 
                   onClick={() => setSdkTab('CURL')}
-                  className={`px-4 py-1 text-[9px] font-black uppercase tracking-widest transition-all ${sdkTab === 'CURL' ? 'bg-primary-cyan text-surface-dim' : 'text-on-surface-variant hover:text-white'}`}
+                  className={`px-4 py-1 text-xs font-black uppercase tracking-widest transition-all ${sdkTab === 'CURL' ? 'bg-primary-cyan text-surface-dim' : 'text-on-surface-variant hover:text-white'}`}
                 >
                   CURL
                 </button>

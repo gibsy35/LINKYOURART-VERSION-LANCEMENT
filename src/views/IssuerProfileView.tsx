@@ -71,7 +71,7 @@ export const IssuerProfileView: React.FC<IssuerProfileProps> = ({ issuerId, onBa
                </div>
                <div>
                   <div className="flex items-center gap-3 mb-2">
-                    <span className="px-2 py-0.5 bg-primary-cyan/10 border border-primary-cyan/30 text-primary-cyan text-[8px] font-black uppercase tracking-widest">LYA CENTER 0x44</span>
+                    <span className="px-3 py-0.5 bg-primary-cyan/10 border border-primary-cyan/30 text-primary-cyan text-[10px] font-black uppercase tracking-widest">LYA CENTER 0x44</span>
                     <ShieldCheck size={14} className="text-emerald-400" />
                   </div>
                   <h1 className="text-4xl md:text-6xl font-black font-headline tracking-tighter text-white uppercase leading-none">{issuerData.name}</h1>
@@ -141,7 +141,7 @@ export const IssuerProfileView: React.FC<IssuerProfileProps> = ({ issuerId, onBa
                      </div>
                      <div>
                        <p className="text-sm font-black text-white uppercase italic tracking-tight">{member.name}</p>
-                       <p className="text-[9px] text-primary-cyan uppercase tracking-widest font-black">{member.role}</p>
+                       <p className="text-xs text-primary-cyan uppercase tracking-widest font-black">{member.role}</p>
                      </div>
                    </div>
                  ))}
@@ -167,15 +167,15 @@ export const IssuerProfileView: React.FC<IssuerProfileProps> = ({ issuerId, onBa
                         <TrendingUp size={60} />
                       </div>
                       <div className="flex justify-between items-start mb-6">
-                        <div className="px-2 py-1 bg-emerald-400/10 text-emerald-400 text-[8px] font-black uppercase tracking-widest border border-emerald-400/20 rounded-sm">ACTIVE</div>
+                        <div className="px-3 py-1 bg-emerald-400/10 text-emerald-400 text-[10px] font-black uppercase tracking-widest border border-emerald-400/20 rounded-sm">ACTIVE</div>
                         <span className="text-[10px] font-mono text-on-surface-variant font-bold opacity-30">#LYA-CX-0{i}</span>
                       </div>
                       <h4 className="text-xl font-black text-white uppercase mb-1 tracking-tight group-hover:text-primary-cyan transition-colors truncate">Project Delta {i}</h4>
-                      <p className="text-[9px] text-on-surface-variant uppercase tracking-widest font-bold opacity-40 mb-6">Value Growth • 24.5% Cap</p>
+                      <p className="text-xs text-on-surface-variant uppercase tracking-widest font-bold opacity-40 mb-6">Value Growth • 24.5% Cap</p>
                       
                       <div className="flex justify-between items-center border-t border-white/5 pt-4">
                          <div>
-                            <p className="text-[8px] text-on-surface-variant uppercase tracking-widest font-black opacity-30">{t('Project Value', 'Valeur Projet')}</p>
+                            <p className="text-[10px] text-on-surface-variant uppercase tracking-widest font-black opacity-30">{t('Project Value', 'Valeur Projet')}</p>
                             <p className="text-lg font-black text-accent-gold">$842k</p>
                          </div>
                          <ArrowRight size={20} className="text-white/20 group-hover:text-primary-cyan transition-colors" />
@@ -198,7 +198,7 @@ export const IssuerProfileView: React.FC<IssuerProfileProps> = ({ issuerId, onBa
                  </div>
                  <div>
                     <h4 className="text-lg font-black text-white uppercase tracking-tighter">{t('TRANSACTIONAL CLEARANCE FEED', 'FLUX DE VALIDATION TRANSACTIONNEL')}</h4>
-                    <p className="text-[8px] text-primary-cyan font-black uppercase tracking-widest">{t('Real-time protocol settlements', 'Règlements protocolaires en temps réel')}</p>
+                    <p className="text-[10px] text-primary-cyan font-black uppercase tracking-widest">{t('Real-time protocol settlements', 'Règlements protocolaires en temps réel')}</p>
                  </div>
               </div>
 
@@ -214,8 +214,8 @@ export const IssuerProfileView: React.FC<IssuerProfileProps> = ({ issuerId, onBa
                          <span className="text-[11px] font-mono text-white/70 uppercase tracking-tighter">{log.msg}</span>
                       </div>
                       <div className="flex items-center gap-4">
-                         <span className="text-[9px] font-black text-emerald-400 font-mono italic">{log.status}</span>
-                         <span className="text-[9px] text-on-surface-variant opacity-30 font-mono">{log.time}</span>
+                         <span className="text-xs font-black text-emerald-400 font-mono italic">{log.status}</span>
+                         <span className="text-xs text-on-surface-variant opacity-30 font-mono">{log.time}</span>
                       </div>
                    </div>
                  ))}
