@@ -390,7 +390,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                   >
                     {tab.label}
                     {activeTab === tab.id && (
-                      <motion.div layoutId="activeDetailTab" className="absolute bottom-0 left-0 right-0 h-1 bg-primary-cyan shadow-[0_0_15px_#00E0FF] rounded-full" />
+                      <div className="absolute bottom-0 left-0 right-0 h-1 bg-primary-cyan shadow-[0_0_15px_#00E0FF] rounded-full" />
                     )}
                   </button>
                 ))}

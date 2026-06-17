@@ -208,10 +208,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     title={item.label}
                   >
                     {currentView === item.id && (
-                      <motion.div 
-                        layoutId="navActiveGlow"
-                        className="absolute left-0 w-1 h-8 bg-primary-cyan shadow-[0_0_15px_rgba(0,224,255,0.8)] rounded-r-full"
-                      />
+                      <div className="absolute inset-0 bg-primary-cyan/5 rounded-2xl" />
                     )}
                     <item.icon size={24} className={`transition-all duration-300 ${currentView === item.id ? 'text-primary-cyan scale-110 drop-shadow-[0_0_10px_rgba(0,224,255,0.6)]' : 'text-on-surface-variant/40 group-hover:text-primary-cyan group-hover:scale-110'}`} />
                     {!isCollapsed && (
@@ -376,10 +373,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                             }`}
                           >
                             {currentView === item.id && (
-                              <motion.div 
-                                layoutId="mobile-active-glow"
-                                className="absolute left-0 w-1 h-6 bg-primary-cyan rounded-full"
-                              />
+                              <div className="absolute inset-0 bg-primary-cyan/5 rounded-xl" />
                             )}
                             <item.icon size={24} className={currentView === item.id ? 'text-primary-cyan scale-110' : 'opacity-60 grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all'} />
                             <span className="text-xs font-black uppercase tracking-widest flex-1 text-left">

@@ -920,10 +920,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
                 {tab.icon}
                 {tab.label}
                 {activeTab === tab.id && (
-                  <motion.div 
-                    layoutId="active-tab"
-                    className="absolute bottom-0 left-0 right-0 h-[2px] bg-primary-cyan shadow-[0_0_10px_rgba(0,224,255,0.5)]" 
-                  />
+                  <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-primary-cyan shadow-[0_0_10px_rgba(0,224,255,0.5)]" />
                 )}
               </button>
             ))}

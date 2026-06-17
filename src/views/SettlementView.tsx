@@ -167,7 +167,7 @@ export const SettlementView: React.FC<{
             </div>
             <div className="p-4 md:p-6">
               <div className="space-y-4">
-                <AnimatePresence mode="popLayout">
+                <AnimatePresence mode="sync">
                   {[...batches].reverse().map((batch) => (
                     <motion.div 
                       key={batch.id}

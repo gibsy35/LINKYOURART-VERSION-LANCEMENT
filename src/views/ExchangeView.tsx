@@ -354,7 +354,7 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
             >
               {lang === 'FR' ? tab.labelFR : tab.labelEN}
               {activeTab === tab.key && (
-                <motion.div layoutId="exchangeTab" className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-cyan shadow-[0_0_10px_rgba(0,224,255,0.4)]" />
+                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-cyan shadow-[0_0_10px_rgba(0,224,255,0.4)]" />
               )}
             </button>
           ))}

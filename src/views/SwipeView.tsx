@@ -193,7 +193,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
         {/* Center - Swipe Card */}
         <div className="lg:col-span-6">
           <div className="relative aspect-[4/5] w-full max-w-sm mx-auto touch-none will-change-transform">
-            <AnimatePresence mode="popLayout">
+            <AnimatePresence mode="sync">
               <motion.div
                 key={currentContract.id}
                 style={{ x, rotate }}

@@ -262,10 +262,7 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify, onViewChan
                   }`}
                 >
                   {activeFaqTab === theme.id && (
-                    <motion.div 
-                      layoutId="activeTab"
-                      className="absolute inset-0 bg-primary-cyan shadow-[0_0_40px_rgba(0,224,255,0.4)]"
-                    />
+                    <div className="absolute inset-0 bg-primary-cyan shadow-[0_0_40px_rgba(0,224,255,0.4)]" />
                   )}
                   <span className="relative z-10">{theme.label}</span>
                 </button>

@@ -1465,10 +1465,7 @@ const renderMentorshipContent = () => (
                     </span>
                   )}
                   {activeTab === tab.id && (
-                    <motion.div 
-                      layoutId="active-tab-profile"
-                      className="absolute bottom-0 left-0 right-0 h-[2px] bg-primary-cyan shadow-[0_0_10px_rgba(0,224,255,0.5)]" 
-                    />
+                    <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-primary-cyan shadow-[0_0_10px_rgba(0,224,255,0.5)]" />
                   )}
                 </button>
               ))}
@@ -1981,10 +1978,7 @@ const renderMentorshipContent = () => (
                     </span>
                   )}
                   {activeTab === tab.id && (
-                    <motion.div 
-                      layoutId="active-tab-profile"
-                      className="absolute bottom-0 left-0 right-0 h-[2px] bg-primary-cyan shadow-[0_0_10px_rgba(0,224,255,0.5)]" 
-                    />
+                    <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-primary-cyan shadow-[0_0_10px_rgba(0,224,255,0.5)]" />
                   )}
                 </button>
               ))}
@@ -2435,10 +2429,7 @@ const renderMentorshipContent = () => (
               <tab.icon size={16} />
               <span className="whitespace-nowrap">{tab.label}</span>
               {activeTab === tab.id && (
-                <motion.div 
-                  layoutId="activeTabProfile"
-                  className="absolute bottom-0 left-0 right-0 h-1 bg-primary-cyan shadow-[0_0_15px_rgba(0,224,255,0.5)]"
-                />
+                <div className="absolute bottom-0 left-0 right-0 h-1 bg-primary-cyan shadow-[0_0_15px_rgba(0,224,255,0.5)]" />
               )}
             </button>
           ))}

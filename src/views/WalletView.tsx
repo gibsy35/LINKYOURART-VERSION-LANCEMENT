@@ -194,14 +194,14 @@ export const WalletView: React.FC<WalletViewProps> = ({ user, onNotify, onViewCh
           className={`pb-4 text-[10px] font-black uppercase tracking-[0.3em] transition-all relative ${activeTab === 'overview' ? 'text-primary-cyan' : 'text-on-surface-variant hover:text-on-surface'}`}
         >
           {t('TRANSACTION HISTORY', 'HISTORIQUE DES TRANSACTIONS')}
-          {activeTab === 'overview' && <motion.div layoutId="walletTab" className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-cyan" />}
+          {activeTab === 'overview' && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-cyan" />}
         </button>
         <button 
           onClick={() => setActiveTab('cards')}
           className={`pb-4 text-[10px] font-black uppercase tracking-[0.3em] transition-all relative ${activeTab === 'cards' ? 'text-primary-cyan' : 'text-on-surface-variant hover:text-on-surface'}`}
         >
           {t('PAYMENT METHODS', 'MOYENS DE PAIEMENT')}
-          {activeTab === 'cards' && <motion.div layoutId="walletTab" className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-cyan" />}
+          {activeTab === 'cards' && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-cyan" />}
         </button>
       </div>
 

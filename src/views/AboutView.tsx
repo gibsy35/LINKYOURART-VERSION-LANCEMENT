@@ -71,7 +71,7 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange, onNotify }) 
       <section className="relative h-[80vh] min-h-[700px] flex items-center justify-center overflow-hidden group -mx-4 md:-mx-6 rounded-[3rem] shadow-2xl transition-all duration-700 bg-black">
         {/* Layered Random Backgrounds */}
         <div className="absolute inset-0 z-0">
-          <AnimatePresence mode="popLayout">
+          <AnimatePresence mode="sync">
             {activeImageBatch.map((img, idx) => (
               <motion.div
                 key={`${img}-${idx}`}

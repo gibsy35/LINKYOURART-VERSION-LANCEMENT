@@ -592,7 +592,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
       <div className="grid lg:grid-cols-3 gap-8">
         {/* Left Column: Main Feed */}
         <div className="lg:col-span-2 space-y-6">
-          <AnimatePresence mode="popLayout">
+          <AnimatePresence mode="sync">
             {paginatedNews.map((item, index) => (
               <motion.div
                 key={item.id}
