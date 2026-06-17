@@ -1120,8 +1120,8 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
               className="text-left z-20 relative pt-2 md:pt-4 lg:pt-6"
             >
               <div className="relative mb-4 sm:mb-8 lg:mb-12">
-                <h1 className="text-[1.4rem] sm:text-[2.2rem] md:text-[3.5rem] lg:text-[5rem] xl:text-[7rem] font-black tracking-tighter leading-[0.88] uppercase text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.2)]">
-                  {t('ART IS AN', 'L\'ART EST UN')} <br className="hidden sm:block" />
+                <h1 style={{ fontSize: 'clamp(1.2rem, 5vw, 7rem)' }} className="font-black tracking-tighter leading-[0.9] uppercase text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.2)]">
+                  {t('ART IS AN', 'L\'ART EST UN')}{' '}
                   <span className="text-primary-cyan drop-shadow-[0_0_80px_rgba(0,224,255,0.6)] font-black">{t('EXCHANGE.', 'ÉCHANGE.')}</span>
                 </h1>
               </div>
