@@ -297,10 +297,13 @@ export const Topbar: React.FC<TopbarProps> = ({
                         </button>
                       )}
                       <button 
-                        onClick={() => { onViewChange('PROFILE'); setIsUserMenuOpen(false); }}
+                        onClick={() => { 
+                          onViewChange(user?.role === UserRole.PROFESSIONAL ? 'PROFESSIONAL_DASHBOARD' : 'PROFILE'); 
+                          setIsUserMenuOpen(false); 
+                        }}
                         className="w-full flex items-center gap-3 px-3 py-2 text-[10px] font-bold text-on-surface-variant hover:text-white hover:bg-white/5 transition-all uppercase tracking-widest"
                       >
-                        <User size={14} /> {t('PROFILE', 'PROFIL')}
+                        <User size={14} /> {user?.role === UserRole.PROFESSIONAL ? t('PRO SPACE', 'ESPACE PRO') : t('PROFILE', 'PROFIL')}
                       </button>
                       <button 
                         onClick={() => { onViewChange('SETTINGS'); setIsUserMenuOpen(false); }}

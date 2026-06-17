@@ -2568,8 +2568,12 @@ const renderMentorshipContent = () => (
                 </div>
                 <div className="text-center sm:text-right w-full sm:w-auto">
                   <div className="mb-3 md:mb-4">
-                    <p className="text-[10px] md:text-[10px] font-black uppercase tracking-widest text-on-surface-variant opacity-40 mb-1">{t('Growth', 'Croissance')}</p>
-                    <p className="text-xl md:text-2xl font-black text-primary-cyan italic tracking-tight">{(project.growth > 0 ? '+' : '') + project.growth}%</p>
+                    <p className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant opacity-40 mb-1">{t('Growth', 'Croissance')}</p>
+                    <p className={`text-xl md:text-2xl font-black italic tracking-tight ${project.growth >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>{(project.growth > 0 ? '+' : '') + project.growth}%</p>
+                    <p className="text-[10px] font-black text-accent-gold uppercase tracking-widest mt-1">
+                      LYA UNIT: {formatPrice(50 * (1 + project.growth / 100))}
+                    </p>
+                    <p className="text-[9px] text-on-surface-variant/30 mt-0.5">({t('base','base')} {formatPrice(50)})</p>
                   </div>
                           <button 
                             onClick={() => handlePremiumFeature('Contact Creator')}
