@@ -1120,17 +1120,17 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
               className="text-left z-20 relative pt-2 md:pt-4 lg:pt-6"
             >
               <div className="relative mb-4 sm:mb-8 lg:mb-12">
-                <h1 style={{ fontSize: 'clamp(1.2rem, 5vw, 7rem)' }} className="font-black tracking-tighter leading-[0.9] uppercase text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.2)]">
-                  {t('ART IS AN', 'L\'ART EST UN')}{' '}
+                <h1 style={{ fontSize: 'clamp(2rem, 8vw, 9rem)' }} className="font-black tracking-tighter leading-[0.88] uppercase text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.2)]">
+                  {t('ART IS AN', 'L\'ART EST UN')}<br/>
                   <span className="text-primary-cyan drop-shadow-[0_0_80px_rgba(0,224,255,0.6)] font-black">{t('EXCHANGE.', 'ÉCHANGE.')}</span>
                 </h1>
               </div>
               
-              <p className="text-sm sm:text-base md:text-lg text-white max-w-3xl mb-4 sm:mb-6 lg:mb-8 font-black uppercase tracking-tight leading-tight drop-shadow-lg text-justify">
+              <p className="text-sm sm:text-base md:text-lg text-white max-w-3xl mb-4 sm:mb-6 lg:mb-8 font-black uppercase tracking-tight leading-tight drop-shadow-lg">
                 "{t('LINKYOURART UNITES CREATORS, INVESTORS, INDUSTRY & AUDIENCES—POWERING TOMORROW’S MASTERPIECES.', 'LINKYOURART UNIT CRÉATEURS, INVESTISSEURS, INDUSTRIE ET PUBLICS—PROPULSANT LES CHEFS-D\'ŒUVRE DE DEMAIN.')}"
               </p>
 
-              <p className="text-base sm:text-base md:text-lg lg:text-xl xl:text-2xl text-on-surface-variant max-w-3xl mb-6 lg:mb-8 xl:mb-12 font-medium leading-relaxed opacity-90 border-l-4 lg:border-l-8 border-primary-cyan pl-6 lg:pl-10 py-2 lg:py-3 text-justify">
+              <p className="text-base sm:text-base md:text-lg lg:text-xl xl:text-2xl text-on-surface-variant max-w-3xl mb-6 lg:mb-8 xl:mb-12 font-medium leading-relaxed opacity-90 border-l-4 lg:border-l-8 border-primary-cyan pl-6 lg:pl-10 py-2 lg:py-3">
                 "{t('From project issuance to secondary exchange, navigate a secure ecosystem built on artistic excellence and creative transparency.', 'De l\'émission de projet à l\'échange secondaire, naviguez dans un écosystème sécurisé bâti sur l\'excellence artistique et la transparence créative.')}"
               </p>
 
