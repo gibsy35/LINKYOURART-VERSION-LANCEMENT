@@ -1528,81 +1528,79 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
           </div>
         </div>
 
-        {/* Professional Network Section */}
-        <div className="mb-40">
-          <div className="text-center mb-5 md:mb-10 lg:mb-16 px-4">
-            <h3 className="text-xs font-mono text-accent-gold uppercase tracking-[0.5em] mb-4 font-bold">{t('Expert Hubs & Creative Legacy', 'Hub d\'Experts & Héritage Créatif')}</h3>
+        {/* Professional Network Section — refonte sans noms */}
+        <div className="mb-16 md:mb-32">
+          <div className="text-center mb-8 md:mb-14 px-4">
+            <h3 className="text-xs font-mono text-accent-gold uppercase tracking-[0.5em] mb-4 font-bold">{t('PROFESSIONAL ECOSYSTEM', 'ÉCOSYSTÈME PROFESSIONNEL')}</h3>
             <h2 className="text-3xl md:text-5xl font-black font-headline text-white tracking-tighter uppercase mb-6 drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]">
-              {t('Professional', 'Professionnel')} <span className="text-primary-cyan">{t('Expert Hubs', 'Hub d\'Experts')}</span>
+              {t('A Network Built', 'Un réseau construit')} <span className="text-primary-cyan">{t('Over 20 Years', 'en 20 ans')}</span>
             </h2>
-            <div className="mt-6 inline-flex items-center gap-2 px-6 py-4 bg-accent-gold/10 border border-accent-gold/20 rounded-xl max-w-4xl mx-auto">
-              <div className="w-2 h-2 shrink-0 bg-accent-gold rounded-full animate-pulse hidden sm:block" />
-              <span className="text-[10px] md:text-xs font-black text-accent-gold uppercase tracking-widest text-center leading-relaxed">
-                {t('WE HAVE ESTABLISHED OVER THE PAST 20 YEARS SOLID RELATIONSHIPS WITH THE LARGEST COMPANIES AND VALIDATORS IN THE CREATIVE INDUSTRIES.', 'NOUS AVONS ÉTABLI AU COURS DES 20 DERNIÈRES ANNÉES DE SOLIDES RELATIONS AVEC LES PLUS GRANDES ENTREPRISES ET VALIDATEURS DES INDUSTRIES CRÉATIVES.')}
-              </span>
-            </div>
+            <p className="text-sm md:text-base text-on-surface-variant/70 max-w-2xl mx-auto leading-relaxed">
+              {t(
+                'Since 2006, LinkYourArt has cultivated deep institutional relationships across every major creative industry. Our network of certified validators and professional partners spans 14 disciplines worldwide.',
+                'Depuis 2006, LinkYourArt a cultivé des relations institutionnelles profondes dans chaque grande industrie créative. Notre réseau de validateurs certifiés et de partenaires professionnels couvre 14 disciplines à l\'échelle mondiale.'
+              )}
+            </p>
           </div>
-          
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+
+          {/* Stats globales */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10 md:mb-14">
             {[
-              { name: 'Universal Music Group', logo: 'UMG', industry: t('home.partners.industries.music', 'Music Rights'), node: 'UNIV-0982' },
-              { name: 'A24 Films', logo: 'A24', industry: t('home.partners.industries.cinema', 'Cinema IP'), node: 'A24-4321' },
-              { name: 'Sony Interactive', logo: 'Sony Interactive', industry: t('home.partners.industries.gaming', 'Gaming Assets'), node: 'SONY-6543' },
-              { name: 'Netflix Studios', logo: 'Netflix', industry: t('home.partners.industries.streaming', 'Streaming / Distribution'), node: 'NFLX-8821' },
-              { name: 'LVMH Group', logo: 'LVMH', industry: t('home.partners.industries.fashion', 'Fashion & Luxury IP'), node: 'LVMH-7712' },
-              { name: 'Epic Games', logo: 'EPIC Games', industry: t('home.partners.industries.tech', 'Unreal Engine Assets'), node: 'EPIC-9012' },
-              { name: 'A-Cold-Wall*', logo: 'ACW', industry: t('home.partners.industries.design', 'Industrial Design'), node: 'ACW-3209' },
-              { name: 'Condé Nast', logo: 'CN', industry: t('home.partners.industries.publishing', 'Media Archives'), node: 'CN-1102' },
-              { name: 'Ubisoft', logo: 'Ubisoft', industry: t('home.partners.industries.gaming', 'IP Franchises'), node: 'UBI-4765' },
-              { name: 'Paramount+', logo: 'Paramount', industry: t('home.partners.industries.media', 'Broadcast Catalog'), node: 'PAR-5534' },
-            ].map((partner, i) => (
-              <motion.div 
-                key={i}
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.05 }}
-                className="group relative flex flex-col items-start justify-between p-6 bg-surface-low/30 hover:bg-white/[0.02] border border-white/5 hover:border-accent-gold/40 transition-all rounded-3xl overflow-hidden min-h-[170px] shadow-lg hover:shadow-[0_0_30px_rgba(212,175,55,0.05)] text-left"
+              { value: '20+', labelFR: 'ans de présence\ninstit.', labelEN: 'years of institutional\npresence', color: 'text-accent-gold' },
+              { value: '14', labelFR: 'disciplines\ncréatives couvertes', labelEN: 'creative\ndisciplines covered', color: 'text-primary-cyan' },
+              { value: '100+', labelFR: 'validateurs\nprofessionnels actifs', labelEN: 'active professional\nvalidators', color: 'text-[#a78bfa]' },
+              { value: '6', labelFR: 'continents\nreprésentés', labelEN: 'continents\nrepresented', color: 'text-emerald-400' },
+            ].map((s, i) => (
+              <motion.div key={i} initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}
+                className="bg-surface-low/30 border border-white/8 rounded-2xl p-5 text-center"
               >
-                {/* Glow decor */}
-                <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-accent-gold/10 to-transparent rounded-full filter blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
-                
-                <div className="w-full flex justify-between items-center mb-4">
-                  <div className="text-[7.5px] font-mono text-white/30 uppercase tracking-widest">{partner.node}</div>
-                  <div className="flex items-center gap-1 flex-wrap">
-                    <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
-                    <span className="text-[7px] font-black text-emerald-400 uppercase tracking-wider">{t('ACTIVE_NODE', 'MEMBRE')}</span>
+                <p className={`text-3xl md:text-4xl font-black font-mono ${s.color}`}>{s.value}</p>
+                <p className="text-xs text-on-surface-variant/50 font-medium mt-2 uppercase tracking-wider leading-tight whitespace-pre-line">
+                  {t(s.labelEN, s.labelFR)}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Disciplines créatives */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[
+              { icon: '🎵', labelFR: 'Musique & Audio', labelEN: 'Music & Audio', descFR: 'Labels, éditeurs, compositeurs, droits voisins et catalogues musicaux', descEN: 'Labels, publishers, composers, neighbouring rights and music catalogues', stat: '30+ ans de droits indexés', statEN: '30+ years of indexed rights', color: 'border-[#a78bfa]/25 hover:border-[#a78bfa]/50', dot: 'bg-[#a78bfa]' },
+              { icon: '🎬', labelFR: 'Cinéma & Série', labelEN: 'Film & Series', descFR: 'Productions, studios, distributeurs, droits de diffusion et catalogues', descEN: 'Productions, studios, distributors, broadcast rights and catalogues', stat: 'Distribution internationale', statEN: 'International distribution', color: 'border-primary-cyan/25 hover:border-primary-cyan/50', dot: 'bg-primary-cyan' },
+              { icon: '👗', labelFR: 'Mode & Luxe', labelEN: 'Fashion & Luxury', descFR: 'Maisons de couture, créateurs indépendants, archives et collections', descEN: 'Fashion houses, independent designers, archives and collections', stat: 'Héritage + création contemporaine', statEN: 'Heritage + contemporary creation', color: 'border-rose-400/25 hover:border-rose-400/50', dot: 'bg-rose-400' },
+              { icon: '🎮', labelFR: 'Jeu Vidéo & Tech', labelEN: 'Gaming & Tech', descFR: 'Éditeurs, studios indépendants, IP franchises et actifs numériques', descEN: 'Publishers, indie studios, IP franchises and digital assets', stat: 'IP & actifs interactifs', statEN: 'IP & interactive assets', color: 'border-emerald-400/25 hover:border-emerald-400/50', dot: 'bg-emerald-400' },
+              { icon: '🏛️', labelFR: 'Architecture & Design', labelEN: 'Architecture & Design', descFR: 'Agences, cabinets, objets de design, patrimoine et projets urbains', descEN: 'Agencies, firms, design objects, heritage and urban projects', stat: 'Du concept à la réalisation', statEN: 'From concept to completion', color: 'border-accent-gold/25 hover:border-accent-gold/50', dot: 'bg-accent-gold' },
+              { icon: '🎨', labelFR: 'Arts Visuels & Scène', labelEN: 'Visual Arts & Stage', descFR: 'Galeries, artistes, arts performatifs, photographie et installations', descEN: 'Galleries, artists, performing arts, photography and installations', stat: 'Exposition & patrimoine mondial', statEN: 'Exhibition & world heritage', color: 'border-white/15 hover:border-white/30', dot: 'bg-white/60' },
+            ].map((disc, i) => (
+              <motion.div key={i} initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.06 }}
+                className={`group relative bg-surface-low/25 border ${disc.color} rounded-2xl p-5 sm:p-6 transition-all hover:bg-surface-low/40`}
+              >
+                <div className="flex items-start gap-4">
+                  <div className="text-2xl shrink-0">{disc.icon}</div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className={`w-1.5 h-1.5 rounded-full ${disc.dot} animate-pulse shrink-0`} />
+                      <p className="text-xs font-black text-on-surface-variant/40 uppercase tracking-widest">{t('ACTIF', 'ACTIVE')}</p>
+                    </div>
+                    <h4 className="text-sm font-black text-white uppercase tracking-wide mb-2">{t(disc.labelEN, disc.labelFR)}</h4>
+                    <p className="text-xs text-on-surface-variant/60 leading-relaxed">{t(disc.descEN, disc.descFR)}</p>
                   </div>
                 </div>
-
-                <div className="w-full text-left my-auto">
-                  <div className="text-3xl font-black text-white/10 group-hover:text-accent-gold transition-colors tracking-tighter uppercase mb-2">
-                    {partner.logo}
-                  </div>
-                  <div className="text-[11px] font-black text-white uppercase tracking-wider leading-snug">
-                    {partner.name}
-                  </div>
-                </div>
-
-                <div className="w-full pt-3 mt-3 border-t border-white/5 flex items-center justify-between">
-                  <span className="text-[8.5px] font-mono text-on-surface-variant/50 uppercase tracking-wider">
-                    {partner.industry}
-                  </span>
-                  <span className="text-[7.5px] uppercase tracking-widest text-[#FF007F] font-bold opacity-0 group-hover:opacity-100 transition-opacity">
-                    {t('SECURE', 'SÉCURISÉ')}
-                  </span>
+                <div className="mt-4 pt-3 border-t border-white/5">
+                  <p className="text-xs font-bold text-on-surface-variant/40 uppercase tracking-widest">{t(disc.statEN, disc.stat)}</p>
                 </div>
               </motion.div>
             ))}
           </div>
 
-          <div className="mt-16 text-center">
-            <button className="px-12 py-5 bg-white/5 border border-white/10 text-on-surface-variant hover:text-white hover:border-primary-cyan/50 hover:bg-primary-cyan/5 transition-all text-xs font-black uppercase tracking-[0.4em] flex items-center gap-4 mx-auto group">
-              {t('MORE TO COME', 'ENCORE PLUS À VENIR')}
-              <div className="w-2 h-2 rounded-full bg-primary-cyan animate-pulse group-hover:scale-125 transition-transform" />
-            </button>
-            <p className="mt-8 text-[11px] font-mono text-on-surface-variant/40 uppercase tracking-[0.4em]">
-              {t('Establishing global creative authority...', 'Établissement de l\'autorité créative mondiale...')}
+          {/* Bas de section — texte institutionnel */}
+          <div className="mt-10 md:mt-14 bg-accent-gold/5 border border-accent-gold/15 rounded-2xl p-5 sm:p-8 text-center max-w-3xl mx-auto">
+            <p className="text-xs font-black text-accent-gold uppercase tracking-[0.3em] mb-3">✦ {t('CONFIDENTIAL NETWORK', 'RÉSEAU CONFIDENTIEL')}</p>
+            <p className="text-sm md:text-base text-on-surface-variant/70 leading-relaxed">
+              {t(
+                'Our institutional partners and validators are engaged under strict professional agreements. Their identity remains confidential to protect ongoing creative collaborations. LinkYourArt acts as a trusted intermediary — never exposing its network.',
+                'Nos partenaires institutionnels et validateurs sont engagés sous des accords professionnels stricts. Leur identité reste confidentielle pour protéger les collaborations créatives en cours. LinkYourArt agit comme intermédiaire de confiance — ne jamais exposer son réseau.'
+              )}
             </p>
           </div>
         </div>
