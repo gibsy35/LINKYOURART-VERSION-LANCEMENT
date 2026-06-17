@@ -636,7 +636,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                   <h5 className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20">{t('INSTITUTIONAL ENQUIRIES', 'DEMANDES INSTITUTIONNELLES')}</h5>
                   <div className="space-y-3">
                     <a href="mailto:contact@linkyourart.com" className="block text-base font-mono font-light text-white/35 hover:text-white/60 transition-colors tracking-widest">contact@linkyourart.com</a>
-                    <div className="text-[10px] font-bold tracking-widest text-white/20 uppercase">Response within 24h GMT</div>
+                    <div className="text-[10px] font-bold tracking-widest text-white/20 uppercase">{t("Response within 24h GMT", "Réponse sous 24h GMT")}</div>
                   </div>
                 </div>
                 <div className="space-y-6 md:w-1/3 md:text-right">
@@ -786,11 +786,11 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary-cyan via-[#FF007F] to-[#9D00FF] rounded-t-3xl" />
             <div className="text-center mb-8">
               <Logo size={48} color="multi" showBeta={false} className="mx-auto mb-4" />
-              <h3 className="font-headline text-xl font-black uppercase tracking-widest text-white">ACCÈS ADMIN</h3>
-              <p className="text-white/30 text-xs mt-1 tracking-widest uppercase">Protocole Sécurisé</p>
+              <h3 className="font-headline text-xl font-black uppercase tracking-widest text-white">{t("ADMIN ACCESS", "ACCÈS ADMIN")}</h3>
+              <p className="text-white/30 text-xs mt-1 tracking-widest uppercase">{t("Secure Protocol", "Protocole Sécurisé")}</p>
             </div>
-            <button onClick={() => { setShowLoginEaster(false); if (onViewChange) onViewChange('LOGIN'); }} className="w-full py-4 bg-primary-cyan text-black font-black text-xs tracking-widest uppercase rounded-xl mb-3 hover:bg-primary-cyan/80 transition-all">SE CONNECTER</button>
-            <button onClick={() => setShowLoginEaster(false)} className="w-full py-3 bg-white/5 border border-white/10 text-white/40 font-black text-xs tracking-widest uppercase rounded-xl hover:text-white transition-all">FERMER</button>
+            <button onClick={() => { setShowLoginEaster(false); if (onViewChange) onViewChange('LOGIN'); }} className="w-full py-4 bg-primary-cyan text-black font-black text-xs tracking-widest uppercase rounded-xl mb-3 hover:bg-primary-cyan/80 transition-all">{t("SIGN IN", "SE CONNECTER")}</button>
+            <button onClick={() => setShowLoginEaster(false)} className="w-full py-3 bg-white/5 border border-white/10 text-white/40 font-black text-xs tracking-widest uppercase rounded-xl hover:text-white transition-all">{t("CLOSE", "FERMER")}</button>
           </motion.div>
         </div>
       )}
