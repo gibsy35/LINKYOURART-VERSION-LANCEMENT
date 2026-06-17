@@ -283,7 +283,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       {/* User Status Area */}
       {user && !isCollapsed && (
         <div className="p-8 bg-[#0D1117] border-t border-white/5 relative z-10 group/user cursor-pointer"
-          onClick={() => onViewChange('PROFILE')}
+          onClick={() => onViewChange((user?.role === 'PROFESSIONAL' ? 'PROFESSIONAL_DASHBOARD' : user?.role === 'CREATOR' ? 'CREATOR_DASHBOARD' : user?.role === 'INVESTOR' ? 'INVESTOR_DASHBOARD' : 'PROFILE'))}
         >
           <div className="flex items-center gap-4">
             <div className="relative">
@@ -417,7 +417,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               {/* User Profile on Mobile */}
               {user ? (
                 <div 
-                  onClick={() => { onViewChange('PROFILE'); onClose(); }}
+                  onClick={() => { onViewChange((user?.role === 'PROFESSIONAL' ? 'PROFESSIONAL_DASHBOARD' : user?.role === 'CREATOR' ? 'CREATOR_DASHBOARD' : user?.role === 'INVESTOR' ? 'INVESTOR_DASHBOARD' : 'PROFILE')); onClose(); }}
                   className="p-8 bg-gradient-to-tr from-white/[0.03] to-white/[0.01] border-t border-white/10 flex items-center gap-5 shadow-2xl"
                 >
                   <div className="w-12 h-12 rounded-full border-2 border-primary-cyan/40 p-0.5 overflow-hidden shrink-0 shadow-[0_0_15px_rgba(0,224,255,0.2)]">

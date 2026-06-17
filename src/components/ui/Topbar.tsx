@@ -298,12 +298,21 @@ export const Topbar: React.FC<TopbarProps> = ({
                       )}
                       <button 
                         onClick={() => { 
-                          onViewChange(user?.role === UserRole.PROFESSIONAL ? 'PROFESSIONAL_DASHBOARD' : 'PROFILE'); 
+                          const dest = user?.role === UserRole.PROFESSIONAL ? 'PROFESSIONAL_DASHBOARD'
+                            : user?.role === UserRole.CREATOR ? 'CREATOR_DASHBOARD'
+                            : user?.role === UserRole.INVESTOR ? 'INVESTOR_DASHBOARD'
+                            : 'PROFILE';
+                          onViewChange(dest); 
                           setIsUserMenuOpen(false); 
                         }}
                         className="w-full flex items-center gap-3 px-3 py-2 text-[10px] font-bold text-on-surface-variant hover:text-white hover:bg-white/5 transition-all uppercase tracking-widest"
                       >
-                        <User size={14} /> {user?.role === UserRole.PROFESSIONAL ? t('PRO SPACE', 'ESPACE PRO') : t('PROFILE', 'PROFIL')}
+                        <User size={14} /> {
+                          user?.role === UserRole.PROFESSIONAL ? t('PRO SPACE', 'ESPACE PRO')
+                          : user?.role === UserRole.CREATOR ? t('MY CREATIONS', 'MES CRÉATIONS')
+                          : user?.role === UserRole.INVESTOR ? t('MY PORTFOLIO', 'MON PORTFOLIO')
+                          : t('PROFILE', 'PROFIL')
+                        }
                       </button>
                       <button 
                         onClick={() => { onViewChange('SETTINGS'); setIsUserMenuOpen(false); }}
