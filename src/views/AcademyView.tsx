@@ -107,13 +107,13 @@ export const AcademyView: React.FC<AcademyViewProps> = ({ user, onNotify, onView
 
       <div className="relative z-20 -mt-20 mb-8">
         <div className="flex flex-col lg:flex-row lg:items-center justify-end gap-8">
-          <div className="flex flex-wrap gap-4">
-            <div className="px-8 py-5 bg-surface-low border border-white/5 rounded-2xl backdrop-blur-3xl shadow-2xl relative overflow-hidden group">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="px-4 sm:px-8 py-4 sm:py-5 bg-surface-low border border-white/5 rounded-2xl backdrop-blur-3xl shadow-2xl relative overflow-hidden group">
               <div className="absolute inset-0 bg-accent-gold/5 opacity-0 group-hover:opacity-100 transition-opacity" />
               <div className="text-[10px] text-accent-gold uppercase tracking-widest font-black mb-1 opacity-70">{t('Active Learners', 'Apprenants Actifs')}</div>
               <div className="text-3xl font-black text-white italic tracking-tighter uppercase">12.4K+</div>
             </div>
-            <div className="px-8 py-5 bg-surface-low border border-white/5 rounded-2xl backdrop-blur-3xl shadow-2xl relative overflow-hidden group">
+            <div className="px-4 sm:px-8 py-4 sm:py-5 bg-surface-low border border-white/5 rounded-2xl backdrop-blur-3xl shadow-2xl relative overflow-hidden group">
               <div className="absolute inset-0 bg-primary-cyan/5 opacity-0 group-hover:opacity-100 transition-opacity" />
               <div className="text-[10px] text-primary-cyan uppercase tracking-widest font-black mb-1 opacity-70">{t('Certifications', 'Certifications')}</div>
               <div className="text-3xl font-black text-white italic tracking-tighter uppercase">4.2K</div>
@@ -143,7 +143,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({ user, onNotify, onView
       {/* Featured Courses */}
       <section className="px-6 space-y-8 mt-16 sm:mt-24">
         <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-black text-white uppercase italic tracking-tight flex items-center gap-3">
+          <h2 className="text-2xl font-black text-white uppercase tracking-tight flex items-center gap-3">
             <BookOpen className="text-primary-cyan" size={24} />
             {t('FEATURED CURRICULUM', 'PROGRAMME À L\'AFFICHE')}
           </h2>
@@ -242,7 +242,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({ user, onNotify, onView
           <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 transition-transform">
             <Award size={100} className="text-primary-cyan" />
           </div>
-          <h3 className="text-2xl font-black text-white uppercase italic tracking-tight mb-4">{t('CERTIFICATION PROGRAM', 'PROGRAMME DE CERTIFICATION')}</h3>
+          <h3 className="text-2xl font-black text-white uppercase tracking-tight mb-4">{t('CERTIFICATION PROGRAM', 'PROGRAMME DE CERTIFICATION')}</h3>
           <p className="text-sm text-on-surface-variant leading-relaxed mb-8 max-w-md text-justify">
             {t(
               "Become a certified LYA Protocol Auditor or Registry Node Operator. Our professional certifications are recognized by major professional partners.",
@@ -273,7 +273,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({ user, onNotify, onView
           <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 transition-transform">
             <Users size={100} className="text-accent-purple" />
           </div>
-          <h3 className="text-2xl font-black text-white uppercase italic tracking-tight mb-4">{t('EXPERT WORKSHOPS', 'ATELIERS D\'EXPERTS')}</h3>
+          <h3 className="text-2xl font-black text-white uppercase tracking-tight mb-4">{t('EXPERT WORKSHOPS', 'ATELIERS D\'EXPERTS')}</h3>
           <p className="text-sm text-on-surface-variant leading-relaxed mb-8 max-w-md text-justify">
             {t(
               "Join live, interactive sessions with industry leaders. Deep dive into market analysis, legal frameworks, and creative technology.",
@@ -305,7 +305,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({ user, onNotify, onView
       <section className="px-6 mt-16 sm:mt-24 mb-16">
         <div className="bg-surface-low/30 border border-white/5 rounded-2xl p-8">
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-xl font-black text-white uppercase italic tracking-tight flex items-center gap-3">
+            <h2 className="text-xl font-black text-white uppercase tracking-tight flex items-center gap-3">
               <BookOpen className="text-primary-cyan" size={24} />
               {t('RESOURCE LIBRARY', 'BIBLIOTHÈQUE DE RESSOURCES')}
             </h2>

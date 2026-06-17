@@ -385,7 +385,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
   const activeItem = news[activeNewsIndex] || news[0] || INITIAL_NEWS[0];
 
   return (
-    <div className="space-y-8 pb-12 w-full overflow-hidden block">
+    <div className="space-y-6 pb-12 w-full overflow-hidden block">
       {/* Immersive News Player Section - NOW FIRST */}
       <section className="relative h-[450px] md:h-[600px] lg:h-[650px] w-full group overflow-hidden bg-surface-dim border border-white/5 shadow-2xl rounded-3xl mt-2">
         <div className="absolute inset-0 z-0 overflow-hidden">
@@ -487,13 +487,13 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
                 }}
                 className="px-6 py-2.5 md:px-8 md:py-3 bg-white text-surface-dim text-xs md:text-[10px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] hover:bg-primary-cyan transition-all rounded-sm shadow-xl active:scale-95 group"
               >
-                <span className="flex items-center gap-2">
+                <span className="flex flex-wrap items-center gap-2">
                   {t('Read Full Story', 'Lire l\'article')}
                   <ArrowUpRight className="w-3.5 h-3.5 md:w-4 md:h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                 </span>
               </button>
               
-              <div className="flex items-center gap-3">
+              <div className="flex flex-wrap items-center gap-2">
                 <button 
                   onClick={() => onNotify(t('Link copied!', 'Lien copié !'))}
                   className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white hover:bg-white/10 transition-all backdrop-blur-md"
@@ -538,7 +538,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
             {t('REAL-TIME CURATION OF HIGH-IMPACT NEWS AND MARKET SHIFTS ACROSS THE GLOBAL CREATIVE ECONOMY.', 'CURATION EN TEMPS RÉEL DES ACTUALITÉS À FORT IMPACT ET DES CHANGEMENTS DE MARCHÉ DANS L\'ÉCONOMIE CRÉATIVE MONDIALE.')}
           </p>
         </div>
-        <div className="flex gap-4">
+        <div className="flex flex-wrap gap-3">
           <div className="bg-surface-low border border-white/5 p-4 text-center min-w-[120px]">
             <div className="text-[10px] text-on-surface-variant uppercase tracking-widest mb-1">{t('Live Articles', 'Articles Live')}</div>
             <div className="text-2xl font-black text-primary-cyan tabular-nums">
@@ -631,7 +631,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
                   <div className="p-6 flex-1 flex flex-col justify-between">
                     <div>
                       <div className="flex items-center justify-between mb-3">
-                        <div className="flex items-center gap-3">
+                        <div className="flex flex-wrap items-center gap-2">
                           <div className="flex items-center gap-2 text-[10px] font-mono text-on-surface-variant/60 uppercase tracking-widest">
                             <Clock className="w-3 h-3" />
                             {item.timestamp}
@@ -665,13 +665,13 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
                         <div className="flex items-center gap-4">
                           <button 
                             onClick={() => onNotify(t('Link copied to clipboard!', 'Lien copié dans le presse-papiers !'))}
-                            className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant hover:text-primary-cyan transition-colors flex items-center gap-2"
+                            className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant hover:text-primary-cyan transition-colors flex flex-wrap items-center gap-2"
                           >
                             <Share2 size={14} /> SHARE
                           </button>
                           <button 
                             onClick={() => onNotify(t('Article saved to your library.', 'Article enregistré dans votre bibliothèque.'))}
-                            className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant hover:text-primary-cyan transition-colors flex items-center gap-2"
+                            className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant hover:text-primary-cyan transition-colors flex flex-wrap items-center gap-2"
                           >
                             <Bookmark size={14} /> SAVE
                           </button>
@@ -710,7 +710,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
         <div className="space-y-8">
           {/* Market Sentiment */}
           <div className="bg-surface-low border border-white/5 p-6">
-            <h3 className="text-xs font-black uppercase tracking-[0.3em] text-primary-cyan mb-6 flex items-center gap-2">
+            <h3 className="text-xs font-black uppercase tracking-[0.3em] text-primary-cyan mb-6 flex flex-wrap items-center gap-2">
               <TrendingUp className="w-4 h-4" />
               Market Sentiment
             </h3>
@@ -762,7 +762,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
 
           {/* Live Network Activity */}
           <div className="bg-surface-low border border-white/5 p-6">
-            <h3 className="text-xs font-black uppercase tracking-[0.3em] text-primary-cyan mb-6 flex items-center gap-2">
+            <h3 className="text-xs font-black uppercase tracking-[0.3em] text-primary-cyan mb-6 flex flex-wrap items-center gap-2">
               <Globe className="w-4 h-4" />
               Live Network Activity
             </h3>
@@ -770,7 +770,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
             <div className="space-y-4">
               {nodes.slice(0, visibleNodes).map((node, i) => (
                 <div key={i} className="flex items-center justify-between p-3 bg-white/5 border border-white/5">
-                  <div className="flex items-center gap-3">
+                  <div className="flex flex-wrap items-center gap-2">
                     <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
                     <span className="text-[10px] font-bold uppercase tracking-widest text-white">{node.label}</span>
                   </div>

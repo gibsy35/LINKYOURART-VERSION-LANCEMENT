@@ -122,28 +122,28 @@ export const WalletView: React.FC<WalletViewProps> = ({ user, onNotify, onViewCh
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               <button 
                 onClick={() => onViewChange('PAYMENT')}
-                className="flex flex-col items-center justify-center gap-3 p-6 bg-primary-cyan text-surface-dim rounded-3xl hover:bg-white transition-all shadow-xl active:scale-95 group"
+                className="flex flex-col items-center justify-center gap-2 p-4 sm:p-6 bg-primary-cyan text-surface-dim rounded-3xl hover:bg-white transition-all shadow-xl active:scale-95 group"
               >
                 <Plus size={24} />
                 <span className="text-[10px] font-black uppercase tracking-widest">{t('DEPOSIT', 'DÉPOSER')}</span>
               </button>
               <button 
                 onClick={() => { setShowWithdrawModal(true); setWithdrawStep('form'); }}
-                className="flex flex-col items-center justify-center gap-3 p-6 bg-white/5 border border-white/10 text-white rounded-3xl hover:bg-white hover:text-surface-dim transition-all active:scale-95"
+                className="flex flex-col items-center justify-center gap-2 p-4 sm:p-6 bg-white/5 border border-white/10 text-white rounded-3xl hover:bg-white hover:text-surface-dim transition-all active:scale-95"
               >
                 <ArrowUpRight size={24} />
                 <span className="text-[10px] font-black uppercase tracking-widest">{t('WITHDRAW', 'RETIRER')}</span>
               </button>
               <button 
                 onClick={() => onViewChange('EXCHANGE')}
-                className="flex flex-col items-center justify-center gap-3 p-6 bg-white/5 border border-white/10 text-white rounded-3xl hover:bg-white hover:text-surface-dim transition-all active:scale-95"
+                className="flex flex-col items-center justify-center gap-2 p-4 sm:p-6 bg-white/5 border border-white/10 text-white rounded-3xl hover:bg-white hover:text-surface-dim transition-all active:scale-95"
               >
                 <ArrowDownLeft size={24} />
                 <span className="text-[10px] font-black uppercase tracking-widest">{t('BUY ASSETS', 'ACHETER')}</span>
               </button>
               <button 
                 onClick={handleDownloadStatement}
-                className="flex flex-col items-center justify-center gap-3 p-6 bg-white/5 border border-white/10 text-white rounded-3xl hover:bg-white hover:text-surface-dim transition-all active:scale-95"
+                className="flex flex-col items-center justify-center gap-2 p-4 sm:p-6 bg-white/5 border border-white/10 text-white rounded-3xl hover:bg-white hover:text-surface-dim transition-all active:scale-95"
               >
                 <Download size={24} />
                 <span className="text-[10px] font-black uppercase tracking-widest">{t('STATEMENT', 'RELEVÉ')}</span>

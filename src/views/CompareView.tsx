@@ -83,7 +83,7 @@ export const CompareView: React.FC<CompareViewProps> = ({
 
             <button 
               onClick={() => onViewChange('EXCHANGE')}
-              className="px-12 py-6 bg-white text-surface-dim font-black uppercase tracking-widest text-[11px] hover:bg-primary-cyan hover:text-surface-dim transition-all rounded-sm shadow-[0_20px_50px_rgba(0,0,0,0.5)] group overflow-hidden relative"
+              className="px-6 sm:px-12 py-4 sm:py-6 bg-white text-surface-dim font-black uppercase tracking-widest text-xs hover:bg-primary-cyan hover:text-surface-dim transition-all rounded-sm shadow-[0_20px_50px_rgba(0,0,0,0.5)] group overflow-hidden relative"
             >
               <div className="absolute inset-0 bg-primary-cyan/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
               <span className="flex items-center gap-4 relative z-10">
@@ -95,7 +95,7 @@ export const CompareView: React.FC<CompareViewProps> = ({
 
           {suggestedProjects.length > 0 && (
             <div className="pt-12 space-y-10">
-              <div className="flex items-center gap-6">
+              <div className="flex flex-wrap items-center gap-3">
                 <div className="h-[1px] flex-1 bg-white/5" />
                 <h4 className="text-[10px] font-black text-primary-cyan/60 uppercase tracking-[0.5em] italic">{t('SUGGESTED_SELECTION', 'SÉLECTION_SUGGÉRÉE')}</h4>
                 <div className="h-[1px] flex-1 bg-white/5" />
@@ -108,7 +108,7 @@ export const CompareView: React.FC<CompareViewProps> = ({
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.1 }}
-                    className="bg-surface-low/50 border border-white/5 p-8 flex flex-col gap-6 group hover:border-primary-cyan/30 transition-all cursor-pointer rounded-sm relative overflow-hidden" 
+                    className="bg-surface-low/50 border border-white/5 p-4 sm:p-8 flex flex-col gap-4 sm:gap-6 group hover:border-primary-cyan/30 transition-all cursor-pointer rounded-sm relative overflow-hidden" 
                     onClick={() => {
                         const updateEvent = new CustomEvent('lyCompare', { detail: project.id });
                         window.dispatchEvent(updateEvent);
@@ -118,7 +118,7 @@ export const CompareView: React.FC<CompareViewProps> = ({
                     <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-20 transition-opacity">
                       <BarChart3 size={40} />
                     </div>
-                    <div className="flex items-center gap-6">
+                    <div className="flex flex-wrap items-center gap-3">
                       <div className="w-16 h-16 bg-surface-dim overflow-hidden border border-white/10 group-hover:border-primary-cyan/30 shadow-2xl transition-all duration-700 rounded-sm">
                         <img src={project.image} alt={project.name} className="w-full h-full object-cover opacity-50 group-hover:opacity-100 group-hover:scale-110 transition-all" referrerPolicy="no-referrer" />
                       </div>
@@ -177,7 +177,7 @@ export const CompareView: React.FC<CompareViewProps> = ({
                           </button>
                         </div>
                       </div>
-                      <div className="flex items-center gap-6">
+                      <div className="flex flex-wrap items-center gap-3">
                         <div className="w-24 h-24 bg-surface-dim border border-white/10 overflow-hidden shadow-2xl shrink-0 group relative rounded-sm">
                           <img src={contract.image} alt={contract.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" referrerPolicy="no-referrer" />
                           <div className="absolute inset-0 bg-primary-cyan/10 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -300,7 +300,7 @@ export const CompareView: React.FC<CompareViewProps> = ({
              </div>
              <button 
                onClick={() => onNotify(t('TRANSCRIPT_LOCKED_PENDING_PRO_ACTIVATION', 'TRANSCRIPT_VERROUILLÉ_ATTENTE_PRO'))}
-               className="px-12 py-6 bg-primary-cyan text-surface-dim font-black uppercase tracking-widest text-[11px] hover:bg-white hover:text-surface-dim transition-all rounded-sm shadow-2xl flex items-center gap-5 group shrink-0"
+               className="px-12 py-6 bg-primary-cyan text-surface-dim font-black uppercase tracking-widest text-xs hover:bg-white hover:text-surface-dim transition-all rounded-sm shadow-2xl flex items-center gap-5 group shrink-0"
              >
                {t('EXPOR_FULL_AUDIT_REPORT', 'EXPORTER_LE_RAPPORT_D\'AUDIT')}
                <BarChart3 size={16} className="group-hover:scale-110 transition-transform" />

@@ -267,8 +267,8 @@ const ValidationQueue: React.FC<{
                 className="bg-surface-low/40 backdrop-blur-xl border border-white/8 rounded-2xl overflow-hidden hover:border-white/18 transition-all"
               >
                 {/* Header projet */}
-                <div className="flex items-center gap-4 px-5 py-4 border-b border-white/6">
-                  <div className="w-14 h-14 rounded-xl overflow-hidden shrink-0 border border-white/10">
+                <div className="flex flex-wrap items-start gap-3 px-4 py-4 border-b border-white/6">
+                  <div className="w-12 h-12 rounded-xl overflow-hidden shrink-0 border border-white/10">
                     <img src={getSafeImageUrl(req.contract.image, req.contract.category)} alt={req.contract.name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -315,7 +315,7 @@ const ValidationQueue: React.FC<{
                     </div>
 
                     {/* 4 étapes */}
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
                       {VALIDATION_STEPS.map(step => (
                         <StepCard
                           key={step.id}
@@ -329,7 +329,7 @@ const ValidationQueue: React.FC<{
                     </div>
 
                     {/* Actions */}
-                    <div className="flex items-center justify-between pt-2 border-t border-white/6">
+                    <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-white/6">
                       <button onClick={() => verifyAll(req.id)} className="text-xs font-black text-primary-cyan hover:text-white transition-colors uppercase tracking-widest border-b border-primary-cyan/30 pb-0.5">
                         {T('✦ Valider toutes les étapes', '✦ Validate all steps')}
                       </button>
@@ -656,7 +656,7 @@ const QualityDashboard: React.FC<{ lang: 'FR' | 'EN' }> = ({ lang }) => {
   return (
     <div className="space-y-6">
       {/* KPIs globaux */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
         {[
           { label: T('Projets indexés', 'Indexed projects'), value: CONTRACTS.filter(c => c.status === 'LIVE').length, color: 'text-primary-cyan', sub: T('sur la plateforme', 'on the platform') },
           { label: T('Score LYA moyen', 'Average LYA Score'), value: `${Math.round(CONTRACTS.reduce((s, c) => s + c.totalScore, 0) / CONTRACTS.length)}`, color: 'text-accent-gold', sub: '/1000' },

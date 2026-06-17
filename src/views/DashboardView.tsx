@@ -320,7 +320,7 @@ export const DashboardView: React.FC<{
           <div className="flex gap-6 sm:gap-12 border-b border-white/5 min-w-max">
             <button 
               onClick={() => setActiveTab('overview')}
-              className={`pb-4 text-[10px] font-black uppercase tracking-[0.4em] transition-all relative group shrink-0 ${activeTab === 'overview' ? 'text-primary-cyan' : 'text-on-surface-variant hover:text-on-surface'}`}
+              className={`pb-4 text-xs font-black uppercase tracking-wider transition-all relative group shrink-0 ${activeTab === 'overview' ? 'text-primary-cyan' : 'text-on-surface-variant hover:text-on-surface'}`}
             >
               <span className="relative z-10">{t('General View', 'Vue d\'Ensemble')}</span>
               {activeTab === 'overview' && (
@@ -330,7 +330,7 @@ export const DashboardView: React.FC<{
             </button>
             <button 
               onClick={() => setActiveTab('predictive')}
-              className={`pb-4 text-[10px] font-black uppercase tracking-[0.4em] transition-all relative group flex items-center gap-3 shrink-0 ${activeTab === 'predictive' ? 'text-primary-cyan' : 'text-on-surface-variant hover:text-on-surface'}`}
+              className={`pb-4 text-xs font-black uppercase tracking-wider transition-all relative group flex items-center gap-3 shrink-0 ${activeTab === 'predictive' ? 'text-primary-cyan' : 'text-on-surface-variant hover:text-on-surface'}`}
             >
               <Zap size={14} className={activeTab === 'predictive' ? 'text-primary-cyan' : 'text-on-surface-variant opacity-40'} />
               <span className="relative z-10">{t('Project Analytics', 'Analyses de Projets')}</span>
@@ -341,7 +341,7 @@ export const DashboardView: React.FC<{
             </button>
             <button 
               onClick={() => setActiveTab('accessibilité')}
-              className={`pb-4 text-[10px] font-black uppercase tracking-[0.4em] transition-all relative group flex items-center gap-3 shrink-0 ${activeTab === 'accessibilité' ? 'text-primary-cyan' : 'text-on-surface-variant hover:text-on-surface'}`}
+              className={`pb-4 text-xs font-black uppercase tracking-wider transition-all relative group flex items-center gap-3 shrink-0 ${activeTab === 'accessibilité' ? 'text-primary-cyan' : 'text-on-surface-variant hover:text-on-surface'}`}
             >
               <ActivityIcon size={14} className={activeTab === 'accessibilité' ? 'text-primary-cyan' : 'text-on-surface-variant opacity-40'} />
               <span className="relative z-10">{t('Exchange Center', 'Centre d\'Échanges')}</span>
@@ -353,7 +353,7 @@ export const DashboardView: React.FC<{
 
             <button
               onClick={() => setActiveTab('workspace')}
-              className={`pb-4 text-[10px] font-black uppercase tracking-[0.4em] transition-all relative group flex items-center gap-3 shrink-0 ${activeTab === 'workspace' ? 'text-primary-cyan' : 'text-on-surface-variant hover:text-on-surface'}`}
+              className={`pb-4 text-xs font-black uppercase tracking-wider transition-all relative group flex items-center gap-3 shrink-0 ${activeTab === 'workspace' ? 'text-primary-cyan' : 'text-on-surface-variant hover:text-on-surface'}`}
             >
               <LayoutGrid size={14} className={activeTab === 'workspace' ? 'text-primary-cyan' : 'text-on-surface-variant opacity-40'} />
               <span className="relative z-10">{t('My Workspace', 'Mon Espace')}</span>
@@ -366,7 +366,7 @@ export const DashboardView: React.FC<{
             {isAdmin && (
               <button 
                 onClick={() => setActiveTab('management')}
-                className={`pb-4 text-[10px] font-black uppercase tracking-[0.4em] transition-all relative group flex items-center gap-3 shrink-0 ${activeTab === 'management' ? 'text-primary-cyan' : 'text-on-surface-variant hover:text-on-surface'}`}
+                className={`pb-4 text-xs font-black uppercase tracking-wider transition-all relative group flex items-center gap-3 shrink-0 ${activeTab === 'management' ? 'text-primary-cyan' : 'text-on-surface-variant hover:text-on-surface'}`}
               >
                 <Shield size={14} className={activeTab === 'management' ? 'text-primary-cyan' : 'text-on-surface-variant opacity-40'} />
                 <span className="relative z-10">{t('ACCESS CONTROL', 'CONTRÔLE D\'ACCÈS')}</span>

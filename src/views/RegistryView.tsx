@@ -235,7 +235,7 @@ export const RegistryView: React.FC<{
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4">
-                <div className="relative min-w-[180px]">
+                <div className="relative min-w-[120px] sm:min-w-[180px]">
                   <select 
                     value={filterAgreementType}
                     onChange={(e) => setFilterAgreementType(e.target.value)}
@@ -250,7 +250,7 @@ export const RegistryView: React.FC<{
                   <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none opacity-40" size={12} />
                 </div>
 
-                <div className="relative min-w-[160px]">
+                <div className="relative min-w-[100px] sm:min-w-[160px]">
                   <select 
                     value={filterStatus}
                     onChange={(e) => setFilterStatus(e.target.value)}
@@ -268,7 +268,7 @@ export const RegistryView: React.FC<{
             
             <div className="h-[1px] xl:h-10 w-full xl:w-[1px] bg-white/5 shrink-0" />
 
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
               <button 
                 onClick={() => handleSort('SCORE')}
                 className={`px-6 py-3.5 border rounded-sm text-[10px] font-black uppercase tracking-widest transition-all flex items-center justify-center gap-3 flex-1 xl:flex-none ${

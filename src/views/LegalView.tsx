@@ -235,12 +235,12 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify, onViewChan
 
         <div className="flex flex-col lg:flex-row lg:items-center justify-end gap-8 -mt-32 mb-12 relative z-20">
           <div className="flex flex-wrap gap-4">
-            <div className="px-8 py-5 bg-surface-dim/80 border border-white/10 rounded-2xl backdrop-blur-3xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] relative overflow-hidden group">
+            <div className="px-4 sm:px-8 py-4 sm:py-5 bg-surface-dim/80 border border-white/10 rounded-2xl backdrop-blur-3xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] relative overflow-hidden group">
               <div className="absolute inset-0 bg-primary-cyan/5 opacity-0 group-hover:opacity-100 transition-opacity" />
               <div className="text-[10px] text-primary-cyan uppercase tracking-[0.2em] font-black mb-1 opacity-70">{t('Ecosystem Status', 'Statut de l\'Écosystème')}</div>
               <div className="text-3xl font-black text-white tracking-tighter uppercase">{t('Active & Secure', 'ACTIF & SÉCURISÉ')}</div>
             </div>
-            <div className="px-8 py-5 bg-surface-dim/80 border border-white/10 rounded-2xl backdrop-blur-3xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] relative overflow-hidden group">
+            <div className="px-4 sm:px-8 py-4 sm:py-5 bg-surface-dim/80 border border-white/10 rounded-2xl backdrop-blur-3xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] relative overflow-hidden group">
               <div className="absolute inset-0 bg-accent-gold/5 opacity-0 group-hover:opacity-100 transition-opacity" />
               <div className="text-[10px] text-accent-gold uppercase tracking-[0.2em] font-black mb-1 opacity-70">{t('Protocol Version', 'Version du Protocole')}</div>
               <div className="text-3xl font-black text-white tracking-tighter uppercase">V4.2.0</div>
@@ -250,7 +250,7 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify, onViewChan
 
         {type === 'FAQ' && (
           <div className="mb-12">
-            <div className="flex flex-wrap gap-3 mb-16 p-2 bg-white/5 rounded-2xl border border-white/10 backdrop-blur-md inline-flex">
+            <div className="flex flex-wrap gap-2 mb-8 md:mb-16 p-2 bg-white/5 rounded-2xl border border-white/10 backdrop-blur-md">
               {faqThemes.map((theme) => (
                 <button
                   key={theme.id}

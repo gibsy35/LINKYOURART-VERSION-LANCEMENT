@@ -220,7 +220,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.1 }}
-                className={`relative bg-surface-high/40 border ${plan.popular ? 'border-accent-gold shadow-[0_0_30px_rgba(212,175,55,0.1)]' : 'border-white/10'} p-6 backdrop-blur-xl flex flex-col flex-1`}
+                className={`relative bg-surface-high/40 border ${plan.popular ? 'border-accent-gold shadow-[0_0_30px_rgba(212,175,55,0.1)]' : 'border-white/10'} p-5 sm:p-6 backdrop-blur-xl flex flex-col`}
               >
                 {plan.popular && (
                   <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-accent-gold text-surface-dim text-[10px] font-black uppercase tracking-widest whitespace-nowrap">
@@ -246,7 +246,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
                       <span className="text-[10px] text-on-surface-variant/75 uppercase tracking-[0.2em] font-black block mt-2">{t('Enterprise Private Node / Dedicated Node', 'Nœud d\'infrastructure Élite / Nœud Dédié')}</span>
                     </div>
                   ) : (
-                    <div className="flex items-baseline gap-1">
+                    <div className="flex items-baseline gap-1 flex-wrap">
                       <span className="text-3xl font-black">${currentPrice}</span>
                       <span className="text-on-surface-variant text-[10px] uppercase font-bold tracking-widest">/ {billingCycle === 'yearly' ? t('year', 'an') : t('month', 'mois')}</span>
                     </div>
@@ -258,7 +258,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
 
                 <button 
                   onClick={() => setShowcaseFeature(plan.id as any)}
-                  className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-primary-cyan hover:text-white transition-colors mb-6"
+                  className="flex items-center gap-2 text-[10px] font-black uppercase tracking-wide text-primary-cyan hover:text-white transition-colors mb-4 sm:mb-6"
                 >
                   <Info size={12} />
                   {t('Learn More', 'En savoir plus')}

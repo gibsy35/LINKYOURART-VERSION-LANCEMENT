@@ -100,17 +100,17 @@ const NeuralTicker = () => {
 
   return (
     <div className="w-full bg-black/40 backdrop-blur-md border-y border-primary-cyan/20 py-2 flex items-center justify-center overflow-hidden">
-      <div className="flex items-center gap-8 whitespace-nowrap animate-marquee">
+      <div className="flex items-center gap-4 md:gap-8 whitespace-nowrap animate-marquee flex-wrap">
         {[...Array(10)].map((_, i) => (
-          <div key={i} className="flex items-center gap-4">
-            <div className="flex items-center gap-2">
+          <div key={i} className="flex items-center gap-4 flex-wrap">
+            <div className="flex items-center gap-2 flex-wrap">
               <Activity size={12} className="text-primary-cyan" />
               <span className="text-[10px] font-mono text-primary-cyan uppercase tracking-widest leading-none">{t('Global LYA Index', 'Index Mondial LYA')}</span>
               <span className="text-[10px] font-mono text-white font-bold leading-none">{val.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
               <span className="text-[10px] font-mono text-emerald-400 font-bold leading-none">+0.14%</span>
             </div>
             <div className="w-1.5 h-1.5 bg-primary-cyan/20 rounded-full" />
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
               <Cpu size={12} className="text-accent-gold" />
               <span className="text-[10px] font-mono text-accent-gold uppercase tracking-widest leading-none">{t('Neural Mesh Status', 'Statut du Maillage Neural')}</span>
               <span className="text-[10px] font-mono text-white font-bold leading-none">{t('OPTIMAL', 'OPTIMAL')}</span>
@@ -419,9 +419,9 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
         </div>
 
         {/* ── 1 LYA UNIT = $50 ANCHOR ──────────────────────────── */}
-        <div className="flex items-center justify-center gap-6 mb-16">
+        <div className="flex items-center justify-center gap-6 mb-5 md:mb-10 lg:mb-6 md:mb-10 lg:mb-16">
           <div className="h-px flex-1 bg-gradient-to-r from-transparent to-white/10" />
-          <div className="flex items-center gap-4 px-6 py-3 border border-white/10 bg-white/[0.02]">
+          <div className="flex items-center gap-4 px-6 py-3 border border-white/10 bg-white/[0.02] flex-wrap">
             <div className="w-8 h-8 rounded-full border border-primary-cyan/40 flex items-center justify-center">
               <Coins size={14} className="text-primary-cyan" />
             </div>
@@ -510,14 +510,14 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
               </div>
 
               {/* Score start */}
-              <div className="flex items-center gap-4 px-5 py-3 border border-white/5 bg-white/[0.02]">
+              <div className="flex items-center gap-4 px-5 py-3 border border-white/5 bg-white/[0.02] flex-wrap">
                 <div className="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center text-white/40 shrink-0">
                   <span className="text-xs font-black">→</span>
                 </div>
                 <div className="flex-1">
                   <p className="text-xs font-black uppercase tracking-widest text-white/40">{t('Issuance — Starting Score', 'Émission — Score de Départ')}</p>
                 </div>
-                <div className="flex items-center gap-3 text-right shrink-0">
+                <div className="flex items-center gap-3 text-right shrink-0 flex-wrap">
                   <div>
                     <p className="text-[10px] text-white/30 uppercase font-black">{t('Score', 'Score')}</p>
                     <p className="text-sm font-black text-white font-mono">{activeMeta.initialScore}<span className="text-white/20 text-xs">/1000</span></p>
@@ -573,7 +573,7 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
                     </div>
 
                     {/* Score + Price impact */}
-                    <div className="flex items-center gap-3 shrink-0 text-right">
+                    <div className="flex items-center gap-3 shrink-0 text-right flex-wrap">
                       <div>
                         <p className="text-[10px] text-white/30 uppercase font-black tracking-widest">{t('Score', 'Score')}</p>
                         <p className="text-xs font-black text-white font-mono">{p.prevScore} → <span className={isJalon ? 'text-emerald-400' : 'text-rose-400'}>{p.newScore}</span></p>
@@ -667,7 +667,7 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
 
               {/* Key rule */}
               <div className="border border-white/5 bg-white/[0.01] p-5">
-                <div className="flex items-center gap-2 mb-3">
+                <div className="flex items-center gap-2 mb-3 flex-wrap">
                   <Zap size={12} className="text-accent-gold" />
                   <p className="text-xs font-black uppercase tracking-[0.4em] text-accent-gold/70">{t('The LYA Rule', 'La Règle LYA')}</p>
                 </div>
@@ -722,7 +722,7 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
                    >
                      <X size={20} />
                    </button>
-                   <div className="flex items-center gap-3 text-primary-cyan mb-1 animate-pulse">
+                   <div className="flex items-center gap-3 text-primary-cyan mb-1 animate-pulse flex-wrap">
                      <Cpu size={18} />
                      <span className="text-[10px] font-mono tracking-[0.3em] uppercase">{t('LYA CONSTRUCT ENGINE V4.2', 'MOTEUR DE SIMULATION LYA V4.2')}</span>
                    </div>
@@ -1045,7 +1045,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
               initial={{ scale: 0.9, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 20 }}
-              className="bg-surface-high border border-red-500/30 max-w-2xl w-full p-8 md:p-12 relative shadow-[0_0_100px_rgba(239,68,68,0.2)]"
+              className="bg-surface-high border border-red-500/30 max-w-2xl w-full p-8 md:p-5 sm:p-8 lg:p-12 relative shadow-[0_0_100px_rgba(239,68,68,0.2)]"
             >
               <button 
                 onClick={() => setShowLegalPopup(false)}
@@ -1112,21 +1112,21 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
         </div>
 
         <div className="max-w-[1800px] mx-auto relative z-10 w-full">
-          <div className="flex flex-col lg:grid lg:grid-cols-2 gap-6 lg:gap-12 items-center">
+          <div className="flex flex-col lg:grid lg:grid-cols-2 gap-6 lg:gap-5 sm:p-8 lg:p-12 items-center">
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 1, ease: "easeOut" }}
               className="text-left z-20 relative pt-2 md:pt-4 lg:pt-6"
             >
-              <div className="relative mb-4 sm:mb-8 lg:mb-12 xl:mb-16">
-                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-[4rem] sm:text-[6rem] md:text-[8rem] lg:text-[10rem] font-black tracking-tighter leading-[0.9] md:leading-[0.8] uppercase text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.2)]">
+              <div className="relative mb-4 sm:mb-8 lg:mb-12">
+                <h1 className="text-[2.8rem] sm:text-[4rem] md:text-[5.5rem] lg:text-[7rem] xl:text-[9rem] font-black tracking-tighter leading-[0.88] uppercase text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.2)]">
                   {t('ART IS AN', 'L\'ART EST UN')} <br className="hidden sm:block" />
                   <span className="text-primary-cyan drop-shadow-[0_0_80px_rgba(0,224,255,0.6)] font-black">{t('EXCHANGE.', 'ÉCHANGE.')}</span>
                 </h1>
               </div>
               
-              <p className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-white max-w-5xl mb-4 sm:mb-6 lg:mb-8 xl:mb-12 font-black uppercase tracking-tight leading-tight drop-shadow-lg text-justify">
+              <p className="text-sm sm:text-base md:text-lg text-white max-w-3xl mb-4 sm:mb-6 lg:mb-8 font-black uppercase tracking-tight leading-tight drop-shadow-lg text-justify">
                 "{t('LINKYOURART UNITES CREATORS, INVESTORS, INDUSTRY & AUDIENCES—POWERING TOMORROW’S MASTERPIECES.', 'LINKYOURART UNIT CRÉATEURS, INVESTISSEURS, INDUSTRIE ET PUBLICS—PROPULSANT LES CHEFS-D\'ŒUVRE DE DEMAIN.')}"
               </p>
 
@@ -1137,14 +1137,14 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
               <div className="flex flex-col sm:flex-row items-start gap-4 mb-4 sm:mb-8 lg:mb-12 w-full sm:w-auto">
                 <button
                   onClick={() => onViewChange('MECENAT')}
-                  className="w-full sm:w-auto px-8 py-4 bg-primary-cyan text-surface-dim font-black uppercase tracking-[0.25em] text-[11px] rounded-xl flex items-center justify-center gap-2.5 shadow-[0_0_40px_rgba(0,224,255,0.35)] hover:shadow-[0_0_60px_rgba(0,224,255,0.55)] hover:scale-105 transition-all active:scale-95"
+                  className="w-full sm:w-auto px-5 sm:px-8 py-3 sm:py-4 bg-primary-cyan text-surface-dim font-black uppercase tracking-[0.25em] text-[11px] rounded-xl flex items-center justify-center gap-2.5 shadow-[0_0_40px_rgba(0,224,255,0.35)] hover:shadow-[0_0_60px_rgba(0,224,255,0.55)] hover:scale-105 transition-all active:scale-95"
                 >
                   <span>🏛</span>
                   {t('POPULAR PATRONAGE (SIMPLE)', 'MÉCÉNAT POPULAIRE (SIMPLE)')}
                 </button>
                 <button
                   onClick={() => onViewChange('EXCHANGE')}
-                  className="w-full sm:w-auto px-8 py-4 border border-white/20 hover:border-white/50 text-white font-black uppercase tracking-[0.25em] text-[11px] rounded-xl flex items-center justify-center gap-2.5 bg-white/4 hover:bg-white/8 transition-all active:scale-95 group"
+                  className="w-full sm:w-auto px-5 sm:px-8 py-3 sm:py-4 border border-white/20 hover:border-white/50 text-white font-black uppercase tracking-[0.25em] text-[11px] rounded-xl flex items-center justify-center gap-2.5 bg-white/4 hover:bg-white/8 transition-all active:scale-95 group"
                 >
                   {t('CREATIVE MARKET (PRO)', 'CREATIVE MARKET (PRO)')}
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -1281,7 +1281,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
       {/* Comparison Section: What we are vs What we are not */}
       <section className="relative z-10 py-32 px-6 bg-surface-low/50 border-y border-white/5">
         <div className="max-w-[1500px] mx-auto">
-          <div className="text-center mb-16">
+          <div className="text-center mb-5 md:mb-10 lg:mb-6 md:mb-10 lg:mb-16">
             <h2 className="text-3xl md:text-5xl font-black font-headline text-white tracking-tighter uppercase mb-6 drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]">
               {t('home.not_lya.title', 'What LinkYourArt')} <span className="text-primary-cyan">{t('home.not_lya.title_cyan', 'is and is NOT')}</span>
             </h2>
@@ -1404,8 +1404,8 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
       <BrushSeparator />
 
       {/* The Ecosystem Section */}
-      <section className="relative z-10 py-40 max-w-[1800px] mx-auto px-6">
-        <div className="text-center mb-24">
+      <section className="relative z-10 py-10 md:py-24 lg:py-10 md:py-24 lg:py-40 max-w-[1800px] mx-auto px-6">
+        <div className="text-center mb-6 md:mb-14 lg:mb-8 md:mb-16 lg:mb-24">
           <h2 className="text-3xl md:text-5xl font-black font-headline text-white tracking-tighter uppercase mb-6 drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]">
             {t('THE', 'LES')} <span className="text-primary-cyan">{t('FOUR SPHERES', 'QUATRE SPHÈRES')}</span>
           </h2>
@@ -1414,7 +1414,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-24">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-6 md:mb-14 lg:mb-8 md:mb-16 lg:mb-24">
           <div className="bg-surface-low border border-white/5 p-8 rounded-sm relative overflow-hidden group hover:border-primary-cyan/30 transition-all">
             <div className="absolute top-0 right-0 w-24 h-24 bg-primary-cyan/5 rounded-full -mr-12 -mt-12 blur-2xl group-hover:bg-primary-cyan/10 transition-all" />
             <div className="w-12 h-12 bg-primary-cyan/10 flex items-center justify-center text-primary-cyan border border-primary-cyan/20 mb-6 group-hover:scale-110 transition-transform">
@@ -1530,7 +1530,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
 
         {/* Professional Network Section */}
         <div className="mb-40">
-          <div className="text-center mb-16 px-4">
+          <div className="text-center mb-5 md:mb-10 lg:mb-16 px-4">
             <h3 className="text-xs font-mono text-accent-gold uppercase tracking-[0.5em] mb-4 font-bold">{t('Expert Hubs & Creative Legacy', 'Hub d\'Experts & Héritage Créatif')}</h3>
             <h2 className="text-3xl md:text-5xl font-black font-headline text-white tracking-tighter uppercase mb-6 drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]">
               {t('Professional', 'Professionnel')} <span className="text-primary-cyan">{t('Expert Hubs', 'Hub d\'Experts')}</span>
@@ -1569,7 +1569,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
                 
                 <div className="w-full flex justify-between items-center mb-4">
                   <div className="text-[7.5px] font-mono text-white/30 uppercase tracking-widest">{partner.node}</div>
-                  <div className="flex items-center gap-1">
+                  <div className="flex items-center gap-1 flex-wrap">
                     <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
                     <span className="text-[7px] font-black text-emerald-400 uppercase tracking-wider">{t('ACTIVE_NODE', 'MEMBRE')}</span>
                   </div>
@@ -1607,9 +1607,9 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
           </div>
         </div>
 
-        <div className="bg-primary-cyan/5 border border-primary-cyan/20 p-12 rounded-sm backdrop-blur-md relative overflow-hidden">
+        <div className="bg-primary-cyan/5 border border-primary-cyan/20 p-5 sm:p-8 lg:p-12 rounded-sm backdrop-blur-md relative overflow-hidden">
           <div className="absolute top-0 right-0 w-96 h-96 bg-primary-cyan/10 rounded-full -mr-48 -mt-48 blur-3xl opacity-50" />
-          <div className="flex flex-col md:flex-row items-center gap-12 relative z-10">
+          <div className="flex flex-col md:flex-row items-center gap-5 sm:p-8 lg:p-12 relative z-10">
             <div className="shrink-0">
               <div className="w-32 h-32 bg-primary-cyan/20 flex items-center justify-center text-primary-cyan border border-primary-cyan/30 rounded-full shadow-[0_0_30px_rgba(0,224,255,0.2)]">
                 <span className="text-4xl font-black">LYA</span>
@@ -1627,8 +1627,8 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
 
       <BrushSeparator />
 
-      <section className="relative z-10 py-40 max-w-[1800px] mx-auto px-6">
-        <div className="text-center mb-24">
+      <section className="relative z-10 py-10 md:py-24 lg:py-10 md:py-24 lg:py-40 max-w-[1800px] mx-auto px-6">
+        <div className="text-center mb-6 md:mb-14 lg:mb-8 md:mb-16 lg:mb-24">
           <h2 className="text-3xl md:text-5xl font-black font-headline text-white tracking-tighter uppercase mb-6 drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]">
             {t('home.scoring.title', 'LE SYSTÈME')} <span className="text-primary-cyan">{t('home.scoring.title_cyan', "D'ÉVALUATION LYA")}</span>
           </h2>

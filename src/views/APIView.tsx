@@ -103,7 +103,7 @@ export const APIView: React.FC<APIViewProps> = ({ user, onNotify, onViewChange }
         </p>
         <button 
           onClick={() => onViewChange('PRICING')}
-          className="px-10 py-5 bg-primary-cyan text-surface-dim font-black uppercase italic tracking-[0.2em] text-[11px] hover:bg-white transition-all active:scale-95 shadow-[0_15px_30px_rgba(0,224,255,0.2)]"
+          className="px-6 sm:px-10 py-4 sm:py-5 bg-primary-cyan text-surface-dim font-black uppercase tracking-wider text-xs hover:bg-white transition-all active:scale-95 shadow-[0_15px_30px_rgba(0,224,255,0.2)]"
         >
           {t('Upgrade to Professional', 'Passer au Professionnel')}
         </button>
@@ -127,7 +127,7 @@ export const APIView: React.FC<APIViewProps> = ({ user, onNotify, onViewChange }
       />
 
       <div className="flex flex-col lg:flex-row lg:items-center justify-end gap-8 -mt-16 md:-mt-24 mb-12 relative z-20">
-        <div className="flex flex-wrap gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="px-8 py-5 bg-surface-low border border-white/5 rounded-2xl backdrop-blur-3xl shadow-2xl relative overflow-hidden group">
             <div className="absolute inset-0 bg-primary-cyan/5 opacity-0 group-hover:opacity-100 transition-opacity" />
             <div className="text-[10px] text-primary-cyan uppercase tracking-widest font-black mb-1 opacity-70">{t('API Status', 'Statut API')}</div>

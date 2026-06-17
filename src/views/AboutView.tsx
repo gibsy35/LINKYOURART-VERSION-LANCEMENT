@@ -133,7 +133,7 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange, onNotify }) 
               </motion.span>
             </h1>
             
-            <div className="flex items-center justify-center gap-6 my-10">
+            <div className="flex flex-wrap items-center justify-center gap-4 my-10">
               <div className="h-[1px] w-12 md:w-32 bg-gradient-to-r from-transparent to-white/40" />
               <div className="h-2 w-2 rounded-full bg-primary-cyan animate-ping" />
               <div className="h-[1px] w-12 md:w-32 bg-gradient-to-l from-transparent to-white/40" />
@@ -143,7 +143,7 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange, onNotify }) 
               {t('World First Creative Exchange System', 'Premier Système d\'Échange Créatif au Monde')}
             </p>
             
-            <div className="mt-12 flex justify-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+            <div className="mt-12 flex flex-wrap justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
               <div className="px-4 py-2 bg-white/10 backdrop-blur-md rounded-full border border-white/20 text-[10px] font-bold text-white tracking-widest uppercase">
                 {t('Photography', 'Photographie')}
               </div>
@@ -158,7 +158,7 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange, onNotify }) 
         </div>
 
         {/* Decorative elements */}
-          <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40">
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40">
             <div className="text-[10px] font-black text-white uppercase tracking-[0.5em]">{t('HOVER TO ACTIVATE', 'SURVOLER POUR ACTIVER')}</div>
             <MousePointer2 className="text-white animate-bounce" size={20} />
           </div>
@@ -210,7 +210,7 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange, onNotify }) 
 
         <div className="relative">
           <div className="absolute -inset-4 bg-primary-cyan/10 blur-3xl rounded-full opacity-50" />
-          <div className="relative aspect-square rounded-[3rem] overflow-hidden border border-white/10 shadow-2xl flex items-center justify-center bg-surface-low/20 group">
+          <div className="relative aspect-square rounded-2xl md:rounded-[3rem] overflow-hidden border border-white/10 shadow-2xl flex items-center justify-center bg-surface-low/20 group">
             <Logo 
               size={320} 
               color="multi"

@@ -696,7 +696,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
                       <span className="text-[10px] font-black font-mono tracking-widest text-red-400 uppercase bg-red-950/20 px-3 py-1 border border-red-500/10 rounded-md">
                         {t('VERIFICATION DENIED', 'ACCÈS REFUSÉ')}
                       </span>
-                      <p className="text-[10px] text-red-400/60 uppercase font-bold tracking-wider mt-2 max-w-[180px]">
+                      <p className="text-[10px] text-red-400/60 uppercase font-bold tracking-wider mt-2 max-w-[140px] sm:max-w-[180px]">
                         {t('LEVEL 3 STATUS REQUIRED', 'STATUT PROFESSIONNEL DE NIVEAU 3 REQUIS')}
                       </p>
                     </motion.div>
@@ -723,7 +723,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
                         }}
                         className="px-5 py-2.5 bg-accent-gold/5 border border-accent-gold/30 hover:border-accent-gold hover:bg-accent-gold/10 rounded-xl transition-all shadow-xl group/scan active:scale-95"
                       >
-                        <span className="flex items-center gap-2 text-[10px] font-black tracking-widest uppercase text-accent-gold">
+                        <span className="flex items-center gap-2 text-[10px] font-black tracking-wide uppercase text-accent-gold">
                           <Fingerprint size={12} className="group-hover/scan:scale-110 transition-transform" />
                           {t('SCAN CREDENTIALS', 'SCANNER IDENTITÉ')}
                         </span>
@@ -757,19 +757,19 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
 
               {/* Elite feature checklist */}
               <div className="py-4 border-y border-white/5 space-y-3 font-mono text-[10px] md:text-xs">
-                <div className="flex items-center gap-3 text-white/95">
+                <div className="flex flex-wrap items-center gap-2 text-white/95">
                   <ShieldCheck size={14} className="text-accent-gold shrink-0" />
                   <span className="uppercase tracking-wide">
                     {t('Direct OTC Licensing & Master Right Transfers', 'Transfert Direct de Droits Maîtres & Négociations OTC')}
                   </span>
                 </div>
-                <div className="flex items-center gap-3 text-white/95">
+                <div className="flex flex-wrap items-center gap-2 text-white/95">
                   <TrendingUp size={14} className="text-accent-gold shrink-0" />
                   <span className="uppercase tracking-wide">
                     {t('Private-tier index insights and direct developer API modules', 'Données d\'indice privées & modules API développeur directs')}
                   </span>
                 </div>
-                <div className="flex items-center gap-3 text-white/95">
+                <div className="flex flex-wrap items-center gap-2 text-white/95">
                   <Crown size={14} className="text-accent-gold shrink-0" />
                   <span className="uppercase tracking-wide">
                     {t('1-on-1 Curated Elite Advisory Node channels', 'Canaux consultatifs d\'élite 1-à-1 avec les conservateurs')}
