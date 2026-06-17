@@ -1086,7 +1086,7 @@ export default function App() {
 
         <main className={`transition-all duration-300 ${(!isAuthView && !isLandingView && currentView !== 'CONTRACT_DETAIL') ? (isSidebarCollapsed ? 'lg:ml-20' : 'lg:ml-72') : ''} ${(!isAuthView && !isLandingView && currentView !== 'CONTRACT_DETAIL') ? 'pt-8 pb-20' : ''} min-h-screen relative flex flex-col shadow-2xl overflow-hidden`}>
           <div className={`${['EXCHANGE', 'REGISTRY', 'WATCHLIST', 'SETTLEMENT', 'DASHBOARD'].includes(currentView) ? 'max-w-[2000px]' : 'max-w-[2000px]'} mx-auto w-full flex-1 flex flex-col relative ${(!isLandingView && currentView !== 'CONTRACT_DETAIL') ? 'px-4 md:px-6' : ''}`}>
-            <ErrorBoundary name="View Carrier">
+            <ErrorBoundary name="View Carrier" resetKey={currentView}>
               <AnimatePresence mode="wait">
                 <motion.div
                   key={currentView}
