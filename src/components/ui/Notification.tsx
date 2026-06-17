@@ -9,7 +9,7 @@ interface NotificationProps {
 
 export const Notification: React.FC<NotificationProps> = ({ message }) => {
   return (
-    <AnimatePresence>
+    <AnimatePresence mode="sync">
       {message && (
         <motion.div 
           initial={{ opacity: 0, y: 50, x: '-50%' }}

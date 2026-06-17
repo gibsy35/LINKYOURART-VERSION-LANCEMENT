@@ -366,7 +366,7 @@ export const WorkspaceWidgets: React.FC = () => {
       </div>
 
       {/* ── Catalogue de modules (mode config) ── */}
-      <AnimatePresence>
+      <AnimatePresence mode="sync">
         {isConfiguring && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}

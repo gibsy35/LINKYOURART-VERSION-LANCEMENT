@@ -39,7 +39,7 @@ interface ModalProps {
 
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
   return (
-    <AnimatePresence>
+    <AnimatePresence mode="sync">
       {isOpen && (
         <>
           <motion.div 

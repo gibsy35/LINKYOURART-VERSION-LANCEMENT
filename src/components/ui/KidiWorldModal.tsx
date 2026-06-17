@@ -38,7 +38,7 @@ export const KidiWorldModal: React.FC<KidiWorldModalProps> = ({ isOpen, onClose 
   ];
 
   return (
-    <AnimatePresence>
+    <AnimatePresence mode="sync">
       {isOpen && (
         <>
           {/* Backdrop */}

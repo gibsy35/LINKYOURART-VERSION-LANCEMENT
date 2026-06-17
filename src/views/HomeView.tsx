@@ -696,7 +696,7 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
 
       {/* LYA Mathematical Modelizer Modal — Portal renders at body level to avoid transform stacking */}
          {typeof document !== 'undefined' && createPortal(
-         <AnimatePresence>
+         <AnimatePresence mode="sync">
            {isModelizerOpen && (
              <motion.div 
                initial={{ opacity: 0 }}
@@ -1033,7 +1033,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
   return (
     <div className="relative min-h-screen bg-surface-dim overflow-x-hidden">
       {/* Legal Popup Modal */}
-      <AnimatePresence>
+      <AnimatePresence mode="sync">
         {showLegalPopup && (
           <motion.div 
             initial={{ opacity: 0 }}

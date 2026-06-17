@@ -603,7 +603,7 @@ export const AdminView: React.FC<{
   };
 
   const renderUserModal = () => (
-    <AnimatePresence>
+    <AnimatePresence mode="sync">
       {viewingUser && (
         <div className="fixed inset-0 z-[250] flex items-center justify-center p-4">
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setViewingUser(null)} className="fixed inset-0 bg-black/90 backdrop-blur-md" />
@@ -1364,7 +1364,7 @@ export const AdminView: React.FC<{
       {renderUserModal()}
 
       {/* Simulated Email Modal */}
-      <AnimatePresence>
+      <AnimatePresence mode="sync">
         {activeEmailRequest && (
           <div className="fixed inset-0 z-[550] flex items-center justify-center p-4">
             <div className="fixed inset-0 bg-black/95 backdrop-blur-2xl" onClick={() => setActiveEmailRequest(null)} />
@@ -1493,7 +1493,7 @@ export const AdminView: React.FC<{
       </AnimatePresence>
 
       {/* Overhauled Admin Editing Modal */}
-      <AnimatePresence>
+      <AnimatePresence mode="sync">
         {editingProject && (
           <div className="fixed inset-0 z-[3000] flex items-center justify-center p-4">
             <div className="fixed inset-0 bg-black/95 backdrop-blur-xl" onClick={() => setEditingProject(null)} />

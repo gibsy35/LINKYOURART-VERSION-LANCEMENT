@@ -170,7 +170,7 @@ export const Topbar: React.FC<TopbarProps> = ({
               )}
             </button>
 
-            <AnimatePresence>
+            <AnimatePresence mode="sync">
               {isNotifMenuOpen && (
                 <>
                   <motion.div 
@@ -267,7 +267,7 @@ export const Topbar: React.FC<TopbarProps> = ({
               </button>
             )}
 
-            <AnimatePresence>
+            <AnimatePresence mode="sync">
               {isUserMenuOpen && user && (
                 <>
                   <motion.div 

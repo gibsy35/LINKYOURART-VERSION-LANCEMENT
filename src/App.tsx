@@ -1364,7 +1364,7 @@ export default function App() {
 
         <LYACopilot />
 
-        <AnimatePresence>
+        <AnimatePresence mode="sync">
           {checkoutData && (
             <motion.div 
               initial={{ opacity: 0 }}

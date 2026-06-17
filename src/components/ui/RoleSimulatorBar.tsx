@@ -44,7 +44,7 @@ export const RoleSimulatorBar: React.FC<RoleSimulatorBarProps> = ({ simulatedRol
         </button>
 
         {/* Dropdown */}
-        <AnimatePresence>
+        <AnimatePresence mode="sync">
           {open && (
             <motion.div
               initial={{ opacity: 0, y: 8 }}

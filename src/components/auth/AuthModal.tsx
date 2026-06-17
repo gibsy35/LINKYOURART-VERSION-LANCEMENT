@@ -181,7 +181,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onNotify,
   };
 
   return (
-    <AnimatePresence>
+    <AnimatePresence mode="sync">
       {isOpen && (
         <>
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} className="fixed inset-0 bg-surface-dim/95 backdrop-blur-xl z-[400]" />

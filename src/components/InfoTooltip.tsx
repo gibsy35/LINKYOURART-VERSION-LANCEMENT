@@ -29,7 +29,7 @@ export const InfoTooltip: React.FC<InfoTooltipProps> = ({ title, content, positi
         <HelpCircle size={10} />
       </button>
 
-      <AnimatePresence>
+      <AnimatePresence mode="sync">
         {isOpen && (
           <motion.div 
             initial={{ opacity: 0, scale: 0.9 }}

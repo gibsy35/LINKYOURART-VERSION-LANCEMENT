@@ -278,7 +278,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
   const [viewingUser, setViewingUser] = useState<UserProfile | null>(null);
 
   const renderUserModal = () => (
-    <AnimatePresence>
+    <AnimatePresence mode="sync">
       {viewingUser && (
         <div className="fixed inset-0 z-[250] flex items-center justify-center p-4 md:p-12 overflow-y-auto">
           <motion.div 
@@ -2965,7 +2965,7 @@ const renderMentorshipContent = () => (
                       <span className="absolute top-2 right-2 w-2 h-2 bg-accent-magenta rounded-full border-2 border-surface-dim" />
                     </button>
 
-                    <AnimatePresence>
+                    <AnimatePresence mode="sync">
                       {showNotifications && (
                         <motion.div
                           initial={{ opacity: 0, y: 10, scale: 0.95 }}
@@ -3040,7 +3040,7 @@ const renderMentorshipContent = () => (
           </div>
       </header>
 
-      <AnimatePresence>
+      <AnimatePresence mode="sync">
         {isEditing && (
           <motion.div
             initial={{ opacity: 0, y: -20 }}
@@ -3731,7 +3731,7 @@ const renderMentorshipContent = () => (
       </AnimatePresence>
 
       {/* Premium Feature Modal */}
-      <AnimatePresence>
+      <AnimatePresence mode="sync">
         {premiumFeature && (
           <motion.div 
             initial={{ opacity: 0 }}

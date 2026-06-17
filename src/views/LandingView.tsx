@@ -664,7 +664,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
       <KidiWorldModal isOpen={showKidiModal} onClose={() => setShowKidiModal(false)} />
 
       {/* Legal Modal */}
-      <AnimatePresence>
+      <AnimatePresence mode="sync">
         {activeLegal && (
           <div className="fixed inset-0 z-[200] flex items-center justify-center p-6">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setActiveLegal(null)} className="absolute inset-0 bg-black/95 backdrop-blur-3xl" />
@@ -710,7 +710,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
       </AnimatePresence>
 
       {/* Demo Modal */}
-      <AnimatePresence>
+      <AnimatePresence mode="sync">
         {showDemoModal && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowDemoModal(false)} className="absolute inset-0 bg-black/90 backdrop-blur-2xl" />

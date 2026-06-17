@@ -33,7 +33,7 @@ export const SecureMail: React.FC<SecureMailProps> = ({ isOpen, onClose, recipie
   };
 
   return (
-    <AnimatePresence>
+    <AnimatePresence mode="sync">
       {isOpen && (
         <div className="fixed inset-0 z-[600] flex items-center justify-center p-4">
           <motion.div 

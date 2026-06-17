@@ -831,7 +831,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
       </div>
 
       {/* News Detail Modal */}
-      <AnimatePresence>
+      <AnimatePresence mode="sync">
         {selectedNews && (
           <motion.div 
             initial={{ opacity: 0 }}

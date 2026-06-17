@@ -91,7 +91,7 @@ export const LYACopilot: React.FC = () => {
         <div className="absolute top-2 right-2 w-2 h-2 bg-emerald-400 rounded-full animate-pulse border border-surface-dim" />
       </button>
 
-      <AnimatePresence>
+      <AnimatePresence mode="sync">
         {isOpen && (
           <motion.div 
             initial={{ opacity: 0, y: 40, scale: 0.95, filter: 'blur(10px)' }}

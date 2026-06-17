@@ -16,7 +16,7 @@ export const OfferModal: React.FC<TransactionModalProps> = ({ isOpen, onClose, c
   if (!contract) return null;
 
   return (
-    <AnimatePresence>
+    <AnimatePresence mode="sync">
       {isOpen && (
         <>
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} className="fixed inset-0 bg-surface-dim/90 backdrop-blur-sm z-[300]" />
@@ -55,7 +55,7 @@ export const TransferModal: React.FC<TransactionModalProps> = ({ isOpen, onClose
   if (!contract) return null;
 
   return (
-    <AnimatePresence>
+    <AnimatePresence mode="sync">
       {isOpen && (
         <>
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} className="fixed inset-0 bg-surface-dim/90 backdrop-blur-sm z-[300]" />

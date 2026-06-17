@@ -307,7 +307,7 @@ export const WalletView: React.FC<WalletViewProps> = ({ user, onNotify, onViewCh
       </div>
 
       {/* Withdraw Modal */}
-      <AnimatePresence>
+      <AnimatePresence mode="sync">
         {showWithdrawModal && (
           <>
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowWithdrawModal(false)} className="fixed inset-0 bg-black/80 backdrop-blur-xl z-[500]" />

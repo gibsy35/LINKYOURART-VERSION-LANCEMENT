@@ -1105,7 +1105,7 @@ export const ConceptTutorial: React.FC<Props> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <AnimatePresence>
+    <AnimatePresence mode="sync">
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

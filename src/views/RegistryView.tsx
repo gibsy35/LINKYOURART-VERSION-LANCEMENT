@@ -443,7 +443,7 @@ export const RegistryView: React.FC<{
                     </motion.div>
                   </button>
 
-                  <AnimatePresence>
+                  <AnimatePresence mode="sync">
                     {expandedContractIds.includes(item.id) && (
                       <motion.div
                         initial={{ height: 0, opacity: 0 }}
@@ -674,7 +674,7 @@ export const RegistryView: React.FC<{
         </div>
       </div>
 
-      <AnimatePresence>
+      <AnimatePresence mode="sync">
         {isComparing && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 md:p-12">
             <motion.div 

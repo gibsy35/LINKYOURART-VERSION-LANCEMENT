@@ -364,7 +364,7 @@ const ValidationQueue: React.FC<{
       </div>
 
       {/* Modal de rejet */}
-      <AnimatePresence>
+      <AnimatePresence mode="sync">
         {rejectId && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-surface-dim/90 backdrop-blur-xl">
             <motion.div
