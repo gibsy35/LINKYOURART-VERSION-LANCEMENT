@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { useTranslation } from '../context/LanguageContext';
 import { useCurrency } from '../context/CurrencyContext';
 import { Contract, CONTRACTS, LYA_UNIT_VALUE } from '../types';
+import { updatePageMeta, resetPageMeta } from '../utils/seo';
 import { getSafeImageUrl } from '../utils/image';
 import {
   TrendingUp, TrendingDown, Users, DollarSign, Star, Award,
@@ -40,6 +41,17 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
   const lya = unitPrice(project.growth);
   const chartData = genChart(lya * 50, project.growth);
   const similar = CONTRACTS.filter(c => c.category === project.category && c.id !== project.id).slice(0, 3);
+
+  // Mise à jour SEO dynamique
+  React.useEffect(() => {
+    updatePageMeta({
+      title: `${project.name} — LYA Score ${project.totalScore}/1000`,
+      description: `${project.category} · LYA UNIT: ${formatPrice(lya)} (${up ? '+' : ''}${project.growth}%) · ${project.description?.slice(0, 120)}`,
+      image: getSafeImageUrl(project.image, project.category),
+      url: `https://linkyourart.com?project=${project.id}`,
+    });
+    return () => resetPageMeta();
+  }, [project.id]);
 
   const rarityColor: Record<string, string> = {
     Legendary: 'text-accent-gold border-accent-gold/40 bg-accent-gold/10',

@@ -166,7 +166,9 @@ export const Topbar: React.FC<TopbarProps> = ({
             >
               <Bell size={18} />
               {unreadCount > 0 && (
-                <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-primary-cyan rounded-full border-2 border-surface-dim" />
+                <span className="absolute -top-1.5 -right-1.5 min-w-[16px] h-4 bg-rose-500 rounded-full border border-surface-dim flex items-center justify-center text-[9px] font-black text-white px-0.5">
+                  {unreadCount > 9 ? '9+' : unreadCount}
+                </span>
               )}
             </button>
 
