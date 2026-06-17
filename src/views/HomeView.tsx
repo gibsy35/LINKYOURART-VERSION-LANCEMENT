@@ -1114,10 +1114,10 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
         <div className="max-w-[1800px] mx-auto relative z-10 w-full">
           <div className="flex flex-col lg:grid lg:grid-cols-2 gap-6 lg:gap-5 sm:p-8 lg:p-12 items-center">
             <div
-              className="text-left z-20 relative pt-2 md:pt-4 lg:pt-6 max-w-[55vw] sm:max-w-[50vw] lg:max-w-full"
+              className="text-left z-20 relative pt-2 md:pt-4 lg:pt-6 max-w-[45vw] sm:max-w-[42vw] lg:max-w-full"
             >
               <div className="relative mb-4 sm:mb-8 lg:mb-12">
-                <h1 style={{ fontSize: 'clamp(2rem, 8vw, 9rem)' }} className="font-black tracking-tighter leading-[0.88] uppercase text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.2)]">
+                <h1 style={{ fontSize: 'clamp(1.6rem, 6.5vw, 9rem)' }} className="font-black tracking-tighter leading-[0.88] uppercase text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.2)]">
                   {t('ART IS AN', 'L\'ART EST UN')}<br/>
                   <span className="text-primary-cyan drop-shadow-[0_0_80px_rgba(0,224,255,0.6)] font-black">{t('EXCHANGE.', 'ÉCHANGE.')}</span>
                 </h1>
