@@ -16,6 +16,7 @@ import { DashboardView } from './views/DashboardView';
 import { CreatorDashboardView } from './views/CreatorDashboardView';
 import { InvestorDashboardView } from './views/InvestorDashboardView';
 import { ProfessionalDashboardView } from './views/ProfessionalDashboardView';
+import { ProjectPublicView } from './views/ProjectPublicView';
 import { ExchangeView } from './views/ExchangeView';
 import { ValidationView } from './views/ValidationView';
 import { HoldingsView } from './views/HoldingsView';
@@ -398,11 +399,18 @@ export default function App() {
     }
 
 
+    const handleNavigate = (e: Event) => {
+      const view = (e as CustomEvent).detail;
+      setCurrentView(view);
+    };
+
     window.addEventListener('ticker-contract-select', handleTickerSelect);
     window.addEventListener('open-concept-tutorial', handleOpenTutorial);
+    window.addEventListener('lya-navigate', handleNavigate);
     return () => {
       window.removeEventListener('ticker-contract-select', handleTickerSelect);
       window.removeEventListener('open-concept-tutorial', handleOpenTutorial);
+      window.removeEventListener('lya-navigate', handleNavigate);
     };
   }, []);
 
@@ -1150,6 +1158,7 @@ export default function App() {
               {currentView === 'CREATOR_DASHBOARD' && <CreatorDashboardView user={effectiveUser} onNotify={notify} onViewChange={handleViewChange} />}
               {currentView === 'INVESTOR_DASHBOARD' && <InvestorDashboardView user={effectiveUser} onNotify={notify} onViewChange={handleViewChange} />}
               {currentView === 'PROFESSIONAL_DASHBOARD' && <ProfessionalDashboardView user={effectiveUser} onNotify={notify} onViewChange={handleViewChange} />}
+              {currentView === 'PROJECT_PUBLIC' && <ProjectPublicView contractId={viewingContract?.id} onViewChange={handleViewChange} onNotify={notify} user={effectiveUser} />}
               {currentView === 'CONTRACT_DETAIL' && viewingContract && (
                 <ContractDetailView 
                   contract={liveContracts.find(c => c.id === viewingContract.id) || viewingContract} 

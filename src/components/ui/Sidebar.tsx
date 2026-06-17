@@ -77,7 +77,8 @@ export type View =
   | 'LEGAL_MENTIONS'
   | 'CREATOR_DASHBOARD'
   | 'INVESTOR_DASHBOARD'
-  | 'PROFESSIONAL_DASHBOARD';
+  | 'PROFESSIONAL_DASHBOARD'
+  | 'PROJECT_PUBLIC';
 
 interface SidebarProps {
   user: UserProfile | null;

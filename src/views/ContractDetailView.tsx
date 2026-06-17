@@ -321,7 +321,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                    <button className="w-12 h-12 rounded-2xl bg-black/40 backdrop-blur-xl border border-white/10 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all">
                       <Download size={18} />
                    </button>
-                   <button className="w-12 h-12 rounded-2xl bg-black/40 backdrop-blur-xl border border-white/10 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all">
+                   <button onClick={() => { window.dispatchEvent(new CustomEvent('lya-navigate', { detail: 'PROJECT_PUBLIC' })); }} title="Page publique" className="w-12 h-12 rounded-2xl bg-primary-cyan/20 backdrop-blur-xl border border-primary-cyan/30 flex items-center justify-center text-primary-cyan hover:bg-primary-cyan hover:text-surface-dim transition-all">
                       <ExternalLink size={18} />
                    </button>
                 </div>
