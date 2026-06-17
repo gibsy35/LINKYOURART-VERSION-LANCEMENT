@@ -28,6 +28,8 @@ export const ProfessionalDashboardView: React.FC<{ user: UserProfile | null; onN
 
   const [activeSection, setActiveSection] = useState<'dashboard' | 'dealfinder' | 'missions' | 'services'>('dashboard');
   const [serviceModal, setServiceModal] = useState<{name:string;price:string}|null>(null);
+  const [missionsShown, setMissionsShown] = useState(3);
+  const [projectsShown, setProjectsShown] = useState(4);
   const [searchCat, setSearchCat] = useState('');
   const [searchGenre, setSearchGenre] = useState('');
   const [searchBudget, setSearchBudget] = useState('');
@@ -35,7 +37,8 @@ export const ProfessionalDashboardView: React.FC<{ user: UserProfile | null; onN
   const [searchResults, setSearchResults] = useState<typeof CONTRACTS | null>(null);
   const [searching, setSearching] = useState(false);
 
-  const receivedProjects = CONTRACTS.filter(c => c.status === 'LIVE').slice(3, 7);
+  const receivedProjects = CONTRACTS.filter(c => c.status === 'LIVE');
+  const riskProjects = CONTRACTS.filter(c => c.status === 'RISK');
   const activeContracts = CONTRACTS.filter(c => c.status === 'LIVE').slice(0, 3);
 
   const categories = ['Fine Art', 'Music', 'Film', 'Literature', 'Fashion', 'Architecture', 'Photography', 'Gaming', 'Design'];
@@ -119,6 +122,22 @@ export const ProfessionalDashboardView: React.FC<{ user: UserProfile | null; onN
                   { icon: <BarChart2 size={20} className="text-accent-gold"/>, label: T('Score professionnel','Professional score'), value: '940/1000', color: 'bg-accent-gold/10' },
                 ].map((k, i) => <KpiCard key={i} {...k} />)}
               </div>
+
+              {/* LYA UNIT encadré pro */}
+              <div className="bg-gradient-to-r from-primary-cyan/8 to-[#a78bfa]/5 border border-primary-cyan/20 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                <div className="w-10 h-10 bg-primary-cyan/15 border border-primary-cyan/25 rounded-xl flex items-center justify-center shrink-0"><span className="text-primary-cyan font-black text-xs">LYA</span></div>
+                <div className="flex-1"><p className="text-xs font-black text-primary-cyan uppercase tracking-widest mb-0.5">LYA UNIT — {T('Valeur de référence créative','Creative reference value')}</p><p className="text-xs text-on-surface-variant/60">{T('En tant que professionnel certifié, vos validations influencent directement le LYA UNIT des projets. Valeur de base actuelle :','As a certified professional, your validations directly influence project LYA UNIT values. Current base value:')}</p></div>
+                <div className="text-right shrink-0"><p className="text-[10px] text-on-surface-variant/40 uppercase">{T('LYA UNIT base','LYA UNIT base')}</p><p className="text-2xl font-black text-primary-cyan font-mono">$50.00</p><p className="text-xs text-on-surface-variant/40">{T('Étalon souverain','Sovereign standard')}</p></div>
+              </div>
+
+              {riskProjects.length > 0 && (
+                <div className="bg-rose-500/8 border border-rose-500/20 rounded-2xl p-3 flex items-center gap-3">
+                  <span className="text-rose-400 text-sm">⚠</span>
+                  <p className="text-xs text-rose-400 font-black">{riskProjects.length} {T('projets en statut RISQUE nécessitent une validation prioritaire','RISK-status projects need priority validation')}</p>
+                </div>
+              )}
+
+              {/* KPIs supplémentaires — cachés */}
 
               {/* Projets reçus */}
               <div className="bg-surface-low/40 border border-white/8 rounded-2xl p-5 space-y-4">
