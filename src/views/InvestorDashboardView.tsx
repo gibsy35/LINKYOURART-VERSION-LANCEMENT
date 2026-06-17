@@ -8,7 +8,7 @@ import { PageHeader } from '../components/ui/PageHeader';
 import { Modal } from '../components/DashboardModals';
 import { getSafeImageUrl } from '../utils/image';
 import {
-  TrendingUp, TrendingDown, DollarSign, Zap, Star, BarChart2,
+  TrendingUp, TrendingDown, DollarSign, Zap, Star, BarChart2, Mail,
   ArrowUpRight, ArrowDownRight, Bell, Users, Filter, ChevronDown,
   ExternalLink, Sparkles, Target, AlertTriangle, CheckCircle,
   Info, ChevronRight
@@ -27,6 +27,7 @@ export const InvestorDashboardView: React.FC<{user:UserProfile|null;onNotify:(ms
   const [compareMode, setCompareMode] = useState<'bars'|'radar'>('bars');
   const [predHorizon, setPredHorizon] = useState<'7j'|'30j'|'90j'|'1an'>('30j');
   const [showFilters, setShowFilters] = useState(false);
+  const [sendingReport, setSendingReport] = useState(false);
   const [contactProject, setContactProject] = useState<string|null>(null);
   const [investmentsShown, setInvestmentsShown] = useState(3);
   const [socialMessage, setSocialMessage] = useState('');
@@ -41,6 +42,40 @@ export const InvestorDashboardView: React.FC<{user:UserProfile|null;onNotify:(ms
   const riskProjects = CONTRACTS.filter(c => c.status === 'RISK');
 
   // Portefeuille fictif mais réaliste (3 projets avec des résultats MIXTES)
+  const sendMonthlyReport = async () => {
+    if (!user?.email) { onNotify(T('Aucun email associé à votre compte', 'No email associated with your account')); return; }
+    setSendingReport(true);
+    try {
+      const payload = {
+        email: user.email,
+        patronName: user.displayName || 'Mécène',
+        lang,
+        totalInvested,
+        currentValue: totalCurrent,
+        projects: myInvestments.map(x => ({
+          name: x.proj.name,
+          category: x.proj.category,
+          invested: x.invested,
+          currentValue: x.invested * (1 + x.roi/100),
+          growth: x.roi,
+          lyaUnit: +(LYA_UNIT_VALUE * (1 + x.proj.growth/100)).toFixed(2),
+          lyaScore: x.proj.totalScore,
+          status: x.proj.status,
+          milestones: (x.proj.milestones || []).filter((m: any) => m.status === 'COMPLETED').map((m: any) => m.label).slice(0, 3),
+        })),
+      };
+      const res = await fetch('/api/email/monthly-report', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer lya-monthly-report-2026' },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
+      if (data.success) onNotify(T(`✦ Rapport envoyé à ${user.email}`, `✦ Report sent to ${user.email}`));
+      else onNotify(T('Erreur lors de l\'envoi', 'Error sending report'));
+    } catch { onNotify(T('Erreur réseau', 'Network error')); }
+    setSendingReport(false);
+  };
+
   const myInvestments = [
     { proj: CONTRACTS[0], invested: 10000, units: 200, roi: +50.0 },  // LIVE +14.2%
     { proj: CONTRACTS[1], invested: 15000, units: 300, roi: +8.4  },  // LIVE +8.4%
@@ -86,6 +121,9 @@ export const InvestorDashboardView: React.FC<{user:UserProfile|null;onNotify:(ms
 
       <div className="flex flex-wrap items-center gap-3">
         <button onClick={()=>setActiveSection('analytics')} className="flex items-center gap-2 px-4 py-2.5 bg-surface-high/40 border border-white/10 text-sm font-black rounded-xl hover:border-white/25 transition-all uppercase tracking-wider"><BarChart2 size={14}/> {T('Analytics','Analytics')}</button>
+        <button onClick={sendMonthlyReport} disabled={sendingReport} className="flex items-center gap-2 px-4 py-2.5 bg-[#a78bfa]/10 border border-[#a78bfa]/30 text-[#a78bfa] text-sm font-black rounded-xl hover:bg-[#a78bfa]/20 transition-all uppercase tracking-wider disabled:opacity-60">
+          <Mail size={14}/> {sendingReport ? T('Envoi...','Sending...') : T('Rapport mensuel','Monthly report')}
+        </button>
       </div>
 
       {/* Alerte projets en difficulté */}
