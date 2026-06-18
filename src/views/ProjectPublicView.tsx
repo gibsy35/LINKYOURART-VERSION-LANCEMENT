@@ -411,7 +411,7 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
         <div className="w-12 h-12 bg-primary-cyan/15 border border-primary-cyan/25 rounded-2xl flex items-center justify-center mx-auto">
           <span className="text-primary-cyan font-black text-sm">LYA</span>
         </div>
-        <h3 className="text-xl font-black text-white tracking-tight">{T('L\'art comme actif vivant', 'Art as a living asset')}</h3>
+        <h3 className="text-xl font-black text-white tracking-tight uppercase">{T('L\'ART COMME ACTIF VIVANT', 'ART AS A LIVING ASSET')}</h3>
         <p className="text-sm text-on-surface-variant/60 max-w-sm mx-auto leading-relaxed">
           {T('LinkYourArt transforme les projets créatifs en actifs co-possédés. Rejoignez des milliers de mécènes et créateurs.', 'LinkYourArt transforms creative projects into co-owned assets. Join thousands of patrons and creators.')}
         </p>

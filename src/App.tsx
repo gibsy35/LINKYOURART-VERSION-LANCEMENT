@@ -450,13 +450,24 @@ export default function App() {
       setCurrentView(view);
     };
 
+    const handleViewProject = (e: Event) => {
+      const contractId = (e as CustomEvent).detail;
+      const contract = CONTRACTS.find(c => c.id === contractId);
+      if (contract) {
+        setViewingContract(contract);
+        setCurrentView('PROJECT_PUBLIC');
+      }
+    };
+
     window.addEventListener('ticker-contract-select', handleTickerSelect);
     window.addEventListener('open-concept-tutorial', handleOpenTutorial);
     window.addEventListener('lya-navigate', handleNavigate);
+    window.addEventListener('lya-view-project', handleViewProject);
     return () => {
       window.removeEventListener('ticker-contract-select', handleTickerSelect);
       window.removeEventListener('open-concept-tutorial', handleOpenTutorial);
       window.removeEventListener('lya-navigate', handleNavigate);
+      window.removeEventListener('lya-view-project', handleViewProject);
     };
   }, []);
 
