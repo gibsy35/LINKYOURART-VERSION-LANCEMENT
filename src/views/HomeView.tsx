@@ -1490,7 +1490,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
                   <div className="w-12 h-12 shrink-0 bg-emerald-400/20 flex items-center justify-center text-emerald-400 border border-emerald-400/30 font-black">03</div>
                   <div>
                     <h4 className="text-white font-black uppercase tracking-widest mb-1">{t('Professional Validation', 'Validation Professionnelle')}</h4>
-                    <p className="text-xs text-on-surface-variant opacity-70 uppercase tracking-widest">{t('14+ industry experts evaluate and assign a certified professional score to each creative project.', 'Plus de 14 experts du secteur évaluent et attribuent une note certifiée à chaque projet créatif.')}</p>
+                    <p className="text-xs text-on-surface-variant opacity-70 uppercase tracking-widest">{t('A network of industry experts evaluate and assign a certified professional score to each creative project.', 'Un réseau d\'experts du secteur évaluent et attribuent une note certifiée à chaque projet créatif.')}</p>
                   </div>
                 </div>
               </div>
