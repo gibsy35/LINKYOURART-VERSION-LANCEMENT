@@ -59,10 +59,10 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange, onNotify }) 
   }, []);
 
   const stats = [
-    { label: t('Evaluated Projects', 'Projets évalués'), value: '10K+', sub: t('Global Database', 'Base de données mondiale') },
-    { label: t('Active Users', 'Utilisateurs actifs'), value: '50K+', sub: t('Verified Network', 'Réseau vérifié') },
-    { label: t('Funds Raised', 'Fonds levés'), value: '$25M', sub: t('Creative Value', 'Valeur Créative') },
-    { label: t('Success Rate', 'Taux de réussite'), value: '87%', sub: t('Project Completion', 'Finalisation de projet') }
+    { label: t('Years of existence', 'Ans d\'existence'), value: '20+', sub: t('Since 2006', 'Depuis 2006') },
+    { label: t('Creative disciplines', 'Disciplines créatives'), value: '14', sub: t('Music, film, fashion, gaming...', 'Musique, cinéma, mode, gaming...') },
+    { label: t('Countries reached', 'Pays touchés'), value: '6', sub: t('Continents represented', 'Continents représentés') },
+    { label: t('Certified validators', 'Validateurs certifiés'), value: '100+', sub: t('Active professional network', 'Réseau professionnel actif') }
   ];
 
   return (
@@ -175,6 +175,7 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange, onNotify }) 
                 {t('Our History', 'Notre Histoire')}
               </h2>
             </div>
+            <div className="w-24 h-1 bg-primary-cyan rounded-full mb-8" />
             <div className="space-y-6 text-on-surface-variant leading-relaxed text-base md:text-lg font-medium opacity-70 text-justify">
               <p>
                 {t(
