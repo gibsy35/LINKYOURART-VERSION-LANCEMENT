@@ -18,6 +18,8 @@ import { InvestorDashboardView } from './views/InvestorDashboardView';
 import { ProfessionalDashboardView } from './views/ProfessionalDashboardView';
 import { ProjectPublicView } from './views/ProjectPublicView';
 import { CreatorProfileView } from './views/CreatorProfileView';
+import { NotFoundView } from './views/NotFoundView';
+import { OnboardingWizard } from './components/OnboardingWizard';
 import { ExchangeView } from './views/ExchangeView';
 import { ValidationView } from './views/ValidationView';
 import { HoldingsView } from './views/HoldingsView';
@@ -356,6 +358,7 @@ export default function App() {
   const [isAuthReady, setIsAuthReady] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [showConceptTutorial, setShowConceptTutorial] = useState(false);
+  const [showOnboarding, setShowOnboarding] = useState(false);
   const [isProfessionalChatActive, setIsProfessionalChatActive] = useState(false);
 
   // Live Notification Simulator — bilingue, basé sur données réelles
@@ -537,9 +540,27 @@ export default function App() {
             if ((userData.hasSeenTutorial === undefined || userData.hasSeenTutorial === false) && !localSeen) {
               setShowConceptTutorial(true);
             }
+            // Onboarding pour nouveaux utilisateurs sans rôle défini
+            const onboardingSeen = localStorage.getItem('lya_onboarding_seen') === 'true';
+            if (!onboardingSeen && (!userData.role || userData.role === UserRole.CREATOR) && !userData.hasSeenTutorial) {
+              setTimeout(() => setShowOnboarding(true), 1500);
+            }
             if (userData.watchlist) setWatchlist(userData.watchlist);
             if (userData.comparisonList) setComparisonList(userData.comparisonList);
             if (userData.usageStats) setUsageStats(userData.usageStats);
+
+            // ── Listener temps réel sur la watchlist ──────────────────────
+            try {
+              const watchlistRef = doc(db, 'watchlists', firebaseUser.uid);
+              const unsubWatch = onSnapshot(watchlistRef, (snap) => {
+                if (snap.exists() && snap.data().items) {
+                  setWatchlist(snap.data().items);
+                }
+              }, (err) => console.warn('Watchlist listener error:', err));
+              (window as any).__lya_unsub_watchlist = unsubWatch;
+            } catch (err) {
+              console.warn('Watchlist realtime listener failed:', err);
+            }
           } else {
             // Document doesn't exist - providing fallback
             const userEmail = firebaseUser.email?.toLowerCase().trim();
@@ -922,15 +943,21 @@ export default function App() {
     setWatchlist(newWatchlist);
     notify(action === 'added' ? t('ADDED TO WATCHLIST', 'AJOUTÉ À LA LISTE DE VEILLE') : t('REMOVED FROM WATCHLIST', 'RETIRÉ DE LA LISTE DE VEILLE'));
 
-    // Persistent update
+    // Persistent update — collection dédiée + profil user
     try {
+      // 1. Collection dédiée pour sync temps réel
+      await setDoc(doc(db, 'watchlists', user.uid), {
+        items: newWatchlist,
+        userId: user.uid,
+        updatedAt: new Date().toISOString(),
+      });
+      // 2. Profil user (compatibilité)
       await handleUpdateUser({
         watchlist: newWatchlist,
         usageStats: { ...usageStats, swipe: newWatchlist.length }
       });
     } catch (err) {
       console.error('Watchlist update failed:', err);
-      // Revert local state on failure
       setWatchlist(watchlist);
     }
   };
@@ -1100,6 +1127,31 @@ export default function App() {
           }}
         />
 
+        {showOnboarding && user && (
+          <OnboardingWizard
+            onComplete={async (role) => {
+              setShowOnboarding(false);
+              localStorage.setItem('lya_onboarding_seen', 'true');
+              try {
+                await updateDoc(doc(db, 'users', user.uid), { role });
+                setUser({ ...user, role });
+                handleViewChange(
+                  role === UserRole.CREATOR ? 'CREATOR_DASHBOARD' :
+                  role === UserRole.INVESTOR ? 'INVESTOR_DASHBOARD' :
+                  'PROFESSIONAL_DASHBOARD'
+                );
+                notify(t(`✦ Espace ${role} configuré !`, `✦ ${role} space configured!`));
+              } catch (err) {
+                console.error('Onboarding role update failed:', err);
+              }
+            }}
+            onSkip={() => {
+              setShowOnboarding(false);
+              localStorage.setItem('lya_onboarding_seen', 'true');
+            }}
+          />
+        )}
+
         {!isAuthView && !isLandingView && currentView !== 'CONTRACT_DETAIL' && (
           <>
             <Sidebar 
@@ -1217,6 +1269,9 @@ export default function App() {
               {currentView === 'PROFESSIONAL_DASHBOARD' && <ProfessionalDashboardView user={effectiveUser} onNotify={notify} onViewChange={handleViewChange} />}
               {currentView === 'PROJECT_PUBLIC' && <ProjectPublicView contractId={viewingContract?.id} onViewChange={handleViewChange} onNotify={notify} user={effectiveUser} />}
               {currentView === 'CREATOR_PROFILE' && <CreatorProfileView onViewChange={handleViewChange} onNotify={notify} user={effectiveUser} />}
+              {!['HOME','LANDING','DASHBOARD','EXCHANGE','VALIDATION','HOLDINGS','REGISTRY','LINK_ART','SETTLEMENT','LOUNGE','WALLET','SIGNUP','LOGIN','PROFILE','PRICING','SWIPE','MECENAT','WATCHLIST','SETTINGS','COMPARE','SOCIAL_FEED','PAYMENT','CONTRACT_DETAIL','TERMS','PRIVACY','LEGAL_REGISTRY','GOVERNANCE','API','ACADEMY','APPLY_VERIFICATION','ABOUT','TAX_OPTIMIZER','ADMIN_PANEL','ISSUER_PROFILE','OUR_MODEL','FAQ','LEGAL_MENTIONS','CREATOR_DASHBOARD','INVESTOR_DASHBOARD','PROFESSIONAL_DASHBOARD','PROJECT_PUBLIC','CREATOR_PROFILE'].includes(currentView) && (
+                <NotFoundView onViewChange={handleViewChange} />
+              )}
               {currentView === 'CONTRACT_DETAIL' && viewingContract && (
                 <ContractDetailView 
                   contract={liveContracts.find(c => c.id === viewingContract.id) || viewingContract} 
