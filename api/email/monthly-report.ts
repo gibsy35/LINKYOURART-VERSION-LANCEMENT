@@ -148,7 +148,7 @@ function buildMonthlyReportHtml(data: {
 
     <!-- Footer -->
     <div style="text-align:center;padding-top:24px;border-top:1px solid #1f2937;">
-      <p style="font-size:11px;color:#374151;margin:0 0 4px 0;">LinkYourArt · contact@linkyourart.com</p>
+      <p style="font-size:11px;color:#374151;margin:0 0 4px 0;"><em style="color:#6b7280;">"Ce que vous créez aujourd'hui peut appartenir à mille personnes demain."</em><br/>LinkYourArt · contact@linkyourart.com</p>
       <p style="font-size:11px;color:#374151;margin:0;">
         ${T(
           '⚠ Les investissements dans des projets artistiques comportent des risques. La valeur des LYA Units peut baisser.',
