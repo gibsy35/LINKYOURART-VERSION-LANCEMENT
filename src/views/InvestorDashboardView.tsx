@@ -244,36 +244,96 @@ export const InvestorDashboardView: React.FC<{user:UserProfile|null;onNotify:(ms
           {/* ── MES SOUTIENS ─────────────────────────────────────────────── */}
           {activeSection === 'investments' && (
             <div className="space-y-4">
-              <div className="flex items-center justify-between flex-wrap gap-3">
-                <p className="text-sm text-on-surface-variant/60">{myInvestments.length} {T('projets soutenus','pledged projects')} · {winners} {T('en hausse','rising')} · {losers} {T('en baisse','falling')}</p>
+              {/* Résumé rapide */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                {[
+                  {l:T('Total investi','Total invested'), v:formatPrice(totalInvested), c:'text-primary-cyan'},
+                  {l:T('Valeur actuelle','Current value'), v:formatPrice(totalCurrent), c:avgRoi>=0?'text-emerald-400':'text-rose-400'},
+                  {l:'P&L global', v:`${totalProfit>=0?'+':''}${formatPrice(totalProfit)}`, c:totalProfit>=0?'text-emerald-400':'text-rose-400'},
+                  {l:T('ROI moyen','Avg ROI'), v:`${avgRoi>=0?'+':''}${avgRoi.toFixed(1)}%`, c:avgRoi>=0?'text-emerald-400':'text-rose-400'},
+                ].map((s,i)=>(
+                  <div key={i} className="bg-surface-low/40 border border-white/8 rounded-xl p-3 text-center">
+                    <p className="text-[10px] text-on-surface-variant/40 uppercase tracking-widest mb-1">{s.l}</p>
+                    <p className={`text-base font-black ${s.c}`}>{s.v}</p>
+                  </div>
+                ))}
               </div>
+
+              <p className="text-sm text-on-surface-variant/60">{myInvestments.length} {T('projets soutenus','pledged projects')} · {winners} {T('en hausse','rising')} · {losers} {T('en baisse','falling')}</p>
 
               {myInvestments.slice(0, investmentsShown).map((inv,i) => {
                 const up = inv.roi >= 0;
                 const currentVal = inv.invested * (1 + inv.roi/100);
                 const profit = currentVal - inv.invested;
+                const lyaUnitActuel = unitPrice(inv.proj.growth);
+                // Prix d'achat simulé = LYA UNIT base ajusté légèrement
+                const lyaUnitAchat = LYA_UNIT_VALUE * (1 + (inv.proj.growth * 0.3) / 100);
+                // Volume = nombre d'unités achetées
+                const volume = Math.round(inv.invested / lyaUnitAchat);
+                const plusValue = (lyaUnitActuel - lyaUnitAchat) * volume;
                 return (
                   <div key={i} className={`bg-surface-low/40 border rounded-2xl overflow-hidden transition-all ${inv.proj.status==='RISK'?'border-rose-500/25 hover:border-rose-500/40':'border-white/8 hover:border-white/20'}`}>
+                    {/* Header projet */}
                     <div className="flex items-center gap-3 p-4">
                       <img src={getSafeImageUrl(inv.proj.image,inv.proj.category)} alt={inv.proj.name} className="w-14 h-14 rounded-xl object-cover border border-white/10 shrink-0" referrerPolicy="no-referrer"/>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap mb-0.5">
                           <p className="text-sm font-black text-on-surface truncate">{inv.proj.name}</p>
-                          {inv.proj.status==='RISK'&&<span className="px-2 py-0.5 bg-rose-500/10 border border-rose-500/20 rounded-full text-[10px] font-black text-rose-500 uppercase">RISQUE</span>}
+                          <span className={`px-2 py-0.5 border rounded-full text-[9px] font-black uppercase ${inv.proj.status==='RISK'?'bg-rose-500/10 border-rose-500/20 text-rose-500':'bg-emerald-400/10 border-emerald-400/20 text-emerald-400'}`}>
+                            {inv.proj.status==='RISK'?'⚠ RISQUE':'● LIVE'}
+                          </span>
+                          <span className={`text-[10px] font-black ${inv.proj.rarity==='Legendary'?'text-accent-gold':inv.proj.rarity==='Epic'?'text-[#a78bfa]':'text-primary-cyan'}`}>★ {inv.proj.rarity}</span>
                         </div>
                         <p className="text-xs text-on-surface-variant/50">{inv.proj.category} · {inv.proj.registryIndex}</p>
-                        <p className="text-xs font-bold mt-0.5">LYA Score: <span className="text-accent-gold">{inv.proj.totalScore}/1000</span> · LYA UNIT: <span className={up?'text-emerald-400':'text-rose-400'}>{formatPrice(unitPrice(inv.proj.growth))}</span></p>
                       </div>
-                      <button onClick={()=>setContactProject(inv.proj.name)} className="p-2 text-on-surface-variant hover:text-primary-cyan transition-colors"><ExternalLink size={15}/></button>
+                      <div className="text-right shrink-0">
+                        <p className="text-[10px] text-on-surface-variant/40 uppercase tracking-widest">LYA Score</p>
+                        <p className="text-lg font-black text-accent-gold">{inv.proj.totalScore}<span className="text-xs text-on-surface-variant/30">/1000</span></p>
+                      </div>
+                      <button onClick={()=>setContactProject(inv.proj.name)} className="p-2 text-on-surface-variant hover:text-primary-cyan transition-colors ml-1"><ExternalLink size={15}/></button>
                     </div>
-                    <div className="grid grid-cols-4 divide-x divide-white/6 border-t border-white/6">
+
+                    {/* Données financières principales — 4 colonnes */}
+                    <div className="grid grid-cols-2 sm:grid-cols-4 divide-y sm:divide-y-0 divide-x divide-white/6 border-t border-white/6">
                       {[
-                        {l:T('Investi','Invested'),v:formatPrice(inv.invested),c:'text-on-surface'},
-                        {l:T('Valeur','Value'),v:formatPrice(currentVal),c:up?'text-emerald-400':'text-rose-400'},
-                        {l:T('P&L','P&L'),v:`${profit>=0?'+':''}${formatPrice(profit)}`,c:up?'text-emerald-400':'text-rose-400'},
-                        {l:'ROI',v:`${up?'+':''}${inv.roi.toFixed(1)}%`,c:up?'text-emerald-400':'text-rose-400'},
+                        {l:T('Investi','Invested'), v:formatPrice(inv.invested), c:'text-on-surface', sub: null},
+                        {l:T('Valeur actuelle','Current value'), v:formatPrice(currentVal), c:up?'text-emerald-400':'text-rose-400', sub:null},
+                        {l:'P&L', v:`${profit>=0?'+':''}${formatPrice(profit)}`, c:up?'text-emerald-400':'text-rose-400', sub:null},
+                        {l:'ROI', v:`${up?'+':''}${inv.roi.toFixed(1)}%`, c:up?'text-emerald-400':'text-rose-400', sub:null},
                       ].map((s,si)=>(
-                        <div key={si} className="p-3"><p className="text-[10px] text-on-surface-variant/40 uppercase tracking-widest mb-1">{s.l}</p><p className={`text-sm font-black ${s.c}`}>{s.v}</p></div>
+                        <div key={si} className="p-3">
+                          <p className="text-[10px] text-on-surface-variant/40 uppercase tracking-widest mb-1">{s.l}</p>
+                          <p className={`text-sm font-black ${s.c}`}>{s.v}</p>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Données LYA UNIT détaillées */}
+                    <div className="grid grid-cols-2 sm:grid-cols-4 divide-y sm:divide-y-0 divide-x divide-white/6 border-t border-white/6 bg-surface-high/20">
+                      {[
+                        {l:T('Prix d\'achat UNIT','Purchase price UNIT'), v:formatPrice(lyaUnitAchat), c:'text-on-surface-variant', icon:'🏷'},
+                        {l:T('LYA UNIT actuel','Current LYA UNIT'), v:formatPrice(lyaUnitActuel), c:up?'text-emerald-400':'text-rose-400', icon:'📈'},
+                        {l:T('Volume (unités)','Volume (units)'), v:volume.toLocaleString(), c:'text-primary-cyan', icon:'🔢'},
+                        {l:T('Plus-value UNIT','Unit capital gain'), v:`${plusValue>=0?'+':''}${formatPrice(plusValue)}`, c:plusValue>=0?'text-emerald-400':'text-rose-400', icon:'💰'},
+                      ].map((s,si)=>(
+                        <div key={si} className="p-3">
+                          <p className="text-[10px] text-on-surface-variant/30 uppercase tracking-widest mb-1 flex items-center gap-1"><span>{s.icon}</span>{s.l}</p>
+                          <p className={`text-sm font-black ${s.c}`}>{s.v}</p>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Variation + LYA Score + Rev share */}
+                    <div className="grid grid-cols-3 divide-x divide-white/6 border-t border-white/6 bg-surface-high/10">
+                      {[
+                        {l:T('Variation projet','Project change'), v:`${inv.proj.growth>=0?'+':''}${inv.proj.growth}%`, c:inv.proj.growth>=0?'text-emerald-400':'text-rose-400'},
+                        {l:T('Rev. partagés','Rev. share'), v:`${inv.proj.revenueSharePercentage}%`, c:'text-primary-cyan'},
+                        {l:T('Date soutien','Pledge date'), v:`${T('Août','Aug')} 2025`, c:'text-on-surface-variant/60'},
+                      ].map((s,si)=>(
+                        <div key={si} className="p-3">
+                          <p className="text-[10px] text-on-surface-variant/30 uppercase tracking-widest mb-1">{s.l}</p>
+                          <p className={`text-xs font-black ${s.c}`}>{s.v}</p>
+                        </div>
                       ))}
                     </div>
                   </div>
