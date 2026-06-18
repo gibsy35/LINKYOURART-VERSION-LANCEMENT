@@ -49,13 +49,17 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
   const crossOpacity = useTransform(x, [-150, -50], [1, 0]);
 
   const [visibleExtended, setVisibleExtended] = useState(3);
+  const [filterCategory, setFilterCategory] = useState<string>('ALL');
+  const [likedProjects, setLikedProjects] = useState<string[]>([]);
+  const [showLiked, setShowLiked] = useState(false);
+  const categories = ['ALL', ...Array.from(new Set(allContracts.map(c => c.category))).slice(0, 6)];
 
   const activeContracts = React.useMemo(() => {
     // Shuffle the contracts for better diversity as requested
     return [...allContracts]
-      .filter(c => c.status === 'LIVE')
+      .filter(c => c.status === 'LIVE' && (filterCategory === 'ALL' || c.category === filterCategory))
       .sort(() => Math.random() - 0.5);
-  }, [allContracts]);
+  }, [allContracts, filterCategory]);
   
   const currentContract = activeContracts[currentIndex % activeContracts.length];
 
@@ -78,8 +82,9 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
     
     if (dir === 'right') {
       onToggleWatchlist({ stopPropagation: () => {} } as any, currentContract.id, 'add');
+      setLikedProjects(prev => prev.includes(currentContract.id) ? prev : [...prev, currentContract.id]);
     } else {
-      onNotify(t('CONTRACT DISMISSED', 'CONTRAT REJETÉ'));
+      onNotify(t('PROJET PASSÉ', 'PROJECT SKIPPED'));
     }
 
     // Wait for animation to finish before changing index
@@ -150,6 +155,66 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
           </div>
         </div>
       </div>
+
+      {/* ── FILTRES CATÉGORIE ── */}
+      <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-2">
+        <span className="text-xs font-black text-on-surface-variant/50 uppercase tracking-widest shrink-0">{t('Filtrer:','Filter:')}</span>
+        {categories.map(cat => (
+          <button key={cat} onClick={() => { setFilterCategory(cat); setCurrentIndex(0); }}
+            className={`px-3 py-1.5 rounded-full text-xs font-black uppercase tracking-wider whitespace-nowrap transition-all ${filterCategory === cat ? 'bg-primary-cyan text-surface-dim' : 'bg-surface-high/40 border border-white/10 text-on-surface-variant hover:border-white/25'}`}>
+            {cat === 'ALL' ? t('Tous','All') : cat}
+          </button>
+        ))}
+        <button onClick={() => setShowLiked(!showLiked)}
+          className={`ml-auto px-3 py-1.5 rounded-full text-xs font-black uppercase tracking-wider whitespace-nowrap transition-all flex items-center gap-1.5 shrink-0 ${showLiked ? 'bg-emerald-400 text-surface-dim' : 'bg-surface-high/40 border border-white/10 text-on-surface-variant hover:border-emerald-400/30'}`}>
+          <Heart size={11} fill={showLiked ? 'currentColor' : 'none'}/> {t(`Aimés (${likedProjects.length})`,`Liked (${likedProjects.length})`)}
+        </button>
+      </div>
+
+      {/* ── SECTION PROJETS LIKÉS ── */}
+      {showLiked && likedProjects.length > 0 && (
+        <div className="bg-surface-low/40 border border-emerald-400/20 rounded-2xl p-5 space-y-4">
+          <div className="flex items-center gap-2">
+            <Heart size={14} className="text-emerald-400" fill="currentColor"/>
+            <p className="text-sm font-black text-on-surface uppercase tracking-wider">{t('Projets aimés','Liked projects')} — {likedProjects.length}</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {likedProjects.map(id => {
+              const proj = allContracts.find(c => c.id === id);
+              if (!proj) return null;
+              const lyaUnit = LYA_UNIT_VALUE * (1 + proj.growth / 100);
+              const up = proj.growth >= 0;
+              return (
+                <div key={id} className="flex items-center gap-3 p-3 bg-surface-high/30 border border-white/6 rounded-xl hover:border-emerald-400/30 transition-all">
+                  <img src={proj.image} alt={proj.name} className="w-12 h-12 rounded-lg object-cover border border-white/10 shrink-0" referrerPolicy="no-referrer"/>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-black text-on-surface truncate">{proj.name}</p>
+                    <p className="text-xs text-on-surface-variant/50">{proj.category}</p>
+                    <div className="flex items-center gap-2 mt-0.5">
+                      <span className="text-xs font-black text-accent-gold">LYA UNIT: {formatPrice(lyaUnit)}</span>
+                      <span className={`text-xs font-black ${up ? 'text-emerald-400' : 'text-rose-400'}`}>{up ? '+' : ''}{proj.growth}%</span>
+                    </div>
+                  </div>
+                  <div className="text-right shrink-0">
+                    <p className="text-xs text-on-surface-variant/40 uppercase tracking-widest">Score</p>
+                    <p className="text-sm font-black text-[#a78bfa]">{proj.totalScore}</p>
+                    <button onClick={() => { window.dispatchEvent(new CustomEvent('lya-view-project', { detail: proj.id })); onViewChange?.('PROJECT_PUBLIC'); }}
+                      className="mt-1 text-[9px] font-black text-primary-cyan hover:text-white transition-colors uppercase tracking-widest">{t('Voir →','View →')}</button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          <button onClick={() => setLikedProjects([])} className="text-xs text-on-surface-variant/40 hover:text-rose-400 transition-colors font-black uppercase tracking-widest">{t('Effacer la liste','Clear list')}</button>
+        </div>
+      )}
+
+      {showLiked && likedProjects.length === 0 && (
+        <div className="bg-surface-low/40 border border-white/8 rounded-2xl p-8 text-center">
+          <Heart size={32} className="text-on-surface-variant/20 mx-auto mb-3"/>
+          <p className="text-sm text-on-surface-variant/40">{t('Aucun projet aimé pour le moment. Swipez !','No liked projects yet. Start swiping!')}</p>
+        </div>
+      )}
 
       <div className="">
       <div className="grid lg:grid-cols-12 gap-12 items-start">
@@ -312,6 +377,15 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
                           {Math.round(((currentContract.scoreAlgo || 0) + (currentContract.scorePro || 0)) / 2)}
                         </div>
                       </div>
+                      <div className="flex flex-col items-end border-l border-white/10 pl-3 ml-1">
+                        <div className="text-[10px] text-accent-gold font-bold uppercase tracking-widest leading-none mb-1">LYA UNIT</div>
+                        <div className="text-lg font-black text-accent-gold leading-none">
+                          {formatPrice(LYA_UNIT_VALUE * (1 + currentContract.growth / 100))}
+                        </div>
+                        <div className={`text-[9px] font-black leading-none mt-0.5 ${currentContract.growth >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+                          {currentContract.growth >= 0 ? '+' : ''}{currentContract.growth}%
+                        </div>
+                      </div>
                     </div>
                     </div>
                     <p className="text-sm text-on-surface-variant line-clamp-2 opacity-80 italic font-serif">
@@ -402,19 +476,18 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
               <Activity size={12} className="text-primary-cyan" />
               {t('Live Activity', 'Activité en Direct')}
             </h3>
-            <div className="space-y-3">
-              <div className="flex items-center gap-2 opacity-60">
-                <div className="w-1 h-1 bg-emerald-400 rounded-full" />
-                <span className="text-xs font-mono text-white uppercase tracking-tight">0x4f...2a {t('matched with', 'a matché')} "Neo-Tokyo"</span>
-              </div>
-              <div className="flex items-center gap-2 opacity-40">
-                <div className="w-1 h-1 bg-primary-cyan rounded-full" />
-                <span className="text-xs font-mono text-white uppercase tracking-tight">0x12...9b {t('added', 'a ajouté')} "CyberPunk"</span>
-              </div>
-              <div className="flex items-center gap-2 opacity-20">
-                <div className="w-1 h-1 bg-accent-gold rounded-full" />
-                <span className="text-xs font-mono text-white uppercase tracking-tight">0x8e...3c {t('analyzing', 'analyse')} "Solaris"</span>
-              </div>
+            <div className="space-y-2.5">
+              {activeContracts.slice(0, 4).map((c, i) => {
+                const actions = [t('a aimé','liked'), t('surveille','is watching'), t('a soutenu','supported'), t('analyse','is analyzing')];
+                const colors = ['bg-emerald-400','bg-primary-cyan','bg-[#a78bfa]','bg-accent-gold'];
+                const opacities = ['opacity-90','opacity-70','opacity-50','opacity-30'];
+                return (
+                  <div key={c.id} className={`flex items-center gap-2 ${opacities[i]}`}>
+                    <div className={`w-1.5 h-1.5 ${colors[i]} rounded-full shrink-0 animate-pulse`} style={{animationDelay:`${i*0.5}s`}}/>
+                    <span className="text-[10px] font-mono text-white tracking-tight truncate">{actions[i]} <span className="text-primary-cyan font-black">"{c.name}"</span></span>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>

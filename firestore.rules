@@ -2,157 +2,53 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    function isSignedIn() { return request.auth != null; }
-    function isAdmin() {
-      return isSignedIn() &&
-             request.auth.token.email != null && (
-               request.auth.token.email.lower() == "linkyourart@gmail.com" ||
-               request.auth.token.email.lower() == "lequimejeanbaptiste@gmail.com" ||
-               request.auth.token.email.lower() == "jeanbaptistelequime@gmail.com" ||
-               request.auth.token.email.lower() == "lyacontactpro@gmail.com" ||
-               request.auth.token.email.lower() == "linkart@gmail.com" ||
-               request.auth.token.email.lower() == "admin@linkyourart.com" ||
-               request.auth.token.email.lower() == "superadmin@linkyourart.com"
-             );
-    }
-    function isOwner(userId) { return isSignedIn() && request.auth.uid == userId; }
-
-    // ── USERS ──────────────────────────────────────────────────────
+    // ── USERS ──────────────────────────────────────────────────────────────
     match /users/{userId} {
-      allow read:   if isSignedIn();
-      allow create: if isSignedIn();   // Allow any signed-in user to create their own profile
-      allow update: if isOwner(userId) || isAdmin();
-      allow delete: if isAdmin();
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow write: if request.auth != null && request.auth.uid == userId;
     }
 
-    // ── CONTRACTS ──────────────────────────────────────────────────
-    match /contracts/{contractId} {
-      allow read:                  if true;
-      allow create, update, delete: if isAdmin();
+    // ── PUBLIC STATS ───────────────────────────────────────────────────────
+    // Lecture publique — pour afficher le compteur de pré-inscrits
+    match /public_stats/{docId} {
+      allow read: if true;
+      allow write: if request.auth != null;
     }
 
-    match /users/{userId}/contracts/{contractId} {
-      allow read:                  if isSignedIn();
-      allow create, update, delete: if isAdmin();
+    // ── PRE-REGISTRATIONS ──────────────────────────────────────────────────
+    match /pre_registrations/{docId} {
+      allow create: if true; // Tout le monde peut s'inscrire
+      allow read: if request.auth != null;
+      allow update, delete: if request.auth != null && 
+        (resource.data.email == request.auth.token.email || 
+         request.auth.token.admin == true);
     }
 
-    // ── PROJECTS ───────────────────────────────────────────────────
+    // ── WATCHLIST ──────────────────────────────────────────────────────────
+    match /watchlists/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // ── NOTIFICATIONS ──────────────────────────────────────────────────────
+    match /notifications/{userId}/items/{notifId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // ── PROJECTS ───────────────────────────────────────────────────────────
     match /projects/{projectId} {
-      allow read:   if true;
-      allow create: if isSignedIn();
-      allow update: if isSignedIn() && (resource.data.issuerUid == request.auth.uid || isAdmin());
-      allow delete: if isAdmin();
+      allow read: if true; // Public
+      allow write: if request.auth != null && 
+        (resource.data.creatorId == request.auth.uid || 
+         request.auth.token.admin == true);
     }
 
-    // ── MESSAGES ───────────────────────────────────────────────────
+    // ── MESSAGES ───────────────────────────────────────────────────────────
     match /messages/{messageId} {
-      allow read:   if isSignedIn() && (resource.data.fromId == request.auth.uid || resource.data.toId == request.auth.uid || isAdmin());
-      allow create: if isSignedIn();
-      allow update: if isSignedIn();
-      allow delete: if isAdmin();
+      allow read: if request.auth != null;
+      allow create: if request.auth != null;
+      allow update, delete: if request.auth != null && 
+        resource.data.senderId == request.auth.uid;
     }
 
-    match /messages_sent/{id} {
-      allow read:   if isSignedIn() && (resource.data.fromUserId == request.auth.uid || isAdmin());
-      allow create: if isSignedIn();
-      allow delete: if isAdmin();
-    }
-
-    // ── LOUNGE ─────────────────────────────────────────────────────
-    match /lounge_posts/{postId} {
-      allow read:   if isSignedIn();
-      allow create: if isSignedIn();
-      allow update: if isSignedIn() && (resource.data.authorId == request.auth.uid || isAdmin());
-      allow delete: if isAdmin();
-    }
-
-    // ── GOVERNANCE ─────────────────────────────────────────────────
-    match /governance_votes/{id} {
-      allow read:   if isSignedIn();
-      allow create: if isSignedIn();
-      allow delete: if isAdmin();
-    }
-
-    match /governance_proposals/{id} {
-      allow read:   if true;
-      allow create: if isSignedIn();
-      allow update: if isSignedIn();
-      allow delete: if isAdmin();
-    }
-
-    // ── VERIFICATION ───────────────────────────────────────────────
-    match /verification_requests/{id} {
-      allow read:   if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
-      allow create: if isSignedIn();
-      allow update, delete: if isAdmin();
-    }
-
-    // ── SUPPORT & LIQUIDITY ────────────────────────────────────────
-    match /support_applications/{id} {
-      allow read:   if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
-      allow create: if isSignedIn();
-      allow delete: if isAdmin();
-    }
-
-    match /liquidity_requests/{id} {
-      allow read:   if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
-      allow create: if isSignedIn();
-      allow delete: if isAdmin();
-    }
-
-    // ── MÉCÉNAT ────────────────────────────────────────────────────
-    match /mecenat_acquisitions/{id} {
-      allow read:   if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
-      allow create: if isSignedIn();
-      allow delete: if isAdmin();
-    }
-
-    // ── VALIDATION ─────────────────────────────────────────────────
-    match /validation_requests/{id} {
-      allow read:   if isSignedIn();
-      allow create: if isSignedIn();
-      allow update: if isSignedIn();
-      allow delete: if isAdmin();
-    }
-
-    // ── PRE-REGISTRATION & PUBLIC ──────────────────────────────────
-    match /pre_registrations/{id} {
-      allow create: if true;
-      allow read, update, delete: if isAdmin();
-    }
-
-    // Public waitlist counter — used to assign a queue position at signup
-    // and to display social proof (total pre-registrations). Only the
-    // `count` field may be incremented; no personal data is stored here.
-    match /public_stats/{id} {
-      allow read: if true;
-      allow create, update: if true;
-      allow delete: if isAdmin();
-    }
-
-    match /demo_requests/{id} {
-      allow create: if true;
-      allow read, update, delete: if isAdmin();
-    }
-
-    match /access_keys/{id} {
-      allow read: if true;
-      allow create, update, delete: if isAdmin();
-    }
-
-    match /test/connection {
-      allow read: if true;
-    }
-
-    // ── WALLET / SETTLEMENTS ───────────────────────────────────────
-    match /settlements/{id} {
-      allow read: if isSignedIn();
-      allow create, update, delete: if isAdmin();
-    }
-
-    // ── DEFAULT: Allow authenticated users to read/write their data
-    match /{document=**} {
-      allow read, write: if isAdmin();
-    }
   }
 }
