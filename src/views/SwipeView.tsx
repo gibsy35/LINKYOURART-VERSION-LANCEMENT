@@ -52,7 +52,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
   const [filterCategory, setFilterCategory] = useState<string>('ALL');
   const [likedProjects, setLikedProjects] = useState<string[]>([]);
   const [showLiked, setShowLiked] = useState(false);
-  const categories = ['ALL', ...Array.from(new Set(allContracts.map(c => c.category))).slice(0, 6)];
+  const categories = ['ALL', 'Film', 'Fashion', ...Array.from(new Set(allContracts.map(c => c.category))).filter(c => c !== 'Film' && c !== 'Fashion').slice(0, 5)];
 
   const activeContracts = React.useMemo(() => {
     // Shuffle the contracts for better diversity as requested
