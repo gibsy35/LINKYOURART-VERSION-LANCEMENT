@@ -6,7 +6,9 @@ import {
   Sparkles, CheckCircle2, Clapperboard, Music, 
   LineChart as LineChartIcon, Search, Bell, Lock, ShieldCheck
 } from 'lucide-react';
+import { getSafeImageUrl } from '../utils/image';
 import { useTranslation } from '../context/LanguageContext';
+import { CONTRACTS, LYA_UNIT_VALUE } from '../types';
 
 interface Step {
   id: number;
@@ -403,96 +405,83 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
         </div>
       );
 
-    case 'creators':
+    case 'creators': {
+      const proj = CONTRACTS[0];
+      const lyaUnit = LYA_UNIT_VALUE * (1 + (proj?.growth || 14.2) / 100);
+      const up = (proj?.growth || 14.2) >= 0;
       return (
         <div className="relative w-full h-full flex flex-col items-center justify-center p-4">
-          <motion.div 
+          <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="w-full max-w-[240px] md:max-w-[280px] bg-[#0A0F1A] border-2 border-emerald-500/30 rounded-2xl md:rounded-[2rem] p-4 md:p-5 space-y-4 md:space-y-6 shadow-2xl relative overflow-hidden"
+            className="w-full max-w-[240px] md:max-w-[280px] bg-[#0A0F1A] border-2 border-emerald-500/30 rounded-2xl overflow-hidden shadow-2xl"
           >
-            <div className="absolute top-0 right-0 p-3 md:p-4">
-              <div className="w-6 h-6 md:w-8 md:h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center text-emerald-400 border border-emerald-500/20 shadow-[0_0_15px_rgba(16,185,129,0.3)]">
-                <Sparkles size={16} />
+            {/* Vraie image projet */}
+            <div className="relative h-24 md:h-28 overflow-hidden">
+              <img
+                src={getSafeImageUrl(proj?.image, proj?.category)}
+                alt={proj?.name}
+                className="w-full h-full object-cover"
+                referrerPolicy="no-referrer"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0A0F1A] via-[#0A0F1A]/30 to-transparent"/>
+              <div className="absolute top-2 left-2 flex items-center gap-1.5">
+                <span className="px-2 py-0.5 bg-emerald-500/25 border border-emerald-500/40 rounded-full text-[8px] font-black text-emerald-400 uppercase">● LIVE</span>
+                <span className="px-2 py-0.5 bg-[#a78bfa]/20 border border-[#a78bfa]/30 rounded-full text-[8px] font-black text-[#a78bfa] uppercase">★ {proj?.rarity || 'Epic'}</span>
               </div>
             </div>
 
-            <div className="space-y-3 md:space-y-4">
-              <div className="space-y-1">
-                <motion.div 
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 0.4 }}
-                  className="text-[10px] md:text-[10px] text-white/40 font-black uppercase tracking-widest"
-                >
-                  Contract ID: #LYA-882-IP
-                </motion.div>
-                <motion.h4 
-                  animate={{ x: [0, 2, 0] }}
-                  transition={{ duration: 4, repeat: Infinity }}
-                  className="text-base md:text-lg font-black text-white tracking-tight uppercase"
-                >
-                  Renaissance Digital
-                </motion.h4>
-                <div className="flex gap-2">
-                  <motion.span 
-                    animate={{ opacity: [0.5, 1, 0.5] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                    className="px-3 py-0.5 bg-emerald-500/10 text-emerald-400 text-[6px] md:text-[10px] font-bold rounded uppercase"
-                  >
-                    Legal Certified
-                  </motion.span>
-                  <span className="px-3 py-0.5 bg-white/5 text-white/60 text-[6px] md:text-[10px] font-bold rounded uppercase">IP Anchored</span>
-                </div>
+            <div className="p-3 md:p-4 space-y-3">
+              {/* Identité */}
+              <div>
+                <p className="text-[9px] text-white/30 font-mono uppercase tracking-widest">{proj?.registryIndex || 'LYA-2026-001'}</p>
+                <p className="text-sm font-black text-white uppercase tracking-tight">{proj?.name || 'Digital Horizons'}</p>
+                <p className="text-[10px] text-white/40">{proj?.category || 'Music'}</p>
               </div>
 
-              <div className="p-3 md:p-4 bg-white/5 border border-white/5 rounded-xl md:rounded-2xl space-y-2 md:space-y-3">
-                <div className="flex justify-between items-end">
-                  <div className="space-y-0.5 md:space-y-1">
-                    <div className="text-[7px] md:text-[10px] font-black text-white/40 uppercase">{t('Contractual Value', 'Valeur Contractuelle')}</div>
-                    <div className="text-lg md:text-xl font-black text-white">$125,000</div>
-                  </div>
-                  <div className="text-right">
-                    <motion.div 
-                      animate={{ scale: [1, 1.05, 1] }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                      className="text-[7px] md:text-[10px] font-black text-emerald-400 uppercase"
-                    >
-                      {t('Indexed', 'Indexé')}
-                    </motion.div>
-                    <div className="text-xs md:text-sm font-black text-emerald-400">882/1000</div>
-                  </div>
+              {/* LYA Score */}
+              <div className="bg-white/5 border border-white/8 rounded-xl p-2.5 space-y-1.5">
+                <div className="flex justify-between items-center">
+                  <span className="text-[9px] font-black text-white/40 uppercase">LYA Score</span>
+                  <span className="text-xs font-black text-[#a78bfa]">{proj?.totalScore || 892}<span className="text-white/20">/1000</span></span>
                 </div>
-                <div className="h-2 md:h-2.5 w-full bg-white/10 rounded-full overflow-hidden">
+                <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
                   <motion.div
                     initial={{ width: 0 }}
-                    animate={{ width: '88.2%' }}
-                    transition={{ duration: 2, ease: [0.22, 1, 0.36, 1] }}
-                    className="h-full bg-emerald-400 shadow-[0_0_15px_rgba(52,211,153,0.4)] rounded-full"
+                    animate={{ width: `${((proj?.totalScore || 892) / 1000) * 100}%` }}
+                    transition={{ duration: 1.5 }}
+                    className="h-full bg-gradient-to-r from-[#a78bfa] to-primary-cyan rounded-full"
                   />
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-3 pb-1 md:pb-2">
-                {[
-                  { label: t('Unit Price', 'Prix Unitaire'), value: '$50.00' },
-                  { label: t('Total Units', 'Unités Totales'), value: '2,500' }
-                ].map((item, i) => (
-                  <motion.div 
-                    key={i}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.8 + i * 0.1 }}
-                    className="bg-white/5 p-3 md:p-2.5 rounded-lg md:rounded-xl"
-                  >
-                    <div className="text-[6px] md:text-[7px] text-white/40 font-black uppercase mb-0.5 md:mb-1">{item.label}</div>
-                    <div className="text-[10px] md:text-xs font-black text-white">{item.value}</div>
-                  </motion.div>
-                ))}
+              {/* LYA UNIT calculé */}
+              <div className="grid grid-cols-2 gap-2">
+                <div className="bg-accent-gold/10 border border-accent-gold/20 rounded-xl p-2.5">
+                  <p className="text-[8px] text-white/40 uppercase tracking-widest mb-0.5">LYA UNIT</p>
+                  <p className="text-sm font-black text-accent-gold">${lyaUnit.toFixed(2)}</p>
+                </div>
+                <div className={`border rounded-xl p-2.5 ${up ? 'bg-emerald-400/10 border-emerald-400/20' : 'bg-rose-400/10 border-rose-400/20'}`}>
+                  <p className="text-[8px] text-white/40 uppercase tracking-widest mb-0.5">{t('Variation','Variation')}</p>
+                  <p className={`text-sm font-black ${up ? 'text-emerald-400' : 'text-rose-400'}`}>{up ? '+' : ''}{proj?.growth || 14.2}%</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2">
+                <div className="bg-white/5 rounded-xl p-2">
+                  <p className="text-[8px] text-white/40 uppercase mb-0.5">{t('Base','Base')}</p>
+                  <p className="text-xs font-black text-white">${LYA_UNIT_VALUE}.00</p>
+                </div>
+                <div className="bg-white/5 rounded-xl p-2">
+                  <p className="text-[8px] text-white/40 uppercase mb-0.5">Rev. share</p>
+                  <p className="text-xs font-black text-primary-cyan">{proj?.revenueSharePercentage || 0}%</p>
+                </div>
               </div>
             </div>
           </motion.div>
         </div>
       );
+    }
 
     case 'investors':
       return (
@@ -506,7 +495,7 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
               <div className="flex justify-between items-start mb-4 md:mb-6">
                 <div className="space-y-0.5">
                   <div className="text-[7px] md:text-xs font-black text-accent-gold/60 uppercase tracking-widest">{t('Portfolio Value', 'Valeur Portfolio')}</div>
-                  <div className="text-lg md:text-2xl font-black text-accent-gold tracking-tighter drop-shadow-[0_0_10px_rgba(255,215,0,0.3)]">$42,850.00</div>
+                  <div className="text-lg md:text-2xl font-black text-accent-gold tracking-tighter drop-shadow-[0_0_10px_rgba(255,215,0,0.3)]">${(35000 * 1.386).toFixed(2)}</div>
                   <div className="flex items-center gap-1 text-accent-gold font-bold text-[10px] md:text-[10px]">
                     <TrendingUp size={10} /> +24.58% {t('Performance', 'Performance')}
                   </div>
@@ -557,7 +546,7 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
               {[
-                { label: t('Royalties Paid', 'Royalties Payées'), value: '$2,450.00', color: 'text-accent-gold' },
+                { label: t('Royalties Paid', 'Royalties Payées'), value: `$${(35000 * 0.07).toFixed(2)}`, color: 'text-accent-gold' },
                 { label: t('LYA Index Avg', 'Moyenne Index LYA'), value: '842.00', color: 'text-white' }
               ].map((item, i) => (
                 <motion.div 
@@ -694,8 +683,8 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
                       <div className="text-[7px] md:text-xs font-bold text-white truncate">LYA RIGHTS</div>
                     </div>
                     <div className="bg-white/5 p-1 md:p-1.5 rounded-lg border border-white/5">
-                      <div className="text-[5px] md:text-[6px] text-white/40 font-black uppercase">Min entry</div>
-                      <div className="text-[7px] md:text-xs font-bold text-white">$50.00</div>
+                      <div className="text-[5px] md:text-[6px] text-white/40 font-black uppercase">LYA UNIT</div>
+                      <div className="text-[7px] md:text-xs font-bold text-accent-gold">{`$${(50).toFixed(2)}`} <span className="text-emerald-400">base</span></div>
                     </div>
                   </div>
                 </div>
@@ -727,9 +716,9 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
             </div>
             <div className="p-4 space-y-3">
               {[
-                { label: 'PULSE OF THE FUTURE', price: '$50.00', change: '+12.5%', details: 'Liquidity Added', up: true },
-                { label: 'INDIE FILM #42', price: '$850.00', change: '-4.2%', details: 'Audit Updated', up: false },
-                { label: 'VINYL REISSUE', price: '$125.00', change: '+8.1%', details: 'Milestone 2 Secured', up: true }
+                { label: CONTRACTS[0]?.name || 'DIGITAL HORIZONS', price: `$${(50*(1+14.2/100)).toFixed(2)}`, change: '+14.2%', details: t('Milestone completed','Jalon complété'), up: true },
+                { label: CONTRACTS[5]?.name || 'CHRONICLES', price: `$${(50*(1-28.4/100)).toFixed(2)}`, change: '-28.4%', details: t('Audit updated','Audit mis à jour'), up: false },
+                { label: CONTRACTS[2]?.name || 'ART GÉNÉRATIF', price: `$${(50*(1+25.8/100)).toFixed(2)}`, change: '+25.8%', details: t('Milestone 2 secured','Jalon 2 sécurisé'), up: true }
               ].map((item, i) => (
                 <motion.div
                   key={i}
@@ -778,8 +767,8 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
           <div className="w-full max-w-[320px] md:max-w-[360px] space-y-3 md:space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {[
-                { title: 'Project Alpha', score: '884', roi: '+34%', color: 'text-indigo-400', bg: 'bg-indigo-500/10' },
-                { title: 'Project Beta', score: '762', roi: '+18%', color: 'text-blue-400', bg: 'bg-blue-500/10' }
+                { title: CONTRACTS[0]?.name || 'Digital Horizons', score: String(CONTRACTS[0]?.totalScore || 884), roi: `+${CONTRACTS[0]?.growth || 14.2}%`, lyaUnit: `$${(LYA_UNIT_VALUE*(1+(CONTRACTS[0]?.growth||14.2)/100)).toFixed(2)}`, color: 'text-indigo-400', bg: 'bg-indigo-500/10', up: true },
+                { title: CONTRACTS[5]?.name || 'Chronicles', score: String(CONTRACTS[5]?.totalScore || 762), roi: `${CONTRACTS[5]?.growth || -28.4}%`, lyaUnit: `$${(LYA_UNIT_VALUE*(1+(CONTRACTS[5]?.growth||-28.4)/100)).toFixed(2)}`, color: 'text-rose-400', bg: 'bg-rose-500/10', up: false }
               ].map((p, i) => (
                 <motion.div
                   key={i}
@@ -798,13 +787,12 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
                      <div className={`w-8 h-8 rounded-lg ${p.bg} flex items-center justify-center ${p.color}`}>
                         <TrendingUp size={16} />
                      </div>
-                     <span className={`text-[10px] md:text-[10px] font-black italic ${p.color}`}>{p.score} LYA</span>
+                     <span className={`text-[10px] md:text-[10px] font-black italic ${p.color}`}>{p.score}/1000</span>
                    </div>
                    <div className="space-y-0.5">
                      <h6 className="text-[7px] md:text-[10px] font-black text-white/40 uppercase tracking-widest truncate">{p.title}</h6>
-                     <div className="text-xs md:text-sm font-black text-white italic tracking-tighter">
-                      {p.roi} ROI
-                    </div>
+                     <div className="text-xs md:text-sm font-black text-accent-gold">LYA UNIT: {p.lyaUnit}</div>
+                     <div className={`text-xs font-black ${p.up ? 'text-emerald-400' : 'text-rose-400'}`}>{p.roi}</div>
                    </div>
                 </motion.div>
               ))}
