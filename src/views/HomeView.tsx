@@ -1441,7 +1441,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
             </div>
             <h3 className="text-xl font-black font-headline uppercase tracking-widest mb-4">{t('home.pillars.professionals.title', 'Professionals')}</h3>
             <p className="text-on-surface-variant text-sm leading-relaxed opacity-70 text-justify">
-              {t('The guardians of creative excellence. Industry experts, labels, studios and producers evaluate creative works, ensuring the LYA Index reflects their true market potential.', 'Les gardiens de l\'excellence créative. Experts sectoriels, labels, studios et producteurs évaluent les créations, garantissant que l\'Indice LYA reflète leur véritable potentiel de marché.')}
+              {t('The guarantors of LYA certification. A network of certified validators assess each creation across the 5 LYA pillars, ensuring every score reflects genuine artistic and commercial integrity.', 'Les garants de la certification LYA. Un réseau de validateurs certifiés évalue chaque création sur les 5 piliers LYA, garantissant que chaque score reflète une intégrité artistique et commerciale authentique.')}
             </p>
           </div>
 
