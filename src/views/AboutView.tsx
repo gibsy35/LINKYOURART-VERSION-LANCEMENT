@@ -167,15 +167,12 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange, onNotify }) 
         {/* History Section */}
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-32 items-center px-4 md:px-0">
           <div className="space-y-8">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-6">
-              <div className="w-12 h-12 rounded-2xl bg-primary-cyan/10 border border-primary-cyan/20 flex items-center justify-center shrink-0">
-                <History className="text-primary-cyan" size={24} />
-              </div>
+            <div className="text-center space-y-4 mb-8">
               <h2 className="text-3xl md:text-5xl font-black font-headline text-white tracking-tighter uppercase drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]">
                 {t('Our History', 'Notre Histoire')}
               </h2>
+              <div className="w-24 h-1 bg-primary-cyan mx-auto rounded-full" />
             </div>
-            <div className="w-24 h-1 bg-primary-cyan rounded-full mb-8" />
             <div className="space-y-6 text-on-surface-variant leading-relaxed text-base md:text-lg font-medium opacity-70 text-justify">
               <p>
                 {t(
