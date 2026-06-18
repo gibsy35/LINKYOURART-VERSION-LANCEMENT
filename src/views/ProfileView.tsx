@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { UserRole, UserProfile, LYA_SIMULATOR_STEPS, LYASimulatorStep, CONTRACTS } from '../types';
+import { UserRole, UserProfile, LYA_SIMULATOR_STEPS, LYASimulatorStep, CONTRACTS, LYA_UNIT_VALUE } from '../types';
 import { View } from '../components/ui/Sidebar';
 import { User, Settings, Shield, BarChart3, Layers, Globe, LogOut, Lock, Play, ExternalLink, Save, Camera, Mail, Briefcase, TrendingUp, Award, ShieldCheck, Zap, Activity, Cpu, FileCode, X, LayoutGrid, Plus, FileText, Download, MessageSquare, PieChart as PieChartIcon, Wallet, Clock, UserPlus, LayoutDashboard, History, Target, Info, Trash2, ArrowRight, Twitter, Instagram, Linkedin, Bell, CheckCircle2, XCircle, AlertCircle, Search, Radar, Sparkles, Check, Loader2, Crown, CreditCard, Send, Paperclip, RefreshCw, Eye, TrendingDown, MapPin, Users, Building2, BriefcaseIcon, Database } from 'lucide-react';
 import { StatCard } from '../components/StatCard';
@@ -423,7 +423,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
           
           // Correction logic: Mint price is $50.00
           const growthValue = parseFloat((Math.random() * 40 - 15).toFixed(2)); // -15% to +25%
-          const unitValue = parseFloat((50 * (1 + growthValue / 100)).toFixed(2));
+          const unitValue = parseFloat((LYA_UNIT_VALUE * (1 + growthValue / 100)).toFixed(2));
           const totalUnits = 1000 + Math.floor(Math.random() * 9000);
           const totalValue = unitValue * totalUnits;
           
@@ -2571,7 +2571,7 @@ const renderMentorshipContent = () => (
                     <p className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant opacity-40 mb-1">{t('Growth', 'Croissance')}</p>
                     <p className={`text-xl md:text-2xl font-black italic tracking-tight ${project.growth >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>{(project.growth > 0 ? '+' : '') + project.growth}%</p>
                     <p className="text-[10px] font-black text-accent-gold uppercase tracking-widest mt-1">
-                      LYA UNIT: {formatPrice(50 * (1 + project.growth / 100))}
+                      LYA UNIT: {formatPrice(LYA_UNIT_VALUE * (1 + project.growth / 100))}
                     </p>
                     <p className="text-[9px] text-on-surface-variant/30 mt-0.5">({t('base','base')} {formatPrice(50)})</p>
                   </div>

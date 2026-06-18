@@ -51,11 +51,11 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
   const categories = ['Fine Art','Music','Film','Literature','Fashion','Architecture','Photography','Gaming','Design'];
 
   const missions = [
-    {labelFR:'ÉPHÉMÉRIS',labelEN:'EPHEMERIS',id:'PRJ-2026-012',typeFR:'Certification LYA Niveau 3',typeEN:'LYA Level 3 Certification',statusFR:'En validation',statusEN:'In validation',pct:75,date:'2026-03-15',statusColor:'bg-accent-gold/10 text-accent-gold border-accent-gold/20'},
-    {labelFR:'Nexus',labelEN:'Nexus',id:'PRJ-2026-008',typeFR:'Audit stratégique institutionnel',typeEN:'Institutional strategic audit',statusFR:'Analyse en cours',statusEN:'Analysis in progress',pct:45,date:'2026-03-20',statusColor:'bg-primary-cyan/10 text-primary-cyan border-primary-cyan/20'},
-    {labelFR:'Fragments',labelEN:'Fragments',id:'PRJ-2026-019',typeFR:'Due diligence premium',typeEN:'Premium due diligence',statusFR:'Révision finale',statusEN:'Final review',pct:90,date:'2026-03-10',statusColor:'bg-[#a78bfa]/10 text-[#a78bfa] border-[#a78bfa]/20'},
-    {labelFR:'Solar Echoes',labelEN:'Solar Echoes',id:'PRJ-2026-031',typeFR:'Évaluation de marché',typeEN:'Market assessment',statusFR:'En attente',statusEN:'Pending',pct:10,date:'2026-04-05',statusColor:'bg-white/5 text-on-surface-variant/50 border-white/10'},
-    {labelFR:'Quantum Canvas',labelEN:'Quantum Canvas',id:'PRJ-2026-044',typeFR:'Certification LYA Niveau 2',typeEN:'LYA Level 2 Certification',statusFR:'En cours',statusEN:'In progress',pct:55,date:'2026-03-28',statusColor:'bg-emerald-400/10 text-emerald-400 border-emerald-400/20'},
+    {labelFR:CONTRACTS[1]?.name||'ÉPHÉMÉRIS',labelEN:CONTRACTS[1]?.name||'EPHEMERIS',id:'PRJ-2026-012',typeFR:'Certification LYA Niveau 3',typeEN:'LYA Level 3 Certification',statusFR:'En validation',statusEN:'In validation',pct:75,date:'2026-03-15',statusColor:'bg-accent-gold/10 text-accent-gold border-accent-gold/20'},
+    {labelFR:CONTRACTS[3]?.name||'Nexus',labelEN:CONTRACTS[3]?.name||'Nexus',id:'PRJ-2026-008',typeFR:'Audit stratégique institutionnel',typeEN:'Institutional strategic audit',statusFR:'Analyse en cours',statusEN:'Analysis in progress',pct:45,date:'2026-03-20',statusColor:'bg-primary-cyan/10 text-primary-cyan border-primary-cyan/20'},
+    {labelFR:CONTRACTS[4]?.name||'Fragments',labelEN:CONTRACTS[4]?.name||'Fragments',id:'PRJ-2026-019',typeFR:'Due diligence premium',typeEN:'Premium due diligence',statusFR:'Révision finale',statusEN:'Final review',pct:90,date:'2026-03-10',statusColor:'bg-[#a78bfa]/10 text-[#a78bfa] border-[#a78bfa]/20'},
+    {labelFR:CONTRACTS[5]?.name||'Solar Echoes',labelEN:CONTRACTS[5]?.name||'Solar Echoes',id:'PRJ-2026-031',typeFR:'Évaluation de marché',typeEN:'Market assessment',statusFR:'En attente',statusEN:'Pending',pct:10,date:'2026-04-05',statusColor:'bg-white/5 text-on-surface-variant/50 border-white/10'},
+    {labelFR:CONTRACTS[6]?.name||'Quantum Canvas',labelEN:CONTRACTS[6]?.name||'Quantum Canvas',id:'PRJ-2026-044',typeFR:'Certification LYA Niveau 2',typeEN:'LYA Level 2 Certification',statusFR:'En cours',statusEN:'In progress',pct:55,date:'2026-03-28',statusColor:'bg-emerald-400/10 text-emerald-400 border-emerald-400/20'},
   ];
 
   const mentoredCreators = [

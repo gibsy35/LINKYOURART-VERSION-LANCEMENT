@@ -315,7 +315,7 @@ const ValidationQueue: React.FC<{
                     </div>
 
                     {/* 4 étapes */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                       {VALIDATION_STEPS.map(step => (
                         <StepCard
                           key={step.id}
@@ -656,7 +656,7 @@ const QualityDashboard: React.FC<{ lang: 'FR' | 'EN' }> = ({ lang }) => {
   return (
     <div className="space-y-6">
       {/* KPIs globaux */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {[
           { label: T('Projets indexés', 'Indexed projects'), value: CONTRACTS.filter(c => c.status === 'LIVE').length, color: 'text-primary-cyan', sub: T('sur la plateforme', 'on the platform') },
           { label: T('Score LYA moyen', 'Average LYA Score'), value: `${Math.round(CONTRACTS.reduce((s, c) => s + c.totalScore, 0) / CONTRACTS.length)}`, color: 'text-accent-gold', sub: '/1000' },
