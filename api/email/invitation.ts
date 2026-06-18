@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { sendMail } from '../email/smtp';
-import { templateInvitation } from '../email/templates';
+import { sendMail } from '../../src/lib/email/smtp';
+import { templateInvitation } from '../../src/lib/email/templates';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
