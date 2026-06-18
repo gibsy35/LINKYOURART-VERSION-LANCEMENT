@@ -1,11 +1,13 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence, useMotionValue, useTransform } from 'motion/react';
 import { Heart, X, Info, Star, Zap, Scale, Activity, Plus } from 'lucide-react';
 import { CONTRACTS, Contract, LYA_UNIT_VALUE, UserProfile, UserRole } from '../types';
 import { useTranslation } from '../context/LanguageContext';
 import { useCurrency } from '../context/CurrencyContext';
 import { PageHeader } from '../components/ui/PageHeader';
+import { db } from '../firebase';
+import { doc, getDoc, setDoc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
 
 interface SwipeViewProps {
   user: UserProfile | null;
@@ -51,6 +53,62 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
   const [visibleExtended, setVisibleExtended] = useState(3);
   const [filterCategory, setFilterCategory] = useState<string>('ALL');
   const [likedProjects, setLikedProjects] = useState<string[]>([]);
+  const [likesLoading, setLikesLoading] = useState(false);
+
+  // ── Charger les likes depuis Firestore au montage ──────────────────────
+  useEffect(() => {
+    if (!user?.uid) return;
+    const load = async () => {
+      try {
+        const ref = doc(db, 'swipe_likes', user.uid);
+        const snap = await getDoc(ref);
+        if (snap.exists()) {
+          setLikedProjects(snap.data().liked || []);
+        }
+      } catch (e) {
+        console.warn('SwipeView: impossible de charger les likes', e);
+      }
+    };
+    load();
+  }, [user?.uid]);
+
+  // ── Sauvegarder un like dans Firestore ────────────────────────────────
+  const saveLike = async (contractId: string) => {
+    if (!user?.uid) return;
+    try {
+      const ref = doc(db, 'swipe_likes', user.uid);
+      const snap = await getDoc(ref);
+      if (snap.exists()) {
+        await updateDoc(ref, { liked: arrayUnion(contractId), updatedAt: new Date().toISOString() });
+      } else {
+        await setDoc(ref, { liked: [contractId], userId: user.uid, updatedAt: new Date().toISOString() });
+      }
+    } catch (e) {
+      console.warn('SwipeView: impossible de sauvegarder le like', e);
+    }
+  };
+
+  // ── Supprimer un like dans Firestore ──────────────────────────────────
+  const removeLike = async (contractId: string) => {
+    if (!user?.uid) return;
+    try {
+      const ref = doc(db, 'swipe_likes', user.uid);
+      await updateDoc(ref, { liked: arrayRemove(contractId), updatedAt: new Date().toISOString() });
+    } catch (e) {
+      console.warn('SwipeView: impossible de supprimer le like', e);
+    }
+  };
+
+  // ── Effacer tous les likes ────────────────────────────────────────────
+  const clearAllLikes = async () => {
+    setLikedProjects([]);
+    if (!user?.uid) return;
+    try {
+      await setDoc(doc(db, 'swipe_likes', user.uid), { liked: [], userId: user.uid, updatedAt: new Date().toISOString() });
+    } catch (e) {
+      console.warn('SwipeView: impossible de vider les likes', e);
+    }
+  };
   const [showLiked, setShowLiked] = useState(false);
   const categories = ['ALL', 'Film', 'Fashion', ...Array.from(new Set(allContracts.map(c => c.category))).filter(c => c !== 'Film' && c !== 'Fashion').slice(0, 5)];
 
@@ -83,6 +141,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
     if (dir === 'right') {
       onToggleWatchlist({ stopPropagation: () => {} } as any, currentContract.id, 'add');
       setLikedProjects(prev => prev.includes(currentContract.id) ? prev : [...prev, currentContract.id]);
+      saveLike(currentContract.id);
     } else {
       onNotify(t('PROJET PASSÉ', 'PROJECT SKIPPED'));
     }
@@ -178,6 +237,15 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
             <Heart size={14} className="text-emerald-400" fill="currentColor"/>
             <p className="text-sm font-black text-on-surface uppercase tracking-wider">{t('Projets aimés','Liked projects')} — {likedProjects.length}</p>
           </div>
+          {!user && likedProjects.length > 0 && (
+            <div className="flex items-center gap-2 p-3 bg-accent-gold/5 border border-accent-gold/15 rounded-xl">
+              <span className="text-accent-gold text-xs">⚠</span>
+              <p className="text-xs text-on-surface-variant/60">
+                {t('Connectez-vous pour sauvegarder vos likes définitivement.','Sign in to save your likes permanently.')}
+                <button onClick={() => onViewChange?.('LOGIN')} className="ml-1 text-primary-cyan font-black hover:underline">{t('Se connecter →','Sign in →')}</button>
+              </p>
+            </div>
+          )}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {likedProjects.map(id => {
               const proj = allContracts.find(c => c.id === id);
@@ -200,12 +268,14 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
                     <p className="text-sm font-black text-[#a78bfa]">{proj.totalScore}</p>
                     <button onClick={() => { window.dispatchEvent(new CustomEvent('lya-view-project', { detail: proj.id })); onViewChange?.('PROJECT_PUBLIC'); }}
                       className="mt-1 text-[9px] font-black text-primary-cyan hover:text-white transition-colors uppercase tracking-widest">{t('Voir →','View →')}</button>
+                    <button onClick={() => { setLikedProjects(prev => prev.filter(i => i !== id)); removeLike(id); }}
+                      className="mt-0.5 text-[9px] font-black text-rose-400/60 hover:text-rose-400 transition-colors uppercase tracking-widest">{t('Retirer','Remove')}</button>
                   </div>
                 </div>
               );
             })}
           </div>
-          <button onClick={() => setLikedProjects([])} className="text-xs text-on-surface-variant/40 hover:text-rose-400 transition-colors font-black uppercase tracking-widest">{t('Effacer la liste','Clear list')}</button>
+          <button onClick={clearAllLikes} className="text-xs text-on-surface-variant/40 hover:text-rose-400 transition-colors font-black uppercase tracking-widest">{t('Effacer la liste','Clear list')}</button>
         </div>
       )}
 
