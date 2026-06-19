@@ -26,6 +26,7 @@
     "react-intersection-observer": "^10.0.3",
     "react-is": "^19.2.6",
     "recharts": "^3.8.1",
+    "resend": "^6.14.0",
     "stripe": "^22.0.0"
   },
   "devDependencies": {
