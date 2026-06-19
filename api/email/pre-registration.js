@@ -78,10 +78,10 @@ function buildHtml(name, position, referralCode, referralLink, lang) {
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>LinkYourArt</title>
 </head>
-<body style="margin:0;padding:0;background:linear-gradient(180deg,#ffffff,#dbeafe,#93c5fd);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">
+<body style="margin:0;padding:0;background:linear-gradient(180deg,#eff6ff,#dbeafe);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">
 
 <!-- WRAPPER -->
-<table width="100%" cellpadding="0" cellspacing="0" style="background:linear-gradient(180deg,#ffffff 0%,#dbeafe 60%,#93c5fd 100%);min-height:100vh">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:linear-gradient(180deg,#eff6ff,#dbeafe);min-height:100vh">
 <tr><td align="center" style="padding:40px 16px">
 <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;box-shadow:0 20px 60px rgba(79,70,229,0.15);border-radius:24px">
 
@@ -109,7 +109,7 @@ function buildHtml(name, position, referralCode, referralLink, lang) {
 
     <!-- Hero -->
     <table width="100%" cellpadding="0" cellspacing="0">
-    <tr><td style="background:#ffffff;padding:44px 40px 36px;text-align:center;border-bottom:1px solid #e0f2fe">
+    <tr><td style="background:linear-gradient(180deg,#eff6ff,#dbeafe);padding:44px 40px 36px;text-align:center;border-bottom:1px solid #bfdbfe">
 
       <!-- Icone rôle -->
       <div style="width:60px;height:60px;background:linear-gradient(135deg,rgba(99,102,241,0.12),rgba(0,212,255,0.12));border:1.5px solid rgba(99,102,241,0.25);border-radius:18px;margin:0 auto 20px;line-height:60px;font-size:26px">${roleIcon}</div>
@@ -178,7 +178,7 @@ function buildHtml(name, position, referralCode, referralLink, lang) {
   </td></tr>
 
   <!-- CE QUI VOUS ATTEND -->
-  <tr><td style="background:linear-gradient(180deg,#dbeafe,#bfdbfe);border-left:1px solid #93c5fd;border-right:1px solid #93c5fd;padding:0">
+  <tr><td style="background:linear-gradient(180deg,#eff6ff,#dbeafe);border-left:1px solid #bfdbfe;border-right:1px solid #bfdbfe;padding:0">
     <table width="100%" cellpadding="0" cellspacing="0">
     <tr><td style="padding:40px">
       
@@ -238,7 +238,7 @@ function buildHtml(name, position, referralCode, referralLink, lang) {
   </td></tr>
 
   <!-- CTA BUTTON -->
-  <tr><td style="background:linear-gradient(180deg,#bfdbfe,#93c5fd);border-left:1px solid #60a5fa;border-right:1px solid #60a5fa;padding:40px;text-align:center">
+  <tr><td style="background:linear-gradient(180deg,#eff6ff,#dbeafe);border-left:1px solid #bfdbfe;border-right:1px solid #bfdbfe;padding:40px;text-align:center">
     
     <table cellpadding="0" cellspacing="0" style="margin:0 auto 20px">
     <tr>
@@ -255,7 +255,7 @@ function buildHtml(name, position, referralCode, referralLink, lang) {
   </td></tr>
 
   <!-- PHRASE SIGNATURE -->
-  <tr><td style="background:linear-gradient(180deg,#93c5fd,#60a5fa);border:1px solid #3b82f6;border-top:none;border-radius:0 0 24px 24px;padding:32px 40px;text-align:center">
+  <tr><td style="background:linear-gradient(180deg,#eff6ff,#dbeafe);border:1px solid #bfdbfe;border-top:none;border-radius:0 0 24px 24px;padding:32px 40px;text-align:center">
     
     <!-- Ligne décorative -->
     <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px">
