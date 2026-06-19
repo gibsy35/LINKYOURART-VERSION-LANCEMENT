@@ -1419,11 +1419,19 @@ export const AdminView: React.FC<{
                       onClick={async () => {
                         if (!window.confirm(t(`Supprimer la pré-inscription de ${r.name} (${r.email}) ?`, `Delete pre-registration of ${r.name} (${r.email})?`))) return;
                         try {
-                          await deleteDoc(doc(db, 'pre_registrations', r.id));
+                          // Supprimer de Firestore si c'est un vrai document
+                          if (r.id && !r.id.startsWith('local_')) {
+                            await deleteDoc(doc(db, 'pre_registrations', r.id));
+                          }
+                          // Supprimer du localStorage
+                          const local = JSON.parse(localStorage.getItem('lya_local_pre_registrations') || '[]');
+                          localStorage.setItem('lya_local_pre_registrations', JSON.stringify(local.filter((p: any) => p.id !== r.id && p.email !== r.email)));
+                          // Mettre à jour le state
                           setPreRegistrations(prev => prev.filter(p => p.id !== r.id));
                           onNotify(t(`✦ ${r.name} supprimé`, `✦ ${r.name} deleted`));
-                        } catch (e) {
-                          onNotify(t('Erreur lors de la suppression', 'Error deleting'));
+                        } catch (e: any) {
+                          console.error('Delete error:', e);
+                          onNotify(t('Erreur : ' + e.message, 'Error: ' + e.message));
                         }
                       }}
                       className="p-2 text-rose-400/50 hover:text-rose-400 hover:bg-rose-400/10 rounded-lg transition-all"
