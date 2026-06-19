@@ -1398,6 +1398,7 @@ export const AdminView: React.FC<{
                 <th className="p-6">{t('User', 'Utilisateur')}</th>
                 <th className="p-6">{t('Category', 'Catégorie')}</th>
                 <th className="p-6">{t('Date', 'Date')}</th>
+                <th className="p-6 text-right">{t('Action', 'Action')}</th>
               </tr>
             </thead>
             <tbody>
@@ -1412,6 +1413,24 @@ export const AdminView: React.FC<{
                   </td>
                   <td className="p-6 opacity-40 font-mono">
                     {r.timestamp?.toDate ? r.timestamp.toDate().toLocaleString() : 'N/A'}
+                  </td>
+                  <td className="p-6 text-right">
+                    <button
+                      onClick={async () => {
+                        if (!window.confirm(t(`Supprimer la pré-inscription de ${r.name} (${r.email}) ?`, `Delete pre-registration of ${r.name} (${r.email})?`))) return;
+                        try {
+                          await deleteDoc(doc(db, 'pre_registrations', r.id));
+                          setPreRegistrations(prev => prev.filter(p => p.id !== r.id));
+                          onNotify(t(`✦ ${r.name} supprimé`, `✦ ${r.name} deleted`));
+                        } catch (e) {
+                          onNotify(t('Erreur lors de la suppression', 'Error deleting'));
+                        }
+                      }}
+                      className="p-2 text-rose-400/50 hover:text-rose-400 hover:bg-rose-400/10 rounded-lg transition-all"
+                      title={t('Supprimer', 'Delete')}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+                    </button>
                   </td>
                 </tr>
               ))}
