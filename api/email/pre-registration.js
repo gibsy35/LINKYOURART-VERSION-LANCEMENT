@@ -68,218 +68,112 @@ async function sendSMTP(cfg) {
 function buildHtml(name, position, referralCode, referralLink, lang) {
   const isFR = lang === 'FR';
   const roleLabel = position === 'CREATOR' ? (isFR ? 'Créateur' : 'Creator') : position === 'INVESTOR' ? (isFR ? 'Mécène' : 'Patron') : (isFR ? 'Professionnel' : 'Professional');
-  const roleIcon = position === 'CREATOR' ? '🎨' : position === 'INVESTOR' ? '💎' : '🏛';
-  const roleColor = position === 'CREATOR' ? '#a78bfa' : position === 'INVESTOR' ? '#10b981' : '#00d4ff';
 
   return `<!DOCTYPE html>
 <html lang="${isFR ? 'fr' : 'en'}">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>LinkYourArt</title>
-</head>
-<body style="margin:0;padding:0;background:linear-gradient(180deg,#eff6ff,#dbeafe);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">
-
-<!-- WRAPPER -->
-<table width="100%" cellpadding="0" cellspacing="0" style="background:linear-gradient(180deg,#eff6ff,#dbeafe);min-height:100vh">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#e0f0ff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#e0f0ff">
 <tr><td align="center" style="padding:40px 16px">
-<table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;box-shadow:0 20px 60px rgba(79,70,229,0.15);border-radius:24px">
+<table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#e8f4fd;border-radius:24px;overflow:hidden;box-shadow:0 8px 40px rgba(0,100,200,0.12)">
 
-  <!-- HERO BANNER avec dégradé -->
-  <tr><td style="background:#ffffff;border-radius:24px 24px 0 0;padding:0;overflow:hidden;border:1px solid #c7d2fe;border-bottom:none;box-shadow:0 4px 24px rgba(99,102,241,0.08)">
-    
-    <!-- Bande supérieure cyan -->
+  <!-- BANDE TOP -->
+  <tr><td style="background:linear-gradient(90deg,#0ea5e9,#6366f1);height:4px;padding:0;font-size:0;line-height:0">&nbsp;</td></tr>
+
+  <!-- TOUT LE CONTENU SUR FOND BLEU UNIFORME -->
+  <tr><td style="background:linear-gradient(180deg,#f0f9ff 0%,#dbeafe 100%);padding:48px 40px">
+
+    <!-- LOGO -->
     <table width="100%" cellpadding="0" cellspacing="0">
-    <tr><td style="background:linear-gradient(90deg,#00d4ff,#a78bfa,#00d4ff);height:3px;padding:0"></td></tr>
-    </table>
-    
-    <!-- Header logo -->
-    <table width="100%" cellpadding="0" cellspacing="0">
-    <tr><td align="center" style="padding:32px 40px 0">
-      <table cellpadding="0" cellspacing="0">
-      <tr>
-        <td style="background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.25);border-radius:12px;padding:12px 24px;text-align:center">
-          <span style="font-size:18px;font-weight:900;color:#00d4ff;letter-spacing:0.2em;display:block">LINKYOURART</span>
-          <span style="font-size:8px;color:rgba(0,212,255,0.4);letter-spacing:0.1em;display:block;margin-top:3px;font-style:italic">${isFR ? 'Ce que vous créez aujourd\'hui peut appartenir à mille personnes demain.' : 'What you create today can belong to a thousand people tomorrow.'}</span>
-        </td>
-      </tr>
-      </table>
-    </td></tr>
-    </table>
-
-    <!-- Hero -->
-    <table width="100%" cellpadding="0" cellspacing="0">
-    <tr><td style="background:linear-gradient(180deg,#eff6ff,#dbeafe);padding:44px 40px 36px;text-align:center;border-bottom:1px solid #bfdbfe">
-
-      <!-- Icone rôle -->
-      <div style="width:60px;height:60px;background:linear-gradient(135deg,rgba(99,102,241,0.12),rgba(0,212,255,0.12));border:1.5px solid rgba(99,102,241,0.25);border-radius:18px;margin:0 auto 20px;line-height:60px;font-size:26px">${roleIcon}</div>
-
-      <!-- Prénom -->
-      <h1 style="margin:0 0 8px;font-size:34px;font-weight:900;color:#0f172a;letter-spacing:-0.02em;line-height:1">${name}</h1>
-
-      <!-- Badge rôle -->
-      <div style="margin:0 auto 20px;display:inline-block;background:rgba(0,100,200,0.08);border:1px solid rgba(0,150,220,0.25);border-radius:40px;padding:6px 20px">
-        <span style="font-size:11px;font-weight:900;color:#0369a1;text-transform:uppercase;letter-spacing:0.15em">${roleLabel}</span>
+    <tr><td align="center" style="padding-bottom:40px">
+      <div style="display:inline-block;background:rgba(255,255,255,0.7);border:1px solid rgba(14,165,233,0.3);border-radius:12px;padding:12px 28px">
+        <span style="font-size:18px;font-weight:900;color:#0284c7;letter-spacing:0.2em;display:block">LINKYOURART</span>
+        <span style="font-size:9px;color:#0284c7;opacity:0.6;letter-spacing:0.1em;font-style:italic;display:block;margin-top:3px">"${isFR ? "Ce que vous créez aujourd'hui peut appartenir à mille personnes demain." : "What you create today can belong to a thousand people tomorrow."}"</span>
       </div>
+    </td></tr>
+    </table>
 
-      <!-- Message -->
-      <p style="margin:0;font-size:15px;color:#4c4f7a;line-height:1.8;max-width:360px;margin-left:auto;margin-right:auto">
-        ${isFR
-          ? "✦ Votre pré-inscription est confirmée.<br>Vous rejoignez les pionniers d'une nouvelle ère créative."
-          : "✦ Your pre-registration is confirmed.<br>You are joining the pioneers of a new creative era."}
+    <!-- BONJOUR + NOM -->
+    <table width="100%" cellpadding="0" cellspacing="0">
+    <tr><td align="center" style="padding-bottom:8px">
+      <p style="margin:0;font-size:15px;color:#0369a1;font-weight:600;text-transform:uppercase;letter-spacing:0.12em">${isFR ? 'Bienvenue' : 'Welcome'}</p>
+    </td></tr>
+    <tr><td align="center" style="padding-bottom:8px">
+      <h1 style="margin:0;font-size:40px;font-weight:900;color:#0c4a6e;letter-spacing:-0.02em;line-height:1">${name}</h1>
+    </td></tr>
+    <tr><td align="center" style="padding-bottom:36px">
+      <span style="display:inline-block;background:rgba(255,255,255,0.6);border:1px solid rgba(14,165,233,0.25);border-radius:30px;padding:5px 18px;font-size:11px;font-weight:900;color:#0369a1;text-transform:uppercase;letter-spacing:0.12em">${roleLabel}</span>
+    </td></tr>
+    </table>
+
+    <!-- MESSAGE -->
+    <table width="100%" cellpadding="0" cellspacing="0">
+    <tr><td align="center" style="padding-bottom:40px">
+      <p style="margin:0;font-size:15px;color:#075985;line-height:1.8;max-width:400px;text-align:center">
+        ${isFR ? "Votre pré-inscription est confirmée. Vous rejoignez les pionniers d'une nouvelle ère créative." : "Your pre-registration is confirmed. You are joining the pioneers of a new creative era."}
       </p>
-
     </td></tr>
     </table>
 
-    <!-- CODE PARRAINAGE — section spectaculaire -->
-  <tr><td style="background:linear-gradient(180deg,#eff6ff,#dbeafe);border-left:1px solid #bfdbfe;border-right:1px solid #bfdbfe;padding:0">
-    
+    <!-- CODE PARRAINAGE -->
     <table width="100%" cellpadding="0" cellspacing="0">
-    <tr><td style="padding:40px">
-      
-      <!-- Titre section -->
-      <table width="100%" cellpadding="0" cellspacing="0">
-      <tr><td align="center" style="padding-bottom:24px">
-        <span style="font-size:10px;font-weight:900;color:#0369a1;text-transform:uppercase;letter-spacing:0.2em;display:block;margin-bottom:4px">${isFR ? 'Votre code de parrainage exclusif' : 'Your exclusive referral code'}</span>
-        <div style="width:40px;height:2px;background:#0ea5e9;margin:8px auto 0"></div>
-      </td></tr>
-      </table>
+    <tr><td style="padding-bottom:40px">
+      <div style="background:rgba(255,255,255,0.55);border:1px solid rgba(14,165,233,0.2);border-radius:16px;padding:28px;text-align:center">
+        <p style="margin:0 0 6px;font-size:10px;font-weight:900;color:#0369a1;text-transform:uppercase;letter-spacing:0.18em">${isFR ? 'Votre code de parrainage' : 'Your referral code'}</p>
+        <p style="margin:0 0 10px;font-size:42px;font-weight:900;color:#0284c7;font-family:'Courier New',monospace;letter-spacing:0.1em">${referralCode}</p>
+        <p style="margin:0;font-size:12px;color:#0369a1">${isFR ? "Partagez-le — chaque filleul vous propulse plus haut dans la file d'accès." : "Share it — each referral moves you higher in the priority queue."}</p>
+      </div>
+    </td></tr>
+    </table>
 
-      <!-- Code en grand -->
-      <table width="100%" cellpadding="0" cellspacing="0">
-      <tr><td align="center" style="padding:0 0 24px">
-        <div style="background:linear-gradient(135deg,#0284c7,#0ea5e9);border:none;border-radius:20px;padding:32px;display:inline-block;min-width:280px">
-          
-          <!-- Lumière supérieure -->
-          <div style="width:60px;height:1px;background:rgba(255,255,255,0.4);margin:0 auto 20px"></div>
-          
-          <div style="font-size:44px;font-weight:900;color:#ffffff;font-family:Courier New,monospace;letter-spacing:0.12em;line-height:1">${referralCode}</div>
-          
-          <div style="width:60px;height:1px;background:rgba(255,255,255,0.4);margin:20px auto 0"></div>
+    <!-- FEATURES -->
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:40px">
+    <tr><td align="center" style="padding-bottom:20px">
+      <p style="margin:0;font-size:10px;font-weight:900;color:#0369a1;text-transform:uppercase;letter-spacing:0.15em">${isFR ? '— Ce qui vous attend —' : '— What awaits you —'}</p>
+    </td></tr>
+    ${[
+      ['✦', isFR ? 'LYA Score' : 'LYA Score', isFR ? 'Chaque création évaluée sur 1000 points par des experts certifiés.' : 'Each creation rated out of 1000 by certified experts.'],
+      ['◈', isFR ? 'LYA Units' : 'LYA Units', isFR ? 'Co-possédez des projets artistiques. La valeur évolue avec les jalons.' : 'Co-own artistic projects. Value evolves with milestones.'],
+      ['⚡', isFR ? 'Marché créatif' : 'Creative Market', isFR ? "Échangez vos parts sur le registre LYA en temps réel." : 'Trade your shares on the LYA registry in real time.'],
+    ].map(([icon, title, desc]) => `
+    <tr><td style="padding-bottom:16px">
+      <div style="background:rgba(255,255,255,0.45);border:1px solid rgba(14,165,233,0.15);border-radius:12px;padding:16px 20px;display:flex">
+        <span style="font-size:20px;margin-right:14px;flex-shrink:0">${icon}</span>
+        <div>
+          <p style="margin:0 0 3px;font-size:13px;font-weight:900;color:#0c4a6e">${title}</p>
+          <p style="margin:0;font-size:12px;color:#075985;line-height:1.5">${desc}</p>
         </div>
-      </td></tr>
-      </table>
-
-      <!-- Explication -->
-      <table width="100%" cellpadding="0" cellspacing="0">
-      <tr><td align="center">
-        <p style="margin:0;font-size:13px;color:#0369a1;line-height:1.6;text-align:center;max-width:360px">
-          ${isFR
-            ? '🎯 Partagez ce code — chaque filleul vous propulse plus haut dans la file d\'accès prioritaire.'
-            : '🎯 Share this code — each referral moves you higher in the priority access queue.'}
-        </p>
-      </td></tr>
-      </table>
-
-    </td></tr>
+      </div>
+    </td></tr>`).join('')}
     </table>
 
-  </td></tr>
-
-  <!-- CE QUI VOUS ATTEND -->
-  <tr><td style="background:linear-gradient(180deg,#eff6ff,#dbeafe);border-left:1px solid #bfdbfe;border-right:1px solid #bfdbfe;padding:0">
+    <!-- CTA -->
     <table width="100%" cellpadding="0" cellspacing="0">
-    <tr><td style="padding:40px">
-      
-      <p style="margin:0 0 28px;font-size:11px;font-weight:900;color:#94a3b8;text-transform:uppercase;letter-spacing:0.15em;text-align:center">${isFR ? '— Ce qui vous attend —' : '— What awaits you —'}</p>
-
-      <!-- Feature 1 -->
-      <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:20px">
-      <tr>
-        <td width="48" valign="top">
-          <div style="width:40px;height:40px;background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.2);border-radius:12px;text-align:center;line-height:40px;font-size:18px">✦</div>
-        </td>
-        <td style="padding-left:16px;vertical-align:top">
-          <p style="margin:0 0 4px;font-size:14px;font-weight:900;color:#1e3a5f">${isFR ? 'LinkYourArt' : 'LinkYourArt'}</p>
-          <p style="margin:0;font-size:12px;color:#1e40af;line-height:1.6">${isFR ? 'Co-possédez des projets artistiques via des LYA Units indexées. La valeur évolue selon les jalons et le LYA Score.' : 'Co-own artistic projects via indexed LYA Units. Value evolves with milestones and LYA Score.'}</p>
-        </td>
-      </tr>
-      </table>
-
-      <!-- Séparateur -->
-      <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:20px">
-      <tr><td style="border-top:1px solid rgba(147,197,253,0.4);font-size:0;line-height:0">&nbsp;</td></tr>
-      </table>
-
-      <!-- Feature 2 -->
-      <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:20px">
-      <tr>
-        <td width="48" valign="top">
-          <div style="width:40px;height:40px;background:rgba(167,139,250,0.1);border:1px solid rgba(167,139,250,0.2);border-radius:12px;text-align:center;line-height:40px;font-size:18px">📈</div>
-        </td>
-        <td style="padding-left:16px;vertical-align:top">
-          <p style="margin:0 0 4px;font-size:14px;font-weight:900;color:#1e3a5f">LYA Score <span style="color:#7c3aed;font-size:12px">/1000</span></p>
-          <p style="margin:0;font-size:12px;color:#1e40af;line-height:1.6">${isFR ? 'Chaque création évaluée sur 1000 points par notre réseau de validateurs certifiés. Un score transparent et souverain.' : 'Each creation rated out of 1000 by our network of certified validators. A transparent, sovereign score.'}</p>
-        </td>
-      </tr>
-      </table>
-
-      <!-- Séparateur -->
-      <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:20px">
-      <tr><td style="border-top:1px solid rgba(147,197,253,0.4);font-size:0;line-height:0">&nbsp;</td></tr>
-      </table>
-
-      <!-- Feature 3 -->
-      <table width="100%" cellpadding="0" cellspacing="0">
-      <tr>
-        <td width="48" valign="top">
-          <div style="width:40px;height:40px;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.2);border-radius:12px;text-align:center;line-height:40px;font-size:18px">⚡</div>
-        </td>
-        <td style="padding-left:16px;vertical-align:top">
-          <p style="margin:0 0 4px;font-size:14px;font-weight:900;color:#1e3a5f">${isFR ? 'Marché Secondaire' : 'Secondary Market'}</p>
-          <p style="margin:0;font-size:12px;color:#1e40af;line-height:1.6">${isFR ? 'Échangez vos LYA Units sur le registre créatif en temps réel. L\'art comme actif vivant.' : 'Trade your LYA Units on the creative registry in real time. Art as a living asset.'}</p>
-        </td>
-      </tr>
-      </table>
-
+    <tr><td align="center" style="padding-bottom:40px">
+      <a href="${referralLink}" style="display:inline-block;background:linear-gradient(135deg,#0ea5e9,#6366f1);color:#ffffff;font-weight:900;padding:16px 44px;border-radius:12px;text-decoration:none;font-size:14px;text-transform:uppercase;letter-spacing:0.12em">
+        ${isFR ? 'Accéder à LinkYourArt →' : 'Access LinkYourArt →'}
+      </a>
     </td></tr>
     </table>
-  </td></tr>
 
-  <!-- CTA BUTTON -->
-  <tr><td style="background:linear-gradient(180deg,#eff6ff,#dbeafe);border-left:1px solid #bfdbfe;border-right:1px solid #bfdbfe;padding:40px;text-align:center">
-    
-    <table cellpadding="0" cellspacing="0" style="margin:0 auto 20px">
-    <tr>
-      <td style="background:linear-gradient(135deg,#00d4ff,#0099cc);border-radius:14px;padding:0">
-        <a href="${referralLink}" style="display:block;padding:18px 48px;font-size:14px;font-weight:900;color:#030712;text-decoration:none;text-transform:uppercase;letter-spacing:0.12em;white-space:nowrap">
-          ${isFR ? 'Accéder à LinkYourArt →' : 'Access LinkYourArt →'}
-        </a>
-      </td>
-    </tr>
+    <!-- SIGNATURE -->
+    <table width="100%" cellpadding="0" cellspacing="0">
+    <tr><td align="center" style="border-top:1px solid rgba(14,165,233,0.2);padding-top:28px">
+      <p style="margin:0 0 16px;font-size:13px;color:#0369a1;font-style:italic;line-height:1.7">
+        "${isFR ? "Ce que vous créez aujourd'hui peut appartenir à mille personnes demain." : "What you create today can belong to a thousand people tomorrow."}"
+      </p>
+      <p style="margin:0;font-size:11px;color:#7dd3fc">LinkYourArt · contact@linkyourart.com</p>
+    </td></tr>
     </table>
 
-    <p style="margin:0;font-size:12px;color:#1e3a8a">${isFR ? 'Ou copiez ce lien : ' : 'Or copy this link: '}<span style="color:#00d4ff">${referralLink}</span></p>
-
   </td></tr>
 
-  <!-- PHRASE SIGNATURE -->
-  <tr><td style="background:linear-gradient(180deg,#eff6ff,#dbeafe);border:1px solid #bfdbfe;border-top:none;border-radius:0 0 24px 24px;padding:32px 40px;text-align:center">
-    
-    <!-- Ligne décorative -->
-    <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px">
-    <tr>
-      <td style="border-top:1px solid rgba(255,255,255,0.3)"></td>
-      <td width="40" align="center" style="padding:0 12px">
-        <span style="color:#0ea5e9;font-size:14px">✦</span>
-      </td>
-      <td style="border-top:1px solid rgba(255,255,255,0.3)"></td>
-    </tr>
-    </table>
-
-    <p style="margin:0 0 24px;font-size:15px;color:#1e3a8a;font-style:italic;line-height:1.7;max-width:400px;margin-left:auto;margin-right:auto">
-      "${isFR ? 'Ce que vous créez aujourd\'hui peut appartenir à mille personnes demain.' : 'What you create today can belong to a thousand people tomorrow.'}"
-    </p>
-
-    <p style="margin:0 0 4px;font-size:11px;color:#1e3a8a">LinkYourArt · contact@linkyourart.com</p>
-    <p style="margin:0;font-size:10px;color:#1e40af">${isFR ? 'Vous recevez cet email car vous vous êtes pré-inscrit sur linkyourart.com' : 'You received this because you pre-registered on linkyourart.com'}</p>
-  </td></tr>
+  <!-- BANDE BOTTOM -->
+  <tr><td style="background:linear-gradient(90deg,#0ea5e9,#6366f1);height:4px;padding:0;font-size:0;line-height:0">&nbsp;</td></tr>
 
 </table>
 </td></tr>
 </table>
-
 </body>
 </html>`;
 }
