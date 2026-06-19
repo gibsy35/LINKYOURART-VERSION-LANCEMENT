@@ -78,10 +78,10 @@ function buildHtml(name, position, referralCode, referralLink, lang) {
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>LinkYourArt</title>
 </head>
-<body style="margin:0;padding:0;background:#f0f4f8;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">
+<body style="margin:0;padding:0;background:linear-gradient(135deg,#f0f7ff,#f5f0ff);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">
 
 <!-- WRAPPER -->
-<table width="100%" cellpadding="0" cellspacing="0" style="background:#f0f4f8;min-height:100vh">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:linear-gradient(135deg,#f0f7ff 0%,#f5f0ff 50%,#f0f7ff 100%);min-height:100vh">
 <tr><td align="center" style="padding:40px 16px">
 <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%">
 
@@ -305,7 +305,7 @@ module.exports = async (req, res) => {
     const position = body.position || 'CREATOR';
     const referralCode = body.referralCode || 'LYA-000';
     const referralLink = body.referralLink || 'https://linkyourart.com';
-    const lang = body.lang || 'FR';
+    const lang = (body.lang && body.lang === 'FR') ? 'FR' : 'EN';
 
     if (!to) return res.status(400).json({ error: 'Missing email' });
 
@@ -328,7 +328,7 @@ module.exports = async (req, res) => {
 
     if (result.ok) {
       console.log('[EMAIL_SENT] ✓', to);
-      return res.status(200).json({ success: true, method: 'smtp' });
+      return res.status(200).json({ success: true, method: 'lya' });
     } else {
       console.error('[EMAIL_ERROR]', result.err);
       return res.status(200).json({ success: false, method: 'smtp', error: result.err });

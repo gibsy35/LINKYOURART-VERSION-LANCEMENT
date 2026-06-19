@@ -237,7 +237,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
       if (data.method === 'simulated') {
         setEmailDebug('⚠ Mode simulation — variables SMTP manquantes');
       } else if (data.success) {
-        setEmailDebug(`✓ Email envoyé via ${data.method}`);
+        setEmailDebug('✓ Email envoyé avec succès !');
       } else {
         setEmailDebug(`✗ Erreur: ${data.error}`);
       }
