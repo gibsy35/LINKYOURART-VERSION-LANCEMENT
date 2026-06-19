@@ -100,7 +100,7 @@ function buildHtml(name, position, referralCode, referralLink, lang) {
       <tr>
         <td style="background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.25);border-radius:12px;padding:12px 24px;text-align:center">
           <span style="font-size:18px;font-weight:900;color:#00d4ff;letter-spacing:0.2em;display:block">LINKYOURART</span>
-          <span style="font-size:8px;color:rgba(0,212,255,0.4);letter-spacing:0.25em;display:block;margin-top:3px">THE CREATIVE TERMINAL</span>
+          <span style="font-size:8px;color:rgba(0,212,255,0.4);letter-spacing:0.15em;display:block;margin-top:3px">${isFR ? 'CONSTRUIRE LA COUCHE D\'ÉCHANGE' : 'BUILDING THE EXCHANGE LAYER'}</span>
         </td>
       </tr>
       </table>
