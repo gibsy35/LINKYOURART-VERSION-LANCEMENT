@@ -221,15 +221,27 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
     setReferralCode(code);
     try { localStorage.setItem('lya_my_referral_code', code); } catch {}
 
-    // Envoi email de confirmation (best-effort, ne bloque pas le flow)
+    // Envoi email de confirmation
     const referralLinkForEmail = typeof window !== 'undefined'
       ? `${window.location.origin}${window.location.pathname}?ref=${code}`
       : `https://www.linkyourart.com?ref=${code}`;
+    
     fetch('/api/email/pre-registration', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ to: email, name, position, referralCode: code, referralLink: referralLinkForEmail, lang: language })
-    }).catch(() => {});
+    })
+    .then(r => r.json())
+    .then(data => {
+      if (data.method === 'simulated') {
+        console.warn('[LYA EMAIL] Mode simulation — vérifiez les variables SMTP dans Vercel (SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS)');
+      } else if (data.success) {
+        console.log(`[LYA EMAIL] ✓ Email envoyé à ${email} via ${data.method}`);
+      } else {
+        console.error('[LYA EMAIL] ✗ Échec :', data.error);
+      }
+    })
+    .catch(err => console.error('[LYA EMAIL] Erreur réseau :', err));
 
     setSubmitted(true);
     setIsSubmitting(false);
