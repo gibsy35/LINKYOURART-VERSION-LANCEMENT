@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { sendMail } from './smtp';
-import { templateInvitation, templateWelcome } from './templates';
+import { sendMail } from '../../src/lib/email/smtp';
+import { templateInvitation, templateWelcome } from '../../src/lib/email/templates';
 
 // Handler unifié pour invitation + welcome (économise 1 slot Vercel Hobby)
 export default async function handler(req: VercelRequest, res: VercelResponse) {
