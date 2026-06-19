@@ -107,39 +107,21 @@ function buildHtml(name, position, referralCode, referralLink, lang) {
     </td></tr>
     </table>
 
-    <!-- Titre hero -->
+    <!-- Hero redesigné -->
     <table width="100%" cellpadding="0" cellspacing="0">
-    <tr><td align="center" style="padding:40px 40px 16px">
-      <div style="font-size:42px;margin-bottom:16px">✦</div>
-      <h1 style="margin:0 0 12px;font-size:32px;font-weight:900;color:#0f172a;letter-spacing:-0.02em;line-height:1.1">
-        ${isFR ? 'Bienvenue,' : 'Welcome,'}<br>
-        <span style="color:#00d4ff">${name}</span>
-      </h1>
-      <p style="margin:0;font-size:15px;color:#475569;line-height:1.7;max-width:400px">
-        ${isFR
-          ? 'Votre pré-inscription au <strong style="color:#f9fafb">LinkYourArt</strong> est confirmée. Vous rejoignez les pionniers d\'une nouvelle ère créative.'
-          : 'Your <strong style="color:#f9fafb">LinkYourArt</strong> pre-registration is confirmed. You are joining the pioneers of a new creative era.'}
+    <tr><td style="background:linear-gradient(160deg,#0f172a 0%,#1e1b4b 60%,#0f172a 100%);padding:48px 40px 40px;text-align:center">
+      <div style="width:64px;height:64px;background:linear-gradient(135deg,rgba(0,212,255,0.15),rgba(167,139,250,0.15));border:2px solid rgba(0,212,255,0.4);border-radius:20px;margin:0 auto 24px;line-height:64px;font-size:28px">${roleIcon}</div>
+      <h1 style="margin:0 0 8px;font-size:38px;font-weight:900;color:#ffffff;letter-spacing:-0.02em;line-height:1">${name}</h1>
+      <div style="margin:0 auto 24px;display:inline-block;background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.35);border-radius:40px;padding:6px 20px">
+        <span style="font-size:11px;font-weight:900;color:#00d4ff;text-transform:uppercase;letter-spacing:0.15em">${roleLabel}</span>
+      </div>
+      <p style="margin:0;font-size:16px;color:rgba(255,255,255,0.75);line-height:1.8;max-width:380px;margin-left:auto;margin-right:auto">
+        ${isFR ? '✦ Votre pré-inscription est confirmée.<br>Vous rejoignez les pionniers d\'une nouvelle ère créative.' : '✦ Your pre-registration is confirmed.<br>You are joining the pioneers of a new creative era.'}
       </p>
     </td></tr>
     </table>
 
-    <!-- Badge rôle -->
-    <table width="100%" cellpadding="0" cellspacing="0">
-    <tr><td align="center" style="padding:0 40px 40px">
-      <table cellpadding="0" cellspacing="0">
-      <tr>
-        <td style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:40px;padding:10px 24px">
-          <span style="font-size:16px;vertical-align:middle">${roleIcon}</span>
-          <span style="font-size:13px;font-weight:900;color:${roleColor};text-transform:uppercase;letter-spacing:0.1em;vertical-align:middle;margin-left:8px">${roleLabel}</span>
-        </td>
-      </tr>
-      </table>
-    </td></tr>
-    </table>
-
-  </td></tr>
-
-  <!-- CODE PARRAINAGE — section spectaculaire -->
+    <!-- CODE PARRAINAGE — section spectaculaire -->
   <tr><td style="background:linear-gradient(135deg,#f0f9ff,#e0f2fe);border-left:1px solid #bae6fd;border-right:1px solid #bae6fd;padding:0">
     
     <table width="100%" cellpadding="0" cellspacing="0">
