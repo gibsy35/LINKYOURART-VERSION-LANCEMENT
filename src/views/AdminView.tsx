@@ -450,6 +450,40 @@ export const AdminView: React.FC<{
     }
   };
 
+  const handleDeleteUser = async (uid: string, displayName: string) => {
+    if (!window.confirm(t(
+      `⚠ Supprimer définitivement le profil de ${displayName} ? Cette action est irréversible.`,
+      `⚠ Permanently delete ${displayName}'s profile? This action is irreversible.`
+    ))) return;
+    try {
+      // Supprimer le document Firestore
+      await deleteDoc(doc(db, 'users', uid));
+      // Supprimer watchlist
+      await deleteDoc(doc(db, 'watchlists', uid)).catch(() => {});
+      // Supprimer swipe_likes
+      await deleteDoc(doc(db, 'swipe_likes', uid)).catch(() => {});
+      // Mettre à jour le state local
+      setUsers(prev => prev.filter(u => u.uid !== uid));
+      onNotify(t(`✦ Profil de ${displayName} supprimé`, `✦ ${displayName}'s profile deleted`));
+    } catch (err) {
+      handleFirestoreError(err as any, OperationType.DELETE, `users/${uid}`);
+    }
+  };
+
+  const handleBanUser = async (uid: string, displayName: string, currentBan: boolean) => {
+    try {
+      const userRef = doc(db, 'users', uid);
+      await updateDoc(userRef, { banned: !currentBan, bannedAt: !currentBan ? new Date().toISOString() : null });
+      setUsers(prev => prev.map(u => u.uid === uid ? { ...u, banned: !currentBan } as any : u));
+      onNotify(!currentBan
+        ? t(`✦ ${displayName} suspendu`, `✦ ${displayName} suspended`)
+        : t(`✦ ${displayName} réactivé`, `✦ ${displayName} reactivated`)
+      );
+    } catch (err) {
+      handleFirestoreError(err as any, OperationType.UPDATE, `users/${uid}`);
+    }
+  };
+
   const handleUpdateProjectStatus = async (projectId: string, status: string) => {
     try {
       const projectRef = doc(db, 'contracts', projectId);
@@ -853,19 +887,39 @@ export const AdminView: React.FC<{
                     </div>
                   </td>
                   <td className="p-6 text-right" onClick={e => e.stopPropagation()}>
-                    <button 
-                      onClick={() => handleTogglePro(u.uid!, !!u.isPro)} 
-                      className="p-2 hover:bg-accent-gold/10 rounded-lg text-accent-gold transition-all"
-                      title={u.isPro ? 'Revoke Pro' : 'Grant Pro'}
-                    >
-                      <ShieldAlert size={18} />
-                    </button>
-                    <button 
-                      onClick={() => setViewingUser(u)}
-                      className="p-2 hover:bg-primary-cyan/10 rounded-lg text-primary-cyan transition-all"
-                    >
-                      <Eye size={18} />
-                    </button>
+                    <div className="flex items-center justify-end gap-1">
+                      <button 
+                        onClick={() => handleTogglePro(u.uid!, !!u.isPro)} 
+                        className="p-2 hover:bg-accent-gold/10 rounded-lg text-accent-gold transition-all"
+                        title={u.isPro ? t('Révoquer Pro','Revoke Pro') : t('Passer Pro','Grant Pro')}
+                      >
+                        <ShieldAlert size={16} />
+                      </button>
+                      <button 
+                        onClick={() => setViewingUser(u)}
+                        className="p-2 hover:bg-primary-cyan/10 rounded-lg text-primary-cyan transition-all"
+                        title={t('Voir le profil','View profile')}
+                      >
+                        <Eye size={16} />
+                      </button>
+                      <button
+                        onClick={() => handleBanUser(u.uid!, u.displayName || 'Utilisateur', !!(u as any).banned)}
+                        className={`p-2 rounded-lg transition-all ${(u as any).banned ? 'text-emerald-400 hover:bg-emerald-400/10' : 'text-accent-gold hover:bg-accent-gold/10'}`}
+                        title={(u as any).banned ? t('Réactiver','Reactivate') : t('Suspendre','Suspend')}
+                      >
+                        {(u as any).banned
+                          ? <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+                          : <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+                        }
+                      </button>
+                      <button
+                        onClick={() => handleDeleteUser(u.uid!, u.displayName || 'Utilisateur')}
+                        className="p-2 hover:bg-rose-500/10 rounded-lg text-rose-500/60 hover:text-rose-500 transition-all"
+                        title={t('Supprimer le profil','Delete profile')}
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
