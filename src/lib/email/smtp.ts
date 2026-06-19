@@ -1,5 +1,4 @@
-// SMTP via nodemailer — compatible Vercel Node.js runtime
-const nodemailer = require('nodemailer');
+import nodemailer from 'nodemailer';
 
 export interface SendMailOptions {
   to: string;
@@ -16,8 +15,7 @@ export async function sendMail({ to, subject, html, from }: SendMailOptions): Pr
   const fromAddress = from || process.env.SMTP_FROM || '"LinkYourArt" <contact@linkyourart.com>';
 
   if (!host || !user || !pass) {
-    console.log(`[EMAIL_SIMULATED] To: ${to} | Subject: ${subject}`);
-    console.log(`[EMAIL_DEBUG] SMTP_HOST=${host || 'ABSENT'} SMTP_USER=${user || 'ABSENT'} SMTP_PASS=${pass ? '[set]' : 'ABSENT'}`);
+    console.log(`[EMAIL_SIMULATED] To: ${to} | SMTP_HOST=${host || 'ABSENT'} SMTP_USER=${user || 'ABSENT'} SMTP_PASS=${pass ? 'set' : 'ABSENT'}`);
     return { success: true, method: 'simulated' };
   }
 
@@ -31,10 +29,10 @@ export async function sendMail({ to, subject, html, from }: SendMailOptions): Pr
     });
 
     await transporter.sendMail({ from: fromAddress, to, subject, html });
-    console.log(`[EMAIL_SENT] ✓ To: ${to} | Subject: ${subject}`);
+    console.log(`[EMAIL_SENT] ✓ To: ${to}`);
     return { success: true, method: 'smtp' };
   } catch (err: any) {
-    console.error(`[EMAIL_ERROR] To: ${to} | ${err.message}`);
+    console.error(`[EMAIL_ERROR] ${err.message}`);
     return { success: false, method: 'smtp', error: err.message };
   }
 }
