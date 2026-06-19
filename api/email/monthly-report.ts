@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { sendMail } from '../../src/lib/email/smtp';
+import { sendMail } from './smtp';
 
 // ─── TEMPLATE RAPPORT MENSUEL ─────────────────────────────────────────────────
 
