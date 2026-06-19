@@ -93,6 +93,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
   const [showDemoModal, setShowDemoModal] = useState(false);
   const [demoRequestReason, setDemoRequestReason] = useState('');
   const [demoSubmitted, setDemoSubmitted] = useState(false);
+  const [emailDebug, setEmailDebug] = useState<string>('');
   const [accessKey, setAccessKey] = useState('');
   const [keyError, setKeyError] = useState(false);
   const [isVerifyingKey, setIsVerifyingKey] = useState(false);
@@ -234,14 +235,14 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
     .then(r => r.json())
     .then(data => {
       if (data.method === 'simulated') {
-        console.warn('[LYA EMAIL] Mode simulation — vérifiez les variables SMTP dans Vercel (SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS)');
+        setEmailDebug('⚠ Mode simulation — variables SMTP manquantes');
       } else if (data.success) {
-        console.log(`[LYA EMAIL] ✓ Email envoyé à ${email} via ${data.method}`);
+        setEmailDebug(`✓ Email envoyé via ${data.method}`);
       } else {
-        console.error('[LYA EMAIL] ✗ Échec :', data.error);
+        setEmailDebug(`✗ Erreur: ${data.error}`);
       }
     })
-    .catch(err => console.error('[LYA EMAIL] Erreur réseau :', err));
+    .catch(err => setEmailDebug(`✗ Réseau: ${err.message}`));
 
     setSubmitted(true);
     setIsSubmitting(false);
@@ -628,6 +629,13 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                       <button onClick={() => { setSubmitted(false); setQueuePosition(null); setReferralCode(null); }} className="text-[10px] font-black tracking-widest text-primary-cyan uppercase hover:underline">
                         {t('SUBMIT ANOTHER', 'NOUVELLE INSCRIPTION')}
                       </button>
+
+                      {/* Debug email — temporaire */}
+                      {emailDebug && (
+                        <div className={`mt-4 p-3 rounded-xl border text-xs font-mono text-left ${emailDebug.startsWith('✓') ? 'bg-emerald-400/10 border-emerald-400/20 text-emerald-400' : emailDebug.startsWith('⚠') ? 'bg-accent-gold/10 border-accent-gold/20 text-accent-gold' : 'bg-rose-400/10 border-rose-400/20 text-rose-400'}`}>
+                          {emailDebug}
+                        </div>
+                      )}
                     </motion.div>
                   )}
                 </motion.div>
