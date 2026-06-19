@@ -1,4 +1,5 @@
-import nodemailer from 'nodemailer';
+// SMTP via nodemailer — compatible Vercel Node.js runtime
+const nodemailer = require('nodemailer');
 
 export interface SendMailOptions {
   to: string;
@@ -15,8 +16,8 @@ export async function sendMail({ to, subject, html, from }: SendMailOptions): Pr
   const fromAddress = from || process.env.SMTP_FROM || '"LinkYourArt" <contact@linkyourart.com>';
 
   if (!host || !user || !pass) {
-    // Mode simulation — log en dev, pas d'erreur en prod
     console.log(`[EMAIL_SIMULATED] To: ${to} | Subject: ${subject}`);
+    console.log(`[EMAIL_DEBUG] SMTP_HOST=${host || 'ABSENT'} SMTP_USER=${user || 'ABSENT'} SMTP_PASS=${pass ? '[set]' : 'ABSENT'}`);
     return { success: true, method: 'simulated' };
   }
 
