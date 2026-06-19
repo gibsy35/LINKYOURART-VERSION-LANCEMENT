@@ -78,15 +78,15 @@ function buildHtml(name, position, referralCode, referralLink, lang) {
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>LinkYourArt</title>
 </head>
-<body style="margin:0;padding:0;background:linear-gradient(135deg,#f0f7ff,#f5f0ff);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">
+<body style="margin:0;padding:0;background:linear-gradient(135deg,#dbeafe,#ede9fe);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">
 
 <!-- WRAPPER -->
-<table width="100%" cellpadding="0" cellspacing="0" style="background:linear-gradient(135deg,#f0f7ff 0%,#f5f0ff 50%,#f0f7ff 100%);min-height:100vh">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:linear-gradient(135deg,#dbeafe 0%,#ede9fe 50%,#dbeafe 100%);min-height:100vh">
 <tr><td align="center" style="padding:40px 16px">
-<table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%">
+<table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;box-shadow:0 20px 60px rgba(79,70,229,0.15);border-radius:24px">
 
   <!-- HERO BANNER avec dégradé -->
-  <tr><td style="background:#ffffff;border-radius:24px 24px 0 0;padding:0;overflow:hidden;border:1px solid #e2e8f0;border-bottom:none">
+  <tr><td style="background:#ffffff;border-radius:24px 24px 0 0;padding:0;overflow:hidden;border:1px solid #c7d2fe;border-bottom:none;box-shadow:0 4px 24px rgba(99,102,241,0.08)">
     
     <!-- Bande supérieure cyan -->
     <table width="100%" cellpadding="0" cellspacing="0">
