@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { sendMail } from '../../src/lib/email/smtp';
+import { sendMail } from './smtp';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const secret = String(req.query.secret || '');
