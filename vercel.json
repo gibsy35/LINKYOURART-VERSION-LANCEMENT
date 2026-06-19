@@ -4,10 +4,5 @@
       "path": "/api/email/monthly-report-cron",
       "schedule": "0 9 1 * *"
     }
-  ],
-  "functions": {
-    "api/**/*.ts": {
-      "runtime": "nodejs20.x"
-    }
-  }
+  ]
 }
