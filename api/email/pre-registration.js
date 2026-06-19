@@ -125,8 +125,8 @@ function buildHtml(name, position, referralCode, referralLink, lang) {
       <!-- Message -->
       <p style="margin:0;font-size:15px;color:#4c4f7a;line-height:1.8;max-width:360px;margin-left:auto;margin-right:auto">
         ${isFR
-          ? '✦ Votre pré-inscription est confirmée.<br>Vous rejoignez les pionniers d'une nouvelle ère créative.'
-          : '✦ Your pre-registration is confirmed.<br>You are joining the pioneers of a new creative era.'}
+          ? "✦ Votre pré-inscription est confirmée.<br>Vous rejoignez les pionniers d'une nouvelle ère créative."
+          : "✦ Your pre-registration is confirmed.<br>You are joining the pioneers of a new creative era."}
       </p>
 
     </td></tr>
