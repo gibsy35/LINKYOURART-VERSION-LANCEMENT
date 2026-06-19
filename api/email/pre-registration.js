@@ -78,10 +78,10 @@ function buildHtml(name, position, referralCode, referralLink, lang) {
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>LinkYourArt</title>
 </head>
-<body style="margin:0;padding:0;background:linear-gradient(145deg,#eef2ff,#f5f3ff,#ecfeff);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">
+<body style="margin:0;padding:0;background:linear-gradient(180deg,#ffffff,#dbeafe,#93c5fd);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">
 
 <!-- WRAPPER -->
-<table width="100%" cellpadding="0" cellspacing="0" style="background:linear-gradient(145deg,#eef2ff 0%,#f5f3ff 50%,#ecfeff 100%);min-height:100vh">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:linear-gradient(180deg,#ffffff 0%,#dbeafe 60%,#93c5fd 100%);min-height:100vh">
 <tr><td align="center" style="padding:40px 16px">
 <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;box-shadow:0 20px 60px rgba(79,70,229,0.15);border-radius:24px">
 
@@ -109,17 +109,17 @@ function buildHtml(name, position, referralCode, referralLink, lang) {
 
     <!-- Hero -->
     <table width="100%" cellpadding="0" cellspacing="0">
-    <tr><td style="background:linear-gradient(145deg,#f8f4ff 0%,#eef2ff 40%,#f0fffe 100%);padding:44px 40px 36px;text-align:center;border-bottom:1px solid #e0e7ff">
+    <tr><td style="background:#ffffff;padding:44px 40px 36px;text-align:center;border-bottom:1px solid #e0f2fe">
 
       <!-- Icone rôle -->
       <div style="width:60px;height:60px;background:linear-gradient(135deg,rgba(99,102,241,0.12),rgba(0,212,255,0.12));border:1.5px solid rgba(99,102,241,0.25);border-radius:18px;margin:0 auto 20px;line-height:60px;font-size:26px">${roleIcon}</div>
 
       <!-- Prénom -->
-      <h1 style="margin:0 0 8px;font-size:34px;font-weight:900;color:#1e1b4b;letter-spacing:-0.02em;line-height:1">${name}</h1>
+      <h1 style="margin:0 0 8px;font-size:34px;font-weight:900;color:#0f172a;letter-spacing:-0.02em;line-height:1">${name}</h1>
 
       <!-- Badge rôle -->
-      <div style="margin:0 auto 20px;display:inline-block;background:linear-gradient(135deg,rgba(99,102,241,0.1),rgba(0,212,255,0.1));border:1px solid rgba(99,102,241,0.2);border-radius:40px;padding:6px 20px">
-        <span style="font-size:11px;font-weight:900;color:#6366f1;text-transform:uppercase;letter-spacing:0.15em">${roleLabel}</span>
+      <div style="margin:0 auto 20px;display:inline-block;background:rgba(0,100,200,0.08);border:1px solid rgba(0,150,220,0.25);border-radius:40px;padding:6px 20px">
+        <span style="font-size:11px;font-weight:900;color:#0369a1;text-transform:uppercase;letter-spacing:0.15em">${roleLabel}</span>
       </div>
 
       <!-- Message -->
@@ -133,7 +133,7 @@ function buildHtml(name, position, referralCode, referralLink, lang) {
     </table>
 
     <!-- CODE PARRAINAGE — section spectaculaire -->
-  <tr><td style="background:linear-gradient(135deg,#f0f9ff,#e0f2fe);border-left:1px solid #bae6fd;border-right:1px solid #bae6fd;padding:0">
+  <tr><td style="background:linear-gradient(180deg,#eff6ff,#dbeafe);border-left:1px solid #bfdbfe;border-right:1px solid #bfdbfe;padding:0">
     
     <table width="100%" cellpadding="0" cellspacing="0">
     <tr><td style="padding:40px">
@@ -178,7 +178,7 @@ function buildHtml(name, position, referralCode, referralLink, lang) {
   </td></tr>
 
   <!-- CE QUI VOUS ATTEND -->
-  <tr><td style="background:#ffffff;border-left:1px solid #e2e8f0;border-right:1px solid #e2e8f0;padding:0">
+  <tr><td style="background:linear-gradient(180deg,#dbeafe,#bfdbfe);border-left:1px solid #93c5fd;border-right:1px solid #93c5fd;padding:0">
     <table width="100%" cellpadding="0" cellspacing="0">
     <tr><td style="padding:40px">
       
@@ -191,15 +191,15 @@ function buildHtml(name, position, referralCode, referralLink, lang) {
           <div style="width:40px;height:40px;background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.2);border-radius:12px;text-align:center;line-height:40px;font-size:18px">✦</div>
         </td>
         <td style="padding-left:16px;vertical-align:top">
-          <p style="margin:0 0 4px;font-size:14px;font-weight:900;color:#0f172a">${isFR ? 'LinkYourArt' : 'LinkYourArt'}</p>
-          <p style="margin:0;font-size:12px;color:#64748b;line-height:1.6">${isFR ? 'Co-possédez des projets artistiques via des LYA Units indexées. La valeur évolue selon les jalons et le LYA Score.' : 'Co-own artistic projects via indexed LYA Units. Value evolves with milestones and LYA Score.'}</p>
+          <p style="margin:0 0 4px;font-size:14px;font-weight:900;color:#1e3a5f">${isFR ? 'LinkYourArt' : 'LinkYourArt'}</p>
+          <p style="margin:0;font-size:12px;color:#1e40af;line-height:1.6">${isFR ? 'Co-possédez des projets artistiques via des LYA Units indexées. La valeur évolue selon les jalons et le LYA Score.' : 'Co-own artistic projects via indexed LYA Units. Value evolves with milestones and LYA Score.'}</p>
         </td>
       </tr>
       </table>
 
       <!-- Séparateur -->
       <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:20px">
-      <tr><td style="border-top:1px solid #f1f5f9;font-size:0;line-height:0">&nbsp;</td></tr>
+      <tr><td style="border-top:1px solid rgba(147,197,253,0.4);font-size:0;line-height:0">&nbsp;</td></tr>
       </table>
 
       <!-- Feature 2 -->
@@ -209,15 +209,15 @@ function buildHtml(name, position, referralCode, referralLink, lang) {
           <div style="width:40px;height:40px;background:rgba(167,139,250,0.1);border:1px solid rgba(167,139,250,0.2);border-radius:12px;text-align:center;line-height:40px;font-size:18px">📈</div>
         </td>
         <td style="padding-left:16px;vertical-align:top">
-          <p style="margin:0 0 4px;font-size:14px;font-weight:900;color:#0f172a">LYA Score <span style="color:#7c3aed;font-size:12px">/1000</span></p>
-          <p style="margin:0;font-size:12px;color:#64748b;line-height:1.6">${isFR ? 'Chaque création évaluée sur 1000 points par notre réseau de validateurs certifiés. Un score transparent et souverain.' : 'Each creation rated out of 1000 by our network of certified validators. A transparent, sovereign score.'}</p>
+          <p style="margin:0 0 4px;font-size:14px;font-weight:900;color:#1e3a5f">LYA Score <span style="color:#7c3aed;font-size:12px">/1000</span></p>
+          <p style="margin:0;font-size:12px;color:#1e40af;line-height:1.6">${isFR ? 'Chaque création évaluée sur 1000 points par notre réseau de validateurs certifiés. Un score transparent et souverain.' : 'Each creation rated out of 1000 by our network of certified validators. A transparent, sovereign score.'}</p>
         </td>
       </tr>
       </table>
 
       <!-- Séparateur -->
       <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:20px">
-      <tr><td style="border-top:1px solid #f1f5f9;font-size:0;line-height:0">&nbsp;</td></tr>
+      <tr><td style="border-top:1px solid rgba(147,197,253,0.4);font-size:0;line-height:0">&nbsp;</td></tr>
       </table>
 
       <!-- Feature 3 -->
@@ -227,8 +227,8 @@ function buildHtml(name, position, referralCode, referralLink, lang) {
           <div style="width:40px;height:40px;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.2);border-radius:12px;text-align:center;line-height:40px;font-size:18px">⚡</div>
         </td>
         <td style="padding-left:16px;vertical-align:top">
-          <p style="margin:0 0 4px;font-size:14px;font-weight:900;color:#0f172a">${isFR ? 'Marché Secondaire' : 'Secondary Market'}</p>
-          <p style="margin:0;font-size:12px;color:#64748b;line-height:1.6">${isFR ? 'Échangez vos LYA Units sur le registre créatif en temps réel. L\'art comme actif vivant.' : 'Trade your LYA Units on the creative registry in real time. Art as a living asset.'}</p>
+          <p style="margin:0 0 4px;font-size:14px;font-weight:900;color:#1e3a5f">${isFR ? 'Marché Secondaire' : 'Secondary Market'}</p>
+          <p style="margin:0;font-size:12px;color:#1e40af;line-height:1.6">${isFR ? 'Échangez vos LYA Units sur le registre créatif en temps réel. L\'art comme actif vivant.' : 'Trade your LYA Units on the creative registry in real time. Art as a living asset.'}</p>
         </td>
       </tr>
       </table>
@@ -238,7 +238,7 @@ function buildHtml(name, position, referralCode, referralLink, lang) {
   </td></tr>
 
   <!-- CTA BUTTON -->
-  <tr><td style="background:#f8fafc;border-left:1px solid #e2e8f0;border-right:1px solid #e2e8f0;padding:40px;text-align:center">
+  <tr><td style="background:linear-gradient(180deg,#bfdbfe,#93c5fd);border-left:1px solid #60a5fa;border-right:1px solid #60a5fa;padding:40px;text-align:center">
     
     <table cellpadding="0" cellspacing="0" style="margin:0 auto 20px">
     <tr>
@@ -250,30 +250,30 @@ function buildHtml(name, position, referralCode, referralLink, lang) {
     </tr>
     </table>
 
-    <p style="margin:0;font-size:12px;color:#64748b">${isFR ? 'Ou copiez ce lien : ' : 'Or copy this link: '}<span style="color:#00d4ff">${referralLink}</span></p>
+    <p style="margin:0;font-size:12px;color:#1e3a8a">${isFR ? 'Ou copiez ce lien : ' : 'Or copy this link: '}<span style="color:#00d4ff">${referralLink}</span></p>
 
   </td></tr>
 
   <!-- PHRASE SIGNATURE -->
-  <tr><td style="background:#f8fafc;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 24px 24px;padding:32px 40px;text-align:center">
+  <tr><td style="background:linear-gradient(180deg,#93c5fd,#60a5fa);border:1px solid #3b82f6;border-top:none;border-radius:0 0 24px 24px;padding:32px 40px;text-align:center">
     
     <!-- Ligne décorative -->
     <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px">
     <tr>
-      <td style="border-top:1px solid #e2e8f0"></td>
+      <td style="border-top:1px solid rgba(255,255,255,0.3)"></td>
       <td width="40" align="center" style="padding:0 12px">
         <span style="color:#0ea5e9;font-size:14px">✦</span>
       </td>
-      <td style="border-top:1px solid #e2e8f0"></td>
+      <td style="border-top:1px solid rgba(255,255,255,0.3)"></td>
     </tr>
     </table>
 
-    <p style="margin:0 0 24px;font-size:15px;color:#475569;font-style:italic;line-height:1.7;max-width:400px;margin-left:auto;margin-right:auto">
+    <p style="margin:0 0 24px;font-size:15px;color:#1e3a8a;font-style:italic;line-height:1.7;max-width:400px;margin-left:auto;margin-right:auto">
       "${isFR ? 'Ce que vous créez aujourd\'hui peut appartenir à mille personnes demain.' : 'What you create today can belong to a thousand people tomorrow.'}"
     </p>
 
-    <p style="margin:0 0 4px;font-size:11px;color:#94a3b8">LinkYourArt · contact@linkyourart.com</p>
-    <p style="margin:0;font-size:10px;color:#cbd5e1">${isFR ? 'Vous recevez cet email car vous vous êtes pré-inscrit sur linkyourart.com' : 'You received this because you pre-registered on linkyourart.com'}</p>
+    <p style="margin:0 0 4px;font-size:11px;color:#1e3a8a">LinkYourArt · contact@linkyourart.com</p>
+    <p style="margin:0;font-size:10px;color:#1e40af">${isFR ? 'Vous recevez cet email car vous vous êtes pré-inscrit sur linkyourart.com' : 'You received this because you pre-registered on linkyourart.com'}</p>
   </td></tr>
 
 </table>
