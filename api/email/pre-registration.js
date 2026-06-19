@@ -78,10 +78,10 @@ function buildHtml(name, position, referralCode, referralLink, lang) {
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>LinkYourArt</title>
 </head>
-<body style="margin:0;padding:0;background:linear-gradient(135deg,#dbeafe,#ede9fe);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">
+<body style="margin:0;padding:0;background:linear-gradient(145deg,#eef2ff,#f5f3ff,#ecfeff);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">
 
 <!-- WRAPPER -->
-<table width="100%" cellpadding="0" cellspacing="0" style="background:linear-gradient(135deg,#dbeafe 0%,#ede9fe 50%,#dbeafe 100%);min-height:100vh">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:linear-gradient(145deg,#eef2ff 0%,#f5f3ff 50%,#ecfeff 100%);min-height:100vh">
 <tr><td align="center" style="padding:40px 16px">
 <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;box-shadow:0 20px 60px rgba(79,70,229,0.15);border-radius:24px">
 
@@ -107,17 +107,28 @@ function buildHtml(name, position, referralCode, referralLink, lang) {
     </td></tr>
     </table>
 
-    <!-- Hero redesigné -->
+    <!-- Hero -->
     <table width="100%" cellpadding="0" cellspacing="0">
-    <tr><td style="background:linear-gradient(160deg,#0f172a 0%,#1e1b4b 60%,#0f172a 100%);padding:48px 40px 40px;text-align:center">
-      <div style="width:64px;height:64px;background:linear-gradient(135deg,rgba(0,212,255,0.15),rgba(167,139,250,0.15));border:2px solid rgba(0,212,255,0.4);border-radius:20px;margin:0 auto 24px;line-height:64px;font-size:28px">${roleIcon}</div>
-      <h1 style="margin:0 0 8px;font-size:38px;font-weight:900;color:#ffffff;letter-spacing:-0.02em;line-height:1">${name}</h1>
-      <div style="margin:0 auto 24px;display:inline-block;background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.35);border-radius:40px;padding:6px 20px">
-        <span style="font-size:11px;font-weight:900;color:#00d4ff;text-transform:uppercase;letter-spacing:0.15em">${roleLabel}</span>
+    <tr><td style="background:linear-gradient(145deg,#f8f4ff 0%,#eef2ff 40%,#f0fffe 100%);padding:44px 40px 36px;text-align:center;border-bottom:1px solid #e0e7ff">
+
+      <!-- Icone rôle -->
+      <div style="width:60px;height:60px;background:linear-gradient(135deg,rgba(99,102,241,0.12),rgba(0,212,255,0.12));border:1.5px solid rgba(99,102,241,0.25);border-radius:18px;margin:0 auto 20px;line-height:60px;font-size:26px">${roleIcon}</div>
+
+      <!-- Prénom -->
+      <h1 style="margin:0 0 8px;font-size:34px;font-weight:900;color:#1e1b4b;letter-spacing:-0.02em;line-height:1">${name}</h1>
+
+      <!-- Badge rôle -->
+      <div style="margin:0 auto 20px;display:inline-block;background:linear-gradient(135deg,rgba(99,102,241,0.1),rgba(0,212,255,0.1));border:1px solid rgba(99,102,241,0.2);border-radius:40px;padding:6px 20px">
+        <span style="font-size:11px;font-weight:900;color:#6366f1;text-transform:uppercase;letter-spacing:0.15em">${roleLabel}</span>
       </div>
-      <p style="margin:0;font-size:16px;color:rgba(255,255,255,0.75);line-height:1.8;max-width:380px;margin-left:auto;margin-right:auto">
-        ${isFR ? '✦ Votre pré-inscription est confirmée.<br>Vous rejoignez les pionniers d\'une nouvelle ère créative.' : '✦ Your pre-registration is confirmed.<br>You are joining the pioneers of a new creative era.'}
+
+      <!-- Message -->
+      <p style="margin:0;font-size:15px;color:#4c4f7a;line-height:1.8;max-width:360px;margin-left:auto;margin-right:auto">
+        ${isFR
+          ? '✦ Votre pré-inscription est confirmée.<br>Vous rejoignez les pionniers d'une nouvelle ère créative.'
+          : '✦ Your pre-registration is confirmed.<br>You are joining the pioneers of a new creative era.'}
       </p>
+
     </td></tr>
     </table>
 
