@@ -360,11 +360,13 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
   };
 
   useEffect(() => {
+    setActiveNewsIndex(0); // Reset à la première news quand on recharge
     loadRealNews();
   }, [language]);
 
   useEffect(() => {
     if (news.length === 0) return;
+    setActiveNewsIndex(0); // Toujours commencer par la première
     const timer = setInterval(() => {
       setActiveNewsIndex((prev) => (prev + 1) % news.length);
     }, 12000);
@@ -480,15 +482,34 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
             </p>
             
             <div className="flex flex-wrap items-center gap-3 md:gap-5">
+              {/* Impact LYA visible */}
+              <div className={`flex items-center gap-2 px-3 py-2 rounded-xl border backdrop-blur-md ${activeItem.impact.trend === 'UP' ? 'bg-emerald-400/10 border-emerald-400/30' : 'bg-rose-400/10 border-rose-400/30'}`}>
+                {activeItem.impact.trend === 'UP' ? <TrendingUp size={14} className="text-emerald-400" /> : <ArrowDownRight size={14} className="text-rose-400" />}
+                <div>
+                  <p className="text-[8px] text-white/50 uppercase tracking-widest font-black">Impact LYA</p>
+                  <p className={`text-sm font-black ${activeItem.impact.trend === 'UP' ? 'text-emerald-400' : 'text-rose-400'}`}>
+                    {activeItem.impact.trend === 'UP' ? '+' : '-'}{Math.abs(activeItem.impact.score)} pts
+                    {(activeItem.impact as any).lyaUnitVariation && <span className="text-xs ml-1 opacity-70">{(activeItem.impact as any).lyaUnitVariation}</span>}
+                  </p>
+                </div>
+                {(activeItem.impact as any).affectedSectors?.length > 0 && (
+                  <div className="hidden sm:flex gap-1 ml-1">
+                    {((activeItem.impact as any).affectedSectors as string[]).slice(0, 2).map((s: string, i: number) => (
+                      <span key={i} className="px-1.5 py-0.5 bg-white/10 rounded text-[8px] font-black text-white/60">{s}</span>
+                    ))}
+                  </div>
+                )}
+              </div>
+
               <button 
                 onClick={() => {
                   setSelectedNews(activeItem);
-                  onNotify(t('Opening full story...', 'Ouverture de l\'article...'));
+                  onNotify(t('Opening full story...', "Ouverture de l'article..."));
                 }}
                 className="px-6 py-2.5 md:px-8 md:py-3 bg-white text-surface-dim text-xs md:text-[10px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] hover:bg-primary-cyan transition-all rounded-sm shadow-xl active:scale-95 group"
               >
                 <span className="flex flex-wrap items-center gap-2">
-                  {t('Read Full Story', 'Lire l\'article')}
+                  {t('Read Full Story', "Lire l'article")}
                   <ArrowUpRight className="w-3.5 h-3.5 md:w-4 md:h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                 </span>
               </button>

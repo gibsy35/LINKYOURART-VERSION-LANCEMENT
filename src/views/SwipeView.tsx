@@ -570,7 +570,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
 
               <div className="space-y-4 mb-6 flex-1">
                 <p className="text-xs text-on-surface-variant line-clamp-2 opacity-70 italic font-serif leading-relaxed">
-                  {(language === 'FR' || language === 'fr') && contract.descriptionFR
+                  {language === 'FR' && contract.descriptionFR
                     ? contract.descriptionFR
                     : contract.description}
                 </p>
