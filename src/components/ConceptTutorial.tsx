@@ -483,87 +483,59 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
       );
     }
 
-    case 'investors':
+    case 'investors': {
+      const proj0 = CONTRACTS[0];
+      const proj1 = CONTRACTS[2];
+      const proj2 = CONTRACTS[5];
+      const unit0 = (LYA_UNIT_VALUE * (1 + (proj0?.growth || 14.2) / 100)).toFixed(2);
+      const unit1 = (LYA_UNIT_VALUE * (1 + (proj1?.growth || 25.8) / 100)).toFixed(2);
+      const unit2 = (LYA_UNIT_VALUE * (1 + (proj2?.growth || -28.4) / 100)).toFixed(2);
       return (
-        <div className="relative w-full h-full flex flex-col items-center justify-center p-4">
-          <div className="w-full max-w-[260px] md:max-w-[300px] space-y-3 md:space-y-4">
-            <motion.div 
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              className="bg-black/40 border-2 border-accent-gold/30 rounded-[1.2rem] md:rounded-2xl p-3 md:p-4 relative overflow-hidden backdrop-blur-xl shadow-[0_0_40px_rgba(255,215,0,0.1)]"
-            >
-              <div className="flex justify-between items-start mb-4 md:mb-6">
-                <div className="space-y-0.5">
-                  <div className="text-[7px] md:text-xs font-black text-accent-gold/60 uppercase tracking-widest">{t('Portfolio Value', 'Valeur Portfolio')}</div>
-                  <div className="text-lg md:text-2xl font-black text-accent-gold tracking-tighter drop-shadow-[0_0_10px_rgba(255,215,0,0.3)]">${(35000 * 1.386).toFixed(2)}</div>
-                  <div className="flex items-center gap-1 text-accent-gold font-bold text-[10px] md:text-[10px]">
-                    <TrendingUp size={10} /> +24.58% {t('Performance', 'Performance')}
-                  </div>
-                </div>
-                <div className="w-8 h-8 md:w-10 md:h-10 bg-accent-gold text-surface-dim rounded-lg md:rounded-xl flex items-center justify-center shadow-[0_0_15px_rgba(255,215,0,0.5)]">
-                  <Target size={20} />
-                </div>
-              </div>
+        <div className="relative w-full h-full flex flex-col items-center justify-center p-3">
+          <div className="w-full max-w-[260px] md:max-w-[300px] space-y-2">
 
-              <div className="h-20 md:h-24 w-full relative">
-                <svg className="w-full h-full overflow-visible" viewBox="0 0 300 100">
-                  <defs>
-                    <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#FFD700" stopOpacity="0.2" />
-                      <stop offset="100%" stopColor="#FFD700" stopOpacity="0" />
-                    </linearGradient>
-                  </defs>
-                  <motion.path
-                    d="M 0 80 Q 50 85 100 50 T 200 60 T 300 10"
-                    fill="url(#chartGradient)"
-                    stroke="none"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                  />
-                  <motion.path
-                    d="M 0 80 Q 50 85 100 50 T 200 60 T 300 10"
-                    fill="none"
-                    stroke="#FFD700"
-                    strokeWidth="3"
-                    strokeLinecap="round"
-                    initial={{ pathLength: 0 }}
-                    animate={{ pathLength: 1 }}
-                    transition={{ duration: 2, ease: "easeInOut" }}
-                  />
-                  <motion.circle
-                    r="5"
-                    fill="#FFD700"
-                    stroke="white"
-                    strokeWidth="2"
-                    initial={{ scale: 0 }}
-                    animate={{ cx: 300, cy: 10, scale: 1 }}
-                    transition={{ delay: 2 }}
-                    className="shadow-xl"
-                  />
-                </svg>
+            {/* KPI Portfolio */}
+            <motion.div initial={{ y: 12, opacity: 0 }} animate={{ y: 0, opacity: 1 }}
+              className="bg-black/40 border border-accent-gold/30 rounded-xl p-3 backdrop-blur-xl">
+              <div className="flex justify-between items-center mb-2">
+                <div>
+                  <p className="text-[8px] text-accent-gold/60 font-black uppercase tracking-widest">{t('Portfolio Mécène','Patron Portfolio')}</p>
+                  <p className="text-xl font-black text-accent-gold">$48,210</p>
+                  <p className="text-[9px] text-emerald-400 font-black flex items-center gap-1"><TrendingUp size={9}/> +18.4%</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-[8px] text-white/40 uppercase tracking-widest">LYA Score</p>
+                  <p className="text-lg font-black text-[#a78bfa]">874<span className="text-[9px] text-white/20">/1000</span></p>
+                </div>
               </div>
             </motion.div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
-              {[
-                { label: t('Royalties Paid', 'Royalties Payées'), value: `$${(35000 * 0.07).toFixed(2)}`, color: 'text-accent-gold' },
-                { label: t('LYA Index Avg', 'Moyenne Index LYA'), value: '842.00', color: 'text-white' }
-              ].map((item, i) => (
-                <motion.div 
-                  key={i}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.8 + i * 0.1 }}
-                  className="bg-white/5 border border-white/10 p-3 md:p-4 rounded-xl md:rounded-2xl space-y-0.5 md:space-y-1"
-                >
-                  <div className="text-[10px] md:text-xs font-black text-white/40 uppercase">{item.label}</div>
-                  <div className={`text-sm md:text-lg font-black ${item.color}`}>{item.value}</div>
-                </motion.div>
-              ))}
-            </div>
+            {/* 3 projets avec LYA UNIT */}
+            {[
+              { proj: proj0, unit: unit0, up: (proj0?.growth || 14.2) >= 0 },
+              { proj: proj1, unit: unit1, up: (proj1?.growth || 25.8) >= 0 },
+              { proj: proj2, unit: unit2, up: (proj2?.growth || -28.4) >= 0 },
+            ].map((item, i) => (
+              <motion.div key={i} initial={{ x: -10, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: 0.2 + i * 0.15 }}
+                className={`flex items-center gap-2 p-2.5 rounded-xl border backdrop-blur-sm ${item.up ? 'bg-emerald-400/5 border-emerald-400/20' : 'bg-rose-400/5 border-rose-400/20'}`}>
+                <img src={getSafeImageUrl(item.proj?.image, item.proj?.category)} alt={item.proj?.name}
+                  className="w-8 h-8 rounded-lg object-cover border border-white/10 shrink-0" referrerPolicy="no-referrer"/>
+                <div className="flex-1 min-w-0">
+                  <p className="text-[9px] font-black text-white truncate">{item.proj?.name || '—'}</p>
+                  <p className="text-[8px] text-white/40">{item.proj?.category}</p>
+                </div>
+                <div className="text-right shrink-0">
+                  <p className="text-[9px] font-black text-accent-gold">LYA UNIT</p>
+                  <p className="text-xs font-black text-accent-gold">${item.unit}</p>
+                  <p className={`text-[8px] font-black ${item.up ? 'text-emerald-400' : 'text-rose-400'}`}>{item.up ? '+' : ''}{item.proj?.growth || 0}%</p>
+                </div>
+              </motion.div>
+            ))}
+
           </div>
         </div>
       );
+    }
 
     case 'professionals':
       return (
