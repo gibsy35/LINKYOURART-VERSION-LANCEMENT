@@ -1168,9 +1168,9 @@ export const ConceptTutorial: React.FC<Props> = ({ isOpen, onClose }) => {
                 initial={{ scale: 0.8, opacity: 0, filter: 'blur(10px)' }}
                 animate={{ scale: 1, opacity: 1, filter: 'blur(0px)' }}
                 exit={{ scale: 1.2, opacity: 0, filter: 'blur(10px)' }}
-                className="w-full h-full min-h-0 flex items-center justify-center relative"
+                className="w-full h-[160px] md:h-full min-h-0 flex items-center justify-center relative overflow-hidden"
               >
-                <div className="w-full h-full flex items-center justify-center transition-transform duration-500">
+                <div className="w-full h-full flex items-center justify-center transition-transform duration-500 max-h-[160px] md:max-h-none">
                   <Illustration type={step.illustration} color={step.color} />
                 </div>
               </motion.div>
