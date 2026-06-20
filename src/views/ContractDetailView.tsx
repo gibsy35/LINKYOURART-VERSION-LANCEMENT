@@ -59,6 +59,9 @@ import {
   LineChart,
   Line
 } from 'recharts';
+import { db, storage } from '../firebase';
+import { addDoc, collection, serverTimestamp, getDocs, query, where } from 'firebase/firestore';
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 
 interface ContractDetailViewProps {
   contract: Contract;
@@ -82,6 +85,10 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
   const { t, language, setLanguage } = useTranslation();
   const { formatPrice, currency, setCurrency } = useCurrency();
   const [activeTab, setActiveTab] = useState<'overview' | 'financials' | 'ai-simulator' | 'legal' | 'milestones' | 'messaging'>('overview');
+  const [attachments, setAttachments] = useState<{name:string,url:string,size:number,type:string,uploadedAt:string}[]>([]);
+  const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const MAX_FILE_SIZE = 500 * 1024 * 1024; // 500 Mo
   const [priceTimeframe, setPriceTimeframe] = useState<'1D' | '1W' | '1M' | '1Y' | 'ALL'>('1M');
   
   // Évaluation values
@@ -158,11 +165,58 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
   };
 
   useEffect(() => {
-     // Trigger initial summary if not present
      if (!aiAnalysis) {
         setAiAnalysis("Analysis indicates strong upward trajectory. Strategic allocation recommended based on algorithmic consistency and expert validation.");
      }
   }, []);
+
+  // Charger les pièces jointes existantes
+  useEffect(() => {
+    const loadAttachments = async () => {
+      try {
+        const q = query(collection(db, 'contract_attachments'), where('contractId', '==', contract.id));
+        const snap = await getDocs(q);
+        setAttachments(snap.docs.map(d => d.data() as any));
+      } catch(e) { console.warn('Attachments load error:', e); }
+    };
+    loadAttachments();
+  }, [contract.id]);
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > MAX_FILE_SIZE) {
+      onNotify(t('Fichier trop lourd — max 500 Mo', 'File too large — max 500 MB'));
+      return;
+    }
+    setUploading(true);
+    setUploadProgress(0);
+    try {
+      const storageRef = ref(storage, `contracts/${contract.id}/${Date.now()}_${file.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, file);
+      uploadTask.on('state_changed',
+        (snapshot) => setUploadProgress(Math.round(snapshot.bytesTransferred / snapshot.totalBytes * 100)),
+        (err) => { onNotify(t('Erreur upload', 'Upload error')); setUploading(false); },
+        async () => {
+          const url = await getDownloadURL(uploadTask.snapshot.ref);
+          const attachment = {
+            contractId: contract.id,
+            name: file.name,
+            url,
+            size: file.size,
+            type: file.type,
+            uploadedAt: new Date().toISOString(),
+          };
+          await addDoc(collection(db, 'contract_attachments'), attachment);
+          setAttachments(prev => [...prev, attachment]);
+          setUploading(false);
+          setUploadProgress(0);
+          onNotify(t(`✦ ${file.name} uploadé`, `✦ ${file.name} uploaded`));
+        }
+      );
+    } catch(e) { onNotify(t('Erreur upload', 'Upload error')); setUploading(false); }
+    e.target.value = '';
+  };
 
   const pillarData = (contract.pillars || []).map(p => ({
     name: p.label,
@@ -1014,19 +1068,52 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                          </div>
                        ))}
                     </div>
-                    <div className="bg-black/20 border border-white/5 p-10 rounded-[3rem] flex flex-col justify-center items-center text-center space-y-8">
-                       <div className="w-20 h-20 rounded-[2rem] bg-accent-gold/10 flex items-center justify-center text-accent-gold border border-accent-gold/20">
-                          <FileText size={36} />
+                    <div className="bg-black/20 border border-white/5 p-6 rounded-[2rem] flex flex-col justify-center items-center text-center space-y-5">
+                       <div className="w-16 h-16 rounded-[1.5rem] bg-accent-gold/10 flex items-center justify-center text-accent-gold border border-accent-gold/20">
+                          <FileText size={28} />
                        </div>
-                       <div className="space-y-2">
-                          <h5 className="text-2xl font-headline font-black text-white uppercase tracking-tighter">{t('ASSET WHITE PAPER', 'LIVRE BLANC ACTIF')}</h5>
-                          <p className="text-[11px] font-black text-white/30 uppercase tracking-[0.2em] leading-relaxed">
-                             {t('THE MASTER DEED CONTAINS THE FULL LEGAL BINDING AGREEMENT BETWEEN THE ISSUER AND LYA UNIT HOLDERS.', 'L\'ACTE MAÎTRE CONTIENT L\'INTÉGRALITÉ DE L\'ACCORD JURIDIQUE CONTRAIGNANT ENTRE L\'ÉMETTEUR ET LES DÉTENTEURS D\'UNITÉS LYA.')}
-                          </p>
+                       <div className="space-y-1">
+                          <h5 className="text-xl font-headline font-black text-white uppercase tracking-tighter">{t('PIÈCES JOINTES', 'ATTACHMENTS')}</h5>
+                          <p className="text-[10px] font-black text-white/30 uppercase tracking-widest">{t('Max 500 Mo par fichier', 'Max 500 MB per file')}</p>
                        </div>
-                       <button className="w-full py-5 bg-white text-surface-dim hover:bg-primary-cyan transition-all rounded-2xl font-black text-[11px] uppercase tracking-[0.4em] shadow-xl">
-                          {t('DOWNLOAD MASTER DEED', 'TÉLÉCHARGER L\'ACTE')}
-                       </button>
+
+                       {/* Liste des fichiers */}
+                       {attachments.length > 0 && (
+                         <div className="w-full space-y-2 text-left">
+                           {attachments.map((att, i) => (
+                             <a key={i} href={att.url} target="_blank" rel="noopener noreferrer"
+                               className="flex items-center gap-3 p-3 bg-white/5 border border-white/10 rounded-xl hover:border-primary-cyan/40 transition-all group">
+                               <FileText size={14} className="text-primary-cyan shrink-0"/>
+                               <div className="flex-1 min-w-0">
+                                 <p className="text-xs font-black text-white truncate">{att.name}</p>
+                                 <p className="text-[9px] text-white/30">{(att.size / 1024 / 1024).toFixed(1)} Mo</p>
+                               </div>
+                               <Download size={14} className="text-white/40 group-hover:text-primary-cyan transition-colors shrink-0"/>
+                             </a>
+                           ))}
+                         </div>
+                       )}
+
+                       {/* Barre de progression */}
+                       {uploading && (
+                         <div className="w-full space-y-2">
+                           <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
+                             <div className="h-full bg-primary-cyan transition-all rounded-full" style={{width:`${uploadProgress}%`}}/>
+                           </div>
+                           <p className="text-xs text-primary-cyan font-black">{uploadProgress}% {t('en cours...','uploading...')}</p>
+                         </div>
+                       )}
+
+                       {/* Bouton upload */}
+                       <label className="w-full cursor-pointer">
+                         <input type="file" className="hidden" onChange={handleFileUpload} disabled={uploading}
+                           accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.mp4,.mov,.zip,.rar"/>
+                         <div className={`w-full py-4 rounded-xl font-black text-[11px] uppercase tracking-widest text-center transition-all ${uploading ? 'bg-white/10 text-white/40 cursor-not-allowed' : 'bg-white text-surface-dim hover:bg-primary-cyan cursor-pointer'}`}>
+                           {uploading ? t('Upload en cours...','Uploading...') : t('+ AJOUTER UN FICHIER', '+ ADD A FILE')}
+                         </div>
+                       </label>
+
+                       <p className="text-[9px] text-white/20">{t('PDF, Word, Images, Vidéos, Archives','PDF, Word, Images, Videos, Archives')}</p>
                     </div>
                  </div>
                )}
