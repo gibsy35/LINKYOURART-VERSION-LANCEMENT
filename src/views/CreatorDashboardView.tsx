@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'motion/react';
 import { useTranslation } from '../context/LanguageContext';
 import { useCurrency } from '../context/CurrencyContext';
 import { UserProfile, CONTRACTS, LYA_UNIT_VALUE } from '../types';
+import { db } from '../firebase';
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { RealtimeChart } from '../components/RealtimeChart';
 import { PageHeader } from '../components/ui/PageHeader';
 import { NewCreationModal, MilestoneModal, UploadModal } from '../components/DashboardModals';
@@ -507,8 +509,33 @@ export const CreatorDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg
         </motion.div>
       </AnimatePresence>
 
-      <NewCreationModal open={showNewCreation} onClose={()=>setShowNewCreation(false)} lang={lang} onSubmit={data=>{onNotify(T(`✦ ${data.name} soumis en validation LYA`,`✦ ${data.name} submitted to LYA validation`));}}/>
-      <MilestoneModal open={showMilestone} onClose={()=>setShowMilestone(false)} lang={lang} projectName={milestoneProject} onSubmit={data=>{onNotify(T(`✦ Jalon "${data.title}" publié`,`✦ Milestone "${data.title}" published`));}}/>
+      <NewCreationModal open={showNewCreation} onClose={()=>setShowNewCreation(false)} lang={lang} onSubmit={async (data)=>{
+        try {
+          await addDoc(collection(db, 'projects_pending'), {
+            ...data,
+            creatorId: user?.uid,
+            creatorEmail: user?.email,
+            creatorName: user?.displayName,
+            status: 'PENDING_VALIDATION',
+            createdAt: serverTimestamp(),
+          });
+          onNotify(T(`✦ ${data.name} soumis en validation LYA`,`✦ ${data.name} submitted to LYA validation`));
+        } catch(e) { onNotify(T('Erreur lors de la soumission','Submission error')); }
+        setShowNewCreation(false);
+      }}/>
+      <MilestoneModal open={showMilestone} onClose={()=>setShowMilestone(false)} lang={lang} projectName={milestoneProject} onSubmit={async (data)=>{
+        try {
+          await addDoc(collection(db, 'milestones'), {
+            ...data,
+            projectName: milestoneProject,
+            creatorId: user?.uid,
+            status: 'IN_PROGRESS',
+            createdAt: serverTimestamp(),
+          });
+          onNotify(T(`✦ Jalon "${data.title}" publié`,`✦ Milestone "${data.title}" published`));
+        } catch(e) { onNotify(T('Erreur lors de la publication','Publication error')); }
+        setShowMilestone(false);
+      }}/>
       <UploadModal open={showUpload} onClose={()=>setShowUpload(false)} lang={lang} onSubmit={data=>{setUploadedFiles(prev=>[...prev,data]);onNotify(T(`✦ ${data.name} uploadé`,`✦ ${data.name} uploaded`));}}/>
     </div>
   );

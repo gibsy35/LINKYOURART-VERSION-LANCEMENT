@@ -1,4 +1,6 @@
 import React, { useState, useMemo } from 'react';
+import { db } from '../firebase';
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { motion, AnimatePresence } from 'motion/react';
 import { useTranslation } from '../context/LanguageContext';
 import { useCurrency } from '../context/CurrencyContext';
@@ -492,7 +494,22 @@ export const InvestorDashboardView: React.FC<{user:UserProfile|null;onNotify:(ms
       <Modal open={!!contactProject} onClose={()=>setContactProject(null)} title={T('Contacter le créateur','Contact creator')}>
         <p className="text-sm text-on-surface-variant/60">{T('Projet :','Project:')} <span className="text-primary-cyan font-black">{contactProject}</span></p>
         <p className="text-sm text-on-surface-variant/60 leading-relaxed">{T('Votre demande sera transmise via LYA sous 24-48h.','Your request will be forwarded via LYA within 24-48h.')}</p>
-        <button onClick={()=>{onNotify(T('✦ Message envoyé','✦ Message sent'));setContactProject(null);}} className="w-full py-3 bg-primary-cyan text-surface-dim text-sm font-black rounded-xl hover:bg-white transition-all uppercase tracking-widest">{T('Envoyer','Send')}</button>
+        <button onClick={async()=>{
+          try {
+            await addDoc(collection(db,'messages'),{
+              type:'investor_contact',
+              projectName: contactProject,
+              fromId: user?.uid,
+              fromName: user?.displayName,
+              fromEmail: user?.email,
+              fromRole: 'INVESTOR',
+              status: 'PENDING',
+              createdAt: serverTimestamp(),
+            });
+            onNotify(T('✦ Message envoyé au créateur','✦ Message sent to creator'));
+          } catch(e) { onNotify(T('Erreur réseau','Network error')); }
+          setContactProject(null);
+        }} className="w-full py-3 bg-primary-cyan text-surface-dim text-sm font-black rounded-xl hover:bg-white transition-all uppercase tracking-widest">{T('Envoyer','Send')}</button>
       </Modal>
     </div>
   );

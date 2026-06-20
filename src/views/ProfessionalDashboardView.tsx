@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { db } from '../firebase';
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { motion, AnimatePresence } from 'motion/react';
 import { useTranslation } from '../context/LanguageContext';
 import { useCurrency } from '../context/CurrencyContext';
@@ -245,7 +247,12 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
                       <div className="text-right shrink-0">
                         <p className="text-base font-black text-accent-gold">{proj.totalScore}<span className="text-xs text-on-surface-variant/30">/1000</span></p>
                         <p className={`text-xs font-bold ${proj.growth>=0?'text-emerald-400':'text-rose-400'}`}>LYA UNIT: {formatPrice(unitPrice(proj.growth))}</p>
-                        <button onClick={()=>onNotify(T(`Demande envoyée pour ${proj.name}`,`Request sent for ${proj.name}`))} className="mt-1.5 px-3 py-1 bg-primary-cyan/10 border border-primary-cyan/20 text-primary-cyan text-[10px] font-black rounded-lg hover:bg-primary-cyan hover:text-surface-dim transition-all uppercase">{T('Contacter','Contact')}</button>
+                        <button onClick={async()=>{
+  try {
+    await addDoc(collection(db,'messages'),{type:'deal_request',projectName:proj.name,projectId:proj.id,fromId:user?.uid,fromName:user?.displayName,fromRole:'PROFESSIONAL',toId:proj.issuerId,status:'PENDING',createdAt:serverTimestamp()});
+    onNotify(T(`✦ Demande envoyée pour ${proj.name}`,`✦ Request sent for ${proj.name}`));
+  } catch(e){onNotify(T('Erreur réseau','Network error'));}
+}} className="mt-1.5 px-3 py-1 bg-primary-cyan/10 border border-primary-cyan/20 text-primary-cyan text-[10px] font-black rounded-lg hover:bg-primary-cyan hover:text-surface-dim transition-all uppercase">{T('Contacter','Contact')}</button>
                       </div>
                     </div>
                   ))}
@@ -299,7 +306,12 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
                   </div>
                   <div className="h-1.5 bg-white/5 rounded-full overflow-hidden"><div className="h-full bg-gradient-to-r from-[#a78bfa] to-primary-cyan rounded-full transition-all" style={{width:`${c.progress}%`}}/></div>
                   {c.status==='ACTIVE' && (
-                    <button onClick={()=>onNotify(T(`Session planifiée avec ${c.name}`,`Session scheduled with ${c.name}`))} className="w-full py-2.5 bg-[#a78bfa]/10 border border-[#a78bfa]/20 text-[#a78bfa] text-xs font-black rounded-xl hover:bg-[#a78bfa]/20 transition-all flex items-center justify-center gap-2"><Users size={12}/> {T('Planifier une session','Schedule a session')}</button>
+                    <button onClick={async()=>{
+  try {
+    await addDoc(collection(db,'mentorship_sessions'),{mentorId:user?.uid,mentorName:user?.displayName,studentName:c.name,status:'REQUESTED',createdAt:serverTimestamp()});
+    onNotify(T(`✦ Session planifiée avec ${c.name}`,`✦ Session scheduled with ${c.name}`));
+  } catch(e){onNotify(T('Erreur réseau','Network error'));}
+}} className="w-full py-2.5 bg-[#a78bfa]/10 border border-[#a78bfa]/20 text-[#a78bfa] text-xs font-black rounded-xl hover:bg-[#a78bfa]/20 transition-all flex items-center justify-center gap-2"><Users size={12}/> {T('Planifier une session','Schedule a session')}</button>
                   )}
                 </div>
               ))}
@@ -332,7 +344,11 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
               <div className="bg-surface-low/40 border border-white/8 rounded-2xl p-4 space-y-3">
                 <p className="text-xs font-black text-on-surface uppercase tracking-wider">{T('Nouveau message','New message')}</p>
                 <textarea value={messageText} onChange={e=>setMessageText(e.target.value)} rows={3} placeholder={T('Écrivez votre message...','Write your message...')} className="w-full bg-surface-high/40 border border-white/10 text-sm px-4 py-3 rounded-xl focus:outline-none focus:border-primary-cyan transition-colors resize-none"/>
-                <button onClick={()=>{if(messageText.trim()){setMessages(prev=>[{from:user?.displayName||'Vous',role:'SYSTEM',text:messageText,time:T('À l\'instant','Just now'),read:true},...prev]);setMessageText('');onNotify(T('Message envoyé','Message sent'));} }} className="w-full py-2.5 bg-primary-cyan text-surface-dim text-xs font-black rounded-xl hover:bg-white transition-all flex items-center justify-center gap-2"><Send size={12}/> {T('Envoyer','Send')}</button>
+                <button onClick={async()=>{if(messageText.trim()){
+  setMessages(prev=>[{from:user?.displayName||'Vous',role:'SYSTEM',text:messageText,time:T("À l'instant","Just now"),read:true},...prev]);
+  try { await addDoc(collection(db,'messages'),{from:user?.uid,fromName:user?.displayName,text:messageText,type:'internal',createdAt:serverTimestamp()}); } catch(e){}
+  setMessageText('');onNotify(T('✦ Message envoyé','✦ Message sent'));
+}}} className="w-full py-2.5 bg-primary-cyan text-surface-dim text-xs font-black rounded-xl hover:bg-white transition-all flex items-center justify-center gap-2"><Send size={12}/> {T('Envoyer','Send')}</button>
               </div>
             </div>
           )}
@@ -406,7 +422,17 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
         </motion.div>
       </AnimatePresence>
 
-      <ServiceContactModal open={!!serviceModal} onClose={()=>setServiceModal(null)} lang={lang} serviceName={serviceModal?.name} servicePrice={serviceModal?.price} onSubmit={()=>{onNotify(T('✦ Demande envoyée — Réponse sous 24h','✦ Request sent — Reply within 24h'));setServiceModal(null);}}/>
+      <ServiceContactModal open={!!serviceModal} onClose={()=>setServiceModal(null)} lang={lang} serviceName={serviceModal?.name} servicePrice={serviceModal?.price} onSubmit={async(data?:any)=>{
+  try {
+    await addDoc(collection(db,'service_requests'),{
+      serviceName:serviceModal?.name,servicePrice:serviceModal?.price,
+      fromId:user?.uid,fromName:user?.displayName,fromEmail:user?.email,
+      message:data?.message||'',status:'PENDING',createdAt:serverTimestamp()
+    });
+    onNotify(T('✦ Demande envoyée — Réponse sous 24h','✦ Request sent — Reply within 24h'));
+  } catch(e){onNotify(T('Erreur réseau','Network error'));}
+  setServiceModal(null);
+}}/>
     </div>
   );
 };
