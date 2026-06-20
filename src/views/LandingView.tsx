@@ -532,15 +532,6 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                         </div>
                       )}
 
-                      {referredBy && (
-                        <div className="flex items-center gap-2 px-4 py-2.5 bg-white/5 border border-white/10 rounded-2xl">
-                          <Share2 size={14} className="text-white/40 shrink-0" />
-                          <p className="text-white/50 text-[10px] font-bold uppercase tracking-widest">
-                            {t(`Invited via code ${referredBy}`, `Invité via le code ${referredBy}`)}
-                          </p>
-                        </div>
-                      )}
-
                       <form onSubmit={handlePreRegister} className="space-y-6">
                         <div className="p-1 bg-white/5 rounded-2xl border border-white/10 flex gap-1">
                           {['CREATOR', 'PROFESSIONAL', 'INVESTOR'].map((cat) => (
