@@ -795,63 +795,6 @@ export const AdminView: React.FC<{
   const renderUsersTab = () => (
     <div className="space-y-6">
 
-      {/* ── NETTOYAGE AVANT LANCEMENT ──────────────────────────────────── */}
-      <div className="bg-rose-500/8 border border-rose-500/20 rounded-2xl p-5 space-y-4">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-rose-500/20 rounded-lg flex items-center justify-center shrink-0">
-            <span className="text-rose-400 text-sm">🧹</span>
-          </div>
-          <div>
-            <p className="text-sm font-black text-rose-400 uppercase tracking-wider">{t('Nettoyage avant lancement','Pre-launch cleanup')}</p>
-            <p className="text-xs text-on-surface-variant/50">{t('Identifiez et supprimez les comptes de test avant la communication officielle.','Identify and delete test accounts before the official launch.')}</p>
-          </div>
-        </div>
-
-        {/* Comptes suspects détectés */}
-        {(() => {
-          const suspects = users.filter(u => {
-            const email = u.email?.toLowerCase() || '';
-            const name = u.displayName?.toLowerCase() || '';
-            return (
-              email.includes('test') || email.includes('fake') || email.includes('demo') ||
-              email.includes('example') || email.includes('toto') || email.includes('temp') ||
-              email.includes('xxx') || email.includes('aaa') || email.includes('zzz') ||
-              name.includes('test') || name.includes('fake') || name.includes('demo') ||
-              email.endsWith('@mailinator.com') || email.endsWith('@guerrillamail.com') ||
-              email.endsWith('@yopmail.com') || email.endsWith('@tempmail.com') ||
-              (!u.displayName && !u.email)
-            );
-          });
-          return suspects.length > 0 ? (
-            <div className="space-y-2">
-              <p className="text-xs font-black text-rose-400">{suspects.length} {t('compte(s) suspect(s) détecté(s)','suspect account(s) detected')}</p>
-              {suspects.map((u, i) => (
-                <div key={i} className="flex items-center justify-between gap-3 p-3 bg-rose-500/5 border border-rose-500/10 rounded-xl">
-                  <div>
-                    <p className="text-xs font-black text-on-surface">{u.displayName || t('Sans nom','No name')}</p>
-                    <p className="text-[10px] text-on-surface-variant/50 font-mono">{u.email}</p>
-                  </div>
-                  <button onClick={() => handleDeleteUser(u.uid!, u.displayName || u.email || 'compte')}
-                    className="px-3 py-1.5 bg-rose-500/20 border border-rose-500/30 text-rose-400 text-[10px] font-black rounded-lg hover:bg-rose-500/30 transition-all uppercase">
-                    {t('Supprimer','Delete')}
-                  </button>
-                </div>
-              ))}
-              <button onClick={async () => {
-                if (!window.confirm(t(`Supprimer les ${suspects.length} comptes suspects ? Cette action est irréversible.`, `Delete ${suspects.length} suspect accounts? This is irreversible.`))) return;
-                for (const u of suspects) {
-                  await handleDeleteUser(u.uid!, u.displayName || u.email || 'compte');
-                }
-              }} className="w-full py-2.5 bg-rose-500/20 border border-rose-500/30 text-rose-400 text-xs font-black rounded-xl hover:bg-rose-500/30 transition-all uppercase tracking-widest">
-                🗑 {t(`Supprimer tous (${suspects.length})`, `Delete all (${suspects.length})`)}
-              </button>
-            </div>
-          ) : (
-            <p className="text-xs text-emerald-400 font-black">✓ {t('Aucun compte suspect détecté','No suspect accounts detected')}</p>
-          );
-        })()}
-      </div>
-
       <div className="flex flex-col md:flex-row gap-4 mb-8">
         <div className="relative flex-1">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant opacity-30" size={16} />
