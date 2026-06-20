@@ -243,7 +243,7 @@ export const WatchlistView: React.FC<WatchlistViewProps> = ({
             
             {/* Upgrade Incentive for standard users */}
             {!isPro && watchlistedContracts.length < 15 && viewMode === 'mosaic' && (
-              <div className="border border-dashed border-white/10 rounded-sm p-8 flex flex-col items-center justify-center text-center opacity-30 hover:opacity-100 transition-opacity animate-pulse group cursor-pointer" onClick={() => onNotify(t('ADD_FROM_MARKET', 'AJOUTER_DANS_LE_TERMINAL'))}>
+              <div className="border border-dashed border-white/10 rounded-sm p-8 flex flex-col items-center justify-center text-center opacity-30 hover:opacity-100 transition-opacity animate-pulse group cursor-pointer" onClick={() => onViewChange?.('EXCHANGE')}>
                 <div className="w-14 h-14 bg-white/5 rounded-full flex items-center justify-center mb-4">
                   <Star size={24} className="text-white/40 group-hover:text-accent-gold transition-colors" />
                 </div>
