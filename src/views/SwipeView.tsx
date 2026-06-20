@@ -6,6 +6,7 @@ import { CONTRACTS, Contract, LYA_UNIT_VALUE, UserProfile, UserRole } from '../t
 import { useTranslation } from '../context/LanguageContext';
 import { useCurrency } from '../context/CurrencyContext';
 import { PageHeader } from '../components/ui/PageHeader';
+import { getSafeImageUrl } from '../utils/image';
 import { db } from '../firebase';
 import { doc, getDoc, setDoc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
 
@@ -374,91 +375,76 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
                 </motion.div>
 
                 {/* Image Section */}
-                <div className="relative h-[62%] pointer-events-none">
+                <div className="relative h-[45%] sm:h-[50%] pointer-events-none shrink-0">
                   <img 
-                    src={currentContract.image} 
+                    src={getSafeImageUrl(currentContract.image, currentContract.category)} 
                     alt={currentContract.name}
                     className="w-full h-full object-cover select-none"
                     referrerPolicy="no-referrer"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-surface-dim via-transparent to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-surface-dim via-surface-dim/20 to-transparent" />
                   
-                  {/* Badges */}
-                  <div className="absolute top-4 left-4 flex flex-col gap-2">
-                    <div className="px-3 py-1 bg-primary-cyan text-surface-dim text-[10px] font-black uppercase tracking-widest rounded-full shadow-lg">
+                  {/* Badges top gauche */}
+                  <div className="absolute top-3 left-3 flex gap-1.5">
+                    <div className={`px-2 py-0.5 text-[9px] font-black uppercase tracking-widest rounded-full ${currentContract.rarity === 'Legendary' ? 'bg-accent-gold text-surface-dim' : currentContract.rarity === 'Epic' ? 'bg-[#a78bfa] text-surface-dim' : 'bg-primary-cyan text-surface-dim'}`}>
                       {currentContract.rarity}
                     </div>
-                    <div className="px-3 py-1 bg-white/10 backdrop-blur-md border border-white/20 text-white text-[10px] font-black uppercase tracking-widest rounded-full shadow-lg">
+                    <div className="px-2 py-0.5 bg-black/50 backdrop-blur-sm border border-white/20 text-white text-[9px] font-black uppercase tracking-widest rounded-full">
                       {currentContract.category}
                     </div>
                   </div>
 
                   {/* Action Buttons */}
-                  <div className="absolute top-4 right-4 flex flex-col gap-2 pointer-events-auto">
+                  <div className="absolute top-3 right-3 flex flex-col gap-1.5 pointer-events-auto">
                     <button 
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onToggleWatchlist(e, currentContract.id);
-                      }}
-                      className={`p-2 rounded-full backdrop-blur-md border transition-all relative group ${
-                        watchlist.includes(currentContract.id) 
-                          ? 'bg-accent-gold border-accent-gold text-surface-dim shadow-[0_0_15px_rgba(212,175,55,0.4)]' 
-                          : 'bg-black/20 border-white/10 text-white hover:bg-white/10'
-                      }`}
+                      onClick={(e) => { e.stopPropagation(); onToggleWatchlist(e, currentContract.id); }}
+                      className={`p-2 rounded-full backdrop-blur-md border transition-all ${watchlist.includes(currentContract.id) ? 'bg-accent-gold border-accent-gold text-surface-dim' : 'bg-black/30 border-white/15 text-white'}`}
                     >
-                      <Star size={18} fill={watchlist.includes(currentContract.id) ? "currentColor" : "none"} />
+                      <Star size={15} fill={watchlist.includes(currentContract.id) ? "currentColor" : "none"} />
                     </button>
+                    <button 
+                      onClick={(e) => { e.stopPropagation(); onToggleComparison(currentContract.id); }}
+                      className={`p-2 rounded-full backdrop-blur-md border transition-all ${comparisonList.includes(currentContract.id) ? 'bg-primary-cyan border-primary-cyan text-surface-dim' : 'bg-black/30 border-white/15 text-white'}`}
+                    >
+                      <Scale size={15} />
+                    </button>
+                  </div>
 
-                    <button 
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onToggleComparison(currentContract.id);
-                      }}
-                      className={`p-2 rounded-full backdrop-blur-md border transition-all relative group ${
-                        comparisonList.includes(currentContract.id) 
-                          ? 'bg-primary-cyan border-primary-cyan text-surface-dim shadow-[0_0_15px_rgba(0,224,255,0.4)]' 
-                          : 'bg-black/20 border-white/10 text-white hover:bg-white/10'
-                      }`}
-                    >
-                      <Scale size={18} />
-                    </button>
+                  {/* Nom sur l'image en bas */}
+                  <div className="absolute bottom-2 left-3 right-3">
+                    <h2 className="text-base font-black text-white tracking-tight leading-tight drop-shadow-lg">{currentContract.name}</h2>
+                    <p className="text-[10px] text-white/60">{currentContract.issuerId}</p>
                   </div>
                 </div>
 
-                {/* Info Section — redesigné */}
-                <div className="p-4 flex-1 flex flex-col gap-3 pointer-events-none">
+                {/* Info Section */}
+                <div className="flex-1 flex flex-col gap-2 p-3 overflow-hidden pointer-events-none min-h-0">
 
-                  {/* Nom + catégorie */}
-                  <div>
-                    <h2 className="text-xl font-black font-headline text-white tracking-tight leading-tight">{currentContract.name}</h2>
-                    <p className="text-xs text-on-surface-variant/60 mt-0.5">{currentContract.issuerId}</p>
-                  </div>
-
-                  {/* Badges LYA SCORE + LYA UNIT */}
-                  <div className="grid grid-cols-2 gap-2">
-                    <div className="bg-[#a78bfa]/10 border border-[#a78bfa]/25 rounded-xl p-2.5 text-center">
-                      <p className="text-[9px] font-black text-[#a78bfa] uppercase tracking-widest mb-0.5">LYA Score</p>
-                      <p className="text-lg font-black text-white">{currentContract.totalScore}<span className="text-[9px] text-white/30">/1000</span></p>
+                  {/* LYA SCORE + LYA UNIT */}
+                  <div className="grid grid-cols-2 gap-2 shrink-0">
+                    <div className="bg-[#a78bfa]/10 border border-[#a78bfa]/25 rounded-xl p-2 text-center">
+                      <p className="text-[8px] font-black text-[#a78bfa] uppercase tracking-widest">LYA Score</p>
+                      <p className="text-base font-black text-white leading-tight">{currentContract.totalScore}<span className="text-[8px] text-white/30">/1000</span></p>
                     </div>
-                    <div className={`border rounded-xl p-2.5 text-center ${currentContract.growth >= 0 ? 'bg-emerald-400/10 border-emerald-400/25' : 'bg-rose-400/10 border-rose-400/25'}`}>
-                      <p className="text-[9px] font-black text-accent-gold uppercase tracking-widest mb-0.5">LYA UNIT</p>
-                      <p className="text-lg font-black text-accent-gold">{formatPrice(LYA_UNIT_VALUE * (1 + currentContract.growth / 100))}</p>
-                      <p className={`text-[9px] font-black ${currentContract.growth >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>{currentContract.growth >= 0 ? '+' : ''}{currentContract.growth}%</p>
+                    <div className={`border rounded-xl p-2 text-center ${currentContract.growth >= 0 ? 'bg-emerald-400/10 border-emerald-400/25' : 'bg-rose-400/10 border-rose-400/25'}`}>
+                      <p className="text-[8px] font-black text-accent-gold uppercase tracking-widest">LYA UNIT</p>
+                      <p className="text-base font-black text-accent-gold leading-tight">{formatPrice(LYA_UNIT_VALUE * (1 + currentContract.growth / 100))}</p>
+                      <p className={`text-[8px] font-black ${currentContract.growth >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>{currentContract.growth >= 0 ? '+' : ''}{currentContract.growth}%</p>
                     </div>
                   </div>
 
-                  {/* Description traduite — cachée sur mobile pour éviter débordement */}
-                  <p className="hidden sm:block text-xs text-on-surface-variant/70 line-clamp-2 leading-relaxed">
-                    {(language === 'FR' || language === 'fr') && currentContract.descriptionFR
+                  {/* Description bilingue */}
+                  <p className="text-[10px] text-on-surface-variant/70 line-clamp-2 leading-relaxed shrink-0">
+                    {language === 'FR' && currentContract.descriptionFR
                       ? currentContract.descriptionFR
                       : currentContract.description}
                   </p>
 
-                  {/* Rarity + Revenue share */}
-                  <div className="flex items-center gap-2 pt-2 border-t border-white/6">
-                    <span className={`px-2 py-0.5 rounded-full text-[9px] font-black uppercase border ${currentContract.rarity === 'Legendary' ? 'text-accent-gold border-accent-gold/30 bg-accent-gold/10' : currentContract.rarity === 'Epic' ? 'text-[#a78bfa] border-[#a78bfa]/30 bg-[#a78bfa]/10' : currentContract.rarity === 'Rare' ? 'text-primary-cyan border-primary-cyan/30 bg-primary-cyan/10' : 'text-white/40 border-white/10'}`}>★ {currentContract.rarity}</span>
-                    <span className="px-2 py-0.5 rounded-full text-[9px] font-black text-emerald-400 border border-emerald-400/25 bg-emerald-400/8">{currentContract.revenueSharePercentage}% {t('Rev. share','Rev. partagés')}</span>
-                    <span className={`ml-auto px-2 py-0.5 rounded-full text-[9px] font-black uppercase ${currentContract.status === 'LIVE' ? 'text-emerald-400 bg-emerald-400/10 border border-emerald-400/20' : 'text-rose-400 bg-rose-400/10 border border-rose-400/20'}`}>● {currentContract.status}</span>
+                  {/* Badges bas */}
+                  <div className="flex items-center gap-1.5 mt-auto shrink-0 flex-wrap">
+                    <span className="px-2 py-0.5 rounded-full text-[8px] font-black text-emerald-400 border border-emerald-400/25 bg-emerald-400/8">{currentContract.revenueSharePercentage}% {t('revenus','revenue')}</span>
+                    <span className={`px-2 py-0.5 rounded-full text-[8px] font-black uppercase ${currentContract.status === 'LIVE' ? 'text-emerald-400 bg-emerald-400/10 border border-emerald-400/20' : 'text-rose-400 bg-rose-400/10 border border-rose-400/20'}`}>● {currentContract.status}</span>
+                    <span className="ml-auto text-[8px] text-white/30 font-mono">{currentContract.registryIndex}</span>
                   </div>
                 </div>
               </motion.div>
