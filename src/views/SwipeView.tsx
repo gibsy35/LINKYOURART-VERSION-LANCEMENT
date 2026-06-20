@@ -447,9 +447,11 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
                     </div>
                   </div>
 
-                  {/* Description traduite */}
-                  <p className="text-xs text-on-surface-variant/70 line-clamp-2 leading-relaxed">
-                    {language === 'FR' && currentContract.descriptionFR ? currentContract.descriptionFR : currentContract.description}
+                  {/* Description traduite — cachée sur mobile pour éviter débordement */}
+                  <p className="hidden sm:block text-xs text-on-surface-variant/70 line-clamp-2 leading-relaxed">
+                    {(language === 'FR' || language === 'fr') && currentContract.descriptionFR
+                      ? currentContract.descriptionFR
+                      : currentContract.description}
                   </p>
 
                   {/* Rarity + Revenue share */}
@@ -582,7 +584,9 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
 
               <div className="space-y-4 mb-6 flex-1">
                 <p className="text-xs text-on-surface-variant line-clamp-2 opacity-70 italic font-serif leading-relaxed">
-                  {contract.description}
+                  {(language === 'FR' || language === 'fr') && contract.descriptionFR
+                    ? contract.descriptionFR
+                    : contract.description}
                 </p>
                 <div className="flex items-center justify-between pt-4 border-t border-white/5">
                   <div className="text-left">
