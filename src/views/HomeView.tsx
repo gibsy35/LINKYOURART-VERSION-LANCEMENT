@@ -1203,13 +1203,13 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
               <div className="absolute -left-10 top-0 w-1 h-24 bg-primary-cyan hidden lg:block" />
               <div className="text-xs font-mono text-accent-gold uppercase tracking-[0.5em] mb-4 font-black">{t('The Vision', 'La Vision')}</div>
               <h2 className="text-3xl md:text-5xl font-black font-headline text-white tracking-tighter uppercase mb-8 leading-none drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]">
-                {t('A REVOLUTIONARY', 'UNE RÉVOLUTION')} <br />
-                <span className="text-primary-cyan">{t('FINANCIAL LAYER', 'FINANCIÈRE')}</span> <br />
-                {t('FOR CREATION.', 'POUR LA CRÉATION.')}
+                {t('A NEW ERA', 'UNE NOUVELLE ÈRE')} <br />
+                <span className="text-primary-cyan">{t('FOR CREATIVE', 'POUR LA CRÉATION')}</span> <br />
+                {t('EXCELLENCE.', 'ARTISTIQUE.')}
               </h2>
               <div className="space-y-6">
                 <p className="text-xl text-on-surface-variant leading-relaxed opacity-90 font-medium text-justify">
-                  {t('Traditional creative financing is broken. LinkYourArt (LYA) bridges the gap between artistic vision and institutional accessibility by indexing creative rights as documented contractual rights.', 'Le valorisation créative traditionnelle est obsolète. LinkYourArt (LYA) comble le fossé entre vision artistique et accessibilité professionnelle en indexant les droits comme des droits contractuels documentés.')}
+                  {t('Creative projects have always had value. LinkYourArt gives them a recognized, shareable and verifiable one. For the first time, art becomes a living asset that can be co-owned, supported and exchanged.', 'Les projets créatifs ont toujours eu de la valeur. LinkYourArt leur en donne une reconnue, partageable et vérifiable. Pour la première fois, l\'art devient un actif vivant qui peut être co-possédé, soutenu et échangé.')}
                 </p>
                 <div className="p-6 bg-white/5 border-l-4 border-primary-cyan">
                   <p className="text-base text-white opacity-80 leading-relaxed text-justify">
@@ -1226,26 +1226,26 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
               {[
                 { 
                   id: '01', 
-                  title: t('Decentralized Registry', 'Registre Décentralisé'), 
-                  desc: t('Contractual rights are immutable and audited by authorized legal hubs.', 'Les droits contractuels sont immuables et audités par des hubs légaux autorisés.'),
+                  title: t('Certified Registry', 'Registre Certifié'), 
+                  desc: t('Each creative work is officially registered and protected. Your rights are documented, verified and accessible at any time.', 'Chaque œuvre est officiellement enregistrée et protégée. Vos droits sont documentés, vérifiés et accessibles à tout moment.'),
                   icon: <Shield size={24} />
                 },
                 { 
                   id: '02', 
-                  title: t('Neural Valuation', 'Valorisation Neurale'), 
-                  desc: t('Real-time Indice LYA based on artist trajectory and project milestones.', 'Score LYA en temps réel basé sur la trajectoire et les jalons du projet.'),
+                  title: t('Expert Valuation', 'Évaluation par des Experts'), 
+                  desc: t('A network of certified professionals evaluates each creation and assigns a LYA Score out of 1000 — transparent and objective.', 'Un réseau de professionnels certifiés évalue chaque création et lui attribue un LYA Score sur 1000 — transparent et objectif.'),
                   icon: <Activity size={24} />
                 },
                 { 
                   id: '03', 
-                  title: t('Liquid Exchange', 'Exchange Liquide'), 
-                  desc: t('Trade your creative units instantly on the Secondary Exchange.', 'Échangez vos unités créatives instantanément sur l\'Exchange Secondaire.'),
+                  title: t('Creative Market', 'Marché Créatif'), 
+                  desc: t('Buy, sell or support creative projects and receive a share of their revenues. Your LYA Units evolve with the project.', 'Soutenez des projets créatifs et percevez une part de leurs revenus. Vos LYA Units évoluent avec le projet.'),
                   icon: <Zap size={24} />
                 },
                 { 
                   id: '04', 
-                  title: t('Legal Shield', 'Bouclier Légal'), 
-                  desc: t('Institutional grade compliance with SEC, EU & FCA standards.', 'Conformité de grade institutionnel aux normes SEC, EU & FCA.'),
+                  title: t('Legal Protection', 'Protection Juridique'), 
+                  desc: t('Every project on LinkYourArt benefits from legal protection of rights recognized in 6 continents.', 'Chaque projet sur LinkYourArt bénéficie d\'une protection juridique des droits reconnue sur 6 continents.'),
                   icon: <Scale size={24} />
                 }
               ].map((item, i) => (

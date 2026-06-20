@@ -51,6 +51,7 @@ export interface LYASimulatorStep {
   id: number;
   title: string;
   description: string;
+  descriptionFR?: string;
   questions: {
     id: number;
     text: string;
@@ -269,6 +270,7 @@ export interface Contract {
   image: string;
   status: 'LIVE' | 'SUSPENDED' | 'RISK' | 'LIQUIDATION';
   description: string;
+  descriptionFR?: string;
   totalUnits: number; // totalValue / 50
   availableUnits?: number; // New: Units currently available for purchase in the P2P exchange
   registryAddress: string;
@@ -305,6 +307,7 @@ export const CONTRACTS: Contract[] = [
     growth: 14.2,
     image: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?auto=format&fit=crop&q=80&w=800',
     status: 'LIVE',
+    descriptionFR: `Copropriété fractionnée d'un chef-d'œuvre de la Renaissance. Chaque unité LYA représente un droit contractuel direct sur la valorisation future et les revenus du jumeau numérique.`,
     description: 'Fractional ownership of a physical Renaissance masterpiece. Each LYA unit represents a direct contractual right to future value appreciation and digital twin revenue shares.',
     totalUnits: 10000,
     availableUnits: 1250,
@@ -348,6 +351,7 @@ export const CONTRACTS: Contract[] = [
     growth: 8.4,
     image: 'https://images.unsplash.com/photo-1633167606207-d840b5070fc2?auto=format&fit=crop&q=80&w=800',
     status: 'LIVE',
+    descriptionFR: `Droits de conception d'architecture verticale durable. Revenus partagés sur les licences des plans architecturaux et les royalties d'intégration en ville intelligente.`,
     description: 'Sustainable vertical architecture design rights. Revenue shares from licensing the architectural blueprints and smart-city integration royalties.',
     totalUnits: 50000,
     availableUnits: 450,
@@ -391,6 +395,7 @@ export const CONTRACTS: Contract[] = [
     growth: 25.8,
     image: 'https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&q=80&w=800',
     status: 'LIVE',
+    descriptionFR: `Réseau de podcasts d'investigation de premier plan. Revenus partagés sur les placements publicitaires, les accords exclusifs et les royalties de traduction par IA.`,
     description: 'Top-tier investigative podcast network. Revenue shares from ad placements, exclusive platform deals, and AI-driven translation royalties.',
     totalUnits: 3000,
     availableUnits: 120,
@@ -434,6 +439,7 @@ export const CONTRACTS: Contract[] = [
     growth: 32.5,
     image: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&q=80&w=800',
     status: 'LIVE',
+    descriptionFR: `Droits mondiaux de synchronisation et de diffusion SVOD pour la série télévisée de science-fiction premium 'Chronicles of Eldon'. Chaque unité LYA indexe une part proportionnelle des revenus d'abonnement récurrents.`,
     description: 'Global master synchronization and SVOD broadcasting rights for the premium sci-fi television series "Chronicles of Eldon". Each LYA unit indexes a proportionate share of recurring subscription revenues, multi-territory exhibition licenses, and dynamic digital IP distributions across partners like Netflix, HBO, and Canal+.',
     totalUnits: 24000,
     availableUnits: 1200,
@@ -477,6 +483,7 @@ export const CONTRACTS: Contract[] = [
     growth: -99.9,
     image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800',
     status: 'LIQUIDATION',
+    descriptionFR: `Projet de composition musicale générative en phase de restructuration. Tous les revenus sont suspendus pendant la période de récupération.`,
     description: 'Total protocol failure in generative music layering. All units entering emergency recovery status. 0% yield projected.',
     totalUnits: 1000,
     availableUnits: 0,
@@ -519,6 +526,7 @@ export const CONTRACTS: Contract[] = [
     growth: -28.4,
     image: 'https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?auto=format&fit=crop&q=80&w=800',
     status: 'RISK',
+    descriptionFR: `Une collection d'architectures numériques abstraites en correction de marché suite à une demande secondaire excessive.`,
     description: 'A collection of abstract digital architectures experiencing a significant market correction due to overheating secondary demand.',
     totalUnits: 2400,
     availableUnits: 800,
@@ -561,6 +569,7 @@ export const CONTRACTS: Contract[] = [
     growth: -52.1,
     image: 'https://images.unsplash.com/photo-1563089145-599997674d42?auto=format&fit=crop&q=80&w=800',
     status: 'LIQUIDATION',
+    descriptionFR: `Liquidation d'actifs d'art génératif suite à une perte d'intégrité des données. Projet en phase de résolution.`,
     description: 'Emergency liquidation of neural aesthetic assets following a major protocol breach and loss of metadata integrity.',
     totalUnits: 900,
     availableUnits: 45,
@@ -603,6 +612,7 @@ export const CONTRACTS: Contract[] = [
     growth: -22.4,
     image: 'https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&q=80&w=800',
     status: 'LIVE',
+    descriptionFR: `Réseau de podcasts haut de gamme. Une baisse significative des indicateurs d'audience a fortement impacté la valorisation.`,
     description: 'Top-tier podcast network. Significant drop in listener metrics and ad-revenue targets has severely impacted valuation.',
     totalUnits: 1700,
     availableUnits: 300,
@@ -646,6 +656,7 @@ export const CONTRACTS: Contract[] = [
     growth: -18.2,
     image: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&q=80&w=800',
     status: 'LIVE',
+    descriptionFR: `Film indépendant primé. Correction post-sortie suite à des performances de streaming inférieures aux projections.`,
     description: 'Award-winning independent film. Sharp post-release correction as initial streaming demand underperforms against market projections.',
     totalUnits: 9000,
     availableUnits: 450,
@@ -689,6 +700,7 @@ export const CONTRACTS: Contract[] = [
     growth: -15.4,
     image: 'https://picsum.photos/seed/glitch/800/600',
     status: 'LIQUIDATION',
+    descriptionFR: `Anomalie numérique unique. Des défaillances techniques ont entraîné une baisse critique de la demande.`,
     description: 'A unique digital anomaly. Recent engine failures and protocol forks have led to a critical decrease in demand and total loss of synchronization.',
     totalUnits: 1500,
     availableUnits: 85,
@@ -731,6 +743,7 @@ export const CONTRACTS: Contract[] = [
     growth: 2.5,
     image: 'https://picsum.photos/seed/quantum/800/600',
     status: 'LIVE',
+    descriptionFR: `Visualisation scientifique de champs de probabilité. Les revenus sont liés aux licences de publication de recherches.`,
     description: 'Scientific visualization of probability fields. Revenue shares are tied to research publication licensing.',
     totalUnits: 20000,
     availableUnits: 2100,
@@ -773,6 +786,7 @@ export const CONTRACTS: Contract[] = [
     growth: 10.0,
     image: 'https://picsum.photos/seed/dream/800/600',
     status: 'LIVE',
+    descriptionFR: `Environnement immersif de paysages oniriques. Revenus fractionnés issus du tourisme virtuel et des études de résonance émotionnelle.`,
     description: 'Immersive dreamscape environment. Fractional revenue from virtual tourism and emotional resonance studies.',
     totalUnits: 5000,
     availableUnits: 620,
@@ -815,6 +829,7 @@ export const CONTRACTS: Contract[] = [
     growth: 15.0,
     image: 'https://picsum.photos/seed/vista/800/600',
     status: 'LIVE',
+    descriptionFR: `Paysages virtuels haute-fidélité. Droits directs sur les données environnementales et les actifs visuels.`,
     description: 'High-fidelity virtual landscapes. Direct rights to environmental data and visual assets.',
     totalUnits: 1000,
     availableUnits: 150,
@@ -856,6 +871,7 @@ export const CONTRACTS: Contract[] = [
     growth: -5.0,
     image: 'https://picsum.photos/seed/nights/800/600',
     status: 'RISK',
+    descriptionFR: `Série photographique de paysages urbains nocturnes. Correction post-hype ; les revenus de licence luttent contre les alternatives générées par IA.`,
     description: 'Urban nightscape photography series. Significant post-hype correction; licensing revenue is struggling against AI-generated alternatives.',
     totalUnits: 20000,
     availableUnits: 1800,
@@ -898,6 +914,7 @@ export const CONTRACTS: Contract[] = [
     growth: 20.0,
     image: 'https://picsum.photos/seed/city/800/600',
     status: 'LIVE',
+    descriptionFR: `Planification urbaine numérique complète. Droits directs sur les plans architecturaux et la gouvernance urbaine.`,
     description: 'Comprehensive digital urban planning. Direct rights to architectural blueprints and city governance.',
     totalUnits: 500,
     availableUnits: 42,

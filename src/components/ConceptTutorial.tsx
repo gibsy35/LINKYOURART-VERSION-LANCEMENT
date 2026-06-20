@@ -95,7 +95,7 @@ const TUTORIAL_STEPS: (t: any) => Step[] = (t) => [
   {
     id: 6,
     title: t('EXPLORE CREATIVE WORKS', 'EXPLOREZ LES ŒUVRES'),
-    description: t('Several ways to discover creative projects across 6 artistic universes — find what resonates with you.', 'Plusieurs façons de découvrir des projets créatifs à travers 6 univers artistiques — trouvez ce qui vous correspond.'),
+    description: t('Several ways to discover creative projects across 7+ artistic universes — Music, Film, Visual Art, Fashion, Gaming, Architecture, TV Series and more.', "Plusieurs façons de découvrir des projets créatifs à travers 7+ univers artistiques — Musique, Cinéma, Art Visuel, Mode, Gaming, Architecture, Séries TV et bien d'autres."),
     color: 'text-cyan-400',
     glowColor: 'rgba(34, 211, 238, 0.3)',
     icon: <Layers size={48} />,
@@ -363,7 +363,7 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
               >
                 882
               </motion.div>
-              <div className="text-[6px] md:text-[10px] font-black tracking-[0.2em] md:tracking-[0.3em] text-white/60 uppercase">{t('LYA INDEX', 'INDEX LYA')}</div>
+              <div className="text-[6px] md:text-[10px] font-black tracking-[0.2em] md:tracking-[0.3em] text-white/60 uppercase">{t('LYA SCORE', 'LYA SCORE')}</div>
               <div className="mt-0.5 md:mt-1 px-1.5 md:px-3 py-0.5 bg-emerald-500/10 border border-emerald-500/20 rounded-lg text-[4px] md:text-[6px] text-emerald-400 font-bold uppercase tracking-widest">{t('A+ GRADE', 'GRADE A+')}</div>
             </div>
           </div>
@@ -372,7 +372,7 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
               { label: t('Project Quality', 'Qualité du Projet'), val: '185/200', color: 'bg-purple-400' },
               { label: t('Market Potential', 'Potentiel Marché'), val: '172/200', color: 'bg-blue-400' },
               { label: t('Legal Security', 'Sécurité Juridique'), val: '196/200', color: 'bg-emerald-400' },
-              { label: t('Tech Innovation', 'Innovation Tech'), val: '164/200', color: 'bg-indigo-400' },
+              { label: t('Artistic Vision', 'Vision Artistique'), val: '164/200', color: 'bg-indigo-400' },
               { label: t('Growth Potential', 'Potentiel Croissance'), val: '165/200', color: 'bg-rose-400' }
             ].map((item, i) => (
               <motion.div 
@@ -1201,7 +1201,7 @@ export const ConceptTutorial: React.FC<Props> = ({ isOpen, onClose }) => {
               <div className="flex items-center gap-3">
                 <button 
                   onClick={handleClose}
-                  className="text-[7px] md:text-[10px] font-black uppercase tracking-[0.15em] md:tracking-[0.2em] text-on-surface-variant hover:text-white transition-colors p-1"
+                  className="text-[8px] md:text-xs font-black uppercase tracking-widest text-white/60 hover:text-white transition-colors px-3 py-1.5 border border-white/20 rounded-lg hover:border-white/40 bg-white/5"
                 >
                   {t('Skip', 'Passer')}
                 </button>

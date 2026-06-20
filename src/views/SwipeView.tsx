@@ -36,7 +36,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
   onViewChange,
   checkUsageLimit
 }) => {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
   const { formatPrice } = useCurrency();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState<'left' | 'right' | null>(null);
@@ -425,53 +425,38 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
                   </div>
                 </div>
 
-                {/* Info Section */}
-                <div className="p-6 flex-1 flex flex-col justify-between pointer-events-none">
+                {/* Info Section — redesigné */}
+                <div className="p-4 flex-1 flex flex-col gap-3 pointer-events-none">
+
+                  {/* Nom + catégorie */}
                   <div>
-                    <div className="flex justify-between items-start mb-2">
-                      <div className="flex flex-col">
-                        <h2 className="text-xl font-black font-headline text-white tracking-tight">{currentContract.name}</h2>
-                      </div>
-                    <div className="text-right flex items-center gap-3">
-                      <div className="flex flex-col items-center">
-                        <div className="text-[7px] text-accent-pink font-bold uppercase tracking-widest leading-none mb-1">ALGO</div>
-                        <div className="text-xs font-black text-white leading-none">{currentContract.scoreAlgo || 0}</div>
-                      </div>
-                      <div className="flex flex-col items-center">
-                        <div className="text-[7px] text-emerald-400 font-bold uppercase tracking-widest leading-none mb-1">PRO</div>
-                        <div className="text-xs font-black text-white leading-none">{currentContract.scorePro || 0}</div>
-                      </div>
-                      <div className="flex flex-col items-end border-l border-white/10 pl-3 ml-1">
-                        <div className="text-[10px] text-primary-cyan font-bold uppercase tracking-widest leading-none mb-1">{t('Score LYA', 'Score LYA')}</div>
-                        <div className="text-lg font-black text-white leading-none">
-                          {Math.round(((currentContract.scoreAlgo || 0) + (currentContract.scorePro || 0)) / 2)}
-                        </div>
-                      </div>
-                      <div className="flex flex-col items-end border-l border-white/10 pl-3 ml-1">
-                        <div className="text-[10px] text-accent-gold font-bold uppercase tracking-widest leading-none mb-1">LYA UNIT</div>
-                        <div className="text-lg font-black text-accent-gold leading-none">
-                          {formatPrice(LYA_UNIT_VALUE * (1 + currentContract.growth / 100))}
-                        </div>
-                        <div className={`text-[9px] font-black leading-none mt-0.5 ${currentContract.growth >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
-                          {currentContract.growth >= 0 ? '+' : ''}{currentContract.growth}%
-                        </div>
-                      </div>
-                    </div>
-                    </div>
-                    <p className="text-sm text-on-surface-variant line-clamp-2 opacity-80 italic font-serif">
-                      {currentContract.description}
-                    </p>
+                    <h2 className="text-xl font-black font-headline text-white tracking-tight leading-tight">{currentContract.name}</h2>
+                    <p className="text-xs text-on-surface-variant/60 mt-0.5">{currentContract.issuerId}</p>
                   </div>
 
-                  <div className="flex items-center gap-4 pt-4 border-t border-white/5">
-                    <div className="flex-1">
-                      <div className="text-xs text-on-surface-variant uppercase tracking-widest font-bold mb-1 opacity-50">{t('Artist', 'Artiste')}</div>
-                      <div className="text-xs font-bold text-white">{currentContract.issuerId}</div>
+                  {/* Badges LYA SCORE + LYA UNIT */}
+                  <div className="grid grid-cols-2 gap-2">
+                    <div className="bg-[#a78bfa]/10 border border-[#a78bfa]/25 rounded-xl p-2.5 text-center">
+                      <p className="text-[9px] font-black text-[#a78bfa] uppercase tracking-widest mb-0.5">LYA Score</p>
+                      <p className="text-lg font-black text-white">{currentContract.totalScore}<span className="text-[9px] text-white/30">/1000</span></p>
                     </div>
-                    <div className="flex-1">
-                      <div className="text-xs text-on-surface-variant uppercase tracking-widest font-bold mb-1 opacity-50">{t('Revenue Share', 'Part de Revenus')}</div>
-                      <div className="text-xs font-bold text-accent-gold">{currentContract.revenueSharePercentage}%</div>
+                    <div className={`border rounded-xl p-2.5 text-center ${currentContract.growth >= 0 ? 'bg-emerald-400/10 border-emerald-400/25' : 'bg-rose-400/10 border-rose-400/25'}`}>
+                      <p className="text-[9px] font-black text-accent-gold uppercase tracking-widest mb-0.5">LYA UNIT</p>
+                      <p className="text-lg font-black text-accent-gold">{formatPrice(LYA_UNIT_VALUE * (1 + currentContract.growth / 100))}</p>
+                      <p className={`text-[9px] font-black ${currentContract.growth >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>{currentContract.growth >= 0 ? '+' : ''}{currentContract.growth}%</p>
                     </div>
+                  </div>
+
+                  {/* Description traduite */}
+                  <p className="text-xs text-on-surface-variant/70 line-clamp-2 leading-relaxed">
+                    {language === 'FR' && currentContract.descriptionFR ? currentContract.descriptionFR : currentContract.description}
+                  </p>
+
+                  {/* Rarity + Revenue share */}
+                  <div className="flex items-center gap-2 pt-2 border-t border-white/6">
+                    <span className={`px-2 py-0.5 rounded-full text-[9px] font-black uppercase border ${currentContract.rarity === 'Legendary' ? 'text-accent-gold border-accent-gold/30 bg-accent-gold/10' : currentContract.rarity === 'Epic' ? 'text-[#a78bfa] border-[#a78bfa]/30 bg-[#a78bfa]/10' : currentContract.rarity === 'Rare' ? 'text-primary-cyan border-primary-cyan/30 bg-primary-cyan/10' : 'text-white/40 border-white/10'}`}>★ {currentContract.rarity}</span>
+                    <span className="px-2 py-0.5 rounded-full text-[9px] font-black text-emerald-400 border border-emerald-400/25 bg-emerald-400/8">{currentContract.revenueSharePercentage}% {t('Rev. share','Rev. partagés')}</span>
+                    <span className={`ml-auto px-2 py-0.5 rounded-full text-[9px] font-black uppercase ${currentContract.status === 'LIVE' ? 'text-emerald-400 bg-emerald-400/10 border border-emerald-400/20' : 'text-rose-400 bg-rose-400/10 border border-rose-400/20'}`}>● {currentContract.status}</span>
                   </div>
                 </div>
               </motion.div>
