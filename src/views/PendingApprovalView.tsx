@@ -121,7 +121,7 @@ export const PendingApprovalView: React.FC<PendingApprovalViewProps> = ({ user, 
         {/* Glow Strip */}
         <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-primary-cyan via-[#FF007F] to-[#9D00FF]" />
         
-        <div className="grid grid-cols-1 lg:grid-cols-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 md:grid-cols-4 lg:grid-cols-12">
           {/* Main Info Block */}
           <div className="lg:col-span-7 p-8 md:p-12 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-white/5 space-y-8">
             <div className="space-y-6">

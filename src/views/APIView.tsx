@@ -112,7 +112,7 @@ export const APIView: React.FC<APIViewProps> = ({ user, onNotify, onViewChange }
   }
 
   return (
-    <div className="max-w-[1600px] mx-auto space-y-8 pb-12 relative min-h-screen">
+    <div className="max-w-full max-w-7xl mx-auto space-y-8 pb-12 relative min-h-screen">
       {/* Immersive Background */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_20%_30%,rgba(0,224,255,0.05),transparent_50%),radial-gradient(circle_at_80%_70%,rgba(238,192,94,0.03),transparent_50%)]" />

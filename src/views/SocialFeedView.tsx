@@ -461,7 +461,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
         </div>
 
       {/* Content Overlay - Bottom Left */}
-      <div className="relative z-10 h-full flex flex-col justify-end p-6 md:p-12 lg:p-16 max-w-[1800px] mx-auto">
+      <div className="relative z-10 h-full flex flex-col justify-end p-6 md:p-12 lg:p-16 max-w-full max-w-7xl mx-auto">
         <AnimatePresence mode="wait">
           <motion.div
             key={activeItem.id}

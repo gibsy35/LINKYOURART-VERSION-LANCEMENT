@@ -147,7 +147,7 @@ export const CompareView: React.FC<CompareViewProps> = ({
       ) : (
         <div className="bg-surface-low/20 backdrop-blur-3xl border border-white/10 rounded-sm overflow-hidden shadow-[0_50px_100px_rgba(0,0,0,0.5)] relative animate-in fade-in zoom-in-95 duration-700 mt-20">
           <div className="overflow-x-auto custom-scrollbar">
-            <table className="w-full text-left border-collapse min-w-[1200px] overflow-x-auto">
+            <table className="w-full text-left border-collapse min-w-full max-w-5xl overflow-x-auto">
               <thead>
                 <tr className="bg-white/[0.03] border-b border-white/10">
                   <th className="p-10 text-[10px] uppercase tracking-[0.5em] text-on-surface-variant font-black border-r border-white/5 w-[280px] bg-black sticky left-0 z-30 opacity-100">

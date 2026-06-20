@@ -177,7 +177,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
   };
 
   return (
-    <div className="max-w-[1600px] mx-auto space-y-8 pb-12 relative min-h-screen">
+    <div className="max-w-full max-w-7xl mx-auto space-y-8 pb-12 relative min-h-screen">
       <PageHeader 
         titleWhite={t('Platform', 'Modèles de')}
         titleAccent={t('Pricing', 'Tarification')}
@@ -211,7 +211,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
       </div>
 
       <div className="max-w-full overflow-x-auto pb-4">
-        <div className="flex md:grid md:grid-cols-4 gap-6 min-w-[1000px] overflow-x-auto md:min-w-0">
+        <div className="flex md:grid md:grid-cols-4 gap-6 min-w-full max-w-5xl overflow-x-auto md:min-w-0">
           {plans.map((plan, i) => {
             const currentPrice = calculatePrice(plan.monthlyPrice);
             return (

@@ -260,7 +260,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
         </div>
       </div>
 
-      <div className="max-w-[1700px] mx-auto p-6 lg:p-10 lg:pt-16 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 relative z-0">
+      <div className="max-w-full max-w-7xl mx-auto p-6 lg:p-10 lg:pt-16 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 relative z-0">
         
         {/* LEFT COLUMN: Main Visuals & Stats (8/12) */}
         <div className="lg:col-span-8 flex flex-col gap-8 lg:gap-12">

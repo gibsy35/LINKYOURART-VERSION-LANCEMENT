@@ -397,7 +397,7 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
 
   return (
     <section className="relative z-10 py-16 sm:py-28 px-4 sm:px-6 overflow-hidden">
-      <div className="max-w-[1400px] mx-auto">
+      <div className="max-w-full max-w-7xl mx-auto">
 
         {/* ── HEADER ───────────────────────────────────────────── */}
         <div className="text-center mb-20">
@@ -1111,7 +1111,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
           />
         </div>
 
-        <div className="max-w-[1800px] mx-auto relative z-10 w-full">
+        <div className="max-w-full max-w-7xl mx-auto relative z-10 w-full">
           <div className="flex flex-col lg:grid lg:grid-cols-2 gap-6 lg:gap-5 sm:p-8 lg:p-12 items-center">
             <div
               className="text-left z-20 relative pt-2 md:pt-4 lg:pt-6 max-w-[45vw] sm:max-w-[42vw] lg:max-w-full"
@@ -1191,7 +1191,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
 
       {/* Concept / Vision Section - ENHANCED */}
       <section className="relative z-10 py-32 px-6">
-        <div className="max-w-[1800px] mx-auto">
+        <div className="max-w-full max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <motion.div
               initial={{ opacity: 0, x: -30 }}
@@ -1277,8 +1277,8 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
 
       {/* Comparison Section: What we are vs What we are not */}
       <section className="relative z-10 py-32 px-6 bg-surface-low/50 border-y border-white/5">
-        <div className="max-w-[1500px] mx-auto">
-          <div className="text-center mb-5 md:mb-10 lg:mb-6 md:mb-10 lg:mb-16">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-10 lg:mb-16">
             <h2 className="text-3xl md:text-5xl font-black font-headline text-white tracking-tighter uppercase mb-6 drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]">
               {t('home.not_lya.title', 'What LinkYourArt')} <span className="text-primary-cyan">{t('home.not_lya.title_cyan', 'is and is NOT')}</span>
             </h2>
@@ -1287,7 +1287,8 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
             </p>
           </div>
 
-          <div className="hidden lg:block overflow-hidden border border-white/10 rounded-[2.5rem] bg-gradient-to-b from-white/[0.02] to-transparent shadow-2xl">
+          <div className="overflow-x-auto">
+            <div className="hidden lg:block overflow-hidden border border-white/10 rounded-[2.5rem] bg-gradient-to-b from-white/[0.02] to-transparent shadow-2xl">
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="border-b border-white/10 bg-white/[0.01]">
@@ -1395,13 +1396,14 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
               </ul>
             </div>
           </div>
+          </div>{/* overflow-x-auto */}
         </div>
       </section>
 
       <BrushSeparator />
 
       {/* The Ecosystem Section */}
-      <section className="relative z-10 py-10 md:py-24 lg:py-10 md:py-24 lg:py-40 max-w-[1800px] mx-auto px-6">
+      <section className="relative z-10 py-10 md:py-24 lg:py-10 md:py-24 lg:py-40 max-w-full max-w-7xl mx-auto px-6">
         <div className="text-center mb-6 md:mb-14 lg:mb-8 md:mb-16 lg:mb-24">
           <h2 className="text-3xl md:text-5xl font-black font-headline text-white tracking-tighter uppercase mb-6 drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]">
             {t('THE', 'LES')} <span className="text-primary-cyan">{t('FOUR SPHERES', 'QUATRE SPHÈRES')}</span>
@@ -1622,7 +1624,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
 
       <BrushSeparator />
 
-      <section className="relative z-10 py-10 md:py-24 lg:py-10 md:py-24 lg:py-40 max-w-[1800px] mx-auto px-6">
+      <section className="relative z-10 py-10 md:py-24 lg:py-10 md:py-24 lg:py-40 max-w-full max-w-7xl mx-auto px-6">
         <div className="text-center mb-6 md:mb-14 lg:mb-8 md:mb-16 lg:mb-24">
           <h2 className="text-3xl md:text-5xl font-black font-headline text-white tracking-tighter uppercase mb-6 drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]">
             {t('home.scoring.title', 'LE SYSTÈME')} <span className="text-primary-cyan">{t('home.scoring.title_cyan', "D'ÉVALUATION LYA")}</span>

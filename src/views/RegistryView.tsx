@@ -704,7 +704,7 @@ export const RegistryView: React.FC<{
               </div>
 
               <div className="overflow-x-auto custom-scrollbar pb-6">
-                <div className="min-w-[800px] overflow-x-auto grid grid-cols-[200px_repeat(auto-fit,minmax(200px,1fr))] gap-8">
+                <div className="min-w-full max-w-3xl overflow-x-auto grid grid-cols-[200px_repeat(auto-fit,minmax(200px,1fr))] gap-8">
                   {/* Labels Column */}
                   <div className="space-y-12 pt-24">
                     <div className="text-sm uppercase tracking-[0.3em] text-on-surface-variant font-bold h-12 flex items-center">{t('Security Score', 'Score de Sécurité')}</div>

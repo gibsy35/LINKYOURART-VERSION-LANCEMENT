@@ -540,7 +540,7 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
     case 'professionals':
       return (
         <div className="relative w-full h-full flex items-center justify-center p-4 overflow-hidden">
-          <div className="relative w-full h-full max-w-[360px] md:max-w-[400px]">
+          <div className="relative w-full h-full max-w-full max-w-sm md:max-w-[400px]">
             <motion.div 
               animate={{ scale: [1, 1.05, 1] }}
               transition={{ duration: 4, repeat: Infinity }}
@@ -736,7 +736,7 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
     case 'invest-smartly':
       return (
         <div className="relative w-full h-full flex flex-col items-center justify-center p-3 md:p-4 bg-gradient-to-br from-indigo-900/10 to-transparent">
-          <div className="w-full max-w-[320px] md:max-w-[360px] space-y-3 md:space-y-4">
+          <div className="w-full max-w-[320px] md:max-w-full max-w-sm space-y-3 md:space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {[
                 { title: CONTRACTS[0]?.name || 'Digital Horizons', score: String(CONTRACTS[0]?.totalScore || 884), roi: `+${CONTRACTS[0]?.growth || 14.2}%`, lyaUnit: `$${(LYA_UNIT_VALUE*(1+(CONTRACTS[0]?.growth||14.2)/100)).toFixed(2)}`, color: 'text-indigo-400', bg: 'bg-indigo-500/10', up: true },
@@ -807,7 +807,7 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
     case 'market':
       return (
         <div className="relative w-full h-full flex flex-col items-center justify-center p-4">
-          <div className="w-full max-w-[360px] bg-[#03060B] border-2 border-white/10 rounded-[2rem] overflow-hidden shadow-2xl">
+          <div className="w-full max-w-full max-w-sm bg-[#03060B] border-2 border-white/10 rounded-[2rem] overflow-hidden shadow-2xl">
             <div className="bg-amber-500/10 p-5 flex justify-between items-center border-b border-white/10 backdrop-blur-xl">
                <div className="flex items-center gap-3">
                  <TrendingUp className="text-amber-400 w-6 h-6" />
@@ -1168,7 +1168,7 @@ export const ConceptTutorial: React.FC<Props> = ({ isOpen, onClose }) => {
                 initial={{ scale: 0.8, opacity: 0, filter: 'blur(10px)' }}
                 animate={{ scale: 1, opacity: 1, filter: 'blur(0px)' }}
                 exit={{ scale: 1.2, opacity: 0, filter: 'blur(10px)' }}
-                className="w-full h-[160px] md:h-full min-h-0 flex items-center justify-center relative overflow-hidden"
+                className="w-full h-[140px] md:h-[220px] lg:h-full min-h-0 flex items-center justify-center relative overflow-hidden"
               >
                 <div className="w-full h-full flex items-center justify-center transition-transform duration-500 max-h-[160px] md:max-h-none">
                   <Illustration type={step.illustration} color={step.color} />

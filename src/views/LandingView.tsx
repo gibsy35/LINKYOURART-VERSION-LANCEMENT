@@ -358,7 +358,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
             </div>
 
             {/* Navigation */}
-            <nav className="px-4 md:px-8 py-4 md:py-6 flex justify-between items-center max-w-[1600px] mx-auto relative z-[60]">
+            <nav className="px-4 md:px-8 py-4 md:py-6 flex justify-between items-center max-w-full max-w-7xl mx-auto relative z-[60]">
               <div className="flex md:hidden w-full items-center relative py-2">
                 <div className="flex flex-col items-start gap-2 z-10">
                   <button onClick={() => setShowDemoModal(true)} className="flex bg-white/5 border border-white/10 hover:border-primary-cyan/50 transition-all p-2.5 rounded-full items-center justify-center">
@@ -415,7 +415,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
             </nav>
 
             {/* ── HERO ── */}
-            <div className="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 px-4 md:px-8 pt-8 md:pt-16 pb-20 md:pb-32 items-center relative z-10">
+            <div className="max-w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 px-4 md:px-8 pt-8 md:pt-16 pb-20 md:pb-32 items-center relative z-10">
               <div className="lg:col-span-7 space-y-8 relative z-20">
                 <motion.div initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}>
                   
@@ -636,7 +636,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
 
             {/* Footer */}
             <footer className="relative z-10 border-t border-white/5 bg-black/40 backdrop-blur-xl py-10 md:py-16 px-4 md:px-8">
-              <div className="max-w-[1600px] mx-auto flex flex-col md:flex-row items-start gap-16">
+              <div className="max-w-full max-w-7xl mx-auto flex flex-col md:flex-row items-start gap-16">
                 <div className="space-y-4 md:w-1/3">
                   <div className="flex items-center gap-3">
                     <Logo size={40} color="multi" showBeta={true} />
