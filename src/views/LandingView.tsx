@@ -446,19 +446,21 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
 
                 </motion.div>
 
-                {/* Countdown */}
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-lg">
-                  {[
-                    { label: 'DAYS', val: timeLeft.days },
-                    { label: 'HOURS', val: timeLeft.hours },
-                    { label: 'MINS', val: timeLeft.minutes },
-                    { label: 'SECS', val: timeLeft.seconds }
-                  ].map((unit) => (
-                    <div key={unit.label} className="bg-white/5 border border-white/5 rounded-2xl p-4 backdrop-blur-sm group hover:border-primary-cyan/30 transition-all">
-                      <div className="text-3xl md:text-4xl font-headline font-black text-primary-cyan mb-1 group-hover:scale-110 transition-transform">{unit.val.toString().padStart(2, '0')}</div>
-                      <div className="text-xs text-white/30 font-bold tracking-widest uppercase">{t(unit.label, unit.label === 'DAYS' ? 'JOURS' : unit.label === 'MINS' ? 'MINS' : unit.label === 'SECS' ? 'SECS' : 'HEURES')}</div>
+                {/* Compteur pré-inscrits temps réel */}
+                <div className="flex items-center gap-4 flex-wrap">
+                  <div className="bg-white/5 border border-primary-cyan/20 rounded-2xl p-5 backdrop-blur-sm flex items-center gap-4">
+                    <div className="w-10 h-10 bg-primary-cyan/15 border border-primary-cyan/30 rounded-xl flex items-center justify-center">
+                      <span className="text-primary-cyan text-sm font-black">✦</span>
                     </div>
-                  ))}
+                    <div>
+                      <div className="text-3xl font-black text-primary-cyan">{(totalRegistrations || 0).toLocaleString()}</div>
+                      <div className="text-xs text-white/40 font-black uppercase tracking-widest">{t('Pionniers pré-inscrits', 'Pre-registered pioneers')}</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 px-4 py-2 bg-emerald-400/10 border border-emerald-400/20 rounded-full">
+                    <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"/>
+                    <span className="text-xs font-black text-emerald-400 uppercase tracking-widest">{t('Inscriptions ouvertes', 'Registrations open')}</span>
+                  </div>
                 </div>
 
                 {/* Preuve sociale */}

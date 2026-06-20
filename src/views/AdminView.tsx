@@ -222,14 +222,19 @@ export const AdminView: React.FC<{
     
     const unsubs: (() => void)[] = [];
 
-    unsubs.push(onSnapshot(query(preRef, limit(50)), (snap) => {
-      const dbPre = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    unsubs.push(onSnapshot(query(preRef, orderBy('timestamp', 'desc'), limit(200)), (snap) => {
+      const dbPre = snap.docs.map(doc => ({ id: doc.id, ...doc.data() } as any));
       const localPre = JSON.parse(localStorage.getItem('lya_local_pre_registrations') || '[]');
-      const merged = [...dbPre];
+      const merged: any[] = [...dbPre];
       localPre.forEach((lp: any) => {
-        if (!merged.some(m => m.id === lp.id)) {
+        if (!merged.some((m: any) => m.email === lp.email)) {
           merged.push(lp);
         }
+      });
+      merged.sort((a: any, b: any) => {
+        const da = a.timestamp?.toDate ? a.timestamp.toDate() : new Date(a.timestamp || 0);
+        const db2 = b.timestamp?.toDate ? b.timestamp.toDate() : new Date(b.timestamp || 0);
+        return db2.getTime() - da.getTime();
       });
       setPreRegistrations(merged);
     }, (e) => handleFirestoreError(e, OperationType.GET, 'pre_registrations')));
