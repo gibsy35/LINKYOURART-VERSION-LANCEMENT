@@ -26,6 +26,7 @@ import { BreakingNewsTicker } from '../components/BreakingNewsTicker';
 import { Ticker } from '../components/ui/Ticker';
 import { CONTRACTS } from '../types';
 import { fetchRealtimeNews } from '../services/geminiService';
+import { PressMediaSection } from '../components/PressMediaSection';
 import { db } from '../firebase';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 
@@ -617,111 +618,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
 
       {/* ── SECTION PRESSE & MÉDIAS ─────────────────────────────────────── */}
       {mainTab === 'press' && (
-        <div className="space-y-8">
-
-          {/* Intro */}
-          <div className="bg-[#a78bfa]/8 border border-[#a78bfa]/20 rounded-2xl p-6">
-            <div className="flex items-start gap-4">
-              <div className="w-10 h-10 bg-[#a78bfa]/20 border border-[#a78bfa]/30 rounded-xl flex items-center justify-center shrink-0">
-                <span className="text-[#a78bfa] text-lg">✦</span>
-              </div>
-              <div>
-                <p className="text-sm font-black text-[#a78bfa] uppercase tracking-widest mb-1">{t('Espace Presse & Médias LYA','LYA Press & Media Space')}</p>
-                <p className="text-xs text-on-surface-variant/60 leading-relaxed">
-                  {t('Un espace dédié aux journalistes, influenceurs et rédacteurs créatifs. Les identités sont protégées — seules les créations et opportunités sont visibles. L\'accès complet aux contacts est réservé aux membres Pro vérifiés.',
-                     'A dedicated space for journalists, influencers and creative writers. Identities are protected — only creations and opportunities are visible. Full contact access is reserved for verified Pro members.')}
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Appels à contribution */}
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <h3 className="text-xs font-black text-on-surface-variant/50 uppercase tracking-widest">{t('Appels à contribution','Call for Contributions')}</h3>
-              <span className="px-2 py-0.5 bg-emerald-400/10 border border-emerald-400/20 rounded text-[9px] font-black text-emerald-400">● {t('En cours','Live')}</span>
-            </div>
-            {[
-              { code: 'LYA-PRESS-001', type: t('Article de fond','In-depth article'), subject: t('Impact de la co-propriété artistique en Europe','Impact of artistic co-ownership in Europe'), sector: 'Film / TV Series', lang: 'FR/EN', badge: 'LYA Press', deadline: t('Ouvert','Open') },
-              { code: 'LYA-PRESS-002', type: t('Interview créateur','Creator interview'), subject: t('Rencontre avec un créateur LYA — témoignage d\'expérience','Meet a LYA creator — experience testimony'), sector: 'Music', lang: 'FR', badge: 'LYA Press', deadline: t('Ouvert','Open') },
-              { code: 'LYA-PRESS-003', type: t('Reportage photo','Photo essay'), subject: t('La nouvelle génération de créateurs visuels','The new generation of visual creators'), sector: 'Visual Art / Fashion', lang: 'EN', badge: 'LYA Press', deadline: t('Ouvert','Open') },
-              { code: 'LYA-PRESS-004', type: t('Tribune','Opinion piece'), subject: t('L\'art comme actif vivant — vers une nouvelle économie créative','Art as a living asset — toward a new creative economy'), sector: 'Global', lang: 'FR/EN', badge: 'LYA Editorial', deadline: t('Ouvert','Open') },
-            ].map((item, i) => (
-              <div key={i} className="bg-surface-low border border-white/8 rounded-2xl p-5 hover:border-[#a78bfa]/30 transition-all">
-                <div className="flex items-start justify-between gap-4">
-                  <div className="space-y-2 flex-1 min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <span className="px-2 py-0.5 bg-[#a78bfa]/15 border border-[#a78bfa]/25 rounded text-[9px] font-black text-[#a78bfa] uppercase">★ {item.badge}</span>
-                      <span className="px-2 py-0.5 bg-white/5 border border-white/10 rounded text-[9px] font-black text-white/50 uppercase">{item.type}</span>
-                      <span className="px-2 py-0.5 bg-emerald-400/8 border border-emerald-400/15 rounded text-[9px] font-black text-emerald-400 uppercase">{item.deadline}</span>
-                    </div>
-                    <p className="text-sm font-black text-white">{item.subject}</p>
-                    <div className="flex items-center gap-3 text-[10px] text-on-surface-variant/40 font-black">
-                      <span>#{item.code}</span>
-                      <span>·</span>
-                      <span>{item.sector}</span>
-                      <span>·</span>
-                      <span>{item.lang}</span>
-                    </div>
-                  </div>
-                  <button onClick={() => onNotify(t('✦ Demande envoyée — Un membre LYA vous contactera sous 48h via votre espace Pro.','✦ Request sent — A LYA member will contact you within 48h via your Pro space.'))}
-                    className="shrink-0 px-4 py-2 bg-[#a78bfa]/15 border border-[#a78bfa]/25 text-[#a78bfa] text-[10px] font-black rounded-xl hover:bg-[#a78bfa]/25 transition-all uppercase tracking-wider">
-                    {t('Postuler','Apply')}
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Publications récentes */}
-          <div className="space-y-4">
-            <h3 className="text-xs font-black text-on-surface-variant/50 uppercase tracking-widest">{t('Publications récentes liées à LYA','Recent publications linked to LYA')}</h3>
-            {[
-              { code: 'LYA-PUB-2026-01', title: t('Comment LinkYourArt révolutionne le financement des créateurs','How LinkYourArt is revolutionizing creator funding'), source: t('Média Créatif Indépendant','Independent Creative Media'), sector: 'Global', impact: '+8 pts', up: true },
-              { code: 'LYA-PUB-2026-02', title: t('La mode comme actif : le cas LinkYourArt','Fashion as an asset: the LinkYourArt case'), source: t('Tribune Fashion & Business','Fashion & Business Tribune'), sector: 'Fashion', impact: '+12 pts', up: true },
-              { code: 'LYA-PUB-2026-03', title: t('Séries TV et co-propriété : une révolution silencieuse','TV Series and co-ownership: a silent revolution'), source: t('Revue Audiovisuelle','Audiovisual Review'), sector: 'TV Series / Film', impact: '+6 pts', up: true },
-            ].map((pub, i) => (
-              <div key={i} className="flex items-start gap-4 p-4 bg-surface-low border border-white/8 rounded-xl hover:border-primary-cyan/20 transition-all">
-                <div className="w-8 h-8 bg-primary-cyan/10 border border-primary-cyan/20 rounded-lg flex items-center justify-center shrink-0">
-                  <span className="text-primary-cyan text-xs">✦</span>
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-xs font-black text-white mb-1">{pub.title}</p>
-                  <div className="flex items-center gap-2 text-[9px] text-on-surface-variant/40 font-black flex-wrap">
-                    <span>#{pub.code}</span>
-                    <span>·</span>
-                    <span>{pub.source}</span>
-                    <span>·</span>
-                    <span>{pub.sector}</span>
-                  </div>
-                </div>
-                <div className={`shrink-0 text-xs font-black ${pub.up ? 'text-emerald-400' : 'text-rose-400'}`}>
-                  {pub.impact} LYA
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Accréditation */}
-          <div className="bg-surface-low border border-accent-gold/20 rounded-2xl p-6 text-center space-y-4">
-            <div className="w-12 h-12 bg-accent-gold/15 border border-accent-gold/25 rounded-xl flex items-center justify-center mx-auto">
-              <span className="text-accent-gold text-xl">★</span>
-            </div>
-            <div>
-              <p className="text-sm font-black text-accent-gold uppercase tracking-widest mb-1">{t('Badge LYA Press','LYA Press Badge')}</p>
-              <p className="text-xs text-on-surface-variant/50 leading-relaxed max-w-sm mx-auto">
-                {t('Obtenez votre accréditation LYA Press pour accéder aux contacts directs, aux avant-premières et aux données exclusives. Réservé aux journalistes et influenceurs créatifs vérifiés.',
-                   'Get your LYA Press accreditation to access direct contacts, previews and exclusive data. Reserved for verified journalists and creative influencers.')}
-              </p>
-            </div>
-            <button onClick={() => onNotify(t('✦ Demande d\'accréditation envoyée — Traitement sous 5 jours ouvrés.','✦ Accreditation request sent — Processing within 5 business days.'))}
-              className="px-8 py-3 bg-accent-gold text-surface-dim text-xs font-black uppercase tracking-widest rounded-xl hover:bg-white transition-all">
-              {t('Demander une accréditation','Request accreditation')}
-            </button>
-            <p className="text-[9px] text-on-surface-variant/30">{t('Accès complet réservé aux membres Pro vérifiés LYA','Full access reserved for LYA verified Pro members')}</p>
-          </div>
-
-        </div>
+        <PressMediaSection t={t} language={language} onNotify={onNotify} />
       )}
 
       {/* Main Feed Grid */}
