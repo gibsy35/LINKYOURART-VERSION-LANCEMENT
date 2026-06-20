@@ -32,7 +32,7 @@ import {
   History,
   Scale
 } from 'lucide-react';
-import { Contract, PillarScore } from '../types';
+import {Contract, PillarScore, LYA_UNIT_VALUE} from '../types';
 import { useTranslation } from '../context/LanguageContext';
 import { useCurrency } from '../context/CurrencyContext';
 import { simulatePDFDownload } from '../utils/download';
@@ -358,7 +358,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
               { label: t('LIQUIDITY', 'LIQUIDITÉ'), value: 'HIGH', status: 'Optimal', color: 'emerald' },
               { label: t('VOLATILITY', 'VOLATILITÉ'), value: '0.12', status: 'Stable', color: 'cyan' },
               { label: t('HOLDERS', 'DÉTENTEURS'), value: '2,841', status: 'Growth', color: 'pink' },
-              { label: t('LYA PEG', 'PEG LYA'), value: '$50.00', status: 'Locked', color: 'gold' }
+              { label: t('LYA PEG', 'PEG LYA'), value: formatPrice(LYA_UNIT_VALUE), status: 'Locked', color: 'gold' }
             ].map((metric, i) => (
             <div key={metric.label} className="bg-surface-low border border-white/5 p-6 rounded-[2rem] hover:border-white/10 transition-all group shadow-sm">
               <div className="text-[10px] font-black text-white/30 uppercase tracking-[0.2em] mb-2">{metric.label}</div>
@@ -477,7 +477,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                        </div>
 
                        <p className="text-xs text-white/70 leading-relaxed max-w-4xl text-justify">
-                         {t('The baseline LYA UNIT pricing starts fixed at $50.00 representing the initial fractioned value. The price then fluctuates dynamically up (Jalon +) or down (Jalon -) exclusively based on the operational quality. Real-time contrat numérique certifiés automatically adjust indices de référence the second a milestone is certified or missed.', 'Le cours du LYA UNIT (valeur initiale de $50,00) varie de façon autonome en fonction de la validation ou du retard des jalons opérationnels. C\'est l\'indicateur exclusif de la qualité de notre fonctionnement : l\'atteinte des jalons (Jalon +) revalorise l\'index, tandis que les retards de livraison (Jalon -) l\'ajustent à la baisse.')}
+                         {t('The baseline LYA UNIT pricing starts at the base LYA UNIT value, representing the initial fractioned value. The price then fluctuates dynamically up (Jalon +) or down (Jalon -) exclusively based on the operational quality. Real-time contrat numérique certifiés automatically adjust indices de référence the second a milestone is certified or missed.', 'Le cours du LYA UNIT (valeur initiale de $50,00) varie de façon autonome en fonction de la validation ou du retard des jalons opérationnels. C\'est l\'indicateur exclusif de la qualité de notre fonctionnement : l\'atteinte des jalons (Jalon +) revalorise l\'index, tandis que les retards de livraison (Jalon -) l\'ajustent à la baisse.')}
                        </p>
 
                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
