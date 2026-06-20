@@ -450,12 +450,12 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                 <div className="flex items-center gap-3 p-4 bg-white/[0.04] border border-white/10 rounded-2xl backdrop-blur-sm w-fit">
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse shrink-0"/>
-                    <span className="text-xs font-black text-emerald-400 uppercase tracking-widest">{t('Ouvert', 'Open')}</span>
+                    <span className="text-xs font-black text-emerald-400 uppercase tracking-widest">{t('Open', 'Ouvert')}</span>
                   </div>
                   <div className="w-px h-5 bg-white/10"/>
                   <div className="flex items-baseline gap-2">
                     <span className="text-2xl font-black text-primary-cyan">{(totalRegistrations || 0).toLocaleString()}</span>
-                    <span className="text-xs text-white/40 font-black uppercase tracking-widest">{t('pionniers inscrits', 'pioneers registered')}</span>
+                    <span className="text-xs text-white/40 font-black uppercase tracking-widest">{t('pioneers registered', 'pionniers inscrits')}</span>
                   </div>
                 </div>
 
