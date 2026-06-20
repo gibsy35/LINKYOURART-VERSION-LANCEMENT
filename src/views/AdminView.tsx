@@ -48,7 +48,7 @@ export const AdminView: React.FC<{
 }> = ({ user, onNotify, onViewChange, liveContracts }) => {
   const { t } = useTranslation();
   const { formatPrice } = useCurrency();
-  const [activeTab, setActiveTab] = useState<'users' | 'projects' | 'financials' | 'system' | 'validation' | 'engagement'>('users');
+  const [activeTab, setActiveTab] = useState<'users' | 'projects' | 'financials' | 'system' | 'validation' | 'engagement' | 'submissions'>('users');
   const [users, setUsers] = useState<UserProfile[]>([]);
   const [projectsList, setProjectsList] = useState<any[]>([]);
   const [validationQueue, setValidationQueue] = useState<any[]>([]);
@@ -56,6 +56,9 @@ export const AdminView: React.FC<{
   const [preRegistrations, setPreRegistrations] = useState<any[]>([]);
   const [demoRequests, setDemoRequests] = useState<any[]>([]);
   const [activeEmailRequest, setActiveEmailRequest] = useState<any | null>(null);
+  const [pendingSubmissions, setPendingSubmissions] = useState<any[]>([]);
+  const [publishModal, setPublishModal] = useState<any | null>(null);
+  const [publishForm, setPublishForm] = useState({ scoreAlgo: 750, scorePro: 750, growth: 0, rarity: 'Rare', revenueSharePercentage: 5 });
   const [generatedDemoKey, setGeneratedDemoKey] = useState<string>('');
   const [expandedVerifId, setExpandedVerifId] = useState<string | null>(null);
 
@@ -219,8 +222,14 @@ export const AdminView: React.FC<{
     if ((window as any).lya_quota_reached) return;
     const preRef = collection(db, 'pre_registrations');
     const demoRef = collection(db, 'demo_requests');
-    
+    const submissionsRef = collection(db, 'projects_pending');
+
     const unsubs: (() => void)[] = [];
+
+    // Charger les soumissions de projets en attente
+    unsubs.push(onSnapshot(query(submissionsRef, orderBy('createdAt', 'desc'), limit(100)), (snap) => {
+      setPendingSubmissions(snap.docs.map(d => ({ id: d.id, ...d.data() })));
+    }, (e) => console.warn('submissions error:', e)));
 
     unsubs.push(onSnapshot(query(preRef, orderBy('timestamp', 'desc'), limit(200)), (snap) => {
       const dbPre = snap.docs.map(doc => ({ id: doc.id, ...doc.data() } as any));
@@ -442,6 +451,72 @@ export const AdminView: React.FC<{
       if (!requestId.startsWith('local_')) {
         handleFirestoreError(err as any, OperationType.UPDATE, `verification_requests/${requestId}`);
       }
+    }
+  };
+
+  // Publier un projet soumis vers l'Exchange LYA
+  const handlePublishProject = async (submission: any, form: typeof publishForm) => {
+    try {
+      const totalScore = Math.round((form.scoreAlgo + form.scorePro) / 2);
+      const lyaUnit = parseFloat((50 * (1 + form.growth / 100)).toFixed(2));
+      const registryIndex = `LYA-${new Date().getFullYear()}-${String(Math.floor(Math.random() * 900) + 100).padStart(3, '0')}`;
+
+      // 1. Publier dans la collection contracts (Exchange)
+      await setDoc(doc(db, 'contracts', submission.id), {
+        id: submission.id,
+        name: submission.name,
+        category: submission.category || 'Music',
+        description: submission.description || '',
+        image: submission.imageUrl || `https://picsum.photos/seed/${submission.id}/800/500`,
+        issuerId: submission.creatorName || 'LYA Creator',
+        creatorId: submission.creatorId,
+        status: 'LIVE',
+        rarity: form.rarity,
+        scoreAlgo: form.scoreAlgo,
+        scorePro: form.scorePro,
+        totalScore,
+        growth: form.growth,
+        lyaUnit,
+        revenueSharePercentage: form.revenueSharePercentage,
+        totalUnits: 10000,
+        availableUnits: 8000,
+        registryIndex,
+        registryAddress: `LYA_REG_0x${Math.random().toString(16).slice(2, 10).toUpperCase()}`,
+        creationDate: new Date().toISOString().split('T')[0],
+        publishedAt: serverTimestamp(),
+        publishedBy: user?.uid,
+      });
+
+      // 2. Mettre à jour le statut dans projects_pending
+      await updateDoc(doc(db, 'projects_pending', submission.id), {
+        status: 'PUBLISHED',
+        publishedAt: serverTimestamp(),
+        registryIndex,
+        lyaScore: totalScore,
+      });
+
+      // 3. Mettre à jour le state local
+      setPendingSubmissions(prev => prev.map(s => s.id === submission.id ? { ...s, status: 'PUBLISHED' } : s));
+      setPublishModal(null);
+      onNotify(t(`✦ ${submission.name} publié sur l'Exchange LYA — Score: ${totalScore}/1000`, `✦ ${submission.name} published on LYA Exchange — Score: ${totalScore}/1000`));
+    } catch(e: any) {
+      console.error('Publish error:', e);
+      onNotify(t('Erreur lors de la publication', 'Publication error'));
+    }
+  };
+
+  // Rejeter une soumission
+  const handleRejectSubmission = async (submission: any, reason: string) => {
+    try {
+      await updateDoc(doc(db, 'projects_pending', submission.id), {
+        status: 'REJECTED',
+        rejectedAt: serverTimestamp(),
+        rejectionReason: reason,
+      });
+      setPendingSubmissions(prev => prev.map(s => s.id === submission.id ? { ...s, status: 'REJECTED' } : s));
+      onNotify(t(`✦ ${submission.name} refusé`, `✦ ${submission.name} rejected`));
+    } catch(e) {
+      onNotify(t('Erreur', 'Error'));
     }
   };
 
@@ -1420,6 +1495,7 @@ export const AdminView: React.FC<{
         <aside className="w-full lg:w-64 space-y-2">
           {[
             {id: 'users', label: 'Identity', icon: <Users size={16}/>},
+            {id: 'submissions', label: t('Soumissions', 'Submissions'), icon: <FileText size={16}/>, badge: pendingSubmissions.filter(s => s.status === 'PENDING_VALIDATION').length || undefined},
             {id: 'engagement', label: 'Engagement', icon: <Mail size={16}/>},
             {id: 'validation', label: 'Verifications', icon: <Shield size={16}/>},
             {id: 'projects', label: 'Assets', icon: <Activity size={16}/>},
@@ -1440,6 +1516,143 @@ export const AdminView: React.FC<{
 
           <AnimatePresence mode="wait">
             {activeTab === 'users' && <motion.div key="u" initial={{opacity:0, y:10}} animate={{opacity:1, y:0}} exit={{opacity:0, y:-10}}>{renderUsersTab()}</motion.div>}
+            {activeTab === 'submissions' && (
+              <motion.div key="sub" initial={{opacity:0, y:10}} animate={{opacity:1, y:0}} exit={{opacity:0, y:-10}}>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h3 className="text-sm font-black text-white uppercase tracking-widest">{t('Soumissions de projets', 'Project submissions')}</h3>
+                      <p className="text-xs text-on-surface-variant/40 mt-1">{t('Validez ou refusez chaque projet avant publication sur l\'Exchange LYA', 'Validate or reject each project before publishing on LYA Exchange')}</p>
+                    </div>
+                    <div className="flex gap-2">
+                      <span className="px-3 py-1 bg-amber-500/10 border border-amber-500/20 rounded-lg text-xs font-black text-amber-500">{pendingSubmissions.filter(s => s.status === 'PENDING_VALIDATION').length} {t('en attente', 'pending')}</span>
+                      <span className="px-3 py-1 bg-emerald-400/10 border border-emerald-400/20 rounded-lg text-xs font-black text-emerald-400">{pendingSubmissions.filter(s => s.status === 'PUBLISHED').length} {t('publiés', 'published')}</span>
+                    </div>
+                  </div>
+
+                  {pendingSubmissions.length === 0 ? (
+                    <div className="bg-surface-low border border-white/8 rounded-2xl p-12 text-center">
+                      <p className="text-on-surface-variant/40 text-sm">{t('Aucune soumission pour le moment', 'No submissions yet')}</p>
+                    </div>
+                  ) : (
+                    <div className="space-y-3">
+                      {pendingSubmissions.map((sub) => (
+                        <div key={sub.id} className={`bg-surface-low border rounded-2xl p-5 transition-all ${sub.status === 'PUBLISHED' ? 'border-emerald-400/20' : sub.status === 'REJECTED' ? 'border-rose-400/20 opacity-60' : 'border-amber-500/25'}`}>
+                          <div className="flex items-start justify-between gap-4">
+                            <div className="flex-1 min-w-0 space-y-2">
+                              <div className="flex items-center gap-2 flex-wrap">
+                                <span className={`px-2 py-0.5 rounded text-[9px] font-black uppercase ${sub.status === 'PUBLISHED' ? 'bg-emerald-400/10 text-emerald-400 border border-emerald-400/20' : sub.status === 'REJECTED' ? 'bg-rose-400/10 text-rose-400 border border-rose-400/20' : 'bg-amber-500/10 text-amber-500 border border-amber-500/20'}`}>
+                                  {sub.status === 'PUBLISHED' ? '✓ ' + t('Publié', 'Published') : sub.status === 'REJECTED' ? '✗ ' + t('Refusé', 'Rejected') : '● ' + t('En attente', 'Pending')}
+                                </span>
+                                {sub.category && <span className="px-2 py-0.5 bg-white/5 border border-white/10 rounded text-[9px] font-black text-white/50">{sub.category}</span>}
+                                {sub.registryIndex && <span className="px-2 py-0.5 bg-primary-cyan/10 border border-primary-cyan/20 rounded text-[9px] font-black text-primary-cyan font-mono">{sub.registryIndex}</span>}
+                              </div>
+                              <p className="text-sm font-black text-white">{sub.name || t('Projet sans titre', 'Untitled project')}</p>
+                              <p className="text-xs text-on-surface-variant/50 line-clamp-2">{sub.description}</p>
+                              <div className="flex items-center gap-3 text-[10px] text-on-surface-variant/40 font-black">
+                                <span>👤 {sub.creatorName || sub.creatorEmail}</span>
+                                {sub.lyaScore && <span>★ LYA Score: {sub.lyaScore}/1000</span>}
+                                {sub.createdAt?.toDate && <span>🕐 {sub.createdAt.toDate().toLocaleDateString()}</span>}
+                              </div>
+                            </div>
+
+                            {sub.status === 'PENDING_VALIDATION' && (
+                              <div className="flex flex-col gap-2 shrink-0">
+                                <button onClick={() => { setPublishModal(sub); setPublishForm({ scoreAlgo: 750, scorePro: 750, growth: 0, rarity: 'Rare', revenueSharePercentage: 5 }); }}
+                                  className="px-4 py-2 bg-emerald-400/15 border border-emerald-400/25 text-emerald-400 text-[10px] font-black rounded-xl hover:bg-emerald-400/25 transition-all uppercase">
+                                  {t('Valider & Publier', 'Validate & Publish')}
+                                </button>
+                                <button onClick={() => { if(window.confirm(t('Refuser ce projet ?', 'Reject this project?'))) handleRejectSubmission(sub, 'Non conforme aux critères LYA'); }}
+                                  className="px-4 py-2 bg-rose-400/10 border border-rose-400/20 text-rose-400 text-[10px] font-black rounded-xl hover:bg-rose-400/20 transition-all uppercase">
+                                  {t('Refuser', 'Reject')}
+                                </button>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Modal de publication */}
+                {publishModal && (
+                  <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-xl">
+                    <div className="bg-surface-low border border-primary-cyan/30 rounded-3xl p-6 max-w-md w-full space-y-5">
+                      <div>
+                        <p className="text-[10px] font-black text-primary-cyan uppercase tracking-widest mb-1">{t('Validation & Publication', 'Validation & Publication')}</p>
+                        <h3 className="text-sm font-black text-white">{publishModal.name}</h3>
+                        <p className="text-[10px] text-on-surface-variant/40">par {publishModal.creatorName}</p>
+                      </div>
+
+                      <div className="space-y-3">
+                        <div className="grid grid-cols-2 gap-3">
+                          <div>
+                            <label className="text-[9px] font-black text-white/40 uppercase tracking-widest block mb-1">Score Algo /1000</label>
+                            <input type="number" min="0" max="1000" value={publishForm.scoreAlgo}
+                              onChange={e => setPublishForm(f => ({...f, scoreAlgo: parseInt(e.target.value)}))}
+                              className="w-full bg-black/30 border border-white/10 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-primary-cyan/50"/>
+                          </div>
+                          <div>
+                            <label className="text-[9px] font-black text-white/40 uppercase tracking-widest block mb-1">Score Pro /1000</label>
+                            <input type="number" min="0" max="1000" value={publishForm.scorePro}
+                              onChange={e => setPublishForm(f => ({...f, scorePro: parseInt(e.target.value)}))}
+                              className="w-full bg-black/30 border border-white/10 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-primary-cyan/50"/>
+                          </div>
+                        </div>
+
+                        <div className="bg-[#a78bfa]/10 border border-[#a78bfa]/20 rounded-xl p-3 text-center">
+                          <p className="text-[9px] text-white/40 uppercase tracking-widest">LYA Score calculé</p>
+                          <p className="text-2xl font-black text-[#a78bfa]">{Math.round((publishForm.scoreAlgo + publishForm.scorePro) / 2)}<span className="text-xs text-white/20">/1000</span></p>
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-3">
+                          <div>
+                            <label className="text-[9px] font-black text-white/40 uppercase tracking-widest block mb-1">LYA UNIT variation %</label>
+                            <input type="number" min="-100" max="500" value={publishForm.growth}
+                              onChange={e => setPublishForm(f => ({...f, growth: parseFloat(e.target.value)}))}
+                              className="w-full bg-black/30 border border-white/10 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-primary-cyan/50"/>
+                          </div>
+                          <div>
+                            <label className="text-[9px] font-black text-white/40 uppercase tracking-widest block mb-1">Revenue Share %</label>
+                            <input type="number" min="0" max="50" value={publishForm.revenueSharePercentage}
+                              onChange={e => setPublishForm(f => ({...f, revenueSharePercentage: parseFloat(e.target.value)}))}
+                              className="w-full bg-black/30 border border-white/10 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-primary-cyan/50"/>
+                          </div>
+                        </div>
+
+                        <div>
+                          <label className="text-[9px] font-black text-white/40 uppercase tracking-widest block mb-1">Rarity</label>
+                          <select value={publishForm.rarity} onChange={e => setPublishForm(f => ({...f, rarity: e.target.value}))}
+                            className="w-full bg-black/30 border border-white/10 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-primary-cyan/50">
+                            <option>Common</option>
+                            <option>Rare</option>
+                            <option>Epic</option>
+                            <option>Legendary</option>
+                          </select>
+                        </div>
+
+                        <div className="bg-accent-gold/10 border border-accent-gold/20 rounded-xl p-3 text-center">
+                          <p className="text-[9px] text-white/40 uppercase tracking-widest">LYA UNIT au lancement</p>
+                          <p className="text-xl font-black text-accent-gold">${(50 * (1 + publishForm.growth / 100)).toFixed(2)}</p>
+                        </div>
+                      </div>
+
+                      <div className="flex gap-3">
+                        <button onClick={() => setPublishModal(null)}
+                          className="flex-1 py-3 bg-white/5 border border-white/10 text-xs font-black text-white/50 rounded-xl hover:bg-white/10 transition-all uppercase">
+                          {t('Annuler', 'Cancel')}
+                        </button>
+                        <button onClick={() => handlePublishProject(publishModal, publishForm)}
+                          className="flex-1 py-3 bg-emerald-400 text-surface-dim text-xs font-black uppercase tracking-widest rounded-xl hover:bg-white transition-all">
+                          ✓ {t('Publier sur l\'Exchange', 'Publish on Exchange')}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </motion.div>
+            )}
             {activeTab === 'engagement' && <motion.div key="e" initial={{opacity:0, y:10}} animate={{opacity:1, y:0}} exit={{opacity:0, y:-10}}>{renderEngagementTab()}</motion.div>}
             {activeTab === 'validation' && <motion.div key="v" initial={{opacity:0, y:10}} animate={{opacity:1, y:0}} exit={{opacity:0, y:-10}}>{renderValidationTab()}</motion.div>}
             {activeTab === 'projects' && <motion.div key="p" initial={{opacity:0, y:10}} animate={{opacity:1, y:0}} exit={{opacity:0, y:-10}}>{renderProjectsTab()}</motion.div>}
