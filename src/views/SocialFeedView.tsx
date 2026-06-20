@@ -55,7 +55,7 @@ const INITIAL_NEWS: NewsItem[] = [
       description: 'Significant boost to European creative contracts. Registries reporting 12% increase in validation requests.'
     },
     source: 'Variety',
-    imageUrl: 'https://images.unsplash.com/photo-1574375927938-d5a98e8edd86?auto=format&fit=crop&q=80&w=800'
+    imageUrl: 'https://picsum.photos/seed/netflix/800/500'
   },
   {
     id: '5',
@@ -66,10 +66,10 @@ const INITIAL_NEWS: NewsItem[] = [
     impact: {
       score: -12,
       trend: 'DOWN',
-      description: 'Short-term volatility expected in cross-border settlements. Advisory: Review jurisdiction filters.'
+      description: t('Short-term impact on cross-border creative contracts. LYA indices: -12 pts on international projects.', 'Impact à court terme sur les contrats créatifs transfrontaliers. Indices LYA : -12 pts sur les projets internationaux.')
     },
     source: 'Financial Times',
-    imageUrl: 'https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&q=80&w=800'
+    imageUrl: 'https://picsum.photos/seed/regulation/800/500'
   },
   {
     id: '2',
@@ -83,7 +83,7 @@ const INITIAL_NEWS: NewsItem[] = [
       description: 'LYA Unit floor price adjusted to $52.40. Market disponibilité à des niveaux records.'
     },
     source: 'Bloomberg Creative',
-    imageUrl: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800'
+    imageUrl: 'https://picsum.photos/seed/creative/800/500'
   },
   {
     id: '6',
@@ -94,10 +94,10 @@ const INITIAL_NEWS: NewsItem[] = [
     impact: {
       score: -25,
       trend: 'DOWN',
-      description: 'Market uncertainty for legacy music contracts. Liquidity centers reporting wider spreads.'
+      description: t('Market uncertainty for music rights valuation. LYA Score of affected music projects under review.', 'Incertitude sur la valorisation des droits musicaux. LYA Score des projets musicaux concernés en révision.')
     },
     source: 'Rolling Stone',
-    imageUrl: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&q=80&w=800'
+    imageUrl: 'https://picsum.photos/seed/music/800/500'
   },
   {
     id: '3',
@@ -111,7 +111,7 @@ const INITIAL_NEWS: NewsItem[] = [
       description: 'Settlement speed expected to increase by 40%. Reducing legal friction for new contract issuances.'
     },
     source: 'TechCrunch',
-    imageUrl: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=800'
+    imageUrl: 'https://picsum.photos/seed/innovation/800/500'
   },
   {
     id: '7',
@@ -122,10 +122,10 @@ const INITIAL_NEWS: NewsItem[] = [
     impact: {
       score: -45,
       trend: 'DOWN',
-      description: 'Temporary settlement delays for APAC-indexed contracts. Security protocol V5.1 activated.'
+      description: t('Temporary processing delays for Asia-Pacific projects. Registry security reinforced.', 'Délais temporaires pour les projets Asie-Pacifique. Sécurité des registres renforcée.')
     },
     source: 'Cyber Defense',
-    imageUrl: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=800'
+    imageUrl: 'https://picsum.photos/seed/security/800/500'
   },
   {
     id: '4',
@@ -139,7 +139,7 @@ const INITIAL_NEWS: NewsItem[] = [
       description: 'Positive sentiment for contemporary art registries. No immediate price adjustment required.'
     },
     source: 'The Art Newspaper',
-    imageUrl: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?auto=format&fit=crop&q=80&w=800'
+    imageUrl: 'https://picsum.photos/seed/venice/800/500'
   },
   {
     id: '8',
@@ -153,7 +153,7 @@ const INITIAL_NEWS: NewsItem[] = [
       description: 'Opening new revenue streams for music producers. 15% growth projected in immersive audio sector.'
     },
     source: 'Wired',
-    imageUrl: 'https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&q=80&w=800'
+    imageUrl: 'https://picsum.photos/seed/audio/800/500'
   },
   {
     id: '9',
@@ -167,7 +167,7 @@ const INITIAL_NEWS: NewsItem[] = [
       description: 'Massive influx of retail interest from Asia. K-Pop sector contracts seeing 300% volume increase.'
     },
     source: 'The Korea Herald',
-    imageUrl: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&q=80&w=800'
+    imageUrl: 'https://picsum.photos/seed/music/800/500'
   },
   {
     id: '10',
@@ -181,7 +181,7 @@ const INITIAL_NEWS: NewsItem[] = [
       description: 'Ultimate expert validation. Market depth expected to double in the next quarter.'
     },
     source: 'Wall Street Journal',
-    imageUrl: 'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&q=80&w=800'
+    imageUrl: 'https://picsum.photos/seed/finance/800/500'
   },
   {
     id: '11',
@@ -195,7 +195,7 @@ const INITIAL_NEWS: NewsItem[] = [
       description: 'New category of AI-assisted contracts being drafted for the LYA registry.'
     },
     source: 'The Verge',
-    imageUrl: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&q=80&w=800'
+    imageUrl: 'https://picsum.photos/seed/film/800/500'
   },
   {
     id: '12',
@@ -920,12 +920,15 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
                       {selectedNews.summary}
                     </p>
                     <div className="space-y-4 text-on-surface-variant leading-relaxed opacity-70 text-justify">
-                      <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                      </p>
-                      <p>
-                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                      </p>
+                      <p>{selectedNews.impact.description}</p>
+                      {(selectedNews.impact as any).affectedSectors?.length > 0 && (
+                        <div className="flex flex-wrap gap-2 pt-2">
+                          <span className="text-xs font-black text-white/40 uppercase tracking-widest">{t('Secteurs impactés','Affected sectors')} :</span>
+                          {((selectedNews.impact as any).affectedSectors as string[]).map((s: string, i: number) => (
+                            <span key={i} className="px-2 py-0.5 bg-primary-cyan/10 border border-primary-cyan/20 rounded text-xs font-black text-primary-cyan">{s}</span>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   </div>
 
