@@ -93,7 +93,6 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
   const [showDemoModal, setShowDemoModal] = useState(false);
   const [demoRequestReason, setDemoRequestReason] = useState('');
   const [demoSubmitted, setDemoSubmitted] = useState(false);
-  const [emailDebug, setEmailDebug] = useState<string>('');
   const [accessKey, setAccessKey] = useState('');
   const [keyError, setKeyError] = useState(false);
   const [isVerifyingKey, setIsVerifyingKey] = useState(false);
@@ -235,14 +234,11 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
     .then(r => r.json())
     .then(data => {
       if (data.method === 'simulated') {
-        setEmailDebug('⚠ Mode simulation — variables SMTP manquantes');
-      } else if (data.success) {
-        setEmailDebug('✓ Email envoyé avec succès !');
-      } else {
-        setEmailDebug(`✗ Erreur: ${data.error}`);
-      }
+        } else if (data.success) {
+        } else {
+        }
     })
-    .catch(err => setEmailDebug(`✗ Réseau: ${err.message}`));
+    .catch(err => console.error('[LYA EMAIL]', err));
 
     setSubmitted(true);
     setIsSubmitting(false);
@@ -622,11 +618,6 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                       </button>
 
                       {/* Debug email — temporaire */}
-                      {emailDebug && (
-                        <div className={`mt-4 p-3 rounded-xl border text-xs font-mono text-left ${emailDebug.startsWith('✓') ? 'bg-emerald-400/10 border-emerald-400/20 text-emerald-400' : emailDebug.startsWith('⚠') ? 'bg-accent-gold/10 border-accent-gold/20 text-accent-gold' : 'bg-rose-400/10 border-rose-400/20 text-rose-400'}`}>
-                          {emailDebug}
-                        </div>
-                      )}
                     </motion.div>
                   )}
                 </motion.div>
