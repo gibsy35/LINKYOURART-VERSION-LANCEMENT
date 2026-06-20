@@ -66,7 +66,7 @@ const INITIAL_NEWS: NewsItem[] = [
     impact: {
       score: -12,
       trend: 'DOWN',
-      description: t('Short-term impact on cross-border creative contracts. LYA indices: -12 pts on international projects.', 'Impact à court terme sur les contrats créatifs transfrontaliers. Indices LYA : -12 pts sur les projets internationaux.')
+      description: 'Impact à court terme sur les contrats créatifs transfrontaliers. Indices LYA : -12 pts sur les projets internationaux.'
     },
     source: 'Financial Times',
     imageUrl: 'https://picsum.photos/seed/regulation/800/500'
@@ -94,7 +94,7 @@ const INITIAL_NEWS: NewsItem[] = [
     impact: {
       score: -25,
       trend: 'DOWN',
-      description: t('Market uncertainty for music rights valuation. LYA Score of affected music projects under review.', 'Incertitude sur la valorisation des droits musicaux. LYA Score des projets musicaux concernés en révision.')
+      description: 'Incertitude sur la valorisation des droits musicaux. LYA Score des projets musicaux concernés en révision.'
     },
     source: 'Rolling Stone',
     imageUrl: 'https://picsum.photos/seed/music/800/500'
@@ -122,7 +122,7 @@ const INITIAL_NEWS: NewsItem[] = [
     impact: {
       score: -45,
       trend: 'DOWN',
-      description: t('Temporary processing delays for Asia-Pacific projects. Registry security reinforced.', 'Délais temporaires pour les projets Asie-Pacifique. Sécurité des registres renforcée.')
+      description: 'Délais temporaires pour les projets Asie-Pacifique. Sécurité des registres renforcée.'
     },
     source: 'Cyber Defense',
     imageUrl: 'https://picsum.photos/seed/security/800/500'
