@@ -337,26 +337,41 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
 
   const loadRealNews = async () => {
     setIsLoading(true);
-    const data = await fetchRealtimeNews(language);
-    if (data && data.length > 0) {
-      const formatted: NewsItem[] = data.map((item: any, idx: number) => ({
-        id: item.id || `live-${idx}`,
-        category: item.category as any,
-        title: item.title,
-        summary: item.summary,
-        timestamp: item.timestamp || 'Just now',
-        impact: {
-          score: Math.abs(item.impact?.score || 0),
-          trend: item.impact?.trend || 'UP',
-          description: `${item.impact?.description || ''} ${item.impact?.targetProject ? `[Benchmark: ${item.impact.targetProject}]` : ''}`
-        },
-        source: item.source,
-        imageUrl: item.imageUrl
-      }));
-      setNews(formatted);
-      onNotify(t('Real-time news streaming is online.', 'Le flux d\'actualités en direct est en ligne.'));
+    try {
+      const response = await fetchRealtimeNews(language);
+      // L'API retourne { news: [...] } OU directement [...]
+      const data = Array.isArray(response) ? response : (response?.news || []);
+      
+      if (data && data.length > 0) {
+        const formatted: NewsItem[] = data.map((item: any, idx: number) => ({
+          id: item.id || `live-${idx}`,
+          category: item.category as any,
+          title: item.title,
+          summary: item.summary,
+          timestamp: item.timestamp || t('À l\'instant', 'Just now'),
+          impact: {
+            score: Math.abs(item.impact?.score || 0),
+            trend: (item.impact?.trend || 'UP') as 'UP' | 'DOWN' | 'NEUTRAL',
+            description: `${item.impact?.description || ''}`,
+            ...(item.impact?.affectedSectors && { affectedSectors: item.impact.affectedSectors }),
+            ...(item.impact?.lyaUnitVariation && { lyaUnitVariation: item.impact.lyaUnitVariation }),
+            ...(item.impact?.targetProject && { targetProject: item.impact.targetProject }),
+          },
+          source: item.source,
+          imageUrl: item.imageUrl
+        }));
+        setActiveNewsIndex(0);
+        setNews(formatted);
+        onNotify(t('Flux d\'actualités en direct connecté.', 'Live news stream connected.'));
+      } else {
+        // Garder les INITIAL_NEWS si l'API ne retourne rien
+        console.log('[NEWS] API returned empty, keeping initial news');
+      }
+    } catch (err) {
+      console.error('[NEWS] loadRealNews error:', err);
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -411,7 +426,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
                   alt={activeItem.title} 
                   onLoad={() => setImageLoadedStates(prev => ({ ...prev, [activeItem.id]: true }))}
                   className={`w-full h-full object-cover transition-all duration-1000 group-hover:scale-105 ${
-                    imageLoadedStates[activeItem.id] ? 'opacity-80 scale-100 saturate-100 blur-0' : 'opacity-0 scale-102 saturate-50 blur-md'
+                    imageLoadedStates[activeItem.id] ? 'opacity-70 scale-100 saturate-100 blur-0' : 'opacity-30 scale-100 saturate-50 blur-0'
                   }`}
                   referrerPolicy="no-referrer"
                 />
