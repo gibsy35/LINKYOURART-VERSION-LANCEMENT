@@ -375,7 +375,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
                 </motion.div>
 
                 {/* Image Section */}
-                <div className="relative h-[45%] sm:h-[50%] pointer-events-none shrink-0">
+                <div className="relative h-[55%] pointer-events-none shrink-0">
                   <img 
                     src={getSafeImageUrl(currentContract.image, currentContract.category)} 
                     alt={currentContract.name}
