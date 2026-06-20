@@ -1302,7 +1302,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
                   <td className="p-6 font-headline font-bold text-white text-sm uppercase tracking-wider">{t('Financial Instrument', 'Nature de l\'Instrument')}</td>
                   <td className="p-6 text-sm text-white font-medium bg-primary-cyan/[0.02] border-x border-white/10">
                     <span className="text-primary-cyan font-black block mb-1">✓ {t('LYA Contractual Units ($50)', 'Unités Contractuelles LYA ($50)')}</span>
-                    <p className="text-xs text-white/70 leading-relaxed">{t('Standardized indexed contracts representing future royalties and creative growth on-chain.', 'Contrats standardisés représentant des redevances d\'audimat et de droits contractuels réels.')}</p>
+                    <p className="text-xs text-white/70 leading-relaxed">{t('Standardized indexed contracts representing future royalties and creative growth.', 'Contrats standardisés représentant des redevances d\'audimat et de droits contractuels réels.')}</p>
                   </td>
                   <td className="p-6 text-xs text-white/40 leading-relaxed">
                     <span className="text-rose-400/70 font-bold block mb-1">✗ {t('Exclusive rights locked by majors', 'Droits exclusifs réservés aux majors')}</span>

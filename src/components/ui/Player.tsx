@@ -79,7 +79,7 @@ export const Player: React.FC<PlayerProps> = ({ titleWhite, titleAccent, subtitl
             <div className="h-4 w-px bg-white/10" />
             <div className="flex flex-col gap-1">
               <span className="text-[10px] font-black uppercase tracking-widest text-white/30">Registry Access</span>
-              <span className="text-[10px] font-black uppercase tracking-widest text-white">Full Protocol Enabled</span>
+              <span className="text-[10px] font-black uppercase tracking-widest text-white">Accès complet activé</span>
             </div>
           </div>
           

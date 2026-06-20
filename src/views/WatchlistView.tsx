@@ -66,7 +66,7 @@ export const WatchlistView: React.FC<WatchlistViewProps> = ({
              <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse shadow-[0_0_10px_rgba(52,211,153,0.5)]" />
              <div>
                <span className="block text-[10px] font-bold text-white uppercase tracking-widest leading-none mb-0.5">{t('SYNC_ACTIVE', 'SYNC_ACTIF')}</span>
-               <span className="block text-[7px] font-mono text-on-surface-variant/40 uppercase tracking-widest leading-none">NODE_04_LYA</span>
+               <span className="block text-[7px] font-mono text-on-surface-variant/40 uppercase tracking-widest leading-none">LYA-04</span>
              </div>
           </div>
         </div>
@@ -98,7 +98,7 @@ export const WatchlistView: React.FC<WatchlistViewProps> = ({
           </div>
           <h2 className="text-2xl font-black text-white uppercase tracking-tighter mb-4">{t('WATCHLIST_EMPTY', 'LISTE_VIDE')}</h2>
           <p className="text-[10px] text-on-surface-variant max-w-xs uppercase tracking-[0.3em] font-bold opacity-40 leading-relaxed">
-            {t('Neural surveillance is currently unassigned. Mark creative assets to track market performance.', 'La surveillance neuronale est actuellement non assignée. Marquez des actifs pour suivre les performances des marchés.')}
+            {t('Live monitoring is currently unassigned. Mark creative assets to track market performance.', 'La surveillance neuronale est actuellement non assignée. Marquez des actifs pour suivre les performances des marchés.')}
           </p>
         </div>
       ) : (
@@ -168,7 +168,7 @@ export const WatchlistView: React.FC<WatchlistViewProps> = ({
                         </div>
                       </div>
                       <div>
-                        <div className="text-xs text-on-surface-variant uppercase tracking-[0.3em] font-black mb-2 opacity-40">{t('LIQUIDITY', 'LIQUIDITÉ')}</div>
+                        <div className="text-xs text-on-surface-variant uppercase tracking-[0.3em] font-black mb-2 opacity-40">{t('VALEUR', 'VALUE')}</div>
                         <div className="text-lg font-black font-mono text-white">
                            <NumberTicker value={85.2} decimalPlaces={1} />
                            <span className="text-xs opacity-40 ml-1">%</span>

@@ -196,7 +196,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onNotify,
                   <div className="w-8 h-8 border-2 border-primary-cyan animate-pulse" />
                 </div>
                 <h2 className="text-xl font-black text-white uppercase tracking-tighter mb-1">{t('LYA TERMINAL v2.5.0', 'TERMINAL LYA v2.5.0')}</h2>
-                <p className="text-[10px] text-on-surface-variant/60 font-bold uppercase tracking-widest">{t('SECURE PROTOCOL ACCESS', 'ACCÈS PROTOCOLE SÉCURISÉ')}</p>
+                <p className="text-[10px] text-on-surface-variant/60 font-bold uppercase tracking-widest">{t('ACCÈS SÉCURISÉ', 'ACCÈS SÉCURISÉ')}</p>
               </div>
 
               <div className="flex border-b border-white/5 mb-6">

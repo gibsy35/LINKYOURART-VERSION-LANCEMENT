@@ -575,7 +575,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
       const featureMap: Record<string, any> = {
         'Lounge Access': 'LOUNGE',
         'LYA Academy Subscription': 'ACADEMY',
-        'Smart Contract Gen': 'LINK_ART',
+        'Générateur de Contrats': 'LINK_ART',
         'AI Valuation': 'COMPARE',
         'Compliance Center': 'VALIDATION',
         'B2B Registry Status': 'REGISTRY',
@@ -2789,8 +2789,8 @@ const renderMentorshipContent = () => (
                   <div className="space-y-3 md:space-y-4">
                     {[
                       { title: t('AI Valuation', 'Évaluation IA'), desc: t('Institutional Grade Analysis', 'Analyse de Qualité Institutionnelle'), icon: BarChart3 },
-                      { title: t('Smart Contract Gen', 'Générateur de Contrats'), desc: t('Automated Legal Framework', 'Cadre Juridique Automatisé'), icon: FileCode },
-                      { title: t('Compliance Center', 'Centre de Conformité'), desc: t('Direct Blockchain Integration', 'Intégration Blockchain Directe'), icon: Globe },
+                      { title: t('Générateur de Contrats', 'Générateur de Contrats'), desc: t('Automated Legal Framework', 'Cadre Juridique Automatisé'), icon: FileCode },
+                      { title: t('Compliance Center', 'Centre de Conformité'), desc: t('Intégration Registre LYA', 'Intégration Registre LYA'), icon: Globe },
                     ].map((tool, i) => (
                       <button 
                         key={i} 

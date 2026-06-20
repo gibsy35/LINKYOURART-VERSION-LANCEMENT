@@ -35,7 +35,7 @@ export const LockedOverlay: React.FC<LockedOverlayProps> = ({
         </h3>
         
         <p className="text-xs text-on-surface-variant font-black uppercase tracking-[0.2em] leading-relaxed mb-8 opacity-60 italic">
-          {description || t('LYA_PROTOCOL_RESTRICTION_MESSAGE', 'CETTE SECTION EST PROTÉGÉE PAR LE PROTOCOLE LYA. L\'AUTORISATION DE NIVEAU INSTITUTIONNEL EST REQUISE.')}
+          {description || t('LYA_RESTRICTION_MESSAGE', 'CETTE SECTION EST PROTÉGÉE PAR LINKYOURART. L\'AUTORISATION DE NIVEAU INSTITUTIONNEL EST REQUISE.')}
         </p>
 
         <button 

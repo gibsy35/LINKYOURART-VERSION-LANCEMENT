@@ -218,8 +218,8 @@ export function templatePreRegistration({ name, position, referralCode, referral
       <div class="badge badge-green">✦ ${isFR ? 'Inscription confirmée' : 'Registration confirmed'}</div>
       <h1>${isFR ? 'Bienvenue dans<br><span>la liste d\'attente</span>' : 'Welcome to<br><span>the waitlist</span>'}</h1>
       <p>${isFR
-        ? `Bonjour <strong>${name}</strong>, votre pré-inscription au Protocole LYA est confirmée. Vous faites désormais partie des pionniers qui vont transformer l\'économie créative mondiale.`
-        : `Hello <strong>${name}</strong>, your pre-registration to the LYA Protocol is confirmed. You are now among the pioneers who will transform the global creative economy.`
+        ? `Bonjour <strong>${name}</strong>, votre pré-inscription LinkYourArt est confirmée. Vous faites désormais partie des pionniers qui vont transformer l\'économie créative mondiale.`
+        : `Hello <strong>${name}</strong>, your pre-registration to LinkYourArt is confirmed. You are now among the pioneers who will transform the global creative economy.`
       }</p>
 
       <div class="highlight-box">

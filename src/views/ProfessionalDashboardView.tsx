@@ -65,7 +65,7 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
   ];
 
   const academyModules = [
-    {titleFR:'Protocole LYA — Fondamentaux',titleEN:'LYA Protocol — Fundamentals',descFR:'Maîtrisez les bases du scoring LYA et des 5 piliers d\'évaluation.',descEN:'Master the fundamentals of LYA scoring and the 5 evaluation pillars.',duration:'4h',level:T('Débutant','Beginner'),done:true,color:'bg-primary-cyan/10 border-primary-cyan/20'},
+    {titleFR:'LYA — Fondamentaux',titleEN:'LYA — Fundamentals',descFR:'Maîtrisez les bases du scoring LYA et des 5 piliers d\'évaluation.',descEN:'Master the fundamentals of LYA scoring and the 5 evaluation pillars.',duration:'4h',level:T('Débutant','Beginner'),done:true,color:'bg-primary-cyan/10 border-primary-cyan/20'},
     {titleFR:'Due Diligence Créative Avancée',titleEN:'Advanced Creative Due Diligence',descFR:'Techniques d\'audit approfondi pour les projets culturels et artistiques.',descEN:'In-depth audit techniques for cultural and artistic projects.',duration:'6h',level:T('Intermédiaire','Intermediate'),done:true,color:'bg-[#a78bfa]/10 border-[#a78bfa]/20'},
     {titleFR:'Valorisation & LYA UNIT',titleEN:'Valuation & LYA UNIT',descFR:'Calculez et optimisez la valeur LYA UNIT de chaque création.',descEN:'Calculate and optimise the LYA UNIT value of each creation.',duration:'3h',level:T('Intermédiaire','Intermediate'),done:false,color:'bg-accent-gold/10 border-accent-gold/20'},
     {titleFR:'Stratégie de Lancement Institutionnel',titleEN:'Institutional Launch Strategy',descFR:'Planifiez et exécutez des lancements à impact maximal.',descEN:'Plan and execute maximum-impact launches.',duration:'5h',level:T('Avancé','Advanced'),done:false,color:'bg-emerald-400/10 border-emerald-400/20'},

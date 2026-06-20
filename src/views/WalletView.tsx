@@ -156,7 +156,7 @@ export const WalletView: React.FC<WalletViewProps> = ({ user, onNotify, onViewCh
           <div className="bg-surface-low border border-white/5 p-8 rounded-[2.5rem] relative overflow-hidden group h-full">
             <div className="absolute top-0 right-0 w-32 h-32 bg-accent-gold/5 rounded-full -mr-16 -mt-16 blur-2xl group-hover:bg-accent-gold/10 transition-all" />
             <h3 className="text-[10px] font-black text-accent-gold uppercase tracking-[0.4em] mb-6 flex items-center gap-2">
-              <Zap size={14} /> {t('YIELD BOOSTER', 'BOOSTEUR DE RENDEMENT')}
+              <Zap size={14} /> {t('REVENUS AMPLIFIÉS', 'AMPLIFIED REVENUES')}
             </h3>
             <p className="text-2xl font-black text-white font-headline tracking-tight mb-4">+8.4% <span className="text-xs uppercase text-on-surface-variant">APY</span></p>
             <p className="text-[10px] text-on-surface-variant uppercase tracking-widest font-bold leading-relaxed mb-8 opacity-60">
@@ -166,7 +166,7 @@ export const WalletView: React.FC<WalletViewProps> = ({ user, onNotify, onViewCh
               onClick={() => onViewChange('EXCHANGE')}
               className="w-full py-4 border border-accent-gold/30 text-accent-gold text-[10px] font-black uppercase tracking-widest rounded-2xl hover:bg-accent-gold hover:text-surface-dim transition-all"
             >
-              {t('COMPOUND REWARDS', 'RÉINVESTIR LES GAINS')}
+              {t('REINVESTIR MES GAINS', 'REINVEST MY GAINS')}
             </button>
           </div>
         </div>

@@ -90,7 +90,7 @@ export const GovernanceView: React.FC<GovernanceViewProps> = ({ user, onNotify, 
   const proposals: Proposal[] = [
     {
       id: 'LYA-P-42',
-      title: 'Protocol Upgrade: V3.0 Implementation',
+      title: 'Mise à jour LYA : V3.0',
       description: 'Migration of all creative rights hubs to the new high-throughput validation engine.',
       status: 'ACTIVE',
       votesFor: 1250000,
@@ -106,7 +106,7 @@ export const GovernanceView: React.FC<GovernanceViewProps> = ({ user, onNotify, 
       votesFor: 2800000,
       votesAgainst: 120000,
       endTime: 'Ended 3d ago',
-      proposer: 'ALPHA_CAPITAL_DAO'
+      proposer: 'LYA-COMMITTEE'
     },
     {
       id: 'LYA-P-40',
@@ -135,7 +135,7 @@ export const GovernanceView: React.FC<GovernanceViewProps> = ({ user, onNotify, 
           {t('Governance Access Restricted', 'Accès à la Gouvernance Restreint')}
         </h2>
         <p className="text-on-surface-variant max-w-lg mb-10 text-sm md:text-base leading-relaxed opacity-70">
-          {t('Protocol Governance is reserved for professional associates and verified experts. Your LYA Score and holdings determine your voting power.', 'La gouvernance du protocole est réservée aux associés professionnels et aux experts vérifiés. Votre score LYA et vos avoirs déterminent votre pouvoir de vote.')}
+          {t('La gouvernance LYA est réservée aux professional associates and verified experts. Your LYA Score and holdings determine your voting power.', 'La gouvernance du protocole est réservée aux associés professionnels et aux experts vérifiés. Votre score LYA et vos avoirs déterminent votre pouvoir de vote.')}
         </p>
         <button 
           onClick={() => onViewChange('PRICING')}
@@ -185,7 +185,7 @@ export const GovernanceView: React.FC<GovernanceViewProps> = ({ user, onNotify, 
       {/* Governance Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 px-6 relative z-10">
         {[
-          { label: 'Total Voting Power', value: '42.5M LYA', icon: <Vote className="text-primary-cyan" />, sub: 'Active Stake', color: 'text-primary-cyan' },
+          { label: 'Total Voting Power', value: '42.5M LYA', icon: <Vote className="text-primary-cyan" />, sub: 'Participation active', color: 'text-primary-cyan' },
           { label: 'Treasury Balance', value: '$128.4M', icon: <Database className="text-accent-gold" />, sub: '+12% this month', color: 'text-accent-gold' },
           { label: 'Active Proposals', value: '12', icon: <FileText className="text-accent-purple" />, sub: '3 ending soon', color: 'text-accent-purple' },
           { label: 'System Health', value: 'OPTIMAL', icon: <Activity className="text-emerald-400" />, sub: '99.99% Hub Uptime', color: 'text-emerald-400' }

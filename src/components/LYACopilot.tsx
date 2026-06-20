@@ -12,8 +12,8 @@ export const LYACopilot: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<{ role: 'USER' | 'AI', content: string }[]>([
     { role: 'AI', content: isFR
-        ? 'LYA COPILOT PRÊT. Comment puis-je vous aider ? Posez-moi vos questions sur la plateforme, le LYA Score, les projets ou le Protocole LYA.'
-        : 'LYA COPILOT READY. How can I help you? Ask me anything about the platform, LYA Score, creative projects or the LYA Protocol.'
+        ? 'LYA COPILOT PRÊT. Comment puis-je vous aider ? Posez-moi vos questions sur la plateforme, le LYA Score, les projets ou LinkYourArt.'
+        : 'LYA COPILOT READY. How can I help you? Ask me anything about the platform, LYA Score, creative projects or LinkYourArt.'
     }
   ]);
   const [input, setInput] = useState('');
@@ -25,8 +25,8 @@ export const LYACopilot: React.FC = () => {
     setMessages([{
       role: 'AI',
       content: isFR
-        ? 'LYA COPILOT PRÊT. Comment puis-je vous aider ? Posez-moi vos questions sur la plateforme, le LYA Score, les projets ou le Protocole LYA.'
-        : 'LYA COPILOT READY. How can I help you? Ask me anything about the platform, LYA Score, creative projects or the LYA Protocol.'
+        ? 'LYA COPILOT PRÊT. Comment puis-je vous aider ? Posez-moi vos questions sur la plateforme, le LYA Score, les projets ou LinkYourArt.'
+        : 'LYA COPILOT READY. How can I help you? Ask me anything about the platform, LYA Score, creative projects or LinkYourArt.'
     }]);
   }, [language]);
 

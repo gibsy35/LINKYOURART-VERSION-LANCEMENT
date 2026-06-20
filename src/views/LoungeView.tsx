@@ -718,7 +718,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
                           setTimeout(() => {
                             setBiometricScanning(false);
                             setBiometricStatus('SUCCESS');
-                            onNotify(t('ACCESS DECLINED: CRYPTOGRAPHIC HANDSHAKE FAULT (LVL3_PRO_NOT_STABILIZED)', 'ACCÈS REFUSÉ : SÉCURITÉ DE CLÉ NON DÉTECTÉE (PRO_NV3)'));
+                            onNotify(t('ACCÈS REFUSÉ (LVL3_PRO_NOT_STABILIZED)', 'ACCÈS REFUSÉ : SÉCURITÉ DE CLÉ NON DÉTECTÉE (PRO_NV3)'));
                           }, 2000);
                         }}
                         className="px-5 py-2.5 bg-accent-gold/5 border border-accent-gold/30 hover:border-accent-gold hover:bg-accent-gold/10 rounded-xl transition-all shadow-xl group/scan active:scale-95"
@@ -883,7 +883,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
             <button 
               onClick={() => {
                 setBiometricScanning(true);
-                onNotify(t('RE-STABILIZING PROFESSIONAL CRYPTOGRAPHIC HANDSHAKE...', 'RÉ-ALIGNEMENT DE LA SIGNATURE DE SÉCURITÉ DU SALON...'));
+                onNotify(t('RECONNEXION EN COURS...', 'RÉ-ALIGNEMENT DE LA SIGNATURE DE SÉCURITÉ DU SALON...'));
                 setTimeout(() => {
                   setBiometricScanning(false);
                   onNotify(t('ELITE CUSTODY CREDENTIALS RE-STABILIZED [SECURE_NODE_99x]', 'CONFORME À L\'INDICE D\'ÉLITE - SIGNATURE RE-SÉCURISÉE [SECURE_NODE_99x]'));

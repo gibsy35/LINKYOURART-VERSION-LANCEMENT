@@ -337,7 +337,7 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
       <PageHeader
         titleWhite={t('EXCHANGE', 'ÉCHANGE')}
         titleAccent={t('PROFESSIONAL', 'PROFESSIONNEL')}
-        description={t('AUTHORIZED LIQUIDITY & P2P SETTLEMENT TERMINAL', 'TERMINAL DE LIQUIDITÉ & RÈGLEMENT P2P AUTORISÉ')}
+        description={t('CREATIVE MARKET', 'TERMINAL DE LIQUIDITÉ & RÈGLEMENT P2P AUTORISÉ')}
         accentColor="text-primary-cyan"
       />
 

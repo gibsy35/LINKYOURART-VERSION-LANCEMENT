@@ -72,7 +72,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({ user, onNotify, onView
     },
     {
       id: '2',
-      title: t('LYA-721 Smart Contract Architecture', 'Architecture Smart Contract LYA-721'),
+      title: t('Architecture LYA-721', 'Architecture LYA-721'),
       category: 'TECH',
       instructor: 'ID_CHEN_42',
       duration: '18h 20m',

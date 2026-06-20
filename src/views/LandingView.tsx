@@ -786,7 +786,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                   <div className="w-24 h-24 bg-primary-cyan/10 rounded-full flex items-center justify-center mx-auto border border-primary-cyan/20"><CheckCircle2 size={48} className="text-primary-cyan" /></div>
                   <div className="space-y-4">
                     <h3 className="font-headline text-4xl font-black uppercase tracking-tighter leading-none">{t('CLEARANCE PENDING', 'AUTORISATION EN ATTENTE')}</h3>
-                    <p className="text-white/40 font-medium max-w-sm mx-auto leading-relaxed">{t('Our analysts are reviewing your profile. You will receive a secure access token via email within 24 hours.', "Nos analystes examinent votre profil. Vous recevrez un jeton d'accès sécurisé par e-mail sous 24 heures.")}</p>
+                    <p className="text-white/40 font-medium max-w-sm mx-auto leading-relaxed">{t('Our analysts are reviewing your profile. You will receive a secure access code via email within 24 hours.', "Nos analystes examinent votre profil. Vous recevrez un jeton d'accès sécurisé par e-mail sous 24 heures.")}</p>
                   </div>
                   <button onClick={() => setShowDemoModal(false)} className="w-full py-5 bg-white/5 border border-white/10 rounded-2xl text-[10px] font-black tracking-widest text-white/40 uppercase hover:text-white transition-colors">{t('CLOSE TERMINAL', 'FERMER LE TERMINAL')}</button>
                 </div>

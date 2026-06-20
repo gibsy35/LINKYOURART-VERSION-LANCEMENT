@@ -37,7 +37,7 @@ export const simulatePDFDownload = (title: string, content: string) => {
   // Since we can't easily generate PDFs in the browser without a library like jsPDF
   // we'll download a text file as a mock PDF representation
   const textContent = `
-    LINKYOURART - OFFICIAL PROTOCOL DOCUMENT
+    LINKYOURART - DOCUMENT OFFICIEL
     ----------------------------------------
     TITLE: ${title.toUpperCase()}
     DATE: ${new Date().toLocaleString()}
@@ -45,7 +45,7 @@ export const simulatePDFDownload = (title: string, content: string) => {
     ${content}
     
     ----------------------------------------
-    VERIFIED BY LYA IMMUTABLE REGISTRY PROTOCOL
+    VERIFIED BY REGISTRE LYA
   `;
   
   const dataStr = "data:text/plain;charset=utf-8," + encodeURIComponent(textContent);

@@ -242,7 +242,7 @@ const INITIAL_NEWS: NewsItem[] = [
   {
     id: '15',
     category: 'MARKET',
-    title: 'Le Monde: French Government Backs Creative Tokenization',
+    title: 'Le Monde: La France soutient la valorisation créative',
     summary: 'The Ministry of Culture announces tax incentives for projects using professional creative registries.',
     timestamp: '2d ago',
     impact: {

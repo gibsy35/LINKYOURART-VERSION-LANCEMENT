@@ -189,7 +189,7 @@ export const SettingsView: React.FC = () => {
         <SettingSection title={t('Professional Controls', 'Commandes Professionnelles')} icon={Cpu}>
           <SettingItem 
             label={t('API Neural Link', 'Lien Neural API')} 
-            description={t('Enable high-speed data stream for external algorithmic trading.', 'Activez le flux de données haute vitesse pour le trading algorithmique externe.')}
+            description={t('Enable high-speed data stream for external market data streaming.', 'Activez le flux de données haute vitesse pour le flux de données marché externe.')}
           >
             <Toggle enabled={true} onChange={() => {}} />
           </SettingItem>

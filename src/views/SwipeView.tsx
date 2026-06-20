@@ -537,7 +537,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
               </div>
               <span className="text-[10px] font-black text-emerald-500">75%</span>
             </div>
-            <div className="text-[10px] text-on-surface-variant uppercase tracking-widest text-center">{t('Strong Bullish Signal', 'Signal Haussier Fort')}</div>
+            <div className="text-[10px] text-on-surface-variant uppercase tracking-widest text-center">{t('Strong Growth Signal', 'Signal de Croissance Fort')}</div>
           </div>
 
           {/* New: Live Activity Feed */}
@@ -607,7 +607,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
                     </p>
                   </div>
                   <div className="text-right">
-                    <p className="text-xs text-on-surface-variant font-bold uppercase tracking-widest opacity-40">{t('Yield', 'Rendement')}</p>
+                    <p className="text-xs text-on-surface-variant font-bold uppercase tracking-widest opacity-40">{t('Revenue share', 'Revenus partagés')}</p>
                     <p className="text-sm font-black text-emerald-400 italic">+{contract.revenueSharePercentage}%</p>
                   </div>
                 </div>
@@ -682,7 +682,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
           <div className="w-12 h-12 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-500 mb-4 group-hover:scale-110 transition-transform">
             <Heart size={24} />
           </div>
-          <h4 className="text-sm font-black text-white uppercase tracking-widest mb-2">{t('Smart Watchlist', 'Watchlist Intelligente')}</h4>
+          <h4 className="text-sm font-black text-white uppercase tracking-widest mb-2">{t('Ma Liste de Suivi', 'My Watchlist')}</h4>
           <p className="text-[11px] text-on-surface-variant leading-relaxed opacity-60 uppercase tracking-wider">
             {t('Build and monitor your portfolio with advanced analytics and real-time performance tracking.', 'Construisez et surveillez votre portefeuille avec des analyses avancées et un suivi des performances en temps réel.')}
           </p>

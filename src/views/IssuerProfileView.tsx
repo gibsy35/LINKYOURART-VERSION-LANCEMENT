@@ -46,7 +46,7 @@ export const IssuerProfileView: React.FC<IssuerProfileProps> = ({ issuerId, onBa
     ],
     stats: [
       { label: "Market Dominance", value: "14.2%", growth: "+2.1%" },
-      { label: "Project Liquidity", value: "High", growth: "Stable" },
+      { label: "Disponibilité", value: "High", growth: "Stable" },
       { label: "Compliance Score", value: "998/1000", growth: "+5" }
     ]
   };
@@ -198,7 +198,7 @@ export const IssuerProfileView: React.FC<IssuerProfileProps> = ({ issuerId, onBa
                  </div>
                  <div>
                     <h4 className="text-lg font-black text-white uppercase tracking-tighter">{t('TRANSACTIONAL CLEARANCE FEED', 'FLUX DE VALIDATION TRANSACTIONNEL')}</h4>
-                    <p className="text-[10px] text-primary-cyan font-black uppercase tracking-widest">{t('Real-time protocol settlements', 'Règlements protocolaires en temps réel')}</p>
+                    <p className="text-[10px] text-primary-cyan font-black uppercase tracking-widest">{t('Échanges en temps réel', 'Échanges en temps réel')}</p>
                  </div>
               </div>
 
