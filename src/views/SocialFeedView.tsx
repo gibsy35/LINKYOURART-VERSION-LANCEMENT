@@ -66,7 +66,7 @@ const INITIAL_NEWS: NewsItem[] = [
     impact: {
       score: -12,
       trend: 'DOWN',
-      description: 'Impact à court terme sur les contrats créatifs transfrontaliers. Indices LYA : -12 pts sur les projets internationaux.'
+      description: 'Short-term volatility expected in cross-border settlements. Advisory: Review jurisdiction filters.'
     },
     source: 'Financial Times',
     imageUrl: 'https://picsum.photos/seed/regulation/800/500'
@@ -94,7 +94,7 @@ const INITIAL_NEWS: NewsItem[] = [
     impact: {
       score: -25,
       trend: 'DOWN',
-      description: 'Incertitude sur la valorisation des droits musicaux. LYA Score des projets musicaux concernés en révision.'
+      description: 'Market uncertainty for legacy music contracts. Liquidity centers reporting wider spreads.'
     },
     source: 'Rolling Stone',
     imageUrl: 'https://picsum.photos/seed/music/800/500'
@@ -122,7 +122,7 @@ const INITIAL_NEWS: NewsItem[] = [
     impact: {
       score: -45,
       trend: 'DOWN',
-      description: 'Délais temporaires pour les projets Asie-Pacifique. Sécurité des registres renforcée.'
+      description: 'Temporary settlement delays for APAC-indexed contracts. Security protocol V5.1 activated.'
     },
     source: 'Cyber Defense',
     imageUrl: 'https://picsum.photos/seed/security/800/500'
@@ -242,7 +242,7 @@ const INITIAL_NEWS: NewsItem[] = [
   {
     id: '15',
     category: 'MARKET',
-    title: 'Le Monde: La France soutient la valorisation créative',
+    title: 'Le Monde: French Government Backs Creative Tokenization',
     summary: 'The Ministry of Culture announces tax incentives for projects using professional creative registries.',
     timestamp: '2d ago',
     impact: {
@@ -337,51 +337,37 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
 
   const loadRealNews = async () => {
     setIsLoading(true);
-    try {
-      const response = await fetchRealtimeNews(language);
-      // L'API retourne { news: [...] } OU directement [...]
-      const data = Array.isArray(response) ? response : (response?.news || []);
-      
-      if (data && data.length > 0) {
-        const formatted: NewsItem[] = data.map((item: any, idx: number) => ({
-          id: item.id || `live-${idx}`,
-          category: item.category as any,
-          title: item.title,
-          summary: item.summary,
-          timestamp: item.timestamp || t('À l\'instant', 'Just now'),
-          impact: {
-            score: Math.abs(item.impact?.score || 0),
-            trend: (item.impact?.trend || 'UP') as 'UP' | 'DOWN' | 'NEUTRAL',
-            description: `${item.impact?.description || ''}`,
-            ...(item.impact?.affectedSectors && { affectedSectors: item.impact.affectedSectors }),
-            ...(item.impact?.lyaUnitVariation && { lyaUnitVariation: item.impact.lyaUnitVariation }),
-            ...(item.impact?.targetProject && { targetProject: item.impact.targetProject }),
-          },
-          source: item.source,
-          imageUrl: item.imageUrl
-        }));
-        setActiveNewsIndex(0);
-        setNews(formatted);
-        onNotify(t('Flux d\'actualités en direct connecté.', 'Live news stream connected.'));
-      } else {
-        // Garder les INITIAL_NEWS si l'API ne retourne rien
-        console.log('[NEWS] API returned empty, keeping initial news');
-      }
-    } catch (err) {
-      console.error('[NEWS] loadRealNews error:', err);
-    } finally {
-      setIsLoading(false);
+    const response = await fetchRealtimeNews(language);
+    const data = Array.isArray(response) ? response : (response?.news || []);
+    if (data && data.length > 0) {
+      const formatted: NewsItem[] = data.map((item: any, idx: number) => ({
+        id: item.id || `live-${idx}`,
+        category: item.category as any,
+        title: item.title,
+        summary: item.summary,
+        timestamp: item.timestamp || 'Just now',
+        impact: {
+          score: Math.abs(item.impact?.score || 0),
+          trend: item.impact?.trend || 'UP',
+          description: `${item.impact?.description || ''} ${item.impact?.targetProject ? `[Benchmark: ${item.impact.targetProject}]` : ''}`
+        },
+        source: item.source,
+        imageUrl: item.imageUrl
+      }));
+      setNews(formatted);
+      onNotify(t('Real-time news streaming is online.', 'Le flux d\'actualités en direct est en ligne.'));
     }
+    setIsLoading(false);
   };
 
   useEffect(() => {
-    setActiveNewsIndex(0); // Reset à la première news quand on recharge
+    setActiveNewsIndex(0);
     loadRealNews();
   }, [language]);
 
   useEffect(() => {
     if (news.length === 0) return;
-    setActiveNewsIndex(0); // Toujours commencer par la première
+    setActiveNewsIndex(0);
     const timer = setInterval(() => {
       setActiveNewsIndex((prev) => (prev + 1) % news.length);
     }, 12000);
@@ -402,7 +388,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
   const activeItem = news[activeNewsIndex] || news[0] || INITIAL_NEWS[0];
 
   return (
-    <div className="space-y-6 pb-12 w-full overflow-hidden block">
+    <div className="space-y-8 pb-12 w-full overflow-hidden block">
       {/* Immersive News Player Section - NOW FIRST */}
       <section className="relative h-[450px] md:h-[600px] lg:h-[650px] w-full group overflow-hidden bg-surface-dim border border-white/5 shadow-2xl rounded-3xl mt-2">
         <div className="absolute inset-0 z-0 overflow-hidden">
@@ -426,7 +412,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
                   alt={activeItem.title} 
                   onLoad={() => setImageLoadedStates(prev => ({ ...prev, [activeItem.id]: true }))}
                   className={`w-full h-full object-cover transition-all duration-1000 group-hover:scale-105 ${
-                    imageLoadedStates[activeItem.id] ? 'opacity-70 scale-100 saturate-100 blur-0' : 'opacity-30 scale-100 saturate-50 blur-0'
+                    imageLoadedStates[activeItem.id] ? 'opacity-80 scale-100 saturate-100 blur-0' : 'opacity-30 scale-100 saturate-80 blur-0'
                   }`}
                   referrerPolicy="no-referrer"
                 />
@@ -458,15 +444,15 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
               transition={{ duration: 0.3 }}
               className="flex items-center gap-2 md:gap-4 shrink-0 transition-all"
             >
-              <span className="px-3 py-1 bg-primary-cyan text-surface-dim text-[10px] md:text-[10px] font-black uppercase tracking-[0.3em] rounded-sm shadow-[0_0_20px_rgba(0,224,255,0.4)] whitespace-nowrap">
+              <span className="px-3 py-1 bg-primary-cyan text-surface-dim text-[8px] md:text-[10px] font-black uppercase tracking-[0.3em] rounded-sm shadow-[0_0_20px_rgba(0,224,255,0.4)] whitespace-nowrap">
                 {activeNewsIndex === 0 ? t('Breaking News', 'Flash Info') : t('Featured Story', 'À la Une')}
               </span>
               <div className="flex items-center gap-2 md:gap-3 bg-black/40 backdrop-blur-md border border-white/10 px-3 py-1 md:px-4 md:py-1.5 rounded-sm overflow-hidden truncate">
-                <span className="text-white/80 text-[10px] md:text-[10px] font-mono uppercase tracking-widest whitespace-nowrap">
+                <span className="text-white/80 text-[8px] md:text-[10px] font-mono uppercase tracking-widest whitespace-nowrap">
                   {activeItem.timestamp}
                 </span>
                 <div className="h-3 w-[1px] bg-white/20 hidden sm:block" />
-                <div className={`hidden sm:flex items-center gap-1 text-[10px] md:text-[10px] font-black font-mono ${
+                <div className={`hidden sm:flex items-center gap-1 text-[8px] md:text-[10px] font-black font-mono ${
                   activeItem.impact.trend === 'UP' ? 'text-emerald-400' : 'text-red-400'
                 }`}>
                   {activeItem.impact.trend === 'UP' ? <ArrowUpRight size={10} /> : <ArrowDownRight size={10} />}
@@ -478,7 +464,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
         </div>
 
       {/* Content Overlay - Bottom Left */}
-      <div className="relative z-10 h-full flex flex-col justify-end p-6 md:p-12 lg:p-16 max-w-full max-w-7xl mx-auto">
+      <div className="relative z-10 h-full flex flex-col justify-end p-6 md:p-12 lg:p-16 max-w-[1800px] mx-auto">
         <AnimatePresence mode="wait">
           <motion.div
             key={activeItem.id}
@@ -497,39 +483,20 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
             </p>
             
             <div className="flex flex-wrap items-center gap-3 md:gap-5">
-              {/* Impact LYA visible */}
-              <div className={`flex items-center gap-2 px-3 py-2 rounded-xl border backdrop-blur-md ${activeItem.impact.trend === 'UP' ? 'bg-emerald-400/10 border-emerald-400/30' : 'bg-rose-400/10 border-rose-400/30'}`}>
-                {activeItem.impact.trend === 'UP' ? <TrendingUp size={14} className="text-emerald-400" /> : <ArrowDownRight size={14} className="text-rose-400" />}
-                <div>
-                  <p className="text-[8px] text-white/50 uppercase tracking-widest font-black">Impact LYA</p>
-                  <p className={`text-sm font-black ${activeItem.impact.trend === 'UP' ? 'text-emerald-400' : 'text-rose-400'}`}>
-                    {activeItem.impact.trend === 'UP' ? '+' : '-'}{Math.abs(activeItem.impact.score)} pts
-                    {(activeItem.impact as any).lyaUnitVariation && <span className="text-xs ml-1 opacity-70">{(activeItem.impact as any).lyaUnitVariation}</span>}
-                  </p>
-                </div>
-                {(activeItem.impact as any).affectedSectors?.length > 0 && (
-                  <div className="hidden sm:flex gap-1 ml-1">
-                    {((activeItem.impact as any).affectedSectors as string[]).slice(0, 2).map((s: string, i: number) => (
-                      <span key={i} className="px-1.5 py-0.5 bg-white/10 rounded text-[8px] font-black text-white/60">{s}</span>
-                    ))}
-                  </div>
-                )}
-              </div>
-
               <button 
                 onClick={() => {
                   setSelectedNews(activeItem);
-                  onNotify(t('Opening full story...', "Ouverture de l'article..."));
+                  onNotify(t('Opening full story...', 'Ouverture de l\'article...'));
                 }}
-                className="px-6 py-2.5 md:px-8 md:py-3 bg-white text-surface-dim text-xs md:text-[10px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] hover:bg-primary-cyan transition-all rounded-sm shadow-xl active:scale-95 group"
+                className="px-6 py-2.5 md:px-8 md:py-3 bg-white text-surface-dim text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] hover:bg-primary-cyan transition-all rounded-sm shadow-xl active:scale-95 group"
               >
-                <span className="flex flex-wrap items-center gap-2">
-                  {t('Read Full Story', "Lire l'article")}
+                <span className="flex items-center gap-2">
+                  {t('Read Full Story', 'Lire l\'article')}
                   <ArrowUpRight className="w-3.5 h-3.5 md:w-4 md:h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                 </span>
               </button>
               
-              <div className="flex flex-wrap items-center gap-2">
+              <div className="flex items-center gap-3">
                 <button 
                   onClick={() => onNotify(t('Link copied!', 'Lien copié !'))}
                   className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white hover:bg-white/10 transition-all backdrop-blur-md"
@@ -550,8 +517,8 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
 
       {/* Pagination dots - Aligned with top-left */}
       <div className="absolute top-10 md:top-16 right-6 md:right-12 flex flex-col items-end gap-2 md:gap-2 opacity-80 z-20">
-        <div className="text-[10px] md:text-xs font-mono text-primary-cyan uppercase tracking-[0.3em] font-bold">LYA_INTELLIGENCE_STREAM</div>
-        <div className="text-[10px] md:text-xs font-mono text-white uppercase tracking-[0.3em]">CENTER_REF_00{activeNewsIndex + 1}</div>
+        <div className="text-[8px] md:text-[9px] font-mono text-primary-cyan uppercase tracking-[0.3em] font-bold">LYA_INTELLIGENCE_STREAM</div>
+        <div className="text-[8px] md:text-[9px] font-mono text-white uppercase tracking-[0.3em]">CENTER_REF_00{activeNewsIndex + 1}</div>
         <div className="flex gap-1 mt-1 md:mt-2">
           {[0, 1, 2, 3, 4].map(i => (
             <button 
@@ -574,7 +541,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
             {t('REAL-TIME CURATION OF HIGH-IMPACT NEWS AND MARKET SHIFTS ACROSS THE GLOBAL CREATIVE ECONOMY.', 'CURATION EN TEMPS RÉEL DES ACTUALITÉS À FORT IMPACT ET DES CHANGEMENTS DE MARCHÉ DANS L\'ÉCONOMIE CRÉATIVE MONDIALE.')}
           </p>
         </div>
-        <div className="flex flex-wrap gap-3">
+        <div className="flex gap-4">
           <div className="bg-surface-low border border-white/5 p-4 text-center min-w-[120px]">
             <div className="text-[10px] text-on-surface-variant uppercase tracking-widest mb-1">{t('Live Articles', 'Articles Live')}</div>
             <div className="text-2xl font-black text-primary-cyan tabular-nums">
@@ -628,7 +595,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
       <div className="grid lg:grid-cols-3 gap-8">
         {/* Left Column: Main Feed */}
         <div className="lg:col-span-2 space-y-6">
-          <AnimatePresence mode="sync">
+          <AnimatePresence mode="popLayout">
             {paginatedNews.map((item, index) => (
               <motion.div
                 key={item.id}
@@ -659,7 +626,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-surface-dim via-transparent to-transparent opacity-60" />
                     <div className="absolute top-4 left-4">
-                      <span className="px-3 py-1 bg-surface-dim/80 backdrop-blur-md border border-white/10 text-xs font-black uppercase tracking-widest text-primary-cyan">
+                      <span className="px-3 py-1 bg-surface-dim/80 backdrop-blur-md border border-white/10 text-[9px] font-black uppercase tracking-widest text-primary-cyan">
                         {item.category}
                       </span>
                     </div>
@@ -667,7 +634,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
                   <div className="p-6 flex-1 flex flex-col justify-between">
                     <div>
                       <div className="flex items-center justify-between mb-3">
-                        <div className="flex flex-wrap items-center gap-2">
+                        <div className="flex items-center gap-3">
                           <div className="flex items-center gap-2 text-[10px] font-mono text-on-surface-variant/60 uppercase tracking-widest">
                             <Clock className="w-3 h-3" />
                             {item.timestamp}
@@ -675,7 +642,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
                             {item.source}
                           </div>
                           {item.impact.score > 80 && (
-                            <span className="flex items-center gap-1 px-3 py-0.5 bg-accent-gold/10 text-accent-gold text-[10px] font-black uppercase tracking-widest border border-accent-gold/20 rounded-sm animate-pulse">
+                            <span className="flex items-center gap-1 px-2 py-0.5 bg-accent-gold/10 text-accent-gold text-[8px] font-black uppercase tracking-widest border border-accent-gold/20 rounded-sm animate-pulse">
                               <TrendingUp className="w-2 h-2" />
                               Trending
                             </span>
@@ -701,13 +668,13 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
                         <div className="flex items-center gap-4">
                           <button 
                             onClick={() => onNotify(t('Link copied to clipboard!', 'Lien copié dans le presse-papiers !'))}
-                            className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant hover:text-primary-cyan transition-colors flex flex-wrap items-center gap-2"
+                            className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant hover:text-primary-cyan transition-colors flex items-center gap-2"
                           >
                             <Share2 size={14} /> SHARE
                           </button>
                           <button 
                             onClick={() => onNotify(t('Article saved to your library.', 'Article enregistré dans votre bibliothèque.'))}
-                            className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant hover:text-primary-cyan transition-colors flex flex-wrap items-center gap-2"
+                            className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant hover:text-primary-cyan transition-colors flex items-center gap-2"
                           >
                             <Bookmark size={14} /> SAVE
                           </button>
@@ -736,7 +703,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
               >
                 <RefreshCw size={14} className="group-hover:rotate-180 transition-transform duration-500" />
                 {t('LOAD MORE NEWS', 'CHARGER PLUS D\'ACTUALITÉS')}
-                <span className="text-white/30 font-mono text-xs ml-1">({filteredNews.length - paginatedNews.length} {t('left', 'restants')})</span>
+                <span className="text-white/30 font-mono text-[9px] ml-1">({filteredNews.length - paginatedNews.length} {t('left', 'restants')})</span>
               </button>
             </div>
           )}
@@ -746,7 +713,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
         <div className="space-y-8">
           {/* Market Sentiment */}
           <div className="bg-surface-low border border-white/5 p-6">
-            <h3 className="text-xs font-black uppercase tracking-[0.3em] text-primary-cyan mb-6 flex flex-wrap items-center gap-2">
+            <h3 className="text-xs font-black uppercase tracking-[0.3em] text-primary-cyan mb-6 flex items-center gap-2">
               <TrendingUp className="w-4 h-4" />
               Market Sentiment
             </h3>
@@ -798,7 +765,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
 
           {/* Live Network Activity */}
           <div className="bg-surface-low border border-white/5 p-6">
-            <h3 className="text-xs font-black uppercase tracking-[0.3em] text-primary-cyan mb-6 flex flex-wrap items-center gap-2">
+            <h3 className="text-xs font-black uppercase tracking-[0.3em] text-primary-cyan mb-6 flex items-center gap-2">
               <Globe className="w-4 h-4" />
               Live Network Activity
             </h3>
@@ -806,18 +773,18 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
             <div className="space-y-4">
               {nodes.slice(0, visibleNodes).map((node, i) => (
                 <div key={i} className="flex items-center justify-between p-3 bg-white/5 border border-white/5">
-                  <div className="flex flex-wrap items-center gap-2">
+                  <div className="flex items-center gap-3">
                     <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
                     <span className="text-[10px] font-bold uppercase tracking-widest text-white">{node.label}</span>
                   </div>
-                  <span className="text-xs font-mono text-on-surface-variant/40">{node.latency}</span>
+                  <span className="text-[9px] font-mono text-on-surface-variant/40">{node.latency}</span>
                 </div>
               ))}
             </div>
             {visibleNodes < nodes.length && (
               <button 
                 onClick={() => setVisibleNodes(prev => prev + 4)}
-                className="w-full mt-4 py-2 text-xs font-black uppercase tracking-widest text-on-surface-variant hover:text-primary-cyan transition-colors border-t border-white/5 pt-4"
+                className="w-full mt-4 py-2 text-[9px] font-black uppercase tracking-widest text-on-surface-variant hover:text-primary-cyan transition-colors border-t border-white/5 pt-4"
               >
                 {t('Load More Registries', 'Charger plus de Registres')}
               </button>
@@ -836,14 +803,14 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
               {sectors.slice(0, visibleSectors).map((sector, i) => (
                 <div key={i} className="flex items-center justify-between p-3 bg-white/5 border border-white/5 hover:border-white/20 transition-all cursor-pointer group/item">
                   <span className="text-[10px] font-bold uppercase tracking-widest text-white group-hover/item:text-accent-gold transition-colors">{sector.label}</span>
-                  <span className={`text-xs font-mono font-black ${sector.color}`}>{sector.trend}</span>
+                  <span className={`text-[9px] font-mono font-black ${sector.color}`}>{sector.trend}</span>
                 </div>
               ))}
             </div>
             {visibleSectors < sectors.length && (
               <button 
                 onClick={() => setVisibleSectors(prev => prev + 4)}
-                className="w-full mt-4 py-2 text-xs font-black uppercase tracking-widest text-on-surface-variant hover:text-accent-gold transition-colors border-t border-white/5 pt-4 relative z-10"
+                className="w-full mt-4 py-2 text-[9px] font-black uppercase tracking-widest text-on-surface-variant hover:text-accent-gold transition-colors border-t border-white/5 pt-4 relative z-10"
               >
                 {t('Load More Sectors', 'Charger plus de Secteurs')}
               </button>
@@ -851,7 +818,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
           </div>
 
           {/* Quick Stats */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-4">
             <div className="bg-surface-low border border-white/5 p-4 text-center">
               <div className="text-[10px] font-mono text-on-surface-variant/40 uppercase mb-1">Total News</div>
               <div className="text-2xl font-black text-white">{news.length * 124}</div>
@@ -867,7 +834,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
       </div>
 
       {/* News Detail Modal */}
-      <AnimatePresence mode="sync">
+      <AnimatePresence>
         {selectedNews && (
           <motion.div 
             initial={{ opacity: 0 }}
@@ -920,15 +887,12 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
                       {selectedNews.summary}
                     </p>
                     <div className="space-y-4 text-on-surface-variant leading-relaxed opacity-70 text-justify">
-                      <p>{selectedNews.impact.description}</p>
-                      {(selectedNews.impact as any).affectedSectors?.length > 0 && (
-                        <div className="flex flex-wrap gap-2 pt-2">
-                          <span className="text-xs font-black text-white/40 uppercase tracking-widest">{t('Secteurs impactés','Affected sectors')} :</span>
-                          {((selectedNews.impact as any).affectedSectors as string[]).map((s: string, i: number) => (
-                            <span key={i} className="px-2 py-0.5 bg-primary-cyan/10 border border-primary-cyan/20 rounded text-xs font-black text-primary-cyan">{s}</span>
-                          ))}
-                        </div>
-                      )}
+                      <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                      </p>
+                      <p>
+                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                      </p>
                     </div>
                   </div>
 
