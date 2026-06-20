@@ -446,20 +446,16 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
 
                 </motion.div>
 
-                {/* Compteur pré-inscrits temps réel */}
-                <div className="flex items-center gap-4 flex-wrap">
-                  <div className="bg-white/5 border border-primary-cyan/20 rounded-2xl p-5 backdrop-blur-sm flex items-center gap-4">
-                    <div className="w-10 h-10 bg-primary-cyan/15 border border-primary-cyan/30 rounded-xl flex items-center justify-center">
-                      <span className="text-primary-cyan text-sm font-black">✦</span>
-                    </div>
-                    <div>
-                      <div className="text-3xl font-black text-primary-cyan">{(totalRegistrations || 0).toLocaleString()}</div>
-                      <div className="text-xs text-white/40 font-black uppercase tracking-widest">{t('Pionniers pré-inscrits', 'Pre-registered pioneers')}</div>
-                    </div>
+                {/* Compteur pré-inscrits — intégré */}
+                <div className="flex items-center gap-3 p-4 bg-white/[0.04] border border-white/10 rounded-2xl backdrop-blur-sm w-fit">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse shrink-0"/>
+                    <span className="text-xs font-black text-emerald-400 uppercase tracking-widest">{t('Ouvert', 'Open')}</span>
                   </div>
-                  <div className="flex items-center gap-2 px-4 py-2 bg-emerald-400/10 border border-emerald-400/20 rounded-full">
-                    <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"/>
-                    <span className="text-xs font-black text-emerald-400 uppercase tracking-widest">{t('Inscriptions ouvertes', 'Registrations open')}</span>
+                  <div className="w-px h-5 bg-white/10"/>
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-2xl font-black text-primary-cyan">{(totalRegistrations || 0).toLocaleString()}</span>
+                    <span className="text-xs text-white/40 font-black uppercase tracking-widest">{t('pionniers inscrits', 'pioneers registered')}</span>
                   </div>
                 </div>
 
