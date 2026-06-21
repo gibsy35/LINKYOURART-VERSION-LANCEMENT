@@ -568,10 +568,10 @@ export const AdminView: React.FC<{
 
       // Mettre à jour le state
       setPreRegistrations(prev => prev.map(p => p.id === reg.id ? { ...p, status: 'APPROVED' } : p));
-      onNotify(t(`✦ Accès approuvé pour ${reg.name} — email envoyé`, `✦ Access approved for ${reg.name} — email sent`));
+      onNotify(t(`✦ Access approved for ${reg.name} — email sent`, `✦ Accès approuvé pour ${reg.name} — email envoyé`));
     } catch(e: any) {
       console.error('Approve error:', e);
-      onNotify(t('Erreur lors de l\'approbation', 'Approval error'));
+      onNotify(t('Approval error', 'Erreur lors de l\'approbation'));
     }
   };
 
@@ -1017,21 +1017,21 @@ export const AdminView: React.FC<{
                       <button 
                         onClick={() => handleTogglePro(u.uid!, !!u.isPro)} 
                         className="p-2 hover:bg-accent-gold/10 rounded-lg text-accent-gold transition-all"
-                        title={u.isPro ? t('Révoquer Pro','Revoke Pro') : t('Passer Pro','Grant Pro')}
+                        title={u.isPro ? t('Revoke Pro','Révoquer Pro') : t('Grant Pro','Passer Pro')}
                       >
                         <ShieldAlert size={16} />
                       </button>
                       <button 
                         onClick={() => setViewingUser(u)}
                         className="p-2 hover:bg-primary-cyan/10 rounded-lg text-primary-cyan transition-all"
-                        title={t('Voir le profil','View profile')}
+                        title={t('View profile','Voir le profil')}
                       >
                         <Eye size={16} />
                       </button>
                       <button
                         onClick={() => handleBanUser(u.uid!, u.displayName || 'Utilisateur', !!(u as any).banned)}
                         className={`p-2 rounded-lg transition-all ${(u as any).banned ? 'text-emerald-400 hover:bg-emerald-400/10' : 'text-accent-gold hover:bg-accent-gold/10'}`}
-                        title={(u as any).banned ? t('Réactiver','Reactivate') : t('Suspendre','Suspend')}
+                        title={(u as any).banned ? t('Reactivate','Réactiver') : t('Suspend','Suspendre')}
                       >
                         {(u as any).banned
                           ? <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
@@ -1041,7 +1041,7 @@ export const AdminView: React.FC<{
                       <button
                         onClick={() => handleDeleteUser(u.uid!, u.displayName || 'Utilisateur')}
                         className="p-2 hover:bg-rose-500/10 rounded-lg text-rose-500/60 hover:text-rose-500 transition-all"
-                        title={t('Supprimer le profil','Delete profile')}
+                        title={t('Delete profile','Supprimer le profil')}
                       >
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
                       </button>
@@ -1274,7 +1274,7 @@ export const AdminView: React.FC<{
                               ].map((step) => (
                                 <div 
                                   key={step.id} 
-                                  onClick={() => onNotify(t('✦ Étape de conformité validée', '✦ Compliance step passed'))}
+                                  onClick={() => onNotify(t('✦ Compliance step passed', '✦ Étape de conformité validée'))}
                                   className="p-3 bg-white/[0.01] hover:bg-white/[0.03] border border-white/5 hover:border-primary-cyan/20 rounded-xl cursor-pointer transition-all flex items-start gap-3 group"
                                 >
                                   <div className="w-4 h-4 rounded bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center shrink-0 mt-0.5">
@@ -1300,7 +1300,7 @@ export const AdminView: React.FC<{
                               ].map((doc, dIdx) => (
                                 <div 
                                   key={dIdx}
-                                  onClick={() => onNotify(t('✦ Document de conformité ouvert','✦ Compliance document opened'))}
+                                  onClick={() => onNotify(t('✦ Document de conformité ouvert','✦ Document de conformité ouvert'))}
                                   className="p-4 bg-white/[0.02] hover:bg-primary-cyan/[0.03] border border-white/5 hover:border-primary-cyan/30 rounded-xl cursor-pointer transition-all flex items-center justify-between group"
                                 >
                                   <div className="flex items-center gap-3">
@@ -1485,7 +1485,7 @@ export const AdminView: React.FC<{
                   <td className="p-6 text-right">
                     {(r as any).status === 'APPROVED' ? (
                       <span className="px-3 py-1.5 bg-emerald-400/10 border border-emerald-400/20 text-emerald-400 text-[10px] font-black rounded-lg uppercase">
-                        ✓ {t('Approuvé', 'Approved')}
+                        ✓ {t('Approved', 'Approuvé')}
                       </span>
                     ) : (
                       <div className="flex items-center justify-end gap-2">
@@ -1493,7 +1493,7 @@ export const AdminView: React.FC<{
                           onClick={() => handleApproveAccess(r)}
                           className="px-3 py-1.5 bg-emerald-400/15 border border-emerald-400/25 text-emerald-400 text-[10px] font-black rounded-lg hover:bg-emerald-400/25 transition-all uppercase"
                         >
-                          ✦ {t('Approuver', 'Approve')}
+                          ✦ {t('Approve', 'Approuver')}
                         </button>
                         <button
                           onClick={async () => {
@@ -1545,7 +1545,7 @@ export const AdminView: React.FC<{
         <aside className="w-full lg:w-64 space-y-2">
           {[
             {id: 'users', label: 'Identity', icon: <Users size={16}/>},
-            {id: 'submissions', label: t('Soumissions', 'Submissions'), icon: <FileText size={16}/>, badge: pendingSubmissions.filter(s => s.status === 'PENDING_VALIDATION').length || undefined},
+            {id: 'submissions', label: t('Submissions', 'Soumissions'), icon: <FileText size={16}/>, badge: pendingSubmissions.filter(s => s.status === 'PENDING_VALIDATION').length || undefined},
             {id: 'engagement', label: 'Engagement', icon: <Mail size={16}/>},
             {id: 'validation', label: 'Verifications', icon: <Shield size={16}/>},
             {id: 'projects', label: 'Assets', icon: <Activity size={16}/>},
@@ -1571,18 +1571,18 @@ export const AdminView: React.FC<{
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <div>
-                      <h3 className="text-sm font-black text-white uppercase tracking-widest">{t('Soumissions de projets', 'Project submissions')}</h3>
-                      <p className="text-xs text-on-surface-variant/40 mt-1">{t('Validez ou refusez chaque projet avant publication sur l\'Exchange LYA', 'Validate or reject each project before publishing on LYA Exchange')}</p>
+                      <h3 className="text-sm font-black text-white uppercase tracking-widest">{t('Project submissions', 'Soumissions de projets')}</h3>
+                      <p className="text-xs text-on-surface-variant/40 mt-1">{t('Validate or reject each project before publishing on LYA Exchange', 'Validez ou refusez chaque projet avant publication sur l\'Exchange LYA')}</p>
                     </div>
                     <div className="flex gap-2">
-                      <span className="px-3 py-1 bg-amber-500/10 border border-amber-500/20 rounded-lg text-xs font-black text-amber-500">{pendingSubmissions.filter(s => s.status === 'PENDING_VALIDATION').length} {t('en attente', 'pending')}</span>
-                      <span className="px-3 py-1 bg-emerald-400/10 border border-emerald-400/20 rounded-lg text-xs font-black text-emerald-400">{pendingSubmissions.filter(s => s.status === 'PUBLISHED').length} {t('publiés', 'published')}</span>
+                      <span className="px-3 py-1 bg-amber-500/10 border border-amber-500/20 rounded-lg text-xs font-black text-amber-500">{pendingSubmissions.filter(s => s.status === 'PENDING_VALIDATION').length} {t('pending', 'en attente')}</span>
+                      <span className="px-3 py-1 bg-emerald-400/10 border border-emerald-400/20 rounded-lg text-xs font-black text-emerald-400">{pendingSubmissions.filter(s => s.status === 'PUBLISHED').length} {t('published', 'publiés')}</span>
                     </div>
                   </div>
 
                   {pendingSubmissions.length === 0 ? (
                     <div className="bg-surface-low border border-white/8 rounded-2xl p-12 text-center">
-                      <p className="text-on-surface-variant/40 text-sm">{t('Aucune soumission pour le moment', 'No submissions yet')}</p>
+                      <p className="text-on-surface-variant/40 text-sm">{t('No submissions yet', 'Aucune soumission pour le moment')}</p>
                     </div>
                   ) : (
                     <div className="space-y-3">
@@ -1592,7 +1592,7 @@ export const AdminView: React.FC<{
                             <div className="flex-1 min-w-0 space-y-2">
                               <div className="flex items-center gap-2 flex-wrap">
                                 <span className={`px-2 py-0.5 rounded text-[9px] font-black uppercase ${sub.status === 'PUBLISHED' ? 'bg-emerald-400/10 text-emerald-400 border border-emerald-400/20' : sub.status === 'REJECTED' ? 'bg-rose-400/10 text-rose-400 border border-rose-400/20' : 'bg-amber-500/10 text-amber-500 border border-amber-500/20'}`}>
-                                  {sub.status === 'PUBLISHED' ? '✓ ' + t('Publié', 'Published') : sub.status === 'REJECTED' ? '✗ ' + t('Refusé', 'Rejected') : '● ' + t('En attente', 'Pending')}
+                                  {sub.status === 'PUBLISHED' ? '✓ ' + t('Published', 'Publié') : sub.status === 'REJECTED' ? '✗ ' + t('Rejected', 'Refusé') : '● ' + t('En attente', 'Pending')}
                                 </span>
                                 {sub.category && <span className="px-2 py-0.5 bg-white/5 border border-white/10 rounded text-[9px] font-black text-white/50">{sub.category}</span>}
                                 {sub.registryIndex && <span className="px-2 py-0.5 bg-primary-cyan/10 border border-primary-cyan/20 rounded text-[9px] font-black text-primary-cyan font-mono">{sub.registryIndex}</span>}
@@ -1610,11 +1610,11 @@ export const AdminView: React.FC<{
                               <div className="flex flex-col gap-2 shrink-0">
                                 <button onClick={() => { setPublishModal(sub); setPublishForm({ scoreAlgo: 750, scorePro: 750, growth: 0, rarity: 'Rare', revenueSharePercentage: 5 }); }}
                                   className="px-4 py-2 bg-emerald-400/15 border border-emerald-400/25 text-emerald-400 text-[10px] font-black rounded-xl hover:bg-emerald-400/25 transition-all uppercase">
-                                  {t('Valider & Publier', 'Validate & Publish')}
+                                  {t('Validate & Publish', 'Valider & Publier')}
                                 </button>
                                 <button onClick={() => { if(window.confirm(t('Refuser ce projet ?', 'Reject this project?'))) handleRejectSubmission(sub, 'Non conforme aux critères LYA'); }}
                                   className="px-4 py-2 bg-rose-400/10 border border-rose-400/20 text-rose-400 text-[10px] font-black rounded-xl hover:bg-rose-400/20 transition-all uppercase">
-                                  {t('Refuser', 'Reject')}
+                                  {t('Reject', 'Refuser')}
                                 </button>
                               </div>
                             )}
@@ -1691,11 +1691,11 @@ export const AdminView: React.FC<{
                       <div className="flex gap-3">
                         <button onClick={() => setPublishModal(null)}
                           className="flex-1 py-3 bg-white/5 border border-white/10 text-xs font-black text-white/50 rounded-xl hover:bg-white/10 transition-all uppercase">
-                          {t('Annuler', 'Cancel')}
+                          {t('Cancel', 'Annuler')}
                         </button>
                         <button onClick={() => handlePublishProject(publishModal, publishForm)}
                           className="flex-1 py-3 bg-emerald-400 text-surface-dim text-xs font-black uppercase tracking-widest rounded-xl hover:bg-white transition-all">
-                          ✓ {t('Publier sur l\'Exchange', 'Publish on Exchange')}
+                          ✓ {t('Publish on Exchange', 'Publier sur l\'Exchange')}
                         </button>
                       </div>
                     </div>
