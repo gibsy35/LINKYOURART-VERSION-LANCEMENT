@@ -290,22 +290,18 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify, onViewChan
                       {/* Depth Effect Background */}
                       <div className="absolute -inset-0.5 bg-gradient-to-br from-primary-cyan/20 to-transparent rounded-[2.5rem] blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
                       
-                      <div className="relative glass-panel p-10 rounded-[2.5rem] border-white/10 bg-surface-dim/40 hover:bg-surface-dim/60 hover:border-primary-cyan/30 transition-all duration-500 shadow-2xl h-full flex flex-col">
-                        <div className="flex gap-6 items-start mb-6">
-                          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary-cyan/20 to-primary-cyan/5 border border-primary-cyan/20 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-500">
-                            <HelpCircle size={24} className="text-primary-cyan shadow-[0_0_15px_rgba(0,224,255,0.5)]" />
+                      <div className="relative glass-panel p-8 rounded-[2.5rem] border-white/10 bg-surface-dim/40 hover:bg-surface-dim/60 hover:border-primary-cyan/30 transition-all duration-500 shadow-2xl h-full flex flex-col gap-4">
+                        <div className="flex gap-5 items-start">
+                          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-primary-cyan/20 to-primary-cyan/5 border border-primary-cyan/20 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-500">
+                            <HelpCircle size={20} className="text-primary-cyan" />
                           </div>
-                          <h3 className="text-xl font-black text-white tracking-tighter uppercase leading-tight group-hover:text-primary-cyan transition-colors duration-500">
+                          <h3 className="text-base font-black text-white tracking-tight uppercase leading-tight group-hover:text-primary-cyan transition-colors duration-500 pt-1">
                             {item.q}
                           </h3>
                         </div>
-                        <div className="mt-auto">
-                          <p className="text-base text-gray-400 leading-relaxed font-medium opacity-80 group-hover:opacity-100 transition-all duration-500 text-justify">
-                            {item.a}
-                          </p>
-                        </div>
-                        
-                        {/* Interactive Accent */}
+                        <p className="text-sm text-gray-400 leading-relaxed font-medium opacity-80 group-hover:opacity-100 transition-all duration-500 text-justify pl-1">
+                          {item.a}
+                        </p>
                         <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
                           <div className="w-1 h-1 rounded-full bg-primary-cyan animate-pulse" />
                         </div>
