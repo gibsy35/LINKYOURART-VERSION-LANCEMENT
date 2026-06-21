@@ -346,7 +346,7 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify, onViewChan
                     </h2>
                   </div>
                   
-                  <p className="text-lg text-gray-400 leading-[1.8] font-medium opacity-80 group-hover:opacity-100 transition-opacity relative z-10 text-justify">
+                  <p className="text-base text-gray-400 leading-relaxed font-medium opacity-80 group-hover:opacity-100 transition-opacity relative z-10 text-justify">
                     {section.text}
                   </p>
                 </div>
