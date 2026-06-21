@@ -513,7 +513,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                       <div className="space-y-2">
                         <h3 className="font-headline text-3xl font-black uppercase tracking-tighter">{t('PRE-REGISTRATION', 'PRÉ-INSCRIPTION')}</h3>
                         <p className="text-white/40 text-sm font-medium tracking-wide leading-relaxed">
-                          {t('Join the elite circle of selected creators, professionals and visionary creative partners prior to our European rollout.', "Rejoignez le cercle d'élite des créateurs, professionnels et partenaire créatifs visionnaires avant notre déploiement à l'échelle européenne.")}
+                          {t('Join the elite circle of selected creators, professionals and visionary creative partners prior to our European and international rollout.', "Rejoignez le cercle d'élite des créateurs, professionnels et partenaire créatifs visionnaires avant notre déploiement européen puis international.")}
                         </p>
                       </div>
 
