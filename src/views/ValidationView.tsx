@@ -613,7 +613,7 @@ const DiagnosticConsole: React.FC<{ lang: 'FR' | 'EN'; onNotify: (msg: string) =
                   {T('Nouvelle analyse', 'New analysis')}
                 </button>
                 {result.status === 'ELIGIBLE' && (
-                  <button onClick={() => onNotify(T(`${selected?.name} — Envoyé en file de validation`, `${selected?.name} — Sent to validation queue`))} className="flex-1 py-3 bg-emerald-500 text-white text-sm font-black rounded-xl hover:bg-emerald-400 transition-all uppercase tracking-widest">
+                  <button onClick={()=>onNotify(T(`✦ ${selected?.name} — Envoyé en file de validation`, `${selected?.name} — Sent to validation queue`))} className="flex-1 py-3 bg-emerald-500 text-white text-sm font-black rounded-xl hover:bg-emerald-400 transition-all uppercase tracking-widest">
                     {T('→ Envoyer en validation', '→ Send to validation')}
                   </button>
                 )}

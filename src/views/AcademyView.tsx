@@ -310,7 +310,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({ user, onNotify, onView
               {t('RESOURCE LIBRARY', 'BIBLIOTHÈQUE DE RESSOURCES')}
             </h2>
             <button 
-              onClick={() => onNotify(t('ACCESSING RESOURCE ARCHIVE...', 'ACCÈS À L\'ARCHIVE DES RESSOURCES...'))}
+              onClick={() => onNotify(t('✦ Ressource téléchargée', '✦ Resource downloadedRCES...'))}
               className="text-[10px] font-black uppercase tracking-widest text-primary-cyan hover:text-white transition-colors"
             >
               {t('VIEW ALL RESOURCES', 'VOIR TOUTES LES RESSOURCES')}

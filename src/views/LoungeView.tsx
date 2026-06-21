@@ -964,15 +964,15 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
                       {t('CREATIVE', 'CRÉATIF')} <span className="bg-gradient-to-r from-accent-gold via-white to-accent-gold bg-clip-text text-transparent bg-[length:200%_auto] animate-shimmer">{t('INSIGHTS MONITOR', 'MONITEUR D\'INSIGHTS')}</span>
                     </h2>
                     <div className="flex flex-wrap gap-6 mt-8">
-                      <div className="flex flex-col cursor-pointer group/stat" onClick={() => onNotify('DEPTH DATA — ' + t('Live data active', 'Données live actives'))}>
+                      <div className="flex flex-col cursor-pointer group/stat" onClick={() => onNotify(t('✦ Données Depth activées en temps réel','✦ Depth data active in real time'))}>
                         <span className="text-[10px] text-accent-gold font-black uppercase tracking-widest mb-1 opacity-60 group-hover/stat:opacity-100 transition-opacity">{t('Global Volume', 'Volume Global')}</span>
                         <span className="text-xl font-black text-white tracking-tighter group-hover/stat:text-accent-gold transition-colors">${pulseStats.volume} <span className="text-[10px] text-emerald-400 ml-1">{pulseStats.volumeTrend}</span></span>
                       </div>
-                      <div className="flex flex-col border-l border-white/10 pl-6 cursor-pointer group/stat" onClick={() => onNotify('SECTOR ANALYSIS — ' + t('Live data active', 'Données live actives'))}>
+                      <div className="flex flex-col border-l border-white/10 pl-6 cursor-pointer group/stat" onClick={() => onNotify(t('✦ Analyse sectorielle mise à jour','✦ Sector analysis updated'))}>
                         <span className="text-[10px] text-accent-gold font-black uppercase tracking-widest mb-1 opacity-60 group-hover/stat:opacity-100 transition-opacity">{t('Top Sector', 'Meilleur Secteur')}</span>
                         <span className="text-xl font-black text-white tracking-tighter uppercase group-hover/stat:text-accent-gold transition-colors">{t(pulseStats.topSector, pulseStats.topSector)}</span>
                       </div>
-                      <div className="flex flex-col border-l border-white/10 pl-6 cursor-pointer group/stat" onClick={() => onNotify('VOLATILITY TRACE — ' + t('Live data active', 'Données live actives'))}>
+                      <div className="flex flex-col border-l border-white/10 pl-6 cursor-pointer group/stat" onClick={() => onNotify(t('✦ Trace de volatilité activée','✦ Volatility trace activated'))}>
                         <span className="text-[10px] text-accent-gold font-black uppercase tracking-widest mb-1 opacity-60 group-hover/stat:opacity-100 transition-opacity">{t('Volatility Index', 'Indice de Volatilité')}</span>
                         <span className="text-xl font-black text-white tracking-tighter uppercase text-primary-cyan group-hover/stat:text-accent-gold transition-colors">{t(pulseStats.volatility, pulseStats.volatility)}</span>
                       </div>
@@ -1004,7 +1004,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
                 </div>
                 <div className="hidden md:flex items-center gap-4">
                   <button 
-                    onClick={() => onNotify(t('NODE SYNCHRONIZED', 'NŒUD SYNCHRONISÉ'))}
+                    onClick={() => onNotify(t('✦ Nœud synchronisé','✦ Node synchronized'))}
                     className="flex items-center gap-3 bg-black/40 px-5 py-2.5 rounded-xl border border-emerald-500/20 hover:border-emerald-500/50 backdrop-blur-md transition-all group/node"
                   >
                     <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.6)]" />

@@ -184,7 +184,7 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
                       <p className="text-xs font-black text-accent-gold">Score: {proj.totalScore}</p>
                       <p className={`text-xs font-bold ${proj.growth>=0?'text-emerald-400':'text-rose-400'}`}>{proj.growth>=0?'+':''}{proj.growth}% · LYA UNIT: {formatPrice(unitPrice(proj.growth))}</p>
                     </div>
-                    <button onClick={()=>onNotify(T(`Dossier ${proj.name} ouvert`,'File opened'))} className="p-1.5 text-on-surface-variant hover:text-primary-cyan transition-colors shrink-0"><ArrowRight size={14}/></button>
+                    <button onClick={()=>{onNotify(T(`✦ Dossier ${proj.name} ouvert`,'File opened'))} className="p-1.5 text-on-surface-variant hover:text-primary-cyan transition-colors shrink-0"><ArrowRight size={14}/></button>
                   </div>
                 ))}
                 {projectsShown < receivedProjects.length && (
@@ -315,7 +315,12 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
                   )}
                 </div>
               ))}
-              <button onClick={()=>onNotify(T('Nouveau mentorat créé','New mentorship created'))} className="w-full py-3 bg-[#a78bfa] text-surface-dim text-sm font-black rounded-xl hover:bg-white transition-all uppercase tracking-widest flex items-center justify-center gap-2"><Users size={14}/> {T('Ajouter un créateur','Add a creator')}</button>
+              <button onClick={async()=>{
+  try{
+    await addDoc(collection(db,'mentorship_sessions'),{type:'new',status:'OPEN',createdAt:serverTimestamp(),mentorId:user?.uid});
+    onNotify(T('✦ Nouveau mentorat ouvert','✦ New mentorship opened'));
+  }catch(e){onNotify(T('Erreur réseau','Network error'));}
+}} className="w-full py-3 bg-[#a78bfa] text-surface-dim text-sm font-black rounded-xl hover:bg-white transition-all uppercase tracking-widest flex items-center justify-center gap-2"><Users size={14}/> {T('Ajouter un créateur','Add a creator')}</button>
             </div>
           )}
 
@@ -379,7 +384,7 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
                       </div>
                     </div>
                     {!mod.locked && !mod.done && (
-                      <button onClick={()=>onNotify(T(`Module "${mod.titleFR}" démarré`,`Module "${mod.titleEN}" started`))} className="w-full mt-3 py-2 bg-primary-cyan/10 border border-primary-cyan/20 text-primary-cyan text-xs font-black rounded-xl hover:bg-primary-cyan hover:text-surface-dim transition-all flex items-center justify-center gap-1.5"><Play size={11}/> {T('Démarrer','Start')}</button>
+                      <button onClick={()=>onNotify(T(`✦ Module "${mod.titleFR}" démarré`,`Module "${mod.titleEN}" started`))} className="w-full mt-3 py-2 bg-primary-cyan/10 border border-primary-cyan/20 text-primary-cyan text-xs font-black rounded-xl hover:bg-primary-cyan hover:text-surface-dim transition-all flex items-center justify-center gap-1.5"><Play size={11}/> {T('Démarrer','Start')}</button>
                     )}
                   </div>
                 ))}

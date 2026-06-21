@@ -315,7 +315,7 @@ export const HoldingsView: React.FC<{ onNotify: (msg: string) => void; userContr
                     </button>
                   ) : (
                     <button 
-                      onClick={() => onNotify(t('All holding details are fully loaded and active.', 'Tous les détails de détention actifs sont entièrement chargés.'))}
+                      onClick={() => onNotify(t('✦ Données portfolio à jour', '✦ Portfolio data up to dateétails de détention actifs sont entièrement chargés.'))}
                       className="w-full py-3 bg-white/5 border border-white/5 text-[10px] font-black uppercase tracking-widest hover:bg-white/10 text-white/40 transition-all flex items-center justify-center gap-2 rounded-sm"
                     >
                       {t('All Assets Loaded', 'Toutes les Détentions Chargées')} <ChevronRight size={14} />

@@ -697,7 +697,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
                       <div className="mt-6 pt-4 border-t border-white/5 flex items-center justify-between">
                         <div className="flex items-center gap-4">
                           <button 
-                            onClick={() => onNotify(t('Link copied to clipboard!', 'Lien copié dans le presse-papiers !'))}
+                            onClick={() => { try { navigator.clipboard.writeText(window.location.href); } catch(e){} onNotify(t('✦ Lien copié','✦ Link copied' !'))}
                             className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant hover:text-primary-cyan transition-colors flex items-center gap-2"
                           >
                             <Share2 size={14} /> SHARE

@@ -287,7 +287,7 @@ export const TaxOptimizerView: React.FC<{ onNotify: (msg: string) => void }> = (
               {t('ALL CALCULATIONS ARE SIMULATORY. FOR OFFICIAL SETTLEMENT, INITIATE LEGAL REVIEW HUB.', 'TOUS LES CALCULS SONT SIMULATOIRES. POUR LE RÈGLEMENT OFFICIEL, INITIER LE HUB D\'EXAMEN LÉGAL.')}
             </p>
             <button 
-              onClick={() => onNotify(t('GENERATING COMPREHENSIVE FISCAL REPORT FOR PROJECT INDEX...', 'GÉNÉRATION DU RAPPORT FISCAL COMPLET POUR L\'INDICE DE PROJET...'))}
+              onClick={() => onNotify(t('✦ Rapport fiscal généré — Consultez votre espace Pro', 'GÉNÉRATION DU RAPPORT FISCAL COMPLET POUR L\'INDICE DE PROJET...'))}
               className="w-full py-4 border border-white/10 text-[10px] font-black text-white uppercase tracking-[0.4em] hover:bg-white/5 transition-all rounded-xl"
             >
               {t('DOWNLOAD FISCAL REPORT', 'TÉLÉCHARGER LE RAPPORT FISCAL')}

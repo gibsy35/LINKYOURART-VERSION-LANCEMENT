@@ -297,7 +297,7 @@ export const APIView: React.FC<APIViewProps> = ({ user, onNotify, onViewChange }
               Receive real-time notifications for contract validations, settlements, and market shifts.
             </p>
             <button 
-              onClick={() => onNotify('WEBHOOK CONFIGURATION PORTAL OPENING...')}
+              onClick={() => { window.open('https://docs.linkyourart.com/webhooks', '_blank'); onNotify(t('Documentation webhooks ouverte', 'Webhook documentation opened')); }}
               className="w-full py-4 bg-white/5 border border-white/10 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-surface-dim transition-all"
             >
               CONFIGURE WEBHOOKS
@@ -316,7 +316,7 @@ export const APIView: React.FC<APIViewProps> = ({ user, onNotify, onViewChange }
               ].map((item, i) => (
                 <button 
                   key={i} 
-                  onClick={() => onNotify(`OPENING ${item.label.toUpperCase()}...`)}
+                  onClick={() => { window.open('https://docs.linkyourart.com', '_blank'); onNotify(`...`)}
                   className="w-full flex items-center justify-between p-4 bg-black/20 border border-white/5 rounded-xl hover:border-primary-cyan/30 transition-all group"
                 >
                   <div className="flex items-center gap-3">

@@ -760,7 +760,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
                   <span className="text-[10px] text-on-surface-variant uppercase font-bold tracking-widest">/ {t('year', 'an')}</span>
                 </div>
                 <button 
-                  onClick={() => onNotify?.(t('SERVICE ADDED TO YOUR QUOTE', 'SERVICE AJOUTÉ À VOTRE DEVIS'))}
+                  onClick={() => onNotify?.(t('✦ Service ajouté à votre devis', '✦ Service added to your quote'))}
                   className="w-full py-2 bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-widest hover:bg-accent-gold hover:text-surface-dim transition-all"
                 >
                   {t('ADD TO PLAN', 'AJOUTER')}

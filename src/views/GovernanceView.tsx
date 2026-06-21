@@ -361,7 +361,12 @@ export const GovernanceView: React.FC<GovernanceViewProps> = ({ user, onNotify, 
                 </div>
               </div>
               <button 
-                onClick={() => onNotify('DELEGATION ENREGISTRÉE — POUVOIR TRANSFÉRÉ')}
+                onClick={async () => {
+  try {
+    await addDoc(collection(db,'governance_delegations'),{delegatedAt:serverTimestamp(),status:'ACTIVE'});
+    onNotify(t('✦ Délégation enregistrée','✦ Delegation recorded'));
+  } catch(e){onNotify(t('Erreur réseau','Network error'));}
+}}
                 className="w-full py-4 bg-white text-surface-dim font-black uppercase tracking-widest text-[10px] hover:bg-primary-cyan transition-all"
               >
                 DELEGATE POWER
