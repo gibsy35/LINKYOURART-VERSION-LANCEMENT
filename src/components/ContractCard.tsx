@@ -155,7 +155,7 @@ export const ContractCard = React.memo<ContractCardProps>(({
          <div className="space-y-6">
             <div className="flex justify-between items-end border-b border-white/5 pb-6">
                <div>
-                  <div className="text-xs font-black text-white/30 uppercase tracking-[0.3em] mb-1">{t('LYA UNIT', 'UNITÉ LYA')}</div>
+                  <div className="text-xs font-black text-white/30 uppercase tracking-[0.3em] mb-1">{'UNITÉ LYA'}</div>
                   <div className="flex flex-col items-start gap-1">
                     <div className="text-2xl font-black font-headline text-primary-cyan flex items-baseline gap-2">
                       {formatPrice(adjustedPrice)}
@@ -165,7 +165,7 @@ export const ContractCard = React.memo<ContractCardProps>(({
                   </div>
                </div>
                <div className="text-right">
-                  <div className="text-xs font-black text-white/30 uppercase tracking-[0.3em] mb-1">{t('MKT PERF', 'PERF MKT')}</div>
+                  <div className="text-xs font-black text-white/30 uppercase tracking-[0.3em] mb-1">{'PERF MKT'}</div>
                   <div className={`flex items-center justify-end gap-1.5 text-xl font-black font-headline ${contract.growth >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
                      {contract.growth >= 0 ? <TrendingUp size={16} /> : <TrendingDown size={16} />}
                      {contract.growth >= 0 ? '+' : ''}{contract.growth}%
@@ -185,7 +185,7 @@ export const ContractCard = React.memo<ContractCardProps>(({
                   </div>
                </div>
                <div className="flex items-center gap-3">
-                  <span className="text-[10px] font-black text-emerald-400 uppercase tracking-widest">{t('PUBLIC', 'PUBLIC')}</span>
+                  <span className="text-[10px] font-black text-emerald-400 uppercase tracking-widest">{'PUBLIC'}</span>
                   <div className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-white/40 hover:text-primary-cyan hover:border-primary-cyan transition-all">
                      <Plus size={16} onClick={(e) => { e.stopPropagation(); onSelect?.(contract); }} />
                   </div>

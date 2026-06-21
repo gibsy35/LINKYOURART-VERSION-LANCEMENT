@@ -350,7 +350,7 @@ export const LinkArtView: React.FC<{
     }
 
     setIsSubmitting(true);
-    onNotify(t('INITIATING SMART CONTRACT DEPLOYMENT...', 'INITIALISATION DU DÉPLOIEMENT DU SMART CONTRACT...'));
+    onNotify(t('INITIATING CONTRAT CRÉATIF DEPLOYMENT...', 'INITIALISATION DU DÉPLOIEMENT DU CONTRAT CRÉATIF...'));
     
     try {
       const projectData = {

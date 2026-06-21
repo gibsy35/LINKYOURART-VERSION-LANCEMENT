@@ -105,15 +105,15 @@ const NeuralTicker = () => {
           <div key={i} className="flex items-center gap-4 flex-wrap">
             <div className="flex items-center gap-2 flex-wrap">
               <Activity size={12} className="text-primary-cyan" />
-              <span className="text-[10px] font-mono text-primary-cyan uppercase tracking-widest leading-none">{t('Global LYA Index', 'Index Mondial LYA')}</span>
+              <span className="text-[10px] font-mono text-primary-cyan uppercase tracking-widest leading-none">{'Index Mondial LYA'}</span>
               <span className="text-[10px] font-mono text-white font-bold leading-none">{val.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
               <span className="text-[10px] font-mono text-emerald-400 font-bold leading-none">+0.14%</span>
             </div>
             <div className="w-1.5 h-1.5 bg-primary-cyan/20 rounded-full" />
             <div className="flex items-center gap-2 flex-wrap">
               <Cpu size={12} className="text-accent-gold" />
-              <span className="text-[10px] font-mono text-accent-gold uppercase tracking-widest leading-none">{t('Neural Mesh Status', 'Statut du Maillage Neural')}</span>
-              <span className="text-[10px] font-mono text-white font-bold leading-none">{t('OPTIMAL', 'OPTIMAL')}</span>
+              <span className="text-[10px] font-mono text-accent-gold uppercase tracking-widest leading-none">{'Statut du Maillage Neural'}</span>
+              <span className="text-[10px] font-mono text-white font-bold leading-none">{'OPTIMAL'}</span>
             </div>
             <div className="w-1.5 h-1.5 bg-primary-cyan/20 rounded-full" />
           </div>

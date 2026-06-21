@@ -209,7 +209,7 @@ const INITIAL_NEWS: NewsItem[] = [
     impact: {
       score: 12,
       trend: 'UP',
-      description: 'Decentralized funding models are becoming the new standard for mid-budget cinema.'
+      description: 'Distributed funding models are becoming the new standard for mid-budget cinema.'
     },
     source: 'Le Monde',
     imageUrl: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&q=80&w=800'
@@ -923,10 +923,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
                     </p>
                     <div className="space-y-4 text-on-surface-variant leading-relaxed opacity-70 text-justify">
                       <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                      </p>
-                      <p>
-                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                        
                       </p>
                     </div>
                   </div>

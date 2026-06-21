@@ -545,7 +545,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                            </div>
                            <h4 className="text-sm font-black text-white uppercase tracking-tight">{t('Conceptual Validation', 'VALIDATION DU CONCEPT')}</h4>
                            <p className="text-[11px] text-white/50 text-left leading-relaxed">
-                             {t('All legal guidelines, patent registrations, and architectural/creative blueprints certified on-chain.', 'Tous les aspects juridiques et brevets de propriété intellectuelle validés et enregistrés.')}
+                             {t('All legal guidelines, patent registrations, and architectural/creative blueprints certified on-registry.', 'Tous les aspects juridiques et brevets de propriété intellectuelle validés et enregistrés.')}
                            </p>
                          </div>
 
