@@ -522,7 +522,6 @@ export const RegistryView: React.FC<{
                       </button>
                       <button 
                         onClick={() => {
-                          onClick={() => {
                           const contract = liveContracts?.find((c: any) => c.registryIndex === item.registryId) || liveContracts?.[0];
                           if (contract) generatePermissions(contract, language);
                           else onNotify(t('Permissions en cours de chargement...', 'Permissions loading...'));
