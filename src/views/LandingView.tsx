@@ -302,7 +302,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
       try {
         await navigator.share({
           title: 'LinkYourArt',
-          text: t('Join me on LinkYourArt — the LYA Protocol pre-registration.', 'Rejoins-moi sur LinkYourArt — pré-inscription au Protocole LYA.'),
+          text: t('Join me on LinkYourArt — exclusive access for pioneers.', 'Rejoins-moi sur LinkYourArt — accès exclusif pour les pionniers.'),
           url: referralLink,
         });
       } catch {}
@@ -420,7 +420,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-cyan opacity-75"></span>
                       <span className="relative inline-flex rounded-full h-2 w-2 bg-primary-cyan"></span>
                     </span>
-                    {t('ACCESS PROTOCOL: PRIVATE STAGING', "PROTOCOLE D'ACCÈS : STAGING PRIVÉ")}
+                    {t('EXCLUSIVE ACCESS — PIONEERS ONLY', "ACCÈS EXCLUSIF — PIONNIERS UNIQUEMENT")}
                   </div>
 
                   {/* ── TITRE : 2 lignes, typo ultra grasse ── */}
@@ -705,7 +705,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                   {activeLegal === 'TERMS' && (
                     <div className="space-y-6">
                       <p>{t("By accessing the LinkYourArt Terminal, you agree to operate within the defined ethical and legal framework.", "En accédant au Terminal LinkYourArt, vous acceptez d'opérer dans le cadre éthique et juridique défini.")}</p>
-                      <p>{t("All disputes are handled through our internal automated clearance protocol.", "Tous les litiges sont gérés par notre protocole de compensation interne automatisé.")}</p>
+                      <p>{t("All disputes are handled through our internal legal arbitration process.", "Tous les litiges sont gérés par notre processus d'arbitrage légal interne.")}</p>
                     </div>
                   )}
                 </div>
@@ -793,7 +793,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
             <div className="text-center mb-8">
               <Logo size={48} color="multi" showBeta={false} className="mx-auto mb-4" />
               <h3 className="font-headline text-xl font-black uppercase tracking-widest text-white">{t("ADMIN ACCESS", "ACCÈS ADMIN")}</h3>
-              <p className="text-white/30 text-xs mt-1 tracking-widest uppercase">{t("Secure Protocol", "Protocole Sécurisé")}</p>
+              <p className="text-white/30 text-xs mt-1 tracking-widest uppercase">{t("Secure Platform", "Plateforme Sécurisée")}</p>
             </div>
             <button onClick={() => { setShowLoginEaster(false); if (onViewChange) onViewChange('LOGIN'); }} className="w-full py-4 bg-primary-cyan text-black font-black text-xs tracking-widest uppercase rounded-xl mb-3 hover:bg-primary-cyan/80 transition-all">{t("SIGN IN", "SE CONNECTER")}</button>
             <button onClick={() => setShowLoginEaster(false)} className="w-full py-3 bg-white/5 border border-white/10 text-white/40 font-black text-xs tracking-widest uppercase rounded-xl hover:text-white transition-all">{t("CLOSE", "FERMER")}</button>
