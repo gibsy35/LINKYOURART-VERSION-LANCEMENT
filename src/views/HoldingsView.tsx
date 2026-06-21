@@ -221,7 +221,7 @@ export const HoldingsView: React.FC<{ onNotify: (msg: string) => void; userContr
                </div>
              </div>
            </div>
-           <button className="mt-8 py-3 bg-accent-gold/10 border border-accent-gold/30 text-accent-gold text-xs font-black uppercase tracking-widest rounded-xl hover:bg-accent-gold hover:text-surface-dim transition-all">
+           <button onClick={() => { onViewChange('EXCHANGE'); onNotify(t('✦ Accédez à l\'Exchange pour gérer vos unités', '✦ Access Exchange to manage your units')); }} className="mt-8 py-3 bg-accent-gold/10 border border-accent-gold/30 text-accent-gold text-xs font-black uppercase tracking-widest rounded-xl hover:bg-accent-gold hover:text-surface-dim transition-all">
              {t('STAKE UNITS', 'STAKER LES UNITÉS')}
            </button>
         </div>
@@ -232,7 +232,7 @@ export const HoldingsView: React.FC<{ onNotify: (msg: string) => void; userContr
            <div className="relative z-10 text-center">
              <p className="text-[10px] font-black text-surface-dim uppercase tracking-[0.4em] mb-2">{t('UPGRADE ROLE', 'AMÉLIORER LE RÔLE')}</p>
              <h4 className="text-xl font-black text-surface-dim uppercase tracking-widest leading-none mb-6 italic">{t('BECOME PRO', 'DEVENIR PRO')}</h4>
-             <button className="px-8 py-3 bg-surface-dim text-white text-[10px] font-black uppercase tracking-widest rounded-xl shadow-2xl hover:bg-white hover:text-surface-dim transition-all active:scale-95">
+             <button onClick={() => onViewChange('PRICING')} className="px-8 py-3 bg-surface-dim text-white text-[10px] font-black uppercase tracking-widest rounded-xl shadow-2xl hover:bg-white hover:text-surface-dim transition-all active:scale-95">
                {t('KNOW MORE', 'EN SAVOIR PLUS')}
              </button>
            </div>
