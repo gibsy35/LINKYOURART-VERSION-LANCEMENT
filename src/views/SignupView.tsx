@@ -187,12 +187,11 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
       }
 
       await sendEmailVerification(firebaseUser);
-        // Email de bienvenue personnalisé selon le rôle (best-effort)
-        fetch('/api/email/notifications', {
+        // Email de bienvenue personnalisé selon le rôle
+        fetch('/api/email/welcome', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            type: 'welcome',
             to: formData.email,
             name: formData.name,
             role: role === UserRole.CREATOR ? 'CREATOR' : role === UserRole.PROFESSIONAL ? 'PROFESSIONAL' : 'INVESTOR',
