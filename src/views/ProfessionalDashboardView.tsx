@@ -184,7 +184,7 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
                       <p className="text-xs font-black text-accent-gold">Score: {proj.totalScore}</p>
                       <p className={`text-xs font-bold ${proj.growth>=0?'text-emerald-400':'text-rose-400'}`}>{proj.growth>=0?'+':''}{proj.growth}% · LYA UNIT: {formatPrice(unitPrice(proj.growth))}</p>
                     </div>
-                    <button onClick={()=>{onNotify(T(`✦ Dossier ${proj.name} ouvert`,'File opened'))} className="p-1.5 text-on-surface-variant hover:text-primary-cyan transition-colors shrink-0"><ArrowRight size={14}/></button>
+                    <button onClick={()=>{onNotify(T(`✦ Dossier ${proj.name} ouvert`,'File opened'));}} className="p-1.5 text-on-surface-variant hover:text-primary-cyan transition-colors shrink-0"><ArrowRight size={14}/></button>
                   </div>
                 ))}
                 {projectsShown < receivedProjects.length && (
