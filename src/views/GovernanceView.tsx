@@ -135,7 +135,7 @@ export const GovernanceView: React.FC<GovernanceViewProps> = ({ user, onNotify, 
           {t('Governance Access Restricted', 'Accès à la Gouvernance Restreint')}
         </h2>
         <p className="text-on-surface-variant max-w-lg mb-10 text-sm md:text-base leading-relaxed opacity-70">
-          {t('La gouvernance LYA est réservée aux professional associates and verified experts. Your LYA Score and holdings determine your voting power.', 'La gouvernance du protocole est réservée aux associés professionnels et aux experts vérifiés. Votre score LYA et vos avoirs déterminent votre pouvoir de vote.')}
+          {t('La gouvernance du protocole est réservée aux associés professionnels et aux experts vérifiés. Votre score LYA et vos avoirs déterminent votre pouvoir de vote.', 'La gouvernance LYA est réservée aux professional associates and verified experts. Your LYA Score and holdings determine your voting power.')}
         </p>
         <button 
           onClick={() => onViewChange('PRICING')}

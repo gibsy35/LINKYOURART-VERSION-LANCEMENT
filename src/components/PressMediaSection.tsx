@@ -134,9 +134,9 @@ export const PressMediaSection: React.FC<Props> = ({ t, language, onNotify }) =>
       setSubmitted(applyModal?.code || '');
       setApplyModal(null);
       setForm({ specialty: '', media: '', message: '', lang: 'FR/EN' });
-      onNotify(t('✦ Candidature envoyée — Réponse sous 48h via votre espace Pro.', '✦ Application sent — Reply within 48h via your Pro space.'));
+      onNotify(t('✦ Application sent — Reply within 48h via your Pro space.', '✦ Candidature envoyée — Réponse sous 48h via votre espace Pro.'));
     } catch(e) {
-      onNotify(t('Erreur réseau', 'Network error'));
+      onNotify(t('Network error', 'Erreur réseau'));
     }
   };
 
@@ -152,7 +152,7 @@ export const PressMediaSection: React.FC<Props> = ({ t, language, onNotify }) =>
       setAccredModal(false);
       onNotify(t('✦ Demande d\'accréditation LYA Press envoyée — 5 jours ouvrés.', '✦ LYA Press accreditation request sent — 5 business days.'));
     } catch(e) {
-      onNotify(t('Erreur réseau', 'Network error'));
+      onNotify(t('Network error', 'Erreur réseau'));
     }
   };
 
@@ -169,7 +169,7 @@ export const PressMediaSection: React.FC<Props> = ({ t, language, onNotify }) =>
               <span className="px-2 py-1 bg-emerald-400/10 border border-emerald-400/20 rounded-full text-[9px] font-black text-emerald-400">● {t('Actif', 'Active')}</span>
             </div>
             <h2 className="text-2xl font-black text-white leading-tight">
-              {t('Créez avec nous.', 'Create with us.')}<br/>
+              {t('Create with us.', 'Créez avec nous.')}<br/>
               <span className="text-[#a78bfa]">{t('L\'œuvre avant l\'auteur.', 'The work before the author.')}</span>
             </h2>
             <p className="text-sm text-on-surface-variant/60 leading-relaxed">
@@ -178,7 +178,7 @@ export const PressMediaSection: React.FC<Props> = ({ t, language, onNotify }) =>
             </p>
             <button onClick={() => setAccredModal(true)}
               className="px-6 py-3 bg-[#a78bfa] text-surface-dim text-xs font-black uppercase tracking-widest rounded-xl hover:bg-white transition-all shadow-[0_0_20px_rgba(167,139,250,0.2)]">
-              {accredSubmitted ? t('✓ Demande envoyée', '✓ Request sent') : t('Obtenir le badge LYA Press', 'Get the LYA Press badge')}
+              {accredSubmitted ? t('✓ Request sent', '✓ Demande envoyée') : t('Obtenir le badge LYA Press', 'Get the LYA Press badge')}
             </button>
           </div>
           {/* Stats */}
@@ -197,7 +197,7 @@ export const PressMediaSection: React.FC<Props> = ({ t, language, onNotify }) =>
       <div className="space-y-4">
         <div className="flex items-center justify-between flex-wrap gap-3">
           <div className="flex items-center gap-3">
-            <h3 className="text-sm font-black text-white uppercase tracking-widest">{t('Appels à contribution', 'Call for Contributions')}</h3>
+            <h3 className="text-sm font-black text-white uppercase tracking-widest">{t('Call for Contributions', 'Appels à contribution')}</h3>
             <span className="px-2 py-0.5 bg-emerald-400/10 border border-emerald-400/20 rounded-full text-[9px] font-black text-emerald-400">● {CONTRIBUTIONS.length} {t('ouverts', 'open')}</span>
           </div>
           {/* Filtres */}
@@ -231,7 +231,7 @@ export const PressMediaSection: React.FC<Props> = ({ t, language, onNotify }) =>
                           <span className="px-2 py-0.5 bg-emerald-400/8 border border-emerald-400/15 rounded text-[8px] font-black text-emerald-400">{item.lang}</span>
                           {submitted === item.code && (
                             <span className="px-2 py-0.5 bg-emerald-400/15 border border-emerald-400/30 rounded text-[8px] font-black text-emerald-400 flex items-center gap-1">
-                              <CheckCircle size={8}/> {t('Candidaté', 'Applied')}
+                              <CheckCircle size={8}/> {t('Applied', 'Candidaté')}
                             </span>
                           )}
                         </div>
@@ -257,7 +257,7 @@ export const PressMediaSection: React.FC<Props> = ({ t, language, onNotify }) =>
                       <div className="p-5 space-y-3">
                         <div className="flex items-center gap-2 mb-2">
                           <BookOpen size={12} className="text-[#a78bfa]"/>
-                          <p className="text-[10px] font-black text-[#a78bfa] uppercase tracking-widest">{t('Brief éditorial', 'Editorial brief')}</p>
+                          <p className="text-[10px] font-black text-[#a78bfa] uppercase tracking-widest">{t('Editorial brief', 'Brief éditorial')}</p>
                         </div>
                         <p className="text-sm text-on-surface-variant/70 leading-relaxed">{isFR ? item.brief_fr : item.brief_en}</p>
                         <div className="flex gap-2 flex-wrap pt-2">
@@ -277,7 +277,7 @@ export const PressMediaSection: React.FC<Props> = ({ t, language, onNotify }) =>
 
       {/* PUBLICATIONS RÉCENTES */}
       <div className="space-y-4">
-        <h3 className="text-sm font-black text-white uppercase tracking-widest">{t('Publications récentes liées à LYA', 'Recent LYA-linked publications')}</h3>
+        <h3 className="text-sm font-black text-white uppercase tracking-widest">{t('Recent LYA-linked publications', 'Publications récentes liées à LYA')}</h3>
         <div className="grid sm:grid-cols-2 gap-3">
           {PUBLICATIONS.map((pub, i) => (
             <motion.div key={pub.code} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }}
@@ -318,12 +318,12 @@ export const PressMediaSection: React.FC<Props> = ({ t, language, onNotify }) =>
             <p className="text-xs font-black text-accent-gold uppercase tracking-widest">Badge LYA Press</p>
           </div>
           <div className="space-y-2">
-            <p className="text-sm font-black text-white">{t('Accréditation presse officielle LYA', 'Official LYA press accreditation')}</p>
+            <p className="text-sm font-black text-white">{t('Official LYA press accreditation', 'Accréditation presse officielle LYA')}</p>
             <ul className="space-y-1">
               {[
-                t('Accès données exclusives LYA', 'Access to exclusive LYA data'),
-                t('Contact direct créateurs (Pro)', 'Direct creator contact (Pro)'),
-                t('Avant-premières et événements', 'Previews and events'),
+                t('Access to exclusive LYA data', 'Accès données exclusives LYA'),
+                t('Direct creator contact (Pro)', 'Contact direct créateurs (Pro)'),
+                t('Previews and events', 'Avant-premières et événements'),
                 t('Signature sous pseudonyme LYA', 'Signature under LYA pseudonym'),
               ].map((item, i) => (
                 <li key={i} className="flex items-center gap-2 text-[10px] text-on-surface-variant/60">
@@ -336,9 +336,9 @@ export const PressMediaSection: React.FC<Props> = ({ t, language, onNotify }) =>
           <div className="space-y-3">
             <button onClick={() => setAccredModal(true)}
               className="w-full py-3 bg-accent-gold text-surface-dim text-xs font-black uppercase tracking-widest rounded-xl hover:bg-white transition-all">
-              {accredSubmitted ? t('✓ Demande envoyée', '✓ Request sent') : t('Demander l\'accréditation', 'Request accreditation')}
+              {accredSubmitted ? t('✓ Request sent', '✓ Demande envoyée') : t('Demander l\'accréditation', 'Request accreditation')}
             </button>
-            <p className="text-[9px] text-on-surface-variant/30 text-center">{t('Traitement sous 5 jours ouvrés', 'Processing within 5 business days')}</p>
+            <p className="text-[9px] text-on-surface-variant/30 text-center">{t('Processing within 5 business days', 'Traitement sous 5 jours ouvrés')}</p>
           </div>
         </div>
       </div>
@@ -357,21 +357,21 @@ export const PressMediaSection: React.FC<Props> = ({ t, language, onNotify }) =>
               </div>
               <div className="space-y-3">
                 <div>
-                  <label className="text-[9px] font-black text-white/40 uppercase tracking-widest block mb-1">{t('Votre spécialité *', 'Your specialty *')}</label>
+                  <label className="text-[9px] font-black text-white/40 uppercase tracking-widest block mb-1">{t('Your specialty *', 'Votre spécialité *')}</label>
                   <input value={form.specialty} onChange={e => setForm(f => ({...f, specialty: e.target.value}))}
-                    placeholder={t('Ex: Journaliste cinéma, Influenceur mode...', 'E.g: Film journalist, Fashion influencer...')}
+                    placeholder={t('E.g: Film journalist, Fashion influencer...', 'Ex: Journaliste cinéma, Influenceur mode...')}
                     className="w-full bg-black/30 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-white/20 outline-none focus:border-[#a78bfa]/50"/>
                 </div>
                 <div>
-                  <label className="text-[9px] font-black text-white/40 uppercase tracking-widest block mb-1">{t('Média / Support (optionnel)', 'Media / Platform (optional)')}</label>
+                  <label className="text-[9px] font-black text-white/40 uppercase tracking-widest block mb-1">{t('Media / Platform (optional)', 'Média / Support (optionnel)')}</label>
                   <input value={form.media} onChange={e => setForm(f => ({...f, media: e.target.value}))}
-                    placeholder={t('Ex: Blog indépendant, Newsletter, Podcast...', 'E.g: Independent blog, Newsletter, Podcast...')}
+                    placeholder={t('E.g: Independent blog, Newsletter, Podcast...', 'Ex: Blog indépendant, Newsletter, Podcast...')}
                     className="w-full bg-black/30 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-white/20 outline-none focus:border-[#a78bfa]/50"/>
                 </div>
                 <div>
                   <label className="text-[9px] font-black text-white/40 uppercase tracking-widest block mb-1">{t('Votre approche *', 'Your approach *')}</label>
                   <textarea value={form.message} onChange={e => setForm(f => ({...f, message: e.target.value}))}
-                    rows={3} placeholder={t('Décrivez votre angle éditorial et pourquoi ce sujet vous intéresse...', 'Describe your editorial angle and why this subject interests you...')}
+                    rows={3} placeholder={t('Describe your editorial angle and why this subject interests you...', 'Décrivez votre angle éditorial et pourquoi ce sujet vous intéresse...')}
                     className="w-full bg-black/30 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-white/20 outline-none focus:border-[#a78bfa]/50 resize-none"/>
                 </div>
               </div>
@@ -385,7 +385,7 @@ export const PressMediaSection: React.FC<Props> = ({ t, language, onNotify }) =>
                   <Send size={12}/> {t('Envoyer', 'Send')}
                 </button>
               </div>
-              <p className="text-[9px] text-center text-white/20">{t('Aucune identité publiée — contact via espace Pro uniquement', 'No identity published — contact via Pro space only')}</p>
+              <p className="text-[9px] text-center text-white/20">{t('No identity published — contact via Pro space only', 'Aucune identité publiée — contact via espace Pro uniquement')}</p>
             </motion.div>
           </motion.div>
         )}
@@ -401,29 +401,29 @@ export const PressMediaSection: React.FC<Props> = ({ t, language, onNotify }) =>
               <div className="text-center space-y-2">
                 <Star size={32} className="text-accent-gold mx-auto" fill="currentColor"/>
                 <h3 className="text-sm font-black text-white">{t('Demande de badge LYA Press', 'LYA Press badge request')}</h3>
-                <p className="text-[10px] text-on-surface-variant/40">{t('Votre identité reste protégée — aucune donnée personnelle publiée', 'Your identity remains protected — no personal data published')}</p>
+                <p className="text-[10px] text-on-surface-variant/40">{t('Your identity remains protected — no personal data published', 'Votre identité reste protégée — aucune donnée personnelle publiée')}</p>
               </div>
               <div className="space-y-3">
                 <div>
                   <label className="text-[9px] font-black text-white/40 uppercase tracking-widest block mb-1">{t('Type de profil *', 'Profile type *')}</label>
                   <select value={accredForm.type} onChange={e => setAccredForm(f => ({...f, type: e.target.value}))}
                     className="w-full bg-black/30 border border-white/10 rounded-xl px-4 py-3 text-sm text-white outline-none focus:border-accent-gold/50">
-                    <option value="">{t('Sélectionner...', 'Select...')}</option>
+                    <option value="">{t('Select...', 'Sélectionner...')}</option>
                     <option value="journalist">{t('Journaliste', 'Journalist')}</option>
-                    <option value="influencer">{t('Influenceur créatif', 'Creative influencer')}</option>
-                    <option value="blogger">{t('Rédacteur / Blogueur', 'Writer / Blogger')}</option>
-                    <option value="photographer">{t('Photographe / Vidéaste', 'Photographer / Videographer')}</option>
+                    <option value="influencer">{t('Creative influencer', 'Influenceur créatif')}</option>
+                    <option value="blogger">{t('Writer / Blogger', 'Rédacteur / Blogueur')}</option>
+                    <option value="photographer">{t('Photographer / Videographer', 'Photographe / Vidéaste')}</option>
                     <option value="podcaster">Podcaster</option>
                   </select>
                 </div>
                 <div>
-                  <label className="text-[9px] font-black text-white/40 uppercase tracking-widest block mb-1">{t('Média ou support *', 'Media or platform *')}</label>
+                  <label className="text-[9px] font-black text-white/40 uppercase tracking-widest block mb-1">{t('Media or platform *', 'Média ou support *')}</label>
                   <input value={accredForm.media} onChange={e => setAccredForm(f => ({...f, media: e.target.value}))}
-                    placeholder={t('Nom de votre publication, chaîne, podcast...', 'Name of your publication, channel, podcast...')}
+                    placeholder={t('Name of your publication, channel, podcast...', 'Nom de votre publication, chaîne, podcast...')}
                     className="w-full bg-black/30 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-white/20 outline-none focus:border-accent-gold/50"/>
                 </div>
                 <div>
-                  <label className="text-[9px] font-black text-white/40 uppercase tracking-widest block mb-1">{t('Expérience dans le monde créatif', 'Experience in the creative world')}</label>
+                  <label className="text-[9px] font-black text-white/40 uppercase tracking-widest block mb-1">{t('Experience in the creative world', 'Expérience dans le monde créatif')}</label>
                   <input value={accredForm.experience} onChange={e => setAccredForm(f => ({...f, experience: e.target.value}))}
                     placeholder={t('Secteurs couverts, années d\'expérience...', 'Sectors covered, years of experience...')}
                     className="w-full bg-black/30 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-white/20 outline-none focus:border-accent-gold/50"/>

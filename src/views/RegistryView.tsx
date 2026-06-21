@@ -514,7 +514,7 @@ export const RegistryView: React.FC<{
                         onClick={() => {
                           const contract = liveContracts?.find((c: any) => c.registryIndex === item.registryId) || liveContracts?.[0];
                           if (contract) generateLegalTerms(contract, language);
-                          else onNotify(t('Conditions légales en cours de chargement...', 'Legal terms loading...'));
+                          else onNotify(t('Legal terms loading...', 'Conditions légales en cours de chargement...'));
                         }}
                         className="text-sm font-bold uppercase tracking-widest text-on-surface-variant hover:text-primary-cyan transition-colors flex items-center gap-2"
                       >

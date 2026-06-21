@@ -19,7 +19,7 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify, onViewChan
   const faqThemes = [
     { id: 'General', label: t('General', 'Général') },
     { id: 'Creators', label: t('Creators', 'Créateurs') },
-    { id: 'Partenaire créatifs', label: t('Partenaire créatifs', 'Investisseurs') },
+    { id: 'Partenaire créatifs', label: t('Investisseurs', 'Partenaire créatifs') },
     { id: 'Professionals', label: t('Professionals', 'Professionnels') },
     { id: 'Public', label: t('Public', 'Public') },
     { id: 'Security', label: t('Security', 'Sécurité') }
@@ -131,7 +131,7 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify, onViewChan
       },
       { 
         q: t('Who can use LYA?', 'Qui peut utiliser LYA ?'), 
-        a: t('Everyone! LYA is designed for creators, partenaire créatifs, professionals, and the general public. We offer a simple and fair model for all actors in the artistic world.', 'Tout le monde ! LYA est conçu pour les créateurs, partenaire créatifs, professionnels et le grand public. Nous proposons un modèle simple et équitable pour tous les acteurs du monde artistique.') 
+        a: t('Tout le monde ! LYA est conçu pour les créateurs, partenaire créatifs, professionnels et le grand public. Nous proposons un modèle simple et équitable pour tous les acteurs du monde artistique.', 'Everyone! LYA is designed for creators, partenaire créatifs, professionals, and the general public. We offer a simple and fair model for all actors in the artistic world.') 
       },
       { 
         q: t('Is LYA regulated like a bank or by MICA/SEC?', 'LYA est-elle réglementée par MICA ou la SEC ?'), 

@@ -222,7 +222,7 @@ export const AdminKeysManagement: React.FC = () => {
             <span className="text-[10px] bg-emerald-500/10 text-emerald-400 font-mono px-1.5 py-0.5 rounded uppercase font-bold">LIVE STREAM</span>
           </div>
           <span className="text-sm font-black text-white">4 / 4 {t('Hubs actifs', 'Active Hubs')}</span>
-          <p className="text-xs text-white/40 uppercase tracking-widest mt-1">{t('Centres créatifs connectés', 'Connected creative centres')}</p>
+          <p className="text-xs text-white/40 uppercase tracking-widest mt-1">{t('Connected creative centres', 'Centres créatifs connectés')}</p>
         </div>
 
         <div className="p-6 bg-surface-low border border-white/5 rounded-3xl relative overflow-hidden group hover:border-accent-gold/30 transition-all">
@@ -231,8 +231,8 @@ export const AdminKeysManagement: React.FC = () => {
             <Lock className="text-accent-gold" size={18} />
             <span className="text-[10px] bg-emerald-500/10 text-emerald-400 font-mono px-1.5 py-0.5 rounded uppercase font-bold">AES-256</span>
           </div>
-          <span className="text-sm font-black text-white">{t('Sécurité certifiée', 'Certified security')} AES-256</span>
-          <p className="text-xs text-white/40 uppercase tracking-widest mt-1">{t('Chiffrement renforcé', 'Enhanced encryption')}</p>
+          <span className="text-sm font-black text-white">{t('Certified security', 'Sécurité certifiée')} AES-256</span>
+          <p className="text-xs text-white/40 uppercase tracking-widest mt-1">{t('Enhanced encryption', 'Chiffrement renforcé')}</p>
         </div>
 
         <div className="p-6 bg-surface-low border border-white/5 rounded-3xl relative overflow-hidden group hover:border-accent-magenta/30 transition-all">
@@ -242,7 +242,7 @@ export const AdminKeysManagement: React.FC = () => {
             <span className="text-[10px] bg-emerald-500/10 text-emerald-400 font-mono px-1.5 py-0.5 rounded uppercase font-bold">STABLE</span>
           </div>
           <span className="text-sm font-black text-white">{keys.length} {t('Codes d\'invitation actifs', 'Active invitation codes')}</span>
-          <p className="text-xs text-white/40 uppercase tracking-widest mt-1">{t('Accès en cours', 'Ongoing access')}</p>
+          <p className="text-xs text-white/40 uppercase tracking-widest mt-1">{t('Ongoing access', 'Accès en cours')}</p>
         </div>
 
         <div className="p-6 bg-surface-low border border-white/5 rounded-3xl relative overflow-hidden group hover:border-primary-cyan/30 transition-all">
@@ -252,7 +252,7 @@ export const AdminKeysManagement: React.FC = () => {
             <span className="text-[10px] bg-emerald-500/10 text-emerald-400 font-mono px-1.5 py-0.5 rounded uppercase font-bold">100% HEALTH</span>
           </div>
           <span className="text-sm font-black text-white">0 {t('incident détecté', 'incident detected')}</span>
-          <p className="text-xs text-white/40 uppercase tracking-widest mt-1">{t('Système opérationnel', 'System operational')}</p>
+          <p className="text-xs text-white/40 uppercase tracking-widest mt-1">{t('System operational', 'Système opérationnel')}</p>
         </div>
       </div>
 

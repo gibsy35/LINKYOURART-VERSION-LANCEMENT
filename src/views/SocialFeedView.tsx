@@ -580,11 +580,11 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
       <div className="flex gap-2 mb-6">
         <button onClick={() => setMainTab('news')}
           className={`px-6 py-2.5 text-xs font-black uppercase tracking-widest rounded-xl transition-all ${mainTab === 'news' ? 'bg-primary-cyan text-surface-dim' : 'bg-surface-low border border-white/8 text-on-surface-variant hover:text-white'}`}>
-          {t('Actualités', 'News Feed')}
+          {t('News Feed', 'Actualités')}
         </button>
         <button onClick={() => setMainTab('press')}
           className={`px-6 py-2.5 text-xs font-black uppercase tracking-widest rounded-xl transition-all flex items-center gap-2 ${mainTab === 'press' ? 'bg-[#a78bfa] text-surface-dim' : 'bg-surface-low border border-white/8 text-on-surface-variant hover:text-white'}`}>
-          <span>✦</span> {t('Presse & Médias', 'Press & Media')}
+          <span>✦</span> {t('Press & Media', 'Presse & Médias')}
           <span className="px-1.5 py-0.5 bg-white/20 rounded text-[9px]">NEW</span>
         </button>
       </div>
@@ -697,7 +697,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
                       <div className="mt-6 pt-4 border-t border-white/5 flex items-center justify-between">
                         <div className="flex items-center gap-4">
                           <button 
-                            onClick={() => { try { navigator.clipboard.writeText(window.location.href); } catch(e){} onNotify(t('✦ Lien copié', '✦ Link copied')); }}
+                            onClick={() => { try { navigator.clipboard.writeText(window.location.href); } catch(e){} onNotify(t('✦ Link copied', '✦ Lien copié')); }}
                             className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant hover:text-primary-cyan transition-colors flex items-center gap-2"
                           >
                             <Share2 size={14} /> SHARE

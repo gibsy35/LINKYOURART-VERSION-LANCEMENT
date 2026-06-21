@@ -685,7 +685,7 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
                 className="w-full py-4 bg-primary-cyan text-surface-dim text-[10px] font-black uppercase tracking-[0.3em] hover:bg-white transition-all flex items-center justify-center gap-3 group"
               >
                 <Cpu size={14} className="group-hover:rotate-12 transition-transform" />
-                {t('Test with the Modélisateur', 'Tester avec le Modélisateur')}
+                {t('Tester avec le Modélisateur', 'Test with the Modélisateur')}
               </button>
             </div>
           </motion.div>
@@ -906,7 +906,7 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
                          <div className="bg-black/30 p-3 rounded-md border border-white/5 space-y-1">
                            <div className="text-white/40 font-bold uppercase tracking-widest">{t('2. WEIGHTED BASE MODEL', '2. SCORE LYA DE BASE COMPOSÉ (LYA0)')}</div>
                            <div className="text-xs text-white font-bold tracking-tight text-right mt-1">
-                             <span className="text-white/40">{t('Comité + Auto-évaluation', 'Committee + Self-assessment')}</span> = <span className="text-white font-bold">{demoLyaScoreCombined} / 1000</span>
+                             <span className="text-white/40">{t('Committee + Self-assessment', 'Comité + Auto-évaluation')}</span> = <span className="text-white font-bold">{demoLyaScoreCombined} / 1000</span>
                            </div>
                          </div>
 
@@ -1377,7 +1377,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
                 </li>
                 <li className="pt-2 border-t border-white/5">
                   <strong className="text-white uppercase block text-[10px] tracking-wider mb-1">🔄 {t('SECURE DIRECT RIGHTS TRANSFER', 'TRANSFERT DIRECT DE DROITS')}</strong>
-                  <span className="text-white/70 leading-relaxed">{t('All de pair à pair exchanges are cleared instantly inside our unified secure transfer platform.', 'Les reventes et arbitrages sont immédiats et sécurisés via notre terminal de gré à gré.')}</span>
+                  <span className="text-white/70 leading-relaxed">{t('Les reventes et arbitrages sont immédiats et sécurisés via notre terminal de gré à gré.', 'All de pair à pair exchanges are cleared instantly inside our unified secure transfer platform.')}</span>
                 </li>
               </ul>
             </div>

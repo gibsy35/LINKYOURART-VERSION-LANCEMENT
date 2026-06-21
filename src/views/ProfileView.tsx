@@ -547,7 +547,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
       ]
     },
     'Expert Terminal': {
-      description: t('Deploy your own Institutional Terminal to manage massive creative catalogs and provide grande accessibilité de marché to your sub-entities. Outsource your initial vetting directly to the LYA security protocol.', 'Déployez votre propre Terminal Institutionnel pour gérer des catalogues créatifs massifs et fournir une grande accessibilité de marché à vos sous-entités. Externalisez votre vérification initiale directement au protocole de sécurité LYA.'),
+      description: t('Déployez votre propre Terminal Institutionnel pour gérer des catalogues créatifs massifs et fournir une grande accessibilité de marché à vos sous-entités. Externalisez votre vérification initiale directement au protocole de sécurité LYA.', 'Deploy your own Institutional Terminal to manage massive creative catalogs and provide grande accessibilité de marché to your sub-entities. Outsource your initial vetting directly to the LYA security protocol.'),
       previewImage: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800',
       benefits: [
         { label: t('Catalog Management', 'Gestion de Catalogue'), desc: t('Bulk boarding of 1000+ assets with automated indexing.', 'Intégration en masse de 1000+ actifs avec indexation automatisée.') },
@@ -3201,7 +3201,7 @@ const renderMentorshipContent = () => (
                     <span className="text-primary-cyan">{t('New Asset', 'Nouvel Actif')}</span>
                   </h2>
                   <p className="text-[10px] text-on-surface-variant font-bold uppercase tracking-widest leading-relaxed">
-                    {t('Initialize your creative project on the registre certifié LYA. Our AI will audit your IP and generate a indice de valorisation.', 'Initialisez votre projet créatif sur la registre certifié LYA. Notre IA auditera votre PI et générera un indice de valorisation.')}
+                    {t('Initialisez votre projet créatif sur la registre certifié LYA. Notre IA auditera votre PI et générera un indice de valorisation.', 'Initialize your creative project on the registre certifié LYA. Our AI will audit your IP and generate a indice de valorisation.')}
                   </p>
                 </div>
 

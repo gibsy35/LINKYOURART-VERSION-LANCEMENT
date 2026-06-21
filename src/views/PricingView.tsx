@@ -124,7 +124,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
       id: 'INVESTOR',
       name: t('Investor', 'Investisseur'),
       monthlyPrice: 149,
-      description: t('For active collectors and partenaire créatifs.', 'Pour les collectionneurs et partenaire créatifs actifs.'),
+      description: t('Pour les collectionneurs et partenaire créatifs actifs.', 'For active collectors and partenaire créatifs.'),
       features: [
         t('Unlimited project tracking', 'Suivi de projets illimité'),
         t('Advanced market analytics', 'Analyses de marché avancées'),
@@ -690,7 +690,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
                     {[
                       t('Real-time Valuation index', 'Indice de Valorisation en tps réel'),
                       t('Predictive Performance data', 'Données de Performance Prédictives'),
-                      t('Accès Institutionnel Suite', 'Suite de Accès Institutionnel'),
+                      t('Suite de Accès Institutionnel', 'Accès Institutionnel Suite'),
                       t('Master Registry Governance', 'Gouvernance du Registre Maître'),
                     ].map((f, i) => (
                       <li key={i} className="flex items-center gap-3 text-[10px] text-on-surface-variant uppercase font-bold tracking-wide">
@@ -746,7 +746,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { label: t('Accès Étendu au Marché', 'Accès Étendu au Marché'), price: '2,500', icon: Globe, desc: t('Global accès aux registres de disponibilité', 'Accès aux registres de disponibilité mondiaux') },
+              { label: t('Accès Étendu au Marché', 'Accès Étendu au Marché'), price: '2,500', icon: Globe, desc: t('Accès aux registres de disponibilité mondiaux', 'Global accès aux registres de disponibilité') },
               { label: t('Risk Audit Pro', 'Audit de Risque Pro'), price: '1,200', icon: Shield, desc: t('Deep-dive compliance reports', 'Rapports de conformité approfondis') },
               { label: t('Portfolio AI', 'IA de Portefeuille'), price: '1,800', icon: Zap, desc: t('Automated rebalancing engine', 'Moteur de rééquilibrage automatisé') },
               { label: t('Tax & Legal Suite', 'Suite Fiscale et Juridique'), price: '950', icon: BarChart3, desc: t('Multi-jurisdictional reporting', 'Rapports multi-juridictionnels') },
@@ -760,7 +760,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
                   <span className="text-[10px] text-on-surface-variant uppercase font-bold tracking-widest">/ {t('year', 'an')}</span>
                 </div>
                 <button 
-                  onClick={() => onNotify?.(t('✦ Service ajouté à votre devis', '✦ Service added to your quote'))}
+                  onClick={() => onNotify?.(t('✦ Service added to your quote', '✦ Service ajouté à votre devis'))}
                   className="w-full py-2 bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-widest hover:bg-accent-gold hover:text-surface-dim transition-all"
                 >
                   {t('ADD TO PLAN', 'AJOUTER')}

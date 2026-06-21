@@ -299,7 +299,7 @@ export const CompareView: React.FC<CompareViewProps> = ({
                 </div>
              </div>
              <button 
-               onClick={() => onNotify(t('✦ Accès Pro requis pour télécharger le rapport', '✦ Pro access required to download reportLLÉ_ATTENTE_PRO'))}
+               onClick={() => onNotify(t('✦ Pro access required to download reportLLÉ_ATTENTE_PRO', '✦ Accès Pro requis pour télécharger le rapport'))}
                className="px-12 py-6 bg-primary-cyan text-surface-dim font-black uppercase tracking-widest text-xs hover:bg-white hover:text-surface-dim transition-all rounded-sm shadow-2xl flex items-center gap-5 group shrink-0"
              >
                {t('EXPOR_FULL_AUDIT_REPORT', 'EXPORTER_LE_RAPPORT_D\'AUDIT')}

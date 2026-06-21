@@ -490,7 +490,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
       image: 'https://picsum.photos/seed/liquidity/800/400',
       attendees: 30,
       slots: 4,
-      description: t('Discussion on professional exit strategies and réserves de droits.', 'Discussion sur les stratégies de sortie professionnelles et les réserves de droits.'),
+      description: t('Discussion sur les stratégies de sortie professionnelles et les réserves de droits.', 'Discussion on professional exit strategies and réserves de droits.'),
       highlights: [t('Liquidity Pools', 'Pools de Liquidité'), t('Exit Strategy', 'Stratégie de Sortie'), t('Market Making', 'Market Making')],
       speakers: [
         { name: 'Marcus Thorne', role: t('Global Market Maker', 'Market Maker Mondial'), avatar: 'https://i.pravatar.cc/150?u=m1' }
