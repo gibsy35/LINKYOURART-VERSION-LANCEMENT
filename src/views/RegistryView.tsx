@@ -522,8 +522,10 @@ export const RegistryView: React.FC<{
                       </button>
                       <button 
                         onClick={() => {
-                          downloadAsJSON(item, `Config_${item.registryId}`);
-                          onNotify(`EXPORTING CONFIGURATION FOR ${item.contractName.toUpperCase()}...`);
+                          onClick={() => {
+                          const contract = liveContracts?.find((c: any) => c.registryIndex === item.registryId) || liveContracts?.[0];
+                          if (contract) generatePermissions(contract, language);
+                          else onNotify(t('Permissions en cours de chargement...', 'Permissions loading...'));
                         }}
                         className="text-sm font-bold uppercase tracking-widest text-on-surface-variant hover:text-primary-cyan transition-colors flex items-center gap-2"
                       >
