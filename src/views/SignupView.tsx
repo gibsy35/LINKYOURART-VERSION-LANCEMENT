@@ -45,35 +45,65 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
     setError(null);
 
     try {
-      // ── VÉRIFICATION LISTE VIP ────────────────────────────────────────────
-      // Vérifier si l'email est dans la liste de pré-inscription
-      let isPreRegistered = false;
-      try {
-        const preRef = collection(db, 'pre_registrations');
-        const preQ = query(preRef, where('email', '==', formData.email.toLowerCase().trim()), limit(1));
-        const preSnap = await getDocs(preRef);
-        // Chercher dans tous les docs (email peut être en différentes casses)
-        isPreRegistered = preSnap.docs.some(d => 
-          d.data().email?.toLowerCase().trim() === formData.email.toLowerCase().trim()
-        );
-      } catch(e) {
-        console.warn('Pre-registration check failed:', e);
+      // ── VÉRIFICATION TOKEN D'ACCÈS VIP ──────────────────────────────────
+      // Récupérer le token depuis l'URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const accessToken = urlParams.get('access') || '';
+      const codeInputCheck = formData.accessCode?.trim().toUpperCase() || '';
+      const LEGACY_CODES = ['LYA2026', 'VC2026', 'LYA-DEMO-2026', 'DEMO', 'LYADOCK', 'LYAPARTNER', 'LYA_DEMO_2026', 'VC_DEMO'];
+      const hasLegacyCode = LEGACY_CODES.includes(codeInputCheck);
+
+      let hasValidAccess = hasLegacyCode;
+
+      if (!hasValidAccess && accessToken) {
+        // Vérifier le token dans Firestore
+        try {
+          const tokenDoc = await getDoc(doc(db, 'access_tokens', accessToken));
+          if (tokenDoc.exists()) {
+            const td = tokenDoc.data();
+            const expired = new Date(td.expiresAt) < new Date();
+            const wrongEmail = td.email?.toLowerCase() !== formData.email.toLowerCase().trim();
+            if (!expired && !td.used && !wrongEmail) {
+              hasValidAccess = true;
+            } else if (wrongEmail) {
+              setIsLoading(false);
+              setError(t(
+                "✦ Ce lien d'accès est associé à une autre adresse email.",
+                '✦ This access link is associated with a different email address.'
+              ));
+              return;
+            } else if (expired || td.used) {
+              setIsLoading(false);
+              setError(t(
+                "✦ Ce lien d'accès a expiré ou a déjà été utilisé. Contactez LinkYourArt.",
+                '✦ This access link has expired or already been used. Contact LinkYourArt.'
+              ));
+              return;
+            }
+          }
+        } catch(e) { console.warn('Token check failed:', e); }
       }
 
-      if (!isPreRegistered) {
-        // Vérifier aussi le code d'accès — si code valide, bypass la liste
-        const codeInput = formData.accessCode?.trim().toUpperCase() || '';
-        const LEGACY_CODES = ['LYA2026', 'VC2026', 'LYA-DEMO-2026', 'DEMO', 'LYADOCK', 'LYAPARTNER', 'LYA_DEMO_2026', 'VC_DEMO'];
-        const hasLegacyCode = LEGACY_CODES.includes(codeInput);
-        
-        if (!hasLegacyCode && !codeInput) {
-          setIsLoading(false);
-          setError(t(
-            '✦ Accès sur invitation uniquement. Pré-inscrivez-vous pour rejoindre la liste des pionniers LYA.',
-            '✦ Access by invitation only. Pre-register to join the LYA pioneers waitlist.'
-          ));
-          return;
-        }
+      if (!hasValidAccess) {
+        // Vérifier aussi si l'email est pré-inscrit ET approuvé
+        try {
+          const preRef = collection(db, 'pre_registrations');
+          const preSnap = await getDocs(preRef);
+          const preDoc = preSnap.docs.find(d => 
+            d.data().email?.toLowerCase().trim() === formData.email.toLowerCase().trim() &&
+            d.data().status === 'APPROVED'
+          );
+          if (preDoc) hasValidAccess = true;
+        } catch(e) { console.warn('Pre-reg check failed:', e); }
+      }
+
+      if (!hasValidAccess) {
+        setIsLoading(false);
+        setError(t(
+          "✦ Accès sur invitation uniquement. Pré-inscrivez-vous ou attendez votre email d'approbation.",
+          '✦ Access by invitation only. Pre-register or wait for your approval email.'
+        ));
+        return;
       }
 
       const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
@@ -146,7 +176,17 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
       }
       
       try {
-        await sendEmailVerification(firebaseUser);
+        // Marquer le token d'accès comme utilisé
+      const urlParams2 = new URLSearchParams(window.location.search);
+      const usedToken = urlParams2.get('access');
+      if (usedToken) {
+        try {
+          const { updateDoc: updateDocFn, doc: docFn } = await import('firebase/firestore');
+          await updateDocFn(docFn(db, 'access_tokens', usedToken), { used: true, usedAt: new Date().toISOString() });
+        } catch(e) { console.warn('Token mark used failed:', e); }
+      }
+
+      await sendEmailVerification(firebaseUser);
         // Email de bienvenue personnalisé selon le rôle (best-effort)
         fetch('/api/email/notifications', {
           method: 'POST',

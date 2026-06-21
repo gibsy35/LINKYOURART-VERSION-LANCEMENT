@@ -128,5 +128,11 @@ service cloud.firestore {
       allow read: if request.auth != null && request.auth.token.admin == true;
     }
 
+    // ── ACCESS TOKENS ──────────────────────────────────────────────────────
+    match /access_tokens/{token} {
+      allow read: if true; // Lecture publique pour vérification
+      allow create, update: if request.auth != null;
+    }
+
   }
 }

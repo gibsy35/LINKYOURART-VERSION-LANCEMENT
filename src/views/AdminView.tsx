@@ -530,6 +530,51 @@ export const AdminView: React.FC<{
     }
   };
 
+
+  // Approuver une pré-inscription — envoie un email avec lien d'accès unique
+  const handleApproveAccess = async (reg: any) => {
+    try {
+      const token = `lya-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+      const expiresAt = new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString();
+
+      // Sauvegarder le token dans Firestore
+      await setDoc(doc(db, 'access_tokens', token), {
+        token,
+        email: reg.email,
+        name: reg.name,
+        preRegId: reg.id,
+        expiresAt,
+        used: false,
+        createdAt: serverTimestamp(),
+      });
+
+      // Mettre à jour la pré-inscription
+      if (reg.id && !reg.id.startsWith('local_')) {
+        await updateDoc(doc(db, 'pre_registrations', reg.id), {
+          status: 'APPROVED',
+          approvedAt: serverTimestamp(),
+          accessToken: token,
+        });
+      }
+
+      // Envoyer l'email d'approbation
+      const lang = reg.lang || 'FR';
+      const resp = await fetch('/api/email/approve-access', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ to: reg.email, name: reg.name, token, lang }),
+      });
+      const data = await resp.json();
+
+      // Mettre à jour le state
+      setPreRegistrations(prev => prev.map(p => p.id === reg.id ? { ...p, status: 'APPROVED' } : p));
+      onNotify(t(`✦ Accès approuvé pour ${reg.name} — email envoyé`, `✦ Access approved for ${reg.name} — email sent`));
+    } catch(e: any) {
+      console.error('Approve error:', e);
+      onNotify(t('Erreur lors de l\'approbation', 'Approval error'));
+    }
+  };
+
   const handleDeleteUser = async (uid: string, displayName: string) => {
     if (!window.confirm(t(
       `⚠ Supprimer définitivement le profil de ${displayName} ? Cette action est irréversible.`,
@@ -1438,30 +1483,35 @@ export const AdminView: React.FC<{
                     {r.timestamp?.toDate ? r.timestamp.toDate().toLocaleString() : 'N/A'}
                   </td>
                   <td className="p-6 text-right">
-                    <button
-                      onClick={async () => {
-                        if (!window.confirm(t(`Supprimer la pré-inscription de ${r.name} (${r.email}) ?`, `Delete pre-registration of ${r.name} (${r.email})?`))) return;
-                        try {
-                          // Supprimer de Firestore si c'est un vrai document
-                          if (r.id && !r.id.startsWith('local_')) {
-                            await deleteDoc(doc(db, 'pre_registrations', r.id));
-                          }
-                          // Supprimer du localStorage
-                          const local = JSON.parse(localStorage.getItem('lya_local_pre_registrations') || '[]');
-                          localStorage.setItem('lya_local_pre_registrations', JSON.stringify(local.filter((p: any) => p.id !== r.id && p.email !== r.email)));
-                          // Mettre à jour le state
-                          setPreRegistrations(prev => prev.filter(p => p.id !== r.id));
-                          onNotify(t(`✦ ${r.name} supprimé`, `✦ ${r.name} deleted`));
-                        } catch (e: any) {
-                          console.error('Delete error:', e);
-                          onNotify(t('Erreur : ' + e.message, 'Error: ' + e.message));
-                        }
-                      }}
-                      className="p-2 text-rose-400/50 hover:text-rose-400 hover:bg-rose-400/10 rounded-lg transition-all"
-                      title={t('Supprimer', 'Delete')}
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
-                    </button>
+                    {(r as any).status === 'APPROVED' ? (
+                      <span className="px-3 py-1.5 bg-emerald-400/10 border border-emerald-400/20 text-emerald-400 text-[10px] font-black rounded-lg uppercase">
+                        ✓ {t('Approuvé', 'Approved')}
+                      </span>
+                    ) : (
+                      <div className="flex items-center justify-end gap-2">
+                        <button
+                          onClick={() => handleApproveAccess(r)}
+                          className="px-3 py-1.5 bg-emerald-400/15 border border-emerald-400/25 text-emerald-400 text-[10px] font-black rounded-lg hover:bg-emerald-400/25 transition-all uppercase"
+                        >
+                          ✦ {t('Approuver', 'Approve')}
+                        </button>
+                        <button
+                          onClick={async () => {
+                            if (!window.confirm(t(`Supprimer la pré-inscription de ${r.name} ?`, `Delete pre-registration of ${r.name}?`))) return;
+                            try {
+                              if (r.id && !r.id.startsWith('local_')) await deleteDoc(doc(db, 'pre_registrations', r.id));
+                              const local = JSON.parse(localStorage.getItem('lya_local_pre_registrations') || '[]');
+                              localStorage.setItem('lya_local_pre_registrations', JSON.stringify(local.filter((p: any) => p.id !== r.id && p.email !== r.email)));
+                              setPreRegistrations(prev => prev.filter(p => p.id !== r.id));
+                              onNotify(t(`✦ ${r.name} supprimé`, `✦ ${r.name} deleted`));
+                            } catch (e: any) { onNotify(t('Erreur', 'Error')); }
+                          }}
+                          className="p-1.5 text-rose-400/50 hover:text-rose-400 hover:bg-rose-400/10 rounded-lg transition-all"
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+                        </button>
+                      </div>
+                    )}
                   </td>
                 </tr>
               ))}
