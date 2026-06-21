@@ -584,7 +584,7 @@ export function generateLegalTerms(contract: Contract, lang: string) {
       </div>
       <div class="sig-item">
         <div class="sig-line"></div>
-        <div class="sig-label">Jean-Baptiste Lequime<br/>CEO, LinkYourArt</div>
+        <div class="sig-label">LinkYourArt</div>
       </div>
       <div class="sig-item">
         <div class="sig-line"></div>
@@ -687,7 +687,7 @@ export function generatePermissions(contract: Contract, lang: string) {
       </div>
       <div class="sig-item">
         <div class="sig-line"></div>
-        <div class="sig-label">Jean-Baptiste Lequime<br/>CEO, LinkYourArt</div>
+        <div class="sig-label">LinkYourArt</div>
       </div>
       <div class="sig-item">
         <div class="sig-line"></div>
