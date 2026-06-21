@@ -635,7 +635,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                     </div>
                   </div>
                   <p className="text-white/30 text-sm font-medium leading-relaxed max-w-xs">
-                    {t('Building the definitive transfer layer for creative intellectual property.', "Construire la couche d'échange définitive pour la propriété intellectuelle créative.")}
+                    {t("What you create today can belong to a thousand people tomorrow.", "Ce que vous créez aujourd'hui peut appartenir à mille personnes demain.")}
                   </p>
                 </div>
                 <div className="space-y-6 md:w-1/3">
