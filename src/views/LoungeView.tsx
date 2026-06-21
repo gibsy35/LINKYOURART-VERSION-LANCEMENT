@@ -157,7 +157,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
   const [pinnedPosts, setPinnedPosts] = useState<Set<string>>(new Set());
 
   const handleRequestAdmission = (eventId: string, title: string) => {
-    onNotify(t('INITIATING ADMISSION PROTOCOL...', 'INITIALISATION DU PROTOCOLE D\'ADMISSION...'));
+    onNotify(t('OPENING ELITE ACCESS...', 'INITIALISATION DU LYA SYSTEME D\'ADMISSION...'));
     setTimeout(() => {
       setAdmissionsRequested(prev => new Set(prev).add(eventId));
       onNotify(`${t('REQUEST SUBMITTED FOR', 'DEMANDE SOUMISE POUR')} ${title.toUpperCase()}. ${t('PENDING COORDINATOR REVIEW.', 'EN ATTENTE DE L\'EXAMEN DU COORDONNATEUR.')}`);
@@ -342,7 +342,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
       title: t('IP Rights in the Generative Era', 'Droits de PI à l\'Ère Générative'),
       type: 'ROUNDTABLE',
       date: t('FRIDAY, 18:00 GMT', 'VENDREDI, 18h00 GMT'),
-      host: 'Legal Protocol V2',
+      host: 'Cadre Légal LYA',
       image: 'https://picsum.photos/seed/ip-rights/800/400',
       attendees: 43,
       slots: 7,
@@ -411,7 +411,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
       attendees: 500,
       slots: 100,
       description: t('The annual gathering of professional associates to define the future of the LYA settlement layer.', 'Le rassemblement annuel des associés professionnels pour définir l\'avenir de la couche de règlement LYA.'),
-      highlights: [t('Protocol Roadmap', 'Feuille de Route du Protocole'), t('Regulatory Sync', 'Synchronisation Réglementaire'), t('DAO Voting', 'Vote DAO')],
+      highlights: [t('LYA Roadmap', 'Feuille de Route LYA'), t('Regulatory Sync', 'Synchronisation Réglementaire'), t('DAO Voting', 'Vote DAO')],
       speakers: [
         { name: 'Jean-Baptiste Lequime', role: t('Founder', 'Fondateur'), avatar: 'https://i.pravatar.cc/150?u=jb' }
       ],
@@ -744,7 +744,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
             <div className="lg:col-span-7 space-y-6 text-left">
               <div className="space-y-2">
                 <span className="px-4 py-1.5 bg-accent-gold/10 text-accent-gold border border-accent-gold/20 text-xs font-black uppercase tracking-[0.3em] rounded-full inline-block">
-                  🏛️ {t('ELITE PROTOCOL ZONE', 'ZONE DE PROTOCOLE ÉLITE')}
+                  🏛️ {t('ESPACE ÉLITE LYA', 'ESPACE ÉLITE LYA')}
                 </span>
                 <h2 className="text-3xl md:text-4xl lg:text-5xl font-black font-headline tracking-tighter text-white uppercase leading-[0.9]">
                   {t('Lounge Access Restricted', 'Accès au Salon Restreint')}
@@ -785,7 +785,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
                   }}
                   className="px-8 py-4 bg-accent-gold text-surface-dim font-black uppercase tracking-[0.2em] text-[10px] hover:bg-white transition-all active:scale-95 shadow-[0_15px_30px_rgba(255,215,0,0.25)] rounded-xl"
                 >
-                  {t('UPGRADE PROTOCOL STATUS', 'PASSER AU STATUT PROFESSIONNEL')}
+                  {t('UPGRADE LYA SYSTEM STATUS', 'PASSER AU STATUT PROFESSIONNEL')}
                 </button>
                 <button 
                   onClick={async () => {
@@ -906,7 +906,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
           <div className="flex min-w-max gap-6 md:gap-12">
             {[
               { id: 'FEED', label: t('Insight Feed', 'Flux d\'Insights'), icon: <Activity size={16} /> },
-              { id: 'MEMBERS', label: t('Protocol Member', 'MEMBRES PROTOCOLE'), icon: <Users size={16} /> },
+              { id: 'MEMBERS', label: t('Protocol Member', 'MEMBRES LYA SYSTEME'), icon: <Users size={16} /> },
               { id: 'EVENTS', label: t('Private Events', 'Événements Privés'), icon: <Calendar size={16} /> },
               { id: 'MENTORSHIP', label: t('Elite Mentorship', 'Mentorat d\'Élite'), icon: <Crown size={16} /> }
             ].map((tab) => (

@@ -404,7 +404,7 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary-cyan/10 border border-primary-cyan/20 mb-6">
             <Activity size={12} className="text-primary-cyan animate-pulse" />
             <span className="text-xs font-black font-mono text-primary-cyan uppercase tracking-[0.4em]">
-              {t('Live Protocol Simulation', 'Simulation Protocole En Direct')}
+              {t('Live LYA Simulation', 'Simulation LYA En Direct')}
             </span>
           </div>
           <h2 className="text-3xl md:text-5xl font-black font-headline text-white tracking-tighter uppercase mb-6 drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]">
@@ -982,7 +982,7 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
                        </div>
                      </div>
                      <p className="text-xs font-mono text-white/30 text-center leading-relaxed uppercase tracking-widest">
-                       {t('* ANANLYTICAL PROJECTIONS BASED ON ACTIVE DECENTRALIZED PROTOCOL FORMULAS. NON-CONTRACTUAL ILLUSTRATION.', '* SIMULATIONS ESTIMATIVES BASÉES EN TEMPS-RÉEL SUR LES FORMULES OPÉRATIONNELLES DU PROTOCOLE. NON-CONTRACTUEL.')}
+                       {t('* ANANLYTICAL PROJECTIONS BASED ON ACTIVE LYA VALUATION FORMULAS. NON-CONTRACTUAL ILLUSTRATION.', '* SIMULATIONS ESTIMATIVES BASÉES EN TEMPS-RÉEL SUR LES FORMULES OPÉRATIONNELLES DU LYA SYSTEME. NON-CONTRACTUEL.')}
                      </p>
                    </div>
                  </div>
@@ -1059,7 +1059,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
                   <AlertTriangle size={32} />
                 </div>
                 <h2 className="text-2xl md:text-4xl font-black text-white uppercase tracking-tighter mb-6 leading-tight">
-                  {t('REGULATORY DISCLOSURE & PROTOCOL LIMITATIONS', 'DIVULGATION RÉGLEMENTAIRE ET LIMITES DU PROTOCOLE')}
+                  {t('REGULATORY DISCLOSURE & LYA LIMITATIONS', 'DIVULGATION RÉGLEMENTAIRE ET LIMITES DU LYA SYSTEME')}
                 </h2>
                 <div className="h-[2px] w-24 bg-red-500 mb-8" />
                 <p className="text-base md:text-lg text-on-surface-variant font-bold leading-relaxed mb-8 text-justify">
@@ -1293,7 +1293,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
               <thead>
                 <tr className="border-b border-white/10 bg-white/[0.01]">
                   <th className="p-6 text-xs font-black uppercase tracking-widest text-white/50 w-1/4">{t('CRITERIA', 'PILIER DE COMPARAISON')}</th>
-                  <th className="p-6 text-xs font-black uppercase tracking-widest text-primary-cyan bg-primary-cyan/5 w-1/3 border-x border-white/10">{t('LINKYOURART PROTOCOL', 'CORE PROTOCOLE LINKYOURART')}</th>
+                  <th className="p-6 text-xs font-black uppercase tracking-widest text-primary-cyan bg-primary-cyan/5 w-1/3 border-x border-white/10">{t('LINKYOURART LYA SYSTEM', 'CORE LYA SYSTEME LINKYOURART')}</th>
                   <th className="p-6 text-xs font-black uppercase tracking-widest text-rose-400 w-1/4">{t('TRADITIONAL INTERMEDIARIES', 'INTERMÉDIAIRES TRADITIONNELS')}</th>
                   <th className="p-6 text-xs font-black uppercase tracking-widest text-white/30 w-1/4">{t('CLASSIC CROWDFUNDING', 'CROWDFUNDING CLASSIQUE')}</th>
                 </tr>

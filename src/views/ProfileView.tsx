@@ -398,7 +398,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
           batch.set(userDoc, {
             uid: id,
             displayName: `Global Profile ${i + 1}`,
-            email: `profile${i+1}@hub.lyaprotocol.com`,
+            email: `profile${i+1}@hub.linkyourart.com`,
             role: Math.random() > 0.4 ? UserRole.CREATOR : UserRole.PROFESSIONAL,
             country: country,
             lyaScore: 500 + Math.floor(Math.random() * 400),
@@ -547,7 +547,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
       ]
     },
     'Expert Terminal': {
-      description: t('Déployez votre propre Terminal Institutionnel pour gérer des catalogues créatifs massifs et fournir une grande accessibilité de marché à vos sous-entités. Externalisez votre vérification initiale directement au protocole de sécurité LYA.', 'Deploy your own Institutional Terminal to manage massive creative catalogs and provide grande accessibilité de marché to your sub-entities. Outsource your initial vetting directly to the LYA security protocol.'),
+      description: t('Déployez votre propre Terminal Institutionnel pour gérer des catalogues créatifs massifs et fournir une grande accessibilité de marché à vos sous-entités. Externalisez votre vérification initiale directement au protocole de sécurité LYA.', 'Deploy your own Institutional Terminal to manage massive creative catalogs and provide grande accessibilité de marché to your sub-entities. Outsource your initial vetting directly to the LYA security system.'),
       previewImage: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800',
       benefits: [
         { label: t('Catalog Management', 'Gestion de Catalogue'), desc: t('Bulk boarding of 1000+ assets with automated indexing.', 'Intégration en masse de 1000+ actifs avec indexation automatisée.') },
@@ -1137,7 +1137,7 @@ const renderMentorshipContent = () => (
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12">
               <div>
                 <h3 className="text-2xl font-black uppercase tracking-tighter text-white flex items-center gap-4 mb-2">
-                  <Crown className="text-accent-gold" size={32} /> {t('ELITE MENTORSHIP PROTOCOL', 'PROTOCOLE DE MENTORAT D\'ÉLITE')}
+                  <Crown className="text-accent-gold" size={32} /> {t('ELITE MENTORSHIP LYA SYSTEM', 'LYA SYSTEME DE MENTORAT D\'ÉLITE')}
                 </h3>
                 <p className="text-[10px] text-on-surface-variant font-black uppercase tracking-[0.3em] opacity-40">{t('Managing market guidance for high-potential creative entities', 'Gestion de l\'orientation du marché pour les entités créatives à haut potentiel')}</p>
               </div>
@@ -1243,7 +1243,7 @@ const renderMentorshipContent = () => (
                  </div>
                  <div className="flex items-center gap-2">
                    <ShieldCheck size={12} className="text-primary-cyan" />
-                   <span className="text-[10px] font-black text-primary-cyan uppercase tracking-widest leading-none">VERIFIED BY LYA PROTOCOL</span>
+                   <span className="text-[10px] font-black text-primary-cyan uppercase tracking-widest leading-none">VERIFIED BY LYA REGISTRY</span>
                  </div>
                  <button className="flex items-center gap-2 px-3 py-1 bg-white/5 border border-white/10 rounded-full hover:bg-white/10 transition-all group">
                    <FileText size={10} className="text-accent-gold group-hover:scale-110" />

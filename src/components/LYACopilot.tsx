@@ -214,7 +214,7 @@ export const LYACopilot: React.FC = () => {
               <div className="mt-4 flex items-center justify-center gap-4 text-[7px] font-mono text-white/20 uppercase tracking-[0.4em]">
                 <span>{isFR ? 'Connexion sécurisée' : 'Secure connection'}</span>
                 <span className="w-1 h-1 bg-white/10 rounded-full" />
-                <span>{isFR ? 'Protocole AES-256' : 'AES-256 Protocol'}</span>
+                <span>{isFR ? 'Chiffrement AES-256' : 'AES-256 Encryption'}</span>
               </div>
             </div>
           </motion.div>

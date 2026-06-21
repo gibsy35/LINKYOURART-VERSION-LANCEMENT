@@ -161,7 +161,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
         t('Externalized Editorial Management', 'Gestion Éditoriale Externalisée'),
         t('Custom Valuation Indexing', 'Indexation de Valeur Personnalisée'),
         t('Institutional Liquidity Bridges', 'Ponts de Liquidité Institutionnels'),
-        t('Advanced Protocol Governance', 'Gouvernance Avancée du Protocole'),
+        t('Advanced LYA Governance', 'Gouvernance Avancée LYA'),
       ],
       color: 'accent-purple',
       icon: <Building2 size={24} />,
@@ -276,7 +276,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
                 <button 
                   onClick={() => {
                     if (plan.id === 'PRO_ENTERPRISE') {
-                      onNotify?.(t('ENTERPRISE INFRASTRUCTURE DESK NOTIFIED. PRIVATE CORRESPONDENCE INITIATED.', 'CELLULE D\'INFRASTRUCTURE ENTREPRISE CONTACTÉE. ENVOI DES PROTOCOLES PRIVÉS EN COURS.'));
+                      onNotify?.(t('ENTERPRISE INFRASTRUCTURE DESK NOTIFIED. PRIVATE CORRESPONDENCE INITIATED.', 'CELLULE D\'INFRASTRUCTURE ENTREPRISE CONTACTÉE. ENVOI DES LYA SYSTEMES PRIVÉS EN COURS.'));
                     } else {
                       onSelectPlan({ name: plan.name, price: currentPrice, billingCycle });
                     }

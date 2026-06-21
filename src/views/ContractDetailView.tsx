@@ -519,7 +519,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/5 pb-4">
                          <div className="space-y-1">
                            <span className="text-[10px] font-mono font-black text-primary-cyan uppercase tracking-[0.3em]">
-                             {t('LYA UNIT PROTOCOL TIMELINE', 'TIMELINE DE VALORISATION LYA UNIT')}
+                             {t('TIMELINE DE VALORISATION LYA UNIT', 'TIMELINE DE VALORISATION LYA UNIT')}
                            </span>
                            <h3 className="text-xl sm:text-2xl font-black font-headline text-white uppercase tracking-tight">
                              {t('DYNAMIC OPERATION QUALITY TIMELINE', 'CALENDRIER D\'EXÉCUTION & CONCEPTE LYA UNIT')}
@@ -661,7 +661,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                               <div className="text-sm font-semibold text-emerald-400">{contract.lastAudit || '15 May 2026'}</div>
                             </div>
                             <div>
-                              <div className="text-[11px] font-black text-white/30 uppercase tracking-widest mb-1">{t('REGISTRATION PROTOCOL', 'PROTOCOLE DE SÉCURISATION DU REGISTRE')}</div>
+                              <div className="text-[11px] font-black text-white/30 uppercase tracking-widest mb-1">{t('REGISTRATION LYA SYSTEM', 'LYA SYSTEME DE SÉCURISATION DU REGISTRE')}</div>
                               <div className="text-xs font-black text-white/80 uppercase tracking-widest font-mono">Co-authenticated Digital Registry</div>
                             </div>
                           </div>

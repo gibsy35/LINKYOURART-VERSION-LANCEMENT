@@ -365,7 +365,7 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
           <Fragment>
             <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
               {[
-                { label: t('Protocol Unit Valuation', 'Évaluation Unité Protocole'), value: `1 UNIT = ${formatLYA()}`, border: 'border-primary-cyan', color: 'text-primary-cyan', badge: 'Protocol' },
+                { label: t('LYA Unit Valuation', 'Évaluation Unité LYA'), value: `1 UNIT = ${formatLYA()}`, border: 'border-primary-cyan', color: 'text-primary-cyan', badge: 'Protocol' },
                 { label: t('Total Market Cap', 'Capitalisation Totale'), value: formatPrice(marketStats.totalCap || 0), border: 'border-accent-gold', color: 'text-accent-gold', badge: null },
                 { label: t('Direct Transfers', 'Transferts Directs'), value: `${marketStats.totalAvailable?.toLocaleString() || '0'} Units`, border: 'border-emerald-400', color: 'text-emerald-400', badge: null },
                 { label: t('Avg. Growth', 'Croissance Moy.'), value: `${marketStats.avgGrowth >= 0 ? '+' : ''}${marketStats.avgGrowth?.toFixed(1)}%`, border: 'border-white/20', color: marketStats.avgGrowth >= 0 ? 'text-emerald-400' : 'text-rose-400', badge: null },
@@ -678,7 +678,7 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
                         const { collection, addDoc, serverTimestamp } = await import('firebase/firestore');
                         await addDoc(collection(fireDb, 'liquidity_requests'), { userId: user?.uid, status: 'PENDING', createdAt: serverTimestamp() });
                         onNotify(t('LIQUIDITY REQUEST SUBMITTED', 'DEMANDE DE LIQUIDITÉ SOUMISE'));
-                      } catch { onNotify(t('LIQUIDITY PROTOCOL ACTIVE', 'PROTOCOLE DE LIQUIDITÉ ACTIF')); }
+                      } catch { onNotify(t('MARCHÉ CRÉATIF ACTIF', 'MARCHÉ CRÉATIF ACTIF')); }
                     }} className="w-full py-4 bg-primary-cyan text-surface-dim text-[10px] font-black uppercase tracking-[0.3em] rounded-xl hover:bg-white transition-all flex items-center justify-center gap-3 group">
                       {t('Provide Liquidity', 'Fournir de la Liquidité')}
                       <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />

@@ -135,7 +135,7 @@ export const GovernanceView: React.FC<GovernanceViewProps> = ({ user, onNotify, 
           {t('Governance Access Restricted', 'Accès à la Gouvernance Restreint')}
         </h2>
         <p className="text-on-surface-variant max-w-lg mb-10 text-sm md:text-base leading-relaxed opacity-70">
-          {t('La gouvernance du protocole est réservée aux associés professionnels et aux experts vérifiés. Votre score LYA et vos avoirs déterminent votre pouvoir de vote.', 'La gouvernance LYA est réservée aux professional associates and verified experts. Your LYA Score and holdings determine your voting power.')}
+          {t('La gouvernance de la plateforme est réservée aux associés professionnels et aux experts vérifiés. Votre score LYA et vos avoirs déterminent votre pouvoir de vote.', 'La gouvernance LYA est réservée aux professional associates and verified experts. Your LYA Score and holdings determine your voting power.')}
         </p>
         <button 
           onClick={() => onViewChange('PRICING')}
@@ -163,7 +163,7 @@ export const GovernanceView: React.FC<GovernanceViewProps> = ({ user, onNotify, 
               <span>{t('System', 'GOUVERNANCE')} <span className="text-primary-cyan drop-shadow-[0_0_20px_rgba(0,224,255,0.4)]">{t('Governance', 'DU SYSTÈME')}</span></span>
             </h1>
             <p className="border-l-2 border-primary-cyan pl-6 text-on-surface-variant max-w-xl text-[11px] md:text-sm leading-relaxed opacity-70 uppercase tracking-[0.3em] font-black italic mb-10">
-              {t('PARTICIPATE IN THE EVOLUTION OF THE LINKYOURART PROTOCOL. PROPOSE CHANGES, VOTE ON UPGRADES, AND MONITOR THE ECOSYSTEM HEALTH.', 'PARTICIPEZ À L\'ÉVOLUTION DU PROTOCOLE LINKYOURART. PROPOSEZ DES CHANGEMENTS, VOTEZ SUR LES MISES À NIVEAU ET SURVEILLEZ LA SANTÉ DE L\'ÉCOSYSTÈME.')}
+              {t('PARTICIPATE IN THE EVOLUTION OF THE LINKYOURART LYA SYSTEM. PROPOSE CHANGES, VOTE ON UPGRADES, AND MONITOR THE ECOSYSTEM HEALTH.', 'PARTICIPEZ À L\'ÉVOLUTION DU LYA SYSTEME LINKYOURART. PROPOSEZ DES CHANGEMENTS, VOTEZ SUR LES MISES À NIVEAU ET SURVEILLEZ LA SANTÉ DE L\'ÉCOSYSTÈME.')}
             </p>
           </div>
 

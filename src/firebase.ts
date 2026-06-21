@@ -94,7 +94,7 @@ export function handleFirestoreError(error: unknown, operationType: OperationTyp
   // Globalize error state for components to stop polling/listening
   if (isQuotaError || isAssertionError) {
     if (!(window as any).lya_quota_reached) {
-      console.warn('LINKYOURART PROTOCOL: Quota limit reached or network interruption detected. Entering offline/maintenance mode.');
+      console.warn('LINKYOURART LYA SYSTEM: Quota limit reached or network interruption detected. Entering offline/maintenance mode.');
     }
     (window as any).lya_quota_reached = true;
     (window as any).lya_last_firestore_error = errInfo;

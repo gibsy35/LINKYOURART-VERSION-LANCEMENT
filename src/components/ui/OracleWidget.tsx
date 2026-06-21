@@ -35,7 +35,7 @@ export const OracleWidget: React.FC<{ onAction?: () => void }> = ({ onAction }) 
             <Network size={16} />
           </div>
           <div>
-            <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant/40">{t('ORACLE_PROTOCOL', 'PROTOCOLE_ORACLE')}</h4>
+            <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant/40">{t('ORACLE_LYA SYSTEM', 'LYA SYSTEME_ORACLE')}</h4>
             <div className="text-xs font-black text-white uppercase italic tracking-widest">{t('LYA_IMMUTABLE_SYNC', 'SYNC_IMMUABLE_LYA')}</div>
           </div>
         </div>
@@ -82,7 +82,7 @@ export const OracleWidget: React.FC<{ onAction?: () => void }> = ({ onAction }) 
       <div className="mt-6 pt-6 border-t border-white/5 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Cpu size={12} className="text-on-surface-variant/40" />
-          <span className="text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant/30 italic">PROTOCOL VERSION v4.2.1-GOLD</span>
+          <span className="text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant/30 italic">LYA SYSTEM VERSION v4.2.1-GOLD</span>
         </div>
         {onAction ? (
           <button 

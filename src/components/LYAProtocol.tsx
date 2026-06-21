@@ -16,7 +16,7 @@ export const LYAProtocolBadge: React.FC = () => {
     {
       icon: <Globe className="text-accent-gold" />,
       title: t('GLOBAL_ENFORCEABILITY', 'EXÉCUTABILITÉ_MONDIALE'),
-      description: t('ENFORCE_DESC', 'PROTOCOLE JURIDIQUE COMPATIBLE AVEC LES JURIDICTIONS EU, US ET ASIA-PACIFIC.')
+      description: t('ENFORCE_DESC', 'LYA SYSTEME JURIDIQUE COMPATIBLE AVEC LES JURIDICTIONS EU, US ET ASIA-PACIFIC.')
     },
     {
       icon: <Cpu className="text-accent-purple" />,
@@ -37,7 +37,7 @@ export const LYAProtocolBadge: React.FC = () => {
             className="inline-flex items-center gap-3 px-6 py-2 bg-primary-cyan/5 border border-primary-cyan/20 rounded-full mb-8"
           >
             <Lock size={14} className="text-primary-cyan" />
-            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary-cyan">{t('THE_PROTOCOL', 'LE_PROTOCOLE')}</span>
+            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary-cyan">{t('THE_LYA SYSTEM', 'LE_LYA SYSTEME')}</span>
           </motion.div>
           
           <h2 className="text-4xl md:text-7xl font-black font-headline text-white uppercase tracking-tighter leading-[0.9] mb-8">
@@ -46,7 +46,7 @@ export const LYAProtocolBadge: React.FC = () => {
           </h2>
           
           <p className="max-w-2xl mx-auto text-on-surface-variant/60 font-black uppercase tracking-[0.2em] text-xs md:text-sm leading-relaxed">
-            {t('PROTOCOL_SUBTEXT', 'LYA EST LE PREMIER PROTOCOLE DE GESTION DES DROITS CRÉATIFS QUI ÉLIMINE LE RISQUE DE CONTREPARTIE PAR LE CHIFFREMENT INSTITUTIONNEL.')}
+            {t('LYA SYSTEM_SUBTEXT', 'LYA EST LE PREMIER LYA SYSTEME DE GESTION DES DROITS CRÉATIFS QUI ÉLIMINE LE RISQUE DE CONTREPARTIE PAR LE CHIFFREMENT INSTITUTIONNEL.')}
           </p>
         </div>
 

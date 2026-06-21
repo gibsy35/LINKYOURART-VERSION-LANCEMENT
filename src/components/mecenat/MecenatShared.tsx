@@ -647,7 +647,7 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
               )}
             </p>
             <button className="w-full py-2.5 bg-amber-500 hover:bg-amber-400 rounded-lg text-black text-[10px] font-mono font-black tracking-wider transition-colors flex items-center justify-center gap-1.5">
-              🚀 {T("ACTIVER LE PROTOCOLE INVESTISSEUR", "ACTIVATE INVESTOR PROTOCOL")}
+              🚀 {T("ACTIVER LE LYA SYSTEME INVESTISSEUR", "ACTIVATE INVESTOR LYA SYSTEM")}
             </button>
           </div>
         )}

@@ -474,7 +474,7 @@ export const CONTRACTS: Contract[] = [
   },
   {
     id: 'SOLARIS_ERROR',
-    name: 'SOLARIS_PROTOCOL_ERROR',
+    name: 'SOLARIS_LYA SYSTEM_ERROR',
     issuerId: 'USR-SYS-99',
     totalValue: 0,
     unitValue: 0.00,

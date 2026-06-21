@@ -245,15 +245,15 @@ export const AcademyView: React.FC<AcademyViewProps> = ({ user, onNotify, onView
           <h3 className="text-2xl font-black text-white uppercase tracking-tight mb-4">{t('CERTIFICATION PROGRAM', 'PROGRAMME DE CERTIFICATION')}</h3>
           <p className="text-sm text-on-surface-variant leading-relaxed mb-8 max-w-md text-justify">
             {t(
-              "Become a certified LYA Protocol Auditor or Registry Node Operator. Our professional certifications are recognized by major professional partners.",
-              "Devenez un auditeur certifié du protocole LYA ou un opérateur de nœud de registre. Nos certifications professionnelles sont reconnues par les grands partenaires professionnels."
+              "Become a certified LYA Registry Auditor or LYA Registry Operator. Our professional certifications are recognized by major professional partners.",
+              "Devenez un auditeur certifié du plateforme LYA ou un opérateur de nœud de registre. Nos certifications professionnelles sont reconnues par les grands partenaires professionnels."
             )}
           </p>
           <div className="space-y-4 mb-8">
             {[
               t('Professional Registry Auditor (PRA)', 'Auditeur Professionnel de Registre (PRA)'),
               t('Creative Rights Specialist (CRS)', 'Spécialiste des Droits Créatifs (CRS)'),
-              t('Protocol Node Architect (PNA)', 'Architecte de Nœud de Protocole (PNA)')
+              t('LYA Registry Architect (LRA)', 'Architecte Registre LYA (LRA)')
             ].map((cert, i) => (
               <div key={i} className="flex items-center gap-3">
                 <ShieldCheck size={16} className="text-primary-cyan" />

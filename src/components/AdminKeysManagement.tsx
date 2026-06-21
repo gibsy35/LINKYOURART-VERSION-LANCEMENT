@@ -333,7 +333,7 @@ export const AdminKeysManagement: React.FC = () => {
                 <table className="w-full text-left">
                   <thead>
                     <tr className="border-b border-white/5 uppercase">
-                      <th className="pb-4 text-xs font-black tracking-[0.2em] text-on-surface-variant/40">{t('ASSIGNED PROTOCOL TARGET', 'CIBLE DU PROTOCOLE')}</th>
+                      <th className="pb-4 text-xs font-black tracking-[0.2em] text-on-surface-variant/40">{t('ASSIGNED LYA SYSTEM TARGET', 'CIBLE DU LYA SYSTEME')}</th>
                       <th className="pb-4 text-xs font-black tracking-[0.2em] text-on-surface-variant/40">{t('GATEWAY ACCESS SIGNATURE', 'CLE SECRETE')}</th>
                       <th className="pb-4 text-xs font-black tracking-[0.2em] text-on-surface-variant/40">{t('AUTHORIZED', 'AUTORISÉE')}</th>
                       <th className="pb-4 text-xs font-black tracking-[0.2em] text-on-surface-variant/40 text-right">{t('TERMINATE', 'RÉVOQUER')}</th>

@@ -348,7 +348,7 @@ export default function App() {
     {
       id: '1',
       title: 'SYSTEM INITIALIZED',
-      message: 'LYA Protocol v2.5.0 is now active.',
+      message: 'LYA Registry v2.5.0 is now active.',
       timestamp: new Date().toISOString(),
       read: false,
       type: 'INFO'

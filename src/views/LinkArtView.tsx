@@ -325,7 +325,7 @@ export const LinkArtView: React.FC<{
   const totalValuation = totalUnits * unitPrice;
   const initialDepositAmount = (totalValuation * (depositPercentage / 100));
   const totalLyaUnits = (totalValuation / LYA_UNIT_VALUE)?.toLocaleString() || '0';
-  const protocolFee = totalValuation * 0.02;
+  const platformFee = totalValuation * 0.02;
 
   const handleNext = () => {
     if (currentStep < STEPS.length) {
@@ -403,8 +403,8 @@ export const LinkArtView: React.FC<{
           <h2 className="text-4xl font-black font-headline tracking-tighter uppercase">{t('Protocol Initialized', 'Protocole Initialisé')}</h2>
           <p className="text-on-surface-variant text-sm leading-relaxed max-w-md mx-auto opacity-70 uppercase tracking-widest">
             {t(
-              'Your creative contract has been successfully issued to the LYA Protocol. The contract is now in the ',
-              'Votre contrat créatif a été émis avec succès au Protocole LYA. Le contrat est maintenant dans la '
+              'Your creative contract has been successfully issued to the LYA Registry. The contract is now in the ',
+              'Votre contrat créatif a été émis avec succès à la plateforme LYA. Le contrat est maintenant dans la '
             )}
             <span className="text-primary-cyan">{t('Validation Queue', 'File d\'Attente de Validation')}</span>
             {t(' for expert consensus.', ' pour le consensus des experts.')}
@@ -906,7 +906,7 @@ export const LinkArtView: React.FC<{
                       </div>
                     </div>
                     <p className="text-xs text-on-surface-variant uppercase tracking-widest leading-relaxed mt-2 italic">
-                      {t('This amount must be deposited by the creator to activate the contract issuance protocol.', 'Ce montant doit être déposé par le créateur pour activer le protocole d\'émission du contrat.')}
+                      {t('This amount must be deposited by the creator to activate contract issuance.', 'Ce montant doit être déposé par le créateur pour activer le protocole d\'émission du contrat.')}
                     </p>
                   </div>
                 </div>
@@ -947,7 +947,7 @@ export const LinkArtView: React.FC<{
                       </div>
                       <div className="flex justify-between text-xs uppercase tracking-widest text-on-surface-variant">
                         <span>{t('Protocol Fee (2%)', 'Frais de Protocole (2%)')}</span>
-                        <span className="text-on-surface font-bold">${protocolFee?.toLocaleString() || '0'}</span>
+                        <span className="text-on-surface font-bold">${platformFee?.toLocaleString() || '0'}</span>
                       </div>
                       <div className="flex justify-between text-xs uppercase tracking-widest text-accent-gold pt-2 border-t border-accent-gold/10">
                         <span>{t('Initial Deposit', 'Dépôt Initial')} ({depositPercentage}%)</span>
@@ -1022,7 +1022,7 @@ export const LinkArtView: React.FC<{
                     <div className="space-y-4">
                       <div>
                         <h4 className="text-xs uppercase tracking-widest text-on-surface-variant font-bold mb-1">{t('Registry Address', 'Adresse du Registre')}</h4>
-                        <p className="text-sm font-mono text-on-surface">0x7F9D...E2A4 (PROTOCOL_PENDING)</p>
+                        <p className="text-sm font-mono text-on-surface">0x7F9D...E2A4 (LYA SYSTEM_PENDING)</p>
                       </div>
                       <div>
                         <h4 className="text-xs uppercase tracking-widest text-on-surface-variant font-bold mb-1">{t('Contract Creation Date', 'Date de Création du Contrat')}</h4>
@@ -1077,8 +1077,8 @@ export const LinkArtView: React.FC<{
                 <div className="p-6 bg-primary-cyan/5 border border-primary-cyan/20">
                   <p className="text-xs text-primary-cyan leading-relaxed uppercase tracking-wider text-center">
                     {t(
-                      'By clicking "Deploy Contract", you authorize the LYA Protocol to generate a contrat numérique certifié on the registre certifié. This action is irreversible.',
-                      'En cliquant sur "Déployer le Contrat", vous autorisez le Protocole LYA à générer un contrat numérique certifié sur le registre certifié. Cette action est irréversible.'
+                      'By clicking "Deploy Contract", you authorize the LYA Registry to generate a contrat numérique certifié on the registre certifié. This action is irreversible.',
+                      'En cliquant sur "Déployer le Contrat", vous autorisez la plateforme LYA à générer un contrat numérique certifié sur le registre certifié. Cette action est irréversible.'
                     )}
                   </p>
                 </div>

@@ -79,7 +79,7 @@ export const APIView: React.FC<APIViewProps> = ({ user, onNotify, onViewChange }
 
   const codeSnippets = {
     JS: `// Initialize LYA SDK\nimport { LYAClient } from '@lya/protocol-sdk';\n\nconst client = new LYAClient({\n  apiKey: 'YOUR_API_KEY',\n  environment: 'production'\n});\n\n// Fetch Creative Equity Index\nconst index = await client.registry.getIndex('GLOBAL_ART');\nconsole.log('Current Value:', index.unitValue);\n\n// Subscribe to Real-time Settlements\nclient.settlements.on('complete', (data) => {\n  console.log('New Settlement:', data.id);\n});`,
-    PYTHON: `# Initialize LYA SDK\nfrom lya_sdk import LYAClient\n\nclient = LYAClient(\n    api_key='YOUR_API_KEY',\n    environment='production'\n)\n\n# Fetch Creative Equity Index\nindex = client.registry.get_index('GLOBAL_ART')\nprint('Current Value:', index.unit_value)\n\n# List settlements\nsettlements = client.settlements.list(limit=10)\nfor s in settlements:\n    print('Settlement:', s.id)`,
+    PYTHON: `# Initialize LYA SDK\nfrom lya_sdk import LYAClient\n\nclient = LYAClient(\n    api_key='YOUR_API_KEY',\n    environment='production'\n)\n\n# Fetch Creative Equity Index\nindex = client.registry.get_index('GLOBAL_ART')\nconsole.log('Current Value:', index.unit_value)\n\n# List settlements\nsettlements = client.settlements.list(limit=10)\nfor s in settlements:\n    console.log('Settlement:', s.id)`,
     CURL: `# Fetch Creative Equity Index\ncurl -X GET https://api.linkyourart.com/v1/registry/GLOBAL_ART \\\n  -H "Authorization: Bearer YOUR_API_KEY" \\\n  -H "Content-Type: application/json"\n\n# List settlements\ncurl -X GET https://api.linkyourart.com/v1/settlements?limit=10 \\\n  -H "Authorization: Bearer YOUR_API_KEY"`
   };
   const codeSnippet = codeSnippets[sdkTab];
@@ -122,7 +122,7 @@ export const APIView: React.FC<APIViewProps> = ({ user, onNotify, onViewChange }
       <PageHeader 
         titleWhite={t('Developer', 'Interface')}
         titleAccent={t('Terminal', 'Développeur')}
-        description={t('Integrate the LYA Protocol into your own applications. Access real-time market data, manage creative contracts, and automate settlements through our secure REST and WebSocket APIs.', 'Intégrez le protocole LYA dans vos propres applications. Accédez aux données de marché en temps réel, gérez les contrats créatifs et automatisez les règlements via nos API REST et WebSocket sécurisées.')}
+        description={t('Integrate the LYA Registry into your own applications. Access real-time market data, manage creative contracts, and automate settlements through our secure REST and WebSocket APIs.', 'Intégrez le plateforme LYA dans vos propres applications. Accédez aux données de marché en temps réel, gérez les contrats créatifs et automatisez les règlements via nos API REST et WebSocket sécurisées.')}
         accentColor="text-primary-cyan"
       />
 
@@ -311,7 +311,7 @@ export const APIView: React.FC<APIViewProps> = ({ user, onNotify, onViewChange }
               {[
                 { label: 'API Reference', icon: <BookOpen size={14} /> },
                 { label: 'SDK Documentation', icon: <Code2 size={14} /> },
-                { label: 'Security Protocols', icon: <ShieldCheck size={14} /> },
+                { label: 'Security Systems', icon: <ShieldCheck size={14} /> },
                 { label: 'Rate Limits & Pricing', icon: <Zap size={14} /> }
               ].map((item, i) => (
                 <button 

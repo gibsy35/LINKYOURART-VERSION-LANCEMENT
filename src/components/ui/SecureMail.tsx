@@ -82,7 +82,7 @@ export const SecureMail: React.FC<SecureMailProps> = ({ isOpen, onClose, recipie
                   <div className="text-xs font-black text-white uppercase italic tracking-tight">{recipient?.name || t('SELECT_RECIPIENT', 'SÉLECTIONNER_DESTINATAIRE')}</div>
                 </div>
                 <div className="text-right">
-                  <div className="text-xs text-primary-cyan font-black uppercase tracking-widest mb-1">{t('PROTOCOL_LEVEL', 'NIVEAU_PROTOCOLE')}</div>
+                  <div className="text-xs text-primary-cyan font-black uppercase tracking-widest mb-1">{t('LYA SYSTEM_LEVEL', 'NIVEAU_LYA SYSTEME')}</div>
                   <div className="text-[10px] font-black text-white/60">{recipient?.role || '---'}</div>
                 </div>
               </div>
@@ -148,7 +148,7 @@ export const SecureMail: React.FC<SecureMailProps> = ({ isOpen, onClose, recipie
               </button>
 
               <p className="text-[10px] text-on-surface-variant/20 text-center uppercase tracking-widest font-black italic text-justify">
-                {t('BY_EXECUTING_THIS_SEND_YOU_AGREE_TO_OUR_INSTITUTIONAL_COMMUNICATION_PROTOCOL_V2.1', 'EN_EXÉCUTANT_CET_ENVOI_VOUS_ACCEPTEZ_NOTRE_PROTOCOLE_DE_COMMUNICATION_INSTITUTIONNEL_V2.1')}
+                {t('BY_EXECUTING_THIS_SEND_YOU_AGREE_TO_OUR_INSTITUTIONAL_COMMUNICATION_LYA SYSTEM_V2.1', 'EN_EXÉCUTANT_CET_ENVOI_VOUS_ACCEPTEZ_NOTRE_LYA SYSTEME_DE_COMMUNICATION_INSTITUTIONNEL_V2.1')}
               </p>
             </div>
           </motion.div>

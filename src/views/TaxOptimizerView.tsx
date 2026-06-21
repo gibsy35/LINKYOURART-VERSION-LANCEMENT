@@ -67,7 +67,7 @@ export const TaxOptimizerView: React.FC<{ onNotify: (msg: string) => void }> = (
     
     return {
       base: baseRate,
-      optimized: Math.max(0.02, optimized), // Floor at 2% for protocol fees
+      optimized: Math.max(0.02, optimized), // Floor at 2% for platform fees
       reduction: discount * 100
     };
   };
@@ -97,7 +97,7 @@ export const TaxOptimizerView: React.FC<{ onNotify: (msg: string) => void }> = (
               <span className="flex-1 min-w-0 tracking-[-0.05em]">{t('TAX', 'TAX')} <span className="text-primary-cyan drop-shadow-[0_0_20px_rgba(0,224,255,0.4)]">{t('OPTIMIZER', 'OPTIMISATEUR')}</span></span>
             </h1>
             <p className="border-l-2 border-primary-cyan pl-6 text-on-surface-variant max-w-xl text-[11px] md:text-sm leading-relaxed opacity-70 uppercase tracking-[0.3em] font-black italic mb-10">
-              {t('DYNAMIC CALCULATION OF FISCAL IMPACTS BASED ON GLOBAL JURISDICTIONS, ASSET TYPE, AND INSTITUTIONAL HOLDING STRUCTURES. FULLY INTEGRATED WITH LYA PROTOCOL CLEARANCE HUB.', 'CALCUL DYNAMIQUE DES IMPACTS FISCAUX BASÉ SUR LES JURIDICTIONS MONDIALES, LE TYPE D\'ACTIF ET LES STRUCTURES DE DÉTENTION INSTITUTIONNELLES. ENTIÈREMENT INTÉGRÉ AUX HUB DE DÉDOUANEMENT DU PROTOCOLE LYA.')}
+              {t('DYNAMIC CALCULATION OF FISCAL IMPACTS BASED ON GLOBAL JURISDICTIONS AND ASSET TYPE, AND INSTITUTIONAL HOLDING STRUCTURES. FULLY INTEGRATED WITH LYA REGISTRY CLEARANCE HUB.', 'CALCUL DYNAMIQUE DES IMPACTS FISCAUX BASÉ SUR LES JURIDICTIONS MONDIALES, LE TYPE D\'ACTIF ET LES STRUCTURES DE DÉTENTION INSTITUTIONNELLES. ENTIÈREMENT INTÉGRÉ AUX HUB DE DÉDOUANEMENT DU PLATEFORME LYA.')}
             </p>
           </div>
 

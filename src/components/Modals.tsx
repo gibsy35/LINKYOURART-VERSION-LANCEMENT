@@ -560,7 +560,7 @@ export const TradeModal: React.FC<{
               </span>
             </div>
             <p className="text-[10px] text-white/30 pl-1 leading-normal font-sans font-medium">
-              * {t('Liquidity matching is validated over the secure on-chain ledger. Subject to distributed registry regulatory confirmation.', 'L\'inscription de transfert de convention est enregistrée sur le registre décentralisé LYA.')}
+              * {t('Liquidity matching is validated over the secure secure LYA registry. Subject to distributed registry regulatory confirmation.', 'L\'inscription de transfert de convention est enregistrée sur le registre décentralisé LYA.')}
             </p>
           </div>
 
@@ -608,7 +608,7 @@ export const FeatureShowcaseModal: React.FC<{
             'Designed specifically for independent creative professionals—including filmmakers, musicians, writers, choreographers, and designers—to register up to 4 intellectual property contracts, track project valuations, and initiate peer-to-peer funding streams.',
             'Conçu spécifiquement pour les professionnels de la création—cinéastes, musiciens, auteurs, chorégraphes et designers indépendants—pour inscrire jusqu\'à 4 contrats de propriété intellectuelle, suivre la valorisation de leurs droits, et lancer des financements en peer-to-peer.'
           ),
-          feature1: t('Basic Indexing Protocol', 'Protocole d\'Indexation Standard'),
+          feature1: t('Basic Indexing System', 'Protocole d\'Indexation Standard'),
           feature1Value: t('UP TO 4 CONTRACTS', 'JUSQU\'À 4 CONTRATS'),
           feature2: t('Peer-to-Peer Transfer Fees', 'Part commissions d\'échange P2P'),
           feature2Value: '5.0%',

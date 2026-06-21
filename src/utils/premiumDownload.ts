@@ -87,7 +87,7 @@ function wrapDocument(
   const base   = parts.slice(0, -1).join(' ');
 
   const FR = lang === 'fr';
-  const tagline   = FR ? 'LE TERMINAL CRÉATIF · PROTOCOLE v2.5'   : 'THE CREATIVE TERMINAL · PROTOCOL v2.5';
+  const tagline   = FR ? 'LE TERMINAL CRÉATIF · LYA SYSTEME v2.5'   : 'THE CREATIVE TERMINAL · LYA SYSTEM v2.5';
   const verified  = FR ? 'VÉRIFIÉ PAR LE REGISTRE IMMUABLE LYA'   : 'VERIFIED BY LYA IMMUTABLE REGISTRY';
   const rights    = FR ? 'TOUS DROITS RÉSERVÉS · CHIFFREMENT AES-256' : 'ALL RIGHTS RESERVED · AES-256 ENCRYPTED';
   const genLabel  = FR ? 'GÉNÉRÉ LE' : 'GENERATED';
@@ -127,7 +127,7 @@ function wrapDocument(
   ${bodyContent}
   <footer class="footer">
     <div class="footer-left">
-      © ${year} LINKYOURART PROTOCOL<br>
+      © ${year} LINKYOURART LYA SYSTEM<br>
       ${rights}<br>
       <span class="verified-badge"><span class="dot"></span>${verified}</span>
     </div>
@@ -140,7 +140,7 @@ function wrapDocument(
 </div>
 
 <div class="action-bar">
-  <button class="btn-print" onclick="window.print()">${printLbl}</button>
+  <button class="btn-print" onclick="window.console.log()">${printLbl}</button>
   <button class="btn-copy" id="copyBtn" onclick="navigator.clipboard.writeText('${docId}').then(()=>{document.getElementById('copyBtn').textContent='${copiedLbl}';setTimeout(()=>document.getElementById('copyBtn').textContent='${copyLbl}',2000)})">${copyLbl}</button>
 </div>
 </body>
@@ -204,7 +204,7 @@ export function downloadWalletStatement(
       <div class="section-title">Informations du compte</div>
       <div class="content-block">
         <h3>${userName.toUpperCase()}</h3>
-        <p>Membre vérifié du Protocole LYA · Niveau de garde : Institutionnel A+<br>
+        <p>Membre vérifié de la plateforme LYA · Niveau de garde : Institutionnel A+<br>
         Toutes les transactions listées sont définitives et enregistrées de manière immuable dans le Registre LYA. Ce relevé est généré automatiquement et constitue un document financier légalement valide.</p>
       </div>
     </div>`;
@@ -221,7 +221,7 @@ const RESOURCE_CONTENTS: Record<string, { subtitle: string; sections: { title: s
     subtitle: 'ARCHITECTURE TECHNIQUE & CADRE DE GOUVERNANCE',
     sections: [
       { title: 'RÉSUMÉ', body: 'LinkYourArt (LYA) est une infrastructure de capital créatif décentralisée permettant la propriété fractionnée, le règlement en temps réel et la garde institutionnelle des actifs de propriété intellectuelle. La version 2.5 introduit un calcul amélioré du LYA Score, des couches de conformité multi-juridictionnelles et une distribution dynamique des redevances via des nœuds de règlement intelligents.' },
-      { title: 'ARCHITECTURE DU PROTOCOLE', body: 'Le Protocole LYA fonctionne via une pile à trois couches : (1) la couche Registre offrant un stockage et une vérification immuables des contrats ; (2) la couche Règlement permettant des transferts P2P en temps réel avec chiffrement AES-256 ; (3) la couche Gouvernance où les parties prenantes Professionnelles et Investisseurs votent sur les mises à niveau du protocole via un mécanisme de vote quadratique pondéré par le LYA Score.' },
+      { title: 'ARCHITECTURE DU LYA SYSTEME', body: 'Le Plateforme LYA fonctionne via une pile à trois couches : (1) la couche Registre offrant un stockage et une vérification immuables des contrats ; (2) la couche Règlement permettant des transferts P2P en temps réel avec chiffrement AES-256 ; (3) la couche Gouvernance où les parties prenantes Professionnelles et Investisseurs votent sur les mises à niveau du protocole via un mécanisme de vote quadratique pondéré par le LYA Score.' },
       { title: 'MÉTHODOLOGIE DU LYA SCORE', body: "Chaque contrat créatif reçoit un LYA Score composite (0-100) calculé à partir de cinq dimensions validées : Qualité Créative (25%), Potentiel de Marché (25%), Conformité Juridique (20%), Indice d'Innovation (15%) et Trajectoire de Croissance (15%). Les scores sont calculés par des validateurs Professionnels certifiés et mis à jour trimestriellement." },
       { title: 'ÉCONOMIE DES UNITÉS LYA', body: "Les Unités LYA ont une valeur nominale de 50€. Chaque contrat définit son offre totale d'unités à l'émission. Les distributions de revenus sont exécutées automatiquement lors d'événements de complétion de jalons vérifiés. Le protocole facture des frais de règlement de 1,5% sur les transactions secondaires." }
     ]
@@ -229,7 +229,7 @@ const RESOURCE_CONTENTS: Record<string, { subtitle: string; sections: { title: s
   'Market Analysis Q1 2026': {
     subtitle: 'RAPPORT DE MARCHÉ DE L\'ÉCONOMIE CRÉATIVE · T1 2026',
     sections: [
-      { title: 'SYNTHÈSE EXÉCUTIVE', body: 'Le T1 2026 marque un trimestre pivot pour le marché du capital créatif. La valeur totale verrouillée sur le Protocole LYA a atteint 42,7 M€, représentant une augmentation de 34% en glissement annuel. Les actifs Film & TV ont mené la croissance à +41%, suivis par la Musique (+28%) et l\'Architecture (+19%). Le volume du marché secondaire a atteint 8,2 M€ sur 14 200 transferts d\'unités individuels.' },
+      { title: 'SYNTHÈSE EXÉCUTIVE', body: 'Le T1 2026 marque un trimestre pivot pour le marché du capital créatif. La valeur totale verrouillée sur la plateforme LYA a atteint 42,7 M€, représentant une augmentation de 34% en glissement annuel. Les actifs Film & TV ont mené la croissance à +41%, suivis par la Musique (+28%) et l\'Architecture (+19%). Le volume du marché secondaire a atteint 8,2 M€ sur 14 200 transferts d\'unités individuels.' },
       { title: 'SECTEURS LES PLUS PERFORMANTS', body: 'Les Séries Télévisées de Science-Fiction sont apparues comme la catégorie au rendement le plus élevé avec un APY moyen de 22,4%. Les films documentaires ont démontré les meilleurs rendements ajustés au risque avec un ratio de Sharpe de 1,84. Les contrats d\'Architecture ont montré les valorisations les plus stables avec une variance trimestrielle < 5%.' },
       { title: 'FACTEURS DE RISQUE & PERSPECTIVES', body: 'La concurrence accrue des contenus générés par l\'IA continue de faire pression sur les catégories Photographie et Illustration. La clarification réglementaire dans l\'UE concernant la fractionnalisation numérique de la PI est attendue au T3 2026. Nous projetons un TVL total du protocole atteignant 65 M€ d\'ici fin 2026 selon notre scénario de base.' }
     ]
@@ -238,14 +238,14 @@ const RESOURCE_CONTENTS: Record<string, { subtitle: string; sections: { title: s
     subtitle: 'JURIDICTION, CONFORMITÉ & NORMES CONTRACTUELLES',
     sections: [
       { title: 'CADRE RÉGLEMENTAIRE', body: 'Les contrats LYA opèrent dans une structure juridique hybride combinant des accords de licence de PI traditionnels avec des mécanismes de transfert d\'unités numériques natifs. Les contrats sont structurés comme des accords de participation accordant aux détenteurs d\'unités des droits économiques proportionnels sur des flux de revenus définis, sans conférer de propriété en capital dans l\'entité créatrice sous-jacente.' },
-      { title: 'JURIDICTIONS SUPPORTÉES', body: 'Le Protocole LYA supporte actuellement l\'émission de contrats sous le Droit Français (cadres SACD/SCAM), le Droit Anglais (conformité CDPA 1988) et les cadres de PI fédéraux américains/Delaware. La conformité RGPD est appliquée au niveau des données. La conformité réglementaire MiCA est maintenue via des audits juridiques trimestriels.' },
+      { title: 'JURIDICTIONS SUPPORTÉES', body: 'Le Plateforme LYA supporte actuellement l\'émission de contrats sous le Droit Français (cadres SACD/SCAM), le Droit Anglais (conformité CDPA 1988) et les cadres de PI fédéraux américains/Delaware. La conformité RGPD est appliquée au niveau des données. La conformité réglementaire MiCA est maintenue via des audits juridiques trimestriels.' },
       { title: 'DROITS & PROTECTIONS DES CRÉATEURS', body: 'Les créateurs conservent tous leurs droits moraux et le contrôle créatif de leurs œuvres. Les détenteurs d\'unités ne reçoivent que des droits de participation économique. Tous les contrats incluent des dispositions de rachat obligatoires permettant aux créateurs de racheter les unités en circulation à la valeur marchande équitable déterminée par le modèle de valorisation LYA Score.' }
     ]
   },
   'Node Operator Manual': {
     subtitle: 'GUIDE DE CONFIGURATION & D\'EXPLOITATION DES NŒUDS',
     sections: [
-      { title: 'PRÉSENTATION DES NŒUDS', body: 'Les nœuds de règlement constituent l\'infrastructure centrale du Protocole LYA, responsables de la validation des transferts d\'unités, du calcul des LYA Scores en temps réel et de l\'exécution des distributions automatiques de revenus. Les nœuds nécessitent un stake minimum de 1 000 Unités LYA et maintiennent un SLA de disponibilité de 99,5% pour se qualifier à la distribution des frais.' },
+      { title: 'PRÉSENTATION DES NŒUDS', body: 'Les nœuds de règlement constituent l\'infrastructure centrale de la plateforme LYA, responsables de la validation des transferts d\'unités, du calcul des LYA Scores en temps réel et de l\'exécution des distributions automatiques de revenus. Les nœuds nécessitent un stake minimum de 1 000 Unités LYA et maintiennent un SLA de disponibilité de 99,5% pour se qualifier à la distribution des frais.' },
       { title: 'CONFIGURATION TECHNIQUE', body: 'Spécifications minimales : CPU 8 cœurs, 32 Go de RAM, SSD NVMe 500 Go, connexion réseau symétrique 1 Gbps. Les nœuds communiquent via le Protocole Mesh LYA (LMP) en utilisant gRPC sur TLS 1.3. Le SDK LYA (Node.js ≥18 ou Python ≥3.11) fournit l\'implémentation de référence pour l\'exploitation et la surveillance des nœuds.' },
       { title: 'STRUCTURE DES RÉCOMPENSES', body: 'Les nœuds actifs gagnent 0,8% de tous les frais de règlement traités via leur nœud, plus un bonus de disponibilité de 0,1% pour les nœuds maintenant > 99,9% de disponibilité mensuelle. Les récompenses sont distribuées quotidiennement en Unités LYA au prix spot actuel.' }
     ]
@@ -254,10 +254,10 @@ const RESOURCE_CONTENTS: Record<string, { subtitle: string; sections: { title: s
 
 export function downloadResourceDocument(resourceTitle: string): void {
   const data = RESOURCE_CONTENTS[resourceTitle] || {
-    subtitle: 'DOCUMENT OFFICIEL DU PROTOCOLE LYA',
+    subtitle: 'DOCUMENT OFFICIEL DU PLATEFORME LYA',
     sections: [{
       title: 'CONTENU DU DOCUMENT',
-      body: 'Ce document fait partie de la bibliothèque de documentation officielle du Protocole LYA. Le contenu est régulièrement mis à jour pour refléter les dernières spécifications du protocole.'
+      body: 'Ce document fait partie de la bibliothèque de documentation officielle de la plateforme LYA. Le contenu est régulièrement mis à jour pour refléter les dernières spécifications du protocole.'
     }]
   };
 
@@ -269,7 +269,7 @@ export function downloadResourceDocument(resourceTitle: string): void {
     <div class="divider"></div>
     <div class="content-block">
       <h3>AUTHENTICITÉ DU DOCUMENT</h3>
-      <p>Ce document a été généré depuis la base de connaissances officielle du Protocole LYA. Tout le contenu est exact à la date de génération et fait l'objet d'une révision trimestrielle. Pour la version la plus récente, consultez le portail de ressources de l'Académie LYA.</p>
+      <p>Ce document a été généré depuis la base de connaissances officielle de la plateforme LYA. Tout le contenu est exact à la date de génération et fait l'objet d'une révision trimestrielle. Pour la version la plus récente, consultez le portail de ressources de l'Académie LYA.</p>
     </div>`;
 
   const titleParts = resourceTitle.split(' ');
@@ -290,11 +290,11 @@ export function downloadLegalDocument(title: string, content: string): void {
     <div class="divider"></div>
     <div class="content-block">
       <h3>MENTION LÉGALE</h3>
-      <p>Ce document constitue un enregistrement juridique officiel du Protocole LYA. Il est protégé par les lois applicables en matière de propriété intellectuelle. Toute reproduction ou distribution non autorisée est interdite. Pour toute demande juridique, contactez legal@linkyourart.com.</p>
+      <p>Ce document constitue un enregistrement juridique officiel de la plateforme LYA. Il est protégé par les lois applicables en matière de propriété intellectuelle. Toute reproduction ou distribution non autorisée est interdite. Pour toute demande juridique, contactez legal@linkyourart.com.</p>
     </div>`;
 
   triggerDownload(
-    wrapDocument(title.toUpperCase(), 'DOCUMENT JURIDIQUE OFFICIEL DU PROTOCOLE', 'DOCUMENT LÉGAL', body, 'fr'),
+    wrapDocument(title.toUpperCase(), 'DOCUMENT JURIDIQUE OFFICIEL DU LYA SYSTEME', 'DOCUMENT LÉGAL', body, 'fr'),
     `LYA_Legal_${title.replace(/\s+/g, '_')}`
   );
 }

@@ -32,7 +32,7 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify, onViewChan
       sections: [
         {
           title: t('1. Philosophy & Accessibility', '1. Philosophie & Accessibilité'),
-          text: t('LinkYourArt (LYA) is an inclusive ecosystem open to creators, partenaire créatifs, professionals, and the general public. We break down the barriers of the traditional art world to offer everyone a place in the creative economy. Our model is based on simplicity and fairness.', 'LinkYourArt (LYA) est un écosystème inclusif ouvert aux créateurs, aux partenaire créatifs, aux professionnels et au grand public. Nous brisons les barrières du monde de l\'art traditionnel pour offrir à chacun une place dans l\'économie de la création. Notre modèle repose sur la simplicité et l\'équité.')
+          text: t('LinkYourArt (LYA) is an inclusive ecosystem open to creators, partenaires créatifs, professionals, and the general public. We break down the barriers of the traditional art world to offer everyone a place in the creative economy. Our model is based on simplicity and fairness.', 'LinkYourArt (LYA) est un écosystème inclusif ouvert aux créateurs, aux partenaires créatifs, aux professionnels et au grand public. Nous brisons les barrières du monde de l\'art traditionnel pour offrir à chacun une place dans l\'économie de la création. Notre modèle repose sur la simplicité et l\'équité.')
         },
         {
           title: t('2. The Indexed Contract Model', '2. Le Modèle du Contrat Indexé'),
@@ -94,7 +94,7 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify, onViewChan
         },
         {
           title: t('2. Infrastructure', '2. Infrastructure'),
-          text: t('The LYA ecosystem is powered by a modern and secure technical architecture, ensuring a smooth experience for all creators, partenaire créatifs, professionals and audiences worldwide.', 'L\'écosystème LYA est propulsé par une architecture technique moderne et sécurisée, assurant une expérience fluide pour tous les créateurs, partenaire créatifs, professionnels et publics du monde entier.')
+          text: t('The LYA ecosystem is powered by a modern and secure technical architecture, ensuring a smooth experience for all creators, partenaires créatifs, professionals and audiences worldwide.', 'L\'écosystème LYA est propulsé par une architecture technique moderne et sécurisée, assurant une expérience fluide pour tous les créateurs, partenaires créatifs, professionnels et publics du monde entier.')
         }
       ]
     },
@@ -117,7 +117,7 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify, onViewChan
       ]
     },
     FAQ: {
-      title: t('FAQ Support', 'Support FAQ'),
+      title: t('FAQ & Support', 'FAQ & Support'),
       subtitle: t('Simple Answers for Your Journey', 'Des Réponses Simples pour votre Parcours'),
       sections: [] // Handled by tabs
     }
@@ -131,7 +131,7 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify, onViewChan
       },
       { 
         q: t('Who can use LYA?', 'Qui peut utiliser LYA ?'), 
-        a: t('Tout le monde ! LYA est conçu pour les créateurs, partenaire créatifs, professionnels et le grand public. Nous proposons un modèle simple et équitable pour tous les acteurs du monde artistique.', 'Everyone! LYA is designed for creators, partenaire créatifs, professionals, and the general public. We offer a simple and fair model for all actors in the artistic world.') 
+        a: t('Everyone! LYA is designed for creators, creative partners, professionals, and the general public. We offer a simple and fair model for all actors in the artistic world.', 'Tout le monde ! LYA est conçu pour les créateurs, partenaires créatifs, professionnels et le grand public. Nous proposons un modèle simple et équitable pour tous les acteurs du monde artistique.') 
       },
       { 
         q: t('Is LYA regulated like a bank or by MICA/SEC?', 'LYA est-elle réglementée par MICA ou la SEC ?'), 
@@ -170,7 +170,7 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify, onViewChan
         a: t('Absolutely. Creators retain all moral rights and creative control. LYA Unit holders only receive economic participation rights. You can also exercise a buyback option after a 24-month lock-up period.', 'Absolument. Les créateurs conservent tous leurs droits moraux et le contrôle créatif. Les détenteurs d\'unités LYA ne reçoivent que des droits de participation économique. Vous pouvez également exercer une option de rachat après une période de blocage de 24 mois.')
       }
     ],
-    "Partenaire créatifs": [
+    t('Patrons & Partners', 'Mécènes & Partenaires'): [
       {
         q: t('How do I invest in a creative project?', 'Comment investir dans un projet créatif ?'),
         a: t('Browse the Registry or Exchange to find projects. Each LYA Unit costs $50 at issuance. You can acquire units directly from the creator during the initial offering or on the secondary market via the Exchange.', 'Parcourez le Registre ou le Centre d\'Échanges pour trouver des projets. Chaque Unité LYA coûte 50$ à l\'émission. Vous pouvez acquérir des unités directement auprès du créateur lors de l\'offre initiale ou sur le marché secondaire via l\'Exchange.')
@@ -371,7 +371,7 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify, onViewChan
             <button 
               onClick={() => {
                 const content = document.querySelector('article')?.innerText || 'LYA Legal Document';
-                downloadLegalDocument('LYA Protocol Terms', content);
+                downloadLegalDocument('LYA Registry Terms', content);
                 onNotify('DOCUMENT DOWNLOADED');
               }}
               className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant hover:text-white transition-colors"

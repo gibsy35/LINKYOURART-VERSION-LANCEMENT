@@ -174,8 +174,8 @@ export const DashboardView: React.FC<{
   const [news, setNews] = useState<any[]>([
     { id: '1', title: 'Netflix Announces New $500M European Production Center', source: 'Variety', time: '10m ago', timestamp: '10m ago', impact: '+15%', impactDetail: 'Direct boost to Film and TV registres alternatifs, raising European settlement accessibilité.', targetProject: 'RENAISSANCE REBORN' },
     { id: '2', title: 'Creative Equity Index Reaches All-Time High', source: 'Bloomberg', time: '45m ago', timestamp: '45m ago', impact: '+8%', impactDetail: 'Heightened institutional demand for performance des droits créatifs alternatifs.', targetProject: 'SKY GARDENS V4' },
-    { id: '3', title: 'New AI Protocol for Automated IP Validation', source: 'TechCrunch', time: '2h ago', timestamp: '2h ago', impact: '+22%', impactDetail: 'Smart-contract speed appreciation reducing verification validation friction.', targetProject: 'THE FUTURE VOICE' },
-    { id: '4', title: 'South Korean K-Pop Labels Adopt LYA Protocol', source: 'The Korea Herald', time: '15h ago', timestamp: '15h ago', impact: '+42%', impactDetail: 'Massive East Asian volume surge and traction boost across entertainment indexes.', targetProject: 'THE FUTURE VOICE' },
+    { id: '3', title: 'New AI System for Automated IP Validation', source: 'TechCrunch', time: '2h ago', timestamp: '2h ago', impact: '+22%', impactDetail: 'Smart-contract speed appreciation reducing verification validation friction.', targetProject: 'THE FUTURE VOICE' },
+    { id: '4', title: 'South Korean K-Pop Labels Adopt LYA Registry', source: 'The Korea Herald', time: '15h ago', timestamp: '15h ago', impact: '+42%', impactDetail: 'Massive East Asian volume surge and traction boost across entertainment indexes.', targetProject: 'THE FUTURE VOICE' },
     { id: '5', title: 'Goldman Sachs Launches Creative Equity Desk', source: 'WSJ', time: '1d ago', timestamp: '1d ago', impact: '+55%', impactDetail: 'Ultimate validation of creative intellectual property co-valuation models.', targetProject: 'RENAISSANCE REBORN' },
   ]);
   const [isLoadingNews, setIsLoadingNews] = useState(false);

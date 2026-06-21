@@ -105,7 +105,7 @@ const INITIAL_NEWS: NewsItem[] = [
   {
     id: '3',
     category: 'INNOVATION',
-    title: 'New AI Protocol for Automated IP Validation',
+    title: 'New AI System for Automated IP Validation',
     summary: 'A consortium of major labels and studios has released a new standard for tracking creative rights across digital platforms.',
     timestamp: '2h ago',
     impact: {
@@ -161,7 +161,7 @@ const INITIAL_NEWS: NewsItem[] = [
   {
     id: '9',
     category: 'GLOBAL',
-    title: 'South Korean K-Pop Labels Adopt LYA Protocol',
+    title: 'South Korean K-Pop Labels Adopt LYA Registry',
     summary: 'Major entertainment agencies in Seoul are moving their trainee contracts to the LYA registry for transparent funding.',
     timestamp: '15h ago',
     impact: {
@@ -218,7 +218,7 @@ const INITIAL_NEWS: NewsItem[] = [
     id: '13',
     category: 'GLOBAL',
     title: 'Creative Centers in Southeast Asia See 300% Growth',
-    summary: 'Emerging markets are rapidly adopting the LYA protocol for transparent project funding and rights management.',
+    summary: 'Emerging markets are rapidly adopting the LYA platform for transparent project funding and rights management.',
     timestamp: '8h ago',
     impact: {
       score: 35,

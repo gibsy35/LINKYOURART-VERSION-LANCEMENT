@@ -129,9 +129,9 @@ export const ApplyForVerificationView: React.FC<{ onNotify: (msg: string) => voi
       </div>
 
       <PageHeader 
-        titleWhite={t('PROTOCOL', 'PROTOCOLE')}
+        titleWhite={t('LYA SYSTEM', 'LYA SYSTEME')}
         titleAccent={t('VERIFICATION', 'VÉRIFICATION')}
-        description={t('ACCESS THE ELITE NETWORK OF GLOBAL CREATIVE ARCHITECTS. OUR MULTI-LAYERED AUDIT PROTOCOL ENSURES THE INTEGRITY OF HIGH-VALUE CONTRACT LENDING AND SETTLEMENT.', 'ACCÉDEZ AU RÉSEAU D\'ÉLITE DES ARCHITECTES CRÉATIFS MONDIAUX. NOTRE PROTOCOLE D\'AUDIT MULTI-NIVEAUX GARANTIT L\'INTÉGRITÉ DU PRÊT ET DU RÈGLEMENT DES CONTRATS DE GRANDE VALEUR.')}
+        description={t('ACCESS THE ELITE NETWORK OF GLOBAL CREATIVE ARCHITECTS. OUR MULTI-LAYERED AUDIT LYA SYSTEM ENSURES THE INTEGRITY OF HIGH-VALUE CONTRACT LENDING AND SETTLEMENT.', 'ACCÉDEZ AU RÉSEAU D\'ÉLITE DES ARCHITECTES CRÉATIFS MONDIAUX. NOTRE LYA SYSTEME D\'AUDIT MULTI-NIVEAUX GARANTIT L\'INTÉGRITÉ DU PRÊT ET DU RÈGLEMENT DES CONTRATS DE GRANDE VALEUR.')}
         accentColor="text-primary-cyan"
       />
 
@@ -216,7 +216,7 @@ export const ApplyForVerificationView: React.FC<{ onNotify: (msg: string) => voi
                   disabled={!selectedTier}
                   className="px-20 py-8 bg-white text-surface-dim font-black uppercase italic tracking-[0.5em] text-sm hover:bg-primary-cyan transition-all active:scale-95 disabled:opacity-10 shadow-[0_20px_50px_rgba(255,255,255,0.1)]"
                 >
-                  {t('Initiate Protocol', 'Initier le Protocole')}
+                  {t('Start Verification', 'Lancer la Vérification')}
                 </button>
               </div>
             </motion.div>

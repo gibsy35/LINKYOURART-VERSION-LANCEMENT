@@ -362,7 +362,7 @@ function openDocument(html: string, title: string) {
         const btn = document.createElement('div');
         btn.innerHTML = '🖨 Imprimer / Télécharger PDF';
         btn.style.cssText = 'position:fixed;bottom:20px;right:20px;background:#0d1117;color:white;padding:10px 20px;border-radius:8px;cursor:pointer;font-family:sans-serif;font-size:13px;font-weight:700;z-index:999;box-shadow:0 4px 20px rgba(0,0,0,0.3);';
-        btn.onclick = () => window.print();
+        btn.onclick = () => window.console.log();
         document.body.appendChild(btn);
       };
     <\/script>

@@ -1561,7 +1561,7 @@ export const AdminView: React.FC<{
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <StatCard title="Total Users" value={stats.totalUsers} icon={<Users/>} color="gold" isCurrency={false} trend="+12%"/>
             <StatCard title="Platform TVL" value={stats.totalVolume} icon={<TrendingUp/>} color="cyan" trend="+24%"/>
-            <StatCard title="Protocol Revenue" value={stats.systemFee} icon={<Zap/>} color="pink" trend="+8%"/>
+            <StatCard title="LYA Revenue" value={stats.systemFee} icon={<Zap/>} color="pink" trend="+8%"/>
           </div>
 
           <AnimatePresence mode="wait">

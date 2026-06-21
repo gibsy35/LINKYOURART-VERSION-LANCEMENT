@@ -243,7 +243,7 @@ export function templatePreRegistration({ name, position, referralCode, referral
     </div>
 
     <div class="card" style="background:rgba(251,191,36,0.03);border-color:rgba(251,191,36,0.12);">
-      <div class="badge badge-gold">LYA PROTOCOL</div>
+      <div class="badge badge-gold">LYA REGISTRY</div>
       <p style="font-size:13px;">${isFR
         ? 'La suite ? Notre équipe vous contactera par email dès que votre accès sera activé. En attendant, suivez nos actualités sur <strong style="color:#00d4ff">linkyourart.com</strong>.'
         : 'What\'s next? Our team will contact you by email once your access is activated. In the meantime, follow our news at <strong style="color:#00d4ff">linkyourart.com</strong>.'
@@ -339,8 +339,8 @@ export function templateWelcome({ name, role, lang = 'FR' }: {
       <div class="badge badge-cyan">✦ ${isFR ? 'Bienvenue sur la plateforme' : 'Welcome to the platform'}</div>
       <h1>${isFR ? 'Content de vous<br>avoir parmi <span>nous</span>' : 'Great to have<br>you with <span>us</span>'}</h1>
       <p>${isFR
-        ? `Bonjour <strong>${name}</strong>, votre compte LinkYourArt est activé. Vous êtes désormais enregistré(e) en tant que <strong style="color:${cfg.color}">${cfg.labelFR}</strong> sur le Protocole LYA.`
-        : `Hello <strong>${name}</strong>, your LinkYourArt account is now active. You are registered as a <strong style="color:${cfg.color}">${cfg.labelEN}</strong> on the LYA Protocol.`
+        ? `Bonjour <strong>${name}</strong>, votre compte LinkYourArt est activé. Vous êtes désormais enregistré(e) en tant que <strong style="color:${cfg.color}">${cfg.labelFR}</strong> sur la plateforme LYA.`
+        : `Hello <strong>${name}</strong>, your LinkYourArt account is now active. You are registered as a <strong style="color:${cfg.color}">${cfg.labelEN}</strong> on the LYA Registry.`
       }</p>
 
       <div class="highlight-box" style="background:rgba(0,212,255,0.03);">

@@ -290,7 +290,7 @@ export const WalletView: React.FC<WalletViewProps> = ({ user, onNotify, onViewCh
             <ShieldCheck size={40} />
           </div>
           <div className="space-y-2 text-center md:text-left">
-            <h3 className="text-xl font-black font-headline uppercase tracking-widest text-white leading-none">{t('SECURE CUSTODY PROTOCOL', 'PROTOCOLE DE GARDE SÉCURISÉE')}</h3>
+            <h3 className="text-xl font-black font-headline uppercase tracking-widest text-white leading-none">{t('SECURE CUSTODY LYA SYSTEM', 'LYA SYSTEME DE GARDE SÉCURISÉE')}</h3>
             <p className="text-xs text-on-surface-variant max-w-2xl leading-relaxed uppercase font-bold tracking-tight opacity-60">
               {t('Your funds are held in isolated institutional-grade accounts. All withdrawals are subject to multi-factor authentication and anti-fraud neural analysis.', 'Vos fonds sont détenus dans des comptes isolés de qualité institutionnelle. Tous les retraits sont soumis à une authentification multi-facteurs et à une analyse neurale anti-fraude.')}
             </p>
