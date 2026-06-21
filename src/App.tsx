@@ -72,6 +72,7 @@ export default function App() {
   const { t, language } = useTranslation();
   const { contracts: liveContracts } = useMarketData();
   const [currentView, setCurrentView] = useState<View>('LANDING');
+  const [isTransitioning, setIsTransitioning] = useState(false);
   const [previousView, setPreviousView] = useState<View>('HOME');
   const [user, _setUser] = useState<UserProfile | null>(null);
   const setUser = (u: UserProfile | null) => _setUser(u);
@@ -669,8 +670,13 @@ export default function App() {
   }, [user, currentView, isAuthReady, isBooting]);
 
   const handleViewChange = (view: View) => {
-    setCurrentView(view);
-    window.scrollTo(0, 0);
+    if (view === currentView) return;
+    setIsTransitioning(true);
+    setTimeout(() => {
+      setCurrentView(view);
+      window.scrollTo(0, 0);
+      setIsTransitioning(false);
+    }, 350);
   };
 
   const notify = (msg: string) => {
