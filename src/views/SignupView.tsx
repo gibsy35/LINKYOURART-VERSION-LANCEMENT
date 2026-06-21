@@ -45,6 +45,37 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
     setError(null);
 
     try {
+      // ── VÉRIFICATION LISTE VIP ────────────────────────────────────────────
+      // Vérifier si l'email est dans la liste de pré-inscription
+      let isPreRegistered = false;
+      try {
+        const preRef = collection(db, 'pre_registrations');
+        const preQ = query(preRef, where('email', '==', formData.email.toLowerCase().trim()), limit(1));
+        const preSnap = await getDocs(preRef);
+        // Chercher dans tous les docs (email peut être en différentes casses)
+        isPreRegistered = preSnap.docs.some(d => 
+          d.data().email?.toLowerCase().trim() === formData.email.toLowerCase().trim()
+        );
+      } catch(e) {
+        console.warn('Pre-registration check failed:', e);
+      }
+
+      if (!isPreRegistered) {
+        // Vérifier aussi le code d'accès — si code valide, bypass la liste
+        const codeInput = formData.accessCode?.trim().toUpperCase() || '';
+        const LEGACY_CODES = ['LYA2026', 'VC2026', 'LYA-DEMO-2026', 'DEMO', 'LYADOCK', 'LYAPARTNER', 'LYA_DEMO_2026', 'VC_DEMO'];
+        const hasLegacyCode = LEGACY_CODES.includes(codeInput);
+        
+        if (!hasLegacyCode && !codeInput) {
+          setIsLoading(false);
+          setError(t(
+            '✦ Accès sur invitation uniquement. Pré-inscrivez-vous pour rejoindre la liste des pionniers LYA.',
+            '✦ Access by invitation only. Pre-register to join the LYA pioneers waitlist.'
+          ));
+          return;
+        }
+      }
+
       const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
       const firebaseUser = userCredential.user;
 
@@ -388,8 +419,14 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
 
                 <form className="space-y-3" onSubmit={handleSignup}>
                   {error && (
-                    <div className="p-3 bg-red-500/10 border border-red-500/20 text-red-500 text-xs font-black uppercase tracking-widest rounded-xl text-center">
-                      {error}
+                    <div className="p-4 bg-[#a78bfa]/10 border border-[#a78bfa]/30 rounded-xl text-center space-y-3">
+                      <p className="text-xs font-black text-[#a78bfa] uppercase tracking-widest">{error}</p>
+                      <button
+                        onClick={() => onViewChange('LANDING')}
+                        className="w-full py-2.5 bg-[#a78bfa] text-surface-dim text-xs font-black uppercase tracking-widest rounded-xl hover:bg-white transition-all"
+                      >
+                        {t('Rejoindre la liste VIP →', 'Join the VIP waitlist →')}
+                      </button>
                     </div>
                   )}
 

@@ -316,7 +316,7 @@ export const APIView: React.FC<APIViewProps> = ({ user, onNotify, onViewChange }
               ].map((item, i) => (
                 <button 
                   key={i} 
-                  onClick={() => { window.open('https://docs.linkyourart.com', '_blank'); onNotify(`...`)}
+                  onClick={() => { window.open('https://docs.linkyourart.com', '_blank'); onNotify(`✦ Documentation ${item.label} ouverte`); }}
                   className="w-full flex items-center justify-between p-4 bg-black/20 border border-white/5 rounded-xl hover:border-primary-cyan/30 transition-all group"
                 >
                   <div className="flex items-center gap-3">

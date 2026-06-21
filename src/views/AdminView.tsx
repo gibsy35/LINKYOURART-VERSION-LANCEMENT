@@ -1229,7 +1229,7 @@ export const AdminView: React.FC<{
                               ].map((step) => (
                                 <div 
                                   key={step.id} 
-                                  onClick={() => onNotify(t('✦ Étape de conformité validée', '✦ Compliance step passed'RÉE AVEC SUCCÈS'))}
+                                  onClick={() => onNotify(t('✦ Étape de conformité validée', '✦ Compliance step passed'))}
                                   className="p-3 bg-white/[0.01] hover:bg-white/[0.03] border border-white/5 hover:border-primary-cyan/20 rounded-xl cursor-pointer transition-all flex items-start gap-3 group"
                                 >
                                   <div className="w-4 h-4 rounded bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center shrink-0 mt-0.5">
