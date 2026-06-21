@@ -32,6 +32,7 @@ import { ComplianceCertificateModal } from '../components/Modals';
 import { CompareView } from './CompareView';
 import { Loader2 } from 'lucide-react';
 import { downloadAsCSV, downloadAsJSON, simulatePDFDownload } from '../utils/download';
+import { generateCertificate, generateLegalTerms, generatePermissions } from '../utils/lyaDocuments';
 
 export const RegistryView: React.FC<{ 
   user: UserProfile | null;
@@ -40,7 +41,8 @@ export const RegistryView: React.FC<{
   onSelectContract?: (contract: Contract) => void;
   onViewChange?: (view: any) => void;
 }> = ({ user, onNotify, allContracts, onSelectContract, onViewChange }) => {
-  const { t } = useTranslation();
+  const liveContracts = allContracts;
+  const { t, language } = useTranslation();
 
   // Access Control: Only Admin or Pro users can access the Legal Registry
   if (user?.role !== UserRole.ADMIN && !user?.isPro) {
@@ -510,8 +512,9 @@ export const RegistryView: React.FC<{
                       </button>
                       <button 
                         onClick={() => {
-                          simulatePDFDownload(`Legal_Terms_${item.contractName}`, `Official Legal Terms for ${item.contractName}.\nRegistry ID: ${item.registryId}\nJurisdiction: ${item.jurisdiction}\nEffective Date: ${item.creationDate}`);
-                          onNotify(`DOWNLOADING LEGAL TERMS FOR ${item.contractName.toUpperCase()}...`);
+                          const contract = liveContracts?.find((c: any) => c.registryIndex === item.registryId) || liveContracts?.[0];
+                          if (contract) generateLegalTerms(contract, language);
+                          else onNotify(t('Conditions légales en cours de chargement...', 'Legal terms loading...'));
                         }}
                         className="text-sm font-bold uppercase tracking-widest text-on-surface-variant hover:text-primary-cyan transition-colors flex items-center gap-2"
                       >
@@ -528,7 +531,11 @@ export const RegistryView: React.FC<{
                       </button>
                     </div>
                     <button 
-                      onClick={() => setShowCertificate(item.id)}
+                      onClick={() => {
+                      const contract = liveContracts?.find((c: any) => c.registryIndex === item.registryId) || liveContracts?.[0];
+                      if (contract) generateCertificate(contract, language);
+                      else setShowCertificate(item.id);
+                    }}
                       className="px-4 py-2 border border-white/10 text-[10px] font-black uppercase tracking-[0.2em] hover:bg-white/5 hover:border-white/30 hover:text-on-surface transition-all active:scale-95 flex items-center gap-2"
                     >
                       <Award size={12} className="text-accent-gold" />
