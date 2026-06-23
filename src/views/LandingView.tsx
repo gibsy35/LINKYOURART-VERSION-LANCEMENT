@@ -149,22 +149,29 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
     }
   }, []);
 
-  // ── Compteur public : nombre total de pré-inscriptions (preuve sociale) ──
+  // ── Compteur public temps réel ─────────────────────────────────────────
   useEffect(() => {
-    (async () => {
-      try {
-        const snap = await import('firebase/firestore').then(({ getDoc, doc: docRef }) =>
-          getDoc(docRef(db, 'public_stats', 'pre_registrations'))
-        );
+    let unsub: (() => void) | null = null;
+    import('firebase/firestore').then(({ onSnapshot, doc: docRef, setDoc, serverTimestamp: st }) => {
+      const ref = docRef(db, 'public_stats', 'pre_registrations');
+      unsub = onSnapshot(ref, (snap) => {
         if (snap.exists()) {
           setTotalRegistrations(snap.data().count || 0);
         } else {
+          // Créer le document avec count=0 s'il n'existe pas
+          setDoc(ref, { count: 0, updatedAt: st() }, { merge: true })
+            .catch(() => {});
           setTotalRegistrations(0);
         }
-      } catch {
-        setTotalRegistrations(null);
-      }
-    })();
+      }, () => {
+        // En cas d'erreur réseau, lire depuis localStorage
+        try {
+          const local = JSON.parse(localStorage.getItem('lya_local_pre_registrations') || '[]');
+          setTotalRegistrations(local.length || 0);
+        } catch { setTotalRegistrations(0); }
+      });
+    });
+    return () => { if (unsub) unsub(); };
   }, []);
 
   const generateReferralCode = (n: string) => {
