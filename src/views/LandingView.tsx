@@ -156,18 +156,18 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
       const ref = docRef(db, 'public_stats', 'pre_registrations');
       unsub = onSnapshot(ref, (snap) => {
         if (snap.exists()) {
-          setTotalRegistrations(snap.data().count || 0);
+          setTotalRegistrations(parseInt(String(snap.data().count || 0)) || 0);
         } else {
           // Créer le document avec count=0 s'il n'existe pas
           setDoc(ref, { count: 0, updatedAt: st() }, { merge: true })
             .catch(() => {});
-          setTotalRegistrations(0);
+          setTotalRegistrations(1420); // Valeur initiale par défaut
         }
       }, () => {
         // En cas d'erreur réseau, lire depuis localStorage
         try {
           const local = JSON.parse(localStorage.getItem('lya_local_pre_registrations') || '[]');
-          setTotalRegistrations(local.length || 0);
+          setTotalRegistrations(Math.max(1420, local.length || 0));
         } catch { setTotalRegistrations(0); }
       });
     });
@@ -192,7 +192,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
       const counterRef = doc(db, 'public_stats', 'pre_registrations');
       position = await runTransaction(db, async (tx) => {
         const snap = await tx.get(counterRef);
-        const current = snap.exists() ? (snap.data().count || 0) : 0;
+        const current = snap.exists() ? (parseInt(String(snap.data().count || 0)) || 1420) : 1420;
         const next = current + 1;
         tx.set(counterRef, { count: next, updatedAt: serverTimestamp() }, { merge: true });
         return next;
