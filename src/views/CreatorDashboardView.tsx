@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { AuthGuard } from '../components/AuthGuard';
 import { motion, AnimatePresence } from 'motion/react';
 import { useTranslation } from '../context/LanguageContext';
 import { useCurrency } from '../context/CurrencyContext';
@@ -170,6 +171,8 @@ export const CreatorDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg
     {key:'simulator' as const, labelFR:'Simulateur LYA', labelEN:'LYA Simulator'},
     {key:'analytics' as const, labelFR:'Analytics', labelEN:'Analytics'},
   ];
+
+  if (!user) return <AuthGuard user={user} onViewChange={onViewChange}>{null}</AuthGuard>;
 
   return (
     <div className="space-y-6 pb-12">

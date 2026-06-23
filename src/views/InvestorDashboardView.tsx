@@ -8,6 +8,7 @@ import { UserProfile, CONTRACTS, LYA_UNIT_VALUE } from '../types';
 import { RealtimeChart } from '../components/RealtimeChart';
 import { PageHeader } from '../components/ui/PageHeader';
 import { Modal } from '../components/DashboardModals';
+import { AuthGuard } from '../components/AuthGuard';
 import { getSafeImageUrl } from '../utils/image';
 import {
   TrendingUp, TrendingDown, DollarSign, Zap, Star, BarChart2, Mail,
@@ -24,6 +25,8 @@ export const InvestorDashboardView: React.FC<{user:UserProfile|null;onNotify:(ms
   const { formatPrice } = useCurrency();
   const lang: 'FR'|'EN' = language === 'FR' ? 'FR' : 'EN';
   const T = (fr: string, en: string) => lang === 'FR' ? fr : en;
+
+  if (!user) return <AuthGuard user={user} onViewChange={onViewChange}>{null}</AuthGuard>;
 
   const [activeSection, setActiveSection] = useState<'portfolio'|'investments'|'analytics'|'social'>('portfolio');
   const [compareMode, setCompareMode] = useState<'bars'|'radar'>('bars');

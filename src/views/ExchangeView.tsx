@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect, Fragment } from 'react';
+import { AuthGuard } from '../components/AuthGuard';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
@@ -331,6 +332,7 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
     { key: 'overview' as const, labelFR: 'VUE D\'ENSEMBLE', labelEN: 'MARKET OVERVIEW' },
     { key: 'predictive' as const, labelFR: '⚡ ANALYSES PRÉDICTIVES', labelEN: '⚡ PREDICTIVE ANALYTICS', icon: <Zap size={12} /> },
   ];
+
 
   return (
     <div className="space-y-12 pb-20">

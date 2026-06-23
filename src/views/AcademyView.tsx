@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { AuthGuard } from '../components/AuthGuard';
 import { motion } from 'motion/react';
 import { downloadResourceDocument } from '../utils/premiumDownload';
 import { PageHeader } from '../components/ui/PageHeader';
@@ -95,6 +96,8 @@ export const AcademyView: React.FC<AcademyViewProps> = ({ user, onNotify, onView
   ];
 
   const filteredCourses = filter === 'ALL' ? courses : courses.filter(c => c.category === filter);
+
+  if (!user) return <AuthGuard user={user} onViewChange={onViewChange}>{null}</AuthGuard>;
 
   return (
     <div className="pb-12 relative overflow-hidden">

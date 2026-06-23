@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { AuthGuard } from '../components/AuthGuard';
 import { motion } from 'motion/react';
 import { Star, ArrowUpRight, ArrowDownLeft, Trash2, LayoutGrid, List, Zap, Shield, Activity, TrendingUp, ChevronLeft, ChevronRight } from 'lucide-react';
 import { CONTRACTS, Contract , LYA_UNIT_VALUE} from '../types';
@@ -39,6 +40,7 @@ export const WatchlistView: React.FC<WatchlistViewProps> = ({
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
+
 
   return (
     <div className="space-y-12 pb-24 relative min-h-screen">

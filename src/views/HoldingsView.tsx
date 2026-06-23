@@ -1,5 +1,6 @@
 
 import React, { useMemo, useState } from 'react';
+import { AuthGuard } from '../components/AuthGuard';
 import { motion } from 'motion/react';
 import { PageHeader } from '../components/ui/PageHeader';
 import { 
@@ -144,6 +145,7 @@ export const HoldingsView: React.FC<{ onNotify: (msg: string) => void; userContr
     const score = Math.min(100, (uniqueSectors / 6) * 100);
     return { value: score, label: score > 80 ? t('EXCELLENT', 'EXCELLENT') : score > 50 ? t('GOOD', 'BON') : t('LOW', 'FAIBLE') };
   }, [holdings, t]);
+
 
   return (
     <div className="space-y-6 pb-12 relative overflow-visible">

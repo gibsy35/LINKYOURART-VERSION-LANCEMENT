@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { AuthGuard } from '../components/AuthGuard';
 import { motion, AnimatePresence } from 'motion/react';
 import { PageHeader } from '../components/ui/PageHeader';
 import { downloadWalletStatement } from '../utils/premiumDownload';
@@ -79,6 +80,8 @@ export const WalletView: React.FC<WalletViewProps> = ({ user, onNotify, onViewCh
     setWithdrawStep('done');
     onNotify(t(`WITHDRAWAL OF ${formatPrice(parseFloat(withdrawAmount))} INITIATED`, `RETRAIT DE ${formatPrice(parseFloat(withdrawAmount))} INITIÉ`));
   };
+
+  if (!user) return <AuthGuard user={user} onViewChange={onViewChange}>{null}</AuthGuard>;
 
   return (
     <div className="space-y-6 pb-20">

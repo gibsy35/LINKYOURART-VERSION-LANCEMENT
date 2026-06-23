@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { AuthGuard } from '../components/AuthGuard';
 import { db } from '../firebase';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { motion, AnimatePresence } from 'motion/react';
@@ -104,6 +105,8 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
     {key:'academy' as const, labelFR:'Académie Pro', labelEN:'Pro Academy', icon:<BookOpen size={13}/>},
     {key:'services' as const, labelFR:'Services', labelEN:'Services', icon:<Sparkles size={13}/>},
   ];
+
+  if (!user) return <AuthGuard user={user} onViewChange={onViewChange}>{null}</AuthGuard>;
 
   return (
     <div className="space-y-6 pb-12">
