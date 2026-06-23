@@ -33,6 +33,8 @@ import { CompareView } from './CompareView';
 import { Loader2 } from 'lucide-react';
 import { downloadAsCSV, downloadAsJSON, simulatePDFDownload } from '../utils/download';
 import { generateCertificate, generateLegalTerms, generatePermissions } from '../utils/lyaDocuments';
+import { db } from '../firebase';
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 
 export const RegistryView: React.FC<{ 
   user: UserProfile | null;
@@ -94,19 +96,32 @@ export const RegistryView: React.FC<{
     });
   };
 
-  const handleVerify = () => {
+  const handleVerify = async () => {
     if (!verifyId) return;
     setIsVerifying(true);
     setIsValid(null);
     setVerificationResult(null);
-    
-    onNotify(`INITIATING PROFESSIONAL AUDIT FOR ${verifyId}...`);
 
-    // Simulate network latency for professional verification
-    setTimeout(() => {
-      const foundContract = allContracts.find(c => 
-        c.registryIndex === verifyId || c.registryAddress === verifyId
+    onNotify(t('✦ Audit LYA en cours...', '✦ LYA Audit in progress...'));
+
+    try {
+      // Recherche dans les contrats LYA
+      const foundContract = allContracts.find(c =>
+        c.registryIndex === verifyId ||
+        c.registryAddress === verifyId ||
+        c.id === verifyId ||
+        c.name.toLowerCase().includes(verifyId.toLowerCase())
       );
+
+      // Sauvegarder la demande d'audit dans Firestore
+      await addDoc(collection(db, 'audit_requests'), {
+        queryId: verifyId,
+        found: !!foundContract,
+        contractName: foundContract?.name || null,
+        contractId: foundContract?.id || null,
+        auditedAt: serverTimestamp(),
+        auditedBy: user?.uid || 'anonymous',
+      });
 
       setIsVerifying(false);
       if (foundContract) {
@@ -115,12 +130,16 @@ export const RegistryView: React.FC<{
           name: foundContract.name,
           status: foundContract.status
         });
-        onNotify(`REGISTRY ID ${verifyId} VERIFIED: ${foundContract.name}`);
+        onNotify(t(`✦ ${foundContract.name} — Contrat vérifié dans le Registre LYA`, `✦ ${foundContract.name} — Contract verified in LYA Registry`));
       } else {
         setIsValid(false);
-        onNotify('VERIFICATION FAILED: ID NOT FOUND IN GLOBAL REGISTRY.');
+        onNotify(t('✦ Identifiant non trouvé dans le Registre LYA', '✦ ID not found in LYA Registry'));
       }
-    }, 1500);
+    } catch(e) {
+      setIsVerifying(false);
+      setIsValid(false);
+      onNotify(t('Erreur de connexion au Registre', 'Registry connection error'));
+    }
   };
 
   const allRegistryItems = allContracts.map((contract, i) => ({
