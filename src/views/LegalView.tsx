@@ -90,11 +90,31 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify, onViewChan
       sections: [
         {
           title: t('1. Identity', '1. Identité'),
-          text: t('LYA Ltd, based in READING, United Kingdom. Founded by Jean-Baptiste LEQUIME. LYA is an independent platform dedicated to the creative revolution.', 'LYA Ltd, basé à READING, United Kingdom. Fondée par Jean-Baptiste LEQUIME. LYA est une plateforme indépendante dédiée à la révolution créative.')
+          text: t('LYA Ltd, based in READING, United Kingdom. Founded by Jean-Baptiste LEQUIME. LYA is an independent platform dedicated to the creative economy. Contact: contact@linkyourart.com', 'LYA Ltd, basé à READING, United Kingdom. Fondée par Jean-Baptiste LEQUIME. LYA est une plateforme indépendante dédiée à l\'économie créative. Contact : contact@linkyourart.com')
         },
         {
-          title: t('2. Infrastructure', '2. Infrastructure'),
-          text: t('The LYA ecosystem is powered by a modern and secure technical architecture, ensuring a smooth experience for all creators, partenaires créatifs, professionals and audiences worldwide.', 'L\'écosystème LYA est propulsé par une architecture technique moderne et sécurisée, assurant une expérience fluide pour tous les créateurs, partenaires créatifs, professionnels et publics du monde entier.')
+          title: t('2. Hosting', '2. Hébergement'),
+          text: t('LinkYourArt is hosted by Vercel Inc. (340 Pine Street, Suite 701, San Francisco, CA 94104, USA) and uses Firebase by Google LLC for database and authentication services. Data is stored in accordance with GDPR requirements.', 'LinkYourArt est hébergé par Vercel Inc. (340 Pine Street, Suite 701, San Francisco, CA 94104, États-Unis) et utilise Firebase de Google LLC pour les services de base de données et d\'authentification. Les données sont stockées conformément aux exigences du RGPD.')
+        },
+        {
+          title: t('3. Intellectual Property', '3. Propriété Intellectuelle'),
+          text: t('All content on LinkYourArt (logo, name, design, LYA Score algorithm, LYA Unit system) is the exclusive property of LYA Ltd. Any reproduction, even partial, is prohibited without prior written authorization. Creative projects registered on the platform remain the exclusive property of their creators.', 'Tous les contenus de LinkYourArt (logo, nom, design, algorithme LYA Score, système LYA Unit) sont la propriété exclusive de LYA Ltd. Toute reproduction, même partielle, est interdite sans autorisation écrite préalable. Les projets créatifs enregistrés sur la plateforme restent la propriété exclusive de leurs créateurs.')
+        },
+        {
+          title: t('4. Personal Data & GDPR', '4. Données Personnelles & RGPD'),
+          text: t('LinkYourArt collects and processes personal data (name, email, role, wallet data) solely for the purpose of operating the platform. In accordance with GDPR, you have the right to access, rectify, delete and port your data. Data Protection Officer contact: contact@linkyourart.com — Your data is never sold to third parties.', 'LinkYourArt collecte et traite des données personnelles (nom, email, rôle, données de portefeuille) uniquement dans le cadre du fonctionnement de la plateforme. Conformément au RGPD, vous disposez d\'un droit d\'accès, de rectification, de suppression et de portabilité de vos données. Contact DPO : contact@linkyourart.com — Vos données ne sont jamais vendues à des tiers.')
+        },
+        {
+          title: t('5. Cookies', '5. Cookies'),
+          text: t('LinkYourArt uses only essential technical cookies necessary for authentication and platform operation (Firebase session, language preference, currency preference). No advertising or tracking cookies are used. You can disable cookies in your browser settings, but some features may no longer work correctly.', 'LinkYourArt utilise uniquement des cookies techniques essentiels nécessaires à l\'authentification et au fonctionnement de la plateforme (session Firebase, préférence de langue, préférence de devise). Aucun cookie publicitaire ou de traçage n\'est utilisé. Vous pouvez désactiver les cookies dans les paramètres de votre navigateur, mais certaines fonctionnalités pourraient ne plus fonctionner correctement.')
+        },
+        {
+          title: t('6. Limitation of Liability', '6. Limitation de Responsabilité'),
+          text: t('LinkYourArt acts as an intermediary platform between creators and patrons. LYA Units are not financial instruments and do not constitute a financial investment product regulated by MICA or the SEC. LinkYourArt cannot be held liable for fluctuations in LYA Unit value or for creative projects that do not achieve their objectives. Participation in a creative project is done at your own risk.', 'LinkYourArt agit en tant que plateforme intermédiaire entre créateurs et mécènes. Les LYA Units ne sont pas des instruments financiers et ne constituent pas un produit d\'investissement financier réglementé par MICA ou la SEC. LinkYourArt ne peut être tenu responsable des fluctuations de la valeur des LYA Units ni des projets créatifs qui n\'atteignent pas leurs objectifs. La participation à un projet créatif se fait à vos propres risques.')
+        },
+        {
+          title: t('7. Withdrawal Right', '7. Droit de Rétractation'),
+          text: t('In accordance with applicable consumer law, users who have acquired LYA Units may request a refund within 14 days of their first acquisition, provided the creative project has not yet started its distribution phase. After this period or once distribution has begun, acquisitions are final. Withdrawal requests must be sent to contact@linkyourart.com.', 'Conformément au droit de la consommation applicable, les utilisateurs ayant acquis des LYA Units peuvent demander un remboursement dans les 14 jours suivant leur première acquisition, à condition que le projet créatif n\'ait pas encore débuté sa phase de distribution. Passé ce délai ou une fois la distribution commencée, les acquisitions sont définitives. Les demandes de rétractation doivent être envoyées à contact@linkyourart.com.')
         }
       ]
     },
