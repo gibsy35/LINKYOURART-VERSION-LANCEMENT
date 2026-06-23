@@ -110,8 +110,29 @@ function buildHtml(name, position, referralCode, referralLink, lang) {
     <table width="100%" cellpadding="0" cellspacing="0">
     <tr><td align="center" style="padding-bottom:40px">
       <p style="margin:0;font-size:15px;color:#075985;line-height:1.8;max-width:400px;text-align:center">
-        ${isFR ? "Votre pré-inscription est confirmée. Vous rejoignez les pionniers d'une nouvelle ère créative." : "Your pre-registration is confirmed. You are joining the pioneers of a new creative era."}
+        ${isFR ? "Votre demande d'accès est bien enregistrée. Vous êtes sur la liste VIP LinkYourArt." : "Your access request has been registered. You are on the LinkYourArt VIP waitlist."}
       </p>
+    </td></tr>
+    </table>
+
+    <!-- PROCESSUS VIP -->
+    <table width="100%" cellpadding="0" cellspacing="0">
+    <tr><td style="padding-bottom:30px">
+      <div style="background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.25);border-radius:14px;padding:20px 24px">
+        <p style="margin:0 0 12px;font-size:10px;font-weight:900;color:#059669;text-transform:uppercase;letter-spacing:0.15em">${isFR ? '✦ Processus d\'accès VIP' : '✦ VIP Access Process'}</p>
+        ${[
+          [isFR ? '01 — Liste d\'attente' : '01 — Waitlist', isFR ? 'Votre demande est enregistrée. Vous êtes dans la file VIP.' : 'Your request is registered. You are in the VIP queue.', true],
+          [isFR ? '02 — Approbation' : '02 — Approval', isFR ? 'Notre équipe examine votre profil et vous sélectionne personnellement.' : 'Our team reviews your profile and personally selects you.', false],
+          [isFR ? '03 — Accès' : '03 — Access', isFR ? 'Vous recevez un lien d\'accès unique valable 48h pour créer votre compte.' : 'You receive a unique 48h access link to create your account.', false],
+        ].map(([step, desc, active]) => `
+          <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:10px">
+            <span style="width:28px;height:28px;background:${active ? '#059669' : 'rgba(255,255,255,0.4)'};color:${active ? 'white' : '#6b7280'};border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:900;flex-shrink:0;border:1px solid ${active ? '#059669' : 'rgba(0,0,0,0.08)'}">✓</span>
+            <div>
+              <p style="margin:0 0 2px;font-size:11px;font-weight:900;color:${active ? '#065f46' : '#374151'}">${step}</p>
+              <p style="margin:0;font-size:11px;color:${active ? '#047857' : '#6b7280'};line-height:1.5">${desc}</p>
+            </div>
+          </div>`).join('')}
+      </div>
     </td></tr>
     </table>
 
@@ -129,7 +150,7 @@ function buildHtml(name, position, referralCode, referralLink, lang) {
     <!-- FEATURES -->
     <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:40px">
     <tr><td align="center" style="padding-bottom:20px">
-      <p style="margin:0;font-size:10px;font-weight:900;color:#0369a1;text-transform:uppercase;letter-spacing:0.15em">${isFR ? '— Ce qui vous attend —' : '— What awaits you —'}</p>
+      <p style="margin:0;font-size:10px;font-weight:900;color:#0369a1;text-transform:uppercase;letter-spacing:0.15em">${isFR ? '— Ce que vous allez débloquer —' : '— What you will unlock —'}</p>
     </td></tr>
     ${[
       ['✦', isFR ? 'LYA Score' : 'LYA Score', isFR ? 'Chaque création évaluée sur 1000 points par des experts certifiés.' : 'Each creation rated out of 1000 by certified experts.'],
@@ -151,7 +172,7 @@ function buildHtml(name, position, referralCode, referralLink, lang) {
     <table width="100%" cellpadding="0" cellspacing="0">
     <tr><td align="center" style="padding-bottom:40px">
       <a href="${referralLink}" style="display:inline-block;background:linear-gradient(135deg,#0ea5e9,#6366f1);color:#ffffff;font-weight:900;padding:16px 44px;border-radius:12px;text-decoration:none;font-size:14px;text-transform:uppercase;letter-spacing:0.12em">
-        ${isFR ? 'Accéder à LinkYourArt →' : 'Access LinkYourArt →'}
+        ${isFR ? 'Découvrir LinkYourArt →' : 'Discover LinkYourArt →'}
       </a>
     </td></tr>
     </table>
