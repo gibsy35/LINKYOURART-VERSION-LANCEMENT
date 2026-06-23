@@ -10,31 +10,28 @@ async function sendSMTP(cfg) {
     const ok = () => { clearTimeout(timer); resolve({ ok: true }); };
     const fail = (e) => { clearTimeout(timer); try { sock.destroy(); } catch(ex){} resolve({ ok: false, err: String(e) }); };
     const w = (s) => { try { sock.write(s + '\r\n'); } catch(e){ fail(e); } };
-
     const mail = [
       'From: "LinkYourArt" <' + cfg.user + '>',
+      'Reply-To: contact@linkyourart.com',
       'To: ' + cfg.to,
       'Subject: =?UTF-8?B?' + b64(cfg.subject) + '?=',
       'MIME-Version: 1.0',
       'Content-Type: text/html; charset=UTF-8',
       'Content-Transfer-Encoding: base64',
-      '',
-      b64(cfg.html),
-      '.'
+      'X-Mailer: LinkYourArt-Mailer-1.0',
+      'List-Unsubscribe: <mailto:contact@linkyourart.com?subject=unsubscribe>',
+      '', b64(cfg.html), '.'
     ].join('\r\n');
-
     const handle = (line) => {
       const c = parseInt(line.slice(0, 3));
       if (c >= 400) return fail(line.trim());
-      if (step === 0 && c === 220) { step++; w('EHLO lya.com'); }
+      if (step === 0 && c === 220) { step++; w('EHLO linkyourart.com'); }
       else if (step === 1 && c === 250) { step++; w('STARTTLS'); }
       else if (step === 2 && c === 220 && !upgraded) {
         step++;
         const plain = sock;
         sock = tls.connect({ socket: plain, host: cfg.host, rejectUnauthorized: false }, () => {
-          upgraded = true;
-          sock.on('data', onData);
-          w('EHLO lya.com');
+          upgraded = true; sock.on('data', onData); w('EHLO linkyourart.com');
         });
         sock.on('error', fail);
       }
@@ -48,201 +45,263 @@ async function sendSMTP(cfg) {
       else if (step === 10 && c === 250) { step++; w('QUIT'); }
       else if (step === 11 && c === 221) ok();
     };
-
     const onData = (d) => {
       buf += d.toString();
       let i;
       while ((i = buf.indexOf('\r\n')) !== -1) {
-        const line = buf.slice(0, i);
-        buf = buf.slice(i + 2);
+        const line = buf.slice(0, i); buf = buf.slice(i + 2);
         if (line && !line.match(/^250-/)) handle(line);
       }
     };
-
     sock = net.connect(cfg.port, cfg.host, () => {});
     sock.on('data', onData);
     sock.on('error', fail);
   });
 }
 
-function buildHtml(name, position, referralCode, referralLink, lang) {
+function generateReferralCode(name) {
+  const prefix = name.trim().substring(0, 3).toUpperCase().replace(/[^A-Z]/g, 'X');
+  const suffix = Math.random().toString(36).substring(2, 6).toUpperCase();
+  return 'LYA-' + prefix + '-' + suffix;
+}
+
+function buildEmail(name, position, referralCode, referralLink, lang) {
   const isFR = lang === 'FR';
-  const roleLabel = position === 'CREATOR' ? (isFR ? 'Créateur' : 'Creator') : position === 'INVESTOR' ? (isFR ? 'Mécène' : 'Patron') : (isFR ? 'Professionnel' : 'Professional');
 
-  return `<!DOCTYPE html>
+  const subject = isFR
+    ? `✦ ${name}, votre place sur la liste VIP LinkYourArt est confirmée`
+    : `✦ ${name}, your place on the LinkYourArt VIP waitlist is confirmed`;
+
+  const html = `<!DOCTYPE html>
 <html lang="${isFR ? 'fr' : 'en'}">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
-<body style="margin:0;padding:0;background:#e0f0ff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
-<table width="100%" cellpadding="0" cellspacing="0" style="background:#e0f0ff">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<title>${isFR ? 'Bienvenue sur LinkYourArt' : 'Welcome to LinkYourArt'}</title>
+</head>
+<body style="margin:0;padding:0;background-color:#f4f6f9;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased">
+
+<!-- Preheader text (anti-spam + preview) -->
+<div style="display:none;max-height:0;overflow:hidden;color:#f4f6f9">
+  ${isFR
+    ? `${name}, votre demande d'accès VIP LinkYourArt est bien enregistrée. Notre équipe vous contactera personnellement pour vous ouvrir les portes.`
+    : `${name}, your LinkYourArt VIP access request is registered. Our team will personally contact you to open the doors.`
+  }
+&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;
+</div>
+
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f4f6f9">
 <tr><td align="center" style="padding:40px 16px">
-<table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#e8f4fd;border-radius:24px;overflow:hidden;box-shadow:0 8px 40px rgba(0,100,200,0.12)">
 
-  <!-- BANDE TOP -->
-  <tr><td style="background:linear-gradient(90deg,#0ea5e9,#6366f1);height:4px;padding:0;font-size:0;line-height:0">&nbsp;</td></tr>
+<!-- CARTE PRINCIPALE -->
+<table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%;background:#ffffff;border-radius:20px;overflow:hidden;box-shadow:0 4px 30px rgba(0,0,0,0.10)">
 
-  <!-- TOUT LE CONTENU SUR FOND BLEU UNIFORME -->
-  <tr><td style="background:linear-gradient(180deg,#f0f9ff 0%,#dbeafe 100%);padding:48px 40px">
+  <!-- BANDE TOP GRADIENT -->
+  <tr><td style="background:linear-gradient(90deg,#0d1117 0%,#1a2332 40%,#0d1117 100%);padding:0;height:6px;font-size:0">&nbsp;</td></tr>
 
-    <!-- LOGO -->
-    <table width="100%" cellpadding="0" cellspacing="0">
-    <tr><td align="center" style="padding-bottom:40px">
-      <div style="display:inline-block;background:rgba(255,255,255,0.7);border:1px solid rgba(14,165,233,0.3);border-radius:12px;padding:12px 28px">
-        <span style="font-size:18px;font-weight:900;color:#0284c7;letter-spacing:0.2em;display:block">LINKYOURART</span>
-        <span style="font-size:9px;color:#0284c7;opacity:0.6;letter-spacing:0.1em;font-style:italic;display:block;margin-top:3px">"${isFR ? "Ce que vous créez aujourd'hui peut appartenir à mille personnes demain." : "What you create today can belong to a thousand people tomorrow."}"</span>
-      </div>
-    </td></tr>
+  <!-- HEADER SOMBRE -->
+  <tr><td style="background:linear-gradient(135deg,#0d1117 0%,#111827 100%);padding:40px 48px 36px">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td>
+          <p style="margin:0;font-size:22px;font-weight:900;color:#ffffff;letter-spacing:0.18em;text-transform:uppercase">LINKYOURART</p>
+          <p style="margin:6px 0 0;font-size:13px;color:rgba(255,255,255,0.35);font-style:italic;letter-spacing:0.02em">
+            "${isFR ? "Ce que vous créez aujourd'hui peut appartenir à mille personnes demain." : "What you create today can belong to a thousand people tomorrow."}"
+          </p>
+        </td>
+        <td align="right" style="vertical-align:top">
+          <span style="display:inline-block;background:rgba(0,212,255,0.12);border:1px solid rgba(0,212,255,0.35);border-radius:30px;padding:7px 16px;font-size:11px;font-weight:900;color:#00d4ff;text-transform:uppercase;letter-spacing:0.12em;white-space:nowrap">✦ VIP</span>
+        </td>
+      </tr>
     </table>
+  </td></tr>
 
-    <!-- BONJOUR + NOM -->
-    <table width="100%" cellpadding="0" cellspacing="0">
-    <tr><td align="center" style="padding-bottom:8px">
-      <p style="margin:0;font-size:15px;color:#0369a1;font-weight:600;text-transform:uppercase;letter-spacing:0.12em">${isFR ? 'Bienvenue' : 'Welcome'}</p>
-    </td></tr>
-    <tr><td align="center" style="padding-bottom:8px">
-      <h1 style="margin:0;font-size:40px;font-weight:900;color:#0c4a6e;letter-spacing:-0.02em;line-height:1">${name}</h1>
-    </td></tr>
-    <tr><td align="center" style="padding-bottom:36px">
-      <span style="display:inline-block;background:rgba(255,255,255,0.6);border:1px solid rgba(14,165,233,0.25);border-radius:30px;padding:5px 18px;font-size:11px;font-weight:900;color:#0369a1;text-transform:uppercase;letter-spacing:0.12em">${roleLabel}</span>
-    </td></tr>
-    </table>
+  <!-- HERO -->
+  <tr><td style="background:linear-gradient(135deg,#0d1117 0%,#1a2332 60%,#0f1923 100%);padding:0 48px 56px;text-align:center">
+    <div style="display:inline-block;width:72px;height:72px;background:rgba(0,212,255,0.10);border:1.5px solid rgba(0,212,255,0.30);border-radius:18px;line-height:72px;font-size:32px;margin-bottom:28px">✦</div>
+    <h1 style="margin:0 0 12px;font-size:36px;font-weight:900;color:#ffffff;letter-spacing:-0.02em;line-height:1.15">
+      ${isFR ? `Bienvenue,<br>${name} !` : `Welcome,<br>${name}!`}
+    </h1>
+    <p style="margin:0;font-size:17px;color:rgba(255,255,255,0.55);line-height:1.6;max-width:420px;margin:0 auto">
+      ${isFR
+        ? 'Votre demande d\'accès VIP a été enregistrée avec succès. Vous rejoignez un cercle exclusif de créateurs, mécènes et professionnels visionnaires.'
+        : 'Your VIP access request has been successfully registered. You are joining an exclusive circle of visionary creators, patrons and professionals.'
+      }
+    </p>
+  </td></tr>
 
-    <!-- MESSAGE -->
-    <table width="100%" cellpadding="0" cellspacing="0">
-    <tr><td align="center" style="padding-bottom:40px">
-      <p style="margin:0;font-size:15px;color:#075985;line-height:1.8;max-width:400px;text-align:center">
-        ${isFR ? "Votre demande d'accès est bien enregistrée. Vous êtes sur la liste VIP LinkYourArt." : "Your access request has been registered. You are on the LinkYourArt VIP waitlist."}
-      </p>
-    </td></tr>
-    </table>
+  <!-- CORPS BLANC -->
+  <tr><td style="background:#ffffff;padding:48px">
 
-    <!-- PROCESSUS VIP -->
-    <table width="100%" cellpadding="0" cellspacing="0">
-    <tr><td style="padding-bottom:30px">
-      <div style="background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.25);border-radius:14px;padding:20px 24px">
-        <p style="margin:0 0 12px;font-size:10px;font-weight:900;color:#059669;text-transform:uppercase;letter-spacing:0.15em">${isFR ? '✦ Processus d\'accès VIP' : '✦ VIP Access Process'}</p>
-        ${[
-          [isFR ? '01 — Liste d\'attente' : '01 — Waitlist', isFR ? 'Votre demande est enregistrée. Vous êtes dans la file VIP.' : 'Your request is registered. You are in the VIP queue.', true],
-          [isFR ? '02 — Approbation' : '02 — Approval', isFR ? 'Notre équipe examine votre profil et vous sélectionne personnellement.' : 'Our team reviews your profile and personally selects you.', false],
-          [isFR ? '03 — Accès' : '03 — Access', isFR ? 'Vous recevez un lien d\'accès unique valable 48h pour créer votre compte.' : 'You receive a unique 48h access link to create your account.', false],
-        ].map(([step, desc, active]) => `
-          <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:10px">
-            <span style="width:28px;height:28px;background:${active ? '#059669' : 'rgba(255,255,255,0.4)'};color:${active ? 'white' : '#6b7280'};border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:900;flex-shrink:0;border:1px solid ${active ? '#059669' : 'rgba(0,0,0,0.08)'}">✓</span>
-            <div>
-              <p style="margin:0 0 2px;font-size:11px;font-weight:900;color:${active ? '#065f46' : '#374151'}">${step}</p>
-              <p style="margin:0;font-size:11px;color:${active ? '#047857' : '#6b7280'};line-height:1.5">${desc}</p>
-            </div>
-          </div>`).join('')}
-      </div>
-    </td></tr>
+    <!-- STATUT ACTUEL -->
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:36px">
+      <tr>
+        <td style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:16px;padding:28px 32px">
+          <p style="margin:0 0 20px;font-size:11px;font-weight:900;color:#94a3b8;text-transform:uppercase;letter-spacing:0.15em">
+            ${isFR ? '— Votre statut —' : '— Your status —'}
+          </p>
+
+          <!-- ÉTAPE 1 : ACTIF -->
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:16px">
+            <tr>
+              <td style="width:44px;vertical-align:top">
+                <div style="width:40px;height:40px;background:#0d1117;border-radius:10px;text-align:center;line-height:40px;font-size:16px;color:#00d4ff">✓</div>
+              </td>
+              <td style="padding-left:16px;vertical-align:top">
+                <p style="margin:0 0 3px;font-size:15px;font-weight:900;color:#0d1117">${isFR ? '01 — Sur la liste VIP' : '01 — On the VIP list'}</p>
+                <p style="margin:0;font-size:13px;color:#475569;line-height:1.5">${isFR ? 'Votre demande est confirmée. Vous êtes dans la file prioritaire.' : 'Your request is confirmed. You are in the priority queue.'}</p>
+              </td>
+            </tr>
+          </table>
+
+          <!-- DIVISEUR -->
+          <div style="margin-left:20px;border-left:2px dashed #e2e8f0;padding-left:36px;margin-bottom:16px">
+
+          <!-- ÉTAPE 2 -->
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:16px;opacity:0.5">
+            <tr>
+              <td style="width:44px;vertical-align:top">
+                <div style="width:40px;height:40px;background:#f1f5f9;border:1.5px solid #e2e8f0;border-radius:10px;text-align:center;line-height:40px;font-size:13px;font-weight:900;color:#94a3b8">02</div>
+              </td>
+              <td style="padding-left:16px;vertical-align:top">
+                <p style="margin:0 0 3px;font-size:15px;font-weight:900;color:#475569">${isFR ? 'Sélection personnelle' : 'Personal selection'}</p>
+                <p style="margin:0;font-size:13px;color:#94a3b8;line-height:1.5">${isFR ? 'Notre équipe examine votre profil et vous sélectionne personnellement.' : 'Our team reviews your profile and personally selects you.'}</p>
+              </td>
+            </tr>
+          </table>
+
+          <!-- ÉTAPE 3 -->
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="opacity:0.5">
+            <tr>
+              <td style="width:44px;vertical-align:top">
+                <div style="width:40px;height:40px;background:#f1f5f9;border:1.5px solid #e2e8f0;border-radius:10px;text-align:center;line-height:40px;font-size:13px;font-weight:900;color:#94a3b8">03</div>
+              </td>
+              <td style="padding-left:16px;vertical-align:top">
+                <p style="margin:0 0 3px;font-size:15px;font-weight:900;color:#475569">${isFR ? 'Accès exclusif' : 'Exclusive access'}</p>
+                <p style="margin:0;font-size:13px;color:#94a3b8;line-height:1.5">${isFR ? 'Vous recevez un lien d\'accès unique valable 48h pour créer votre compte.' : 'You receive a unique 48h access link to create your account.'}</p>
+              </td>
+            </tr>
+          </table>
+          </div>
+
+        </td>
+      </tr>
     </table>
 
     <!-- CODE PARRAINAGE -->
-    <table width="100%" cellpadding="0" cellspacing="0">
-    <tr><td style="padding-bottom:40px">
-      <div style="background:rgba(255,255,255,0.55);border:1px solid rgba(14,165,233,0.2);border-radius:16px;padding:28px;text-align:center">
-        <p style="margin:0 0 6px;font-size:10px;font-weight:900;color:#0369a1;text-transform:uppercase;letter-spacing:0.18em">${isFR ? 'Votre code de parrainage' : 'Your referral code'}</p>
-        <p style="margin:0 0 10px;font-size:42px;font-weight:900;color:#0284c7;font-family:'Courier New',monospace;letter-spacing:0.1em">${referralCode}</p>
-        <p style="margin:0;font-size:12px;color:#0369a1">${isFR ? "Partagez-le — chaque filleul vous propulse plus haut dans la file d'accès." : "Share it — each referral moves you higher in the priority queue."}</p>
-      </div>
-    </td></tr>
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:36px">
+      <tr>
+        <td style="background:linear-gradient(135deg,#0d1117,#1a2332);border-radius:16px;padding:32px;text-align:center">
+          <p style="margin:0 0 8px;font-size:11px;font-weight:900;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.18em">${isFR ? 'Votre code de parrainage' : 'Your referral code'}</p>
+          <p style="margin:0 0 12px;font-size:44px;font-weight:900;color:#00d4ff;font-family:'Courier New',Courier,monospace;letter-spacing:0.08em">${referralCode}</p>
+          <p style="margin:0;font-size:14px;color:rgba(255,255,255,0.50);line-height:1.6;max-width:360px;margin:0 auto">
+            ${isFR
+              ? 'Partagez ce code avec vos contacts — chaque parrainage accélère votre montée dans la file VIP.'
+              : 'Share this code with your contacts — each referral accelerates your rise in the VIP queue.'
+            }
+          </p>
+        </td>
+      </tr>
     </table>
 
-    <!-- FEATURES -->
-    <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:40px">
-    <tr><td align="center" style="padding-bottom:20px">
-      <p style="margin:0;font-size:10px;font-weight:900;color:#0369a1;text-transform:uppercase;letter-spacing:0.15em">${isFR ? '— Ce que vous allez débloquer —' : '— What you will unlock —'}</p>
-    </td></tr>
-    ${[
-      ['✦', isFR ? 'LYA Score' : 'LYA Score', isFR ? 'Chaque création évaluée sur 1000 points par des experts certifiés.' : 'Each creation rated out of 1000 by certified experts.'],
-      ['◈', isFR ? 'LYA Units' : 'LYA Units', isFR ? 'Co-possédez des projets artistiques. La valeur évolue avec les jalons.' : 'Co-own artistic projects. Value evolves with milestones.'],
-      ['⚡', isFR ? 'Marché créatif' : 'Creative Market', isFR ? "Échangez vos parts sur le registre LYA en temps réel." : 'Trade your shares on the LYA registry in real time.'],
-    ].map(([icon, title, desc]) => `
-    <tr><td style="padding-bottom:16px">
-      <div style="background:rgba(255,255,255,0.45);border:1px solid rgba(14,165,233,0.15);border-radius:12px;padding:16px 20px;display:flex">
-        <span style="font-size:20px;margin-right:14px;flex-shrink:0">${icon}</span>
-        <div>
-          <p style="margin:0 0 3px;font-size:13px;font-weight:900;color:#0c4a6e">${title}</p>
-          <p style="margin:0;font-size:12px;color:#075985;line-height:1.5">${desc}</p>
-        </div>
-      </div>
-    </td></tr>`).join('')}
+    <!-- CE QUI VOUS ATTEND -->
+    <p style="margin:0 0 20px;font-size:11px;font-weight:900;color:#94a3b8;text-transform:uppercase;letter-spacing:0.15em;text-align:center">
+      ${isFR ? '— Ce que vous allez débloquer —' : '— What you will unlock —'}
+    </p>
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:36px">
+      ${[
+        ['✦', isFR ? 'LYA Score' : 'LYA Score', isFR ? 'Chaque création évaluée sur 1000 points par des experts certifiés LYA.' : 'Each creation rated out of 1000 by certified LYA experts.'],
+        ['◈', isFR ? 'LYA Units' : 'LYA Units', isFR ? 'Co-possédez des projets artistiques à partir de 50$. Recevez des revenus.' : 'Co-own artistic projects from $50. Receive revenues.'],
+        ['⚡', isFR ? 'Marché Créatif' : 'Creative Market', isFR ? 'Échangez vos parts sur le Marché LYA. Votre valeur évolue avec les jalons.' : 'Trade your shares on the LYA Market. Your value evolves with milestones.'],
+      ].map(([icon, title, desc]) => `
+      <tr><td style="padding-bottom:12px">
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+          <tr>
+            <td style="width:52px;vertical-align:top">
+              <div style="width:48px;height:48px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:12px;text-align:center;line-height:48px;font-size:20px">${icon}</div>
+            </td>
+            <td style="padding-left:16px;vertical-align:middle">
+              <p style="margin:0 0 3px;font-size:15px;font-weight:900;color:#0d1117">${title}</p>
+              <p style="margin:0;font-size:13px;color:#64748b;line-height:1.5">${desc}</p>
+            </td>
+          </tr>
+        </table>
+      </td></tr>`).join('')}
     </table>
 
     <!-- CTA -->
-    <table width="100%" cellpadding="0" cellspacing="0">
-    <tr><td align="center" style="padding-bottom:40px">
-      <a href="${referralLink}" style="display:inline-block;background:linear-gradient(135deg,#0ea5e9,#6366f1);color:#ffffff;font-weight:900;padding:16px 44px;border-radius:12px;text-decoration:none;font-size:14px;text-transform:uppercase;letter-spacing:0.12em">
-        ${isFR ? 'Découvrir LinkYourArt →' : 'Discover LinkYourArt →'}
-      </a>
-    </td></tr>
-    </table>
-
-    <!-- SIGNATURE -->
-    <table width="100%" cellpadding="0" cellspacing="0">
-    <tr><td align="center" style="border-top:1px solid rgba(14,165,233,0.2);padding-top:28px">
-      <p style="margin:0 0 16px;font-size:13px;color:#0369a1;font-style:italic;line-height:1.7">
-        "${isFR ? "Ce que vous créez aujourd'hui peut appartenir à mille personnes demain." : "What you create today can belong to a thousand people tomorrow."}"
-      </p>
-      <p style="margin:0;font-size:11px;color:#7dd3fc">LinkYourArt · contact@linkyourart.com</p>
-    </td></tr>
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr><td align="center" style="padding-bottom:8px">
+        <a href="${referralLink}" style="display:inline-block;background:#0d1117;color:#ffffff;text-decoration:none;font-size:15px;font-weight:900;padding:18px 52px;border-radius:12px;letter-spacing:0.08em;text-transform:uppercase">
+          ${isFR ? 'Découvrir LinkYourArt →' : 'Discover LinkYourArt →'}
+        </a>
+      </td></tr>
+      <tr><td align="center">
+        <p style="margin:12px 0 0;font-size:12px;color:#94a3b8">${isFR ? 'En attendant votre invitation, explorez la plateforme.' : 'While waiting for your invitation, explore the platform.'}</p>
+      </td></tr>
     </table>
 
   </td></tr>
 
-  <!-- BANDE BOTTOM -->
-  <tr><td style="background:linear-gradient(90deg,#0ea5e9,#6366f1);height:4px;padding:0;font-size:0;line-height:0">&nbsp;</td></tr>
+  <!-- FOOTER -->
+  <tr><td style="background:#0d1117;padding:32px 48px">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td>
+          <p style="margin:0 0 4px;font-size:14px;font-weight:900;color:#ffffff;letter-spacing:0.12em">LINKYOURART</p>
+          <p style="margin:0 0 4px;font-size:12px;color:rgba(255,255,255,0.35)">contact@linkyourart.com · linkyourart.com</p>
+          <p style="margin:0;font-size:11px;color:rgba(255,255,255,0.20);font-style:italic">
+            ${isFR
+              ? 'Vous recevez cet email car vous vous êtes pré-inscrit sur linkyourart.com'
+              : 'You receive this email because you pre-registered on linkyourart.com'
+            }
+          </p>
+        </td>
+        <td align="right" style="vertical-align:top">
+          <p style="margin:0;font-size:22px;font-weight:900;color:#00d4ff">✦</p>
+        </td>
+      </tr>
+    </table>
+  </td></tr>
+
+  <!-- BANDE BAS GRADIENT -->
+  <tr><td style="background:linear-gradient(90deg,#00d4ff,#a78bfa,#f5c842);padding:0;height:4px;font-size:0">&nbsp;</td></tr>
 
 </table>
+<!-- FIN CARTE -->
+
 </td></tr>
 </table>
 </body>
 </html>`;
+
+  return { subject, html };
 }
 
 module.exports = async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
+  const { to, name, position, referralCode, referralLink, lang = 'FR' } = req.body || {};
+  if (!to || !name) return res.status(400).json({ error: 'Missing required fields: to, name' });
+
+  const code = referralCode || generateReferralCode(name);
+  const link = referralLink || 'https://linkyourart.com';
+
+  const host = process.env.SMTP_HOST;
+  const port = parseInt(process.env.SMTP_PORT || '587');
+  const user = process.env.SMTP_USER;
+  const pass = process.env.SMTP_PASS;
+
+  const { subject, html } = buildEmail(name, position || 1, code, link, lang);
+
+  if (!host || !user || !pass) {
+    console.log('[PRE_REG SIMULATED]', to, subject);
+    return res.status(200).json({ success: true, method: 'simulated', subject });
   }
 
-  try {
-    const body = req.body || {};
-    const to = body.to;
-    const name = body.name || 'Membre';
-    const position = body.position || 'CREATOR';
-    const referralCode = body.referralCode || 'LYA-000';
-    const referralLink = body.referralLink || 'https://linkyourart.com';
-    const lang = (body.lang && body.lang === 'FR') ? 'FR' : 'EN';
-
-    if (!to) return res.status(400).json({ error: 'Missing email' });
-
-    const host = process.env.SMTP_HOST;
-    const port = parseInt(process.env.SMTP_PORT || '587');
-    const user = process.env.SMTP_USER;
-    const pass = process.env.SMTP_PASS;
-
-    if (!host || !user || !pass) {
-      console.log('[EMAIL_SIMULATED] To:', to);
-      return res.status(200).json({ success: true, method: 'simulated' });
-    }
-
-    const subject = lang === 'FR'
-      ? '✦ Bienvenue sur LinkYourArt — Code: ' + referralCode
-      : '✦ Welcome to LinkYourArt — Code: ' + referralCode;
-
-    const html = buildHtml(name, position, referralCode, referralLink, lang);
-    const result = await sendSMTP({ host, port, user, pass, to, subject, html });
-
-    if (result.ok) {
-      console.log('[EMAIL_SENT] ✓', to);
-      return res.status(200).json({ success: true, method: 'lya' });
-    } else {
-      console.error('[EMAIL_ERROR]', result.err);
-      return res.status(200).json({ success: false, method: 'smtp', error: result.err });
-    }
-  } catch (e) {
-    console.error('[EMAIL_CRASH]', e.message);
-    return res.status(200).json({ success: false, error: e.message });
-  }
+  const result = await sendSMTP({ host, port, user, pass, to, subject, html });
+  console.log(result.ok ? `[PRE_REG SENT] ✓ ${to}` : `[PRE_REG ERROR] ${result.err}`);
+  return res.status(200).json({ success: result.ok, method: 'smtp', error: result.err });
 };
