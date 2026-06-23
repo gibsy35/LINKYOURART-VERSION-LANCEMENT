@@ -161,7 +161,11 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
           // Créer le document avec count=0 s'il n'existe pas
           setDoc(ref, { count: 0, updatedAt: st() }, { merge: true })
             .catch(() => {});
-          setTotalRegistrations(1420); // Valeur initiale par défaut
+          // Document n'existe pas encore - le créer avec 1420 comme base
+          setTotalRegistrations(1420);
+          import('firebase/firestore').then(({ setDoc, doc: d, serverTimestamp: st }) => {
+            setDoc(d(db, 'public_stats', 'pre_registrations'), { count: 1420, updatedAt: new Date().toISOString() }, { merge: true }).catch(() => {});
+          });
         }
       }, () => {
         // En cas d'erreur réseau, lire depuis localStorage
