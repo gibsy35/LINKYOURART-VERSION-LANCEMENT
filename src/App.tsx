@@ -73,6 +73,17 @@ export default function App() {
   const { contracts: liveContracts } = useMarketData();
   const [currentView, setCurrentView] = useState<View>('LANDING');
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [is404, setIs404] = useState(false);
+
+  // Détecter les URLs inconnues pour afficher la page 404
+  React.useEffect(() => {
+    const path = window.location.pathname;
+    const knownPaths = ['/', '/app', '/home', '/login', '/signup', '/exchange', '/legal', '/about', '/pricing'];
+    const hasAccess = window.location.search.includes('access=');
+    if (path !== '/' && !knownPaths.includes(path) && !hasAccess) {
+      setIs404(true);
+    }
+  }, []);
   const [previousView, setPreviousView] = useState<View>('HOME');
   const [user, _setUser] = useState<UserProfile | null>(null);
   const setUser = (u: UserProfile | null) => _setUser(u);
