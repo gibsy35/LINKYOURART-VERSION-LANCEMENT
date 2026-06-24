@@ -590,8 +590,11 @@ export const AdminView: React.FC<{
       
       onNotify(t(`✦ Access approved for ${reg.name || reg.email}`, `✦ Accès approuvé — email envoyé à ${reg.name || reg.email}`));
     } catch(e: any) {
-      console.error('Approve error:', e);
-      onNotify(t(`Approval error: ${e?.message || 'Unknown error'}`, `Erreur: ${e?.message || 'Vérifiez les Firestore Rules'}`));
+      console.error('Approve error FULL:', JSON.stringify(e), e?.code, e?.message);
+      onNotify(t(
+        `Error: ${e?.code || e?.message || 'Check console for details'}`,
+        `Erreur: ${e?.code || e?.message || 'Voir la console pour les détails'}`
+      ));
     }
   };
 
