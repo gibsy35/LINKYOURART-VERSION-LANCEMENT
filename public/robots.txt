@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://linkyourart.com/sitemap.xml
+
+# Protect private areas
+Disallow: /api/
+Disallow: /admin

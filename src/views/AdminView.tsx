@@ -231,7 +231,7 @@ export const AdminView: React.FC<{
       setPendingSubmissions(snap.docs.map(d => ({ id: d.id, ...d.data() })));
     }, (e) => console.warn('submissions error:', e)));
 
-    unsubs.push(onSnapshot(query(preRef, orderBy('timestamp', 'desc'), limit(200)), (snap) => {
+    unsubs.push(onSnapshot(query(preRef, limit(200)), (snap) => {
       const dbPre = snap.docs.map(doc => ({ id: doc.id, ...doc.data() } as any));
       const localPre = JSON.parse(localStorage.getItem('lya_local_pre_registrations') || '[]');
       const merged: any[] = [...dbPre];
@@ -241,9 +241,14 @@ export const AdminView: React.FC<{
         }
       });
       merged.sort((a: any, b: any) => {
-        const da = a.timestamp?.toDate ? a.timestamp.toDate() : new Date(a.timestamp || 0);
-        const db2 = b.timestamp?.toDate ? b.timestamp.toDate() : new Date(b.timestamp || 0);
-        return db2.getTime() - da.getTime();
+        // Accepter timestamp OU createdAt
+        const getDate = (x: any) => {
+          const ts = x.timestamp || x.createdAt;
+          if (!ts) return new Date(0);
+          if (ts.toDate) return ts.toDate();
+          return new Date(ts);
+        };
+        return getDate(b).getTime() - getDate(a).getTime();
       });
       setPreRegistrations(merged);
     }, (e) => handleFirestoreError(e, OperationType.GET, 'pre_registrations')));
