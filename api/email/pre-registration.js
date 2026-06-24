@@ -19,7 +19,12 @@ async function sendSMTP(cfg) {
       'Content-Type: text/html; charset=UTF-8',
       'Content-Transfer-Encoding: base64',
       'X-Mailer: LinkYourArt-Mailer-1.0',
+      'X-Priority: 3',
+      'X-MSMail-Priority: Normal',
+      'Importance: Normal',
+      'Message-ID: <' + Date.now() + '-lya@linkyourart.com>',
       'List-Unsubscribe: <mailto:contact@linkyourart.com?subject=unsubscribe>',
+      'List-Unsubscribe-Post: List-Unsubscribe=One-Click',
       '', b64(cfg.html), '.'
     ].join('\r\n');
     const handle = (line) => {
@@ -69,8 +74,8 @@ function buildEmail(name, position, referralCode, referralLink, lang) {
   const isFR = lang === 'FR';
 
   const subject = isFR
-    ? `✦ ${name}, votre place sur la liste VIP LinkYourArt est confirmée`
-    : `✦ ${name}, your place on the LinkYourArt VIP waitlist is confirmed`;
+    ? `✦ ${name}, votre place sur la liste LYA Originals LinkYourArt est confirmée`
+    : `✦ ${name}, your place on the LinkYourArt LYA Originals is confirmed`;
 
   const html = `<!DOCTYPE html>
 <html lang="${isFR ? 'fr' : 'en'}">
@@ -85,8 +90,8 @@ function buildEmail(name, position, referralCode, referralLink, lang) {
 <!-- Preheader text (anti-spam + preview) -->
 <div style="display:none;max-height:0;overflow:hidden;color:#f4f6f9">
   ${isFR
-    ? `${name}, votre demande d'accès VIP LinkYourArt est bien enregistrée. Notre équipe vous contactera personnellement pour vous ouvrir les portes.`
-    : `${name}, your LinkYourArt VIP access request is registered. Our team will personally contact you to open the doors.`
+    ? `${name}, votre demande d'accès LYA Originals LinkYourArt est bien enregistrée. Notre équipe vous contactera personnellement pour vous ouvrir les portes.`
+    : `${name}, your LinkYourArt LYA Originals access request is registered. Our team will personally contact you to open the doors.`
   }
 &zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;
 </div>
@@ -111,7 +116,7 @@ function buildEmail(name, position, referralCode, referralLink, lang) {
           </p>
         </td>
         <td align="right" style="vertical-align:top">
-          <span style="display:inline-block;background:rgba(0,212,255,0.12);border:1px solid rgba(0,212,255,0.35);border-radius:30px;padding:7px 16px;font-size:11px;font-weight:900;color:#00d4ff;text-transform:uppercase;letter-spacing:0.12em;white-space:nowrap">✦ VIP</span>
+          <span style="display:inline-block;background:rgba(0,212,255,0.12);border:1px solid rgba(0,212,255,0.35);border-radius:30px;padding:7px 16px;font-size:11px;font-weight:900;color:#00d4ff;text-transform:uppercase;letter-spacing:0.12em;white-space:nowrap">✦ LYA ORIGINALS</span>
         </td>
       </tr>
     </table>
@@ -125,8 +130,8 @@ function buildEmail(name, position, referralCode, referralLink, lang) {
     </h1>
     <p style="margin:0;font-size:17px;color:rgba(255,255,255,0.55);line-height:1.6;max-width:420px;margin:0 auto">
       ${isFR
-        ? 'Votre demande d\'accès VIP a été enregistrée avec succès. Vous rejoignez un cercle exclusif de créateurs, mécènes et professionnels visionnaires.'
-        : 'Your VIP access request has been successfully registered. You are joining an exclusive circle of visionary creators, patrons and professionals.'
+        ? 'Votre demande d\'accès LYA Originals a été enregistrée avec succès. Vous rejoignez un cercle exclusif de créateurs, mécènes et professionnels visionnaires.'
+        : 'Your LYA Originals access request has been successfully registered. You are joining an exclusive circle of visionary creators, patrons and professionals.'
       }
     </p>
   </td></tr>
@@ -139,7 +144,7 @@ function buildEmail(name, position, referralCode, referralLink, lang) {
       <tr>
         <td style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:16px;padding:28px 32px">
           <p style="margin:0 0 20px;font-size:11px;font-weight:900;color:#94a3b8;text-transform:uppercase;letter-spacing:0.15em">
-            ${isFR ? '— Votre statut —' : '— Your status —'}
+            ${isFR ? '— Votre statut LYA Originals —' : '— Your status —'}
           </p>
 
           <!-- ÉTAPE 1 : ACTIF -->
@@ -149,7 +154,7 @@ function buildEmail(name, position, referralCode, referralLink, lang) {
                 <div style="width:40px;height:40px;background:#0d1117;border-radius:10px;text-align:center;line-height:40px;font-size:16px;color:#00d4ff">✓</div>
               </td>
               <td style="padding-left:16px;vertical-align:top">
-                <p style="margin:0 0 3px;font-size:15px;font-weight:900;color:#0d1117">${isFR ? '01 — Sur la liste VIP' : '01 — On the VIP list'}</p>
+                <p style="margin:0 0 3px;font-size:15px;font-weight:900;color:#0d1117">${isFR ? '01 — Sur la liste LYA Originals' : '01 — On the LYA Originals'}</p>
                 <p style="margin:0;font-size:13px;color:#475569;line-height:1.5">${isFR ? 'Votre demande est confirmée. Vous êtes dans la file prioritaire.' : 'Your request is confirmed. You are in the priority queue.'}</p>
               </td>
             </tr>
@@ -197,8 +202,8 @@ function buildEmail(name, position, referralCode, referralLink, lang) {
           <p style="margin:0 0 12px;font-size:44px;font-weight:900;color:#00d4ff;font-family:'Courier New',Courier,monospace;letter-spacing:0.08em">${referralCode}</p>
           <p style="margin:0;font-size:14px;color:rgba(255,255,255,0.50);line-height:1.6;max-width:360px;margin:0 auto">
             ${isFR
-              ? 'Partagez ce code avec vos contacts — chaque parrainage accélère votre montée dans la file VIP.'
-              : 'Share this code with your contacts — each referral accelerates your rise in the VIP queue.'
+              ? 'Partagez ce code avec vos contacts — chaque parrainage accélère votre montée dans la file LYA Originals.'
+              : 'Share this code with your contacts — each referral accelerates your rise in the LYA Originals queue.'
             }
           </p>
         </td>

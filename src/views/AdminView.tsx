@@ -1789,7 +1789,7 @@ export const AdminView: React.FC<{
                 <p>
                   {t(
                     'We are extremely pleased to inform you that your professional profile has been approved by our committee. You have been granted immediate clearance within the preview.',
-                    'Nous avons le plaisir de vous informer que votre profil professionnel a été validé et accrédité par les membres fondateurs. Votre statut a été mis à jour directement.'
+                    'Nous avons le plaisir de vous informer que votre profil professionnel a été validé et accrédité par les membres fondateurs. Votre statut LYA Originals a été mis à jour directement.'
                   )}
                 </p>
 

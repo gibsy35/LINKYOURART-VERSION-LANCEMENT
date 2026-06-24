@@ -49,8 +49,8 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({
           </h2>
           <p className="text-sm text-on-surface-variant/50 leading-relaxed">
             {t(
-              'This section is reserved for LinkYourArt members. Sign in or join the VIP waitlist to access it.',
-              'Cette section est réservée aux membres LinkYourArt. Connectez-vous ou rejoignez la liste VIP pour y accéder.'
+              'This section is reserved for LinkYourArt members. Sign in or join the LYA Originals to access it.',
+              'Cette section est réservée aux membres LinkYourArt. Connectez-vous ou rejoignez la liste LYA Originals pour y accéder.'
             )}
           </p>
         </div>
@@ -68,7 +68,7 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({
             onClick={handlePreRegister}
             className="w-full py-3 bg-white/5 border border-white/10 text-white/60 font-black text-xs uppercase tracking-widest rounded-xl hover:bg-white/10 hover:text-white transition-all"
           >
-            {t('Join the VIP waitlist', 'Rejoindre la liste VIP')}
+            {t('Join the LYA Originals', 'Rejoindre la liste LYA Originals')}
           </button>
         </div>
 

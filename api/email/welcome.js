@@ -12,23 +12,29 @@ async function sendSMTP(cfg) {
     const w = (s) => { try { sock.write(s + '\r\n'); } catch(e){ fail(e); } };
     const mail = [
       'From: "LinkYourArt" <' + cfg.user + '>',
+      'Reply-To: contact@linkyourart.com',
       'To: ' + cfg.to,
       'Subject: =?UTF-8?B?' + b64(cfg.subject) + '?=',
       'MIME-Version: 1.0',
       'Content-Type: text/html; charset=UTF-8',
       'Content-Transfer-Encoding: base64',
+      'X-Priority: 3',
+      'X-MSMail-Priority: Normal',
+      'Importance: Normal',
+      'Message-ID: <' + Date.now() + '-lya@linkyourart.com>',
+      'List-Unsubscribe: <mailto:contact@linkyourart.com?subject=unsubscribe>',
       '', b64(cfg.html), '.'
     ].join('\r\n');
     const handle = (line) => {
       const c = parseInt(line.slice(0, 3));
       if (c >= 400) return fail(line.trim());
-      if (step === 0 && c === 220) { step++; w('EHLO lya.com'); }
+      if (step === 0 && c === 220) { step++; w('EHLO linkyourart.com'); }
       else if (step === 1 && c === 250) { step++; w('STARTTLS'); }
       else if (step === 2 && c === 220 && !upgraded) {
         step++;
         const plain = sock;
         sock = tls.connect({ socket: plain, host: cfg.host, rejectUnauthorized: false }, () => {
-          upgraded = true; sock.on('data', onData); w('EHLO lya.com');
+          upgraded = true; sock.on('data', onData); w('EHLO linkyourart.com');
         });
         sock.on('error', fail);
       }
