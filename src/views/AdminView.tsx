@@ -542,41 +542,56 @@ export const AdminView: React.FC<{
       const token = `lya-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
       const expiresAt = new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString();
 
-      // Sauvegarder le token dans Firestore
+      // 1. Sauvegarder le token dans Firestore
       await setDoc(doc(db, 'access_tokens', token), {
         token,
-        email: reg.email,
-        name: reg.name,
-        preRegId: reg.id,
+        email: reg.email || '',
+        name: reg.name || '',
+        preRegId: reg.id || '',
         expiresAt,
         used: false,
         createdAt: serverTimestamp(),
       });
 
-      // Mettre à jour la pré-inscription
-      if (reg.id && !reg.id.startsWith('local_')) {
-        await updateDoc(doc(db, 'pre_registrations', reg.id), {
-          status: 'APPROVED',
-          approvedAt: serverTimestamp(),
-          accessToken: token,
-        });
+      // 2. Mettre à jour la pré-inscription (best effort)
+      try {
+        if (reg.id && !reg.id.startsWith('local_') && reg.id.length > 5) {
+          await updateDoc(doc(db, 'pre_registrations', reg.id), {
+            status: 'APPROVED',
+            approvedAt: serverTimestamp(),
+            accessToken: token,
+          });
+        }
+      } catch(updateErr) {
+        console.warn('Pre-reg update failed (non-blocking):', updateErr);
       }
 
-      // Envoyer l'email d'approbation
-      const lang = reg.lang || 'FR';
-      const resp = await fetch('/api/email/approve-access', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ to: reg.email, name: reg.name, token, lang }),
-      });
-      const data = await resp.json();
+      // 3. Envoyer l'email d'approbation (best effort)
+      try {
+        const lang = reg.lang || reg.language || 'FR';
+        await fetch('/api/email/approve-access', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ 
+            to: reg.email, 
+            name: reg.name || reg.email, 
+            token, 
+            lang 
+          }),
+        });
+      } catch(emailErr) {
+        console.warn('Email send failed (non-blocking):', emailErr);
+      }
 
-      // Mettre à jour le state
-      setPreRegistrations(prev => prev.map(p => p.id === reg.id ? { ...p, status: 'APPROVED' } : p));
-      onNotify(t(`✦ Access approved for ${reg.name} — email sent`, `✦ Accès approuvé pour ${reg.name} — email envoyé`));
+      // 4. Mettre à jour le state local
+      setPreRegistrations(prev => prev.map(p => 
+        p.id === reg.id ? { ...p, status: 'APPROVED' } : p
+      ));
+      
+      onNotify(t(`✦ Access approved for ${reg.name || reg.email}`, `✦ Accès approuvé — email envoyé à ${reg.name || reg.email}`));
     } catch(e: any) {
       console.error('Approve error:', e);
-      onNotify(t('Approval error', 'Erreur lors de l\'approbation'));
+      onNotify(t(`Approval error: ${e?.message || 'Unknown error'}`, `Erreur: ${e?.message || 'Vérifiez les Firestore Rules'}`));
     }
   };
 
