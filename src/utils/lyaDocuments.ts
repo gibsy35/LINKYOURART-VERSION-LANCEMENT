@@ -38,7 +38,7 @@ function lyaFooter(contract: Contract, lang: string): string {
         <div class="footer-left">
           <span class="footer-brand">LINKYOURART</span>
           <span class="footer-address">contact@linkyourart.com · linkyourart.com</span>
-          <span class="footer-legal">${isFR ? 'Document officiel LinkYourArt — Reproduction interdite sans autorisation' : 'Official LinkYourArt document — Reproduction prohibited without authorization'}</span>
+          <span class="footer-legal">${isFR ? 'Document officiel LinkYourArt, marque de LINKYOURART SASU — Reproduction interdite sans autorisation' : 'Official LinkYourArt document, trademark of LINKYOURART SASU — Reproduction prohibited without authorization'}</span>
         </div>
         <div class="footer-right">
           <span class="footer-date">${isFR ? 'Émis le' : 'Issued'} ${now.toLocaleDateString(isFR ? 'fr-FR' : 'en-US', { day: '2-digit', month: 'long', year: 'numeric' })}</span>
@@ -567,7 +567,7 @@ export function generateLegalTerms(contract: Contract, lang: string) {
     </div>
 
     <div class="highlight-box">
-      <p><strong>${isFR ? 'Document officiel LinkYourArt' : 'Official LinkYourArt document'}</strong> — ${isFR ? 'Ce document constitue les conditions contractuelles légales régissant les LYA Units émises dans le cadre du projet créatif référencé ci-dessus. Il est émis par LinkYourArt et conservé dans le Registre Officiel LYA.' : 'This document constitutes the legal contractual conditions governing the LYA Units issued in connection with the above-referenced creative project. It is issued by LinkYourArt and maintained in the Official LYA Registry.'}</p>
+      <p><strong>${isFR ? 'Document officiel LinkYourArt' : 'Official LinkYourArt document'}</strong> — ${isFR ? 'Ce document constitue les conditions contractuelles légales régissant les LYA Units émises dans le cadre du projet créatif référencé ci-dessus. Il est émis par LinkYourArt, marque de LINKYOURART SASU, et conservé dans le Registre Officiel LYA.' : 'This document constitutes the legal contractual conditions governing the LYA Units issued in connection with the above-referenced creative project. It is issued by LinkYourArt, marque de LINKYOURART SASU, and maintained in the Official LYA Registry.'}</p>
     </div>
 
     <div class="legal-text">

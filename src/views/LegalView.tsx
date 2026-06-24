@@ -90,7 +90,7 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify, onViewChan
       sections: [
         {
           title: t('1. Identity', '1. Identité'),
-          text: t('LYA Ltd, based in READING, United Kingdom. Founded by Jean-Baptiste LEQUIME. LYA is an independent platform dedicated to the creative economy. Contact: contact@linkyourart.com', 'LYA Ltd, basé à READING, United Kingdom. Fondée par Jean-Baptiste LEQUIME. LYA est une plateforme indépendante dédiée à l\'économie créative. Contact : contact@linkyourart.com')
+          text: t('LINKYOURART SASU, based in READING, United Kingdom. Founded by Jean-Baptiste LEQUIME. LINKYOURART SASU is an independent platform dedicated to the creative economy. Contact: contact@linkyourart.com', 'LINKYOURART SASU, basé à READING, United Kingdom. Fondée par Jean-Baptiste LEQUIME. LINKYOURART SASU est une plateforme indépendante dédiée à l\'économie créative. Contact : contact@linkyourart.com')
         },
         {
           title: t('2. Hosting', '2. Hébergement'),
@@ -98,7 +98,7 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify, onViewChan
         },
         {
           title: t('3. Intellectual Property', '3. Propriété Intellectuelle'),
-          text: t('All content on LinkYourArt (logo, name, design, LYA Score algorithm, LYA Unit system) is the exclusive property of LYA Ltd. Any reproduction, even partial, is prohibited without prior written authorization. Creative projects registered on the platform remain the exclusive property of their creators.', 'Tous les contenus de LinkYourArt (logo, nom, design, algorithme LYA Score, système LYA Unit) sont la propriété exclusive de LYA Ltd. Toute reproduction, même partielle, est interdite sans autorisation écrite préalable. Les projets créatifs enregistrés sur la plateforme restent la propriété exclusive de leurs créateurs.')
+          text: t('All content on LinkYourArt (logo, name, design, LYA Score algorithm, LYA Unit system) is the exclusive property of LINKYOURART SASU. Any reproduction, even partial, is prohibited without prior written authorization. Creative projects registered on the platform remain the exclusive property of their creators.', 'Tous les contenus de LinkYourArt (logo, nom, design, algorithme LYA Score, système LYA Unit) sont la propriété exclusive de LINKYOURART SASU. Toute reproduction, même partielle, est interdite sans autorisation écrite préalable. Les projets créatifs enregistrés sur la plateforme restent la propriété exclusive de leurs créateurs.')
         },
         {
           title: t('4. Personal Data & GDPR', '4. Données Personnelles & RGPD'),
