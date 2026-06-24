@@ -411,7 +411,7 @@ export const ExchangeView: React.FC<ExchangeViewProps> = ({
                   key={contract.id}
                   contract={contract}
                   onSelect={(c) => onSelectContract(c)}
-                  onTrade={(c, type) => { if (type === 'BUY') onOpenOffer(c); else onOpenTransfer(c); }}
+                  onTrade={(c, type) => { if (type === 'BUY') onNotify(t('Coming soon — Stripe integration in progress', 'Bientôt disponible — Intégration Stripe en cours')); else onOpenTransfer(c); }}
                   onToggleWatchlist={onToggleWatchlist}
                   isWatchlisted={watchlist.includes(contract.id)}
                   comparisonList={comparisonList}

@@ -174,7 +174,7 @@ export const HoldingsView: React.FC<{ onNotify: (msg: string) => void; userContr
           </div>
           <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
              <button 
-               onClick={() => onViewChange('PAYMENT')}
+               onClick={() => onNotify(t('Coming soon — Stripe integration in progress', 'Bientôt disponible — Intégration Stripe en cours'))}
                className="py-3 bg-primary-cyan text-surface-dim text-xs font-black uppercase tracking-widest rounded-xl hover:bg-white transition-all shadow-xl active:scale-95"
              >
                {t('DEPOSIT', 'DÉPOSER')}

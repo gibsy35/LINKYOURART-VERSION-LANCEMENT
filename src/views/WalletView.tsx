@@ -124,7 +124,7 @@ export const WalletView: React.FC<WalletViewProps> = ({ user, onNotify, onViewCh
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               <button 
-                onClick={() => onViewChange('PAYMENT')}
+                onClick={() => onNotify(t('Coming soon — Stripe integration in progress', 'Bientôt disponible — Intégration Stripe en cours'))}
                 className="flex flex-col items-center justify-center gap-2 p-4 sm:p-6 bg-primary-cyan text-surface-dim rounded-3xl hover:bg-white transition-all shadow-xl active:scale-95 group"
               >
                 <Plus size={24} />
@@ -276,7 +276,7 @@ export const WalletView: React.FC<WalletViewProps> = ({ user, onNotify, onViewCh
             </div>
           </div>
           <button 
-            onClick={() => onViewChange('PAYMENT')}
+            onClick={() => onNotify(t('Coming soon — Stripe integration in progress', 'Bientôt disponible — Intégration Stripe en cours'))}
             className="border-2 border-dashed border-white/10 rounded-[2rem] aspect-[1.6/1] flex flex-col items-center justify-center gap-4 hover:border-primary-cyan transition-all group"
           >
             <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-primary-cyan group-hover:text-surface-dim transition-all">

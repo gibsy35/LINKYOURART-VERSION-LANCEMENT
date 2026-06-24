@@ -293,18 +293,18 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
             <span className="text-[10px] font-black text-white/20 uppercase tracking-widest leading-none mb-1">LYA UNIT VALUE</span>
             <span className="text-xl font-black font-headline text-emerald-400 leading-none">{formatPrice(contract.unitValue)}</span>
           </div>
-          <button 
-            onClick={() => onTrade(contract, 'BUY')}
-            className="px-6 py-3 bg-emerald-500 text-surface-dim rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-white transition-all shadow-lg"
-          >
-            {t('BUY UNITS', 'ACHETER UNITÉS')}
-          </button>
-          <button 
-            onClick={() => onTrade(contract, 'SELL')}
-            className="px-6 py-3 bg-white/5 border border-white/10 text-white rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-rose-500 hover:text-white transition-all"
-          >
-            {t('SELL UNITS', 'VENDRE UNITÉS')}
-          </button>
+          <div className="flex flex-col gap-2 w-full">
+            <button 
+              disabled
+              className="px-6 py-3 bg-emerald-500/20 border border-emerald-500/30 text-emerald-400/50 rounded-xl font-black text-[10px] uppercase tracking-widest cursor-not-allowed"
+              title={t('Available soon', 'Disponible prochainement')}
+            >
+              {t('ACQUISITION — COMING SOON', 'ACQUISITION — BIENTÔT DISPONIBLE')}
+            </button>
+            <p className="text-[9px] text-white/20 text-center font-black uppercase tracking-widest">
+              {t('Beta phase — Payments opening soon', 'Phase bêta — Paiements disponibles prochainement')}
+            </p>
+          </div>
           <button 
             onClick={(e) => onToggleWatchlist?.(e, contract.id)}
             className={`w-12 h-12 rounded-xl flex items-center justify-center border transition-all ${isWatchlisted ? 'bg-accent-gold border-accent-gold text-surface-dim' : 'bg-white/5 border-white/10'}`}
