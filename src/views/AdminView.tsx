@@ -538,6 +538,15 @@ export const AdminView: React.FC<{
 
   // Approuver une pré-inscription — envoie un email avec lien d'accès unique
   const handleApproveAccess = async (reg: any) => {
+    // Validation des données minimales
+    const email = reg.email || reg.Email || '';
+    const name = reg.name || reg.Name || reg.prenom || email.split('@')[0] || 'Member';
+    
+    if (!email) {
+      onNotify(t('Missing email for this registration', 'Email manquant pour cette pré-inscription'));
+      return;
+    }
+
     try {
       const token = `lya-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
       const expiresAt = new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString();
@@ -545,8 +554,8 @@ export const AdminView: React.FC<{
       // 1. Sauvegarder le token dans Firestore
       await setDoc(doc(db, 'access_tokens', token), {
         token,
-        email: reg.email || '',
-        name: reg.name || '',
+        email,
+        name,
         preRegId: reg.id || '',
         expiresAt,
         used: false,
@@ -573,8 +582,8 @@ export const AdminView: React.FC<{
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ 
-            to: reg.email, 
-            name: reg.name || reg.email, 
+            to: email, 
+            name, 
             token, 
             lang 
           }),
@@ -588,7 +597,7 @@ export const AdminView: React.FC<{
         p.id === reg.id ? { ...p, status: 'APPROVED' } : p
       ));
       
-      onNotify(t(`✦ Access approved for ${reg.name || reg.email}`, `✦ Accès approuvé — email envoyé à ${reg.name || reg.email}`));
+      onNotify(t(`✦ Access approved for ${name}`, `✦ Accès approuvé — email envoyé à ${name}`));
     } catch(e: any) {
       console.error('Approve error FULL:', JSON.stringify(e), e?.code, e?.message);
       onNotify(t(
@@ -1323,7 +1332,7 @@ export const AdminView: React.FC<{
                               ].map((doc, dIdx) => (
                                 <div 
                                   key={dIdx}
-                                  onClick={() => onNotify(t('✦ Document de conformité ouvert','✦ Document de conformité ouvert'))}
+                                  onClick={() => onNotify(t('✦ Document de conformité ouvert', '✦ Document de conformité ouvert'))}
                                   className="p-4 bg-white/[0.02] hover:bg-primary-cyan/[0.03] border border-white/5 hover:border-primary-cyan/30 rounded-xl cursor-pointer transition-all flex items-center justify-between group"
                                 >
                                   <div className="flex items-center gap-3">

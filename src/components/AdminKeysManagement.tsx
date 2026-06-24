@@ -251,7 +251,7 @@ export const AdminKeysManagement: React.FC = () => {
             <Database className="text-primary-cyan" size={18} />
             <span className="text-[10px] bg-emerald-500/10 text-emerald-400 font-mono px-1.5 py-0.5 rounded uppercase font-bold">100% HEALTH</span>
           </div>
-          <span className="text-sm font-black text-white">0 {t('incident détecté', 'incident detected')}</span>
+          <span className="text-sm font-black text-white">0 {t('incident detected', 'incident détecté')}</span>
           <p className="text-xs text-white/40 uppercase tracking-widest mt-1">{t('System operational', 'Système opérationnel')}</p>
         </div>
       </div>

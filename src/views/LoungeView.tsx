@@ -347,7 +347,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
       attendees: 43,
       slots: 7,
       description: t('A closed-door discussion on the legal frameworks governing AI-generated creative projects.', 'Une discussion à huis clos sur les cadres juridiques régissant les projets créatifs générés par l\'IA.'),
-      highlights: [t('Copyright Law', 'Droit d\'Auteur'), t('Neural Validation', 'Validation Neurale'), t('Smart Contract IP', 'PI via Smart Contract')],
+      highlights: [t('Copyright Law', 'Droit d\'Auteur'), t('Neural Validation', 'Validation Neurale'), t('Creative Contract IP', 'PI via Creative Contract')],
       speakers: [
         { name: 'Sarah Jenkins', role: t('IP Attorney', 'Avocate en PI'), avatar: 'https://i.pravatar.cc/150?u=sarah' }
       ],
@@ -637,7 +637,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
     { tag: t('Professional Liquidity', 'Liquidité Professionnelle'), insights: 42, trend: '-5%' },
     { tag: t('Global Art Index', 'Indice Mondial de l\'Art'), insights: 38, trend: '+22%' },
     { tag: t('Tokenized Cinema', 'Cinéma Tokenisé'), insights: 31, trend: '+15%' },
-    { tag: t('Smart IP Contracts', 'Smart Contracts de PI'), insights: 27, trend: '+10%' }
+    { tag: t('Smart IP Contracts', 'Creative Contracts de PI'), insights: 27, trend: '+10%' }
   ];
 
   // Access Control: Only Admin or Pro users can access the Lounge

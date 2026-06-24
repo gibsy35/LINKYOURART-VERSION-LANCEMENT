@@ -504,7 +504,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
                 <button 
                   onClick={()=>{
   try { navigator.clipboard.writeText(window.location.href); } catch(e){}
-  onNotify(t('✦ Lien copié','✦ Link copied'));
+  onNotify(t('✦ Link copied', '✦ Lien copié'));
 }}
                   className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white hover:bg-white/10 transition-all backdrop-blur-md"
                 >
@@ -514,7 +514,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
                   onClick={async()=>{
   try {
     await addDoc(collection(db,'saved_articles'),{title:activeItem.title,summary:activeItem.summary,source:activeItem.source,imageUrl:activeItem.imageUrl,savedAt:serverTimestamp()});
-    onNotify(t('✦ Article sauvegardé','✦ Article saved'));
+    onNotify(t('✦ Article saved', '✦ Article sauvegardé'));
   } catch(e){onNotify(t('Erreur réseau','Network error'));}
 }}
                   className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white hover:bg-white/10 transition-all backdrop-blur-md"
@@ -706,7 +706,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
                             onClick={async()=>{
   try {
     await addDoc(collection(db,'saved_articles'),{title:selectedNews?.title,summary:selectedNews?.summary,source:selectedNews?.source,imageUrl:selectedNews?.imageUrl,savedAt:serverTimestamp()});
-    onNotify(t('✦ Article sauvegardé','✦ Article saved'));
+    onNotify(t('✦ Article saved', '✦ Article sauvegardé'));
   } catch(e){onNotify(t('Erreur réseau','Network error'));}
 }}
                             className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant hover:text-primary-cyan transition-colors flex items-center gap-2"
