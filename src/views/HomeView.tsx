@@ -1239,7 +1239,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
                 { 
                   id: '03', 
                   title: t('Creative Market', 'Marché Créatif'), 
-                  desc: t('Buy, sell or support creative projects and receive a share of their revenues. Your LYA Units evolve with the project.', 'Soutenez des projets créatifs et percevez une part de leurs revenus. Vos LYA Units évoluent avec le projet.'),
+                  desc: t('Support creative projects and participate in their valuation. Your LYA Units evolve with the project milestones.', 'Soutenez des projets créatifs et participez à leur valorisation. Vos LYA Units évoluent avec les jalons du projet.'),
                   icon: <Zap size={24} />
                 },
                 { 
