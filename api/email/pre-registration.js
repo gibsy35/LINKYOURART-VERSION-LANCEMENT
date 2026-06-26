@@ -116,7 +116,7 @@ function buildEmail(name, position, referralCode, referralLink, lang) {
           </p>
         </td>
         <td align="right" style="vertical-align:top">
-          <span style="display:inline-block;background:rgba(0,212,255,0.12);border:1px solid rgba(0,212,255,0.35);border-radius:30px;padding:7px 16px;font-size:11px;font-weight:900;color:#00d4ff;text-transform:uppercase;letter-spacing:0.12em;white-space:nowrap">✦ LYA ORIGINALS</span>
+          <span style="display:inline-block;background:rgba(245,200,66,0.12);border:1px solid rgba(245,200,66,0.35);border-radius:30px;padding:7px 16px;font-size:11px;font-weight:900;color:#f5c842;text-transform:uppercase;letter-spacing:0.12em;white-space:nowrap">✦ LYA ORIGINALS</span>
         </td>
       </tr>
     </table>
@@ -124,7 +124,7 @@ function buildEmail(name, position, referralCode, referralLink, lang) {
 
   <!-- HERO -->
   <tr><td style="background:linear-gradient(135deg,#0d1117 0%,#1a2332 60%,#0f1923 100%);padding:0 48px 56px;text-align:center">
-    <div style="display:inline-block;width:72px;height:72px;background:rgba(0,212,255,0.10);border:1.5px solid rgba(0,212,255,0.30);border-radius:18px;line-height:72px;font-size:32px;margin-bottom:28px">✦</div>
+    <div style="display:inline-block;width:72px;height:72px;background:rgba(245,200,66,0.10);border:1.5px solid rgba(245,200,66,0.30);border-radius:18px;line-height:72px;font-size:32px;margin-bottom:28px;color:#f5c842">✦</div>
     <h1 style="margin:0 0 12px;font-size:36px;font-weight:900;color:#ffffff;letter-spacing:-0.02em;line-height:1.15">
       ${isFR ? `Bienvenue,<br>${name} !` : `Welcome,<br>${name}!`}
     </h1>
@@ -264,7 +264,7 @@ function buildEmail(name, position, referralCode, referralLink, lang) {
           </p>
         </td>
         <td align="right" style="vertical-align:top">
-          <p style="margin:0;font-size:22px;font-weight:900;color:#00d4ff">✦</p>
+          <p style="margin:0;font-size:22px;font-weight:900;color:#f5c842">✦</p>
         </td>
       </tr>
     </table>
