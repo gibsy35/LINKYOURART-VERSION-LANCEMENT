@@ -538,73 +538,58 @@ export const AdminView: React.FC<{
 
   // Approuver une pré-inscription — envoie un email avec lien d'accès unique
   const handleApproveAccess = async (reg: any) => {
-    // Validation des données minimales
-    const email = reg.email || reg.Email || '';
-    const name = reg.name || reg.Name || reg.prenom || email.split('@')[0] || 'Member';
-    
+    const email = (reg.email || reg.Email || '').trim();
+    const name = (reg.name || reg.Name || reg.firstName || email.split('@')[0] || 'Member').trim();
+
     if (!email) {
-      onNotify(t('Missing email for this registration', 'Email manquant pour cette pré-inscription'));
+      onNotify(t('Missing email', 'Email manquant pour cette inscription'));
       return;
     }
 
-    try {
-      const token = `lya-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
-      const expiresAt = new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString();
+    // Feedback immédiat
+    onNotify(t(`Processing approval for ${name}...`, `Approbation de ${name} en cours...`));
 
-      // 1. Sauvegarder le token dans Firestore
+    const token = `lya-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+    const expiresAt = new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString();
+    const baseUrl = 'https://linkyourart.com';
+
+    // ÉTAPE 1 — Créer le token (critique)
+    try {
       await setDoc(doc(db, 'access_tokens', token), {
-        token,
-        email,
-        name,
+        token, email, name,
         preRegId: reg.id || '',
-        expiresAt,
-        used: false,
+        expiresAt, used: false,
         createdAt: serverTimestamp(),
       });
-
-      // 2. Mettre à jour la pré-inscription (best effort)
-      try {
-        if (reg.id && !reg.id.startsWith('local_') && reg.id.length > 5) {
-          await updateDoc(doc(db, 'pre_registrations', reg.id), {
-            status: 'APPROVED',
-            approvedAt: serverTimestamp(),
-            accessToken: token,
-          });
-        }
-      } catch(updateErr) {
-        console.warn('Pre-reg update failed (non-blocking):', updateErr);
-      }
-
-      // 3. Envoyer l'email d'approbation (best effort)
-      try {
-        const lang = reg.lang || reg.language || 'FR';
-        await fetch('/api/email/approve-access', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ 
-            to: email, 
-            name, 
-            token, 
-            lang 
-          }),
-        });
-      } catch(emailErr) {
-        console.warn('Email send failed (non-blocking):', emailErr);
-      }
-
-      // 4. Mettre à jour le state local
-      setPreRegistrations(prev => prev.map(p => 
-        p.id === reg.id ? { ...p, status: 'APPROVED' } : p
-      ));
-      
-      onNotify(t(`✦ Access approved for ${name}`, `✦ Accès approuvé — email envoyé à ${name}`));
     } catch(e: any) {
-      console.error('Approve error FULL:', JSON.stringify(e), e?.code, e?.message);
-      onNotify(t(
-        `Error: ${e?.code || e?.message || 'Check console for details'}`,
-        `Erreur: ${e?.code || e?.message || 'Voir la console pour les détails'}`
-      ));
+      onNotify(t(`Error creating token: ${e?.code || e?.message}`, `Erreur token: ${e?.code || e?.message}`));
+      return;
     }
+
+    // ÉTAPE 2 — Marquer approuvé (non-bloquant)
+    if (reg.id && !String(reg.id).startsWith('local_')) {
+      try {
+        await updateDoc(doc(db, 'pre_registrations', reg.id), {
+          status: 'APPROVED', approvedAt: serverTimestamp(), accessToken: token,
+        });
+      } catch(e) { console.warn('Status update failed:', e); }
+    }
+
+    // ÉTAPE 3 — Envoyer email (non-bloquant)
+    try {
+      const lang = reg.lang || reg.language || 'FR';
+      const resp = await fetch('/api/email/approve-access', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ to: email, name, token, lang, accessUrl: `${baseUrl}?access=${token}` }),
+      });
+      const data = await resp.json();
+      if (!data.success) console.warn('Email warning:', data.error);
+    } catch(e) { console.warn('Email failed:', e); }
+
+    // SUCCÈS
+    setPreRegistrations(prev => prev.map(p => p.id === reg.id ? { ...p, status: 'APPROVED' } : p));
+    onNotify(t(`✦ ${name} approved — access link sent to ${email}`, `✦ ${name} approuvé — lien envoyé à ${email}`));
   };
 
   const handleDeleteUser = async (uid: string, displayName: string) => {
