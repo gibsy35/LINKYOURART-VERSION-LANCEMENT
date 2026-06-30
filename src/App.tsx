@@ -48,7 +48,7 @@ import { IssuerProfileView } from './views/IssuerProfileView';
 import { AdminView } from './views/AdminView';
 import { MecenatView } from './views/MecenatView';
 import { PendingApprovalView } from './views/PendingApprovalView';
-import { BrochureAccess } from './views/BrochureAccess';
+import BrochureAccess from './views/BrochureAccess';
 import { OfferModal, TransferModal } from './components/TransactionModals';
 import { AuthModal } from './components/auth/AuthModal';
 import { ConceptTutorial } from './components/ConceptTutorial';
