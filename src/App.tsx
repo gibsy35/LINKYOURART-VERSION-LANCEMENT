@@ -1,15 +1,12 @@
-
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { CONTRACTS, ACTIVITIES, INITIAL_ORDERS, Contract, Order, Activity } from './types';
-
 import { Sidebar, View } from './components/ui/Sidebar';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { Topbar } from './components/ui/Topbar';
 import { Notification } from './components/ui/Notification';
 import { Logo } from './components/ui/Logo';
 import { ContractDetailModal, ProfessionalOnboardingModal, TradeModal } from './components/Modals';
-
 // Views
 import { LandingView } from './views/LandingView';
 import { DashboardView } from './views/DashboardView';
@@ -51,6 +48,7 @@ import { IssuerProfileView } from './views/IssuerProfileView';
 import { AdminView } from './views/AdminView';
 import { MecenatView } from './views/MecenatView';
 import { PendingApprovalView } from './views/PendingApprovalView';
+import { BrochureAccess } from './views/BrochureAccess';
 import { OfferModal, TransferModal } from './components/TransactionModals';
 import { AuthModal } from './components/auth/AuthModal';
 import { ConceptTutorial } from './components/ConceptTutorial';
@@ -67,30 +65,28 @@ import { useMarketData } from './hooks/useMarketData';
 import { auth, db, handleFirestoreError, OperationType, testConnection } from './firebase';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { doc, onSnapshot, getDoc, updateDoc, setDoc, collection, addDoc, serverTimestamp } from 'firebase/firestore';
-
 export default function App() {
   const { t, language } = useTranslation();
   const { contracts: liveContracts } = useMarketData();
   const [currentView, setCurrentView] = useState<View>('LANDING');
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [is404, setIs404] = useState(false);
-
   // Détecter les URLs inconnues pour afficher la page 404
   React.useEffect(() => {
     const path = window.location.pathname;
-    const knownPaths = ['/', '/app', '/home', '/login', '/signup', '/exchange', '/legal', '/about', '/pricing'];
+    const knownPaths = ['/', '/app', '/home', '/login', '/signup', '/exchange', '/legal', '/about', '/pricing', '/brochure'];
     const hasAccess = window.location.search.includes('access=');
-    if (path !== '/' && !knownPaths.includes(path) && !hasAccess) {
+    if (path === '/brochure') {
+      setCurrentView('BROCHURE');
+    } else if (path !== '/' && !knownPaths.includes(path) && !hasAccess) {
       setIs404(true);
     }
   }, []);
   const [previousView, setPreviousView] = useState<View>('HOME');
   const [user, _setUser] = useState<UserProfile | null>(null);
   const setUser = (u: UserProfile | null) => _setUser(u);
-
   // ── Role Simulator (Admin only) ────────────────────────────────────────
   const [simulatedRole, setSimulatedRole] = React.useState<SimulatedRole | null>(null);
-
   // effectiveUser: ce que la plateforme "voit" — vrai user sauf si admin simule
   const effectiveUser = React.useMemo<UserProfile | null>(() => {
     if (!user) return null;
@@ -101,7 +97,6 @@ export default function App() {
     }
     return user;
   }, [user, simulatedRole]);
-
   const handleUpdateUser = async (updatedData: Partial<UserProfile>) => {
     if (!user?.uid) return;
     
@@ -109,7 +104,6 @@ export default function App() {
       // Update local state immediately so avatar syncs everywhere instantly
       const merged = { ...user, ...updatedData };
       _setUser(merged);
-
       // Then persist to Firestore
       const userRef = doc(db, 'users', user.uid);
       await setDoc(userRef, updatedData, { merge: true });
@@ -120,7 +114,6 @@ export default function App() {
     }
   };
   const [isBackendConnected, setIsBackendConnected] = useState<boolean | null>(null);
-
   useEffect(() => {
     const checkConn = async () => {
       const isConnected = await testConnection();
@@ -128,14 +121,11 @@ export default function App() {
     };
     checkConn();
   }, []);
-
   const [quotaReached, setQuotaReached] = useState(false);
   const [internalError, setInternalError] = useState<string | null>(null);
-
   useEffect(() => {
     (window as any).lya_quota_reached = quotaReached;
   }, [quotaReached]);
-
   // Handle global errors
   useEffect(() => {
     const handleError = (error: any) => {
@@ -185,20 +175,16 @@ export default function App() {
       }
       originalError.apply(console, args);
     };
-
     const handleWindowError = (event: ErrorEvent) => handleError(event.error);
     const handleRejection = (event: PromiseRejectionEvent) => handleError(event.reason);
-
     window.addEventListener('error', handleWindowError);
     window.addEventListener('unhandledrejection', handleRejection);
-
     return () => {
       console.error = originalError;
       window.removeEventListener('error', handleWindowError);
       window.removeEventListener('unhandledrejection', handleRejection);
     };
   }, [t]);
-
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [orders, setOrders] = useState<Order[]>(INITIAL_ORDERS);
@@ -218,16 +204,13 @@ export default function App() {
     title: string;
     projectName?: string;
   } | null>(null);
-
   const [userContracts, setUserContracts] = useState<any[]>([]);
-
   useEffect(() => {
     const defaultHoldings = [
       { id: 'hold_1', projectId: 'LYA_FINE_ART_MASTER', projectName: 'RENAISSANCE REBORN', units: 1500, entryPrice: 42.50 },
       { id: 'hold_2', projectId: 'LYA_SKY_GARDENS', projectName: 'SKY GARDENS V4', units: 800, entryPrice: 48.00 },
       { id: 'hold_3', projectId: 'LYA_FUTURE_VOICE', projectName: 'THE FUTURE VOICE', units: 2500, entryPrice: 38.00 }
     ];
-
     if (user?.uid && !quotaReached) {
       const contractsRef = collection(db, 'users', user.uid, 'contracts');
       return onSnapshot(contractsRef, (snapshot) => {
@@ -248,9 +231,7 @@ export default function App() {
       setUserContracts(defaultHoldings);
     }
   }, [user?.uid, quotaReached]);
-
   const [activeIssuerId, setActiveIssuerId] = useState<string | null>(null);
-
   useEffect(() => {
     if (checkoutData) {
       if (currentView !== 'PAYMENT') {
@@ -262,7 +243,6 @@ export default function App() {
   const [isOfferModalOpen, setIsOfferModalOpen] = useState(false);
   const [isTransferModalOpen, setIsTransferModalOpen] = useState(false);
   const [transactionContract, setTransactionContract] = useState<Contract | null>(null);
-
   // Handle missing data for specific views (Page Vide fix)
   useEffect(() => {
     if (currentView === 'CONTRACT_DETAIL' && !viewingContract) {
@@ -275,7 +255,6 @@ export default function App() {
       setCurrentView('HOME');
     }
   }, [currentView, viewingContract, checkoutData, activeIssuerId]);
-
   const [usageStats, setUsageStats] = useState({
     simulator: 0,
     swipe: 0,
@@ -283,10 +262,8 @@ export default function App() {
     scan: 0,
     talent: 0
   });
-
   const [watchlist, setWatchlist] = useState<string[]>([]);
   const [comparisonList, setComparisonList] = useState<string[]>([]);
-
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
@@ -297,7 +274,6 @@ export default function App() {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
-
   const checkUsageLimit = (type: 'swipe' | 'compare' | 'simulator' | 'scan' | 'talent') => {
     const isPro = user?.role === UserRole.ADMIN || user?.role === UserRole.PROFESSIONAL || user?.isPro;
     if (isPro) return true;
@@ -310,7 +286,6 @@ export default function App() {
       scan: 3,
       talent: 3
     };
-
     const limit = limitMap[type];
     
     let currentCount = 0;
@@ -332,7 +307,6 @@ export default function App() {
     
     return true;
   };
-
   // Sync usageStats with lists
   useEffect(() => {
     setUsageStats(prev => ({
@@ -366,17 +340,14 @@ export default function App() {
       type: 'INFO'
     }
   ]);
-
   const [isAuthReady, setIsAuthReady] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [showConceptTutorial, setShowConceptTutorial] = useState(false);
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [isProfessionalChatActive, setIsProfessionalChatActive] = useState(false);
-
   // Live Notification Simulator — bilingue, basé sur données réelles
   useEffect(() => {
     if (isBooting) return;
-
     const buildEvents = () => {
       const lang = language === 'FR' ? 'FR' : 'EN';
       const T = (fr: string, en: string) => lang === 'FR' ? fr : en;
@@ -386,9 +357,7 @@ export default function App() {
       const fallingC = liveC.filter(c => c.growth < 0);
       const pick = (arr: typeof CONTRACTS) => arr[Math.floor(Math.random() * arr.length)];
       const lyaUnit = (g: number) => `$${(50 * (1 + g / 100)).toFixed(2)}`;
-
       const events: { title: string; message: string; type: 'INFO' | 'SUCCESS' | 'WARNING' }[] = [];
-
       if (user?.role === UserRole.CREATOR) {
         events.push(
           { title: T('NOUVEAU MÉCÈNE', 'NEW PATRON'), message: T('Un nouveau mécène a rejoint un de vos projets.', 'A new patron joined one of your projects.'), type: 'SUCCESS' },
@@ -429,7 +398,6 @@ export default function App() {
       }
       return events;
     };
-
     const timer = setTimeout(() => {
       const interval = setInterval(() => {
         if (Math.random() > 0.75) {
@@ -442,10 +410,8 @@ export default function App() {
       }, 18000);
       return () => clearInterval(interval);
     }, 8000);
-
     return () => clearTimeout(timer);
   }, [user, language, isBooting]);
-
   useEffect(() => {
     const handleTickerSelect = (e: Event) => {
       const contract = (e as CustomEvent).detail;
@@ -453,18 +419,14 @@ export default function App() {
       setCurrentView('CONTRACT_DETAIL');
     };
     const handleOpenTutorial = () => setShowConceptTutorial(true);
-
     const hasSeenTutorial = localStorage.getItem('lya_concept_tutorial_seen');
     if (!hasSeenTutorial) {
       setShowConceptTutorial(true);
     }
-
-
     const handleNavigate = (e: Event) => {
       const view = (e as CustomEvent).detail;
       setCurrentView(view);
     };
-
     const handleViewProject = (e: Event) => {
       const contractId = (e as CustomEvent).detail;
       const contract = CONTRACTS.find(c => c.id === contractId);
@@ -473,7 +435,6 @@ export default function App() {
         setCurrentView('PROJECT_PUBLIC');
       }
     };
-
     window.addEventListener('ticker-contract-select', handleTickerSelect);
     window.addEventListener('open-concept-tutorial', handleOpenTutorial);
     window.addEventListener('lya-navigate', handleNavigate);
@@ -485,10 +446,8 @@ export default function App() {
       window.removeEventListener('lya-view-project', handleViewProject);
     };
   }, []);
-
   useEffect(() => {
     let unsubscribeProfile: (() => void) | null = null;
-
     const unsubscribeAuth = onAuthStateChanged(auth, (firebaseUser) => {
       // Bail out if quota reached to avoid SDK crash
       if ((window as any).lya_quota_reached) {
@@ -501,7 +460,6 @@ export default function App() {
         unsubscribeProfile();
         unsubscribeProfile = null;
       }
-
       if (firebaseUser) {
         // Listen to user profile changes in Firestore
         const userDocRef = doc(db, 'users', firebaseUser.uid);
@@ -518,12 +476,10 @@ export default function App() {
                                  userEmail === 'admin@linkyourart.com' ||
                                  userEmail === 'superadmin@linkyourart.com' ||
                                  userEmail === 'linkyourart@ai.studio';
-
             if (isAdminEmail) {
               userData.role = UserRole.ADMIN;
               userData.isPro = true;
             }
-
             // Force isPro=true for Professional and Investor roles
             if (
               userData.role === UserRole.PROFESSIONAL ||
@@ -531,10 +487,8 @@ export default function App() {
             ) {
               userData.isPro = true;
             }
-
             // Caching user for quota recovery
             localStorage.setItem(`lya_user_${firebaseUser.uid}`, JSON.stringify(userData));
-
             if (isAdminEmail && (firebaseUser.metadata.lastSignInTime === firebaseUser.metadata.creationTime || !isAuthReady)) {
               setTimeout(() => {
                  addNotification(
@@ -560,7 +514,6 @@ export default function App() {
             if (userData.watchlist) setWatchlist(userData.watchlist);
             if (userData.comparisonList) setComparisonList(userData.comparisonList);
             if (userData.usageStats) setUsageStats(userData.usageStats);
-
             // ── Listener temps réel sur la watchlist ──────────────────────
             try {
               const watchlistRef = doc(db, 'watchlists', firebaseUser.uid);
@@ -616,7 +569,6 @@ export default function App() {
           
           // Clear error if it's quota
           handleFirestoreError(error, OperationType.GET, `users/${firebaseUser.uid}`);
-
           // Fallback even on failure
           const userEmail = firebaseUser.email?.toLowerCase().trim();
           const isAdmin = userEmail === 'linkyourart@gmail.com' || 
@@ -628,7 +580,6 @@ export default function App() {
                           userEmail === 'admin@linkyourart.com' ||
                           userEmail === 'superadmin@linkyourart.com' ||
                           userEmail === 'linkyourart@ai.studio';
-
           setUser({
             uid: firebaseUser.uid,
             email: firebaseUser.email || '',
@@ -644,42 +595,34 @@ export default function App() {
         setIsAuthReady(true);
       }
     });
-
     return () => {
       unsubscribeAuth();
       if (unsubscribeProfile) unsubscribeProfile();
     };
   }, []);
-
   // Enforce private platform restriction
   useEffect(() => {
     // If auth is not ready or we're booting, don't redirect yet
     if (!isAuthReady || isBooting) return;
-
     // Toujours accessibles sans login
     const publicViews: View[] = ['LANDING', 'LOGIN', 'SIGNUP', 'OUR_MODEL', 'FAQ', 'LEGAL_MENTIONS', 'TERMS', 'PRIVACY', 'LEGAL_REGISTRY'];
     // Accessibles en lecture seule (aperçu visiteur)
-    const previewViews: View[] = ['HOME', 'EXCHANGE', 'REGISTRY', 'PRICING', 'MECENAT'];
-
+    const previewViews: View[] = ['HOME', 'EXCHANGE', 'REGISTRY', 'PRICING', 'MECENAT', 'BROCHURE'];
     if (publicViews.includes(currentView)) return;
     if (previewViews.includes(currentView)) return;
-
     // Vue privée — login requis
     if (user) return;
-
     // Mode visiteur après déconnexion — rester sur HOME, ne pas renvoyer vers Landing
     if (sessionStorage.getItem('lya_visitor_mode') === 'true') {
       setCurrentView('HOME');
       return;
     }
-
     // Non connecté sur vue privée → HOME visiteur
     const timer = setTimeout(() => {
       if (!user) setCurrentView('HOME');
     }, 500);
     return () => clearTimeout(timer);
   }, [user, currentView, isAuthReady, isBooting]);
-
   const handleViewChange = (view: View) => {
     if (view === currentView) return;
     setIsTransitioning(true);
@@ -689,27 +632,22 @@ export default function App() {
       setIsTransitioning(false);
     }, 350);
   };
-
   const notify = (msg: string) => {
     setNotification(msg);
     setTimeout(() => setNotification(null), 3000);
   };
-
   const handleOpenIssuerProfile = (issuerId: string) => {
     setActiveIssuerId(issuerId);
     setCurrentView('ISSUER_PROFILE');
   };
-
   const handleOpenOffer = (contract: Contract) => {
     setTransactionContract(contract);
     setIsOfferModalOpen(true);
   };
-
   const handleOpenTransfer = (contract: Contract) => {
     setTransactionContract(contract);
     setIsTransferModalOpen(true);
   };
-
   const addNotification = (title: string, message: string, type: 'INFO' | 'SUCCESS' | 'WARNING' = 'INFO') => {
     const newNotif = {
       id: Math.random().toString(36).substr(2, 9),
@@ -722,7 +660,6 @@ export default function App() {
     setNotifications(prev => [newNotif, ...prev]);
     notify(title);
   };
-
   // Market Simulation
   useEffect(() => {
     if (isBooting) return;
@@ -732,7 +669,6 @@ export default function App() {
       const randomType = Math.random() > 0.5 ? 'BUY' : 'SELL';
       const randomPrice = randomContract.unitValue * (0.95 + Math.random() * 0.1);
       const randomVolume = Math.floor(Math.random() * 50) + 1;
-
       const simulatedOrder: Order = {
         id: `sim-${Math.random().toString(36).substr(2, 5)}`,
         contractId: randomContract.id,
@@ -742,20 +678,16 @@ export default function App() {
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
         status: 'OPEN'
       };
-
       setOrders(prev => [simulatedOrder, ...prev.slice(0, 49)]);
     }, 5000);
-
     return () => clearInterval(interval);
   }, [isBooting]);
-
   useEffect(() => {
     if (isAuthReady) {
       const timer = setTimeout(() => setIsBooting(false), 1000);
       return () => clearTimeout(timer);
     }
   }, [isAuthReady]);
-
   const handleOpenTrade = (contract: Contract, type: 'BUY' | 'SELL', price?: number, volume?: number) => {
     setTradingContract({ contract, type });
     setTradePrice(price || contract.unitValue);
@@ -764,7 +696,6 @@ export default function App() {
       notify(`ORDER SELECTED: ${type} @ $${price.toLocaleString()}`);
     }
   };
-
   const handlePlaceOrder = (contract: Contract, type: 'BUY' | 'SELL', price: number, volume: number) => {
     if (type === 'BUY') {
       if (!user) {
@@ -791,7 +722,6 @@ export default function App() {
       setTradingContract(null);
       return;
     }
-
     const newOrder: Order = {
       id: Math.random().toString(36).substr(2, 9),
       contractId: contract.id,
@@ -801,7 +731,6 @@ export default function App() {
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
       status: 'OPEN'
     };
-
     // Check for matching orders
     const matchingOrderIndex = orders.findIndex(o => 
       o.contractId === newOrder.contractId && 
@@ -809,7 +738,6 @@ export default function App() {
       o.status === 'OPEN' &&
       (newOrder.type === 'BUY' ? o.price <= newOrder.price : o.price >= newOrder.price)
     );
-
     if (matchingOrderIndex !== -1) {
       const matchedOrder = orders[matchingOrderIndex];
       const tradeActivity: Activity = {
@@ -820,7 +748,6 @@ export default function App() {
         volume: Math.min(newOrder.volume, matchedOrder.volume),
         price: matchedOrder.price
       };
-
       setActivities([tradeActivity, ...activities]);
       setUserTradeHistory([tradeActivity, ...userTradeHistory]);
       
@@ -838,27 +765,22 @@ export default function App() {
       setOrders([newOrder, ...orders]);
       notify('ORDER PLACED: EXECUTING SETTLEMENT...');
     }
-
     setTradingContract(null);
   };
-
   const cancelOrder = (id: string) => {
     setOrders(orders.filter(o => o.id !== id));
     notify('ORDER CANCELLED');
   };
-
   const handleExportOrders = () => {
     const filteredOrders = orders.filter(order => {
       const typeMatch = orderTypeFilter === 'ALL' || order.type === orderTypeFilter;
       const contractMatch = orderContractFilter === 'ALL' || order.contractId === orderContractFilter;
       return typeMatch && contractMatch;
     });
-
     if (filteredOrders.length === 0) {
       notify('NO ORDERS TO EXPORT');
       return;
     }
-
     const headers = ['ID', 'Contract ID', 'Type', 'Volume', 'Price', 'Timestamp', 'Status'];
     const csvContent = [
       headers.join(','),
@@ -872,7 +794,6 @@ export default function App() {
         order.status
       ].join(','))
     ].join('\n');
-
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
@@ -884,7 +805,6 @@ export default function App() {
     document.body.removeChild(link);
     notify('EXPORTING ORDERS TO CSV...');
   };
-
   const handleVerify = async (data: any) => {
     if (!user) return;
     setIsVerifying(true);
@@ -906,7 +826,6 @@ export default function App() {
       await updateDoc(userRef, {
         verificationStatus: 'PENDING'
       });
-
       setIsVerifying(false);
       setIsVerificationModalOpen(false);
       notify(t('DOSSIER SUBMITTED. OUR AGENTS WILL AUDIT YOUR PROFILE.', 'DOSSIER SOUMIS. NOS AGENTS VONT AUDITER VOTRE PROFIL.'));
@@ -916,24 +835,20 @@ export default function App() {
       setIsVerifying(false);
     }
   };
-
   const handleToggleWatchlist = async (e: React.MouseEvent | { stopPropagation: () => void }, contractId: string, force?: 'add' | 'remove') => {
     e.stopPropagation();
     if (!user) {
       notify(t('PLEASE SIGN IN TO MANAGE WATCHLIST', 'VEUILLEZ VOUS CONNECTER POUR GÉRER LA LISTE DE VEILLE'));
       return;
     }
-
     const isWatchlisted = watchlist.includes(contractId);
     
     // Limit check only when trying to ADD
     if ((force === 'add' && !isWatchlisted) || (!force && !isWatchlisted)) {
       if (!checkUsageLimit('swipe')) return;
     }
-
     let newWatchlist = [...watchlist];
     let action: 'added' | 'removed' | 'none' = 'none';
-
     if (force === 'add') {
       if (!isWatchlisted) {
         newWatchlist.push(contractId);
@@ -955,11 +870,9 @@ export default function App() {
     }
     
     if (action === 'none') return;
-
     // Update locally immediately
     setWatchlist(newWatchlist);
     notify(action === 'added' ? t('ADDED TO WATCHLIST', 'AJOUTÉ À LA LISTE DE VEILLE') : t('REMOVED FROM WATCHLIST', 'RETIRÉ DE LA LISTE DE VEILLE'));
-
     // Persistent update — collection dédiée + profil user
     try {
       // 1. Collection dédiée pour sync temps réel
@@ -978,13 +891,11 @@ export default function App() {
       setWatchlist(watchlist);
     }
   };
-
   const handleToggleComparison = async (contractId: string) => {
     if (!user) {
       notify(t('PLEASE SIGN IN TO COMPARE ASSETS', 'VEUILLEZ VOUS CONNECTER POUR COMPARER DES ACTIFS'));
       return;
     }
-
     const isCompared = comparisonList.includes(contractId);
     
     // Strict enforcement of 20 slots for standard users
@@ -993,15 +904,12 @@ export default function App() {
       setCurrentView('PRICING');
       return;
     }
-
     const nextList = isCompared 
       ? comparisonList.filter(id => id !== contractId)
       : [...comparisonList, contractId];
-
     // Update locally immediately
     setComparisonList(nextList);
     notify(isCompared ? t('REMOVED FROM COMPARISON', 'RETIRÉ DE LA COMPARAISON') : t('ADDED TO COMPARISON', 'AJOUTÉ À LA COMPARAISON'));
-
     try {
       await handleUpdateUser({
         comparisonList: nextList,
@@ -1013,7 +921,6 @@ export default function App() {
       setComparisonList(comparisonList);
     }
   };
-
   const handleUsageUpdate = (newStats: any) => {
     setUsageStats(newStats);
     if (user?.uid) {
@@ -1022,7 +929,6 @@ export default function App() {
       });
     }
   };
-
   const handleLogout = async () => {
     try {
       // Set visitor flag BEFORE signOut to prevent navigation guard from redirecting
@@ -1036,16 +942,13 @@ export default function App() {
       console.error('Logout Error:', err);
     }
   };
-
   const handleEnterDemo = () => {
     localStorage.setItem('lya_demo_access', 'true');
     setCurrentView('HOME');
     addNotification('DEMO ACCESS GRANTED', t('Welcome to the LYA Demo environment.', 'Bienvenue dans l\'environnement de démonstration LYA.'), 'SUCCESS');
   };
-
   const isAuthView = currentView === 'LOGIN' || currentView === 'SIGNUP';
   const isLandingView = currentView === 'LANDING';
-
   if (isBooting) {
     return (
       <div className="fixed inset-0 z-[1000] bg-surface-dim flex flex-col items-center justify-center">
@@ -1085,9 +988,7 @@ export default function App() {
       </div>
     );
   }
-
   const isPendingApproval = user && user.status === 'PENDING_APPROVAL' && !isLandingView && !isAuthView;
-
   if (isPendingApproval) {
     return (
       <div className="min-h-screen bg-black text-white relative flex flex-col selection:bg-primary-cyan/35">
@@ -1110,7 +1011,6 @@ export default function App() {
       </div>
     );
   }
-
   return (
     <div className="min-h-screen bg-surface-dim text-on-surface font-body selection:bg-primary-cyan/30 relative shadow-2xl overflow-x-hidden">
         <Notification message={notification} />
@@ -1125,14 +1025,12 @@ export default function App() {
           }}
           onLogout={handleLogout}
         />
-
         <AuthModal 
           isOpen={isAuthModalOpen} 
           onClose={() => setIsAuthModalOpen(false)} 
           onNotify={notify}
           setUser={setUser}
         />
-
         <ConceptTutorial 
           isOpen={showConceptTutorial && !isLandingView}
           onClose={() => {
@@ -1143,7 +1041,6 @@ export default function App() {
             }
           }}
         />
-
         {showOnboarding && user && (
           <OnboardingWizard
             onComplete={async (role) => {
@@ -1168,7 +1065,6 @@ export default function App() {
             }}
           />
         )}
-
         {!isAuthView && !isLandingView && currentView !== 'CONTRACT_DETAIL' && (
           <>
             <Sidebar 
@@ -1183,7 +1079,6 @@ export default function App() {
               isCollapsed={isSidebarCollapsed}
               onToggleCollapse={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
             />
-
             <Topbar 
               user={effectiveUser}
               onNotify={notify} 
@@ -1217,7 +1112,6 @@ export default function App() {
             />
           </>
         )}
-
         <main className={`transition-all duration-300 ${(!isAuthView && !isLandingView && currentView !== 'CONTRACT_DETAIL') ? (isSidebarCollapsed ? 'lg:ml-20' : 'lg:ml-72') : ''} ${(!isAuthView && !isLandingView && currentView !== 'CONTRACT_DETAIL') ? 'pt-8 pb-20' : ''} min-h-screen relative flex flex-col shadow-2xl overflow-hidden`}>
           <div className={`${['EXCHANGE', 'REGISTRY', 'WATCHLIST', 'SETTLEMENT', 'DASHBOARD'].includes(currentView) ? 'max-w-[2000px]' : 'max-w-[2000px]'} mx-auto w-full flex-1 flex flex-col relative ${(!isLandingView && currentView !== 'CONTRACT_DETAIL') ? 'px-4 md:px-6' : ''}`}>
             <ErrorBoundary name="View Carrier" resetKey={currentView}>
@@ -1286,7 +1180,7 @@ export default function App() {
               {currentView === 'PROFESSIONAL_DASHBOARD' && <ProfessionalDashboardView user={effectiveUser} onNotify={notify} onViewChange={handleViewChange} />}
               {currentView === 'PROJECT_PUBLIC' && <ProjectPublicView contractId={viewingContract?.id} onViewChange={handleViewChange} onNotify={notify} user={effectiveUser} />}
               {currentView === 'CREATOR_PROFILE' && <CreatorProfileView onViewChange={handleViewChange} onNotify={notify} user={effectiveUser} />}
-              {!['HOME','LANDING','DASHBOARD','EXCHANGE','VALIDATION','HOLDINGS','REGISTRY','LINK_ART','SETTLEMENT','LOUNGE','WALLET','SIGNUP','LOGIN','PROFILE','PRICING','SWIPE','MECENAT','WATCHLIST','SETTINGS','COMPARE','SOCIAL_FEED','PAYMENT','CONTRACT_DETAIL','TERMS','PRIVACY','LEGAL_REGISTRY','GOVERNANCE','API','ACADEMY','APPLY_VERIFICATION','ABOUT','TAX_OPTIMIZER','ADMIN_PANEL','ISSUER_PROFILE','OUR_MODEL','FAQ','LEGAL_MENTIONS','CREATOR_DASHBOARD','INVESTOR_DASHBOARD','PROFESSIONAL_DASHBOARD','PROJECT_PUBLIC','CREATOR_PROFILE'].includes(currentView) && (
+              {!['HOME','LANDING','DASHBOARD','EXCHANGE','VALIDATION','HOLDINGS','REGISTRY','LINK_ART','SETTLEMENT','LOUNGE','WALLET','SIGNUP','LOGIN','PROFILE','PRICING','SWIPE','MECENAT','BROCHURE','WATCHLIST','SETTINGS','COMPARE','SOCIAL_FEED','PAYMENT','CONTRACT_DETAIL','TERMS','PRIVACY','LEGAL_REGISTRY','GOVERNANCE','API','ACADEMY','APPLY_VERIFICATION','ABOUT','TAX_OPTIMIZER','ADMIN_PANEL','ISSUER_PROFILE','OUR_MODEL','FAQ','LEGAL_MENTIONS','CREATOR_DASHBOARD','INVESTOR_DASHBOARD','PROFESSIONAL_DASHBOARD','PROJECT_PUBLIC','CREATOR_PROFILE'].includes(currentView) && (
                 <NotFoundView onViewChange={handleViewChange} />
               )}
               {currentView === 'CONTRACT_DETAIL' && viewingContract && (
@@ -1432,6 +1326,9 @@ export default function App() {
               {currentView === 'MECENAT' && (
                 <MecenatView />
               )}
+              {currentView === 'BROCHURE' && (
+                <BrochureAccess />
+              )}
               {currentView === 'COMPARE' && (
                 <CompareView 
                   comparisonList={comparisonList}
@@ -1500,9 +1397,7 @@ export default function App() {
         </ErrorBoundary>
       </div>
     </main>
-
         <LYACopilot />
-
         <AnimatePresence mode="sync">
           {checkoutData && (
             <motion.div 
@@ -1529,7 +1424,6 @@ export default function App() {
             </motion.div>
           )}
         </AnimatePresence>
-
         {/* Modals */}
         <ContractDetailModal 
           isOpen={!!selectedContract}
@@ -1537,14 +1431,12 @@ export default function App() {
           onClose={() => setSelectedContract(null)}
           onTrade={handleOpenTrade}
         />
-
         <ProfessionalOnboardingModal 
           isOpen={isVerificationModalOpen} 
           onClose={() => setIsVerificationModalOpen(false)}
           onVerify={handleVerify}
           isVerifying={isVerifying}
         />
-
         <TradeModal 
           tradingContract={tradingContract}
           onClose={() => setTradingContract(null)}
@@ -1554,7 +1446,6 @@ export default function App() {
           tradePrice={tradePrice}
           setTradePrice={setTradePrice}
         />
-
         <OfferModal 
           isOpen={isOfferModalOpen} 
           onClose={() => setIsOfferModalOpen(false)} 
@@ -1565,7 +1456,6 @@ export default function App() {
           onClose={() => setIsTransferModalOpen(false)} 
           contract={transactionContract} 
         />
-
         {!isLandingView && !isAuthView && (
           <footer className={`transition-all duration-300 ${isSidebarCollapsed ? 'lg:ml-16' : 'lg:ml-64'} py-8 border-t border-white/5 bg-surface-dim/80 backdrop-blur-md flex flex-col md:flex-row justify-between items-center px-12 gap-4`}>
             <div className="font-body text-[10px] uppercase tracking-widest text-on-surface-variant opacity-40">
@@ -1590,7 +1480,6 @@ export default function App() {
             </div>
           </footer>
         )}
-
         {/* Role Simulator — Admin only, always real user check */}
         {user?.role === UserRole.ADMIN && (
           <RoleSimulatorBar
