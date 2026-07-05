@@ -424,8 +424,8 @@ const DiagnosticConsole: React.FC<{ lang: 'FR' | 'EN'; onNotify: (msg: string) =
     onNotify(T('Diagnostic en cours...', 'Running diagnostic...'));
 
     setTimeout(() => {
-      const base = selected.totalScore / 10; // 0-100
-      const critAvg = (criteria.originality + criteria.commercialPotential + criteria.rights + criteria.coproduction) / 4;
+      const base = selected.totalScore; // 0-1000
+      const critAvg = (criteria.originality + criteria.commercialPotential + criteria.rights + criteria.coproduction) / 4 * 10; // 0-1000
       const finalScore = Math.round((base * 0.6 + critAvg * 0.4));
       
       const details: string[] = [
@@ -437,7 +437,7 @@ const DiagnosticConsole: React.FC<{ lang: 'FR' | 'EN'; onNotify: (msg: string) =
         `${T('Catégorie', 'Category')}: ${selected.category}`,
       ];
 
-      const status = finalScore >= 70 ? 'ELIGIBLE' : finalScore >= 50 ? 'REVIEW' : 'REJECTED';
+      const status = finalScore >= 700 ? 'ELIGIBLE' : finalScore >= 500 ? 'REVIEW' : 'REJECTED';
       setResult({ score: finalScore, status, details });
       setRunning(false);
       onNotify(status === 'ELIGIBLE'
@@ -453,7 +453,7 @@ const DiagnosticConsole: React.FC<{ lang: 'FR' | 'EN'; onNotify: (msg: string) =
 
   const chartData = result ? Array.from({ length: 8 }, (_, i) => ({
     name: `t${i}`,
-    value: Math.round(result.score * (0.5 + (i / 8) * 0.5) + (Math.random() - 0.5) * 8),
+    value: Math.round(result.score * (0.5 + (i / 8) * 0.5) + (Math.random() - 0.5) * 80),
   })) : [];
 
   return (
@@ -568,12 +568,11 @@ const DiagnosticConsole: React.FC<{ lang: 'FR' | 'EN'; onNotify: (msg: string) =
                 result.status === 'REVIEW'   ? 'bg-accent-gold/8 border-accent-gold/25' :
                                                'bg-rose-400/8 border-rose-400/25'
               }`}>
-                <p className="text-xs font-bold uppercase tracking-widest text-on-surface-variant/50 mb-1">{T('Score de diagnostic LYA', 'LYA diagnostic score')}</p>
+                <p className="text-xs font-bold uppercase tracking-widest text-on-surface-variant/50 mb-1">{T('Score de qualification LYA', 'LYA qualification score')}</p>
                 <p className={`text-5xl font-black font-mono ${
                   result.status === 'ELIGIBLE' ? 'text-emerald-400' :
                   result.status === 'REVIEW'   ? 'text-accent-gold' : 'text-rose-400'
-                }`}>{result.score}<span className="text-xl text-on-surface-variant/30">/100</span>
-                <p className="text-[9px] text-white/25 font-mono mt-1 uppercase tracking-widest">{T('Score diagnostic composite', 'Composite diagnostic score')}</p></p>
+                }`}>{result.score}<span className="text-xl text-on-surface-variant/30">/1000</span></p>
                 <div className={`inline-flex items-center gap-2 mt-3 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest ${
                   result.status === 'ELIGIBLE' ? 'bg-emerald-400/15 text-emerald-400' :
                   result.status === 'REVIEW'   ? 'bg-accent-gold/15 text-accent-gold' :
