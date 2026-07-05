@@ -121,7 +121,7 @@ export function MecenatView() {
             {T("Aucun projet dans cette catégorie.", "No projects in this category.")}
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(320px, 1fr))", gap:"20px" }}>
             {filteredContracts.map(contract => (
               <ProjectCard
                 key={contract.id}

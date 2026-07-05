@@ -168,7 +168,7 @@ const PatronageHubTab: React.FC<{
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+          <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(320px, 1fr))", gap:"20px" }}>
             {filtered.map((contract) => (
               <ProjectCard
                 key={contract.id}
