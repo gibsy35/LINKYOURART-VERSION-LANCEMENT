@@ -159,9 +159,10 @@ const ValidationQueue: React.FC<{
     return matchSearch && matchCat;
   }), [requests, search, catFilter]);
 
-  const pending = filtered.filter(r => r.status === 'PENDING').length;
-  const approved = filtered.filter(r => r.status === 'APPROVED').length;
-  const rejected = filtered.filter(r => r.status === 'REJECTED').length;
+  // Counters always on total requests, not filtered view
+  const pending  = requests.filter(r => r.status === 'PENDING').length;
+  const approved = requests.filter(r => r.status === 'APPROVED').length;
+  const rejected = requests.filter(r => r.status === 'REJECTED').length;
 
   const verifyStep = (reqId: string, stepId: string) => {
     setRequests(prev => prev.map(r => {
@@ -267,7 +268,7 @@ const ValidationQueue: React.FC<{
                 className="bg-surface-low/40 backdrop-blur-xl border border-white/8 rounded-2xl overflow-hidden hover:border-white/18 transition-all"
               >
                 {/* Header projet */}
-                <div className="flex flex-wrap items-start gap-3 px-4 py-4 border-b border-white/6">
+                <div className="flex items-start gap-3 px-4 py-4 border-b border-white/6 flex-nowrap">
                   <div className="w-12 h-12 rounded-xl overflow-hidden shrink-0 border border-white/10">
                     <img src={getSafeImageUrl(req.contract.image, req.contract.category)} alt={req.contract.name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                   </div>
@@ -286,7 +287,7 @@ const ValidationQueue: React.FC<{
                   </div>
                   {/* Statut */}
                   {req.status !== 'PENDING' ? (
-                    <div className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider ${
+                    <div className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider shrink-0 ml-auto ${
                       req.status === 'APPROVED' ? 'bg-emerald-400/10 text-emerald-400 border border-emerald-400/20' : 'bg-rose-400/10 text-rose-400 border border-rose-400/20'
                     }`}>
                       {req.status === 'APPROVED' ? <CheckCircle size={13} /> : <AlertCircle size={13} />}
