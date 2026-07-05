@@ -22,9 +22,11 @@ async function sendSMTP(cfg) {
       'X-Priority: 3',
       'X-MSMail-Priority: Normal',
       'Importance: Normal',
-      'Message-ID: <' + Date.now() + '-lya@linkyourart.com>',
+      'Message-ID: <lya-' + Date.now() + '-' + Math.random().toString(36).slice(2,8) + '@linkyourart.com>',
+      'Date: ' + new Date().toUTCString(),
       'List-Unsubscribe: <mailto:contact@linkyourart.com?subject=unsubscribe>',
       'List-Unsubscribe-Post: List-Unsubscribe=One-Click',
+      'Precedence: bulk',
       '', b64(cfg.html), '.'
     ].join('\r\n');
     const handle = (line) => {

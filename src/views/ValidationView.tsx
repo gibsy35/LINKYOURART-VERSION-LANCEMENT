@@ -568,11 +568,12 @@ const DiagnosticConsole: React.FC<{ lang: 'FR' | 'EN'; onNotify: (msg: string) =
                 result.status === 'REVIEW'   ? 'bg-accent-gold/8 border-accent-gold/25' :
                                                'bg-rose-400/8 border-rose-400/25'
               }`}>
-                <p className="text-xs font-bold uppercase tracking-widest text-on-surface-variant/50 mb-1">{T('Score de qualification LYA', 'LYA qualification score')}</p>
+                <p className="text-xs font-bold uppercase tracking-widest text-on-surface-variant/50 mb-1">{T('Score de diagnostic LYA', 'LYA diagnostic score')}</p>
                 <p className={`text-5xl font-black font-mono ${
                   result.status === 'ELIGIBLE' ? 'text-emerald-400' :
                   result.status === 'REVIEW'   ? 'text-accent-gold' : 'text-rose-400'
-                }`}>{result.score}<span className="text-xl text-on-surface-variant/30">/100</span></p>
+                }`}>{result.score}<span className="text-xl text-on-surface-variant/30">/100</span>
+                <p className="text-[9px] text-white/25 font-mono mt-1 uppercase tracking-widest">{T('Score diagnostic composite', 'Composite diagnostic score')}</p></p>
                 <div className={`inline-flex items-center gap-2 mt-3 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest ${
                   result.status === 'ELIGIBLE' ? 'bg-emerald-400/15 text-emerald-400' :
                   result.status === 'REVIEW'   ? 'bg-accent-gold/15 text-accent-gold' :
