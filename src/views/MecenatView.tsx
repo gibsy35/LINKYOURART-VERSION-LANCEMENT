@@ -32,7 +32,7 @@ export function MecenatView() {
   return (
     <section className="bg-surface-dim min-h-screen">
       {/* ── Header ── */}
-      <div className="px-6 py-10 max-w-7xl mx-auto">
+      <div className="py-8">
 
         {/* Hero encadré */}
         <div className="relative bg-surface-low/60 border border-white/10 rounded-2xl p-6 md:p-10 overflow-hidden mb-8">
@@ -109,7 +109,7 @@ export function MecenatView() {
       </div>
 
       {/* ── Grille projets ── */}
-      <div className="px-6 pb-16 max-w-7xl mx-auto">
+      <div className="pb-16">
         <div className="flex items-center gap-3 mb-6">
           <span className="text-on-surface-variant/60 text-[10px] font-mono tracking-widest">
             {T("PROJETS CRÉATIFS", "CREATIVE PROJECTS")} — <span className="text-primary-cyan">{filteredContracts.length} {T("ŒUVRES", "WORKS")}</span>
@@ -121,7 +121,7 @@ export function MecenatView() {
             {T("Aucun projet dans cette catégorie.", "No projects in this category.")}
           </div>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {filteredContracts.map(contract => (
               <ProjectCard
                 key={contract.id}
