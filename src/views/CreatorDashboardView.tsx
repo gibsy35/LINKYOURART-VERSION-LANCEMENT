@@ -14,7 +14,7 @@ import {
   TrendingUp, TrendingDown, Users, DollarSign, Zap, Upload, FileText, Music,
   Plus, ChevronDown, CheckCircle, Clock, Star, BarChart2,
   Sparkles, Target, Award, ArrowUpRight, ArrowDownRight, Flag,
-  AlertTriangle, Info, ChevronRight, RefreshCw
+  AlertTriangle, Info, ChevronRight, RefreshCw, Cpu, Layers, CheckCircle2
 } from 'lucide-react';
 import { ResponsiveContainer, AreaChart, Area, Tooltip, XAxis, BarChart, Bar, Cell } from 'recharts';
 
@@ -43,72 +43,128 @@ const StatusBadge: React.FC<{ status: string }> = ({ status }) => {
 
 const LYASimulator: React.FC<{ lang: 'FR' | 'EN'; formatPrice: (n: number) => string }> = ({ lang, formatPrice }) => {
   const T = (fr: string, en: string) => lang === 'FR' ? fr : en;
-  const steps = [
-    { labelFR: 'Visibilité & Rayonnement', labelEN: 'Visibility & Reach', maxPts: 200, color: 'text-[#a78bfa]',
-      questions: [{ qFR: 'Followers réseaux sociaux', qEN: 'Social media followers', options: ['< 1,000 — 20pts', '1K-10K — 50pts', '10K-50K — 100pts', '> 50K — 200pts'] },
-                  { qFR: 'Expositions / Publications (année)', qEN: 'Exhibitions / Publications (year)', options: ['Aucune — 0pts', '1-2 — 30pts', '3-5 — 70pts', '6+ — 100pts'] }] },
-    { labelFR: 'Qualité Artistique', labelEN: 'Artistic Quality', maxPts: 250, color: 'text-primary-cyan',
-      questions: [{ qFR: 'Niveau de reconnaissance', qEN: 'Recognition level', options: ['Débutant — 50pts', 'Confirmé — 100pts', 'Expert — 175pts', 'Maître — 250pts'] }] },
-    { labelFR: 'Potentiel Commercial', labelEN: 'Commercial Potential', maxPts: 250, color: 'text-emerald-400',
-      questions: [{ qFR: 'Revenus créatifs annuels', qEN: 'Annual creative revenue', options: ['< 5K€ — 40pts', '5K-20K€ — 100pts', '20K-100K€ — 180pts', '> 100K€ — 250pts'] }] },
-    { labelFR: 'Infrastructure Légale', labelEN: 'Legal Infrastructure', maxPts: 150, color: 'text-accent-gold',
-      questions: [{ qFR: 'Protection de l\'œuvre', qEN: 'Work protection', options: ['Non protégé — 20pts', 'Enregistré — 60pts', 'Déposé — 100pts', 'Breveté — 150pts'] }] },
-    { labelFR: 'Co-Production', labelEN: 'Co-Production', maxPts: 150, color: 'text-rose-400',
-      questions: [{ qFR: 'Expérience co-production', qEN: 'Co-production experience', options: ['Aucune — 20pts', 'Quelques — 60pts', 'Régulière — 100pts', 'Extensive — 150pts'] }] },
+  const [committeeScore, setCommitteeScore] = useState(650);
+  const [pillars, setPillars] = useState({ quality: 130, marketability: 132, security: 145, innovation: 170, growth: 158 });
+  const [milestones, setMilestones] = useState(2);
+
+  const pillarTotal = pillars.quality + pillars.marketability + pillars.security + pillars.innovation + pillars.growth;
+  const combinedScore = Math.round(committeeScore * 0.70 + (pillarTotal / 1000 * 1000) * 0.30);
+  const milestoneBonus = milestones * 0.0415;
+  const baseUnitValue = 50;
+  const escalatedUnitValue = Math.round(baseUnitValue * (1 + (combinedScore / 1000) * 0.5) * (1 + milestoneBonus) * 100) / 100;
+
+  const scoreColor = combinedScore >= 800 ? 'text-emerald-400' : combinedScore >= 600 ? 'text-accent-gold' : combinedScore >= 400 ? 'text-primary-cyan' : 'text-rose-400';
+  const scoreBg = combinedScore >= 800 ? 'border-emerald-400/30 bg-emerald-400/5' : combinedScore >= 600 ? 'border-accent-gold/30 bg-accent-gold/5' : 'border-primary-cyan/30 bg-primary-cyan/5';
+
+  const pillarDefs = [
+    { key: 'quality' as const,       labelFR: 'Qualité Créative',        labelEN: 'Creative Quality',    color: 'text-primary-cyan',  accent: '#00E0FF' },
+    { key: 'marketability' as const, labelFR: 'Potentiel Commercial',    labelEN: 'Market Appeal',        color: 'text-accent-pink',   accent: '#E0326E' },
+    { key: 'security' as const,      labelFR: 'Sécurité Juridique & PI', labelEN: 'Legal & IP Security', color: 'text-emerald-400',   accent: '#4ADE80' },
+    { key: 'innovation' as const,    labelFR: 'Innovation Technique',    labelEN: 'Technical Innovation', color: 'text-purple-400',    accent: '#A78BFA' },
+    { key: 'growth' as const,        labelFR: "Perspectives d'Échelle",  labelEN: 'Scale Potential',      color: 'text-accent-gold',   accent: '#FFD700' },
   ];
-  const [step, setStep] = useState(0);
-  const [answers, setAnswers] = useState<Record<number, number[]>>({});
-  const [done, setDone] = useState(false);
-  const totalPts = Object.values(answers).flat().reduce((s, p) => s + p, 0);
-  const parse = (opt: string) => parseInt(opt.match(/(\d+)pts/)?.[1] || '0');
-  const handleAnswer = (qi: number, opt: string) => {
-    const prev = answers[step] ? [...answers[step]] : [];
-    prev[qi] = parse(opt);
-    setAnswers({ ...answers, [step]: prev });
-  };
-  const next = () => step < steps.length - 1 ? setStep(s => s + 1) : setDone(true);
-  const reset = () => { setStep(0); setAnswers({}); setDone(false); };
-  const progress = ((step + (done ? 1 : 0)) / steps.length) * 100;
-  const s = steps[step];
-  const eligColor = totalPts >= 700 ? 'text-emerald-400' : totalPts >= 400 ? 'text-accent-gold' : 'text-rose-400';
-  const eligBg = totalPts >= 700 ? 'bg-emerald-400/8 border-emerald-400/25' : totalPts >= 400 ? 'bg-accent-gold/8 border-accent-gold/25' : 'bg-rose-400/8 border-rose-400/25';
+
   return (
-    <div className="space-y-5">
-      <div className="flex items-center justify-between text-sm mb-1"><span className="text-on-surface-variant/60">{T(`Étape ${step+1}/${steps.length}`,`Step ${step+1}/${steps.length}`)}</span><span className="font-black text-primary-cyan">{Math.round(progress)}%</span></div>
-      <div className="h-1.5 bg-white/5 rounded-full overflow-hidden"><motion.div animate={{ width: `${progress}%` }} className="h-full bg-gradient-to-r from-primary-cyan to-[#a78bfa] rounded-full" /></div>
-      <AnimatePresence mode="wait">
-        {!done ? (
-          <motion.div key={step} initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -16 }} className="space-y-4">
-            <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black uppercase ${s.color} bg-white/5 border border-white/10`}><Star size={11} /> {T(s.labelFR, s.labelEN)} — Max {s.maxPts}pts</div>
-            {s.questions.map((q, qi) => (
-              <div key={qi} className="space-y-2">
-                <p className="text-sm font-black text-on-surface">{qi+1}. {T(q.qFR, q.qEN)}</p>
-                <div className="grid grid-cols-2 gap-2">
-                  {q.options.map(opt => { const pts = parse(opt); const label = opt.split(' — ')[0]; const sel = answers[step]?.[qi] === pts;
-                    return <button key={opt} onClick={() => handleAnswer(qi, opt)} className={`p-3 rounded-xl border text-left transition-all ${sel ? 'bg-primary-cyan/10 border-primary-cyan/40 text-primary-cyan' : 'bg-surface-high/30 border-white/8 text-on-surface-variant hover:border-white/20'}`}><p className="text-sm font-bold">{label}</p><p className="text-xs text-primary-cyan font-black">+{pts}pts</p></button>;})}
+    <div className="space-y-5 font-mono">
+      {/* Header */}
+      <div className="flex items-center gap-2 text-primary-cyan mb-1">
+        <Cpu size={14} />
+        <span className="text-[9px] tracking-[0.3em] uppercase">{T('MOTEUR DE SIMULATION LYA V4.2', 'LYA CONSTRUCT ENGINE V4.2')}</span>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        {/* LEFT — Controls */}
+        <div className="space-y-4">
+          {/* Committee Score */}
+          <div className="bg-white/[0.02] border border-white/8 p-4 rounded-xl">
+            <h4 className="text-[9px] font-black uppercase text-accent-gold tracking-widest mb-3 flex items-center gap-1.5">
+              <Award size={11} /> {T('ÉVALUATION COMITÉ D\'EXPERTS', 'EXPERT COMMITTEE EVALUATION')}
+            </h4>
+            <div className="flex justify-between text-[9px] text-white/60 uppercase font-black tracking-wider mb-2">
+              <span>{T('Score de Base Comité', 'Committee Base Score')}</span>
+              <span className="text-accent-gold">{committeeScore} / 1000</span>
+            </div>
+            <input type="range" min="200" max="1000" step="10" value={committeeScore}
+              onChange={e => setCommitteeScore(parseInt(e.target.value))}
+              className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-accent-gold"
+            />
+            <p className="text-[9px] text-white/30 mt-2 leading-relaxed">
+              {T('Score consolidé attribué par les validateurs professionnels LYA.', 'Consolidated score assigned by LYA professional validators.')}
+            </p>
+          </div>
+
+          {/* Pillars */}
+          <div className="bg-white/[0.02] border border-primary-cyan/20 p-4 rounded-xl space-y-3">
+            <h4 className="text-[9px] font-black uppercase text-primary-cyan tracking-widest flex items-center gap-1.5">
+              <Layers size={11} /> {T('PILIERS D\'ANALYSE AUTONOME', 'AUTONOMOUS ANALYSIS PILLARS')}
+            </h4>
+            {pillarDefs.map(p => (
+              <div key={p.key}>
+                <div className="flex justify-between text-[9px] uppercase font-black tracking-wider mb-1">
+                  <span className="text-white/60">{T(p.labelFR, p.labelEN)}</span>
+                  <span className={p.color}>{pillars[p.key]} / 200</span>
                 </div>
+                <input type="range" min="0" max="200" value={pillars[p.key]}
+                  onChange={e => setPillars(prev => ({ ...prev, [p.key]: parseInt(e.target.value) }))}
+                  className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer"
+                  style={{ accentColor: p.accent }}
+                />
               </div>
             ))}
-            <button onClick={next} className="w-full py-3.5 bg-primary-cyan text-surface-dim font-black text-sm uppercase tracking-widest rounded-xl hover:bg-white transition-all">{step < steps.length-1 ? T('Étape suivante →','Next step →') : T('Voir mon score →','See my score →')}</button>
-          </motion.div>
-        ) : (
-          <motion.div key="result" initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} className="space-y-4">
-            <div className={`rounded-2xl p-5 text-center border ${eligBg}`}>
-              <p className="text-xs text-on-surface-variant/50 uppercase tracking-widest mb-2">{T('Score LYA Estimé','Estimated LYA Score')}</p>
-              <p className={`text-5xl font-black font-mono ${eligColor}`}>{totalPts}<span className="text-xl text-on-surface-variant/30">/1000</span></p>
-              <p className={`mt-2 text-sm font-black uppercase tracking-widest ${eligColor}`}>{totalPts >= 700 ? T('✦ Éligible à l\'indexation LYA','✦ Eligible for LYA indexation') : totalPts >= 400 ? T('⚡ Quelques améliorations nécessaires','⚡ Some improvements needed') : T('↑ En développement','↑ Developing')}</p>
+          </div>
+
+          {/* Milestones */}
+          <div className="bg-white/[0.02] border border-white/8 p-4 rounded-xl">
+            <h4 className="text-[9px] font-black uppercase text-emerald-400 tracking-widest mb-3 flex items-center gap-1.5">
+              <CheckCircle2 size={11} /> {T('JALONS VALIDÉS', 'VALIDATED MILESTONES')}
+            </h4>
+            <div className="flex justify-between text-[9px] uppercase font-black tracking-wider mb-2">
+              <span className="text-white/60">{T('Jalons réussis', 'Milestones achieved')}</span>
+              <span className="text-emerald-400">{milestones}</span>
             </div>
-            {totalPts >= 700 && (
-              <div className="bg-primary-cyan/5 border border-primary-cyan/15 rounded-xl p-4">
-                <p className="text-xs font-black text-primary-cyan uppercase tracking-widest mb-1">{T('Estimation LYA UNIT','LYA UNIT Estimate')}</p>
-                <p className="text-sm text-on-surface-variant/70">{T(`Avec un score de ${totalPts}/1000, votre LYA UNIT de départ serait estimé à`, `With a score of ${totalPts}/1000, your starting LYA UNIT would be estimated at`)} <span className="text-primary-cyan font-black">{formatPrice(LYA_UNIT_VALUE * (1 + (totalPts/1000) * 0.5))}</span></p>
+            <input type="range" min="0" max="10" value={milestones}
+              onChange={e => setMilestones(parseInt(e.target.value))}
+              className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-emerald-400"
+            />
+          </div>
+        </div>
+
+        {/* RIGHT — Results */}
+        <div className="space-y-4">
+          {/* LYA Score */}
+          <div className={`border rounded-xl p-5 text-center ${scoreBg}`}>
+            <p className="text-[8px] font-black uppercase tracking-[0.4em] text-white/30 mb-2">{T('SCORE LYA SIMULÉ', 'SIMULATED LYA SCORE')}</p>
+            <p className={`text-5xl font-black ${scoreColor}`}>
+              {combinedScore}<span className="text-xl text-white/25">/1000</span>
+            </p>
+            <div className="mt-2 h-1 bg-white/5 rounded-full overflow-hidden">
+              <motion.div animate={{ width: `${(combinedScore/1000)*100}%` }} className={`h-full rounded-full ${combinedScore >= 800 ? 'bg-emerald-400' : combinedScore >= 600 ? 'bg-accent-gold' : 'bg-primary-cyan'}`} />
+            </div>
+          </div>
+
+          {/* Real-time ledger */}
+          <div className="bg-white/[0.02] border border-white/8 rounded-xl p-4 space-y-3">
+            <p className="text-[8px] font-black uppercase tracking-[0.35em] text-white/30 mb-2">{T('REGISTRE TEMPS RÉEL', 'SIMULATION REAL-TIME LEDGER')}</p>
+            {[
+              { label: T('1. Score Piliers Autonomes', '1. Autonomous Pillar Score'), value: `${pillars.quality} + ${pillars.marketability} + ${pillars.security} + ${pillars.innovation} + ${pillars.growth} = ${pillarTotal} / 1000`, color: 'text-primary-cyan' },
+              { label: T('2. Modèle Pondéré', '2. Weighted Base Model'), value: `${T('Comité', 'Committee')} + ${T('Auto-évaluation', 'Self-assessment')} = ${combinedScore} / 1000`, color: 'text-accent-gold' },
+              { label: T('3. Bonus Jalons', '3. Escalation Bonus'), value: `${milestones} ${T('jalon(s) validé(s)', 'milestone(s) validated')} = +${(milestoneBonus*100).toFixed(2)}%`, color: 'text-emerald-400' },
+            ].map((row, i) => (
+              <div key={i} className="border-b border-white/5 pb-3 last:border-0 last:pb-0">
+                <p className={`text-[8px] font-black uppercase tracking-widest mb-1 ${row.color}`}>{row.label}</p>
+                <p className="text-[10px] font-mono text-white/50">{row.value}</p>
               </div>
-            )}
-            <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">{steps.map((st,i) => { const pts = answers[i]?.reduce((a,b)=>a+b,0)||0; return <div key={i} className="bg-surface-high/30 border border-white/6 rounded-xl p-2.5 text-center"><p className="text-[9px] text-on-surface-variant/40 uppercase mb-1">{T(st.labelFR,st.labelEN).split(' ')[0]}</p><p className="text-sm font-black text-primary-cyan">{pts}<span className="text-[9px] text-on-surface-variant/30">/{st.maxPts}</span></p></div>; })}</div>
-            <button onClick={reset} className="w-full py-3 bg-white/5 border border-white/10 text-sm font-black rounded-xl hover:bg-white/10 transition-all uppercase tracking-widest">{T('Recommencer','Restart')}</button>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            ))}
+          </div>
+
+          {/* Unit Value */}
+          <div className="bg-primary-cyan/5 border border-primary-cyan/20 rounded-xl p-4 text-center">
+            <p className="text-[8px] font-black uppercase tracking-[0.4em] text-white/30 mb-1">{T('VALEUR ESTIMÉE LYA UNIT', 'ESTIMATED LYA UNIT VALUE')}</p>
+            <p className="text-3xl font-black text-primary-cyan font-mono">{formatPrice(escalatedUnitValue)}</p>
+            <p className="text-[9px] text-white/25 mt-1">{T('Prix de revente estimé sur le marché secondaire', 'Estimated resale price on secondary market')}</p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
