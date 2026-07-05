@@ -2,152 +2,248 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // ── USERS ──────────────────────────────────────────────────────────────
-    match /users/{userId} {
-      allow read: if request.auth != null && request.auth.uid == userId;
-      allow write: if request.auth != null && request.auth.uid == userId;
+    // Admin = tout utilisateur connecté avec un email reconnu
+    function isAdmin() {
+      return request.auth != null && (
+        request.auth.token.email == 'linkyourart@gmail.com' ||
+        request.auth.token.email == 'lequimejeanbaptiste@gmail.com' ||
+        request.auth.token.email == 'jeanbaptistelequime@gmail.com' ||
+        request.auth.token.email == 'contact@linkyourart.com' ||
+        request.auth.token.email == 'admin@linkyourart.com'
+      );
     }
 
-    // ── PUBLIC STATS ───────────────────────────────────────────────────────
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // ── USERS ───────────────────────────────────────────────────────────────
+    match /users/{userId} {
+      // L'utilisateur voit son propre profil, l'admin voit tout
+      allow read: if isSignedIn() && (request.auth.uid == userId || isAdmin());
+      // Tout utilisateur peut créer son profil à l'inscription
+      allow create: if isSignedIn();
+      // Mise à jour : soi-même ou admin
+      allow update: if isSignedIn() && (request.auth.uid == userId || isAdmin());
+      allow delete: if isAdmin();
+    }
+
+    // ── PUBLIC STATS (compteur pré-inscription) ─────────────────────────────
     match /public_stats/{docId} {
       allow read: if true;
-      allow write: if request.auth != null;
+      allow write: if true; // public counter — must be writable by everyone
     }
 
     // ── PRE-REGISTRATIONS ──────────────────────────────────────────────────
     match /pre_registrations/{docId} {
-      allow create: if true;
-      allow read: if request.auth != null;
-      allow update, delete: if request.auth != null &&
-        (resource.data.email == request.auth.token.email ||
-         request.auth.token.admin == true);
+      allow create: if true; // anyone can pre-register
+      allow read: if isSignedIn();
+      allow update: if isSignedIn() && (
+        resource.data.email == request.auth.token.email || isAdmin()
+      );
+      allow delete: if isAdmin();
     }
 
-    // ── WATCHLIST ──────────────────────────────────────────────────────────
-    match /watchlists/{userId} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
-    }
-
-    // ── SWIPE LIKES ────────────────────────────────────────────────────────
-    match /swipe_likes/{userId} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
-    }
-
-    // ── PROJECTS ───────────────────────────────────────────────────────────
-    match /projects/{projectId} {
-      allow read: if true;
-      allow write: if request.auth != null;
-    }
-
-    // ── PROJECTS PENDING (nouvelles créations en attente de validation) ─────
-    match /projects_pending/{docId} {
-      allow create: if request.auth != null;
-      allow read: if request.auth != null &&
-        (resource.data.creatorId == request.auth.uid || request.auth.token.admin == true);
-      allow update, delete: if request.auth != null && request.auth.token.admin == true;
-    }
-
-    // ── MILESTONES ─────────────────────────────────────────────────────────
-    match /milestones/{docId} {
-      allow create: if request.auth != null;
-      allow read: if request.auth != null;
-      allow update, delete: if request.auth != null &&
-        (resource.data.creatorId == request.auth.uid || request.auth.token.admin == true);
-    }
-
-    // ── MESSAGES ───────────────────────────────────────────────────────────
-    match /messages/{messageId} {
-      allow create: if request.auth != null;
-      allow read: if request.auth != null &&
-        (resource.data.fromId == request.auth.uid ||
-         resource.data.toId == request.auth.uid ||
-         request.auth.token.admin == true);
-      allow update, delete: if request.auth != null &&
-        resource.data.fromId == request.auth.uid;
-    }
-
-    // ── MENTORSHIP SESSIONS ────────────────────────────────────────────────
-    match /mentorship_sessions/{docId} {
-      allow create: if request.auth != null;
-      allow read: if request.auth != null &&
-        (resource.data.mentorId == request.auth.uid || request.auth.token.admin == true);
-      allow update: if request.auth != null && request.auth.token.admin == true;
-    }
-
-    // ── SERVICE REQUESTS ───────────────────────────────────────────────────
-    match /service_requests/{docId} {
-      allow create: if request.auth != null;
-      allow read: if request.auth != null &&
-        (resource.data.fromId == request.auth.uid || request.auth.token.admin == true);
-    }
-
-    // ── SAVED ARTICLES ─────────────────────────────────────────────────────
-    match /saved_articles/{docId} {
-      allow create: if request.auth != null;
-      allow read, delete: if request.auth != null;
-    }
-
-    // ── NOTIFICATIONS ──────────────────────────────────────────────────────
-    match /notifications/{userId}/items/{notifId} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
-    }
-
-    // ── GOVERNANCE ─────────────────────────────────────────────────────────
-    match /governance/{docId} {
-      allow read: if request.auth != null;
-      allow create, update: if request.auth != null;
+    // ── ACCESS TOKENS ──────────────────────────────────────────────────────
+    match /access_tokens/{token} {
+      allow read: if true; // public check at signup
+      allow create, update, delete: if isSignedIn();
     }
 
     // ── DEMO REQUESTS ──────────────────────────────────────────────────────
     match /demo_requests/{docId} {
       allow create: if true;
-      allow read: if request.auth != null;
+      allow read: if isSignedIn();
+      allow update, delete: if isAdmin();
+    }
+
+    // ── VERIFICATION REQUESTS ──────────────────────────────────────────────
+    match /verification_requests/{docId} {
+      allow create: if isSignedIn();
+      allow read: if isSignedIn() && (
+        resource.data.userId == request.auth.uid || isAdmin()
+      );
+      allow update, delete: if isAdmin();
     }
 
     // ── VALIDATION REQUESTS ────────────────────────────────────────────────
     match /validation_requests/{docId} {
-      allow create: if request.auth != null;
-      allow read: if request.auth != null;
-      allow update: if request.auth != null && request.auth.token.admin == true;
+      allow create: if isSignedIn();
+      allow read: if isSignedIn();
+      allow update: if isSignedIn();
+      allow delete: if isAdmin();
     }
 
-    // ── ADMIN KEYS ─────────────────────────────────────────────────────────
-    match /admin_keys/{docId} {
-      allow read, write: if request.auth != null && request.auth.token.admin == true;
+    // ── GOVERNANCE ─────────────────────────────────────────────────────────
+    match /governance_votes/{docId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn();
+      allow delete: if isAdmin();
     }
 
-    // ── PRESS APPLICATIONS ─────────────────────────────────────────────────
-    match /press_applications/{docId} {
-      allow create: if true;
-      allow read: if request.auth != null && request.auth.token.admin == true;
+    match /governance_proposals/{docId} {
+      allow read: if true;
+      allow create, update: if isSignedIn();
+      allow delete: if isAdmin();
     }
 
-    // ── PRESS ACCREDITATIONS ───────────────────────────────────────────────
-    match /press_accreditations/{docId} {
-      allow create: if true;
-      allow read: if request.auth != null && request.auth.token.admin == true;
+    // ── MÉCÉNAT ACQUISITIONS ───────────────────────────────────────────────
+    match /mecenat_acquisitions/{docId} {
+      allow create: if isSignedIn();
+      allow read: if isSignedIn() && (
+        resource.data.userId == request.auth.uid || isAdmin()
+      );
+      allow delete: if isAdmin();
     }
 
-    // ── ACCESS TOKENS ──────────────────────────────────────────────────────
-    match /access_tokens/{token} {
-      allow read: if true; // Lecture publique pour vérification
-      allow create, update: if request.auth != null;
+    // ── SUPPORT APPLICATIONS ───────────────────────────────────────────────
+    match /support_applications/{docId} {
+      allow create: if isSignedIn();
+      allow read: if isSignedIn() && (
+        resource.data.userId == request.auth.uid || isAdmin()
+      );
+      allow delete: if isAdmin();
+    }
+
+    // ── LIQUIDITY REQUESTS ─────────────────────────────────────────────────
+    match /liquidity_requests/{docId} {
+      allow create: if isSignedIn();
+      allow read: if isSignedIn() && (
+        resource.data.userId == request.auth.uid || isAdmin()
+      );
+      allow delete: if isAdmin();
+    }
+
+    // ── PROJECTS ───────────────────────────────────────────────────────────
+    match /projects/{projectId} {
+      allow read: if true;
+      allow create: if isSignedIn();
+      allow update: if isSignedIn() && (
+        resource.data.creatorId == request.auth.uid || isAdmin()
+      );
+      allow delete: if isAdmin();
+    }
+
+    match /projects_pending/{docId} {
+      allow create: if isSignedIn();
+      allow read: if isSignedIn() && (
+        resource.data.creatorId == request.auth.uid || isAdmin()
+      );
+      allow update, delete: if isAdmin();
+    }
+
+    // ── CONTRACTS ─────────────────────────────────────────────────────────
+    match /contracts/{docId} {
+      allow read: if true;
+      allow write: if isSignedIn();
     }
 
     match /contract_attachments/{docId} {
       allow read: if true;
-      allow write: if request.auth != null;
+      allow write: if isSignedIn();
     }
 
-    match /contracts/{docId} {
-      allow read: if true;
-      allow write: if request.auth != null;
+    // ── MESSAGES ──────────────────────────────────────────────────────────
+    match /messages/{messageId} {
+      allow create: if isSignedIn();
+      allow read: if isSignedIn() && (
+        resource.data.fromId == request.auth.uid ||
+        resource.data.toId == request.auth.uid ||
+        isAdmin()
+      );
+      allow update, delete: if isSignedIn() && (
+        resource.data.fromId == request.auth.uid || isAdmin()
+      );
+    }
+
+    match /messages_sent/{docId} {
+      allow create: if isSignedIn();
+      allow read: if isSignedIn() && (
+        resource.data.fromUserId == request.auth.uid || isAdmin()
+      );
+    }
+
+    // ── WATCHLIST / SWIPE ─────────────────────────────────────────────────
+    match /watchlists/{userId} {
+      allow read, write: if isSignedIn() && request.auth.uid == userId;
+    }
+
+    match /swipe_likes/{userId} {
+      allow read, write: if isSignedIn() && request.auth.uid == userId;
+    }
+
+    // ── NOTIFICATIONS ─────────────────────────────────────────────────────
+    match /notifications/{userId}/items/{notifId} {
+      allow read, write: if isSignedIn() && request.auth.uid == userId;
+    }
+
+    // ── PRESS ─────────────────────────────────────────────────────────────
+    match /press_applications/{docId} {
+      allow create: if true;
+      allow read: if isAdmin();
+    }
+
+    match /press_accreditations/{docId} {
+      allow create: if true;
+      allow read, update: if isAdmin();
+    }
+
+    // ── MISC ──────────────────────────────────────────────────────────────
+    match /admin_keys/{docId} {
+      allow read, write: if isAdmin();
+    }
+
+    match /milestones/{docId} {
+      allow create: if isSignedIn();
+      allow read: if isSignedIn();
+      allow update, delete: if isSignedIn() && (
+        resource.data.creatorId == request.auth.uid || isAdmin()
+      );
+    }
+
+    match /settlements/{docId} {
+      allow read: if isSignedIn();
+      allow create, update, delete: if isAdmin();
     }
 
     match /audit_requests/{docId} {
       allow create: if true;
-      allow read: if request.auth != null;
+      allow read: if isSignedIn();
     }
 
+    match /saved_articles/{docId} {
+      allow create: if isSignedIn();
+      allow read, delete: if isSignedIn();
+    }
+
+    match /governance/{docId} {
+      allow read: if isSignedIn();
+      allow create, update: if isSignedIn();
+    }
+
+    match /service_requests/{docId} {
+      allow create: if isSignedIn();
+      allow read: if isSignedIn() && (
+        resource.data.fromId == request.auth.uid || isAdmin()
+      );
+    }
+
+    match /mentorship_sessions/{docId} {
+      allow create: if isSignedIn();
+      allow read: if isSignedIn() && (
+        resource.data.mentorId == request.auth.uid || isAdmin()
+      );
+      allow update: if isAdmin();
+    }
+
+    // ── TEST CONNECTION ────────────────────────────────────────────────────
+    match /test/{docId} {
+      allow read, write: if true;
+    }
+
+    // ── FALLBACK ADMIN ─────────────────────────────────────────────────────
+    match /{document=**} {
+      allow read, write: if isAdmin();
+    }
   }
 }
