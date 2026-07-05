@@ -8,6 +8,8 @@ service cloud.firestore {
         request.auth.token.email == 'linkyourart@gmail.com' ||
         request.auth.token.email == 'lequimejeanbaptiste@gmail.com' ||
         request.auth.token.email == 'jeanbaptistelequime@gmail.com' ||
+        request.auth.token.email == 'lequimejeanbaptiste@gmail.com' ||
+        request.auth.token.email == 'linkart@gmail.com' ||
         request.auth.token.email == 'contact@linkyourart.com' ||
         request.auth.token.email == 'admin@linkyourart.com'
       );

@@ -245,12 +245,13 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
     })
     .then(r => r.json())
     .then(data => {
-      if (data.method === 'simulated') {
-        } else if (data.success) {
-        } else {
-        }
+      if (data.success) {
+        console.log('[LYA EMAIL] Sent to', email, 'via', data.method);
+      } else {
+        console.error('[LYA EMAIL] Failed:', data.error);
+      }
     })
-    .catch(err => console.error('[LYA EMAIL]', err));
+    .catch(err => console.error('[LYA EMAIL ERROR]', err));
 
     setSubmitted(true);
     setIsSubmitting(false);
