@@ -55,6 +55,7 @@ export type View =
   | 'PRICING' 
   | 'SWIPE' 
   | 'MECENAT'
+  | 'BROCHURE'
   | 'WATCHLIST' 
   | 'SETTINGS' 
   | 'COMPARE' 

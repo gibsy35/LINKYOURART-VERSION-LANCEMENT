@@ -29,7 +29,7 @@ import { ExternalLink,
   Users2
 } from 'lucide-react';
 import { db, handleFirestoreError, OperationType } from '../firebase';
-import { collection, addDoc, serverTimestamp, getDocs, query, where, limit, doc, runTransaction } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp, getDocs, query, where, limit, doc, runTransaction, getDoc, setDoc } from 'firebase/firestore';
 
 interface LandingViewProps {
   onEnterDemo: () => void;
@@ -190,37 +190,38 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
     setIsSubmitting(true);
     const code = generateReferralCode(name);
 
-    // 1. Position en file — best-effort via le compteur public, repli local si indisponible
-    let position: number;
+    // 1. Position — always use local first, then try Firestore (never blocks)
+    const localPreList = JSON.parse(localStorage.getItem('lya_local_pre_registrations') || '[]');
+    let position: number = Math.max(totalRegistrations || 0, localPreList.length) + 1;
+
+    // Try to get real counter from Firestore (non-blocking, 3s timeout)
     try {
       const counterRef = doc(db, 'public_stats', 'pre_registrations');
-      position = await runTransaction(db, async (tx) => {
-        const snap = await tx.get(counterRef);
-        const current = snap.exists() ? Math.max(726, parseInt(String(snap.data().count || 0)) || 726) : 726;
-        const next = current + 1;
-        tx.set(counterRef, { count: next, updatedAt: serverTimestamp() }, { merge: true });
-        return next;
-      });
-    } catch (counterError) {
-      console.warn('Public counter unavailable, using local fallback position:', counterError);
-      const localPre = JSON.parse(localStorage.getItem('lya_local_pre_registrations') || '[]');
-      position = (totalRegistrations || localPre.length) + 1;
+      const counterSnap = await Promise.race([
+        getDoc(counterRef),
+        new Promise<null>((_, reject) => setTimeout(() => reject(new Error('timeout')), 3000))
+      ]) as any;
+      if (counterSnap && counterSnap.exists()) {
+        const current = Math.max(726, parseInt(String(counterSnap.data().count || 0)) || 726);
+        position = current + 1;
+        // Update counter async (don't await)
+        setDoc(counterRef, { count: position, updatedAt: serverTimestamp() }, { merge: true }).catch(() => {});
+      }
+    } catch {
+      // Counter unavailable — position already set from local fallback
     }
 
-    // 2. Enregistrement Firestore — best-effort, ne doit jamais bloquer la confirmation
-    try {
-      await addDoc(collection(db, 'pre_registrations'), {
-        name, email, category,
-        timestamp: serverTimestamp(),
-        type: 'PRE_REGISTRATION',
-        position,
-        referralCode: code,
-        referredBy: referredBy || null,
-      });
-    } catch (writeError) {
+    // 2. Save to Firestore async (don't await — never blocks the user)
+    addDoc(collection(db, 'pre_registrations'), {
+      name, email, category,
+      timestamp: serverTimestamp(),
+      type: 'PRE_REGISTRATION',
+      position,
+      referralCode: code,
+      referredBy: referredBy || null,
+    }).catch((writeError) => {
       console.error("Error saving pre-registration:", writeError);
-      try { handleFirestoreError(writeError, OperationType.CREATE, 'pre_registrations'); } catch {}
-    }
+    });
 
     // 3. Toujours persister localement et confirmer à l'utilisateur
     const localPre = JSON.parse(localStorage.getItem('lya_local_pre_registrations') || '[]');

@@ -2,26 +2,22 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "rewrites": [
-    { "source": "/((?!api/|brochures/).*)", "destination": "/index.html" }
+    { "source": "/api/(.*)", "destination": "/api/$1" },
+    { "source": "/((?!api/|_next/|favicon|public/|.*\\.pdf$|.*\\.png$|.*\\.ico$|.*\\.svg$|.*\\.webmanifest$).*)", "destination": "/index.html" }
   ],
   "headers": [
     {
-      "source": "/og-image.png",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=86400" }
-      ]
-    },
-    {
-      "source": "/sitemap.xml",
-      "headers": [
-        { "key": "Content-Type", "value": "application/xml" }
-      ]
-    },
-    {
-      "source": "/brochures/(.*)",
+      "source": "/(.*\\.pdf)",
       "headers": [
         { "key": "Content-Type", "value": "application/pdf" },
-        { "key": "Cache-Control", "value": "private, no-cache" }
+        { "key": "Cache-Control", "value": "private, no-cache, no-store" },
+        { "key": "X-Content-Type-Options", "value": "nosniff" }
+      ]
+    },
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
       ]
     }
   ]
