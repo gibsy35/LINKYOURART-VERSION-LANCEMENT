@@ -553,7 +553,7 @@ export const AdminView: React.FC<{
     const expiresAt = new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString();
     const baseUrl = 'https://linkyourart.com';
 
-    // ÉTAPE 1 — Créer le token (critique)
+    // ÉTAPE 1 — Créer le token (non-bloquant si Firestore refuse)
     try {
       await setDoc(doc(db, 'access_tokens', token), {
         token, email, name,
@@ -562,8 +562,8 @@ export const AdminView: React.FC<{
         createdAt: serverTimestamp(),
       });
     } catch(e: any) {
-      onNotify(t(`Error creating token: ${e?.code || e?.message}`, `Erreur token: ${e?.code || e?.message}`));
-      return;
+      // Log but continue — token is in the URL anyway
+      console.warn('Token write failed (continuing):', e?.code, e?.message);
     }
 
     // ÉTAPE 2 — Marquer approuvé (non-bloquant)
@@ -572,10 +572,12 @@ export const AdminView: React.FC<{
         await updateDoc(doc(db, 'pre_registrations', reg.id), {
           status: 'APPROVED', approvedAt: serverTimestamp(), accessToken: token,
         });
-      } catch(e) { console.warn('Status update failed:', e); }
+      } catch(e: any) {
+        console.warn('Status update failed:', e?.code, e?.message);
+      }
     }
 
-    // ÉTAPE 3 — Envoyer email (non-bloquant)
+    // ÉTAPE 3 — Envoyer email
     try {
       const lang = reg.lang || reg.language || 'FR';
       const resp = await fetch('/api/email/approve-access', {
@@ -584,12 +586,22 @@ export const AdminView: React.FC<{
         body: JSON.stringify({ to: email, name, token, lang, accessUrl: `${baseUrl}?access=${token}` }),
       });
       const data = await resp.json();
-      if (!data.success) console.warn('Email warning:', data.error);
-    } catch(e) { console.warn('Email failed:', e); }
+      if (data.success) {
+        console.log('[APPROVE EMAIL SENT]', email, 'via', data.method);
+      } else {
+        console.warn('[APPROVE EMAIL FAILED]', data.error);
+        onNotify(t(`⚠ Email failed: ${data.error || 'SMTP error'}`, `⚠ Email échoué: ${data.error || 'Erreur SMTP'}`));
+      }
+    } catch(e: any) {
+      console.warn('Email fetch failed:', e);
+    }
 
-    // SUCCÈS
+    // SUCCÈS — toujours marquer comme approuvé localement
     setPreRegistrations(prev => prev.map(p => p.id === reg.id ? { ...p, status: 'APPROVED' } : p));
-    onNotify(t(`✦ ${name} approved — access link sent to ${email}`, `✦ ${name} approuvé — lien envoyé à ${email}`));
+    onNotify(t(
+      `✦ ${name} approved — access link: ${baseUrl}?access=${token}`,
+      `✦ ${name} approuvé — lien: ${baseUrl}?access=${token}`
+    ));
   };
 
   const handleDeleteUser = async (uid: string, displayName: string) => {
