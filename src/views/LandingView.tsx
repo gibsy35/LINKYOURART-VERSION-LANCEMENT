@@ -29,7 +29,7 @@ import { ExternalLink,
   Users2
 } from 'lucide-react';
 import { db, handleFirestoreError, OperationType } from '../firebase';
-import { collection, addDoc, serverTimestamp, getDocs, query, where, limit, doc, runTransaction, getDoc, setDoc } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp, getDocs, query, where, limit, doc, getDoc, setDoc, updateDoc, increment } from 'firebase/firestore';
 
 interface LandingViewProps {
   onEnterDemo: () => void;
@@ -194,21 +194,34 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
     const localPreList = JSON.parse(localStorage.getItem('lya_local_pre_registrations') || '[]');
     let position: number = Math.max(totalRegistrations || 0, localPreList.length) + 1;
 
-    // Try to get real counter from Firestore (non-blocking, 3s timeout)
+    // Atomic increment on Firestore counter
     try {
       const counterRef = doc(db, 'public_stats', 'pre_registrations');
-      const counterSnap = await Promise.race([
-        getDoc(counterRef),
-        new Promise<null>((_, reject) => setTimeout(() => reject(new Error('timeout')), 3000))
-      ]) as any;
-      if (counterSnap && counterSnap.exists()) {
-        const current = Math.max(726, parseInt(String(counterSnap.data().count || 0)) || 726);
-        position = current + 1;
-        // Update counter async (don't await)
-        setDoc(counterRef, { count: position, updatedAt: serverTimestamp() }, { merge: true }).catch(() => {});
+      // Try atomic increment first (most reliable)
+      await updateDoc(counterRef, {
+        count: increment(1),
+        updatedAt: serverTimestamp()
+      });
+      // Read updated value
+      const updated = await getDoc(counterRef);
+      if (updated.exists()) {
+        position = Math.max(726, parseInt(String(updated.data().count || 0)) || 726);
       }
     } catch {
-      // Counter unavailable — position already set from local fallback
+      // Document might not exist yet — create it
+      try {
+        const counterRef = doc(db, 'public_stats', 'pre_registrations');
+        const snap = await getDoc(counterRef);
+        if (!snap.exists()) {
+          position = 727;
+          await setDoc(counterRef, { count: 727, updatedAt: serverTimestamp() });
+        } else {
+          position = Math.max(726, (snap.data().count || 726)) + 1;
+          await setDoc(counterRef, { count: position, updatedAt: serverTimestamp() }, { merge: true });
+        }
+      } catch {
+        // Firestore unavailable — use local position
+      }
     }
 
     // 2. Save to Firestore async (don't await — never blocks the user)
@@ -253,6 +266,8 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
     })
     .catch(err => console.error('[LYA EMAIL ERROR]', err));
 
+    // Update local display immediately
+    setTotalRegistrations(position);
     setSubmitted(true);
     setIsSubmitting(false);
   };
