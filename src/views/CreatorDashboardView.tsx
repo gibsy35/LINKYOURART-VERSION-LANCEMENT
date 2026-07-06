@@ -109,7 +109,14 @@ const LYASimulator: React.FC<{ lang: 'FR' | 'EN'; formatPrice: (n: number) => st
   const [answers, setAnswers] = useState<Record<number, number[]>>({});
   const [done, setDone] = useState(false);
   const rawPts = Object.values(answers).flat().reduce((s, p) => s + p, 0);
-  const totalPts = Math.min(1000, rawPts);
+  // Normalize: calculate theoretical max (top answer for each question)
+  const maxPossible = steps.reduce((total, st) =>
+    total + st.questions.reduce((qTotal, q) => {
+      const opts = q.optionsFR; // same points in FR and EN
+      const max = opts.reduce((m, o) => Math.max(m, parseInt(o.match(/(\d+)pts/)?.[1] || '0')), 0);
+      return qTotal + max;
+    }, 0), 0);
+  const totalPts = Math.min(1000, Math.round((rawPts / maxPossible) * 1000));
   const parse = (opt: string) => parseInt(opt.match(/(\d+)pts/)?.[1] || '0');
   const handleAnswer = (qi: number, opt: string) => {
     const prev = answers[step] ? [...answers[step]] : [];
@@ -161,6 +168,14 @@ const LYASimulator: React.FC<{ lang: 'FR' | 'EN'; formatPrice: (n: number) => st
                 <p className="text-sm text-on-surface-variant/70">{T(`Avec un score de ${totalPts}/1000, votre LYA UNIT de départ serait estimé à`, `With a score of ${totalPts}/1000, your starting LYA UNIT would be estimated at`)} <span className="text-primary-cyan font-black">{formatPrice(LYA_UNIT_VALUE * (1 + (totalPts/1000) * 0.5))}</span></p>
               </div>
             )}
+            <div className="bg-white/5 border border-white/10 rounded-xl p-3 text-center">
+              <p className="text-[9px] text-white/40 leading-relaxed">
+                {T(
+                  '⚠ Ce score est une estimation indicative. Le Score LYA officiel est calculé et validé par notre comité d\'experts après examen de vos justificatifs.',
+                  '⚠ This score is an indicative estimate. The official LYA Score is calculated and validated by our expert committee after review of your supporting documents.'
+                )}
+              </p>
+            </div>
             <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">{steps.map((st,i) => { const pts = answers[i]?.reduce((a,b)=>a+b,0)||0; return <div key={i} className="bg-surface-high/30 border border-white/6 rounded-xl p-2.5 text-center"><p className="text-[9px] text-on-surface-variant/40 uppercase mb-1">{T(st.labelFR,st.labelEN).split(' ')[0]}</p><p className="text-sm font-black text-primary-cyan">{pts}<span className="text-[9px] text-on-surface-variant/30">/{st.maxPts}</span></p></div>; })}</div>
             {totalPts >= 400 && (
               <div className="bg-primary-cyan/5 border border-primary-cyan/20 rounded-2xl p-5 text-center space-y-3">
