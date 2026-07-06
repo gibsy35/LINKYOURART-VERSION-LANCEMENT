@@ -64,9 +64,9 @@ const LYASimulator: React.FC<{ lang: 'FR' | 'EN'; formatPrice: (n: number) => st
       ] },
     { labelFR: 'Infrastructure Légale', labelEN: 'Legal Infrastructure', maxPts: 150, color: 'text-accent-gold',
       questions: [
-        { qFR: 'Protection juridique de vos œuvres', qEN: 'Legal protection of your works', options: ['Non protégé — 20pts', 'Enregistré — 60pts', 'Déposé INPI — 100pts', 'Breveté — 150pts'] },
-        { qFR: 'Structure juridique de votre activité', qEN: 'Legal structure of your activity', options: ['Aucune — 10pts', 'Auto-entrepreneur — 40pts', 'SASU/SARL — 80pts', 'SA/Structure avancée — 120pts'] },
-        { qFR: 'Contrats & accords formalisés', qEN: 'Formalized contracts & agreements', options: ['Aucun — 10pts', 'Quelques — 40pts', 'Réguliers — 80pts', 'Systématiques — 120pts'] },
+        { qFR: 'Protection internationale de vos droits créatifs', qEN: 'International protection of your creative rights', options: ['Aucune — 20pts', 'Nationale — 60pts', 'Européenne — 100pts', 'Internationale — 150pts'] },
+        { qFR: 'Contrats & accords de cession formalisés', qEN: 'Formalized assignment contracts & agreements', options: ['Aucun — 10pts', 'Quelques — 40pts', 'Réguliers — 80pts', 'Systématiques — 120pts'] },
+        { qFR: 'Gestion des droits d\'auteur et royalties', qEN: 'Copyright and royalties management', options: ['Non gérée — 10pts', 'Basique — 40pts', 'Organisée — 80pts', 'Professionnelle — 120pts'] },
       ] },
     { labelFR: 'Co-Production & Réseau', labelEN: 'Co-Production & Network', maxPts: 150, color: 'text-rose-400',
       questions: [
@@ -108,7 +108,14 @@ const LYASimulator: React.FC<{ lang: 'FR' | 'EN'; formatPrice: (n: number) => st
                 </div>
               </div>
             ))}
-            <button onClick={next} className="w-full py-3.5 bg-primary-cyan text-surface-dim font-black text-sm uppercase tracking-widest rounded-xl hover:bg-white transition-all">{step < steps.length-1 ? T('Étape suivante →','Next step →') : T('Voir mon score →','See my score →')}</button>
+            <div className="flex gap-3">
+              {step > 0 && (
+                <button onClick={() => setStep(s => s - 1)} className="flex-1 py-3.5 border border-white/10 text-white font-black text-sm uppercase tracking-widest rounded-xl hover:bg-white/5 transition-all">
+                  ← {T('Retour', 'Back')}
+                </button>
+              )}
+              <button onClick={next} className="flex-1 py-3.5 bg-primary-cyan text-surface-dim font-black text-sm uppercase tracking-widest rounded-xl hover:bg-white transition-all">{step < steps.length-1 ? T('Étape suivante →','Next step →') : T('Voir mon score →','See my score →')}</button>
+            </div>
           </motion.div>
         ) : (
           <motion.div key="result" initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} className="space-y-4">
