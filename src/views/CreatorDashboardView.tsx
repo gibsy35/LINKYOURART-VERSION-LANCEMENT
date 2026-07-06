@@ -41,20 +41,39 @@ const StatusBadge: React.FC<{ status: string }> = ({ status }) => {
 
 // ─── SIMULATEUR LYA (inchangé) ────────────────────────────────────────────────
 
-const LYASimulator: React.FC<{ lang: 'FR' | 'EN'; formatPrice: (n: number) => string }> = ({ lang, formatPrice }) => {
+const LYASimulator: React.FC<{ lang: 'FR' | 'EN'; formatPrice: (n: number) => string; onViewChange: (v: any) => void }> = ({ lang, formatPrice, onViewChange }) => {
   const T = (fr: string, en: string) => lang === 'FR' ? fr : en;
   const steps = [
     { labelFR: 'Visibilité & Rayonnement', labelEN: 'Visibility & Reach', maxPts: 200, color: 'text-[#a78bfa]',
-      questions: [{ qFR: 'Followers réseaux sociaux', qEN: 'Social media followers', options: ['< 1,000 — 20pts', '1K-10K — 50pts', '10K-50K — 100pts', '> 50K — 200pts'] },
-                  { qFR: 'Expositions / Publications (année)', qEN: 'Exhibitions / Publications (year)', options: ['Aucune — 0pts', '1-2 — 30pts', '3-5 — 70pts', '6+ — 100pts'] }] },
+      questions: [
+        { qFR: 'Followers sur les réseaux sociaux', qEN: 'Social media followers', options: ['< 1,000 — 20pts', '1,000-10,000 — 50pts', '10,000-50,000 — 100pts', '> 50,000 — 200pts'] },
+        { qFR: 'Expositions / Publications cette année', qEN: 'Exhibitions / Publications this year', options: ['Aucune — 0pts', '1-2 — 30pts', '3-5 — 70pts', '6+ — 100pts'] },
+        { qFR: 'Couverture presse & médias spécialisés', qEN: 'Press & media coverage', options: ['Aucune — 0pts', 'Locale — 20pts', 'Nationale — 50pts', 'Internationale — 100pts'] },
+      ] },
     { labelFR: 'Qualité Artistique', labelEN: 'Artistic Quality', maxPts: 250, color: 'text-primary-cyan',
-      questions: [{ qFR: 'Niveau de reconnaissance', qEN: 'Recognition level', options: ['Débutant — 50pts', 'Confirmé — 100pts', 'Expert — 175pts', 'Maître — 250pts'] }] },
+      questions: [
+        { qFR: 'Niveau de reconnaissance professionnelle', qEN: 'Professional recognition level', options: ['Débutant — 50pts', 'Confirmé — 100pts', 'Expert — 175pts', 'Maître — 250pts'] },
+        { qFR: 'Cohérence de votre univers créatif', qEN: 'Creative universe consistency', options: ['En développement — 30pts', 'Établi — 70pts', 'Distinctif — 120pts', 'Iconique — 150pts'] },
+        { qFR: 'Originalité & innovation dans votre domaine', qEN: 'Originality & innovation in your field', options: ['Standard — 20pts', 'Distinctif — 60pts', 'Avant-gardiste — 120pts', 'Révolutionnaire — 150pts'] },
+      ] },
     { labelFR: 'Potentiel Commercial', labelEN: 'Commercial Potential', maxPts: 250, color: 'text-emerald-400',
-      questions: [{ qFR: 'Revenus créatifs annuels', qEN: 'Annual creative revenue', options: ['< 5K€ — 40pts', '5K-20K€ — 100pts', '20K-100K€ — 180pts', '> 100K€ — 250pts'] }] },
+      questions: [
+        { qFR: 'Revenus créatifs annuels', qEN: 'Annual creative revenue', options: ['< 5K€ — 40pts', '5K-20K€ — 100pts', '20K-100K€ — 180pts', '> 100K€ — 250pts'] },
+        { qFR: 'Demande marché pour votre type de création', qEN: 'Market demand for your creation type', options: ['Faible — 20pts', 'Modérée — 60pts', 'Forte — 120pts', 'Très forte — 180pts'] },
+        { qFR: 'Partenariats commerciaux existants', qEN: 'Existing commercial partnerships', options: ['Aucun — 20pts', '1-2 partenaires — 60pts', '3-5 partenaires — 100pts', '6+ partenaires — 150pts'] },
+      ] },
     { labelFR: 'Infrastructure Légale', labelEN: 'Legal Infrastructure', maxPts: 150, color: 'text-accent-gold',
-      questions: [{ qFR: 'Protection de l\'œuvre', qEN: 'Work protection', options: ['Non protégé — 20pts', 'Enregistré — 60pts', 'Déposé — 100pts', 'Breveté — 150pts'] }] },
-    { labelFR: 'Co-Production', labelEN: 'Co-Production', maxPts: 150, color: 'text-rose-400',
-      questions: [{ qFR: 'Expérience co-production', qEN: 'Co-production experience', options: ['Aucune — 20pts', 'Quelques — 60pts', 'Régulière — 100pts', 'Extensive — 150pts'] }] },
+      questions: [
+        { qFR: 'Protection juridique de vos œuvres', qEN: 'Legal protection of your works', options: ['Non protégé — 20pts', 'Enregistré — 60pts', 'Déposé INPI — 100pts', 'Breveté — 150pts'] },
+        { qFR: 'Structure juridique de votre activité', qEN: 'Legal structure of your activity', options: ['Aucune — 10pts', 'Auto-entrepreneur — 40pts', 'SASU/SARL — 80pts', 'SA/Structure avancée — 120pts'] },
+        { qFR: 'Contrats & accords formalisés', qEN: 'Formalized contracts & agreements', options: ['Aucun — 10pts', 'Quelques — 40pts', 'Réguliers — 80pts', 'Systématiques — 120pts'] },
+      ] },
+    { labelFR: 'Co-Production & Réseau', labelEN: 'Co-Production & Network', maxPts: 150, color: 'text-rose-400',
+      questions: [
+        { qFR: 'Expérience de co-production', qEN: 'Co-production experience', options: ['Aucune — 20pts', 'Quelques projets — 60pts', 'Régulière — 100pts', 'Extensive — 150pts'] },
+        { qFR: 'Réseau professionnel dans le milieu créatif', qEN: 'Professional network in creative industry', options: ['Limité — 20pts', 'En développement — 50pts', 'Solide — 90pts', 'Très établi — 130pts'] },
+        { qFR: 'Capacité à lever des fonds / trouver des investisseurs', qEN: 'Ability to raise funds / find investors', options: ['Débutant — 10pts', 'Quelques contacts — 40pts', 'Réseau solide — 80pts', 'Expérimenté — 120pts'] },
+      ] },
   ];
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<Record<number, number[]>>({});
@@ -105,6 +124,26 @@ const LYASimulator: React.FC<{ lang: 'FR' | 'EN'; formatPrice: (n: number) => st
               </div>
             )}
             <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">{steps.map((st,i) => { const pts = answers[i]?.reduce((a,b)=>a+b,0)||0; return <div key={i} className="bg-surface-high/30 border border-white/6 rounded-xl p-2.5 text-center"><p className="text-[9px] text-on-surface-variant/40 uppercase mb-1">{T(st.labelFR,st.labelEN).split(' ')[0]}</p><p className="text-sm font-black text-primary-cyan">{pts}<span className="text-[9px] text-on-surface-variant/30">/{st.maxPts}</span></p></div>; })}</div>
+            {totalPts >= 400 && (
+              <div className="bg-primary-cyan/5 border border-primary-cyan/20 rounded-2xl p-5 text-center space-y-3">
+                <p className="text-3xl">🎉</p>
+                <p className="text-sm font-black text-primary-cyan uppercase tracking-widest">
+                  {T('Bravo ! Votre Score LYA Index est calculé.', 'Congratulations! Your LYA Index Score is calculated.')}
+                </p>
+                <p className="text-xs text-white/50 leading-relaxed">
+                  {T(
+                    `Avec un score de ${totalPts}/1000, vous pouvez maintenant créer votre projet et le soumettre à l'indexation LYA.`,
+                    `With a score of ${totalPts}/1000, you can now create your project and submit it for LYA indexation.`
+                  )}
+                </p>
+                <button
+                  onClick={() => onViewChange('LINK_ART')}
+                  className="w-full py-4 bg-primary-cyan text-surface-dim font-black text-sm uppercase tracking-widest rounded-xl hover:bg-white transition-all shadow-[0_0_20px_rgba(0,212,255,0.3)]"
+                >
+                  {T('✦ Créer mon projet maintenant →', '✦ Create my project now →')}
+                </button>
+              </div>
+            )}
             <button onClick={reset} className="w-full py-3 bg-white/5 border border-white/10 text-sm font-black rounded-xl hover:bg-white/10 transition-all uppercase tracking-widest">{T('Recommencer','Restart')}</button>
           </motion.div>
         )}
@@ -434,7 +473,7 @@ export const CreatorDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg
                 <h2 className="font-headline font-black text-on-surface text-2xl tracking-tight">{T('Simulateur','Simulator')} <span className="text-primary-cyan">LYA</span></h2>
                 <p className="text-xs text-on-surface-variant/50">{T('Estimez votre score LYA et votre LYA UNIT avant soumission','Estimate your LYA score and LYA UNIT before submission')}</p>
               </div>
-              <LYASimulator lang={lang} formatPrice={formatPrice}/>
+              <LYASimulator lang={lang} formatPrice={formatPrice} onViewChange={onViewChange}/>
             </div>
           )}
 
