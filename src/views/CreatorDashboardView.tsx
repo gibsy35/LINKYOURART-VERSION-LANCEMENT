@@ -46,39 +46,70 @@ const LYASimulator: React.FC<{ lang: 'FR' | 'EN'; formatPrice: (n: number) => st
   const steps = [
     { labelFR: 'Visibilité & Rayonnement', labelEN: 'Visibility & Reach', maxPts: 200, color: 'text-[#a78bfa]',
       questions: [
-        { qFR: 'Followers sur les réseaux sociaux', qEN: 'Social media followers', options: ['< 1,000 — 20pts', '1,000-10,000 — 50pts', '10,000-50,000 — 100pts', '> 50,000 — 200pts'] },
-        { qFR: 'Expositions / Publications cette année', qEN: 'Exhibitions / Publications this year', options: ['Aucune — 0pts', '1-2 — 30pts', '3-5 — 70pts', '6+ — 100pts'] },
-        { qFR: 'Couverture presse & médias spécialisés', qEN: 'Press & media coverage', options: ['Aucune — 0pts', 'Locale — 20pts', 'Nationale — 50pts', 'Internationale — 100pts'] },
+        { qFR: 'Votre audience & présence publique', qEN: 'Your audience & public presence',
+          optionsFR: ['< 1 000 abonnés, peu d\'expositions — 30pts', '1K-10K abonnés, quelques expositions — 70pts', '10K-50K abonnés, expositions régulières — 130pts', '> 50K abonnés, couverture internationale — 200pts'],
+          optionsEN: ['< 1,000 followers, few exhibitions — 30pts', '1K-10K followers, some exhibitions — 70pts', '10K-50K followers, regular exhibitions — 130pts', '> 50K followers, international coverage — 200pts'] },
+        { qFR: 'Couverture presse & médias spécialisés', qEN: 'Press & specialist media coverage',
+          optionsFR: ['Aucune couverture — 0pts', 'Presse locale — 30pts', 'Presse nationale — 60pts', 'Presse internationale — 100pts'],
+          optionsEN: ['No coverage — 0pts', 'Local press — 30pts', 'National press — 60pts', 'International press — 100pts'] },
+        { qFR: 'Collaborations avec d\'autres artistes / marques', qEN: 'Collaborations with other artists / brands',
+          optionsFR: ['Aucune — 0pts', '1-2 collaborations — 20pts', '3-5 collaborations — 40pts', 'Nombreuses & reconnues — 70pts'],
+          optionsEN: ['None — 0pts', '1-2 collaborations — 20pts', '3-5 collaborations — 40pts', 'Many & recognized — 70pts'] },
       ] },
     { labelFR: 'Qualité Artistique', labelEN: 'Artistic Quality', maxPts: 250, color: 'text-primary-cyan',
       questions: [
-        { qFR: 'Niveau de reconnaissance professionnelle', qEN: 'Professional recognition level', options: ['Débutant — 50pts', 'Confirmé — 100pts', 'Expert — 175pts', 'Maître — 250pts'] },
-        { qFR: 'Cohérence de votre univers créatif', qEN: 'Creative universe consistency', options: ['En développement — 30pts', 'Établi — 70pts', 'Distinctif — 120pts', 'Iconique — 150pts'] },
-        { qFR: 'Originalité & innovation dans votre domaine', qEN: 'Originality & innovation in your field', options: ['Standard — 20pts', 'Distinctif — 60pts', 'Avant-gardiste — 120pts', 'Révolutionnaire — 150pts'] },
+        { qFR: 'Niveau de reconnaissance dans votre domaine', qEN: 'Recognition level in your field',
+          optionsFR: ['Débutant — 60pts', 'Confirmé — 120pts', 'Expert reconnu — 190pts', 'Maître / Référence — 250pts'],
+          optionsEN: ['Beginner — 60pts', 'Confirmed — 120pts', 'Recognized expert — 190pts', 'Master / Reference — 250pts'] },
+        { qFR: 'Cohérence & identité de votre univers créatif', qEN: 'Consistency & identity of your creative universe',
+          optionsFR: ['En construction — 20pts', 'Établi — 50pts', 'Très distinctif — 90pts', 'Iconique — 130pts'],
+          optionsEN: ['Under construction — 20pts', 'Established — 50pts', 'Very distinctive — 90pts', 'Iconic — 130pts'] },
+        { qFR: 'Originalité & innovation dans votre domaine', qEN: 'Originality & innovation in your field',
+          optionsFR: ['Standard — 10pts', 'Distinctif — 30pts', 'Avant-gardiste — 60pts', 'Révolutionnaire — 80pts'],
+          optionsEN: ['Standard — 10pts', 'Distinctive — 30pts', 'Avant-garde — 60pts', 'Revolutionary — 80pts'] },
       ] },
     { labelFR: 'Potentiel Commercial', labelEN: 'Commercial Potential', maxPts: 250, color: 'text-emerald-400',
       questions: [
-        { qFR: 'Revenus créatifs annuels', qEN: 'Annual creative revenue', options: ['< 5K€ — 40pts', '5K-20K€ — 100pts', '20K-100K€ — 180pts', '> 100K€ — 250pts'] },
-        { qFR: 'Demande marché pour votre type de création', qEN: 'Market demand for your creation type', options: ['Faible — 20pts', 'Modérée — 60pts', 'Forte — 120pts', 'Très forte — 180pts'] },
-        { qFR: 'Partenariats commerciaux existants', qEN: 'Existing commercial partnerships', options: ['Aucun — 20pts', '1-2 partenaires — 60pts', '3-5 partenaires — 100pts', '6+ partenaires — 150pts'] },
+        { qFR: 'Revenus générés par votre activité créative (annuel)', qEN: 'Revenue from your creative activity (annual)',
+          optionsFR: ['< 5 000€ — 40pts', '5K - 20K€ — 100pts', '20K - 100K€ — 180pts', '> 100K€ — 250pts'],
+          optionsEN: ['< €5,000 — 40pts', '€5K - €20K — 100pts', '€20K - €100K — 180pts', '> €100K — 250pts'] },
+        { qFR: 'Demande du marché pour votre type de création', qEN: 'Market demand for your type of creation',
+          optionsFR: ['Faible — 20pts', 'Modérée — 50pts', 'Forte — 90pts', 'Très forte & croissante — 120pts'],
+          optionsEN: ['Weak — 20pts', 'Moderate — 50pts', 'Strong — 90pts', 'Very strong & growing — 120pts'] },
+        { qFR: 'Partenariats & accords commerciaux existants', qEN: 'Existing partnerships & commercial agreements',
+          optionsFR: ['Aucun — 10pts', '1-2 partenaires — 40pts', '3-5 partenaires — 70pts', '6+ partenaires solides — 100pts'],
+          optionsEN: ['None — 10pts', '1-2 partners — 40pts', '3-5 partners — 70pts', '6+ solid partners — 100pts'] },
       ] },
-    { labelFR: 'Infrastructure Légale', labelEN: 'Legal Infrastructure', maxPts: 150, color: 'text-accent-gold',
+    { labelFR: 'Droits Créatifs & Contrats', labelEN: 'Creative Rights & Contracts', maxPts: 150, color: 'text-accent-gold',
       questions: [
-        { qFR: 'Protection internationale de vos droits créatifs', qEN: 'International protection of your creative rights', options: ['Aucune — 20pts', 'Nationale — 60pts', 'Européenne — 100pts', 'Internationale — 150pts'] },
-        { qFR: 'Contrats & accords de cession formalisés', qEN: 'Formalized assignment contracts & agreements', options: ['Aucun — 10pts', 'Quelques — 40pts', 'Réguliers — 80pts', 'Systématiques — 120pts'] },
-        { qFR: 'Gestion des droits d\'auteur et royalties', qEN: 'Copyright and royalties management', options: ['Non gérée — 10pts', 'Basique — 40pts', 'Organisée — 80pts', 'Professionnelle — 120pts'] },
+        { qFR: 'Protection internationale de vos droits créatifs', qEN: 'International protection of your creative rights',
+          optionsFR: ['Non protégé — 20pts', 'Enregistré localement — 50pts', 'Protégé dans plusieurs pays — 90pts', 'Protection internationale complète — 150pts'],
+          optionsEN: ['Not protected — 20pts', 'Locally registered — 50pts', 'Protected in several countries — 90pts', 'Full international protection — 150pts'] },
+        { qFR: 'Formalisation de vos contrats de cession de droits', qEN: 'Formalization of your rights assignment contracts',
+          optionsFR: ['Aucun contrat — 10pts', 'Quelques contrats informels — 30pts', 'Contrats réguliers — 60pts', 'Contrats systématiques & audités — 100pts'],
+          optionsEN: ['No contracts — 10pts', 'Some informal contracts — 30pts', 'Regular contracts — 60pts', 'Systematic & audited contracts — 100pts'] },
+        { qFR: 'Gestion de vos droits d\'auteur et royalties', qEN: 'Management of your copyright and royalties',
+          optionsFR: ['Non gérée — 10pts', 'Gestion basique — 30pts', 'Gestion organisée — 60pts', 'Gestion professionnelle & déclarée — 100pts'],
+          optionsEN: ['Not managed — 10pts', 'Basic management — 30pts', 'Organized management — 60pts', 'Professional & declared management — 100pts'] },
       ] },
     { labelFR: 'Co-Production & Réseau', labelEN: 'Co-Production & Network', maxPts: 150, color: 'text-rose-400',
       questions: [
-        { qFR: 'Expérience de co-production', qEN: 'Co-production experience', options: ['Aucune — 20pts', 'Quelques projets — 60pts', 'Régulière — 100pts', 'Extensive — 150pts'] },
-        { qFR: 'Réseau professionnel dans le milieu créatif', qEN: 'Professional network in creative industry', options: ['Limité — 20pts', 'En développement — 50pts', 'Solide — 90pts', 'Très établi — 130pts'] },
-        { qFR: 'Capacité à lever des fonds / trouver des investisseurs', qEN: 'Ability to raise funds / find investors', options: ['Débutant — 10pts', 'Quelques contacts — 40pts', 'Réseau solide — 80pts', 'Expérimenté — 120pts'] },
+        { qFR: 'Expérience de co-production avec d\'autres créateurs', qEN: 'Co-production experience with other creators',
+          optionsFR: ['Aucune — 20pts', 'Quelques projets — 50pts', 'Expérience régulière — 90pts', 'Expérience extensive & reconnue — 150pts'],
+          optionsEN: ['None — 20pts', 'A few projects — 50pts', 'Regular experience — 90pts', 'Extensive & recognized experience — 150pts'] },
+        { qFR: 'Solidité de votre réseau professionnel créatif', qEN: 'Strength of your creative professional network',
+          optionsFR: ['Limité — 20pts', 'En développement — 40pts', 'Solide & actif — 70pts', 'Très établi & international — 110pts'],
+          optionsEN: ['Limited — 20pts', 'Developing — 40pts', 'Solid & active — 70pts', 'Very established & international — 110pts'] },
+        { qFR: 'Capacité à attirer des investisseurs & partenaires', qEN: 'Ability to attract investors & partners',
+          optionsFR: ['Peu d\'expérience — 10pts', 'Quelques contacts — 30pts', 'Réseau d\'investisseurs actif — 60pts', 'Track record prouvé — 100pts'],
+          optionsEN: ['Little experience — 10pts', 'Some contacts — 30pts', 'Active investor network — 60pts', 'Proven track record — 100pts'] },
       ] },
   ];
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<Record<number, number[]>>({});
   const [done, setDone] = useState(false);
-  const totalPts = Object.values(answers).flat().reduce((s, p) => s + p, 0);
+  const rawPts = Object.values(answers).flat().reduce((s, p) => s + p, 0);
+  const totalPts = Math.min(1000, rawPts);
   const parse = (opt: string) => parseInt(opt.match(/(\d+)pts/)?.[1] || '0');
   const handleAnswer = (qi: number, opt: string) => {
     const prev = answers[step] ? [...answers[step]] : [];
@@ -103,7 +134,7 @@ const LYASimulator: React.FC<{ lang: 'FR' | 'EN'; formatPrice: (n: number) => st
               <div key={qi} className="space-y-2">
                 <p className="text-sm font-black text-on-surface">{qi+1}. {T(q.qFR, q.qEN)}</p>
                 <div className="grid grid-cols-2 gap-2">
-                  {q.options.map(opt => { const pts = parse(opt); const label = opt.split(' — ')[0]; const sel = answers[step]?.[qi] === pts;
+                  {(lang === 'FR' ? q.optionsFR : q.optionsEN).map(opt => { const pts = parse(opt); const label = opt.split(' — ')[0]; const sel = answers[step]?.[qi] === pts;
                     return <button key={opt} onClick={() => handleAnswer(qi, opt)} className={`p-3 rounded-xl border text-left transition-all ${sel ? 'bg-primary-cyan/10 border-primary-cyan/40 text-primary-cyan' : 'bg-surface-high/30 border-white/8 text-on-surface-variant hover:border-white/20'}`}><p className="text-sm font-bold">{label}</p><p className="text-xs text-primary-cyan font-black">+{pts}pts</p></button>;})}
                 </div>
               </div>
