@@ -413,6 +413,7 @@ const DiagnosticConsole: React.FC<{ lang: 'FR' | 'EN'; onNotify: (msg: string) =
     commercialPotential: 60,
     rights: 80,
     coproduction: 50,
+    growthPotential: 60,
   });
 
   const selected = contracts.find(c => c.id === selectedId);
@@ -425,19 +426,25 @@ const DiagnosticConsole: React.FC<{ lang: 'FR' | 'EN'; onNotify: (msg: string) =
 
     setTimeout(() => {
       const base = selected.totalScore; // 0-1000
-      const critAvg = (criteria.originality + criteria.commercialPotential + criteria.rights + criteria.coproduction) / 4 * 10; // 0-1000
-      const finalScore = Math.round((base * 0.6 + critAvg * 0.4));
+      // Si UN pilier est à 0 → score éliminatoire direct
+      const hasZeroPillar = criteria.originality === 0 || criteria.commercialPotential === 0 || 
+                            criteria.rights === 0 || criteria.coproduction === 0 || criteria.growthPotential === 0;
+      const critAvg = (criteria.originality + criteria.commercialPotential + criteria.rights + criteria.coproduction + criteria.growthPotential) / 5 * 10;
+      // Formule: piliers à 100% = score max, piliers à 0% = 0 (éliminatoire)
+      const pillarMultiplier = critAvg / 1000; // 0.0 à 1.0
+      const finalScore = hasZeroPillar ? 0 : Math.round(base * 0.5 * pillarMultiplier + critAvg * 0.5);
       
       const details: string[] = [
         `${T('Originalité créative', 'Creative originality')}: ${criteria.originality}%`,
         `${T('Potentiel commercial', 'Commercial potential')}: ${criteria.commercialPotential}%`,
         `${T('Conformité des droits', 'Rights compliance')}: ${criteria.rights}%`,
         `${T('Aptitude à la co-production', 'Co-production readiness')}: ${criteria.coproduction}%`,
+        `${T('Potentiel de croissance', 'Growth potential')}: ${criteria.growthPotential}%`,
         `${T('Score LYA de base', 'Base LYA Score')}: ${selected.totalScore}/1000`,
         `${T('Catégorie', 'Category')}: ${selected.category}`,
       ];
 
-      const status = finalScore >= 700 ? 'ELIGIBLE' : finalScore >= 500 ? 'REVIEW' : 'REJECTED';
+      const status = finalScore === 0 ? 'REJECTED' : finalScore >= 700 ? 'ELIGIBLE' : finalScore >= 500 ? 'REVIEW' : 'REJECTED';
       setResult({ score: finalScore, status, details });
       setRunning(false);
       onNotify(status === 'ELIGIBLE'
@@ -483,6 +490,7 @@ const DiagnosticConsole: React.FC<{ lang: 'FR' | 'EN'; onNotify: (msg: string) =
             { key: 'commercialPotential', labelFR: 'Potentiel commercial', labelEN: 'Commercial potential', color: 'accent-[#00ff88]' },
             { key: 'rights', labelFR: 'Conformité des droits', labelEN: 'Rights compliance', color: 'accent-[#a78bfa]' },
             { key: 'coproduction', labelFR: 'Aptitude co-production', labelEN: 'Co-production readiness', color: 'accent-amber-400' },
+            { key: 'growthPotential', labelFR: 'Potentiel de croissance', labelEN: 'Growth potential', color: 'accent-rose-400' },
           ].map(c => (
             <div key={c.key} className="space-y-1.5">
               <div className="flex justify-between">
