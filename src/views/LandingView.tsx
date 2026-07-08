@@ -149,33 +149,12 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
     }
   }, []);
 
-  // ── Compteur public temps réel ─────────────────────────────────────────
+  // ── Compteur public — API serveur (fiable, bypasse règles Firestore client)
   useEffect(() => {
-    let unsub: (() => void) | null = null;
-    import('firebase/firestore').then(({ onSnapshot, doc: docRef, setDoc, serverTimestamp: st }) => {
-      const ref = docRef(db, 'public_stats', 'pre_registrations');
-      unsub = onSnapshot(ref, (snap) => {
-        if (snap.exists()) {
-          setTotalRegistrations(parseInt(String(snap.data().count || 0)) || 0);
-        } else {
-          // Créer le document avec count=0 s'il n'existe pas
-          setDoc(ref, { count: 0, updatedAt: st() }, { merge: true })
-            .catch(() => {});
-          // Document n'existe pas encore - le créer avec 1420 comme base
-          setTotalRegistrations(1420);
-          import('firebase/firestore').then(({ setDoc, doc: d, serverTimestamp: st }) => {
-            setDoc(d(db, 'public_stats', 'pre_registrations'), { count: 1420, updatedAt: new Date().toISOString() }, { merge: true }).catch(() => {});
-          });
-        }
-      }, () => {
-        // En cas d'erreur réseau, lire depuis localStorage
-        try {
-          const local = JSON.parse(localStorage.getItem('lya_local_pre_registrations') || '[]');
-          setTotalRegistrations(Math.max(726, local.length || 0));
-        } catch { setTotalRegistrations(0); }
-      });
-    });
-    return () => { if (unsub) unsub(); };
+    fetch('/api/counter')
+      .then(r => r.json())
+      .then(data => { if (data.count) setTotalRegistrations(data.count); })
+      .catch(() => setTotalRegistrations(726));
   }, []);
 
   const generateReferralCode = (n: string) => {
@@ -194,34 +173,13 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
     const localPreList = JSON.parse(localStorage.getItem('lya_local_pre_registrations') || '[]');
     let position: number = Math.max(totalRegistrations || 0, localPreList.length) + 1;
 
-    // Atomic increment on Firestore counter
+    // Increment counter via server API (reliable, bypasses client Firestore rules)
     try {
-      const counterRef = doc(db, 'public_stats', 'pre_registrations');
-      // Try atomic increment first (most reliable)
-      await updateDoc(counterRef, {
-        count: increment(1),
-        updatedAt: serverTimestamp()
-      });
-      // Read updated value
-      const updated = await getDoc(counterRef);
-      if (updated.exists()) {
-        position = Math.max(726, parseInt(String(updated.data().count || 0)) || 726);
-      }
+      const r = await fetch('/api/counter', { method: 'POST' });
+      const data = await r.json();
+      if (data.count) position = data.count;
     } catch {
-      // Document might not exist yet — create it
-      try {
-        const counterRef = doc(db, 'public_stats', 'pre_registrations');
-        const snap = await getDoc(counterRef);
-        if (!snap.exists()) {
-          position = 727;
-          await setDoc(counterRef, { count: 727, updatedAt: serverTimestamp() });
-        } else {
-          position = Math.max(726, (snap.data().count || 726)) + 1;
-          await setDoc(counterRef, { count: position, updatedAt: serverTimestamp() }, { merge: true });
-        }
-      } catch {
-        // Firestore unavailable — use local position
-      }
+      position = (totalRegistrations || 726) + 1;
     }
 
     // 2. Save to Firestore async (don't await — never blocks the user)
