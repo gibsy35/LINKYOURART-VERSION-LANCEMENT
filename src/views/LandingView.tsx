@@ -29,7 +29,7 @@ import { ExternalLink,
   Users2
 } from 'lucide-react';
 import { db, handleFirestoreError, OperationType } from '../firebase';
-import { collection, addDoc, serverTimestamp, getDocs, query, where, limit, doc, getDoc, setDoc, updateDoc, increment } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp, getDocs, query, where, limit, doc, getDoc, setDoc, updateDoc, increment, onSnapshot } from 'firebase/firestore';
 
 interface LandingViewProps {
   onEnterDemo: () => void;
@@ -149,12 +149,20 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
     }
   }, []);
 
-  // ── Compteur public — API serveur (fiable, bypasse règles Firestore client)
+  // ── Compteur public — Firestore client direct (règles: allow write: if true)
   useEffect(() => {
-    fetch('/api/counter')
-      .then(r => r.json())
-      .then(data => { if (data.count) setTotalRegistrations(data.count); })
-      .catch(() => setTotalRegistrations(726));
+    const counterRef = doc(db, 'public_stats', 'pre_registrations');
+    const unsub = onSnapshot(counterRef, 
+      (snap) => {
+        if (snap.exists()) {
+          setTotalRegistrations(snap.data().count || 0);
+        } else {
+          setTotalRegistrations(0);
+        }
+      },
+      () => setTotalRegistrations(0)
+    );
+    return () => unsub();
   }, []);
 
   const generateReferralCode = (n: string) => {
@@ -173,12 +181,14 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
     const localPreList = JSON.parse(localStorage.getItem('lya_local_pre_registrations') || '[]');
     let position: number = (totalRegistrations || 0) + 1;
 
-    // Increment counter via server API (reliable, bypasses client Firestore rules)
+    // Incrément Firestore direct — atomic, persiste immédiatement
     try {
-      const r = await fetch('/api/counter', { method: 'POST' });
-      const data = await r.json();
-      if (data.count) position = data.count;
-    } catch {
+      const counterRef = doc(db, 'public_stats', 'pre_registrations');
+      await setDoc(counterRef, { count: increment(1), updatedAt: serverTimestamp() }, { merge: true });
+      const snap = await getDoc(counterRef);
+      if (snap.exists()) position = snap.data().count || position;
+    } catch (e) {
+      console.error('[COUNTER]', e);
       position = (totalRegistrations || 0) + 1;
     }
 
