@@ -24,18 +24,18 @@ module.exports = async (req, res) => {
       // Atomic increment
       await ref.set({ count: FieldValue.increment(1), updatedAt: new Date().toISOString() }, { merge: true });
       const snap = await ref.get();
-      const count = snap.exists ? (snap.data().count || 727) : 727;
+      const count = snap.exists ? (snap.data().count || 0) : 0;
       return res.json({ success: true, count });
     }
 
     // GET — read current count
     const snap = await ref.get();
-    const count = snap.exists ? (snap.data().count || 726) : 726;
+    const count = snap.exists ? (snap.data().count || 0) : 0;
     return res.json({ count });
 
   } catch (err) {
     console.error('Counter error:', err.message);
     // Fallback without admin SDK
-    return res.json({ count: 726, error: err.message });
+    return res.json({ count: 0, error: err.message });
   }
 };

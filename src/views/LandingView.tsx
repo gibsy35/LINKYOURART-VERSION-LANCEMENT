@@ -171,7 +171,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
 
     // 1. Position — always use local first, then try Firestore (never blocks)
     const localPreList = JSON.parse(localStorage.getItem('lya_local_pre_registrations') || '[]');
-    let position: number = Math.max(totalRegistrations || 0, localPreList.length) + 1;
+    let position: number = (totalRegistrations || 0) + 1;
 
     // Increment counter via server API (reliable, bypasses client Firestore rules)
     try {
@@ -179,7 +179,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
       const data = await r.json();
       if (data.count) position = data.count;
     } catch {
-      position = (totalRegistrations || 726) + 1;
+      position = (totalRegistrations || 0) + 1;
     }
 
     // 2. Save to Firestore async (don't await — never blocks the user)
