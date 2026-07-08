@@ -149,18 +149,26 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
     }
   }, []);
 
-  // ── Compteur public — Firestore client direct (règles: allow write: if true)
+  // ── Compteur public — Firestore client direct
   useEffect(() => {
     const counterRef = doc(db, 'public_stats', 'pre_registrations');
-    const unsub = onSnapshot(counterRef, 
+    // Créer le document s'il n'existe pas
+    getDoc(counterRef).then(snap => {
+      if (!snap.exists()) {
+        setDoc(counterRef, { count: 0, updatedAt: serverTimestamp() }).catch(() => {});
+      }
+    }).catch(() => {});
+    // Écouter les changements en temps réel
+    const unsub = onSnapshot(counterRef,
       (snap) => {
         if (snap.exists()) {
           setTotalRegistrations(snap.data().count || 0);
-        } else {
-          setTotalRegistrations(0);
         }
       },
-      () => setTotalRegistrations(0)
+      (err) => {
+        console.error('[COUNTER READ]', err);
+        setTotalRegistrations(0);
+      }
     );
     return () => unsub();
   }, []);
