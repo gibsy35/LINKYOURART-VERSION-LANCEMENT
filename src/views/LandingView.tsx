@@ -582,6 +582,20 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                               className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 pl-16 pr-8 focus:outline-none focus:border-primary-cyan/50 focus:bg-white/10 transition-all font-bold text-sm tracking-tight"
                             />
                           </div>
+                          <div className="relative group">
+                            <div className="absolute left-6 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-accent-gold transition-colors text-sm font-black">✦</div>
+                            <input
+                              type="text"
+                              placeholder={t('Referral code (optional) — ex: JEA-X7K2', 'Code parrainage (optionnel) — ex: JEA-X7K2')}
+                              value={referredBy || ''}
+                              onChange={(e) => setReferredBy(e.target.value.toUpperCase().trim() || null)}
+                              maxLength={12}
+                              className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 pl-16 pr-8 focus:outline-none focus:border-accent-gold/50 focus:bg-white/10 transition-all font-bold text-sm tracking-tight font-mono uppercase"
+                            />
+                            <p className="text-[9px] text-white/20 font-bold uppercase tracking-widest mt-1.5 pl-2">
+                              {t('Enter the code from your invitation email to boost your position', 'Entrez le code reçu dans un email d'invitation pour booster votre position')}
+                            </p>
+                          </div>
                         </div>
 
                         <button type="submit" disabled={isSubmitting}
