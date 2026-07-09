@@ -237,6 +237,32 @@ function buildEmail(name, position, referralCode, referralLink, lang) {
       </td></tr>`).join('')}
     </table>
 
+    <!-- BROCHURE LYA -->
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:28px">
+      <tr><td>
+        <p style="margin:0 0 16px;font-size:11px;font-weight:900;color:#94a3b8;text-transform:uppercase;letter-spacing:0.15em;text-align:center">
+          ${isFR ? '— Téléchargez notre présentation officielle —' : '— Download our official presentation —'}
+        </p>
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+          <tr>
+            <td width="50%" style="padding-right:8px">
+              <a href="https://linkyourart.com/LYA_Brochure_FR_final.pdf" style="display:block;background:linear-gradient(135deg,#0d1117,#1a2332);border:1.5px solid rgba(0,212,255,0.3);color:#00d4ff;text-decoration:none;font-size:13px;font-weight:900;padding:16px 20px;border-radius:12px;text-align:center;letter-spacing:0.08em;text-transform:uppercase">
+                📄 ${isFR ? 'Brochure LYA — FR' : 'LYA Brochure — FR'}
+              </a>
+            </td>
+            <td width="50%" style="padding-left:8px">
+              <a href="https://linkyourart.com/LYA_Brochure_EN_final.pdf" style="display:block;background:linear-gradient(135deg,#0d1117,#1a2332);border:1.5px solid rgba(167,139,250,0.3);color:#a78bfa;text-decoration:none;font-size:13px;font-weight:900;padding:16px 20px;border-radius:12px;text-align:center;letter-spacing:0.08em;text-transform:uppercase">
+                📄 ${isFR ? 'LYA Brochure — EN' : 'LYA Brochure — EN'}
+              </a>
+            </td>
+          </tr>
+        </table>
+        <p style="margin:12px 0 0;font-size:12px;color:#94a3b8;text-align:center">
+          ${isFR ? 'Découvrez tout ce que LinkYourArt a à vous offrir.' : 'Discover everything LinkYourArt has to offer you.'}
+        </p>
+      </td></tr>
+    </table>
+
     <!-- CTA -->
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
       <tr><td align="center" style="padding-bottom:8px">
