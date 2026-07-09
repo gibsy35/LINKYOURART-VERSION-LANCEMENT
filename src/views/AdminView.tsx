@@ -114,6 +114,20 @@ export const AdminView: React.FC<{
     }
   };
 
+  const handleDeleteDemoRequest = async (id: string) => {
+    try {
+      if (!id.startsWith('local_')) {
+        await deleteDoc(doc(db, 'demo_requests', id));
+      }
+      setDemoRequests(prev => prev.filter(d => d.id !== id));
+      const localDemo = JSON.parse(localStorage.getItem('lya_local_demo_requests') || '[]');
+      localStorage.setItem('lya_local_demo_requests', JSON.stringify(localDemo.filter((d: any) => d.id !== id)));
+      onNotify(t('Demo request deleted.', 'Demande démo supprimée.'));
+    } catch(e) {
+      console.error(e);
+    }
+  };
+
   const handleRejectDemoRequest = async (id: string) => {
     try {
       const localDemo = JSON.parse(localStorage.getItem('lya_local_demo_requests') || '[]');
@@ -1458,6 +1472,13 @@ export const AdminView: React.FC<{
                           >
                             {t('REJECT', 'REFUSER')}
                           </button>
+                          <button
+                            onClick={() => handleDeleteDemoRequest(r.id)}
+                            className="p-1.5 bg-white/5 border border-white/10 text-white/30 hover:text-rose-400 hover:border-rose-400/30 rounded-lg transition-all active:scale-95"
+                            title={t('Delete', 'Supprimer')}
+                          >
+                            <Trash2 size={12} />
+                          </button>
                         </div>
                       ) : isApproved ? (
                         <button
@@ -1470,7 +1491,13 @@ export const AdminView: React.FC<{
                           {t('SHOW INVITATION EMAIL', 'VOIR E-MAIL ENVOYÉ')}
                         </button>
                       ) : (
-                        <span className="text-[10px] text-white/20 uppercase tracking-wider font-bold">---</span>
+                        <button
+                          onClick={() => handleDeleteDemoRequest(r.id)}
+                          className="p-1.5 bg-white/5 border border-white/10 text-white/30 hover:text-rose-400 hover:border-rose-400/30 rounded-lg transition-all"
+                          title={t('Delete', 'Supprimer')}
+                        >
+                          <Trash2 size={12} />
+                        </button>
                       )}
                     </td>
                   </tr>
@@ -1573,12 +1600,12 @@ export const AdminView: React.FC<{
       <div className="flex flex-col lg:flex-row gap-8">
         <aside className="w-full lg:w-64 space-y-2">
           {[
-            {id: 'users', label: 'Identity', icon: <Users size={16}/>},
+            {id: 'users', label: t('Identity', 'Identité'), icon: <Users size={16}/>},
             {id: 'submissions', label: t('Submissions', 'Soumissions'), icon: <FileText size={16}/>, badge: pendingSubmissions.filter(s => s.status === 'PENDING_VALIDATION').length || undefined},
-            {id: 'engagement', label: 'Engagement', icon: <Mail size={16}/>},
-            {id: 'validation', label: 'Verifications', icon: <Shield size={16}/>},
-            {id: 'projects', label: 'Assets', icon: <Activity size={16}/>},
-            {id: 'system', label: 'Infrastructure', icon: <Settings size={16}/>}
+            {id: 'engagement', label: t('Engagement', 'Engagement'), icon: <Mail size={16}/>},
+            {id: 'validation', label: t('Verifications', 'Vérifications'), icon: <Shield size={16}/>},
+            {id: 'projects', label: t('Assets', 'Actifs'), icon: <Activity size={16}/>},
+            {id: 'system', label: t('Infrastructure', 'Infrastructure'), icon: <Settings size={16}/>}
           ].map(it => (
             <button key={it.id} onClick={() => setActiveTab(it.id as any)} className={`w-full flex items-center gap-4 p-4 rounded-xl font-black uppercase text-[10px] tracking-widest transition-all ${activeTab === it.id ? 'bg-accent-gold text-surface-dim shadow-xl' : 'text-on-surface-variant hover:bg-white/5'}`}>
               {it.icon} {it.label}
@@ -1588,9 +1615,9 @@ export const AdminView: React.FC<{
 
         <main className="flex-1">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <StatCard title="Total Users" value={stats.totalUsers} icon={<Users/>} color="gold" isCurrency={false} trend="+12%"/>
-            <StatCard title="Platform TVL" value={stats.totalVolume} icon={<TrendingUp/>} color="cyan" trend="+24%"/>
-            <StatCard title="LYA Revenue" value={stats.systemFee} icon={<Zap/>} color="pink" trend="+8%"/>
+            <StatCard title={t("Total Users", "Utilisateurs")} value={users.length} icon={<Users/>} color="gold" isCurrency={false} trend=""/>
+            <StatCard title={t("Platform TVL", "Volume Plateforme")} value={0} icon={<TrendingUp/>} color="cyan" trend=""/>
+            <StatCard title={t("LYA Revenue", "Revenus LYA")} value={0} icon={<Zap/>} color="pink" trend=""/>
           </div>
 
           <AnimatePresence mode="wait">
