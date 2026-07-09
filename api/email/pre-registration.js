@@ -76,8 +76,8 @@ function buildEmail(name, position, referralCode, referralLink, lang) {
   const isFR = lang === 'FR';
 
   const subject = isFR
-    ? `✦ ${name}, votre place sur la liste LYA Originals LinkYourArt est confirmée`
-    : `✦ ${name}, your place on the LinkYourArt LYA Originals is confirmed`;
+    ? `[LYA Originals] ${name}, votre inscription est confirmée`
+    : `[LYA Originals] ${name}, your registration is confirmed`;
 
   const html = `<!DOCTYPE html>
 <html lang="${isFR ? 'fr' : 'en'}">
