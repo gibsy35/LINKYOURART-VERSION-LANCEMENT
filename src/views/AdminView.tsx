@@ -1615,7 +1615,7 @@ export const AdminView: React.FC<{
 
         <main className="flex-1">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <StatCard title={t("Total Users", "Utilisateurs")} value={users.length} icon={<Users/>} color="gold" isCurrency={false} trend=""/>
+            <StatCard title={t("Total Users", "Utilisateurs")} value={preRegistrations.length} icon={<Users/>} color="gold" isCurrency={false} trend=""/>
             <StatCard title={t("Platform TVL", "Volume Plateforme")} value={0} icon={<TrendingUp/>} color="cyan" trend=""/>
             <StatCard title={t("LYA Revenue", "Revenus LYA")} value={0} icon={<Zap/>} color="pink" trend=""/>
           </div>

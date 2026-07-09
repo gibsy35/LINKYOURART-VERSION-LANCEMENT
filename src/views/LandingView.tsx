@@ -177,10 +177,36 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
     return `${initials}-${suffix}`;
   };
 
+  const TEST_EMAILS = ['linkyourart@gmail.com', 'jblequime27061983@gmail.com', 'lequimejeanbaptiste@gmail.com', 'jlequime@hotmail.com'];
+
   const handlePreRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !name) return;
     setIsSubmitting(true);
+
+    // Check email uniqueness (except test emails)
+    const isTestEmail = TEST_EMAILS.includes(email.toLowerCase().trim());
+    if (!isTestEmail) {
+      try {
+        const existing = await getDocs(query(
+          collection(db, 'pre_registrations'),
+          where('email', '==', email.toLowerCase().trim()),
+          limit(1)
+        ));
+        if (!existing.empty) {
+          setIsSubmitting(false);
+          setNotifMsg(t(
+            'This email is already pre-registered. Check your inbox for the confirmation email.',
+            'Cette adresse email est déjà pré-inscrite. Vérifiez votre boîte mail.'
+          ));
+          return;
+        }
+      } catch (e) {
+        console.warn('[EMAIL CHECK]', e);
+        // Continue if check fails
+      }
+    }
+
     const code = generateReferralCode(name);
 
     // 1. Position — always use local first, then try Firestore (never blocks)
