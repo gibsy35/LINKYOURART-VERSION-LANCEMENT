@@ -186,7 +186,7 @@ function buildEmail(name, position, referralCode, referralLink, lang) {
               </td>
               <td style="padding-left:16px;vertical-align:top">
                 <p style="margin:0 0 3px;font-size:15px;font-weight:900;color:#475569">${isFR ? 'Accès exclusif' : 'Exclusive access'}</p>
-                <p style="margin:0;font-size:13px;color:#94a3b8;line-height:1.5">${isFR ? 'Vous recevez un lien d\'accès unique valable 48h pour créer votre compte.' : 'You receive a unique 48h access link to create your account.'}</p>
+                <p style="margin:0;font-size:13px;color:#94a3b8;line-height:1.5">${isFR ? 'Vous recevrez un lien d\'accès unique pour créer votre compte.' : 'You will receive a unique access link to create your account.'}</p>
               </td>
             </tr>
           </table>

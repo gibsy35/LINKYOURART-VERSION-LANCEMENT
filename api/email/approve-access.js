@@ -89,7 +89,7 @@ function buildApprovalEmail(name, accessUrl, lang) {
   '<table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding-bottom:32px">' +
   '<h1 style="margin:0 0 8px;font-size:28px;font-weight:900;color:#0c4a6e">' + (isFR ? 'Félicitations, ' : 'Congratulations, ') + name + ' !</h1>' +
   '<p style="margin:0 0 8px;font-size:16px;color:#0369a1;font-weight:700">' + (isFR ? 'Votre accès LinkYourArt est approuvé.' : 'Your LinkYourArt access has been approved.') + '</p>' +
-  '<p style="margin:0;font-size:14px;color:#075985;line-height:1.7">' + (isFR ? 'Vous avez été personnellement sélectionné pour rejoindre les pionniers de LinkYourArt. Cliquez sur le bouton ci-dessous pour créer votre compte — ce lien est unique et valable 48 heures.' : 'You have been personally selected to join the LinkYourArt pioneers. Click the button below to create your account — this link is unique and valid for 48 hours.') + '</p>' +
+  '<p style="margin:0;font-size:14px;color:#075985;line-height:1.7">' + (isFR ? 'Vous avez été personnellement sélectionné pour rejoindre les pionniers de LinkYourArt. Cliquez sur le bouton ci-dessous pour créer votre compte.' : 'You have been personally selected to join the LinkYourArt pioneers. Click the button below to create your account.') + '</p>' +
   '</td></tr></table>' +
 
   '<table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding-bottom:32px">' +
@@ -102,7 +102,7 @@ function buildApprovalEmail(name, accessUrl, lang) {
   '<div style="background:rgba(255,255,255,0.5);border:1px solid rgba(14,165,233,0.2);border-radius:12px;padding:16px;display:inline-block">' +
   '<p style="margin:0 0 4px;font-size:10px;color:#0369a1;text-transform:uppercase;letter-spacing:0.1em;font-weight:900">' + (isFR ? '⚠ Lien à usage unique' : '⚠ Single-use link') + '</p>' +
   '<p style="margin:0;font-size:11px;color:#0369a1;font-family:monospace">' + accessUrl + '</p>' +
-  '<p style="margin:4px 0 0;font-size:10px;color:#0369a1;opacity:0.6">' + (isFR ? 'Valable 48h — ne partagez pas ce lien' : 'Valid 48h — do not share this link') + '</p>' +
+  '<p style="margin:4px 0 0;font-size:10px;color:#0369a1;opacity:0.6">' + (isFR ? 'Ne partagez pas ce lien' : 'Do not share this link') + '</p>' +
   '</div>' +
   '</td></tr></table>' +
 

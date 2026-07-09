@@ -564,7 +564,7 @@ export const AdminView: React.FC<{
     onNotify(t(`Processing approval for ${name}...`, `Approbation de ${name} en cours...`));
 
     const token = `lya-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
-    const expiresAt = new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString();
+    const expiresAt = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(); // 1 an
     const baseUrl = 'https://linkyourart.com';
 
     // ÉTAPE 1 — Créer le token (non-bloquant si Firestore refuse)

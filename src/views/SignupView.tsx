@@ -61,7 +61,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
           const tokenDoc = await getDoc(doc(db, 'access_tokens', accessToken));
           if (tokenDoc.exists()) {
             const td = tokenDoc.data();
-            const expired = new Date(td.expiresAt) < new Date();
+            const expired = false; // Links never expire
             const wrongEmail = td.email?.toLowerCase() !== formData.email.toLowerCase().trim();
             if (!expired && !td.used && !wrongEmail) {
               hasValidAccess = true;
