@@ -195,10 +195,11 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
         ));
         if (!existing.empty) {
           setIsSubmitting(false);
-          setNotifMsg(t(
-            'This email is already pre-registered. Check your inbox for the confirmation email.',
-            'Cette adresse email est déjà pré-inscrite. Vérifiez votre boîte mail.'
-          ));
+          // Show error via existing notification or alert
+          window.alert(language === 'FR'
+            ? 'Cette adresse email est déjà pré-inscrite. Vérifiez votre boîte mail pour l\'email de confirmation.'
+            : 'This email is already pre-registered. Check your inbox for the confirmation email.'
+          );
           return;
         }
       } catch (e) {
