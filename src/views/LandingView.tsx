@@ -593,7 +593,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                               className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 pl-16 pr-8 focus:outline-none focus:border-accent-gold/50 focus:bg-white/10 transition-all font-bold text-sm tracking-tight font-mono uppercase"
                             />
                             <p className="text-[9px] text-white/20 font-bold uppercase tracking-widest mt-1.5 pl-2">
-                              {t('Enter the code from your invitation email to boost your position', 'Entrez le code reçu dans un email d'invitation pour booster votre position')}
+                              {t('Enter the code from your invitation email to boost your position', 'Entrez le code reçu dans un email d\'invitation pour booster votre position')}
                             </p>
                           </div>
                         </div>
