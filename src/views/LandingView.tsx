@@ -432,9 +432,9 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                   <User size={14} />
                   {t('LOGIN', 'CONNEXION')}
                 </button>
-                <button onClick={() => setShowDemoModal(true)} className="flex bg-white/5 border border-white/10 hover:border-primary-cyan/50 hover:bg-primary-cyan hover:text-black transition-all px-3 md:px-6 py-2 md:py-3 rounded-full text-[10px] font-bold tracking-widest uppercase items-center gap-2">
-                  <Lock size={12} />
-                  <span className="hidden sm:inline">{t('DEMO ACCESS', 'ACCÈS DÉMO')}</span>
+                <button onClick={() => setShowDemoModal(true)} className="flex items-center gap-2 px-3 md:px-5 py-2 md:py-2.5 rounded-full text-[10px] font-black tracking-widest uppercase transition-all" style={{background:'linear-gradient(135deg,rgba(255,215,0,0.12),rgba(255,215,0,0.06))',border:'1px solid rgba(255,215,0,0.35)',color:'#FFD700',boxShadow:'0 0 20px rgba(255,215,0,0.1)'}}>
+                  <span style={{fontSize:'10px'}}>◆</span>
+                  <span className="hidden sm:inline">{t('PRIVATE DISCOVERY', 'DÉCOUVERTE PRIVÉE')}</span>
                 </button>
               </div>
             </nav>
@@ -764,25 +764,25 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowDemoModal(false)} className="absolute inset-0 bg-black/90 backdrop-blur-2xl" />
             <motion.div initial={{ opacity: 0, scale: 0.95, y: 30 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 30 }} className="relative w-full max-w-xl max-h-[95vh] lg:max-h-[90vh] overflow-y-auto scrollbar-thin bg-[#0D1117] border border-white/10 rounded-[2.5rem] p-6 sm:p-8 md:p-10 shadow-3xl">
-              <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-primary-cyan via-[#FF007F] to-[#9D00FF] rounded-t-[2.5rem]" />
+              <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-[#FFD700] via-[#FFA500] to-[#FFD700] rounded-t-[2.5rem]" />
               {!demoSubmitted ? (
                 <div className="space-y-6 md:space-y-8">
                   <div className="flex items-center gap-6">
                     <div className="w-16 h-16 bg-primary-cyan/10 rounded-2xl flex items-center justify-center text-primary-cyan border border-primary-cyan/20"><Lock size={32} /></div>
                     <div>
-                      <h3 className="font-headline text-3xl font-black uppercase tracking-tighter">{t('RESTRICTED ACCESS', 'ACCÈS RESTREINT')}</h3>
-                      <p className="text-xs text-white/30 font-black uppercase tracking-[0.4em]">{t('VERIFICATION IN PROGRESS', 'VÉRIFICATION EN COURS')}</p>
+                      <h3 className="font-headline text-3xl font-black uppercase tracking-tighter">{t('PRIVATE DISCOVERY ACCESS', 'ACCÈS DÉCOUVERTE PRIVÉE')}</h3>
+                      <p className="text-xs text-white/30 font-black uppercase tracking-[0.4em]">{t('FOR INVESTORS & INSTITUTIONS', 'POUR INVESTISSEURS & INSTITUTIONS')}</p>
                     </div>
                   </div>
                   <form onSubmit={handleDemoRequest} className="space-y-6">
                     <div className="space-y-4">
                       <input type="text" placeholder={t('Identity Name', 'Identité Nom')} required value={name} onChange={(e) => setName(e.target.value)} className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 px-8 focus:outline-none focus:border-primary-cyan/50 transition-all font-bold text-sm tracking-tight" />
                       <input type="email" placeholder={t('Professional Email', 'Email Professionnel')} required value={email} onChange={(e) => setEmail(e.target.value)} className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 px-8 focus:outline-none focus:border-primary-cyan/50 transition-all font-bold text-sm tracking-tight" />
-                      <textarea placeholder={t('Reason for institutional access', 'Motif de la demande institutionnelle')} required value={demoRequestReason} onChange={(e) => setDemoRequestReason(e.target.value)} rows={4} className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 px-8 focus:outline-none focus:border-primary-cyan/50 transition-all font-bold text-sm tracking-tight resize-none" />
+                      <textarea placeholder={t('Your role & reason for requesting private access', 'Votre rôle & motif de demande d\'accès privé')} required value={demoRequestReason} onChange={(e) => setDemoRequestReason(e.target.value)} rows={4} className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 px-8 focus:outline-none focus:border-primary-cyan/50 transition-all font-bold text-sm tracking-tight resize-none" />
                     </div>
                     <div className="pt-4 flex flex-col gap-4">
                       <button type="submit" disabled={isSubmitting} className="w-full py-6 bg-primary-cyan text-black font-black uppercase tracking-[0.3em] rounded-2xl hover:shadow-[0_0_40px_rgba(0,224,255,0.3)] transition-all active:scale-95 text-xs flex items-center justify-center gap-3">
-                        {isSubmitting ? <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin" /> : <>{t('REQUEST CLEARANCE', "DEMANDER L'AUTORISATION")}<ArrowRight size={20} /></>}
+                        {isSubmitting ? <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin" /> : <>{t('REQUEST PRIVATE ACCESS', 'DEMANDER UN ACCÈS PRIVÉ')}<ArrowRight size={20} /></>}
                       </button>
                       <div className="text-center pt-2">
                         <p className="text-[10px] font-bold text-white/20 uppercase leading-relaxed font-mono">{t('Existing partners: Please authenticate via the Terminal Login.', 'Partenaires existants : Veuillez vous authentifier via le Login Terminal.')}</p>
