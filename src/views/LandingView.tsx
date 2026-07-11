@@ -87,6 +87,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
   const [submitted, setSubmitted] = useState(false);
   const [queuePosition, setQueuePosition] = useState<number | null>(null);
   const [referralCode, setReferralCode] = useState<string | null>(null);
+  const [referralAutoFilled, setReferralAutoFilled] = useState(false);
   const [referredBy, setReferredBy] = useState<string | null>(null);
   const [totalRegistrations, setTotalRegistrations] = useState<number | null>(null);
   const [linkCopied, setLinkCopied] = useState(false);
@@ -140,11 +141,12 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
     const ref = params.get('ref');
     if (ref) {
       setReferredBy(ref.toUpperCase());
+      setReferralAutoFilled(true);
       try { localStorage.setItem('lya_referred_by', ref.toUpperCase()); } catch {}
     } else {
       try {
         const stored = localStorage.getItem('lya_referred_by');
-        if (stored) setReferredBy(stored);
+        if (stored) { setReferredBy(stored); setReferralAutoFilled(true); }
       } catch {}
     }
   }, []);
@@ -588,13 +590,30 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                               type="text"
                               placeholder={t('Referral code (optional) — ex: JEA-X7K2', 'Code parrainage (optionnel) — ex: JEA-X7K2')}
                               value={referredBy || ''}
-                              onChange={(e) => setReferredBy(e.target.value.toUpperCase().trim() || null)}
+                              onChange={(e) => { setReferredBy(e.target.value.toUpperCase().trim() || null); setReferralAutoFilled(false); }}
                               maxLength={12}
-                              className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 pl-16 pr-8 focus:outline-none focus:border-accent-gold/50 focus:bg-white/10 transition-all font-bold text-sm tracking-tight font-mono uppercase"
+                              className={`w-full border rounded-2xl py-5 pl-16 ${referralAutoFilled && referredBy ? 'pr-14 bg-accent-gold/5 border-accent-gold/30' : 'pr-8 bg-white/5 border-white/10'} focus:outline-none focus:border-accent-gold/50 focus:bg-white/10 transition-all font-bold text-sm tracking-tight font-mono uppercase`}
                             />
-                            <p className="text-[9px] text-white/20 font-bold uppercase tracking-widest mt-1.5 pl-2">
-                              {t('Enter the code from your invitation email to boost your position', 'Entrez le code reçu dans un email d\'invitation pour booster votre position')}
-                            </p>
+                            {referralAutoFilled && referredBy && (
+                              <button
+                                type="button"
+                                onClick={() => { setReferredBy(null); setReferralAutoFilled(false); try { localStorage.removeItem('lya_referred_by'); } catch {} }}
+                                className="absolute right-5 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/70 transition-colors"
+                                aria-label={t('Clear referral code', 'Effacer le code de parrainage')}
+                              >
+                                <X size={16} />
+                              </button>
+                            )}
+                            {referralAutoFilled && referredBy ? (
+                              <p className="flex items-center gap-1.5 text-[9px] text-accent-gold font-bold uppercase tracking-widest mt-1.5 pl-2">
+                                <CheckCircle2 size={11} />
+                                {t('Referral code detected automatically — not yours? Clear it above', 'Code de parrainage détecté automatiquement — pas le vôtre ? Effacez-le ci-dessus')}
+                              </p>
+                            ) : (
+                              <p className="text-[9px] text-white/20 font-bold uppercase tracking-widest mt-1.5 pl-2">
+                                {t('Enter the code from your invitation email to boost your position', 'Entrez le code reçu dans un email d\'invitation pour booster votre position')}
+                              </p>
+                            )}
                           </div>
                         </div>
 
