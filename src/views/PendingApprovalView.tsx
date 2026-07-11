@@ -7,7 +7,6 @@ import {
   CheckCircle2, 
   LogOut, 
   ShieldCheck, 
-  Sparkles, 
   TrendingUp, 
   Coins, 
   Terminal,
@@ -27,19 +26,10 @@ interface PendingApprovalViewProps {
 
 export const PendingApprovalView: React.FC<PendingApprovalViewProps> = ({ user, onApprove, onLogout }) => {
   const { t } = useTranslation();
-  const [isBypassing, setIsBypassing] = useState(false);
   const [accessKey, setAccessKey] = useState('');
   const [isValidating, setIsValidating] = useState(false);
   const [keyError, setKeyError] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
-
-  const handleBypass = () => {
-    setIsBypassing(true);
-    setTimeout(() => {
-      onApprove();
-      setIsBypassing(false);
-    }, 1200);
-  };
 
   const handleValidateKey = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -270,39 +260,6 @@ export const PendingApprovalView: React.FC<PendingApprovalViewProps> = ({ user, 
                   )}
                 </button>
               </form>
-            </div>
-
-            {/* JURY BYPASS BOX */}
-            <div className="p-6 bg-white/[0.02] border border-white/10 rounded-[1.8rem] space-y-4 relative overflow-hidden group hover:border-primary-cyan/30 transition-all">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-primary-cyan/5 blur-2xl rounded-full pointer-events-none" />
-              
-              <div className="space-y-2 relative z-10">
-                <div className="flex items-center gap-2">
-                  <Sparkles size={14} className="text-primary-cyan animate-pulse" />
-                  <span className="text-xs font-black text-primary-cyan uppercase tracking-widest">{t('DEMO EVALUATION BYPASS', 'ÉVALUATION DÉMO : ACCÈS DIRECT')}</span>
-                </div>
-                <p className="text-[10px] text-white/40 uppercase tracking-wider font-bold leading-normal">
-                  {t(
-                    'Are you evaluating this platform for a demo, investment or partner review? You can bypass the clearance waitlist immediately with one click to test all the hub features.',
-                    'Vous examinez la plateforme dans le cadre d\'un test, d\'une évaluation ou d\'un partenariat ? Activez l\'accès démo maintenant pour explorer l\'ensemble des galeries et d\'outils d\'analyse.'
-                  )}
-                </p>
-              </div>
-
-              <button 
-                onClick={handleBypass}
-                disabled={isBypassing}
-                className="w-full relative z-10 py-4 bg-primary-cyan text-surface-dim hover:bg-white text-[10px] font-black uppercase tracking-[0.2em] italic rounded-2xl flex items-center justify-center gap-3 transition-all active:scale-95 shadow-[0_10px_20px_rgba(0,224,255,0.15)] disabled:opacity-50"
-              >
-                {isBypassing ? (
-                  <RefreshCw size={14} className="animate-spin text-surface-dim" />
-                ) : (
-                  <>
-                    {t('🔑 UNLOCK PREVIEW', '🔓 ACCÉDER À LA DÉMO')}
-                    <ArrowRight size={14} />
-                  </>
-                )}
-              </button>
             </div>
           </div>
         </div>
