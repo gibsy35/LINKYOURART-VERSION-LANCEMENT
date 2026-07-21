@@ -1142,8 +1142,8 @@ export const AdminView: React.FC<{
 
           <div className="flex justify-between items-end mb-6">
             <div>
-              <div className="text-[10px] uppercase font-black opacity-40 mb-1 tracking-widest">{t('UNIT PRICE', 'PRIX UNIT')}</div>
-              <div className="text-xl font-black text-white font-mono">{formatPrice(p.unitValue)}</div>
+              <div className="text-[10px] uppercase font-black opacity-40 mb-1 tracking-widest">{t('STATUS', 'STATUT')}</div>
+              <div className="text-xl font-black text-white">{p.status}</div>
             </div>
             <div className="text-right">
               <div className="text-[10px] uppercase font-black opacity-40 mb-1 tracking-widest">{t('LYA SCORE', 'SCORE LYA')}</div>
@@ -1400,7 +1400,7 @@ export const AdminView: React.FC<{
             </button>
             <button onClick={seedMockContracts} disabled={isSeeding} className="p-6 bg-white/5 border border-white/10 rounded-xl hover:border-accent-gold transition-all text-left">
               <CreditCard className="text-accent-gold mb-2" />
-              <div className="text-xs font-black uppercase text-white tracking-widest">{t('SEEDED ASSETS', 'SÉMENCE ACTIFS')}</div>
+              <div className="text-xs font-black uppercase text-white tracking-widest">{t('DEMO PROJECTS', 'PROJETS DE DÉMONSTRATION')}</div>
             </button>
           </div>
        </div>
@@ -1604,7 +1604,7 @@ export const AdminView: React.FC<{
             {id: 'submissions', label: t('Submissions', 'Soumissions'), icon: <FileText size={16}/>, badge: pendingSubmissions.filter(s => s.status === 'PENDING_VALIDATION').length || undefined},
             {id: 'engagement', label: t('Engagement', 'Engagement'), icon: <Mail size={16}/>},
             {id: 'validation', label: t('Verifications', 'Vérifications'), icon: <Shield size={16}/>},
-            {id: 'projects', label: t('Assets', 'Actifs'), icon: <Activity size={16}/>},
+            {id: 'projects', label: t('Projects', 'Projets'), icon: <Activity size={16}/>},
             {id: 'system', label: t('Infrastructure', 'Infrastructure'), icon: <Settings size={16}/>}
           ].map(it => (
             <button key={it.id} onClick={() => setActiveTab(it.id as any)} className={`w-full flex items-center gap-4 p-4 rounded-xl font-black uppercase text-[10px] tracking-widest transition-all ${activeTab === it.id ? 'bg-accent-gold text-surface-dim shadow-xl' : 'text-on-surface-variant hover:bg-white/5'}`}>

@@ -291,7 +291,7 @@ export interface Contract {
   scorePro?: number; // New: Rating from professionals (0-1000)
   scoreLYA?: number; // New: Rating from LYA algorithmic analysis (0-1000)
   professionalValidator?: string; // New: Name of the professional entity that validated the project
-  jurisdiction: 'EU Markets' | 'EU (MiCA)' | 'US (SEC)' | 'UK (FCA)' | 'CH (FINMA)' | 'SG (MAS)' | 'OFFSHORE' | 'EMERGING MARKET';
+  jurisdiction: 'France (SACD)' | 'EU (IP Law)' | 'US (Federal IP)' | 'UK (CDPA)' | 'CH (IP Law)' | 'SG (IP Law)' | 'International';
   scoreAlgo?: number; // Added for explicit SCORE ALGO
 }
 
@@ -338,7 +338,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 880,
     scoreLYA: 900,
     professionalValidator: 'LOUVRE_DIGITAL_0x1',
-    jurisdiction: 'EU Markets'
+    jurisdiction: 'EU (IP Law)'
   },
   {
     id: 'LYA_SKY_GARDENS',
@@ -382,7 +382,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 790,
     scoreLYA: 800,
     professionalValidator: 'FOSTER_PARTNERS_0x4',
-    jurisdiction: 'CH (FINMA)'
+    jurisdiction: 'CH (IP Law)'
   },
   {
     id: 'LYA_FUTURE_VOICE',
@@ -426,7 +426,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 640,
     scoreLYA: 660,
     professionalValidator: 'SPOTIFY_STUDIOS_0x2',
-    jurisdiction: 'UK (FCA)'
+    jurisdiction: 'UK (CDPA)'
   },
   {
     id: 'LYA_BIO_INFINITY',
@@ -470,11 +470,11 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 880,
     scoreLYA: 895,
     professionalValidator: 'NETFLIX_STUDIOS_VAL_0x9',
-    jurisdiction: 'EU (MiCA)'
+    jurisdiction: 'EU (IP Law)'
   },
   {
-    id: 'SOLARIS_ERROR',
-    name: 'SOLARIS_LYA SYSTEM_ERROR',
+    id: 'SOLARIS_REVIEW',
+    name: 'SOLARIS_LYA AUDIT PENDING',
     issuerId: 'USR-SYS-99',
     totalValue: 0,
     unitValue: 0.00,
@@ -482,9 +482,9 @@ export const CONTRACTS: Contract[] = [
     scarcity: 0.1,
     growth: -99.9,
     image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800',
-    status: 'LIQUIDATION',
-    descriptionFR: `Projet de composition musicale générative en phase de restructuration. Tous les revenus sont suspendus pendant la période de récupération.`,
-    description: 'Total protocol failure in generative music layering. All units entering emergency recovery status. 0% yield projected.',
+    status: 'RISK',
+    descriptionFR: `Projet de composition musicale générative en attente de complément de dossier. Certification suspendue jusqu'à nouvel examen.`,
+    description: 'Generative music composition project awaiting additional documentation. Certification suspended pending re-examination.',
     totalUnits: 1000,
     availableUnits: 0,
     registryAddress: 'LYA_REG_0xERROR_FAIL',
@@ -503,21 +503,21 @@ export const CONTRACTS: Contract[] = [
     rights: ['None'],
     rarity: 'Common',
     category: 'Music',
-    assetStatus: 'Defunct',
+    assetStatus: 'In Development',
     milestones: [
-      { label: 'Correction Attempt', date: '2026-03', status: 'FAILED', scoreImpact: -95 }
+      { label: 'Re-certification Attempt', date: '2026-03', status: 'FAILED', scoreImpact: -95 }
     ],
-    contractType: 'Revenue Share',
+    contractType: 'Direct Rights',
     revenueSharePercentage: 0,
     scorePro: 80,
     scoreAlgo: 60,
     scoreLYA: 70,
     professionalValidator: 'NONE',
-    jurisdiction: 'OFFSHORE'
+    jurisdiction: 'France (SACD)'
   },
   {
     id: 'VOID_CORRECTION',
-    name: 'VOID_MARKET_CORRECTION',
+    name: 'VOID DIGITAL COLLECTION',
     issuerId: 'USR-MARKET-01',
     totalValue: 120000,
     unitValue: 50.00,
@@ -526,8 +526,8 @@ export const CONTRACTS: Contract[] = [
     growth: -28.4,
     image: 'https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?auto=format&fit=crop&q=80&w=800',
     status: 'RISK',
-    descriptionFR: `Une collection d'architectures numériques abstraites en correction de marché suite à une demande secondaire excessive.`,
-    description: 'A collection of abstract digital architectures experiencing a significant market correction due to overheating secondary demand.',
+    descriptionFR: `Une collection d'architectures numériques abstraites en cours de réévaluation suite à une baisse d'engagement communautaire.`,
+    description: 'A collection of abstract digital architectures under re-evaluation following a decline in community engagement.',
     totalUnits: 2400,
     availableUnits: 800,
     registryAddress: 'LYA_REG_0xVOID_CORR',
@@ -548,7 +548,7 @@ export const CONTRACTS: Contract[] = [
     category: 'Digital Art',
     assetStatus: 'Released',
     milestones: [
-      { label: 'Floor Price Break', date: '2026-03', status: 'FAILED', scoreImpact: -25 }
+      { label: 'Community Engagement Drop', date: '2026-03', status: 'FAILED', scoreImpact: -25 }
     ],
     contractType: 'Direct Rights',
     revenueSharePercentage: 0,
@@ -556,7 +556,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 680,
     scoreLYA: 700,
     professionalValidator: 'SOTHEBYS_INSTITUTE_0x9',
-    jurisdiction: 'UK (FCA)'
+    jurisdiction: 'UK (CDPA)'
   },
   {
     id: 'NEON_CRASH',
@@ -568,9 +568,9 @@ export const CONTRACTS: Contract[] = [
     scarcity: 0.25,
     growth: -52.1,
     image: 'https://images.unsplash.com/photo-1563089145-599997674d42?auto=format&fit=crop&q=80&w=800',
-    status: 'LIQUIDATION',
-    descriptionFR: `Liquidation d'actifs d'art génératif suite à une perte d'intégrité des données. Projet en phase de résolution.`,
-    description: 'Emergency liquidation of neural aesthetic assets following a major protocol breach and loss of metadata integrity.',
+    status: 'RISK',
+    descriptionFR: `Projet d'art génératif en cours de réévaluation suite à une perte d'intégrité des données. Recertification en cours.`,
+    description: 'Generative art project under re-evaluation following a data integrity issue. Recertification in progress.',
     totalUnits: 900,
     availableUnits: 45,
     registryAddress: 'LYA_REG_0xNEON_CRASH',
@@ -599,7 +599,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 320,
     scoreLYA: 330,
     professionalValidator: 'DIGITAL_ARTS_LAB_0x2',
-    jurisdiction: 'OFFSHORE'
+    jurisdiction: 'International'
   },
   {
     id: 'PODCAST_ELITE',
@@ -643,7 +643,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 830,
     scoreLYA: 840,
     professionalValidator: 'SPOTIFY_HUB_0x7',
-    jurisdiction: 'UK (FCA)'
+    jurisdiction: 'UK (CDPA)'
   },
   {
     id: 'FILM_NOIR',
@@ -687,7 +687,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 810,
     scoreLYA: 820,
     professionalValidator: 'NETFLIX_LABS_0x3',
-    jurisdiction: 'SG (MAS)'
+    jurisdiction: 'SG (IP Law)'
   },
   {
     id: 'CYBER_GLITCH',
@@ -699,9 +699,9 @@ export const CONTRACTS: Contract[] = [
     scarcity: 0.20,
     growth: -15.4,
     image: 'https://picsum.photos/seed/glitch/800/600',
-    status: 'LIQUIDATION',
-    descriptionFR: `Anomalie numérique unique. Des défaillances techniques ont entraîné une baisse critique de la demande.`,
-    description: 'A unique digital anomaly. Recent engine failures and protocol forks have led to a critical decrease in demand and total loss of synchronization.',
+    status: 'RISK',
+    descriptionFR: `Anomalie numérique unique. Des défaillances techniques ont entraîné une baisse critique du Score LYA.`,
+    description: 'A unique digital anomaly. Recent technical failures have led to a critical decrease in the LYA Score.',
     totalUnits: 1500,
     availableUnits: 85,
     registryAddress: 'LYA_REG_0xGLITCH101',
@@ -730,7 +730,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 700,
     scoreLYA: 720,
     professionalValidator: 'DIGITAL_ARTS_LAB_0x2',
-    jurisdiction: 'UK (FCA)'
+    jurisdiction: 'UK (CDPA)'
   },
   {
     id: 'QUANTUM_REALM',
@@ -773,7 +773,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 940,
     scoreLYA: 930,
     professionalValidator: 'CERN_VISUAL_DEPT_0x7',
-    jurisdiction: 'CH (FINMA)'
+    jurisdiction: 'CH (IP Law)'
   },
   {
     id: 'DIGITAL_DREAM',
@@ -816,7 +816,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 810,
     scoreLYA: 815,
     professionalValidator: 'LVMH_INNOVATION_0x5',
-    jurisdiction: 'EU (MiCA)'
+    jurisdiction: 'EU (IP Law)'
   },
   {
     id: 'VIRTUAL_VISTA',
@@ -858,7 +858,7 @@ export const CONTRACTS: Contract[] = [
     scorePro: 920,
     scoreLYA: 880,
     professionalValidator: 'NATIONAL_GEOGRAPHIC_0x3',
-    jurisdiction: 'US (SEC)'
+    jurisdiction: 'US (Federal IP)'
   },
   {
     id: 'NEON_NIGHTS',
@@ -901,7 +901,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 670,
     scoreLYA: 660,
     professionalValidator: 'MAGNUM_PHOTOS_0x8',
-    jurisdiction: 'UK (FCA)'
+    jurisdiction: 'UK (CDPA)'
   },
   {
     id: 'CYBER_CITY',
@@ -944,7 +944,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 910,
     scoreLYA: 920,
     professionalValidator: 'ZHA_HADID_ARCH_0x6',
-    jurisdiction: 'CH (FINMA)'
+    jurisdiction: 'CH (IP Law)'
   },
   {
     id: 'TECH_TEMPLE',
@@ -986,7 +986,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 840,
     scoreLYA: 830,
     professionalValidator: 'SPHERE_VEGAS_HUB_0x10',
-    jurisdiction: 'US (SEC)'
+    jurisdiction: 'US (Federal IP)'
   },
   {
     id: 'DATA_DEEP',
@@ -1028,7 +1028,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 730,
     scoreLYA: 720,
     professionalValidator: 'GOOGLE_CLOUD_0x11',
-    jurisdiction: 'SG (MAS)'
+    jurisdiction: 'SG (IP Law)'
   },
   {
     id: 'SILICON_SOUL',
@@ -1070,7 +1070,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 960,
     scoreLYA: 950,
     professionalValidator: 'OPEN_AI_LABS_0x12',
-    jurisdiction: 'US (SEC)'
+    jurisdiction: 'US (Federal IP)'
   },
   {
     id: 'BEYOND_THE_SCREEN',
@@ -1112,7 +1112,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 900,
     scoreLYA: 910,
     professionalValidator: 'NETFLIX_INNOVATION_0x1',
-    jurisdiction: 'EU (MiCA)'
+    jurisdiction: 'EU (IP Law)'
   },
   {
     id: 'VOICE_OF_REASON',
@@ -1153,7 +1153,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 900,
     scoreLYA: 890,
     professionalValidator: 'SPOTIFY_STUDIOS_0x2',
-    jurisdiction: 'UK (FCA)'
+    jurisdiction: 'UK (CDPA)'
   },
   {
     id: 'CURTAIN_RISE',
@@ -1194,7 +1194,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 840,
     scoreLYA: 825,
     professionalValidator: 'BROADWAY_GUILD_0x3',
-    jurisdiction: 'US (SEC)'
+    jurisdiction: 'US (Federal IP)'
   },
   {
     id: 'SKY_GARDENS',
@@ -1235,7 +1235,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 934,
     scoreLYA: 942,
     professionalValidator: 'FOSTER_PARTNERS_0x4',
-    jurisdiction: 'CH (FINMA)'
+    jurisdiction: 'CH (IP Law)'
   },
   {
     id: 'TASTE_OF_FUTURE',
@@ -1276,7 +1276,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 890,
     scoreLYA: 890,
     professionalValidator: 'MICHELIN_TECH_0x5',
-    jurisdiction: 'EU (MiCA)'
+    jurisdiction: 'EU (IP Law)'
   },
   {
     id: 'SONIC_WAVE',
@@ -1315,7 +1315,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 12,
     professionalRating: 880,
     professionalValidator: 'SONY_MUSIC_HUB_0x5',
-    jurisdiction: 'UK (FCA)'
+    jurisdiction: 'UK (CDPA)'
   },
   {
     id: 'NOIR_FILM',
@@ -1354,7 +1354,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 8,
     professionalRating: 940,
     professionalValidator: 'A24_DISTRO_0x9',
-    jurisdiction: 'US (SEC)'
+    jurisdiction: 'US (Federal IP)'
   },
   {
     id: 'PIXEL_QUEST',
@@ -1393,7 +1393,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 15,
     professionalRating: 895,
     professionalValidator: 'UBISOFT_LABS_0x3',
-    jurisdiction: 'SG (MAS)'
+    jurisdiction: 'SG (IP Law)'
   },
   {
     id: 'VERSE_ONE',
@@ -1432,7 +1432,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 0,
     professionalRating: 820,
     professionalValidator: 'PENGUIN_DIGITAL_0x7',
-    jurisdiction: 'UK (FCA)'
+    jurisdiction: 'UK (CDPA)'
   },
   {
     id: 'URBAN_PULSE',
@@ -1471,7 +1471,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 0,
     professionalRating: 750,
     professionalValidator: 'GETTY_IMAGES_0x4',
-    jurisdiction: 'EU (MiCA)'
+    jurisdiction: 'EU (IP Law)'
   },
   {
     id: 'FASHION_FORWARD',
@@ -1510,7 +1510,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 10,
     professionalRating: 915,
     professionalValidator: 'VOGUE_TECH_0x2',
-    jurisdiction: 'EU (MiCA)'
+    jurisdiction: 'EU (IP Law)'
   },
   {
     id: 'ARCH_VISION',
@@ -1549,7 +1549,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 5,
     professionalRating: 970,
     professionalValidator: 'RIBA_HUB_0x8',
-    jurisdiction: 'UK (FCA)'
+    jurisdiction: 'UK (CDPA)'
   },
   {
     id: 'DESIGN_CORE',
@@ -1588,7 +1588,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 12,
     professionalRating: 840,
     professionalValidator: 'AD_DIGITAL_0x6',
-    jurisdiction: 'EU (MiCA)'
+    jurisdiction: 'EU (IP Law)'
   },
   {
     id: 'TV_EPIC',
@@ -1627,7 +1627,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 5,
     professionalRating: 905,
     professionalValidator: 'NETFLIX_PRO_0x1',
-    jurisdiction: 'US (SEC)'
+    jurisdiction: 'US (Federal IP)'
   },
   {
     id: 'JAZZ_COLLECTIVE',
@@ -1666,7 +1666,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 20,
     professionalRating: 810,
     professionalValidator: 'BLUE_NOTE_0x4',
-    jurisdiction: 'EU (MiCA)'
+    jurisdiction: 'EU (IP Law)'
   },
   {
     id: 'DIGITAL_SCULPT',
@@ -1705,7 +1705,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 0,
     professionalRating: 935,
     professionalValidator: 'MOMA_DIGITAL_0x5',
-    jurisdiction: 'US (SEC)'
+    jurisdiction: 'US (Federal IP)'
   },
   {
     id: 'INDIE_GAME_X',
@@ -1744,7 +1744,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 25,
     professionalRating: 870,
     professionalValidator: 'DEVOLVER_DIGITAL_0x2',
-    jurisdiction: 'UK (FCA)'
+    jurisdiction: 'UK (CDPA)'
   },
   {
     id: 'FASHION_NFT',
@@ -1783,7 +1783,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 0,
     professionalRating: 945,
     professionalValidator: 'BALENCIAGA_LAB_0x1',
-    jurisdiction: 'EU (MiCA)'
+    jurisdiction: 'EU (IP Law)'
   },
   {
     id: 'PHOTO_JOURNAL',
@@ -1822,7 +1822,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 15,
     professionalRating: 985,
     professionalValidator: 'REUTERS_HUB_0x3',
-    jurisdiction: 'CH (FINMA)'
+    jurisdiction: 'CH (IP Law)'
   },
   {
     id: 'LIT_COLLECTION',
@@ -1861,7 +1861,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 10,
     professionalRating: 835,
     professionalValidator: 'AUDIBLE_PRO_0x7',
-    jurisdiction: 'US (SEC)'
+    jurisdiction: 'US (Federal IP)'
   },
   {
     id: 'DESIGN_SYSTEM',
@@ -1900,7 +1900,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 0,
     professionalRating: 950,
     professionalValidator: 'FIGMA_HUB_0x4',
-    jurisdiction: 'US (SEC)'
+    jurisdiction: 'US (Federal IP)'
   },
   {
     id: 'ARCHITECTURE_MOD',
@@ -1939,7 +1939,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 7,
     professionalRating: 930,
     professionalValidator: 'IKEA_PRO_0x9',
-    jurisdiction: 'EU (MiCA)'
+    jurisdiction: 'EU (IP Law)'
   },
   {
     id: 'FILM_INDIE',
@@ -1978,7 +1978,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 30,
     professionalRating: 920,
     professionalValidator: 'SUNDANCE_HUB_0x2',
-    jurisdiction: 'US (SEC)'
+    jurisdiction: 'US (Federal IP)'
   },
   {
     id: 'TV_SERIES_DOC',
@@ -2017,7 +2017,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 3,
     professionalRating: 990,
     professionalValidator: 'BBC_PRO_0x8',
-    jurisdiction: 'UK (FCA)'
+    jurisdiction: 'UK (CDPA)'
   },
   {
     id: 'DIGITAL_FASHION_V2',
@@ -2056,7 +2056,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 10,
     professionalRating: 885,
     professionalValidator: 'GUCCI_HUB_0x7',
-    jurisdiction: 'EU (MiCA)'
+    jurisdiction: 'EU (IP Law)'
   },
   {
     id: 'MUSIC_ALBUM_X',
@@ -2095,7 +2095,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 15,
     professionalRating: 840,
     professionalValidator: 'WARNER_PRO_0x2',
-    jurisdiction: 'US (SEC)'
+    jurisdiction: 'US (Federal IP)'
   },
   {
     id: 'ARCHITECTURE_ECO',
@@ -2134,7 +2134,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 5,
     professionalRating: 965,
     professionalValidator: 'GREEN_BUILD_0x5',
-    jurisdiction: 'EU (MiCA)'
+    jurisdiction: 'EU (IP Law)'
   },
   {
     id: 'GAMING_METAVERSE',
@@ -2173,7 +2173,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 20,
     professionalRating: 930,
     professionalValidator: 'EPIC_GAMES_0x9',
-    jurisdiction: 'US (SEC)'
+    jurisdiction: 'US (Federal IP)'
   },
   {
     id: 'LIT_NOVEL_X',
@@ -2212,7 +2212,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 12,
     professionalRating: 875,
     professionalValidator: 'HARPER_COLLINS_0x3',
-    jurisdiction: 'UK (FCA)'
+    jurisdiction: 'UK (CDPA)'
   },
   {
     id: 'PHOTO_SERIES_X',
@@ -2251,7 +2251,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 0,
     professionalRating: 890,
     professionalValidator: 'NAT_GEO_HUB_0x1',
-    jurisdiction: 'US (SEC)'
+    jurisdiction: 'US (Federal IP)'
   },
   {
     id: 'DESIGN_FURNITURE',
@@ -2290,7 +2290,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 12,
     professionalRating: 860,
     professionalValidator: 'HERMAN_MILLER_0x4',
-    jurisdiction: 'US (SEC)'
+    jurisdiction: 'US (Federal IP)'
   },
   {
     id: 'FILM_DOCUMENTARY',
@@ -2331,7 +2331,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 900,
     scoreLYA: 910,
     professionalValidator: 'HBO_DOCS_0x6',
-    jurisdiction: 'US (SEC)'
+    jurisdiction: 'US (Federal IP)'
   },
   {
     id: 'TV_ANIMATION',
@@ -2372,7 +2372,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 920,
     scoreLYA: 910,
     professionalValidator: 'CRUNCHYROLL_0x2',
-    jurisdiction: 'SG (MAS)'
+    jurisdiction: 'SG (IP Law)'
   },
   {
     id: 'DIGITAL_ART_GEN',
@@ -2413,7 +2413,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 936,
     scoreLYA: 948,
     professionalValidator: 'SOTHEBYS_DIGITAL_0x1',
-    jurisdiction: 'UK (FCA)'
+    jurisdiction: 'UK (CDPA)'
   },
   {
     id: 'MUSIC_TECHNO',
@@ -2454,7 +2454,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 800,
     scoreLYA: 805,
     professionalValidator: 'ABLETON_PRO_0x5',
-    jurisdiction: 'EU (MiCA)'
+    jurisdiction: 'EU (IP Law)'
   },
   {
     id: 'ARCHITECTURE_VR',
@@ -2495,7 +2495,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 924,
     scoreLYA: 932,
     professionalValidator: 'META_REALTY_0x8',
-    jurisdiction: 'US (SEC)'
+    jurisdiction: 'US (Federal IP)'
   },
   {
     id: 'GAMING_ESPORTS',
@@ -2536,7 +2536,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 930,
     scoreLYA: 920,
     professionalValidator: 'ESL_HUB_0x3',
-    jurisdiction: 'EU (MiCA)'
+    jurisdiction: 'EU (IP Law)'
   },
   {
     id: 'LIT_MAGAZINE',
@@ -2577,7 +2577,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 790,
     scoreLYA: 800,
     professionalValidator: 'NEW_YORKER_DIGITAL_0x7',
-    jurisdiction: 'US (SEC)'
+    jurisdiction: 'US (Federal IP)'
   },
   {
     id: 'PHOTO_DRONE',
@@ -2618,7 +2618,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 870,
     scoreLYA: 860,
     professionalValidator: 'DJI_LABS_0x4',
-    jurisdiction: 'SG (MAS)'
+    jurisdiction: 'SG (IP Law)'
   },
   {
     id: 'DESIGN_FASHION_X',
@@ -2659,7 +2659,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 930,
     scoreLYA: 940,
     professionalValidator: 'NIKE_INNOVATION_0x2',
-    jurisdiction: 'US (SEC)'
+    jurisdiction: 'US (Federal IP)'
   },
   {
     id: 'ARCHITECTURE_SMART',
@@ -2700,7 +2700,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 942,
     scoreLYA: 941,
     professionalValidator: 'UN_HABITAT_0x9',
-    jurisdiction: 'CH (FINMA)'
+    jurisdiction: 'CH (IP Law)'
   },
   {
     id: 'FILM_VR_X',
@@ -2741,7 +2741,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 934,
     scoreLYA: 942,
     professionalValidator: 'OCULUS_PRO_0x5',
-    jurisdiction: 'US (SEC)'
+    jurisdiction: 'US (Federal IP)'
   },
   {
     id: 'TV_MINISERIES',
@@ -2782,7 +2782,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 864,
     scoreLYA: 882,
     professionalValidator: 'AMAZON_STUDIOS_0x1',
-    jurisdiction: 'US (SEC)'
+    jurisdiction: 'US (Federal IP)'
   },
   {
     id: 'VIBRANT_STREETS',
@@ -2823,7 +2823,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 850,
     scoreLYA: 855,
     professionalValidator: 'MAGNUM_PHOTOS_0x8',
-    jurisdiction: 'UK (FCA)'
+    jurisdiction: 'UK (CDPA)'
   },
   {
     id: 'LOUVRE_X_2026',
@@ -2865,7 +2865,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 744,
     scoreLYA: 862,
     professionalValidator: 'LOUVRE_INSTITUTE_0x1',
-    jurisdiction: 'EU (MiCA)'
+    jurisdiction: 'EU (IP Law)'
   },
   {
     id: 'GOTHAM_NOIR',
@@ -2908,7 +2908,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 855,
     scoreLYA: 870,
     professionalValidator: 'A24_HUB_0x9',
-    jurisdiction: 'US (SEC)'
+    jurisdiction: 'US (Federal IP)'
   },
   {
     id: 'MARS_COLONY_S1',
@@ -2951,7 +2951,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 884,
     scoreLYA: 897,
     professionalValidator: 'HBO_MAX_0x2',
-    jurisdiction: 'UK (FCA)'
+    jurisdiction: 'UK (CDPA)'
   },
   {
     id: 'SYNTH_WAVE_LP',
@@ -2993,7 +2993,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 890,
     scoreLYA: 900,
     professionalValidator: 'SONY_MUSIC_0x5',
-    jurisdiction: 'EU (MiCA)'
+    jurisdiction: 'EU (IP Law)'
   },
   {
     id: 'ETHEREAL_CANVAS',
@@ -3035,7 +3035,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 796,
     scoreLYA: 818,
     professionalValidator: 'GAGOSIAN_HUB_0x3',
-    jurisdiction: 'EU (MiCA)'
+    jurisdiction: 'EU (IP Law)'
   },
   {
     id: 'NEO_TOKYO_2099',
@@ -3076,7 +3076,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 12,
     professionalRating: 940,
     professionalValidator: 'TOEI_ANIMATION_0x4',
-    jurisdiction: 'SG (MAS)'
+    jurisdiction: 'SG (IP Law)'
   },
   {
     id: 'URBAN_LEGENDS_S3',
@@ -3116,7 +3116,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 10,
     professionalRating: 830,
     professionalValidator: 'NETFLIX_HUB_0x1',
-    jurisdiction: 'EU (MiCA)'
+    jurisdiction: 'EU (IP Law)'
   },
   {
     id: 'JAZZ_REVIVAL',
@@ -3156,7 +3156,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 15,
     professionalRating: 910,
     professionalValidator: 'BLUE_NOTE_RECORDS_0x6',
-    jurisdiction: 'US (SEC)'
+    jurisdiction: 'US (Federal IP)'
   },
   {
     id: 'SCULPTURE_GARDEN',
@@ -3196,7 +3196,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 0,
     professionalRating: 960,
     professionalValidator: 'TUSCANY_ART_BOARD_0x2',
-    jurisdiction: 'EU (MiCA)'
+    jurisdiction: 'EU (IP Law)'
   },
   {
     id: 'INDIE_GEM_2026',
@@ -3236,7 +3236,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 30,
     professionalRating: 790,
     professionalValidator: 'SUNDANCE_LABS_0x8',
-    jurisdiction: 'US (SEC)'
+    jurisdiction: 'US (Federal IP)'
   },
   {
     id: 'SPACE_OPERA_S5',
@@ -3276,7 +3276,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 8,
     professionalRating: 975,
     professionalValidator: 'DISNEY_PLUS_0x1',
-    jurisdiction: 'US (SEC)'
+    jurisdiction: 'US (Federal IP)'
   },
   {
     id: 'LOFI_BEATS_COLLECTIVE',
@@ -3316,7 +3316,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 40,
     professionalRating: 810,
     professionalValidator: 'CHILLHOP_MUSIC_0x3',
-    jurisdiction: 'EU (MiCA)'
+    jurisdiction: 'EU (IP Law)'
   },
   {
     id: 'IMPRESSIONIST_REDUX',
@@ -3356,7 +3356,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 0,
     professionalRating: 895,
     professionalValidator: 'CHRISTIES_HUB_0x7',
-    jurisdiction: 'UK (FCA)'
+    jurisdiction: 'UK (CDPA)'
   },
   {
     id: 'CYBER_PUNK_SERIES',
@@ -3396,7 +3396,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 12,
     professionalRating: 930,
     professionalValidator: 'CD_PROJEKT_NODE_0x1',
-    jurisdiction: 'EU (MiCA)'
+    jurisdiction: 'EU (IP Law)'
   },
   {
     id: 'WORLD_MUSIC_FUSION',
@@ -3436,7 +3436,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 20,
     professionalRating: 860,
     professionalValidator: 'ROUGH_TRADE_0x4',
-    jurisdiction: 'UK (FCA)'
+    jurisdiction: 'UK (CDPA)'
   },
   {
     id: 'MINIMALIST_MASTERS',
@@ -3476,7 +3476,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 0,
     professionalRating: 940,
     professionalValidator: 'TATE_MODERN_0x1',
-    jurisdiction: 'UK (FCA)'
+    jurisdiction: 'UK (CDPA)'
   },
   {
     id: 'DOCUMENTARY_NOW',
@@ -3516,7 +3516,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 25,
     professionalRating: 840,
     professionalValidator: 'PBS_NODE_0x2',
-    jurisdiction: 'US (SEC)'
+    jurisdiction: 'US (Federal IP)'
   },
   {
     id: 'SITCOM_CLASSIC_REBOOT',
@@ -3556,7 +3556,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 5,
     professionalRating: 850,
     professionalValidator: 'NBC_UNIVERSAL_0x3',
-    jurisdiction: 'US (SEC)'
+    jurisdiction: 'US (Federal IP)'
   },
   {
     id: 'CLASSICAL_REIMAGINED',
@@ -3596,7 +3596,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 15,
     professionalRating: 925,
     professionalValidator: 'DEUTSCHE_GRAMMOPHON_0x1',
-    jurisdiction: 'EU (MiCA)'
+    jurisdiction: 'EU (IP Law)'
   },
   {
     id: 'META_MUSEUM_V2',
@@ -3636,7 +3636,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 20,
     professionalRating: 910,
     professionalValidator: 'ADOBE_DIGITAL_LAB_0x1',
-    jurisdiction: 'EU (MiCA)'
+    jurisdiction: 'EU (IP Law)'
   },
   {
     id: 'CYBER_ARENA_2026',
@@ -3676,7 +3676,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 15,
     professionalRating: 935,
     professionalValidator: 'EPIC_GAMES_NODE_0x4',
-    jurisdiction: 'US (SEC)'
+    jurisdiction: 'US (Federal IP)'
   },
   {
     id: 'THE_LAST_SCROLL',
@@ -3716,7 +3716,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 20,
     professionalRating: 890,
     professionalValidator: 'PENGUIN_RANDOM_0x2',
-    jurisdiction: 'UK (FCA)'
+    jurisdiction: 'UK (CDPA)'
   },
   {
     id: 'AVANT_GARDE_2026',
@@ -3756,7 +3756,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 15,
     professionalRating: 885,
     professionalValidator: 'VOGUE_DIGITAL_0x5',
-    jurisdiction: 'EU (MiCA)'
+    jurisdiction: 'EU (IP Law)'
   },
   {
     id: 'SKY_CITY_ARCH',
@@ -3796,7 +3796,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 0,
     professionalRating: 970,
     professionalValidator: 'RIBA_NODE_0x1',
-    jurisdiction: 'UK (FCA)'
+    jurisdiction: 'UK (CDPA)'
   },
   {
     id: 'PIXEL_PUNK_GAME',
@@ -3836,7 +3836,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 25,
     professionalRating: 820,
     professionalValidator: 'DEVOLVER_DIGITAL_0x3',
-    jurisdiction: 'EU (MiCA)'
+    jurisdiction: 'EU (IP Law)'
   },
   {
     id: 'POETRY_IN_MOTION',
@@ -3876,7 +3876,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 35,
     professionalRating: 845,
     professionalValidator: 'POETRY_SOCIETY_0x1',
-    jurisdiction: 'UK (FCA)'
+    jurisdiction: 'UK (CDPA)'
   },
   {
     id: 'STREET_WEAR_DAO',
@@ -3917,7 +3917,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 15,
     professionalRating: 870,
     professionalValidator: 'HYPEBEAST_NODE_0x7',
-    jurisdiction: 'US (SEC)'
+    jurisdiction: 'US (Federal IP)'
   },
   {
     id: 'ECO_HABITAT_2026',
@@ -3957,7 +3957,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 10,
     professionalRating: 945,
     professionalValidator: 'GREEN_BUILD_COUNCIL_0x9',
-    jurisdiction: 'EU (MiCA)'
+    jurisdiction: 'EU (IP Law)'
   },
   {
     id: 'VR_RPG_ADVENTURE',
@@ -3997,7 +3997,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 18,
     professionalRating: 885,
     professionalValidator: 'OCULUS_NODE_0x2',
-    jurisdiction: 'US (SEC)'
+    jurisdiction: 'US (Federal IP)'
   },
   {
     id: 'CYBER_POETRY_2026',
@@ -4037,7 +4037,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 45,
     professionalRating: 710,
     professionalValidator: 'OPENAI_NODE_0x6',
-    jurisdiction: 'EU (MiCA)'
+    jurisdiction: 'EU (IP Law)'
   },
   {
     id: 'LUXURY_LIFESTYLE_DAO',
@@ -4077,7 +4077,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 0,
     professionalRating: 965,
     professionalValidator: 'LVMH_NODE_0x1',
-    jurisdiction: 'EU (MiCA)'
+    jurisdiction: 'EU (IP Law)'
   },
   {
     id: 'VIRTUAL_VILLA_ARCH',
@@ -4117,7 +4117,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 0,
     professionalRating: 895,
     professionalValidator: 'AD_NODE_0x4',
-    jurisdiction: 'US (SEC)'
+    jurisdiction: 'US (Federal IP)'
   },
   {
     id: 'E_SPORTS_TEAM_DAO',
@@ -4157,7 +4157,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 10,
     professionalRating: 950,
     professionalValidator: 'ESL_NODE_0x1',
-    jurisdiction: 'EU (MiCA)'
+    jurisdiction: 'EU (IP Law)'
   },
   {
     id: 'GRAPHIC_NOVEL_2026',
@@ -4197,7 +4197,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 25,
     professionalRating: 835,
     professionalValidator: 'IMAGE_COMICS_0x3',
-    jurisdiction: 'US (SEC)'
+    jurisdiction: 'US (Federal IP)'
   },
   {
     id: 'SUSTAINABLE_FASHION_DAO',
@@ -4237,7 +4237,7 @@ export const CONTRACTS: Contract[] = [
     revenueSharePercentage: 20,
     professionalRating: 875,
     professionalValidator: 'PATAGONIA_NODE_0x2',
-    jurisdiction: 'EU (MiCA)'
+    jurisdiction: 'EU (IP Law)'
   },
   {
     id: 'MODERN_MUSEUM_ARCH',
@@ -4279,7 +4279,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 734,
     scoreLYA: 862,
     professionalValidator: 'MOMA_NODE_0x1',
-    jurisdiction: 'US (SEC)'
+    jurisdiction: 'US (Federal IP)'
   },
   {
     id: 'DIGITAL_FASHION_WEEK',
@@ -4321,7 +4321,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 931,
     scoreLYA: 923,
     professionalValidator: 'CFDA_NODE_0x4',
-    jurisdiction: 'US (SEC)'
+    jurisdiction: 'US (Federal IP)'
   },
   {
     id: 'MINIMAL_DESIGN_2026',
@@ -4363,7 +4363,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 775,
     scoreLYA: 845,
     professionalValidator: 'DOMUS_NODE_0x1',
-    jurisdiction: 'EU (MiCA)'
+    jurisdiction: 'EU (IP Law)'
   },
   {
     id: 'WILDLIFE_PHOTO_2026',
@@ -4405,7 +4405,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 750,
     scoreLYA: 820,
     professionalValidator: 'NATGEO_NODE_0x3',
-    jurisdiction: 'US (SEC)'
+    jurisdiction: 'US (Federal IP)'
   },
   {
     id: 'TECH_TALK_PODCAST',
@@ -4447,7 +4447,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 880,
     scoreLYA: 870,
     professionalValidator: 'SPOTIFY_NODE_0x7',
-    jurisdiction: 'UK (FCA)'
+    jurisdiction: 'UK (CDPA)'
   },
   {
     id: 'BALLET_MODERN_2026',
@@ -4489,7 +4489,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 810,
     scoreLYA: 860,
     professionalValidator: 'OPERA_DE_PARIS_0x1',
-    jurisdiction: 'EU (MiCA)'
+    jurisdiction: 'EU (IP Law)'
   },
   {
     id: 'Gourmet_Experience_2026',
@@ -4531,7 +4531,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 840,
     scoreLYA: 860,
     professionalValidator: 'MICHELIN_GUIDE_0x5',
-    jurisdiction: 'EU (MiCA)'
+    jurisdiction: 'EU (IP Law)'
   },
   {
     id: 'INDUSTRIAL_DESIGN_2026',
@@ -4573,7 +4573,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 800,
     scoreLYA: 865,
     professionalValidator: 'RED_DOT_NODE_0x2',
-    jurisdiction: 'EU (MiCA)'
+    jurisdiction: 'EU (IP Law)'
   },
   {
     id: 'STREET_PHOTO_2026',
@@ -4615,7 +4615,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 830,
     scoreLYA: 820,
     professionalValidator: 'MAGNUM_NODE_0x5',
-    jurisdiction: 'UK (FCA)'
+    jurisdiction: 'UK (CDPA)'
   },
   {
     id: 'CRIME_SCENE_PODCAST',
@@ -4657,7 +4657,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 811,
     scoreLYA: 843,
     professionalValidator: 'WONDERY_NODE_0x1',
-    jurisdiction: 'US (SEC)'
+    jurisdiction: 'US (Federal IP)'
   },
   {
     id: 'THEATRE_CLASSIC_2026',
@@ -4699,7 +4699,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 679,
     scoreLYA: 817,
     professionalValidator: 'BROADWAY_NODE_0x1',
-    jurisdiction: 'US (SEC)'
+    jurisdiction: 'US (Federal IP)'
   },
   {
     id: 'FARM_TO_TABLE_2026',
@@ -4741,7 +4741,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 845,
     scoreLYA: 870,
     professionalValidator: 'SLOW_FOOD_NODE_0x1',
-    jurisdiction: 'EU (MiCA)'
+    jurisdiction: 'EU (IP Law)'
   },
   {
     id: 'FASHION_DESIGN_2026',
@@ -4783,7 +4783,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 970,
     scoreLYA: 905,
     professionalValidator: 'CLO3D_NODE_0x1',
-    jurisdiction: 'US (SEC)'
+    jurisdiction: 'US (Federal IP)'
   },
   {
     id: 'PORTRAIT_PHOTO_2026',
@@ -4825,7 +4825,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 681,
     scoreLYA: 768,
     professionalValidator: 'VOGUE_NODE_0x1',
-    jurisdiction: 'EU (MiCA)'
+    jurisdiction: 'EU (IP Law)'
   },
   {
     id: 'HISTORY_UNCOVERED_POD',
@@ -4867,7 +4867,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 744,
     scoreLYA: 792,
     professionalValidator: 'BBC_NODE_0x4',
-    jurisdiction: 'UK (FCA)'
+    jurisdiction: 'UK (CDPA)'
   },
   {
     id: 'DANCE_FUSION_2026',
@@ -4909,7 +4909,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 935,
     scoreLYA: 900,
     professionalValidator: 'RED_BULL_DANCE_0x1',
-    jurisdiction: 'EU (MiCA)'
+    jurisdiction: 'EU (IP Law)'
   },
   {
     id: 'CRAFT_BEER_DAO',
@@ -4951,7 +4951,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 860,
     scoreLYA: 875,
     professionalValidator: 'BREWDOG_NODE_0x1',
-    jurisdiction: 'UK (FCA)'
+    jurisdiction: 'UK (CDPA)'
   },
   {
     id: 'INTERIOR_DESIGN_2026',
@@ -4993,7 +4993,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 835,
     scoreLYA: 850,
     professionalValidator: 'IKEA_NODE_0x1',
-    jurisdiction: 'EU (MiCA)'
+    jurisdiction: 'EU (IP Law)'
   },
   {
     id: 'FASHION_PHOTO_2026',
@@ -5035,7 +5035,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 805,
     scoreLYA: 860,
     professionalValidator: 'CONDE_NAST_0x1',
-    jurisdiction: 'US (SEC)'
+    jurisdiction: 'US (Federal IP)'
   },
   {
     id: 'SCIENCE_EXPLAINED_POD',
@@ -5077,7 +5077,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 831,
     scoreLYA: 903,
     professionalValidator: 'NATURE_NODE_0x1',
-    jurisdiction: 'EU (MiCA)'
+    jurisdiction: 'EU (IP Law)'
   },
   {
     id: 'OPERA_MODERN_2026',
@@ -5119,7 +5119,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 745,
     scoreLYA: 835,
     professionalValidator: 'LA_SCALA_NODE_0x1',
-    jurisdiction: 'EU (MiCA)'
+    jurisdiction: 'EU (IP Law)'
   },
   {
     id: 'WINE_COLLECTIVE_DAO',
@@ -5161,7 +5161,7 @@ export const CONTRACTS: Contract[] = [
     scoreAlgo: 634,
     scoreLYA: 807,
     professionalValidator: 'SOTHEBYS_WINE_0x1',
-    jurisdiction: 'US (SEC)'
+    jurisdiction: 'US (Federal IP)'
   },
 ];
 
