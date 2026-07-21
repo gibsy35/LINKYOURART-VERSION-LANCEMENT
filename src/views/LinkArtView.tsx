@@ -18,10 +18,9 @@ import {
   Calendar,
   Lock
 } from 'lucide-react';
-import { LYA_UNIT_VALUE, Milestone, UserProfile, UserRole } from '../types';
+import { Milestone, UserProfile, UserRole } from '../types';
 import { useTranslation } from '../context/LanguageContext';
 import { PageHeader } from '../components/ui/PageHeader';
-import { useCurrency } from '../context/CurrencyContext';
 import { suggestMilestones } from '../services/geminiService';
 import { GoogleGenAI } from "@google/genai";
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
@@ -57,7 +56,7 @@ export const LinkArtView: React.FC<{
           {t('Access Restricted', 'Accès Restreint')}
         </h2>
         <p className="text-on-surface-variant max-w-lg mb-10 text-sm md:text-base leading-relaxed opacity-70">
-          {t('Contract Issuance is reserved for Certified Professionals and Institutional Partners. Upgrade your account to start fractionalizing your creative equity.', 'L\'émission de contrats est réservée aux professionnels certifiés et aux partenaires institutionnels. Améliorez votre compte pour commencer à fractionner votre capital créatif.')}
+          {t('Project submission is reserved for Certified Professionals and Institutional Partners. Upgrade your account to start submitting projects for certification.', 'La soumission de projets est réservée aux professionnels certifiés et aux partenaires institutionnels. Améliorez votre compte pour commencer à soumettre des projets à la certification.')}
         </p>
         <div className="flex flex-col sm:flex-row gap-4">
           <button 
@@ -80,7 +79,6 @@ export const LinkArtView: React.FC<{
     );
   }
 
-  const { formatLYA, formatPrice } = useCurrency();
   const [currentStep, setCurrentStep] = useState(1);
   const [isListeningName, setIsListeningName] = useState(false);
   const [isListeningDesc, setIsListeningDesc] = useState(false);
@@ -163,9 +161,6 @@ export const LinkArtView: React.FC<{
   }, []);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [totalUnits, setTotalUnits] = useState(1000);
-  const [unitPrice, setUnitPrice] = useState(100);
-  const [depositPercentage, setDepositPercentage] = useState(10);
   const [contractDuration, setContractDuration] = useState('12');
   const [maturityDate, setMaturityDate] = useState('2027-03-29');
   const [assetName, setAssetName] = useState('');
@@ -306,8 +301,8 @@ export const LinkArtView: React.FC<{
     },
     { 
       id: 3, 
-      title: t('Financial Structure', 'Structure Financière'), 
-      description: t('Configure fractionalization and unit pricing.', 'Configurez la fractionnalisation et le prix unitaire.') 
+      title: t('Certification Scope', 'Portée de Certification'), 
+      description: t('Define your project timeline and certification tier.', 'Définissez le calendrier de votre projet et son niveau de certification.') 
     },
     { 
       id: 4, 
@@ -320,12 +315,6 @@ export const LinkArtView: React.FC<{
       description: t('Finalize the professional contract for validation.', 'Finalisez le contrat professionnel pour validation.') 
     }
   ];
-
-  const lyaUnits = (unitPrice / LYA_UNIT_VALUE).toFixed(2);
-  const totalValuation = totalUnits * unitPrice;
-  const initialDepositAmount = (totalValuation * (depositPercentage / 100));
-  const totalLyaUnits = (totalValuation / LYA_UNIT_VALUE)?.toLocaleString() || '0';
-  const platformFee = totalValuation * 0.02;
 
   const handleNext = () => {
     if (currentStep < STEPS.length) {
@@ -359,9 +348,6 @@ export const LinkArtView: React.FC<{
         issuerUid: user?.uid,
         description,
         image: generatedImage,
-        totalUnits,
-        unitValue: unitPrice,
-        depositPercentage,
         duration: contractDuration,
         maturityDate,
         status: 'PENDING',
@@ -837,35 +823,6 @@ export const LinkArtView: React.FC<{
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="space-y-6">
                   <div className="space-y-2">
-                    <div className="flex justify-between items-end">
-                      <label className="text-xs uppercase tracking-widest text-on-surface-variant font-bold">{t('Total Units (Fractionalization)', 'Unités Totales (Fractionnalisation)')}</label>
-                      <span className="text-xs text-primary-cyan font-bold uppercase tracking-widest font-mono">= {totalLyaUnits} LYA (@ {lyaUnits} LYA/{t('Unit', 'Unité')})</span>
-                    </div>
-                    <input 
-                      type="number" 
-                      className="w-full bg-surface-dim border border-white/10 text-on-surface p-4 focus:border-primary-cyan/50 focus:ring-0 transition-all font-mono text-sm" 
-                      value={totalUnits}
-                      onChange={(e) => setTotalUnits(Number(e.target.value))}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <div className="flex justify-between items-end">
-                      <label className="text-xs uppercase tracking-widest text-on-surface-variant font-bold">{t('Initial Unit Price (USD)', 'Prix Unitaire Initial (USD)')}</label>
-                      <span className="text-xs text-primary-cyan/60 uppercase tracking-widest font-mono">{t('Calculation', 'Calcul')}: ${unitPrice} / ${LYA_UNIT_VALUE}</span>
-                    </div>
-                    <div className="relative">
-                      <input 
-                        type="number" 
-                        className="w-full bg-surface-dim border border-white/10 text-on-surface p-4 focus:border-primary-cyan/50 focus:ring-0 transition-all font-mono pr-24 text-sm" 
-                        value={unitPrice}
-                        onChange={(e) => setUnitPrice(Number(e.target.value))}
-                      />
-                      <div className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-primary-cyan uppercase tracking-widest">
-                        {lyaUnits} LYA
-                      </div>
-                    </div>
-                  </div>
-                  <div className="space-y-2">
                     <label className="text-xs uppercase tracking-widest text-on-surface-variant font-bold">{t('Contract Duration (Months)', 'Durée du Contrat (Mois)')}</label>
                     <input 
                       type="number" 
@@ -885,28 +842,12 @@ export const LinkArtView: React.FC<{
                     />
                   </div>
                   <div className="space-y-2 pt-4 border-t border-white/5">
-                    <div className="flex justify-between items-end">
-                      <label className="text-xs uppercase tracking-widest text-accent-gold font-bold">{t('Initial Deposit Required (%)', 'Dépôt Initial Requis (%)')}</label>
-                      <span className="text-xs text-accent-gold font-bold font-mono">{formatPrice(initialDepositAmount)}</span>
+                    <div className="flex items-center gap-2 mb-1">
+                      <Info size={14} className="text-emerald-400" />
+                      <span className="text-xs uppercase tracking-widest text-emerald-400 font-bold">{t('No Deposit Required', 'Aucun Dépôt Requis')}</span>
                     </div>
-                    <div className="relative">
-                      <input 
-                        type="range"
-                        min="5"
-                        max="50"
-                        step="1"
-                        className="w-full accent-accent-gold h-2 bg-surface-dim rounded-lg appearance-none cursor-pointer"
-                        value={depositPercentage}
-                        onChange={(e) => setDepositPercentage(Number(e.target.value))}
-                      />
-                      <div className="flex justify-between mt-2">
-                        <span className="text-[10px] text-on-surface-variant font-mono">5%</span>
-                        <span className="text-xs text-accent-gold font-black font-mono">{depositPercentage}%</span>
-                        <span className="text-[10px] text-on-surface-variant font-mono">50%</span>
-                      </div>
-                    </div>
-                    <p className="text-xs text-on-surface-variant uppercase tracking-widest leading-relaxed mt-2 italic">
-                      {t('This amount must be deposited by the creator to activate contract issuance.', 'Ce montant doit être déposé par le créateur pour activer le protocole d\'émission du contrat.')}
+                    <p className="text-xs text-on-surface-variant uppercase tracking-widest leading-relaxed opacity-70">
+                      {t('Submitting a project for LYA certification is entirely free. Certification is granted on merit, not on the creator\'s financial capacity.', 'Soumettre un projet à la certification LYA est entièrement gratuit. La certification est accordée sur le mérite, pas sur la capacité financière du créateur.')}
                     </p>
                   </div>
                 </div>
@@ -923,35 +864,22 @@ export const LinkArtView: React.FC<{
                   <div className="p-6 bg-primary-cyan/5 border border-primary-cyan/20 space-y-4">
                     <div className="flex items-center gap-2 mb-2">
                       <Info size={14} className="text-primary-cyan" />
-                      <span className="text-xs font-bold uppercase tracking-widest text-primary-cyan">{t('LYA Standard Unit', 'Unité Standard LYA')}</span>
+                      <span className="text-xs font-bold uppercase tracking-widest text-primary-cyan">{t('LYA Certification Standard', 'Standard de Certification LYA')}</span>
                     </div>
                     <p className="text-xs text-on-surface-variant leading-relaxed uppercase tracking-wider">
                       {t(
-                        '1 LYA Unit is fixed at ',
-                        '1 Unité LYA est fixée à '
-                      )}
-                      <span className="text-on-surface font-bold text-sm">{formatLYA()}</span>. 
-                      {t(
-                        ' Your contract will be référencé en Unités LYA sur la plateforme to ensure accessibilité et stabilité globales.',
-                        ' Votre contrat sera référencé en Unités LYA sur la plateforme pour assurer la accessibilité et stabilité mondiales.'
+                        'Your project will be evaluated on the LYA Score (0-1000), combining algorithmic analysis and professional committee review — the same objective standard applied to every certified project on the platform.',
+                        'Votre projet sera évalué selon le Score LYA (0-1000), combinant analyse algorithmique et revue par un comité de professionnels — le même standard objectif appliqué à chaque projet certifié sur la plateforme.'
                       )}
                     </p>
                     <div className="pt-4 border-t border-primary-cyan/10 space-y-2">
                       <div className="flex justify-between text-xs uppercase tracking-widest text-on-surface-variant">
-                        <span>{t('Total Valuation', 'Valorisation Totale')}</span>
-                        <span className="text-on-surface font-bold">${totalValuation?.toLocaleString() || '0'}</span>
+                        <span>{t('Certification Fee', 'Frais de Certification')}</span>
+                        <span className="text-emerald-400 font-bold">{t('Free', 'Gratuit')}</span>
                       </div>
                       <div className="flex justify-between text-xs uppercase tracking-widest text-on-surface-variant">
-                        <span>{t('Total LYA Units', 'Unités LYA Totales')}</span>
-                        <span className="text-primary-cyan font-bold">{totalLyaUnits} LYA</span>
-                      </div>
-                      <div className="flex justify-between text-xs uppercase tracking-widest text-on-surface-variant">
-                        <span>{t('Protocol Fee (2%)', 'Frais de Protocole (2%)')}</span>
-                        <span className="text-on-surface font-bold">${platformFee?.toLocaleString() || '0'}</span>
-                      </div>
-                      <div className="flex justify-between text-xs uppercase tracking-widest text-accent-gold pt-2 border-t border-accent-gold/10">
-                        <span>{t('Initial Deposit', 'Dépôt Initial')} ({depositPercentage}%)</span>
-                        <span className="font-black">{formatPrice(initialDepositAmount)}</span>
+                        <span>{t('Patronage Platform Fee', 'Frais de Plateforme Mécénat')}</span>
+                        <span className="text-on-surface font-bold">5%</span>
                       </div>
                     </div>
                   </div>
@@ -967,8 +895,8 @@ export const LinkArtView: React.FC<{
                     t('Derivative Creation Rights', 'Droits de Création de Dérivés'),
                     t('Public Exhibition Rights', 'Droits d\'Exposition Publique'),
                     t('Institutional Lending Rights', 'Droits de Prêt Institutionnel'),
-                    t('Resale Royalty (10%)', 'Redevance de Revente (10%)'),
-                    t('Governance Voting Rights', 'Droits de Vote de Gouvernance')
+                    t('Credited Recognition', 'Reconnaissance Créditée'),
+                    t('Community Update Access', 'Accès aux Mises à Jour Communautaires')
                   ].map(right => (
                     <div key={right} className="flex items-center gap-4 p-4 bg-surface-dim border border-white/5 hover:border-primary-cyan/30 transition-all cursor-pointer group">
                       <div className="w-5 h-5 border border-white/20 flex items-center justify-center group-hover:border-primary-cyan transition-colors">
@@ -1012,8 +940,6 @@ export const LinkArtView: React.FC<{
                     </div>
                     <div className="text-right">
                       <div className="text-xs font-bold uppercase tracking-widest text-accent-gold">{t('Legendary Tier', 'Niveau Légendaire')}</div>
-                      <div className="text-xs text-on-surface-variant uppercase tracking-widest mt-1">{totalUnits?.toLocaleString() || '0'} {t('Units', 'Unités')} @ {lyaUnits} LYA</div>
-                      <div className="text-[10px] text-on-surface-variant uppercase tracking-widest mt-1">(${unitPrice?.toLocaleString() || '0'} / {t('Unit', 'Unité')})</div>
                       <div className="text-[10px] text-primary-cyan uppercase tracking-widest mt-2">{t('Maturity', 'Échéance')}: {maturityDate} ({contractDuration} {t('Months', 'Mois')})</div>
                     </div>
                   </div>
@@ -1029,8 +955,8 @@ export const LinkArtView: React.FC<{
                         <p className="text-sm font-mono text-on-surface">{new Date().toLocaleDateString(t('en-US', 'fr-FR'), { year: 'numeric', month: 'long', day: 'numeric' })}</p>
                       </div>
                       <div className="pt-2 border-t border-white/5">
-                        <h4 className="text-xs uppercase tracking-widest text-accent-gold font-bold mb-1">{t('Required Initial Deposit', 'Dépôt Initial Requis')}</h4>
-                        <p className="text-lg font-black text-accent-gold italic">{formatPrice(initialDepositAmount)} <span className="text-[10px] opacity-60">({depositPercentage}%)</span></p>
+                        <h4 className="text-xs uppercase tracking-widest text-emerald-400 font-bold mb-1">{t('Certification Fee', 'Frais de Certification')}</h4>
+                        <p className="text-lg font-black text-emerald-400 italic">{t('Free', 'Gratuit')}</p>
                       </div>
                     </div>
                     <div className="space-y-4">
