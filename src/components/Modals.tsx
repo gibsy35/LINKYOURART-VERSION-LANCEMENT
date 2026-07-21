@@ -720,7 +720,7 @@ export const ComplianceCertificateModal: React.FC<{
 }> = ({ isOpen, onClose, contractId }) => {
   const { t } = useTranslation();
   
-  const currentContract = CONTRACTS.find(c => c.id === contractId) || CONTRACTS[0];
+  const currentContract = CONTRACTS.find(c => `REGISTRY_${c.id}` === contractId) || CONTRACTS[0];
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title={`COMPLIANCE_CERTIFICATE: MiCA_LIC_00832`}>

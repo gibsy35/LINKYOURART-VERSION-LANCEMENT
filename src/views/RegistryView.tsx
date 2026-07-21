@@ -531,7 +531,7 @@ export const RegistryView: React.FC<{
                       </button>
                       <button 
                         onClick={() => {
-                          const contract = liveContracts?.find((c: any) => c.registryIndex === item.registryId) || liveContracts?.[0];
+                          const contract = liveContracts?.find((c: any) => c.registryAddress === item.registryId) || liveContracts?.[0];
                           if (contract) generateLegalTerms(contract, language);
                           else onNotify(t('Legal terms loading...', 'Conditions légales en cours de chargement...'));
                         }}
@@ -541,7 +541,7 @@ export const RegistryView: React.FC<{
                       </button>
                       <button 
                         onClick={() => {
-                          const contract = liveContracts?.find((c: any) => c.registryIndex === item.registryId) || liveContracts?.[0];
+                          const contract = liveContracts?.find((c: any) => c.registryAddress === item.registryId) || liveContracts?.[0];
                           if (contract) generatePermissions(contract, language);
                           else onNotify(t('Permissions en cours de chargement...', 'Permissions loading...'));
                         }}
@@ -552,7 +552,7 @@ export const RegistryView: React.FC<{
                     </div>
                     <button 
                       onClick={() => {
-                      const contract = liveContracts?.find((c: any) => c.registryIndex === item.registryId) || liveContracts?.[0];
+                      const contract = liveContracts?.find((c: any) => c.registryAddress === item.registryId) || liveContracts?.[0];
                       if (contract) generateCertificate(contract, language);
                       else setShowCertificate(item.id);
                     }}
