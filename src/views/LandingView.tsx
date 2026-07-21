@@ -414,11 +414,11 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
               <div className="hidden md:flex items-center gap-2 md:gap-12">
                 <div className="hidden xl:flex items-center gap-12 text-[15px] font-black tracking-[0.25em] uppercase">
                   <motion.button whileHover={{ scale: 1.05, x: 5 }} whileTap={{ scale: 0.95 }} className="text-white/40 transition-colors hover:text-primary-cyan group flex items-center gap-2">
-                    Framework
+                    {t('How It Works', 'Comment Ça Marche')}
                     <div className="w-1.5 h-1.5 rounded-full bg-primary-cyan opacity-80 shadow-[0_0_8px_rgba(0,224,255,1)]" />
                   </motion.button>
                   <motion.button whileHover={{ scale: 1.05, x: 5 }} whileTap={{ scale: 0.95 }} className="text-white/40 transition-colors hover:text-[#FF007F] group flex items-center gap-2">
-                    {t('Certification', 'Certification')}
+                    {t('LYA Score', 'Score LYA')}
                     <div className="w-1.5 h-1.5 rounded-full bg-[#FF007F] opacity-80 shadow-[0_0_8px_rgba(255,0,127,1)]" />
                   </motion.button>
                   <motion.button whileHover={{ scale: 1.05, x: 5 }} whileTap={{ scale: 0.95 }} className="text-white/40 transition-colors hover:text-[#9D00FF] group flex items-center gap-2">
