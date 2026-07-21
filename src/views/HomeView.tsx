@@ -278,7 +278,7 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
     return [
       {
         idx: 0,
-        title: t('INSTITUTIONAL LIQUIDITY', 'LIQUIDITÉ INSTITUTIONNELLE'),
+        title: t('CERTIFIED HERITAGE ASSET', 'PATRIMOINE CERTIFIÉ'),
         subtitle: t('RENAISSANCE REBORN', 'RENAISSANCE REBORN'),
         description: t('Standard physical art masterwork certified on the LYA Registry. The LYA Score acts as a direct thermometer of active curatorial recognition.', 'Chef-d\'œuvre physique d\'art classique certifié sur le Registre LYA. Le Score LYA est le thermomètre direct de la reconnaissance des conservateurs.'),
         icon: <ShieldCheck className="text-primary-cyan" size={32} />,
@@ -295,9 +295,9 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
       },
       {
         idx: 1,
-        title: t('REVENUE SHARE DYNAMICS', 'DYNAMIQUE REVENUE SHARE'),
+        title: t('CERTIFICATION MOMENTUM', 'DYNAMIQUE DE CERTIFICATION'),
         subtitle: t('SKY GARDENS V4', 'SKY GARDENS V4'),
-        description: t('Architectural blueprint royalties distributed as dynamic flux de performance indexes. Price adapts instantly to validated commercial license signings.', 'Redevances de plans d\'architectes distribuées en flux de performance. L\'indice s\'adapte en temps réel aux signatures de licences.'),
+        description: t('Architectural blueprint recognition tracked as dynamic certification indexes. The Score adapts instantly to validated commercial license signings.', 'Reconnaissance de plans d\'architectes suivie en indices de certification dynamiques. Le Score s\'adapte en temps réel aux signatures de licences.'),
         icon: <Activity className="text-accent-gold" size={32} />,
         metric: sky ? `${sky.growth >= 0 ? '+' : ''}${sky.growth.toFixed(2)}%` : '+8.4%',
         metricLabel: t('INDEX PERF', 'PERF DE L\'INDEX LYA'),
@@ -314,7 +314,7 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
         idx: 2,
         title: t('TV SERIES MASTER IP', 'SCÉNARIO & DROITS DE SÉRIE TV'),
         subtitle: t('CHRONICLES OF ELDON', 'CHRONICLES OF ELDON'),
-        description: t('Global broadcasting rights and revenue share metrics for the international sci-fi premium series. Multi-territory SVOD presales, broadcasting signatures, and streaming collection milestones govern direct transfer platform index appreciation.', 'Indexation d\'un projet de série TV internationale. Les signatures de droits de diffusion SVOD et accords de syndication TV mondiaux pilotent la valorisation du cours unitaire.'),
+        description: t('Global broadcasting rights and certification metrics for the international sci-fi premium series. Multi-territory SVOD presales, broadcasting signatures, and streaming collection milestones govern the certification index progression.', 'Indexation d\'un projet de série TV internationale. Les signatures de droits de diffusion SVOD et accords de syndication TV mondiaux pilotent la progression de l\'indice de certification.'),
         icon: <Clapperboard className="text-accent-pink" size={32} />,
         metric: bio ? `${bio.growth >= 0 ? '+' : ''}${bio.growth.toFixed(2)}%` : '+32.5%',
         metricLabel: t('MARKET MOVEMENT', 'CONTRAT LYA INITIAL'),
@@ -440,10 +440,6 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
           {CASE_META.map((meta, idx) => {
             const isActive = selectedCaseIdx === idx;
-            // Read from the single source of truth — guaranteed to match the right panel
-            const price = allCasePrices[idx].finalPrice;
-            const ret   = allCasePrices[idx].totalReturn;
-            const isPositive = ret >= 0;
             return (
               <motion.button
                 key={idx}
@@ -466,15 +462,10 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
                 </div>
                 <div className="flex items-end justify-between">
                   <div>
-                    <p className="text-[10px] text-white/30 uppercase font-black tracking-widest mb-0.5">{t('Final price / unit', 'Prix final / unité')}</p>
+                    <p className="text-[10px] text-white/30 uppercase font-black tracking-widest mb-0.5">{t('Final LYA Score', 'Score LYA final')}</p>
                     <p className={`text-xl font-black font-mono ${isActive ? 'text-primary-cyan' : 'text-white'}`}>
-                      ${price.toFixed(2)}
+                      {meta.finalScore}<span className="text-white/20 text-xs">/1000</span>
                     </p>
-                  </div>
-                  <div className={`px-3 py-1 text-xs font-black font-mono ${
-                    isPositive ? 'bg-emerald-400/10 text-emerald-400' : 'bg-rose-400/10 text-rose-400'
-                  }`}>
-                    {isPositive ? '+' : ''}{ret}%
                   </div>
                 </div>
                 {isActive && (
@@ -503,9 +494,8 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
                   <h3 className="text-xl font-black text-white uppercase tracking-tight">{activeMeta.name}</h3>
                 </div>
                 <div className="text-right">
-                  <p className="text-[10px] font-black uppercase tracking-widest text-white/30">{t('Budget', 'Budget')}</p>
-                  <p className="text-sm font-black text-white font-mono">{activeMeta.budget}</p>
-                  <p className="text-[10px] font-black uppercase tracking-widest text-white/30 mt-1">{activeMeta.units} {t('units', 'unités')}</p>
+                  <p className="text-[10px] font-black uppercase tracking-widest text-white/30">{t('Sector', 'Secteur')}</p>
+                  <p className="text-sm font-black text-white font-mono">{activeMeta.category}</p>
                 </div>
               </div>
 
@@ -521,11 +511,6 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
                   <div>
                     <p className="text-[10px] text-white/30 uppercase font-black">{t('Score', 'Score')}</p>
                     <p className="text-sm font-black text-white font-mono">{activeMeta.initialScore}<span className="text-white/20 text-xs">/1000</span></p>
-                  </div>
-                  <div className="w-px h-8 bg-white/10" />
-                  <div>
-                    <p className="text-[10px] text-white/30 uppercase font-black">{t('Unit price', 'Prix/unité')}</p>
-                    <p className="text-sm font-black text-white font-mono">$50.00</p>
                   </div>
                 </div>
               </div>
@@ -572,21 +557,13 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
                       <p className="text-[11px] text-white/45 leading-relaxed">{j.desc}</p>
                     </div>
 
-                    {/* Score + Price impact */}
+                    {/* Score impact */}
                     <div className="flex items-center gap-3 shrink-0 text-right flex-wrap">
                       <div>
                         <p className="text-[10px] text-white/30 uppercase font-black tracking-widest">{t('Score', 'Score')}</p>
                         <p className="text-xs font-black text-white font-mono">{p.prevScore} → <span className={isJalon ? 'text-emerald-400' : 'text-rose-400'}>{p.newScore}</span></p>
                         <p className={`text-xs font-black font-mono ${isJalon ? 'text-emerald-400' : 'text-rose-400'}`}>
                           {j.scoreDelta > 0 ? '+' : ''}{j.scoreDelta}
-                        </p>
-                      </div>
-                      <div className="w-px h-10 bg-white/10" />
-                      <div className="min-w-[72px]">
-                        <p className="text-[10px] text-white/30 uppercase font-black tracking-widest">{t('Price', 'Prix')}</p>
-                        <p className="text-xs font-black text-white font-mono">${p.newPrice.toFixed(2)}</p>
-                        <p className={`text-xs font-black font-mono ${p.pct >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
-                          {p.pct >= 0 ? '+' : ''}{p.pct}%
                         </p>
                       </div>
                     </div>
@@ -604,18 +581,8 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
                 <p className="text-xs font-black uppercase tracking-[0.4em] text-primary-cyan/60 mb-4">{t('Final result', 'Résultat final')}</p>
                 <div className="space-y-4">
                   <div className="flex justify-between items-center py-3 border-b border-white/5">
-                    <span className="text-[10px] font-black text-white/40 uppercase tracking-widest">{t('Initial price', 'Prix initial')}</span>
-                    <span className="text-sm font-black text-white font-mono">$50.00</span>
-                  </div>
-                  <div className="flex justify-between items-center py-3 border-b border-white/5">
-                    <span className="text-[10px] font-black text-white/40 uppercase tracking-widest">{t('Final price', 'Prix final')}</span>
-                    <span className="text-xl font-black text-primary-cyan font-mono">${finalPrice.toFixed(2)}</span>
-                  </div>
-                  <div className="flex justify-between items-center py-3 border-b border-white/5">
-                    <span className="text-[10px] font-black text-white/40 uppercase tracking-widest">{t('Total return', 'Rendement total')}</span>
-                    <span className={`text-xl font-black font-mono ${totalReturn >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
-                      {totalReturn >= 0 ? '+' : ''}{totalReturn}%
-                    </span>
+                    <span className="text-[10px] font-black text-white/40 uppercase tracking-widest">{t('Initial Score', 'Score Initial')}</span>
+                    <span className="text-sm font-black text-white font-mono">{activeMeta.initialScore}<span className="text-white/20 text-xs">/1000</span></span>
                   </div>
                   <div className="flex justify-between items-center py-3">
                     <span className="text-[10px] font-black text-white/40 uppercase tracking-widest">{t('Final LYA Score', 'Score LYA Final')}</span>
@@ -634,13 +601,13 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
 
               {/* Price chart mini */}
               <div className="border border-white/10 bg-white/[0.02] p-6">
-                <p className="text-xs font-black uppercase tracking-[0.4em] text-white/30 mb-4">{t('Price evolution', 'Évolution du prix')}</p>
+                <p className="text-xs font-black uppercase tracking-[0.4em] text-white/30 mb-4">{t('Score evolution', 'Évolution du Score')}</p>
                 <div style={{ width: '100%', height: 140 }}>
                   <ResponsiveContainer width="100%" height={140}>
                     <AreaChart
-                      data={[{ step: 'Départ', price: 50 }, ...activeJalons.map((j, i) => ({
+                      data={[{ step: 'Départ', score: activeMeta.initialScore }, ...activeJalons.map((j, i) => ({
                         step: j.title.split(' ').slice(0, 2).join(' '),
-                        price: jalonPrices[i]?.newPrice ?? 50
+                        score: jalonPrices[i]?.newScore ?? activeMeta.initialScore
                       }))]}
                       margin={{ top: 5, right: 5, left: 0, bottom: 0 }}
                     >
@@ -651,15 +618,15 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
                         </linearGradient>
                       </defs>
                       <CartesianGrid strokeDasharray="2 2" stroke="#ffffff06" vertical={false} />
-                      <YAxis hide domain={['dataMin - 2', 'dataMax + 2']} />
+                      <YAxis hide domain={['dataMin - 20', 'dataMax + 20']} />
                       <XAxis dataKey="step" hide />
                       <Tooltip
                         contentStyle={{ background: '#0D1117', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 4, padding: '8px 12px' }}
                         itemStyle={{ color: activeColor, fontSize: 11, fontWeight: 800 }}
                         labelStyle={{ color: 'rgba(255,255,255,0.3)', fontSize: 9, textTransform: 'uppercase' }}
-                        formatter={(v: number) => [`$${v.toFixed(2)}`, 'Prix']}
+                        formatter={(v: number) => [`${v}/1000`, t('Score','Score')]}
                       />
-                      <Area type="monotone" dataKey="price" stroke={activeColor} strokeWidth={2} fill="url(#priceGradCS)" dot={{ fill: activeColor, r: 3, strokeWidth: 0 }} activeDot={{ r: 5, strokeWidth: 0 }} />
+                      <Area type="monotone" dataKey="score" stroke={activeColor} strokeWidth={2} fill="url(#priceGradCS)" dot={{ fill: activeColor, r: 3, strokeWidth: 0 }} activeDot={{ r: 5, strokeWidth: 0 }} />
                     </AreaChart>
                   </ResponsiveContainer>
                 </div>
@@ -731,7 +698,7 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
                      <span className="text-primary-cyan">{selectedContract.name}</span>
                    </h2>
                    <p className="text-xs text-white/40 uppercase tracking-wider mt-1 text-justify">
-                     {t('Interactively adjust the valuation parameters below to see how milestones and committee validation impact your investment.', 'Ajustez les paramètres de valorisation pour visualiser l\'impact des jalons et de la validation comité sur votre investissement.')}
+                     {t('Interactively adjust the certification parameters below to see how milestones and committee validation impact the LYA Score.', 'Ajustez les paramètres de certification pour visualiser l\'impact des jalons et de la validation comité sur le Score LYA.')}
                    </p>
                  </div>
 
@@ -880,7 +847,7 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
                              className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-emerald-400"
                            />
                            <p className="text-[10px] text-white/45 uppercase tracking-widest mt-1.5 leading-relaxed text-justify">
-                             {t('Each validated milestone securely increases the global asset valuation through a proprietary compounding mechanism.', 'Chaque jalon validé augmente de manière cumulative la valorisation de l\'œuvre via un mécanisme propriétaire breveté.')}
+                             {t('Each validated milestone contributes to the project\'s LYA Score through our certification methodology.', 'Chaque jalon validé contribue au Score LYA du projet selon notre méthodologie de certification.')}
                            </p>
                          </div>
                        </div>
@@ -891,13 +858,13 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
                    <div className="lg:col-span-5 flex flex-col gap-6">
                      <div className="bg-primary-cyan/5 border border-primary-cyan/25 p-6 rounded-lg shadow-2xl space-y-6">
                        <div className="text-center font-black py-2 tracking-[0.2em] font-mono text-[10px] text-primary-cyan uppercase bg-primary-cyan/10 border border-primary-cyan/10 rounded-sm">
-                         {t('SIMULATION REAL-TIME LEDGER', 'REGISTRE DE SIMULATION TEMPS-RÉEL')}
+                         {t('SIMULATION REAL-TIME PREVIEW', 'APERÇU DE SIMULATION TEMPS-RÉEL')}
                        </div>
 
                        {/* Formula Steps */}
                        <div className="font-mono text-[10px] space-y-4 text-white/60 text-left">
                          <div className="bg-black/30 p-3 rounded-md border border-white/5 space-y-1">
-                           <div className="text-white/40 font-bold uppercase tracking-widest">{t('1. COMPREHENSIVE AUTONOMOUS DEED', '1. EVALUATION AUTONOME (Sauto)')}</div>
+                           <div className="text-white/40 font-bold uppercase tracking-widest">{t('1. AUTONOMOUS ASSESSMENT', '1. EVALUATION AUTONOME (Sauto)')}</div>
                            <div className="text-xs text-white font-bold tracking-tight text-right mt-1">
                              {demoPillars.quality} + {demoPillars.marketability} + {demoPillars.security} + {demoPillars.innovation} + {demoPillars.growth} = <span className="text-white font-bold">{demoSAuto} / 1000</span>
                            </div>
@@ -911,7 +878,7 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
                          </div>
 
                          <div className="bg-black/30 p-3 rounded-md border border-white/5 space-y-1">
-                           <div className="text-white/40 font-bold uppercase tracking-widest">{t('3. ESCALATION BONUS', '3. REVALORISATION JALONS')}</div>
+                           <div className="text-white/40 font-bold uppercase tracking-widest">{t('3. MILESTONE BONUS', '3. BONUS DE JALONS')}</div>
                            <div className="text-xs text-white font-bold tracking-tight text-right mt-1">
                              {demoMilestones} {t('milestone(s) validated', 'jalon(s) validé(s)')} = <span className="text-white text-emerald-400 font-bold">+{demoMilestoneBonusPercent.toFixed(2)}%</span>
                            </div>
@@ -982,7 +949,7 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
                        </div>
                      </div>
                      <p className="text-xs font-mono text-white/30 text-center leading-relaxed uppercase tracking-widest">
-                       {t('* ANANLYTICAL PROJECTIONS BASED ON ACTIVE LYA VALUATION FORMULAS. NON-CONTRACTUAL ILLUSTRATION.', '* SIMULATIONS ESTIMATIVES BASÉES EN TEMPS-RÉEL SUR LES FORMULES OPÉRATIONNELLES DU LYA SYSTEME. NON-CONTRACTUEL.')}
+                       {t('* ANALYTICAL PROJECTIONS BASED ON ACTIVE LYA CERTIFICATION FORMULAS. NON-CONTRACTUAL ILLUSTRATION.', '* SIMULATIONS ESTIMATIVES BASÉES EN TEMPS-RÉEL SUR LES FORMULES DE CERTIFICATION DU LYA SYSTEME. NON-CONTRACTUEL.')}
                      </p>
                    </div>
                  </div>
@@ -1124,7 +1091,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
               </div>
               
               <p className="text-sm sm:text-base md:text-lg text-white max-w-3xl mb-4 sm:mb-6 lg:mb-8 font-black uppercase tracking-tight leading-tight drop-shadow-lg">
-                "{t('LINKYOURART UNITES CREATORS, INVESTORS, INDUSTRY & AUDIENCES—POWERING TOMORROW’S MASTERPIECES.', 'LINKYOURART UNIT CRÉATEURS, INVESTISSEURS, INDUSTRIE ET PUBLICS—PROPULSANT LES CHEFS-D\'ŒUVRE DE DEMAIN.')}"
+                "{t('LINKYOURART UNITES CREATORS, PATRONS, INDUSTRY & AUDIENCES—POWERING TOMORROW’S MASTERPIECES.', 'LINKYOURART UNIT CRÉATEURS, MÉCÈNES, INDUSTRIE ET PUBLICS—PROPULSANT LES CHEFS-D\'ŒUVRE DE DEMAIN.')}"
               </p>
 
               <p className="text-base sm:text-base md:text-lg lg:text-xl xl:text-2xl text-on-surface-variant max-w-3xl mb-6 lg:mb-8 xl:mb-12 font-medium leading-relaxed opacity-90 border-l-4 lg:border-l-8 border-primary-cyan pl-6 lg:pl-10 py-2 lg:py-3">
@@ -1459,20 +1426,20 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
           </div>
         </div>
 
-        {/* Price Formula Section */}
+        {/* Score Formula Section */}
         <div className="mb-40">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div className="order-2 lg:order-1">
-              <div className="text-xs font-mono text-accent-gold uppercase tracking-[0.5em] mb-4 font-bold">{t('Valuation Model', 'Modèle de Valorisation')}</div>
+              <div className="text-xs font-mono text-accent-gold uppercase tracking-[0.5em] mb-4 font-bold">{t('Certification Model', 'Modèle de Certification')}</div>
                   <h2 className="text-3xl md:text-5xl font-black font-headline text-white tracking-tighter uppercase mb-8 drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]">
-                {t('home.formula.title', 'The')} <span className="text-primary-cyan">{t('home.formula.title_cyan', 'Price Formula')}</span>
+                {t('home.formula.title', 'The')} <span className="text-primary-cyan">{t('home.formula.title_cyan', 'Score Formula')}</span>
               </h2>
               <div className="space-y-6">
                 <div className="flex items-start gap-6 p-6 bg-white/5 border border-white/10 rounded-sm">
                   <div className="w-12 h-12 shrink-0 bg-primary-cyan/10 flex items-center justify-center text-primary-cyan border border-primary-cyan/20 font-black">01</div>
                   <div>
-                    <h4 className="text-white font-black uppercase tracking-widest mb-1">{t('home.formula.p1.title', 'Creator Base Price')}</h4>
-                    <p className="text-xs text-on-surface-variant opacity-70 uppercase tracking-widest">{t('home.formula.p1.desc', 'The initial valuation set by the creator at project inception.')}</p>
+                    <h4 className="text-white font-black uppercase tracking-widest mb-1">{t('home.formula.p1.title', 'Creator Submission')}</h4>
+                    <p className="text-xs text-on-surface-variant opacity-70 uppercase tracking-widest">{t('home.formula.p1.desc', 'The initial project file submitted by the creator at inception.')}</p>
                   </div>
                 </div>
                 <div className="flex items-center justify-center py-2">
@@ -1501,7 +1468,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
               <div className="relative w-full max-w-md aspect-square bg-surface-low border border-white/5 rounded-full flex items-center justify-center overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-primary-cyan/10 via-transparent to-accent-pink/10 animate-pulse" />
                 <div className="relative z-10 text-center">
-                  <div className="text-xs font-mono text-on-surface-variant opacity-40 uppercase tracking-widest mb-4">Project Valuation</div>
+                  <div className="text-xs font-mono text-on-surface-variant opacity-40 uppercase tracking-widest mb-4">Project Certification</div>
                   <div className="text-6xl font-black text-white tracking-tighter mb-2">LYA_SCORE</div>
                   <div className="flex items-center justify-center gap-4">
                     <span className="text-primary-cyan font-bold">CREATOR</span>
@@ -1567,7 +1534,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
               { icon: '🎵', labelFR: 'Musique & Audio', labelEN: 'Music & Audio', descFR: 'Labels, éditeurs, compositeurs, droits voisins et catalogues musicaux', descEN: 'Labels, publishers, composers, neighbouring rights and music catalogues', stat: '30+ ans de droits indexés', statEN: '30+ years of indexed rights', color: 'border-[#a78bfa]/25 hover:border-[#a78bfa]/50', dot: 'bg-[#a78bfa]' },
               { icon: '🎬', labelFR: 'Cinéma & Série', labelEN: 'Film & Series', descFR: 'Productions, studios, distributeurs, droits de diffusion et catalogues', descEN: 'Productions, studios, distributors, broadcast rights and catalogues', stat: 'Distribution internationale', statEN: 'International distribution', color: 'border-primary-cyan/25 hover:border-primary-cyan/50', dot: 'bg-primary-cyan' },
               { icon: '👗', labelFR: 'Mode & Luxe', labelEN: 'Fashion & Luxury', descFR: 'Maisons de couture, créateurs indépendants, archives et collections', descEN: 'Fashion houses, independent designers, archives and collections', stat: 'Héritage + création contemporaine', statEN: 'Heritage + contemporary creation', color: 'border-rose-400/25 hover:border-rose-400/50', dot: 'bg-rose-400' },
-              { icon: '🎮', labelFR: 'Jeu Vidéo & Tech', labelEN: 'Gaming & Tech', descFR: 'Éditeurs, studios indépendants, IP franchises et actifs numériques', descEN: 'Publishers, indie studios, IP franchises and digital assets', stat: 'IP & actifs interactifs', statEN: 'IP & interactive assets', color: 'border-emerald-400/25 hover:border-emerald-400/50', dot: 'bg-emerald-400' },
+              { icon: '🎮', labelFR: 'Jeu Vidéo & Tech', labelEN: 'Gaming & Tech', descFR: 'Éditeurs, studios indépendants, IP franchises et contenus numériques', descEN: 'Publishers, indie studios, IP franchises and digital content', stat: 'IP & contenus interactifs', statEN: 'IP & interactive content', color: 'border-emerald-400/25 hover:border-emerald-400/50', dot: 'bg-emerald-400' },
               { icon: '🏛️', labelFR: 'Architecture & Design', labelEN: 'Architecture & Design', descFR: 'Agences, cabinets, objets de design, patrimoine et projets urbains', descEN: 'Agencies, firms, design objects, heritage and urban projects', stat: 'Du concept à la réalisation', statEN: 'From concept to completion', color: 'border-accent-gold/25 hover:border-accent-gold/50', dot: 'bg-accent-gold' },
               { icon: '🎨', labelFR: 'Arts Visuels & Scène', labelEN: 'Visual Arts & Stage', descFR: 'Galeries, artistes, arts performatifs, photographie et installations', descEN: 'Galleries, artists, performing arts, photography and installations', stat: 'Exposition & patrimoine mondial', statEN: 'Exhibition & world heritage', color: 'border-white/15 hover:border-white/30', dot: 'bg-white/60' },
             ].map((disc, i) => (
