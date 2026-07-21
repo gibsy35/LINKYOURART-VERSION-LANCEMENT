@@ -3,7 +3,7 @@ import { AuthGuard } from '../components/AuthGuard';
 import { motion, AnimatePresence } from 'motion/react';
 import { useTranslation } from '../context/LanguageContext';
 import { useCurrency } from '../context/CurrencyContext';
-import { UserProfile, CONTRACTS, LYA_UNIT_VALUE } from '../types';
+import { UserProfile, CONTRACTS } from '../types';
 import { db } from '../firebase';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { RealtimeChart } from '../components/RealtimeChart';
@@ -26,7 +26,6 @@ const genChartData = (points: number, base: number, growth: number) =>
     v: Math.round(base * (1 + (growth / 100) * (i / points)) + (Math.random() - 0.5) * base * 0.04),
   }));
 
-const unitPrice = (growth: number) => LYA_UNIT_VALUE * (1 + growth / 100);
 
 const StatusBadge: React.FC<{ status: string }> = ({ status }) => {
   const cfg: Record<string, { label: string; cls: string }> = {
@@ -153,12 +152,12 @@ const LYASimulator: React.FC<{ lang: 'FR' | 'EN'; formatPrice: (n: number) => st
             <div className={`rounded-2xl p-5 text-center border ${eligBg}`}>
               <p className="text-xs text-on-surface-variant/50 uppercase tracking-widest mb-2">{T('Score LYA Estimé','Estimated LYA Score')}</p>
               <p className={`text-5xl font-black font-mono ${eligColor}`}>{totalPts}<span className="text-xl text-on-surface-variant/30">/1000</span></p>
-              <p className={`mt-2 text-sm font-black uppercase tracking-widest ${eligColor}`}>{totalPts >= 700 ? T('✦ Éligible à l\'indexation LYA','✦ Eligible for LYA indexation') : totalPts >= 400 ? T('⚡ Quelques améliorations nécessaires','⚡ Some improvements needed') : T('↑ En développement','↑ Developing')}</p>
+              <p className={`mt-2 text-sm font-black uppercase tracking-widest ${eligColor}`}>{totalPts >= 700 ? T('✦ Éligible à la certification LYA','✦ Eligible for LYA certification') : totalPts >= 400 ? T('⚡ Quelques améliorations nécessaires','⚡ Some improvements needed') : T('↑ En développement','↑ Developing')}</p>
             </div>
             {totalPts >= 700 && (
               <div className="bg-primary-cyan/5 border border-primary-cyan/15 rounded-xl p-4">
-                <p className="text-xs font-black text-primary-cyan uppercase tracking-widest mb-1">{T('Estimation LYA UNIT','LYA UNIT Estimate')}</p>
-                <p className="text-sm text-on-surface-variant/70">{T(`Avec un score de ${totalPts}/1000, votre LYA UNIT de départ serait estimé à`, `With a score of ${totalPts}/1000, your starting LYA UNIT would be estimated at`)} <span className="text-primary-cyan font-black">{formatPrice(LYA_UNIT_VALUE * (1 + (totalPts/1000) * 0.5))}</span></p>
+                <p className="text-xs font-black text-primary-cyan uppercase tracking-widest mb-1">{T('Niveau de Certification Estimé','Estimated Certification Tier')}</p>
+                <p className="text-sm text-on-surface-variant/70">{T(`Avec un score de ${totalPts}/1000, votre projet serait éligible à une certification`, `With a score of ${totalPts}/1000, your project would be eligible for certification`)} <span className="text-primary-cyan font-black">{T('Élevée', 'High')}</span></p>
               </div>
             )}
             <div className="bg-white/5 border border-white/10 rounded-xl p-3 text-center">
@@ -178,8 +177,8 @@ const LYASimulator: React.FC<{ lang: 'FR' | 'EN'; formatPrice: (n: number) => st
                 </p>
                 <p className="text-xs text-white/50 leading-relaxed">
                   {T(
-                    `Avec un score de ${totalPts}/1000, vous pouvez maintenant créer votre projet et le soumettre à l'indexation LYA.`,
-                    `With a score of ${totalPts}/1000, you can now create your project and submit it for LYA indexation.`
+                    `Avec un score de ${totalPts}/1000, vous pouvez maintenant créer votre projet et le soumettre à la certification LYA.`,
+                    `With a score of ${totalPts}/1000, you can now create your project and submit it for LYA certification.`
                   )}
                 </p>
                 <button
@@ -243,7 +242,6 @@ export const CreatorDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg
   const riskProjects = CONTRACTS.filter(c => c.status === 'RISK').slice(0, 2);
 
   // KPIs réels avec données positives ET négatives
-  const totalValue = myProjects.reduce((s, c) => s + (unitPrice(c.growth) * 50), 0);
   const avgGrowth = allProjects.reduce((s,c) => s + c.growth, 0) / allProjects.length;
   const liveCount = CONTRACTS.filter(c => c.status === 'LIVE').length;
   const riskCount = CONTRACTS.filter(c => ['RISK','SUSPENDED','LIQUIDATION'].includes(c.status)).length;
@@ -302,10 +300,10 @@ export const CreatorDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg
               {/* KPIs — incluant données négatives */}
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                 {[
-                  {icon:<DollarSign size={18} className="text-[#a78bfa]"/>, label:T('Valeur totale','Total value'), value:formatPrice(totalValue), sub:`${avgGrowth>=0?'+':''}${avgGrowth.toFixed(1)}%`, up:avgGrowth>=0, color:'bg-[#a78bfa]/10'},
+                  {icon:<Sparkles size={18} className="text-[#a78bfa]"/>, label:T('Score moyen','Avg Score'), value:String(Math.round(allProjects.reduce((s,c)=>s+c.totalScore,0)/allProjects.length)), sub:`${avgGrowth>=0?'+':''}${avgGrowth.toFixed(1)}%`, up:avgGrowth>=0, color:'bg-[#a78bfa]/10'},
                   {icon:<Users size={18} className="text-primary-cyan"/>, label:T('Mécènes actifs','Active patrons'), value:'290', sub:'+8 '+T('ce mois','this month'), up:true, color:'bg-primary-cyan/10'},
                   {icon:<Sparkles size={18} className="text-emerald-400"/>, label:T('Projets LIVE','LIVE Projects'), value:String(liveCount), sub:`${riskCount} ${T('en risque','at risk')}`, up:false, color:'bg-emerald-400/10'},
-                  {icon:<Target size={18} className="text-accent-gold"/>, label:T('LYA UNIT moyen','Avg LYA UNIT'), value:formatPrice(LYA_UNIT_VALUE*(1+avgGrowth/100)), sub:`Base: ${formatPrice(LYA_UNIT_VALUE)}`, up:avgGrowth>=0, color:'bg-accent-gold/10'},
+                  {icon:<Target size={18} className="text-accent-gold"/>, label:T('Statut Certification','Certification Status'), value:T('Certifié','Certified'), sub:`${avgGrowth>=0?'+':''}${avgGrowth.toFixed(1)}%`, up:avgGrowth>=0, color:'bg-accent-gold/10'},
                 ].map((k,i) => (
                   <div key={i} className="bg-surface-low/40 border border-white/8 rounded-2xl p-4 space-y-2 hover:border-white/15 transition-all">
                     <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${k.color}`}>{k.icon}</div>
@@ -318,25 +316,25 @@ export const CreatorDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg
                 ))}
               </div>
 
-              {/* LYA UNIT encadré */}
+              {/* Score LYA encadré */}
               <div className="bg-gradient-to-r from-accent-gold/8 to-[#a78bfa]/5 border border-accent-gold/20 rounded-2xl p-5 flex flex-col sm:flex-row items-start sm:items-center gap-4">
                 <div className="w-12 h-12 bg-accent-gold/15 border border-accent-gold/25 rounded-xl flex items-center justify-center shrink-0">
                   <span className="text-accent-gold font-black text-xs">LYA</span>
                 </div>
                 <div className="flex-1">
-                  <p className="text-xs font-black text-accent-gold uppercase tracking-widest mb-1">LYA UNIT — {T('Index de valeur créative','Creative value index')}</p>
-                  <p className="text-sm text-on-surface-variant/70 leading-relaxed">{T('Chaque création LYA est indexée en LYA Units. La valeur évolue selon les jalons, le LYA Score et les échanges sur le marché secondaire.','Each LYA creation is indexed in LYA Units. Value evolves according to milestones, LYA Score and secondary market trades.')}</p>
+                  <p className="text-xs font-black text-accent-gold uppercase tracking-widest mb-1">{T('Score LYA — Standard de certification','LYA Score — Certification standard')}</p>
+                  <p className="text-sm text-on-surface-variant/70 leading-relaxed">{T('Chaque création LYA est certifiée par un Score sur 1000. Le Score évolue selon les jalons validés et la revue du Comité.','Each LYA creation is certified with a Score out of 1000. The Score evolves according to validated milestones and Committee review.')}</p>
                 </div>
                 <div className="text-right shrink-0">
-                  <p className="text-xs text-on-surface-variant/40 uppercase tracking-widest">{T('Valeur de base','Base value')}</p>
-                  <p className="text-2xl font-black text-accent-gold font-mono">{formatPrice(LYA_UNIT_VALUE)}</p>
+                  <p className="text-xs text-on-surface-variant/40 uppercase tracking-widest">{T('Score moyen','Avg Score')}</p>
+                  <p className="text-2xl font-black text-accent-gold font-mono">{Math.round(allProjects.reduce((s,c)=>s+c.totalScore,0)/allProjects.length)}<span className="text-xs text-white/20">/1000</span></p>
                   <p className={`text-xs font-bold mt-0.5 ${avgGrowth>=0?'text-emerald-400':'text-rose-400'}`}>{avgGrowth>=0?'+':''}{avgGrowth.toFixed(1)}% {T('tendance actuelle','current trend')}</p>
                 </div>
               </div>
 
               {/* Projets principaux */}
               {myProjects.map((proj, idx) => {
-                const chartData = genChartData(20, LYA_UNIT_VALUE*(1+proj.growth/100)*50, proj.growth);
+                const chartData = genChartData(20, proj.totalScore, proj.growth);
                 const up = proj.growth >= 0;
                 return (
                   <div key={proj.id} className="bg-surface-low/40 border border-white/8 rounded-2xl overflow-hidden hover:border-white/15 transition-all">
@@ -364,12 +362,12 @@ export const CreatorDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg
                             <AreaChart data={chartData}>
                               <defs><linearGradient id={`g${idx}`} x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor={up?'#10b981':'#f43f5e'} stopOpacity={0.3}/><stop offset="95%" stopColor={up?'#10b981':'#f43f5e'} stopOpacity={0}/></linearGradient></defs>
                               <Area type="monotone" dataKey="v" stroke={up?'#10b981':'#f43f5e'} strokeWidth={2} fill={`url(#g${idx})`} dot={false}/>
-                              <Tooltip contentStyle={{background:'#0f121a',border:'1px solid rgba(255,255,255,0.1)',borderRadius:8,fontSize:11}} formatter={(v:number)=>[formatPrice(v),T('Valeur','Value')]}/>
+                              <Tooltip contentStyle={{background:'#0f121a',border:'1px solid rgba(255,255,255,0.1)',borderRadius:8,fontSize:11}} formatter={(v:number)=>[`${Math.round(v)}/1000`,T('Score','Score')]}/>
                             </AreaChart>
                           </ResponsiveContainer>
                         </div>
                         <div className="grid grid-cols-3 gap-2">
-                          <div className="bg-surface-high/30 rounded-lg p-2"><p className="text-[9px] text-on-surface-variant/40 uppercase">{T('LYA UNIT','LYA UNIT')}</p><p className="text-xs font-black text-accent-gold">{formatPrice(unitPrice(proj.growth))}</p></div>
+                          <div className="bg-surface-high/30 rounded-lg p-2"><p className="text-[9px] text-on-surface-variant/40 uppercase">{T('Score','Score')}</p><p className="text-xs font-black text-accent-gold">{proj.totalScore}/1000</p></div>
                           <div className="bg-surface-high/30 rounded-lg p-2"><p className="text-[9px] text-on-surface-variant/40 uppercase">{T('Variation','Change')}</p><p className={`text-xs font-black ${up?'text-emerald-400':'text-rose-400'}`}>{up?'+':''}{proj.growth}%</p></div>
                           <div className="bg-surface-high/30 rounded-lg p-2"><p className="text-[9px] text-on-surface-variant/40 uppercase">{T('Mécènes','Patrons')}</p><p className="text-xs font-black text-on-surface">{87+idx*116}</p></div>
                         </div>
@@ -423,9 +421,8 @@ export const CreatorDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg
                       <p className="text-xs text-on-surface-variant/50">{proj.category} · {proj.registryIndex}</p>
                     </div>
                     <div className="text-right shrink-0 space-y-0.5">
-                      <p className="text-xs text-on-surface-variant/40 uppercase tracking-widest">LYA UNIT</p>
-                      <p className="text-sm font-black text-accent-gold">{formatPrice(unitPrice(proj.growth))}</p>
-                      <p className={`text-xs font-black flex items-center justify-end gap-0.5 ${up?'text-emerald-400':'text-rose-400'}`}>
+                      <p className="text-xs text-on-surface-variant/40 uppercase tracking-widest">{T('Variation','Change')}</p>
+                      <p className={`text-sm font-black flex items-center justify-end gap-0.5 ${up?'text-emerald-400':'text-rose-400'}`}>
                         {up?<ArrowUpRight size={11}/>:<ArrowDownRight size={11}/>}{up?'+':''}{proj.growth}%
                       </p>
                     </div>
@@ -500,7 +497,7 @@ export const CreatorDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg
                         </div>
                         <div className="flex-1"><p className="text-sm font-black text-on-surface">{m.label}</p><p className="text-xs text-on-surface-variant/50">{m.date}</p></div>
                         <div className="text-right shrink-0">
-                          {m.scoreImpact && <p className={`text-xs font-black ${m.scoreImpact>0?'text-emerald-400':'text-rose-400'}`}>{m.scoreImpact>0?'+':''}{m.scoreImpact}% LYA UNIT</p>}
+                          {m.scoreImpact && <p className={`text-xs font-black ${m.scoreImpact>0?'text-emerald-400':'text-rose-400'}`}>{m.scoreImpact>0?'+':''}{m.scoreImpact}% {T('Score','Score')}</p>}
                           <span className={`text-[10px] font-black uppercase px-2 py-0.5 rounded-full ${m.status==='COMPLETED'?'bg-emerald-400/10 text-emerald-400':m.status==='FAILED'?'bg-rose-400/10 text-rose-400':m.status==='IN_PROGRESS'?'bg-primary-cyan/10 text-primary-cyan':'bg-white/5 text-on-surface-variant/40'}`}>{m.status==='COMPLETED'?T('Complété','Completed'):m.status==='FAILED'?T('Échoué','Failed'):m.status==='IN_PROGRESS'?T('En cours','In progress'):T('À venir','Upcoming')}</span>
                         </div>
                       </div>
@@ -517,7 +514,7 @@ export const CreatorDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg
               <div className="text-center space-y-1">
                 <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-primary-cyan/10 border border-primary-cyan/20 rounded-full text-[10px] font-black text-primary-cyan uppercase tracking-widest"><Target size={11}/> {T('Outil Créateur','Creator Tool')}</div>
                 <h2 className="font-headline font-black text-on-surface text-2xl tracking-tight">{T('Simulateur','Simulator')} <span className="text-primary-cyan">LYA</span></h2>
-                <p className="text-xs text-on-surface-variant/50">{T('Estimez votre score LYA et votre LYA UNIT avant soumission','Estimate your LYA score and LYA UNIT before submission')}</p>
+                <p className="text-xs text-on-surface-variant/50">{T('Estimez votre score LYA avant soumission','Estimate your LYA score before submission')}</p>
               </div>
               <LYASimulator lang={lang} formatPrice={formatPrice} onViewChange={onViewChange}/>
             </div>
@@ -538,7 +535,7 @@ export const CreatorDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg
                 {[
                   {l:T('Score LYA Total','Total LYA Score'),v:String(allProjects.reduce((s,c)=>s+c.totalScore,0)),sub:T('cumulé','cumulative'),c:'text-[#a78bfa]'},
                   {l:T('Mécènes Total','Total Patrons'),v:'24.8K',sub:'+15.7%',c:'text-primary-cyan'},
-                  {l:T('Revenus co-part.','Co-share revenue'),v:formatPrice(42500),sub:'+23.4%',c:'text-emerald-400'},
+                  {l:T('Certifications obtenues','Certifications earned'),v:String(liveCount),sub:T('projets actifs','active projects'),c:'text-emerald-400'},
                   {l:T('Projets en risque','At-risk projects'),v:String(riskCount),sub:T('nécessitent attention','need attention'),c:'text-rose-400'},
                 ].map((k,i)=>(
                   <div key={i} className="bg-surface-low/40 border border-white/8 rounded-2xl p-4 space-y-1">
@@ -558,19 +555,19 @@ export const CreatorDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg
                 <p className="text-sm font-black text-on-surface uppercase tracking-wider">{T('Carte de Chaleur d\'Engagement','Engagement Heat Map')}</p>
                 <HeatmapCard lang={lang}/>
               </div>
-              {/* LYA UNIT par projet */}
+              {/* Score par projet */}
               <div className="bg-surface-low/40 border border-white/8 rounded-2xl p-5 space-y-4">
-                <p className="text-sm font-black text-on-surface uppercase tracking-wider">{T('LYA UNIT par projet','LYA UNIT per project')}</p>
+                <p className="text-sm font-black text-on-surface uppercase tracking-wider">{T('Score LYA par projet','LYA Score per project')}</p>
                 <div className="h-40">
                   <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={allProjects.slice(0,8).map(c=>({name:c.registryIndex.split('-')[0],unit:+unitPrice(c.growth).toFixed(2),up:c.growth>=0}))}>
+                    <BarChart data={allProjects.slice(0,8).map(c=>({name:c.registryIndex.split('-')[0],score:c.totalScore,up:c.growth>=0}))}>
                       <XAxis dataKey="name" tick={{fill:'rgba(255,255,255,0.4)',fontSize:9}} axisLine={false} tickLine={false}/>
-                      <Tooltip contentStyle={{background:'#0f121a',border:'1px solid rgba(255,255,255,0.1)',borderRadius:8,fontSize:11}} formatter={(v:number)=>[formatPrice(v),'LYA UNIT']}/>
-                      <Bar dataKey="unit" radius={[4,4,0,0]}>{allProjects.slice(0,8).map((c,i)=><Cell key={i} fill={c.growth>=0?'#10b981':'#f43f5e'}/>)}</Bar>
+                      <Tooltip contentStyle={{background:'#0f121a',border:'1px solid rgba(255,255,255,0.1)',borderRadius:8,fontSize:11}} formatter={(v:number)=>[`${v}/1000`,T('Score','Score')]}/>
+                      <Bar dataKey="score" radius={[4,4,0,0]}>{allProjects.slice(0,8).map((c,i)=><Cell key={i} fill={c.growth>=0?'#10b981':'#f43f5e'}/>)}</Bar>
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
-                <p className="text-xs text-on-surface-variant/40">{T('Vert = en hausse · Rouge = en baisse · Base = ','Green = rising · Red = falling · Base = ')}{formatPrice(LYA_UNIT_VALUE)}</p>
+                <p className="text-xs text-on-surface-variant/40">{T('Vert = en hausse · Rouge = en baisse','Green = rising · Red = falling')}</p>
               </div>
               {/* Réalisations */}
               <div className="bg-surface-low/40 border border-white/8 rounded-2xl p-5 space-y-3">
