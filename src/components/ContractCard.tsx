@@ -12,12 +12,10 @@ import {
   Activity,
   ChevronRight,
   Plus,
-  Search,
-  Coins
+  Search
 } from 'lucide-react';
 import { Contract } from '../types';
 import { useTranslation } from '../context/LanguageContext';
-import { useCurrency } from '../context/CurrencyContext';
 import { getSafeImageUrl } from '../utils/image';
 
 interface ContractCardProps {
@@ -25,7 +23,6 @@ interface ContractCardProps {
   onClick?: () => void;
   onSelect?: (contract: Contract) => void;
   compact?: boolean;
-  onTrade?: (contract: Contract, type: 'BUY' | 'SELL') => void;
   onToggleWatchlist?: (e: React.MouseEvent, contractId: string) => void;
   isWatchlisted?: boolean;
   comparisonList?: string[];
@@ -40,7 +37,6 @@ export const ContractCard = React.memo<ContractCardProps>(({
   onClick, 
   onSelect, 
   compact = false,
-  onTrade,
   onToggleWatchlist,
   isWatchlisted,
   comparisonList,
@@ -48,13 +44,7 @@ export const ContractCard = React.memo<ContractCardProps>(({
   onViewIssuer
 }) => {
   const { t } = useTranslation();
-  const { formatPrice } = useCurrency();
   const inComparison = comparisonList?.includes(contract.id);
-
-  // Calculate adjusted fluctuated unit price based on growth %
-  const baseValue = 50.00;
-  const growthRate = contract.growth || 0;
-  const adjustedPrice = Math.round((baseValue * (1 + (growthRate / 100))) * 100) / 100;
 
   // Calculate individual and final scores with strict algorithmic formula matching
   const scoreAlgoValue = contract.scoreAlgo || 750;
@@ -155,17 +145,16 @@ export const ContractCard = React.memo<ContractCardProps>(({
          <div className="space-y-6">
             <div className="flex justify-between items-end border-b border-white/5 pb-6">
                <div>
-                  <div className="text-xs font-black text-white/30 uppercase tracking-[0.3em] mb-1">{'UNITÉ LYA'}</div>
+                  <div className="text-xs font-black text-white/30 uppercase tracking-[0.3em] mb-1">{t('PATRONS', 'MÉCÈNES')}</div>
                   <div className="flex flex-col items-start gap-1">
                     <div className="text-2xl font-black font-headline text-primary-cyan flex items-baseline gap-2">
-                      {formatPrice(adjustedPrice)}
-                      <span className="text-[10px] font-mono text-white/40">LYA</span>
+                      {Math.floor(50 + scoreFinalValue / 3)}
                     </div>
-                    <span className="text-xs font-mono text-white/30">({formatPrice(baseValue)} base)</span>
+                    <span className="text-xs font-mono text-white/30">{t('Certified','Certifié')}</span>
                   </div>
                </div>
                <div className="text-right">
-                  <div className="text-xs font-black text-white/30 uppercase tracking-[0.3em] mb-1">{'PERF MKT'}</div>
+                  <div className="text-xs font-black text-white/30 uppercase tracking-[0.3em] mb-1">{t('PROGRESS', 'PROGRESSION')}</div>
                   <div className={`flex items-center justify-end gap-1.5 text-xl font-black font-headline ${contract.growth >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
                      {contract.growth >= 0 ? <TrendingUp size={16} /> : <TrendingDown size={16} />}
                      {contract.growth >= 0 ? '+' : ''}{contract.growth}%
