@@ -13,7 +13,10 @@ import {
   Shield,
   Zap,
   TrendingUp,
-  TrendingDown
+  TrendingDown,
+  Newspaper,
+  Award,
+  ShieldCheck
 } from 'lucide-react';
 import { useTranslation } from '../../context/LanguageContext';
 import { useCurrency } from '../../context/CurrencyContext';
@@ -87,40 +90,86 @@ export const Topbar: React.FC<TopbarProps> = ({
         <div className="hidden lg:flex flex-1 h-full items-center overflow-hidden bg-black/20 relative">
           <motion.div 
             className="flex items-center gap-16 whitespace-nowrap absolute left-0 h-full"
-            animate={{ x: [0, -2000] }}
-            transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
+            animate={{ x: [0, -2400] }}
+            transition={{ duration: 75, repeat: Infinity, ease: "linear" }}
           >
-            {[...CONTRACTS, ...CONTRACTS, ...CONTRACTS].map((item, i) => {
-              // Create a deterministic-looking variation based on item ID and index
-              const charCodeSum = item.id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-              const isUp = (charCodeSum + i) % 2 === 0;
-              const variationPercent = ((charCodeSum % 100) / 20 + (i % 5) / 2).toFixed(2);
-              const adjustedPrice = item.unitValue * (1 + (isUp ? 1 : -1) * parseFloat(variationPercent) / 100);
-              
-              return (
-                <div 
-                  key={`${item.id}-${i}`} 
-                  className="flex items-center gap-6 cursor-pointer group h-full px-4 transition-colors"
-                  onClick={() => onSelectContract ? onSelectContract(item) : onViewChange('DASHBOARD')}
-                >
-                  <span className="text-[10px] font-black text-white group-hover:text-primary-cyan transition-colors uppercase tracking-widest flex items-center gap-2">
-                    <span className="text-on-surface-variant/40">{item.registryIndex}</span>
-                    {item.name}
-                  </span>
-                  <div className="flex items-center gap-3">
-                    <span className="text-[10px] text-white font-mono font-bold">
-                      {adjustedPrice.toFixed(2)} USD
-                    </span>
-                    <div className="flex items-center gap-1">
-                      {isUp ? <TrendingUp size={10} className="text-emerald-400" /> : <TrendingDown size={10} className="text-rose-500" />}
-                      <span className={`text-[10px] font-black ${isUp ? 'text-emerald-400' : 'text-rose-500'}`}>
-                        {isUp ? '+' : '-'}{variationPercent}%
+            {(() => {
+              const mediaAnnouncements = [
+                t('New article on LYA certification standard', 'Nouvel article sur le standard de certification LYA'),
+                t('LYA Jobs: new listings from certified studios', 'LYA Jobs : nouvelles offres de studios certifiés'),
+                t('Press & Media: new call for contributions', 'Presse & Médias : nouvel appel à contribution'),
+              ];
+              const registryStats = [
+                t('128+ certified projects on the LYA Registry', '128+ projets certifiés sur le Registre LYA'),
+                t('9+ creative sectors covered', '9+ secteurs créatifs couverts'),
+                t('100+ active professional validators', '100+ validateurs professionnels actifs'),
+              ];
+
+              type Row = { key: string; node: React.ReactNode };
+              const rows: Row[] = [];
+
+              [...CONTRACTS].slice(0, 14).forEach((item, i) => {
+                const isUp = item.growth >= 0;
+                rows.push({
+                  key: `score-${item.id}-${i}`,
+                  node: (
+                    <div className="flex items-center gap-6 cursor-pointer group h-full px-4 transition-colors"
+                      onClick={() => onSelectContract ? onSelectContract(item) : onViewChange('DASHBOARD')}>
+                      <span className="text-[10px] font-black text-white group-hover:text-primary-cyan transition-colors uppercase tracking-widest flex items-center gap-2">
+                        <span className="text-on-surface-variant/40">{item.registryIndex}</span>
+                        {item.name}
                       </span>
+                      <div className="flex items-center gap-3">
+                        <span className="text-[10px] text-white font-mono font-bold">{item.totalScore}/1000</span>
+                        <div className="flex items-center gap-1">
+                          {isUp ? <TrendingUp size={10} className="text-emerald-400" /> : <TrendingDown size={10} className="text-rose-500" />}
+                          <span className={`text-[10px] font-black ${isUp ? 'text-emerald-400' : 'text-rose-500'}`}>{isUp ? '+' : ''}{item.growth}%</span>
+                        </div>
+                      </div>
                     </div>
+                  ),
+                });
+                if (item.milestones && item.milestones.length > 0) {
+                  const m = item.milestones[item.milestones.length - 1];
+                  rows.push({
+                    key: `milestone-${item.id}-${i}`,
+                    node: (
+                      <div className="flex items-center gap-2 h-full px-4">
+                        <Award size={11} className="text-accent-gold" />
+                        <span className="text-[10px] font-black text-accent-gold uppercase tracking-widest">{item.name}:</span>
+                        <span className="text-[10px] text-on-surface-variant/60">{m.label}</span>
+                      </div>
+                    ),
+                  });
+                }
+              });
+              mediaAnnouncements.forEach((txt, i) => rows.push({
+                key: `media-${i}`,
+                node: (
+                  <div className="flex items-center gap-2 h-full px-4">
+                    <Newspaper size={11} className="text-[#a78bfa]" />
+                    <span className="text-[10px] text-on-surface-variant/70">{txt}</span>
                   </div>
-                </div>
-              );
-            })}
+                ),
+              }));
+              registryStats.forEach((txt, i) => rows.push({
+                key: `stat-${i}`,
+                node: (
+                  <div className="flex items-center gap-2 h-full px-4">
+                    <ShieldCheck size={11} className="text-primary-cyan" />
+                    <span className="text-[10px] text-on-surface-variant/70">{txt}</span>
+                  </div>
+                ),
+              }));
+
+              // Alterne les types plutôt que de les grouper par bloc
+              for (let i = rows.length - 1; i > 0; i--) {
+                const j = (i * 7 + 3) % (i + 1);
+                [rows[i], rows[j]] = [rows[j], rows[i]];
+              }
+
+              return [...rows, ...rows].map((r, idx) => <div key={`${r.key}-${idx}`}>{r.node}</div>);
+            })()}
           </motion.div>
         </div>
 

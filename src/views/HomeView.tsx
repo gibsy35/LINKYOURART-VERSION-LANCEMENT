@@ -1085,8 +1085,8 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
             >
               <div className="relative mb-4 sm:mb-8 lg:mb-12">
                 <h1 style={{ fontSize: 'clamp(1.6rem, 6.5vw, 9rem)' }} className="font-black tracking-tighter leading-[0.88] uppercase text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.2)]">
-                  {t('ART IS AN', 'L\'ART EST UN')}<br/>
-                  <span className="text-primary-cyan drop-shadow-[0_0_80px_rgba(0,224,255,0.6)] font-black">{t('EXCHANGE.', 'ÉCHANGE.')}</span>
+                  {t('ART IS A', 'L\'ART EST UN')}<br/>
+                  <span className="text-primary-cyan drop-shadow-[0_0_80px_rgba(0,224,255,0.6)] font-black">{t('STANDARD.', 'STANDARD.')}</span>
                 </h1>
               </div>
               
@@ -1095,7 +1095,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
               </p>
 
               <p className="text-base sm:text-base md:text-lg lg:text-xl xl:text-2xl text-on-surface-variant max-w-3xl mb-6 lg:mb-8 xl:mb-12 font-medium leading-relaxed opacity-90 border-l-4 lg:border-l-8 border-primary-cyan pl-6 lg:pl-10 py-2 lg:py-3">
-                "{t('From project issuance to secondary exchange, navigate a secure ecosystem built on artistic excellence and creative transparency.', 'De l\'émission de projet à l\'échange secondaire, naviguez dans un écosystème sécurisé bâti sur l\'excellence artistique et la transparence créative.')}"
+                "{t('From project submission to certified recognition, navigate a secure ecosystem built on artistic excellence and creative transparency.', 'De la soumission du projet à la reconnaissance certifiée, naviguez dans un écosystème sécurisé bâti sur l\'excellence artistique et la transparence créative.')}"
               </p>
 
               <div className="flex flex-col sm:flex-row items-start gap-4 mb-4 sm:mb-8 lg:mb-12 w-full sm:w-auto">
@@ -1110,7 +1110,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
                   onClick={() => onViewChange('REGISTRY')}
                   className="w-full sm:w-auto px-5 sm:px-8 py-3 sm:py-4 border border-white/20 hover:border-white/50 text-white font-black uppercase tracking-[0.25em] text-[11px] rounded-xl flex items-center justify-center gap-2.5 bg-white/4 hover:bg-white/8 transition-all active:scale-95 group"
                 >
-                  {t('CREATIVE MARKET (PRO)', 'CREATIVE MARKET (PRO)')}
+                  {t('LYA REGISTRY (PRO)', 'REGISTRE LYA (PRO)')}
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </button>
               </div>

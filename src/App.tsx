@@ -237,21 +237,20 @@ export default function App() {
       const risingC = liveC.filter(c => c.growth > 10);
       const fallingC = liveC.filter(c => c.growth < 0);
       const pick = (arr: typeof CONTRACTS) => arr[Math.floor(Math.random() * arr.length)];
-      const lyaUnit = (g: number) => `$${(50 * (1 + g / 100)).toFixed(2)}`;
       const events: { title: string; message: string; type: 'INFO' | 'SUCCESS' | 'WARNING' }[] = [];
       if (user?.role === UserRole.CREATOR) {
         events.push({ title: T('NOUVEAU MÉCÈNE', 'NEW PATRON'), message: T('Un nouveau mécène a rejoint un de vos projets.', 'A new patron joined one of your projects.'), type: 'SUCCESS' }, { title: T('SCORE LYA', 'LYA SCORE'), message: T('Votre LYA Score a évolué. Consultez votre dashboard.', 'Your LYA Score has changed. Check your dashboard.'), type: 'INFO' }, { title: T('JALON À PUBLIER', 'MILESTONE DUE'), message: T('Publiez un jalon pour renforcer la confiance de vos mécènes.', 'Publish a milestone to strengthen patron confidence.'), type: 'WARNING' });
-        if (risingC.length > 0) { const p = pick(risingC); events.push({ title: T('LYA UNIT EN HAUSSE', 'LYA UNIT RISING'), message: T(`${p.name} +${p.growth}% → LYA UNIT ${lyaUnit(p.growth)}`, `${p.name} +${p.growth}% → LYA UNIT ${lyaUnit(p.growth)}`), type: 'SUCCESS' }); }
+        if (risingC.length > 0) { const p = pick(risingC); events.push({ title: T('SCORE LYA EN HAUSSE', 'LYA SCORE RISING'), message: T(`${p.name} +${p.growth}% → Score ${p.totalScore}/1000`, `${p.name} +${p.growth}% → Score ${p.totalScore}/1000`), type: 'SUCCESS' }); }
       } else if (user?.role === UserRole.INVESTOR) {
-        if (risingC.length > 0) { const p = pick(risingC); events.push({ title: T('HAUSSE DÉTECTÉE', 'RISE DETECTED'), message: T(`${p.name} +${p.growth}% · LYA UNIT: ${lyaUnit(p.growth)}`, `${p.name} +${p.growth}% · LYA UNIT: ${lyaUnit(p.growth)}`), type: 'SUCCESS' }); }
-        if (fallingC.length > 0) { const p = pick(fallingC); events.push({ title: T('⚠ ALERTE BAISSE', '⚠ DROP ALERT'), message: T(`${p.name} ${p.growth}% · LYA UNIT: ${lyaUnit(p.growth)}`, `${p.name} ${p.growth}% · LYA UNIT: ${lyaUnit(p.growth)}`), type: 'WARNING' }); }
-        if (riskC.length > 0) { events.push({ title: T('PROJET EN RISQUE', 'PROJECT AT RISK'), message: T(`${riskC[0].name} est en statut RISQUE. Vérifiez votre portfolio.`, `${riskC[0].name} is at RISK status. Check your portfolio.`), type: 'WARNING' }); }
+        if (risingC.length > 0) { const p = pick(risingC); events.push({ title: T('PROGRESSION DÉTECTÉE', 'PROGRESS DETECTED'), message: T(`${p.name} +${p.growth}% · Score: ${p.totalScore}/1000`, `${p.name} +${p.growth}% · Score: ${p.totalScore}/1000`), type: 'SUCCESS' }); }
+        if (fallingC.length > 0) { const p = pick(fallingC); events.push({ title: T('⚠ ALERTE BAISSE', '⚠ DROP ALERT'), message: T(`${p.name} ${p.growth}% · Score: ${p.totalScore}/1000`, `${p.name} ${p.growth}% · Score: ${p.totalScore}/1000`), type: 'WARNING' }); }
+        if (riskC.length > 0) { events.push({ title: T('PROJET EN RISQUE', 'PROJECT AT RISK'), message: T(`${riskC[0].name} est en statut RISQUE. Vérifiez vos projets soutenus.`, `${riskC[0].name} is at RISK status. Check your supported projects.`), type: 'WARNING' }); }
         events.push({ title: T('NOUVEAU JALON', 'NEW MILESTONE'), message: T(`${pick(liveC)?.name} a publié un nouveau jalon.`, `${pick(liveC)?.name} published a new milestone.`), type: 'INFO' });
       } else if (user?.role === UserRole.PROFESSIONAL) {
         events.push({ title: T('NOUVEAU DOSSIER', 'NEW FILE'), message: T(`Un créateur a soumis un dossier de certification LYA.`, `A creator submitted a LYA certification file.`), type: 'INFO' }, { title: T('MISSION À COMPLÉTER', 'MISSION PENDING'), message: T(`Une de vos missions est en attente de validation.`, `One of your missions is pending validation.`), type: 'WARNING' });
       } else {
-        if (risingC.length > 0) { const p = pick(risingC); events.push({ title: T('TENDANCE HAUSSIÈRE', 'BULLISH TREND'), message: T(`${p.name} +${p.growth}% · LYA UNIT: ${lyaUnit(p.growth)}`, `${p.name} +${p.growth}% · LYA UNIT: ${lyaUnit(p.growth)}`), type: 'SUCCESS' }); }
-        events.push({ title: T('MARCHÉ CRÉATIF', 'CREATIVE MARKET'), message: T(`${liveC.length} projets actifs sur LinkYourArt.`, `${liveC.length} active projects on LinkYourArt.`), type: 'INFO' }, { title: T('REGISTRE LYA', 'LYA REGISTRY'), message: T(`Nouveau projet indexé — Catégorie: ${pick(CONTRACTS)?.category}.`, `New project indexed — Category: ${pick(CONTRACTS)?.category}.`), type: 'INFO' });
+        if (risingC.length > 0) { const p = pick(risingC); events.push({ title: T('PROGRESSION NOTABLE', 'NOTABLE PROGRESS'), message: T(`${p.name} +${p.growth}% · Score: ${p.totalScore}/1000`, `${p.name} +${p.growth}% · Score: ${p.totalScore}/1000`), type: 'SUCCESS' }); }
+        events.push({ title: T('REGISTRE LYA', 'LYA REGISTRY'), message: T(`${liveC.length} projets certifiés sur LinkYourArt.`, `${liveC.length} certified projects on LinkYourArt.`), type: 'INFO' }, { title: T('NOUVELLE CERTIFICATION', 'NEW CERTIFICATION'), message: T(`Nouveau projet certifié — Catégorie: ${pick(CONTRACTS)?.category}.`, `New project certified — Category: ${pick(CONTRACTS)?.category}.`), type: 'INFO' });
       }
       return events;
     };

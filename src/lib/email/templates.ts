@@ -188,7 +188,7 @@ const BASE_STYLES = `
 const HEADER_HTML = `
   <div class="header">
     <div class="logo-text">LINKYOURART</div>
-    <div class="logo-sub">ART IS AN EXCHANGE</div>
+    <div class="logo-sub">ART IS A STANDARD</div>
   </div>
 `;
 
@@ -351,7 +351,7 @@ export function templateWelcome({ name, role, lang = 'FR' }: {
       <div class="divider"></div>
 
       <div class="stat-row"><span class="stat-label">${isFR ? 'Protocole' : 'Protocol'}</span><span class="stat-value cyan">LYA v2.0</span></div>
-      <div class="stat-row"><span class="stat-label">${isFR ? 'Valeur unitaire' : 'Unit value'}</span><span class="stat-value gold">1 LYA UNIT = $50.00</span></div>
+      <div class="stat-row"><span class="stat-label">${isFR ? 'Standard' : 'Standard'}</span><span class="stat-value gold">${isFR ? 'Score LYA sur 1000' : 'LYA Score out of 1000'}</span></div>
       <div class="stat-row"><span class="stat-label">${isFR ? 'Statut' : 'Status'}</span><span class="stat-value green">${isFR ? 'ACTIF' : 'ACTIVE'}</span></div>
 
       <a href="https://www.linkyourart.com" class="cta-btn">→ ${isFR ? 'ACCÉDER À MON ESPACE LYA' : 'ACCESS MY LYA SPACE'}</a>
