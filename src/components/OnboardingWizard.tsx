@@ -38,11 +38,11 @@ export const OnboardingWizard: React.FC<Props> = ({ onComplete, onSkip }) => {
       activeColor: 'border-emerald-400 bg-emerald-400/15',
       titleFR: 'Mécène',
       titleEN: 'Patron',
-      descFR: 'Je veux soutenir des créateurs et co-posséder des projets artistiques.',
-      descEN: 'I want to support creators and co-own artistic projects.',
+      descFR: 'Je veux soutenir des créations en lesquelles je crois et suivre leur certification.',
+      descEN: 'I want to support creations I believe in and follow their certification.',
       perks: [
-        T('Portfolio en temps réel', 'Real-time portfolio'),
-        T('LYA UNIT suivi par projet', 'LYA UNIT tracked per project'),
+        T('Suivi en temps réel de vos soutiens', 'Real-time tracking of your support'),
+        T('Score LYA suivi par projet', 'LYA Score tracked per project'),
         T('Rapport mensuel personnalisé', 'Personalised monthly report'),
       ],
     },
@@ -75,13 +75,13 @@ export const OnboardingWizard: React.FC<Props> = ({ onComplete, onSkip }) => {
         </h2>
         <p className="text-sm text-on-surface-variant/60 leading-relaxed max-w-sm mx-auto">
           {T(
-            'La première plateforme d\'équité créative. Configurons votre espace en 2 étapes.',
-            'The first creative equity platform. Let\'s set up your space in 2 steps.'
+            'Le premier standard de certification créative. Configurons votre espace en 2 étapes.',
+            'The first creative certification standard. Let\'s set up your space in 2 steps.'
           )}
         </p>
       </div>
       <p className="text-sm italic text-primary-cyan/70 font-medium">
-        "{T('Ce que vous créez aujourd\'hui peut appartenir à mille personnes demain.', 'What you create today can belong to a thousand people tomorrow.')}"
+        "{T('Ce que vous créez aujourd\'hui peut être reconnu par des milliers de personnes demain.', 'What you create today can be recognized by thousands tomorrow.')}"
       </p>
       <button onClick={() => setStep(1)} className="w-full py-4 bg-primary-cyan text-surface-dim font-black text-sm uppercase tracking-widest rounded-xl hover:bg-white transition-all shadow-[0_0_20px_rgba(0,212,255,0.2)] flex items-center justify-center gap-2">
         {T('Commencer →', 'Get started →')}
