@@ -219,8 +219,8 @@ function buildEmail(name, position, referralCode, referralLink, lang) {
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:36px">
       ${[
         ['✦', isFR ? 'LYA Score' : 'LYA Score', isFR ? 'Chaque création évaluée sur 1000 points par des experts certifiés LYA.' : 'Each creation rated out of 1000 by certified LYA experts.'],
-        ['◈', isFR ? 'LYA Units' : 'LYA Units', isFR ? 'Co-possédez des projets créatifs à partir de 50$. Participez à leur valorisation.' : 'Co-own creative projects from $50. Participate in their valuation.'],
-        ['⚡', isFR ? 'Marché Créatif' : 'Creative Market', isFR ? 'Échangez vos parts sur le Marché LYA. Votre valeur évolue avec les jalons.' : 'Trade your shares on the LYA Market. Your value evolves with milestones.'],
+        ['◈', isFR ? 'Mécénat' : 'Patronage', isFR ? 'Soutenez des projets créatifs certifiés dès 50$. Recevez reconnaissance et accès anticipé.' : 'Support certified creative projects from $50. Receive recognition and early access.'],
+        ['⚡', isFR ? 'Registre LYA' : 'LYA Registry', isFR ? 'Suivez la progression de vos projets soutenus. Leur Score évolue avec chaque jalon validé.' : 'Follow the progress of the projects you support. Their Score evolves with every validated milestone.'],
       ].map(([icon, title, desc]) => `
       <tr><td style="padding-bottom:12px">
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">

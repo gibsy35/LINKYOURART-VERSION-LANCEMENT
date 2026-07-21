@@ -88,7 +88,7 @@ export const Logo: React.FC<{
       {/* LYA Badge - Repositioned to bottom-right curve */}
       {showBeta && (
         <div className="absolute bottom-[10%] right-[10%] translate-x-1/4 translate-y-1/4 bg-[#9D00FF] text-white font-black text-[max(8px,12%)] px-[10%] py-[3%] rounded-[15%] tracking-tighter leading-none z-30 shadow-[0_10px_20px_rgba(0,0,0,0.5),0_0_15px_rgba(157,0,255,0.4)] border border-white/30 backdrop-blur-md select-none transform rotate-3 flex items-center justify-center">
-          PROTO
+          BETA
         </div>
       )}
 
