@@ -386,7 +386,7 @@ export const CreatorDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg
                               <p className="text-xs font-black text-on-surface truncate">{m.label}</p>
                               <p className="text-[9px] text-on-surface-variant/50">{m.date}</p>
                             </div>
-                            {m.priceImpact && <span className={`text-[10px] font-black shrink-0 ${m.priceImpact>0?'text-emerald-400':'text-rose-400'}`}>{m.priceImpact>0?'+':''}{m.priceImpact}%</span>}
+                            {m.scoreImpact && <span className={`text-[10px] font-black shrink-0 ${m.scoreImpact>0?'text-emerald-400':'text-rose-400'}`}>{m.scoreImpact>0?'+':''}{m.scoreImpact}%</span>}
                           </div>
                         ))}
                         <button onClick={()=>{setMilestoneProject(proj.name);setShowMilestone(true);}} className="w-full py-2 bg-[#a78bfa]/10 border border-[#a78bfa]/20 text-[#a78bfa] text-xs font-black rounded-xl hover:bg-[#a78bfa]/20 transition-all flex items-center justify-center gap-1.5">
@@ -500,7 +500,7 @@ export const CreatorDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg
                         </div>
                         <div className="flex-1"><p className="text-sm font-black text-on-surface">{m.label}</p><p className="text-xs text-on-surface-variant/50">{m.date}</p></div>
                         <div className="text-right shrink-0">
-                          {m.priceImpact && <p className={`text-xs font-black ${m.priceImpact>0?'text-emerald-400':'text-rose-400'}`}>{m.priceImpact>0?'+':''}{m.priceImpact}% LYA UNIT</p>}
+                          {m.scoreImpact && <p className={`text-xs font-black ${m.scoreImpact>0?'text-emerald-400':'text-rose-400'}`}>{m.scoreImpact>0?'+':''}{m.scoreImpact}% LYA UNIT</p>}
                           <span className={`text-[10px] font-black uppercase px-2 py-0.5 rounded-full ${m.status==='COMPLETED'?'bg-emerald-400/10 text-emerald-400':m.status==='FAILED'?'bg-rose-400/10 text-rose-400':m.status==='IN_PROGRESS'?'bg-primary-cyan/10 text-primary-cyan':'bg-white/5 text-on-surface-variant/40'}`}>{m.status==='COMPLETED'?T('Complété','Completed'):m.status==='FAILED'?T('Échoué','Failed'):m.status==='IN_PROGRESS'?T('En cours','In progress'):T('À venir','Upcoming')}</span>
                         </div>
                       </div>

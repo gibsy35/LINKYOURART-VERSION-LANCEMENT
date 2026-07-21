@@ -66,8 +66,6 @@ import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 interface ContractDetailViewProps {
   contract: Contract;
   onBack: () => void;
-  onTrade: (contract: Contract, type: 'BUY' | 'SELL') => void;
-  onPlaceOrder: (contract: Contract, type: 'BUY' | 'SELL', price: number, volume: number) => void;
   onNotify: (msg: string) => void;
   isWatchlisted?: boolean;
   onToggleWatchlist?: (e: React.MouseEvent, id: string) => void;
@@ -76,8 +74,6 @@ interface ContractDetailViewProps {
 export const ContractDetailView: React.FC<ContractDetailViewProps> = ({ 
   contract, 
   onBack, 
-  onTrade, 
-  onPlaceOrder, 
   onNotify,
   isWatchlisted = false,
   onToggleWatchlist
@@ -290,20 +286,8 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
           </div>
 
           <div className="hidden lg:flex flex-col items-end mr-4">
-            <span className="text-[10px] font-black text-white/20 uppercase tracking-widest leading-none mb-1">LYA UNIT VALUE</span>
-            <span className="text-xl font-black font-headline text-emerald-400 leading-none">{formatPrice(contract.unitValue)}</span>
-          </div>
-          <div className="flex flex-col gap-2 w-full">
-            <button 
-              disabled
-              className="px-6 py-3 bg-emerald-500/20 border border-emerald-500/30 text-emerald-400/50 rounded-xl font-black text-[10px] uppercase tracking-widest cursor-not-allowed"
-              title={t('Available soon', 'Disponible prochainement')}
-            >
-              {t('ACQUISITION — COMING SOON', 'ACQUISITION — BIENTÔT DISPONIBLE')}
-            </button>
-            <p className="text-[9px] text-white/20 text-center font-black uppercase tracking-widest">
-              {t('Beta phase — Payments opening soon', 'Phase bêta — Paiements disponibles prochainement')}
-            </p>
+            <span className="text-[10px] font-black text-white/20 uppercase tracking-widest leading-none mb-1">{t('LYA SCORE', 'SCORE LYA')}</span>
+            <span className="text-xl font-black font-headline text-emerald-400 leading-none">{scoreFinalValue}/1000</span>
           </div>
           <button 
             onClick={(e) => onToggleWatchlist?.(e, contract.id)}
@@ -366,8 +350,8 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                 <div className="px-6 py-3 bg-black/60 backdrop-blur-2xl border border-white/10 rounded-2xl flex items-center gap-4">
                   <Activity className="text-primary-cyan animate-pulse" size={18} />
                   <div>
-                    <div className="text-[10px] font-black text-white/40 uppercase tracking-widest mb-0.5">{t('MARKET STATUS', 'STATUT MARCHÉ')}</div>
-                    <div className="text-xs font-black text-emerald-400 uppercase tracking-tighter">LIVE TRADING ACTIVE</div>
+                    <div className="text-[10px] font-black text-white/40 uppercase tracking-widest mb-0.5">{t('REGISTRY STATUS', 'STATUT REGISTRE')}</div>
+                    <div className="text-xs font-black text-emerald-400 uppercase tracking-tighter">{t('CERTIFIED & ACTIVE', 'CERTIFIÉ & ACTIF')}</div>
                   </div>
                 </div>
                 
@@ -390,15 +374,15 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                        </svg>
                        <div className="absolute inset-0 flex flex-col items-center justify-center">
                           <span className="text-2xl font-headline font-black text-white leading-none">{scoreFinalValue}</span>
-                          <span className="text-[10px] font-black text-primary-cyan uppercase tracking-widest mt-1">LYA INDEX</span>
+                          <span className="text-[10px] font-black text-primary-cyan uppercase tracking-widest mt-1">{t('LYA SCORE', 'SCORE LYA')}</span>
                        </div>
                     </div>
                     <div>
-                       <div className="text-[12px] font-black text-white/40 uppercase tracking-[0.2em] mb-1">{t('LYA PERFORMANCE', 'PERFORMANCE LYA')}</div>
-                       <h2 className="text-3xl font-black font-headline tracking-tighter text-white uppercase leading-none">{t('HIGH CONVICTION', 'CONVICTION ÉLEVÉE')}</h2>
+                       <div className="text-[12px] font-black text-white/40 uppercase tracking-[0.2em] mb-1">{t('CERTIFICATION LEVEL', 'NIVEAU DE CERTIFICATION')}</div>
+                       <h2 className="text-3xl font-black font-headline tracking-tighter text-white uppercase leading-none">{t('HIGH CONFIDENCE', 'CONFIANCE ÉLEVÉE')}</h2>
                        <div className="flex items-center gap-2 mt-3 p-2 bg-emerald-500/10 border border-emerald-500/20 rounded-lg w-fit">
                           <ShieldCheck size={14} className="text-emerald-400" />
-                          <span className="text-[10px] font-black text-emerald-400 uppercase tracking-widest">ASSET BACKED & AUDITED</span>
+                          <span className="text-[10px] font-black text-emerald-400 uppercase tracking-widest">{t('CERTIFIED & AUDITED', 'CERTIFIÉ & AUDITÉ')}</span>
                        </div>
                     </div>
                  </div>
@@ -409,10 +393,10 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
           {/* Quick Metrics Dashboard Header */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
-              { label: t('LIQUIDITY', 'LIQUIDITÉ'), value: 'HIGH', status: 'Optimal', color: 'emerald' },
-              { label: t('VOLATILITY', 'VOLATILITÉ'), value: '0.12', status: 'Stable', color: 'cyan' },
-              { label: t('HOLDERS', 'DÉTENTEURS'), value: '2,841', status: 'Growth', color: 'pink' },
-              { label: t('LYA PEG', 'PEG LYA'), value: formatPrice(LYA_UNIT_VALUE), status: 'Locked', color: 'gold' }
+              { label: t('LYA SCORE', 'SCORE LYA'), value: `${scoreFinalValue}/1000`, status: 'Certified', color: 'emerald' },
+              { label: t('COMMITTEE REVIEW', 'REVUE COMITÉ'), value: 'A+', status: 'Validated', color: 'cyan' },
+              { label: t('PATRONS', 'MÉCÈNES'), value: '2,841', status: 'Growth', color: 'pink' },
+              { label: t('REGISTRY STATUS', 'STATUT REGISTRE'), value: t('Certified', 'Certifié'), status: 'Active', color: 'gold' }
             ].map((metric, i) => (
             <div key={metric.label} className="bg-surface-low border border-white/5 p-6 rounded-[2rem] hover:border-white/10 transition-all group shadow-sm">
               <div className="text-[10px] font-black text-white/30 uppercase tracking-[0.2em] mb-2">{metric.label}</div>
@@ -430,8 +414,6 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
              <div className="flex gap-12 border-b border-white/5 mb-10 overflow-x-auto scrollbar-hide">
                 {[
                   { id: 'overview', label: t('OVERVIEW', 'VUE D\'ENSEMBLE') },
-                  { id: 'financials', label: t('MARKET DATA', 'DONNÉES MARCHÉ') },
-                  { id: 'ai-simulator', label: t('AI SIMULATORS', 'SIMULATEURS IA') },
                   { id: 'legal', label: t('LEGAL & IP', 'JURIDIQUE & IP') },
                   { id: 'milestones', label: t('TIMELINE', 'CALENDRIER') },
                 ].map((tab) => (
@@ -593,50 +575,50 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {/* Financial metrics */}
                         <div className="p-8 bg-white/[0.02] border border-white/5 rounded-[2rem] space-y-6 hover:border-white/10 transition-all">
-                          <div className="text-[10px] font-black uppercase tracking-wider text-primary-cyan">{t('FINANCIAL SPECS', 'SPÉCIFICATIONS FINANCIÈRES')}</div>
+                          <div className="text-[10px] font-black uppercase tracking-wider text-primary-cyan">{t('CERTIFICATION SPECS', 'SPÉCIFICATIONS DE CERTIFICATION')}</div>
                           
                           <div className="space-y-4">
                             <div>
-                              <div className="text-[11px] font-black text-white/30 uppercase tracking-widest mb-1">{t('TOTAL PROJECT VALUATION', 'ÉVALUATION GLOBALE DU PROJET')}</div>
-                              <div className="text-xl font-headline font-black text-white leading-none">{formatPrice(contract.totalValue)}</div>
+                              <div className="text-[11px] font-black text-white/30 uppercase tracking-widest mb-1">{t('LYA SCORE', 'SCORE LYA')}</div>
+                              <div className="text-xl font-headline font-black text-white leading-none">{scoreFinalValue}/1000</div>
                             </div>
                             <div>
-                              <div className="text-[11px] font-black text-white/30 uppercase tracking-widest mb-1">{t('CIRCULATING LYA UNITS', 'UNITÉS LYA EN CIRCULATION')}</div>
-                              <div className="text-sm font-semibold text-white/90">{contract.totalUnits?.toLocaleString()} {t('Units', 'Unités')}</div>
+                              <div className="text-[11px] font-black text-white/30 uppercase tracking-widest mb-1">{t('CREATIVE SECTOR', 'SECTEUR CRÉATIF')}</div>
+                              <div className="text-sm font-semibold text-white/90">{contract.category || t('Fine Art', 'Art')}</div>
                             </div>
                             <div>
-                              <div className="text-[11px] font-black text-white/30 uppercase tracking-widest mb-1">{t('UNIT ACQUISITION VALUE', "VALEUR D'ACQUISITION DE L'UNITÉ")}</div>
-                              <div className="text-sm font-semibold text-emerald-400">{formatPrice(contract.unitValue)}</div>
+                              <div className="text-[11px] font-black text-white/30 uppercase tracking-widest mb-1">{t('CERTIFICATION DATE', "DATE DE CERTIFICATION")}</div>
+                              <div className="text-sm font-semibold text-emerald-400">{contract.lastAudit || '15 May 2026'}</div>
                             </div>
                             <div>
-                              <div className="text-[11px] font-black text-white/30 uppercase tracking-widest mb-1">{t('UNITS AVAILABLE FOR HOT SWAP', "UNITÉS DISPOS À L'ÉCHANGE")}</div>
-                              <div className="text-sm font-semibold text-white/90">{contract.availableUnits ? contract.availableUnits.toLocaleString() + ' Unités' : '345 Unités'}</div>
+                              <div className="text-[11px] font-black text-white/30 uppercase tracking-widest mb-1">{t('PATRON COMMUNITY', "COMMUNAUTÉ DE MÉCÈNES")}</div>
+                              <div className="text-sm font-semibold text-white/90">{contract.availableUnits ? contract.availableUnits.toLocaleString() : '2,841'} {t('supporters', 'mécènes')}</div>
                             </div>
                           </div>
                         </div>
 
-                        {/* Legal structure */}
+                        {/* Project structure */}
                         <div className="p-8 bg-white/[0.02] border border-white/5 rounded-[2rem] space-y-6 hover:border-white/10 transition-all">
-                          <div className="text-[10px] font-black uppercase tracking-wider text-accent-gold">{t('LEGAL STRUCTURE', 'MODÈLE JURIDIQUE')}</div>
+                          <div className="text-[10px] font-black uppercase tracking-wider text-accent-gold">{t('PROJECT STRUCTURE', 'STRUCTURE DU PROJET')}</div>
                           
                           <div className="space-y-4">
                             <div>
-                              <div className="text-[11px] font-black text-white/30 uppercase tracking-widest mb-1">{t('CONTRACTUAL STANDARD', 'FORMAT CONTRACTUEL')}</div>
+                              <div className="text-[11px] font-black text-white/30 uppercase tracking-widest mb-1">{t('PATRONAGE MODEL', 'MODÈLE DE MÉCÉNAT')}</div>
                               <span className="px-3.5 py-1 bg-accent-gold/10 border border-accent-gold/20 text-accent-gold text-xs font-black uppercase tracking-widest rounded-lg">
-                                {contract.contractType || 'Revenue Share'}
+                                {t('Reward-Based Patronage', 'Mécénat à récompense')}
                               </span>
                             </div>
                             <div>
-                              <div className="text-[11px] font-black text-white/30 uppercase tracking-widest mb-1">{t('REVENUE PERCENTAGE RETRIEVED', "TAUX DE RECAPTURE DU CHIFFRE D'AFFAIRES")}</div>
-                              <div className="text-sm font-semibold text-white/90">{contract.revenueSharePercentage ? contract.revenueSharePercentage + '%' : '12.5%'} {t('of future revenues', 'des revenus futurs')}</div>
+                              <div className="text-[11px] font-black text-white/30 uppercase tracking-widest mb-1">{t('CERTIFICATION STANDARD', "STANDARD DE CERTIFICATION")}</div>
+                              <div className="text-sm font-semibold text-white/90">{t('LYA Trust Assurance', 'LYA Trust Assurance')}</div>
                             </div>
                             <div>
-                              <div className="text-[11px] font-black text-white/30 uppercase tracking-widest mb-1">{t('REGULATORY JURISDICTION', 'JURIDICTION ET CONFORMITÉ')}</div>
-                              <div className="text-sm font-semibold text-white/90">{contract.jurisdiction || 'EU (MiCA Compliant)'}</div>
+                              <div className="text-[11px] font-black text-white/30 uppercase tracking-widest mb-1">{t('JURISDICTION', 'JURIDICTION')}</div>
+                              <div className="text-sm font-semibold text-white/90">{contract.jurisdiction || 'EU / France'}</div>
                             </div>
                             <div>
-                              <div className="text-[11px] font-black text-white/30 uppercase tracking-widest mb-1">{t('ASSET MATURITY DATE', 'ÉCHÉANCE ET LIQUIDATION')}</div>
-                              <div className="text-sm font-semibold text-rose-400/90">{contract.maturityDate || '31 Dec 2029'}</div>
+                              <div className="text-[11px] font-black text-white/30 uppercase tracking-widest mb-1">{t('NEXT MILESTONE', 'PROCHAIN JALON')}</div>
+                              <div className="text-sm font-semibold text-white/90">{contract.maturityDate || '31 Dec 2026'}</div>
                             </div>
                           </div>
                         </div>
@@ -671,385 +653,6 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                   </div>
                 )}
 
-                {activeTab === 'financials' && (
-                  <div className="space-y-12">
-                    <div className="bg-black/20 border border-white/5 p-10 rounded-[2.5rem]">
-                       <div className="flex justify-between items-end mb-10">
-                          <div>
-                             <h4 className="text-[12px] font-black text-white/40 uppercase tracking-[0.3em] mb-1">{t('PRICE TRACKING', 'SUIVI DES PRIX')}</h4>
-                             <div className="text-4xl font-headline font-black text-white">${contract.unitValue.toFixed(2)} <span className="text-xs text-emerald-400 font-mono">+12.4% ALL TIME</span></div>
-                          </div>
-                          <div className="flex bg-white/5 p-1 rounded-xl border border-white/5 gap-1">
-                             {['1D', '1W', '1M', '1Y'].map(tf => (
-                               <button key={tf} className="px-4 py-2 text-[10px] font-black rounded-lg transition-all text-white/40 hover:text-white">
-                                 {tf}
-                               </button>
-                             ))}
-                             <button className="px-4 py-2 text-[10px] font-black rounded-lg bg-primary-cyan text-surface-dim">ALL</button>
-                          </div>
-                       </div>
-                       <div className="h-[350px] w-full">
-                         <ResponsiveContainer width="100%" height="100%">
-                           <AreaChart data={priceHistory}>
-                             <defs>
-                               <linearGradient id="priceGradient" x1="0" y1="0" x2="0" y2="1">
-                                 <stop offset="5%" stopColor="#00E0FF" stopOpacity={0.4}/>
-                                 <stop offset="95%" stopColor="#00E0FF" stopOpacity={0}/>
-                               </linearGradient>
-                             </defs>
-                             <CartesianGrid strokeDasharray="3 3" stroke="#ffffff03" vertical={false} />
-                             <XAxis dataKey="date" hide />
-                             <Tooltip contentStyle={{ backgroundColor: '#0A0A0A', border: '1px solid #ffffff10', borderRadius: '16px' }} />
-                             <Area type="monotone" dataKey="price" stroke="#00E0FF" strokeWidth={4} fillOpacity={1} fill="url(#priceGradient)" />
-                           </AreaChart>
-                         </ResponsiveContainer>
-                       </div>
-                    </div>
-
-                    {/* INTERACTIVE INVESTMENT & YIELD SIMULATOR */}
-                    <div className="bg-gradient-to-br from-[#0D1117]/80 to-[#080B10]/80 border border-white/10 rounded-[2.5rem] p-8 md:p-10 space-y-8 shadow-2xl relative overflow-hidden animate-in fade-in duration-500 mb-12">
-                       <div className="absolute top-0 right-0 w-80 h-80 bg-primary-cyan/5 blur-[120px] rounded-full pointer-events-none" />
-                       <div className="absolute bottom-0 left-0 w-80 h-80 bg-accent-gold/5 blur-[120px] rounded-full pointer-events-none" />
-                       
-                       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 pb-6 border-b border-white/5">
-                          <div>
-                             <h4 className="text-sm font-black text-primary-cyan uppercase tracking-[0.3em] mb-1">{t('PORTFOLIO IMPACT SIMULATOR', 'SIMULATEUR DE RENDEMENT ET COMPOSÉ')}</h4>
-                             <p className="text-xs font-semibold text-white/40 uppercase tracking-widest">{t('PROPRIETARY LYA MATH ENGINE v1.2', 'MOTEUR COMPTABLE LYA PROPRIÉTAIRE v1.2')}</p>
-                          </div>
-                          <div className="px-5 py-2.5 bg-white/5 border border-white/10 rounded-2xl flex items-center gap-2">
-                             <Wallet className="text-accent-gold" size={16} />
-                             <span className="text-[10px] font-mono font-black text-white/80 uppercase tracking-widest font-bold">UNIT: {formatPrice(contract.unitValue)}</span>
-                          </div>
-                       </div>
-
-                       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-                          {/* Slider Inputs */}
-                          <div className="lg:col-span-6 space-y-8">
-                             <div className="space-y-4">
-                                <div className="flex justify-between items-center">
-                                   <label className="text-[11px] font-black text-white/50 uppercase tracking-wider">{t('SIMULATED ALLOCATION', 'ALLOCATION SIMULÉE')}</label>
-                                   <span className="text-2xl font-headline font-black text-white">{formatPrice(simAmount)}</span>
-                                </div>
-                                <input 
-                                   type="range" 
-                                   min={contract.unitValue} 
-                                   max={contract.totalValue * 0.1 || 50000} 
-                                   step={contract.unitValue}
-                                   value={simAmount}
-                                   onChange={(e) => setSimAmount(Number(e.target.value))}
-                                   className="w-full h-2 bg-white/10 rounded-lg appearance-none cursor-pointer accent-primary-cyan"
-                                />
-                                <div className="flex justify-between text-xs font-mono text-white/20 uppercase font-black">
-                                   <span>MIN: {formatPrice(contract.unitValue)}</span>
-                                   <span>MAX: {formatPrice(contract.totalValue * 0.1 || 50000)}</span>
-                                </div>
-                             </div>
-
-                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                <button onClick={() => setSimAmount(Math.max(contract.unitValue, 1000))} className="py-3 bg-white/5 hover:bg-white/10 border border-white/5 rounded-xl text-[10px] font-black uppercase text-white tracking-widest transition-all">
-                                   $1,000
-                                </button>
-                                <button onClick={() => setSimAmount(Math.max(contract.unitValue, 5000))} className="py-3 bg-white/5 hover:bg-white/10 border border-white/5 rounded-xl text-[10px] font-black uppercase text-white tracking-widest transition-all">
-                                   $5,000
-                                </button>
-                                <button onClick={() => setSimAmount(Math.max(contract.unitValue, 15000))} className="py-3 bg-white/5 hover:bg-white/10 border border-white/5 rounded-xl text-[10px] font-black uppercase text-white tracking-widest transition-all">
-                                   $15,000
-                                </button>
-                                <button onClick={() => setSimAmount(Math.max(contract.unitValue, 30000))} className="py-3 bg-white/5 hover:bg-white/10 border border-white/5 rounded-xl text-[10px] font-black uppercase text-white tracking-widest transition-all">
-                                   $30,000
-                                </button>
-                             </div>
-                          </div>
-
-                          {/* Calculated Progression Metrics */}
-                          <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-6 bg-black/40 p-8 rounded-[2rem] border border-white/5 shadow-inner">
-                             <div className="p-4 bg-white/[0.02] border border-white/5 rounded-xl">
-                                <span className="text-xs font-black text-white/30 uppercase tracking-widest block mb-1">{t('UNITS ACQUIRED', 'UNITÉS ACQUISES')}</span>
-                                <span className="text-2xl font-headline font-black text-primary-cyan">{simUnits}</span>
-                                <span className="text-[10px] text-white/40 block mt-1 tracking-widest">({simShare}% {t('of total', 'du total')})</span>
-                             </div>
-
-                             <div className="p-4 bg-white/[0.02] border border-white/5 rounded-xl">
-                                <span className="text-xs font-black text-white/30 uppercase tracking-widest block mb-1">{t('EST. ANNUAL INCOME', 'REVENUS ANNUELS EST.')}</span>
-                                <span className="text-2xl font-headline font-black text-emerald-400">+{formatPrice(simAnnual)}</span>
-                                <span className="text-[10px] text-emerald-400/60 block mt-1 tracking-widest">({contract.growth}% {t('progression', 'progression')})</span>
-                             </div>
-
-                             <div className="p-4 bg-white/[0.02] border border-white/5 rounded-xl">
-                                <span className="text-xs font-black text-white/30 uppercase tracking-widest block mb-1">{t('ROYALTIES RECAPTURE', 'RECAPTURE DES DROITS')}</span>
-                                <span className="text-2xl font-headline font-black text-accent-gold">+{formatPrice(simRoyalty)}</span>
-                                <span className="text-[10px] text-accent-gold/60 block mt-1 tracking-widest">({contract.revenueSharePercentage || 12.5}% {t('rate', 'taux')})</span>
-                             </div>
-
-                             <div className="p-4 bg-white/[0.02] border border-white/5 rounded-xl">
-                                <span className="text-xs font-black text-white/30 uppercase tracking-widest block mb-1">{t('3-YEAR COMPOUNDED VALUE', 'VALEUR CAPITALISÉE 3 ANS')}</span>
-                                <span className="text-2xl font-headline font-black text-white">{formatPrice(simProjection)}</span>
-                                <span className="text-[10px] text-teal-400 block mt-1 tracking-widest">(+{((simProjection / simAmount) * 100 - 100).toFixed(1)}% {t('total return', 'retour total')})</span>
-                              </div>
-                           </div>
-                        </div>
-                        
-                        <p className="text-xs font-bold text-white/20 uppercase tracking-widest leading-relaxed text-center font-mono">
-                           {t('Note: This simulation represents an analytical estimation of capital appreciation and royalties according to standard active indices. Non-contractual values.', 'Note : Cette simulation représente une estimation analytique de revalorisation et de redevances selon les indices actifs. Valeurs non-contractuelles.')}
-                        </p>
-                     </div>
-
-                    {/* Orderbook Depth and Exchange Analytics */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12 animate-in fade-in duration-500">
-                       {/* Real-time Orderbook */}
-                       <div className="p-8 bg-white/[0.02] border border-white/5 rounded-[2rem] space-y-6">
-                          <div className="flex items-center justify-between">
-                             <div className="text-[10px] font-black uppercase tracking-wider text-primary-cyan">{t('ORDERBOOK FEED', "CARNET D'ORDRES EN DIRECT")}</div>
-                             <span className="text-xs font-mono font-black text-emerald-400 uppercase tracking-widest">{t('● CLOB ENGINE ACTIVE', '● MOTEUR CLOB ACTIF')}</span>
-                          </div>
-                          
-                          <div className="space-y-4">
-                             {/* Asks (Sells) */}
-                             <div className="space-y-2">
-                                <div className="flex justify-between text-xs font-black text-white/30 uppercase tracking-widest">
-                                   <span>{t('SELL PRICE (ASK)', 'ASK (VENTE)')}</span>
-                                   <span>{t('VOLUME', 'VOLUME')}</span>
-                                </div>
-                                {[
-                                   { price: contract.unitValue * 1.04, volume: 45 },
-                                   { price: contract.unitValue * 1.02, volume: 120 },
-                                   { price: contract.unitValue * 1.01, volume: 80 }
-                                ].map((bid, i) => (
-                                   <div key={i} className="flex justify-between items-center text-xs">
-                                      <span className="font-mono text-rose-400 font-semibold">{formatPrice(bid.price)}</span>
-                                      <span className="font-mono text-white/60">{bid.volume} Units</span>
-                                   </div>
-                                ))}
-                             </div>
-
-                             {/* Mid Spread */}
-                             <div className="py-2.5 px-4 bg-white/5 border border-white/5 rounded-xl flex justify-between items-center text-[10px] font-black uppercase tracking-widest">
-                                <span className="text-white/40">{t('SPREAD (0.15%)', 'ÉCART DE SPREAD (0.15%)')}</span>
-                                <span className="text-accent-gold">{formatPrice(contract.unitValue * 0.0015)}</span>
-                             </div>
-
-                             {/* Bids (Buys) */}
-                             <div className="space-y-2">
-                                <div className="flex justify-between text-xs font-black text-white/30 uppercase tracking-widest">
-                                   <span>{t('BUY PRICE (BID)', 'BID (ACHAT)')}</span>
-                                   <span>{t('VOLUME', 'VOLUME')}</span>
-                                </div>
-                                {[
-                                   { price: contract.unitValue * 0.99, volume: 150 },
-                                   { price: contract.unitValue * 0.98, volume: 210 },
-                                   { price: contract.unitValue * 0.97, volume: 95 }
-                                ].map((bid, i) => (
-                                   <div key={i} className="flex justify-between items-center text-xs">
-                                      <span className="font-mono text-emerald-400 font-semibold">{formatPrice(bid.price)}</span>
-                                      <span className="font-mono text-white/60">{bid.volume} Units</span>
-                                   </div>
-                                ))}
-                             </div>
-                          </div>
-                       </div>
-
-                       {/* Exchange metrics */}
-                       <div className="p-8 bg-white/[0.02] border border-white/5 rounded-[2rem] space-y-6 flex flex-col justify-between">
-                          <div className="space-y-6">
-                            <div className="text-[10px] font-black uppercase tracking-wider text-accent-pink">{t('EXCHANGE METRICS', 'METRICS DE NÉGOCIATION')}</div>
-                            
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                               <div>
-                                  <div className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-1">{t('24H TRANS. VOLUME', 'VOLUME NET 24H')}</div>
-                                  <div className="text-lg font-headline font-black text-white">{formatPrice(contract.totalValue * 0.025)}</div>
-                               </div>
-                               <div>
-                                  <div className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-1">{t('TOTAL TRADES REGISTERED', 'TRANSACTIONS TOTAL NUMÉRO')}</div>
-                                  <div className="text-lg font-headline font-black text-white">1,482</div>
-                                </div>
-                               <div>
-                                  <div className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-1">{t('VOLATILITY INDEX (30D)', 'INDICE VOLATILITÉ (30J)')}</div>
-                                  <div className="text-lg font-headline font-black text-cyan-400">4.12% (Low)</div>
-                               </div>
-                               <div>
-                                  <div className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-1">{t('LIQUIDITY DEPTH', 'LIQUIDITÉ PROFONDEUR')}</div>
-                                  <div className="text-lg font-headline font-black text-emerald-400 font-bold">OPTIMAL (AA)</div>
-                               </div>
-                            </div>
-                          </div>
-
-                          <div className="p-4 bg-primary-cyan/10 border border-primary-cyan/20 rounded-2xl flex items-center justify-between text-[10px] font-black uppercase tracking-widest">
-                             <div className="flex items-center gap-2">
-                                <ShieldCheck className="text-primary-cyan" size={16} />
-                                <span className="text-white">{t('AUTOMATIC AMM BUFFER', 'TAMPON DE LIQUIDITÉ AMM')}</span>
-                             </div>
-                             <span className="text-primary-cyan">{formatPrice(contract.totalValue * 0.1)}</span>
-                          </div>
-                       </div>
-                    </div>
-                  </div>
-                )}
-
-                {activeTab === 'ai-simulator' && (
-                  <div className="space-y-12 animate-in fade-in duration-500">
-                    {/* Header */}
-                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 pb-6 border-b border-white/5">
-                      <div>
-                        <h4 className="text-sm font-black text-primary-cyan uppercase tracking-[0.3em] mb-1">
-                          {t('PREDICTIVE COGNITIVE SCENARIO SIMULATOR', 'SIMULATEUR DE SCÉNARIO ET PRÉDICTION COGNITIVE')}
-                        </h4>
-                        <p className="text-xs font-semibold text-white/40 uppercase tracking-widest">
-                          {t('POWERED BY GEMINI PRO COGNITIVE ENGINE v2.5', 'PROPULSÉ PAR LE MOTEUR DE SCÉNARIO GEMINI PRO v2.5')}
-                        </p>
-                      </div>
-                      <div className="px-5 py-2.5 bg-primary-cyan/10 border border-primary-cyan/20 rounded-2xl flex items-center gap-2">
-                        <Sparkles className="text-primary-cyan animate-pulse" size={16} />
-                        <span className="text-[10px] font-mono font-black text-white/80 uppercase tracking-widest">{t('ACTIVE AI AGENT ON AIR', 'AGENT IA CONNECTÉ')}</span>
-                      </div>
-                    </div>
-
-                    {/* Simulation Parameters Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                       {/* Selector 1: Risk Appetite Scenario */}
-                       <div className="p-8 bg-white/[0.02] border border-white/5 rounded-2xl space-y-4 hover:border-white/10 transition-all flex flex-col justify-between">
-                          <div>
-                            <div className="text-[10px] font-black text-primary-cyan uppercase tracking-wider mb-2">{t('1. RISK APPETITE SCENARIO', '1. APPRÉCIATION ET MODÈLE DE RISQUE')}</div>
-                            <p className="text-xs text-white/40 mb-4">{t('Select the operational path of the artistic project under different market densities.', 'Sélectionnez la trajectoire de valorisation sous différentes densités de marché.')}</p>
-                          </div>
-                          <div className="space-y-2">
-                             {[
-                               { id: 'conservative', label: t('CONSERVATIVE (STABLE)', 'CONSERVATEUR (STABLE)'), desc: '+4% to +6% de progression, robust preservation.' },
-                               { id: 'balanced', label: t('BALANCED (OPTIMAL)', 'EQUILIBRÉ (OPTIMAL)'), desc: '+12% to +18% de progression, high predictability.' },
-                               { id: 'aggressive', label: t('BULL / ALPHA (AGGRESSIVE)', 'BULL / ALPHA (OFFENSIF)'), desc: '+25% to +45% de progression, artistic boom.' }
-                             ].map((scen) => (
-                               <button 
-                                 key={scen.id}
-                                 type="button"
-                                 onClick={() => setSimulationScenario(scen.id)}
-                                 className={`w-full p-4 rounded-xl text-left border transition-all cursor-pointer ${simulationScenario === scen.id ? 'bg-primary-cyan/10 border-primary-cyan text-white' : 'bg-black/20 border-white/5 text-white/60 hover:text-white'}`}
-                               >
-                                 <div className="text-[10px] font-black uppercase tracking-wider">{scen.label}</div>
-                                 <div className="text-xs opacity-60 mt-1">{scen.desc}</div>
-                               </button>
-                             ))}
-                          </div>
-                       </div>
-
-                       {/* Selector 2: AI Investment Goal */}
-                       <div className="p-8 bg-white/[0.02] border border-white/5 rounded-2xl space-y-4 hover:border-white/10 transition-all flex flex-col justify-between">
-                          <div>
-                             <div className="text-[10px] font-black text-accent-gold uppercase tracking-wider mb-2">{t('2. PRIMARY STRATEGIC TARGET', '2. OBJECTIF STRATÉGIQUE CIBLE')}</div>
-                             <p className="text-xs text-white/40 mb-4">{t('Define your primary motivation filter for this specific allocation simulation.', 'Définissez votre principale motivation d’allocation dans cette simulation.')}</p>
-                          </div>
-                          <div className="space-y-2">
-                             {[
-                               { id: 'maximize_performance', label: t('MAXIMISER LA PERFORMANCE RÉCURRENTE', 'MAXIMISER LA PERFORMANCE RÉCURRENTE'), desc: 'Axé sur la récupération mensuelle des redevances.' },
-                               { id: 'portfolio_hedge', label: t('INFLATION & ASSET HEDGING', 'PROTECTION CONTRE L\'INFLATION'), desc: 'Focuses on asset-backed valuation floor.' },
-                               { id: 'arbitrage', label: t('SECONDARY SWAP ARBITRAGE', 'ARBITRAGE ET SWAP RAPIDE'), desc: 'Focuses on liquid short-term spreads.' }
-                             ].map((goal) => (
-                               <button 
-                                 key={goal.id}
-                                 type="button"
-                                 onClick={() => setSimulationGoal(goal.id)}
-                                 className={`w-full p-4 rounded-xl text-left border transition-all cursor-pointer ${simulationGoal === goal.id ? 'bg-accent-gold/10 border-accent-gold text-white' : 'bg-black/20 border-white/5 text-white/60 hover:text-white'}`}
-                               >
-                                 <div className="text-[10px] font-black uppercase tracking-wider">{goal.label}</div>
-                                 <div className="text-xs opacity-60 mt-1">{goal.desc}</div>
-                               </button>
-                             ))}
-                          </div>
-                       </div>
-
-                       {/* Selector 3: AI Cognitive Persona */}
-                       <div className="p-8 bg-white/[0.02] border border-white/5 rounded-2xl space-y-4 hover:border-white/10 transition-all flex flex-col justify-between">
-                          <div>
-                            <div className="text-[10px] font-black text-accent-pink uppercase tracking-wider mb-2">{t('3. AI BOT PERSONALITY PROFILE', '3. PROFIL DE L\'EXPERT COGNITIF')}</div>
-                            <p className="text-xs text-white/40 mb-4">{t('Choose the intellectual perspective used to synthesize results and model strategies.', 'Choisissez la grille de lecture utilisée pour synthétiser et conseiller la stratégie.')}</p>
-                          </div>
-                          <div className="space-y-2">
-                             {[
-                               { id: 'algo_oracle', label: t('ALGORITHMIC ORACLE', 'L\'ORACLE ALGORITHMIQUE'), desc: 'Mathematical modeling & quantitative metrics.' },
-                               { id: 'sovereign_curator', label: t('SOVEREIGN CURATOR', 'LE CONSERVATEUR SOUVERAIN'), desc: 'Focuses on cultural prestige & historical value.' },
-                               { id: 'defi_whale', label: t('STRATÉGIE MAXIMISATION', 'STRATÉGIE MAXIMISATION'), desc: 'Maximiser la progression des droits.' }
-                             ].map((person) => (
-                               <button 
-                                 key={person.id}
-                                 type="button"
-                                 onClick={() => setSimulationPersona(person.id)}
-                                 className={`w-full p-4 rounded-xl text-left border transition-all cursor-pointer ${simulationPersona === person.id ? 'bg-accent-pink/10 border-accent-pink text-white' : 'bg-black/20 border-white/5 text-white/60 hover:text-white'}`}
-                               >
-                                 <div className="text-[10px] font-black uppercase tracking-wider">{person.label}</div>
-                                 <div className="text-xs opacity-60 mt-1">{person.desc}</div>
-                               </button>
-                             ))}
-                          </div>
-                       </div>
-                    </div>
-
-                    {/* Action Panel */}
-                    <div className="flex flex-col gap-6 md:flex-row items-center justify-between p-8 bg-white/5 border border-white/10 rounded-[2.5rem] relative overflow-hidden">
-                       <div className="space-y-2">
-                          <h5 className="text-lg font-headline font-black uppercase tracking-tighter leading-none">{t('RUN MULTI-SCENARIO COGNITIVE GRAPH', 'LANCER LE GRAPH DE PRÉDICTION SOUVERAIN')}</h5>
-                          <p className="text-xs text-white/40">{t('Initiates real-time AI modeling of progression, transferts de droits and long-term indice de disponibilité.', 'Simule en temps réel le progression, l\'arbitrage secondaire et l\'indice de accessibilité.')}</p>
-                       </div>
-                       <button 
-                         onClick={handleAISimulationRun}
-                         disabled={isSimulatingAI}
-                         className="w-full md:w-auto px-10 py-5 bg-gradient-to-r from-primary-cyan via-accent-gold to-accent-pink text-black text-[12px] font-black uppercase tracking-[0.3em] rounded-2xl hover:scale-105 hover:shadow-[0_0_40px_rgba(0,224,255,0.4)] transition-all flex items-center justify-center gap-3 active:scale-95 disabled:opacity-50 cursor-pointer"
-                       >
-                         {isSimulatingAI ? <Activity className="animate-spin text-black" size={18} /> : <Sparkles size={18} className="text-black" />}
-                         {isSimulatingAI ? t('COMPUTING THEORIES...', 'SYNTHÈSE DES THÉORIES IA...') : t('ACTIVATE COGNITIVE PREDICTION', 'ACTIVER LA SIMULATION IA')}
-                       </button>
-                    </div>
-
-                    {/* Simulation Result Card */}
-                    {aiSimulationOutput && (
-                       <div className="bg-gradient-to-br from-[#0D1117] to-[#0A0D14] border border-primary-cyan/20 rounded-[3rem] p-10 space-y-10 shadow-2xl animate-in zoom-in-95 duration-500 relative overflow-hidden">
-                         <div className="absolute top-0 right-0 w-96 h-96 bg-primary-cyan/10 blur-[130px] rounded-full" />
-                         
-                         <div className="flex items-center gap-4 relative z-10 border-b border-white/5 pb-6">
-                            <div className="p-3 bg-primary-cyan/25 rounded-2xl text-primary-cyan border border-primary-cyan/30">
-                              <Sparkles size={24} />
-                            </div>
-                            <div>
-                               <h5 className="text-[10px] font-black text-primary-cyan uppercase tracking-[0.4em] mb-1">{t('GENERATED COGNITIVE STRATEGY REPORT', 'RAPPORT JING COGNITIF IA GÉNÉRÉ')}</h5>
-                               <h4 className="text-3xl font-headline font-black uppercase tracking-tighter text-white leading-none">
-                                  {simulationPersona === 'algo_oracle' ? t('ALGORITHMIC FORECAST', 'PRÉVISIONS ALGORITHMIQUES') : 
-                                   simulationPersona === 'sovereign_curator' ? t('PRESTIGE & SCARCITY ANALYSIS', 'ANALYSE DE PRESTIGE ET RARETÉ') : t('DEFI LIQUIDITY SYNTHESIS', 'SYNTHÈSE DE LIQUIDITÉ DEFI')}
-                               </h4>
-                            </div>
-                         </div>
-
-                         {/* Computed metrics numbers */}
-                         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 relative z-10">
-                            <div className="p-6 bg-black/40 rounded-2xl border border-white/5">
-                               <span className="text-[10px] font-black uppercase text-white/30 tracking-widest block mb-1">{t('ESTIMATED VALUE multiplier', 'MULTIPLICATEUR DE VALEUR ESTIMÉ')}</span>
-                               <span className="text-3xl font-headline font-black text-emerald-400">+{aiSimulationOutput.multi}%</span>
-                            </div>
-                            <div className="p-6 bg-black/40 rounded-2xl border border-white/5">
-                               <span className="text-[10px] font-black uppercase text-white/30 tracking-widest block mb-1">{t('ROYALTY CONVERSION DENSITY', 'DENSITÉ DES REDEVANCES RECAPTÉES')}</span>
-                               <span className="text-3xl font-headline font-black text-primary-cyan">{(contract.revenueSharePercentage * (simulationScenario === 'conservative' ? 0.8 : simulationScenario === 'balanced' ? 1.0 : 1.4)).toFixed(1)}%</span>
-                            </div>
-                            <div className="p-6 bg-black/40 rounded-2xl border border-white/5">
-                               <span className="text-[10px] font-black uppercase text-white/30 tracking-widest block mb-1">{t('VOLATILITY CORRECTION INDEX', 'CORRECTION VOLATILITÉ ESTIMÉE')}</span>
-                               <span className="text-3xl font-headline font-black text-accent-pink">-{aiSimulationOutput.volCorrection}%</span>
-                            </div>
-                            <div className="p-6 bg-black/40 rounded-2xl border border-white/5">
-                               <span className="text-[10px] font-black uppercase text-white/30 tracking-widest block mb-1">{t('LYA CONVICTION SCORE', 'INDICE DE RECONNAISSANCE IA')}</span>
-                               <span className="text-3xl font-headline font-black text-accent-gold">{aiSimulationOutput.score}/1000</span>
-                            </div>
-                         </div>
-
-                         {/* Generative narrative text */}
-                         <div className="relative z-10 p-10 bg-black/50 border border-white/10 rounded-[2.5rem] shadow-inner space-y-6">
-                            <p className="text-lg font-light leading-relaxed text-slate-100 first-letter:text-5xl first-letter:font-black first-letter:text-primary-cyan first-letter:mr-3 first-letter:float-left">
-                               {aiSimulationOutput.narrative}
-                            </p>
-                            <div className="clear-both" />
-                            <div className="pt-4 border-t border-white/5 flex flex-col md:flex-row justify-between items-start md:items-center text-[10px] font-black tracking-widest text-white/20 uppercase gap-4 font-mono">
-                               <span>COGNITIVE SIGNATURE: {Math.random().toString(36).substring(3, 15).toUpperCase()}</span>
-                               <span className="text-emerald-400">{t('● SECURE CRYPTOGRAPHIC HASH CONFIRMED', '● HASH CRYPTOGRAPHIQUE CONFIÉ ET SÉCURISÉ')}</span>
-                            </div>
-                         </div>
-                       </div>
-                    )}
-                  </div>
-                )}
                {activeTab === 'legal' && (
                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
                     <div className="space-y-6">
@@ -1136,7 +739,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                                 </div>
                                 <h4 className="text-2xl font-headline font-black text-white uppercase tracking-tighter leading-none">{m.label}</h4>
                              </div>
-                             <div className="px-4 py-2 bg-black/40 rounded-xl border border-white/5 text-primary-cyan text-[10px] font-black">+{m.priceImpact}% TARGET</div>
+                             <div className="px-4 py-2 bg-black/40 rounded-xl border border-white/5 text-primary-cyan text-[10px] font-black">+{m.scoreImpact}% SCORE</div>
                           </div>
                        </div>
                     ))}

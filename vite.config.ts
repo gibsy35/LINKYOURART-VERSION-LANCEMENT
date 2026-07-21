@@ -35,11 +35,9 @@ export default defineConfig(({mode}) => {
               './src/views/ProfessionalDashboardView.tsx',
             ],
             'views-exchange': [
-              './src/views/ExchangeView.tsx',
               './src/views/SwipeView.tsx',
               './src/views/ContractDetailView.tsx',
               './src/views/WalletView.tsx',
-              './src/views/HoldingsView.tsx',
             ],
             'views-community': [
               './src/views/SocialFeedView.tsx',
@@ -61,7 +59,6 @@ export default defineConfig(({mode}) => {
               './src/views/TaxOptimizerView.tsx',
               './src/views/RegistryView.tsx',
               './src/views/WatchlistView.tsx',
-              './src/views/SettlementView.tsx',
               './src/views/PricingView.tsx',
               './src/views/APIView.tsx',
               './src/views/AboutView.tsx',

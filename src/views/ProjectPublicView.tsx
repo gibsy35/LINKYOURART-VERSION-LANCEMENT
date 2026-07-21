@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { useTranslation } from '../context/LanguageContext';
 import { useCurrency } from '../context/CurrencyContext';
-import { Contract, CONTRACTS, LYA_UNIT_VALUE } from '../types';
+import { Contract, CONTRACTS } from '../types';
 import { updatePageMeta, resetPageMeta } from '../utils/seo';
 import { getSafeImageUrl } from '../utils/image';
 import {
@@ -13,12 +13,10 @@ import {
 } from 'lucide-react';
 import { ResponsiveContainer, AreaChart, Area, Tooltip, XAxis } from 'recharts';
 
-const unitPrice = (g: number) => LYA_UNIT_VALUE * (1 + g / 100);
-
-const genChart = (base: number, growth: number, points = 30) =>
+const genChart = (baseScore: number, growth: number, points = 30) =>
   Array.from({ length: points }, (_, i) => ({
     t: `J${i + 1}`,
-    v: Math.round(base * (1 + (growth / 100) * (i / points)) + (Math.random() - 0.5) * base * 0.03),
+    v: Math.max(0, Math.min(1000, Math.round(baseScore * (1 + (growth / 100) * (i / points)) + (Math.random() - 0.5) * baseScore * 0.02))),
   }));
 
 interface Props {
@@ -38,15 +36,15 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
 
   const project: Contract = CONTRACTS.find(c => c.id === contractId) || CONTRACTS[0];
   const up = project.growth >= 0;
-  const lya = unitPrice(project.growth);
-  const chartData = genChart(lya * 50, project.growth);
+  const baseScore = Math.max(1, project.totalScore - project.growth * 5);
+  const chartData = genChart(baseScore, project.growth);
   const similar = CONTRACTS.filter(c => c.category === project.category && c.id !== project.id).slice(0, 3);
 
   // Mise à jour SEO dynamique
   React.useEffect(() => {
     updatePageMeta({
       title: `${project.name} — LYA Score ${project.totalScore}/1000`,
-      description: `${project.category} · LYA UNIT: ${formatPrice(lya)} (${up ? '+' : ''}${project.growth}%) · ${project.description?.slice(0, 120)}`,
+      description: `${project.category} · LYA Score: ${project.totalScore}/1000 (${up ? '+' : ''}${project.growth}%) · ${project.description?.slice(0, 120)}`,
       image: getSafeImageUrl(project.image, project.category),
       url: `https://linkyourart.com?project=${project.id}`,
     });
@@ -68,7 +66,7 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
   };
 
   const shareTwitter = () => window.open(
-    `https://twitter.com/intent/tweet?text=${encodeURIComponent(`${project.name} — LYA Score ${project.totalScore}/1000 · LYA UNIT ${formatPrice(lya)} sur @LinkYourArt`)}&url=${encodeURIComponent(`${window.location.origin}?project=${project.id}`)}`,
+    `https://twitter.com/intent/tweet?text=${encodeURIComponent(`${project.name} — LYA Score ${project.totalScore}/1000 sur @LinkYourArt`)}&url=${encodeURIComponent(`${window.location.origin}?project=${project.id}`)}`,
     '_blank'
   );
 
@@ -104,34 +102,33 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
         </div>
       </div>
 
-      {/* ── SECTION 2 : PRIX LYA UNIT EN GROS ───────────────────────────── */}
+      {/* ── SECTION 2 : SCORE LYA EN GROS ───────────────────────────────── */}
       <div className={`rounded-2xl p-5 mb-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border ${up ? 'bg-emerald-400/5 border-emerald-400/20' : 'bg-rose-400/5 border-rose-400/20'}`}>
         <div>
           <p className="text-xs font-black text-on-surface-variant/50 uppercase tracking-widest mb-1">
-            {T('Valeur LYA UNIT actuelle', 'Current LYA UNIT value')}
+            {T('Score LYA actuel', 'Current LYA Score')}
           </p>
-          <p className={`text-5xl font-black font-mono ${up ? 'text-emerald-400' : 'text-rose-400'}`}>{formatPrice(lya)}</p>
+          <p className={`text-5xl font-black font-mono ${up ? 'text-emerald-400' : 'text-rose-400'}`}>{project.totalScore}<span className="text-xl text-on-surface-variant/30">/1000</span></p>
           <div className="flex items-center gap-3 mt-2 flex-wrap">
             <span className={`flex items-center gap-1 text-sm font-black ${up ? 'text-emerald-400' : 'text-rose-400'}`}>
               {up ? <ArrowUpRight size={16}/> : <ArrowDownRight size={16}/>}{up ? '+' : ''}{project.growth}%
             </span>
-            <span className="text-xs text-on-surface-variant/40">{T('Prix de base:', 'Base price:')} {formatPrice(LYA_UNIT_VALUE)}</span>
+            <span className="text-xs text-on-surface-variant/40">{T('Depuis certification', 'Since certification')}</span>
           </div>
         </div>
         <div className="text-right shrink-0">
-          <p className="text-xs text-on-surface-variant/50 uppercase tracking-widest mb-1">LYA Score</p>
-          <p className="text-4xl font-black text-[#a78bfa]">{project.totalScore}<span className="text-sm text-on-surface-variant/30">/1000</span></p>
-          <p className="text-xs text-on-surface-variant/40 mt-1">{project.rarity}</p>
+          <p className="text-xs text-on-surface-variant/50 uppercase tracking-widest mb-1">{T('Rareté', 'Rarity')}</p>
+          <span className={`px-3 py-1.5 border rounded-full text-sm font-black uppercase tracking-widest ${rarityColor[project.rarity]}`}>★ {project.rarity}</span>
         </div>
       </div>
 
       {/* ── SECTION 3 : 4 CHIFFRES CLÉS ─────────────────────────────────── */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
         {[
-          { icon: <DollarSign size={15}/>, label: T('Revenus partagés', 'Revenue share'), value: `${project.revenueSharePercentage}%`, color: 'text-primary-cyan', bg: 'bg-primary-cyan/10 border-primary-cyan/20' },
+          { icon: <Shield size={15}/>, label: T('Statut', 'Status'), value: T('Certifié', 'Certified'), color: 'text-primary-cyan', bg: 'bg-primary-cyan/10 border-primary-cyan/20' },
           { icon: <Users size={15}/>, label: T('Mécènes actifs', 'Active patrons'), value: String(Math.floor(50 + Math.random() * 250)), color: 'text-[#a78bfa]', bg: 'bg-[#a78bfa]/10 border-[#a78bfa]/20' },
           { icon: <Award size={15}/>, label: T('Jalons validés', 'Validated milestones'), value: String(project.milestones.filter(m => m.status === 'COMPLETED').length), color: 'text-emerald-400', bg: 'bg-emerald-400/10 border-emerald-400/20' },
-          { icon: <Target size={15}/>, label: T('Potentiel', 'Potential'), value: project.growth >= 20 ? T('Élevé', 'High') : project.growth >= 0 ? T('Stable', 'Stable') : T('Risqué', 'Risky'), color: up ? 'text-accent-gold' : 'text-rose-400', bg: up ? 'bg-accent-gold/10 border-accent-gold/20' : 'bg-rose-400/10 border-rose-400/20' },
+          { icon: <Target size={15}/>, label: T('Potentiel', 'Potential'), value: project.growth >= 20 ? T('Élevé', 'High') : project.growth >= 0 ? T('Stable', 'Stable') : T('En Révision', 'Under Review'), color: up ? 'text-accent-gold' : 'text-rose-400', bg: up ? 'bg-accent-gold/10 border-accent-gold/20' : 'bg-rose-400/10 border-rose-400/20' },
         ].map((s, i) => (
           <motion.div key={i} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.07 }}
             className={`border rounded-2xl p-4 space-y-2 ${s.bg}`}>
@@ -179,16 +176,15 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
             <p className="text-sm text-on-surface-variant/70 leading-relaxed">{project.description}</p>
           </div>
 
-          {/* Graphe LYA UNIT */}
+          {/* Graphe Score LYA */}
           <div className="bg-surface-low/40 border border-white/8 rounded-2xl p-5 space-y-4">
             <div className="flex items-center justify-between flex-wrap gap-3">
               <div>
-                <h2 className="text-sm font-black text-on-surface uppercase tracking-wider">{T('Évolution du LYA UNIT', 'LYA UNIT Evolution')}</h2>
-                <p className="text-xs text-on-surface-variant/40 mt-0.5">{T('Prix × variation depuis l\'émission', 'Price × change since issuance')}</p>
+                <h2 className="text-sm font-black text-on-surface uppercase tracking-wider">{T('Évolution du Score LYA', 'LYA Score Evolution')}</h2>
+                <p className="text-xs text-on-surface-variant/40 mt-0.5">{T('Progression depuis la certification', 'Progress since certification')}</p>
               </div>
               <div className="text-right">
-                <p className={`text-2xl font-black font-mono ${up ? 'text-emerald-400' : 'text-rose-400'}`}>{formatPrice(lya)}</p>
-                <p className="text-xs text-on-surface-variant/40">{T('Base:', 'Base:')} {formatPrice(LYA_UNIT_VALUE)}</p>
+                <p className={`text-2xl font-black font-mono ${up ? 'text-emerald-400' : 'text-rose-400'}`}>{project.totalScore}/1000</p>
               </div>
             </div>
             <div className="h-36">
@@ -203,14 +199,14 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
                   <Area type="monotone" dataKey="v" stroke={up ? '#10b981' : '#f43f5e'} strokeWidth={2.5} fill="url(#lyaGrad)" dot={false}/>
                   <XAxis dataKey="t" hide/>
                   <Tooltip contentStyle={{ background: '#0f121a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, fontSize: 11 }}
-                    formatter={(v: number) => [formatPrice(v), 'LYA UNIT']}/>
+                    formatter={(v: number) => [`${v}/1000`, T('Score', 'Score')]}/>
                 </AreaChart>
               </ResponsiveContainer>
             </div>
             <p className="text-[10px] text-on-surface-variant/30 text-center">
               {up
-                ? T(`Ce projet a généré +${project.growth}% depuis son émission. LYA UNIT passé de ${formatPrice(LYA_UNIT_VALUE)} à ${formatPrice(lya)}.`, `This project generated +${project.growth}% since issuance. LYA UNIT moved from ${formatPrice(LYA_UNIT_VALUE)} to ${formatPrice(lya)}.`)
-                : T(`Ce projet a perdu ${project.growth}% depuis son émission. LYA UNIT passé de ${formatPrice(LYA_UNIT_VALUE)} à ${formatPrice(lya)}.`, `This project lost ${project.growth}% since issuance. LYA UNIT moved from ${formatPrice(LYA_UNIT_VALUE)} to ${formatPrice(lya)}.`)
+                ? T(`Ce projet a progressé de +${project.growth}% depuis sa certification.`, `This project's score improved by +${project.growth}% since certification.`)
+                : T(`Ce projet a régressé de ${project.growth}% depuis sa certification.`, `This project's score decreased by ${project.growth}% since certification.`)
               }
             </p>
           </div>
@@ -235,9 +231,9 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
                         <p className="text-sm font-black text-on-surface">{m.label}</p>
                         <p className="text-xs text-on-surface-variant/40 mt-0.5">{m.date}</p>
                       </div>
-                      {m.priceImpact && (
-                        <span className={`text-sm font-black shrink-0 ${m.priceImpact > 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
-                          {m.priceImpact > 0 ? '+' : ''}{m.priceImpact}% LYA UNIT
+                      {m.scoreImpact && (
+                        <span className={`text-sm font-black shrink-0 ${m.scoreImpact > 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+                          {m.scoreImpact > 0 ? '+' : ''}{m.scoreImpact}% {T('Score', 'Score')}
                         </span>
                       )}
                     </div>
@@ -296,9 +292,7 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
               { l: T('Identifiant registre', 'Registry ID'), v: project.registryIndex },
               { l: T('Catégorie', 'Category'), v: project.category },
               { l: T('Statut', 'Status'), v: project.status },
-              { l: T('Part des revenus nets', 'Net revenue share'), v: `${project.revenueSharePercentage}%` },
-              { l: 'LYA UNIT', v: formatPrice(lya) },
-              { l: T('Variation depuis émission', 'Change since issuance'), v: `${up?'+':''}${project.growth}%` },
+              { l: T('Variation depuis certification', 'Change since certification'), v: `${up?'+':''}${project.growth}%` },
             ].map((s,i) => (
               <div key={i} className="flex justify-between items-center py-1.5 border-b border-white/5 last:border-0">
                 <p className="text-xs text-on-surface-variant/50">{s.l}</p>
@@ -312,20 +306,20 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
       {/* ── ONGLET : SOUTENIR ────────────────────────────────────────────── */}
       {activeTab === 'invest' && (
         <div className="space-y-5">
-          {/* Explication LYA UNIT */}
+          {/* Explication Score LYA */}
           <div className="bg-accent-gold/5 border border-accent-gold/20 rounded-2xl p-5 space-y-3">
-            <p className="text-xs font-black text-accent-gold uppercase tracking-widest">✦ {T('Comment fonctionne le LYA UNIT ?', 'How does the LYA UNIT work?')}</p>
+            <p className="text-xs font-black text-accent-gold uppercase tracking-widest">✦ {T('Comment fonctionne le Score LYA ?', 'How does the LYA Score work?')}</p>
             <p className="text-sm text-on-surface-variant/70 leading-relaxed">
               {T(
-                `Le LYA UNIT est le prix unitaire d'une fraction de ce projet. Il part d'une valeur de base de ${formatPrice(LYA_UNIT_VALUE)} et évolue selon les jalons, le LYA Score et les échanges sur le marché secondaire. Actuellement à ${formatPrice(lya)} (${up ? '+' : ''}${project.growth}% depuis l'émission).`,
-                `The LYA UNIT is the unit price of a fraction of this project. It starts at a base value of ${formatPrice(LYA_UNIT_VALUE)} and evolves according to milestones, LYA Score and secondary market trades. Currently at ${formatPrice(lya)} (${up ? '+' : ''}${project.growth}% since issuance).`
+                `Le Score LYA est l'indicateur de certification de ce projet, noté sur 1000. Il évolue selon les jalons validés et la revue du Comité. Actuellement à ${project.totalScore}/1000 (${up ? '+' : ''}${project.growth}% depuis la certification).`,
+                `The LYA Score is this project's certification indicator, rated out of 1000. It evolves according to validated milestones and Committee review. Currently at ${project.totalScore}/1000 (${up ? '+' : ''}${project.growth}% since certification).`
               )}
             </p>
             <div className="grid grid-cols-3 gap-3 pt-1">
               {[
-                { l: 'LYA UNIT', v: formatPrice(lya), c: up ? 'text-emerald-400' : 'text-rose-400' },
+                { l: T('Score', 'Score'), v: `${project.totalScore}/1000`, c: up ? 'text-emerald-400' : 'text-rose-400' },
                 { l: T('Variation', 'Change'), v: `${up?'+':''}${project.growth}%`, c: up ? 'text-emerald-400' : 'text-rose-400' },
-                { l: T('Rev. partagés', 'Rev. share'), v: `${project.revenueSharePercentage}%`, c: 'text-primary-cyan' },
+                { l: T('Rareté', 'Rarity'), v: project.rarity, c: 'text-primary-cyan' },
               ].map((s,i) => (
                 <div key={i} className="bg-surface-high/30 rounded-xl p-3 text-center">
                   <p className="text-[10px] text-on-surface-variant/40 uppercase tracking-widest mb-1">{s.l}</p>
@@ -371,7 +365,7 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
           )}
 
           <p className="text-xs text-on-surface-variant/25 text-center leading-relaxed">
-            {T('⚠ Les investissements dans des projets artistiques comportent des risques. La valeur des LYA Units peut baisser. LinkYourArt est une plateforme d\'équité créative, pas un instrument financier réglementé.', '⚠ Investments in artistic projects carry risks. LYA Unit values may decrease. LinkYourArt is a creative equity platform, not a regulated financial instrument.')}
+            {T('Le mécénat sur des projets artistiques constitue un soutien à récompense, non un investissement financier. Les contreparties reçues sont personnelles et non-financières.', 'Patronage of artistic projects constitutes reward-based support, not a financial investment. Considerations received are personal and non-financial.')}
           </p>
         </div>
       )}
@@ -393,7 +387,7 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
                   <div className="p-3 space-y-1">
                     <p className="text-sm font-black text-on-surface truncate">{s.name}</p>
                     <div className="flex items-center justify-between">
-                      <p className="text-xs font-black text-accent-gold">LYA UNIT {formatPrice(unitPrice(s.growth))}</p>
+                      <p className="text-xs font-black text-accent-gold">{T('Score', 'Score')} {s.totalScore}/1000</p>
                       <p className={`text-xs font-black flex items-center gap-0.5 ${sup?'text-emerald-400':'text-rose-400'}`}>
                         {sup?<ArrowUpRight size={11}/>:<ArrowDownRight size={11}/>}{sup?'+':''}{s.growth}%
                       </p>
@@ -411,11 +405,11 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
         <div className="w-12 h-12 bg-primary-cyan/15 border border-primary-cyan/25 rounded-2xl flex items-center justify-center mx-auto">
           <span className="text-primary-cyan font-black text-sm">LYA</span>
         </div>
-        <h3 className="text-xl font-black text-white tracking-tight uppercase">{T('L\'ART COMME ACTIF VIVANT', 'ART AS A LIVING ASSET')}</h3>
+        <h3 className="text-xl font-black text-white tracking-tight uppercase">{T('L\'ART COMME STANDARD RECONNU', 'ART AS A RECOGNISED STANDARD')}</h3>
         <p className="text-sm text-on-surface-variant/60 max-w-sm mx-auto leading-relaxed">
-          {T('LinkYourArt transforme les projets créatifs en actifs co-possédés. Rejoignez des milliers de mécènes et créateurs.', 'LinkYourArt transforms creative projects into co-owned assets. Join thousands of patrons and creators.')}
+          {T('LinkYourArt transforme les projets créatifs en standards certifiés. Rejoignez des milliers de mécènes et créateurs.', 'LinkYourArt transforms creative projects into certified standards. Join thousands of patrons and creators.')}
         </p>
-        <button onClick={() => onViewChange(user ? 'EXCHANGE' : 'SIGNUP')} className="px-8 py-3 bg-primary-cyan text-surface-dim font-black text-sm uppercase tracking-widest rounded-xl hover:bg-white transition-all shadow-[0_0_20px_rgba(0,212,255,0.2)]">
+        <button onClick={() => onViewChange(user ? 'REGISTRY' : 'SIGNUP')} className="px-8 py-3 bg-primary-cyan text-surface-dim font-black text-sm uppercase tracking-widest rounded-xl hover:bg-white transition-all shadow-[0_0_20px_rgba(0,212,255,0.2)]">
           {user ? T('Découvrir tous les projets', 'Discover all projects') : T('Rejoindre LinkYourArt — Gratuit', 'Join LinkYourArt — Free')}
         </button>
       </div>

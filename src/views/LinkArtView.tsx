@@ -181,7 +181,7 @@ export const LinkArtView: React.FC<{
     label: '',
     date: new Date().toISOString().split('T')[0].substring(0, 7),
     status: 'UPCOMING',
-    priceImpact: 5
+    scoreImpact: 5
   });
 
   const handleAddMilestone = () => {
@@ -194,7 +194,7 @@ export const LinkArtView: React.FC<{
       label: '',
       date: new Date().toISOString().split('T')[0].substring(0, 7),
       status: 'UPCOMING',
-      priceImpact: 5
+      scoreImpact: 5
     });
     onNotify(t('MILESTONE ADDED.', 'JALON AJOUTÉ.'));
   };
@@ -222,7 +222,7 @@ export const LinkArtView: React.FC<{
         label: s.label,
         date: s.date,
         status: 'UPCOMING',
-        priceImpact: s.priceImpact
+        scoreImpact: s.scoreImpact
       }));
       setMilestones(formattedMilestones);
       onNotify(t('MILESTONES SUGGESTED SUCCESSFULLY.', 'JALONS SUGGÉRÉS AVEC SUCCÈS.'));
@@ -671,8 +671,8 @@ export const LinkArtView: React.FC<{
                       <input 
                         type="number"
                         className="w-full bg-surface-low border border-white/10 p-3 text-xs uppercase tracking-widest font-mono"
-                        value={newMilestone.priceImpact}
-                        onChange={(e) => setNewMilestone({ ...newMilestone, priceImpact: Number(e.target.value) })}
+                        value={newMilestone.scoreImpact}
+                        onChange={(e) => setNewMilestone({ ...newMilestone, scoreImpact: Number(e.target.value) })}
                       />
                     </div>
                     <div className="space-y-1">
@@ -733,10 +733,10 @@ export const LinkArtView: React.FC<{
                                 <input 
                                   type="number"
                                   className="bg-surface-low border border-white/20 p-2 text-xs text-white w-20"
-                                  value={milestone.priceImpact}
+                                  value={milestone.scoreImpact}
                                   onChange={(e) => {
                                     const updated = [...milestones];
-                                    updated[index].priceImpact = Number(e.target.value);
+                                    updated[index].scoreImpact = Number(e.target.value);
                                     setMilestones(updated);
                                   }}
                                 />
@@ -795,10 +795,10 @@ export const LinkArtView: React.FC<{
                             </div>
                             <div className="flex items-center gap-8 w-full md:w-auto justify-between md:justify-end">
                               <div className="text-right">
-                                <div className="text-[10px] text-on-surface-variant uppercase tracking-widest mb-1">{t('Market Impact', 'Impact sur le Marché')}</div>
+                                <div className="text-[10px] text-on-surface-variant uppercase tracking-widest mb-1">{t('Score Impact', 'Impact sur le Score')}</div>
                                 <div className="flex items-center gap-1 text-primary-cyan font-bold">
                                   <TrendingUp size={14} />
-                                  <span className="text-sm font-mono">+{milestone.priceImpact}%</span>
+                                  <span className="text-sm font-mono">+{milestone.scoreImpact}% Score</span>
                                 </div>
                               </div>
                               <div className="flex items-center gap-2">
@@ -1040,7 +1040,7 @@ export const LinkArtView: React.FC<{
                           {milestones.map((m, i) => (
                             <div key={i} className="flex justify-between text-[10px] uppercase tracking-widest">
                               <span className="text-on-surface-variant">{m.label}</span>
-                              <span className="text-primary-cyan font-bold">+{m.priceImpact}%</span>
+                              <span className="text-primary-cyan font-bold">+{m.scoreImpact}%</span>
                             </div>
                           ))}
                           {milestones.length === 0 && <p className="text-[10px] text-on-surface-variant italic">{t('None defined', 'Aucun défini')}</p>}

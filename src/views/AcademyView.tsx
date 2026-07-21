@@ -321,10 +321,10 @@ export const AcademyView: React.FC<AcademyViewProps> = ({ user, onNotify, onView
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
-              { title: t('Protocol Whitepaper v2.5', 'Livre Blanc du Protocole v2.5'), type: 'PDF', icon: <FileText /> },
-              { title: t('Market Analysis Q1 2026', 'Analyse du Marché T1 2026'), type: 'REPORT', icon: <Globe /> },
+              { title: t('LYA Certification Standard', 'Standard de Certification LYA'), type: 'PDF', icon: <FileText /> },
+              { title: t('Creative Industries Market Report', 'Rapport de Marché des Industries Créatives'), type: 'REPORT', icon: <Globe /> },
               { title: t('Legal Framework Guide', 'Guide du Cadre Juridique'), icon: <ShieldCheck /> },
-              { title: t('Node Operator Manual', 'Manuel de l\'Opérateur de Nœud'), icon: <Zap /> }
+              { title: t('Professional Validator Guide', 'Guide du Validateur Professionnel'), icon: <Zap /> }
             ].map((resource, i) => (
               <button 
                 key={i} 

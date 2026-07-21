@@ -12,54 +12,54 @@ export const MECENAT_THEMES = [
   { id: "archi",  labelFR: "Lettres & Architecture", labelEN: "Literature & Spaces",   icon: "🏛️", cats: ["Architecture", "Gastronomy"] },
 ];
 
-// ─── STATUTS CO-PROPRIÉTAIRE (4 phases) ──────────────────────────────────────
+// ─── STATUTS DE RECONNAISSANCE MÉCÈNE (4 paliers) ──────────────────────────────
 
 export const CO_STATUTS = [
   {
     min: 1, max: 19,
-    labelFR: "COPROPRIÉTAIRE ASSOCIÉ",
-    labelEN: "ASSOCIATED CO-OWNER",
-    descFR: "Droits de copropriété standard proportionnels aux unités détenues.",
-    descEN: "Standard co-ownership rights proportional to units held.",
+    labelFR: "MÉCÈNE",
+    labelEN: "PATRON",
+    descFR: "Badge Mécène visible sur votre profil LYA.",
+    descEN: "Patron badge visible on your LYA profile.",
     multiplier: 1,
-    bonusFR: "Multiplicateur de co-partage : x1.00 (taux standard).",
-    bonusEN: "Revenue co-share multiplier: x1.00 (standard rate).",
+    bonusFR: "Mise à jour du projet suivie sur votre tableau de bord.",
+    bonusEN: "Project updates tracked on your dashboard.",
     color: "text-primary-cyan", border: "border-white/10", bg: "bg-surface-high",
     isPrestige: false,
   },
   {
     min: 20, max: 29,
-    labelFR: "MÉCÈNE STRATÉGIQUE",
-    labelEN: "STRATEGIC PATRON",
-    descFR: "Statut Copropriétaire Stratégique. Influenceur de volume sur les gains futurs.",
-    descEN: "Strategic co-owner. Volume influencer on future gains.",
-    multiplier: 1.10,
-    bonusFR: "Multiplicateur de co-partage : x1.10 (+10% sur vos gains).",
-    bonusEN: "Revenue co-share multiplier: x1.10 (+10% on your gains).",
+    labelFR: "MÉCÈNE ENGAGÉ",
+    labelEN: "COMMITTED PATRON",
+    descFR: "Statut Mécène Engagé. Accès prioritaire aux mises à jour du projet.",
+    descEN: "Committed Patron status. Priority access to project updates.",
+    multiplier: 1,
+    bonusFR: "Mention au générique dans les crédits du projet.",
+    bonusEN: "Credit mention in the project's acknowledgements.",
     color: "text-[#00ff88]", border: "border-[#00ff88]/20", bg: "bg-[#0f2418]",
     isPrestige: false,
   },
   {
     min: 30, max: 99,
-    labelFR: "ASSOCIÉ MAJEUR LYA",
-    labelEN: "LYA MAJOR ASSOCIATE",
-    descFR: "Copropriétaire Associé Majeur. Consultation directe du registre complet de l'œuvre.",
-    descEN: "Major Associate Co-owner. Direct access to the full artwork registry.",
-    multiplier: 1.25,
-    bonusFR: "Multiplicateur de co-partage : x1.25 (+25% sur vos gains).",
-    bonusEN: "Revenue co-share multiplier: x1.25 (+25% on your gains).",
+    labelFR: "MÉCÈNE MAJEUR",
+    labelEN: "MAJOR PATRON",
+    descFR: "Mécène Majeur. Consultation directe du registre complet de l'œuvre.",
+    descEN: "Major Patron. Direct access to the full artwork registry.",
+    multiplier: 1,
+    bonusFR: "Accès anticipé aux futures créations du même créateur.",
+    bonusEN: "Early access to the creator's future works.",
     color: "text-[#a78bfa]", border: "border-[#a78bfa]/20", bg: "bg-[#1f1b3a]",
     isPrestige: false,
   },
   {
     min: 100, max: 100,
-    labelFR: "CO-MÉCÈNE PRESTIGE SYNDICATE",
-    labelEN: "PRESTIGE SYNDICATE CO-PATRON",
-    descFR: "Classe Copropriétaire Prestige. Accès prioritaire absolu aux audits de licences mondiales.",
-    descEN: "Prestige Co-owner Class. Absolute priority access to global license audits.",
-    multiplier: 1.5,
-    bonusFR: "Multiplicateur de co-partage : x1.50 (+50% sur vos gains).",
-    bonusEN: "Revenue co-share multiplier: x1.50 (+50% on your gains).",
+    labelFR: "MÉCÈNE FONDATEUR",
+    labelEN: "FOUNDING PATRON",
+    descFR: "Statut Mécène Fondateur. Reconnaissance la plus élevée sur le Registre LYA.",
+    descEN: "Founding Patron status. Highest recognition tier on the LYA Registry.",
+    multiplier: 1,
+    bonusFR: "Badge Fondateur permanent, invitation aux événements LYA Originals.",
+    bonusEN: "Permanent Founder badge, invitation to LYA Originals events.",
     color: "text-amber-400", border: "border-amber-500/25", bg: "bg-[#2a2210]",
     isPrestige: true,
   },
@@ -176,7 +176,7 @@ interface DetailModalProps {
 export function DetailModal({ contract, onClose, onPay, units, onUnitsChange, lang }: DetailModalProps) {
   const T = (fr: string, en: string) => lang === "FR" ? fr : en;
   const totalCost = units * getUnitPrice(contract);
-  const revenueRights = ((units * (contract.revenueSharePercentage || 10) * getStatut(units).multiplier) / 10000).toFixed(3);
+  const statut = getStatut(units);
   const fundingPct = contract.availableUnits != null
     ? Math.round(((contract.totalUnits - contract.availableUnits) / contract.totalUnits) * 100)
     : Math.round(60 + (contract.totalScore / 1000) * 35);
@@ -214,8 +214,8 @@ export function DetailModal({ contract, onClose, onPay, units, onUnitsChange, la
               </div>
               <p className="text-on-surface-variant/70 text-xs mb-3">
                 {T(
-                  "Intégralement répertorié sur le registre immuable décentralisé LYA. Contrat de co-production indexé en temps réel avec traçabilité complète des données.",
-                  "Fully indexed on the LYA decentralised immutable registry. Co-production contract with real-time indexation and full data traceability."
+                  "Intégralement répertorié sur le registre immuable LYA. Certification indexée en temps réel avec traçabilité complète des données.",
+                  "Fully indexed on the LYA immutable registry. Certification with real-time indexation and full data traceability."
                 )}
               </p>
               <div className="flex gap-2 flex-wrap">
@@ -239,7 +239,7 @@ export function DetailModal({ contract, onClose, onPay, units, onUnitsChange, la
                 </div>
                 <h2 className="text-on-surface font-black text-2xl leading-tight mb-1" style={{ fontFamily: "Inter,system-ui,-apple-system,sans-serif", letterSpacing: "-0.02em" }}>{contract.name}</h2>
                 <p className="text-primary-cyan text-xs font-mono tracking-widest">
-                  {T("INITIATIVE DE CO-PRODUCTION", "CO-PRODUCTION INITIATIVE")} · {contract.category.toUpperCase()}
+                  {T("PROJET CERTIFIÉ", "CERTIFIED PROJECT")} · {contract.category.toUpperCase()}
                 </p>
               </div>
               <button onClick={onClose} className="w-9 h-9 rounded-full border border-white/10 flex items-center justify-center text-on-surface-variant/70 hover:text-on-surface hover:border-primary-cyan transition-colors shrink-0">✕</button>
@@ -386,18 +386,18 @@ export function DetailModal({ contract, onClose, onPay, units, onUnitsChange, la
               );
             })()}
 
-            {/* Sélecteur d'unités */}
+            {/* Sélecteur de soutien */}
             <div className="mb-4">
               <div className="flex justify-between items-center mb-1.5">
-                <span className="text-on-surface-variant/50 text-xs font-mono tracking-widest">{T("LYA UNITS À ACQUÉRIR", "LYA UNITS TO ACQUIRE")}</span>
+                <span className="text-on-surface-variant/50 text-xs font-mono tracking-widest">{T("MONTANT DE VOTRE SOUTIEN", "YOUR SUPPORT AMOUNT")}</span>
                 <span style={{ background: "linear-gradient(135deg,rgba(0,212,255,0.2),rgba(99,102,241,0.2))", border: "1px solid rgba(0,212,255,0.4)" }} className="text-primary-cyan text-[10px] px-3.5 py-1 rounded-md font-mono font-black">
-                  {units} {T("Units", "Units")}
+                  {T(statut.labelFR, statut.labelEN)}
                 </span>
               </div>
               <input type="range" min={1} max={100} value={units} onChange={e => onUnitsChange(Number(e.target.value))}
                 className="w-full h-1 bg-surface-high rounded-full appearance-none cursor-pointer accent-primary-cyan" />
               <div className="flex justify-between text-[10px] font-mono text-on-surface-variant/30 mt-1">
-                <span>1 unit = ${getUnitPrice(contract).toFixed(2)}</span>
+                <span>{T("Palier", "Tier")} {units}</span>
                 <span>{T("Total :", "Total:")} <span className="text-white font-bold">${(units * getUnitPrice(contract)).toFixed(2)}</span></span>
               </div>
             </div>
@@ -407,7 +407,7 @@ export function DetailModal({ contract, onClose, onPay, units, onUnitsChange, la
                 {T("QUITTER", "EXIT")}
               </button>
               <button onClick={onPay} className="w-full font-bold font-mono py-3.5 rounded-xl transition-opacity text-xs tracking-widest text-black" style={{ background: "linear-gradient(135deg,#00ff88,#00d4ff)" }}>
-                ✦ {T(`ACQUÉRIR ${units} LYA UNITS`, `ACQUIRE ${units} LYA UNITS`)}
+                ✦ {T("SOUTENIR CE PROJET", "SUPPORT THIS PROJECT")}
               </button>
             </div>
           </div>
@@ -417,14 +417,14 @@ export function DetailModal({ contract, onClose, onPay, units, onUnitsChange, la
   );
 }
 
-// ─── LYA UNIT DÉFINITION ──────────────────────────────────────────────────────
+// ─── SCORE LYA DÉFINITION ──────────────────────────────────────────────────────
 
 export function WhatIsLyaUnit({ lang }: { lang: "FR" | "EN" }) {
   const T = (fr: string, en: string) => lang === "FR" ? fr : en;
   const cols = [
-    { num: "01", color: "#00d4ff", titleFR: "MESURE ÉVOLUTIVE", titleEN: "EVOLUTIONARY MEASURE", textFR: "C'est l'unité de cotation officielle qui mesure la valeur évolutive d'une création.", textEN: "It is the official quotation unit that measures the evolving value of a creation." },
+    { num: "01", color: "#00d4ff", titleFR: "MESURE ÉVOLUTIVE", titleEN: "EVOLUTIONARY MEASURE", textFR: "C'est le standard de certification officiel qui mesure l'état évolutif d'une création.", textEN: "It is the official certification standard that measures the evolving state of a creation." },
     { num: "02", color: "#ff6b6b", titleFR: "NI CRYPTO, NI DEVISE", titleEN: "NOT A CRYPTO", textFR: "Ce n'est PAS une monnaie classique ou une crypto.", textEN: "It is NOT a classic currency or a crypto." },
-    { num: "03", color: "#00ff88", titleFR: "VALEUR STRUCTURELLE", titleEN: "STRUCTURED STATE", textFR: "C'est une unité de valeur structurée qui représente l'état réel, la solidité et la trajectoire d'une création.", textEN: "It is a structured unit of value representing the real state, solidity and trajectory of a creation." },
+    { num: "03", color: "#00ff88", titleFR: "VALEUR STRUCTURELLE", titleEN: "STRUCTURED STATE", textFR: "C'est un standard structuré qui représente l'état réel, la solidité et la trajectoire d'une création.", textEN: "It is a structured standard representing the real state, solidity and trajectory of a creation." },
   ];
   return (
     <div className="bg-surface-low/60 border border-white/10 rounded-2xl p-6 md:p-10 mb-8">
@@ -433,7 +433,7 @@ export function WhatIsLyaUnit({ lang }: { lang: "FR" | "EN" }) {
           <p className="text-on-surface-variant/50 text-[10px] font-mono tracking-widest mb-3">{T("DÉFINITION OFFICIELLE", "OFFICIAL DEFINITION")}</p>
           <div className="inline-block border border-white/20 rounded-lg px-3 py-2 bg-white/5 mb-3">
             <h3 className="text-on-surface font-black leading-tight text-sm md:text-base" style={{ fontFamily: "Inter,system-ui,-apple-system,sans-serif", letterSpacing: "-0.01em" }}>
-              {T("QU'EST-CE QUE LE LYA UNIT ?", "WHAT IS THE LYA UNIT?")}
+              {T("QU'EST-CE QUE LE SCORE LYA ?", "WHAT IS THE LYA SCORE?")}
             </h3>
           </div>
           <div className="w-16 h-1 rounded-full mt-1" style={{ background: "linear-gradient(90deg,#00d4ff,#a78bfa)" }} />
@@ -466,9 +466,7 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
 
   const unitPrice = getUnitPrice(contract);
   const totalCost = units * unitPrice;
-  const revenueShare = contract.revenueSharePercentage || 10;
   const statut = getStatut(units);
-  const coShare = ((units * revenueShare * statut.multiplier) / 10000).toFixed(3);
 
   const fundingPct = contract.availableUnits != null
     ? Math.round(((contract.totalUnits - contract.availableUnits) / contract.totalUnits) * 100)
@@ -521,15 +519,15 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
             </p>
           </div>
 
-          {/* Badge LYA UNIT — premium compact */}
+          {/* Badge Certification — premium compact */}
           <div style={{
             background: "linear-gradient(135deg, rgba(0,212,255,0.9) 0%, rgba(99,102,241,0.9) 100%)",
             boxShadow: "0 0 8px rgba(0,212,255,0.4), 0 1px 4px rgba(0,0,0,0.4)",
             border: "1px solid rgba(0,212,255,0.35)",
           }} className="rounded-md px-3 py-1 backdrop-blur-sm w-[80px]">
-            <p className="text-[7px] font-mono font-bold text-cyan-900/70 tracking-widest leading-none mb-0.5">LYA UNIT</p>
+            <p className="text-[7px] font-mono font-bold text-cyan-900/70 tracking-widest leading-none mb-0.5">{T("STATUT", "STATUS")}</p>
             <p className="text-white font-black font-mono text-xs leading-none">
-              ${unitPrice.toFixed(2)}<span className="text-cyan-200/50 font-normal text-[10px]">/u</span>
+              {T("Certifié", "Certified")}
             </p>
           </div>
         </div>
@@ -546,8 +544,8 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
           <div className="flex justify-between items-end gap-2">
             <h3 className="text-on-surface font-black text-base leading-tight min-w-0 break-words" style={{ fontFamily: "Inter,system-ui,-apple-system,sans-serif", letterSpacing: "-0.01em" }}>{contract.name}</h3>
             <div className="text-right shrink-0 ml-2">
-              <p className="text-on-surface text-xs font-mono">${unitPrice.toFixed(2)} / Unit</p>
-              <p className="text-[#00ff88] text-[10px] font-mono">{revenueShare}% {T("Droit de Partage", "Revenue Rights")}</p>
+              <p className="text-on-surface text-xs font-mono">{contract.totalScore}/1000</p>
+              <p className="text-[#00ff88] text-[10px] font-mono">{T("Score LYA", "LYA Score")}</p>
             </div>
           </div>
         </div>
@@ -556,7 +554,7 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
       {/* Description */}
       <div className="px-4 pt-3 pb-3 border-b border-white/10">
         <p className="text-primary-cyan text-[10px] font-mono tracking-widest mb-1">
-          {T("INITIATIVE DE CO-PRODUCTION", "CO-PRODUCTION INITIATIVE")} · {contract.category.toUpperCase()}
+          {T("PROJET CERTIFIÉ", "CERTIFIED PROJECT")} · {contract.category.toUpperCase()}
         </p>
         <p className="text-on-surface-variant/70 text-xs leading-relaxed line-clamp-2">{contract.description}</p>
       </div>
@@ -594,14 +592,14 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
       <div className="px-4 py-3 space-y-2.5 flex-1 flex flex-col">
         <div className="flex justify-between items-center">
           <span className="text-on-surface text-[10px] font-mono font-bold tracking-wider">
-            {T("VOLUME D'ACQUISITION DES PARTS LYA", "LYA UNITS ACQUISITION VOLUME")}
+            {T("MONTANT DE VOTRE SOUTIEN", "YOUR SUPPORT AMOUNT")}
           </span>
           <span style={{
             background: "linear-gradient(135deg, rgba(0,212,255,0.2) 0%, rgba(99,102,241,0.2) 100%)",
             boxShadow: "0 0 8px rgba(0,212,255,0.25)",
             border: "1px solid rgba(0,212,255,0.4)",
           }} className="text-primary-cyan text-[10px] px-3.5 py-1 rounded-md font-mono font-black shrink-0">
-            {units} {T("Units", "Units")}
+            {units} {T("Soutiens", "Supports")}
           </span>
         </div>
         <input
@@ -610,7 +608,7 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
           className="w-full h-1 bg-surface-high rounded-full appearance-none cursor-pointer accent-primary-cyan"
         />
         <div className="flex justify-between text-[10px] text-on-surface-variant/40 font-mono">
-          <span>1 {T("UNITÉ", "UNIT")}</span><span>50 {T("UNITÉS", "UNITS")}</span><span>100 {T("UNITÉS", "UNITS")}</span>
+          <span>{T("MINIMUM", "MIN")}</span><span>{T("MOYEN", "MID")}</span><span>{T("MAXIMUM", "MAX")}</span>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
@@ -619,12 +617,12 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
             <p className="text-on-surface font-bold font-mono text-base">${totalCost.toFixed(2)}</p>
           </div>
           <div className="bg-surface-high border border-white/10 rounded-lg p-3">
-            <p className="text-on-surface-variant/50 text-xs font-mono tracking-widest mb-1.5">{T("CO-PARTAGE DES GAINS", "REVENUE CO-SHARE")} <span className="opacity-50">ⓘ</span></p>
-            <p className="text-[#00ff88] font-bold font-mono text-base">{coShare}%</p>
+            <p className="text-on-surface-variant/50 text-xs font-mono tracking-widest mb-1.5">{T("NIVEAU DE RECONNAISSANCE", "RECOGNITION LEVEL")} <span className="opacity-50">ⓘ</span></p>
+            <p className="text-[#00ff88] font-bold font-mono text-base">{T(statut.labelFR, statut.labelEN)}</p>
           </div>
         </div>
 
-        {/* Statut co-propriétaire */}
+        {/* Statut de reconnaissance mécène */}
         <div className={`border rounded-lg p-3 ${statut.border} ${statut.bg}`}>
           <p className={`text-[10px] font-mono font-bold mb-1.5 tracking-wider ${statut.color}`}>
             {T(statut.labelFR, statut.labelEN)}
@@ -633,24 +631,6 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
             {T(statut.descFR, statut.descEN)} {T(statut.bonusFR, statut.bonusEN)}
           </p>
         </div>
-
-        {/* Statut Investisseur recommandé — visible uniquement au palier 100 */}
-        {statut.isPrestige && (
-          <div className="border border-white/10 bg-surface-low rounded-lg p-3 space-y-2.5">
-            <p className="text-amber-400 text-[10px] font-mono font-bold tracking-wider">
-              👑 {T("STATUT INVESTISSEUR RECOMMANDÉ :", "RECOMMENDED INVESTOR STATUS:")}
-            </p>
-            <p className="text-on-surface-variant text-[10px] leading-relaxed">
-              {T(
-                "À partir de 100 unités LYA, configurez un compte Investisseur pour accéder au marché de l'Art et aux dividendes de licence.",
-                "From 100 LYA units, set up an Investor account to access the Art market and license dividends."
-              )}
-            </p>
-            <button className="w-full py-2.5 bg-amber-500 hover:bg-amber-400 rounded-lg text-black text-[10px] font-mono font-black tracking-wider transition-colors flex items-center justify-center gap-1.5">
-              🚀 {T("ACTIVER LE LYA SYSTEME INVESTISSEUR", "ACTIVATE INVESTOR LYA SYSTEM")}
-            </button>
-          </div>
-        )}
 
         {/* Boutons action — distincts : Voir le Projet -> détail / Soutenir -> paiement direct */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-auto pt-1">

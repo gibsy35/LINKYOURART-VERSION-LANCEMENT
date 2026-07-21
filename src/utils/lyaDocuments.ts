@@ -1,4 +1,4 @@
-import { Contract, LYA_UNIT_VALUE } from '../types';
+import { Contract } from '../types';
 
 // Génère un document HTML premium LYA et l'ouvre dans une nouvelle fenêtre pour impression
 const LYA_COLORS = {
@@ -373,8 +373,6 @@ function openDocument(html: string, title: string) {
 // ─── CERTIFICAT LYA ──────────────────────────────────────────────────────────
 export function generateCertificate(contract: Contract, lang: string) {
   const isFR = lang === 'FR';
-  const lyaUnit = (LYA_UNIT_VALUE * (1 + contract.growth / 100)).toFixed(2);
-  const totalValue = (parseInt(String(contract.totalUnits || 10000)) * parseFloat(lyaUnit)).toLocaleString();
   const scoreWidth = ((contract.totalScore || 0) / 10).toFixed(1);
 
   const html = `
@@ -403,11 +401,11 @@ export function generateCertificate(contract: Contract, lang: string) {
           <div class="kpi-value kpi-violet">${contract.totalScore}<span style="font-size:8px;color:rgba(167,139,250,0.4)">/1000</span></div>
         </div>
         <div class="kpi-item">
-          <div class="kpi-label">LYA UNIT</div>
-          <div class="kpi-value kpi-gold">$${lyaUnit}</div>
+          <div class="kpi-label">${isFR ? 'Statut' : 'Status'}</div>
+          <div class="kpi-value kpi-gold">${isFR ? 'Certifié' : 'Certified'}</div>
         </div>
         <div class="kpi-item">
-          <div class="kpi-label">${isFR ? 'Variation' : 'Growth'}</div>
+          <div class="kpi-label">${isFR ? 'Progression Score' : 'Score Growth'}</div>
           <div class="kpi-value" style="color:${contract.growth >= 0 ? '#10b981' : '#ef4444'}">${contract.growth >= 0 ? '+' : ''}${contract.growth}%</div>
         </div>
       </div>
@@ -461,14 +459,14 @@ export function generateCertificate(contract: Contract, lang: string) {
         </div>
         <div>
           <div class="data-card-dark" style="margin-bottom:3mm">
-            <div class="data-label" style="color:rgba(255,255,255,0.3)">LYA UNIT</div>
-            <div class="data-value-gold">$${lyaUnit}</div>
-            <div class="data-sub" style="color:rgba(255,255,255,0.3)">${isFR ? 'Base' : 'Base'} $${LYA_UNIT_VALUE} · ${contract.growth >= 0 ? '+' : ''}${contract.growth}% ${isFR ? 'variation' : 'growth'}</div>
+            <div class="data-label" style="color:rgba(255,255,255,0.3)">${isFR ? 'Score LYA' : 'LYA Score'}</div>
+            <div class="data-value-gold">${contract.totalScore}/1000</div>
+            <div class="data-sub" style="color:rgba(255,255,255,0.3)">${contract.growth >= 0 ? '+' : ''}${contract.growth}% ${isFR ? 'depuis certification' : 'since certification'}</div>
           </div>
           <div class="data-card">
-            <div class="data-label">${isFR ? 'Revenue Share' : 'Revenue Share'}</div>
-            <div class="data-value data-value-green">${contract.revenueSharePercentage}%</div>
-            <div class="data-sub">${isFR ? 'des revenus nets distribués aux détenteurs' : 'of net revenues distributed to holders'}</div>
+            <div class="data-label">${isFR ? 'Type de Mécénat' : 'Patronage Type'}</div>
+            <div class="data-value data-value-green">${isFR ? 'À récompense' : 'Reward-based'}</div>
+            <div class="data-sub">${isFR ? 'aucune participation aux revenus' : 'no revenue participation'}</div>
           </div>
         </div>
       </div>
@@ -476,19 +474,19 @@ export function generateCertificate(contract: Contract, lang: string) {
 
     <!-- DONNÉES ÉCONOMIQUES -->
     <div class="section">
-      <div class="section-title"><span>03</span> ${isFR ? 'DONNÉES ÉCONOMIQUES' : 'ECONOMIC DATA'}</div>
+      <div class="section-title"><span>03</span> ${isFR ? 'DONNÉES DE CERTIFICATION' : 'CERTIFICATION DATA'}</div>
       <div class="grid-4">
         <div class="data-card">
-          <div class="data-label">${isFR ? 'Total Unités LYA' : 'Total LYA Units'}</div>
-          <div class="data-value">${(contract.totalUnits || 10000).toLocaleString()}</div>
+          <div class="data-label">${isFR ? 'Mécènes Soutiens' : 'Supporting Patrons'}</div>
+          <div class="data-value">${(contract.totalUnits || 2841).toLocaleString()}</div>
         </div>
         <div class="data-card">
-          <div class="data-label">${isFR ? 'Unités disponibles' : 'Available units'}</div>
-          <div class="data-value">${(contract.availableUnits || 8000).toLocaleString()}</div>
+          <div class="data-label">${isFR ? 'Score LYA' : 'LYA Score'}</div>
+          <div class="data-value">${contract.totalScore}/1000</div>
         </div>
         <div class="data-card">
-          <div class="data-label">${isFR ? 'Valeur totale' : 'Total value'}</div>
-          <div class="data-value" style="font-size:10px">$${totalValue}</div>
+          <div class="data-label">${isFR ? 'Statut' : 'Status'}</div>
+          <div class="data-value" style="font-size:10px">${isFR ? 'Certifié' : 'Certified'}</div>
         </div>
         <div class="data-card">
           <div class="data-label">Rarity</div>
@@ -524,20 +522,20 @@ export function generateLegalTerms(contract: Contract, lang: string) {
   const isFR = lang === 'FR';
 
   const articles = isFR ? [
-    ['ART. 1 — DÉFINITIONS', `Dans le présent acte, "LYA Unit" désigne une unité contractuelle de valorisation créative émise par LinkYourArt sur le Registre Officiel LYA. "Détenteur" désigne toute personne physique ou morale ayant acquis des LYA Units dans le cadre du présent contrat. "Créateur" désigne l'émetteur du projet créatif référencé sous l'index ${contract.registryIndex}.`],
-    ['ART. 2 — OBJET DU CONTRAT', `Le présent contrat a pour objet d'établir les droits et obligations entre LinkYourArt, le Créateur et les Détenteurs de LYA Units relatifs au projet "${contract.name}". Chaque LYA Unit représente une participation contractuelle directe aux revenus générés par l'œuvre, dans la limite du taux de partage défini à ${contract.revenueSharePercentage}%.`],
-    ['ART. 3 — DROITS DES DÉTENTEURS', `Les Détenteurs bénéficient d'un droit de participation aux revenus nets de l'œuvre proportionnel à leur nombre de LYA Units détenues. Ce droit est incessible sans accord préalable de LinkYourArt. Les Détenteurs ne bénéficient d'aucun droit de décision sur les choix artistiques du Créateur.`],
-    ['ART. 4 — OBLIGATIONS DU CRÉATEUR', `Le Créateur s'engage à fournir à LinkYourArt toutes les informations relatives aux revenus générés par l'œuvre dans un délai de 30 jours suivant leur encaissement. Le Créateur garantit être titulaire de l'ensemble des droits de propriété intellectuelle relatifs à l'œuvre.`],
-    ['ART. 5 — LYA SCORE & VALORISATION', `Le LYA Score, actuellement établi à ${contract.totalScore}/1000, est calculé par LinkYourArt selon une méthodologie propriétaire combinant évaluation algorithmique et validation par des professionnels certifiés. Ce score influe sur la valeur de la LYA Unit ($${(LYA_UNIT_VALUE * (1 + contract.growth / 100)).toFixed(2)} à date) mais ne constitue pas une garantie de rendement.`],
-    ['ART. 6 — DURÉE ET RÉSILIATION', `Le présent contrat est conclu pour une durée indéterminée à compter de sa date d'émission. Il peut être résilié par LinkYourArt en cas de manquement grave du Créateur ou de décision de la gouvernance LYA. La résiliation entraîne le remboursement des Détenteurs selon la valeur LYA Unit en vigueur à la date de résiliation.`],
+    ['ART. 1 — DÉFINITIONS', `Dans le présent acte, "Certification" désigne la validation officielle d'un projet créatif par LinkYourArt, matérialisée par un Score LYA inscrit au Registre Officiel LYA. "Mécène" désigne toute personne physique ou morale ayant apporté un soutien financier au projet dans le cadre d'une campagne de mécénat à récompense. "Créateur" désigne l'émetteur du projet créatif référencé sous l'index ${contract.registryIndex}.`],
+    ['ART. 2 — OBJET DU CONTRAT', `Le présent contrat a pour objet d'établir les droits et obligations entre LinkYourArt, le Créateur et les Mécènes relatifs au projet "${contract.name}". Le soutien apporté par un Mécène constitue un mécénat à récompense : il ouvre droit aux contreparties définies à l'Article 3, à l'exclusion de toute participation financière aux revenus de l'œuvre.`],
+    ['ART. 3 — DROITS DES MÉCÈNES', `Les Mécènes bénéficient des contreparties convenues au moment de leur soutien (mention au générique, accès anticipé, mises à jour exclusives du projet, selon les modalités propres à chaque campagne). Ces contreparties ne constituent ni un titre financier, ni un droit de participation aux revenus, ni un instrument négociable. Les Mécènes ne bénéficient d'aucun droit de décision sur les choix artistiques du Créateur.`],
+    ['ART. 4 — OBLIGATIONS DU CRÉATEUR', `Le Créateur s'engage à tenir à jour l'avancement de son projet sur le Registre LYA et à informer les Mécènes des jalons franchis. Le Créateur garantit être titulaire de l'ensemble des droits de propriété intellectuelle relatifs à l'œuvre.`],
+    ['ART. 5 — SCORE LYA & CERTIFICATION', `Le Score LYA, actuellement établi à ${contract.totalScore}/1000, est calculé par LinkYourArt selon une méthodologie propriétaire combinant évaluation algorithmique et validation par des professionnels certifiés. Ce score constitue un indicateur de qualité et de maturité du projet ; il ne constitue ni une valorisation financière, ni une garantie de rendement.`],
+    ['ART. 6 — DURÉE ET RÉSILIATION', `Le présent contrat est conclu pour une durée indéterminée à compter de sa date d'émission. Il peut être résilié par LinkYourArt en cas de manquement grave du Créateur ou de décision de la gouvernance LYA. La résiliation n'emporte aucune obligation de remboursement, les contreparties visées à l'Article 3 n'étant pas de nature financière.`],
     ['ART. 7 — DROIT APPLICABLE', `Le présent contrat est soumis au droit français. Tout litige relatif à son interprétation ou son exécution sera soumis à la compétence exclusive des tribunaux de Paris.`],
   ] : [
-    ['ART. 1 — DEFINITIONS', `In this agreement, "LYA Unit" means a contractual creative valuation unit issued by LinkYourArt on the Official LYA Registry. "Holder" means any natural or legal person who has acquired LYA Units under this contract. "Creator" means the issuer of the creative project referenced under index ${contract.registryIndex}.`],
-    ['ART. 2 — PURPOSE', `This contract establishes the rights and obligations between LinkYourArt, the Creator and LYA Unit Holders relating to the project "${contract.name}". Each LYA Unit represents a direct contractual participation in the revenues generated by the work, up to the sharing rate defined at ${contract.revenueSharePercentage}%.`],
-    ['ART. 3 — HOLDERS RIGHTS', `Holders benefit from a right to participate in the net revenues of the work proportional to their number of LYA Units held. This right is non-transferable without prior agreement from LinkYourArt. Holders have no decision-making rights over the Creator's artistic choices.`],
-    ['ART. 4 — CREATOR OBLIGATIONS', `The Creator agrees to provide LinkYourArt with all information relating to revenues generated by the work within 30 days of their receipt. The Creator warrants ownership of all intellectual property rights relating to the work.`],
-    ['ART. 5 — LYA SCORE & VALUATION', `The LYA Score, currently set at ${contract.totalScore}/1000, is calculated by LinkYourArt according to a proprietary methodology combining algorithmic evaluation and validation by certified professionals. This score influences the LYA Unit value ($${(LYA_UNIT_VALUE * (1 + contract.growth / 100)).toFixed(2)} at date) but does not constitute a return guarantee.`],
-    ['ART. 6 — TERM AND TERMINATION', `This contract is concluded for an indefinite term from its date of issue. It may be terminated by LinkYourArt in case of serious breach by the Creator or decision of LYA governance. Termination results in reimbursement of Holders according to the LYA Unit value prevailing at the date of termination.`],
+    ['ART. 1 — DEFINITIONS', `In this agreement, "Certification" means the official validation of a creative project by LinkYourArt, evidenced by a LYA Score recorded on the Official LYA Registry. "Patron" means any natural or legal person who has provided financial support to the project under a reward-based patronage campaign. "Creator" means the issuer of the creative project referenced under index ${contract.registryIndex}.`],
+    ['ART. 2 — PURPOSE', `This contract establishes the rights and obligations between LinkYourArt, the Creator and Patrons relating to the project "${contract.name}". Support provided by a Patron constitutes reward-based patronage: it entitles the Patron to the considerations defined in Article 3, to the exclusion of any financial participation in the work's revenues.`],
+    ['ART. 3 — PATRONS RIGHTS', `Patrons benefit from the considerations agreed at the time of their support (credit mention, early access, exclusive project updates, per the terms of each campaign). These considerations do not constitute a financial security, a right to revenue participation, or a tradeable instrument. Patrons have no decision-making rights over the Creator's artistic choices.`],
+    ['ART. 4 — CREATOR OBLIGATIONS', `The Creator agrees to keep the project's progress updated on the LYA Registry and to inform Patrons of milestones reached. The Creator warrants ownership of all intellectual property rights relating to the work.`],
+    ['ART. 5 — LYA SCORE & CERTIFICATION', `The LYA Score, currently set at ${contract.totalScore}/1000, is calculated by LinkYourArt according to a proprietary methodology combining algorithmic evaluation and validation by certified professionals. This score constitutes a quality and maturity indicator for the project; it does not constitute a financial valuation or a return guarantee.`],
+    ['ART. 6 — TERM AND TERMINATION', `This contract is concluded for an indefinite term from its date of issue. It may be terminated by LinkYourArt in case of serious breach by the Creator or decision of LYA governance. Termination entails no reimbursement obligation, as the considerations referred to in Article 3 are non-financial in nature.`],
     ['ART. 7 — GOVERNING LAW', `This contract is governed by French law. Any dispute relating to its interpretation or performance shall be submitted to the exclusive jurisdiction of the Paris courts.`],
   ];
 
@@ -560,14 +558,14 @@ export function generateLegalTerms(contract: Contract, lang: string) {
           <div class="kpi-value kpi-violet">${contract.totalScore}/1000</div>
         </div>
         <div class="kpi-item">
-          <div class="kpi-label">LYA Unit</div>
-          <div class="kpi-value kpi-gold">$${(LYA_UNIT_VALUE * (1 + contract.growth / 100)).toFixed(2)}</div>
+          <div class="kpi-label">${isFR ? 'Statut' : 'Status'}</div>
+          <div class="kpi-value kpi-gold">${isFR ? 'Certifié' : 'Certified'}</div>
         </div>
       </div>
     </div>
 
     <div class="highlight-box">
-      <p><strong>${isFR ? 'Document officiel LinkYourArt' : 'Official LinkYourArt document'}</strong> — ${isFR ? 'Ce document constitue les conditions contractuelles légales régissant les LYA Units émises dans le cadre du projet créatif référencé ci-dessus. Il est émis par LinkYourArt, marque de LINKYOURART SASU, et conservé dans le Registre Officiel LYA.' : 'This document constitutes the legal contractual conditions governing the LYA Units issued in connection with the above-referenced creative project. It is issued by LinkYourArt, marque de LINKYOURART SASU, and maintained in the Official LYA Registry.'}</p>
+      <p><strong>${isFR ? 'Document officiel LinkYourArt' : 'Official LinkYourArt document'}</strong> — ${isFR ? 'Ce document constitue les conditions contractuelles légales régissant la certification et le mécénat à récompense du projet créatif référencé ci-dessus. Il est émis par LinkYourArt, marque de LINKYOURART SASU, et conservé dans le Registre Officiel LYA.' : 'This document constitutes the legal contractual conditions governing the certification and reward-based patronage of the above-referenced creative project. It is issued by LinkYourArt, marque de LINKYOURART SASU, and maintained in the Official LYA Registry.'}</p>
     </div>
 
     <div class="legal-text">
@@ -603,21 +601,21 @@ export function generatePermissions(contract: Contract, lang: string) {
   const isFR = lang === 'FR';
 
   const permissions = isFR ? [
-    { granted: true, title: 'Participation aux revenus', desc: `Droit de percevoir ${contract.revenueSharePercentage}% des revenus nets de l'œuvre proportionnellement aux LYA Units détenues.` },
-    { granted: true, title: 'Échange de LYA Units', desc: 'Possibilité d\'échanger vos LYA Units sur le Marché Créatif LYA selon les conditions du registre en vigueur.' },
-    { granted: true, title: 'Accès aux rapports', desc: 'Consultation des rapports mensuels de performance, des jalons du projet et des données de valorisation.' },
-    { granted: true, title: 'Vote de gouvernance', desc: 'Participation aux décisions de gouvernance LYA proportionnellement au nombre de LYA Units détenues.' },
-    { granted: false, title: 'Modification de l\'œuvre', desc: 'Les détenteurs de LYA Units ne disposent d\'aucun droit de modification ou de direction artistique sur l\'œuvre.' },
+    { granted: true, title: 'Contreparties de mécénat', desc: 'Bénéfice des contreparties convenues (mention au générique, accès anticipé, mises à jour exclusives), selon les modalités propres à la campagne.' },
+    { granted: true, title: 'Accès aux rapports', desc: 'Consultation des rapports mensuels d\'avancement, des jalons du projet et de l\'historique du Score LYA.' },
+    { granted: true, title: 'Badge Mécène Certifié', desc: 'Affichage d\'un badge de reconnaissance sur le profil LYA, proportionnel à l\'ancienneté et au nombre de projets soutenus.' },
+    { granted: false, title: 'Participation aux revenus', desc: 'Le soutien apporté ne donne droit à aucune participation financière aux revenus générés par l\'œuvre.' },
+    { granted: false, title: 'Modification de l\'œuvre', desc: 'Les Mécènes ne disposent d\'aucun droit de modification ou de direction artistique sur l\'œuvre.' },
     { granted: false, title: 'Utilisation commerciale directe', desc: 'L\'utilisation directe de l\'œuvre à des fins commerciales sans accord préalable de LinkYourArt et du Créateur est interdite.' },
-    { granted: false, title: 'Cession sans accord', desc: 'La cession de LYA Units en dehors du Marché Officiel LYA sans autorisation préalable est interdite.' },
+    { granted: false, title: 'Cession des contreparties', desc: 'Les contreparties de mécénat sont personnelles et non cessibles à un tiers.' },
   ] : [
-    { granted: true, title: 'Revenue participation', desc: `Right to receive ${contract.revenueSharePercentage}% of the work's net revenues proportional to LYA Units held.` },
-    { granted: true, title: 'LYA Unit exchange', desc: 'Ability to exchange your LYA Units on the LYA Creative Market under the current registry conditions.' },
-    { granted: true, title: 'Report access', desc: 'Access to monthly performance reports, project milestones and valuation data.' },
-    { granted: true, title: 'Governance vote', desc: 'Participation in LYA governance decisions proportional to the number of LYA Units held.' },
-    { granted: false, title: 'Work modification', desc: 'LYA Unit holders have no right to modify or artistically direct the work.' },
+    { granted: true, title: 'Patronage considerations', desc: 'Benefit from the considerations agreed at the time of support (credit mention, early access, exclusive updates), per the terms of each campaign.' },
+    { granted: true, title: 'Report access', desc: 'Access to monthly progress reports, project milestones and LYA Score history.' },
+    { granted: true, title: 'Certified Patron Badge', desc: 'Display of a recognition badge on the LYA profile, proportional to tenure and number of projects supported.' },
+    { granted: false, title: 'Revenue participation', desc: 'Support provided does not entitle the Patron to any financial participation in the work\'s revenues.' },
+    { granted: false, title: 'Work modification', desc: 'Patrons have no right to modify or artistically direct the work.' },
     { granted: false, title: 'Direct commercial use', desc: 'Direct use of the work for commercial purposes without prior agreement from LinkYourArt and the Creator is prohibited.' },
-    { granted: false, title: 'Transfer without agreement', desc: 'Transfer of LYA Units outside the Official LYA Market without prior authorization is prohibited.' },
+    { granted: false, title: 'Transfer of considerations', desc: 'Patronage considerations are personal and non-transferable to a third party.' },
   ];
 
   const html = `
@@ -631,7 +629,7 @@ export function generatePermissions(contract: Contract, lang: string) {
     <div class="hero-band" style="padding:4mm 6mm">
       <div class="hero-info">
         <div class="hero-name" style="font-size:13px">${contract.name}</div>
-        <div class="hero-category">${contract.registryIndex} · ${isFR ? 'Permissions applicables aux détenteurs de LYA Units' : 'Permissions applicable to LYA Unit holders'}</div>
+        <div class="hero-category">${contract.registryIndex} · ${isFR ? 'Permissions applicables aux Mécènes' : 'Permissions applicable to Patrons'}</div>
       </div>
     </div>
 
@@ -671,12 +669,12 @@ export function generatePermissions(contract: Contract, lang: string) {
         <div class="data-value" style="color:#a78bfa">${contract.totalScore}/1000</div>
       </div>
       <div class="data-card" style="text-align:center">
-        <div class="data-label">Revenue Share</div>
-        <div class="data-value" style="color:#10b981">${contract.revenueSharePercentage}%</div>
+        <div class="data-label">${isFR ? 'Type de Mécénat' : 'Patronage Type'}</div>
+        <div class="data-value" style="color:#10b981">${isFR ? 'À récompense' : 'Reward-based'}</div>
       </div>
       <div class="data-card" style="text-align:center">
-        <div class="data-label">LYA Unit</div>
-        <div class="data-value" style="color:#f5c842">$${(LYA_UNIT_VALUE * (1 + contract.growth / 100)).toFixed(2)}</div>
+        <div class="data-label">${isFR ? 'Score LYA' : 'LYA Score'}</div>
+        <div class="data-value" style="color:#f5c842">${contract.totalScore}/1000</div>
       </div>
     </div>
 

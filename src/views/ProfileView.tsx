@@ -386,8 +386,8 @@ const ProfileView: React.FC<ProfileViewProps> = ({
       const batch = writeBatch(db);
       if (type === 'users') {
         const countries = ['FRANCE', 'USA', 'JAPAN', 'UK', 'ITALY', 'BRAZIL', 'GERMANY', 'SPAIN', 'CANADA', 'KOREA'];
-        const activities = ['CREATIVE_RIGHTS', 'MUSIC_EQUITY', 'VISUAL_ARTS', 'FILM_PROD', 'GAMING_ASSETS', 'FASHION_IP'];
-        const actions = ['BUY_UNITS', 'SELL_UNITS', 'MINT_UNITS', 'VOTING', 'HOLDING'];
+        const activities = ['CREATIVE_RIGHTS', 'MUSIC_CERTIFICATION', 'VISUAL_ARTS', 'FILM_PROD', 'GAMING_CERTIFICATION', 'FASHION_IP'];
+        const actions = ['SUPPORT_PROJECTS', 'VALIDATE_PROJECTS', 'SUBMIT_PROJECTS', 'VOTING', 'CERTIFYING'];
         
         for (let i = 0; i < 100; i++) {
           const id = `mock_u_${Date.now()}_${i}`;
@@ -403,7 +403,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
             country: country,
             lyaScore: 500 + Math.floor(Math.random() * 400),
             createdAt: serverTimestamp(),
-            bio: `Verified institutional profile from ${country}. Specialized in ${activity.replace('_', ' ').toLowerCase()} and cross-border creative asset management.`,
+            bio: `Verified certified profile from ${country}. Specialized in ${activity.replace('_', ' ').toLowerCase()} and cross-border creative certification.`,
             isPro: true,
             status: 'ACTIVE',
             activity: activity,
@@ -435,7 +435,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
             registryIndex: `LYA-${category.substring(0,3).toUpperCase()}-${Date.now().toString().slice(-4)}-${i}`,
             name: `${baseNames[Math.floor(Math.random() * baseNames.length)]} ${suffixes[Math.floor(Math.random() * suffixes.length)]} #${1000 + i}`,
             category,
-            description: "High-potential creative asset with robust valuation metrics and verified IP protection. This contract represents fractionalized ownership in a major artistic project.",
+            description: "High-potential creative project with strong certification metrics and verified IP protection. This project is certified on the LYA Registry with a growing community of patrons.",
             initialValue: totalValue,
             unitValue,
             totalUnits,
@@ -677,7 +677,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
       const results = [
         { name: 'NEURO_SCAN_01', category: 'Digital Art', potential: '+84.2%', growth: 'ACCELERATING', image: `https://picsum.photos/seed/scan_1/800/800` },
         { name: 'CHRONO_BEATS', category: 'Music Rights', potential: '+62.7%', growth: 'UNSTABLE', image: `https://picsum.photos/seed/scan_2/800/800` },
-        { name: 'SILVER_LENS', category: 'Film Equity', potential: '+45.9%', growth: 'STABLE', image: `https://picsum.photos/seed/scan_3/800/800` }
+        { name: 'SILVER_LENS', category: 'Film', potential: '+45.9%', growth: 'STABLE', image: `https://picsum.photos/seed/scan_3/800/800` }
       ];
       
       setScanResults(results);
@@ -1640,7 +1640,7 @@ const renderMentorshipContent = () => (
                       <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tight flex items-center gap-3 md:gap-4 mb-2">
                         <LayoutGrid className="text-primary-cyan" size={28} /> {t('Active Projects', 'Projets Actifs')}
                       </h3>
-                      <p className="text-[10px] md:text-xs text-accent-gold uppercase tracking-widest font-bold opacity-40">{t('Manage your indexed creative equity', 'Gérez votre équité créative indexée')}</p>
+                      <p className="text-[10px] md:text-xs text-accent-gold uppercase tracking-widest font-bold opacity-40">{t('Manage your certified creative projects', 'Gérez vos projets créatifs certifiés')}</p>
                     </div>
                     <button 
                       onClick={() => setIsCreatingProject(true)}
@@ -2158,7 +2158,7 @@ const renderMentorshipContent = () => (
                             data={[
                               { name: 'Digital Art', value: 35 },
                               { name: 'Music Rights', value: 25 },
-                              { name: 'Film Equity', value: 25 },
+                              { name: 'Film', value: 25 },
                               { name: 'Fashion', value: 15 },
                             ]}
                             cx="50%"
@@ -2182,7 +2182,7 @@ const renderMentorshipContent = () => (
                       {[
                         { label: 'Digital Art', value: '35%', color: 'bg-primary-cyan' },
                         { label: 'Music Rights', value: '25%', color: 'bg-accent-gold' },
-                        { label: 'Film Equity', value: '25%', color: 'bg-accent-magenta' },
+                        { label: 'Film', value: '25%', color: 'bg-accent-magenta' },
                         { label: 'Fashion', value: '15%', color: 'bg-emerald-400' },
                       ].map((item, i) => (
                         <div key={i} className="flex flex-wrap items-center justify-between gap-3 p-3 md:p-4 bg-white/5 border border-white/5 hover:border-white/10 transition-all">
@@ -2252,7 +2252,7 @@ const renderMentorshipContent = () => (
                       <Zap className="text-primary-cyan" size={28} /> {t('Scan Opportunity', 'Scanner Opportunité')}
                     </h3>
                     <p className="text-sm text-on-surface-variant italic mb-8 max-w-md opacity-80 leading-relaxed">
-                      {t('Our AI-driven engine identifies high-potential creative assets before they hit the secondary market. Get early access to elite contracts and private funding rounds.', 'Notre moteur piloté par l\'IA identifie les actifs créatifs à haut potentiel avant qu\'ils n\'atteignent le marché secondaire. Obtenez un accès anticipé aux contrats d\'élite et aux tours de financement privés.')}
+                      {t('Our AI-driven engine identifies high-potential creative projects early in their certification journey. Get early access to newly certified projects before they reach wide visibility.', 'Notre moteur piloté par l\'IA identifie les projets créatifs à haut potentiel tôt dans leur parcours de certification. Obtenez un accès anticipé aux projets nouvellement certifiés avant qu\'ils n\'atteignent une large visibilité.')}
                     </p>
                     <button 
                       onClick={handleScan}
@@ -2293,23 +2293,23 @@ const renderMentorshipContent = () => (
                     <Activity size={120} className="text-primary-cyan" />
                   </div>
                   <h3 className="text-lg md:text-2xl font-black uppercase italic mb-8 md:mb-10 flex items-center gap-3 md:gap-4 relative z-10">
-                    <Activity className="text-primary-cyan" size={28} /> {t('Investor Profile', 'Profil Investisseur')}
+                    <Activity className="text-primary-cyan" size={28} /> {t('Patron Profile', 'Profil Mécène')}
                   </h3>
                   <div className="space-y-6 md:space-y-8 relative z-10">
                     <div className="p-6 md:p-8 bg-white/5 border border-white/10 group hover:border-accent-magenta/30 transition-all duration-500 rounded-sm">
-                      <p className="text-xs md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] text-on-surface-variant mb-3 md:mb-4 opacity-70">{t('Risk Tolerance', 'Tolérance au Risque')}</p>
-                      <p className="text-xl md:text-3xl font-black tracking-tighter text-accent-magenta uppercase">Aggressive_Growth</p>
+                      <p className="text-xs md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] text-on-surface-variant mb-3 md:mb-4 opacity-70">{t('Support Style', 'Style de Soutien')}</p>
+                      <p className="text-xl md:text-3xl font-black tracking-tighter text-accent-magenta uppercase">Early_Supporter</p>
                     </div>
                     <div className="p-6 md:p-8 bg-white/5 border border-white/10 group hover:border-primary-cyan/30 transition-all duration-500 rounded-sm">
                       <p className="text-xs md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] text-on-surface-variant mb-3 md:mb-4 opacity-70">{t('Preferred Sectors', 'Secteurs Préférés')}</p>
                       <p className="text-lg md:text-xl font-black italic tracking-tighter text-primary-cyan uppercase">Digital Art, Film IP, Fashion</p>
                     </div>
                     <div className="p-6 md:p-8 bg-white/5 border border-white/10 group hover:border-accent-gold/30 transition-all duration-500 rounded-sm">
-                      <p className="text-xs md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] text-on-surface-variant mb-3 md:mb-4 opacity-70">{t('Investor Tier', 'Niveau Investisseur')}</p>
+                      <p className="text-xs md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] text-on-surface-variant mb-3 md:mb-4 opacity-70">{t('Patron Tier', 'Niveau Mécène')}</p>
                       <div className="flex items-center gap-4 md:gap-6">
                         <Award className="text-accent-gold" size={32} />
                         <div>
-                          <p className="text-xl md:text-3xl font-black italic tracking-tighter text-accent-gold uppercase">Gold_Member</p>
+                          <p className="text-xl md:text-3xl font-black italic tracking-tighter text-accent-gold uppercase">Founding_Patron</p>
                           <p className="text-[10px] md:text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mt-2">{t('Priority Access Enabled', 'Accès Prioritaire Activé')}</p>
                         </div>
                       </div>
@@ -2320,20 +2320,20 @@ const renderMentorshipContent = () => (
                 {/* Market Access - Premium Actions */}
                 <section className="bg-surface-low border border-white/5 p-6 md:p-10 backdrop-blur-2xl">
                   <h3 className="text-lg md:text-2xl font-black uppercase italic mb-8 md:mb-10 flex items-center gap-3 md:gap-4">
-                    <ShieldCheck className="text-accent-gold" size={28} /> {t('Market Access', 'Accès Marché')}
+                    <ShieldCheck className="text-accent-gold" size={28} /> {t('Registry Access', 'Accès Registre')}
                   </h3>
                   <div className="space-y-3 md:space-y-4">
                     <button 
-                      onClick={() => handlePremiumFeature('Exchange Terminal')}
+                      onClick={() => onViewChange && onViewChange('REGISTRY')}
                       className="w-full py-4 md:py-5 bg-primary-cyan text-surface-dim text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] hover:bg-white transition-all shadow-[0_20px_40px_rgba(0,224,255,0.15)] active:scale-95"
                     >
-                      {t('Exchange Terminal', 'Terminal d\'Échange')}
+                      {t('Browse Registry', 'Parcourir le Registre')}
                     </button>
                     <button 
-                      onClick={() => handlePremiumFeature('Institutional Node')}
+                      onClick={() => handlePremiumFeature('Institutional Access')}
                       className="w-full py-4 md:py-5 border border-white/10 text-white text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] hover:bg-white/5 transition-all active:scale-95"
                     >
-                      {t('Institutional Node', 'Nœud Institutionnel')}
+                      {t('Institutional Access', 'Accès Institutionnel')}
                     </button>
                     <button 
                       onClick={() => handlePremiumFeature('Premium Insights')}
@@ -2571,9 +2571,8 @@ const renderMentorshipContent = () => (
                     <p className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant opacity-40 mb-1">{t('Growth', 'Croissance')}</p>
                     <p className={`text-xl md:text-2xl font-black italic tracking-tight ${project.growth >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>{(project.growth > 0 ? '+' : '') + project.growth}%</p>
                     <p className="text-[10px] font-black text-accent-gold uppercase tracking-widest mt-1">
-                      LYA UNIT: {formatPrice(LYA_UNIT_VALUE * (1 + project.growth / 100))}
+                      {t('Score', 'Score')}: {project.totalScore}/1000
                     </p>
-                    <p className="text-[9px] text-on-surface-variant/30 mt-0.5">({t('base','base')} {formatPrice(50)})</p>
                   </div>
                           <button 
                             onClick={() => handlePremiumFeature('Contact Creator')}
@@ -2587,7 +2586,7 @@ const renderMentorshipContent = () => (
                   </div>
                 </section>
 
-                {/* Yield Optimization & Staking - Premium Interactive */}
+                {/* Certification Tracking & Milestone Alerts - Premium Interactive */}
                 <section className="bg-surface-low/30 border border-emerald-400/10 p-5 md:p-8 lg:p-12 backdrop-blur-2xl relative overflow-hidden group shadow-2xl rounded-2xl">
                   <div className="absolute inset-0 bg-gradient-to-br from-emerald-400/[0.02] to-transparent pointer-events-none" />
                   <div className="absolute top-0 right-0 p-6 md:p-12 opacity-[0.02] group-hover:opacity-[0.05] transition-opacity duration-700">
@@ -2596,9 +2595,9 @@ const renderMentorshipContent = () => (
                   <div className="flex justify-between items-center mb-6 md:mb-10 lg:mb-12 relative z-10">
                     <div>
                       <h3 className="text-xl md:text-2xl lg:text-3xl font-black uppercase italic tracking-tight flex items-center gap-3 md:gap-4 mb-2">
-                        <Zap className="text-emerald-400" size={28} /> {t('Yield Optimization', 'Optimisation du Rendement')}
+                        <Zap className="text-emerald-400" size={28} /> {t('Certification Tracking', 'Suivi de Certification')}
                       </h3>
-                      <p className="text-xs md:text-xs text-on-surface-variant uppercase tracking-widest font-bold opacity-40">{t('Protocoles avancés de valorisation et de droits', 'Protocoles avancés de valorisation et de droits')}</p>
+                      <p className="text-xs md:text-xs text-on-surface-variant uppercase tracking-widest font-bold opacity-40">{t('Progression et reconnaissance des projets soutenus', 'Progression et reconnaissance des projets soutenus')}</p>
                     </div>
                   </div>
                   
@@ -2611,7 +2610,7 @@ const renderMentorshipContent = () => (
                         <span className="text-xs md:text-[11px] font-black uppercase tracking-[0.15em] md:tracking-[0.2em] text-emerald-400">{t('Dynamic LYA Score', 'Score LYA Dynamique')}</span>
                       </div>
                       <p className="text-[10px] md:text-sm text-on-surface-variant italic mb-6 md:mb-10 leading-relaxed opacity-70">
-                        {t('Real-time data indexing for predictive equity valuation based on market velocity and institutional demand.', 'Indexation des données en temps réel pour une valorisation prédictive de l\'equity basée sur la vélocité du marché et la demande institutionnelle.')}
+                        {t('Real-time indexation of certification progress, based on validated milestones and committee review activity.', 'Indexation en temps réel de la progression de certification, basée sur les jalons validés et l\'activité de revue du comité.')}
                       </p>
                       <div className="flex items-baseline gap-3 md:gap-4">
                         <span className="text-2xl md:text-4xl font-black italic tracking-tight text-white">842.5</span>
@@ -2627,16 +2626,16 @@ const renderMentorshipContent = () => (
                         <div className="w-8 h-8 md:w-12 md:h-12 bg-primary-cyan/10 flex items-center justify-center border border-primary-cyan/20">
                           <Layers size={20} className="text-primary-cyan" />
                         </div>
-                        <span className="text-xs md:text-[11px] font-black uppercase tracking-[0.15em] md:tracking-[0.2em] text-primary-cyan">{t('Staking Protocol', 'Protocole de Staking')}</span>
+                        <span className="text-xs md:text-[11px] font-black uppercase tracking-[0.15em] md:tracking-[0.2em] text-primary-cyan">{t('Milestone Alerts', 'Alertes de Jalons')}</span>
                       </div>
                       <p className="text-[10px] md:text-sm text-on-surface-variant italic mb-6 md:mb-10 leading-relaxed opacity-70">
-                        {t('Stake LYA Units to stabilize creative volatility, secure registry verification, and earn institutional-grade rewards.', 'Staker des Unités LYA pour stabiliser la volatilité créative, sécuriser la vérification du registre et gagner des récompenses de qualité institutionnelle.')}
+                        {t('Follow certification updates on the projects you support, and get notified when a milestone is validated by the committee.', 'Suivez les mises à jour de certification des projets que vous soutenez, et recevez une alerte à chaque jalon validé par le comité.')}
                       </p>
                       <button 
-                        onClick={() => handlePremiumFeature('Staking Management')}
+                        onClick={() => handlePremiumFeature('Milestone Alerts Management')}
                         className="w-full py-3.5 md:py-5 bg-primary-cyan/10 border border-primary-cyan/30 text-primary-cyan text-xs md:text-[11px] font-black uppercase tracking-[0.15em] md:tracking-[0.3em] hover:bg-primary-cyan hover:text-surface-dim transition-all active:scale-95 shadow-[0_10px_30px_rgba(0,224,255,0.1)]"
                       >
-                        {t('Manage Staking', 'Gérer le Staking')}
+                        {t('Manage Alerts', 'Gérer les Alertes')}
                       </button>
                     </div>
                   </div>
@@ -2837,7 +2836,7 @@ const renderMentorshipContent = () => (
                       <span className="text-[10px] md:text-[11px] font-black uppercase tracking-widest text-emerald-400">{t('Live Global Discussion', 'Discussion Globale en Direct')}</span>
                     </div>
                     <p className="text-[10px] md:text-sm italic text-on-surface-variant leading-relaxed opacity-80 mb-4">
-                      {t('The Pro Lounge is your gateway to institutional deal flow and regulatory intelligence. Discuss professional frameworks, creative equity, and strategic partnerships with verified peers.', 'Le Salon Pro est votre porte d\'entrée vers le deal flow institutionnel et l\'intelligence réglementaire. Discutez des cadres professionnels, de l\'equity créative et des partenaires stratégiques avec des pairs vérifiés.')}
+                      {t('The Pro Lounge is your gateway to certified project opportunities and regulatory intelligence. Discuss professional frameworks, creative certification, and strategic partnerships with verified peers.', 'Le Salon Pro est votre porte d\'entrée vers des opportunités de projets certifiés et l\'intelligence réglementaire. Discutez des cadres professionnels, de la certification créative et des partenaires stratégiques avec des pairs vérifiés.')}
                     </p>
                     <p className="text-[10px] md:text-sm italic text-on-surface-variant leading-relaxed opacity-80">
                       "Join the private discussion on the latest regulatory updates and their impact on creative asset indexing and secondary accessibilité de marché."
@@ -3265,81 +3264,6 @@ const renderMentorshipContent = () => (
                         className="w-full bg-white/5 border border-white/10 text-white p-4 focus:border-primary-cyan/50 focus:bg-white/10 transition-all font-mono text-sm outline-none"
                         placeholder="Studio Name or Individual"
                       />
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-[10px] uppercase tracking-[0.2em] text-primary-cyan font-black">{t('Revenue Share (%)', 'Part de Revenus (%)')}</label>
-                      <div className="relative">
-                        <input 
-                          type="number" 
-                          min="0"
-                          max="100"
-                          value={newProject.revenueShare || ''}
-                          onChange={(e) => {
-                            const val = parseInt(e.target.value);
-                            setNewProject({ ...newProject, revenueShare: isNaN(val) ? 0 : val });
-                          }}
-                          className="w-full bg-white/5 border border-white/10 text-white p-4 focus:border-primary-cyan/50 focus:bg-white/10 transition-all font-mono text-sm outline-none"
-                        />
-                        <span className="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant font-black">%</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div className="space-y-4">
-                      <div className="p-4 bg-primary-cyan/5 border border-primary-cyan/20 rounded-xl">
-                        <label className="text-[10px] uppercase tracking-[0.2em] text-primary-cyan font-black mb-4 block">
-                          {t('Fractional Issuance', 'Émission Fractionnée')}
-                        </label>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                          <div className="space-y-1">
-                            <label className="text-xs uppercase font-bold text-on-surface-variant opacity-60 tracking-widest">{t('Total Units', 'Émission Totale')}</label>
-                            <input 
-                              type="number"
-                              min="1"
-                              value={newProject.totalUnits}
-                              onChange={(e) => {
-                                const units = parseInt(e.target.value) || 0;
-                                setNewProject({ 
-                                  ...newProject, 
-                                  totalUnits: units,
-                                  initialValue: units * newProject.unitPrice
-                                });
-                              }}
-                              className="w-full bg-white/5 border border-white/10 text-white p-2 font-mono text-xs outline-none focus:border-primary-cyan/50"
-                            />
-                          </div>
-                          <div className="space-y-1">
-                            <label className="text-xs uppercase font-bold text-on-surface-variant opacity-60 tracking-widest">{t('Unit Price ($)', 'Prix Unitaire ($)')}</label>
-                            <input 
-                              type="number"
-                              min="1"
-                              value={newProject.unitPrice}
-                              onChange={(e) => {
-                                const price = parseInt(e.target.value) || 0;
-                                setNewProject({ 
-                                  ...newProject, 
-                                  unitPrice: price,
-                                  initialValue: newProject.totalUnits * price
-                                });
-                              }}
-                              className="w-full bg-white/5 border border-white/10 text-white p-2 font-mono text-xs outline-none focus:border-primary-cyan/50"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="space-y-2 flex flex-col justify-center">
-                      <label className="text-[10px] uppercase tracking-[0.2em] text-primary-cyan font-black">{t('Total Asset Valuation ($)', 'Valorisation Totale de l\'Actif ($)')}</label>
-                      <div className="bg-primary-cyan/10 border border-primary-cyan/30 p-6 rounded-xl relative overflow-hidden group">
-                        <div className="text-3xl font-black text-white font-headline tracking-tighter">
-                          ${newProject.initialValue.toLocaleString()}
-                        </div>
-                        <div className="text-xs text-primary-cyan font-bold uppercase tracking-widest mt-1">
-                          {t('BASED ON FRACTIONAL PARAMETERS', 'BASÉ SUR LES PARAMÈTRES FRACTIONNÉS')}
-                        </div>
-                        <Zap size={40} className="absolute -right-4 -bottom-4 text-primary-cyan/10 group-hover:scale-110 transition-transform" />
-                      </div>
                     </div>
                   </div>
 

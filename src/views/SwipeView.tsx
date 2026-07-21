@@ -2,9 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence, useMotionValue, useTransform } from 'motion/react';
 import { Heart, X, Info, Star, Zap, Scale, Activity, Plus } from 'lucide-react';
-import { CONTRACTS, Contract, LYA_UNIT_VALUE, UserProfile, UserRole } from '../types';
+import { CONTRACTS, Contract, UserProfile, UserRole } from '../types';
 import { useTranslation } from '../context/LanguageContext';
-import { useCurrency } from '../context/CurrencyContext';
 import { PageHeader } from '../components/ui/PageHeader';
 import { getSafeImageUrl } from '../utils/image';
 import { db } from '../firebase';
@@ -38,7 +37,6 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
   checkUsageLimit
 }) => {
   const { t, language } = useTranslation();
-  const { formatPrice } = useCurrency();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState<'left' | 'right' | null>(null);
   const [swipedIds, setSwipedIds] = useState<string[]>([]);
@@ -251,7 +249,6 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
             {likedProjects.map(id => {
               const proj = allContracts.find(c => c.id === id);
               if (!proj) return null;
-              const lyaUnit = LYA_UNIT_VALUE * (1 + proj.growth / 100);
               const up = proj.growth >= 0;
               return (
                 <div key={id} className="flex items-center gap-3 p-3 bg-surface-high/30 border border-white/6 rounded-xl hover:border-emerald-400/30 transition-all">
@@ -260,7 +257,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
                     <p className="text-sm font-black text-on-surface truncate">{proj.name}</p>
                     <p className="text-xs text-on-surface-variant/50">{proj.category}</p>
                     <div className="flex items-center gap-2 mt-0.5">
-                      <span className="text-xs font-black text-accent-gold">LYA UNIT: {formatPrice(lyaUnit)}</span>
+                      <span className="text-xs font-black text-accent-gold">{t('Certifié', 'Certified')}</span>
                       <span className={`text-xs font-black ${up ? 'text-emerald-400' : 'text-rose-400'}`}>{up ? '+' : ''}{proj.growth}%</span>
                     </div>
                   </div>
@@ -420,16 +417,16 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
                 {/* Info Section */}
                 <div className="flex-1 flex flex-col gap-2 p-3 overflow-hidden pointer-events-none min-h-0">
 
-                  {/* LYA SCORE + LYA UNIT */}
+                  {/* LYA SCORE + Progression */}
                   <div className="grid grid-cols-2 gap-2 shrink-0">
                     <div className="bg-[#a78bfa]/10 border border-[#a78bfa]/25 rounded-xl p-2 text-center">
                       <p className="text-[8px] font-black text-[#a78bfa] uppercase tracking-widest">LYA Score</p>
                       <p className="text-base font-black text-white leading-tight">{currentContract.totalScore}<span className="text-[8px] text-white/30">/1000</span></p>
                     </div>
                     <div className={`border rounded-xl p-2 text-center ${currentContract.growth >= 0 ? 'bg-emerald-400/10 border-emerald-400/25' : 'bg-rose-400/10 border-rose-400/25'}`}>
-                      <p className="text-[8px] font-black text-accent-gold uppercase tracking-widest">LYA UNIT</p>
-                      <p className="text-base font-black text-accent-gold leading-tight">{formatPrice(LYA_UNIT_VALUE * (1 + currentContract.growth / 100))}</p>
-                      <p className={`text-[8px] font-black ${currentContract.growth >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>{currentContract.growth >= 0 ? '+' : ''}{currentContract.growth}%</p>
+                      <p className="text-[8px] font-black text-accent-gold uppercase tracking-widest">{t('Progression', 'Progress')}</p>
+                      <p className={`text-base font-black leading-tight ${currentContract.growth >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>{currentContract.growth >= 0 ? '+' : ''}{currentContract.growth}%</p>
+                      <p className="text-[8px] font-black text-white/30">{t('depuis certification', 'since certification')}</p>
                     </div>
                   </div>
 
@@ -442,7 +439,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
 
                   {/* Badges bas */}
                   <div className="flex items-center gap-1.5 mt-auto shrink-0 flex-wrap">
-                    <span className="px-2 py-0.5 rounded-full text-[8px] font-black text-emerald-400 border border-emerald-400/25 bg-emerald-400/8">{currentContract.revenueSharePercentage}% {t('revenus','revenue')}</span>
+                    <span className="px-2 py-0.5 rounded-full text-[8px] font-black text-emerald-400 border border-emerald-400/25 bg-emerald-400/8">{currentContract.category}</span>
                     <span className={`px-2 py-0.5 rounded-full text-[8px] font-black uppercase ${currentContract.status === 'LIVE' ? 'text-emerald-400 bg-emerald-400/10 border border-emerald-400/20' : 'text-rose-400 bg-rose-400/10 border border-rose-400/20'}`}>● {currentContract.status}</span>
                     <span className="ml-auto text-[8px] text-white/30 font-mono">{currentContract.registryIndex}</span>
                   </div>
@@ -582,8 +579,8 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
                     </p>
                   </div>
                   <div className="text-right">
-                    <p className="text-xs text-on-surface-variant font-bold uppercase tracking-widest opacity-40">{t('Revenue share', 'Revenus partagés')}</p>
-                    <p className="text-sm font-black text-emerald-400 italic">+{contract.revenueSharePercentage}%</p>
+                    <p className="text-xs text-on-surface-variant font-bold uppercase tracking-widest opacity-40">{t('Progression', 'Progress')}</p>
+                    <p className="text-sm font-black text-emerald-400 italic">+{contract.growth}%</p>
                   </div>
                 </div>
               </div>

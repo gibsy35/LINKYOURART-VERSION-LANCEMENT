@@ -188,14 +188,14 @@ export function downloadWalletStatement(
 
   const body = `
     <div class="stats-row">
-      <div class="stat-box"><div class="stat-label">Solde total</div><div class="stat-value cyan">€${cashBalance.toLocaleString('fr-FR',{minimumFractionDigits:2})}</div></div>
+      <div class="stat-box"><div class="stat-label">Total soutenu</div><div class="stat-value cyan">€${cashBalance.toLocaleString('fr-FR',{minimumFractionDigits:2})}</div></div>
       <div class="stat-box"><div class="stat-label">Total entrées</div><div class="stat-value">€${totalIn.toLocaleString('fr-FR',{minimumFractionDigits:2})}</div></div>
-      <div class="stat-box"><div class="stat-label">Unités LYA</div><div class="stat-value gold">${lyaUnits.toLocaleString('fr-FR')} <span style="font-size:12px;color:rgba(255,255,255,0.4);font-weight:600">UNITS</span></div></div>
+      <div class="stat-box"><div class="stat-label">Projets soutenus</div><div class="stat-value gold">${lyaUnits.toLocaleString('fr-FR')}</div></div>
     </div>
     <div class="table-container">
-      <div class="table-header"><div class="table-title">Historique des transactions · ${transactions.length} opérations</div></div>
+      <div class="table-header"><div class="table-title">Historique de soutien · ${transactions.length} opérations</div></div>
       <table>
-        <thead><tr><th>Date</th><th>Type</th><th>Méthode</th><th>Statut</th><th style="text-align:right">Montant</th></tr></thead>
+        <thead><tr><th>Date</th><th>Type</th><th>Projet</th><th>Statut</th><th style="text-align:right">Montant</th></tr></thead>
         <tbody>${rows}</tbody>
       </table>
     </div>
@@ -204,50 +204,50 @@ export function downloadWalletStatement(
       <div class="section-title">Informations du compte</div>
       <div class="content-block">
         <h3>${userName.toUpperCase()}</h3>
-        <p>Membre vérifié de la plateforme LYA · Niveau de garde : Institutionnel A+<br>
-        Toutes les transactions listées sont définitives et enregistrées de manière immuable dans le Registre LYA. Ce relevé est généré automatiquement et constitue un document financier légalement valide.</p>
+        <p>Mécène certifié de la plateforme LYA · Statut : Membre vérifié<br>
+        Tous les soutiens listés sont enregistrés de manière traçable dans le Registre LYA. Ce relevé est généré automatiquement à titre informatif.</p>
       </div>
     </div>`;
 
   triggerDownload(
-    wrapDocument('RELEVÉ DE PORTEFEUILLE', `${userName.toUpperCase()} · RÉSUMÉ DU COMPTE`, 'DOCUMENT FINANCIER', body, 'fr'),
-    `LYA_Releve_Portefeuille_${new Date().toISOString().split('T')[0]}`
+    wrapDocument('HISTORIQUE DE SOUTIEN', `${userName.toUpperCase()} · RÉSUMÉ DU COMPTE`, 'RELEVÉ', body, 'fr'),
+    `LYA_Historique_Soutien_${new Date().toISOString().split('T')[0]}`
   );
 }
 
 // ─── RESOURCE / WHITEPAPER ───────────────────────────────────────────────────
 const RESOURCE_CONTENTS: Record<string, { subtitle: string; sections: { title: string; body: string }[] }> = {
-  'Protocol Whitepaper v2.5': {
-    subtitle: 'ARCHITECTURE TECHNIQUE & CADRE DE GOUVERNANCE',
+  'LYA Certification Standard': {
+    subtitle: 'MÉTHODOLOGIE DE CERTIFICATION & STANDARD DE QUALITÉ',
     sections: [
-      { title: 'RÉSUMÉ', body: 'LinkYourArt (LYA) est une infrastructure de capital créatif décentralisée permettant la propriété fractionnée, le règlement en temps réel et la garde institutionnelle des actifs de propriété intellectuelle. La version 2.5 introduit un calcul amélioré du LYA Score, des couches de conformité multi-juridictionnelles et une distribution dynamique des redevances via des nœuds de règlement intelligents.' },
-      { title: 'ARCHITECTURE DU LYA SYSTEME', body: 'Le Plateforme LYA fonctionne via une pile à trois couches : (1) la couche Registre offrant un stockage et une vérification immuables des contrats ; (2) la couche Règlement permettant des transferts P2P en temps réel avec chiffrement AES-256 ; (3) la couche Gouvernance où les parties prenantes Professionnelles et Investisseurs votent sur les mises à niveau du protocole via un mécanisme de vote quadratique pondéré par le LYA Score.' },
-      { title: 'MÉTHODOLOGIE DU LYA SCORE', body: "Chaque contrat créatif reçoit un LYA Score composite (0-100) calculé à partir de cinq dimensions validées : Qualité Créative (25%), Potentiel de Marché (25%), Conformité Juridique (20%), Indice d'Innovation (15%) et Trajectoire de Croissance (15%). Les scores sont calculés par des validateurs Professionnels certifiés et mis à jour trimestriellement." },
-      { title: 'ÉCONOMIE DES UNITÉS LYA', body: "Les Unités LYA ont une valeur nominale de 50€. Chaque contrat définit son offre totale d'unités à l'émission. Les distributions de revenus sont exécutées automatiquement lors d'événements de complétion de jalons vérifiés. Le protocole facture des frais de règlement de 1,5% sur les transactions secondaires." }
+      { title: 'RÉSUMÉ', body: 'LinkYourArt (LYA) est un standard de certification créative permettant l\'évaluation objective, le suivi et la reconnaissance de projets artistiques. Le Score LYA combine analyse algorithmique et validation par des professionnels certifiés pour produire un indicateur de qualité traçable, inscrit au Registre LYA.' },
+      { title: 'ARCHITECTURE DE LA PLATEFORME', body: 'La plateforme LYA fonctionne via trois couches : (1) le Registre, offrant un stockage et une vérification immuables des certifications ; (2) le Moteur de Score, combinant analyse algorithmique et revue par comité ; (3) la couche Communauté, où créateurs, mécènes et professionnels interagissent autour de projets certifiés.' },
+      { title: 'MÉTHODOLOGIE DU SCORE LYA', body: 'Chaque projet créatif reçoit un Score LYA composite (0-1000) calculé à partir de cinq piliers : Intégrité Conceptuelle, Maturité Actuelle, Capacité d\'Évolution, Faisabilité Réelle et Incarnation. Les scores sont validés par des professionnels certifiés et mis à jour à chaque jalon vérifié.' },
+      { title: 'MÉCÉNAT À RÉCOMPENSE', body: 'Les mécènes soutiennent les projets certifiés de leur choix et reçoivent en retour des contreparties de reconnaissance (mention au générique, accès anticipé, mises à jour exclusives) — personnelles et non-financières. LinkYourArt facture des frais de plateforme sur le mécénat, jamais une commission sur un instrument financier.' }
     ]
   },
-  'Market Analysis Q1 2026': {
-    subtitle: 'RAPPORT DE MARCHÉ DE L\'ÉCONOMIE CRÉATIVE · T1 2026',
+  'Creative Industries Market Report': {
+    subtitle: 'RAPPORT DE MARCHÉ DES INDUSTRIES CRÉATIVES · T1 2026',
     sections: [
-      { title: 'SYNTHÈSE EXÉCUTIVE', body: 'Le T1 2026 marque un trimestre pivot pour le marché du capital créatif. La valeur totale verrouillée sur la plateforme LYA a atteint 42,7 M€, représentant une augmentation de 34% en glissement annuel. Les actifs Film & TV ont mené la croissance à +41%, suivis par la Musique (+28%) et l\'Architecture (+19%). Le volume du marché secondaire a atteint 8,2 M€ sur 14 200 transferts d\'unités individuels.' },
-      { title: 'SECTEURS LES PLUS PERFORMANTS', body: 'Les Séries Télévisées de Science-Fiction sont apparues comme la catégorie au rendement le plus élevé avec un APY moyen de 22,4%. Les films documentaires ont démontré les meilleurs rendements ajustés au risque avec un ratio de Sharpe de 1,84. Les contrats d\'Architecture ont montré les valorisations les plus stables avec une variance trimestrielle < 5%.' },
-      { title: 'FACTEURS DE RISQUE & PERSPECTIVES', body: 'La concurrence accrue des contenus générés par l\'IA continue de faire pression sur les catégories Photographie et Illustration. La clarification réglementaire dans l\'UE concernant la fractionnalisation numérique de la PI est attendue au T3 2026. Nous projetons un TVL total du protocole atteignant 65 M€ d\'ici fin 2026 selon notre scénario de base.' }
+      { title: 'SYNTHÈSE EXÉCUTIVE', body: 'Les industries créatives représentent un poids économique cumulé de 849 milliards de dollars sur quatre marchés majeurs déjà chiffrés : Film & TV (177 Md$), Jeu vidéo (205 Md$), Architecture (412 Md$) et Design (55 Md$). Aucun standard de certification objectif n\'existe aujourd\'hui à l\'échelle de ces industries.' },
+      { title: 'ADOPTION DE LA CERTIFICATION', body: 'Le Registre LYA a certifié un nombre croissant de projets créatifs ce trimestre, avec une progression notable dans les secteurs Film/TV, Musique et Architecture. Le Score LYA moyen des projets certifiés reste élevé, reflétant un processus de sélection rigoureux plutôt qu\'une certification automatique.' },
+      { title: 'PERSPECTIVES', body: 'La demande pour un standard de certification créative objectif continue de croître, portée par le besoin des mécènes et professionnels de disposer d\'un indicateur de qualité fiable avant de s\'engager sur un projet. LYA poursuit l\'extension de son Registre à de nouveaux secteurs créatifs chaque trimestre.' }
     ]
   },
   'Legal Framework Guide': {
     subtitle: 'JURIDICTION, CONFORMITÉ & NORMES CONTRACTUELLES',
     sections: [
-      { title: 'CADRE RÉGLEMENTAIRE', body: 'Les contrats LYA opèrent dans une structure juridique hybride combinant des accords de licence de PI traditionnels avec des mécanismes de transfert d\'unités numériques natifs. Les contrats sont structurés comme des accords de participation accordant aux détenteurs d\'unités des droits économiques proportionnels sur des flux de revenus définis, sans conférer de propriété en capital dans l\'entité créatrice sous-jacente.' },
-      { title: 'JURIDICTIONS SUPPORTÉES', body: 'Le Plateforme LYA supporte actuellement l\'émission de contrats sous le Droit Français (cadres SACD/SCAM), le Droit Anglais (conformité CDPA 1988) et les cadres de PI fédéraux américains/Delaware. La conformité RGPD est appliquée au niveau des données. La conformité réglementaire MiCA est maintenue via des audits juridiques trimestriels.' },
-      { title: 'DROITS & PROTECTIONS DES CRÉATEURS', body: 'Les créateurs conservent tous leurs droits moraux et le contrôle créatif de leurs œuvres. Les détenteurs d\'unités ne reçoivent que des droits de participation économique. Tous les contrats incluent des dispositions de rachat obligatoires permettant aux créateurs de racheter les unités en circulation à la valeur marchande équitable déterminée par le modèle de valorisation LYA Score.' }
+      { title: 'CADRE RÉGLEMENTAIRE', body: 'LinkYourArt opère en tant que plateforme de certification et de mise en relation de mécénat. Le soutien apporté à un projet constitue un mécénat à récompense : il ouvre droit à des contreparties de reconnaissance non-financières, à l\'exclusion de toute participation aux revenus de l\'œuvre. Ce mécanisme ne constitue pas un produit d\'investissement réglementé.' },
+      { title: 'JURIDICTIONS SUPPORTÉES', body: 'La plateforme LYA supporte actuellement la certification de projets sous le Droit Français (cadres SACD/SCAM), le Droit Anglais (conformité CDPA 1988) et les cadres de PI fédéraux américains. La conformité RGPD est appliquée au niveau des données.' },
+      { title: 'DROITS & PROTECTIONS DES CRÉATEURS', body: 'Les créateurs conservent en toute circonstance tous leurs droits moraux et le contrôle créatif de leurs œuvres. Les mécènes ne reçoivent que des contreparties de reconnaissance — jamais de droit de décision sur les choix artistiques du créateur, ni de participation financière aux revenus générés.' }
     ]
   },
-  'Node Operator Manual': {
-    subtitle: 'GUIDE DE CONFIGURATION & D\'EXPLOITATION DES NŒUDS',
+  'Professional Validator Guide': {
+    subtitle: 'GUIDE DE CERTIFICATION POUR PROFESSIONNELS VALIDÉS',
     sections: [
-      { title: 'PRÉSENTATION DES NŒUDS', body: 'Les nœuds de règlement constituent l\'infrastructure centrale de la plateforme LYA, responsables de la validation des transferts d\'unités, du calcul des LYA Scores en temps réel et de l\'exécution des distributions automatiques de revenus. Les nœuds nécessitent un stake minimum de 1 000 Unités LYA et maintiennent un SLA de disponibilité de 99,5% pour se qualifier à la distribution des frais.' },
-      { title: 'CONFIGURATION TECHNIQUE', body: 'Spécifications minimales : CPU 8 cœurs, 32 Go de RAM, SSD NVMe 500 Go, connexion réseau symétrique 1 Gbps. Les nœuds communiquent via le Protocole Mesh LYA (LMP) en utilisant gRPC sur TLS 1.3. Le SDK LYA (Node.js ≥18 ou Python ≥3.11) fournit l\'implémentation de référence pour l\'exploitation et la surveillance des nœuds.' },
-      { title: 'STRUCTURE DES RÉCOMPENSES', body: 'Les nœuds actifs gagnent 0,8% de tous les frais de règlement traités via leur nœud, plus un bonus de disponibilité de 0,1% pour les nœuds maintenant > 99,9% de disponibilité mensuelle. Les récompenses sont distribuées quotidiennement en Unités LYA au prix spot actuel.' }
+      { title: 'PRÉSENTATION DU RÔLE', body: 'Les Professionnels certifiés LYA constituent le second pilier de la méthodologie de Score, aux côtés de l\'analyse algorithmique. Ils évaluent manuellement les projets soumis selon les 5 piliers du Score LYA et valident chaque jalon déclaré par les créateurs.' },
+      { title: 'DEVENIR VALIDATEUR', body: 'Soumettez une demande de Vérification Professionnelle avec vos accréditations, portfolio et références. La validation est examinée par le comité LYA sous 5 à 10 jours ouvrés. Une fois validé, vous accédez au hub de Validation pour évaluer les projets soumis.' },
+      { title: 'RÉMUNÉRATION', body: 'Les validateurs perçoivent des honoraires de validation, versés en euros ou en dollars, pour chaque projet évalué, distribués à la complétion de la revue de certification.' }
     ]
   }
 };

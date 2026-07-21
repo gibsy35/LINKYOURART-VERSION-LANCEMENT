@@ -51,14 +51,14 @@ export function MecenatView() {
                   fontSize: "clamp(2.4rem,5.5vw,4.2rem)",
                 }}>
                   {T(
-                    <>CO-POSSÉDEZ LES<br />CHEFS-D&apos;ŒUVRE DE DEMAIN<br /><span className="text-primary-cyan">EN UN CLIC</span></>,
-                    <>CO-OWN TOMORROW&apos;S<br />MASTERPIECES,<br /><span className="text-primary-cyan">IN A SINGLE CLICK</span></>
+                    <>SOUTENEZ LES<br />CHEFS-D&apos;ŒUVRE DE DEMAIN<br /><span className="text-primary-cyan">EN UN CLIC</span></>,
+                    <>SUPPORT TOMORROW&apos;S<br />MASTERPIECES,<br /><span className="text-primary-cyan">IN A SINGLE CLICK</span></>
                   )}
                 </h1>
                 <p className="text-on-surface-variant max-w-xl text-sm leading-relaxed opacity-80">
                   {T(
-                    "Bienvenue dans notre espace de découverte simplifié. Ici, pas de graphiques financiers ou de carnets d'ordres rebutants. Juste de l'art sublime, du talent brut, et un moyen simple et interactif de soutenir vos créations favorites et de partager leurs futurs succès.",
-                    "Welcome to our simplified discovery space. No financial charts or intimidating order books. Just sublime art, raw talent, and a simple interactive way to support your favourite creations and share in their future success."
+                    "Bienvenue dans notre espace de découverte simplifié. Ici, pas de graphiques financiers ou de carnets d'ordres rebutants. Juste de l'art sublime, du talent brut, et un moyen simple et interactif de soutenir vos créations favorites et de suivre leur certification.",
+                    "Welcome to our simplified discovery space. No financial charts or intimidating order books. Just sublime art, raw talent, and a simple interactive way to support your favourite creations and follow their certification."
                   )}
                 </p>
               </div>
@@ -66,17 +66,17 @@ export function MecenatView() {
                 <div className="relative rounded-2xl p-px" style={{ background: 'linear-gradient(145deg, rgba(251,191,36,0.4) 0%, rgba(255,255,255,0.06) 60%)' }}>
                   <div className="bg-surface-low/80 rounded-2xl p-5 text-center space-y-3">
                     <p className="text-xs font-mono tracking-[0.22em] uppercase" style={{ color: 'rgba(251,191,36,0.55)' }}>
-                      {T('INDEX DE VALEUR', 'VALUE INDEX')}
+                      {T('VALORISATION DE RÉFÉRENCE', 'REFERENCE VALUATION')}
                     </p>
                     <p className="font-headline font-black tracking-tighter leading-none text-on-surface text-lg">
-                      LYA <span style={{ color: '#fbbf24' }}>UNIT</span>
+                      LYA <span style={{ color: '#fbbf24' }}>SCORE</span>
                     </p>
                     <p className="font-mono font-black text-2xl text-primary-cyan tracking-tight">
                       $50.00
                     </p>
                     <div className="h-px w-full" style={{ background: 'linear-gradient(90deg, transparent, rgba(251,191,36,0.3), transparent)' }} />
                     <p className="text-xs font-mono text-on-surface-variant/50 leading-relaxed">
-                      {T('Étalon créatif souverain', 'Sovereign creative standard')}
+                      {T('Standard de certification créative', 'Creative certification standard')}
                     </p>
                   </div>
                 </div>
@@ -85,7 +85,7 @@ export function MecenatView() {
           </div>
         </div>
 
-        {/* LYA Unit définition */}
+        {/* LYA Score definition */}
         <WhatIsLyaUnit lang={lang} />
 
         {/* Filtres thématiques */}

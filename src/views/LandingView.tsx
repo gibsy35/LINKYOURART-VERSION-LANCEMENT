@@ -408,7 +408,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                 <Logo size={48} color="multi" showBeta={true} />
                 <div className="flex flex-col">
                   <ElevatedTextLogo size="text-2xl" />
-                  <span className="text-xs font-black tracking-[0.4em] text-primary-cyan uppercase opacity-70 mt-1">{t('ART IS AN EXCHANGE', 'ART IS AN EXCHANGE')}</span>
+                  <span className="text-xs font-black tracking-[0.4em] text-primary-cyan uppercase opacity-70 mt-1">{t('ART IS A STANDARD', 'ART IS A STANDARD')}</span>
                 </div>
               </div>
               <div className="hidden md:flex items-center gap-2 md:gap-12">
@@ -508,7 +508,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                     {
                       value: "1",
                       label: t("unique value standard", "valeur unique au monde"),
-                      sub: t("The LYA UNIT — a sovereign creative index", "Le LYA UNIT — un index créatif souverain"),
+                      sub: t("The LYA Score — a sovereign certification standard", "Le Score LYA — un standard de certification souverain"),
                       color: "#00ff88"
                     }
                   ].map((stat, i) => (
@@ -693,7 +693,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                     <Logo size={40} color="multi" showBeta={true} />
                     <div className="flex flex-col">
                       <ElevatedTextLogo size="text-xl" />
-                      <span className="text-xs font-black tracking-[0.4em] text-primary-cyan uppercase opacity-70 mt-0.5">{t('ART IS AN EXCHANGE', 'ART IS AN EXCHANGE')}</span>
+                      <span className="text-xs font-black tracking-[0.4em] text-primary-cyan uppercase opacity-70 mt-0.5">{t('ART IS A STANDARD', 'ART IS A STANDARD')}</span>
                     </div>
                   </div>
                   <p className="text-white/30 text-sm font-medium leading-relaxed max-w-xs">
@@ -760,7 +760,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                   )}
                   {activeLegal === 'PRIVACY' && (
                     <div className="space-y-6">
-                      <p>{t("Digital privacy is the cornerstone of the Institutional Creative Exchange.", "La confidentialité numérique est la pierre angulaire de l'Institutional Creative Exchange.")}</p>
+                      <p>{t("Digital privacy is the cornerstone of the LYA Certification Registry.", "La confidentialité numérique est la pierre angulaire du Registre de Certification LYA.")}</p>
                       <p>{t("Our Privacy-by-Design architecture ensures no unauthorized third party can access your creative space.", "Notre architecture Privacy-by-Design garantit qu'aucun tiers non autorisé ne peut accéder à votre espace créatif.")}</p>
                     </div>
                   )}

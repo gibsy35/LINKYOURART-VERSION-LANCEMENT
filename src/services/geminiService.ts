@@ -60,9 +60,9 @@ export const suggestMilestones = async (description: string, language = 'EN') =>
   } catch (error) {
     console.error("Milestones failed:", error);
     return [
-      { label: "Phase 1: Intellectual Property Registration", date: "2026-10", priceImpact: 10 },
-      { label: "Phase 2: Global Broadcasting Presales", date: "2027-02", priceImpact: 20 },
-      { label: "Phase 3: Automated Royalty Split Live Activation", date: "2027-06", priceImpact: 15 }
+      { label: "Phase 1: Intellectual Property Registration", date: "2026-10", scoreImpact: 10 },
+      { label: "Phase 2: Global Broadcasting Presales", date: "2027-02", scoreImpact: 20 },
+      { label: "Phase 3: Automated Royalty Split Live Activation", date: "2027-06", scoreImpact: 15 }
     ];
   }
 };

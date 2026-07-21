@@ -791,7 +791,7 @@ export const AdminView: React.FC<{
           registryAddress: `LYA_REG_0x${Math.random().toString(16).substring(2, 10).toUpperCase()}`,
           registryIndex: `LYA-DEMO-${i}`,
           milestones: [
-            { label: 'Initial Launch', date: '2026-01', status: 'COMPLETED', priceImpact: 5 }
+            { label: 'Initial Launch', date: '2026-01', status: 'COMPLETED', scoreImpact: 5 }
           ]
         });
       }

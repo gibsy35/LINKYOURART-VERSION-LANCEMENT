@@ -66,7 +66,6 @@ const data = [
 
 import { useMarketData } from '../hooks/useMarketData';
 import { LYAAlgorithm } from '../components/LYAAlgorithm';
-import { SecondaryMarket } from '../components/SecondaryMarket';
 import { AdminKeysManagement } from '../components/AdminKeysManagement';
 import { WorkspaceWidgets } from '../components/WorkspaceWidgets';
 import { fetchRealtimeNews } from '../services/geminiService';
@@ -344,7 +343,7 @@ export const DashboardView: React.FC<{
               className={`pb-4 text-xs font-black uppercase tracking-wider transition-all relative group flex items-center gap-3 shrink-0 ${activeTab === 'accessibilité' ? 'text-primary-cyan' : 'text-on-surface-variant hover:text-on-surface'}`}
             >
               <ActivityIcon size={14} className={activeTab === 'accessibilité' ? 'text-primary-cyan' : 'text-on-surface-variant opacity-40'} />
-              <span className="relative z-10">{t('Exchange Center', 'Centre d\'Échanges')}</span>
+              <span className="relative z-10">{t('Registry Activity', 'Activité du Registre')}</span>
               {activeTab === 'accessibilité' && (
                 <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-cyan shadow-[0_0_10px_rgba(0,224,255,0.5)] transition-all duration-300" />
               )}
@@ -846,7 +845,26 @@ export const DashboardView: React.FC<{
       ) : activeTab === 'management' ? (
         <AdminKeysManagement />
       ) : (
-        <SecondaryMarket />
+        <div className="bg-surface-low/30 backdrop-blur-2xl border border-white/10 rounded-2xl overflow-hidden shadow-2xl p-8 space-y-6">
+          <h3 className="text-sm font-black text-white uppercase tracking-widest">{t('Registry Activity', 'Activité du Registre')}</h3>
+          <p className="text-xs text-on-surface-variant/60 leading-relaxed max-w-lg">
+            {t('Recent certification milestones and LYA Score movements across the registry.', 'Derniers jalons de certification et évolutions du Score LYA sur le registre.')}
+          </p>
+          <div className="grid grid-cols-3 gap-4">
+            <div className="bg-black/20 border border-white/8 rounded-xl p-4 text-center">
+              <p className="text-2xl font-black text-primary-cyan">128</p>
+              <p className="text-[9px] text-on-surface-variant/40 font-black uppercase tracking-widest mt-1">{t('Certified Projects', 'Projets Certifiés')}</p>
+            </div>
+            <div className="bg-black/20 border border-white/8 rounded-xl p-4 text-center">
+              <p className="text-2xl font-black text-[#a78bfa]">847</p>
+              <p className="text-[9px] text-on-surface-variant/40 font-black uppercase tracking-widest mt-1">{t('Score Updates (30d)', 'Mises à Jour Score (30j)')}</p>
+            </div>
+            <div className="bg-black/20 border border-white/8 rounded-xl p-4 text-center">
+              <p className="text-2xl font-black text-emerald-400">892</p>
+              <p className="text-[9px] text-on-surface-variant/40 font-black uppercase tracking-widest mt-1">{t('Avg LYA Score', 'Score LYA Moyen')}</p>
+            </div>
+          </div>
+        </div>
       )}
 
       {/* Creative Feed, Network Activity & Trending Sectors */}

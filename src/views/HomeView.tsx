@@ -280,7 +280,7 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
         idx: 0,
         title: t('INSTITUTIONAL LIQUIDITY', 'LIQUIDITÉ INSTITUTIONNELLE'),
         subtitle: t('RENAISSANCE REBORN', 'RENAISSANCE REBORN'),
-        description: t('Standard physical art masterwork fractioned into 10,000 LYA Unit indexes. The unit price acts as a direct thermometer of active curatorial appreciation.', 'Chef-d\'œuvre physique d\'art classique fractionné en 10 000 unités LYA. Le cours unitaire est le thermomètre direct de l\'appréciation des conservateurs.'),
+        description: t('Standard physical art masterwork certified on the LYA Registry. The LYA Score acts as a direct thermometer of active curatorial recognition.', 'Chef-d\'œuvre physique d\'art classique certifié sur le Registre LYA. Le Score LYA est le thermomètre direct de la reconnaissance des conservateurs.'),
         icon: <ShieldCheck className="text-primary-cyan" size={32} />,
         metric: ren ? `${ren.growth >= 0 ? '+' : ''}${ren.growth.toFixed(2)}%` : '+14.2%',
         metricLabel: t('YTD GROWTH', 'HAUSSE DE L\'INDEX LYA'),
@@ -408,17 +408,17 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
             </span>
           </div>
           <h2 className="text-3xl md:text-5xl font-black font-headline text-white tracking-tighter uppercase mb-6 drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]">
-            {t('LYA Score &', 'Score LYA &')} <span className="text-primary-cyan">{t('Investment Impact', 'Impact Investissement')}</span>
+            {t('LYA Score &', 'Score LYA &')} <span className="text-primary-cyan">{t('Certification Impact', 'Impact Certification')}</span>
           </h2>
           <p className="text-white/50 text-base max-w-2xl mx-auto leading-relaxed font-medium">
             {t(
-              'Each project starts at $50/unit. Every milestone validated pushes the score up and the price with it. Every risk declared pulls it down. Transparently. In real time.',
-              'Chaque projet démarre à $50/unité. Chaque jalon validé fait monter le score — et le prix avec. Chaque risque déclaré le fait baisser. En toute transparence, en temps réel.'
+              'Every milestone validated pushes the LYA Score up. Every risk declared pulls it down. Transparently. In real time.',
+              'Chaque jalon validé fait monter le Score LYA. Chaque risque déclaré le fait baisser. En toute transparence, en temps réel.'
             )}
           </p>
         </div>
 
-        {/* ── 1 LYA UNIT = $50 ANCHOR ──────────────────────────── */}
+        {/* ── $50 REFERENCE VALUATION ANCHOR ──────────────────────────── */}
         <div className="flex items-center justify-center gap-6 mb-5 md:mb-10 lg:mb-6 md:mb-10 lg:mb-16">
           <div className="h-px flex-1 bg-gradient-to-r from-transparent to-white/10" />
           <div className="flex items-center gap-4 px-6 py-3 border border-white/10 bg-white/[0.02] flex-wrap">
@@ -426,8 +426,8 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
               <Coins size={14} className="text-primary-cyan" />
             </div>
             <div>
-              <p className="text-[10px] font-black uppercase tracking-[0.4em] text-white/30">{t('Fixed issuance price', 'Prix d\'émission fixe — USD')}</p>
-              <p className="text-lg font-black text-white font-mono">1 LYA UNIT = <span className="text-primary-cyan">$50.00</span></p>
+              <p className="text-[10px] font-black uppercase tracking-[0.4em] text-white/30">{t('Reference valuation', 'Valorisation de référence')}</p>
+              <p className="text-lg font-black text-white font-mono">{t('Base value', 'Valeur de base')} = <span className="text-primary-cyan">$50.00</span></p>
             </div>
             <div className="ml-4 px-3 py-1 bg-emerald-400/10 border border-emerald-400/20">
               <p className="text-[10px] font-black uppercase tracking-widest text-emerald-400">{t('Immutable', 'Immuable')}</p>
@@ -625,8 +625,8 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
                 <div className="mt-6 pt-4 border-t border-white/10">
                   <p className="text-xs text-white/30 font-bold uppercase tracking-widest leading-relaxed">
                     {t(
-                      'An investor who bought at $50 now holds units worth $' + finalPrice.toFixed(2) + ' on the secondary market.',
-                      'Un investisseur qui a souscrit à $50 détient des unités valant $' + finalPrice.toFixed(2) + ' sur le marché secondaire.'
+                      'A project certified at 50 points has reached a Score of ' + activeMeta.finalScore + '/1000 through validated milestones.',
+                      'Un projet certifié à 50 points a atteint un Score de ' + activeMeta.finalScore + '/1000 grâce à des jalons validés.'
                     )}
                   </p>
                 </div>
@@ -673,8 +673,8 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
                 </div>
                 <p className="text-[11px] text-white/50 leading-relaxed font-medium">
                   {t(
-                    'Each point gained on the LYA Score adds +$0.10 to the unit price on the secondary market. Each point lost removes -$0.10. A project reaching 1000/1000 doubles its unit value.',
-                    'Chaque point gagné au Score LYA ajoute +$0.10 au prix unitaire sur le marché secondaire. Chaque point perdu retire -$0.10. Un projet atteignant 1000/1000 double la valeur de ses unités.'
+                    'Each validated milestone raises a project\'s LYA Score. Each unresolved risk lowers it. The Score is a live, transparent indicator of a project\'s certified quality — not a price.',
+                    'Chaque jalon validé fait progresser le Score LYA d\'un projet. Chaque risque non résolu le fait baisser. Le Score est un indicateur vivant et transparent de la qualité certifiée d\'un projet — pas un prix.'
                   )}
                 </p>
               </div>
@@ -930,24 +930,24 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
 
                          <div className="flex justify-between items-center">
                            <div className="flex flex-col">
-                             <span className="text-[10px] font-black uppercase text-primary-cyan tracking-widest">{t('PROJECTED LYA UNIT PRICE', 'PRIX DE L\'UNITÉ LYA')}</span>
-                             <span className="text-[10px] font-mono text-white/30 tracking-widest uppercase">LYA CONTRACT VALUE</span>
+                             <span className="text-[10px] font-black uppercase text-primary-cyan tracking-widest">{t('CERTIFICATION TIER', 'NIVEAU DE CERTIFICATION')}</span>
+                             <span className="text-[10px] font-mono text-white/30 tracking-widest uppercase">{t('COMMITTEE CONFIDENCE', 'CONFIANCE DU COMITÉ')}</span>
                            </div>
-                           <div className="text-2xl font-black font-headline text-primary-cyan">{formatPrice(demoProjectedUnitVal)}</div>
+                           <div className="text-2xl font-black font-headline text-primary-cyan">{demoLyaScoreCombined >= 700 ? t('High', 'Élevé') : demoLyaScoreCombined >= 400 ? t('Moderate', 'Modéré') : t('Early', 'Précoce')}</div>
                          </div>
 
                          <div className="flex justify-between items-center">
                            <div className="flex flex-col">
-                             <span className="text-[10px] font-black uppercase text-emerald-400 tracking-widest">{t('PROJECTED TOTAL VALUE', 'VALORISATION GLOBALE')}</span>
-                             <span className="text-[10px] font-mono text-white/30 tracking-widest uppercase">10,000 INDEXED SHARES</span>
+                             <span className="text-[10px] font-black uppercase text-emerald-400 tracking-widest">{t('SUPPORTING PATRONS', 'MÉCÈNES SOUTIENS')}</span>
+                             <span className="text-[10px] font-mono text-white/30 tracking-widest uppercase">{t('COMMUNITY SIZE', 'TAILLE DE COMMUNAUTÉ')}</span>
                            </div>
-                           <div className="text-2xl font-black font-headline text-emerald-400">{formatPrice(demoProjectedTotalVal)}</div>
+                           <div className="text-2xl font-black font-headline text-emerald-400">{Math.round(demoLyaScoreCombined * 3.2).toLocaleString()}</div>
                          </div>
 
                          <div className="flex justify-between items-center">
                            <div className="flex flex-col">
-                             <span className="text-[10px] font-black uppercase text-accent-gold tracking-widest">{t('PROJECTION RENT SCORE', 'SCORE DE RENDEMENT')}</span>
-                             <span className="text-[10px] font-mono text-white/30 tracking-widest uppercase">ESTIMATED YIELD RATING</span>
+                             <span className="text-[10px] font-black uppercase text-accent-gold tracking-widest">{t('MILESTONE PROGRESS', 'AVANCEMENT DES JALONS')}</span>
+                             <span className="text-[10px] font-mono text-white/30 tracking-widest uppercase">{t('COMPLETION RATE', 'TAUX DE COMPLÉTION')}</span>
                            </div>
                            <div className="text-2xl font-black font-headline text-accent-gold">{demoRentScore}%</div>
                          </div>
@@ -1063,7 +1063,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
                 </h2>
                 <div className="h-[2px] w-24 bg-red-500 mb-8" />
                 <p className="text-base md:text-lg text-on-surface-variant font-bold leading-relaxed mb-8 text-justify">
-                  {t('LYA Units are strictly indexed contractual rights and do NOT constitute shares, financial securities, or regulated investment products. The LinkYourArt Protocol acts solely as a technological layer for valuation and registry.', 'Les unités LYA sont strictement des droits contractuels indexés et ne constituent PAS des actions, des titres financiers ou des produits d\'engagement créatif réglementés. Le protocole LinkYourArt agit uniquement en tant que couche technologique pour l\'évaluation et le registre.')}
+                  {t('LYA Score certifications are objective quality indicators and do NOT constitute shares, financial securities, or regulated investment products. The LinkYourArt Protocol acts solely as a certification and patronage-matching layer.', 'Les certifications Score LYA sont des indicateurs de qualité objectifs et ne constituent PAS des actions, des titres financiers ou des produits d\'investissement réglementés. Le protocole LinkYourArt agit uniquement en tant que couche de certification et de mise en relation de mécénat.')}
                 </p>
                 <p className="text-sm text-on-surface-variant opacity-70 mb-10 text-justify">
                   {t('LinkYourArt acts as a trusted third party for analysis and valuation. No promise of performance is guaranteed. The value can evolve based on objective indicators documented in real-time.', 'LinkYourArt agit en tant que tiers de confiance pour l\'analyse et la valorisation. Aucune promesse de performance n\'est garantie. La valeur peut évoluer selon des indicateurs objectifs documentés en temps réel.')}
@@ -1209,7 +1209,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
               </h2>
               <div className="space-y-6">
                 <p className="text-xl text-on-surface-variant leading-relaxed opacity-90 font-medium text-justify">
-                  {t('Creative projects have always had value. LinkYourArt gives them a recognized, shareable and verifiable one. For the first time, art becomes a living asset that can be co-owned, supported and exchanged.', 'Les projets créatifs ont toujours eu de la valeur. LinkYourArt leur en donne une reconnue, partageable et vérifiable. Pour la première fois, l\'art devient un actif vivant qui peut être co-possédé, soutenu et échangé.')}
+                  {t('Creative projects have always had value. LinkYourArt gives them a recognized, shareable and verifiable one. For the first time, art has an objective standard that can be certified, supported and followed over time.', 'Les projets créatifs ont toujours eu de la valeur. LinkYourArt leur en donne une reconnue, partageable et vérifiable. Pour la première fois, l\'art dispose d\'un standard objectif qui peut être certifié, soutenu et suivi dans le temps.')}
                 </p>
                 <div className="p-6 bg-white/5 border-l-4 border-primary-cyan">
                   <p className="text-base text-white opacity-80 leading-relaxed text-justify">
@@ -1238,8 +1238,8 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
                 },
                 { 
                   id: '03', 
-                  title: t('Creative Market', 'Marché Créatif'), 
-                  desc: t('Support creative projects and participate in their valuation. Your LYA Units evolve with the project milestones.', 'Soutenez des projets créatifs et participez à leur valorisation. Vos LYA Units évoluent avec les jalons du projet.'),
+                  title: t('Creative Patronage', 'Mécénat Créatif'), 
+                  desc: t('Support creative projects you believe in and follow their certified progress. Your patronage evolves alongside the project\'s milestones.', 'Soutenez des projets créatifs auxquels vous croyez et suivez leur avancement certifié. Votre mécénat évolue avec les jalons du projet.'),
                   icon: <Zap size={24} />
                 },
                 { 
@@ -1300,66 +1300,66 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
               </thead>
               <tbody className="divide-y divide-white/5">
                 <tr>
-                  <td className="p-6 font-headline font-bold text-white text-sm uppercase tracking-wider">{t('Financial Instrument', 'Nature de l\'Instrument')}</td>
+                  <td className="p-6 font-headline font-bold text-white text-sm uppercase tracking-wider">{t('Quality Standard', 'Standard de Qualité')}</td>
                   <td className="p-6 text-sm text-white font-medium bg-primary-cyan/[0.02] border-x border-white/10">
-                    <span className="text-primary-cyan font-black block mb-1">✓ {t('LYA Contractual Units ($50)', 'Unités Contractuelles LYA ($50)')}</span>
-                    <p className="text-xs text-white/70 leading-relaxed">{t('Standardized indexed contracts representing future royalties and creative growth.', 'Contrats standardisés représentant des redevances d\'audimat et de droits contractuels réels.')}</p>
+                    <span className="text-primary-cyan font-black block mb-1">✓ {t('LYA Score Certification', 'Certification Score LYA')}</span>
+                    <p className="text-xs text-white/70 leading-relaxed">{t('Objective, algorithmic + committee-reviewed score out of 1000, tracked over time on the public registry.', 'Score objectif sur 1000, croisant analyse algorithmique et revue par comité, suivi dans le temps sur le registre public.')}</p>
                   </td>
                   <td className="p-6 text-xs text-white/40 leading-relaxed">
                     <span className="text-rose-400/70 font-bold block mb-1">✗ {t('Exclusive rights locked by majors', 'Droits exclusifs réservés aux majors')}</span>
-                    {t('Labels, studios, publishers and agents capture most revenues. Creators sign away rights with no transparent valuation mechanism.', 'Simple achat physique d\'un bloc indivisible, sans flux financier dynamique.')}
+                    {t('Labels, studios, publishers and agents decide who gets recognition, with no transparent or objective standard.', 'Labels, studios, éditeurs et agents décident seuls de la reconnaissance, sans standard transparent ni objectif.')}
                   </td>
                   <td className="p-6 text-xs text-white/30 leading-relaxed">
-                    <span className="text-white/40 font-bold block mb-1">✗ {t('Donation or symbolic rewards', 'Donation ou goodies')}</span>
-                    {t('Pure gift or symbolic physical badges (t-shirts, posters) with no resale index capability.', 'Simple don ou récompenses physiques sans droit sur les revenus.')}
+                    <span className="text-white/40 font-bold block mb-1">✗ {t('No quality standard', 'Aucun standard de qualité')}</span>
+                    {t('Any project can be listed with no independent evaluation of its creative merit or progress.', 'N\'importe quel projet peut être publié sans évaluation indépendante de son mérite créatif ou de son avancement.')}
                   </td>
                 </tr>
 
                 <tr>
-                  <td className="p-6 font-headline font-bold text-white text-sm uppercase tracking-wider">{t('Secondary Exchange / Liquidity', 'Marché Secondaire & Échange')}</td>
+                  <td className="p-6 font-headline font-bold text-white text-sm uppercase tracking-wider">{t('Recognition & Community', 'Reconnaissance & Communauté')}</td>
                   <td className="p-6 text-sm text-white font-medium bg-primary-cyan/[0.02] border-x border-white/10">
-                    <span className="text-primary-cyan font-black block mb-1">✓ {t('Cession Directe entre Pairs', 'Cession Directe de Droits entre Pairs')}</span>
-                    <p className="text-xs text-white/70 leading-relaxed">{t('Continuous liquid matching. Users can buy/sell LYA Units on secondary terminal instantly.', 'Retraits et reventes d\'unités instantanés sur l\'Exchange interne sans intermédiaires.')}</p>
+                    <span className="text-primary-cyan font-black block mb-1">✓ {t('Certified Patron Considerations', 'Contreparties de Mécène Certifié')}</span>
+                    <p className="text-xs text-white/70 leading-relaxed">{t('Patrons receive credit mentions, early access and exclusive updates — personal, non-financial, non-transferable.', 'Les mécènes reçoivent mention au générique, accès anticipé et mises à jour exclusives — personnelles, non-financières, non cessibles.')}</p>
                   </td>
                   <td className="p-6 text-xs text-white/40 leading-relaxed">
-                    <span className="text-rose-400/70 font-bold block mb-1">✗ {t('Illiquid long-term locking', 'Aucune accessibilité possible')}</span>
-                    {t('Rights locked in long-term contracts with labels, agents or studios. No partial resale or transfer possible.', 'Droits bloqués dans des contrats longue durée chez les labels, agents ou studios. Aucune revente ou cession partielle possible.')}
+                    <span className="text-rose-400/70 font-bold block mb-1">✗ {t('No public recognition', 'Aucune reconnaissance publique')}</span>
+                    {t('Rights locked in long-term contracts with labels, agents or studios. No public trace of who backed the work.', 'Droits bloqués dans des contrats longue durée chez les labels, agents ou studios. Aucune trace publique de qui a soutenu l\'œuvre.')}
                   </td>
                   <td className="p-6 text-xs text-white/30 leading-relaxed">
-                    <span className="text-white/40 font-bold block mb-1">✗ {t('No market trade option', 'Créateur unique')}</span>
-                    {t('Funding locked. No secondary framework to resell your contribution to third parties.', 'Fonds définitivement bloqués après la campagne. Aucun rachat possible.')}
+                    <span className="text-white/40 font-bold block mb-1">✗ {t('Symbolic rewards only', 'Récompenses symboliques seules')}</span>
+                    {t('Generic rewards (t-shirts, digital copies) disconnected from the project\'s actual certified progress.', 'Récompenses génériques (t-shirts, copies numériques) déconnectées de l\'avancement réellement certifié du projet.')}
                   </td>
                 </tr>
 
                 <tr>
-                  <td className="p-6 font-headline font-bold text-white text-sm uppercase tracking-wider">{t('Pricing & Milestones', 'Indexation & Jalons')}</td>
+                  <td className="p-6 font-headline font-bold text-white text-sm uppercase tracking-wider">{t('Score & Milestones', 'Score & Jalons')}</td>
                   <td className="p-6 text-sm text-white font-medium bg-primary-cyan/[0.02] border-x border-white/10">
-                    <span className="text-primary-cyan font-black block mb-1">✓ {t('Algorithmic Tracker', 'Formule Algorithmique standardisée')}</span>
-                    <p className="text-xs text-white/70 leading-relaxed">{t('Price fluctuations are based strictly on certified verified roadmap milestones.', 'Le cours de l\'unité s\'ajuste objectivement selon l\'atteinte des étapes de la feuille de route.')}</p>
+                    <span className="text-primary-cyan font-black block mb-1">✓ {t('Algorithmic + Committee Tracker', 'Suivi Algorithmique + Comité')}</span>
+                    <p className="text-xs text-white/70 leading-relaxed">{t('The LYA Score moves strictly based on certified, verified roadmap milestones — never on speculation.', 'Le Score LYA évolue strictement selon des jalons de feuille de route certifiés et vérifiés — jamais par spéculation.')}</p>
                   </td>
                   <td className="p-6 text-xs text-white/40 leading-relaxed">
-                    <span className="text-rose-400/70 font-bold block mb-1">✗ {t('Opaque discresionary valuations', 'Valorisation discrétionnaire')}</span>
-                    {t('Valuation imposed by majors, agents or distributors based on opaque and unverifiable criteria.', 'Valorisation imposée par les majors, agents ou diffuseurs selon des critères opaques et non vérifiables.')}
+                    <span className="text-rose-400/70 font-bold block mb-1">✗ {t('Opaque discretionary decisions', 'Décisions discrétionnaires opaques')}</span>
+                    {t('Recognition imposed by majors, agents or distributors based on opaque and unverifiable criteria.', 'Reconnaissance imposée par les majors, agents ou diffuseurs selon des critères opaques et non vérifiables.')}
                   </td>
                   <td className="p-6 text-xs text-white/30 leading-relaxed">
-                    <span className="text-white/40 font-bold block mb-1">✗ {t('Unmonitored milestones', 'Aucun suivi financier')}</span>
-                    {t('Regardless of project failures or outstanding successes, unit price does not exist.', 'L\'échelle et la réussite finale du projet n\'apportent aucun impact financier.')}
+                    <span className="text-white/40 font-bold block mb-1">✗ {t('Unmonitored progress', 'Aucun suivi structuré')}</span>
+                    {t('Regardless of a project\'s actual progress or setbacks, there is no structured, ongoing quality indicator.', 'Quel que soit l\'avancement réel ou les difficultés d\'un projet, aucun indicateur de qualité structuré et continu n\'existe.')}
                   </td>
                 </tr>
 
                 <tr>
-                  <td className="p-6 font-headline font-bold text-white text-sm uppercase tracking-wider">{t('Accessibility Ticket', 'Ticket d\'Entrée & Droits')}</td>
+                  <td className="p-6 font-headline font-bold text-white text-sm uppercase tracking-wider">{t('Accessibility', 'Accessibilité')}</td>
                   <td className="p-6 text-sm text-white font-medium bg-primary-cyan/[0.02] border-x border-white/10">
-                    <span className="text-primary-cyan font-black block mb-1">✓ {t('Micro-fractioning ($50)', 'Micro-fractionnement dès 50 $')}</span>
-                    <p className="text-xs text-white/70 leading-relaxed">{t('Democratizing creative asset valuation across all sectors: music, film, fashion, gaming, architecture, design and more.', 'Démocratisation de la valorisation créative pour tous les secteurs : musique, cinéma, mode, jeux vidéo, architecture, design et bien plus.')}</p>
+                    <span className="text-primary-cyan font-black block mb-1">✓ {t('Open Certification, Support from $50', 'Certification Ouverte, Soutien dès $50')}</span>
+                    <p className="text-xs text-white/70 leading-relaxed">{t('Democratizing creative quality certification across all sectors: music, film, fashion, gaming, architecture, design and more.', 'Démocratisation de la certification créative pour tous les secteurs : musique, cinéma, mode, jeux vidéo, architecture, design et bien plus.')}</p>
                   </td>
                   <td className="p-6 text-xs text-white/40 leading-relaxed">
                      <span className="text-rose-400/70 font-bold block mb-1">✗ {t('Elitist entry cost only', 'Ticket d\'accès élitiste')}</span>
-                     {t('Access reserved for creators signed by majors, agencies or studios. Independent creators are structurally excluded.', 'Filtres drastiques limitant l\'accès uniquement aux grandes fortunes et institutionnels.')}
+                     {t('Access reserved for creators signed by majors, agencies or studios. Independent creators are structurally excluded.', 'Accès réservé aux créateurs signés par les majors, agences ou studios. Les créateurs indépendants sont structurellement exclus.')}
                   </td>
                   <td className="p-6 text-xs text-white/30 leading-relaxed">
-                    <span className="text-white/40 font-bold block mb-1">✗ {t('Siloed platform profiles', 'Silo sans transfert de droits')}</span>
-                    {t('No institutional clearance, no smart registre certifié contracts certifying your priority rights.', 'Pas d\'inscription authentifié par huissier ou registre de clearing certifiant vos droits.')}
+                    <span className="text-white/40 font-bold block mb-1">✗ {t('Siloed platform profiles', 'Profils cloisonnés')}</span>
+                    {t('No registry, no certified standard tracking progress and quality beyond a single campaign.', 'Aucun registre, aucun standard certifié suivant l\'avancement et la qualité au-delà d\'une seule campagne.')}
                   </td>
                 </tr>
               </tbody>
@@ -1372,12 +1372,12 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
               <span className="text-[10px] font-black text-primary-cyan uppercase tracking-widest block bg-primary-cyan/10 w-fit px-3 py-1 rounded-full">{t('WHAT WE ARE', 'CE QUE LINKYOURART EST')}</span>
               <ul className="space-y-4 text-xs text-left">
                 <li>
-                  <strong className="text-white uppercase block text-[10px] tracking-wider mb-1">⚡ {t('MICRO-FRACTIONAL RIGHTS', 'DROIT DE PROPRIÉTÉ FRACTIONNÉ')}</strong>
-                  <span className="text-white/70 leading-relaxed">{t('The initial valorisation cap is constant. LYA Units trade from $50 and fluctuate strictly on verified milestone achievements.', 'Le budget de valorisation est bloqué. Les parts s\'échangent dès 50 $ et s\'adaptent au cours des jalons validés.')}</span>
+                  <strong className="text-white uppercase block text-[10px] tracking-wider mb-1">⚡ {t('OBJECTIVE CERTIFICATION', 'CERTIFICATION OBJECTIVE')}</strong>
+                  <span className="text-white/70 leading-relaxed">{t('The LYA Score is a live, transparent quality indicator, moving strictly with verified milestone achievements.', 'Le Score LYA est un indicateur de qualité vivant et transparent, qui évolue strictement selon les jalons vérifiés.')}</span>
                 </li>
                 <li className="pt-2 border-t border-white/5">
-                  <strong className="text-white uppercase block text-[10px] tracking-wider mb-1">🔄 {t('SECURE DIRECT RIGHTS TRANSFER', 'TRANSFERT DIRECT DE DROITS')}</strong>
-                  <span className="text-white/70 leading-relaxed">{t('Les reventes et arbitrages sont immédiats et sécurisés via notre terminal de gré à gré.', 'All de pair à pair exchanges are cleared instantly inside our unified secure transfer platform.')}</span>
+                  <strong className="text-white uppercase block text-[10px] tracking-wider mb-1">🔄 {t('CERTIFIED PATRON RECOGNITION', 'RECONNAISSANCE MÉCÈNE CERTIFIÉ')}</strong>
+                  <span className="text-white/70 leading-relaxed">{t('Every patron gets a public, traceable badge of support recorded on the LYA Registry.', 'Chaque mécène obtient un badge de soutien public et traçable, inscrit sur le Registre LYA.')}</span>
                 </li>
               </ul>
             </div>
@@ -1386,12 +1386,12 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
               <span className="text-[10px] font-black text-rose-400 uppercase tracking-widest block bg-rose-500/10 w-fit px-3 py-1 rounded-full">{t('WHAT WE ARE NOT (COMPETITION)', 'CE QUE NE SONT PAS LES AUTRES')}</span>
               <ul className="space-y-4 text-xs text-left">
                 <li>
-                  <strong className="text-white/80 uppercase block text-[10px] tracking-wider mb-1">✗ {t('CLASSIC EXCLUSIONS', 'SYSTEMES TRADITIONNELS OPALISE')}</strong>
-                  <span className="text-white/50 leading-relaxed">{t('Traditional intermediaries (labels, agents, studios) capture rights and revenues with no transparency or resale mechanism for the creator.', 'Les galeries d\'art classiques limitent l\'accès aux gros budgets et manquent cruellement de transparence et d\'un marché de revente immédiat.')}</span>
+                  <strong className="text-white/80 uppercase block text-[10px] tracking-wider mb-1">✗ {t('CLASSIC EXCLUSIONS', 'EXCLUSIONS CLASSIQUES')}</strong>
+                  <span className="text-white/50 leading-relaxed">{t('Traditional intermediaries (labels, agents, studios) decide who gets recognized, with no transparency or objective standard for creators.', 'Les intermédiaires traditionnels (labels, agents, studios) décident seuls de la reconnaissance, sans transparence ni standard objectif pour les créateurs.')}</span>
                 </li>
                 <li className="pt-2 border-t border-white/5">
-                  <strong className="text-white/80 uppercase block text-[10px] tracking-wider mb-1">✗ {t('SYMBOLIC REWARDS ONLY', 'CROWDFUNDING SANS RETOURS')}</strong>
-                  <span className="text-white/50 leading-relaxed">{t('Classic crowdvalorisation platforms provide only symbolic rewards (t-shirts, digital copies) without index capitalization or contractual claims.', 'Le crowdvalorisation classique ne transmet aucun droit financier réel, offrant de simples goodies non-valorisables.')}</span>
+                  <strong className="text-white/80 uppercase block text-[10px] tracking-wider mb-1">✗ {t('NO QUALITY STANDARD', 'AUCUN STANDARD DE QUALITÉ')}</strong>
+                  <span className="text-white/50 leading-relaxed">{t('Classic crowdfunding platforms provide no independent quality certification — any project can be listed regardless of merit.', 'Les plateformes de financement participatif classiques n\'offrent aucune certification de qualité indépendante — tout projet peut être publié quel que soit son mérite.')}</span>
                 </li>
               </ul>
             </div>
@@ -1432,7 +1432,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
             </div>
             <h3 className="text-xl font-black font-headline uppercase tracking-widest mb-4">{language === 'FR' ? 'PARTENAIRES CRÉATIFS' : 'CREATIVE PARTNERS'}</h3>
             <p className="text-on-surface-variant text-sm leading-relaxed opacity-70 text-justify">
-              {language === 'FR' ? 'Soutenez la prochaine génération de projets créatifs. Les Partenaires Créatifs acquièrent des Unités LYA représentant des droits contractuels futurs, participant au succès de projets vérifiés via une cession directe sécurisée.' : 'Support the next generation of creative projects. Creative Partners acquire LYA Units representing future contractual rights, participating in the success of verified creative projects through a secure direct transfer.'}
+              {language === 'FR' ? 'Soutenez la prochaine génération de projets créatifs. Les Partenaires Créatifs suivent les projets certifiés et reçoivent des contreparties de reconnaissance en soutenant leur réussite via un mécénat à récompense.' : 'Support the next generation of creative projects. Creative Partners follow certified projects and receive recognition-based considerations by supporting their success through reward-based patronage.'}
             </p>
           </div>
 
@@ -1615,7 +1615,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
             <div>
               <h3 className="text-3xl font-black font-headline uppercase tracking-[0.2em] mb-4">{t('home.standard.title', 'The LYA')} <span className="text-white">{t('home.standard.title_cyan', 'Unit Standard')}</span></h3>
               <p className="text-on-surface-variant text-lg leading-relaxed opacity-80 text-justify">
-                {t('home.standard.desc', 'LinkYourArt introduces the unique rating index for the creative market. Each LYA Unit represents a standardized $50 value of future revenue potential. This de pair à pair system allows for the exchange of revenue shares based on project advancement and milestones, providing the only objective measure of creative value.')}
+                {t('home.standard.desc', 'LinkYourArt introduces the unique certification standard for the creative market. Each certified project receives a LYA Score reflecting its real progress. This standard, combining algorithmic analysis and expert committee review, provides the only objective measure of creative quality.')}
               </p>
             </div>
           </div>

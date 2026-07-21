@@ -32,23 +32,23 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify, onViewChan
       sections: [
         {
           title: t('1. Philosophy & Accessibility', '1. Philosophie & Accessibilité'),
-          text: t('LinkYourArt (LYA) is an inclusive ecosystem open to creators, partenaires créatifs, professionals, and the general public. We break down the barriers of the traditional art world to offer everyone a place in the creative economy. Our model is based on simplicity and fairness.', 'LinkYourArt (LYA) est un écosystème inclusif ouvert aux créateurs, aux partenaires créatifs, aux professionnels et au grand public. Nous brisons les barrières du monde de l\'art traditionnel pour offrir à chacun une place dans l\'économie de la création. Notre modèle repose sur la simplicité et l\'équité.')
+          text: t('LinkYourArt (LYA) is an inclusive ecosystem open to creators, creative partners, professionals, and the general public. We break down the barriers of the traditional art world to offer everyone a place in the creative economy. Our model is based on simplicity and fairness.', 'LinkYourArt (LYA) est un écosystème inclusif ouvert aux créateurs, aux partenaires créatifs, aux professionnels et au grand public. Nous brisons les barrières du monde de l\'art traditionnel pour offrir à chacun une place dans l\'économie de la création. Notre modèle repose sur la simplicité et l\'équité.')
         },
         {
-          title: t('2. The Indexed Contract Model', '2. Le Modèle du Contrat Indexé'),
-          text: t('LYA uses a unique model of indexed creative contracts. These instruments are specifically designed to remain independent of traditional financial systems and restrictive directives such as MICA or SEC. By focusing on the creative value itself, LYA allows for smooth exchange without being subject to the complex constraints of regulated financial products.', 'LYA utilise un modèle unique de contrats créatifs indexés. Ces instruments sont conçus spécifiquement pour rester indépendants des systèmes financiers traditionnels et des directives restrictives telles que MICA ou la SEC. En se concentrant sur la valeur créative elle-même, LYA permet un échange fluide sans être soumis aux contraintes complexes des produits financiers réglementés.')
+          title: t('2. The Certification Model', '2. Le Modèle de Certification'),
+          text: t('LYA uses a unique creative certification model: the LYA Score. Each project is evaluated by a combination of algorithmic analysis and review by certified professionals, producing an objective, traceable quality indicator recorded on the LYA Registry. The LYA Score is a certification standard — it is not a financial instrument.', 'LYA utilise un modèle unique de certification créative : le Score LYA. Chaque projet est évalué par une combinaison d\'analyse algorithmique et de revue par des professionnels certifiés, produisant un indicateur de qualité objectif et traçable, inscrit au Registre LYA. Le Score LYA est un standard de certification — ce n\'est pas un instrument financier.')
         },
         {
           title: t('3. Participation for All', '3. Participation pour Tous'),
-          text: t('Whether you are a world-renowned artist, a professional collector, or simply an art enthusiast, LYA offers you tools tailored to your needs. The platform allows for the fractionalization of rights into easy-to-understand units, making investment in creation accessible with simple and transparent rules.', 'Que vous soyez un artiste de renommée mondiale, un collectionneur professionnel ou simplement un passionné d\'art, LYA vous propose des outils adaptés à vos besoins. La plateforme permet la fractionnalisation des droits en unités simples à comprendre, rendant l\'investissement dans la création accessible avec des règles claires et transparentes.')
+          text: t('Whether you are a world-renowned artist, a creative professional, or simply an art enthusiast, LYA offers you tools tailored to your needs. Patrons may support certified projects through reward-based patronage, receiving recognition and access considerations rather than a financial return.', 'Que vous soyez un artiste de renommée mondiale, un professionnel créatif ou simplement un passionné d\'art, LYA vous propose des outils adaptés à vos besoins. Les mécènes peuvent soutenir des projets certifiés via un mécénat à récompense, recevant reconnaissance et contreparties d\'accès plutôt qu\'un retour financier.')
         },
         {
           title: t('4. Transparency & Security', '4. Transparence & Sécurité'),
-          text: t('Integrity is at the heart of LYA. Every creation, every unit, and every exchange is registered in our immutable registry. This ensures total transparency for all participants, guaranteeing that everyone\'s rights are protected and respected within our independent ecosystem.', 'L\'intégrité est au cœur de LYA. Chaque création, chaque unité et chaque échange est enregistré dans notre registre immuable. Cela assure une transparence totale pour tous les participants, garantissant que les droits de chacun sont protégés et respectés au sein de notre écosystème indépendant.')
+          text: t('Integrity is at the heart of LYA. Every certified project and every milestone is registered in our immutable registry. This ensures total transparency for all participants, guaranteeing that everyone\'s rights are protected and respected within our ecosystem.', 'L\'intégrité est au cœur de LYA. Chaque projet certifié et chaque jalon sont enregistrés dans notre registre immuable. Cela assure une transparence totale pour tous les participants, garantissant que les droits de chacun sont protégés et respectés au sein de notre écosystème.')
         },
         {
           title: t('5. Creative Independence', '5. Indépendance Créative'),
-          text: t('By bypassing traditional financial circuits, LYA gives power back to creators and those who support them. We believe that art should not be governed by the laws of high finance, but by the value of the creative projects themselves and the community that believes in them.', 'En contournant les circuits financiers classiques, LYA redonne le pouvoir aux créateurs et à ceux qui les soutiennent. Nous croyons que l\'art ne doit pas être régi par les lois de la haute finance, mais par la valeur des projets créatifs eux-mêmes et la communauté qui y croit.')
+          text: t('LYA gives power back to creators and those who support them. We believe that art should not be governed by the laws of high finance, but by the value of the creative projects themselves and the community that believes in them.', 'LYA redonne le pouvoir aux créateurs et à ceux qui les soutiennent. Nous croyons que l\'art ne doit pas être régi par les lois de la haute finance, mais par la valeur des projets créatifs eux-mêmes et la communauté qui y croit.')
         }
       ]
     },
@@ -58,15 +58,15 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify, onViewChan
       sections: [
         {
           title: t('1. Ethical Data Use', '1. Utilisation Éthique'),
-          text: t('Your data belongs to you. We only collect the information necessary for the operation of the LYA ecosystem. Unlike financial systems that track every movement for external audits, LYA protects your privacy within its independent network.', 'Vos données vous appartiennent. Nous ne collectons que les informations nécessaires au fonctionnement de l\'écosystème LYA. Contrairement aux systèmes financiers qui traquent chaque mouvement pour des audits externes, LYA préserve votre vie privée au sein de son réseau indépendant.')
+          text: t('Your data belongs to you. We only collect the information necessary for the operation of the LYA ecosystem, in line with GDPR requirements.', 'Vos données vous appartiennent. Nous ne collectons que les informations nécessaires au fonctionnement de l\'écosystème LYA, conformément aux exigences du RGPD.')
         },
         {
           title: t('2. Secure Storage', '2. Stockage Sécurisé'),
-          text: t('We use modern encryption standards to ensure that your personal information remains confidential. Our infrastructure is designed to be robust and independent, ensuring the continuity of the ecosystem and the safety of your holdings.', 'Nous utilisons des standards de cryptage modernes pour assurer que vos informations personnelles restent confidentielles. Notre infrastructure est conçue pour être robuste et indépendante, assurant la continuité de l\'écosystème.')
+          text: t('We use modern encryption standards to ensure that your personal information remains confidential. Our infrastructure is designed to be robust, ensuring the continuity of the ecosystem and the safety of your data.', 'Nous utilisons des standards de cryptage modernes pour assurer que vos informations personnelles restent confidentielles. Notre infrastructure est conçue pour être robuste, assurant la continuité de l\'écosystème et la sécurité de vos données.')
         },
         {
           title: t('3. Full Control', '3. Contrôle Total'),
-          text: t('You have complete control over your profile and your transactions. LYA is a platform that serves the creative community, and we strive to make data management as simple and intuitive as possible for all users, without the complexity of traditional administrative systems.', 'Vous avez un contrôle total sur votre profil et vos transactions. LYA est une plateforme au service de la communauté créative, et nous mettons tout en œuvre pour que la gestion des données soit simple et intuitive, sans la complexité des systèmes administratifs classiques.')
+          text: t('You have complete control over your profile and your activity. LYA is a platform that serves the creative community, and we strive to make data management as simple and intuitive as possible for all users.', 'Vous avez un contrôle total sur votre profil et votre activité. LYA est une plateforme au service de la communauté créative, et nous mettons tout en œuvre pour que la gestion des données soit simple et intuitive.')
         }
       ]
     },
@@ -75,12 +75,12 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify, onViewChan
       subtitle: t('The Living Memory of the LYA Ecosystem', 'La Mémoire Vivante de l\'Écosystème LYA'),
       sections: [
         {
-          title: t('1. Universal Rights Registry', '1. Registre de Droits Universel'),
-          text: t('The LYA Registry is not a registre financier, but a creative one. It documents the ownership and history of each indexed project, ensuring that every creator and partenaire créatif has an immutable proof of their rights, transparent and accessible to everyone.', 'Le Registre LYA n\'est pas un livre de comptes financier, mais un registre créatif. Il documente la propriété et l\'historique de chaque projet indexé, assurant que chaque créateur et partenaire créatif possède une preuve immuable de ses droits.')
+          title: t('1. Universal Certification Registry', '1. Registre de Certification Universel'),
+          text: t('The LYA Registry is not a financial ledger, but a creative certification registry. It documents the LYA Score and milestone history of each certified project, ensuring that every creator and patron has immutable, transparent proof of the certification granted.', 'Le Registre LYA n\'est pas un livre de comptes financier, mais un registre de certification créative. Il documente le Score LYA et l\'historique des jalons de chaque projet certifié, assurant à chaque créateur et mécène une preuve immuable et transparente de la certification accordée.')
         },
         {
-          title: t('2. Beyond Traditional Audits', '2. Au-delà des Audits Classiques'),
-          text: t('Because we operate independently of MICA and SEC, our registry follows its own rules of transparency and artistic integrity. Validation is done by the community and creative experts, but also with the intervention of high-performance AI tools and specialized human audits, focusing on the quality and success of the projects rather than on financial bureaucracy.', 'Parce que nous opérons indépendamment de MICA et de la SEC, notre registre suit ses propres règles de transparence et d\'intégrité artistique. La validation se fait par la communauté et les experts créatifs, mais aussi avec l\'intervention de certains outils IA haute performance et d\'audits humains spécialisés.')
+          title: t('2. A Rigorous Certification Process', '2. Un Processus de Certification Rigoureux'),
+          text: t('Our registry follows its own rigorous rules of transparency and artistic integrity. Validation is performed by the community and creative experts, combined with AI-assisted analysis and specialized human audits, focusing on the quality and progress of the projects.', 'Notre registre suit ses propres règles rigoureuses de transparence et d\'intégrité artistique. La validation se fait par la communauté et des experts créatifs, combinée à une analyse assistée par IA et des audits humains spécialisés, en se concentrant sur la qualité et l\'avancement des projets.')
         }
       ]
     },
@@ -98,23 +98,19 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify, onViewChan
         },
         {
           title: t('3. Intellectual Property', '3. Propriété Intellectuelle'),
-          text: t('All content on LinkYourArt (logo, name, design, LYA Score algorithm, LYA Unit system) is the exclusive property of LINKYOURART SASU. Any reproduction, even partial, is prohibited without prior written authorization. Creative projects registered on the platform remain the exclusive property of their creators.', 'Tous les contenus de LinkYourArt (logo, nom, design, algorithme LYA Score, système LYA Unit) sont la propriété exclusive de LINKYOURART SASU. Toute reproduction, même partielle, est interdite sans autorisation écrite préalable. Les projets créatifs enregistrés sur la plateforme restent la propriété exclusive de leurs créateurs.')
+          text: t('All content on LinkYourArt (logo, name, design, LYA Score algorithm) is the exclusive property of LINKYOURART SASU. Any reproduction, even partial, is prohibited without prior written authorization. Creative projects registered on the platform remain the exclusive property of their creators.', 'Tous les contenus de LinkYourArt (logo, nom, design, algorithme LYA Score) sont la propriété exclusive de LINKYOURART SASU. Toute reproduction, même partielle, est interdite sans autorisation écrite préalable. Les projets créatifs enregistrés sur la plateforme restent la propriété exclusive de leurs créateurs.')
         },
         {
           title: t('4. Personal Data & GDPR', '4. Données Personnelles & RGPD'),
-          text: t('LinkYourArt collects and processes personal data (name, email, role, wallet data) solely for the purpose of operating the platform. In accordance with GDPR, you have the right to access, rectify, delete and port your data. Data Protection Officer contact: contact@linkyourart.com — Your data is never sold to third parties.', 'LinkYourArt collecte et traite des données personnelles (nom, email, rôle, données de portefeuille) uniquement dans le cadre du fonctionnement de la plateforme. Conformément au RGPD, vous disposez d\'un droit d\'accès, de rectification, de suppression et de portabilité de vos données. Contact DPO : contact@linkyourart.com — Vos données ne sont jamais vendues à des tiers.')
+          text: t('LinkYourArt collects and processes personal data (name, email, role) solely for the purpose of operating the platform. In accordance with GDPR, you have the right to access, rectify, delete and port your data. Data Protection Officer contact: contact@linkyourart.com — Your data is never sold to third parties.', 'LinkYourArt collecte et traite des données personnelles (nom, email, rôle) uniquement dans le cadre du fonctionnement de la plateforme. Conformément au RGPD, vous disposez d\'un droit d\'accès, de rectification, de suppression et de portabilité de vos données. Contact DPO : contact@linkyourart.com — Vos données ne sont jamais vendues à des tiers.')
         },
         {
           title: t('5. Cookies', '5. Cookies'),
-          text: t('LinkYourArt uses only essential technical cookies necessary for authentication and platform operation (Firebase session, language preference, currency preference). No advertising or tracking cookies are used. You can disable cookies in your browser settings, but some features may no longer work correctly.', 'LinkYourArt utilise uniquement des cookies techniques essentiels nécessaires à l\'authentification et au fonctionnement de la plateforme (session Firebase, préférence de langue, préférence de devise). Aucun cookie publicitaire ou de traçage n\'est utilisé. Vous pouvez désactiver les cookies dans les paramètres de votre navigateur, mais certaines fonctionnalités pourraient ne plus fonctionner correctement.')
+          text: t('LinkYourArt uses only essential technical cookies necessary for authentication and platform operation (Firebase session, language preference). No advertising or tracking cookies are used. You can disable cookies in your browser settings, but some features may no longer work correctly.', 'LinkYourArt utilise uniquement des cookies techniques essentiels nécessaires à l\'authentification et au fonctionnement de la plateforme (session Firebase, préférence de langue). Aucun cookie publicitaire ou de traçage n\'est utilisé. Vous pouvez désactiver les cookies dans les paramètres de votre navigateur, mais certaines fonctionnalités pourraient ne plus fonctionner correctement.')
         },
         {
           title: t('6. Limitation of Liability', '6. Limitation de Responsabilité'),
-          text: t('LinkYourArt acts as an intermediary platform between creators and patrons. LYA Units are not financial instruments and do not constitute a financial investment product regulated by MICA or the SEC. LinkYourArt cannot be held liable for fluctuations in LYA Unit value or for creative projects that do not achieve their objectives. Participation in a creative project is done at your own risk.', 'LinkYourArt agit en tant que plateforme intermédiaire entre créateurs et mécènes. Les LYA Units ne sont pas des instruments financiers et ne constituent pas un produit d\'investissement financier réglementé par MICA ou la SEC. LinkYourArt ne peut être tenu responsable des fluctuations de la valeur des LYA Units ni des projets créatifs qui n\'atteignent pas leurs objectifs. La participation à un projet créatif se fait à vos propres risques.')
-        },
-        {
-          title: t('7. Withdrawal Right', '7. Droit de Rétractation'),
-          text: t('The 14-day withdrawal right applies exclusively to the first acquisition of LYA Units and only if the creative project has not yet begun its distribution phase. Any fluctuation in the value of LYA Units does not constitute a valid ground for withdrawal. Subsequent acquisitions are final upon confirmation. Once distribution has begun, all acquisitions are irrevocably final. Withdrawal requests must be sent to contact@linkyourart.com within the applicable period.', 'Le droit de rétractation de 14 jours s\'applique exclusivement à la première acquisition de LYA Units et uniquement si le projet créatif n\'a pas encore débuté sa phase de distribution. Toute fluctuation de la valeur des LYA Units ne constitue pas un motif valable de rétractation. Les acquisitions ultérieures sont définitives dès leur confirmation. Une fois la distribution commencée, toutes les acquisitions sont irrévocablement définitives. Les demandes de rétractation doivent être envoyées à contact@linkyourart.com dans le délai applicable.')
+          text: t('LinkYourArt acts as a certification and patronage-matching platform between creators and patrons. Support provided to a project constitutes reward-based patronage and does not constitute a financial investment product. LinkYourArt cannot be held liable for creative projects that do not achieve their objectives. Support of a creative project is done at your own discretion.', 'LinkYourArt agit en tant que plateforme de certification et de mise en relation de mécénat entre créateurs et mécènes. Le soutien apporté à un projet constitue un mécénat à récompense et ne constitue pas un produit d\'investissement financier. LinkYourArt ne peut être tenu responsable des projets créatifs qui n\'atteignent pas leurs objectifs. Le soutien à un projet créatif se fait à votre entière discrétion.')
         }
       ]
     },
@@ -124,15 +120,15 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify, onViewChan
       sections: [
         {
           title: t('1. Simple & For Everyone', '1. Simple & Pour Tous'),
-          text: t('The LYA model turns complex creative contracts into simple Units. This allows anyone—artist, collector, or casual fan—to participate in a project\'s success. No need for professional status or financial background; art becomes an exchange that belongs to everyone.', 'Le modèle LYA transforme les contrats créatifs complexes en Unités simples. Cela permet à n\'importe qui—artiste, collectionneur ou simple fan—de participer au succès d\'un projet.')
+          text: t('The LYA model turns complex creative evaluation into a simple, objective Score. This allows anyone — artist, patron, or casual fan — to understand a project\'s quality and support its success. No need for professional status or financial background.', 'Le modèle LYA transforme l\'évaluation créative complexe en un Score simple et objectif. Cela permet à n\'importe qui — artiste, mécène ou simple passionné — de comprendre la qualité d\'un projet et de soutenir sa réussite.')
         },
         {
-          title: t('2. Avoiding Financial Jargon', '2. Sortir du Jargon Financier'),
-          text: t('We refuse the complexity of traditional financial instruments. By bypassing MICA/SEC directives via indexed contracts, we keep things simple: you support a project, you receive a share of its success. It is direct, easy, and efficient.', 'Nous refusons la complexité des instruments financiers traditionnels. En contournant les directives MICA/SEC via le contrat indexé, nous gardons les choses simples : vous soutenez un projet, vous recevez une part de son succès.')
+          title: t('2. A Certification Standard, Not a Financial Product', '2. Un Standard de Certification, Pas un Produit Financier'),
+          text: t('We keep things simple and transparent: creators get certified, patrons support projects they believe in and receive recognition-based considerations in return. It is direct, easy, and does not rely on any financial instrument.', 'Nous gardons les choses simples et transparentes : les créateurs se font certifier, les mécènes soutiennent les projets auxquels ils croient et reçoivent en retour des contreparties de reconnaissance. C\'est direct, simple, et cela ne repose sur aucun instrument financier.')
         },
         {
           title: t('3. Collaborative Success', '3. Un Succès Collaboratif'),
-          text: t('LinkYourArt is a bridge. We unite creators who need financing and a community that wants to discover and participate in new works. This model ensures that success is shared and art remains free from the chains of traditional finance.', 'LinkYourArt est un pont. Nous unissons les créateurs qui ont besoin de financement et une communauté qui veut découvrir et participer à des œuvres nouvelles.')
+          text: t('LinkYourArt is a bridge. We unite creators who need visibility and support with a community that wants to discover and champion new works. This model ensures that recognition is shared and art remains free from the chains of traditional finance.', 'LinkYourArt est un pont. Nous unissons les créateurs qui ont besoin de visibilité et de soutien avec une communauté qui veut découvrir et défendre des œuvres nouvelles. Ce modèle garantit que la reconnaissance est partagée et que l\'art reste libre des chaînes de la finance traditionnelle.')
         }
       ]
     },
@@ -147,61 +143,51 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify, onViewChan
     General: [
       { 
         q: t('What is LinkYourArt (LYA)?', 'Qu\'est-ce que LinkYourArt (LYA) ?'), 
-        a: t('LYA is a creative ecosystem where anyone can support and exchange indexed rights to artistic projects. It is an independent platform that makes the creative economy accessible to everyone, bypassing the complexities of traditional finance.', 'LYA est un écosystème créatif où n\'importe qui peut soutenir et échanger des droits indexés sur des projets artistiques. C\'est une plateforme indépendante qui rend l\'économie de la création accessible à tous, en contournant les complexités de la finance traditionnelle.') 
+        a: t('LYA is a creative certification ecosystem where anyone can discover, certify and support artistic projects. It is an independent platform that makes objective creative quality assessment accessible to everyone.', 'LYA est un écosystème de certification créative où n\'importe qui peut découvrir, certifier et soutenir des projets artistiques. C\'est une plateforme indépendante qui rend l\'évaluation objective de la qualité créative accessible à tous.') 
       },
       { 
         q: t('Who can use LYA?', 'Qui peut utiliser LYA ?'), 
         a: t('Everyone! LYA is designed for creators, creative partners, professionals, and the general public. We offer a simple and fair model for all actors in the artistic world.', 'Tout le monde ! LYA est conçu pour les créateurs, partenaires créatifs, professionnels et le grand public. Nous proposons un modèle simple et équitable pour tous les acteurs du monde artistique.') 
       },
       { 
-        q: t('Is LYA regulated like a bank or by MICA/SEC?', 'LYA est-elle réglementée par MICA ou la SEC ?'), 
-        a: t('Our ecosystem operates via indexed creative contracts, specifically designed to remain outside the scope of restrictive financial directives such as MICA or SEC. This independence ensures a seamless and simplified experience for our community.', 'Notre écosystème opère via des contrats créatifs indexés, spécifiquement conçus pour rester en dehors du champ des directives financières restrictives comme MICA ou la SEC. Cette indépendance garantit une expérience fluide et simplifiée.') 
+        q: t('Is LYA a financial or investment platform?', 'LYA est-elle une plateforme financière ou d\'investissement ?'), 
+        a: t('No. LYA is a creative certification platform. Patrons who support a project do so through reward-based patronage — they do not acquire a financial instrument, and support does not constitute an investment product regulated by MiCA or the SEC.', 'Non. LYA est une plateforme de certification créative. Les mécènes qui soutiennent un projet le font via un mécénat à récompense — ils n\'acquièrent aucun instrument financier, et ce soutien ne constitue pas un produit d\'investissement réglementé par MiCA ou la SEC.') 
       },
       { 
         q: t('What are the platform fees?', 'Quels sont les frais de la plateforme ?'), 
-        a: t('Transparency is key. We apply a fee of 2% to 5% on transactions de transfert direct and a 3% fee upon objective finalization of a project. These fees support the ecosystem\'s security and evolution.', 'La transparence est essentielle. Nous appliquons des frais de 2% à 5% sur les transactions de la Plateforme de Transfert et une commission de 3% lors de la finalisation des objectifs d\'un projet.') 
-      }
-    ],
-    Security: [
-      { 
-        q: t('Is my investment safe?', 'Mon investissement est-il sûr ?'), 
-        a: t('All rights are registered in our secure immutable registry. Because we operate with indexed contracts independent of traditional banking regulations like MICA, our focus is purely on the security of your creative rights and LYA UNITS.', 'Tous les droits sont enregistrés dans notre registre immuable. Comme nous opérons avec des contrats indexés indépendants des régulations bancaires type MICA, notre focus est la sécurité de vos droits créatifs et de vos LYA UNITS.') 
-      },
-      {
-        q: t('Is my personal data protected?', 'Mes données personnelles sont-elles protégées ?'),
-        a: t('Yes. LYA uses AES-256 encryption and never shares your data with third parties. You can request deletion of your account and all associated data at any time.', 'Oui. LYA utilise le chiffrement AES-256 et ne partage jamais vos données avec des tiers. Vous pouvez demander la suppression de votre compte et de toutes les données associées à tout moment.')
+        a: t('Transparency is key. We apply a platform fee on patronage support (5%) and offer optional Pro subscriptions and premium certification services. These fees support the ecosystem\'s security and evolution.', 'La transparence est essentielle. Nous appliquons des frais de plateforme sur le mécénat (5%) et proposons des abonnements Pro optionnels ainsi que des services de certification premium. Ces frais soutiennent la sécurité et l\'évolution de l\'écosystème.') 
       }
     ],
     Creators: [
       {
         q: t('How do I submit a creative project?', 'Comment soumettre un projet créatif ?'),
-        a: t('Go to the LinkArt section and fill in your project details: title, category, description, budget and milestones. Once submitted, your project enters the LYA validation queue.', 'Rendez-vous dans la section LinkArt et renseignez les détails de votre projet : titre, catégorie, description, budget et jalons. Une fois soumis, votre projet entre dans la file de validation LYA.')
+        a: t('Go to the LinkArt section and fill in your project details: title, category, description, budget and milestones. Once submitted, your project enters the LYA certification queue.', 'Rendez-vous dans la section LinkArt et renseignez les détails de votre projet : titre, catégorie, description, budget et jalons. Une fois soumis, votre projet entre dans la file de certification LYA.')
       },
       {
         q: t('What types of projects are accepted?', 'Quels types de projets sont acceptés ?'),
-        a: t('LYA accepts all creative industries: cinema, music, visual arts, architecture, gaming, fashion, photography, literature and more. Any project with commercial potential and documented creative rights can be submitted.', 'LYA accepte toutes les industries créatives : cinéma, musique, arts visuels, architecture, gaming, mode, photographie, littérature et plus encore. Tout projet avec un potentiel commercial et des droits créatifs documentés peut être soumis.')
+        a: t('LYA accepts all creative industries: cinema, music, visual arts, architecture, gaming, fashion, photography, literature and more. Any project with documented creative rights can be submitted.', 'LYA accepte toutes les industries créatives : cinéma, musique, arts visuels, architecture, gaming, mode, photographie, littérature et plus encore. Tout projet avec des droits créatifs documentés peut être soumis.')
       },
       {
         q: t('How is the LYA Score calculated for my project?', 'Comment est calculé le Score LYA pour mon projet ?'),
-        a: t('The LYA Score (0-1000) combines 5 dimensions: Creative Quality (25%), Market Potential (25%), Legal Compliance (20%), Innovation Index (15%) and Growth Trajectory (15%). It is evaluated by certified Professional validators and updated as milestones are completed.', 'Le Score LYA (0-1000) combine 5 dimensions : Qualité Créative (25%), Potentiel de Marché (25%), Conformité Juridique (20%), Indice d\'Innovation (15%) et Trajectoire de Croissance (15%). Il est évalué par des validateurs Professionnels certifiés et mis à jour au fil des jalons.')
+        a: t('The LYA Score (0-1000) combines 5 pillars evaluated through algorithmic analysis and review by certified Professional validators, updated as milestones are completed.', 'Le Score LYA (0-1000) combine 5 piliers évalués par analyse algorithmique et revue par des validateurs Professionnels certifiés, mis à jour au fil des jalons.')
       },
       {
         q: t('Do I keep full creative control of my project?', 'Est-ce que je garde le contrôle créatif de mon projet ?'),
-        a: t('Absolutely. Creators retain all moral rights and creative control. LYA Unit holders only receive economic participation rights. You can also exercise a buyback option after a 24-month lock-up period.', 'Absolument. Les créateurs conservent tous leurs droits moraux et le contrôle créatif. Les détenteurs d\'unités LYA ne reçoivent que des droits de participation économique. Vous pouvez également exercer une option de rachat après une période de blocage de 24 mois.')
+        a: t('Absolutely. Creators retain all moral rights and creative control at all times. Patrons who support a project receive recognition-based considerations only — never decision-making rights over your artistic choices.', 'Absolument. Les créateurs conservent à tout moment tous leurs droits moraux et le contrôle créatif. Les mécènes qui soutiennent un projet ne reçoivent que des contreparties de reconnaissance — jamais de droit de décision sur vos choix artistiques.')
       }
     ],
     "Mécènes & Partenaires": [
       {
-        q: t('How do I invest in a creative project?', 'Comment investir dans un projet créatif ?'),
-        a: t('Browse the Registry or Exchange to find projects. Each LYA Unit costs $50 at issuance. You can acquire units directly from the creator during the initial offering or on the secondary market via the Exchange.', 'Parcourez le Registre ou le Centre d\'Échanges pour trouver des projets. Chaque Unité LYA coûte 50$ à l\'émission. Vous pouvez acquérir des unités directement auprès du créateur lors de l\'offre initiale ou sur le marché secondaire via l\'Exchange.')
+        q: t('How do I support a creative project?', 'Comment soutenir un projet créatif ?'),
+        a: t('Browse the Registry to find certified projects. You can support a project directly with the amount of your choice, starting from $50, as part of a reward-based patronage campaign.', 'Parcourez le Registre pour trouver des projets certifiés. Vous pouvez soutenir un projet directement avec le montant de votre choix, à partir de $50, dans le cadre d\'une campagne de mécénat à récompense.')
       },
       {
-        q: t('How do I earn returns on my investment?', 'Comment obtenir des rendements sur mon investissement ?'),
-        a: t('Returns come from two sources: value appreciation (the LYA Score rising with each validated milestone increases the unit price on the secondary market) and revenue distributions automatically triggered when verified milestone events are completed.', 'Les rendements proviennent de deux sources : l\'appréciation de valeur (le Score LYA qui monte avec chaque jalon validé augmente le prix unitaire sur le marché secondaire) et les distributions de revenus déclenchées automatiquement lors de la complétion de jalons vérifiés.')
+        q: t('What do I receive in return for my support?', 'Que reçois-je en échange de mon soutien ?'),
+        a: t('You receive the considerations defined by each campaign — credit mention, early access, exclusive updates on the project\'s progress and LYA Score evolution. These considerations are personal, non-financial and non-transferable.', 'Vous recevez les contreparties définies par chaque campagne — mention au générique, accès anticipé, mises à jour exclusives sur l\'avancement du projet et l\'évolution du Score LYA. Ces contreparties sont personnelles, non-financières et non cessibles.')
       },
       {
-        q: t('Can I resell my LYA Units?', 'Puis-je revendre mes Unités LYA ?'),
-        a: t('Yes. LYA Units can be traded on the secondary market (Exchange) at any time after the initial lock-up period defined in each contract. The resale price is dynamic and directly linked to the project\'s LYA Score.', 'Oui. Les Unités LYA peuvent être échangées sur le marché secondaire (Exchange) à tout moment après la période de blocage initiale définie dans chaque contrat. Le prix de revente est dynamique et directement lié au Score LYA du projet.')
+        q: t('Can I get a financial return on my support?', 'Puis-je obtenir un retour financier sur mon soutien ?'),
+        a: t('No. Patronage on LYA is reward-based: your support does not entitle you to a share of the project\'s revenues or to any tradeable instrument. It is a way to back creative work you believe in.', 'Non. Le mécénat sur LYA est un mécénat à récompense : votre soutien ne vous donne droit à aucune part des revenus du projet ni à aucun instrument négociable. C\'est une façon de soutenir une création à laquelle vous croyez.')
       }
     ],
     Professionals: [
@@ -211,25 +197,35 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify, onViewChan
       },
       {
         q: t('What does Pro status unlock?', 'Qu\'est-ce que le statut Pro débloque ?'),
-        a: t('Pro status gives access to: the Validation hub to evaluate projects and earn fees, the Lounge Pro for professional networking, advanced AI analytics, settlement batch management, governance voting rights and API access.', 'Le statut Pro donne accès à : le hub de Validation pour évaluer les projets et percevoir des honoraires, le Lounge Pro pour le réseautage professionnel, les analyses IA avancées, la gestion des lots de règlement, les droits de vote en gouvernance et l\'accès API.')
+        a: t('Pro status gives access to: the Validation hub to evaluate projects, the Lounge Pro for professional networking, advanced AI analytics, governance participation and API access.', 'Le statut Pro donne accès à : le hub de Validation pour évaluer les projets, le Lounge Pro pour le réseautage professionnel, les analyses IA avancées, la participation à la gouvernance et l\'accès API.')
       },
       {
         q: t('How are Professional validators compensated?', 'Comment les validateurs Professionnels sont-ils rémunérés ?'),
-        a: t('Validators earn a validation fee (percentage of the contract value) for each project they evaluate. Fees are paid in LYA Units and distributed automatically upon completion of the validation process.', 'Les validateurs perçoivent des honoraires de validation (pourcentage de la valeur du contrat) pour chaque projet évalué. Les honoraires sont versés en Unités LYA et distribués automatiquement à la complétion du processus de validation.')
+        a: t('Validators earn a validation fee, paid in euros or dollars, for each project they evaluate, distributed upon completion of the certification review.', 'Les validateurs perçoivent des honoraires de validation, versés en euros ou en dollars, pour chaque projet évalué, distribués à la complétion de la revue de certification.')
       }
     ],
     Public: [
       {
         q: t('Do I need an account to browse LYA?', 'Ai-je besoin d\'un compte pour naviguer sur LYA ?'),
-        a: t('No. The home page, Registry and Exchange are accessible in read-only mode without an account. To invest, submit a project or interact with the platform, you need to create a free account.', 'Non. La page d\'accueil, le Registre et le Centre d\'Échanges sont accessibles en lecture seule sans compte. Pour investir, soumettre un projet ou interagir avec la plateforme, vous devez créer un compte gratuit.')
+        a: t('No. The home page and Registry are accessible in read-only mode without an account. To support a project, submit a project or interact with the platform, you need to create a free account.', 'Non. La page d\'accueil et le Registre sont accessibles en lecture seule sans compte. Pour soutenir un projet, en soumettre un ou interagir avec la plateforme, vous devez créer un compte gratuit.')
       },
       {
         q: t('Is LYA free to use?', 'LYA est-il gratuit ?'),
-        a: t('Creating an account and browsing the platform is completely free. Fees only apply to unit transactions (1.5% settlement fee on secondary market trades) and Pro subscription for advanced features.', 'La création d\'un compte et la navigation sur la plateforme sont entièrement gratuites. Des frais s\'appliquent uniquement aux transactions d\'unités (1,5% de frais de règlement sur les échanges du marché secondaire) et à l\'abonnement Pro pour les fonctionnalités avancées.')
+        a: t('Creating an account and browsing the platform is completely free. Fees only apply to patronage support (5% platform fee) and to the optional Pro subscription for advanced features.', 'La création d\'un compte et la navigation sur la plateforme sont entièrement gratuites. Des frais s\'appliquent uniquement au mécénat (5% de frais de plateforme) et à l\'abonnement Pro optionnel pour les fonctionnalités avancées.')
       },
       {
         q: t('In which countries is LYA available?', 'Dans quels pays LYA est-il disponible ?'),
-        a: t('LYA is available worldwide. The platform currently supports contracts under French Law, English Law and US Federal IP frameworks, with more jurisdictions being added regularly.', 'LYA est disponible dans le monde entier. La plateforme supporte actuellement les contrats sous droit français, droit anglais et cadres de PI fédéraux américains, avec d\'autres juridictions ajoutées régulièrement.')
+        a: t('LYA is available worldwide. The platform currently supports certification under French Law, English Law and US Federal IP frameworks, with more jurisdictions being added regularly.', 'LYA est disponible dans le monde entier. La plateforme supporte actuellement la certification sous droit français, droit anglais et cadres de PI fédéraux américains, avec d\'autres juridictions ajoutées régulièrement.')
+      }
+    ],
+    Security: [
+      { 
+        q: t('Is my support secure?', 'Mon soutien est-il sécurisé ?'), 
+        a: t('All certifications and milestones are registered in our secure, immutable registry. Our focus is on the security and traceability of your patronage activity and the creative rights involved.', 'Toutes les certifications et jalons sont enregistrés dans notre registre sécurisé et immuable. Notre attention se porte sur la sécurité et la traçabilité de votre activité de mécénat et des droits créatifs concernés.') 
+      },
+      {
+        q: t('Is my personal data protected?', 'Mes données personnelles sont-elles protégées ?'),
+        a: t('Yes. LYA uses AES-256 encryption and never shares your data with third parties. You can request deletion of your account and all associated data at any time.', 'Oui. LYA utilise le chiffrement AES-256 et ne partage jamais vos données avec des tiers. Vous pouvez demander la suppression de votre compte et de toutes les données associées à tout moment.')
       }
     ]
   };

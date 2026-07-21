@@ -6,7 +6,7 @@ import { ErrorBoundary } from './components/ErrorBoundary';
 import { Topbar } from './components/ui/Topbar';
 import { Notification } from './components/ui/Notification';
 import { Logo } from './components/ui/Logo';
-import { ContractDetailModal, ProfessionalOnboardingModal, TradeModal } from './components/Modals';
+import { ContractDetailModal, ProfessionalOnboardingModal } from './components/Modals';
 // Views
 import { LandingView } from './views/LandingView';
 import { DashboardView } from './views/DashboardView';
@@ -17,12 +17,9 @@ import { ProjectPublicView } from './views/ProjectPublicView';
 import { CreatorProfileView } from './views/CreatorProfileView';
 import { NotFoundView } from './views/NotFoundView';
 import { OnboardingWizard } from './components/OnboardingWizard';
-import { ExchangeView } from './views/ExchangeView';
 import { ValidationView } from './views/ValidationView';
-import { HoldingsView } from './views/HoldingsView';
 import { RegistryView } from './views/RegistryView';
 import { LinkArtView } from './views/LinkArtView';
-import { SettlementView } from './views/SettlementView';
 import { LoungeView } from './views/LoungeView';
 import { WalletView } from './views/WalletView';
 import { HomeView } from './views/HomeView';
@@ -49,7 +46,6 @@ import { AdminView } from './views/AdminView';
 import { MecenatView } from './views/MecenatView';
 import { PendingApprovalView } from './views/PendingApprovalView';
 import BrochureAccess from './views/BrochureAccess';
-import { OfferModal, TransferModal } from './components/TransactionModals';
 import { AuthModal } from './components/auth/AuthModal';
 import { ConceptTutorial } from './components/ConceptTutorial';
 import { LYACopilot } from './components/LYACopilot';
@@ -153,22 +149,16 @@ export default function App() {
   }, [t]);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
-  const [orders, setOrders] = useState<Order[]>(INITIAL_ORDERS);
-  const [activities, setActivities] = useState<Activity[]>(ACTIVITIES);
-  const [userTradeHistory, setUserTradeHistory] = useState<Activity[]>([]);
-  const [tradingContract, setTradingContract] = useState<{ contract: Contract, type: 'BUY' | 'SELL' } | null>(null);
   const [selectedContract, setSelectedContract] = useState<Contract | null>(null);
   const [viewingContract, setViewingContract] = useState<Contract | null>(null);
-  const [tradeVolume, setTradeVolume] = useState(1);
-  const [tradePrice, setTradePrice] = useState(0);
   const [selectedPlan, setSelectedPlan] = useState<{ name: string, price: number, billingCycle: 'monthly' | 'yearly' } | null>(null);
   const [checkoutData, setCheckoutData] = useState<{ type: 'PRO_UPGRADE' | 'ASSET_PURCHASE'; amount: number; metadata: any; title: string; projectName?: string; } | null>(null);
   const [userContracts, setUserContracts] = useState<any[]>([]);
   useEffect(() => {
     const defaultHoldings = [
-      { id: 'hold_1', projectId: 'LYA_FINE_ART_MASTER', projectName: 'RENAISSANCE REBORN', units: 1500, entryPrice: 42.50 },
-      { id: 'hold_2', projectId: 'LYA_SKY_GARDENS', projectName: 'SKY GARDENS V4', units: 800, entryPrice: 48.00 },
-      { id: 'hold_3', projectId: 'LYA_FUTURE_VOICE', projectName: 'THE FUTURE VOICE', units: 2500, entryPrice: 38.00 }
+      { id: 'hold_1', projectId: 'LYA_FINE_ART_MASTER', projectName: 'RENAISSANCE REBORN', supportLevel: 1500, joinedAt: '2026-01-12' },
+      { id: 'hold_2', projectId: 'LYA_SKY_GARDENS', projectName: 'SKY GARDENS V4', supportLevel: 800, joinedAt: '2026-02-03' },
+      { id: 'hold_3', projectId: 'LYA_FUTURE_VOICE', projectName: 'THE FUTURE VOICE', supportLevel: 2500, joinedAt: '2026-01-28' }
     ];
     if (user?.uid && !quotaReached) {
       const contractsRef = collection(db, 'users', user.uid, 'contracts');
@@ -189,12 +179,9 @@ export default function App() {
       setCurrentView('PAYMENT');
     }
   }, [checkoutData]);
-  const [isOfferModalOpen, setIsOfferModalOpen] = useState(false);
-  const [isTransferModalOpen, setIsTransferModalOpen] = useState(false);
-  const [transactionContract, setTransactionContract] = useState<Contract | null>(null);
   useEffect(() => {
-    if (currentView === 'CONTRACT_DETAIL' && !viewingContract) { setCurrentView('EXCHANGE'); }
-    if (currentView === 'PAYMENT' && !checkoutData) { setCurrentView(previousView || 'EXCHANGE'); }
+    if (currentView === 'CONTRACT_DETAIL' && !viewingContract) { setCurrentView('REGISTRY'); }
+    if (currentView === 'PAYMENT' && !checkoutData) { setCurrentView(previousView || 'REGISTRY'); }
     if (currentView === 'ISSUER_PROFILE' && !activeIssuerId) { setCurrentView('HOME'); }
   }, [currentView, viewingContract, checkoutData, activeIssuerId]);
   const [usageStats, setUsageStats] = useState({ simulator: 0, swipe: 0, compare: 0, scan: 0, talent: 0 });
@@ -226,10 +213,6 @@ export default function App() {
     return true;
   };
   useEffect(() => { setUsageStats(prev => ({ ...prev, swipe: watchlist.length, compare: comparisonList.length })); }, [watchlist.length, comparisonList.length]);
-  const [orderTypeFilter, setOrderTypeFilter] = useState<'ALL' | 'BUY' | 'SELL'>('ALL');
-  const [orderContractFilter, setOrderContractFilter] = useState<string>('ALL');
-  const [rarityFilter, setRarityFilter] = useState<string>('ALL');
-  const [statusFilter, setStatusFilter] = useState<string>('ALL');
   const [categoryFilter, setCategoryFilter] = useState<string>('ALL');
   const [jurisdictionFilter, setJurisdictionFilter] = useState<string>('ALL');
   const [isVerificationModalOpen, setIsVerificationModalOpen] = useState(false);
@@ -346,7 +329,7 @@ export default function App() {
   useEffect(() => {
     if (!isAuthReady || isBooting) return;
     const publicViews: View[] = ['LANDING', 'LOGIN', 'SIGNUP', 'OUR_MODEL', 'FAQ', 'LEGAL_MENTIONS', 'TERMS', 'PRIVACY', 'LEGAL_REGISTRY'];
-    const previewViews: View[] = ['HOME', 'EXCHANGE', 'REGISTRY', 'PRICING', 'MECENAT', 'BROCHURE'];
+    const previewViews: View[] = ['HOME', 'REGISTRY', 'PRICING', 'MECENAT', 'BROCHURE'];
     if (publicViews.includes(currentView)) return;
     if (previewViews.includes(currentView)) return;
     if (user) return;
@@ -361,58 +344,12 @@ export default function App() {
   };
   const notify = (msg: string) => { setNotification(msg); setTimeout(() => setNotification(null), 3000); };
   const handleOpenIssuerProfile = (issuerId: string) => { setActiveIssuerId(issuerId); setCurrentView('ISSUER_PROFILE'); };
-  const handleOpenOffer = (contract: Contract) => { setTransactionContract(contract); setIsOfferModalOpen(true); };
-  const handleOpenTransfer = (contract: Contract) => { setTransactionContract(contract); setIsTransferModalOpen(true); };
   const addNotification = (title: string, message: string, type: 'INFO' | 'SUCCESS' | 'WARNING' = 'INFO') => {
     const newNotif = { id: Math.random().toString(36).substr(2, 9), title, message, timestamp: new Date().toISOString(), read: false, type };
     setNotifications(prev => [newNotif, ...prev]);
     notify(title);
   };
-  useEffect(() => {
-    if (isBooting) return;
-    const interval = setInterval(() => {
-      const randomContract = CONTRACTS[Math.floor(Math.random() * CONTRACTS.length)];
-      const randomType = Math.random() > 0.5 ? 'BUY' : 'SELL';
-      const randomPrice = randomContract.unitValue * (0.95 + Math.random() * 0.1);
-      const randomVolume = Math.floor(Math.random() * 50) + 1;
-      const simulatedOrder: Order = { id: `sim-${Math.random().toString(36).substr(2, 5)}`, contractId: randomContract.id, type: randomType, volume: randomVolume, price: Number(randomPrice.toFixed(2)), timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }), status: 'OPEN' };
-      setOrders(prev => [simulatedOrder, ...prev.slice(0, 49)]);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, [isBooting]);
   useEffect(() => { if (isAuthReady) { const timer = setTimeout(() => setIsBooting(false), 1000); return () => clearTimeout(timer); } }, [isAuthReady]);
-  const handleOpenTrade = (contract: Contract, type: 'BUY' | 'SELL', price?: number, volume?: number) => { setTradingContract({ contract, type }); setTradePrice(price || contract.unitValue); setTradeVolume(volume || 1); if (price) { notify(`ORDER SELECTED: ${type} @ $${price.toLocaleString()}`); } };
-  const handlePlaceOrder = (contract: Contract, type: 'BUY' | 'SELL', price: number, volume: number) => {
-    if (type === 'BUY') {
-      if (!user) { notify(t('Please sign in to place an order', 'Veuillez vous connecter pour passer une commande')); setIsAuthModalOpen(true); return; }
-      setCheckoutData({ type: 'ASSET_PURCHASE', amount: price * volume * 1.032, title: `INVESTMENT: ${contract.name}`, projectName: contract.name, metadata: { type: 'ASSET_PURCHASE', contractId: contract.id, units: volume, price: price, projectName: contract.name, userId: user.uid, userEmail: user.email } });
-      setTradingContract(null); return;
-    }
-    const newOrder: Order = { id: Math.random().toString(36).substr(2, 9), contractId: contract.id, type: type, volume: volume, price: price, timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }), status: 'OPEN' };
-    const matchingOrderIndex = orders.findIndex(o => o.contractId === newOrder.contractId && o.type !== newOrder.type && o.status === 'OPEN' && (newOrder.type === 'BUY' ? o.price <= newOrder.price : o.price >= newOrder.price));
-    if (matchingOrderIndex !== -1) {
-      const matchedOrder = orders[matchingOrderIndex];
-      const tradeActivity: Activity = { id: Math.random().toString(36).substr(2, 9), timestamp: newOrder.timestamp, contract: contract.id, type: newOrder.type, volume: Math.min(newOrder.volume, matchedOrder.volume), price: matchedOrder.price };
-      setActivities([tradeActivity, ...activities]); setUserTradeHistory([tradeActivity, ...userTradeHistory]);
-      const updatedOrders = [...orders];
-      if (newOrder.volume === matchedOrder.volume) { updatedOrders.splice(matchingOrderIndex, 1); } else if (newOrder.volume > matchedOrder.volume) { updatedOrders.splice(matchingOrderIndex, 1); } else { updatedOrders[matchingOrderIndex] = { ...matchedOrder, volume: matchedOrder.volume - newOrder.volume }; }
-      setOrders(updatedOrders); notify('TRADE EXECUTED: SETTLEMENT COMPLETE');
-    } else { setOrders([newOrder, ...orders]); notify('ORDER PLACED: EXECUTING SETTLEMENT...'); }
-    setTradingContract(null);
-  };
-  const cancelOrder = (id: string) => { setOrders(orders.filter(o => o.id !== id)); notify('ORDER CANCELLED'); };
-  const handleExportOrders = () => {
-    const filteredOrders = orders.filter(order => { const typeMatch = orderTypeFilter === 'ALL' || order.type === orderTypeFilter; const contractMatch = orderContractFilter === 'ALL' || order.contractId === orderContractFilter; return typeMatch && contractMatch; });
-    if (filteredOrders.length === 0) { notify('NO ORDERS TO EXPORT'); return; }
-    const headers = ['ID', 'Contract ID', 'Type', 'Volume', 'Price', 'Timestamp', 'Status'];
-    const csvContent = [headers.join(','), ...filteredOrders.map(order => [order.id, order.contractId, order.type, order.volume, order.price, order.timestamp, order.status].join(','))].join('\n');
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.setAttribute('href', url); link.setAttribute('download', `open_orders_${new Date().toISOString().split('T')[0]}.csv`); link.style.visibility = 'hidden';
-    document.body.appendChild(link); link.click(); document.body.removeChild(link);
-    notify('EXPORTING ORDERS TO CSV...');
-  };
   const handleVerify = async (data: any) => {
     if (!user) return;
     setIsVerifying(true);
@@ -532,18 +469,15 @@ export default function App() {
               {currentView === 'PROFESSIONAL_DASHBOARD' && <ProfessionalDashboardView user={effectiveUser} onNotify={notify} onViewChange={handleViewChange} />}
               {currentView === 'PROJECT_PUBLIC' && <ProjectPublicView contractId={viewingContract?.id} onViewChange={handleViewChange} onNotify={notify} user={effectiveUser} />}
               {currentView === 'CREATOR_PROFILE' && <CreatorProfileView onViewChange={handleViewChange} onNotify={notify} user={effectiveUser} />}
-              {!['HOME','LANDING','DASHBOARD','EXCHANGE','VALIDATION','HOLDINGS','REGISTRY','LINK_ART','SETTLEMENT','LOUNGE','WALLET','SIGNUP','LOGIN','PROFILE','PRICING','SWIPE','MECENAT','BROCHURE','WATCHLIST','SETTINGS','COMPARE','SOCIAL_FEED','PAYMENT','CONTRACT_DETAIL','TERMS','PRIVACY','LEGAL_REGISTRY','GOVERNANCE','API','ACADEMY','APPLY_VERIFICATION','ABOUT','TAX_OPTIMIZER','ADMIN_PANEL','ISSUER_PROFILE','OUR_MODEL','FAQ','LEGAL_MENTIONS','CREATOR_DASHBOARD','INVESTOR_DASHBOARD','PROFESSIONAL_DASHBOARD','PROJECT_PUBLIC','CREATOR_PROFILE'].includes(currentView) && (<NotFoundView onViewChange={handleViewChange} />)}
-              {currentView === 'CONTRACT_DETAIL' && viewingContract && (<ContractDetailView contract={liveContracts.find(c => c.id === viewingContract.id) || viewingContract} onBack={() => setCurrentView('EXCHANGE')} onTrade={handleOpenTrade} onPlaceOrder={handlePlaceOrder} onNotify={notify} isWatchlisted={watchlist.includes(viewingContract.id)} onToggleWatchlist={handleToggleWatchlist} />)}
+              {!['HOME','LANDING','DASHBOARD','VALIDATION','REGISTRY','LINK_ART','LOUNGE','WALLET','SIGNUP','LOGIN','PROFILE','PRICING','SWIPE','MECENAT','BROCHURE','WATCHLIST','SETTINGS','COMPARE','SOCIAL_FEED','PAYMENT','CONTRACT_DETAIL','TERMS','PRIVACY','LEGAL_REGISTRY','GOVERNANCE','API','ACADEMY','APPLY_VERIFICATION','ABOUT','TAX_OPTIMIZER','ADMIN_PANEL','ISSUER_PROFILE','OUR_MODEL','FAQ','LEGAL_MENTIONS','CREATOR_DASHBOARD','INVESTOR_DASHBOARD','PROFESSIONAL_DASHBOARD','PROJECT_PUBLIC','CREATOR_PROFILE'].includes(currentView) && (<NotFoundView onViewChange={handleViewChange} />)}
+              {currentView === 'CONTRACT_DETAIL' && viewingContract && (<ContractDetailView contract={liveContracts.find(c => c.id === viewingContract.id) || viewingContract} onBack={() => setCurrentView('REGISTRY')} onNotify={notify} isWatchlisted={watchlist.includes(viewingContract.id)} onToggleWatchlist={handleToggleWatchlist} />)}
               {currentView === 'TERMS' && <LegalView type="TERMS" onNotify={notify} />}
               {currentView === 'PRIVACY' && <LegalView type="PRIVACY" onNotify={notify} />}
               {currentView === 'LEGAL_REGISTRY' && <LegalView type="REGISTRY" onNotify={notify} />}
-              {currentView === 'EXCHANGE' && (<><ExchangeView orders={orders} activities={activities} onNotify={notify} onOpenTrade={handleOpenTrade} onOpenOffer={handleOpenOffer} onOpenTransfer={handleOpenTransfer} onOpenIssuerProfile={handleOpenIssuerProfile} onSelectContract={(c) => { const liveContract = liveContracts.find(lc => lc.id === c.id) || c; setViewingContract(liveContract); setCurrentView('CONTRACT_DETAIL'); }} onCancelOrder={cancelOrder} onExportOrders={handleExportOrders} rarityFilter={rarityFilter} setRarityFilter={setRarityFilter} statusFilter={statusFilter} setStatusFilter={setStatusFilter} orderTypeFilter={orderTypeFilter} setOrderTypeFilter={setOrderTypeFilter} orderContractFilter={orderContractFilter} setOrderContractFilter={setOrderContractFilter} verificationLevel={verificationLevel} onOpenVerification={() => setIsVerificationModalOpen(true)} watchlist={watchlist} onToggleWatchlist={handleToggleWatchlist} comparisonList={comparisonList} onToggleComparison={handleToggleComparison} categoryFilter={categoryFilter} setCategoryFilter={setCategoryFilter} jurisdictionFilter={jurisdictionFilter} setJurisdictionFilter={setJurisdictionFilter} user={effectiveUser} usageStats={usageStats} liveContracts={liveContracts} />{!effectiveUser && (<div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 flex items-center gap-4 px-6 py-4 bg-[#0D1117]/95 border border-primary-cyan/30 backdrop-blur-xl shadow-2xl font-mono"><span className="text-[10px] font-black text-white/60 uppercase tracking-widest">Aperçu visiteur</span><button onClick={() => setIsAuthModalOpen(true)} className="px-5 py-2 bg-primary-cyan text-surface-dim text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all">Créer un compte</button><button onClick={() => setIsAuthModalOpen(true)} className="px-5 py-2 border border-white/10 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white/5 transition-all">Se connecter</button></div>)}</>)}
               {currentView === 'VALIDATION' && <ValidationView user={effectiveUser} onNotify={notify} onViewChange={setCurrentView} />}
-              {currentView === 'HOLDINGS' && <HoldingsView onNotify={notify} userContracts={userContracts} onViewChange={setCurrentView} />}
               {currentView === 'WALLET' && <WalletView user={effectiveUser} onNotify={notify} onViewChange={setCurrentView} />}
               {currentView === 'REGISTRY' && (<><RegistryView user={effectiveUser} onNotify={notify} allContracts={liveContracts} onSelectContract={(c) => { setViewingContract(c); setCurrentView('CONTRACT_DETAIL'); }} onViewChange={setCurrentView} />{!effectiveUser && (<div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 flex items-center gap-4 px-6 py-4 bg-[#0D1117]/95 border border-primary-cyan/30 backdrop-blur-xl shadow-2xl font-mono"><span className="text-[10px] font-black text-white/60 uppercase tracking-widest">Aperçu visiteur</span><button onClick={() => setIsAuthModalOpen(true)} className="px-5 py-2 bg-primary-cyan text-surface-dim text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all">Créer un compte</button><button onClick={() => setIsAuthModalOpen(true)} className="px-5 py-2 border border-white/10 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white/5 transition-all">Se connecter</button></div>)}</>)}
               {currentView === 'LINK_ART' && (<LinkArtView user={effectiveUser} onNotify={notify} onViewChange={setCurrentView} />)}
-              {currentView === 'SETTLEMENT' && <SettlementView user={effectiveUser} onNotify={notify} onViewChange={setCurrentView} />}
               {currentView === 'LOUNGE' && (<LoungeView user={effectiveUser} onNotify={notify} onViewChange={setCurrentView} onProfessionalChatToggle={setIsProfessionalChatActive} />)}
               {currentView === 'PRICING' && (<PricingView onSelectPlan={(plan) => { if (!effectiveUser) { notify(t('Please sign in to upgrade', 'Veuillez vous connecter pour passer au Pro')); setIsAuthModalOpen(true); return; } setCheckoutData({ type: 'PRO_UPGRADE', amount: plan.price, title: plan.name, metadata: { type: 'PRO_UPGRADE', planName: plan.name, userEmail: effectiveUser.email, userId: effectiveUser.uid } }); }} onNotify={notify} />)}
               {currentView === 'SWIPE' && (<SwipeView user={effectiveUser} usageStats={usageStats} onUsageUpdate={handleUsageUpdate} onNotify={notify} watchlist={watchlist} allContracts={CONTRACTS} onToggleWatchlist={handleToggleWatchlist} comparisonList={comparisonList} onToggleComparison={handleToggleComparison} onViewChange={setCurrentView} checkUsageLimit={checkUsageLimit} />)}
@@ -557,7 +491,7 @@ export default function App() {
               {currentView === 'ADMIN_PANEL' && <AdminView user={user} onNotify={notify} onViewChange={setCurrentView} liveContracts={liveContracts} />}
               {currentView === 'APPLY_VERIFICATION' && <ApplyForVerificationView onNotify={notify} />}
               {currentView === 'TAX_OPTIMIZER' && <TaxOptimizerView onNotify={notify} />}
-              {currentView === 'ISSUER_PROFILE' && (<IssuerProfileView issuerId={activeIssuerId || 'UNKNOWN'} onBack={() => setCurrentView('EXCHANGE')} />)}
+              {currentView === 'ISSUER_PROFILE' && (<IssuerProfileView issuerId={activeIssuerId || 'UNKNOWN'} onBack={() => setCurrentView('REGISTRY')} />)}
               {currentView === 'ABOUT' && <AboutView onViewChange={handleViewChange} onNotify={notify} />}
               {currentView === 'OUR_MODEL' && <LegalView type="OUR_MODEL" onNotify={notify} />}
               {currentView === 'FAQ' && <LegalView type="FAQ" onNotify={notify} />}
@@ -571,13 +505,10 @@ export default function App() {
     </main>
         <LYACopilot />
         <AnimatePresence mode="sync">
-          {checkoutData && (<motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[200] bg-surface-dim/95 backdrop-blur-2xl overflow-y-auto pt-24 pb-12 px-6"><PaymentView checkoutData={checkoutData} userEmail={user?.email} stripeCustomerId={user?.stripeCustomerId} onSuccess={() => { notify(t('TRANSACTION SUCCESSFUL', 'TRANSACTION RÉUSSIE')); setCheckoutData(null); if (checkoutData.type === 'PRO_UPGRADE') { setCurrentView('PROFILE'); } else { setCurrentView('HOLDINGS'); } }} onCancel={() => setCheckoutData(null)} /></motion.div>)}
+          {checkoutData && (<motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[200] bg-surface-dim/95 backdrop-blur-2xl overflow-y-auto pt-24 pb-12 px-6"><PaymentView checkoutData={checkoutData} userEmail={user?.email} stripeCustomerId={user?.stripeCustomerId} onSuccess={() => { notify(t('TRANSACTION SUCCESSFUL', 'TRANSACTION RÉUSSIE')); setCheckoutData(null); if (checkoutData.type === 'PRO_UPGRADE') { setCurrentView('PROFILE'); } else { setCurrentView('WALLET'); } }} onCancel={() => setCheckoutData(null)} /></motion.div>)}
         </AnimatePresence>
-        <ContractDetailModal isOpen={!!selectedContract} contract={selectedContract} onClose={() => setSelectedContract(null)} onTrade={handleOpenTrade} />
+        <ContractDetailModal isOpen={!!selectedContract} contract={selectedContract} onClose={() => setSelectedContract(null)} />
         <ProfessionalOnboardingModal isOpen={isVerificationModalOpen} onClose={() => setIsVerificationModalOpen(false)} onVerify={handleVerify} isVerifying={isVerifying} />
-        <TradeModal tradingContract={tradingContract} onClose={() => setTradingContract(null)} onTrade={handlePlaceOrder} tradeVolume={tradeVolume} setTradeVolume={setTradeVolume} tradePrice={tradePrice} setTradePrice={setTradePrice} />
-        <OfferModal isOpen={isOfferModalOpen} onClose={() => setIsOfferModalOpen(false)} contract={transactionContract} />
-        <TransferModal isOpen={isTransferModalOpen} onClose={() => setIsTransferModalOpen(false)} contract={transactionContract} />
         {!isLandingView && !isAuthView && (
           <footer className={`transition-all duration-300 ${isSidebarCollapsed ? 'lg:ml-16' : 'lg:ml-64'} py-8 border-t border-white/5 bg-surface-dim/80 backdrop-blur-md flex flex-col md:flex-row justify-between items-center px-12 gap-4`}>
             <div className="font-body text-[10px] uppercase tracking-widest text-on-surface-variant opacity-40">© 2026 LINKYOURART. CREATIVE ECOSYSTEM V4.2.0</div>
