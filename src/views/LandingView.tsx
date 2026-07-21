@@ -26,7 +26,8 @@ import { ExternalLink,
   X,
   Copy,
   Share2,
-  Users2
+  Users2,
+  Award
 } from 'lucide-react';
 import { db, handleFirestoreError, OperationType } from '../firebase';
 import { collection, addDoc, serverTimestamp, getDocs, query, where, limit, doc, getDoc, setDoc, updateDoc, increment, onSnapshot } from 'firebase/firestore';
@@ -99,6 +100,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
   const [isVerifyingKey, setIsVerifyingKey] = useState(false);
   const [showKeyInput, setShowKeyInput] = useState(false);
   const [activeLegal, setActiveLegal] = useState<'GDPR' | 'PRIVACY' | 'TERMS' | null>(null);
+  const [activeInfo, setActiveInfo] = useState<'HOW' | 'SCORE' | 'SECURITY' | null>(null);
   const [showKidiModal, setShowKidiModal] = useState(false);
   const [logoTapCount, setLogoTapCount] = useState(0);
   const [showLoginEaster, setShowLoginEaster] = useState(false);
@@ -413,15 +415,15 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
               </div>
               <div className="hidden md:flex items-center gap-2 md:gap-12">
                 <div className="hidden xl:flex items-center gap-12 text-[15px] font-black tracking-[0.25em] uppercase">
-                  <motion.button whileHover={{ scale: 1.05, x: 5 }} whileTap={{ scale: 0.95 }} className="text-white/40 transition-colors hover:text-primary-cyan group flex items-center gap-2">
+                  <motion.button onClick={() => setActiveInfo('HOW')} whileHover={{ scale: 1.05, x: 5 }} whileTap={{ scale: 0.95 }} className="text-white/40 transition-colors hover:text-primary-cyan group flex items-center gap-2">
                     {t('How It Works', 'Comment Ça Marche')}
                     <div className="w-1.5 h-1.5 rounded-full bg-primary-cyan opacity-80 shadow-[0_0_8px_rgba(0,224,255,1)]" />
                   </motion.button>
-                  <motion.button whileHover={{ scale: 1.05, x: 5 }} whileTap={{ scale: 0.95 }} className="text-white/40 transition-colors hover:text-[#FF007F] group flex items-center gap-2">
+                  <motion.button onClick={() => setActiveInfo('SCORE')} whileHover={{ scale: 1.05, x: 5 }} whileTap={{ scale: 0.95 }} className="text-white/40 transition-colors hover:text-[#FF007F] group flex items-center gap-2">
                     {t('LYA Score', 'Score LYA')}
                     <div className="w-1.5 h-1.5 rounded-full bg-[#FF007F] opacity-80 shadow-[0_0_8px_rgba(255,0,127,1)]" />
                   </motion.button>
-                  <motion.button whileHover={{ scale: 1.05, x: 5 }} whileTap={{ scale: 0.95 }} className="text-white/40 transition-colors hover:text-[#9D00FF] group flex items-center gap-2">
+                  <motion.button onClick={() => setActiveInfo('SECURITY')} whileHover={{ scale: 1.05, x: 5 }} whileTap={{ scale: 0.95 }} className="text-white/40 transition-colors hover:text-[#9D00FF] group flex items-center gap-2">
                     {t('Security', 'Sécurité')}
                     <div className="w-1.5 h-1.5 rounded-full bg-[#9D00FF] opacity-80 shadow-[0_0_8px_rgba(157,0,255,1)]" />
                   </motion.button>
@@ -768,6 +770,83 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                     <div className="space-y-6">
                       <p>{t("By accessing the LinkYourArt Terminal, you agree to operate within the defined ethical and legal framework.", "En accédant au Terminal LinkYourArt, vous acceptez d'opérer dans le cadre éthique et juridique défini.")}</p>
                       <p>{t("All disputes are handled through our internal legal arbitration process.", "Tous les litiges sont gérés par notre processus d'arbitrage légal interne.")}</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Info Panel — How It Works / LYA Score / Security */}
+      <AnimatePresence mode="sync">
+        {activeInfo && (
+          <div className="fixed inset-0 z-[200] flex items-center justify-center p-6">
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setActiveInfo(null)} className="absolute inset-0 bg-black/95 backdrop-blur-3xl" />
+            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="relative w-full max-w-4xl bg-[#0D1117] border border-white/10 rounded-[3rem] p-8 md:p-12 max-h-[80vh] overflow-y-auto lya-scrollbar shadow-3xl">
+              <button onClick={() => setActiveInfo(null)} className="absolute top-8 right-8 text-white/20 hover:text-white transition-colors"><X size={24} /></button>
+              <div className="space-y-10">
+                <div className="flex items-center gap-4">
+                  {activeInfo === 'HOW' && <Cpu size={32} className="text-primary-cyan" />}
+                  {activeInfo === 'SCORE' && <Award size={32} className="text-[#FF007F]" />}
+                  {activeInfo === 'SECURITY' && <Shield size={32} className="text-[#9D00FF]" />}
+                  <h3 className="font-headline text-3xl md:text-4xl font-black uppercase tracking-tighter">
+                    {activeInfo === 'HOW' && t('HOW IT WORKS', 'COMMENT ÇA MARCHE')}
+                    {activeInfo === 'SCORE' && t('THE LYA SCORE', 'LE SCORE LYA')}
+                    {activeInfo === 'SECURITY' && t('SECURITY & TRUST', 'SÉCURITÉ & CONFIANCE')}
+                  </h3>
+                </div>
+
+                <div className="space-y-8 text-white/60 font-medium leading-relaxed">
+                  {activeInfo === 'HOW' && (
+                    <div className="space-y-6">
+                      <p>{t('LinkYourArt certifies creative projects through an objective, transparent process — no financial mechanism, no speculation.', 'LinkYourArt certifie les projets créatifs à travers un processus objectif et transparent — aucun mécanisme financier, aucune spéculation.')}</p>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+                        {[
+                          { n: '01', tFR: 'Soumission', tEN: 'Submission', dFR: 'Un créateur ou un professionnel soumet un projet créatif au Registre LYA, gratuitement.', dEN: 'A creator or professional submits a creative project to the LYA Registry, free of charge.' },
+                          { n: '02', tFR: 'Certification', tEN: 'Certification', dFR: 'Analyse algorithmique et revue par un comité de professionnels produisent le Score LYA sur 1000.', dEN: 'Algorithmic analysis and professional committee review produce the LYA Score out of 1000.' },
+                          { n: '03', tFR: 'Mécénat', tEN: 'Patronage', dFR: 'Les mécènes découvrent les projets certifiés et les soutiennent en échange de contreparties de reconnaissance.', dEN: 'Patrons discover certified projects and support them in exchange for recognition-based rewards.' },
+                        ].map(s => (
+                          <div key={s.n} className="bg-white/[0.03] border border-white/10 rounded-2xl p-5">
+                            <p className="text-primary-cyan font-black font-mono text-xl mb-2">{s.n}</p>
+                            <p className="text-white font-black uppercase text-sm mb-1">{t(s.tEN, s.tFR)}</p>
+                            <p className="text-white/50 text-sm leading-relaxed">{t(s.dEN, s.dFR)}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  {activeInfo === 'SCORE' && (
+                    <div className="space-y-6">
+                      <p>{t('Every certified project receives a LYA Score out of 1000, combining algorithmic analysis and professional committee review across 5 pillars.', 'Chaque projet certifié reçoit un Score LYA sur 1000, combinant analyse algorithmique et revue par un comité de professionnels selon 5 piliers.')}</p>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        {[
+                          { l: 'IC', tFR: 'Intégrité Conceptuelle', tEN: 'Conceptual Integrity' },
+                          { l: 'MA', tFR: 'Maturité Actuelle', tEN: 'Current Maturity' },
+                          { l: 'CE', tFR: "Capacité d'Évolution", tEN: 'Growth Capacity' },
+                          { l: 'FR', tFR: 'Faisabilité Réelle', tEN: 'Real Feasibility' },
+                          { l: 'IN', tFR: 'Incarnation', tEN: 'Embodiment' },
+                        ].map(p => (
+                          <div key={p.l} className="flex items-center gap-3 bg-white/[0.03] border border-white/10 rounded-xl p-4">
+                            <span className="text-[#FF007F] font-black font-mono text-sm w-8">{p.l}</span>
+                            <span className="text-white/70 text-sm">{t(p.tEN, p.tFR)}</span>
+                            <span className="ml-auto text-white/30 text-xs font-mono">/200</span>
+                          </div>
+                        ))}
+                      </div>
+                      <p className="text-sm text-white/40">{t('The Score evolves over time as milestones are validated — it is a live, transparent indicator of certified quality, not a price.', 'Le Score évolue dans le temps à mesure que les jalons sont validés — c\'est un indicateur vivant et transparent de qualité certifiée, pas un prix.')}</p>
+                    </div>
+                  )}
+                  {activeInfo === 'SECURITY' && (
+                    <div className="space-y-6">
+                      <p>{t('LinkYourArt is built on rigorous legal compliance, data protection and creative rights certification at every step.', 'LinkYourArt est bâti sur des fondations de conformité juridique rigoureuse, protection des données et certification des droits créatifs à chaque étape.')}</p>
+                      <ul className="list-disc pl-6 space-y-4">
+                        <li>{t('GDPR compliant — end-to-end data protection.', 'Conforme RGPD — protection des données de bout en bout.')}</li>
+                        <li>{t('Every project is reviewed by certified professional validators, not automated approval alone.', 'Chaque projet est revu par des validateurs professionnels certifiés, pas seulement une approbation automatisée.')}</li>
+                        <li>{t('Creators retain full moral rights and creative control over their work at all times.', 'Les créateurs conservent en toute circonstance leurs droits moraux et le contrôle créatif de leur œuvre.')}</li>
+                        <li>{t('Patronage support is reward-based, never a regulated financial instrument.', 'Le soutien de mécénat est basé sur la récompense, jamais un instrument financier réglementé.')}</li>
+                      </ul>
                     </div>
                   )}
                 </div>
