@@ -605,7 +605,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                             <div>
                               <div className="text-[11px] font-black text-white/30 uppercase tracking-widest mb-1">{t('PATRONAGE MODEL', 'MODÈLE DE MÉCÉNAT')}</div>
                               <span className="px-3.5 py-1 bg-accent-gold/10 border border-accent-gold/20 text-accent-gold text-xs font-black uppercase tracking-widest rounded-lg">
-                                {t('Reward-Based Patronage', 'Mécénat à récompense')}
+                                {t('Recognition-Based Patronage', 'Mécénat de reconnaissance')}
                               </span>
                             </div>
                             <div>

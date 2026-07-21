@@ -365,7 +365,7 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
           )}
 
           <p className="text-xs text-on-surface-variant/25 text-center leading-relaxed">
-            {T('Le mécénat sur des projets artistiques constitue un soutien à récompense, non un investissement financier. Les contreparties reçues sont personnelles et non-financières.', 'Patronage of artistic projects constitutes reward-based support, not a financial investment. Considerations received are personal and non-financial.')}
+            {T('Le mécénat sur des projets artistiques constitue un soutien de reconnaissance, non un investissement financier. Les contreparties reçues sont personnelles et non-financières.', 'Patronage of artistic projects constitutes recognition-based support, not a financial investment. Considerations received are personal and non-financial.')}
           </p>
         </div>
       )}

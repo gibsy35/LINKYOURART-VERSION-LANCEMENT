@@ -237,7 +237,7 @@ const RESOURCE_CONTENTS: Record<string, { subtitle: string; sections: { title: s
   'Legal Framework Guide': {
     subtitle: 'JURIDICTION, CONFORMITÉ & NORMES CONTRACTUELLES',
     sections: [
-      { title: 'CADRE RÉGLEMENTAIRE', body: 'LinkYourArt opère en tant que plateforme de certification et de mise en relation de mécénat. Le soutien apporté à un projet constitue un mécénat à récompense : il ouvre droit à des contreparties de reconnaissance non-financières, à l\'exclusion de toute participation aux revenus de l\'œuvre. Ce mécanisme ne constitue pas un produit d\'investissement réglementé.' },
+      { title: 'CADRE RÉGLEMENTAIRE', body: 'LinkYourArt opère en tant que plateforme de certification et de mise en relation de mécénat. Le soutien apporté à un projet constitue un mécénat de reconnaissance : il ouvre droit à des contreparties de reconnaissance non-financières, à l\'exclusion de toute participation aux revenus de l\'œuvre. Ce mécanisme ne constitue pas un produit d\'investissement réglementé.' },
       { title: 'JURIDICTIONS SUPPORTÉES', body: 'La plateforme LYA supporte actuellement la certification de projets sous le Droit Français (cadres SACD/SCAM), le Droit Anglais (conformité CDPA 1988) et les cadres de PI fédéraux américains. La conformité RGPD est appliquée au niveau des données.' },
       { title: 'DROITS & PROTECTIONS DES CRÉATEURS', body: 'Les créateurs conservent en toute circonstance tous leurs droits moraux et le contrôle créatif de leurs œuvres. Les mécènes ne reçoivent que des contreparties de reconnaissance — jamais de droit de décision sur les choix artistiques du créateur, ni de participation financière aux revenus générés.' }
     ]

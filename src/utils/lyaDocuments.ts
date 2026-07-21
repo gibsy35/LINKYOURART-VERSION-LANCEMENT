@@ -465,7 +465,7 @@ export function generateCertificate(contract: Contract, lang: string) {
           </div>
           <div class="data-card">
             <div class="data-label">${isFR ? 'Type de Mécénat' : 'Patronage Type'}</div>
-            <div class="data-value data-value-green">${isFR ? 'À récompense' : 'Reward-based'}</div>
+            <div class="data-value data-value-green">${isFR ? 'De reconnaissance' : 'Recognition-based'}</div>
             <div class="data-sub">${isFR ? 'aucune participation aux revenus' : 'no revenue participation'}</div>
           </div>
         </div>
@@ -522,16 +522,16 @@ export function generateLegalTerms(contract: Contract, lang: string) {
   const isFR = lang === 'FR';
 
   const articles = isFR ? [
-    ['ART. 1 — DÉFINITIONS', `Dans le présent acte, "Certification" désigne la validation officielle d'un projet créatif par LinkYourArt, matérialisée par un Score LYA inscrit au Registre Officiel LYA. "Mécène" désigne toute personne physique ou morale ayant apporté un soutien financier au projet dans le cadre d'une campagne de mécénat à récompense. "Créateur" désigne l'émetteur du projet créatif référencé sous l'index ${contract.registryIndex}.`],
-    ['ART. 2 — OBJET DU CONTRAT', `Le présent contrat a pour objet d'établir les droits et obligations entre LinkYourArt, le Créateur et les Mécènes relatifs au projet "${contract.name}". Le soutien apporté par un Mécène constitue un mécénat à récompense : il ouvre droit aux contreparties définies à l'Article 3, à l'exclusion de toute participation financière aux revenus de l'œuvre.`],
+    ['ART. 1 — DÉFINITIONS', `Dans le présent acte, "Certification" désigne la validation officielle d'un projet créatif par LinkYourArt, matérialisée par un Score LYA inscrit au Registre Officiel LYA. "Mécène" désigne toute personne physique ou morale ayant apporté un soutien financier au projet dans le cadre d'une campagne de mécénat de reconnaissance. "Créateur" désigne l'émetteur du projet créatif référencé sous l'index ${contract.registryIndex}.`],
+    ['ART. 2 — OBJET DU CONTRAT', `Le présent contrat a pour objet d'établir les droits et obligations entre LinkYourArt, le Créateur et les Mécènes relatifs au projet "${contract.name}". Le soutien apporté par un Mécène constitue un mécénat de reconnaissance : il ouvre droit aux contreparties définies à l'Article 3, à l'exclusion de toute participation financière aux revenus de l'œuvre.`],
     ['ART. 3 — DROITS DES MÉCÈNES', `Les Mécènes bénéficient des contreparties convenues au moment de leur soutien (mention au générique, accès anticipé, mises à jour exclusives du projet, selon les modalités propres à chaque campagne). Ces contreparties ne constituent ni un titre financier, ni un droit de participation aux revenus, ni un instrument négociable. Les Mécènes ne bénéficient d'aucun droit de décision sur les choix artistiques du Créateur.`],
     ['ART. 4 — OBLIGATIONS DU CRÉATEUR', `Le Créateur s'engage à tenir à jour l'avancement de son projet sur le Registre LYA et à informer les Mécènes des jalons franchis. Le Créateur garantit être titulaire de l'ensemble des droits de propriété intellectuelle relatifs à l'œuvre.`],
     ['ART. 5 — SCORE LYA & CERTIFICATION', `Le Score LYA, actuellement établi à ${contract.totalScore}/1000, est calculé par LinkYourArt selon une méthodologie propriétaire combinant évaluation algorithmique et validation par des professionnels certifiés. Ce score constitue un indicateur de qualité et de maturité du projet ; il ne constitue ni une valorisation financière, ni une garantie de rendement.`],
     ['ART. 6 — DURÉE ET RÉSILIATION', `Le présent contrat est conclu pour une durée indéterminée à compter de sa date d'émission. Il peut être résilié par LinkYourArt en cas de manquement grave du Créateur ou de décision de la gouvernance LYA. La résiliation n'emporte aucune obligation de remboursement, les contreparties visées à l'Article 3 n'étant pas de nature financière.`],
     ['ART. 7 — DROIT APPLICABLE', `Le présent contrat est soumis au droit français. Tout litige relatif à son interprétation ou son exécution sera soumis à la compétence exclusive des tribunaux de Paris.`],
   ] : [
-    ['ART. 1 — DEFINITIONS', `In this agreement, "Certification" means the official validation of a creative project by LinkYourArt, evidenced by a LYA Score recorded on the Official LYA Registry. "Patron" means any natural or legal person who has provided financial support to the project under a reward-based patronage campaign. "Creator" means the issuer of the creative project referenced under index ${contract.registryIndex}.`],
-    ['ART. 2 — PURPOSE', `This contract establishes the rights and obligations between LinkYourArt, the Creator and Patrons relating to the project "${contract.name}". Support provided by a Patron constitutes reward-based patronage: it entitles the Patron to the considerations defined in Article 3, to the exclusion of any financial participation in the work's revenues.`],
+    ['ART. 1 — DEFINITIONS', `In this agreement, "Certification" means the official validation of a creative project by LinkYourArt, evidenced by a LYA Score recorded on the Official LYA Registry. "Patron" means any natural or legal person who has provided financial support to the project under a recognition-based patronage campaign. "Creator" means the issuer of the creative project referenced under index ${contract.registryIndex}.`],
+    ['ART. 2 — PURPOSE', `This contract establishes the rights and obligations between LinkYourArt, the Creator and Patrons relating to the project "${contract.name}". Support provided by a Patron constitutes recognition-based patronage: it entitles the Patron to the considerations defined in Article 3, to the exclusion of any financial participation in the work's revenues.`],
     ['ART. 3 — PATRONS RIGHTS', `Patrons benefit from the considerations agreed at the time of their support (credit mention, early access, exclusive project updates, per the terms of each campaign). These considerations do not constitute a financial security, a right to revenue participation, or a tradeable instrument. Patrons have no decision-making rights over the Creator's artistic choices.`],
     ['ART. 4 — CREATOR OBLIGATIONS', `The Creator agrees to keep the project's progress updated on the LYA Registry and to inform Patrons of milestones reached. The Creator warrants ownership of all intellectual property rights relating to the work.`],
     ['ART. 5 — LYA SCORE & CERTIFICATION', `The LYA Score, currently set at ${contract.totalScore}/1000, is calculated by LinkYourArt according to a proprietary methodology combining algorithmic evaluation and validation by certified professionals. This score constitutes a quality and maturity indicator for the project; it does not constitute a financial valuation or a return guarantee.`],
@@ -565,7 +565,7 @@ export function generateLegalTerms(contract: Contract, lang: string) {
     </div>
 
     <div class="highlight-box">
-      <p><strong>${isFR ? 'Document officiel LinkYourArt' : 'Official LinkYourArt document'}</strong> — ${isFR ? 'Ce document constitue les conditions contractuelles légales régissant la certification et le mécénat à récompense du projet créatif référencé ci-dessus. Il est émis par LinkYourArt, marque de LINKYOURART SASU, et conservé dans le Registre Officiel LYA.' : 'This document constitutes the legal contractual conditions governing the certification and reward-based patronage of the above-referenced creative project. It is issued by LinkYourArt, marque de LINKYOURART SASU, and maintained in the Official LYA Registry.'}</p>
+      <p><strong>${isFR ? 'Document officiel LinkYourArt' : 'Official LinkYourArt document'}</strong> — ${isFR ? 'Ce document constitue les conditions contractuelles légales régissant la certification et le mécénat de reconnaissance du projet créatif référencé ci-dessus. Il est émis par LinkYourArt, marque de LINKYOURART SASU, et conservé dans le Registre Officiel LYA.' : 'This document constitutes the legal contractual conditions governing the certification and recognition-based patronage of the above-referenced creative project. It is issued by LinkYourArt, marque de LINKYOURART SASU, and maintained in the Official LYA Registry.'}</p>
     </div>
 
     <div class="legal-text">
@@ -670,7 +670,7 @@ export function generatePermissions(contract: Contract, lang: string) {
       </div>
       <div class="data-card" style="text-align:center">
         <div class="data-label">${isFR ? 'Type de Mécénat' : 'Patronage Type'}</div>
-        <div class="data-value" style="color:#10b981">${isFR ? 'À récompense' : 'Reward-based'}</div>
+        <div class="data-value" style="color:#10b981">${isFR ? 'De reconnaissance' : 'Recognition-based'}</div>
       </div>
       <div class="data-card" style="text-align:center">
         <div class="data-label">${isFR ? 'Score LYA' : 'LYA Score'}</div>

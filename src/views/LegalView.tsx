@@ -40,7 +40,7 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify, onViewChan
         },
         {
           title: t('3. Participation for All', '3. Participation pour Tous'),
-          text: t('Whether you are a world-renowned artist, a creative professional, or simply an art enthusiast, LYA offers you tools tailored to your needs. Patrons may support certified projects through reward-based patronage, receiving recognition and access considerations rather than a financial return.', 'Que vous soyez un artiste de renommée mondiale, un professionnel créatif ou simplement un passionné d\'art, LYA vous propose des outils adaptés à vos besoins. Les mécènes peuvent soutenir des projets certifiés via un mécénat à récompense, recevant reconnaissance et contreparties d\'accès plutôt qu\'un retour financier.')
+          text: t('Whether you are a world-renowned artist, a creative professional, or simply an art enthusiast, LYA offers you tools tailored to your needs. Patrons may support certified projects through recognition-based patronage, receiving recognition and access considerations rather than a financial return.', 'Que vous soyez un artiste de renommée mondiale, un professionnel créatif ou simplement un passionné d\'art, LYA vous propose des outils adaptés à vos besoins. Les mécènes peuvent soutenir des projets certifiés via un mécénat de reconnaissance, recevant reconnaissance et contreparties d\'accès plutôt qu\'un retour financier.')
         },
         {
           title: t('4. Transparency & Security', '4. Transparence & Sécurité'),
@@ -110,7 +110,7 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify, onViewChan
         },
         {
           title: t('6. Limitation of Liability', '6. Limitation de Responsabilité'),
-          text: t('LinkYourArt acts as a certification and patronage-matching platform between creators and patrons. Support provided to a project constitutes reward-based patronage and does not constitute a financial investment product. LinkYourArt cannot be held liable for creative projects that do not achieve their objectives. Support of a creative project is done at your own discretion.', 'LinkYourArt agit en tant que plateforme de certification et de mise en relation de mécénat entre créateurs et mécènes. Le soutien apporté à un projet constitue un mécénat à récompense et ne constitue pas un produit d\'investissement financier. LinkYourArt ne peut être tenu responsable des projets créatifs qui n\'atteignent pas leurs objectifs. Le soutien à un projet créatif se fait à votre entière discrétion.')
+          text: t('LinkYourArt acts as a certification and patronage-matching platform between creators and patrons. Support provided to a project constitutes recognition-based patronage and does not constitute a financial investment product. LinkYourArt cannot be held liable for creative projects that do not achieve their objectives. Support of a creative project is done at your own discretion.', 'LinkYourArt agit en tant que plateforme de certification et de mise en relation de mécénat entre créateurs et mécènes. Le soutien apporté à un projet constitue un mécénat de reconnaissance et ne constitue pas un produit d\'investissement financier. LinkYourArt ne peut être tenu responsable des projets créatifs qui n\'atteignent pas leurs objectifs. Le soutien à un projet créatif se fait à votre entière discrétion.')
         }
       ]
     },
@@ -151,7 +151,7 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify, onViewChan
       },
       { 
         q: t('Is LYA a financial or investment platform?', 'LYA est-elle une plateforme financière ou d\'investissement ?'), 
-        a: t('No. LYA is a creative certification platform. Patrons who support a project do so through reward-based patronage — they do not acquire a financial instrument, and support does not constitute an investment product regulated by MiCA or the SEC.', 'Non. LYA est une plateforme de certification créative. Les mécènes qui soutiennent un projet le font via un mécénat à récompense — ils n\'acquièrent aucun instrument financier, et ce soutien ne constitue pas un produit d\'investissement réglementé par MiCA ou la SEC.') 
+        a: t('No. LYA is a creative certification platform. Patrons who support a project do so through recognition-based patronage — they do not acquire a financial instrument, and support does not constitute an investment product regulated by MiCA or the SEC.', 'Non. LYA est une plateforme de certification créative. Les mécènes qui soutiennent un projet le font via un mécénat de reconnaissance — ils n\'acquièrent aucun instrument financier, et ce soutien ne constitue pas un produit d\'investissement réglementé par MiCA ou la SEC.') 
       },
       { 
         q: t('What are the platform fees?', 'Quels sont les frais de la plateforme ?'), 
@@ -179,7 +179,7 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify, onViewChan
     "Mécènes & Partenaires": [
       {
         q: t('How do I support a creative project?', 'Comment soutenir un projet créatif ?'),
-        a: t('Browse the Registry to find certified projects. You can support a project directly with the amount of your choice, starting from $50, as part of a reward-based patronage campaign.', 'Parcourez le Registre pour trouver des projets certifiés. Vous pouvez soutenir un projet directement avec le montant de votre choix, à partir de $50, dans le cadre d\'une campagne de mécénat à récompense.')
+        a: t('Browse the Registry to find certified projects. You can support a project directly with the amount of your choice, starting from $50, as part of a recognition-based patronage campaign.', 'Parcourez le Registre pour trouver des projets certifiés. Vous pouvez soutenir un projet directement avec le montant de votre choix, à partir de $50, dans le cadre d\'une campagne de mécénat de reconnaissance.')
       },
       {
         q: t('What do I receive in return for my support?', 'Que reçois-je en échange de mon soutien ?'),
@@ -187,7 +187,7 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify, onViewChan
       },
       {
         q: t('Can I get a financial return on my support?', 'Puis-je obtenir un retour financier sur mon soutien ?'),
-        a: t('No. Patronage on LYA is reward-based: your support does not entitle you to a share of the project\'s revenues or to any tradeable instrument. It is a way to back creative work you believe in.', 'Non. Le mécénat sur LYA est un mécénat à récompense : votre soutien ne vous donne droit à aucune part des revenus du projet ni à aucun instrument négociable. C\'est une façon de soutenir une création à laquelle vous croyez.')
+        a: t('No. Patronage on LYA is recognition-based: your support does not entitle you to a share of the project\'s revenues or to any tradeable instrument. It is a way to back creative work you believe in.', 'Non. Le mécénat sur LYA est un mécénat de reconnaissance : votre soutien ne vous donne droit à aucune part des revenus du projet ni à aucun instrument négociable. C\'est une façon de soutenir une création à laquelle vous croyez.')
       }
     ],
     Professionals: [

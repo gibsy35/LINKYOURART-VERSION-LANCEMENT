@@ -845,7 +845,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                         <li>{t('GDPR compliant — end-to-end data protection.', 'Conforme RGPD — protection des données de bout en bout.')}</li>
                         <li>{t('Every project is reviewed by certified professional validators, not automated approval alone.', 'Chaque projet est revu par des validateurs professionnels certifiés, pas seulement une approbation automatisée.')}</li>
                         <li>{t('Creators retain full moral rights and creative control over their work at all times.', 'Les créateurs conservent en toute circonstance leurs droits moraux et le contrôle créatif de leur œuvre.')}</li>
-                        <li>{t('Patronage support is reward-based, never a regulated financial instrument.', 'Le soutien de mécénat est basé sur la récompense, jamais un instrument financier réglementé.')}</li>
+                        <li>{t('Patronage support is recognition-based, never a regulated financial instrument.', 'Le soutien de mécénat est basé sur la reconnaissance, jamais un instrument financier réglementé.')}</li>
                       </ul>
                     </div>
                   )}

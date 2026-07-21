@@ -1399,7 +1399,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
             </div>
             <h3 className="text-xl font-black font-headline uppercase tracking-widest mb-4">{language === 'FR' ? 'PARTENAIRES CRÉATIFS' : 'CREATIVE PARTNERS'}</h3>
             <p className="text-on-surface-variant text-sm leading-relaxed opacity-70 text-justify">
-              {language === 'FR' ? 'Soutenez la prochaine génération de projets créatifs. Les Partenaires Créatifs suivent les projets certifiés et reçoivent des contreparties de reconnaissance en soutenant leur réussite via un mécénat à récompense.' : 'Support the next generation of creative projects. Creative Partners follow certified projects and receive recognition-based considerations by supporting their success through reward-based patronage.'}
+              {language === 'FR' ? 'Soutenez la prochaine génération de projets créatifs. Les Partenaires Créatifs suivent les projets certifiés et reçoivent des contreparties de reconnaissance en soutenant leur réussite via un mécénat de reconnaissance.' : 'Support the next generation of creative projects. Creative Partners follow certified projects and receive recognition-based considerations by supporting their success through recognition-based patronage.'}
             </p>
           </div>
 
