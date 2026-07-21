@@ -31,8 +31,8 @@ export const updatePageMeta = (params: {
 // Reset vers les méta-tags par défaut
 export const resetPageMeta = () => {
   updatePageMeta({
-    title: 'L\'art est un échange',
-    description: 'La première plateforme d\'équité créative. Co-possédez des projets artistiques sur LinkYourArt.',
+    title: 'Ce que vous créez aujourd\'hui peut être reconnu par des milliers de personnes demain',
+    description: 'La première plateforme de certification créative. Certifiez vos projets artistiques et suivez leur Score LYA sur LinkYourArt.',
     url: 'https://linkyourart.com',
   });
 };
