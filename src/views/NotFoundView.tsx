@@ -50,7 +50,7 @@ export const NotFoundView: React.FC<Props> = ({ onViewChange }) => {
 
         {/* Phrase signature */}
         <p className="text-[11px] text-white/20 italic">
-          "{t("What you create today can belong to a thousand people tomorrow.", "Ce que vous créez aujourd'hui peut appartenir à mille personnes demain.")}"
+          "{t("What you create today can be recognized by thousands tomorrow.", "Ce que vous créez aujourd'hui peut être reconnu par des milliers de personnes demain.")}"
         </p>
 
         {/* Boutons */}
