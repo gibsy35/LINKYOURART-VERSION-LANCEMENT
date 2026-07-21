@@ -38,7 +38,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
 
   const actions = [
     { id: 'DASHBOARD', icon: Layout, label: t('GOTO_DASHBOARD', 'ALLER_AU_TABLEAU_DE_BORD') },
-    { id: 'EXCHANGE', icon: Star, label: t('GOTO_EXCHANGE', 'ALLER_À_LA_BOURSE') },
+    { id: 'REGISTRY', icon: Star, label: t('GOTO_REGISTRY', 'ALLER_AU_REGISTRE') },
     { id: 'PROFILE', icon: User, label: t('VIEW_PROFILE', 'VOIR_LE_PROFIL') },
   ];
 

@@ -1014,7 +1014,7 @@ const ProjectSlider = ({ onNav }: { onNav: (v: View) => void }) => {
           <div key={i} className="min-w-[320px] h-[550px]">
             <ContractCard 
               contract={p} 
-              onSelect={() => onNav('EXCHANGE')} 
+              onSelect={() => onNav('REGISTRY')} 
             />
           </div>
         ))}
@@ -1140,7 +1140,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
                   {t('POPULAR PATRONAGE (SIMPLE)', 'MÉCÉNAT POPULAIRE (SIMPLE)')}
                 </button>
                 <button
-                  onClick={() => onViewChange('EXCHANGE')}
+                  onClick={() => onViewChange('REGISTRY')}
                   className="w-full sm:w-auto px-5 sm:px-8 py-3 sm:py-4 border border-white/20 hover:border-white/50 text-white font-black uppercase tracking-[0.25em] text-[11px] rounded-xl flex items-center justify-center gap-2.5 bg-white/4 hover:bg-white/8 transition-all active:scale-95 group"
                 >
                   {t('CREATIVE MARKET (PRO)', 'CREATIVE MARKET (PRO)')}

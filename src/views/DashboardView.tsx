@@ -762,7 +762,7 @@ export const DashboardView: React.FC<{
                   {t('Load More', 'Voir Plus')} <RefreshCw size={14} />
                 </button>
                 <button 
-                  onClick={() => onViewChange?.('SETTLEMENT')}
+                  onClick={() => onViewChange?.('WALLET')}
                   className="flex-1 py-3 bg-primary-cyan/10 border border-primary-cyan/20 text-[10px] font-black uppercase tracking-widest text-primary-cyan hover:bg-primary-cyan hover:text-surface-dim transition-all flex items-center justify-center gap-2 rounded-sm"
                 >
                   {t('View Full Activity', 'Voir Toute l\'Activité')} <ChevronRight size={14} />

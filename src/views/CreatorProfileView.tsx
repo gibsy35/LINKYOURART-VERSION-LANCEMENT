@@ -254,7 +254,7 @@ export const CreatorProfileView: React.FC<Props> = ({ creatorId, onViewChange, o
         <p className="text-xs font-black text-[#a78bfa] uppercase tracking-widest">✦ LinkYourArt</p>
         <h3 className="text-xl font-black text-white">{T('Soutenez la créativité de demain','Support tomorrow\'s creativity')}</h3>
         <p className="text-sm text-on-surface-variant/60">{T('Rejoignez la plateforme d\'équité créative et co-possédez les projets qui vous inspirent.','Join the creative equity platform and co-own the projects that inspire you.')}</p>
-        <button onClick={() => onViewChange(user ? 'EXCHANGE' : 'SIGNUP')} className="px-8 py-3 bg-[#a78bfa] text-surface-dim font-black text-sm uppercase tracking-widest rounded-xl hover:bg-white transition-all">
+        <button onClick={() => onViewChange(user ? 'REGISTRY' : 'SIGNUP')} className="px-8 py-3 bg-[#a78bfa] text-surface-dim font-black text-sm uppercase tracking-widest rounded-xl hover:bg-white transition-all">
           {user ? T('Découvrir tous les créateurs','Discover all creators') : T('Rejoindre LYA — Gratuit','Join LYA — Free')}
         </button>
       </div>

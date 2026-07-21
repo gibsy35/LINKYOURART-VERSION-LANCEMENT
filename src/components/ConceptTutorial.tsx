@@ -8,7 +8,7 @@ import {
 } from 'lucide-react';
 import { getSafeImageUrl } from '../utils/image';
 import { useTranslation } from '../context/LanguageContext';
-import { CONTRACTS, LYA_UNIT_VALUE } from '../types';
+import { CONTRACTS } from '../types';
 
 interface Step {
   id: number;
@@ -25,14 +25,14 @@ const TUTORIAL_STEPS: (t: any) => Step[] = (t) => [
   {
     id: 1,
     title: 'BIENVENUE SUR LINKYOURART',
-    description: 'La première plateforme de cotation créative qui certifie les œuvres artistiques via le LYA UNIT — une unité de valeur structurée et exclusive au monde de la création.',
+    description: 'La première plateforme de certification créative qui évalue les œuvres artistiques via le Score LYA — un standard de qualité objectif et transparent, exclusif au monde de la création.',
     color: 'text-primary-cyan',
     glowColor: 'rgba(0, 224, 255, 0.3)',
     icon: <Globe size={48} />,
     points: [
       'CERTIFICATION OBJECTIVE AVEC LE LYA SCORE SUR 1000 POINTS',
-      '1 LYA UNIT = $50 (VALEUR FIXE FONDATRICE)',
-      '6 UNIVERS ARTISTIQUES — MUSIQUE · CINÉMA · MODE · JEU · ARCHITECTURE · SCÈNE'
+      'ANALYSE ALGORITHMIQUE + REVUE PAR UN COMITÉ D\'EXPERTS',
+      '9+ UNIVERS ARTISTIQUES — MUSIQUE · CINÉMA · MODE · JEU · ARCHITECTURE · PHOTOGRAPHIE · SÉRIES TV · ET PLUS'
     ],
     illustration: 'welcome'
   },
@@ -44,8 +44,8 @@ const TUTORIAL_STEPS: (t: any) => Step[] = (t) => [
     glowColor: 'rgba(192, 132, 252, 0.3)',
     icon: <Zap size={48} />,
     points: [
-      t('01 CONCEPTUAL INTEGRITY · 02 CURRENT MATURITY · 03 GROWTH CAPACITY', '01 INTÉGRITÉ CONCEPTUELLE · 02 MATURITÉ ACTUELLE · 03 CAPACITÉ D\'ÉVOLUTION'),
-      '04 FAISABILITÉ · 05 INCARNATION RÉELLE — CHACUN MAX 200 PTS',
+      t('IC · INTEGRITY  ·  MA · MATURITY  ·  CE · EVOLUTION  ·  FR · FEASIBILITY  ·  IN · EMBODIMENT', 'IC · INTÉGRITÉ CONCEPTUELLE  ·  MA · MATURITÉ ACTUELLE  ·  CE · CAPACITÉ D\'ÉVOLUTION  ·  FR · FAISABILITÉ RÉELLE  ·  IN · INCARNATION'),
+      'CHAQUE PILIER NOTÉ SUR 200 POINTS MAXIMUM',
       'LYA SCORE TOTAL SUR 1000 — VÉRIFIABLE & TRANSPARENT'
     ],
     illustration: 'score'
@@ -53,14 +53,14 @@ const TUTORIAL_STEPS: (t: any) => Step[] = (t) => [
   {
     id: 3,
     title: 'POUR LES CRÉATEURS',
-    description: 'Faites certifier et valoriser officiellement votre œuvre par LinkYourArt. Connectez-vous avec des mécènes qui croient en votre vision dès le premier jour.',
+    description: 'Faites certifier et valoriser officiellement votre œuvre par LinkYourArt. Bénéficiez du soutien de mécènes qui croient en votre vision dès le premier jour.',
     color: 'text-emerald-400',
     glowColor: 'rgba(52, 211, 153, 0.3)',
     icon: <Sparkles size={48} />,
     points: [
       'CERTIFICATION LYA OFFICIELLE — VOTRE ŒUVRE ÉVALUÉE PAR DES EXPERTS',
       'CONSERVEZ LE CONTRÔLE ARTISTIQUE TOTAL DE VOTRE CRÉATION',
-      'CONSTRUISEZ VOTRE COMMUNAUTÉ DE SOUTIENS DÈS LE LANCEMENT'
+      'RECEVEZ LE SOUTIEN DE MÉCÈNES DÈS LE LANCEMENT DE VOTRE PROJET'
     ],
     illustration: 'creators'
   },
@@ -72,7 +72,7 @@ const TUTORIAL_STEPS: (t: any) => Step[] = (t) => [
     glowColor: 'rgba(255, 215, 0, 0.3)',
     icon: <Target size={48} />,
     points: [
-      'ACQUÉRIR DES LYA UNITS DÈS $50 — ACCESSIBLE À TOUS',
+      'SOUTENEZ LES ŒUVRES DÈS $50 — ACCESSIBLE À TOUS',
       'QUALITÉ CERTIFIÉE — LE LYA SCORE GARANTIT LA RIGUEUR DE SÉLECTION',
       'SUIVEZ VOS ŒUVRES SOUTENUES EN TEMPS RÉEL'
     ],
@@ -95,13 +95,13 @@ const TUTORIAL_STEPS: (t: any) => Step[] = (t) => [
   {
     id: 6,
     title: 'EXPLOREZ LES ŒUVRES',
-    description: t('Several ways to discover creative projects across 7+ artistic universes — Music, Film, Visual Art, Fashion, Gaming, Architecture, TV Series and more.', "Plusieurs façons de découvrir des projets créatifs à travers 7+ univers artistiques — Musique, Cinéma, Art Visuel, Mode, Gaming, Architecture, Séries TV et bien d'autres."),
+    description: t('Several ways to discover creative projects across 9+ artistic universes — Music, Film, Visual Art, Fashion, Gaming, Architecture, TV Series, Photography and more.', "Plusieurs façons de découvrir des projets créatifs à travers 9+ univers artistiques — Musique, Cinéma, Art Visuel, Mode, Gaming, Architecture, Séries TV, Photographie et bien d'autres."),
     color: 'text-cyan-400',
     glowColor: 'rgba(34, 211, 238, 0.3)',
     icon: <Layers size={48} />,
     points: [
       'MODE SWIPE — DÉCOUVERTE RAPIDE ET INTUITIVE',
-      'PATRONAGE HUB — SOUTENEZ VOS CRÉATEURS FAVORIS',
+      'PATRONAGE HUB — SOUTENEZ VOS CRÉATIONS FAVORITES',
       'FILTRES AVANCÉS PAR UNIVERS, LYA SCORE & RARETÉ'
     ],
     illustration: 'explore'
@@ -115,7 +115,7 @@ const TUTORIAL_STEPS: (t: any) => Step[] = (t) => [
     icon: <Target size={48} />,
     points: [
       t('REAL-TIME LYA SCORE EVOLUTION ALERTS', 'ALERTES D\'ÉVOLUTION DU LYA SCORE EN TEMPS RÉEL'),
-      'NOTIFICATIONS DE CHANGEMENT DE VALEUR LYA UNIT',
+      'ALERTES DE PROGRESSION SUR VOS ŒUVRES SUIVIES',
       'SUIVI PERSONNALISÉ DE VOS ŒUVRES SOUTENUES'
     ],
     illustration: 'watchlist'
@@ -136,15 +136,15 @@ const TUTORIAL_STEPS: (t: any) => Step[] = (t) => [
   },
   {
     id: 9,
-    title: 'MARCHÉ CRÉATIF',
-    description: t('The professional space where certified creative works are exchanged between qualified partners with full transparency.', 'L\'espace professionnel où les œuvres certifiées s\'échangent entre partenaires qualifiés en toute transparence.'),
+    title: 'REGISTRE & ÉCOSYSTÈME',
+    description: t('The complete certification registry, tracking every certified project alongside a growing ecosystem — Press & Media, and soon Jobs.', 'Le registre de certification complet, suivant chaque projet certifié au sein d\'un écosystème grandissant — Presse & Médias, et bientôt Jobs.'),
     color: 'text-amber-400',
     glowColor: 'rgba(251, 191, 36, 0.3)',
     icon: <TrendingUp size={48} />,
     points: [
-      'MARCHÉ SECONDAIRE (PRO) — RÉSERVÉ AUX PARTENAIRES QUALIFIÉS',
-      'PRIX LYA UNIT BASÉS SUR LE LYA SCORE CERTIFIÉ',
-      t('MARKET OVERVIEW & PREDICTIVE ANALYTICS', 'VUE D\'ENSEMBLE DU MARCHÉ & ANALYSES PRÉDICTIVES')
+      'REGISTRE PUBLIC — TOUS LES PROJETS CERTIFIÉS ET LEUR SCORE LYA',
+      'PRESSE & MÉDIAS — UN ESPACE DÉDIÉ AUX JOURNALISTES ET RÉDACTEURS',
+      t('REGISTRY OVERVIEW & PREDICTIVE ANALYTICS', 'VUE D\'ENSEMBLE DU REGISTRE & ANALYSES PRÉDICTIVES')
     ],
     illustration: 'market'
   },
@@ -400,14 +400,13 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
             ))}
           </div>
           <p className="mt-2 text-[5px] md:text-[7px] text-white/40 uppercase font-bold text-center leading-tight max-w-[180px] md:max-w-[220px]">
-            {t('"The LYA Score represents the definitive index of the living value of a creative contract, updated in real time."', '"Le Score LYA représente l\'index définitif de la valeur vivante d\'un contrat créatif, mis à jour en temps réel."')}
+            {t('"The LYA Score represents the definitive index of a creative project\'s certified quality, updated in real time."', '"Le Score LYA représente l\'index définitif de la qualité certifiée d\'un projet créatif, mis à jour en temps réel."')}
           </p>
         </div>
       );
 
     case 'creators': {
       const proj = CONTRACTS[0];
-      const lyaUnit = LYA_UNIT_VALUE * (1 + (proj?.growth || 14.2) / 100);
       const up = (proj?.growth || 14.2) >= 0;
       return (
         <div className="relative w-full h-full flex flex-col items-center justify-center p-4">
@@ -455,26 +454,26 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
                 </div>
               </div>
 
-              {/* LYA UNIT calculé */}
+              {/* Statut & Mécènes */}
               <div className="grid grid-cols-2 gap-2">
                 <div className="bg-accent-gold/10 border border-accent-gold/20 rounded-xl p-2.5">
-                  <p className="text-[8px] text-white/40 uppercase tracking-widest mb-0.5">LYA UNIT</p>
-                  <p className="text-sm font-black text-accent-gold">${lyaUnit.toFixed(2)}</p>
+                  <p className="text-[8px] text-white/40 uppercase tracking-widest mb-0.5">{t('Status','Statut')}</p>
+                  <p className="text-sm font-black text-accent-gold">{t('Certified','Certifié')}</p>
                 </div>
                 <div className={`border rounded-xl p-2.5 ${up ? 'bg-emerald-400/10 border-emerald-400/20' : 'bg-rose-400/10 border-rose-400/20'}`}>
-                  <p className="text-[8px] text-white/40 uppercase tracking-widest mb-0.5">{t('Variation','Variation')}</p>
+                  <p className="text-[8px] text-white/40 uppercase tracking-widest mb-0.5">{t('Progress','Progression')}</p>
                   <p className={`text-sm font-black ${up ? 'text-emerald-400' : 'text-rose-400'}`}>{up ? '+' : ''}{proj?.growth || 14.2}%</p>
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-2">
                 <div className="bg-white/5 rounded-xl p-2">
-                  <p className="text-[8px] text-white/40 uppercase mb-0.5">{t('Base','Base')}</p>
-                  <p className="text-xs font-black text-white">${LYA_UNIT_VALUE}.00</p>
+                  <p className="text-[8px] text-white/40 uppercase mb-0.5">{t('Sector','Secteur')}</p>
+                  <p className="text-xs font-black text-white">{proj?.category || 'Music'}</p>
                 </div>
                 <div className="bg-white/5 rounded-xl p-2">
-                  <p className="text-[8px] text-white/40 uppercase mb-0.5">Rev. share</p>
-                  <p className="text-xs font-black text-primary-cyan">{proj?.revenueSharePercentage || 0}%</p>
+                  <p className="text-[8px] text-white/40 uppercase mb-0.5">{t('Patrons','Mécènes')}</p>
+                  <p className="text-xs font-black text-primary-cyan">{Math.floor(50 + (proj?.totalScore || 892) / 10)}</p>
                 </div>
               </div>
             </div>
@@ -487,21 +486,18 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
       const proj0 = CONTRACTS[0];
       const proj1 = CONTRACTS[2];
       const proj2 = CONTRACTS[5];
-      const unit0 = (LYA_UNIT_VALUE * (1 + (proj0?.growth || 14.2) / 100)).toFixed(2);
-      const unit1 = (LYA_UNIT_VALUE * (1 + (proj1?.growth || 25.8) / 100)).toFixed(2);
-      const unit2 = (LYA_UNIT_VALUE * (1 + (proj2?.growth || -28.4) / 100)).toFixed(2);
       return (
         <div className="relative w-full h-full flex flex-col items-center justify-center p-3">
           <div className="w-full max-w-[260px] md:max-w-[300px] space-y-2">
 
-            {/* KPI Portfolio */}
+            {/* KPI Mécène */}
             <motion.div initial={{ y: 12, opacity: 0 }} animate={{ y: 0, opacity: 1 }}
               className="bg-black/40 border border-accent-gold/30 rounded-xl p-3 backdrop-blur-xl">
               <div className="flex justify-between items-center mb-2">
                 <div>
-                  <p className="text-[8px] text-accent-gold/60 font-black uppercase tracking-widest">{t('Portfolio Mécène','Patron Portfolio')}</p>
+                  <p className="text-[8px] text-accent-gold/60 font-black uppercase tracking-widest">{t('Total Supported','Total Soutenu')}</p>
                   <p className="text-xl font-black text-accent-gold">$48,210</p>
-                  <p className="text-[9px] text-emerald-400 font-black flex items-center gap-1"><TrendingUp size={9}/> +18.4%</p>
+                  <p className="text-[9px] text-emerald-400 font-black flex items-center gap-1">3 {t('projects','projets')}</p>
                 </div>
                 <div className="text-right">
                   <p className="text-[8px] text-white/40 uppercase tracking-widest">LYA Score</p>
@@ -510,11 +506,11 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
               </div>
             </motion.div>
 
-            {/* 3 projets avec LYA UNIT */}
+            {/* 3 projets avec Score LYA */}
             {[
-              { proj: proj0, unit: unit0, up: (proj0?.growth || 14.2) >= 0 },
-              { proj: proj1, unit: unit1, up: (proj1?.growth || 25.8) >= 0 },
-              { proj: proj2, unit: unit2, up: (proj2?.growth || -28.4) >= 0 },
+              { proj: proj0, up: (proj0?.growth || 14.2) >= 0 },
+              { proj: proj1, up: (proj1?.growth || 25.8) >= 0 },
+              { proj: proj2, up: (proj2?.growth || -28.4) >= 0 },
             ].map((item, i) => (
               <motion.div key={i} initial={{ x: -10, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: 0.2 + i * 0.15 }}
                 className={`flex items-center gap-2 p-2.5 rounded-xl border backdrop-blur-sm ${item.up ? 'bg-emerald-400/5 border-emerald-400/20' : 'bg-rose-400/5 border-rose-400/20'}`}>
@@ -525,8 +521,8 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
                   <p className="text-[8px] text-white/40">{item.proj?.category}</p>
                 </div>
                 <div className="text-right shrink-0">
-                  <p className="text-[9px] font-black text-accent-gold">LYA UNIT</p>
-                  <p className="text-xs font-black text-accent-gold">${item.unit}</p>
+                  <p className="text-[9px] font-black text-accent-gold">{t('Score','Score')}</p>
+                  <p className="text-xs font-black text-accent-gold">{item.proj?.totalScore || 0}/1000</p>
                   <p className={`text-[8px] font-black ${item.up ? 'text-emerald-400' : 'text-rose-400'}`}>{item.up ? '+' : ''}{item.proj?.growth || 0}%</p>
                 </div>
               </motion.div>
@@ -651,12 +647,12 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
                   
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
                     <div className="bg-white/5 p-1 md:p-1.5 rounded-lg border border-white/5">
-                      <div className="text-[5px] md:text-[6px] text-white/40 font-black uppercase">Asset Type</div>
-                      <div className="text-[7px] md:text-xs font-bold text-white truncate">LYA RIGHTS</div>
+                      <div className="text-[5px] md:text-[6px] text-white/40 font-black uppercase">{t('Type','Type')}</div>
+                      <div className="text-[7px] md:text-xs font-bold text-white truncate">{t('CERTIFIED','CERTIFIÉ')}</div>
                     </div>
                     <div className="bg-white/5 p-1 md:p-1.5 rounded-lg border border-white/5">
-                      <div className="text-[5px] md:text-[6px] text-white/40 font-black uppercase">LYA UNIT</div>
-                      <div className="text-[7px] md:text-xs font-bold text-accent-gold">{`$${(50).toFixed(2)}`} <span className="text-emerald-400">base</span></div>
+                      <div className="text-[5px] md:text-[6px] text-white/40 font-black uppercase">{t('Score','Score')}</div>
+                      <div className="text-[7px] md:text-xs font-bold text-accent-gold">874<span className="text-emerald-400">/1000</span></div>
                     </div>
                   </div>
                 </div>
@@ -739,8 +735,8 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
           <div className="w-full max-w-[320px] md:max-w-full max-w-sm space-y-3 md:space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {[
-                { title: CONTRACTS[0]?.name || 'Digital Horizons', score: String(CONTRACTS[0]?.totalScore || 884), roi: `+${CONTRACTS[0]?.growth || 14.2}%`, lyaUnit: `$${(LYA_UNIT_VALUE*(1+(CONTRACTS[0]?.growth||14.2)/100)).toFixed(2)}`, color: 'text-indigo-400', bg: 'bg-indigo-500/10', up: true },
-                { title: CONTRACTS[5]?.name || 'Chronicles', score: String(CONTRACTS[5]?.totalScore || 762), roi: `${CONTRACTS[5]?.growth || -28.4}%`, lyaUnit: `$${(LYA_UNIT_VALUE*(1+(CONTRACTS[5]?.growth||-28.4)/100)).toFixed(2)}`, color: 'text-rose-400', bg: 'bg-rose-500/10', up: false }
+                { title: CONTRACTS[0]?.name || 'Digital Horizons', score: String(CONTRACTS[0]?.totalScore || 884), roi: `+${CONTRACTS[0]?.growth || 14.2}%`, color: 'text-indigo-400', bg: 'bg-indigo-500/10', up: true },
+                { title: CONTRACTS[5]?.name || 'Chronicles', score: String(CONTRACTS[5]?.totalScore || 762), roi: `${CONTRACTS[5]?.growth || -28.4}%`, color: 'text-rose-400', bg: 'bg-rose-500/10', up: false }
               ].map((p, i) => (
                 <motion.div
                   key={i}
@@ -763,7 +759,7 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
                    </div>
                    <div className="space-y-0.5">
                      <h6 className="text-[7px] md:text-[10px] font-black text-white/40 uppercase tracking-widest truncate">{p.title}</h6>
-                     <div className="text-xs md:text-sm font-black text-accent-gold">LYA UNIT: {p.lyaUnit}</div>
+                     <div className="text-xs md:text-sm font-black text-accent-gold">{t('Score','Score')}: {p.score}/1000</div>
                      <div className={`text-xs font-black ${p.up ? 'text-emerald-400' : 'text-rose-400'}`}>{p.roi}</div>
                    </div>
                 </motion.div>
@@ -811,17 +807,17 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
             <div className="bg-amber-500/10 p-5 flex justify-between items-center border-b border-white/10 backdrop-blur-xl">
                <div className="flex items-center gap-3">
                  <TrendingUp className="text-amber-400 w-6 h-6" />
-                 <span className="text-xs font-black text-white uppercase italic tracking-widest">{t('LYA Exchange Center', 'Centre d\'Échanges LYA')}</span>
+                 <span className="text-xs font-black text-white uppercase italic tracking-widest">{t('LYA Registry', 'Registre LYA')}</span>
                </div>
-               <div className="px-3 py-1 bg-black/60 rounded-full border border-white/10 text-xs font-black text-amber-400 italic">{t('2.4% Spread', 'Spread 2.4%')}</div>
+               <div className="px-3 py-1 bg-black/60 rounded-full border border-white/10 text-xs font-black text-amber-400 italic">{t('128 Certified', '128 Certifiés')}</div>
             </div>
 
             <div className="p-1">
               {[
-                { id: '#LYA-812', price: '$600.00', qty: t('12 Units', '12 Unités'), totalLabel: t('Total:', 'Total :'), type: 'SELL', color: 'text-rose-400' },
-                { id: '#LYA-445', price: '$400.00', qty: t('8 Units', '8 Unités'), totalLabel: t('Total:', 'Total :'), type: 'BUY', color: 'text-cyan-400' },
-                { id: '#LYA-901', price: '$200.00', qty: t('4 Units', '4 Unités'), totalLabel: t('Total:', 'Total :'), type: 'SELL', color: 'text-rose-400' },
-                { id: '#LYA-228', price: '$1,000.00', qty: t('20 Units', '20 Unités'), totalLabel: t('Total:', 'Total :'), type: 'BUY', color: 'text-cyan-400' }
+                { id: '#LYA-812', score: '928/1000', category: t('Film','Cinéma'), status: t('Certified','Certifié'), color: 'text-emerald-400' },
+                { id: '#LYA-445', score: '580/1000', category: t('TV Series','Séries TV'), status: t('Under Review','En Révision'), color: 'text-accent-gold' },
+                { id: '#LYA-901', score: '420/1000', category: t('Fashion','Mode'), status: t('Audit in Progress','Audit en Cours'), color: 'text-rose-400' },
+                { id: '#LYA-228', score: '900/1000', category: t('Music','Musique'), status: t('Certified','Certifié'), color: 'text-emerald-400' }
               ].map((item, i) => (
                 <motion.div
                   key={i}
@@ -846,19 +842,19 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
                     </motion.div>
                     <div className="min-w-0">
                       <div className="text-[10px] md:text-xs font-black text-white italic tracking-tighter uppercase truncate">{item.id}</div>
-                      <div className="text-[10px] md:text-[10px] font-bold text-white/40 uppercase tracking-widest">{item.qty}</div>
+                      <div className="text-[10px] md:text-[10px] font-bold text-white/40 uppercase tracking-widest">{item.category}</div>
                     </div>
                   </div>
                   <div className="text-right shrink-0">
-                    <div className="text-[7px] md:text-[10px] font-black text-on-surface-variant/40 uppercase tracking-widest mb-0.5">{item.totalLabel}</div>
+                    <div className="text-[7px] md:text-[10px] font-black text-on-surface-variant/40 uppercase tracking-widest mb-0.5">{t('Score','Score')}</div>
                     <motion.div 
                       animate={{ opacity: [0.8, 1, 0.8] }}
                       transition={{ duration: 2, repeat: Infinity }}
                       className="text-xs md:text-base font-black text-white tracking-widest leading-none"
                     >
-                      {item.price}
+                      {item.score}
                     </motion.div>
-                    <div className={`text-[7px] md:text-xs font-black tracking-[0.2em] uppercase italic mt-1 ${item.type === 'BUY' ? 'text-cyan-400' : 'text-rose-400'}`}>{item.type} ORDER</div>
+                    <div className={`text-[7px] md:text-xs font-black tracking-[0.2em] uppercase italic mt-1 ${item.color}`}>{item.status}</div>
                   </div>
                 </motion.div>
               ))}

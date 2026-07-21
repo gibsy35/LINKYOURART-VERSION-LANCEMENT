@@ -41,12 +41,9 @@ export type View =
   | 'LANDING'
   | 'HOME' 
   | 'DASHBOARD' 
-  | 'EXCHANGE' 
   | 'VALIDATION' 
-  | 'HOLDINGS' 
   | 'REGISTRY' 
   | 'LINK_ART' 
-  | 'SETTLEMENT' 
   | 'LOUNGE' 
   | 'WALLET'
   | 'SIGNUP' 
@@ -116,15 +113,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
     ...(user?.role === 'CREATOR' ? [{ id: 'CREATOR_DASHBOARD' as const, icon: Sparkles, label: t('MY CREATIONS', 'MES CRÉATIONS'), category: t('CREATOR', 'CRÉATEUR') }] : []),
     ...(user?.role === 'INVESTOR' ? [{ id: 'INVESTOR_DASHBOARD' as const, icon: TrendingUp, label: t('MY PORTFOLIO', 'MON PORTFOLIO'), category: t('PATRON', 'MÉCÈNE') }] : []),
     ...(user?.role === 'PROFESSIONAL' || user?.isPro ? [{ id: 'PROFESSIONAL_DASHBOARD' as const, icon: Briefcase, label: t('PRO SPACE', 'ESPACE PRO'), category: t('PROFESSIONAL', 'PROFESSIONNEL') }] : []),
-    { id: 'EXCHANGE', icon: ArrowLeftRight, label: t('CREATIVE MARKET', 'MARCHÉ CRÉATIF'), category: t('DEVELOPMENT', 'DÉVELOPPEMENT') },
-    { id: 'SWIPE', icon: Target, label: t('SWIPE DISCOVERY', 'DÉCOUVERTE SWIPE'), category: t('DEVELOPMENT', 'DÉVELOPPEMENT') },
+    { id: 'SWIPE', icon: Target, label: t('DISCOVER PROJECTS', 'DÉCOUVRIR DES PROJETS'), category: t('DEVELOPMENT', 'DÉVELOPPEMENT') },
+    { id: 'REGISTRY', icon: BookOpen, label: t('LYA REGISTRY', 'REGISTRE LYA'), category: t('DEVELOPMENT', 'DÉVELOPPEMENT') },
     { id: 'MECENAT', icon: Star, label: t('PATRONAGE HUB', 'ESPACE MÉCÉNAT'), category: t('DEVELOPMENT', 'DÉVELOPPEMENT') },
     { id: 'COMPARE', icon: Calculator, label: t('COMPARATOR', 'COMPARATEUR'), category: t('INDEX', 'INDEX') },
     { id: 'WATCHLIST', icon: CheckCircle, label: t('WATCHLIST', 'MA VEILLE'), category: t('INDEX', 'INDEX'), count: watchlist.length },
     { id: 'VALIDATION', icon: ShieldCheck, label: t('Administrative Services', 'Services Administratifs'), category: t('LYA SYSTEM', 'LYA SYSTEME') },
-    { id: 'HOLDINGS', icon: Briefcase, label: t('MY PORTFOLIO', 'MON PORTFOLIO'), category: t('VAULT', 'COFFRE') },
     { id: 'WALLET', icon: CreditCard, label: t('MY WALLET', 'MON PORTEFEUILLE'), category: t('VAULT', 'COFFRE') },
-    { id: 'REGISTRY', icon: BookOpen, label: t('LYA REGISTRY', 'REGISTRE LYA'), category: t('LYA SYSTEM', 'LYA SYSTEME') },
     { id: 'LINK_ART', icon: Link2, label: t('THE LYA SYSTEM', 'LE LYA SYSTEME'), category: t('SYSTEM', 'SYSTÈME') },
     { id: 'ABOUT', icon: Globe, label: t('DISCOVER LYA', 'DÉCOUVRIR LYA'), category: t('SYSTEM', 'SYSTÈME') },
     { id: 'SOCIAL_FEED', icon: Users, label: t('COMMUNITY', 'COMMUNAUTÉ'), category: t('COMMUNITY', 'COMMUNAUTÉ') },

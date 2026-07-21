@@ -82,7 +82,7 @@ export const CompareView: React.FC<CompareViewProps> = ({
             </div>
 
             <button 
-              onClick={() => onViewChange('EXCHANGE')}
+              onClick={() => onViewChange('REGISTRY')}
               className="px-6 sm:px-12 py-4 sm:py-6 bg-white text-surface-dim font-black uppercase tracking-widest text-xs hover:bg-primary-cyan hover:text-surface-dim transition-all rounded-sm shadow-[0_20px_50px_rgba(0,0,0,0.5)] group overflow-hidden relative"
             >
               <div className="absolute inset-0 bg-primary-cyan/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
@@ -194,7 +194,7 @@ export const CompareView: React.FC<CompareViewProps> = ({
                   {/* Empty Slots for upgrade incentive */}
                   {selectedContracts.length < 20 && Array.from({ length: 1 }).map((_, i) => (
                     <th key={`empty-h-${i}`} className="p-10 border-r border-white/5 min-w-[340px] bg-white/[0.01]">
-                      <div className="flex flex-col items-center justify-center h-full min-h-[160px] border border-dashed border-white/10 rounded-sm bg-black/10 group cursor-pointer hover:border-primary-cyan/30 transition-all font-mono" onClick={() => onViewChange('EXCHANGE')}>
+                      <div className="flex flex-col items-center justify-center h-full min-h-[160px] border border-dashed border-white/10 rounded-sm bg-black/10 group cursor-pointer hover:border-primary-cyan/30 transition-all font-mono" onClick={() => onViewChange('REGISTRY')}>
                         <div className="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                           <Plus size={20} className="text-white/20 group-hover:text-primary-cyan" />
                         </div>
