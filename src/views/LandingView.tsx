@@ -418,7 +418,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                     <div className="w-1.5 h-1.5 rounded-full bg-primary-cyan opacity-80 shadow-[0_0_8px_rgba(0,224,255,1)]" />
                   </motion.button>
                   <motion.button whileHover={{ scale: 1.05, x: 5 }} whileTap={{ scale: 0.95 }} className="text-white/40 transition-colors hover:text-[#FF007F] group flex items-center gap-2">
-                    {t('Liquidity', 'Liquidité')}
+                    {t('Certification', 'Certification')}
                     <div className="w-1.5 h-1.5 rounded-full bg-[#FF007F] opacity-80 shadow-[0_0_8px_rgba(255,0,127,1)]" />
                   </motion.button>
                   <motion.button whileHover={{ scale: 1.05, x: 5 }} whileTap={{ scale: 0.95 }} className="text-white/40 transition-colors hover:text-[#9D00FF] group flex items-center gap-2">
@@ -457,15 +457,15 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                   {/* ── TITRE : 2 lignes, typo ultra grasse ── */}
                   <h2 className="font-headline text-5xl md:text-6xl xl:text-7xl font-black uppercase tracking-tighter leading-[0.88] text-on-surface mb-6" style={{ textShadow: "0 0 60px rgba(0,212,255,0.12)" }}>
                     <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}>
-                      {t("THE SOVEREIGN BENCHMARK", "L'ÉTALON SOUVERAIN")}<br />
-                      <span className="text-primary-cyan" style={{ WebkitTextStroke: "1px rgba(0,212,255,0.3)" }}>{t("FOR CREATIVE CAPITAL", "DES ACTIFS CRÉATIFS")}</span>
+                      {t("THE SOVEREIGN STANDARD", "L'ÉTALON SOUVERAIN")}<br />
+                      <span className="text-primary-cyan" style={{ WebkitTextStroke: "1px rgba(0,212,255,0.3)" }}>{t("FOR CREATIVE WORKS", "DE LA CRÉATION")}</span>
                     </motion.div>
                   </h2>
 
                   {/* ── PHRASE SIGNATURE ── */}
                   <motion.p initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, delay: 0.5 }}
                     className="text-xl md:text-2xl xl:text-3xl font-black text-white italic tracking-tight mb-6 border-l-4 border-primary-cyan pl-5">
-                    "{t('What you create today can belong to a thousand people tomorrow.', 'Ce que vous créez aujourd\'hui peut appartenir à mille personnes demain.')}"
+                    "{t('What you create today can be recognized by thousands tomorrow.', 'Ce que vous créez aujourd\'hui peut être reconnu par des milliers de personnes demain.')}"
                   </motion.p>
 
                   <p className="text-white/70 text-base md:text-lg xl:text-xl font-medium leading-relaxed max-w-2xl">
@@ -500,9 +500,9 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                       color: "#00d4ff"
                     },
                     {
-                      value: "6+",
+                      value: "9+",
                       label: t("artistic universes & beyond", "univers artistiques & plus"),
-                      sub: t("Music · Film · Fashion · Gaming · Architecture · Stage · and more", "Musique · Film · Mode · Jeu · Architecture · Scène · et plus"),
+                      sub: t("Music · Film · Fashion · Gaming · Architecture · Photography · TV Series · and more", "Musique · Film · Mode · Jeu · Architecture · Photographie · Séries TV · et plus"),
                       color: "#a78bfa"
                     },
                     {
@@ -564,8 +564,8 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                               className={`flex-1 py-3 rounded-xl text-xs font-black tracking-widest transition-all uppercase ${category === cat ? 'bg-primary-cyan text-black shadow-lg shadow-primary-cyan/20' : 'text-white/40 hover:text-white'}`}
                             >
                               {t(
-                                cat === 'CREATOR' ? 'CREATOR' : cat === 'PROFESSIONAL' ? 'PROFESSIONAL' : 'INVESTOR',
-                                cat === 'CREATOR' ? 'CRÉATEUR' : cat === 'PROFESSIONAL' ? 'PROFESSIONNEL' : 'INVESTISSEUR'
+                                cat === 'CREATOR' ? 'CREATOR' : cat === 'PROFESSIONAL' ? 'PROFESSIONAL' : 'PATRON',
+                                cat === 'CREATOR' ? 'CRÉATEUR' : cat === 'PROFESSIONAL' ? 'PROFESSIONNEL' : 'MÉCÈNE'
                               )}
                             </button>
                           ))}
@@ -697,7 +697,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                     </div>
                   </div>
                   <p className="text-white/30 text-sm font-medium leading-relaxed max-w-xs">
-                    {t("What you create today can belong to a thousand people tomorrow.", "Ce que vous créez aujourd'hui peut appartenir à mille personnes demain.")}
+                    {t("What you create today can be recognized by thousands tomorrow.", "Ce que vous créez aujourd'hui peut être reconnu par des milliers de personnes demain.")}
                   </p>
                 </div>
                 <div className="space-y-6 md:w-1/3">
@@ -790,7 +790,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                     <div className="w-16 h-16 bg-primary-cyan/10 rounded-2xl flex items-center justify-center text-primary-cyan border border-primary-cyan/20"><Lock size={32} /></div>
                     <div>
                       <h3 className="font-headline text-3xl font-black uppercase tracking-tighter">{t('PRIVATE DISCOVERY ACCESS', 'ACCÈS DÉCOUVERTE PRIVÉE')}</h3>
-                      <p className="text-xs text-white/30 font-black uppercase tracking-[0.4em]">{t('FOR INVESTORS & INSTITUTIONS', 'POUR INVESTISSEURS & INSTITUTIONS')}</p>
+                      <p className="text-xs text-white/30 font-black uppercase tracking-[0.4em]">{t('FOR PATRONS & INSTITUTIONS', 'POUR MÉCÈNES & INSTITUTIONS')}</p>
                     </div>
                   </div>
                   <form onSubmit={handleDemoRequest} className="space-y-6">
@@ -816,7 +816,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                               <div className="text-center pb-1"><span className="text-xs font-black uppercase tracking-[0.25em] text-accent-gold">{t('AUTHORIZED GATEWAY KEY DECRYPTION', 'DÉCRYPTAGE DE LA CLÉ DE PORTAIL AUTORISÉE')}</span></div>
                               <div className="relative group">
                                 <Lock className={`absolute left-5 top-1/2 -translate-y-1/2 transition-colors ${keyError ? 'text-rose-500' : 'text-accent-gold/60 group-focus-within:text-primary-cyan'}`} size={14} />
-                                <input type="text" placeholder={t('ENTER TERMINAL REVENUE ACCESS KEY', 'SAISISSEZ LA CLÉ DU TERMINAL DE REVENUS')} value={accessKey} onChange={(e) => { setAccessKey(e.target.value); setKeyError(false); }} className={`w-full bg-black border ${keyError ? 'border-rose-500/50' : 'border-accent-gold/20 focus:border-primary-cyan/50'} rounded-xl py-4 pl-12 pr-4 focus:outline-none text-[10px] font-black uppercase tracking-[0.22em] text-white transition-all`} />
+                                <input type="text" placeholder={t('ENTER PARTNER ACCESS KEY', 'SAISISSEZ LA CLÉ D\'ACCÈS PARTENAIRE')} value={accessKey} onChange={(e) => { setAccessKey(e.target.value); setKeyError(false); }} className={`w-full bg-black border ${keyError ? 'border-rose-500/50' : 'border-accent-gold/20 focus:border-primary-cyan/50'} rounded-xl py-4 pl-12 pr-4 focus:outline-none text-[10px] font-black uppercase tracking-[0.22em] text-white transition-all`} />
                               </div>
                               <div className="flex gap-2.5">
                                 <button type="button" onClick={verifyKey} disabled={isVerifyingKey || !accessKey} className="flex-1 py-4 bg-accent-gold text-black text-xs font-black uppercase tracking-[0.2em] hover:bg-accent-gold/80 transition-all rounded-xl disabled:opacity-30 flex items-center justify-center gap-2">
