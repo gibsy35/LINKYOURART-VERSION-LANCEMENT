@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { Check, Zap, Shield, Star, Crown, ArrowRight, Globe, BarChart3, Building2, User, Info, Sparkles, Cpu, Layers, Search, Send, CheckCircle } from 'lucide-react';
+import { Check, Zap, Shield, Star, Crown, ArrowRight, Building2, User, Info, Sparkles, Cpu, Layers, Search, Send, CheckCircle } from 'lucide-react';
 import { useTranslation } from '../context/LanguageContext';
 import { FeatureShowcaseModal } from '../components/Modals';
 
@@ -738,42 +738,6 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
           </div>
         </div>
       </div>
-
-        <div className="mt-20">
-          <div className="flex items-center gap-3 mb-8">
-            <div className="h-[1px] w-8 bg-accent-gold"></div>
-            <div className="text-sm uppercase tracking-[0.4em] text-accent-gold font-serif flex items-center gap-2">
-              {t('A La Carte Services', 'Services À La Carte')}
-            </div>
-          </div>
-          <p className="text-on-surface-variant text-[10px] uppercase tracking-widest font-bold opacity-60 mb-8 max-w-2xl text-justify">
-            {t('Customize your professional experience with specialized add-on modules. Perfect for organizations requiring specific analytical depth.', 'Personnalisez votre expérience professionnelle avec des modules complémentaires spécialisés. Parfait pour les organisations nécessitant une profondeur d\'analyse spécifique.')}
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { label: t('Accès Étendu au Registre', 'Accès Étendu au Registre'), price: '2,500', icon: Globe, desc: t('Accès aux registres de certification mondiaux', 'Global access to worldwide certification registries') },
-              { label: t('Risk Audit Pro', 'Audit de Risque Pro'), price: '1,200', icon: Shield, desc: t('Deep-dive compliance reports', 'Rapports de conformité approfondis') },
-              { label: t('Registry AI', 'IA de Registre'), price: '1,800', icon: Zap, desc: t('Automated certification monitoring engine', 'Moteur de suivi de certification automatisé') },
-              { label: t('Tax & Legal Suite', 'Suite Fiscale et Juridique'), price: '950', icon: BarChart3, desc: t('Multi-jurisdictional reporting', 'Rapports multi-juridictionnels') },
-            ].map((option, i) => (
-              <div key={i} className="p-6 bg-white/5 border border-white/10 rounded-xl group hover:border-accent-gold/30 transition-all flex flex-col">
-                <option.icon className="w-6 h-6 text-accent-gold mb-6 opacity-50 group-hover:opacity-100 transition-opacity" />
-                <h4 className="text-sm font-black text-white uppercase tracking-widest mb-1">{option.label}</h4>
-                <p className="text-xs text-on-surface-variant uppercase font-bold tracking-tighter mb-4 opacity-60">{option.desc}</p>
-                <div className="flex items-baseline gap-1 mb-6 mt-auto">
-                  <span className="text-2xl font-black text-accent-gold">${option.price}</span>
-                  <span className="text-[10px] text-on-surface-variant uppercase font-bold tracking-widest">/ {t('year', 'an')}</span>
-                </div>
-                <button 
-                  onClick={() => onNotify?.(t('✦ Service added to your quote', '✦ Service ajouté à votre devis'))}
-                  className="w-full py-2 bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-widest hover:bg-accent-gold hover:text-surface-dim transition-all"
-                >
-                  {t('ADD TO PLAN', 'AJOUTER')}
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
 
         <div className="mt-20 p-8 bg-surface-highest/10 border border-white/5 backdrop-blur-sm">
           <div className="flex flex-col md:flex-row items-center justify-between gap-8">
