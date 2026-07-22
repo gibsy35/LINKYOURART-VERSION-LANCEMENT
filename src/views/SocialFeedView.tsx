@@ -27,6 +27,7 @@ import { Ticker } from '../components/ui/Ticker';
 import { CONTRACTS } from '../types';
 import { fetchRealtimeNews } from '../services/geminiService';
 import { PressMediaSection } from '../components/PressMediaSection';
+import { JobsSection } from '../components/JobsSection';
 import { db } from '../firebase';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 
@@ -289,7 +290,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
   const [selectedNews, setSelectedNews] = useState<NewsItem | null>(null);
   const [imageLoadedStates, setImageLoadedStates] = useState<Record<string, boolean>>({});
   const [liveFilter, setLiveFilter] = useState(99.4);
-  const [mainTab, setMainTab] = useState<'news' | 'press'>('news');
+  const [mainTab, setMainTab] = useState<'news' | 'press' | 'jobs'>('news');
   const pageSize = 6;
 
   // Animate the neural filter percentage slightly in real time
@@ -587,10 +588,15 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
           <span>✦</span> {t('Press & Media', 'Presse & Médias')}
           <span className="px-1.5 py-0.5 bg-white/20 rounded text-[9px]">NEW</span>
         </button>
+        <button onClick={() => setMainTab('jobs')}
+          className={`px-6 py-2.5 text-xs font-black uppercase tracking-widest rounded-xl transition-all flex items-center gap-2 ${mainTab === 'jobs' ? 'bg-accent-gold text-surface-dim' : 'bg-surface-low border border-white/8 text-on-surface-variant hover:text-white'}`}>
+          <span>★</span> {t('LYA Jobs', 'LYA Jobs')}
+          <span className="px-1.5 py-0.5 bg-white/20 rounded text-[9px]">NEW</span>
+        </button>
       </div>
 
       {/* Filter Controls */}
-      <div className={`flex items-center justify-between gap-4 mb-24 ${mainTab === 'press' ? 'hidden' : ''}`}>
+      <div className={`flex items-center justify-between gap-4 mb-24 ${mainTab === 'press' || mainTab === 'jobs' ? 'hidden' : ''}`}>
         <div className="flex bg-surface-low border border-white/5 p-1.5 rounded-sm shadow-2xl">
           {['ALL', 'GLOBAL', 'MARKET', 'INNOVATION', 'PROFESSIONAL'].map((cat) => (
             <button
@@ -621,8 +627,13 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
         <PressMediaSection t={t} language={language} onNotify={onNotify} />
       )}
 
+      {/* ── SECTION LYA JOBS ─────────────────────────────────────── */}
+      {mainTab === 'jobs' && (
+        <JobsSection t={t} language={language} onNotify={onNotify} />
+      )}
+
       {/* Main Feed Grid */}
-      <div className={`grid lg:grid-cols-3 gap-8 ${mainTab === 'press' ? 'hidden' : ''}`}>
+      <div className={`grid lg:grid-cols-3 gap-8 ${mainTab === 'press' || mainTab === 'jobs' ? 'hidden' : ''}`}>
         {/* Left Column: Main Feed */}
         <div className="lg:col-span-2 space-y-6">
           <AnimatePresence mode="popLayout">
