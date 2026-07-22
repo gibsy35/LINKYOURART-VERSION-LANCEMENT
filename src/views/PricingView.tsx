@@ -14,7 +14,7 @@ interface PricingViewProps {
 const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => {
   const { t, language } = useTranslation();
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly');
-  const [showcaseFeature, setShowcaseFeature] = useState<'CREATOR' | 'INVESTOR' | 'PRO' | 'EXPERT_AUDIT' | 'LIQUIDITY_POOL' | 'PREDICTIVE_SCORE' | null>(null);
+  const [showcaseFeature, setShowcaseFeature] = useState<'CREATOR' | 'PATRON' | 'PRO' | 'EXPERT_AUDIT' | 'PATRON_ANALYTICS' | 'PREDICTIVE_SCORE' | null>(null);
 
   const [creativeField, setCreativeField] = useState('Cinema / Film / TV');
   const [customRole, setCustomRole] = useState('Producer / Showrunner');
@@ -24,7 +24,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
   const [analysisProgress, setAnalysisProgress] = useState('');
   const [assessmentResult, setAssessmentResult] = useState<{
     analysis: string;
-    recommendedPlanId: 'CREATOR' | 'INVESTOR' | 'PRO' | 'PRO_ENTERPRISE';
+    recommendedPlanId: 'CREATOR' | 'PATRON' | 'PRO' | 'PRO_ENTERPRISE';
     recommendedPlanName: string;
     primaryReason: string;
     estimatedMonthlyCost: number;
@@ -46,7 +46,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
       setAnalysisProgress('CROSS-REFERENCING CROSS-BORDER COMPLIANCE AND SVOD CONTRACT PATTERNS...');
     }, 2200);
     setTimeout(() => {
-      setAnalysisProgress('MATCHING LYA LIQUIDITY POOLS AND SYNDICATION THRESHOLDS...');
+      setAnalysisProgress('MATCHING LYA CERTIFICATION PATHWAYS AND REVIEW THRESHOLDS...');
     }, 3400);
 
     try {
@@ -83,19 +83,19 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
       console.error("Assessment Failed:", error);
       setTimeout(() => {
         setAssessmentResult({
-          analysis: "Votre profil dans le domaine de la création reflète des besoins d'évaluation et d'indexation d'actifs. Notre analyse de vos activités indique une excellente opportunité de valorisation de votre propriété intellectuelle et de vos droits d'auteur via les modules d'indexation de LinkYourArt.",
-          recommendedPlanId: projectSize.includes('Enterprise') ? 'PRO_ENTERPRISE' : customRole.includes('Producer') || creativeField.includes('Cinema') ? 'PRO' : 'INVESTOR',
-          recommendedPlanName: projectSize.includes('Enterprise') ? 'Entreprise Institutionnelle' : customRole.includes('Producer') || creativeField.includes('Cinema') ? 'Pro Personnel' : 'Investisseur',
+          analysis: "Votre profil dans le domaine de la création reflète des besoins de certification et de reconnaissance objective. Notre analyse de vos activités indique une excellente opportunité de valorisation de votre propriété intellectuelle et de vos droits d'auteur via les modules de certification de LinkYourArt.",
+          recommendedPlanId: projectSize.includes('Enterprise') ? 'PRO_ENTERPRISE' : customRole.includes('Producer') || creativeField.includes('Cinema') ? 'PRO' : 'PATRON',
+          recommendedPlanName: projectSize.includes('Enterprise') ? 'Entreprise Institutionnelle' : customRole.includes('Producer') || creativeField.includes('Cinema') ? 'Pro Personnel' : 'Mécène',
           primaryReason: "Recommandé pour optimiser d'importants portefeuilles de propriété intellectuelle avec rapports personnalisés pour les partenaire créatifs.",
-          estimatedMonthlyCost: projectSize.includes('Enterprise') ? 15000 : 890,
+          estimatedMonthlyCost: projectSize.includes('Enterprise') ? 15000 : 89,
           suggestedAddons: [
             { name: "Risk Audit Pro", reason: "Sécurise l'audit préliminaire de vos contrats d'exploitation de manière automatisée." },
-            { name: "Tax & Legal Suite", reason: "Idéal pour structurer les flux de redevances multi-pays issus de la syndication de vos œuvres." }
+            { name: "Tax & Legal Suite", reason: "Idéal pour structurer les rapports multi-pays issus de la diffusion de vos œuvres." }
           ],
           projectedBenefits: [
-            "Indexation fluide de vos droits d'exploitation en adéquation totale avec vos activités d'artiste.",
-            "Distribution de dividendes de co-production via des contrats intelligents transparents.",
-            "Connexion directe avec un réseau mondial de co-financeurs et de mécènes certifiés."
+            "Certification fluide de vos droits d'exploitation en adéquation totale avec vos activités d'artiste.",
+            "Reconnaissance et contreparties personnelles via des projets certifiés et transparents.",
+            "Connexion directe avec un réseau mondial de mécènes et de partenaires certifiés."
           ],
           auditIndexScore: 84
         });
@@ -109,27 +109,26 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
     {
       id: 'CREATOR',
       name: t('Creator', 'Créateur'),
-      monthlyPrice: 49,
+      monthlyPrice: 0,
       description: t('For individual artists and creators.', 'Pour les artistes et créateurs individuels.'),
       features: [
-        t('Project indexing (up to 4)', 'Indexation de projets (jusqu\'à 4)'),
+        t('Project submission (up to 4)', 'Soumission de projets (jusqu\'à 4)'),
         t('LYA Score basic analysis', 'Analyse de base du Score LYA'),
-        t('Accès transfert direct (frais de 5%)', 'Accès transfert direct (frais de 5%)'),
-        t('Basic portfolio tracking', 'Suivi de portefeuille de base'),
+        t('Free certification', 'Certification gratuite'),
+        t('Basic project tracking', 'Suivi de projet de base'),
       ],
       color: 'primary-cyan',
       icon: <Zap size={24} />,
     },
     {
-      id: 'INVESTOR',
-      name: t('Investor', 'Investisseur'),
-      monthlyPrice: 149,
-      description: t('Pour les collectionneurs et partenaire créatifs actifs.', 'For active collectors and partenaire créatifs.'),
+      id: 'PATRON',
+      name: t('Patron', 'Mécène'),
+      monthlyPrice: 19,
+      description: t('For patrons and collectors following certified projects.', 'Pour les mécènes et collectionneurs suivant des projets certifiés.'),
       features: [
         t('Unlimited project tracking', 'Suivi de projets illimité'),
-        t('Advanced market analytics', 'Analyses de marché avancées'),
-        t('Frais de transfert réduits (3%)', 'Frais de transfert réduits (3%)'),
-        t('Priority settlement access', 'Accès prioritaire au règlement'),
+        t('Advanced LYA Score analytics', 'Analyses avancées du Score LYA'),
+        t('Priority patronage access', 'Accès prioritaire au mécénat'),
         t('LYA Academy access', 'Accès à l\'Académie LYA'),
       ],
       color: 'accent-gold',
@@ -139,12 +138,12 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
     {
       id: 'PRO',
       name: t('Pro Personal', 'Pro Personnel'),
-      monthlyPrice: 890,
+      monthlyPrice: 89,
       description: t('For independent professionals and agents.', 'Pour les professionnels et agents indépendants.'),
       features: [
-        t('Professional audit tools', 'Outils d\'audit professionnel'),
-        t('API access for valuation', 'Accès API pour l\'évaluation'),
-        t('Frais de transfert les plus bas (2%)', 'Frais de transfert les plus bas (2%)'),
+        t('Professional validation tools', 'Outils de validation professionnelle'),
+        t('API access for certification', 'Accès API pour la certification'),
+        t('Priority review queue', 'File de revue prioritaire'),
         t('White-label reporting', 'Rapports en marque blanche'),
         t('Dedicated account manager', 'Gestionnaire de compte dédié'),
       ],
@@ -155,13 +154,13 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
       id: 'PRO_ENTERPRISE',
       name: t('Institutional Enterprise', 'Entreprise Institutionnelle'),
       monthlyPrice: 15000,
-      description: t('Strategic infrastructure for major studios, publishers, and labels. Dedicated node with 24/7 priority support.', 'Infrastructure stratégique pour les grands studios, éditeurs et labels. Nœud dédié avec support prioritaire 24/7.'),
+      description: t('Strategic infrastructure for major studios, publishers, and labels. Dedicated support with 24/7 priority access.', 'Infrastructure stratégique pour les grands studios, éditeurs et labels. Support dédié avec accès prioritaire 24/7.'),
       features: [
-        t('Full Catalog Indexing & Migration', 'Indexation et Migration de Catalogue Complet'),
+        t('Full Catalog Certification & Migration', 'Certification et Migration de Catalogue Complet'),
         t('Externalized Editorial Management', 'Gestion Éditoriale Externalisée'),
-        t('Custom Valuation Indexing', 'Indexation de Valeur Personnalisée'),
-        t('Institutional Liquidity Bridges', 'Ponts de Liquidité Institutionnels'),
-        t('Advanced LYA Governance', 'Gouvernance Avancée LYA'),
+        t('Custom Certification Workflow', 'Processus de Certification Personnalisé'),
+        t('Dedicated Registry Access', 'Accès Registre Dédié'),
+        t('Advanced LYA Reporting', 'Rapports Avancés LYA'),
       ],
       color: 'accent-purple',
       icon: <Building2 size={24} />,
@@ -181,7 +180,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
       <PageHeader 
         titleWhite={t('Platform', 'Modèles de')}
         titleAccent={t('Pricing', 'Tarification')}
-        description={t('UNLOCK ACCESS TO PROFESSIONAL DATA FEEDS, DEEP MARKET ANALYTICS, AND PROFESSIONAL SETTLEMENT INFRASTRUCTURE.', 'DÉBLOQUEZ L\'ACCÈS AUX FLUX DE DONNÉES PROFESSIONNELS, AUX ANALYSES DE MARCHÉ APPROFONDIES ET À L\'INFRASTRUCTURE DE RÈGLEMENT PROFESSIONNELLE.')}
+        description={t('UNLOCK ACCESS TO PROFESSIONAL DATA FEEDS, DEEP CERTIFICATION ANALYTICS, AND PROFESSIONAL REVIEW INFRASTRUCTURE.', 'DÉBLOQUEZ L\'ACCÈS AUX FLUX DE DONNÉES PROFESSIONNELS, AUX ANALYSES DE CERTIFICATION APPROFONDIES ET À L\'INFRASTRUCTURE DE REVUE PROFESSIONNELLE.')}
         accentColor="text-primary-cyan"
       />
 
@@ -314,12 +313,12 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
                   <span className="text-primary-cyan">& {t('CUSTOM QUOTE', 'DEVIS SUR-MESURE')}</span>
                 </h3>
                 <p className="text-xs text-on-surface-variant uppercase tracking-widest font-black leading-tight">
-                  {t('Tailored Creative Economy Valuation & Syndication Service Recommendation Engine', 'Moteur d’évaluation de vos besoins de syndication d’actifs et recommandations par IA')}
+                  {t('Tailored Creative Certification & Recognition Service Recommendation Engine', 'Moteur d’évaluation de vos besoins de certification et recommandations par IA')}
                 </p>
               </div>
             </div>
             <div className="px-3 py-1.5 bg-primary-cyan/10 border border-primary-cyan/30 text-[10px] font-black uppercase tracking-wider text-primary-cyan self-start md:self-auto">
-              {t('INTELLIGENT BROKER MODEL V3.5 ACTIVE', 'MODÈLE COURTIER LYA ACTIVE V3.5')}
+              {t('INTELLIGENT CERTIFICATION MODEL V3.5 ACTIVE', 'MODÈLE DE CERTIFICATION LYA ACTIF V3.5')}
             </div>
           </div>
 
@@ -365,8 +364,8 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
                 >
                   <option value="Independent Creator / Composer / Writer">{t('Independent Creator / Composer / Writer', 'Créateur / Compositeur / Auteur Indépendant')}</option>
                   <option value="Film Producer / Showrunner / Broadcaster">{t('Film Producer / Showrunner / Broadcaster', 'Producteur de Cinéma / Showrunner / Diffuseur')}</option>
-                  <option value="Talent Agent / IP Broker / Appraiser">{t('Talent Agent / IP Broker / Appraiser', 'Agent Artistique / Courtier de Propriété Intellectuelle')}</option>
-                  <option value="Private Collector / Creative Patron / Backer">{t('Private Collector / Creative Patron / Backer', 'Collectionneur / Mécène / Financeur Privé')}</option>
+                  <option value="Talent Agent / Rights Manager / Appraiser">{t('Talent Agent / Rights Manager / Appraiser', 'Agent Artistique / Gestionnaire de Droits')}</option>
+                  <option value="Private Collector / Creative Patron / Backer">{t('Private Collector / Creative Patron / Backer', 'Collectionneur / Mécène')}</option>
                   <option value="Record Label / Movie Studio / Major Publisher">{t('Studio, Label, or Major Publisher', 'Label, Studio de Cinéma, ou Giga Éditeur')}</option>
                 </select>
               </div>
@@ -394,7 +393,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
                 <textarea
                   value={needsDesc}
                   onChange={(e) => setNeedsDesc(e.target.value)}
-                  placeholder={t('Example: I want to syndicate broadcasting royalties from my 15 track documentary music library to secure short-term liquidated capital...', 'Exemple: Je veux syndiquer les royalties de diffusion SVOD de mon catalogue de 15 musiques de films pour lever du capital rapidement ...')}
+                  placeholder={t('Example: I want to certify my 15-track documentary music library and get it recognized by patrons and industry professionals...', 'Exemple: Je veux certifier mon catalogue de 15 musiques de films et le faire reconnaître par des mécènes et professionnels du secteur...')}
                   className="w-full bg-surface-high border border-white/10 px-3 py-2.5 text-xs text-white placeholder-on-surface-variant/40 focus:outline-none focus:border-primary-cyan h-24 resize-none rounded-none"
                 />
               </div>
@@ -433,7 +432,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
                     {t('LAUNCH ASSISTANT TO DETERMINE TAILORED FORMULA & PRICING', 'LANCEZ L’ANALYSE POUR CALCULER VOTRE PRE-DEVIS SUR-MESURE')}
                   </p>
                   <p className="text-xs text-on-surface-variant/60 uppercase max-w-sm mt-2 leading-relaxed">
-                    {t('Our LYA Economizer AI will cross-reference your specific Creative Field, Scale of Projects, and licensing structures to generate an immediate live proposal and highlight matching subscription levels.', 'Notre IA croisera votre secteur de création, le volume de votre catalogue et les structures de licence pour générer une proposition d’indexation immédiate.')}
+                    {t('Our LYA Assistant AI will cross-reference your specific Creative Field, Scale of Projects, and licensing structures to generate an immediate live proposal and highlight matching subscription levels.', 'Notre IA croisera votre secteur de création, le volume de votre catalogue et les structures de licence pour générer une proposition de certification immédiate.')}
                   </p>
                 </div>
               )}
@@ -499,7 +498,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 bg-white/[0.02] border border-white/5 p-4">
                     <div className="md:col-span-2 space-y-1">
                       <span className="text-[10px] uppercase tracking-widest font-black text-on-surface-variant block">
-                        {t('ESTIMATED LEDGER COMPLEXITY APPRECIATION', 'INDICE DE FAISABILITÉ D’INDEXATION DE VOS DROITS')}
+                        {t('ESTIMATED CERTIFICATION READINESS', 'INDICE DE PRÉPARATION À LA CERTIFICATION')}
                       </span>
                       <div className="flex items-center gap-3">
                         <div className="flex-1 bg-white/10 h-1.5 rounded-full overflow-hidden">
@@ -511,7 +510,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
                         <span className="text-xs font-black text-primary-cyan font-mono">{assessmentResult.auditIndexScore}%</span>
                       </div>
                       <span className="text-[10px] text-on-surface-variant/75 block">
-                        {t('Score representing how easily your contracts can bypass validation buffers.', 'Indice représentant la facilité d\'intégration directe dans notre registre sans sas de conformité légale manuel.')}
+                        {t('Score representing how ready your project is for certification review.', 'Indice représentant le niveau de préparation de votre projet à la revue de certification.')}
                       </span>
                     </div>
                     
@@ -563,7 +562,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
                       onClick={() => {
                         onSelectPlan({
                           name: assessmentResult.recommendedPlanId === 'CREATOR' ? t('Creator', 'Créateur') :
-                                assessmentResult.recommendedPlanId === 'INVESTOR' ? t('Investor', 'Investisseur') :
+                                assessmentResult.recommendedPlanId === 'PATRON' ? t('Patron', 'Mécène') :
                                 assessmentResult.recommendedPlanId === 'PRO' ? t('Pro Personal', 'Pro Personnel') : t('Institutional Enterprise', 'Entreprise Institutionnelle'),
                           price: assessmentResult.estimatedMonthlyCost,
                           billingCycle
@@ -626,8 +625,8 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
                     {[
                       t('Advanced LYA Score breakdown', 'Décomposition avancée du Score LYA'),
                       t('Expert audit access', 'Accès à l\'audit d\'expert'),
-                      t('Market sentiment analysis', 'Analyse du sentiment du marché'),
-                      t('Custom portfolio alerts', 'Alertes de portefeuille personnalisées'),
+                      t('Community engagement analytics', 'Analyses d\'engagement communautaire'),
+                      t('Custom project alerts', 'Alertes de projet personnalisées'),
                     ].map((f, i) => (
                       <li key={i} className="flex items-center gap-3 text-[10px] text-on-surface-variant uppercase font-bold tracking-wide">
                         <div className="w-4 h-[1px] bg-primary-cyan opacity-40" /> {f}
@@ -636,13 +635,13 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
                   </ul>
                 </div>
                 <div className="space-y-4">
-                  <h4 className="text-xs font-black text-accent-gold uppercase tracking-widest border-b border-accent-gold/20 pb-2">{t('Financial Benefits', 'Avantages Financiers')}</h4>
+                  <h4 className="text-xs font-black text-accent-gold uppercase tracking-widest border-b border-accent-gold/20 pb-2">{t('Professional Benefits', 'Avantages Professionnels')}</h4>
                   <ul className="space-y-3">
                     {[
-                      t('2% de frais de transfert', '2% de frais de transfert'),
-                      t('Priority settlement engine', 'Moteur de règlement prioritaire'),
-                      t('Tax optimization reports', 'Rapports d\'optimisation fiscale'),
-                      t('Direct equity lending', 'Prêt direct de fonds propres'),
+                      t('Priority review queue', 'File de revue prioritaire'),
+                      t('Dedicated certification support', 'Support de certification dédié'),
+                      t('Tax & legal compliance reports', 'Rapports de conformité fiscale et juridique'),
+                      t('White-label client reporting', 'Rapports en marque blanche pour vos clients'),
                     ].map((f, i) => (
                       <li key={i} className="flex items-center gap-3 text-[10px] text-on-surface-variant uppercase font-bold tracking-wide">
                         <div className="w-4 h-[1px] bg-accent-gold opacity-40" /> {f}
@@ -664,7 +663,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
                 </div>
                 <div>
                   <h3 className="text-xl font-black uppercase tracking-tighter text-accent-purple">{t('Institutional Enterprise', 'Entreprise Institutionnelle')}</h3>
-                  <p className="text-[10px] text-on-surface-variant uppercase tracking-widest font-bold">{t('Asset Management & Externalized Validation', 'Gestion d\'Actifs et Validation Externalisée')}</p>
+                  <p className="text-[10px] text-on-surface-variant uppercase tracking-widest font-bold">{t('Certification Management & Externalized Validation', 'Gestion de Certification et Validation Externalisée')}</p>
                 </div>
               </div>
               
@@ -688,10 +687,10 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
                   <h4 className="text-xs font-black text-accent-gold uppercase tracking-widest border-b border-accent-gold/20 pb-2">{t('Decision Support', 'Soutien à la Décision')}</h4>
                   <ul className="space-y-3">
                     {[
-                      t('Real-time Valuation index', 'Indice de Valorisation en tps réel'),
+                      t('Real-time Certification index', 'Indice de Certification en tps réel'),
                       t('Predictive Performance data', 'Données de Performance Prédictives'),
                       t('Suite de Accès Institutionnel', 'Accès Institutionnel Suite'),
-                      t('Master Registry Governance', 'Gouvernance du Registre Maître'),
+                      t('Master Registry Access', 'Accès au Registre Maître'),
                     ].map((f, i) => (
                       <li key={i} className="flex items-center gap-3 text-[10px] text-on-surface-variant uppercase font-bold tracking-wide">
                         <div className="w-4 h-[1px] bg-accent-gold opacity-40" /> {f}
@@ -713,9 +712,9 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
             
             {[
               { label: t('CREATOR', 'CRÉATEUR'), desc: t('Index & Validate', 'Indexer et Valider'), color: 'primary-cyan', icon: Zap },
-              { label: t('INVESTOR', 'INVESTISSEUR'), desc: t('Collect & Grow', 'Collectionner et Croître'), color: 'accent-gold', icon: Star },
+              { label: t('PATRON', 'MÉCÈNE'), desc: t('Discover & Support', 'Découvrir et Soutenir'), color: 'accent-gold', icon: Star },
               { label: t('PRO', 'PRO'), desc: t('Audit & Scale', 'Auditer et Passer à l\'échelle'), color: 'white', icon: User },
-              { label: t('ENTERPRISE', 'ENTREPRISE'), desc: t('Govern & Liquidate', 'Gouverner et Liquider'), color: 'accent-purple', icon: Building2 }
+              { label: t('ENTERPRISE', 'ENTREPRISE'), desc: t('Certify & Scale', 'Certifier et Passer à l\'échelle'), color: 'accent-purple', icon: Building2 }
             ].map((step, i) => (
               <div key={i} className="relative z-10 flex flex-col items-center text-center group">
                 <div className={`w-16 h-16 rounded-full bg-surface-dim border-2 flex items-center justify-center mb-4 transition-all duration-500 group-hover:scale-110 ${
@@ -746,9 +745,9 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { label: t('Accès Étendu au Marché', 'Accès Étendu au Marché'), price: '2,500', icon: Globe, desc: t('Accès aux registres de disponibilité mondiaux', 'Global accès aux registres de disponibilité') },
+              { label: t('Accès Étendu au Registre', 'Accès Étendu au Registre'), price: '2,500', icon: Globe, desc: t('Accès aux registres de certification mondiaux', 'Global access to worldwide certification registries') },
               { label: t('Risk Audit Pro', 'Audit de Risque Pro'), price: '1,200', icon: Shield, desc: t('Deep-dive compliance reports', 'Rapports de conformité approfondis') },
-              { label: t('Portfolio AI', 'IA de Portefeuille'), price: '1,800', icon: Zap, desc: t('Automated rebalancing engine', 'Moteur de rééquilibrage automatisé') },
+              { label: t('Registry AI', 'IA de Registre'), price: '1,800', icon: Zap, desc: t('Automated certification monitoring engine', 'Moteur de suivi de certification automatisé') },
               { label: t('Tax & Legal Suite', 'Suite Fiscale et Juridique'), price: '950', icon: BarChart3, desc: t('Multi-jurisdictional reporting', 'Rapports multi-juridictionnels') },
             ].map((option, i) => (
               <div key={i} className="p-6 bg-white/5 border border-white/10 rounded-xl group hover:border-accent-gold/30 transition-all flex flex-col">
@@ -777,16 +776,16 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
                 <Shield size={32} className="text-primary-cyan" />
               </div>
               <div>
-                <h4 className="text-xl font-black uppercase mb-1 tracking-tighter">{t('Frais de Transfert Direct', 'Frais de Transfert Direct')}</h4>
+                <h4 className="text-xl font-black uppercase mb-1 tracking-tighter">{t('Patronage Platform Fee', 'Frais de Plateforme sur le Mécénat')}</h4>
                 <p className="text-sm text-on-surface-variant text-justify">
-                  {t('LinkYourArt relies on a transfert direct model. We charge a small fee on every successful trade to maintain the network and ensure settlement security.', 'LinkYourArt repose sur un modèle d\'échange de transfert direct entre créateurs. Nous prélevons une petite commission sur chaque transaction réussie pour maintenir le réseau et assurer la sécurité du règlement.')}
+                  {t('LinkYourArt relies on a patronage-based model. We charge a small platform fee on patronage support to maintain the registry and certification infrastructure. Certification itself is always free for creators.', 'LinkYourArt repose sur un modèle de mécénat. Nous prélevons un petit frais de plateforme sur le soutien apporté aux projets pour maintenir le registre et l\'infrastructure de certification. La certification elle-même est toujours gratuite pour les créateurs.')}
                 </p>
               </div>
             </div>
             <div className="flex gap-4">
               <div className="px-6 py-4 bg-white/5 border border-white/10 text-center min-w-[140px]">
-                <div className="text-2xl font-black text-primary-cyan whitespace-nowrap">2 - 5 %</div>
-                <div className="text-[10px] uppercase font-bold tracking-widest text-on-surface-variant whitespace-nowrap">{t('Per Trade', 'Par Échange')}</div>
+                <div className="text-2xl font-black text-primary-cyan whitespace-nowrap">5%</div>
+                <div className="text-[10px] uppercase font-bold tracking-widest text-on-surface-variant whitespace-nowrap">{t('On Patronage', 'Sur le Mécénat')}</div>
               </div>
             </div>
         </div>
