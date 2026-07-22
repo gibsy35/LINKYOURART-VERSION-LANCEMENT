@@ -123,7 +123,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
     {
       id: 'PATRON',
       name: t('Patron', 'Mécène'),
-      monthlyPrice: 39,
+      monthlyPrice: 9,
       description: t('For patrons and collectors following certified projects.', 'Pour les mécènes et collectionneurs suivant des projets certifiés.'),
       features: [
         t('Project submission (up to 10)', 'Soumission de projets (jusqu\'à 10)'),
