@@ -35,9 +35,9 @@ export const generateInvestmentThesis = async (assetName: string, description: s
   } catch (error) {
     console.error("Thesis failed:", error);
     return {
-      bullCase: "Strong creative fundamentals driven by organic audience growth, multi-platform IP syndication channels, and robust metadata indexing on the LYA ledger.",
-      bearCase: "Short-term valuation adjustments resulting from global market shifts, production timeline deviations, or fluctuating secondary liquidity levels.",
-      milestones: ["Initial creative audit completed by LYA specialists", "Primary SVOD/broadcast syndication contract signatures", "First dynamic revenue-share royalty distribution yield"]
+      bullCase: "Strong creative fundamentals driven by organic audience growth, multi-platform IP recognition, and robust metadata indexing on the LYA Registry.",
+      bearCase: "Certification progress may be affected by production timeline deviations or shifts in audience engagement across sectors.",
+      milestones: ["Initial creative audit completed by LYA specialists", "Primary broadcast/streaming distribution agreement signed", "First community recognition milestone reached"]
     };
   }
 };
@@ -61,8 +61,8 @@ export const suggestMilestones = async (description: string, language = 'EN') =>
     console.error("Milestones failed:", error);
     return [
       { label: "Phase 1: Intellectual Property Registration", date: "2026-10", scoreImpact: 10 },
-      { label: "Phase 2: Global Broadcasting Presales", date: "2027-02", scoreImpact: 20 },
-      { label: "Phase 3: Automated Royalty Split Live Activation", date: "2027-06", scoreImpact: 15 }
+      { label: "Phase 2: Distribution Agreement Signed", date: "2027-02", scoreImpact: 20 },
+      { label: "Phase 3: Public Launch", date: "2027-06", scoreImpact: 15 }
     ];
   }
 };

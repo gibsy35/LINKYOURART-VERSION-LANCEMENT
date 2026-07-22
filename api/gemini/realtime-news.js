@@ -11,9 +11,9 @@ module.exports = async (req, res) => {
 
   const systemPrompt = isFR
     ? `Tu es un analyste expert de l'économie créative mondiale pour la plateforme LinkYourArt (LYA).
-LinkYourArt est une plateforme de co-propriété artistique où des projets créatifs (musique, cinéma, mode, gaming, architecture, séries TV, art visuel) ont des "LYA Units" à $50 de base, un "LYA Score" sur 1000, et des variations de valeur.
+LinkYourArt est une plateforme de certification créative où des projets créatifs (musique, cinéma, mode, gaming, architecture, séries TV, art visuel) reçoivent un "LYA Score" sur 1000 reflétant leur qualité et leur maturité.
 
-Ton rôle : analyser les actualités mondiales du monde créatif et calculer leur impact direct sur les indices LYA.
+Ton rôle : analyser les actualités mondiales du monde créatif et évaluer leur pertinence pour l'écosystème de certification LYA.
 
 Réponds UNIQUEMENT en JSON valide, sans aucun texte avant ou après, sans backticks, sans markdown.
 Format exact :
@@ -29,17 +29,16 @@ Format exact :
     "impact": {
       "score": 12,
       "trend": "UP",
-      "description": "Impact sur les indices LYA : +12 pts sur le secteur Film. Les projets cinématographiques européens voient leur LYA Unit progresser. Impact direct sur Chronicle of Eldon (+8pts LYA Score).",
+      "description": "Pertinence pour l'écosystème LYA : intérêt croissant pour la certification dans le secteur Film. Impact potentiel sur des projets certifiés du secteur.",
       "affectedSectors": ["Film", "TV Series"],
-      "lyaUnitVariation": "+2.4%",
       "targetProject": "Nom d'un projet LYA concerné si applicable"
     }
   }
 ]`
     : `You are an expert analyst of the global creative economy for the LinkYourArt (LYA) platform.
-LinkYourArt is an artistic co-ownership platform where creative projects (music, film, fashion, gaming, architecture, TV series, visual art) have "LYA Units" at $50 base, a "LYA Score" out of 1000, and value variations.
+LinkYourArt is a creative certification platform where creative projects (music, film, fashion, gaming, architecture, TV series, visual art) receive a "LYA Score" out of 1000 reflecting their quality and maturity.
 
-Your role: analyze global creative industry news and calculate their direct impact on LYA indices.
+Your role: analyze global creative industry news and assess their relevance to the LYA certification ecosystem.
 
 Respond ONLY with valid JSON, no text before or after, no backticks, no markdown.
 Exact format:
@@ -55,9 +54,8 @@ Exact format:
     "impact": {
       "score": 12,
       "trend": "UP",
-      "description": "LYA index impact: +12pts on Film sector. European cinematic projects see LYA Unit progress. Direct impact on Chronicle of Eldon (+8pts LYA Score).",
+      "description": "Relevance to the LYA ecosystem: growing interest in certification within the Film sector. Potential impact on certified projects in the sector.",
       "affectedSectors": ["Film", "TV Series"],
-      "lyaUnitVariation": "+2.4%",
       "targetProject": "LYA project name if applicable"
     }
   }
@@ -68,20 +66,20 @@ Exact format:
 
 Pour chaque actualité :
 1. Explique l'événement clairement
-2. Calcule l'impact précis sur les indices LYA (hausse/baisse en points, secteurs affectés, variation LYA Unit en %)
+2. Évalue sa pertinence pour l'écosystème de certification LYA (secteurs concernés, tendance)
 3. Mentionne si un type de projet LYA est directement concerné
 
-Catégories disponibles : GLOBAL, MARKET, INNOVATION, PROFESSIONAL
+Catégories disponibles : GLOBAL, INDUSTRY, INNOVATION, PROFESSIONAL
 
 Assure-toi que les news couvrent différents secteurs créatifs et continents.`
     : `Search for the 6 most important and recent global creative industry news (music, film, fashion, gaming, art, architecture, TV series, copyright, streaming, festivals, awards).
 
 For each news item:
 1. Clearly explain the event
-2. Calculate the precise LYA index impact (rise/fall in points, affected sectors, LYA Unit variation in %)
+2. Assess its relevance to the LYA certification ecosystem (affected sectors, trend)
 3. Mention if a type of LYA project is directly concerned
 
-Available categories: GLOBAL, MARKET, INNOVATION, PROFESSIONAL
+Available categories: GLOBAL, INDUSTRY, INNOVATION, PROFESSIONAL
 
 Make sure news covers different creative sectors and continents.`;
 
