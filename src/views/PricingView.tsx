@@ -87,7 +87,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
           recommendedPlanId: projectSize.includes('Enterprise') ? 'PRO_ENTERPRISE' : customRole.includes('Producer') || creativeField.includes('Cinema') ? 'PRO' : 'PATRON',
           recommendedPlanName: projectSize.includes('Enterprise') ? 'Entreprise Institutionnelle' : customRole.includes('Producer') || creativeField.includes('Cinema') ? 'Pro Personnel' : 'Mécène',
           primaryReason: "Recommandé pour optimiser d'importants portefeuilles de propriété intellectuelle avec rapports personnalisés pour les partenaire créatifs.",
-          estimatedMonthlyCost: projectSize.includes('Enterprise') ? 15000 : 89,
+          estimatedMonthlyCost: projectSize.includes('Enterprise') ? 15000 : 299,
           suggestedAddons: [
             { name: "Risk Audit Pro", reason: "Sécurise l'audit préliminaire de vos contrats d'exploitation de manière automatisée." },
             { name: "Tax & Legal Suite", reason: "Idéal pour structurer les rapports multi-pays issus de la diffusion de vos œuvres." }
@@ -123,7 +123,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
     {
       id: 'PATRON',
       name: t('Patron', 'Mécène'),
-      monthlyPrice: 19,
+      monthlyPrice: 39,
       description: t('For patrons and collectors following certified projects.', 'Pour les mécènes et collectionneurs suivant des projets certifiés.'),
       features: [
         t('Project submission (up to 10)', 'Soumission de projets (jusqu\'à 10)'),
@@ -138,7 +138,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
     {
       id: 'PRO',
       name: t('Pro Personal', 'Pro Personnel'),
-      monthlyPrice: 89,
+      monthlyPrice: 299,
       description: t('For independent professionals and agents.', 'Pour les professionnels et agents indépendants.'),
       features: [
         t('Unlimited project submissions', 'Soumissions de projets illimitées'),
