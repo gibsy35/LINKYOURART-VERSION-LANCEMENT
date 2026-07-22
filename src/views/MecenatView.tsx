@@ -68,9 +68,6 @@ export function MecenatView() {
                     <p className="text-xs font-mono tracking-[0.22em] uppercase" style={{ color: 'rgba(251,191,36,0.55)' }}>
                       {T('VALORISATION DE RÉFÉRENCE', 'REFERENCE VALUATION')}
                     </p>
-                    <p className="font-headline font-black tracking-tighter leading-none text-on-surface text-lg">
-                      LYA <span style={{ color: '#fbbf24' }}>SCORE</span>
-                    </p>
                     <p className="font-mono font-black text-2xl text-primary-cyan tracking-tight">
                       $50.00
                     </p>
