@@ -33,7 +33,7 @@ import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 
 interface NewsItem {
   id: string;
-  category: 'GLOBAL' | 'MARKET' | 'INNOVATION' | 'PROFESSIONAL' | 'PRESS';
+  category: 'GLOBAL' | 'INDUSTRY' | 'INNOVATION' | 'PROFESSIONAL' | 'PRESS';
   title: string;
   summary: string;
   timestamp: string;
@@ -63,42 +63,42 @@ const INITIAL_NEWS: NewsItem[] = [
   },
   {
     id: '5',
-    category: 'MARKET',
+    category: 'INDUSTRY',
     title: 'Regulatory Shift in Digital Asset Taxation',
     summary: 'New guidelines from the G7 could impact how creative contracts are taxed across international borders.',
     timestamp: '8h ago',
     impact: {
       score: -12,
       trend: 'DOWN',
-      description: 'Short-term volatility expected in cross-border settlements. Advisory: Review jurisdiction filters.'
+      description: 'New compliance requirements expected for cross-border certifications. Advisory: Review jurisdiction filters.'
     },
     source: 'Financial Times',
     imageUrl: 'https://picsum.photos/seed/regulation/800/500'
   },
   {
     id: '2',
-    category: 'MARKET',
-    title: 'Creative Rights Index Reaches All-Time High',
-    summary: 'Global creative projects are outperforming traditional tech stocks as professional associates seek alternative progressions.',
+    category: 'INDUSTRY',
+    title: 'Creative Certification Adoption Reaches All-Time High',
+    summary: 'Global creative projects are increasingly seeking objective certification standards as professional associates look for reliable quality signals.',
     timestamp: '45m ago',
     impact: {
       score: 8,
       trend: 'UP',
-      description: 'LYA Unit floor price adjusted to $52.40. Market disponibilité à des niveaux records.'
+      description: 'LYA Score adoption at record levels across certified sectors.'
     },
     source: 'Bloomberg Creative',
     imageUrl: 'https://picsum.photos/seed/creative/800/500'
   },
   {
     id: '6',
-    category: 'MARKET',
+    category: 'INDUSTRY',
     title: 'Major Music Catalog Valuation Dispute',
-    summary: 'A high-profile dispute over the valuation of a legendary rock band\'s catalog is causing ripples in the music equity market.',
+    summary: 'A high-profile dispute over the certification of a legendary rock band\'s catalog is causing debate in the music industry.',
     timestamp: '10h ago',
     impact: {
       score: -25,
       trend: 'DOWN',
-      description: 'Market uncertainty for legacy music contracts. Liquidity centers reporting wider spreads.'
+      description: 'Ongoing review process for legacy music certifications. Registries reporting increased audit requests.'
     },
     source: 'Rolling Stone',
     imageUrl: 'https://picsum.photos/seed/music/800/500'
@@ -112,7 +112,7 @@ const INITIAL_NEWS: NewsItem[] = [
     impact: {
       score: 22,
       trend: 'UP',
-      description: 'Settlement speed expected to increase by 40%. Reducing legal friction for new contract issuances.'
+      description: 'Certification speed expected to increase by 40%. Reducing administrative friction for new project submissions.'
     },
     source: 'TechCrunch',
     imageUrl: 'https://picsum.photos/seed/innovation/800/500'
@@ -126,7 +126,7 @@ const INITIAL_NEWS: NewsItem[] = [
     impact: {
       score: -45,
       trend: 'DOWN',
-      description: 'Temporary settlement delays for APAC-indexed contracts. Security protocol V5.1 activated.'
+      description: 'Temporary certification delays for APAC-registered projects. Security protocol V5.1 activated.'
     },
     source: 'Cyber Defense',
     imageUrl: 'https://picsum.photos/seed/security/800/500'
@@ -140,7 +140,7 @@ const INITIAL_NEWS: NewsItem[] = [
     impact: {
       score: 5,
       trend: 'STABLE',
-      description: 'Positive sentiment for contemporary art registries. No immediate price adjustment required.'
+      description: 'Positive sentiment for contemporary art registries.'
     },
     source: 'The Art Newspaper',
     imageUrl: 'https://picsum.photos/seed/venice/800/500'
@@ -154,7 +154,7 @@ const INITIAL_NEWS: NewsItem[] = [
     impact: {
       score: 15,
       trend: 'UP',
-      description: 'Opening new revenue streams for music producers. 15% growth projected in immersive audio sector.'
+      description: 'Opening new certification pathways for music producers. 15% growth projected in immersive audio sector.'
     },
     source: 'Wired',
     imageUrl: 'https://picsum.photos/seed/audio/800/500'
@@ -168,7 +168,7 @@ const INITIAL_NEWS: NewsItem[] = [
     impact: {
       score: 42,
       trend: 'UP',
-      description: 'Massive influx of retail interest from Asia. K-Pop sector contracts seeing 300% volume increase.'
+      description: 'Massive influx of public interest from Asia. K-Pop sector submissions seeing 300% increase.'
     },
     source: 'The Korea Herald',
     imageUrl: 'https://picsum.photos/seed/music/800/500'
@@ -176,13 +176,13 @@ const INITIAL_NEWS: NewsItem[] = [
   {
     id: '10',
     category: 'PROFESSIONAL',
-    title: 'Goldman Sachs Launches Creative Rights Desk',
-    summary: 'The investment bank is the first major Wall Street player to open a dedicated trading desk for creative contracts.',
+    title: 'Major Financial Institution Launches Creative Rights Advisory',
+    summary: 'A leading advisory firm is the first major Wall Street player to open a dedicated advisory practice for creative IP certification.',
     timestamp: '1d ago',
     impact: {
       score: 55,
       trend: 'UP',
-      description: 'Ultimate expert validation. Market depth expected to double in the next quarter.'
+      description: 'Ultimate expert validation. Certification volume expected to double in the next quarter.'
     },
     source: 'Wall Street Journal',
     imageUrl: 'https://picsum.photos/seed/finance/800/500'
@@ -203,14 +203,14 @@ const INITIAL_NEWS: NewsItem[] = [
   },
   {
     id: '12',
-    category: 'MARKET',
+    category: 'INDUSTRY',
     title: 'Independent Studio Revolution in Europe',
-    summary: 'Boutique production houses are leveraging LYA units to bypass traditional financing hurdles in France and Germany.',
+    summary: 'Boutique production houses are leveraging LYA certification to attract patron support and bypass traditional financing hurdles in France and Germany.',
     timestamp: '5h ago',
     impact: {
       score: 12,
       trend: 'UP',
-      description: 'Distributed funding models are becoming the new standard for mid-budget cinema.'
+      description: 'Patron-based support models are becoming the new standard for mid-budget cinema.'
     },
     source: 'Le Monde',
     imageUrl: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&q=80&w=800'
@@ -232,27 +232,27 @@ const INITIAL_NEWS: NewsItem[] = [
   {
     id: '14',
     category: 'PROFESSIONAL',
-    title: 'Hollywood Reporter: Major Studios Form IP Consortium',
-    summary: 'Disney, Warner Bros, and Paramount are collaborating on a shared registry for legacy IP rights management.',
+    title: 'Industry Report: Major Studios Form IP Consortium',
+    summary: 'Several major studios are collaborating on a shared registry for legacy IP rights management.',
     timestamp: '1d ago',
     impact: {
       score: 28,
       trend: 'UP',
-      description: 'Standardization of legacy rights will unlock billions in dormant creative equity.'
+      description: 'Standardization of legacy rights will unlock significant value in dormant creative catalogs.'
     },
     source: 'Hollywood Reporter',
     imageUrl: 'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&q=80&w=800'
   },
   {
     id: '15',
-    category: 'MARKET',
-    title: 'Le Monde: French Government Backs Creative Tokenization',
+    category: 'INDUSTRY',
+    title: 'Le Monde: French Government Backs Creative Certification',
     summary: 'The Ministry of Culture announces tax incentives for projects using professional creative registries.',
     timestamp: '2d ago',
     impact: {
       score: 45,
       trend: 'UP',
-      description: 'France becomes the first G7 nation to officially integrate creative equity into national policy.'
+      description: 'France becomes the first G7 nation to officially integrate creative certification into national policy.'
     },
     source: 'Le Monde',
     imageUrl: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&q=80&w=800'
@@ -327,13 +327,13 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
 
   const sectors = [
     { label: 'Music Rights', trend: '+12.4%', color: 'text-primary-cyan' },
-    { label: 'Film Equity', trend: '+8.2%', color: 'text-emerald-400' },
+    { label: 'Film', trend: '+8.2%', color: 'text-emerald-400' },
     { label: 'Digital Art', trend: '-2.1%', color: 'text-red-400' },
     { label: 'Gaming IP', trend: '+15.7%', color: 'text-accent-purple' },
     { label: 'TV Series', trend: '+10.4%', color: 'text-accent-gold' },
     { label: 'Fashion IP', trend: '+5.3%', color: 'text-primary-cyan' },
     { label: 'Literary Rights', trend: '+3.1%', color: 'text-emerald-400' },
-    { label: 'Design Equity', trend: '+7.8%', color: 'text-accent-gold' },
+    { label: 'Design', trend: '+7.8%', color: 'text-accent-gold' },
     { label: 'Photography', trend: '+2.4%', color: 'text-primary-cyan' },
     { label: 'Architecture', trend: '+4.9%', color: 'text-emerald-400' },
     { label: 'Sculpture', trend: '+1.2%', color: 'text-accent-purple' },
@@ -548,10 +548,10 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
         <div className="flex-1">
           <h1 className="text-3xl md:text-5xl font-black font-headline tracking-tighter text-on-surface leading-[0.9] uppercase mb-6 flex items-center gap-4">
             <div className="h-[2px] w-12 bg-primary-cyan"></div>
-            <span>{t('Market', 'COURS DU')} <span className="text-primary-cyan">{t('Pulse', 'MARCHÉ')}</span></span>
+            <span>{t('LYA', 'LYA')} <span className="text-primary-cyan">{t('Intelligence', 'Intelligence')}</span></span>
           </h1>
           <p className="border-l-2 border-primary-cyan pl-6 text-on-surface-variant max-w-lg text-[10px] md:text-xs leading-relaxed opacity-70 uppercase tracking-[0.3em] font-black text-justify">
-            {t('REAL-TIME CURATION OF HIGH-IMPACT NEWS AND MARKET SHIFTS ACROSS THE GLOBAL CREATIVE ECONOMY.', 'CURATION EN TEMPS RÉEL DES ACTUALITÉS À FORT IMPACT ET DES CHANGEMENTS DE MARCHÉ DANS L\'ÉCONOMIE CRÉATIVE MONDIALE.')}
+            {t('REAL-TIME CURATION OF HIGH-IMPACT NEWS AND INDUSTRY SHIFTS ACROSS THE GLOBAL CREATIVE ECONOMY.', 'CURATION EN TEMPS RÉEL DES ACTUALITÉS À FORT IMPACT ET DES ÉVOLUTIONS DE L\'INDUSTRIE CRÉATIVE MONDIALE.')}
           </p>
         </div>
         <div className="flex gap-4">
@@ -598,7 +598,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
       {/* Filter Controls */}
       <div className={`flex items-center justify-between gap-4 mb-24 ${mainTab === 'press' || mainTab === 'jobs' ? 'hidden' : ''}`}>
         <div className="flex bg-surface-low border border-white/5 p-1.5 rounded-sm shadow-2xl">
-          {['ALL', 'GLOBAL', 'MARKET', 'INNOVATION', 'PROFESSIONAL'].map((cat) => (
+          {['ALL', 'GLOBAL', 'INDUSTRY', 'INNOVATION', 'PROFESSIONAL'].map((cat) => (
             <button
               key={cat}
               onClick={() => setFilter(cat)}
@@ -757,11 +757,11 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
 
         {/* Right Column: Sidebar Info */}
         <div className="space-y-8">
-          {/* Market Sentiment */}
+          {/* Community Pulse */}
           <div className="bg-surface-low border border-white/5 p-6">
             <h3 className="text-xs font-black uppercase tracking-[0.3em] text-primary-cyan mb-6 flex items-center gap-2">
               <TrendingUp className="w-4 h-4" />
-              Market Sentiment
+              Community Pulse
             </h3>
             
             <div className="space-y-6">
@@ -781,7 +781,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
 
               <div>
                 <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest mb-2">
-                  <span className="text-white">Market Liquidity</span>
+                  <span className="text-white">Registry Activity</span>
                   <span className="text-emerald-400">72%</span>
                 </div>
                 <div className="h-1 bg-white/5 rounded-full overflow-hidden">
@@ -941,7 +941,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
 
                   <div className="space-y-6">
                     <div className="p-6 bg-white/5 border border-white/5 rounded-2xl">
-                      <h4 className="text-[10px] font-black text-primary-cyan uppercase tracking-widest mb-4">LYA IMPACT ANALYSIS</h4>
+                      <h4 className="text-[10px] font-black text-primary-cyan uppercase tracking-widest mb-4">LYA SIGNIFICANCE ANALYSIS</h4>
                       <div className="flex items-center gap-4 mb-4">
                         <div className={`text-3xl font-black ${selectedNews.impact.trend === 'UP' ? 'text-emerald-400' : 'text-red-400'}`}>
                           {selectedNews.impact.score > 0 ? '+' : ''}{selectedNews.impact.score}%
