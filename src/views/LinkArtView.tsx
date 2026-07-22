@@ -22,7 +22,6 @@ import { Milestone, UserProfile, UserRole } from '../types';
 import { useTranslation } from '../context/LanguageContext';
 import { PageHeader } from '../components/ui/PageHeader';
 import { suggestMilestones } from '../services/geminiService';
-import { GoogleGenAI } from "@google/genai";
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db, handleFirestoreError, OperationType } from '../firebase';
 import { Trash2, Edit2, Check, X as CloseIcon, Mic } from 'lucide-react';
@@ -39,7 +38,6 @@ export const LinkArtView: React.FC<{
   onViewChange: (view: any) => void;
 }> = ({ user, onNotify, onViewChange }) => {
   const { t, language } = useTranslation();
-  const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
   // Access Control: Only Admin or Pro users can issue new contracts
   if (user?.role !== UserRole.ADMIN && !user?.isPro) {
@@ -240,34 +238,20 @@ export const LinkArtView: React.FC<{
     onNotify(t('GENERATING CONCEPT VISUALIZATIONS...', 'GÉNÉRATION DES VISUALISATIONS DE CONCEPT...'));
 
     try {
-      // We'll generate 3 different style variations
       const styles = [
         "Minimalist, professional, high-end digital art",
         "Cyberpunk, neon, technical blueprint style",
         "Abstract, fluid, modern corporate aesthetic"
       ];
 
-      const newOptions: string[] = [];
-
-      for (const style of styles) {
-        try {
-          const prompt = `Generate a square, high-quality, professional digital art piece for a creative contract described as: ${description}. Style: ${style}. High resolution, clean composition.`;
-          
-          const response = await ai.models.generateContent({
-            model: "gemini-2.5-flash-image",
-            contents: prompt
-          });
-
-          for (const part of response.candidates?.[0]?.content?.parts || []) {
-            if (part.inlineData) {
-              const url = `data:image/png;base64,${part.inlineData.data}`;
-              newOptions.push(url);
-            }
-          }
-        } catch (e) {
-          console.error(`Failed to generate variant for style: ${style}`, e);
-        }
-      }
+      const response = await fetch('/api/gemini/generate-cover-art', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ description, styles })
+      });
+      if (!response.ok) throw new Error(`Cover art API failed with status ${response.status}`);
+      const data = await response.json();
+      const newOptions: string[] = Array.isArray(data.images) ? data.images : [];
 
       if (newOptions.length > 0) {
         setGeneratedOptions(newOptions);

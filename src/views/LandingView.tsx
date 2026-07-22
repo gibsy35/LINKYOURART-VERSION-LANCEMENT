@@ -109,7 +109,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
   useEffect(() => {
-    const targetDate = new Date('2026-06-27T00:00:00').getTime();
+    const targetDate = new Date('2026-09-01T00:00:00').getTime();
     const timer = setInterval(() => {
       const now = new Date().getTime();
       const distance = targetDate - now;
