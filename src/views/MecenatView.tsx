@@ -51,8 +51,8 @@ export function MecenatView() {
                   fontSize: "clamp(2.4rem,5.5vw,4.2rem)",
                 }}>
                   {T(
-                    <>SOUTENEZ LES<br />CHEFS-D&apos;ŒUVRE DE DEMAIN<br /><span className="text-primary-cyan">EN UN CLIC</span></>,
-                    <>SUPPORT TOMORROW&apos;S<br />MASTERPIECES,<br /><span className="text-primary-cyan">IN A SINGLE CLICK</span></>
+                    <>DÉCOUVREZ, SUIVEZ,<br />SOUTENEZ<br /><span className="text-primary-cyan">LES CRÉATEURS CERTIFIÉS</span></>,
+                    <>DISCOVER, FOLLOW,<br />SUPPORT<br /><span className="text-primary-cyan">LYA-CERTIFIED CREATORS</span></>
                   )}
                 </h1>
                 <p className="text-on-surface-variant max-w-xl text-sm leading-relaxed opacity-80">
