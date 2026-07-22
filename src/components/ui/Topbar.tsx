@@ -98,11 +98,23 @@ export const Topbar: React.FC<TopbarProps> = ({
                 t('New article on LYA certification standard', 'Nouvel article sur le standard de certification LYA'),
                 t('LYA Jobs: new listings from certified studios', 'LYA Jobs : nouvelles offres de studios certifiés'),
                 t('Press & Media: new call for contributions', 'Presse & Médias : nouvel appel à contribution'),
+                t('LYA featured in creative industry roundup', 'LYA mentionné dans une revue de l\'industrie créative'),
+                t('New podcast episode covers the LYA Score methodology', 'Nouvel épisode de podcast sur la méthodologie du Score LYA'),
+                t('Press & Media: exclusive interview published', 'Presse & Médias : interview exclusive publiée'),
               ];
               const registryStats = [
                 t('128+ certified projects on the LYA Registry', '128+ projets certifiés sur le Registre LYA'),
                 t('9+ creative sectors covered', '9+ secteurs créatifs couverts'),
                 t('100+ active professional validators', '100+ validateurs professionnels actifs'),
+                t('290+ active patrons on the platform', '290+ mécènes actifs sur la plateforme'),
+                t('LYA Score methodology: 5 pillars, 1000 points', 'Méthodologie du Score LYA : 5 piliers, 1000 points'),
+                t('New professional validators onboarded this month', 'Nouveaux validateurs professionnels intégrés ce mois-ci'),
+              ];
+              const sectorHighlights = [
+                t('Film & TV: strongest certification growth this quarter', 'Film & TV : plus forte croissance de certification ce trimestre'),
+                t('Music: rising number of certified catalogs', 'Musique : nombre croissant de catalogues certifiés'),
+                t('Architecture: new certified projects added weekly', 'Architecture : nouveaux projets certifiés chaque semaine'),
+                t('Fashion: growing patron interest in certified collections', 'Mode : intérêt croissant des mécènes pour les collections certifiées'),
               ];
 
               type Row = { key: string; node: React.ReactNode };
@@ -137,7 +149,7 @@ export const Topbar: React.FC<TopbarProps> = ({
                       <div className="flex items-center gap-2 h-full px-4">
                         <Award size={11} className="text-accent-gold" />
                         <span className="text-[10px] font-black text-accent-gold uppercase tracking-widest">{item.name}:</span>
-                        <span className="text-[10px] text-on-surface-variant/60">{m.label}</span>
+                        <span className="text-[10px] text-on-surface-variant/60 uppercase tracking-widest">{m.label}</span>
                       </div>
                     ),
                   });
@@ -148,7 +160,7 @@ export const Topbar: React.FC<TopbarProps> = ({
                 node: (
                   <div className="flex items-center gap-2 h-full px-4">
                     <Newspaper size={11} className="text-[#a78bfa]" />
-                    <span className="text-[10px] text-on-surface-variant/70">{txt}</span>
+                    <span className="text-[10px] text-on-surface-variant/70 uppercase tracking-widest">{txt}</span>
                   </div>
                 ),
               }));
@@ -157,7 +169,16 @@ export const Topbar: React.FC<TopbarProps> = ({
                 node: (
                   <div className="flex items-center gap-2 h-full px-4">
                     <ShieldCheck size={11} className="text-primary-cyan" />
-                    <span className="text-[10px] text-on-surface-variant/70">{txt}</span>
+                    <span className="text-[10px] text-on-surface-variant/70 uppercase tracking-widest">{txt}</span>
+                  </div>
+                ),
+              }));
+              sectorHighlights.forEach((txt, i) => rows.push({
+                key: `sector-${i}`,
+                node: (
+                  <div className="flex items-center gap-2 h-full px-4">
+                    <TrendingUp size={11} className="text-emerald-400" />
+                    <span className="text-[10px] text-on-surface-variant/70 uppercase tracking-widest">{txt}</span>
                   </div>
                 ),
               }));
