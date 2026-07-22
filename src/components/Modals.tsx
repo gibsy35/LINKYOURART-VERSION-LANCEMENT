@@ -275,10 +275,10 @@ export const FeatureShowcaseModal: React.FC<{
           badge: t('CREATORS, PRODUCERS & WRITERS', 'CRÉATEURS, PRODUCTEURS & AUTEURS'),
           description: t(
             'Designed specifically for independent creative professionals—including filmmakers, musicians, writers, choreographers, and designers—to submit up to 4 projects for certification, track their LYA Score, and connect with patrons who believe in their work.',
-            'Conçu spécifiquement pour les professionnels de la création—cinéastes, musiciens, auteurs, chorégraphes et designers indépendants—pour soumettre jusqu\'à 4 projets à la certification, suivre leur Score LYA, et se connecter à des mécènes qui croient en leur travail.'
+            'Conçu spécifiquement pour les professionnels de la création—cinéastes, musiciens, auteurs, chorégraphes et designers indépendants—pour soumettre jusqu\'à 2 projets à la certification, suivre leur Score LYA, et se connecter à des mécènes qui croient en leur travail.'
           ),
           feature1: t('Certification Access', 'Accès à la Certification'),
-          feature1Value: t('UP TO 4 PROJECTS', 'JUSQU\'À 4 PROJETS'),
+          feature1Value: t('UP TO 2 PROJECTS', 'JUSQU\'À 2 PROJETS'),
           feature2: t('Certification Fee', 'Frais de Certification'),
           feature2Value: t('FREE', 'GRATUIT'),
         };
@@ -290,8 +290,8 @@ export const FeatureShowcaseModal: React.FC<{
             'Optimized for patrons, independent co-producers, and creative supporters looking to follow certified projects across music catalogs, film productions, and multidisciplinary creations.',
             'Idéal pour les mécènes, coproducteurs indépendants et soutiens créatifs cherchant à suivre des projets certifiés à travers des catalogues musicaux, des productions cinématographiques et des créations multidisciplinaires.'
           ),
-          feature1: t('Project Progress Tracking', 'Suivi de Progression Projet'),
-          feature1Value: t('UNLIMITED PROJECTS', 'PROJETS ILLIMITÉS'),
+          feature1: t('Project Submission', 'Soumission de Projets'),
+          feature1Value: t('UP TO 10 PROJECTS', 'JUSQU\'À 10 PROJETS'),
           feature2: t('Platform Fee on Patronage', 'Frais de Plateforme sur le Mécénat'),
           feature2Value: '5.0%',
         };
