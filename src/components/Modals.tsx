@@ -290,8 +290,8 @@ export const FeatureShowcaseModal: React.FC<{
             'Optimized for patrons, independent co-producers, and creative supporters looking to follow certified projects across music catalogs, film productions, and multidisciplinary creations.',
             'Idéal pour les mécènes, coproducteurs indépendants et soutiens créatifs cherchant à suivre des projets certifiés à travers des catalogues musicaux, des productions cinématographiques et des créations multidisciplinaires.'
           ),
-          feature1: t('Project Submission', 'Soumission de Projets'),
-          feature1Value: t('UP TO 10 PROJECTS', 'JUSQU\'À 10 PROJETS'),
+          feature1: t('Project Tracking', 'Suivi de Projets'),
+          feature1Value: t('UNLIMITED', 'ILLIMITÉ'),
           feature2: t('Platform Fee on Patronage', 'Frais de Plateforme sur le Mécénat'),
           feature2Value: '5.0%',
         };

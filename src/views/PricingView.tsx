@@ -126,9 +126,9 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
       monthlyPrice: 9,
       description: t('For patrons and collectors following certified projects.', 'Pour les mécènes et collectionneurs suivant des projets certifiés.'),
       features: [
-        t('Project submission (up to 10)', 'Soumission de projets (jusqu\'à 10)'),
         t('Unlimited Swipe / Compare / Tracking', 'Swipe / Comparaison / Suivi illimités'),
         t('Advanced LYA Score analytics', 'Analyses avancées du Score LYA'),
+        t('Priority patronage access', 'Accès prioritaire au mécénat'),
         t('LYA Academy access', 'Accès à l\'Académie LYA'),
       ],
       color: 'accent-gold',
@@ -290,6 +290,11 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
                 }`}>
                   {plan.id === 'PRO_ENTERPRISE' ? t('Submit Request', 'Contacter Notre Conseil') : t('Get Started', 'Commencer')} <ArrowRight size={14} />
                 </button>
+                {plan.id === 'CREATOR' && (
+                  <p className="text-[9px] text-on-surface-variant/60 uppercase font-bold tracking-wide text-center mt-3">
+                    {t('More than 2 projects? Add extra certifications for €5 each — no need to change plan.', 'Plus de 2 projets\u00a0? Ajoutez des certifications supplémentaires à 5€ chacune — sans changer de forfait.')}
+                  </p>
+                )}
               </motion.div>
             );
           })}
