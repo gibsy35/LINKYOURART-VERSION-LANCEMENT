@@ -141,10 +141,7 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
   const [appliedSimulation, setAppliedSimulation] = React.useState<{
     [contractId: string]: {
       totalScore: number;
-      unitValue: number;
-      totalValue: number;
       pillars: { label: string; score: number }[];
-      growth: number;
     } | null;
   }>({});
 
@@ -162,18 +159,10 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
     const sim = appliedSimulation[selectedContract.id];
     if (sim) {
       return {
-        unitValue: sim.unitValue,
-        totalValue: sim.totalValue,
         totalScore: sim.totalScore,
-        growth: sim.growth,
         pillars: sim.pillars
       };
     }
-    const growth = selectedContract.growth || 0;
-    const baseVal = selectedContract.unitValue || 50.00;
-    const currentPrice = Math.round((baseVal * (1 + growth / 100)) * 100) / 100;
-    
-    // Fallback mapping of pillars format
     const origPillars = selectedContract.pillars || [];
     const mappedPillars = origPillars.map(p => ({
       label: p.label,
@@ -181,10 +170,7 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
     }));
 
     return {
-      unitValue: currentPrice,
-      totalValue: selectedContract.totalValue,
       totalScore: selectedContract.totalScore || 850,
-      growth: growth,
       pillars: mappedPillars
     };
   }, [selectedContract, appliedSimulation]);
@@ -203,65 +189,28 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
     return demoMilestones * 4.15;
   }, [demoMilestones]);
 
-  const demoProjectedUnitVal = React.useMemo(() => {
-    const scoreFactor = demoLyaScoreCombined / 850;
-    const milestoneFactor = 1 + (demoMilestoneBonusPercent / 100);
-    return Math.round((selectedContract.unitValue || 50.00) * scoreFactor * milestoneFactor * 100) / 100;
-  }, [demoLyaScoreCombined, demoMilestoneBonusPercent, selectedContract]);
-
-  const demoProjectedTotalVal = React.useMemo(() => {
-    return demoProjectedUnitVal * (selectedContract.totalUnits || 10000);
-  }, [demoProjectedUnitVal, selectedContract]);
-
+  // Pourcentage d'avancement des jalons — directement dérivé du Score et du bonus
+  // de jalons, sans jamais passer par une valeur unitaire ou une valorisation.
   const demoRentScore = React.useMemo(() => {
-    return Math.min(100, Math.round((demoProjectedUnitVal / (selectedContract.unitValue || 50.00)) * 85));
-  }, [demoProjectedUnitVal, selectedContract]);
-
-  const pillarData = activeContractStats.pillars.map(p => ({
-    name: p.label,
-    value: p.score,
-    full: 200
-  }));
-
-  const priceHistory = React.useMemo(() => {
-    const baseVal = 50.00;
-    const growth = Math.max(activeContractStats.growth || 0, 2);
-    const currentPrice = Math.max(activeContractStats.unitValue || baseVal, baseVal);
-    const months = ['Oct', 'Nov', 'Déc', 'Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep'];
-    const totalPoints = 12;
-    // Simulate realistic price curve: starts at -35% of growth, ends at current price
-    const startPrice = baseVal * (1 - (growth * 0.35) / 100);
-    return months.map((month, i) => {
-      const t = i / (totalPoints - 1);
-      // Smooth S-curve interpolation with micro volatility
-      const smooth = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-      const volatility = (Math.sin(i * 2.3 + selectedCaseIdx) * 0.012) * currentPrice;
-      const price = startPrice + (currentPrice - startPrice) * smooth + volatility;
-      return { date: month, price: Math.round(Math.max(price, baseVal * 0.7) * 100) / 100 };
-    });
-  }, [activeContractStats, selectedCaseIdx]);
-
-  const escalatedUnitPrice = activeContractStats.unitValue;
+    return Math.min(100, Math.round((demoLyaScoreCombined / 1000) * 100));
+  }, [demoLyaScoreCombined]);
 
   const handleApplyModel = React.useCallback(() => {
     setAppliedSimulation(prev => ({
       ...prev,
       [selectedContract.id]: {
         totalScore: demoLyaScoreCombined,
-        unitValue: demoProjectedUnitVal,
-        totalValue: demoProjectedTotalVal,
-        growth: Math.round(((demoProjectedUnitVal / 50.00) - 1) * 100 * 100) / 100,
         pillars: [
-          { label: t('Creative Quality', 'Qualité de la Création'), score: demoPillars.quality },
-          { label: t('Market Appeal', 'Potentiel Commercial'), score: demoPillars.marketability },
-          { label: t('Legal & IP Security', 'Sécurité Juridique & PI'), score: demoPillars.security },
-          { label: t('Technical Innovation', 'Innovation Technique'), score: demoPillars.innovation },
-          { label: t('Scale Potential', 'Perspectives d\'Échelle'), score: demoPillars.growth }
+          { label: t('IC · Conceptual Integrity', 'IC · Intégrité Conceptuelle'), score: demoPillars.quality },
+          { label: t('MA · Current Maturity', 'MA · Maturité Actuelle'), score: demoPillars.marketability },
+          { label: t('FR · Real Feasibility', 'FR · Faisabilité Réelle'), score: demoPillars.security },
+          { label: t('CE · Evolution Capacity', 'CE · Capacité d\'Évolution'), score: demoPillars.innovation },
+          { label: t('IN · Embodiment', 'IN · Incarnation'), score: demoPillars.growth }
         ]
       }
     }));
     setIsModelizerOpen(false);
-  }, [selectedContract, demoLyaScoreCombined, demoProjectedUnitVal, demoProjectedTotalVal, demoPillars, t]);
+  }, [selectedContract, demoLyaScoreCombined, demoPillars, t]);
 
   const handleResetSimulation = React.useCallback((contractId: string) => {
     setAppliedSimulation(prev => ({
@@ -269,66 +218,6 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
       [contractId]: null
     }));
   }, []);
-
-  const caseStudies = React.useMemo(() => {
-    const ren = liveContracts.find(c => c.name === 'RENAISSANCE REBORN');
-    const sky = liveContracts.find(c => c.name === 'SKY GARDENS V4');
-    const bio = liveContracts.find(c => c.name === 'CHRONICLES OF ELDON');
-
-    return [
-      {
-        idx: 0,
-        title: t('CERTIFIED HERITAGE ASSET', 'PATRIMOINE CERTIFIÉ'),
-        subtitle: t('RENAISSANCE REBORN', 'RENAISSANCE REBORN'),
-        description: t('Standard physical art masterwork certified on the LYA Registry. The LYA Score acts as a direct thermometer of active curatorial recognition.', 'Chef-d\'œuvre physique d\'art classique certifié sur le Registre LYA. Le Score LYA est le thermomètre direct de la reconnaissance des conservateurs.'),
-        icon: <ShieldCheck className="text-primary-cyan" size={32} />,
-        metric: ren ? `${ren.growth >= 0 ? '+' : ''}${ren.growth.toFixed(2)}%` : '+14.2%',
-        metricLabel: t('YTD GROWTH', 'HAUSSE DE L\'INDEX LYA'),
-        baselineProjectVal: 500000,
-        currentProjectVal: ren ? ren.totalValue : 571000,
-        baselineUnitVal: 50.00,
-        currentUnitVal: ren ? ren.unitValue : 57.10,
-        jalonPlus: t('Exhibition at Paris Grand Palais validated', 'Validation Exhibition Grand Palais Paris'),
-        jalonPlusImpact: '+14.2%',
-        jalonMinus: t('Delay in insurance appraisal validation', 'Retard certificat d\'expertise d\'assurance'),
-        jalonMinusImpact: '-7.5%'
-      },
-      {
-        idx: 1,
-        title: t('CERTIFICATION MOMENTUM', 'DYNAMIQUE DE CERTIFICATION'),
-        subtitle: t('SKY GARDENS V4', 'SKY GARDENS V4'),
-        description: t('Architectural blueprint recognition tracked as dynamic certification indexes. The Score adapts instantly to validated commercial license signings.', 'Reconnaissance de plans d\'architectes suivie en indices de certification dynamiques. Le Score s\'adapte en temps réel aux signatures de licences.'),
-        icon: <Activity className="text-accent-gold" size={32} />,
-        metric: sky ? `${sky.growth >= 0 ? '+' : ''}${sky.growth.toFixed(2)}%` : '+8.4%',
-        metricLabel: t('INDEX PERF', 'PERF DE L\'INDEX LYA'),
-        baselineProjectVal: 2500000,
-        currentProjectVal: sky ? sky.totalValue : 2710000,
-        baselineUnitVal: 50.00,
-        currentUnitVal: sky ? sky.unitValue : 54.20,
-        jalonPlus: t('Hotel operator licensing contract signed', 'Contrat licence hôtelière internationale signé'),
-        jalonPlusImpact: '+8.4%',
-        jalonMinus: t('Balcony eco-renovation permit postponed', 'Permis éco-rénovation balcon ajourné'),
-        jalonMinusImpact: '-11.0%'
-      },
-      {
-        idx: 2,
-        title: t('TV SERIES MASTER IP', 'SCÉNARIO & DROITS DE SÉRIE TV'),
-        subtitle: t('CHRONICLES OF ELDON', 'CHRONICLES OF ELDON'),
-        description: t('Global broadcasting rights and certification metrics for the international sci-fi premium series. Multi-territory SVOD presales, broadcasting signatures, and streaming collection milestones govern the certification index progression.', 'Indexation d\'un projet de série TV internationale. Les signatures de droits de diffusion SVOD et accords de syndication TV mondiaux pilotent la progression de l\'indice de certification.'),
-        icon: <Clapperboard className="text-accent-pink" size={32} />,
-        metric: bio ? `${bio.growth >= 0 ? '+' : ''}${bio.growth.toFixed(2)}%` : '+32.5%',
-        metricLabel: t('MARKET MOVEMENT', 'CONTRAT LYA INITIAL'),
-        baselineProjectVal: 1200000,
-        currentProjectVal: bio ? bio.totalValue : 1590000,
-        baselineUnitVal: 50.00,
-        currentUnitVal: bio ? bio.unitValue : 66.25,
-        jalonPlus: t('SVOD Season 1 Premiere & Pre-Sales', 'Validation d\'accords majeurs de diffusion SVOD multi-pays'),
-        jalonPlusImpact: '+32.5%',
-        jalonMinus: t('Post-production VFX rendering delay', 'Retard de livraison des effets spéciaux de post-production'),
-        jalonMinusImpact: '-15.8%'
-      }
-    ];
-  }, [liveContracts, t]);
 
 
   // Jalons data for each case study
@@ -369,31 +258,23 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
   const activeMeta = CASE_META[selectedCaseIdx];
   const activeColor = selectedCaseIdx === 0 ? '#00E0FF' : selectedCaseIdx === 1 ? '#FFD700' : '#FF007F';
 
-  // ── SINGLE SOURCE OF TRUTH for all price computations ─────────────────────
-  // Computes final price and step-by-step prices for ALL case studies in one place.
-  // Both the selector cards and the right panel read from this same object.
-  const allCasePrices = React.useMemo(() => {
+  // ── SINGLE SOURCE OF TRUTH pour la progression du Score ───────────────────
+  // Calcule le score final et les etapes intermediaires pour toutes les etudes
+  // de cas en un seul endroit. Ni prix, ni rendement -- uniquement le Score.
+  const allCaseScores = React.useMemo(() => {
     return CASE_JALONS.map((jalons, idx) => {
       const initialScore = CASE_META[idx].initialScore;
       let score = initialScore;
-      let price = 50; // always $50 issuance
       const steps = jalons.map(j => {
         const prevScore = score;
-        const prevPrice = price;
         score = Math.max(0, Math.min(1000, score + j.scoreDelta));
-        price = Math.round(price * (score / prevScore) * 100) / 100;
-        const pct = Math.round(((price - prevPrice) / prevPrice) * 1000) / 10;
-        return { prevScore, newScore: score, prevPrice, newPrice: price, pct };
+        return { prevScore, newScore: score };
       });
-      const finalPrice = steps[steps.length - 1]?.newPrice ?? 50;
-      const totalReturn = Math.round(((finalPrice - 50) / 50) * 1000) / 10;
-      return { steps, finalPrice, totalReturn };
+      return { steps };
     });
   }, []); // never changes — data is static
 
-  const jalonPrices = allCasePrices[selectedCaseIdx].steps;
-  const finalPrice   = allCasePrices[selectedCaseIdx].finalPrice;
-  const totalReturn  = allCasePrices[selectedCaseIdx].totalReturn;
+  const jalonPrices = allCaseScores[selectedCaseIdx].steps;
 
   return (
     <section className="relative z-10 py-16 sm:py-28 px-4 sm:px-6 overflow-hidden">
@@ -747,7 +628,7 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
                          {/* Quality */}
                          <div>
                            <div className="flex justify-between text-xs text-white/70 uppercase font-bold tracking-wider mb-1">
-                             <span>{t('Creative Quality', 'Qualité de la Création')}</span>
+                             <span>{t('IC · Conceptual Integrity', 'IC · Intégrité Conceptuelle')}</span>
                              <span className="text-primary-cyan font-mono">{demoPillars.quality} / 200</span>
                            </div>
                            <input 
@@ -763,7 +644,7 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
                          {/* Marketability */}
                          <div>
                            <div className="flex justify-between text-xs text-white/70 uppercase font-bold tracking-wider mb-1">
-                             <span>{t('Market Appeal', 'Potentiel Commercial')}</span>
+                             <span>{t('MA · Current Maturity', 'MA · Maturité Actuelle')}</span>
                              <span className="text-accent-pink font-mono">{demoPillars.marketability} / 200</span>
                            </div>
                            <input 
@@ -779,7 +660,7 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
                          {/* Compliance */}
                          <div>
                            <div className="flex justify-between text-xs text-white/70 uppercase font-bold tracking-wider mb-1">
-                             <span>{t('Legal & IP Security', 'Sécurité Juridique & PI')}</span>
+                             <span>{t('FR · Real Feasibility', 'FR · Faisabilité Réelle')}</span>
                              <span className="text-emerald-400 font-mono">{demoPillars.security} / 200</span>
                            </div>
                            <input 
@@ -795,7 +676,7 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
                          {/* Innovation */}
                          <div>
                            <div className="flex justify-between text-xs text-white/70 uppercase font-bold tracking-wider mb-1">
-                             <span>{t('Technical Innovation', 'Innovation Technique')}</span>
+                             <span>{t('CE · Evolution Capacity', 'CE · Capacité d\'Évolution')}</span>
                              <span className="text-accent-purple font-mono">{demoPillars.innovation} / 200</span>
                            </div>
                            <input 
@@ -811,7 +692,7 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
                          {/* Growth */}
                          <div>
                            <div className="flex justify-between text-xs text-white/70 uppercase font-bold tracking-wider mb-1">
-                             <span>{t('Scale Potential', 'Perspectives d\'Échelle')}</span>
+                             <span>{t('IN · Embodiment', 'IN · Incarnation')}</span>
                              <span className="text-accent-gold font-mono">{demoPillars.growth} / 200</span>
                            </div>
                            <input 
@@ -1597,17 +1478,17 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
             {t('home.scoring.title', 'LE SYSTÈME')} <span className="text-primary-cyan">{t('home.scoring.title_cyan', "D'ÉVALUATION LYA")}</span>
           </h2>
           <p className="text-on-surface-variant text-lg opacity-80 max-w-2xl mx-auto text-justify">
-            {t('home.scoring.subtitle', 'Notre algorithme propriétaire évalue chaque projet selon 5 critères critiques, fournissant un Indice de Performance Créative objectif et transparent sur 1000.')}
+            {t('home.scoring.subtitle', 'Notre algorithme propriétaire évalue chaque projet selon 5 piliers officiels, fournissant un Score LYA objectif et transparent sur 1000.')}
           </p>
         </div>
 
         <div className="grid md:grid-cols-5 gap-4">
           {[
-            { label: t('home.scoring.c1.label', 'Qualité du Projet'), score: '200', desc: t('home.scoring.c1.desc', "Évaluation du mérite créatif, de la singularité du projet et de la qualité d'exécution."), color: 'text-primary-cyan', bg: 'bg-primary-cyan/5', border: 'border-primary-cyan/20' },
-            { label: t('home.scoring.c2.label', 'Potentiel de Marché'), score: '200', desc: t('home.scoring.c2.desc', "Analyse de la demande sur notre plateforme, du potentiel d'accessibilité et de l'audience cible."), color: 'text-accent-pink', bg: 'bg-accent-pink/5', border: 'border-accent-pink/20' },
-            { label: t('home.scoring.c3.label', 'Sécurité Juridique'), score: '200', desc: t('home.scoring.c3.desc', "Vérification des droits contractuels, protection de la propriété intellectuelle et conformité réglementaire."), color: 'text-accent-green', bg: 'bg-accent-green/5', border: 'border-accent-green/20' },
-            { label: t('home.scoring.c4.label', 'Innovation Technique'), score: '200', desc: t('home.scoring.c4.desc', "Évaluation de l'unicité technologique, de la complexité du contrat certifié et de la durabilité numérique."), color: 'text-accent-purple', bg: 'bg-accent-purple/5', border: 'border-accent-purple/20' },
-            { label: t('home.scoring.c5.label', 'Potentiel de Croissance'), score: '200', desc: t('home.scoring.c5.desc', "Projections d'appréciation future basées sur les tendances du marché créatif et la feuille de route."), color: 'text-accent-gold', bg: 'bg-accent-gold/5', border: 'border-accent-gold/20' },
+            { label: t('home.scoring.c1.label', "IC · Intégrité Conceptuelle"), score: '200', desc: t('home.scoring.c1.desc', "Cohérence et clarté de la vision créative : le projet tient-il sa promesse artistique de bout en bout ?"), color: 'text-primary-cyan', bg: 'bg-primary-cyan/5', border: 'border-primary-cyan/20' },
+            { label: t('home.scoring.c2.label', "MA · Maturité Actuelle"), score: '200', desc: t('home.scoring.c2.desc', "État d'avancement réel du projet : ce qui est déjà produit, documenté et vérifiable aujourd'hui."), color: 'text-accent-pink', bg: 'bg-accent-pink/5', border: 'border-accent-pink/20' },
+            { label: t('home.scoring.c3.label', "CE · Capacité d'Évolution"), score: '200', desc: t('home.scoring.c3.desc', "Marge de progression du projet : sa capacité à franchir de nouveaux jalons de certification."), color: 'text-accent-green', bg: 'bg-accent-green/5', border: 'border-accent-green/20' },
+            { label: t('home.scoring.c4.label', "FR · Faisabilité Réelle"), score: '200', desc: t('home.scoring.c4.desc', "Solidité du plan d'exécution : ressources, calendrier et moyens réunis pour aller au bout."), color: 'text-accent-purple', bg: 'bg-accent-purple/5', border: 'border-accent-purple/20' },
+            { label: t('home.scoring.c5.label', "IN · Incarnation"), score: '200', desc: t('home.scoring.c5.desc', "Présence et crédibilité du créateur : son engagement direct et vérifiable dans le projet."), color: 'text-accent-gold', bg: 'bg-accent-gold/5', border: 'border-accent-gold/20' },
           ].map((criterion, i) => (
             <motion.div 
               key={i}
@@ -1636,7 +1517,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
           className="mt-16 text-center"
         >
           <p className="text-base text-on-surface-variant/60 uppercase tracking-[0.2em] max-w-3xl mx-auto leading-relaxed text-justify">
-            "{t('The LYA Index is the definitive measure of a creative work\'s living value — updated in real-time through market signals and periodic professional audits.', 'L\'Indice LYA est la mesure définitive de la valeur vivante d\'une création — mise à jour en temps réel grâce aux signaux du marché et aux audits professionnels périodiques.')}"
+            "{t('The LYA Score is the definitive measure of a creative work\'s maturity — updated at every verified milestone and periodic professional audit.', 'Le Score LYA est la mesure la plus fiable de la maturité d\'une création — mis à jour à chaque jalon vérifié et audit professionnel périodique.')}"
           </p>
         </motion.div>
       </section>
