@@ -18,7 +18,7 @@ import {
 } from 'lucide-react';
 import { ResponsiveContainer, BarChart, Bar, Cell, Tooltip, XAxis, AreaChart, Area, RadarChart, Radar, PolarGrid, PolarAngleAxis } from 'recharts';
 
-const unitPrice = (g: number) => LYA_UNIT_VALUE * (1 + g / 100);
+const unitPrice = (_g: number) => LYA_UNIT_VALUE;
 
 export const InvestorDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg:string)=>void;onViewChange:(v:any)=>void}> = ({user,onNotify,onViewChange}) => {
   const { t, language } = useTranslation();
@@ -63,7 +63,7 @@ export const InvestorDashboardView: React.FC<{user:UserProfile|null;onNotify:(ms
           invested: x.invested,
           currentValue: x.invested * (1 + x.roi/100),
           growth: x.roi,
-          lyaUnit: +(LYA_UNIT_VALUE * (1 + x.proj.growth/100)).toFixed(2),
+          lyaUnit: LYA_UNIT_VALUE,
           lyaScore: x.proj.totalScore,
           status: x.proj.status,
           milestones: (x.proj.milestones || []).filter((m: any) => m.status === 'COMPLETED').map((m: any) => m.label).slice(0, 3),
@@ -272,7 +272,7 @@ export const InvestorDashboardView: React.FC<{user:UserProfile|null;onNotify:(ms
                 const profit = currentVal - inv.invested;
                 const lyaUnitActuel = unitPrice(inv.proj.growth);
                 // Prix d'achat simulé = LYA UNIT base ajusté légèrement
-                const lyaUnitAchat = LYA_UNIT_VALUE * (1 + (inv.proj.growth * 0.3) / 100);
+                const lyaUnitAchat = LYA_UNIT_VALUE;
                 // Volume = nombre d'unités achetées
                 const volume = Math.round(inv.invested / lyaUnitAchat);
                 const plusValue = (lyaUnitActuel - lyaUnitAchat) * volume;

@@ -421,9 +421,9 @@ const ProfileView: React.FC<ProfileViewProps> = ({
           const projDoc = doc(collection(db, 'contracts'), id);
           const category = categories[Math.floor(Math.random() * categories.length)];
           
-          // Correction logic: Mint price is $50.00
-          const growthValue = parseFloat((Math.random() * 40 - 15).toFixed(2)); // -15% to +25%
-          const unitValue = parseFloat((LYA_UNIT_VALUE * (1 + growthValue / 100)).toFixed(2));
+          // Prix fixe : $50.00 partout, aucune valorisation simulee
+          const growthValue = 0;
+          const unitValue = LYA_UNIT_VALUE;
           const totalUnits = 1000 + Math.floor(Math.random() * 9000);
           const totalValue = unitValue * totalUnits;
           

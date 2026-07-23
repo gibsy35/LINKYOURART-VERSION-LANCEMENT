@@ -671,7 +671,7 @@ export const AdminView: React.FC<{
       const projectRef = doc(db, 'contracts', editingProject.id);
       
       const basePrice = 50.00;
-      const computedUnitVal = parseFloat((basePrice * (1 + (parseFloat(editingProject.growth || 0) / 100))).toFixed(2));
+      const computedUnitVal = basePrice;
       
       await setDoc(projectRef, {
         name: editingProject.name,
@@ -1971,10 +1971,10 @@ export const AdminView: React.FC<{
                    </div>
 
                    <div className="p-3.5 bg-black/40 rounded-xl border border-white/5 flex justify-between items-center text-[10px] text-white/60">
-                     <span>{t('CORRESPONDING_UNIT_QUOTE', 'VALEUR RÉELLE SIMULÉE DE L\'UNITÉ LYA')} :</span>
+                     <span>{t('CORRESPONDING_UNIT_QUOTE', 'VALEUR FIXE DE L\'UNITÉ LYA')} :</span>
                      <span className="text-emerald-400 font-black text-xs font-mono leading-none">
-                       ${(50.00 * (1 + (editingProject.growth || 0) / 100)).toFixed(2)}
-                       <span className="text-[9.5px] font-bold text-white/40 ml-1">LYA SPOT</span>
+                       $50.00
+                       <span className="text-[9.5px] font-bold text-white/40 ml-1">FIXE</span>
                      </span>
                    </div>
                    <p className="text-[10px] text-primary-cyan/60 pl-1">

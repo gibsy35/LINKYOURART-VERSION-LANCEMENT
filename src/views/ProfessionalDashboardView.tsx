@@ -16,7 +16,7 @@ import {
   ArrowUpRight, ArrowDownRight, Shield, Target, Sparkles, Mail
 } from 'lucide-react';
 
-const unitPrice = (g: number) => LYA_UNIT_VALUE * (1 + g / 100);
+const unitPrice = (_g: number) => LYA_UNIT_VALUE;
 
 const KpiCard: React.FC<{icon:React.ReactNode;label:string;value:string;sub?:string;subColor?:string;color:string}> = ({icon,label,value,sub,subColor='text-emerald-400',color}) => (
   <div className="bg-surface-low/40 border border-white/8 rounded-2xl p-4 space-y-2 hover:border-white/15 transition-all">

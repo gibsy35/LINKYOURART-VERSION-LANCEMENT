@@ -91,9 +91,13 @@ export const RARITY_STYLE: Record<string, string> = {
 };
 
 export function getUnitPrice(contract: Contract): number {
-  return contract.unitValue && contract.unitValue !== LYA_UNIT_VALUE
-    ? contract.unitValue
-    : LYA_UNIT_VALUE * (1 + (contract.growth || 0) / 100);
+  // Prix fixe et non-negociable : $50 par unite, quelle que soit la "croissance"
+  // du projet. Une contrepartie de mecenat ne doit jamais fluctuer avec la
+  // performance du projet -- ce serait un mecanisme de valorisation financiere,
+  // exactement ce que le contrat legal (ART. 5) exclut explicitement.
+  // Le jour ou la Phase 4 (licence PSFP) sera active, LYA_UNIT_VALUE pourra
+  // devenir un vrai indice de marche colle au Score LYA -- mais pas avant.
+  return LYA_UNIT_VALUE;
 }
 
 // ─── MODAL PAIEMENT ───────────────────────────────────────────────────────────

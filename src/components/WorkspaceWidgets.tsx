@@ -151,7 +151,7 @@ const SupportSimulatorWidget: React.FC<{ lang: 'FR' | 'EN', formatPrice: (n: num
   const [selectedId, setSelectedId] = useState(CONTRACTS.filter(c => c.status === 'LIVE')[0]?.id || '');
   const contracts = CONTRACTS.filter(c => c.status === 'LIVE');
   const selected = contracts.find(c => c.id === selectedId);
-  const unitPrice = selected ? LYA_UNIT_VALUE * (1 + (selected.growth || 0) / 100) : LYA_UNIT_VALUE;
+  const unitPrice = LYA_UNIT_VALUE;
   const totalCost = units * unitPrice;
   const revenueShare = selected?.revenueSharePercentage || 10;
   const coShare = ((units * revenueShare) / 10000).toFixed(3);
