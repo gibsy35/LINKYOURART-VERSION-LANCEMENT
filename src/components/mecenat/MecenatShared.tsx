@@ -28,39 +28,51 @@ export const CO_STATUTS = [
     isPrestige: false,
   },
   {
-    min: 20, max: 29,
+    min: 20, max: 49,
     labelFR: "MÉCÈNE ENGAGÉ",
     labelEN: "COMMITTED PATRON",
     descFR: "Statut Mécène Engagé. Accès prioritaire aux mises à jour du projet.",
     descEN: "Committed Patron status. Priority access to project updates.",
     multiplier: 1,
-    bonusFR: "Mention au générique dans les crédits du projet.",
-    bonusEN: "Credit mention in the project's acknowledgements.",
+    bonusFR: "Inscription permanente et publique dans les crédits du Registre LYA du projet.",
+    bonusEN: "Permanent, public inscription in the project's LYA Registry credits.",
     color: "text-[#00ff88]", border: "border-[#00ff88]/20", bg: "bg-[#0f2418]",
     isPrestige: false,
   },
   {
-    min: 30, max: 99,
-    labelFR: "MÉCÈNE MAJEUR",
-    labelEN: "MAJOR PATRON",
-    descFR: "Mécène Majeur. Consultation directe du registre complet de l'œuvre.",
-    descEN: "Major Patron. Direct access to the full artwork registry.",
+    min: 50, max: 149,
+    labelFR: "MÉCÈNE D'HONNEUR",
+    labelEN: "HONOR PATRON",
+    descFR: "Mécène d'Honneur. Consultation directe du registre complet de l'œuvre.",
+    descEN: "Honor Patron. Direct access to the full artwork registry.",
     multiplier: 1,
-    bonusFR: "Accès anticipé aux futures créations du même créateur.",
-    bonusEN: "Early access to the creator's future works.",
+    bonusFR: "Certificat de mécénat physique et numéroté envoyé par courrier, plus une session d'échange exclusive avec le créateur.",
+    bonusEN: "Numbered physical patronage certificate mailed to you, plus an exclusive session with the creator.",
     color: "text-[#a78bfa]", border: "border-[#a78bfa]/20", bg: "bg-[#1f1b3a]",
     isPrestige: false,
   },
   {
-    min: 100, max: 100,
+    min: 150, max: 349,
     labelFR: "MÉCÈNE FONDATEUR",
     labelEN: "FOUNDING PATRON",
-    descFR: "Statut Mécène Fondateur. Reconnaissance la plus élevée sur le Registre LYA.",
-    descEN: "Founding Patron status. Highest recognition tier on the LYA Registry.",
+    descFR: "Statut Mécène Fondateur. Inscription permanente au rang le plus élevé du Registre LYA.",
+    descEN: "Founding Patron status. Permanent inscription at the highest rank of the LYA Registry.",
     multiplier: 1,
-    bonusFR: "Badge Fondateur permanent, invitation aux événements LYA Originals.",
-    bonusEN: "Permanent Founder badge, invitation to LYA Originals events.",
+    bonusFR: "Une expérience réelle liée au projet (session studio, avant-première, visite d'atelier selon la discipline), et membre du Cercle des Mécènes Fondateurs LYA (événement annuel).",
+    bonusEN: "A real experience tied to the project (studio session, premiere, atelier visit depending on the discipline), and membership in the LYA Founding Patrons Circle (annual event).",
     color: "text-amber-400", border: "border-amber-500/25", bg: "bg-[#2a2210]",
+    isPrestige: true,
+  },
+  {
+    min: 350, max: 500,
+    labelFR: "PRODUCTEUR EXÉCUTIF ASSOCIÉ",
+    labelEN: "ASSOCIATE EXECUTIVE PRODUCER",
+    descFR: "Le rang de reconnaissance le plus élevé sur LYA. Titre adapté à la discipline du projet (ex. Producteur Exécutif Associé pour un film, Co-Producteur pour un album).",
+    descEN: "The highest recognition rank on LYA. Title adapted to the project's discipline (e.g. Associate Executive Producer for a film, Co-Producer for an album).",
+    multiplier: 1,
+    bonusFR: "Crédit nominatif officiel sur l'œuvre finale, rencontre personnelle avec le créateur, et place d'honneur à l'événement annuel des Mécènes Fondateurs LYA.",
+    bonusEN: "Official named credit on the finished work, a personal meeting with the creator, and a place of honor at the annual LYA Founding Patrons event.",
+    color: "text-[#ff3366]", border: "border-accent-pink/25", bg: "bg-[#2a0f18]",
     isPrestige: true,
   },
 ];
@@ -394,7 +406,7 @@ export function DetailModal({ contract, onClose, onPay, units, onUnitsChange, la
                   {T(statut.labelFR, statut.labelEN)}
                 </span>
               </div>
-              <input type="range" min={1} max={100} value={units} onChange={e => onUnitsChange(Number(e.target.value))}
+              <input type="range" min={1} max={500} value={units} onChange={e => onUnitsChange(Number(e.target.value))}
                 className="w-full h-1 bg-surface-high rounded-full appearance-none cursor-pointer accent-primary-cyan" />
               <div className="flex justify-between text-[10px] font-mono text-on-surface-variant/30 mt-1">
                 <span>{T("Palier", "Tier")} {units}</span>
@@ -603,7 +615,7 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
           </span>
         </div>
         <input
-          type="range" min={1} max={100} value={units}
+          type="range" min={1} max={500} value={units}
           onChange={e => setUnits(Number(e.target.value))}
           className="w-full h-1 bg-surface-high rounded-full appearance-none cursor-pointer accent-primary-cyan"
         />
