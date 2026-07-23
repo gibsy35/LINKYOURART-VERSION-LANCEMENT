@@ -473,8 +473,8 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
                 <div className="mt-6 pt-4 border-t border-white/10">
                   <p className="text-xs text-white/30 font-bold uppercase tracking-widest leading-relaxed">
                     {t(
-                      'A project certified at 50 points has reached a Score of ' + activeMeta.finalScore + '/1000 through validated milestones.',
-                      'Un projet certifié à 50 points a atteint un Score de ' + activeMeta.finalScore + '/1000 grâce à des jalons validés.'
+                      'A project initially scored at ' + activeMeta.initialScore + ' has reached a Score of ' + activeMeta.finalScore + '/1000 through validated milestones.',
+                      'Un projet initialement scoré à ' + activeMeta.initialScore + ' a atteint un Score de ' + activeMeta.finalScore + '/1000 grâce à des jalons validés.'
                     )}
                   </p>
                 </div>
