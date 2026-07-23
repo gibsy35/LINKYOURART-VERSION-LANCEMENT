@@ -13,7 +13,7 @@ interface RoleSimulatorBarProps {
 const ROLES: { key: SimulatedRole; label: string; labelFr: string; icon: React.ReactNode; color: string }[] = [
   { key: 'VISITOR',                  label: 'VISITOR',       labelFr: 'VISITEUR',       icon: <Eye size={13} />,        color: 'text-white/50' },
   { key: UserRole.CREATOR,           label: 'CREATOR',       labelFr: 'CRÉATEUR',       icon: <Palette size={13} />,    color: 'text-primary-cyan' },
-  { key: UserRole.INVESTOR,          label: 'INVESTOR',      labelFr: 'INVESTISSEUR',   icon: <TrendingUp size={13} />, color: 'text-yellow-400' },
+  { key: UserRole.INVESTOR,          label: 'PATRON',        labelFr: 'MÉCÈNE',         icon: <TrendingUp size={13} />, color: 'text-yellow-400' },
   { key: UserRole.PROFESSIONAL,      label: 'PROFESSIONAL',  labelFr: 'PROFESSIONNEL',  icon: <Briefcase size={13} />,  color: 'text-purple-400' },
   { key: UserRole.ADMIN,             label: 'ADMIN',         labelFr: 'ADMIN',          icon: <ShieldCheck size={13} />,color: 'text-emerald-400' },
 ];
@@ -75,7 +75,7 @@ export const RoleSimulatorBar: React.FC<RoleSimulatorBarProps> = ({ simulatedRol
                       <p className="text-[10px] text-white/30 uppercase tracking-widest font-bold">
                         {role.key === 'VISITOR' ? 'Non connecté — accès limité' :
                          role.key === UserRole.CREATOR ? 'Accès créateur standard' :
-                         role.key === UserRole.INVESTOR ? 'Accès investisseur + Pro' :
+                         role.key === UserRole.INVESTOR ? 'Accès mécène + Pro' :
                          role.key === UserRole.PROFESSIONAL ? 'Accès professionnel + Pro' :
                          'Accès total administrateur'}
                       </p>

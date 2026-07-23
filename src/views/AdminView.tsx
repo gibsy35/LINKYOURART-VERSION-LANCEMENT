@@ -981,7 +981,7 @@ export const AdminView: React.FC<{
           >
             <option value="ALL">ALL ROLES</option>
             <option value={UserRole.CREATOR}>CREATORS</option>
-            <option value={UserRole.INVESTOR}>INVESTORS</option>
+            <option value={UserRole.INVESTOR}>PATRONS</option>
             <option value={UserRole.PROFESSIONAL}>PROFESSIONALS</option>
             <option value="PRO">PRO HUB ONLY</option>
           </select>

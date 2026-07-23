@@ -8,6 +8,7 @@ import {
 import { CONTRACTS, LYA_UNIT_VALUE } from '../types';
 import { useTranslation } from '../context/LanguageContext';
 import { useCurrency } from '../context/CurrencyContext';
+import { getStatut } from './mecenat/MecenatShared';
 import { ResponsiveContainer, AreaChart, Area, Tooltip } from 'recharts';
 
 // ─── TYPES ────────────────────────────────────────────────────────────────────
@@ -50,17 +51,17 @@ const WIDGET_DEFS: WidgetDef[] = [
     icon: <Sliders size={16} />,
     titleFR: 'Simulateur de Soutien',
     titleEN: 'Support Simulator',
-    descFR: 'Simulez votre soutien sur n\'importe quel projet et visualisez vos gains potentiels.',
-    descEN: 'Simulate your backing on any project and visualize your potential gains.',
+    descFR: 'Simulez votre soutien sur n\'importe quel projet et visualisez le statut de reconnaissance obtenu.',
+    descEN: 'Simulate your backing on any project and visualize the recognition status you\'d reach.',
     color: 'text-accent-gold',
   },
   {
     key: 'revenue_projection',
     icon: <TrendingUp size={16} />,
-    titleFR: 'Projection de Revenus',
-    titleEN: 'Revenue Projection',
-    descFR: 'Estimation de votre co-partage des revenus sur 3, 6 et 12 mois.',
-    descEN: 'Estimate your revenue co-share over 3, 6 and 12 months.',
+    titleFR: 'Projection de Score',
+    titleEN: 'Score Projection',
+    descFR: 'Simulez l\'évolution du Score LYA d\'un projet sur 6 mois selon son rythme de jalons certifiés.',
+    descEN: 'Simulate a project\'s LYA Score evolution over 6 months based on its certified milestone pace.',
     color: 'text-[#a78bfa]',
   },
   {
@@ -153,8 +154,7 @@ const SupportSimulatorWidget: React.FC<{ lang: 'FR' | 'EN', formatPrice: (n: num
   const selected = contracts.find(c => c.id === selectedId);
   const unitPrice = LYA_UNIT_VALUE;
   const totalCost = units * unitPrice;
-  const revenueShare = selected?.revenueSharePercentage || 10;
-  const coShare = ((units * revenueShare) / 10000).toFixed(3);
+  const statut = getStatut(units);
 
   return (
     <div className="space-y-4">
@@ -172,7 +172,7 @@ const SupportSimulatorWidget: React.FC<{ lang: 'FR' | 'EN', formatPrice: (n: num
           <p className="text-[11px] font-mono text-on-surface-variant/50 uppercase tracking-widest">{T('UNITÉS LYA', 'LYA UNITS')}</p>
           <p className="text-[11px] font-black text-primary-cyan">{units} {T('unités', 'units')}</p>
         </div>
-        <input type="range" min={1} max={100} value={units} onChange={e => setUnits(+e.target.value)} className="w-full h-1 bg-white/10 rounded-full appearance-none cursor-pointer accent-primary-cyan" />
+        <input type="range" min={1} max={500} value={units} onChange={e => setUnits(+e.target.value)} className="w-full h-1 bg-white/10 rounded-full appearance-none cursor-pointer accent-primary-cyan" />
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
         <div className="bg-surface-high/40 border border-white/8 rounded-xl p-3">
@@ -180,8 +180,8 @@ const SupportSimulatorWidget: React.FC<{ lang: 'FR' | 'EN', formatPrice: (n: num
           <p className="text-sm font-black font-mono text-on-surface">{formatPrice(totalCost)}</p>
         </div>
         <div className="bg-surface-high/40 border border-white/8 rounded-xl p-3">
-          <p className="text-xs font-mono text-on-surface-variant/40 uppercase tracking-widest mb-1">{T('CO-PARTAGE', 'CO-SHARE')}</p>
-          <p className="text-sm font-black font-mono text-[#00ff88]">{coShare}%</p>
+          <p className="text-xs font-mono text-on-surface-variant/40 uppercase tracking-widest mb-1">{T('STATUT ATTEINT', 'STATUS REACHED')}</p>
+          <p className={`text-sm font-black font-mono ${statut.color}`}>{lang === 'FR' ? statut.labelFR : statut.labelEN}</p>
         </div>
       </div>
     </div>
@@ -190,26 +190,32 @@ const SupportSimulatorWidget: React.FC<{ lang: 'FR' | 'EN', formatPrice: (n: num
 
 // ─── WIDGET : PROJECTION DE REVENUS ──────────────────────────────────────────
 
-const RevenueProjectionWidget: React.FC<{ lang: 'FR' | 'EN', formatPrice: (n: number) => string }> = ({ lang, formatPrice }) => {
+const RevenueProjectionWidget: React.FC<{ lang: 'FR' | 'EN', formatPrice: (n: number) => string }> = ({ lang }) => {
   const T = (fr: string, en: string) => lang === 'FR' ? fr : en;
-  const [horizon, setHorizon] = useState<'3M' | '6M' | '12M'>('6M');
-  const base = 250;
-  const multiplier = horizon === '3M' ? 1.04 : horizon === '6M' ? 1.09 : 1.19;
-  const projected = base * multiplier;
+  const [scenario, setScenario] = useState<'CONSERVATIVE' | 'BALANCED' | 'OPTIMAL'>('BALANCED');
+  const base = 620;
+  const multiplier = scenario === 'CONSERVATIVE' ? 1.08 : scenario === 'BALANCED' ? 1.24 : 1.42;
+  const projected = Math.min(1000, Math.round(base * multiplier));
 
   const chartData = useMemo(() => {
-    const pts = horizon === '3M' ? 3 : horizon === '6M' ? 6 : 12;
+    const pts = 6;
     return Array.from({ length: pts }, (_, i) => ({
       name: `M${i + 1}`,
-      value: Math.round(base * (1 + (multiplier - 1) * ((i + 1) / pts))),
+      value: Math.min(1000, Math.round(base * (1 + (multiplier - 1) * ((i + 1) / pts)))),
     }));
-  }, [horizon, multiplier]);
+  }, [scenario, multiplier]);
+
+  const scenarioLabel = {
+    CONSERVATIVE: T('CONSERVATEUR', 'CONSERVATIVE'),
+    BALANCED: T('ÉQUILIBRÉ', 'BALANCED'),
+    OPTIMAL: T('OPTIMAL', 'OPTIMAL'),
+  };
 
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-2">
-        {(['3M', '6M', '12M'] as const).map(h => (
-          <button key={h} onClick={() => setHorizon(h)} className={`px-3 py-1.5 rounded-lg text-[11px] font-black transition-all ${horizon === h ? 'bg-primary-cyan/15 border border-primary-cyan/40 text-primary-cyan' : 'bg-white/5 border border-white/10 text-on-surface-variant hover:text-on-surface'}`}>{h}</button>
+        {(['CONSERVATIVE', 'BALANCED', 'OPTIMAL'] as const).map(s => (
+          <button key={s} onClick={() => setScenario(s)} className={`px-3 py-1.5 rounded-lg text-[11px] font-black transition-all ${scenario === s ? 'bg-primary-cyan/15 border border-primary-cyan/40 text-primary-cyan' : 'bg-white/5 border border-white/10 text-on-surface-variant hover:text-on-surface'}`}>{scenarioLabel[s]}</button>
         ))}
       </div>
       <div className="h-24">
@@ -222,16 +228,16 @@ const RevenueProjectionWidget: React.FC<{ lang: 'FR' | 'EN', formatPrice: (n: nu
               </linearGradient>
             </defs>
             <Area type="monotone" dataKey="value" stroke="#a78bfa" strokeWidth={2} fill="url(#projGrad)" dot={false} />
-            <Tooltip contentStyle={{ background: '#0f121a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, fontSize: 10 }} formatter={(v: number) => [formatPrice(v), T('Revenus', 'Revenue')]} />
+            <Tooltip contentStyle={{ background: '#0f121a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, fontSize: 10 }} formatter={(v: number) => [`${v}/1000`, T('Score LYA', 'LYA Score')]} />
           </AreaChart>
         </ResponsiveContainer>
       </div>
       <div className="flex justify-between items-end">
         <div>
-          <p className="text-[11px] font-mono text-on-surface-variant/50 uppercase tracking-widest">{T('PROJECTION', 'PROJECTION')} {horizon}</p>
-          <p className="text-xl font-black font-mono text-[#a78bfa]">{formatPrice(projected)}</p>
+          <p className="text-[11px] font-mono text-on-surface-variant/50 uppercase tracking-widest">{T('SCORE PROJETÉ', 'PROJECTED SCORE')} · 6M</p>
+          <p className="text-xl font-black font-mono text-[#a78bfa]">{projected}<span className="text-xs text-on-surface-variant/40">/1000</span></p>
         </div>
-        <p className="text-[11px] font-mono text-[#00ff88]">+{((multiplier - 1) * 100).toFixed(1)}% {T('estimé', 'estimated')}</p>
+        <p className="text-[11px] font-mono text-[#00ff88]">{T('selon jalons certifiés', 'based on certified milestones')}</p>
       </div>
     </div>
   );

@@ -382,7 +382,7 @@ export const Topbar: React.FC<TopbarProps> = ({
                         <User size={14} /> {
                           user?.role === UserRole.PROFESSIONAL ? t('PRO SPACE', 'ESPACE PRO')
                           : user?.role === UserRole.CREATOR ? t('MY CREATIONS', 'MES CRÉATIONS')
-                          : user?.role === UserRole.INVESTOR ? t('MY PORTFOLIO', 'MON PORTFOLIO')
+                          : user?.role === UserRole.INVESTOR ? t('MY PATRONAGE', 'MES SOUTIENS')
                           : t('PROFILE', 'PROFIL')
                         }
                       </button>
