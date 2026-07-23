@@ -1442,11 +1442,11 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
 
           {/* Bas de section — texte institutionnel */}
           <div className="mt-10 md:mt-14 bg-accent-gold/5 border border-accent-gold/15 rounded-2xl p-5 sm:p-8 text-center max-w-3xl mx-auto">
-            <p className="text-xs font-black text-accent-gold uppercase tracking-[0.3em] mb-3">✦ {t('CONFIDENTIAL NETWORK', 'RÉSEAU CONFIDENTIEL')}</p>
+            <p className="text-xs font-black text-accent-gold uppercase tracking-[0.3em] mb-3">✦ {t('COMMITTEE CONFIDENTIALITY', 'CONFIDENTIALITÉ DU COMITÉ')}</p>
             <p className="text-sm md:text-base text-on-surface-variant/70 leading-relaxed">
               {t(
-                'Our institutional partners and validators are engaged under strict professional agreements. Their identity remains confidential to protect ongoing creative collaborations. LinkYourArt acts as a trusted intermediary — never exposing its network.',
-                'Nos partenaires institutionnels et validateurs sont engagés sous des accords professionnels stricts. Leur identité reste confidentielle pour protéger les collaborations créatives en cours. LinkYourArt agit comme intermédiaire de confiance — ne jamais exposer son réseau.'
+                'Our institutional partners and validators review projects under strict professional agreements. Their individual identity remains confidential to preserve the impartiality of each review — LYA publishes the certification outcome, not the reviewers\' names.',
+                'Nos partenaires institutionnels et validateurs examinent les projets sous des accords professionnels stricts. Leur identité individuelle reste confidentielle pour préserver l\'impartialité de chaque évaluation — LYA publie le résultat de la certification, pas le nom des évaluateurs.'
               )}
             </p>
           </div>
@@ -1463,7 +1463,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
             <div>
               <h3 className="text-3xl font-black font-headline uppercase tracking-[0.2em] mb-4">{t('home.standard.title', 'The LYA')} <span className="text-white">{t('home.standard.title_cyan', 'Unit Standard')}</span></h3>
               <p className="text-on-surface-variant text-lg leading-relaxed opacity-80 text-justify">
-                {t('home.standard.desc', 'LinkYourArt introduces the unique certification standard for the creative market. Each certified project receives a LYA Score reflecting its real progress. This standard, combining algorithmic analysis and expert committee review, provides the only objective measure of creative quality.')}
+                {t('home.standard.desc', 'LinkYourArt introduces the unique certification standard for the creative market. Each LYA Unit represents a fixed reference price of $50 — non-negotiable, non-speculative. This standard, combining algorithmic analysis and expert committee review, provides the only objective measure of creative quality.')}
               </p>
             </div>
           </div>
