@@ -82,7 +82,7 @@ export const PendingApprovalView: React.FC<PendingApprovalViewProps> = ({ user, 
 
   const getRoleLabel = (r: UserRole) => {
     switch (r) {
-      case UserRole.INVESTOR:
+      case UserRole.PATRON:
         return t('Art Patrons, VCs & Cultural Backers', 'Mécène, Fonds d\'Accompagnement & VC');
       case UserRole.CREATOR:
         return t('Creator, Independent Producer & Talent', 'Créateur, Label & Talent Indépendant');

@@ -74,7 +74,7 @@ export type View =
   | 'FAQ'
   | 'LEGAL_MENTIONS'
   | 'CREATOR_DASHBOARD'
-  | 'INVESTOR_DASHBOARD'
+  | 'PATRON_DASHBOARD'
   | 'PROFESSIONAL_DASHBOARD'
   | 'PROJECT_PUBLIC'
   | 'CREATOR_PROFILE';
@@ -111,7 +111,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: 'HOME', icon: Home, label: t('TERMINAL', 'TERMINAL'), category: t('SYSTEM', 'SYSTÈME') },
     { id: 'DASHBOARD', icon: LayoutDashboard, label: t('DASHBOARD', 'TABLEAU DE BORD'), category: t('INDEX', 'INDEX') },
     ...(user?.role === 'CREATOR' ? [{ id: 'CREATOR_DASHBOARD' as const, icon: Sparkles, label: t('MY CREATIONS', 'MES CRÉATIONS'), category: t('CREATOR', 'CRÉATEUR') }] : []),
-    ...(user?.role === 'INVESTOR' ? [{ id: 'INVESTOR_DASHBOARD' as const, icon: TrendingUp, label: t('MY PORTFOLIO', 'MON PORTFOLIO'), category: t('PATRON', 'MÉCÈNE') }] : []),
+    ...(user?.role === 'PATRON' ? [{ id: 'PATRON_DASHBOARD' as const, icon: TrendingUp, label: t('MY PATRONAGE', 'MES SOUTIENS'), category: t('PATRON', 'MÉCÈNE') }] : []),
     ...(user?.role === 'PROFESSIONAL' || user?.isPro ? [{ id: 'PROFESSIONAL_DASHBOARD' as const, icon: Briefcase, label: t('PRO SPACE', 'ESPACE PRO'), category: t('PROFESSIONAL', 'PROFESSIONNEL') }] : []),
     { id: 'SWIPE', icon: Target, label: t('DISCOVER PROJECTS', 'DÉCOUVRIR DES PROJETS'), category: t('DEVELOPMENT', 'DÉVELOPPEMENT') },
     { id: 'REGISTRY', icon: BookOpen, label: t('LYA REGISTRY', 'REGISTRE LYA'), category: t('DEVELOPMENT', 'DÉVELOPPEMENT') },
@@ -281,7 +281,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       {/* User Status Area */}
       {user && !isCollapsed && (
         <div className="p-8 bg-[#0D1117] border-t border-white/5 relative z-10 group/user cursor-pointer"
-          onClick={() => onViewChange((user?.role === 'PROFESSIONAL' ? 'PROFESSIONAL_DASHBOARD' : user?.role === 'CREATOR' ? 'CREATOR_DASHBOARD' : user?.role === 'INVESTOR' ? 'INVESTOR_DASHBOARD' : 'PROFILE'))}
+          onClick={() => onViewChange((user?.role === 'PROFESSIONAL' ? 'PROFESSIONAL_DASHBOARD' : user?.role === 'CREATOR' ? 'CREATOR_DASHBOARD' : user?.role === 'PATRON' ? 'PATRON_DASHBOARD' : 'PROFILE'))}
         >
           <div className="flex items-center gap-4">
             <div className="relative">
@@ -415,7 +415,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               {/* User Profile on Mobile */}
               {user ? (
                 <div 
-                  onClick={() => { onViewChange((user?.role === 'PROFESSIONAL' ? 'PROFESSIONAL_DASHBOARD' : user?.role === 'CREATOR' ? 'CREATOR_DASHBOARD' : user?.role === 'INVESTOR' ? 'INVESTOR_DASHBOARD' : 'PROFILE')); onClose(); }}
+                  onClick={() => { onViewChange((user?.role === 'PROFESSIONAL' ? 'PROFESSIONAL_DASHBOARD' : user?.role === 'CREATOR' ? 'CREATOR_DASHBOARD' : user?.role === 'PATRON' ? 'PATRON_DASHBOARD' : 'PROFILE')); onClose(); }}
                   className="p-8 bg-gradient-to-tr from-white/[0.03] to-white/[0.01] border-t border-white/10 flex items-center gap-5 shadow-2xl"
                 >
                   <div className="w-12 h-12 rounded-full border-2 border-primary-cyan/40 p-0.5 overflow-hidden shrink-0 shadow-[0_0_15px_rgba(0,224,255,0.2)]">

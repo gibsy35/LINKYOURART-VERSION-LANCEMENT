@@ -133,7 +133,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
     }
 
     const [factors] = useState<Record<string, PillarFactor>>(() => {
-      if (user.role === UserRole.INVESTOR) {
+      if (user.role === UserRole.PATRON) {
         return { 
           stability: { label: t('Patronage Consistency', 'Constance du Mécénat'), score: 185, status: 'OPTIMAL', color: 'bg-emerald-500/20 text-emerald-400' },
           roi: { label: t('Recognition Reach', 'Portée de Reconnaissance'), score: 170, status: 'HIGH', color: 'bg-primary-cyan/20 text-primary-cyan' },
@@ -180,7 +180,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
               <Activity className="text-primary-cyan" size={24} /> {user.role === UserRole.CREATOR ? t('LYA PERFORMANCE SYSTEM', 'SYSTÈME DE PERFORMANCE LYA') : t('PROFESSIONAL STATUS HUB', 'HUB DE STATUT PROFESSIONNEL')}
             </h3>
             <p className="text-[10px] md:text-[10px] text-accent-gold uppercase tracking-widest font-bold opacity-40">
-              {user.role === UserRole.INVESTOR ? t('Track the impact of your patronage across the LYA Registry', 'Suivez l\'impact de votre mécénat sur le Registre LYA') :
+              {user.role === UserRole.PATRON ? t('Track the impact of your patronage across the LYA Registry', 'Suivez l\'impact de votre mécénat sur le Registre LYA') :
                user.role === UserRole.PROFESSIONAL ? t('Analyze your network validation efficiency', 'Analysez l\'efficacité de validation de votre réseau') :
                t('Predict your professional valuation potential', 'Prédisez votre potentiel de valorisation professionnelle')}
             </p>
@@ -897,7 +897,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
           bg: 'bg-primary-cyan/10',
           border: 'border-primary-cyan/30'
         };
-      case UserRole.INVESTOR:
+      case UserRole.PATRON:
         return {
           icon: Award,
           label: t('Founding Patron', 'Mécène Fondateur'),
@@ -1954,7 +1954,7 @@ const renderMentorshipContent = () => (
         )}
       </div>
     );
-      case UserRole.INVESTOR:
+      case UserRole.PATRON:
         return (
           <div className="space-y-12">
             <nav className="flex gap-4 md:gap-12 border-b border-white/5 relative mb-12 overflow-x-auto no-scrollbar whitespace-nowrap scroll-smooth pb-1 px-1">

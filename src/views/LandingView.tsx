@@ -83,7 +83,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
   });
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
-  const [category, setCategory] = useState<'CREATOR' | 'PROFESSIONAL' | 'INVESTOR'>('CREATOR');
+  const [category, setCategory] = useState<'CREATOR' | 'PROFESSIONAL' | 'PATRON'>('CREATOR');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [queuePosition, setQueuePosition] = useState<number | null>(null);
@@ -561,7 +561,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
 
                       <form onSubmit={handlePreRegister} className="space-y-6">
                         <div className="p-1 bg-white/5 rounded-2xl border border-white/10 flex gap-1">
-                          {['CREATOR', 'PROFESSIONAL', 'INVESTOR'].map((cat) => (
+                          {['CREATOR', 'PROFESSIONAL', 'PATRON'].map((cat) => (
                             <button key={cat} type="button" onClick={() => setCategory(cat as any)}
                               className={`flex-1 py-3 rounded-xl text-xs font-black tracking-widest transition-all uppercase ${category === cat ? 'bg-primary-cyan text-black shadow-lg shadow-primary-cyan/20' : 'text-white/40 hover:text-white'}`}
                             >

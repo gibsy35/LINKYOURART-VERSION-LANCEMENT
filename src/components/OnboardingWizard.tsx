@@ -32,7 +32,7 @@ export const OnboardingWizard: React.FC<Props> = ({ onComplete, onSkip }) => {
       ],
     },
     {
-      role: UserRole.INVESTOR,
+      role: UserRole.PATRON,
       icon: <Users size={32} className="text-emerald-400" />,
       color: 'border-emerald-400/40 bg-emerald-400/8 hover:border-emerald-400/70',
       activeColor: 'border-emerald-400 bg-emerald-400/15',

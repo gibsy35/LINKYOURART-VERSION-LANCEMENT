@@ -67,7 +67,7 @@ function buildWelcomeEmail(name, role, lang) {
   
   const roleLabel = {
     CREATOR: isFR ? 'Créateur' : 'Creator',
-    INVESTOR: isFR ? 'Mécène' : 'Patron',
+    PATRON: isFR ? 'Mécène' : 'Patron',
     PROFESSIONAL: isFR ? 'Professionnel' : 'Professional',
   }[role] || (isFR ? 'Membre' : 'Member');
 
@@ -75,9 +75,9 @@ function buildWelcomeEmail(name, role, lang) {
     CREATOR: isFR 
       ? 'Votre espace créateur est prêt. Soumettez votre premier projet et obtenez votre LYA Score.'
       : 'Your creator space is ready. Submit your first project and get your LYA Score.',
-    INVESTOR: isFR
-      ? 'Votre espace mécène est prêt. Découvrez les projets créatifs disponibles sur l\'Exchange LYA.'
-      : 'Your patron space is ready. Discover creative projects available on the LYA Exchange.',
+    PATRON: isFR
+      ? 'Votre espace mécène est prêt. Découvrez les projets créatifs certifiés sur le Registre LYA.'
+      : 'Your patron space is ready. Discover certified creative projects on the LYA Registry.',
     PROFESSIONAL: isFR
       ? 'Votre espace professionnel est prêt. Accédez au hub de validation et au Lounge Pro.'
       : 'Your professional space is ready. Access the validation hub and Pro Lounge.',

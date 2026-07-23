@@ -304,7 +304,7 @@ export function templateInvitation({ name, inviteCode, lang = 'FR' }: {
 
 export function templateWelcome({ name, role, lang = 'FR' }: {
   name: string;
-  role: 'CREATOR' | 'PROFESSIONAL' | 'INVESTOR' | string;
+  role: 'CREATOR' | 'PROFESSIONAL' | 'PATRON' | string;
   lang?: 'FR' | 'EN';
 }) {
   const isFR = lang === 'FR';
@@ -322,10 +322,10 @@ export function templateWelcome({ name, role, lang = 'FR' }: {
       descEN: 'Access the Validation Console, discover projects awaiting indexation and help emerging talent reach their potential.',
       color: '#00d4ff',
     },
-    INVESTOR: {
+    PATRON: {
       labelFR: 'Mécène', labelEN: 'Patron',
-      descFR: 'Parcourez l\'Espace Mécénat, sélectionnez les projets créatifs qui vous correspondent et commencez à construire votre portefeuille créatif.',
-      descEN: 'Browse the Patronage Space, select the creative projects that speak to you and start building your creative portfolio.',
+      descFR: 'Parcourez l\'Espace Mécénat, sélectionnez les projets créatifs qui vous correspondent et commencez à soutenir les créateurs de demain.',
+      descEN: 'Browse the Patronage Space, select the creative projects that speak to you and start supporting tomorrow\'s creators.',
       color: '#00ff88',
     },
   };
