@@ -16,7 +16,7 @@ function lyaHeader(title: string, subtitle: string, lang: string): string {
       <div class="logo-section">
         <div class="logo-box">
           <span class="logo-text">LINKYOURART</span>
-          <span class="logo-tagline">${isFR ? "Ce que vous créez aujourd'hui peut être reconnu par des milliers de personnes demain." : "What you create today can be recognized by thousands tomorrow."}</span>
+          <span class="logo-tagline">${isFR ? "Votre travail a une valeur. Nous la certifions. Des mécènes la reconnaissent." : "Your work has value. We certify it. Patrons recognize it."}</span>
         </div>
         <div class="doc-type">
           <span class="doc-title">${title}</span>

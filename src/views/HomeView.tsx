@@ -1657,7 +1657,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
             <span className="text-primary-cyan">{t('home.cta.title_cyan', 'Engagement')}</span>
           </h2>
           <p className="text-xl text-on-surface-variant mb-12 max-w-xl mx-auto opacity-80 text-justify">
-            {t('"What you create today can be recognized by thousands tomorrow."', '"Ce que vous créez aujourd\'hui peut être reconnu par des milliers de personnes demain."')}
+            {t('"Your work has value. We certify it. Patrons recognize it."', '"Votre travail a une valeur. Nous la certifions. Des mécènes la reconnaissent."')}
           </p>
           <button 
             onClick={() => onViewChange('DASHBOARD')}

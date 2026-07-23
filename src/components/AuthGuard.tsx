@@ -74,7 +74,7 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({
 
         {/* Tagline */}
         <p className="text-[10px] text-white/20 italic">
-          "{t("What you create today can be recognized by thousands tomorrow.", "Ce que vous créez aujourd'hui peut être reconnu par des milliers de personnes demain.")}"
+          "{t("Your work has value. We certify it. Patrons recognize it.", "Votre travail a une valeur. Nous la certifions. Des mécènes la reconnaissent.")}"
         </p>
       </motion.div>
     </div>

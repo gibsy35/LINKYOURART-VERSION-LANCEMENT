@@ -31,7 +31,7 @@ export const updatePageMeta = (params: {
 // Reset vers les méta-tags par défaut
 export const resetPageMeta = () => {
   updatePageMeta({
-    title: 'Ce que vous créez aujourd\'hui peut être reconnu par des milliers de personnes demain',
+    title: 'Votre travail a une valeur. Nous la certifions. Des mécènes la reconnaissent.',
     description: 'La première plateforme de certification créative. Certifiez vos projets artistiques et suivez leur Score LYA sur LinkYourArt.',
     url: 'https://linkyourart.com',
   });

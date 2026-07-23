@@ -81,7 +81,7 @@ export const OnboardingWizard: React.FC<Props> = ({ onComplete, onSkip }) => {
         </p>
       </div>
       <p className="text-sm italic text-primary-cyan/70 font-medium">
-        "{T('Ce que vous créez aujourd\'hui peut être reconnu par des milliers de personnes demain.', 'What you create today can be recognized by thousands tomorrow.')}"
+        "{T('Votre travail a une valeur. Nous la certifions. Des mécènes la reconnaissent.', 'Your work has value. We certify it. Patrons recognize it.')}"
       </p>
       <button onClick={() => setStep(1)} className="w-full py-4 bg-primary-cyan text-surface-dim font-black text-sm uppercase tracking-widest rounded-xl hover:bg-white transition-all shadow-[0_0_20px_rgba(0,212,255,0.2)] flex items-center justify-center gap-2">
         {T('Commencer →', 'Get started →')}
