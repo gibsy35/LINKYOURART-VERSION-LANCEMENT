@@ -966,7 +966,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
             >
               <div className="relative mb-4 sm:mb-8 lg:mb-12">
                 <h1 style={{ fontSize: 'clamp(1.6rem, 6.5vw, 9rem)' }} className="font-black tracking-tighter leading-[0.88] uppercase text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.2)]">
-                  {t('ART IS A', 'L\'ART EST UN')}<br/>
+                  {t('ART NEED A', 'L\'ART A BESOIN D\'UN')}<br/>
                   <span className="text-primary-cyan drop-shadow-[0_0_80px_rgba(0,224,255,0.6)] font-black">{t('STANDARD.', 'STANDARD.')}</span>
                 </h1>
               </div>
