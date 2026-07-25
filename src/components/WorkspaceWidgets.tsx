@@ -2,17 +2,17 @@ import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   BarChart2, Globe, Sliders, TrendingUp, Bell, RefreshCw,
-  ArrowRightLeft, LayoutGrid, Check, ChevronDown, Info,
+  LayoutGrid, Check, ChevronDown, Info,
   Play, Pause, Settings2
 } from 'lucide-react';
-import { CONTRACTS, LYA_UNIT_VALUE } from '../types';
+import { CONTRACTS } from '../types';
 import { useTranslation } from '../context/LanguageContext';
 import { useCurrency } from '../context/CurrencyContext';
 import { ResponsiveContainer, AreaChart, Area, Tooltip } from 'recharts';
 
 // ─── TYPES ────────────────────────────────────────────────────────────────────
 
-type WidgetKey = 'project_analysis' | 'creative_network' | 'support_simulator' | 'revenue_projection' | 'project_alerts' | 'lya_converter';
+type WidgetKey = 'project_analysis' | 'creative_network' | 'support_simulator' | 'revenue_projection' | 'project_alerts';
 
 interface WidgetDef {
   key: WidgetKey;
@@ -50,17 +50,17 @@ const WIDGET_DEFS: WidgetDef[] = [
     icon: <Sliders size={16} />,
     titleFR: 'Simulateur de Soutien',
     titleEN: 'Support Simulator',
-    descFR: 'Simulez votre soutien sur n\'importe quel projet et visualisez vos gains potentiels.',
-    descEN: 'Simulate your backing on any project and visualize your potential gains.',
+    descFR: 'Simulez votre soutien sur n\'importe quel projet et visualisez le niveau de reconnaissance atteint.',
+    descEN: 'Simulate your pledge on any project and visualize the recognition tier reached.',
     color: 'text-accent-gold',
   },
   {
     key: 'revenue_projection',
     icon: <TrendingUp size={16} />,
-    titleFR: 'Projection de Revenus',
-    titleEN: 'Revenue Projection',
-    descFR: 'Estimation de votre co-partage des revenus sur 3, 6 et 12 mois.',
-    descEN: 'Estimate your revenue co-share over 3, 6 and 12 months.',
+    titleFR: 'Projection de Score',
+    titleEN: 'Score Projection',
+    descFR: 'Estimation de la progression du Score LYA de vos projets suivis sur 3, 6 et 12 mois.',
+    descEN: 'Estimate your followed projects\' LYA Score progression over 3, 6 and 12 months.',
     color: 'text-[#a78bfa]',
   },
   {
@@ -71,15 +71,6 @@ const WIDGET_DEFS: WidgetDef[] = [
     descFR: 'Suivez les évolutions de vos projets favoris en temps réel.',
     descEN: 'Track your favourite projects\' progress in real time.',
     color: 'text-[#00ff88]',
-  },
-  {
-    key: 'lya_converter',
-    icon: <ArrowRightLeft size={16} />,
-    titleFR: 'Convertisseur LYA',
-    titleEN: 'LYA Converter',
-    descFR: 'Convertissez des unités LYA en EUR / USD / GBP instantanément.',
-    descEN: 'Convert LYA units to EUR / USD / GBP instantly.',
-    color: 'text-rose-400',
   },
 ];
 
@@ -147,14 +138,12 @@ const CreativeNetworkWidget: React.FC<{ lang: 'FR' | 'EN' }> = ({ lang }) => {
 
 const SupportSimulatorWidget: React.FC<{ lang: 'FR' | 'EN', formatPrice: (n: number) => string }> = ({ lang, formatPrice }) => {
   const T = (fr: string, en: string) => lang === 'FR' ? fr : en;
-  const [units, setUnits] = useState(10);
+  const [pledge, setPledge] = useState(50);
   const [selectedId, setSelectedId] = useState(CONTRACTS.filter(c => c.status === 'LIVE')[0]?.id || '');
   const contracts = CONTRACTS.filter(c => c.status === 'LIVE');
   const selected = contracts.find(c => c.id === selectedId);
-  const unitPrice = selected ? LYA_UNIT_VALUE * (1 + (selected.growth || 0) / 100) : LYA_UNIT_VALUE;
-  const totalCost = units * unitPrice;
-  const revenueShare = selected?.revenueSharePercentage || 10;
-  const coShare = ((units * revenueShare) / 10000).toFixed(3);
+  const currentScore = selected?.totalScore || 750;
+  const recognitionTier = pledge >= 250 ? T('Mécène Élite', 'Elite Patron') : pledge >= 100 ? T('Mécène', 'Patron') : T('Soutien', 'Supporter');
 
   return (
     <div className="space-y-4">
@@ -169,39 +158,42 @@ const SupportSimulatorWidget: React.FC<{ lang: 'FR' | 'EN', formatPrice: (n: num
       </div>
       <div className="space-y-1.5">
         <div className="flex justify-between">
-          <p className="text-[11px] font-mono text-on-surface-variant/50 uppercase tracking-widest">{T('UNITÉS LYA', 'LYA UNITS')}</p>
-          <p className="text-[11px] font-black text-primary-cyan">{units} {T('unités', 'units')}</p>
+          <p className="text-[11px] font-mono text-on-surface-variant/50 uppercase tracking-widest">{T('MONTANT DE SOUTIEN', 'PLEDGE AMOUNT')}</p>
+          <p className="text-[11px] font-black text-primary-cyan">{formatPrice(pledge)}</p>
         </div>
-        <input type="range" min={1} max={100} value={units} onChange={e => setUnits(+e.target.value)} className="w-full h-1 bg-white/10 rounded-full appearance-none cursor-pointer accent-primary-cyan" />
+        <input type="range" min={10} max={500} step={10} value={pledge} onChange={e => setPledge(+e.target.value)} className="w-full h-1 bg-white/10 rounded-full appearance-none cursor-pointer accent-primary-cyan" />
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
         <div className="bg-surface-high/40 border border-white/8 rounded-xl p-3">
           <p className="text-xs font-mono text-on-surface-variant/40 uppercase tracking-widest mb-1">{T('SOUTIEN TOTAL', 'TOTAL PLEDGE')}</p>
-          <p className="text-sm font-black font-mono text-on-surface">{formatPrice(totalCost)}</p>
+          <p className="text-sm font-black font-mono text-on-surface">{formatPrice(pledge)}</p>
         </div>
         <div className="bg-surface-high/40 border border-white/8 rounded-xl p-3">
-          <p className="text-xs font-mono text-on-surface-variant/40 uppercase tracking-widest mb-1">{T('CO-PARTAGE', 'CO-SHARE')}</p>
-          <p className="text-sm font-black font-mono text-[#00ff88]">{coShare}%</p>
+          <p className="text-xs font-mono text-on-surface-variant/40 uppercase tracking-widest mb-1">{T('NIVEAU DE RECONNAISSANCE', 'RECOGNITION TIER')}</p>
+          <p className="text-sm font-black font-mono text-[#00ff88]">{recognitionTier}</p>
         </div>
       </div>
+      <p className="text-[10px] text-on-surface-variant/40 leading-relaxed">
+        {T(`Score LYA actuel du projet : ${currentScore}/1000. Votre soutien vous donne accès à des contreparties de reconnaissance non-financières.`, `Current project LYA Score: ${currentScore}/1000. Your support grants access to non-financial recognition-based considerations.`)}
+      </p>
     </div>
   );
 };
 
 // ─── WIDGET : PROJECTION DE REVENUS ──────────────────────────────────────────
 
-const RevenueProjectionWidget: React.FC<{ lang: 'FR' | 'EN', formatPrice: (n: number) => string }> = ({ lang, formatPrice }) => {
+const RevenueProjectionWidget: React.FC<{ lang: 'FR' | 'EN' }> = ({ lang }) => {
   const T = (fr: string, en: string) => lang === 'FR' ? fr : en;
   const [horizon, setHorizon] = useState<'3M' | '6M' | '12M'>('6M');
-  const base = 250;
+  const base = 750;
   const multiplier = horizon === '3M' ? 1.04 : horizon === '6M' ? 1.09 : 1.19;
-  const projected = base * multiplier;
+  const projected = Math.min(1000, Math.round(base * multiplier));
 
   const chartData = useMemo(() => {
     const pts = horizon === '3M' ? 3 : horizon === '6M' ? 6 : 12;
     return Array.from({ length: pts }, (_, i) => ({
       name: `M${i + 1}`,
-      value: Math.round(base * (1 + (multiplier - 1) * ((i + 1) / pts))),
+      value: Math.min(1000, Math.round(base * (1 + (multiplier - 1) * ((i + 1) / pts)))),
     }));
   }, [horizon, multiplier]);
 
@@ -222,14 +214,14 @@ const RevenueProjectionWidget: React.FC<{ lang: 'FR' | 'EN', formatPrice: (n: nu
               </linearGradient>
             </defs>
             <Area type="monotone" dataKey="value" stroke="#a78bfa" strokeWidth={2} fill="url(#projGrad)" dot={false} />
-            <Tooltip contentStyle={{ background: '#0f121a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, fontSize: 10 }} formatter={(v: number) => [formatPrice(v), T('Revenus', 'Revenue')]} />
+            <Tooltip contentStyle={{ background: '#0f121a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, fontSize: 10 }} formatter={(v: number) => [`${v}/1000`, T('Score LYA', 'LYA Score')]} />
           </AreaChart>
         </ResponsiveContainer>
       </div>
       <div className="flex justify-between items-end">
         <div>
           <p className="text-[11px] font-mono text-on-surface-variant/50 uppercase tracking-widest">{T('PROJECTION', 'PROJECTION')} {horizon}</p>
-          <p className="text-xl font-black font-mono text-[#a78bfa]">{formatPrice(projected)}</p>
+          <p className="text-xl font-black font-mono text-[#a78bfa]">{projected}/1000</p>
         </div>
         <p className="text-[11px] font-mono text-[#00ff88]">+{((multiplier - 1) * 100).toFixed(1)}% {T('estimé', 'estimated')}</p>
       </div>
@@ -272,42 +264,6 @@ const ProjectAlertsWidget: React.FC<{ lang: 'FR' | 'EN' }> = ({ lang }) => {
   );
 };
 
-// ─── WIDGET : CONVERTISSEUR LYA ───────────────────────────────────────────────
-
-const LYAConverterWidget: React.FC<{ lang: 'FR' | 'EN' }> = ({ lang }) => {
-  const T = (fr: string, en: string) => lang === 'FR' ? fr : en;
-  const [units, setUnits] = useState(5);
-  const [currency, setCurrency] = useState<'EUR' | 'USD' | 'GBP'>('EUR');
-  const rates: Record<'EUR' | 'USD' | 'GBP', number> = { USD: 1, EUR: 0.92, GBP: 0.79 };
-  const symbols: Record<'EUR' | 'USD' | 'GBP', string> = { USD: '$', EUR: '€', GBP: '£' };
-  const converted = (units * LYA_UNIT_VALUE * rates[currency]).toFixed(2);
-
-  return (
-    <div className="space-y-4">
-      <div className="flex gap-1.5">
-        {(['EUR', 'USD', 'GBP'] as const).map(c => (
-          <button key={c} onClick={() => setCurrency(c)} className={`flex-1 py-1.5 rounded-lg text-[11px] font-black transition-all ${currency === c ? 'bg-rose-400/15 border border-rose-400/40 text-rose-400' : 'bg-white/5 border border-white/10 text-on-surface-variant hover:text-on-surface'}`}>{c}</button>
-        ))}
-      </div>
-      <div className="space-y-1.5">
-        <div className="flex justify-between">
-          <p className="text-[11px] font-mono text-on-surface-variant/50 uppercase tracking-widest">{T('UNITÉS LYA', 'LYA UNITS')}</p>
-          <p className="text-[11px] font-black text-on-surface">{units}</p>
-        </div>
-        <input type="range" min={1} max={250} value={units} onChange={e => setUnits(+e.target.value)} className="w-full h-1 bg-white/10 rounded-full appearance-none cursor-pointer accent-rose-400" />
-        <div className="flex justify-between text-xs font-mono text-on-surface-variant/30">
-          <span>1</span><span>125</span><span>250</span>
-        </div>
-      </div>
-      <div className="bg-surface-high/40 border border-white/8 rounded-xl p-4 text-center">
-        <p className="text-[11px] font-mono text-on-surface-variant/50 mb-1">{units} LYA UNIT{units > 1 ? 'S' : ''} =</p>
-        <p className="text-2xl font-black font-mono text-rose-400">{symbols[currency]}{converted}</p>
-        <p className="text-xs font-mono text-on-surface-variant/30 mt-1">1 LYA UNIT = {symbols[currency]}{(LYA_UNIT_VALUE * rates[currency]).toFixed(2)}</p>
-      </div>
-    </div>
-  );
-};
-
 // ─── COMPOSANT PRINCIPAL : WORKSPACE ─────────────────────────────────────────
 
 export const WorkspaceWidgets: React.FC = () => {
@@ -319,7 +275,7 @@ export const WorkspaceWidgets: React.FC = () => {
   const [isConfiguring, setIsConfiguring] = useState(false);
   const [activeWidgets, setActiveWidgets] = useState<WidgetKey[]>([
     'project_analysis', 'creative_network', 'support_simulator',
-    'revenue_projection', 'project_alerts', 'lya_converter'
+    'revenue_projection', 'project_alerts'
   ]);
 
   const toggleWidget = (key: WidgetKey) => {
@@ -333,9 +289,8 @@ export const WorkspaceWidgets: React.FC = () => {
       case 'project_analysis': return <ProjectAnalysisWidget lang={lang} />;
       case 'creative_network': return <CreativeNetworkWidget lang={lang} />;
       case 'support_simulator': return <SupportSimulatorWidget lang={lang} formatPrice={formatPrice} />;
-      case 'revenue_projection': return <RevenueProjectionWidget lang={lang} formatPrice={formatPrice} />;
+      case 'revenue_projection': return <RevenueProjectionWidget lang={lang} />;
       case 'project_alerts': return <ProjectAlertsWidget lang={lang} />;
-      case 'lya_converter': return <LYAConverterWidget lang={lang} />;
     }
   };
 

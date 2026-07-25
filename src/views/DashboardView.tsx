@@ -42,25 +42,14 @@ import {
   Bar,
   Cell
 } from 'recharts';
-import { CONTRACTS, Contract, LYA_UNIT_VALUE } from '../types';
+import { CONTRACTS, Contract } from '../types';
 import { Ticker } from '../components/ui/Ticker';
 import { useTranslation } from '../context/LanguageContext';
-import { useCurrency } from '../context/CurrencyContext';
 import { BreakingNewsTicker } from '../components/BreakingNewsTicker';
 import { InfoTooltip } from '../components/InfoTooltip';
 import { StatCard } from '../components/StatCard';
 import { NumberTicker } from '../components/ui/NumberTicker';
 import { PageHeader } from '../components/ui/PageHeader';
-
-const data = [
-  { name: '00:00', value: 400 },
-  { name: '04:00', value: 300 },
-  { name: '08:00', value: 600 },
-  { name: '12:00', value: 800 },
-  { name: '16:00', value: 500 },
-  { name: '20:00', value: 900 },
-  { name: '23:59', value: 1100 },
-];
 
 
 
@@ -81,7 +70,6 @@ export const DashboardView: React.FC<{
   user?: any
 }> = ({ onSelectContract, onViewChange, onNotify, watchlist = [], onToggleWatchlist, userContracts = [], liveContracts, user }) => {
   const { t, language } = useTranslation();
-  const { formatPrice, formatLYA } = useCurrency();
   const { contracts: hookContracts, marketStats, lastUpdate } = useMarketData();
   const contracts = liveContracts || hookContracts;
   const [activeTab, setActiveTab] = React.useState<'overview' | 'predictive' | 'accessibilité' | 'workspace' | 'management'>('overview');
@@ -90,67 +78,66 @@ export const DashboardView: React.FC<{
 
   const [activeRange, setActiveRange] = React.useState('1D');
 
-  const holdingsValue = useMemo(() => {
-    return userContracts.reduce((acc, uc) => {
+  const followedScoreAvg = useMemo(() => {
+    if (!userContracts.length) return 0;
+    const total = userContracts.reduce((acc, uc) => {
       const contract = CONTRACTS.find(c => c.id === uc.projectId);
-      if (contract) {
-        return acc + (uc.units * contract.unitValue);
-      }
-      return acc + (uc.units * (uc.entryPrice || 50));
+      return acc + (contract?.totalScore || 0);
     }, 0);
+    return Math.round(total / userContracts.length);
   }, [userContracts]);
 
   const activeContractsCount = userContracts.length;
 
-  const totalIndexProgression = useMemo(() => {
-    // Simulated progression for demonstration, but weighted by holdings
-    return holdingsValue * 0.084; // 8.4% APY simulation
-  }, [holdingsValue]);
+  const scoreGrowth30d = useMemo(() => {
+    // Progression moyenne du Score LYA des projets suivis sur 30 jours
+    return followedScoreAvg * 0.084;
+  }, [followedScoreAvg]);
 
   const chartData = useMemo(() => {
     switch (activeRange) {
       case '1W':
         return [
-          { name: 'Mon', value: 800 },
-          { name: 'Tue', value: 950 },
-          { name: 'Wed', value: 880 },
-          { name: 'Thu', value: 1100 },
-          { name: 'Fri', value: 1050 },
-          { name: 'Sat', value: 1200 },
-          { name: 'Sun', value: 1350 },
+          { name: 'Mon', value: 720 },
+          { name: 'Tue', value: 780 },
+          { name: 'Wed', value: 750 },
+          { name: 'Thu', value: 820 },
+          { name: 'Fri', value: 800 },
+          { name: 'Sat', value: 860 },
+          { name: 'Sun', value: 890 },
         ];
       case '1M':
         return [
-          { name: 'Week 1', value: 1000 },
-          { name: 'Week 2', value: 1200 },
-          { name: 'Week 3', value: 1150 },
-          { name: 'Week 4', value: 1400 },
+          { name: 'Week 1', value: 700 },
+          { name: 'Week 2', value: 760 },
+          { name: 'Week 3', value: 810 },
+          { name: 'Week 4', value: 870 },
         ];
       case '1Y':
         return [
-          { name: 'Jan', value: 800 },
-          { name: 'Mar', value: 1200 },
-          { name: 'May', value: 1100 },
-          { name: 'Jul', value: 1500 },
-          { name: 'Sep', value: 1400 },
-          { name: 'Nov', value: 1800 },
+          { name: 'Jan', value: 550 },
+          { name: 'Mar', value: 640 },
+          { name: 'May', value: 700 },
+          { name: 'Jul', value: 780 },
+          { name: 'Sep', value: 830 },
+          { name: 'Nov', value: 890 },
         ];
       case 'ALL':
         return [
-          { name: '2023', value: 500 },
-          { name: '2024', value: 1200 },
-          { name: '2025', value: 1800 },
-          { name: '2026', value: 2400 },
+          { name: '2023', value: 380 },
+          { name: '2024', value: 560 },
+          { name: '2025', value: 740 },
+          { name: '2026', value: 890 },
         ];
       default: // 1D
         return [
-          { name: '00:00', value: 400 },
-          { name: '04:00', value: 380 },
-          { name: '08:00', value: 620 },
-          { name: '12:00', value: 850 },
-          { name: '16:00', value: 720 },
-          { name: '20:00', value: 980 },
-          { name: '23:59', value: 1150 },
+          { name: '00:00', value: 780 },
+          { name: '04:00', value: 775 },
+          { name: '08:00', value: 800 },
+          { name: '12:00', value: 830 },
+          { name: '16:00', value: 815 },
+          { name: '20:00', value: 860 },
+          { name: '23:59', value: 892 },
         ];
     }
   }, [activeRange]);
@@ -171,11 +158,11 @@ export const DashboardView: React.FC<{
   const [visibleActivities, setVisibleActivities] = useState(5);
 
   const [news, setNews] = useState<any[]>([
-    { id: '1', title: 'Netflix Announces New $500M European Production Center', source: 'Variety', time: '10m ago', timestamp: '10m ago', impact: '+15%', impactDetail: 'Direct boost to Film and TV registres alternatifs, raising European settlement accessibilité.', targetProject: 'RENAISSANCE REBORN' },
-    { id: '2', title: 'Creative Equity Index Reaches All-Time High', source: 'Bloomberg', time: '45m ago', timestamp: '45m ago', impact: '+8%', impactDetail: 'Heightened institutional demand for performance des droits créatifs alternatifs.', targetProject: 'SKY GARDENS V4' },
-    { id: '3', title: 'New AI System for Automated IP Validation', source: 'TechCrunch', time: '2h ago', timestamp: '2h ago', impact: '+22%', impactDetail: 'Smart-contract speed appreciation reducing verification validation friction.', targetProject: 'THE FUTURE VOICE' },
-    { id: '4', title: 'South Korean K-Pop Labels Adopt LYA Registry', source: 'The Korea Herald', time: '15h ago', timestamp: '15h ago', impact: '+42%', impactDetail: 'Massive East Asian volume surge and traction boost across entertainment indexes.', targetProject: 'THE FUTURE VOICE' },
-    { id: '5', title: 'Goldman Sachs Launches Creative Equity Desk', source: 'WSJ', time: '1d ago', timestamp: '1d ago', impact: '+55%', impactDetail: 'Ultimate validation of creative intellectual property co-valuation models.', targetProject: 'RENAISSANCE REBORN' },
+    { id: '1', title: 'Major Streaming Platform Announces New European Production Fund', source: 'Variety', time: '10m ago', timestamp: '10m ago', impact: '+15%', impactDetail: 'Direct boost to certification interest for Film and TV projects across European registries.', targetProject: 'RENAISSANCE REBORN' },
+    { id: '2', title: 'Creative Certification Adoption Reaches All-Time High', source: 'Bloomberg', time: '45m ago', timestamp: '45m ago', impact: '+8%', impactDetail: 'Heightened institutional interest for objective certification of creative rights.', targetProject: 'SKY GARDENS V4' },
+    { id: '3', title: 'New AI System for Automated IP Verification', source: 'TechCrunch', time: '2h ago', timestamp: '2h ago', impact: '+22%', impactDetail: 'Verification speed improvements reducing certification review friction.', targetProject: 'THE FUTURE VOICE' },
+    { id: '4', title: 'South Korean K-Pop Labels Adopt LYA Registry', source: 'The Korea Herald', time: '15h ago', timestamp: '15h ago', impact: '+42%', impactDetail: 'Massive East Asian interest surge and traction boost across entertainment certification.', targetProject: 'THE FUTURE VOICE' },
+    { id: '5', title: 'Major Advisory Firm Launches Creative Rights Practice', source: 'WSJ', time: '1d ago', timestamp: '1d ago', impact: '+55%', impactDetail: 'Ultimate validation of creative intellectual property certification models.', targetProject: 'RENAISSANCE REBORN' },
   ]);
   const [isLoadingNews, setIsLoadingNews] = useState(false);
 
@@ -250,9 +237,9 @@ export const DashboardView: React.FC<{
         targetProject: item.impact?.targetProject || ''
       }));
       setNews(formatted);
-      onNotify?.(t('REAL-TIME NEWS AND MARKET DATA SYNCED SUCCESSFULLY.', 'NEWS EN TEMPS RÉEL ET DONNÉES DU MARCHÉ SYNCHRONISÉES AVEC SUCCÈS.'));
+      onNotify?.(t('REAL-TIME NEWS AND REGISTRY DATA SYNCED SUCCESSFULLY.', 'NEWS EN TEMPS RÉEL ET DONNÉES DU REGISTRE SYNCHRONISÉES AVEC SUCCÈS.'));
     } else {
-      onNotify?.(t('MARKET DATA SYNCED SUCCESSFULLY.', 'DONNÉES DU MARCHÉ SYNCHRONISÉES AVEC SUCCÈS.'));
+      onNotify?.(t('REGISTRY DATA SYNCED SUCCESSFULLY.', 'DONNÉES DU REGISTRE SYNCHRONISÉES AVEC SUCCÈS.'));
     }
     setIsRefreshing(false);
     setIsLoadingNews(false);
@@ -263,7 +250,7 @@ export const DashboardView: React.FC<{
       <PageHeader 
         titleWhite={t('TABLEAU DE', 'TABLEAU DE')}
         titleAccent={t('BORD', 'BORD')}
-        description={t('REAL-TIME MARKET INTELLIGENCE AND PREDICTIVE ANALYTICS POWERED BY THE LYA NEURAL NETWORK.', 'INTELLIGENCE DE MARCHÉ EN TEMPS RÉEL ET ANALYSES PRÉDICTIVES PROPULSÉES PAR LE RÉSEAU NEURAL LYA.')}
+        description={t('REAL-TIME CERTIFICATION INTELLIGENCE AND PREDICTIVE ANALYTICS POWERED BY THE LYA NEURAL NETWORK.', 'INTELLIGENCE DE CERTIFICATION EN TEMPS RÉEL ET ANALYSES PRÉDICTIVES PROPULSÉES PAR LE RÉSEAU NEURAL LYA.')}
         accentColor="text-primary-cyan"
       />
 
@@ -278,26 +265,6 @@ export const DashboardView: React.FC<{
           </button>
           
           <div className="h-6 w-[1px] bg-white/5 hidden sm:block" />
-          <div className="relative group flex-1 sm:flex-none">
-            <div className="absolute inset-0 bg-primary-cyan/5 blur-xl group-hover:bg-primary-cyan/10 transition-all duration-700" />
-            <div className="relative bg-surface-low/40 backdrop-blur-xl border border-white/10 p-2 sm:p-4 flex items-center gap-2 sm:gap-4 shadow-2xl rounded-sm">
-              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-primary-cyan/10 flex items-center justify-center text-primary-cyan border border-primary-cyan/20 shadow-inner">
-                <Zap size={16} className="animate-pulse" />
-              </div>
-              <div>
-                <div className="text-[7px] md:text-xs text-accent-gold uppercase tracking-[0.2em] sm:tracking-[0.3em] font-black mb-0.5 sm:mb-1 flex items-center gap-1 sm:gap-2">
-                  {t('LYA Standard Unit', 'Unité Standard LYA')}
-                  <div className="w-1 h-1 rounded-full bg-emerald-400 animate-pulse" />
-                </div>
-                <p className="text-xs sm:text-lg font-black font-mono text-on-surface leading-none tracking-tighter truncate">
-                  1 LYA = {formatLYA()} 
-                  <span className={`ml-2 ${marketStats.avgGrowth >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
-                    ({marketStats.avgGrowth >= 0 ? '+' : ''}{Number(marketStats.avgGrowth).toFixed(2)}%)
-                  </span>
-                </p>
-              </div>
-            </div>
-          </div>
 
           <div className="h-10 w-[1px] bg-white/5 hidden lg:block" />
 
@@ -381,10 +348,10 @@ export const DashboardView: React.FC<{
           { activeTab === 'overview' && (
           <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
             {[
-              { label: t('Holdings Value', 'Valeur des Contrats'), value: holdingsValue || 0, trend: '+12.5%', color: 'border-primary-cyan', icon: <Layers size={16} />, tooltip: t('The current market value of all the creative contract units you own.', 'La valeur marchande actuelle de toutes les unités de contrat créatif que vous possédez.') },
-              { label: t('Total Index Progression', 'Rendement d\'Indice Total'), value: totalIndexProgression || 0, trend: '+$142.50', color: 'border-primary-cyan', icon: <TrendingUp size={16} />, tooltip: t('The cumulative progression generated by your indexed assets.', 'Le progression cumulé généré par vos actifs indexés.') },
+              { label: t('Followed Avg. Score', 'Score Moyen Suivi'), value: followedScoreAvg || 0, trend: `/1000`, color: 'border-primary-cyan', icon: <Layers size={16} />, tooltip: t('The average LYA Score across all the creative projects you follow.', 'Le Score LYA moyen de tous les projets créatifs que vous suivez.'), isScore: true },
+              { label: t('30d Score Progress', 'Progression Score 30j'), value: scoreGrowth30d || 0, trend: '+12.5 pts', color: 'border-primary-cyan', icon: <TrendingUp size={16} />, tooltip: t('The cumulative LYA Score progression across your followed projects.', 'La progression cumulée du Score LYA de vos projets suivis.'), isScore: true },
               { label: t('Active Contracts', 'Contrats Actifs'), value: activeContractsCount || 0, trend: `${activeContractsCount} Registries`, color: 'border-white/20', icon: <LayoutGrid size={16} />, tooltip: t('The number of unique creative contracts currently in your portfolio.', 'Le nombre de contrats créatifs uniques actuellement dans votre portefeuille.') },
-              { label: t('Market Sentiment', 'Sentiment du Marché'), value: marketSentiment.label, trend: `${marketSentiment.value}%`, color: 'border-accent-gold', icon: <ActivityIcon size={16} />, tooltip: t('Analyse en temps réel de la confiance des mécènes.', 'Real-time analysis of partenaire créatif confidence.') }
+              { label: t('Community Pulse', 'Pouls de la Communauté'), value: marketSentiment.label, trend: `${marketSentiment.value}%`, color: 'border-accent-gold', icon: <ActivityIcon size={16} />, tooltip: t('Analyse en temps réel de la confiance des mécènes.', 'Real-time analysis of partenaire créatif confidence.') }
             ].map((stat, i) => (
                 <div key={i} className="relative group">
                   <div className="absolute inset-0 bg-surface-low/30 backdrop-blur-2xl border border-white/10 rounded-sm group-hover:border-primary-cyan/30 transition-all duration-500" />
@@ -401,7 +368,7 @@ export const DashboardView: React.FC<{
                     <div>
                       <div className="flex items-baseline gap-3">
                         <h3 className="text-3xl font-black font-mono text-on-surface tracking-tighter">
-                          {typeof stat.value === 'number' ? formatPrice(stat.value) : stat.value}
+                          {typeof stat.value === 'number' ? Math.round(stat.value) : stat.value}
                         </h3>
                       </div>
                       <div className="mt-2 flex items-center gap-2">
@@ -420,14 +387,14 @@ export const DashboardView: React.FC<{
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2 space-y-8">
-              {/* Market Index Performance Chart */}
+              {/* LYA Score Evolution Chart */}
               <div className="bg-surface-low/30 backdrop-blur-2xl border border-white/10 rounded-sm shadow-2xl relative group overflow-hidden">
                 <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary-cyan/50 to-transparent" />
                 <div className="bg-white/[0.02] px-4 sm:px-8 py-4 sm:py-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-6 border-b border-white/5 relative z-10">
                   <div>
                     <h2 className="text-base font-black font-headline uppercase tracking-wider flex items-center gap-3 sm:gap-4">
                       <TrendingUp size={20} className="text-primary-cyan" />
-                      {t('Market Index Performance', 'Performance de l\'Indice du Marché')}
+                      {t('LYA Score Evolution', 'Évolution du Score LYA')}
                     </h2>
                     
                   </div>
@@ -471,7 +438,7 @@ export const DashboardView: React.FC<{
                         fontSize={10} 
                         tickLine={false} 
                         axisLine={false}
-                        tickFormatter={(value) => formatPrice(value)}
+                        domain={[0, 1000]}
                         tick={{ fill: '#8E9299', fontWeight: 'bold', letterSpacing: '0.1em' }}
                         dx={-10}
                       />
@@ -487,7 +454,7 @@ export const DashboardView: React.FC<{
                         }}
                         itemStyle={{ color: '#00E0FF', fontSize: '11px', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.1em' }}
                         labelStyle={{ color: '#ffffff40', fontSize: '9px', marginBottom: '8px', textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: '0.2em' }}
-                        formatter={(value: number) => [formatPrice(value), t('Index Value', 'Valeur de l\'Indice')]}
+                        formatter={(value: number) => [`${value}/1000`, t('LYA Score', 'Score LYA')]}
                       />
                       <Area 
                         type="monotone" 
@@ -546,7 +513,7 @@ export const DashboardView: React.FC<{
                         <div className="flex items-center gap-4">
                           <div className="text-right">
                             <div className={`text-[11px] sm:text-sm font-mono font-black ${contract.growth >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
-                              {formatPrice(contract.unitValue)}
+                              {contract.totalScore || 750}/1000
                             </div>
                             <div className={`text-[11px] font-black opacity-60 mt-0.5 ${contract.growth >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
                               {contract.growth >= 0 ? '+' : ''}{contract.growth}%
@@ -621,7 +588,7 @@ export const DashboardView: React.FC<{
                         <div className="flex items-center gap-4">
                           <div className="text-right">
                             <div className={`text-[11px] sm:text-sm font-mono font-black ${contract.growth >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
-                              {formatPrice(contract.unitValue)}
+                              {contract.totalScore || 750}/1000
                             </div>
                             <div className={`text-[11px] font-black opacity-60 mt-0.5 ${contract.growth >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
                               {contract.growth >= 0 ? '+' : ''}{contract.growth}%
@@ -716,7 +683,7 @@ export const DashboardView: React.FC<{
               <div className="bg-white/[0.02] px-8 py-6 flex justify-between items-center border-b border-white/5">
                 <h2 className="text-base font-black font-headline uppercase tracking-wider flex items-center gap-4">
                   <RefreshCw size={16} className="text-primary-cyan animate-spin-slow" />
-                  {t('Recent Exchange Activity', 'Activité d\'Échange Récente')}
+                  {t('Recent Certification Activity', 'Activité de Certification Récente')}
                 </h2>
                 <div className="flex items-center gap-3">
                   <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
@@ -725,8 +692,7 @@ export const DashboardView: React.FC<{
               </div>
               <div className="p-8 space-y-4">
                 {[...Array(visibleActivities)].map((_, i) => {
-                  const usdVal = 12480 + (i * 150);
-                  const lyaVal = (usdVal / LYA_UNIT_VALUE).toFixed(2);
+                  const scoreDelta = 8 + (i * 3);
                   return (
                     <motion.div 
                       key={i}
@@ -736,19 +702,19 @@ export const DashboardView: React.FC<{
                       className="flex items-center justify-between p-5 bg-surface-dim/30 border border-white/5 rounded-sm hover:bg-white/[0.02] transition-all group"
                     >
                       <div className="flex items-center gap-6">
-                        <div className={`w-12 h-12 flex items-center justify-center rounded-sm ${i % 2 === 0 ? 'bg-emerald-400/10 text-emerald-400' : 'bg-red-400/10 text-red-400'} border border-white/5 shadow-inner`}>
-                          {i % 2 === 0 ? <ArrowUpRight size={18} /> : <ArrowDownLeft size={18} />}
+                        <div className={`w-12 h-12 flex items-center justify-center rounded-sm ${i % 2 === 0 ? 'bg-emerald-400/10 text-emerald-400' : 'bg-primary-cyan/10 text-primary-cyan'} border border-white/5 shadow-inner`}>
+                          {i % 2 === 0 ? <ArrowUpRight size={18} /> : <Award size={18} />}
                         </div>
                         <div>
                           <div className="text-xs font-black uppercase tracking-wider text-on-surface group-hover:text-primary-cyan transition-colors">
-                            {i % 2 === 0 ? t('Professional Acquisition', 'Acquisition Professionnelle') : t('Market Transfer', 'Transfert de Marché')}
+                            {i % 2 === 0 ? t('Milestone Validated', 'Jalon Validé') : t('Professional Review Completed', 'Revue Professionnelle Complétée')}
                           </div>
-                          <div className="text-[11px] text-on-surface-variant uppercase tracking-[0.2em] font-bold opacity-40 mt-1">TX-{Math.random().toString(16).slice(2, 8).toUpperCase()}</div>
+                          <div className="text-[11px] text-on-surface-variant uppercase tracking-[0.2em] font-bold opacity-40 mt-1">REG-{Math.random().toString(16).slice(2, 8).toUpperCase()}</div>
                         </div>
                       </div>
                       <div className="text-right">
-                        <div className="text-sm font-mono font-black text-primary-cyan">{lyaVal} LYA</div>
-                        <div className="text-[10px] text-on-surface-variant font-bold opacity-40 mt-1">{formatPrice(usdVal)}</div>
+                        <div className="text-sm font-mono font-black text-primary-cyan">+{scoreDelta} PTS</div>
+                        <div className="text-[10px] text-on-surface-variant font-bold opacity-40 mt-1">{t('LYA Score', 'Score LYA')}</div>
                       </div>
                     </motion.div>
                   );
@@ -816,7 +782,7 @@ export const DashboardView: React.FC<{
                       }}
                       itemStyle={{ color: '#00E0FF', fontSize: '11px', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.1em' }}
                       labelStyle={{ color: '#ffffff40', fontSize: '9px', marginBottom: '8px', textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: '0.2em' }}
-                      formatter={(value: number) => [`${value}%`, t('Market Share', 'Part de Marché')]}
+                      formatter={(value: number) => [`${value}%`, t('Registry Share', 'Part du Registre')]}
                     />
                     <Bar dataKey="value" radius={[2, 2, 0, 0]} barSize={35}>
                       {[0, 1, 2, 3, 4, 5].map((entry, index) => (
@@ -888,7 +854,7 @@ export const DashboardView: React.FC<{
               <div className="space-y-3 py-6 text-center">
                 <div className="w-8 h-8 border-2 border-primary-cyan border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
                 <p className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant animate-pulse">
-                  {t('RETRIEVING LATEST WORLD berita INDICES...', 'RECUPERATION DES INDICES CRÉATIFS MONDIAUX...')}
+                  {t('RETRIEVING LATEST GLOBAL CREATIVE INDICES...', 'RECUPERATION DES INDICES CRÉATIFS MONDIAUX...')}
                 </p>
               </div>
             ) : (
