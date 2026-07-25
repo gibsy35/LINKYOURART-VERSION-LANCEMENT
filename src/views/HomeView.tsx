@@ -1540,7 +1540,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
               </div>
             </div>
             <div>
-              <h3 className="text-3xl font-black font-headline uppercase tracking-[0.2em] mb-4">{t('home.standard.title', 'The LYA')} <span className="text-white">{t('home.standard.title_cyan', 'Score Standard')</span></h3>
+              <h3 className="text-3xl font-black font-headline uppercase tracking-[0.2em] mb-4">{t('home.standard.title', 'The LYA')} <span className="text-white">{t('home.standard.title_cyan', 'Score Standard')}</span></h3>
               <p className="text-on-surface-variant text-lg leading-relaxed opacity-80 text-justify">
                 {t('home.standard.desc', 'LinkYourArt introduces the unique quality certification standard for the creative market. The LYA Score — from 0 to 1000 points — combines algorithmic analysis and expert committee review to provide the only objective, transparent and public measure of creative quality.')}
               </p>
