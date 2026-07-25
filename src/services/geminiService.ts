@@ -91,7 +91,8 @@ export const fetchRealtimeNews = async (language = 'EN') => {
     if (!response.ok) {
       throw new Error(`Failed with status ${response.status}`);
     }
-    return await response.json();
+    const data = await response.json();
+    return Array.isArray(data) ? data : (data?.news || null);
   } catch (error) {
     console.error("Realtime news fetch failed:", error);
     return null;
