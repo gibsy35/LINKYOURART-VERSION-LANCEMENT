@@ -400,7 +400,7 @@ export const DashboardView: React.FC<{
                         <h3 className="text-3xl font-black font-mono text-on-surface tracking-tighter">
                           {stat.isCurrency === false
                             ? <>{stat.value}{stat.suffix || ''}</>
-                            : (typeof stat.value === 'number' ? formatPrice(stat.value) : stat.value)
+                            : stat.value
                           }
                         </h3>
                       </div>
@@ -546,7 +546,7 @@ export const DashboardView: React.FC<{
                         <div className="flex items-center gap-4">
                           <div className="text-right">
                             <div className={`text-[11px] sm:text-sm font-mono font-black ${contract.growth >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
-                              {contract.scoreLYA || contract.scoreLya || 650}/1000
+                              {contract.scoreLYA || contract.totalScore || 650}/1000
                             </div>
                             <div className="text-[11px] font-black opacity-50 mt-0.5 text-white/50 uppercase tracking-widest">
                               LYA SCORE
@@ -621,7 +621,7 @@ export const DashboardView: React.FC<{
                         <div className="flex items-center gap-4">
                           <div className="text-right">
                             <div className={`text-[11px] sm:text-sm font-mono font-black ${contract.growth >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
-                              {contract.scoreLYA || contract.scoreLya || 650}/1000
+                              {contract.scoreLYA || contract.totalScore || 650}/1000
                             </div>
                             <div className="text-[11px] font-black opacity-50 mt-0.5 text-white/50 uppercase tracking-widest">
                               LYA SCORE
@@ -725,8 +725,7 @@ export const DashboardView: React.FC<{
               </div>
               <div className="p-8 space-y-4">
                 {[...Array(visibleActivities)].map((_, i) => {
-                  const usdVal = 12480 + (i * 150);
-                  const lyaVal = null; // LYA Unit suspended pending MiCA/SEC approval
+                  const scoreDelta = 8 + (i * 3);
                   return (
                     <motion.div 
                       key={i}
@@ -747,8 +746,8 @@ export const DashboardView: React.FC<{
                         </div>
                       </div>
                       <div className="text-right">
-                        <div className="text-sm font-mono font-black text-primary-cyan/40">{t('Score pending', 'Score en attente')}</div>
-                        <div className="text-[10px] text-on-surface-variant font-bold opacity-40 mt-1">{formatPrice(usdVal)}</div>
+                        <div className="text-sm font-mono font-black text-primary-cyan">+{scoreDelta} PTS</div>
+                        <div className="text-[10px] text-on-surface-variant font-bold opacity-40 mt-1">{t('LYA Score', 'Score LYA')}</div>
                       </div>
                     </motion.div>
                   );

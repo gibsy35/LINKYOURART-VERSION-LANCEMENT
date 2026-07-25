@@ -170,12 +170,14 @@ export const useMarketData = () => {
     const totalCap = contracts.reduce((acc, c) => acc + c.totalValue, 0);
     const totalAvailable = contracts.reduce((acc, c) => acc + (c.availableUnits || 0), 0);
     const avgGrowth = contracts.reduce((acc, c) => acc + c.growth, 0) / contracts.length;
+    const avgScore = contracts.length ? contracts.reduce((acc, c) => acc + (c.totalScore || 0), 0) / contracts.length : 0;
     const totalVolume = totalCap * 0.034; // Simulated volume
     
     return {
       totalCap,
       totalAvailable,
       avgGrowth,
+      avgScore,
       totalVolume,
       lastUpdate
     };

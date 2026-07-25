@@ -8,7 +8,7 @@ import {
 import { CONTRACTS } from '../types';
 import { useTranslation } from '../context/LanguageContext';
 import { useCurrency } from '../context/CurrencyContext';
-import { getStatut } from './mecenat/MecenatShared';
+import { getStatut, getUnitPrice } from './mecenat/MecenatShared';
 import { ResponsiveContainer, AreaChart, Area, Tooltip } from 'recharts';
 
 // ─── TYPES ────────────────────────────────────────────────────────────────────
@@ -139,13 +139,14 @@ const CreativeNetworkWidget: React.FC<{ lang: 'FR' | 'EN' }> = ({ lang }) => {
 
 const SupportSimulatorWidget: React.FC<{ lang: 'FR' | 'EN', formatPrice: (n: number) => string }> = ({ lang, formatPrice }) => {
   const T = (fr: string, en: string) => lang === 'FR' ? fr : en;
-  const [pledge, setPledge] = useState(50);
+  const [units, setUnits] = useState(10);
   const [selectedId, setSelectedId] = useState(CONTRACTS.filter(c => c.status === 'LIVE')[0]?.id || '');
   const contracts = CONTRACTS.filter(c => c.status === 'LIVE');
   const selected = contracts.find(c => c.id === selectedId);
-  const unitPrice = LYA_UNIT_VALUE;
+  const unitPrice = selected ? getUnitPrice(selected) : 50;
   const totalCost = units * unitPrice;
   const statut = getStatut(units);
+  const currentScore = selected?.totalScore || 750;
 
   return (
     <div className="space-y-4">
@@ -160,15 +161,15 @@ const SupportSimulatorWidget: React.FC<{ lang: 'FR' | 'EN', formatPrice: (n: num
       </div>
       <div className="space-y-1.5">
         <div className="flex justify-between">
-          <p className="text-[11px] font-mono text-on-surface-variant/50 uppercase tracking-widest">{T('MONTANT DE SOUTIEN', 'PLEDGE AMOUNT')}</p>
-          <p className="text-[11px] font-black text-primary-cyan">{formatPrice(pledge)}</p>
+          <p className="text-[11px] font-mono text-on-surface-variant/50 uppercase tracking-widest">{T('UNITÉS LYA', 'LYA UNITS')}</p>
+          <p className="text-[11px] font-black text-primary-cyan">{units} {T('unités', 'units')}</p>
         </div>
         <input type="range" min={1} max={500} value={units} onChange={e => setUnits(+e.target.value)} className="w-full h-1 bg-white/10 rounded-full appearance-none cursor-pointer accent-primary-cyan" />
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
         <div className="bg-surface-high/40 border border-white/8 rounded-xl p-3">
           <p className="text-xs font-mono text-on-surface-variant/40 uppercase tracking-widest mb-1">{T('SOUTIEN TOTAL', 'TOTAL PLEDGE')}</p>
-          <p className="text-sm font-black font-mono text-on-surface">{formatPrice(pledge)}</p>
+          <p className="text-sm font-black font-mono text-on-surface">{formatPrice(totalCost)}</p>
         </div>
         <div className="bg-surface-high/40 border border-white/8 rounded-xl p-3">
           <p className="text-xs font-mono text-on-surface-variant/40 uppercase tracking-widest mb-1">{T('STATUT ATTEINT', 'STATUS REACHED')}</p>
@@ -184,7 +185,7 @@ const SupportSimulatorWidget: React.FC<{ lang: 'FR' | 'EN', formatPrice: (n: num
 
 // ─── WIDGET : PROJECTION DE REVENUS ──────────────────────────────────────────
 
-const RevenueProjectionWidget: React.FC<{ lang: 'FR' | 'EN', formatPrice: (n: number) => string }> = ({ lang }) => {
+const RevenueProjectionWidget: React.FC<{ lang: 'FR' | 'EN' }> = ({ lang }) => {
   const T = (fr: string, en: string) => lang === 'FR' ? fr : en;
   const [scenario, setScenario] = useState<'CONSERVATIVE' | 'BALANCED' | 'OPTIMAL'>('BALANCED');
   const base = 620;
