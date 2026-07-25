@@ -318,7 +318,7 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
           </div>
         </div>
 
-        {/* ── $50 REFERENCE VALUATION ANCHOR ──────────────────────────── */}
+        {/* ── LYA SCORE ANCHOR — Unit concept suspended pending MiCA/SEC ── */}
         <div className="flex items-center justify-center gap-6 mb-5 md:mb-10 lg:mb-6 md:mb-10 lg:mb-16">
           <div className="h-px flex-1 bg-gradient-to-r from-transparent to-white/10" />
           <div className="flex items-center gap-4 px-6 py-3 border border-white/10 bg-white/[0.02] flex-wrap">
@@ -327,7 +327,7 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
             </div>
             <div>
               <p className="text-[10px] font-black uppercase tracking-[0.4em] text-white/30">{t('Reference valuation', 'Valorisation de référence')}</p>
-              <p className="text-lg font-black text-white font-mono">{t('Base value', 'Valeur de base')} = <span className="text-primary-cyan">$50.00</span></p>
+              <p className="text-lg font-black text-white font-mono">{t('Certification Score', 'Score de Certification')} = <span className="text-primary-cyan">{t('/ 1000 pts', '/ 1000 pts')}</span></p>
             </div>
             <div className="ml-4 px-3 py-1 bg-emerald-400/10 border border-emerald-400/20">
               <p className="text-[10px] font-black uppercase tracking-widest text-emerald-400">{t('Immutable', 'Immuable')}</p>
@@ -1080,7 +1080,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
                 </p>
                 <div className="p-6 bg-white/5 border-l-4 border-primary-cyan">
                   <p className="text-base text-white opacity-80 leading-relaxed text-justify">
-                    "{t('We do not just finance projects; we create an ecosystem where the quality of a masterpiece is documented, certified, and consultable in real-time through the LYA Score.', 'Nous ne finançons pas seulement des projets ; nous créons un écosystème où la qualité d\'un chef-d\'œuvre est documentée, certifiée et consultable en temps réel grâce au LYA Score.')}"
+                    "{t('We do not just support projects; we create a living ecosystem where the quality of every creative work is scored, certified, and visible to the world — in real time, for everyone.', 'Nous ne soutenons pas seulement des projets ; nous créons un écosystème vivant où la qualité de chaque œuvre créative est scorée, certifiée et visible par tous — en temps réel, pour chacun.')}"
                   </p>
                 </div>
               </div>
@@ -1217,7 +1217,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
                 <tr>
                   <td className="p-6 font-headline font-bold text-white text-sm uppercase tracking-wider">{t('Accessibility', 'Accessibilité')}</td>
                   <td className="p-6 text-sm text-white font-medium bg-primary-cyan/[0.02] border-x border-white/10">
-                    <span className="text-primary-cyan font-black block mb-1">✓ {t('Open Certification, Support from $50', 'Certification Ouverte, Soutien dès $50')}</span>
+                    <span className="text-primary-cyan font-black block mb-1">✓ {t('Open Certification, Free to Explore', 'Certification Ouverte, Accessible à tous')}</span>
                     <p className="text-xs text-white/70 leading-relaxed">{t('Democratizing creative quality certification across all sectors: music, film, fashion, gaming, architecture, design and more.', 'Démocratisation de la certification créative pour tous les secteurs : musique, cinéma, mode, jeux vidéo, architecture, design et bien plus.')}</p>
                   </td>
                   <td className="p-6 text-xs text-white/40 leading-relaxed">
@@ -1287,9 +1287,23 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
               <Users size={24} />
             </div>
             <h3 className="text-xl font-black font-headline uppercase tracking-widest mb-4">{t('home.pillars.creators.title', 'Creators')}</h3>
-            <p className="text-on-surface-variant text-sm leading-relaxed opacity-70 text-justify">
-              {t('The heart of the ecosystem. Creative works are indexed into Certified Creative Contracts, offering future contractual rights to fuel their growth while keeping full creative control.', 'Le cœur de l\'écosystème. Les créations sont indexées en Contrats Créatifs Certifiés, offrant des droits contractuels futurs pour alimenter leur croissance tout en gardant le contrôle créatif.')}
+            <p className="text-on-surface-variant text-sm leading-relaxed opacity-70 text-justify mb-4">
+              {t('The heart of the ecosystem. Submit your project, receive a certified LYA Score, and build your creative reputation on the public registry — with full creative control.', 'Le cœur de l\'écosystème. Soumettez votre projet, obtenez un Score LYA certifié, et construisez votre réputation créative sur le registre public — en gardant le contrôle total.')}
             </p>
+            <ul className="space-y-2 text-xs text-left border-t border-primary-cyan/10 pt-4">
+              <li className="flex items-start gap-2 text-on-surface-variant/80">
+                <span className="text-primary-cyan shrink-0">✓</span>
+                <span>{language === 'FR' ? 'Obtenir un Score LYA certifié sur 1000 points, visible publiquement' : 'Receive a certified LYA Score out of 1000, publicly visible'}</span>
+              </li>
+              <li className="flex items-start gap-2 text-on-surface-variant/80">
+                <span className="text-primary-cyan shrink-0">✓</span>
+                <span>{language === 'FR' ? 'Chaque jalon (exposition, prix, contrat signé) fait progresser votre score automatiquement' : 'Every milestone (exhibition, award, signed deal) automatically boosts your score'}</span>
+              </li>
+              <li className="flex items-start gap-2 text-on-surface-variant/80">
+                <span className="text-primary-cyan shrink-0">✓</span>
+                <span>{language === 'FR' ? 'Attirer des mécènes, professionnels et partenaires grâce à un profil certifié crédible' : 'Attract patrons, professionals and partners through a credible certified profile'}</span>
+              </li>
+            </ul>
           </div>
 
           <div className="bg-surface-low border border-white/5 p-8 rounded-sm relative overflow-hidden group hover:border-accent-gold/30 transition-all">
@@ -1327,9 +1341,23 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
               <ShieldCheck size={24} />
             </div>
             <h3 className="text-xl font-black font-headline uppercase tracking-widest mb-4">{t('home.pillars.professionals.title', 'Professionals')}</h3>
-            <p className="text-on-surface-variant text-sm leading-relaxed opacity-70 text-justify">
-              {t('The guarantors of LYA certification. A network of certified validators assess each creation across the 5 LYA pillars, ensuring every score reflects genuine artistic and commercial integrity.', 'Les garants de la certification LYA. Un réseau de validateurs certifiés évalue chaque création sur les 5 piliers LYA, garantissant que chaque score reflète une intégrité artistique et commerciale authentique.')}
+            <p className="text-on-surface-variant text-sm leading-relaxed opacity-70 text-justify mb-4">
+              {t('The guarantors of LYA certification. A network of certified validators assess each creation across the 5 LYA pillars, ensuring every score reflects genuine artistic and creative integrity.', 'Les garants de la certification LYA. Un réseau de validateurs certifiés évalue chaque création sur les 5 piliers LYA, garantissant que chaque score reflète une intégrité artistique et créative authentique.')}
             </p>
+            <ul className="space-y-2 text-xs text-left border-t border-emerald-400/10 pt-4">
+              <li className="flex items-start gap-2 text-on-surface-variant/80">
+                <span className="text-emerald-400 shrink-0">✓</span>
+                <span>{language === 'FR' ? 'Évaluer des projets sur les 5 piliers LYA et obtenir un badge de validateur certifié' : 'Evaluate projects on the 5 LYA pillars and earn a certified validator badge'}</span>
+              </li>
+              <li className="flex items-start gap-2 text-on-surface-variant/80">
+                <span className="text-emerald-400 shrink-0">✓</span>
+                <span>{language === 'FR' ? 'Accès prioritaire aux projets à fort potentiel avant leur diffusion publique' : 'Priority access to high-potential projects before public release'}</span>
+              </li>
+              <li className="flex items-start gap-2 text-on-surface-variant/80">
+                <span className="text-emerald-400 shrink-0">✓</span>
+                <span>{language === 'FR' ? 'Renforcer votre visibilité et crédibilité dans l\'écosystème créatif LYA' : 'Strengthen your visibility and credibility in the LYA creative ecosystem'}</span>
+              </li>
+            </ul>
           </div>
 
           <div className="bg-surface-low border border-white/5 p-8 rounded-sm relative overflow-hidden group hover:border-primary-cyan/30 transition-all">
@@ -1338,9 +1366,23 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
               <Eye size={24} />
             </div>
             <h3 className="text-xl font-black font-headline uppercase tracking-widest mb-4">{t('home.pillars.public.title', 'The Public')}</h3>
-            <p className="text-on-surface-variant text-sm leading-relaxed opacity-70 text-justify">
+            <p className="text-on-surface-variant text-sm leading-relaxed opacity-70 text-justify mb-4">
               {t('Discover the creations of tomorrow. Explore the registry, follow the creative journey and contribute to the growth of the works you believe in.', 'Découvrez les créations de demain. Explorez le registre, suivez le parcours créatif et contribuez à la croissance des œuvres en lesquelles vous croyez.')}
             </p>
+            <ul className="space-y-2 text-xs text-left border-t border-primary-cyan/10 pt-4">
+              <li className="flex items-start gap-2 text-on-surface-variant/80">
+                <span className="text-primary-cyan shrink-0">✓</span>
+                <span>{language === 'FR' ? 'Accès gratuit au registre public et aux scores LYA de tous les projets' : 'Free access to the public registry and LYA Scores of all projects'}</span>
+              </li>
+              <li className="flex items-start gap-2 text-on-surface-variant/80">
+                <span className="text-primary-cyan shrink-0">✓</span>
+                <span>{language === 'FR' ? 'Suivre l\'évolution d\'un projet et recevoir des alertes score en temps réel' : 'Follow a project\'s journey and receive real-time score alerts'}</span>
+              </li>
+              <li className="flex items-start gap-2 text-on-surface-variant/80">
+                <span className="text-primary-cyan shrink-0">✓</span>
+                <span>{language === 'FR' ? 'Voter pour soutenir un projet et voir son score communautaire progresser' : 'Vote to support a project and watch its community score rise'}</span>
+              </li>
+            </ul>
           </div>
         </div>
 
@@ -1498,9 +1540,9 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
               </div>
             </div>
             <div>
-              <h3 className="text-3xl font-black font-headline uppercase tracking-[0.2em] mb-4">{t('home.standard.title', 'The LYA')} <span className="text-white">{t('home.standard.title_cyan', 'Unit Standard')}</span></h3>
+              <h3 className="text-3xl font-black font-headline uppercase tracking-[0.2em] mb-4">{t('home.standard.title', 'The LYA')} <span className="text-white">{t('home.standard.title_cyan', 'Score Standard')</span></h3>
               <p className="text-on-surface-variant text-lg leading-relaxed opacity-80 text-justify">
-                {t('home.standard.desc', 'LinkYourArt introduces the unique certification standard for the creative market. Each LYA Unit represents a fixed reference price of $50 — non-negotiable, non-speculative. This standard, combining algorithmic analysis and expert committee review, provides the only objective measure of creative quality.')}
+                {t('home.standard.desc', 'LinkYourArt introduces the unique quality certification standard for the creative market. The LYA Score — from 0 to 1000 points — combines algorithmic analysis and expert committee review to provide the only objective, transparent and public measure of creative quality.')}
               </p>
             </div>
           </div>
@@ -1598,3 +1640,4 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
   );
 };
 // cache bust Wed May 27 04:22:53 UTC 2026
+
