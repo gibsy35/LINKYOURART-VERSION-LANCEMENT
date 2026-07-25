@@ -462,7 +462,7 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
                 </div>
                 <div className={`border rounded-xl p-2.5 ${up ? 'bg-emerald-400/10 border-emerald-400/20' : 'bg-rose-400/10 border-rose-400/20'}`}>
                   <p className="text-[8px] text-white/40 uppercase tracking-widest mb-0.5">{t('Progress','Progression')}</p>
-                  <p className={`text-sm font-black ${up ? 'text-emerald-400' : 'text-rose-400'}`}>{up ? '+' : ''}{proj?.growth || 14.2}%</p>
+                  <p className={`text-sm font-black ${up ? 'text-emerald-400' : 'text-rose-400'}`}>{up ? '+' : ''}{Math.round(proj?.growth || 14)} {t('pts','pts')}</p>
                 </div>
               </div>
 
@@ -523,7 +523,7 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
                 <div className="text-right shrink-0">
                   <p className="text-[9px] font-black text-accent-gold">{t('Score','Score')}</p>
                   <p className="text-xs font-black text-accent-gold">{item.proj?.totalScore || 0}/1000</p>
-                  <p className={`text-[8px] font-black ${item.up ? 'text-emerald-400' : 'text-rose-400'}`}>{item.up ? '+' : ''}{item.proj?.growth || 0}%</p>
+                  <p className={`text-[8px] font-black ${item.up ? 'text-emerald-400' : 'text-rose-400'}`}>{item.up ? '+' : ''}{Math.round(item.proj?.growth || 0)} {t('pts','pts')}</p>
                 </div>
               </motion.div>
             ))}
@@ -684,9 +684,9 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
             </div>
             <div className="p-4 space-y-3">
               {[
-                { label: CONTRACTS[0]?.name || 'DIGITAL HORIZONS', price: `$${(50*(1+14.2/100)).toFixed(2)}`, change: '+14.2%', details: t('Milestone completed','Jalon complété'), up: true },
-                { label: CONTRACTS[5]?.name || 'CHRONICLES', price: `$${(50*(1-28.4/100)).toFixed(2)}`, change: '-28.4%', details: t('Audit updated','Audit mis à jour'), up: false },
-                { label: CONTRACTS[2]?.name || 'ART GÉNÉRATIF', price: `$${(50*(1+25.8/100)).toFixed(2)}`, change: '+25.8%', details: t('Milestone 2 secured','Jalon 2 sécurisé'), up: true }
+                { label: CONTRACTS[0]?.name || 'DIGITAL HORIZONS', score: `${CONTRACTS[0]?.totalScore || 892}/1000`, change: '+18 pts', details: t('Milestone completed','Jalon complété'), up: true },
+                { label: CONTRACTS[5]?.name || 'CHRONICLES', score: `${CONTRACTS[5]?.totalScore || 700}/1000`, change: '-24 pts', details: t('Audit updated','Audit mis à jour'), up: false },
+                { label: CONTRACTS[2]?.name || 'ART GÉNÉRATIF', score: `${CONTRACTS[2]?.totalScore || 650}/1000`, change: '+31 pts', details: t('Milestone 2 secured','Jalon 2 sécurisé'), up: true }
               ].map((item, i) => (
                 <motion.div
                   key={i}
@@ -714,7 +714,7 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
                       >
                         {item.change}
                       </motion.div>
-                      <div className="text-xs text-white/30 uppercase font-black">{item.price}</div>
+                      <div className="text-xs text-white/30 uppercase font-black">{t('Score','Score')} {item.score}</div>
                     </div>
                   </div>
                   {i === 0 && (
@@ -735,8 +735,8 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
           <div className="w-full max-w-[320px] md:max-w-full max-w-sm space-y-3 md:space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {[
-                { title: CONTRACTS[0]?.name || 'Digital Horizons', score: String(CONTRACTS[0]?.totalScore || 884), roi: `+${CONTRACTS[0]?.growth || 14.2}%`, color: 'text-indigo-400', bg: 'bg-indigo-500/10', up: true },
-                { title: CONTRACTS[5]?.name || 'Chronicles', score: String(CONTRACTS[5]?.totalScore || 762), roi: `${CONTRACTS[5]?.growth || -28.4}%`, color: 'text-rose-400', bg: 'bg-rose-500/10', up: false }
+                { title: CONTRACTS[0]?.name || 'Digital Horizons', score: String(CONTRACTS[0]?.totalScore || 892), roi: '+18 pts', color: 'text-indigo-400', bg: 'bg-indigo-500/10', up: true },
+                { title: CONTRACTS[5]?.name || 'Chronicles', score: String(CONTRACTS[5]?.totalScore || 700), roi: '-24 pts', color: 'text-rose-400', bg: 'bg-rose-500/10', up: false }
               ].map((p, i) => (
                 <motion.div
                   key={i}

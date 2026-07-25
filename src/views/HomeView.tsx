@@ -1061,7 +1061,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
                 </p>
                 <div className="p-6 bg-white/5 border-l-4 border-primary-cyan">
                   <p className="text-base text-white opacity-80 leading-relaxed text-justify">
-                    "{t('We do not just finance projects; we create a liquid ecosystem where the value of a masterpiece is documented, verified, and verifiable in real-time.', 'Nous ne finançons pas seulement des projets ; nous créons un écosystème liquide où la valeur d\'un chef-d\'œuvre est documentée, vérifiée et consultable en temps réel.')}"
+                    "{t('We do not just finance projects; we create an ecosystem where the quality of a masterpiece is documented, certified, and consultable in real-time through the LYA Score.', 'Nous ne finançons pas seulement des projets ; nous créons un écosystème où la qualité d\'un chef-d\'œuvre est documentée, certifiée et consultable en temps réel grâce au LYA Score.')}"
                   </p>
                 </div>
               </div>
@@ -1279,9 +1279,27 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
               <TrendingUp size={24} />
             </div>
             <h3 className="text-xl font-black font-headline uppercase tracking-widest mb-4">{language === 'FR' ? 'PARTENAIRES CRÉATIFS' : 'CREATIVE PARTNERS'}</h3>
-            <p className="text-on-surface-variant text-sm leading-relaxed opacity-70 text-justify">
+            <p className="text-on-surface-variant text-sm leading-relaxed opacity-70 text-justify mb-4">
               {language === 'FR' ? 'Soutenez la prochaine génération de projets créatifs. Les Partenaires Créatifs suivent les projets certifiés et reçoivent des contreparties de reconnaissance en soutenant leur réussite via un mécénat de reconnaissance.' : 'Support the next generation of creative projects. Creative Partners follow certified projects and receive recognition-based considerations by supporting their success through recognition-based patronage.'}
             </p>
+            <ul className="space-y-2 text-xs text-left border-t border-accent-gold/10 pt-4">
+              <li className="flex items-start gap-2 text-on-surface-variant/80">
+                <span className="text-accent-gold shrink-0">✓</span>
+                <span>{language === 'FR' ? 'Nom cité au générique ou dans les crédits de l\'œuvre' : 'Name credited in the work\'s credits or acknowledgements'}</span>
+              </li>
+              <li className="flex items-start gap-2 text-on-surface-variant/80">
+                <span className="text-accent-gold shrink-0">✓</span>
+                <span>{language === 'FR' ? 'Accès en avant-première aux contenus et sorties' : 'Early access to previews and releases'}</span>
+              </li>
+              <li className="flex items-start gap-2 text-on-surface-variant/80">
+                <span className="text-accent-gold shrink-0">✓</span>
+                <span>{language === 'FR' ? 'Certificat de mécénat numérique et badge de profil' : 'Digital patronage certificate and profile badge'}</span>
+              </li>
+              <li className="flex items-start gap-2 text-on-surface-variant/80">
+                <span className="text-accent-gold shrink-0">✓</span>
+                <span>{language === 'FR' ? 'Invitations à des événements ou avant-premières exclusives' : 'Invitations to exclusive events or premieres'}</span>
+              </li>
+            </ul>
           </div>
 
           <div className="bg-surface-low border border-white/5 p-8 rounded-sm relative overflow-hidden group hover:border-emerald-400/30 transition-all">
