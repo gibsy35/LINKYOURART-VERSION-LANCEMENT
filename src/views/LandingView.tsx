@@ -467,7 +467,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                   {/* ── PHRASE SIGNATURE ── */}
                   <motion.p initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, delay: 0.5 }}
                     className="text-xl md:text-2xl xl:text-3xl font-black text-white italic tracking-tight mb-6 border-l-4 border-primary-cyan pl-5">
-                    "{t('Your work has value. We certify it. Patrons recognize it.', 'Votre travail a une valeur. Nous la certifions. Des mécènes la reconnaissent.')}"
+                    "{t('Your creativity has value. We certify it. Patrons recognize it.', 'Votre créativité a une valeur. Nous la certifions. Des mécènes la reconnaissent.')}"
                   </motion.p>
 
                   <p className="text-white/70 text-base md:text-lg xl:text-xl font-medium leading-relaxed max-w-2xl">
@@ -699,7 +699,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                     </div>
                   </div>
                   <p className="text-white/30 text-sm font-medium leading-relaxed max-w-xs">
-                    {t("Your work has value. We certify it. Patrons recognize it.", "Votre travail a une valeur. Nous la certifions. Des mécènes la reconnaissent.")}
+                    {t("Your creativity has value. We certify it. Patrons recognize it.", "Votre créativité a une valeur. Nous la certifions. Des mécènes la reconnaissent.")}
                   </p>
                 </div>
                 <div className="space-y-6 md:w-1/3">
