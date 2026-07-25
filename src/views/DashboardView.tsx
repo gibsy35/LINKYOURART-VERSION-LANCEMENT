@@ -250,9 +250,9 @@ export const DashboardView: React.FC<{
         targetProject: item.impact?.targetProject || ''
       }));
       setNews(formatted);
-      onNotify?.(t('REAL-TIME NEWS AND MARKET DATA SYNCED SUCCESSFULLY.', 'NEWS EN TEMPS RÉEL ET DONNÉES DU MARCHÉ SYNCHRONISÉES AVEC SUCCÈS.'));
+      onNotify?.(t('REGISTRY DATA SYNCED SUCCESSFULLY.', 'DONNÉES DU REGISTRE SYNCHRONISÉES AVEC SUCCÈS.'));
     } else {
-      onNotify?.(t('MARKET DATA SYNCED SUCCESSFULLY.', 'DONNÉES DU MARCHÉ SYNCHRONISÉES AVEC SUCCÈS.'));
+      onNotify?.(t('REGISTRY DATA SYNCED SUCCESSFULLY.', 'DONNÉES DU REGISTRE SYNCHRONISÉES AVEC SUCCÈS.'));
     }
     setIsRefreshing(false);
     setIsLoadingNews(false);
@@ -381,10 +381,10 @@ export const DashboardView: React.FC<{
           { activeTab === 'overview' && (
           <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
             {[
-              { label: t('Supported Projects', 'Projets Soutenus'), value: activeContractsCount || 0, trend: t('Active', 'Actifs'), color: 'border-primary-cyan', icon: <Layers size={16} />, tooltip: t('The number of certified creative projects you are supporting on the LYA Registry.', 'Le nombre de projets créatifs certifiés que vous soutenez sur le Registre LYA.') },
-              { label: t('Average LYA Score', 'Score LYA Moyen'), value: marketStats.avgScore ? Math.round(marketStats.avgScore) : 0, trend: t('/ 1000 pts', '/ 1000 pts'), color: 'border-primary-cyan', icon: <TrendingUp size={16} />, tooltip: t('The average LYA Score across all certified projects you follow. Reflects overall quality on the registry.', 'Le Score LYA moyen de tous les projets certifiés que vous suivez. Reflète la qualité globale sur le registre.') },
-              { label: t('Certified Projects', 'Projets Certifiés'), value: activeContractsCount || 0, trend: t('On Registry', 'Au Registre'), color: 'border-white/20', icon: <LayoutGrid size={16} />, tooltip: t('The number of unique creative projects certified on the LYA Registry that you are following.', 'Le nombre de projets créatifs uniques certifiés sur le Registre LYA que vous suivez.') },
-              { label: t('Community Confidence', 'Confiance Communautaire'), value: marketSentiment.label, trend: `${marketSentiment.value}%`, color: 'border-accent-gold', icon: <ActivityIcon size={16} />, tooltip: t('Real-time analysis of community and patron confidence in certified projects on the registry.', 'Analyse en temps réel de la confiance de la communauté et des mécènes envers les projets certifiés du registre.') }
+              { label: t('Supported Projects', 'Projets Soutenus'), value: activeContractsCount || 0, isCurrency: false, trend: t('Active', 'Actifs'), color: 'border-primary-cyan', icon: <Layers size={16} />, suffix: '', tooltip: t('The number of certified creative projects you are supporting on the LYA Registry.', 'Le nombre de projets créatifs certifiés que vous soutenez sur le Registre LYA.') },
+              { label: t('Average LYA Score', 'Score LYA Moyen'), value: marketStats.avgScore ? Math.round(marketStats.avgScore) : '—', isCurrency: false, trend: t('/ 1000 pts', '/ 1000 pts'), color: 'border-primary-cyan', icon: <TrendingUp size={16} />, suffix: ' pts', tooltip: t('The average LYA Score across all certified projects you follow. Reflects overall quality on the registry.', 'Le Score LYA moyen de tous les projets certifiés que vous suivez. Reflète la qualité globale sur le registre.') },
+              { label: t('Certified Projects', 'Projets Certifiés'), value: activeContractsCount || 0, isCurrency: false, trend: t('On Registry', 'Au Registre'), color: 'border-white/20', icon: <LayoutGrid size={16} />, suffix: '', tooltip: t('The number of unique creative projects certified on the LYA Registry that you are following.', 'Le nombre de projets créatifs uniques certifiés sur le Registre LYA que vous suivez.') },
+              { label: t('Community Confidence', 'Confiance Communautaire'), value: marketSentiment.label, isCurrency: false, trend: `${marketSentiment.value}%`, color: 'border-accent-gold', icon: <ActivityIcon size={16} />, suffix: '', tooltip: t('Real-time analysis of community and patron confidence in certified projects on the registry.', 'Analyse en temps réel de la confiance de la communauté et des mécènes envers les projets certifiés du registre.') }
             ].map((stat, i) => (
                 <div key={i} className="relative group">
                   <div className="absolute inset-0 bg-surface-low/30 backdrop-blur-2xl border border-white/10 rounded-sm group-hover:border-primary-cyan/30 transition-all duration-500" />
@@ -401,7 +401,10 @@ export const DashboardView: React.FC<{
                     <div>
                       <div className="flex items-baseline gap-3">
                         <h3 className="text-3xl font-black font-mono text-on-surface tracking-tighter">
-                          {typeof stat.value === 'number' ? formatPrice(stat.value) : stat.value}
+                          {stat.isCurrency === false
+                            ? <>{stat.value}{stat.suffix || ''}</>
+                            : (typeof stat.value === 'number' ? formatPrice(stat.value) : stat.value)
+                          }
                         </h3>
                       </div>
                       <div className="mt-2 flex items-center gap-2">
@@ -427,7 +430,7 @@ export const DashboardView: React.FC<{
                   <div>
                     <h2 className="text-base font-black font-headline uppercase tracking-wider flex items-center gap-3 sm:gap-4">
                       <TrendingUp size={20} className="text-primary-cyan" />
-                      {t('Market Index Performance', 'Performance de l\'Indice du Marché')}
+                      {t('LYA Score Evolution', 'Évolution des Scores LYA')}
                     </h2>
                     
                   </div>
@@ -471,7 +474,7 @@ export const DashboardView: React.FC<{
                         fontSize={10} 
                         tickLine={false} 
                         axisLine={false}
-                        tickFormatter={(value) => formatPrice(value)}
+                        tickFormatter={(value) => `${value}`}
                         tick={{ fill: '#8E9299', fontWeight: 'bold', letterSpacing: '0.1em' }}
                         dx={-10}
                       />
@@ -487,7 +490,7 @@ export const DashboardView: React.FC<{
                         }}
                         itemStyle={{ color: '#00E0FF', fontSize: '11px', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.1em' }}
                         labelStyle={{ color: '#ffffff40', fontSize: '9px', marginBottom: '8px', textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: '0.2em' }}
-                        formatter={(value: number) => [formatPrice(value), t('Index Value', 'Valeur de l\'Indice')]}
+                        formatter={(value: number) => [`${value} pts`, t('LYA Score', 'Score LYA')]}
                       />
                       <Area 
                         type="monotone" 
