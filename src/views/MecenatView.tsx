@@ -51,8 +51,8 @@ export function MecenatView() {
                   fontSize: "clamp(2.4rem,5.5vw,4.2rem)",
                 }}>
                   {T(
-                    <>SOUTENEZ LES<br />CHEFS-D&apos;ŒUVRE DE DEMAIN<br /><span className="text-primary-cyan">EN UN CLIC</span></>,
-                    <>SUPPORT TOMORROW&apos;S<br />MASTERPIECES,<br /><span className="text-primary-cyan">IN A SINGLE CLICK</span></>
+                    <>DÉCOUVREZ, SUIVEZ,<br />SOUTENEZ<br /><span className="text-primary-cyan">LES CRÉATEURS CERTIFIÉS</span></>,
+                    <>DISCOVER, FOLLOW,<br />SUPPORT<br /><span className="text-primary-cyan">LYA-CERTIFIED CREATORS</span></>
                   )}
                 </h1>
                 <p className="text-on-surface-variant max-w-xl text-sm leading-relaxed opacity-80">
@@ -67,9 +67,6 @@ export function MecenatView() {
                   <div className="bg-surface-low/80 rounded-2xl p-5 text-center space-y-3">
                     <p className="text-xs font-mono tracking-[0.22em] uppercase" style={{ color: 'rgba(251,191,36,0.55)' }}>
                       {T('VALORISATION DE RÉFÉRENCE', 'REFERENCE VALUATION')}
-                    </p>
-                    <p className="font-headline font-black tracking-tighter leading-none text-on-surface text-lg">
-                      LYA <span style={{ color: '#fbbf24' }}>SCORE</span>
                     </p>
                     <p className="font-mono font-black text-2xl text-primary-cyan tracking-tight">
                       $50.00
@@ -121,7 +118,7 @@ export function MecenatView() {
             {T("Aucun projet dans cette catégorie.", "No projects in this category.")}
           </div>
         ) : (
-          <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(320px, 1fr))", gap:"20px" }}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {filteredContracts.map(contract => (
               <ProjectCard
                 key={contract.id}

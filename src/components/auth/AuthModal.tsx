@@ -32,12 +32,12 @@ const ROLE_OPTIONS = [
     bg: 'bg-primary-cyan/10',
   },
   {
-    role: UserRole.INVESTOR,
+    role: UserRole.PATRON,
     icon: TrendingUp,
-    label: 'PARTNER / INVESTOR',
-    labelFr: 'PARTENAIRE / INVESTISSEUR',
-    desc: 'Collectors, investors, creative partners',
-    descFr: 'Collectionneurs, investisseurs, partenaires créatifs',
+    label: 'PATRON',
+    labelFr: 'MÉCÈNE',
+    desc: 'Collectors, patrons, creative partners',
+    descFr: 'Collectionneurs, mécènes, partenaires créatifs',
     color: 'border-yellow-400',
     bg: 'bg-yellow-400/10',
   },
@@ -66,7 +66,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onNotify,
     email,
     displayName,
     role: isAdmin ? UserRole.ADMIN : role,
-    isPro: isAdmin || role === UserRole.PROFESSIONAL || role === UserRole.INVESTOR,
+    isPro: isAdmin || role === UserRole.PROFESSIONAL || role === UserRole.PATRON,
     createdAt: new Date().toISOString(),
     watchlist: [],
     comparisonList: [],
@@ -243,7 +243,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onNotify,
                       </button>
                     ))}
                   </div>
-                  {(selectedRole === UserRole.PROFESSIONAL || selectedRole === UserRole.INVESTOR) && (
+                  {(selectedRole === UserRole.PROFESSIONAL || selectedRole === UserRole.PATRON) && (
                     <p className="text-[9px] text-primary-cyan/70 font-bold mt-2 tracking-widest uppercase">
                       ✓ {t('PRO ACCESS INCLUDED', 'ACCÈS PRO INCLUS')}
                     </p>

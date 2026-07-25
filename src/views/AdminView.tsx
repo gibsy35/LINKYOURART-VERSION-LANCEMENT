@@ -473,14 +473,14 @@ export const AdminView: React.FC<{
     }
   };
 
-  // Publier un projet soumis vers l'Exchange LYA
+  // Publier un projet soumis vers le Registre LYA
   const handlePublishProject = async (submission: any, form: typeof publishForm) => {
     try {
       const totalScore = Math.round((form.scoreAlgo + form.scorePro) / 2);
       const lyaUnit = parseFloat((50 * (1 + form.growth / 100)).toFixed(2));
       const registryIndex = `LYA-${new Date().getFullYear()}-${String(Math.floor(Math.random() * 900) + 100).padStart(3, '0')}`;
 
-      // 1. Publier dans la collection contracts (Exchange)
+      // 1. Publier dans la collection contracts (Registre)
       await setDoc(doc(db, 'contracts', submission.id), {
         id: submission.id,
         name: submission.name,
@@ -517,7 +517,7 @@ export const AdminView: React.FC<{
       // 3. Mettre à jour le state local
       setPendingSubmissions(prev => prev.map(s => s.id === submission.id ? { ...s, status: 'PUBLISHED' } : s));
       setPublishModal(null);
-      onNotify(t(`✦ ${submission.name} publié sur l'Exchange LYA — Score: ${totalScore}/1000`, `✦ ${submission.name} published on LYA Exchange — Score: ${totalScore}/1000`));
+      onNotify(t(`✦ ${submission.name} publié sur le Registre LYA — Score: ${totalScore}/1000`, `✦ ${submission.name} published on the LYA Registry — Score: ${totalScore}/1000`));
     } catch(e: any) {
       console.error('Publish error:', e);
       onNotify(t('Erreur lors de la publication', 'Publication error'));
@@ -671,7 +671,7 @@ export const AdminView: React.FC<{
       const projectRef = doc(db, 'contracts', editingProject.id);
       
       const basePrice = 50.00;
-      const computedUnitVal = parseFloat((basePrice * (1 + (parseFloat(editingProject.growth || 0) / 100))).toFixed(2));
+      const computedUnitVal = basePrice;
       
       await setDoc(projectRef, {
         name: editingProject.name,
@@ -725,7 +725,7 @@ export const AdminView: React.FC<{
     setIsSeeding(true);
     const batch = writeBatch(db);
     const names = ['Jean-Luc Moreau', 'Sarah Wilson', 'Hideo Tanaka', 'Moussa Diouf', 'Hans Müller', 'Emily Brown', 'Carlos Diaz'];
-    const roles = [UserRole.CREATOR, UserRole.INVESTOR, UserRole.PROFESSIONAL];
+    const roles = [UserRole.CREATOR, UserRole.PATRON, UserRole.PROFESSIONAL];
 
     try {
       for (let i = 0; i < 50; i++) {
@@ -981,7 +981,7 @@ export const AdminView: React.FC<{
           >
             <option value="ALL">ALL ROLES</option>
             <option value={UserRole.CREATOR}>CREATORS</option>
-            <option value={UserRole.INVESTOR}>INVESTORS</option>
+            <option value={UserRole.PATRON}>PATRONS</option>
             <option value={UserRole.PROFESSIONAL}>PROFESSIONALS</option>
             <option value="PRO">PRO HUB ONLY</option>
           </select>
@@ -1294,7 +1294,7 @@ export const AdminView: React.FC<{
                               </div>
                               <div>
                                 <span className="text-xs font-semibold text-white/30 uppercase tracking-widest block">{t('OPERATIONAL ROLE', 'RÔLE OPÉRATIONNEL')}</span>
-                                <span className="text-xs font-medium text-white/80 mt-0.5 block">{req.role || 'CHIEF INVESTOR'}</span>
+                                <span className="text-xs font-medium text-white/80 mt-0.5 block">{req.role || 'PATRON'}</span>
                               </div>
                               <div>
                                 <span className="text-xs font-semibold text-white/30 uppercase tracking-widest block">{t('SECURE ENDPOINT URL', 'POINT D\'ACCÈS WEB')}</span>
@@ -1628,7 +1628,7 @@ export const AdminView: React.FC<{
                   <div className="flex items-center justify-between">
                     <div>
                       <h3 className="text-sm font-black text-white uppercase tracking-widest">{t('Project submissions', 'Soumissions de projets')}</h3>
-                      <p className="text-xs text-on-surface-variant/40 mt-1">{t('Validate or reject each project before publishing on LYA Exchange', 'Validez ou refusez chaque projet avant publication sur l\'Exchange LYA')}</p>
+                      <p className="text-xs text-on-surface-variant/40 mt-1">{t('Validate or reject each project before publishing on the LYA Registry', 'Validez ou refusez chaque projet avant publication sur le Registre LYA')}</p>
                     </div>
                     <div className="flex gap-2">
                       <span className="px-3 py-1 bg-amber-500/10 border border-amber-500/20 rounded-lg text-xs font-black text-amber-500">{pendingSubmissions.filter(s => s.status === 'PENDING_VALIDATION').length} {t('pending', 'en attente')}</span>
@@ -1751,7 +1751,7 @@ export const AdminView: React.FC<{
                         </button>
                         <button onClick={() => handlePublishProject(publishModal, publishForm)}
                           className="flex-1 py-3 bg-emerald-400 text-surface-dim text-xs font-black uppercase tracking-widest rounded-xl hover:bg-white transition-all">
-                          ✓ {t('Publish on Exchange', 'Publier sur l\'Exchange')}
+                          ✓ {t('Publish on Registry', 'Publier sur le Registre')}
                         </button>
                       </div>
                     </div>
@@ -1971,10 +1971,10 @@ export const AdminView: React.FC<{
                    </div>
 
                    <div className="p-3.5 bg-black/40 rounded-xl border border-white/5 flex justify-between items-center text-[10px] text-white/60">
-                     <span>{t('CORRESPONDING_UNIT_QUOTE', 'VALEUR RÉELLE SIMULÉE DE L\'UNITÉ LYA')} :</span>
+                     <span>{t('CORRESPONDING_UNIT_QUOTE', 'VALEUR FIXE DE L\'UNITÉ LYA')} :</span>
                      <span className="text-emerald-400 font-black text-xs font-mono leading-none">
-                       ${(50.00 * (1 + (editingProject.growth || 0) / 100)).toFixed(2)}
-                       <span className="text-[9.5px] font-bold text-white/40 ml-1">LYA SPOT</span>
+                       $50.00
+                       <span className="text-[9.5px] font-bold text-white/40 ml-1">FIXE</span>
                      </span>
                    </div>
                    <p className="text-[10px] text-primary-cyan/60 pl-1">

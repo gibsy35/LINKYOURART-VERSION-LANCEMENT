@@ -16,7 +16,7 @@ import {
   ArrowUpRight, ArrowDownRight, Shield, Target, Sparkles, Mail
 } from 'lucide-react';
 
-const unitPrice = (g: number) => LYA_UNIT_VALUE * (1 + g / 100);
+const unitPrice = (_g: number) => LYA_UNIT_VALUE;
 
 const KpiCard: React.FC<{icon:React.ReactNode;label:string;value:string;sub?:string;subColor?:string;color:string}> = ({icon,label,value,sub,subColor='text-emerald-400',color}) => (
   <div className="bg-surface-low/40 border border-white/8 rounded-2xl p-4 space-y-2 hover:border-white/15 transition-all">
@@ -45,7 +45,7 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
   const [messages, setMessages] = useState([
     {from:'Clara Dubois', role:'CREATOR', text:T('Bonjour, avez-vous pu analyser mon dossier ÉPHÉMÉRIS ?','Hello, have you been able to review my EPHEMERIS file?'), time:'09:14', read:true},
     {from:'LYA Platform', role:'SYSTEM', text:T('Nouveau projet soumis en validation : PRJ-2026-051','New project submitted for validation: PRJ-2026-051'), time:'08:45', read:true},
-    {from:'Thomas Bernard', role:'INVESTOR', text:T('Quelle est votre estimation de la Due Diligence pour Nexus ?','What is your Due Diligence estimate for Nexus?'), time:'Hier','read':false},
+    {from:'Thomas Bernard', role:'PATRON', text:T('Quelle est votre estimation de la Due Diligence pour Nexus ?','What is your Due Diligence estimate for Nexus?'), time:'Hier','read':false},
   ]);
   const [projectsShown, setProjectsShown] = useState(3);
 
@@ -334,8 +334,8 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
                 <div className="divide-y divide-white/5">
                   {messages.map((msg,i)=>(
                     <div key={i} onClick={()=>setMessages(prev=>prev.map((m,mi)=>mi===i?{...m,read:true}:m))} className={`flex items-start gap-3 p-4 cursor-pointer transition-all hover:bg-white/3 ${!msg.read?'bg-primary-cyan/3':''}`}>
-                      <div className={`w-9 h-9 rounded-full flex items-center justify-center text-sm shrink-0 ${msg.role==='SYSTEM'?'bg-accent-gold/20 text-accent-gold':msg.role==='INVESTOR'?'bg-emerald-400/20 text-emerald-400':'bg-[#a78bfa]/20 text-[#a78bfa]'}`}>
-                        {msg.role==='SYSTEM'?'⚡':msg.role==='INVESTOR'?'💼':'🎨'}
+                      <div className={`w-9 h-9 rounded-full flex items-center justify-center text-sm shrink-0 ${msg.role==='SYSTEM'?'bg-accent-gold/20 text-accent-gold':msg.role==='PATRON'?'bg-emerald-400/20 text-emerald-400':'bg-[#a78bfa]/20 text-[#a78bfa]'}`}>
+                        {msg.role==='SYSTEM'?'⚡':msg.role==='PATRON'?'💼':'🎨'}
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between gap-2">

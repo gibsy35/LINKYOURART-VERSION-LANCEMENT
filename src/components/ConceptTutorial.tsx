@@ -4,7 +4,8 @@ import {
   X, ChevronRight, ChevronLeft, Zap, Target, Users, 
   TrendingUp, Shield, BarChart3, Layers, Globe, 
   Sparkles, CheckCircle2, Clapperboard, Music, 
-  LineChart as LineChartIcon, Search, Bell, Lock, ShieldCheck
+  LineChart as LineChartIcon, Search, Bell, Lock, ShieldCheck,
+  Flag, AlertTriangle
 } from 'lucide-react';
 import { getSafeImageUrl } from '../utils/image';
 import { useTranslation } from '../context/LanguageContext';
@@ -18,7 +19,7 @@ interface Step {
   glowColor: string;
   icon: React.ReactNode;
   points: string[];
-  illustration: 'welcome' | 'score' | 'creators' | 'investors' | 'professionals' | 'explore' | 'watchlist' | 'invest-smartly' | 'market' | 'security';
+  illustration: 'welcome' | 'score' | 'milestone' | 'creators' | 'investors' | 'professionals' | 'explore' | 'watchlist' | 'invest-smartly' | 'market' | 'security';
 }
 
 const TUTORIAL_STEPS: (t: any) => Step[] = (t) => [
@@ -52,6 +53,20 @@ const TUTORIAL_STEPS: (t: any) => Step[] = (t) => [
   },
   {
     id: 3,
+    title: 'C\'EST QUOI UN JALON ?',
+    description: t('A milestone is a key, verified event in a project\'s life. Some are achievements — an exhibition, a signed contract, an award — and push the LYA Score up. Others are risks or delays — a legal dispute, a missed deadline — and pull it down. The LYA Score always reflects reality, good or bad.', 'Un jalon, c\'est un événement clé et vérifié dans la vie d\'un projet. Certains sont des réussites — une exposition, un contrat signé, un prix remporté — et font avancer le LYA Score. D\'autres sont des risques ou des retards — un litige, un délai non tenu — et le font reculer. Le LYA Score reflète toujours la réalité, en bien comme en mal.'),
+    color: 'text-emerald-400',
+    glowColor: 'rgba(52, 211, 153, 0.3)',
+    icon: <Flag size={48} />,
+    points: [
+      t('A CONCRETE, VERIFIED EVENT IN A PROJECT\'S JOURNEY', 'UN ÉVÉNEMENT CONCRET ET VÉRIFIÉ DANS LE PARCOURS DU PROJET'),
+      t('ACHIEVEMENTS PUSH THE SCORE UP, RISKS & DELAYS PULL IT DOWN', 'LES RÉUSSITES FONT AVANCER LE SCORE, LES RISQUES ET RETARDS LE FONT RECULER'),
+      t('NOT EVERY PROJECT ONLY GOES UP — THE SCORE STAYS HONEST', 'TOUS LES PROJETS NE MONTENT PAS TOUJOURS — LE SCORE RESTE HONNÊTE')
+    ],
+    illustration: 'milestone'
+  },
+  {
+    id: 4,
     title: 'POUR LES CRÉATEURS',
     description: 'Faites certifier et valoriser officiellement votre œuvre par LinkYourArt. Bénéficiez du soutien de mécènes qui croient en votre vision dès le premier jour.',
     color: 'text-emerald-400',
@@ -65,7 +80,7 @@ const TUTORIAL_STEPS: (t: any) => Step[] = (t) => [
     illustration: 'creators'
   },
   {
-    id: 4,
+    id: 5,
     title: 'POUR LES MÉCÈNES',
     description: 'Soutenez les œuvres créatives en lesquelles vous croyez et partagez leurs succès futurs. Simple, accessible, significatif.',
     color: 'text-accent-gold',
@@ -79,7 +94,7 @@ const TUTORIAL_STEPS: (t: any) => Step[] = (t) => [
     illustration: 'investors'
   },
   {
-    id: 5,
+    id: 6,
     title: 'POUR LES PROFESSIONNELS',
     description: t('Join our network of certified validation experts. Evaluate creative works and contribute to the most rigorous quality benchmark in the creative industry.', 'Rejoignez notre réseau d\'experts en validation certifiés. Évaluez des œuvres créatives et contribuez à l\'étalon de qualité le plus rigoureux du secteur.'),
     color: 'text-pink-400',
@@ -93,7 +108,7 @@ const TUTORIAL_STEPS: (t: any) => Step[] = (t) => [
     illustration: 'professionals'
   },
   {
-    id: 6,
+    id: 7,
     title: 'EXPLOREZ LES ŒUVRES',
     description: t('Several ways to discover creative projects across 9+ artistic universes — Music, Film, Visual Art, Fashion, Gaming, Architecture, TV Series, Photography and more.', "Plusieurs façons de découvrir des projets créatifs à travers 9+ univers artistiques — Musique, Cinéma, Art Visuel, Mode, Gaming, Architecture, Séries TV, Photographie et bien d'autres."),
     color: 'text-cyan-400',
@@ -107,7 +122,7 @@ const TUTORIAL_STEPS: (t: any) => Step[] = (t) => [
     illustration: 'explore'
   },
   {
-    id: 7,
+    id: 8,
     title: 'VOTRE WATCHLIST',
     description: 'Suivez les œuvres créatives qui vous importent et ne manquez aucune évolution de leur LYA SCORE.',
     color: 'text-red-400',
@@ -121,7 +136,7 @@ const TUTORIAL_STEPS: (t: any) => Step[] = (t) => [
     illustration: 'watchlist'
   },
   {
-    id: 8,
+    id: 9,
     title: 'ANALYSEZ & COMPAREZ',
     description: 'Utilisez des outils de niveau professionnel pour analyser et comparer les œuvres avant de les soutenir.',
     color: 'text-indigo-400',
@@ -135,7 +150,7 @@ const TUTORIAL_STEPS: (t: any) => Step[] = (t) => [
     illustration: 'invest-smartly'
   },
   {
-    id: 9,
+    id: 10,
     title: 'REGISTRE & ÉCOSYSTÈME',
     description: t('The complete certification registry, tracking every certified project alongside a growing ecosystem — Press & Media, and soon Jobs.', 'Le registre de certification complet, suivant chaque projet certifié au sein d\'un écosystème grandissant — Presse & Médias, et bientôt Jobs.'),
     color: 'text-amber-400',
@@ -149,7 +164,7 @@ const TUTORIAL_STEPS: (t: any) => Step[] = (t) => [
     illustration: 'market'
   },
   {
-    id: 10,
+    id: 11,
     title: 'SÉCURITÉ & CONFIANCE',
     description: 'LinkYourArt est bâti sur des fondations de conformité juridique rigoureuse, protection des données et certification des droits créatifs.',
     color: 'text-emerald-500',
@@ -405,6 +420,87 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
         </div>
       );
 
+    case 'milestone': {
+      const CHECKPOINTS = [
+        { label: t('Project launched', 'Projet lancé'), score: 480, status: 'start' as const },
+        { label: t('Milestone validated', 'Jalon validé'), score: 560, status: 'up' as const },
+        { label: t('Delay declared', 'Retard déclaré'), score: 510, status: 'down' as const },
+        { label: t('Milestone validated', 'Jalon validé'), score: 610, status: 'up' as const },
+        { label: t('Next event', 'Prochain événement'), score: 610, status: 'pending' as const },
+      ];
+      const finalScore = CHECKPOINTS[3].score;
+      return (
+        <div className="relative w-full h-full flex flex-col items-center justify-center p-4 md:p-6">
+          <div className="w-full max-w-sm bg-[#0A0F1A] border border-white/10 rounded-2xl md:rounded-[2rem] p-5 md:p-8 shadow-2xl">
+
+            <div className="flex items-center justify-between mb-6 md:mb-10">
+              <span className="text-[9px] md:text-[10px] font-black text-white/40 uppercase tracking-widest">{t('Project journey', 'Parcours du projet')}</span>
+              <motion.span
+                animate={{ opacity: [0.7, 1, 0.7] }}
+                transition={{ duration: 2, repeat: Infinity }}
+                className="text-[9px] md:text-[10px] font-black text-primary-cyan uppercase tracking-widest"
+              >
+                {t('LYA Score','LYA Score')} {finalScore}/1000
+              </motion.span>
+            </div>
+
+            <div className="relative flex justify-between items-start">
+              <div className="absolute top-4 md:top-5 left-4 right-4 h-0.5 bg-white/10 rounded-full overflow-hidden">
+                <motion.div
+                  initial={{ width: '0%' }}
+                  animate={{ width: '85%' }}
+                  transition={{ duration: 1.6, ease: 'easeOut' }}
+                  className="h-full bg-gradient-to-r from-primary-cyan via-rose-400 to-emerald-400"
+                />
+              </div>
+
+              {CHECKPOINTS.map((c, i) => {
+                const isUp = c.status === 'up';
+                const isDown = c.status === 'down';
+                const isPending = c.status === 'pending';
+                const dotClasses = isUp
+                  ? 'bg-emerald-500/20 border-emerald-400 text-emerald-400'
+                  : isDown
+                  ? 'bg-rose-500/20 border-rose-400 text-rose-400'
+                  : isPending
+                  ? 'bg-white/5 border-white/20 text-white/30 border-dashed'
+                  : 'bg-primary-cyan/20 border-primary-cyan text-primary-cyan';
+                return (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.2 }}
+                    className="relative z-10 flex flex-col items-center gap-2 w-1/5"
+                  >
+                    <motion.div
+                      animate={isPending ? { scale: [1, 1.08, 1], opacity: [0.5, 1, 0.5] } : { scale: [1, 1.15, 1] }}
+                      transition={{ duration: isPending ? 2 : 0.6, delay: i * 0.2 + 0.4, repeat: isPending ? Infinity : 0 }}
+                      className={`w-7 h-7 md:w-9 md:h-9 rounded-full flex items-center justify-center border-2 ${dotClasses}`}
+                    >
+                      {isUp && <CheckCircle2 size={14} />}
+                      {isDown && <AlertTriangle size={13} />}
+                      {isPending && <Flag size={12} />}
+                      {c.status === 'start' && <Flag size={12} />}
+                    </motion.div>
+                    <span className={`text-[6px] md:text-[7px] font-black uppercase text-center leading-tight ${isPending ? 'text-white/30' : 'text-white/70'}`}>
+                      {c.label}
+                    </span>
+                  </motion.div>
+                );
+              })}
+            </div>
+
+            <div className="mt-8 md:mt-10 p-3 md:p-4 bg-white/[0.03] border border-white/10 rounded-xl text-center">
+              <p className="text-[8px] md:text-[10px] text-white/60 font-bold uppercase tracking-wide leading-relaxed">
+                {t('Every event is verified — good news pushes the Score up, setbacks pull it down.', 'Chaque événement est vérifié — les bonnes nouvelles font avancer le Score, les revers le font reculer.')}
+              </p>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
     case 'creators': {
       const proj = CONTRACTS[0];
       const up = (proj?.growth || 14.2) >= 0;
@@ -462,7 +558,7 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
                 </div>
                 <div className={`border rounded-xl p-2.5 ${up ? 'bg-emerald-400/10 border-emerald-400/20' : 'bg-rose-400/10 border-rose-400/20'}`}>
                   <p className="text-[8px] text-white/40 uppercase tracking-widest mb-0.5">{t('Progress','Progression')}</p>
-                  <p className={`text-sm font-black ${up ? 'text-emerald-400' : 'text-rose-400'}`}>{up ? '+' : ''}{proj?.growth || 14.2}%</p>
+                  <p className={`text-sm font-black ${up ? 'text-emerald-400' : 'text-rose-400'}`}>{up ? '+' : ''}{Math.round(proj?.growth || 14)} {t('pts','pts')}</p>
                 </div>
               </div>
 
@@ -523,7 +619,7 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
                 <div className="text-right shrink-0">
                   <p className="text-[9px] font-black text-accent-gold">{t('Score','Score')}</p>
                   <p className="text-xs font-black text-accent-gold">{item.proj?.totalScore || 0}/1000</p>
-                  <p className={`text-[8px] font-black ${item.up ? 'text-emerald-400' : 'text-rose-400'}`}>{item.up ? '+' : ''}{item.proj?.growth || 0}%</p>
+                  <p className={`text-[8px] font-black ${item.up ? 'text-emerald-400' : 'text-rose-400'}`}>{item.up ? '+' : ''}{Math.round(item.proj?.growth || 0)} {t('pts','pts')}</p>
                 </div>
               </motion.div>
             ))}
@@ -684,9 +780,9 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
             </div>
             <div className="p-4 space-y-3">
               {[
-                { label: CONTRACTS[0]?.name || 'DIGITAL HORIZONS', price: `$${(50*(1+14.2/100)).toFixed(2)}`, change: '+14.2%', details: t('Milestone completed','Jalon complété'), up: true },
-                { label: CONTRACTS[5]?.name || 'CHRONICLES', price: `$${(50*(1-28.4/100)).toFixed(2)}`, change: '-28.4%', details: t('Audit updated','Audit mis à jour'), up: false },
-                { label: CONTRACTS[2]?.name || 'ART GÉNÉRATIF', price: `$${(50*(1+25.8/100)).toFixed(2)}`, change: '+25.8%', details: t('Milestone 2 secured','Jalon 2 sécurisé'), up: true }
+                { label: CONTRACTS[0]?.name || 'DIGITAL HORIZONS', score: `${CONTRACTS[0]?.totalScore || 892}/1000`, change: '+18 pts', details: t('Milestone completed','Jalon complété'), up: true },
+                { label: CONTRACTS[5]?.name || 'CHRONICLES', score: `${CONTRACTS[5]?.totalScore || 700}/1000`, change: '-24 pts', details: t('Audit updated','Audit mis à jour'), up: false },
+                { label: CONTRACTS[2]?.name || 'ART GÉNÉRATIF', score: `${CONTRACTS[2]?.totalScore || 650}/1000`, change: '+31 pts', details: t('Milestone 2 secured','Jalon 2 sécurisé'), up: true }
               ].map((item, i) => (
                 <motion.div
                   key={i}
@@ -714,7 +810,7 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
                       >
                         {item.change}
                       </motion.div>
-                      <div className="text-xs text-white/30 uppercase font-black">{item.price}</div>
+                      <div className="text-xs text-white/30 uppercase font-black">{t('Score','Score')} {item.score}</div>
                     </div>
                   </div>
                   {i === 0 && (
@@ -735,8 +831,8 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
           <div className="w-full max-w-[320px] md:max-w-full max-w-sm space-y-3 md:space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {[
-                { title: CONTRACTS[0]?.name || 'Digital Horizons', score: String(CONTRACTS[0]?.totalScore || 884), roi: `+${CONTRACTS[0]?.growth || 14.2}%`, color: 'text-indigo-400', bg: 'bg-indigo-500/10', up: true },
-                { title: CONTRACTS[5]?.name || 'Chronicles', score: String(CONTRACTS[5]?.totalScore || 762), roi: `${CONTRACTS[5]?.growth || -28.4}%`, color: 'text-rose-400', bg: 'bg-rose-500/10', up: false }
+                { title: CONTRACTS[0]?.name || 'Digital Horizons', score: String(CONTRACTS[0]?.totalScore || 892), roi: '+18 pts', color: 'text-indigo-400', bg: 'bg-indigo-500/10', up: true },
+                { title: CONTRACTS[5]?.name || 'Chronicles', score: String(CONTRACTS[5]?.totalScore || 700), roi: '-24 pts', color: 'text-rose-400', bg: 'bg-rose-500/10', up: false }
               ].map((p, i) => (
                 <motion.div
                   key={i}

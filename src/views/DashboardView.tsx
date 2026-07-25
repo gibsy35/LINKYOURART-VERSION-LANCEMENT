@@ -51,6 +51,16 @@ import { StatCard } from '../components/StatCard';
 import { NumberTicker } from '../components/ui/NumberTicker';
 import { PageHeader } from '../components/ui/PageHeader';
 
+const data = [
+  { name: '00:00', value: 340 },
+  { name: '04:00', value: 290 },
+  { name: '08:00', value: 520 },
+  { name: '12:00', value: 710 },
+  { name: '16:00', value: 480 },
+  { name: '20:00', value: 820 },
+  { name: '23:59', value: 890 },
+];
+
 
 
 import { useMarketData } from '../hooks/useMarketData';
@@ -98,35 +108,35 @@ export const DashboardView: React.FC<{
     switch (activeRange) {
       case '1W':
         return [
-          { name: 'Mon', value: 720 },
-          { name: 'Tue', value: 780 },
-          { name: 'Wed', value: 750 },
-          { name: 'Thu', value: 820 },
-          { name: 'Fri', value: 800 },
-          { name: 'Sat', value: 860 },
-          { name: 'Sun', value: 890 },
+          { name: 'Lun', value: 650 },
+          { name: 'Mar', value: 720 },
+          { name: 'Mer', value: 680 },
+          { name: 'Jeu', value: 790 },
+          { name: 'Ven', value: 850 },
+          { name: 'Sam', value: 880 },
+          { name: 'Dim', value: 920 },
         ];
       case '1M':
         return [
-          { name: 'Week 1', value: 700 },
-          { name: 'Week 2', value: 760 },
-          { name: 'Week 3', value: 810 },
-          { name: 'Week 4', value: 870 },
+          { name: 'Sem. 1', value: 720 },
+          { name: 'Sem. 2', value: 780 },
+          { name: 'Sem. 3', value: 850 },
+          { name: 'Sem. 4', value: 920 },
         ];
       case '1Y':
         return [
-          { name: 'Jan', value: 550 },
-          { name: 'Mar', value: 640 },
-          { name: 'May', value: 700 },
-          { name: 'Jul', value: 780 },
-          { name: 'Sep', value: 830 },
+          { name: 'Jan', value: 520 },
+          { name: 'Mar', value: 610 },
+          { name: 'Mai', value: 680 },
+          { name: 'Jul', value: 750 },
+          { name: 'Sep', value: 820 },
           { name: 'Nov', value: 890 },
         ];
       case 'ALL':
         return [
           { name: '2023', value: 380 },
           { name: '2024', value: 560 },
-          { name: '2025', value: 740 },
+          { name: '2025', value: 750 },
           { name: '2026', value: 890 },
         ];
       default: // 1D
@@ -237,7 +247,7 @@ export const DashboardView: React.FC<{
         targetProject: item.impact?.targetProject || ''
       }));
       setNews(formatted);
-      onNotify?.(t('REAL-TIME NEWS AND REGISTRY DATA SYNCED SUCCESSFULLY.', 'NEWS EN TEMPS RÉEL ET DONNÉES DU REGISTRE SYNCHRONISÉES AVEC SUCCÈS.'));
+      onNotify?.(t('REGISTRY DATA SYNCED SUCCESSFULLY.', 'DONNÉES DU REGISTRE SYNCHRONISÉES AVEC SUCCÈS.'));
     } else {
       onNotify?.(t('REGISTRY DATA SYNCED SUCCESSFULLY.', 'DONNÉES DU REGISTRE SYNCHRONISÉES AVEC SUCCÈS.'));
     }
@@ -250,7 +260,7 @@ export const DashboardView: React.FC<{
       <PageHeader 
         titleWhite={t('TABLEAU DE', 'TABLEAU DE')}
         titleAccent={t('BORD', 'BORD')}
-        description={t('REAL-TIME CERTIFICATION INTELLIGENCE AND PREDICTIVE ANALYTICS POWERED BY THE LYA NEURAL NETWORK.', 'INTELLIGENCE DE CERTIFICATION EN TEMPS RÉEL ET ANALYSES PRÉDICTIVES PROPULSÉES PAR LE RÉSEAU NEURAL LYA.')}
+        description={t('REAL-TIME SCORE ANALYTICS AND QUALITY INTELLIGENCE POWERED BY THE LYA NEURAL NETWORK.', 'ANALYSES DE SCORE EN TEMPS RÉEL ET INTELLIGENCE QUALITÉ PROPULSÉES PAR LE RÉSEAU NEURAL LYA.')}
         accentColor="text-primary-cyan"
       />
 
@@ -265,6 +275,26 @@ export const DashboardView: React.FC<{
           </button>
           
           <div className="h-6 w-[1px] bg-white/5 hidden sm:block" />
+          <div className="relative group flex-1 sm:flex-none">
+            <div className="absolute inset-0 bg-primary-cyan/5 blur-xl group-hover:bg-primary-cyan/10 transition-all duration-700" />
+            <div className="relative bg-surface-low/40 backdrop-blur-xl border border-white/10 p-2 sm:p-4 flex items-center gap-2 sm:gap-4 shadow-2xl rounded-sm">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-primary-cyan/10 flex items-center justify-center text-primary-cyan border border-primary-cyan/20 shadow-inner">
+                <Zap size={16} className="animate-pulse" />
+              </div>
+              <div>
+                <div className="text-[7px] md:text-xs text-accent-gold uppercase tracking-[0.2em] sm:tracking-[0.3em] font-black mb-0.5 sm:mb-1 flex items-center gap-1 sm:gap-2">
+                  {t('LYA Score Index', 'Indice LYA Score')}
+                  <div className="w-1 h-1 rounded-full bg-emerald-400 animate-pulse" />
+                </div>
+                <p className="text-xs sm:text-lg font-black font-mono text-on-surface leading-none tracking-tighter truncate">
+                  {t('Registry', 'Registre')} <span className="text-primary-cyan">{activeContractsCount || 0}</span> {t('certified projects', 'projets certifiés')}
+                  <span className={`ml-2 text-xs ${marketStats.avgGrowth >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+                    {t('avg score trend', 'tendance score moy.')} {marketStats.avgGrowth >= 0 ? '+' : ''}{Number(marketStats.avgGrowth).toFixed(1)}%
+                  </span>
+                </p>
+              </div>
+            </div>
+          </div>
 
           <div className="h-10 w-[1px] bg-white/5 hidden lg:block" />
 
@@ -348,10 +378,10 @@ export const DashboardView: React.FC<{
           { activeTab === 'overview' && (
           <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
             {[
-              { label: t('Followed Avg. Score', 'Score Moyen Suivi'), value: followedScoreAvg || 0, trend: `/1000`, color: 'border-primary-cyan', icon: <Layers size={16} />, tooltip: t('The average LYA Score across all the creative projects you follow.', 'Le Score LYA moyen de tous les projets créatifs que vous suivez.'), isScore: true },
-              { label: t('30d Score Progress', 'Progression Score 30j'), value: scoreGrowth30d || 0, trend: '+12.5 pts', color: 'border-primary-cyan', icon: <TrendingUp size={16} />, tooltip: t('The cumulative LYA Score progression across your followed projects.', 'La progression cumulée du Score LYA de vos projets suivis.'), isScore: true },
-              { label: t('Active Contracts', 'Contrats Actifs'), value: activeContractsCount || 0, trend: `${activeContractsCount} Registries`, color: 'border-white/20', icon: <LayoutGrid size={16} />, tooltip: t('The number of unique creative contracts currently in your portfolio.', 'Le nombre de contrats créatifs uniques actuellement dans votre portefeuille.') },
-              { label: t('Community Pulse', 'Pouls de la Communauté'), value: marketSentiment.label, trend: `${marketSentiment.value}%`, color: 'border-accent-gold', icon: <ActivityIcon size={16} />, tooltip: t('Analyse en temps réel de la confiance des mécènes.', 'Real-time analysis of partenaire créatif confidence.') }
+              { label: t('Supported Projects', 'Projets Soutenus'), value: activeContractsCount || 0, isCurrency: false, trend: t('Active', 'Actifs'), color: 'border-primary-cyan', icon: <Layers size={16} />, suffix: '', tooltip: t('The number of certified creative projects you are supporting on the LYA Registry.', 'Le nombre de projets créatifs certifiés que vous soutenez sur le Registre LYA.') },
+              { label: t('Average LYA Score', 'Score LYA Moyen'), value: marketStats.avgScore ? Math.round(marketStats.avgScore) : '—', isCurrency: false, trend: t('/ 1000 pts', '/ 1000 pts'), color: 'border-primary-cyan', icon: <TrendingUp size={16} />, suffix: ' pts', tooltip: t('The average LYA Score across all certified projects you follow. Reflects overall quality on the registry.', 'Le Score LYA moyen de tous les projets certifiés que vous suivez. Reflète la qualité globale sur le registre.') },
+              { label: t('Certified Projects', 'Projets Certifiés'), value: activeContractsCount || 0, isCurrency: false, trend: t('On Registry', 'Au Registre'), color: 'border-white/20', icon: <LayoutGrid size={16} />, suffix: '', tooltip: t('The number of unique creative projects certified on the LYA Registry that you are following.', 'Le nombre de projets créatifs uniques certifiés sur le Registre LYA que vous suivez.') },
+              { label: t('Community Confidence', 'Confiance Communautaire'), value: marketSentiment.label, isCurrency: false, trend: `${marketSentiment.value}%`, color: 'border-accent-gold', icon: <ActivityIcon size={16} />, suffix: '', tooltip: t('Real-time analysis of community and patron confidence in certified projects on the registry.', 'Analyse en temps réel de la confiance de la communauté et des mécènes envers les projets certifiés du registre.') }
             ].map((stat, i) => (
                 <div key={i} className="relative group">
                   <div className="absolute inset-0 bg-surface-low/30 backdrop-blur-2xl border border-white/10 rounded-sm group-hover:border-primary-cyan/30 transition-all duration-500" />
@@ -368,7 +398,10 @@ export const DashboardView: React.FC<{
                     <div>
                       <div className="flex items-baseline gap-3">
                         <h3 className="text-3xl font-black font-mono text-on-surface tracking-tighter">
-                          {typeof stat.value === 'number' ? Math.round(stat.value) : stat.value}
+                          {stat.isCurrency === false
+                            ? <>{stat.value}{stat.suffix || ''}</>
+                            : (typeof stat.value === 'number' ? formatPrice(stat.value) : stat.value)
+                          }
                         </h3>
                       </div>
                       <div className="mt-2 flex items-center gap-2">
@@ -394,7 +427,7 @@ export const DashboardView: React.FC<{
                   <div>
                     <h2 className="text-base font-black font-headline uppercase tracking-wider flex items-center gap-3 sm:gap-4">
                       <TrendingUp size={20} className="text-primary-cyan" />
-                      {t('LYA Score Evolution', 'Évolution du Score LYA')}
+                      {t('LYA Score Evolution', 'Évolution des Scores LYA')}
                     </h2>
                     
                   </div>
@@ -438,7 +471,7 @@ export const DashboardView: React.FC<{
                         fontSize={10} 
                         tickLine={false} 
                         axisLine={false}
-                        domain={[0, 1000]}
+                        tickFormatter={(value) => `${value}`}
                         tick={{ fill: '#8E9299', fontWeight: 'bold', letterSpacing: '0.1em' }}
                         dx={-10}
                       />
@@ -454,7 +487,7 @@ export const DashboardView: React.FC<{
                         }}
                         itemStyle={{ color: '#00E0FF', fontSize: '11px', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.1em' }}
                         labelStyle={{ color: '#ffffff40', fontSize: '9px', marginBottom: '8px', textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: '0.2em' }}
-                        formatter={(value: number) => [`${value}/1000`, t('LYA Score', 'Score LYA')]}
+                        formatter={(value: number) => [`${value} pts`, t('LYA Score', 'Score LYA')]}
                       />
                       <Area 
                         type="monotone" 
@@ -480,7 +513,7 @@ export const DashboardView: React.FC<{
                       <TrendingUp size={16} className="text-emerald-400" />
                       {t('Top Progressions', 'Top Progressions')}
                     </h2>
-                    <div className="text-xs font-black uppercase tracking-widest text-on-surface-variant opacity-40">VARIATION 24H</div>
+                    <div className="text-xs font-black uppercase tracking-widest text-on-surface-variant opacity-40">SCORE LYA</div>
                   </div>
                   <div className="p-6 space-y-4">
                     {topProgressions.map((contract, i) => (
@@ -513,10 +546,10 @@ export const DashboardView: React.FC<{
                         <div className="flex items-center gap-4">
                           <div className="text-right">
                             <div className={`text-[11px] sm:text-sm font-mono font-black ${contract.growth >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
-                              {contract.totalScore || 750}/1000
+                              {contract.scoreLYA || contract.scoreLya || 650}/1000
                             </div>
-                            <div className={`text-[11px] font-black opacity-60 mt-0.5 ${contract.growth >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
-                              {contract.growth >= 0 ? '+' : ''}{contract.growth}%
+                            <div className="text-[11px] font-black opacity-50 mt-0.5 text-white/50 uppercase tracking-widest">
+                              LYA SCORE
                             </div>
                           </div>
                           <button
@@ -588,10 +621,10 @@ export const DashboardView: React.FC<{
                         <div className="flex items-center gap-4">
                           <div className="text-right">
                             <div className={`text-[11px] sm:text-sm font-mono font-black ${contract.growth >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
-                              {contract.totalScore || 750}/1000
+                              {contract.scoreLYA || contract.scoreLya || 650}/1000
                             </div>
-                            <div className={`text-[11px] font-black opacity-60 mt-0.5 ${contract.growth >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
-                              {contract.growth >= 0 ? '+' : ''}{contract.growth}%
+                            <div className="text-[11px] font-black opacity-50 mt-0.5 text-white/50 uppercase tracking-widest">
+                              LYA SCORE
                             </div>
                           </div>
                           <button
@@ -692,7 +725,8 @@ export const DashboardView: React.FC<{
               </div>
               <div className="p-8 space-y-4">
                 {[...Array(visibleActivities)].map((_, i) => {
-                  const scoreDelta = 8 + (i * 3);
+                  const usdVal = 12480 + (i * 150);
+                  const lyaVal = null; // LYA Unit suspended pending MiCA/SEC approval
                   return (
                     <motion.div 
                       key={i}
@@ -713,8 +747,8 @@ export const DashboardView: React.FC<{
                         </div>
                       </div>
                       <div className="text-right">
-                        <div className="text-sm font-mono font-black text-primary-cyan">+{scoreDelta} PTS</div>
-                        <div className="text-[10px] text-on-surface-variant font-bold opacity-40 mt-1">{t('LYA Score', 'Score LYA')}</div>
+                        <div className="text-sm font-mono font-black text-primary-cyan/40">{t('Score pending', 'Score en attente')}</div>
+                        <div className="text-[10px] text-on-surface-variant font-bold opacity-40 mt-1">{formatPrice(usdVal)}</div>
                       </div>
                     </motion.div>
                   );
@@ -962,3 +996,4 @@ export const DashboardView: React.FC<{
 };
 
 export default DashboardView;
+

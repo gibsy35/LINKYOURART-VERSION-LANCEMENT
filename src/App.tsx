@@ -86,7 +86,7 @@ export default function App() {
     if (user.role !== UserRole.ADMIN) return user;
     if (simulatedRole === 'VISITOR') return null;
     if (simulatedRole && simulatedRole !== UserRole.ADMIN) {
-      return { ...user, role: simulatedRole as UserRole, isPro: simulatedRole === UserRole.PROFESSIONAL || simulatedRole === UserRole.INVESTOR };
+      return { ...user, role: simulatedRole as UserRole, isPro: simulatedRole === UserRole.PROFESSIONAL || simulatedRole === UserRole.PATRON };
     }
     return user;
   }, [user, simulatedRole]);
@@ -241,7 +241,7 @@ export default function App() {
       if (user?.role === UserRole.CREATOR) {
         events.push({ title: T('NOUVEAU MÉCÈNE', 'NEW PATRON'), message: T('Un nouveau mécène a rejoint un de vos projets.', 'A new patron joined one of your projects.'), type: 'SUCCESS' }, { title: T('SCORE LYA', 'LYA SCORE'), message: T('Votre LYA Score a évolué. Consultez votre dashboard.', 'Your LYA Score has changed. Check your dashboard.'), type: 'INFO' }, { title: T('JALON À PUBLIER', 'MILESTONE DUE'), message: T('Publiez un jalon pour renforcer la confiance de vos mécènes.', 'Publish a milestone to strengthen patron confidence.'), type: 'WARNING' });
         if (risingC.length > 0) { const p = pick(risingC); events.push({ title: T('SCORE LYA EN HAUSSE', 'LYA SCORE RISING'), message: T(`${p.name} +${p.growth}% → Score ${p.totalScore}/1000`, `${p.name} +${p.growth}% → Score ${p.totalScore}/1000`), type: 'SUCCESS' }); }
-      } else if (user?.role === UserRole.INVESTOR) {
+      } else if (user?.role === UserRole.PATRON) {
         if (risingC.length > 0) { const p = pick(risingC); events.push({ title: T('PROGRESSION DÉTECTÉE', 'PROGRESS DETECTED'), message: T(`${p.name} +${p.growth}% · Score: ${p.totalScore}/1000`, `${p.name} +${p.growth}% · Score: ${p.totalScore}/1000`), type: 'SUCCESS' }); }
         if (fallingC.length > 0) { const p = pick(fallingC); events.push({ title: T('⚠ ALERTE BAISSE', '⚠ DROP ALERT'), message: T(`${p.name} ${p.growth}% · Score: ${p.totalScore}/1000`, `${p.name} ${p.growth}% · Score: ${p.totalScore}/1000`), type: 'WARNING' }); }
         if (riskC.length > 0) { events.push({ title: T('PROJET EN RISQUE', 'PROJECT AT RISK'), message: T(`${riskC[0].name} est en statut RISQUE. Vérifiez vos projets soutenus.`, `${riskC[0].name} is at RISK status. Check your supported projects.`), type: 'WARNING' }); }
@@ -288,7 +288,7 @@ export default function App() {
             const userEmail = firebaseUser.email?.toLowerCase().trim();
             const isAdminEmail = userEmail === 'linkyourart@gmail.com' || userEmail === 'lequimejeanbaptiste@gmail.com' || userEmail === 'jeanbaptistelequime@gmail.com' || userEmail === 'jean-baptiste.lequime@gmail.com' || userEmail === 'lyacontactpro@gmail.com' || userEmail === 'linkart@gmail.com' || userEmail === 'admin@linkyourart.com' || userEmail === 'superadmin@linkyourart.com' || userEmail === 'linkyourart@ai.studio';
             if (isAdminEmail) { userData.role = UserRole.ADMIN; userData.isPro = true; }
-            if (userData.role === UserRole.PROFESSIONAL || userData.role === UserRole.INVESTOR) { userData.isPro = true; }
+            if (userData.role === UserRole.PROFESSIONAL || userData.role === UserRole.PATRON) { userData.isPro = true; }
             localStorage.setItem(`lya_user_${firebaseUser.uid}`, JSON.stringify(userData));
             if (isAdminEmail && (firebaseUser.metadata.lastSignInTime === firebaseUser.metadata.creationTime || !isAuthReady)) { setTimeout(() => { addNotification('ROOT ACCESS GRANTED', t(`WELCOME OPERATOR. ALL SYSTEMS ONLINE.`, `BIENVENUE OPÉRATEUR. TOUS LES SYSTÈMES SONT EN LIGNE.`), 'SUCCESS'); }, 2000); }
             setUser(userData);
@@ -443,7 +443,7 @@ export default function App() {
         {showOnboarding && user && (
           <OnboardingWizard onComplete={async (role) => {
             setShowOnboarding(false); localStorage.setItem('lya_onboarding_seen', 'true');
-            try { await updateDoc(doc(db, 'users', user.uid), { role }); setUser({ ...user, role }); handleViewChange(role === UserRole.CREATOR ? 'CREATOR_DASHBOARD' : role === UserRole.INVESTOR ? 'INVESTOR_DASHBOARD' : 'PROFESSIONAL_DASHBOARD'); notify(t(`✦ Espace ${role} configuré !`, `✦ ${role} space configured!`)); } catch (err) { console.error('Onboarding role update failed:', err); }
+            try { await updateDoc(doc(db, 'users', user.uid), { role }); setUser({ ...user, role }); handleViewChange(role === UserRole.CREATOR ? 'CREATOR_DASHBOARD' : role === UserRole.PATRON ? 'PATRON_DASHBOARD' : 'PROFESSIONAL_DASHBOARD'); notify(t(`✦ Espace ${role} configuré !`, `✦ ${role} space configured!`)); } catch (err) { console.error('Onboarding role update failed:', err); }
           }} onSkip={() => { setShowOnboarding(false); localStorage.setItem('lya_onboarding_seen', 'true'); }} />
         )}
         {!isAuthView && !isLandingView && currentView !== 'CONTRACT_DETAIL' && (
@@ -464,11 +464,11 @@ export default function App() {
               {currentView === 'PROFILE' && (effectiveUser ? (<ProfileView user={effectiveUser ?? user!} onUpdateUser={handleUpdateUser} onNotify={notify} onViewChange={handleViewChange} onLogout={() => { setUser(null); setCurrentView('HOME'); notify('LOGGED OUT'); }} usageStats={usageStats} checkUsageLimit={checkUsageLimit} />) : (<div className="flex-1 flex flex-col items-center justify-center p-12 text-center" onClick={() => setIsAuthModalOpen(true)}><div className="w-20 h-20 bg-primary-cyan/10 rounded-full flex items-center justify-center mb-6 border border-primary-cyan/20 cursor-pointer"><RefreshCw size={32} className="text-primary-cyan animate-spin-slow" /></div><h2 className="text-2xl font-black text-white uppercase tracking-tighter mb-4">{t('AUTHENTICATING...', 'AUTHENTIFICATION...')}</h2><p className="text-on-surface-variant max-w-xs mx-auto text-sm mb-8 opacity-70">{t('Verifying credentials with the LYA terminal...', 'Vérification des identifiants avec le terminal LYA...')}</p></div>))}
               {currentView === 'DASHBOARD' && <DashboardView onViewChange={handleViewChange} onNotify={notify} onSelectContract={(c) => { const liveContract = liveContracts.find(lc => lc.id === c.id) || c; setViewingContract(liveContract); setCurrentView('CONTRACT_DETAIL'); }} watchlist={watchlist} onToggleWatchlist={handleToggleWatchlist} userContracts={userContracts} liveContracts={liveContracts} user={effectiveUser} />}
               {currentView === 'CREATOR_DASHBOARD' && <CreatorDashboardView user={effectiveUser} onNotify={notify} onViewChange={handleViewChange} />}
-              {currentView === 'INVESTOR_DASHBOARD' && <InvestorDashboardView user={effectiveUser} onNotify={notify} onViewChange={handleViewChange} />}
+              {currentView === 'PATRON_DASHBOARD' && <InvestorDashboardView user={effectiveUser} onNotify={notify} onViewChange={handleViewChange} />}
               {currentView === 'PROFESSIONAL_DASHBOARD' && <ProfessionalDashboardView user={effectiveUser} onNotify={notify} onViewChange={handleViewChange} />}
               {currentView === 'PROJECT_PUBLIC' && <ProjectPublicView contractId={viewingContract?.id} onViewChange={handleViewChange} onNotify={notify} user={effectiveUser} />}
               {currentView === 'CREATOR_PROFILE' && <CreatorProfileView onViewChange={handleViewChange} onNotify={notify} user={effectiveUser} />}
-              {!['HOME','LANDING','DASHBOARD','VALIDATION','REGISTRY','LINK_ART','LOUNGE','WALLET','SIGNUP','LOGIN','PROFILE','PRICING','SWIPE','MECENAT','BROCHURE','WATCHLIST','SETTINGS','COMPARE','SOCIAL_FEED','PAYMENT','CONTRACT_DETAIL','TERMS','PRIVACY','LEGAL_REGISTRY','GOVERNANCE','API','ACADEMY','APPLY_VERIFICATION','ABOUT','TAX_OPTIMIZER','ADMIN_PANEL','ISSUER_PROFILE','OUR_MODEL','FAQ','LEGAL_MENTIONS','CREATOR_DASHBOARD','INVESTOR_DASHBOARD','PROFESSIONAL_DASHBOARD','PROJECT_PUBLIC','CREATOR_PROFILE'].includes(currentView) && (<NotFoundView onViewChange={handleViewChange} />)}
+              {!['HOME','LANDING','DASHBOARD','VALIDATION','REGISTRY','LINK_ART','LOUNGE','WALLET','SIGNUP','LOGIN','PROFILE','PRICING','SWIPE','MECENAT','BROCHURE','WATCHLIST','SETTINGS','COMPARE','SOCIAL_FEED','PAYMENT','CONTRACT_DETAIL','TERMS','PRIVACY','LEGAL_REGISTRY','GOVERNANCE','API','ACADEMY','APPLY_VERIFICATION','ABOUT','TAX_OPTIMIZER','ADMIN_PANEL','ISSUER_PROFILE','OUR_MODEL','FAQ','LEGAL_MENTIONS','CREATOR_DASHBOARD','PATRON_DASHBOARD','PROFESSIONAL_DASHBOARD','PROJECT_PUBLIC','CREATOR_PROFILE'].includes(currentView) && (<NotFoundView onViewChange={handleViewChange} />)}
               {currentView === 'CONTRACT_DETAIL' && viewingContract && (<ContractDetailView contract={liveContracts.find(c => c.id === viewingContract.id) || viewingContract} onBack={() => setCurrentView('REGISTRY')} onNotify={notify} isWatchlisted={watchlist.includes(viewingContract.id)} onToggleWatchlist={handleToggleWatchlist} />)}
               {currentView === 'TERMS' && <LegalView type="TERMS" onNotify={notify} />}
               {currentView === 'PRIVACY' && <LegalView type="PRIVACY" onNotify={notify} />}

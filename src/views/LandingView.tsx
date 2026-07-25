@@ -83,7 +83,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
   });
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
-  const [category, setCategory] = useState<'CREATOR' | 'PROFESSIONAL' | 'INVESTOR'>('CREATOR');
+  const [category, setCategory] = useState<'CREATOR' | 'PROFESSIONAL' | 'PATRON'>('CREATOR');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [queuePosition, setQueuePosition] = useState<number | null>(null);
@@ -410,7 +410,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                 <Logo size={48} color="multi" showBeta={true} />
                 <div className="flex flex-col">
                   <ElevatedTextLogo size="text-2xl" />
-                  <span className="text-xs font-black tracking-[0.4em] text-primary-cyan uppercase opacity-70 mt-1">{t('ART IS A STANDARD', 'ART IS A STANDARD')}</span>
+                  <span className="text-xs font-black tracking-[0.4em] text-primary-cyan uppercase opacity-70 mt-1">{t('YOUR SCORE. YOUR STANDARD.', 'VOTRE SCORE. VOTRE STANDARD.')}</span>
                 </div>
               </div>
               <div className="hidden md:flex items-center gap-2 md:gap-12">
@@ -467,13 +467,13 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                   {/* ── PHRASE SIGNATURE ── */}
                   <motion.p initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, delay: 0.5 }}
                     className="text-xl md:text-2xl xl:text-3xl font-black text-white italic tracking-tight mb-6 border-l-4 border-primary-cyan pl-5">
-                    "{t('What you create today can be recognized by thousands tomorrow.', 'Ce que vous créez aujourd\'hui peut être reconnu par des milliers de personnes demain.')}"
+                    "{t('Your creativity has value. We certify it. Patrons recognize it.', 'Votre créativité a une valeur. Nous la certifions. Des mécènes la reconnaissent.')}"
                   </motion.p>
 
                   <p className="text-white/70 text-base md:text-lg xl:text-xl font-medium leading-relaxed max-w-2xl">
                     {t(
-                      "20 years of history. One conviction: creativity has value. LinkYourArt certifies it, measures it and shares it — for every creator in the world.",
-                      "20 ans d'histoire. Une seule conviction : la création a de la valeur. LinkYourArt la certifie, la mesure et la partage — pour tous les créateurs du monde."
+                      "20 years of history. One conviction, art has value: LinkYourArt appraises it, certifies it and shares it — for every creator in the world.",
+                      "20 ans d'histoire. Une seule conviction, l'art a de la valeur : LinkYourArt l'expertise, la certifie et la partage — pour tous les créateurs du monde."
                     )}
                   </p>
 
@@ -561,7 +561,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
 
                       <form onSubmit={handlePreRegister} className="space-y-6">
                         <div className="p-1 bg-white/5 rounded-2xl border border-white/10 flex gap-1">
-                          {['CREATOR', 'PROFESSIONAL', 'INVESTOR'].map((cat) => (
+                          {['CREATOR', 'PROFESSIONAL', 'PATRON'].map((cat) => (
                             <button key={cat} type="button" onClick={() => setCategory(cat as any)}
                               className={`flex-1 py-3 rounded-xl text-xs font-black tracking-widest transition-all uppercase ${category === cat ? 'bg-primary-cyan text-black shadow-lg shadow-primary-cyan/20' : 'text-white/40 hover:text-white'}`}
                             >
@@ -695,11 +695,11 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                     <Logo size={40} color="multi" showBeta={true} />
                     <div className="flex flex-col">
                       <ElevatedTextLogo size="text-xl" />
-                      <span className="text-xs font-black tracking-[0.4em] text-primary-cyan uppercase opacity-70 mt-0.5">{t('ART IS A STANDARD', 'ART IS A STANDARD')}</span>
+                      <span className="text-xs font-black tracking-[0.4em] text-primary-cyan uppercase opacity-70 mt-0.5">{t('YOUR SCORE. YOUR STANDARD.', 'VOTRE SCORE. VOTRE STANDARD.')}</span>
                     </div>
                   </div>
                   <p className="text-white/30 text-sm font-medium leading-relaxed max-w-xs">
-                    {t("What you create today can be recognized by thousands tomorrow.", "Ce que vous créez aujourd'hui peut être reconnu par des milliers de personnes demain.")}
+                    {t("Your creativity has value. We certify it. Patrons recognize it.", "Votre créativité a une valeur. Nous la certifions. Des mécènes la reconnaissent.")}
                   </p>
                 </div>
                 <div className="space-y-6 md:w-1/3">

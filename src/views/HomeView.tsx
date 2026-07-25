@@ -35,7 +35,8 @@ import {
   Sparkles,
   Target,
   FileText,
-  RefreshCw
+  RefreshCw,
+  Flag
 } from 'lucide-react';
 import { LYA_UNIT_VALUE, Contract, PillarScore } from '../types';
 import { useTranslation } from '../context/LanguageContext';
@@ -141,10 +142,7 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
   const [appliedSimulation, setAppliedSimulation] = React.useState<{
     [contractId: string]: {
       totalScore: number;
-      unitValue: number;
-      totalValue: number;
       pillars: { label: string; score: number }[];
-      growth: number;
     } | null;
   }>({});
 
@@ -162,18 +160,10 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
     const sim = appliedSimulation[selectedContract.id];
     if (sim) {
       return {
-        unitValue: sim.unitValue,
-        totalValue: sim.totalValue,
         totalScore: sim.totalScore,
-        growth: sim.growth,
         pillars: sim.pillars
       };
     }
-    const growth = selectedContract.growth || 0;
-    const baseVal = selectedContract.unitValue || 50.00;
-    const currentPrice = Math.round((baseVal * (1 + growth / 100)) * 100) / 100;
-    
-    // Fallback mapping of pillars format
     const origPillars = selectedContract.pillars || [];
     const mappedPillars = origPillars.map(p => ({
       label: p.label,
@@ -181,10 +171,7 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
     }));
 
     return {
-      unitValue: currentPrice,
-      totalValue: selectedContract.totalValue,
       totalScore: selectedContract.totalScore || 850,
-      growth: growth,
       pillars: mappedPillars
     };
   }, [selectedContract, appliedSimulation]);
@@ -203,65 +190,28 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
     return demoMilestones * 4.15;
   }, [demoMilestones]);
 
-  const demoProjectedUnitVal = React.useMemo(() => {
-    const scoreFactor = demoLyaScoreCombined / 850;
-    const milestoneFactor = 1 + (demoMilestoneBonusPercent / 100);
-    return Math.round((selectedContract.unitValue || 50.00) * scoreFactor * milestoneFactor * 100) / 100;
-  }, [demoLyaScoreCombined, demoMilestoneBonusPercent, selectedContract]);
-
-  const demoProjectedTotalVal = React.useMemo(() => {
-    return demoProjectedUnitVal * (selectedContract.totalUnits || 10000);
-  }, [demoProjectedUnitVal, selectedContract]);
-
+  // Pourcentage d'avancement des jalons — directement dérivé du Score et du bonus
+  // de jalons, sans jamais passer par une valeur unitaire ou une valorisation.
   const demoRentScore = React.useMemo(() => {
-    return Math.min(100, Math.round((demoProjectedUnitVal / (selectedContract.unitValue || 50.00)) * 85));
-  }, [demoProjectedUnitVal, selectedContract]);
-
-  const pillarData = activeContractStats.pillars.map(p => ({
-    name: p.label,
-    value: p.score,
-    full: 200
-  }));
-
-  const priceHistory = React.useMemo(() => {
-    const baseVal = 50.00;
-    const growth = Math.max(activeContractStats.growth || 0, 2);
-    const currentPrice = Math.max(activeContractStats.unitValue || baseVal, baseVal);
-    const months = ['Oct', 'Nov', 'Déc', 'Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep'];
-    const totalPoints = 12;
-    // Simulate realistic price curve: starts at -35% of growth, ends at current price
-    const startPrice = baseVal * (1 - (growth * 0.35) / 100);
-    return months.map((month, i) => {
-      const t = i / (totalPoints - 1);
-      // Smooth S-curve interpolation with micro volatility
-      const smooth = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-      const volatility = (Math.sin(i * 2.3 + selectedCaseIdx) * 0.012) * currentPrice;
-      const price = startPrice + (currentPrice - startPrice) * smooth + volatility;
-      return { date: month, price: Math.round(Math.max(price, baseVal * 0.7) * 100) / 100 };
-    });
-  }, [activeContractStats, selectedCaseIdx]);
-
-  const escalatedUnitPrice = activeContractStats.unitValue;
+    return Math.min(100, Math.round((demoLyaScoreCombined / 1000) * 100));
+  }, [demoLyaScoreCombined]);
 
   const handleApplyModel = React.useCallback(() => {
     setAppliedSimulation(prev => ({
       ...prev,
       [selectedContract.id]: {
         totalScore: demoLyaScoreCombined,
-        unitValue: demoProjectedUnitVal,
-        totalValue: demoProjectedTotalVal,
-        growth: Math.round(((demoProjectedUnitVal / 50.00) - 1) * 100 * 100) / 100,
         pillars: [
-          { label: t('Creative Quality', 'Qualité de la Création'), score: demoPillars.quality },
-          { label: t('Market Appeal', 'Potentiel Commercial'), score: demoPillars.marketability },
-          { label: t('Legal & IP Security', 'Sécurité Juridique & PI'), score: demoPillars.security },
-          { label: t('Technical Innovation', 'Innovation Technique'), score: demoPillars.innovation },
-          { label: t('Scale Potential', 'Perspectives d\'Échelle'), score: demoPillars.growth }
+          { label: t('IC · Conceptual Integrity', 'IC · Intégrité Conceptuelle'), score: demoPillars.quality },
+          { label: t('MA · Current Maturity', 'MA · Maturité Actuelle'), score: demoPillars.marketability },
+          { label: t('FR · Real Feasibility', 'FR · Faisabilité Réelle'), score: demoPillars.security },
+          { label: t('CE · Evolution Capacity', 'CE · Capacité d\'Évolution'), score: demoPillars.innovation },
+          { label: t('IN · Embodiment', 'IN · Incarnation'), score: demoPillars.growth }
         ]
       }
     }));
     setIsModelizerOpen(false);
-  }, [selectedContract, demoLyaScoreCombined, demoProjectedUnitVal, demoProjectedTotalVal, demoPillars, t]);
+  }, [selectedContract, demoLyaScoreCombined, demoPillars, t]);
 
   const handleResetSimulation = React.useCallback((contractId: string) => {
     setAppliedSimulation(prev => ({
@@ -269,66 +219,6 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
       [contractId]: null
     }));
   }, []);
-
-  const caseStudies = React.useMemo(() => {
-    const ren = liveContracts.find(c => c.name === 'RENAISSANCE REBORN');
-    const sky = liveContracts.find(c => c.name === 'SKY GARDENS V4');
-    const bio = liveContracts.find(c => c.name === 'CHRONICLES OF ELDON');
-
-    return [
-      {
-        idx: 0,
-        title: t('CERTIFIED HERITAGE ASSET', 'PATRIMOINE CERTIFIÉ'),
-        subtitle: t('RENAISSANCE REBORN', 'RENAISSANCE REBORN'),
-        description: t('Standard physical art masterwork certified on the LYA Registry. The LYA Score acts as a direct thermometer of active curatorial recognition.', 'Chef-d\'œuvre physique d\'art classique certifié sur le Registre LYA. Le Score LYA est le thermomètre direct de la reconnaissance des conservateurs.'),
-        icon: <ShieldCheck className="text-primary-cyan" size={32} />,
-        metric: ren ? `${ren.growth >= 0 ? '+' : ''}${ren.growth.toFixed(2)}%` : '+14.2%',
-        metricLabel: t('YTD GROWTH', 'HAUSSE DE L\'INDEX LYA'),
-        baselineProjectVal: 500000,
-        currentProjectVal: ren ? ren.totalValue : 571000,
-        baselineUnitVal: 50.00,
-        currentUnitVal: ren ? ren.unitValue : 57.10,
-        jalonPlus: t('Exhibition at Paris Grand Palais validated', 'Validation Exhibition Grand Palais Paris'),
-        jalonPlusImpact: '+14.2%',
-        jalonMinus: t('Delay in insurance appraisal validation', 'Retard certificat d\'expertise d\'assurance'),
-        jalonMinusImpact: '-7.5%'
-      },
-      {
-        idx: 1,
-        title: t('CERTIFICATION MOMENTUM', 'DYNAMIQUE DE CERTIFICATION'),
-        subtitle: t('SKY GARDENS V4', 'SKY GARDENS V4'),
-        description: t('Architectural blueprint recognition tracked as dynamic certification indexes. The Score adapts instantly to validated commercial license signings.', 'Reconnaissance de plans d\'architectes suivie en indices de certification dynamiques. Le Score s\'adapte en temps réel aux signatures de licences.'),
-        icon: <Activity className="text-accent-gold" size={32} />,
-        metric: sky ? `${sky.growth >= 0 ? '+' : ''}${sky.growth.toFixed(2)}%` : '+8.4%',
-        metricLabel: t('INDEX PERF', 'PERF DE L\'INDEX LYA'),
-        baselineProjectVal: 2500000,
-        currentProjectVal: sky ? sky.totalValue : 2710000,
-        baselineUnitVal: 50.00,
-        currentUnitVal: sky ? sky.unitValue : 54.20,
-        jalonPlus: t('Hotel operator licensing contract signed', 'Contrat licence hôtelière internationale signé'),
-        jalonPlusImpact: '+8.4%',
-        jalonMinus: t('Balcony eco-renovation permit postponed', 'Permis éco-rénovation balcon ajourné'),
-        jalonMinusImpact: '-11.0%'
-      },
-      {
-        idx: 2,
-        title: t('TV SERIES MASTER IP', 'SCÉNARIO & DROITS DE SÉRIE TV'),
-        subtitle: t('CHRONICLES OF ELDON', 'CHRONICLES OF ELDON'),
-        description: t('Global broadcasting rights and certification metrics for the international sci-fi premium series. Multi-territory SVOD presales, broadcasting signatures, and streaming collection milestones govern the certification index progression.', 'Indexation d\'un projet de série TV internationale. Les signatures de droits de diffusion SVOD et accords de syndication TV mondiaux pilotent la progression de l\'indice de certification.'),
-        icon: <Clapperboard className="text-accent-pink" size={32} />,
-        metric: bio ? `${bio.growth >= 0 ? '+' : ''}${bio.growth.toFixed(2)}%` : '+32.5%',
-        metricLabel: t('MARKET MOVEMENT', 'CONTRAT LYA INITIAL'),
-        baselineProjectVal: 1200000,
-        currentProjectVal: bio ? bio.totalValue : 1590000,
-        baselineUnitVal: 50.00,
-        currentUnitVal: bio ? bio.unitValue : 66.25,
-        jalonPlus: t('SVOD Season 1 Premiere & Pre-Sales', 'Validation d\'accords majeurs de diffusion SVOD multi-pays'),
-        jalonPlusImpact: '+32.5%',
-        jalonMinus: t('Post-production VFX rendering delay', 'Retard de livraison des effets spéciaux de post-production'),
-        jalonMinusImpact: '-15.8%'
-      }
-    ];
-  }, [liveContracts, t]);
 
 
   // Jalons data for each case study
@@ -369,31 +259,23 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
   const activeMeta = CASE_META[selectedCaseIdx];
   const activeColor = selectedCaseIdx === 0 ? '#00E0FF' : selectedCaseIdx === 1 ? '#FFD700' : '#FF007F';
 
-  // ── SINGLE SOURCE OF TRUTH for all price computations ─────────────────────
-  // Computes final price and step-by-step prices for ALL case studies in one place.
-  // Both the selector cards and the right panel read from this same object.
-  const allCasePrices = React.useMemo(() => {
+  // ── SINGLE SOURCE OF TRUTH pour la progression du Score ───────────────────
+  // Calcule le score final et les etapes intermediaires pour toutes les etudes
+  // de cas en un seul endroit. Ni prix, ni rendement -- uniquement le Score.
+  const allCaseScores = React.useMemo(() => {
     return CASE_JALONS.map((jalons, idx) => {
       const initialScore = CASE_META[idx].initialScore;
       let score = initialScore;
-      let price = 50; // always $50 issuance
       const steps = jalons.map(j => {
         const prevScore = score;
-        const prevPrice = price;
         score = Math.max(0, Math.min(1000, score + j.scoreDelta));
-        price = Math.round(price * (score / prevScore) * 100) / 100;
-        const pct = Math.round(((price - prevPrice) / prevPrice) * 1000) / 10;
-        return { prevScore, newScore: score, prevPrice, newPrice: price, pct };
+        return { prevScore, newScore: score };
       });
-      const finalPrice = steps[steps.length - 1]?.newPrice ?? 50;
-      const totalReturn = Math.round(((finalPrice - 50) / 50) * 1000) / 10;
-      return { steps, finalPrice, totalReturn };
+      return { steps };
     });
   }, []); // never changes — data is static
 
-  const jalonPrices = allCasePrices[selectedCaseIdx].steps;
-  const finalPrice   = allCasePrices[selectedCaseIdx].finalPrice;
-  const totalReturn  = allCasePrices[selectedCaseIdx].totalReturn;
+  const jalonPrices = allCaseScores[selectedCaseIdx].steps;
 
   return (
     <section className="relative z-10 py-16 sm:py-28 px-4 sm:px-6 overflow-hidden">
@@ -418,7 +300,25 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
           </p>
         </div>
 
-        {/* ── $50 REFERENCE VALUATION ANCHOR ──────────────────────────── */}
+        {/* ── C'EST QUOI UN JALON ? — Playful explainer ──────────────── */}
+        <div className="max-w-2xl mx-auto mb-10 md:mb-16 flex items-start gap-4 p-5 md:p-6 border border-emerald-500/20 bg-emerald-500/5 rounded-2xl">
+          <div className="w-10 h-10 md:w-12 md:h-12 shrink-0 rounded-full bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+            <Flag size={20} />
+          </div>
+          <div>
+            <p className="text-xs md:text-sm font-black uppercase tracking-widest text-emerald-400 mb-1">
+              {t('What\'s a milestone (\"jalon\")?', 'C\'est quoi un jalon ?')}
+            </p>
+            <p className="text-xs md:text-sm text-white/60 leading-relaxed">
+              {t(
+                'A milestone is a key, verified event in a project\'s life. Achievements — an exhibition, a signed contract, an award — push the LYA Score up. Risks or delays — a dispute, a missed deadline — pull it down. Not every project only goes up: the Score stays honest.',
+                'Un jalon, c\'est un événement clé et vérifié dans la vie d\'un projet. Les réussites — une exposition, un contrat signé, un prix remporté — font avancer le LYA Score. Les risques ou retards — un litige, un délai non tenu — le font reculer. Tous les projets ne montent pas toujours : le Score reste honnête.'
+              )}
+            </p>
+          </div>
+        </div>
+
+        {/* ── LYA SCORE ANCHOR — Unit concept suspended pending MiCA/SEC ── */}
         <div className="flex items-center justify-center gap-6 mb-5 md:mb-10 lg:mb-6 md:mb-10 lg:mb-16">
           <div className="h-px flex-1 bg-gradient-to-r from-transparent to-white/10" />
           <div className="flex items-center gap-4 px-6 py-3 border border-white/10 bg-white/[0.02] flex-wrap">
@@ -427,7 +327,7 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
             </div>
             <div>
               <p className="text-[10px] font-black uppercase tracking-[0.4em] text-white/30">{t('Reference valuation', 'Valorisation de référence')}</p>
-              <p className="text-lg font-black text-white font-mono">{t('Base value', 'Valeur de base')} = <span className="text-primary-cyan">$50.00</span></p>
+              <p className="text-lg font-black text-white font-mono">{t('Certification Score', 'Score de Certification')} = <span className="text-primary-cyan">{t('/ 1000 pts', '/ 1000 pts')}</span></p>
             </div>
             <div className="ml-4 px-3 py-1 bg-emerald-400/10 border border-emerald-400/20">
               <p className="text-[10px] font-black uppercase tracking-widest text-emerald-400">{t('Immutable', 'Immuable')}</p>
@@ -592,8 +492,8 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
                 <div className="mt-6 pt-4 border-t border-white/10">
                   <p className="text-xs text-white/30 font-bold uppercase tracking-widest leading-relaxed">
                     {t(
-                      'A project certified at 50 points has reached a Score of ' + activeMeta.finalScore + '/1000 through validated milestones.',
-                      'Un projet certifié à 50 points a atteint un Score de ' + activeMeta.finalScore + '/1000 grâce à des jalons validés.'
+                      'A project initially scored at ' + activeMeta.initialScore + ' has reached a Score of ' + activeMeta.finalScore + '/1000 through validated milestones.',
+                      'Un projet initialement scoré à ' + activeMeta.initialScore + ' a atteint un Score de ' + activeMeta.finalScore + '/1000 grâce à des jalons validés.'
                     )}
                   </p>
                 </div>
@@ -747,7 +647,7 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
                          {/* Quality */}
                          <div>
                            <div className="flex justify-between text-xs text-white/70 uppercase font-bold tracking-wider mb-1">
-                             <span>{t('Creative Quality', 'Qualité de la Création')}</span>
+                             <span>{t('IC · Conceptual Integrity', 'IC · Intégrité Conceptuelle')}</span>
                              <span className="text-primary-cyan font-mono">{demoPillars.quality} / 200</span>
                            </div>
                            <input 
@@ -763,7 +663,7 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
                          {/* Marketability */}
                          <div>
                            <div className="flex justify-between text-xs text-white/70 uppercase font-bold tracking-wider mb-1">
-                             <span>{t('Market Appeal', 'Potentiel Commercial')}</span>
+                             <span>{t('MA · Current Maturity', 'MA · Maturité Actuelle')}</span>
                              <span className="text-accent-pink font-mono">{demoPillars.marketability} / 200</span>
                            </div>
                            <input 
@@ -779,7 +679,7 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
                          {/* Compliance */}
                          <div>
                            <div className="flex justify-between text-xs text-white/70 uppercase font-bold tracking-wider mb-1">
-                             <span>{t('Legal & IP Security', 'Sécurité Juridique & PI')}</span>
+                             <span>{t('FR · Real Feasibility', 'FR · Faisabilité Réelle')}</span>
                              <span className="text-emerald-400 font-mono">{demoPillars.security} / 200</span>
                            </div>
                            <input 
@@ -795,7 +695,7 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
                          {/* Innovation */}
                          <div>
                            <div className="flex justify-between text-xs text-white/70 uppercase font-bold tracking-wider mb-1">
-                             <span>{t('Technical Innovation', 'Innovation Technique')}</span>
+                             <span>{t('CE · Evolution Capacity', 'CE · Capacité d\'Évolution')}</span>
                              <span className="text-accent-purple font-mono">{demoPillars.innovation} / 200</span>
                            </div>
                            <input 
@@ -811,7 +711,7 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
                          {/* Growth */}
                          <div>
                            <div className="flex justify-between text-xs text-white/70 uppercase font-bold tracking-wider mb-1">
-                             <span>{t('Scale Potential', 'Perspectives d\'Échelle')}</span>
+                             <span>{t('IN · Embodiment', 'IN · Incarnation')}</span>
                              <span className="text-accent-gold font-mono">{demoPillars.growth} / 200</span>
                            </div>
                            <input 
@@ -1085,7 +985,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
             >
               <div className="relative mb-4 sm:mb-8 lg:mb-12">
                 <h1 style={{ fontSize: 'clamp(1.6rem, 6.5vw, 9rem)' }} className="font-black tracking-tighter leading-[0.88] uppercase text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.2)]">
-                  {t('ART IS A', 'L\'ART EST UN')}<br/>
+                  {t('ART NEED A', 'L\'ART A BESOIN D\'UN')}<br/>
                   <span className="text-primary-cyan drop-shadow-[0_0_80px_rgba(0,224,255,0.6)] font-black">{t('STANDARD.', 'STANDARD.')}</span>
                 </h1>
               </div>
@@ -1180,7 +1080,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
                 </p>
                 <div className="p-6 bg-white/5 border-l-4 border-primary-cyan">
                   <p className="text-base text-white opacity-80 leading-relaxed text-justify">
-                    "{t('We do not just finance projects; we create a liquid ecosystem where the value of a masterpiece is documented, verified, and verifiable in real-time.', 'Nous ne finançons pas seulement des projets ; nous créons un écosystème liquide où la valeur d\'un chef-d\'œuvre est documentée, vérifiée et consultable en temps réel.')}"
+                    "{t('We do not just support projects; we create a living ecosystem where the quality of every creative work is scored, certified, and visible to the world — in real time, for everyone.', 'Nous ne soutenons pas seulement des projets ; nous créons un écosystème vivant où la qualité de chaque œuvre créative est scorée, certifiée et visible par tous — en temps réel, pour chacun.')}"
                   </p>
                 </div>
               </div>
@@ -1317,7 +1217,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
                 <tr>
                   <td className="p-6 font-headline font-bold text-white text-sm uppercase tracking-wider">{t('Accessibility', 'Accessibilité')}</td>
                   <td className="p-6 text-sm text-white font-medium bg-primary-cyan/[0.02] border-x border-white/10">
-                    <span className="text-primary-cyan font-black block mb-1">✓ {t('Open Certification, Support from $50', 'Certification Ouverte, Soutien dès $50')}</span>
+                    <span className="text-primary-cyan font-black block mb-1">✓ {t('Open Certification, Free to Explore', 'Certification Ouverte, Accessible à tous')}</span>
                     <p className="text-xs text-white/70 leading-relaxed">{t('Democratizing creative quality certification across all sectors: music, film, fashion, gaming, architecture, design and more.', 'Démocratisation de la certification créative pour tous les secteurs : musique, cinéma, mode, jeux vidéo, architecture, design et bien plus.')}</p>
                   </td>
                   <td className="p-6 text-xs text-white/40 leading-relaxed">
@@ -1387,9 +1287,23 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
               <Users size={24} />
             </div>
             <h3 className="text-xl font-black font-headline uppercase tracking-widest mb-4">{t('home.pillars.creators.title', 'Creators')}</h3>
-            <p className="text-on-surface-variant text-sm leading-relaxed opacity-70 text-justify">
-              {t('The heart of the ecosystem. Creative works are indexed into Certified Creative Contracts, offering future contractual rights to fuel their growth while keeping full creative control.', 'Le cœur de l\'écosystème. Les créations sont indexées en Contrats Créatifs Certifiés, offrant des droits contractuels futurs pour alimenter leur croissance tout en gardant le contrôle créatif.')}
+            <p className="text-on-surface-variant text-sm leading-relaxed opacity-70 text-justify mb-4">
+              {t('The heart of the ecosystem. Submit your project, receive a certified LYA Score, and build your creative reputation on the public registry — with full creative control.', 'Le cœur de l\'écosystème. Soumettez votre projet, obtenez un Score LYA certifié, et construisez votre réputation créative sur le registre public — en gardant le contrôle total.')}
             </p>
+            <ul className="space-y-2 text-xs text-left border-t border-primary-cyan/10 pt-4">
+              <li className="flex items-start gap-2 text-on-surface-variant/80">
+                <span className="text-primary-cyan shrink-0">✓</span>
+                <span>{language === 'FR' ? 'Obtenir un Score LYA certifié sur 1000 points, visible publiquement' : 'Receive a certified LYA Score out of 1000, publicly visible'}</span>
+              </li>
+              <li className="flex items-start gap-2 text-on-surface-variant/80">
+                <span className="text-primary-cyan shrink-0">✓</span>
+                <span>{language === 'FR' ? 'Chaque jalon (exposition, prix, contrat signé) fait progresser votre score automatiquement' : 'Every milestone (exhibition, award, signed deal) automatically boosts your score'}</span>
+              </li>
+              <li className="flex items-start gap-2 text-on-surface-variant/80">
+                <span className="text-primary-cyan shrink-0">✓</span>
+                <span>{language === 'FR' ? 'Attirer des mécènes, professionnels et partenaires grâce à un profil certifié crédible' : 'Attract patrons, professionals and partners through a credible certified profile'}</span>
+              </li>
+            </ul>
           </div>
 
           <div className="bg-surface-low border border-white/5 p-8 rounded-sm relative overflow-hidden group hover:border-accent-gold/30 transition-all">
@@ -1398,9 +1312,27 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
               <TrendingUp size={24} />
             </div>
             <h3 className="text-xl font-black font-headline uppercase tracking-widest mb-4">{language === 'FR' ? 'PARTENAIRES CRÉATIFS' : 'CREATIVE PARTNERS'}</h3>
-            <p className="text-on-surface-variant text-sm leading-relaxed opacity-70 text-justify">
+            <p className="text-on-surface-variant text-sm leading-relaxed opacity-70 text-justify mb-4">
               {language === 'FR' ? 'Soutenez la prochaine génération de projets créatifs. Les Partenaires Créatifs suivent les projets certifiés et reçoivent des contreparties de reconnaissance en soutenant leur réussite via un mécénat de reconnaissance.' : 'Support the next generation of creative projects. Creative Partners follow certified projects and receive recognition-based considerations by supporting their success through recognition-based patronage.'}
             </p>
+            <ul className="space-y-2 text-xs text-left border-t border-accent-gold/10 pt-4">
+              <li className="flex items-start gap-2 text-on-surface-variant/80">
+                <span className="text-accent-gold shrink-0">✓</span>
+                <span>{language === 'FR' ? 'Nom cité au générique ou dans les crédits de l\'œuvre' : 'Name credited in the work\'s credits or acknowledgements'}</span>
+              </li>
+              <li className="flex items-start gap-2 text-on-surface-variant/80">
+                <span className="text-accent-gold shrink-0">✓</span>
+                <span>{language === 'FR' ? 'Accès en avant-première aux contenus et sorties' : 'Early access to previews and releases'}</span>
+              </li>
+              <li className="flex items-start gap-2 text-on-surface-variant/80">
+                <span className="text-accent-gold shrink-0">✓</span>
+                <span>{language === 'FR' ? 'Certificat de mécénat numérique et badge de profil' : 'Digital patronage certificate and profile badge'}</span>
+              </li>
+              <li className="flex items-start gap-2 text-on-surface-variant/80">
+                <span className="text-accent-gold shrink-0">✓</span>
+                <span>{language === 'FR' ? 'Invitations à des événements ou avant-premières exclusives' : 'Invitations to exclusive events or premieres'}</span>
+              </li>
+            </ul>
           </div>
 
           <div className="bg-surface-low border border-white/5 p-8 rounded-sm relative overflow-hidden group hover:border-emerald-400/30 transition-all">
@@ -1409,9 +1341,23 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
               <ShieldCheck size={24} />
             </div>
             <h3 className="text-xl font-black font-headline uppercase tracking-widest mb-4">{t('home.pillars.professionals.title', 'Professionals')}</h3>
-            <p className="text-on-surface-variant text-sm leading-relaxed opacity-70 text-justify">
-              {t('The guarantors of LYA certification. A network of certified validators assess each creation across the 5 LYA pillars, ensuring every score reflects genuine artistic and commercial integrity.', 'Les garants de la certification LYA. Un réseau de validateurs certifiés évalue chaque création sur les 5 piliers LYA, garantissant que chaque score reflète une intégrité artistique et commerciale authentique.')}
+            <p className="text-on-surface-variant text-sm leading-relaxed opacity-70 text-justify mb-4">
+              {t('The guarantors of LYA certification. A network of certified validators assess each creation across the 5 LYA pillars, ensuring every score reflects genuine artistic and creative integrity.', 'Les garants de la certification LYA. Un réseau de validateurs certifiés évalue chaque création sur les 5 piliers LYA, garantissant que chaque score reflète une intégrité artistique et créative authentique.')}
             </p>
+            <ul className="space-y-2 text-xs text-left border-t border-emerald-400/10 pt-4">
+              <li className="flex items-start gap-2 text-on-surface-variant/80">
+                <span className="text-emerald-400 shrink-0">✓</span>
+                <span>{language === 'FR' ? 'Évaluer des projets sur les 5 piliers LYA et obtenir un badge de validateur certifié' : 'Evaluate projects on the 5 LYA pillars and earn a certified validator badge'}</span>
+              </li>
+              <li className="flex items-start gap-2 text-on-surface-variant/80">
+                <span className="text-emerald-400 shrink-0">✓</span>
+                <span>{language === 'FR' ? 'Accès prioritaire aux projets à fort potentiel avant leur diffusion publique' : 'Priority access to high-potential projects before public release'}</span>
+              </li>
+              <li className="flex items-start gap-2 text-on-surface-variant/80">
+                <span className="text-emerald-400 shrink-0">✓</span>
+                <span>{language === 'FR' ? 'Renforcer votre visibilité et crédibilité dans l\'écosystème créatif LYA' : 'Strengthen your visibility and credibility in the LYA creative ecosystem'}</span>
+              </li>
+            </ul>
           </div>
 
           <div className="bg-surface-low border border-white/5 p-8 rounded-sm relative overflow-hidden group hover:border-primary-cyan/30 transition-all">
@@ -1420,9 +1366,23 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
               <Eye size={24} />
             </div>
             <h3 className="text-xl font-black font-headline uppercase tracking-widest mb-4">{t('home.pillars.public.title', 'The Public')}</h3>
-            <p className="text-on-surface-variant text-sm leading-relaxed opacity-70 text-justify">
+            <p className="text-on-surface-variant text-sm leading-relaxed opacity-70 text-justify mb-4">
               {t('Discover the creations of tomorrow. Explore the registry, follow the creative journey and contribute to the growth of the works you believe in.', 'Découvrez les créations de demain. Explorez le registre, suivez le parcours créatif et contribuez à la croissance des œuvres en lesquelles vous croyez.')}
             </p>
+            <ul className="space-y-2 text-xs text-left border-t border-primary-cyan/10 pt-4">
+              <li className="flex items-start gap-2 text-on-surface-variant/80">
+                <span className="text-primary-cyan shrink-0">✓</span>
+                <span>{language === 'FR' ? 'Accès gratuit au registre public et aux scores LYA de tous les projets' : 'Free access to the public registry and LYA Scores of all projects'}</span>
+              </li>
+              <li className="flex items-start gap-2 text-on-surface-variant/80">
+                <span className="text-primary-cyan shrink-0">✓</span>
+                <span>{language === 'FR' ? 'Suivre l\'évolution d\'un projet et recevoir des alertes score en temps réel' : 'Follow a project\'s journey and receive real-time score alerts'}</span>
+              </li>
+              <li className="flex items-start gap-2 text-on-surface-variant/80">
+                <span className="text-primary-cyan shrink-0">✓</span>
+                <span>{language === 'FR' ? 'Voter pour soutenir un projet et voir son score communautaire progresser' : 'Vote to support a project and watch its community score rise'}</span>
+              </li>
+            </ul>
           </div>
         </div>
 
@@ -1561,11 +1521,11 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
 
           {/* Bas de section — texte institutionnel */}
           <div className="mt-10 md:mt-14 bg-accent-gold/5 border border-accent-gold/15 rounded-2xl p-5 sm:p-8 text-center max-w-3xl mx-auto">
-            <p className="text-xs font-black text-accent-gold uppercase tracking-[0.3em] mb-3">✦ {t('CONFIDENTIAL NETWORK', 'RÉSEAU CONFIDENTIEL')}</p>
+            <p className="text-xs font-black text-accent-gold uppercase tracking-[0.3em] mb-3">✦ {t('COMMITTEE CONFIDENTIALITY', 'CONFIDENTIALITÉ DU COMITÉ')}</p>
             <p className="text-sm md:text-base text-on-surface-variant/70 leading-relaxed">
               {t(
-                'Our institutional partners and validators are engaged under strict professional agreements. Their identity remains confidential to protect ongoing creative collaborations. LinkYourArt acts as a trusted intermediary — never exposing its network.',
-                'Nos partenaires institutionnels et validateurs sont engagés sous des accords professionnels stricts. Leur identité reste confidentielle pour protéger les collaborations créatives en cours. LinkYourArt agit comme intermédiaire de confiance — ne jamais exposer son réseau.'
+                'Our institutional partners and validators review projects under strict professional agreements. Their individual identity remains confidential to preserve the impartiality of each review — LYA publishes the certification outcome, not the reviewers\' names.',
+                'Nos partenaires institutionnels et validateurs examinent les projets sous des accords professionnels stricts. Leur identité individuelle reste confidentielle pour préserver l\'impartialité de chaque évaluation — LYA publie le résultat de la certification, pas le nom des évaluateurs.'
               )}
             </p>
           </div>
@@ -1580,9 +1540,9 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
               </div>
             </div>
             <div>
-              <h3 className="text-3xl font-black font-headline uppercase tracking-[0.2em] mb-4">{t('home.standard.title', 'The LYA')} <span className="text-white">{t('home.standard.title_cyan', 'Unit Standard')}</span></h3>
+              <h3 className="text-3xl font-black font-headline uppercase tracking-[0.2em] mb-4">{t('home.standard.title', 'The LYA')} <span className="text-white">{t('home.standard.title_cyan', 'Score Standard')}</span></h3>
               <p className="text-on-surface-variant text-lg leading-relaxed opacity-80 text-justify">
-                {t('home.standard.desc', 'LinkYourArt introduces the unique certification standard for the creative market. Each certified project receives a LYA Score reflecting its real progress. This standard, combining algorithmic analysis and expert committee review, provides the only objective measure of creative quality.')}
+                {t('home.standard.desc', 'LinkYourArt introduces the unique quality certification standard for the creative market. The LYA Score — from 0 to 1000 points — combines algorithmic analysis and expert committee review to provide the only objective, transparent and public measure of creative quality.')}
               </p>
             </div>
           </div>
@@ -1597,17 +1557,17 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
             {t('home.scoring.title', 'LE SYSTÈME')} <span className="text-primary-cyan">{t('home.scoring.title_cyan', "D'ÉVALUATION LYA")}</span>
           </h2>
           <p className="text-on-surface-variant text-lg opacity-80 max-w-2xl mx-auto text-justify">
-            {t('home.scoring.subtitle', 'Notre algorithme propriétaire évalue chaque projet selon 5 critères critiques, fournissant un Indice de Performance Créative objectif et transparent sur 1000.')}
+            {t('home.scoring.subtitle', 'Notre algorithme propriétaire évalue chaque projet selon 5 piliers officiels, fournissant un Score LYA objectif et transparent sur 1000.')}
           </p>
         </div>
 
         <div className="grid md:grid-cols-5 gap-4">
           {[
-            { label: t('home.scoring.c1.label', 'Qualité du Projet'), score: '200', desc: t('home.scoring.c1.desc', "Évaluation du mérite créatif, de la singularité du projet et de la qualité d'exécution."), color: 'text-primary-cyan', bg: 'bg-primary-cyan/5', border: 'border-primary-cyan/20' },
-            { label: t('home.scoring.c2.label', 'Potentiel de Marché'), score: '200', desc: t('home.scoring.c2.desc', "Analyse de la demande sur notre plateforme, du potentiel d'accessibilité et de l'audience cible."), color: 'text-accent-pink', bg: 'bg-accent-pink/5', border: 'border-accent-pink/20' },
-            { label: t('home.scoring.c3.label', 'Sécurité Juridique'), score: '200', desc: t('home.scoring.c3.desc', "Vérification des droits contractuels, protection de la propriété intellectuelle et conformité réglementaire."), color: 'text-accent-green', bg: 'bg-accent-green/5', border: 'border-accent-green/20' },
-            { label: t('home.scoring.c4.label', 'Innovation Technique'), score: '200', desc: t('home.scoring.c4.desc', "Évaluation de l'unicité technologique, de la complexité du contrat certifié et de la durabilité numérique."), color: 'text-accent-purple', bg: 'bg-accent-purple/5', border: 'border-accent-purple/20' },
-            { label: t('home.scoring.c5.label', 'Potentiel de Croissance'), score: '200', desc: t('home.scoring.c5.desc', "Projections d'appréciation future basées sur les tendances du marché créatif et la feuille de route."), color: 'text-accent-gold', bg: 'bg-accent-gold/5', border: 'border-accent-gold/20' },
+            { label: t('home.scoring.c1.label', "IC · Intégrité Conceptuelle"), score: '200', desc: t('home.scoring.c1.desc', "Cohérence et clarté de la vision créative : le projet tient-il sa promesse artistique de bout en bout ?"), color: 'text-primary-cyan', bg: 'bg-primary-cyan/5', border: 'border-primary-cyan/20' },
+            { label: t('home.scoring.c2.label', "MA · Maturité Actuelle"), score: '200', desc: t('home.scoring.c2.desc', "État d'avancement réel du projet : ce qui est déjà produit, documenté et vérifiable aujourd'hui."), color: 'text-accent-pink', bg: 'bg-accent-pink/5', border: 'border-accent-pink/20' },
+            { label: t('home.scoring.c3.label', "CE · Capacité d'Évolution"), score: '200', desc: t('home.scoring.c3.desc', "Marge de progression du projet : sa capacité à franchir de nouveaux jalons de certification."), color: 'text-accent-green', bg: 'bg-accent-green/5', border: 'border-accent-green/20' },
+            { label: t('home.scoring.c4.label', "FR · Faisabilité Réelle"), score: '200', desc: t('home.scoring.c4.desc', "Solidité du plan d'exécution : ressources, calendrier et moyens réunis pour aller au bout."), color: 'text-accent-purple', bg: 'bg-accent-purple/5', border: 'border-accent-purple/20' },
+            { label: t('home.scoring.c5.label', "IN · Incarnation"), score: '200', desc: t('home.scoring.c5.desc', "Présence et crédibilité du créateur : son engagement direct et vérifiable dans le projet."), color: 'text-accent-gold', bg: 'bg-accent-gold/5', border: 'border-accent-gold/20' },
           ].map((criterion, i) => (
             <motion.div 
               key={i}
@@ -1636,7 +1596,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
           className="mt-16 text-center"
         >
           <p className="text-base text-on-surface-variant/60 uppercase tracking-[0.2em] max-w-3xl mx-auto leading-relaxed text-justify">
-            "{t('The LYA Index is the definitive measure of a creative work\'s living value — updated in real-time through market signals and periodic professional audits.', 'L\'Indice LYA est la mesure définitive de la valeur vivante d\'une création — mise à jour en temps réel grâce aux signaux du marché et aux audits professionnels périodiques.')}"
+            "{t('The LYA Score is the definitive measure of a creative work\'s maturity — updated at every verified milestone and periodic professional audit.', 'Le Score LYA est la mesure la plus fiable de la maturité d\'une création — mis à jour à chaque jalon vérifié et audit professionnel périodique.')}"
           </p>
         </motion.div>
       </section>
@@ -1657,7 +1617,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
             <span className="text-primary-cyan">{t('home.cta.title_cyan', 'Engagement')}</span>
           </h2>
           <p className="text-xl text-on-surface-variant mb-12 max-w-xl mx-auto opacity-80 text-justify">
-            {t('"What you create today can be recognized by thousands tomorrow."', '"Ce que vous créez aujourd\'hui peut être reconnu par des milliers de personnes demain."')}
+            {t('"Your work has value. We certify it. Patrons recognize it."', '"Votre travail a une valeur. Nous la certifions. Des mécènes la reconnaissent."')}
           </p>
           <button 
             onClick={() => onViewChange('DASHBOARD')}
@@ -1680,3 +1640,4 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
   );
 };
 // cache bust Wed May 27 04:22:53 UTC 2026
+

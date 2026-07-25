@@ -11,7 +11,7 @@ import {
 } from 'lucide-react';
 import { ResponsiveContainer, AreaChart, Area, Tooltip, XAxis } from 'recharts';
 
-const unitPrice = (g: number) => LYA_UNIT_VALUE * (1 + g / 100);
+const unitPrice = (_g: number) => LYA_UNIT_VALUE;
 
 // Données simulées du créateur public
 const CREATOR_PROFILES = [

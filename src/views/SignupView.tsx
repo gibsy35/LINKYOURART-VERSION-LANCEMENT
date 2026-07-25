@@ -194,7 +194,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
           body: JSON.stringify({
             to: formData.email,
             name: formData.name,
-            role: role === UserRole.CREATOR ? 'CREATOR' : role === UserRole.PROFESSIONAL ? 'PROFESSIONAL' : 'INVESTOR',
+            role: role === UserRole.CREATOR ? 'CREATOR' : role === UserRole.PROFESSIONAL ? 'PROFESSIONAL' : 'PATRON',
             lang: language
           })
         }).catch(() => {});
@@ -295,7 +295,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
       color: 'primary-cyan'
     },
     {
-      id: UserRole.INVESTOR,
+      id: UserRole.PATRON,
       title: t('Art Patrons, VCs & Cultural Backers', 'Mécène, Fonds d\'Accompagnement & VC'),
       description: t('Discover emerging projects, participate in co-productions, and support global modern creation.', 'Découvrez les projets émergents, participez à la coproduction et soutenez la création moderne.'),
       icon: TrendingUp,

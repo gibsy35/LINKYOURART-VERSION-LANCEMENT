@@ -133,13 +133,13 @@ const ProfileView: React.FC<ProfileViewProps> = ({
     }
 
     const [factors] = useState<Record<string, PillarFactor>>(() => {
-      if (user.role === UserRole.INVESTOR) {
+      if (user.role === UserRole.PATRON) {
         return { 
-          stability: { label: t('Portfolio Stability', 'Stabilité Portfolio'), score: 185, status: 'OPTIMAL', color: 'bg-emerald-500/20 text-emerald-400' },
-          roi: { label: t('ROI Potential', 'Potentiel ROI'), score: 170, status: 'HIGH', color: 'bg-primary-cyan/20 text-primary-cyan' },
-          risk: { label: t('Risk Assessment', 'Évaluation Risque'), score: 195, status: 'LOW', color: 'bg-accent-gold/20 text-accent-gold' },
-          diversification: { label: t('Diversification Index', 'Indice Diversification'), score: 165, status: 'STABLE', color: 'bg-accent-magenta/20 text-accent-magenta' },
-          liquidity: { label: t('Ratio de Disponibilité', 'Ratio de Disponibilité'), score: 145, status: 'FLUID', color: 'bg-accent-purple/20 text-accent-purple' }
+          stability: { label: t('Patronage Consistency', 'Constance du Mécénat'), score: 185, status: 'OPTIMAL', color: 'bg-emerald-500/20 text-emerald-400' },
+          roi: { label: t('Recognition Reach', 'Portée de Reconnaissance'), score: 170, status: 'HIGH', color: 'bg-primary-cyan/20 text-primary-cyan' },
+          risk: { label: t('Universe Diversity', 'Diversité des Univers Soutenus'), score: 195, status: 'BROAD', color: 'bg-accent-gold/20 text-accent-gold' },
+          diversification: { label: t('Creator Loyalty', 'Fidélité aux Créateurs'), score: 165, status: 'STABLE', color: 'bg-accent-magenta/20 text-accent-magenta' },
+          liquidity: { label: t('Registry Tenure', 'Ancienneté sur le Registre'), score: 145, status: 'ESTABLISHED', color: 'bg-accent-purple/20 text-accent-purple' }
         };
       } else if (user.role === UserRole.PROFESSIONAL) {
         return { 
@@ -180,7 +180,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
               <Activity className="text-primary-cyan" size={24} /> {user.role === UserRole.CREATOR ? t('LYA PERFORMANCE SYSTEM', 'SYSTÈME DE PERFORMANCE LYA') : t('PROFESSIONAL STATUS HUB', 'HUB DE STATUT PROFESSIONNEL')}
             </h3>
             <p className="text-[10px] md:text-[10px] text-accent-gold uppercase tracking-widest font-bold opacity-40">
-              {user.role === UserRole.INVESTOR ? t('Optimize your professional capital allocation', 'Optimisez votre allocation de capital professionnel') :
+              {user.role === UserRole.PATRON ? t('Track the impact of your patronage across the LYA Registry', 'Suivez l\'impact de votre mécénat sur le Registre LYA') :
                user.role === UserRole.PROFESSIONAL ? t('Analyze your network validation efficiency', 'Analysez l\'efficacité de validation de votre réseau') :
                t('Predict your professional valuation potential', 'Prédisez votre potentiel de valorisation professionnelle')}
             </p>
@@ -421,9 +421,9 @@ const ProfileView: React.FC<ProfileViewProps> = ({
           const projDoc = doc(collection(db, 'contracts'), id);
           const category = categories[Math.floor(Math.random() * categories.length)];
           
-          // Correction logic: Mint price is $50.00
-          const growthValue = parseFloat((Math.random() * 40 - 15).toFixed(2)); // -15% to +25%
-          const unitValue = parseFloat((LYA_UNIT_VALUE * (1 + growthValue / 100)).toFixed(2));
+          // Prix fixe : $50.00 partout, aucune valorisation simulee
+          const growthValue = 0;
+          const unitValue = LYA_UNIT_VALUE;
           const totalUnits = 1000 + Math.floor(Math.random() * 9000);
           const totalValue = unitValue * totalUnits;
           
@@ -897,10 +897,10 @@ const ProfileView: React.FC<ProfileViewProps> = ({
           bg: 'bg-primary-cyan/10',
           border: 'border-primary-cyan/30'
         };
-      case UserRole.INVESTOR:
+      case UserRole.PATRON:
         return {
           icon: Award,
-          label: t('Institutional Investor', 'Investisseur Institutionnel'),
+          label: t('Founding Patron', 'Mécène Fondateur'),
           color: 'text-accent-gold',
           bg: 'bg-accent-gold/10',
           border: 'border-accent-gold/30'
@@ -1851,7 +1851,7 @@ const renderMentorshipContent = () => (
                 {/* Asset Allocation - Premium Pie */}
                 <section className="bg-surface-low/30 border border-white/10 p-6 md:p-10 backdrop-blur-2xl rounded-2xl shadow-2xl">
                   <h3 className="text-xl md:text-2xl font-black uppercase mb-6 md:mb-10 flex items-center gap-3 md:gap-4">
-                    <PieChartIcon className="text-primary-cyan" size={24} /> {t('Asset Mix', 'Mix d\'Actifs')}
+                    <PieChartIcon className="text-primary-cyan" size={24} /> {t('Catalog Breakdown', 'Répartition du Catalogue')}
                   </h3>
                   <div className="h-64 md:h-72 mb-6 md:mb-10 relative">
                     <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
@@ -1954,7 +1954,7 @@ const renderMentorshipContent = () => (
         )}
       </div>
     );
-      case UserRole.INVESTOR:
+      case UserRole.PATRON:
         return (
           <div className="space-y-12">
             <nav className="flex gap-4 md:gap-12 border-b border-white/5 relative mb-12 overflow-x-auto no-scrollbar whitespace-nowrap scroll-smooth pb-1 px-1">
@@ -2000,7 +2000,7 @@ const renderMentorshipContent = () => (
                     </h2>
                   </div>
                   <p className="text-sm md:text-lg text-on-surface-variant font-medium max-w-xl mb-6">
-                    {t('Intelligence Discovery Terminal: Identify high-potential creative assets before they reach expert grade. Use our proprietary filters to find the next creative unicorn.', 'Terminal de Découverte d\'Intelligence : Identifiez les actifs créatifs à haut potentiel avant qu\'ils n\'atteignent le grade expert. Utilisez nos filtres propriétaires pour trouver la prochaine licorne créative.')}
+                    {t('Discovery Terminal: Identify high-potential certified projects before they reach top LYA Score grade. Use our proprietary filters to find the next great creative work.', 'Terminal de Découverte : Identifiez les projets certifiés à haut potentiel avant qu\'ils n\'atteignent le grade expert du Score LYA. Utilisez nos filtres propriétaires pour repérer les prochaines grandes œuvres.')}
                   </p>
                   <button 
                     onClick={handleScan}
@@ -2036,7 +2036,7 @@ const renderMentorshipContent = () => (
             {/* Investor Header - Premium Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard 
-          title={t('Portfolio Value', 'Valeur Portefeuille')} 
+          title={t('Total Contributed', 'Total Contribué')} 
           value="$142,500" 
           icon={<Wallet size={20} />} 
           trend="+$12.4K this week" 
@@ -2044,40 +2044,40 @@ const renderMentorshipContent = () => (
           subValue={t('EXPERT GRADE', 'GRADE EXPERT')}
         />
         <StatCard 
-          title={t('Total Yield', 'Rendement Total')} 
-          value="+24.8%" 
+          title={t('Average Supported Score', 'Score Moyen Soutenu')} 
+          value="842/1000" 
           icon={<TrendingUp size={20} />} 
-          trend="Outperforming Market" 
+          trend={t('Above Registry Average', 'Au-dessus de la moyenne du Registre')} 
           color="cyan" 
-          subValue="LYA GLOBAL AGGREGATE"
+          subValue="LYA REGISTRY AVERAGE"
         />
         <StatCard 
-          title={t('Active Positions', 'Positions Actives')} 
+          title={t('Projects Followed', 'Projets Suivis')} 
           value="18" 
           icon={<Layers size={20} />} 
-          trend="Diversified" 
+          trend={t('Diverse Universes', 'Univers Variés')} 
           color="gold" 
-          subValue="VERIFIED CONTRACTS"
+          subValue={t('CERTIFIED PROJECTS', 'PROJETS CERTIFIÉS')}
         />
         <StatCard 
-          title={t('Market Rank', 'Rang Marché')} 
+          title={t('Patron Rank', 'Rang Mécène')} 
           value="#42" 
           icon={<Award size={20} />} 
-          trend="Top 1% Elite" 
+          trend={t('Top 1% Founding Circle', 'Top 1% Cercle Fondateur')} 
           color="purple" 
-          subValue="GLOBAL INVESTOR NETWORK"
+          subValue={t('LYA COMMUNITY', 'COMMUNAUTÉ LYA')}
         />
       </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 lg:gap-16">
               <div className="lg:col-span-8 space-y-8 md:space-y-12 lg:space-y-16">
-                {/* Portfolio Performance - Premium Chart */}
+                {/* Historique de Mécénat */}
                 <section className="bg-surface-low border border-white/5 p-5 md:p-8 lg:p-12 backdrop-blur-2xl relative overflow-hidden">
                   <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary-cyan/20 to-transparent" />
                   <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 md:mb-10 lg:mb-12 gap-4 md:gap-6">
                     <div>
                       <h3 className="text-xl md:text-2xl lg:text-3xl font-black uppercase italic tracking-tight flex items-center gap-3 md:gap-4 mb-2">
-                        <TrendingUp className="text-primary-cyan" size={28} /> {t('Portfolio Growth', 'Croissance du Portefeuille')}
+                        <TrendingUp className="text-primary-cyan" size={28} /> {t('Patronage History', 'Historique de Mécénat')}
                       </h3>
                       <p className="text-xs md:text-xs text-on-surface-variant uppercase tracking-widest font-bold opacity-40">{t('Expert-grade performance tracking', 'Suivi de performance de qualité experte')}</p>
                     </div>
@@ -2130,7 +2130,7 @@ const renderMentorshipContent = () => (
                             fontSize: '11px',
                             boxShadow: '0 20px 50px rgba(0,0,0,0.5)'
                           }}
-                          formatter={(v) => [formatPrice(v as number), 'Portfolio Value']}
+                          formatter={(v) => [formatPrice(v as number), 'Total Contributed']}
                         />
                         <Area type="monotone" dataKey="value" stroke="#00E0FF" fillOpacity={1} fill="url(#colorGrowth)" strokeWidth={3} />
                       </AreaChart>
@@ -2143,7 +2143,7 @@ const renderMentorshipContent = () => (
                   {/* Asset Allocation - Premium Pie */}
                   <section className="bg-surface-low border border-white/5 p-6 md:p-10 backdrop-blur-2xl">
                     <h3 className="text-lg md:text-2xl font-black uppercase italic mb-8 md:mb-10 flex items-center gap-3 md:gap-4">
-                      <PieChartIcon className="text-primary-cyan" size={28} /> {t('Asset Allocation', 'Allocation d\'Actifs')}
+                      <PieChartIcon className="text-primary-cyan" size={28} /> {t('Patronage Distribution', 'Répartition du Mécénat')}
                     </h3>
                     <div className="h-60 md:h-72 mb-8 md:mb-10 relative">
                       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">

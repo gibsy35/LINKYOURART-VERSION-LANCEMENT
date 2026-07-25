@@ -148,7 +148,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
         t('White-label reporting', 'Rapports en marque blanche'),
         t('Dedicated account manager', 'Gestionnaire de compte dédié'),
       ],
-      color: 'white',
+      color: 'accent-pink',
       icon: <User size={24} />,
     },
     {
@@ -220,7 +220,13 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.1 }}
-                className={`relative bg-surface-high/40 border ${plan.popular ? 'border-accent-gold shadow-[0_0_30px_rgba(212,175,55,0.1)]' : 'border-white/10'} p-5 sm:p-6 backdrop-blur-xl flex flex-col`}
+                className={`relative bg-surface-high/40 border ${
+                  plan.popular ? 'border-accent-gold shadow-[0_0_30px_rgba(212,175,55,0.1)]' :
+                  plan.color === 'accent-purple' ? 'border-accent-purple/30' :
+                  plan.color === 'accent-pink' ? 'border-accent-pink/30' :
+                  plan.color === 'primary-cyan' ? 'border-primary-cyan/25' :
+                  'border-white/10'
+                } p-5 sm:p-6 backdrop-blur-xl flex flex-col`}
               >
                 {plan.popular && (
                   <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-accent-gold text-surface-dim text-[10px] font-black uppercase tracking-widest whitespace-nowrap">
@@ -233,12 +239,19 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
                     ? 'bg-accent-gold/10 border border-accent-gold/30 text-accent-gold' 
                     : plan.color === 'accent-purple'
                     ? 'bg-accent-purple/10 border border-accent-purple/30 text-accent-purple'
+                    : plan.color === 'accent-pink'
+                    ? 'bg-accent-pink/10 border border-accent-pink/30 text-accent-pink'
                     : `bg-${plan.color}/10 border border-${plan.color}/30 text-${plan.color}`
                 }`}>
                   {plan.icon}
                 </div>
 
-                <h3 className="text-xl font-black uppercase mb-1 tracking-tighter">{plan.name}</h3>
+                <h3 className={`text-xl font-black uppercase mb-1 tracking-tighter ${
+                  plan.color === 'accent-gold' ? 'text-accent-gold' :
+                  plan.color === 'accent-purple' ? 'text-accent-purple' :
+                  plan.color === 'accent-pink' ? 'text-accent-pink' :
+                  'text-primary-cyan'
+                }`}>{plan.name}</h3>
                 <div className="flex flex-col mb-4">
                   {plan.id === 'PRO_ENTERPRISE' ? (
                     <div>
@@ -267,7 +280,12 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
                 <div className="space-y-3 mb-8 flex-1">
                   {plan.features.map((feature, j) => (
                     <div key={j} className="flex items-start gap-2">
-                      <Check size={12} className="text-primary-cyan mt-0.5 shrink-0" />
+                      <Check size={12} className={`mt-0.5 shrink-0 ${
+                        plan.color === 'accent-gold' ? 'text-accent-gold' :
+                        plan.color === 'accent-purple' ? 'text-accent-purple' :
+                        plan.color === 'accent-pink' ? 'text-accent-pink' :
+                        'text-primary-cyan'
+                      }`} />
                       <span className="text-[10px] text-on-surface/80 uppercase font-bold tracking-wide leading-tight">{feature}</span>
                     </div>
                   ))}
@@ -286,6 +304,8 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
                     ? 'bg-accent-purple/90 text-white shadow-lg shadow-accent-purple/20 hover:bg-white hover:text-surface-dim'
                     : plan.popular 
                     ? 'bg-accent-gold text-surface-dim hover:bg-white' 
+                    : plan.color === 'accent-pink'
+                    ? 'bg-accent-pink/90 text-white shadow-lg shadow-accent-pink/20 hover:bg-white hover:text-surface-dim'
                     : 'bg-white/5 text-white border border-white/10 hover:bg-white hover:text-surface-dim'
                 }`}>
                   {plan.id === 'PRO_ENTERPRISE' ? t('Submit Request', 'Contacter Notre Conseil') : t('Get Started', 'Commencer')} <ArrowRight size={14} />

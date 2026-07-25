@@ -111,6 +111,19 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
   const [showLiked, setShowLiked] = useState(false);
   const categories = ['ALL', 'Film', 'Fashion', ...Array.from(new Set(allContracts.map(c => c.category))).filter(c => c !== 'Film' && c !== 'Fashion').slice(0, 5)];
 
+  const CATEGORY_COLORS: Record<string, string> = {
+    'ALL': 'bg-primary-cyan text-surface-dim',
+    'Film': 'bg-[#B695F5] text-surface-dim',
+    'Fashion': 'bg-accent-gold text-surface-dim',
+    'Fine Art': 'bg-accent-pink text-surface-dim',
+    'Architecture': 'bg-emerald-400 text-surface-dim',
+    'Music': 'bg-[#F5D76F] text-surface-dim',
+    'Podcast': 'bg-[#5FC7C2] text-surface-dim',
+    'TV Series': 'bg-primary-cyan text-surface-dim',
+    'Photography': 'bg-[#7FA8F0] text-surface-dim',
+    'Gaming': 'bg-[#D66FE0] text-surface-dim',
+  };
+
   const activeContracts = React.useMemo(() => {
     // Shuffle the contracts for better diversity as requested
     return [...allContracts]
@@ -219,7 +232,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
         <span className="text-xs font-black text-on-surface-variant/50 uppercase tracking-widest shrink-0">{t('Filtrer:','Filter:')}</span>
         {categories.map(cat => (
           <button key={cat} onClick={() => { setFilterCategory(cat); setCurrentIndex(0); }}
-            className={`px-3 py-1.5 rounded-full text-xs font-black uppercase tracking-wider whitespace-nowrap transition-all ${filterCategory === cat ? 'bg-primary-cyan text-surface-dim' : 'bg-surface-high/40 border border-white/10 text-on-surface-variant hover:border-white/25'}`}>
+            className={`px-3 py-1.5 rounded-full text-xs font-black uppercase tracking-wider whitespace-nowrap transition-all ${filterCategory === cat ? (CATEGORY_COLORS[cat] || 'bg-primary-cyan text-surface-dim') : 'bg-surface-high/40 border border-white/10 text-on-surface-variant hover:border-white/25'}`}>
             {cat === 'ALL' ? t('Tous','All') : cat}
           </button>
         ))}
@@ -386,7 +399,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
                     <div className={`px-2 py-0.5 text-[9px] font-black uppercase tracking-widest rounded-full ${currentContract.rarity === 'Legendary' ? 'bg-accent-gold text-surface-dim' : currentContract.rarity === 'Epic' ? 'bg-[#a78bfa] text-surface-dim' : 'bg-primary-cyan text-surface-dim'}`}>
                       {currentContract.rarity}
                     </div>
-                    <div className="px-2 py-0.5 bg-black/50 backdrop-blur-sm border border-white/20 text-white text-[9px] font-black uppercase tracking-widest rounded-full">
+                    <div className={`px-2 py-0.5 backdrop-blur-sm border text-[9px] font-black uppercase tracking-widest rounded-full ${CATEGORY_COLORS[currentContract.category] ? CATEGORY_COLORS[currentContract.category].replace('text-surface-dim','') + ' border-transparent text-surface-dim' : 'bg-black/50 border-white/20 text-white'}`}>
                       {currentContract.category}
                     </div>
                   </div>
