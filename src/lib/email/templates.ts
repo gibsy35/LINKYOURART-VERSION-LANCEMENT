@@ -188,7 +188,7 @@ const BASE_STYLES = `
 const HEADER_HTML = `
   <div class="header">
     <div class="logo-text">LINKYOURART</div>
-    <div class="logo-sub">ART IS A STANDARD</div>
+    <div class="logo-sub">ART NEEDS A STANDARD</div>
   </div>
 `;
 
