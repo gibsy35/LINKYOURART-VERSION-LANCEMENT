@@ -53,13 +53,13 @@ import { NumberTicker } from '../components/ui/NumberTicker';
 import { PageHeader } from '../components/ui/PageHeader';
 
 const data = [
-  { name: '00:00', value: 400 },
-  { name: '04:00', value: 300 },
-  { name: '08:00', value: 600 },
-  { name: '12:00', value: 800 },
-  { name: '16:00', value: 500 },
-  { name: '20:00', value: 900 },
-  { name: '23:59', value: 1100 },
+  { name: '00:00', value: 340 },
+  { name: '04:00', value: 290 },
+  { name: '08:00', value: 520 },
+  { name: '12:00', value: 710 },
+  { name: '16:00', value: 480 },
+  { name: '20:00', value: 820 },
+  { name: '23:59', value: 890 },
 ];
 
 
@@ -111,36 +111,36 @@ export const DashboardView: React.FC<{
     switch (activeRange) {
       case '1W':
         return [
-          { name: 'Mon', value: 800 },
-          { name: 'Tue', value: 950 },
-          { name: 'Wed', value: 880 },
-          { name: 'Thu', value: 1100 },
-          { name: 'Fri', value: 1050 },
-          { name: 'Sat', value: 1200 },
-          { name: 'Sun', value: 1350 },
+          { name: 'Lun', value: 650 },
+          { name: 'Mar', value: 720 },
+          { name: 'Mer', value: 680 },
+          { name: 'Jeu', value: 790 },
+          { name: 'Ven', value: 850 },
+          { name: 'Sam', value: 880 },
+          { name: 'Dim', value: 920 },
         ];
       case '1M':
         return [
-          { name: 'Week 1', value: 1000 },
-          { name: 'Week 2', value: 1200 },
-          { name: 'Week 3', value: 1150 },
-          { name: 'Week 4', value: 1400 },
+          { name: 'Sem. 1', value: 720 },
+          { name: 'Sem. 2', value: 780 },
+          { name: 'Sem. 3', value: 850 },
+          { name: 'Sem. 4', value: 920 },
         ];
       case '1Y':
         return [
-          { name: 'Jan', value: 800 },
-          { name: 'Mar', value: 1200 },
-          { name: 'May', value: 1100 },
-          { name: 'Jul', value: 1500 },
-          { name: 'Sep', value: 1400 },
-          { name: 'Nov', value: 1800 },
+          { name: 'Jan', value: 520 },
+          { name: 'Mar', value: 610 },
+          { name: 'Mai', value: 680 },
+          { name: 'Jul', value: 750 },
+          { name: 'Sep', value: 820 },
+          { name: 'Nov', value: 890 },
         ];
       case 'ALL':
         return [
-          { name: '2023', value: 500 },
-          { name: '2024', value: 1200 },
-          { name: '2025', value: 1800 },
-          { name: '2026', value: 2400 },
+          { name: '2023', value: 380 },
+          { name: '2024', value: 560 },
+          { name: '2025', value: 750 },
+          { name: '2026', value: 890 },
         ];
       default: // 1D
         return [
@@ -516,7 +516,7 @@ export const DashboardView: React.FC<{
                       <TrendingUp size={16} className="text-emerald-400" />
                       {t('Top Progressions', 'Top Progressions')}
                     </h2>
-                    <div className="text-xs font-black uppercase tracking-widest text-on-surface-variant opacity-40">VARIATION 24H</div>
+                    <div className="text-xs font-black uppercase tracking-widest text-on-surface-variant opacity-40">SCORE LYA</div>
                   </div>
                   <div className="p-6 space-y-4">
                     {topProgressions.map((contract, i) => (
@@ -549,10 +549,10 @@ export const DashboardView: React.FC<{
                         <div className="flex items-center gap-4">
                           <div className="text-right">
                             <div className={`text-[11px] sm:text-sm font-mono font-black ${contract.growth >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
-                              {formatPrice(contract.unitValue)}
+                              {contract.scoreLYA || contract.scoreLya || 650}/1000
                             </div>
-                            <div className={`text-[11px] font-black opacity-60 mt-0.5 ${contract.growth >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
-                              {contract.growth >= 0 ? '+' : ''}{contract.growth}%
+                            <div className="text-[11px] font-black opacity-50 mt-0.5 text-white/50 uppercase tracking-widest">
+                              LYA SCORE
                             </div>
                           </div>
                           <button
@@ -624,10 +624,10 @@ export const DashboardView: React.FC<{
                         <div className="flex items-center gap-4">
                           <div className="text-right">
                             <div className={`text-[11px] sm:text-sm font-mono font-black ${contract.growth >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
-                              {formatPrice(contract.unitValue)}
+                              {contract.scoreLYA || contract.scoreLya || 650}/1000
                             </div>
-                            <div className={`text-[11px] font-black opacity-60 mt-0.5 ${contract.growth >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
-                              {contract.growth >= 0 ? '+' : ''}{contract.growth}%
+                            <div className="text-[11px] font-black opacity-50 mt-0.5 text-white/50 uppercase tracking-widest">
+                              LYA SCORE
                             </div>
                           </div>
                           <button
