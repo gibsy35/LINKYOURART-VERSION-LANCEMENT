@@ -5,7 +5,7 @@ import {
   TrendingUp, Shield, BarChart3, Layers, Globe, 
   Sparkles, CheckCircle2, Clapperboard, Music, 
   LineChart as LineChartIcon, Search, Bell, Lock, ShieldCheck,
-  Flag
+  Flag, AlertTriangle
 } from 'lucide-react';
 import { getSafeImageUrl } from '../utils/image';
 import { useTranslation } from '../context/LanguageContext';
@@ -54,14 +54,14 @@ const TUTORIAL_STEPS: (t: any) => Step[] = (t) => [
   {
     id: 3,
     title: 'C\'EST QUOI UN JALON ?',
-    description: t('A milestone is a key moment in a project\'s life — validated and verified. An exhibition, a signed contract, an award. Think of it like checkpoints on a journey: every checkpoint reached pushes the LYA Score forward.', 'Un jalon, c\'est une étape clé de la vie d\'un projet — validée et vérifiée. Une exposition, un contrat signé, un prix remporté. Un peu comme des points de passage sur un parcours : chaque étape franchie fait avancer le LYA Score.'),
+    description: t('A milestone is a key, verified event in a project\'s life. Some are achievements — an exhibition, a signed contract, an award — and push the LYA Score up. Others are risks or delays — a legal dispute, a missed deadline — and pull it down. The LYA Score always reflects reality, good or bad.', 'Un jalon, c\'est un événement clé et vérifié dans la vie d\'un projet. Certains sont des réussites — une exposition, un contrat signé, un prix remporté — et font avancer le LYA Score. D\'autres sont des risques ou des retards — un litige, un délai non tenu — et le font reculer. Le LYA Score reflète toujours la réalité, en bien comme en mal.'),
     color: 'text-emerald-400',
     glowColor: 'rgba(52, 211, 153, 0.3)',
     icon: <Flag size={48} />,
     points: [
-      t('A CONCRETE, VERIFIED STEP IN A PROJECT\'S JOURNEY', 'UNE ÉTAPE CONCRÈTE ET VÉRIFIÉE DANS LE PARCOURS DU PROJET'),
-      t('EACH VALIDATED MILESTONE PUSHES THE LYA SCORE UP', 'CHAQUE JALON VALIDÉ FAIT AVANCER LE LYA SCORE'),
-      t('EXAMPLES: EXHIBITION, SIGNED CONTRACT, AWARD, PERMIT APPROVED', 'EXEMPLES : EXPOSITION, CONTRAT SIGNÉ, PRIX REMPORTÉ, PERMIS VALIDÉ')
+      t('A CONCRETE, VERIFIED EVENT IN A PROJECT\'S JOURNEY', 'UN ÉVÉNEMENT CONCRET ET VÉRIFIÉ DANS LE PARCOURS DU PROJET'),
+      t('ACHIEVEMENTS PUSH THE SCORE UP, RISKS & DELAYS PULL IT DOWN', 'LES RÉUSSITES FONT AVANCER LE SCORE, LES RISQUES ET RETARDS LE FONT RECULER'),
+      t('NOT EVERY PROJECT ONLY GOES UP — THE SCORE STAYS HONEST', 'TOUS LES PROJETS NE MONTENT PAS TOUJOURS — LE SCORE RESTE HONNÊTE')
     ],
     illustration: 'milestone'
   },
@@ -422,11 +422,13 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
 
     case 'milestone': {
       const CHECKPOINTS = [
-        { label: t('Project launched', 'Projet lancé'), score: 480, done: true },
-        { label: t('Milestone 1 validated', 'Jalon 1 validé'), score: 560, done: true },
-        { label: t('Milestone 2 validated', 'Jalon 2 validé'), score: 650, done: true },
-        { label: t('Next milestone', 'Prochain jalon'), score: 650, done: false },
+        { label: t('Project launched', 'Projet lancé'), score: 480, status: 'start' as const },
+        { label: t('Milestone validated', 'Jalon validé'), score: 560, status: 'up' as const },
+        { label: t('Delay declared', 'Retard déclaré'), score: 510, status: 'down' as const },
+        { label: t('Milestone validated', 'Jalon validé'), score: 610, status: 'up' as const },
+        { label: t('Next event', 'Prochain événement'), score: 610, status: 'pending' as const },
       ];
+      const finalScore = CHECKPOINTS[3].score;
       return (
         <div className="relative w-full h-full flex flex-col items-center justify-center p-4 md:p-6">
           <div className="w-full max-w-sm bg-[#0A0F1A] border border-white/10 rounded-2xl md:rounded-[2rem] p-5 md:p-8 shadow-2xl">
@@ -436,9 +438,9 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
               <motion.span
                 animate={{ opacity: [0.7, 1, 0.7] }}
                 transition={{ duration: 2, repeat: Infinity }}
-                className="text-[9px] md:text-[10px] font-black text-emerald-400 uppercase tracking-widest"
+                className="text-[9px] md:text-[10px] font-black text-primary-cyan uppercase tracking-widest"
               >
-                {t('LYA Score','LYA Score')} {CHECKPOINTS[2].score}/1000
+                {t('LYA Score','LYA Score')} {finalScore}/1000
               </motion.span>
             </div>
 
@@ -446,41 +448,52 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
               <div className="absolute top-4 md:top-5 left-4 right-4 h-0.5 bg-white/10 rounded-full overflow-hidden">
                 <motion.div
                   initial={{ width: '0%' }}
-                  animate={{ width: '75%' }}
-                  transition={{ duration: 1.4, ease: 'easeOut' }}
-                  className="h-full bg-gradient-to-r from-emerald-500 to-emerald-400"
+                  animate={{ width: '85%' }}
+                  transition={{ duration: 1.6, ease: 'easeOut' }}
+                  className="h-full bg-gradient-to-r from-primary-cyan via-rose-400 to-emerald-400"
                 />
               </div>
 
-              {CHECKPOINTS.map((c, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.25 }}
-                  className="relative z-10 flex flex-col items-center gap-2 w-1/4"
-                >
+              {CHECKPOINTS.map((c, i) => {
+                const isUp = c.status === 'up';
+                const isDown = c.status === 'down';
+                const isPending = c.status === 'pending';
+                const dotClasses = isUp
+                  ? 'bg-emerald-500/20 border-emerald-400 text-emerald-400'
+                  : isDown
+                  ? 'bg-rose-500/20 border-rose-400 text-rose-400'
+                  : isPending
+                  ? 'bg-white/5 border-white/20 text-white/30 border-dashed'
+                  : 'bg-primary-cyan/20 border-primary-cyan text-primary-cyan';
+                return (
                   <motion.div
-                    animate={c.done ? { scale: [1, 1.15, 1] } : { scale: [1, 1.08, 1], opacity: [0.5, 1, 0.5] }}
-                    transition={{ duration: c.done ? 0.6 : 2, delay: i * 0.25 + 0.4, repeat: c.done ? 0 : Infinity }}
-                    className={`w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center border-2 ${
-                      c.done
-                        ? 'bg-emerald-500/20 border-emerald-400 text-emerald-400'
-                        : 'bg-white/5 border-white/20 text-white/30 border-dashed'
-                    }`}
+                    key={i}
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.2 }}
+                    className="relative z-10 flex flex-col items-center gap-2 w-1/5"
                   >
-                    {c.done ? <CheckCircle2 size={16} /> : <Flag size={14} />}
+                    <motion.div
+                      animate={isPending ? { scale: [1, 1.08, 1], opacity: [0.5, 1, 0.5] } : { scale: [1, 1.15, 1] }}
+                      transition={{ duration: isPending ? 2 : 0.6, delay: i * 0.2 + 0.4, repeat: isPending ? Infinity : 0 }}
+                      className={`w-7 h-7 md:w-9 md:h-9 rounded-full flex items-center justify-center border-2 ${dotClasses}`}
+                    >
+                      {isUp && <CheckCircle2 size={14} />}
+                      {isDown && <AlertTriangle size={13} />}
+                      {isPending && <Flag size={12} />}
+                      {c.status === 'start' && <Flag size={12} />}
+                    </motion.div>
+                    <span className={`text-[6px] md:text-[7px] font-black uppercase text-center leading-tight ${isPending ? 'text-white/30' : 'text-white/70'}`}>
+                      {c.label}
+                    </span>
                   </motion.div>
-                  <span className={`text-[6px] md:text-[8px] font-black uppercase text-center leading-tight ${c.done ? 'text-white/70' : 'text-white/30'}`}>
-                    {c.label}
-                  </span>
-                </motion.div>
-              ))}
+                );
+              })}
             </div>
 
-            <div className="mt-8 md:mt-10 p-3 md:p-4 bg-emerald-500/5 border border-emerald-500/20 rounded-xl text-center">
+            <div className="mt-8 md:mt-10 p-3 md:p-4 bg-white/[0.03] border border-white/10 rounded-xl text-center">
               <p className="text-[8px] md:text-[10px] text-white/60 font-bold uppercase tracking-wide leading-relaxed">
-                {t('Every checkpoint reached is verified — and pushes the LYA Score forward.', 'Chaque étape franchie est vérifiée — et fait avancer le LYA Score.')}
+                {t('Every event is verified — good news pushes the Score up, setbacks pull it down.', 'Chaque événement est vérifié — les bonnes nouvelles font avancer le Score, les revers le font reculer.')}
               </p>
             </div>
           </div>

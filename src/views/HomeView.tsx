@@ -311,8 +311,8 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
             </p>
             <p className="text-xs md:text-sm text-white/60 leading-relaxed">
               {t(
-                'A milestone is a key, verified step in a project\'s life — an exhibition, a signed contract, an award. Think of it as a checkpoint on a journey: every checkpoint reached pushes the LYA Score forward.',
-                'Un jalon, c\'est une étape clé et vérifiée dans la vie d\'un projet — une exposition, un contrat signé, un prix remporté. Un peu comme un point de passage sur un parcours : chaque étape franchie fait avancer le LYA Score.'
+                'A milestone is a key, verified event in a project\'s life. Achievements — an exhibition, a signed contract, an award — push the LYA Score up. Risks or delays — a dispute, a missed deadline — pull it down. Not every project only goes up: the Score stays honest.',
+                'Un jalon, c\'est un événement clé et vérifié dans la vie d\'un projet. Les réussites — une exposition, un contrat signé, un prix remporté — font avancer le LYA Score. Les risques ou retards — un litige, un délai non tenu — le font reculer. Tous les projets ne montent pas toujours : le Score reste honnête.'
               )}
             </p>
           </div>
