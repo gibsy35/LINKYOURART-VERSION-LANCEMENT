@@ -35,7 +35,8 @@ import {
   Sparkles,
   Target,
   FileText,
-  RefreshCw
+  RefreshCw,
+  Flag
 } from 'lucide-react';
 import { LYA_UNIT_VALUE, Contract, PillarScore } from '../types';
 import { useTranslation } from '../context/LanguageContext';
@@ -297,6 +298,24 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
               'Chaque jalon validé fait monter le Score LYA. Chaque risque déclaré le fait baisser. En toute transparence, en temps réel.'
             )}
           </p>
+        </div>
+
+        {/* ── C'EST QUOI UN JALON ? — Playful explainer ──────────────── */}
+        <div className="max-w-2xl mx-auto mb-10 md:mb-16 flex items-start gap-4 p-5 md:p-6 border border-emerald-500/20 bg-emerald-500/5 rounded-2xl">
+          <div className="w-10 h-10 md:w-12 md:h-12 shrink-0 rounded-full bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+            <Flag size={20} />
+          </div>
+          <div>
+            <p className="text-xs md:text-sm font-black uppercase tracking-widest text-emerald-400 mb-1">
+              {t('What\'s a milestone (\"jalon\")?', 'C\'est quoi un jalon ?')}
+            </p>
+            <p className="text-xs md:text-sm text-white/60 leading-relaxed">
+              {t(
+                'A milestone is a key, verified step in a project\'s life — an exhibition, a signed contract, an award. Think of it as a checkpoint on a journey: every checkpoint reached pushes the LYA Score forward.',
+                'Un jalon, c\'est une étape clé et vérifiée dans la vie d\'un projet — une exposition, un contrat signé, un prix remporté. Un peu comme un point de passage sur un parcours : chaque étape franchie fait avancer le LYA Score.'
+              )}
+            </p>
+          </div>
         </div>
 
         {/* ── $50 REFERENCE VALUATION ANCHOR ──────────────────────────── */}

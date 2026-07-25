@@ -4,7 +4,8 @@ import {
   X, ChevronRight, ChevronLeft, Zap, Target, Users, 
   TrendingUp, Shield, BarChart3, Layers, Globe, 
   Sparkles, CheckCircle2, Clapperboard, Music, 
-  LineChart as LineChartIcon, Search, Bell, Lock, ShieldCheck
+  LineChart as LineChartIcon, Search, Bell, Lock, ShieldCheck,
+  Flag
 } from 'lucide-react';
 import { getSafeImageUrl } from '../utils/image';
 import { useTranslation } from '../context/LanguageContext';
@@ -18,7 +19,7 @@ interface Step {
   glowColor: string;
   icon: React.ReactNode;
   points: string[];
-  illustration: 'welcome' | 'score' | 'creators' | 'investors' | 'professionals' | 'explore' | 'watchlist' | 'invest-smartly' | 'market' | 'security';
+  illustration: 'welcome' | 'score' | 'milestone' | 'creators' | 'investors' | 'professionals' | 'explore' | 'watchlist' | 'invest-smartly' | 'market' | 'security';
 }
 
 const TUTORIAL_STEPS: (t: any) => Step[] = (t) => [
@@ -52,6 +53,20 @@ const TUTORIAL_STEPS: (t: any) => Step[] = (t) => [
   },
   {
     id: 3,
+    title: 'C\'EST QUOI UN JALON ?',
+    description: t('A milestone is a key moment in a project\'s life — validated and verified. An exhibition, a signed contract, an award. Think of it like checkpoints on a journey: every checkpoint reached pushes the LYA Score forward.', 'Un jalon, c\'est une étape clé de la vie d\'un projet — validée et vérifiée. Une exposition, un contrat signé, un prix remporté. Un peu comme des points de passage sur un parcours : chaque étape franchie fait avancer le LYA Score.'),
+    color: 'text-emerald-400',
+    glowColor: 'rgba(52, 211, 153, 0.3)',
+    icon: <Flag size={48} />,
+    points: [
+      t('A CONCRETE, VERIFIED STEP IN A PROJECT\'S JOURNEY', 'UNE ÉTAPE CONCRÈTE ET VÉRIFIÉE DANS LE PARCOURS DU PROJET'),
+      t('EACH VALIDATED MILESTONE PUSHES THE LYA SCORE UP', 'CHAQUE JALON VALIDÉ FAIT AVANCER LE LYA SCORE'),
+      t('EXAMPLES: EXHIBITION, SIGNED CONTRACT, AWARD, PERMIT APPROVED', 'EXEMPLES : EXPOSITION, CONTRAT SIGNÉ, PRIX REMPORTÉ, PERMIS VALIDÉ')
+    ],
+    illustration: 'milestone'
+  },
+  {
+    id: 4,
     title: 'POUR LES CRÉATEURS',
     description: 'Faites certifier et valoriser officiellement votre œuvre par LinkYourArt. Bénéficiez du soutien de mécènes qui croient en votre vision dès le premier jour.',
     color: 'text-emerald-400',
@@ -65,7 +80,7 @@ const TUTORIAL_STEPS: (t: any) => Step[] = (t) => [
     illustration: 'creators'
   },
   {
-    id: 4,
+    id: 5,
     title: 'POUR LES MÉCÈNES',
     description: 'Soutenez les œuvres créatives en lesquelles vous croyez et partagez leurs succès futurs. Simple, accessible, significatif.',
     color: 'text-accent-gold',
@@ -79,7 +94,7 @@ const TUTORIAL_STEPS: (t: any) => Step[] = (t) => [
     illustration: 'investors'
   },
   {
-    id: 5,
+    id: 6,
     title: 'POUR LES PROFESSIONNELS',
     description: t('Join our network of certified validation experts. Evaluate creative works and contribute to the most rigorous quality benchmark in the creative industry.', 'Rejoignez notre réseau d\'experts en validation certifiés. Évaluez des œuvres créatives et contribuez à l\'étalon de qualité le plus rigoureux du secteur.'),
     color: 'text-pink-400',
@@ -93,7 +108,7 @@ const TUTORIAL_STEPS: (t: any) => Step[] = (t) => [
     illustration: 'professionals'
   },
   {
-    id: 6,
+    id: 7,
     title: 'EXPLOREZ LES ŒUVRES',
     description: t('Several ways to discover creative projects across 9+ artistic universes — Music, Film, Visual Art, Fashion, Gaming, Architecture, TV Series, Photography and more.', "Plusieurs façons de découvrir des projets créatifs à travers 9+ univers artistiques — Musique, Cinéma, Art Visuel, Mode, Gaming, Architecture, Séries TV, Photographie et bien d'autres."),
     color: 'text-cyan-400',
@@ -107,7 +122,7 @@ const TUTORIAL_STEPS: (t: any) => Step[] = (t) => [
     illustration: 'explore'
   },
   {
-    id: 7,
+    id: 8,
     title: 'VOTRE WATCHLIST',
     description: 'Suivez les œuvres créatives qui vous importent et ne manquez aucune évolution de leur LYA SCORE.',
     color: 'text-red-400',
@@ -121,7 +136,7 @@ const TUTORIAL_STEPS: (t: any) => Step[] = (t) => [
     illustration: 'watchlist'
   },
   {
-    id: 8,
+    id: 9,
     title: 'ANALYSEZ & COMPAREZ',
     description: 'Utilisez des outils de niveau professionnel pour analyser et comparer les œuvres avant de les soutenir.',
     color: 'text-indigo-400',
@@ -135,7 +150,7 @@ const TUTORIAL_STEPS: (t: any) => Step[] = (t) => [
     illustration: 'invest-smartly'
   },
   {
-    id: 9,
+    id: 10,
     title: 'REGISTRE & ÉCOSYSTÈME',
     description: t('The complete certification registry, tracking every certified project alongside a growing ecosystem — Press & Media, and soon Jobs.', 'Le registre de certification complet, suivant chaque projet certifié au sein d\'un écosystème grandissant — Presse & Médias, et bientôt Jobs.'),
     color: 'text-amber-400',
@@ -149,7 +164,7 @@ const TUTORIAL_STEPS: (t: any) => Step[] = (t) => [
     illustration: 'market'
   },
   {
-    id: 10,
+    id: 11,
     title: 'SÉCURITÉ & CONFIANCE',
     description: 'LinkYourArt est bâti sur des fondations de conformité juridique rigoureuse, protection des données et certification des droits créatifs.',
     color: 'text-emerald-500',
@@ -404,6 +419,74 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
           </p>
         </div>
       );
+
+    case 'milestone': {
+      const CHECKPOINTS = [
+        { label: t('Project launched', 'Projet lancé'), score: 480, done: true },
+        { label: t('Milestone 1 validated', 'Jalon 1 validé'), score: 560, done: true },
+        { label: t('Milestone 2 validated', 'Jalon 2 validé'), score: 650, done: true },
+        { label: t('Next milestone', 'Prochain jalon'), score: 650, done: false },
+      ];
+      return (
+        <div className="relative w-full h-full flex flex-col items-center justify-center p-4 md:p-6">
+          <div className="w-full max-w-sm bg-[#0A0F1A] border border-white/10 rounded-2xl md:rounded-[2rem] p-5 md:p-8 shadow-2xl">
+
+            <div className="flex items-center justify-between mb-6 md:mb-10">
+              <span className="text-[9px] md:text-[10px] font-black text-white/40 uppercase tracking-widest">{t('Project journey', 'Parcours du projet')}</span>
+              <motion.span
+                animate={{ opacity: [0.7, 1, 0.7] }}
+                transition={{ duration: 2, repeat: Infinity }}
+                className="text-[9px] md:text-[10px] font-black text-emerald-400 uppercase tracking-widest"
+              >
+                {t('LYA Score','LYA Score')} {CHECKPOINTS[2].score}/1000
+              </motion.span>
+            </div>
+
+            <div className="relative flex justify-between items-start">
+              <div className="absolute top-4 md:top-5 left-4 right-4 h-0.5 bg-white/10 rounded-full overflow-hidden">
+                <motion.div
+                  initial={{ width: '0%' }}
+                  animate={{ width: '75%' }}
+                  transition={{ duration: 1.4, ease: 'easeOut' }}
+                  className="h-full bg-gradient-to-r from-emerald-500 to-emerald-400"
+                />
+              </div>
+
+              {CHECKPOINTS.map((c, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.25 }}
+                  className="relative z-10 flex flex-col items-center gap-2 w-1/4"
+                >
+                  <motion.div
+                    animate={c.done ? { scale: [1, 1.15, 1] } : { scale: [1, 1.08, 1], opacity: [0.5, 1, 0.5] }}
+                    transition={{ duration: c.done ? 0.6 : 2, delay: i * 0.25 + 0.4, repeat: c.done ? 0 : Infinity }}
+                    className={`w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center border-2 ${
+                      c.done
+                        ? 'bg-emerald-500/20 border-emerald-400 text-emerald-400'
+                        : 'bg-white/5 border-white/20 text-white/30 border-dashed'
+                    }`}
+                  >
+                    {c.done ? <CheckCircle2 size={16} /> : <Flag size={14} />}
+                  </motion.div>
+                  <span className={`text-[6px] md:text-[8px] font-black uppercase text-center leading-tight ${c.done ? 'text-white/70' : 'text-white/30'}`}>
+                    {c.label}
+                  </span>
+                </motion.div>
+              ))}
+            </div>
+
+            <div className="mt-8 md:mt-10 p-3 md:p-4 bg-emerald-500/5 border border-emerald-500/20 rounded-xl text-center">
+              <p className="text-[8px] md:text-[10px] text-white/60 font-bold uppercase tracking-wide leading-relaxed">
+                {t('Every checkpoint reached is verified — and pushes the LYA Score forward.', 'Chaque étape franchie est vérifiée — et fait avancer le LYA Score.')}
+              </p>
+            </div>
+          </div>
+        </div>
+      );
+    }
 
     case 'creators': {
       const proj = CONTRACTS[0];
