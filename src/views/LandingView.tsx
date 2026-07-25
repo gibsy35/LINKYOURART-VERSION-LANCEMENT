@@ -472,8 +472,8 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
 
                   <p className="text-white/70 text-base md:text-lg xl:text-xl font-medium leading-relaxed max-w-2xl">
                     {t(
-                      "20 years of history. One conviction: LinkYourArt appraises it, certifies it and shares it.",
-                      "20 ans d'histoire. Une seule conviction : LinkYourArt l'expertise, la certifie et la partage."
+                      "20 years of history. One conviction, art has value: LinkYourArt appraises it, certifies it and shares it — for every creator in the world.",
+                      "20 ans d'histoire. Une seule conviction, l'art a de la valeur : LinkYourArt l'expertise, la certifie et la partage — pour tous les créateurs du monde."
                     )}
                   </p>
 
