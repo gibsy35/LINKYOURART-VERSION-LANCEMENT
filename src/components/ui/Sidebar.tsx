@@ -165,7 +165,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <div className="flex flex-col min-w-0 flex-1">
               <span className="text-white font-black tracking-tighter text-2xl leading-[0.7] truncate uppercase">LINKYOURART</span>
               <span className="text-[10px] text-primary-cyan font-black tracking-[0.2em] uppercase mt-2 opacity-60 group-hover:opacity-100 transition-opacity">
-                {t('NEEDS A STANDARD', 'NEEDS A STANDARD')}
+                {t('YOUR SCORE. YOUR STANDARD.', 'VOTRE SCORE. VOTRE STANDARD.')}
               </span>
             </div>
           </motion.div>

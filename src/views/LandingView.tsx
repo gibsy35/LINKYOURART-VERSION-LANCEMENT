@@ -410,7 +410,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                 <Logo size={48} color="multi" showBeta={true} />
                 <div className="flex flex-col">
                   <ElevatedTextLogo size="text-2xl" />
-                  <span className="text-xs font-black tracking-[0.4em] text-primary-cyan uppercase opacity-70 mt-1">{t('ART NEEDS A STANDARD', 'ART NEEDS A STANDARD')}</span>
+                  <span className="text-xs font-black tracking-[0.4em] text-primary-cyan uppercase opacity-70 mt-1">{t('YOUR SCORE. YOUR STANDARD.', 'VOTRE SCORE. VOTRE STANDARD.')}</span>
                 </div>
               </div>
               <div className="hidden md:flex items-center gap-2 md:gap-12">
@@ -695,7 +695,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                     <Logo size={40} color="multi" showBeta={true} />
                     <div className="flex flex-col">
                       <ElevatedTextLogo size="text-xl" />
-                      <span className="text-xs font-black tracking-[0.4em] text-primary-cyan uppercase opacity-70 mt-0.5">{t('ART NEEDS A STANDARD', 'ART NEEDS A STANDARD')}</span>
+                      <span className="text-xs font-black tracking-[0.4em] text-primary-cyan uppercase opacity-70 mt-0.5">{t('YOUR SCORE. YOUR STANDARD.', 'VOTRE SCORE. VOTRE STANDARD.')}</span>
                     </div>
                   </div>
                   <p className="text-white/30 text-sm font-medium leading-relaxed max-w-xs">
