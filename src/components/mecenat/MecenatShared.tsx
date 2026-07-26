@@ -270,15 +270,24 @@ export function DetailModal({ contract, onClose, onPay, units, onUnitsChange, la
                 <>
                   <div className="flex justify-between items-center mb-1">
                     <span className="text-on-surface-variant/50 text-xs font-mono">{T("BUDGET DE PRODUCTION", "TARGET PROJECT BUDGET")}</span>
-                    <span className="text-[#00ff88] text-xs font-mono font-bold">{fundingPct}%</span>
+                    <span className="text-[#00ff88] text-xs font-mono font-bold flex items-center gap-1.5">
+                      {fundingPct >= 100 && <span className="bg-[#00ff88]/15 text-[#00ff88] text-[9px] font-black uppercase tracking-wide px-1.5 py-0.5 rounded">{T("Objectif atteint", "Goal reached")}</span>}
+                      {fundingPct}%
+                    </span>
                   </div>
                   <div className="w-full bg-surface-high rounded-full h-1.5 mb-1">
-                    <div className="bg-[#00ff88] h-1.5 rounded-full transition-all" style={{ width: `${fundingPct}%` }} />
+                    <div className="bg-[#00ff88] h-1.5 rounded-full transition-all" style={{ width: `${Math.min(fundingPct, 100)}%` }} />
                   </div>
                   <div className="flex justify-between text-xs font-mono text-on-surface-variant/50">
                     <span>{T("Levé : ", "Raised: ")}${fundingRaised.toLocaleString()}</span>
                     <span>{T("Objectif : ", "Goal: ")}${contract.totalValue.toLocaleString()}</span>
                   </div>
+                  {contract.maturityDate && (
+                    <p className="text-[10px] text-on-surface-variant/30 font-mono mt-1.5">
+                      {T("Échéance indicative : ", "Target timeline: ")}{contract.maturityDate}
+                      <span className="opacity-60"> — {T("le mécénat reste ouvert au-delà de cette date", "patronage remains open beyond this date")}</span>
+                    </p>
+                  )}
                 </>
               ) : (
                 <div className="flex justify-between items-center">
@@ -608,10 +617,13 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
             <>
               <div className="flex justify-between items-center mb-1">
                 <span className="text-on-surface-variant/50 text-[10px] font-mono">{T("FINANCEMENT DU BUDGET", "BUDGET FUNDING")}</span>
-                <span className="text-[#00ff88] text-[10px] font-mono font-bold">{fundingPct}%</span>
+                <span className="text-[#00ff88] text-[10px] font-mono font-bold flex items-center gap-1">
+                  {fundingPct >= 100 && <span className="bg-[#00ff88]/15 text-[#00ff88] text-[8px] font-black uppercase tracking-wide px-1 py-0.5 rounded">✓</span>}
+                  {fundingPct}%
+                </span>
               </div>
               <div className="w-full bg-surface-high rounded-full h-1.5 mb-1">
-                <div className="bg-[#00ff88] h-1.5 rounded-full" style={{ width: `${fundingPct}%` }} />
+                <div className="bg-[#00ff88] h-1.5 rounded-full" style={{ width: `${Math.min(fundingPct, 100)}%` }} />
               </div>
               <div className="flex justify-between text-[10px] font-mono text-on-surface-variant/40">
                 <span>${fundingRaised.toLocaleString()}</span>
