@@ -559,8 +559,8 @@ export const CONTRACTS: Contract[] = [
     jurisdiction: 'UK (CDPA)'
   },
   {
-    id: 'NEON_CRASH',
-    name: 'NEON_LIQUIDITY_CRUNCH',
+    id: 'NEON_REVIEW',
+    name: 'NEON DIGITAL COLLECTION',
     issuerId: 'USR-NEON-55',
     totalValue: 45000,
     unitValue: 50.00,
@@ -573,7 +573,7 @@ export const CONTRACTS: Contract[] = [
     description: 'Generative art project under re-evaluation following a data integrity issue. Recertification in progress.',
     totalUnits: 900,
     availableUnits: 45,
-    registryAddress: 'LYA_REG_0xNEON_CRASH',
+    registryAddress: 'LYA_REG_0xNEON5521',
     creationDate: '2026-02-15',
     lastAudit: '2026-04-05',
     registryIndex: 'LYA-NEON-L',
@@ -589,12 +589,12 @@ export const CONTRACTS: Contract[] = [
     rights: ['Historical Data'],
     rarity: 'Common',
     category: 'Digital Art',
-    assetStatus: 'Defunct',
+    assetStatus: 'In Development',
     milestones: [
-      { label: 'Protocol Reboot', date: '2026-04', status: 'FAILED', scoreImpact: -45 }
+      { label: 'Recertification Attempt', date: '2026-04', status: 'FAILED', scoreImpact: -45 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 2,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     scorePro: 340,
     scoreAlgo: 320,
     scoreLYA: 330,

@@ -570,7 +570,7 @@ export const DashboardView: React.FC<{
                     ))}
                   </div>
                   {topCount < contracts.length && (
-                    <div className="px-6 pb-6">
+                    <div className="px-6 pb-6 mt-auto">
                       <button 
                         onClick={() => setTopCount(prev => prev + 5)}
                         className="w-full py-3 bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-widest hover:bg-white/10 hover:border-white/30 transition-all flex items-center justify-center gap-2 rounded-sm"
@@ -645,7 +645,7 @@ export const DashboardView: React.FC<{
                     ))}
                   </div>
                   {stableCount < contracts.length && (
-                    <div className="px-6 pb-6">
+                    <div className="px-6 pb-6 mt-auto">
                       <button 
                         onClick={() => setStableCount(prev => prev + 5)}
                         className="w-full py-3 bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-widest hover:bg-white/10 hover:border-white/30 transition-all flex items-center justify-center gap-2 rounded-sm"
@@ -659,7 +659,7 @@ export const DashboardView: React.FC<{
             </div>
 
             {/* Performance by Sector Heatmap - Redesigned */}
-            <div className="lg:col-span-1">
+            <div className="lg:col-span-1 self-start">
               <div className="bg-surface-low/30 backdrop-blur-2xl border border-white/10 rounded-sm overflow-hidden shadow-2xl h-full flex flex-col">
                 <div className="bg-white/[0.02] px-8 py-6 border-b border-white/5 flex justify-between items-center">
                   <h2 className="text-base font-black font-headline uppercase tracking-wider flex items-center gap-4">
@@ -692,6 +692,16 @@ export const DashboardView: React.FC<{
                       </div>
                     </div>
                   ))}
+                </div>
+                <div className="px-6 pb-4 grid grid-cols-2 gap-3">
+                  <div className="bg-black/20 border border-white/8 rounded-sm p-3 text-center">
+                    <p className="text-lg font-black text-primary-cyan">{sectors.length}</p>
+                    <p className="text-[8px] text-on-surface-variant/40 font-black uppercase tracking-widest mt-1">{t('Sectors Tracked', 'Secteurs Suivis')}</p>
+                  </div>
+                  <div className="bg-black/20 border border-white/8 rounded-sm p-3 text-center">
+                    <p className="text-lg font-black text-emerald-400">{sectors.filter(s => s.growth >= 0).length}</p>
+                    <p className="text-[8px] text-on-surface-variant/40 font-black uppercase tracking-widest mt-1">{t('Growing', 'En Croissance')}</p>
+                  </div>
                 </div>
                 <div className="p-8 bg-white/[0.01] border-t border-white/5 flex flex-col gap-4">
                   <div className="flex items-center justify-between text-xs font-black uppercase tracking-widest text-on-surface-variant opacity-40">
