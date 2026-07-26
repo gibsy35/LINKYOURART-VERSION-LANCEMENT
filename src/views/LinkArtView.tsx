@@ -164,6 +164,7 @@ export const LinkArtView: React.FC<{
   const [assetName, setAssetName] = useState('');
   const [issuerName, setIssuerName] = useState('');
   const [description, setDescription] = useState('');
+  const [showDescExample, setShowDescExample] = useState(false);
   const [generatedImage, setGeneratedImage] = useState<string | null>(null);
   const [generatedOptions, setGeneratedOptions] = useState<string[]>([]);
   const [isGeneratingImage, setIsGeneratingImage] = useState(false);
@@ -488,7 +489,7 @@ export const LinkArtView: React.FC<{
                       <textarea 
                         rows={5} 
                         className="w-full bg-surface-dim border border-white/10 text-on-surface p-4 focus:border-primary-cyan/50 focus:ring-0 transition-all text-sm uppercase tracking-widest resize-none" 
-                        placeholder={t('Describe the creative equity and its market potential...', 'Décrivez le capital créatif et son potentiel de marché...')} 
+                        placeholder={t('Describe your project: what it is, its creative process, and what makes it distinctive...', 'Décrivez votre projet : ce qu\'il est, son processus créatif, et ce qui le distingue...')} 
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                       />
@@ -520,6 +521,30 @@ export const LinkArtView: React.FC<{
                         </button>
                       </div>
                     </div>
+                    <button
+                      type="button"
+                      onClick={() => setShowDescExample(v => !v)}
+                      className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-primary-cyan hover:text-white transition-colors"
+                    >
+                      <Info size={12} />
+                      {showDescExample ? t('Hide Example', 'Masquer l\'Exemple') : t('See a Concrete Example', 'Voir un Exemple Concret')}
+                    </button>
+                    {showDescExample && (
+                      <div className="p-5 bg-primary-cyan/5 border border-primary-cyan/20 rounded-sm space-y-2">
+                        <p className="text-[10px] font-black uppercase tracking-widest text-primary-cyan">
+                          {t('Example: Short Film Project', 'Exemple : Projet de Court-Métrage')}
+                        </p>
+                        <p className="text-xs text-on-surface-variant leading-relaxed normal-case italic">
+                          {t(
+                            '"Renaissance Reborn is a 22-minute short film restoring the story of a forgotten Renaissance-era painter through hand-drawn animation and archival research. The project blends traditional oil-painting textures with frame-by-frame digital animation, produced over 14 months by a 6-person team. It has been selected for pre-screening at two regional festivals and is currently in post-production sound design."',
+                            '"Renaissance Reborn est un court-métrage de 22 minutes retraçant l\'histoire d\'un peintre oublié de la Renaissance à travers une animation dessinée à la main et un travail de recherche d\'archives. Le projet mélange des textures de peinture à l\'huile traditionnelles avec une animation numérique image par image, produit sur 14 mois par une équipe de 6 personnes. Il a été sélectionné en pré-sélection dans deux festivals régionaux et se trouve actuellement en post-production sonore."'
+                          )}
+                        </p>
+                        <p className="text-[10px] text-on-surface-variant/50 uppercase tracking-widest pt-2 border-t border-primary-cyan/10 mt-3">
+                          {t('Good descriptions are specific: format, duration, process, team size, and current stage.', 'Une bonne description est précise : format, durée, processus, taille d\'équipe, et étape actuelle.')}
+                        </p>
+                      </div>
+                    )}
                   </div>
                 </div>
                 <div className="space-y-6">
