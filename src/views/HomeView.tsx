@@ -1281,108 +1281,72 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-6 md:mb-14 lg:mb-8 md:mb-16 lg:mb-24">
-          <div className="bg-surface-low border border-white/5 p-8 rounded-sm relative overflow-hidden group hover:border-primary-cyan/30 transition-all">
+          <div className="bg-surface-low border border-white/5 p-8 rounded-sm relative overflow-hidden group hover:border-primary-cyan/30 transition-all flex flex-col">
             <div className="absolute top-0 right-0 w-24 h-24 bg-primary-cyan/5 rounded-full -mr-12 -mt-12 blur-2xl group-hover:bg-primary-cyan/10 transition-all" />
-            <div className="w-12 h-12 bg-primary-cyan/10 flex items-center justify-center text-primary-cyan border border-primary-cyan/20 mb-6 group-hover:scale-110 transition-transform">
-              <Users size={24} />
+            <div className="absolute -bottom-8 -left-8 w-32 h-32 rounded-full border border-primary-cyan/10 group-hover:border-primary-cyan/20 transition-all" />
+            <div className="w-14 h-14 rounded-full bg-primary-cyan/10 flex items-center justify-center text-primary-cyan border border-primary-cyan/20 mb-6 group-hover:scale-110 transition-transform relative z-10">
+              <Users size={22} />
             </div>
-            <h3 className="text-xl font-black font-headline uppercase tracking-widest mb-4">{t('home.pillars.creators.title', 'Creators')}</h3>
-            <p className="text-on-surface-variant text-sm leading-relaxed opacity-70 text-justify mb-4">
+            <h3 className="text-xl font-black font-headline uppercase tracking-widest mb-4 relative z-10">{t('home.pillars.creators.title', 'Creators')}</h3>
+            <p className="text-on-surface-variant text-sm leading-relaxed opacity-70 text-justify mb-6 relative z-10">
               {t('The heart of the ecosystem. Submit your project, receive a certified LYA Score, and build your creative reputation on the public registry — with full creative control.', 'Le cœur de l\'écosystème. Soumettez votre projet, obtenez un Score LYA certifié, et construisez votre réputation créative sur le registre public — en gardant le contrôle total.')}
             </p>
-            <ul className="space-y-2 text-xs text-left border-t border-primary-cyan/10 pt-4">
-              <li className="flex items-start gap-2 text-on-surface-variant/80">
-                <span className="text-primary-cyan shrink-0">✓</span>
-                <span>{language === 'FR' ? 'Obtenir un Score LYA certifié sur 1000 points, visible publiquement' : 'Receive a certified LYA Score out of 1000, publicly visible'}</span>
-              </li>
-              <li className="flex items-start gap-2 text-on-surface-variant/80">
-                <span className="text-primary-cyan shrink-0">✓</span>
-                <span>{language === 'FR' ? 'Chaque jalon (exposition, prix, contrat signé) fait progresser votre score automatiquement' : 'Every milestone (exhibition, award, signed deal) automatically boosts your score'}</span>
-              </li>
-              <li className="flex items-start gap-2 text-on-surface-variant/80">
-                <span className="text-primary-cyan shrink-0">✓</span>
-                <span>{language === 'FR' ? 'Attirer des mécènes, professionnels et partenaires grâce à un profil certifié crédible' : 'Attract patrons, professionals and partners through a credible certified profile'}</span>
-              </li>
-            </ul>
+            <div className="flex flex-wrap gap-2 mt-auto relative z-10">
+              <span className="text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full bg-primary-cyan/10 text-primary-cyan border border-primary-cyan/20">{language === 'FR' ? 'Score sur 1000' : 'Score /1000'}</span>
+              <span className="text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full bg-primary-cyan/10 text-primary-cyan border border-primary-cyan/20">{language === 'FR' ? 'Contrôle total' : 'Full control'}</span>
+              <span className="text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full bg-primary-cyan/10 text-primary-cyan border border-primary-cyan/20">{language === 'FR' ? 'Jalons dynamiques' : 'Live milestones'}</span>
+            </div>
           </div>
 
-          <div className="bg-surface-low border border-white/5 p-8 rounded-sm relative overflow-hidden group hover:border-accent-gold/30 transition-all">
+          <div className="bg-surface-low border border-white/5 p-8 rounded-sm relative overflow-hidden group hover:border-accent-gold/30 transition-all flex flex-col">
             <div className="absolute top-0 right-0 w-24 h-24 bg-accent-gold/5 rounded-full -mr-12 -mt-12 blur-2xl group-hover:bg-accent-gold/10 transition-all" />
-            <div className="w-12 h-12 bg-accent-gold/10 flex items-center justify-center text-accent-gold border border-accent-gold/20 mb-6 group-hover:scale-110 transition-transform">
-              <TrendingUp size={24} />
+            <div className="absolute -bottom-8 -left-8 w-32 h-32 rounded-full border border-accent-gold/10 group-hover:border-accent-gold/20 transition-all" />
+            <div className="w-14 h-14 rounded-full bg-accent-gold/10 flex items-center justify-center text-accent-gold border border-accent-gold/20 mb-6 group-hover:scale-110 transition-transform relative z-10">
+              <TrendingUp size={22} />
             </div>
-            <h3 className="text-xl font-black font-headline uppercase tracking-widest mb-4">{language === 'FR' ? 'PARTENAIRES CRÉATIFS' : 'CREATIVE PARTNERS'}</h3>
-            <p className="text-on-surface-variant text-sm leading-relaxed opacity-70 text-justify mb-4">
+            <h3 className="text-xl font-black font-headline uppercase tracking-widest mb-4 relative z-10">{language === 'FR' ? 'PARTENAIRES CRÉATIFS' : 'CREATIVE PARTNERS'}</h3>
+            <p className="text-on-surface-variant text-sm leading-relaxed opacity-70 text-justify mb-6 relative z-10">
               {language === 'FR' ? 'Soutenez la prochaine génération de projets créatifs. Les Partenaires Créatifs suivent les projets certifiés et reçoivent des contreparties de reconnaissance en soutenant leur réussite via un mécénat de reconnaissance.' : 'Support the next generation of creative projects. Creative Partners follow certified projects and receive recognition-based considerations by supporting their success through recognition-based patronage.'}
             </p>
-            <ul className="space-y-2 text-xs text-left border-t border-accent-gold/10 pt-4">
-              <li className="flex items-start gap-2 text-on-surface-variant/80">
-                <span className="text-accent-gold shrink-0">✓</span>
-                <span>{language === 'FR' ? 'Nom cité au générique ou dans les crédits de l\'œuvre' : 'Name credited in the work\'s credits or acknowledgements'}</span>
-              </li>
-              <li className="flex items-start gap-2 text-on-surface-variant/80">
-                <span className="text-accent-gold shrink-0">✓</span>
-                <span>{language === 'FR' ? 'Accès en avant-première aux contenus et sorties' : 'Early access to previews and releases'}</span>
-              </li>
-              <li className="flex items-start gap-2 text-on-surface-variant/80">
-                <span className="text-accent-gold shrink-0">✓</span>
-                <span>{language === 'FR' ? 'Certificat de mécénat numérique et badge de profil' : 'Digital patronage certificate and profile badge'}</span>
-              </li>
-              <li className="flex items-start gap-2 text-on-surface-variant/80">
-                <span className="text-accent-gold shrink-0">✓</span>
-                <span>{language === 'FR' ? 'Invitations à des événements ou avant-premières exclusives' : 'Invitations to exclusive events or premieres'}</span>
-              </li>
-            </ul>
+            <div className="flex flex-wrap gap-2 mt-auto relative z-10">
+              <span className="text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full bg-accent-gold/10 text-accent-gold border border-accent-gold/20">{language === 'FR' ? 'Crédité au générique' : 'Credited'}</span>
+              <span className="text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full bg-accent-gold/10 text-accent-gold border border-accent-gold/20">{language === 'FR' ? 'Accès anticipé' : 'Early access'}</span>
+              <span className="text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full bg-accent-gold/10 text-accent-gold border border-accent-gold/20">{language === 'FR' ? 'Badge mécénat' : 'Patron badge'}</span>
+            </div>
           </div>
 
-          <div className="bg-surface-low border border-white/5 p-8 rounded-sm relative overflow-hidden group hover:border-emerald-400/30 transition-all">
+          <div className="bg-surface-low border border-white/5 p-8 rounded-sm relative overflow-hidden group hover:border-emerald-400/30 transition-all flex flex-col">
             <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-400/5 rounded-full -mr-12 -mt-12 blur-2xl group-hover:bg-emerald-400/10 transition-all" />
-            <div className="w-12 h-12 bg-emerald-400/10 flex items-center justify-center text-emerald-400 border border-emerald-400/20 mb-6 group-hover:scale-110 transition-transform">
-              <ShieldCheck size={24} />
+            <div className="absolute -bottom-8 -left-8 w-32 h-32 rounded-full border border-emerald-400/10 group-hover:border-emerald-400/20 transition-all" />
+            <div className="w-14 h-14 rounded-full bg-emerald-400/10 flex items-center justify-center text-emerald-400 border border-emerald-400/20 mb-6 group-hover:scale-110 transition-transform relative z-10">
+              <ShieldCheck size={22} />
             </div>
-            <h3 className="text-xl font-black font-headline uppercase tracking-widest mb-4">{t('home.pillars.professionals.title', 'Professionals')}</h3>
-            <p className="text-on-surface-variant text-sm leading-relaxed opacity-70 text-justify mb-4">
+            <h3 className="text-xl font-black font-headline uppercase tracking-widest mb-4 relative z-10">{t('home.pillars.professionals.title', 'Professionals')}</h3>
+            <p className="text-on-surface-variant text-sm leading-relaxed opacity-70 text-justify mb-6 relative z-10">
               {t('The guarantors of LYA certification. A network of certified validators assess each creation across the 5 LYA pillars, ensuring every score reflects genuine artistic and creative integrity.', 'Les garants de la certification LYA. Un réseau de validateurs certifiés évalue chaque création sur les 5 piliers LYA, garantissant que chaque score reflète une intégrité artistique et créative authentique.')}
             </p>
-            <ul className="space-y-2 text-xs text-left border-t border-emerald-400/10 pt-4">
-              <li className="flex items-start gap-2 text-on-surface-variant/80">
-                <span className="text-emerald-400 shrink-0">✓</span>
-                <span>{language === 'FR' ? 'Évaluer des projets sur les 5 piliers LYA et obtenir un badge de validateur certifié' : 'Evaluate projects on the 5 LYA pillars and earn a certified validator badge'}</span>
-              </li>
-              <li className="flex items-start gap-2 text-on-surface-variant/80">
-                <span className="text-emerald-400 shrink-0">✓</span>
-                <span>{language === 'FR' ? 'Accès prioritaire aux projets à fort potentiel avant leur diffusion publique' : 'Priority access to high-potential projects before public release'}</span>
-              </li>
-              <li className="flex items-start gap-2 text-on-surface-variant/80">
-                <span className="text-emerald-400 shrink-0">✓</span>
-                <span>{language === 'FR' ? 'Renforcer votre visibilité et crédibilité dans l\'écosystème créatif LYA' : 'Strengthen your visibility and credibility in the LYA creative ecosystem'}</span>
-              </li>
-            </ul>
+            <div className="flex flex-wrap gap-2 mt-auto relative z-10">
+              <span className="text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full bg-emerald-400/10 text-emerald-400 border border-emerald-400/20">{language === 'FR' ? 'Badge validateur' : 'Validator badge'}</span>
+              <span className="text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full bg-emerald-400/10 text-emerald-400 border border-emerald-400/20">{language === 'FR' ? 'Accès prioritaire' : 'Priority access'}</span>
+              <span className="text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full bg-emerald-400/10 text-emerald-400 border border-emerald-400/20">5 {language === 'FR' ? 'piliers' : 'pillars'}</span>
+            </div>
           </div>
 
-          <div className="bg-surface-low border border-white/5 p-8 rounded-sm relative overflow-hidden group hover:border-primary-cyan/30 transition-all">
+          <div className="bg-surface-low border border-white/5 p-8 rounded-sm relative overflow-hidden group hover:border-primary-cyan/30 transition-all flex flex-col">
             <div className="absolute top-0 right-0 w-24 h-24 bg-primary-cyan/5 rounded-full -mr-12 -mt-12 blur-2xl group-hover:bg-primary-cyan/10 transition-all" />
-            <div className="w-12 h-12 bg-primary-cyan/10 flex items-center justify-center text-primary-cyan border border-primary-cyan/20 mb-6 group-hover:scale-110 transition-transform">
-              <Eye size={24} />
+            <div className="absolute -bottom-8 -left-8 w-32 h-32 rounded-full border border-primary-cyan/10 group-hover:border-primary-cyan/20 transition-all" />
+            <div className="w-14 h-14 rounded-full bg-primary-cyan/10 flex items-center justify-center text-primary-cyan border border-primary-cyan/20 mb-6 group-hover:scale-110 transition-transform relative z-10">
+              <Eye size={22} />
             </div>
-            <h3 className="text-xl font-black font-headline uppercase tracking-widest mb-4">{t('home.pillars.public.title', 'The Public')}</h3>
-            <p className="text-on-surface-variant text-sm leading-relaxed opacity-70 text-justify mb-4">
+            <h3 className="text-xl font-black font-headline uppercase tracking-widest mb-4 relative z-10">{t('home.pillars.public.title', 'The Public')}</h3>
+            <p className="text-on-surface-variant text-sm leading-relaxed opacity-70 text-justify mb-6 relative z-10">
               {t('Discover the creations of tomorrow. Explore the registry, follow the creative journey and contribute to the growth of the works you believe in.', 'Découvrez les créations de demain. Explorez le registre, suivez le parcours créatif et contribuez à la croissance des œuvres en lesquelles vous croyez.')}
             </p>
-            <ul className="space-y-2 text-xs text-left border-t border-primary-cyan/10 pt-4">
-              <li className="flex items-start gap-2 text-on-surface-variant/80">
-                <span className="text-primary-cyan shrink-0">✓</span>
-                <span>{language === 'FR' ? 'Accès gratuit au registre public et aux scores LYA de tous les projets' : 'Free access to the public registry and LYA Scores of all projects'}</span>
-              </li>
-              <li className="flex items-start gap-2 text-on-surface-variant/80">
-                <span className="text-primary-cyan shrink-0">✓</span>
-                <span>{language === 'FR' ? 'Suivre l\'évolution d\'un projet et recevoir des alertes score en temps réel' : 'Follow a project\'s journey and receive real-time score alerts'}</span>
-              </li>
-              <li className="flex items-start gap-2 text-on-surface-variant/80">
-                <span className="text-primary-cyan shrink-0">✓</span>
-                <span>{language === 'FR' ? 'Voter pour soutenir un projet et voir son score communautaire progresser' : 'Vote to support a project and watch its community score rise'}</span>
-              </li>
-            </ul>
+            <div className="flex flex-wrap gap-2 mt-auto relative z-10">
+              <span className="text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full bg-primary-cyan/10 text-primary-cyan border border-primary-cyan/20">{language === 'FR' ? 'Accès gratuit' : 'Free access'}</span>
+              <span className="text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full bg-primary-cyan/10 text-primary-cyan border border-primary-cyan/20">{language === 'FR' ? 'Alertes en direct' : 'Live alerts'}</span>
+              <span className="text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full bg-primary-cyan/10 text-primary-cyan border border-primary-cyan/20">{language === 'FR' ? 'Score communautaire' : 'Community score'}</span>
+            </div>
           </div>
         </div>
 
