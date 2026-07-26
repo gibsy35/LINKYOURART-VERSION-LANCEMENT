@@ -201,7 +201,7 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify, onViewChan
       },
       {
         q: t('How are Professional validators compensated?', 'Comment les validateurs Professionnels sont-ils rémunérés ?'),
-        a: t('Validators earn a validation fee, paid in euros or dollars, for each project they evaluate, distributed upon completion of the certification review.', 'Les validateurs perçoivent des honoraires de validation, versés en euros ou en dollars, pour chaque projet évalué, distribués à la complétion de la revue de certification.')
+        a: t('Validators are compensated through LYA\'s Professional and Institutional Enterprise service revenue, based on their validation activity and volume. Exact compensation terms are formalized individually with each certified validator.', 'Les validateurs sont rémunérés via les revenus des services Pro et Entreprise Institutionnelle de LYA, en fonction de leur activité et de leur volume de validation. Les modalités exactes de rémunération sont formalisées individuellement avec chaque validateur certifié.')
       }
     ],
     Public: [

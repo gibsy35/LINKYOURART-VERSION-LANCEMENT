@@ -247,7 +247,7 @@ const RESOURCE_CONTENTS: Record<string, { subtitle: string; sections: { title: s
     sections: [
       { title: 'PRÉSENTATION DU RÔLE', body: 'Les Professionnels certifiés LYA constituent le second pilier de la méthodologie de Score, aux côtés de l\'analyse algorithmique. Ils évaluent manuellement les projets soumis selon les 5 piliers du Score LYA et valident chaque jalon déclaré par les créateurs.' },
       { title: 'DEVENIR VALIDATEUR', body: 'Soumettez une demande de Vérification Professionnelle avec vos accréditations, portfolio et références. La validation est examinée par le comité LYA sous 5 à 10 jours ouvrés. Une fois validé, vous accédez au hub de Validation pour évaluer les projets soumis.' },
-      { title: 'RÉMUNÉRATION', body: 'Les validateurs perçoivent des honoraires de validation, versés en euros ou en dollars, pour chaque projet évalué, distribués à la complétion de la revue de certification.' }
+      { title: 'RÉMUNÉRATION', body: 'Les validateurs sont rémunérés via les revenus des services Pro et Entreprise Institutionnelle de LYA, en fonction de leur activité et de leur volume de validation. Les modalités exactes de rémunération sont formalisées individuellement avec chaque validateur certifié.' }
     ]
   }
 };
