@@ -1280,76 +1280,66 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-6 md:mb-14 lg:mb-8 md:mb-16 lg:mb-24">
-          <div className="bg-surface-low border border-white/5 p-8 rounded-sm relative overflow-hidden group hover:border-primary-cyan/30 transition-all flex flex-col">
-            <div className="absolute top-0 right-0 w-24 h-24 bg-primary-cyan/5 rounded-full -mr-12 -mt-12 blur-2xl group-hover:bg-primary-cyan/10 transition-all" />
-            <div className="absolute -bottom-8 -left-8 w-32 h-32 rounded-full border border-primary-cyan/10 group-hover:border-primary-cyan/20 transition-all" />
-            <div className="w-14 h-14 rounded-full bg-primary-cyan/10 flex items-center justify-center text-primary-cyan border border-primary-cyan/20 mb-6 group-hover:scale-110 transition-transform relative z-10">
-              <Users size={22} />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-6 md:mb-14 lg:mb-8 md:mb-16 lg:mb-24 items-stretch">
+          {[
+            {
+              icon: <Users size={22} />,
+              styles: { card: 'hover:border-primary-cyan/30', glow: 'bg-primary-cyan/5 group-hover:bg-primary-cyan/10', icon: 'bg-primary-cyan/10 text-primary-cyan border-primary-cyan/20', badge: 'bg-primary-cyan/10 text-primary-cyan border-primary-cyan/20' },
+              titleFR: 'Créateurs', titleEN: 'Creators',
+              descFR: "Le cœur de l'écosystème. Soumettez votre projet, obtenez un Score LYA certifié, et construisez votre réputation créative sur le registre public.",
+              descEN: 'The heart of the ecosystem. Submit your project, receive a certified LYA Score, and build your creative reputation on the public registry.',
+              badgesFR: ['Score /1000', 'Contrôle total', 'Jalons live'],
+              badgesEN: ['Score /1000', 'Full control', 'Live milestones'],
+            },
+            {
+              icon: <TrendingUp size={22} />,
+              styles: { card: 'hover:border-accent-gold/30', glow: 'bg-accent-gold/5 group-hover:bg-accent-gold/10', icon: 'bg-accent-gold/10 text-accent-gold border-accent-gold/20', badge: 'bg-accent-gold/10 text-accent-gold border-accent-gold/20' },
+              titleFR: 'Mécènes', titleEN: 'Patrons',
+              descFR: 'Soutenez la prochaine génération de projets créatifs. Suivez les projets certifiés et recevez des contreparties de reconnaissance pour votre soutien.',
+              descEN: 'Support the next generation of creative projects. Follow certified projects and receive recognition-based considerations for your support.',
+              badgesFR: ['Crédit visible', 'Accès anticipé', 'Badge mécène'],
+              badgesEN: ['Credited', 'Early access', 'Patron badge'],
+            },
+            {
+              icon: <ShieldCheck size={22} />,
+              styles: { card: 'hover:border-emerald-400/30', glow: 'bg-emerald-400/5 group-hover:bg-emerald-400/10', icon: 'bg-emerald-400/10 text-emerald-400 border-emerald-400/20', badge: 'bg-emerald-400/10 text-emerald-400 border-emerald-400/20' },
+              titleFR: 'Professionnels', titleEN: 'Professionals',
+              descFR: 'Les garants de la certification LYA. Un réseau de validateurs évalue chaque création sur les 5 piliers, garantissant une intégrité créative authentique.',
+              descEN: 'The guarantors of LYA certification. A network of validators assesses each creation across 5 pillars, ensuring genuine creative integrity.',
+              badgesFR: ['Badge validateur', 'Accès prioritaire', 'Réseau certifié'],
+              badgesEN: ['Validator badge', 'Priority access', 'Certified network'],
+            },
+            {
+              icon: <Eye size={22} />,
+              styles: { card: 'hover:border-primary-cyan/30', glow: 'bg-primary-cyan/5 group-hover:bg-primary-cyan/10', icon: 'bg-primary-cyan/10 text-primary-cyan border-primary-cyan/20', badge: 'bg-primary-cyan/10 text-primary-cyan border-primary-cyan/20' },
+              titleFR: 'Le Public', titleEN: 'The Public',
+              descFR: 'Découvrez les créations de demain. Explorez le registre, suivez le parcours créatif et contribuez à la croissance des œuvres en lesquelles vous croyez.',
+              descEN: "Discover the creations of tomorrow. Explore the registry, follow the creative journey and contribute to the growth of the works you believe in.",
+              badgesFR: ['Accès gratuit', 'Alertes live', 'Score communauté'],
+              badgesEN: ['Free access', 'Live alerts', 'Community score'],
+            },
+          ].map((card, i) => (
+            <div key={i} className={`bg-surface-low border border-white/5 p-8 rounded-sm relative overflow-hidden group transition-all flex flex-col ${card.styles.card}`}>
+              <div className={`absolute top-0 right-0 w-24 h-24 rounded-full -mr-12 -mt-12 blur-2xl transition-all ${card.styles.glow}`} />
+              <div className={`w-14 h-14 rounded-full flex items-center justify-center border mb-6 group-hover:scale-110 transition-transform relative z-10 shrink-0 ${card.styles.icon}`}>
+                {card.icon}
+              </div>
+              <h3 className="text-lg font-black font-headline uppercase tracking-widest mb-4 relative z-10 leading-tight min-h-[2.75rem] flex items-start">
+                {language === 'FR' ? card.titleFR : card.titleEN}
+              </h3>
+              <p className="text-on-surface-variant text-sm leading-relaxed opacity-70 text-justify mb-6 relative z-10 min-h-[6.5rem]">
+                {language === 'FR' ? card.descFR : card.descEN}
+              </p>
+              <div className="grid grid-cols-3 gap-2 mt-auto relative z-10">
+                {(language === 'FR' ? card.badgesFR : card.badgesEN).map((badge, bi) => (
+                  <span key={bi} className={`text-[9px] font-bold uppercase tracking-wide px-2 py-2.5 rounded-sm border text-center leading-tight flex items-center justify-center ${card.styles.badge}`}>
+                    {badge}
+                  </span>
+                ))}
+              </div>
             </div>
-            <h3 className="text-xl font-black font-headline uppercase tracking-widest mb-4 relative z-10">{t('home.pillars.creators.title', 'Creators')}</h3>
-            <p className="text-on-surface-variant text-sm leading-relaxed opacity-70 text-justify mb-6 relative z-10">
-              {t('The heart of the ecosystem. Submit your project, receive a certified LYA Score, and build your creative reputation on the public registry — with full creative control.', 'Le cœur de l\'écosystème. Soumettez votre projet, obtenez un Score LYA certifié, et construisez votre réputation créative sur le registre public — en gardant le contrôle total.')}
-            </p>
-            <div className="flex flex-wrap gap-2 mt-auto relative z-10">
-              <span className="text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full bg-primary-cyan/10 text-primary-cyan border border-primary-cyan/20">{language === 'FR' ? 'Score sur 1000' : 'Score /1000'}</span>
-              <span className="text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full bg-primary-cyan/10 text-primary-cyan border border-primary-cyan/20">{language === 'FR' ? 'Contrôle total' : 'Full control'}</span>
-              <span className="text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full bg-primary-cyan/10 text-primary-cyan border border-primary-cyan/20">{language === 'FR' ? 'Jalons dynamiques' : 'Live milestones'}</span>
-            </div>
-          </div>
-
-          <div className="bg-surface-low border border-white/5 p-8 rounded-sm relative overflow-hidden group hover:border-accent-gold/30 transition-all flex flex-col">
-            <div className="absolute top-0 right-0 w-24 h-24 bg-accent-gold/5 rounded-full -mr-12 -mt-12 blur-2xl group-hover:bg-accent-gold/10 transition-all" />
-            <div className="absolute -bottom-8 -left-8 w-32 h-32 rounded-full border border-accent-gold/10 group-hover:border-accent-gold/20 transition-all" />
-            <div className="w-14 h-14 rounded-full bg-accent-gold/10 flex items-center justify-center text-accent-gold border border-accent-gold/20 mb-6 group-hover:scale-110 transition-transform relative z-10">
-              <TrendingUp size={22} />
-            </div>
-            <h3 className="text-xl font-black font-headline uppercase tracking-widest mb-4 relative z-10">{language === 'FR' ? 'PARTENAIRES CRÉATIFS' : 'CREATIVE PARTNERS'}</h3>
-            <p className="text-on-surface-variant text-sm leading-relaxed opacity-70 text-justify mb-6 relative z-10">
-              {language === 'FR' ? 'Soutenez la prochaine génération de projets créatifs. Les Partenaires Créatifs suivent les projets certifiés et reçoivent des contreparties de reconnaissance en soutenant leur réussite via un mécénat de reconnaissance.' : 'Support the next generation of creative projects. Creative Partners follow certified projects and receive recognition-based considerations by supporting their success through recognition-based patronage.'}
-            </p>
-            <div className="flex flex-wrap gap-2 mt-auto relative z-10">
-              <span className="text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full bg-accent-gold/10 text-accent-gold border border-accent-gold/20">{language === 'FR' ? 'Crédité au générique' : 'Credited'}</span>
-              <span className="text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full bg-accent-gold/10 text-accent-gold border border-accent-gold/20">{language === 'FR' ? 'Accès anticipé' : 'Early access'}</span>
-              <span className="text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full bg-accent-gold/10 text-accent-gold border border-accent-gold/20">{language === 'FR' ? 'Badge mécénat' : 'Patron badge'}</span>
-            </div>
-          </div>
-
-          <div className="bg-surface-low border border-white/5 p-8 rounded-sm relative overflow-hidden group hover:border-emerald-400/30 transition-all flex flex-col">
-            <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-400/5 rounded-full -mr-12 -mt-12 blur-2xl group-hover:bg-emerald-400/10 transition-all" />
-            <div className="absolute -bottom-8 -left-8 w-32 h-32 rounded-full border border-emerald-400/10 group-hover:border-emerald-400/20 transition-all" />
-            <div className="w-14 h-14 rounded-full bg-emerald-400/10 flex items-center justify-center text-emerald-400 border border-emerald-400/20 mb-6 group-hover:scale-110 transition-transform relative z-10">
-              <ShieldCheck size={22} />
-            </div>
-            <h3 className="text-xl font-black font-headline uppercase tracking-widest mb-4 relative z-10">{t('home.pillars.professionals.title', 'Professionals')}</h3>
-            <p className="text-on-surface-variant text-sm leading-relaxed opacity-70 text-justify mb-6 relative z-10">
-              {t('The guarantors of LYA certification. A network of certified validators assess each creation across the 5 LYA pillars, ensuring every score reflects genuine artistic and creative integrity.', 'Les garants de la certification LYA. Un réseau de validateurs certifiés évalue chaque création sur les 5 piliers LYA, garantissant que chaque score reflète une intégrité artistique et créative authentique.')}
-            </p>
-            <div className="flex flex-wrap gap-2 mt-auto relative z-10">
-              <span className="text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full bg-emerald-400/10 text-emerald-400 border border-emerald-400/20">{language === 'FR' ? 'Badge validateur' : 'Validator badge'}</span>
-              <span className="text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full bg-emerald-400/10 text-emerald-400 border border-emerald-400/20">{language === 'FR' ? 'Accès prioritaire' : 'Priority access'}</span>
-              <span className="text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full bg-emerald-400/10 text-emerald-400 border border-emerald-400/20">5 {language === 'FR' ? 'piliers' : 'pillars'}</span>
-            </div>
-          </div>
-
-          <div className="bg-surface-low border border-white/5 p-8 rounded-sm relative overflow-hidden group hover:border-primary-cyan/30 transition-all flex flex-col">
-            <div className="absolute top-0 right-0 w-24 h-24 bg-primary-cyan/5 rounded-full -mr-12 -mt-12 blur-2xl group-hover:bg-primary-cyan/10 transition-all" />
-            <div className="absolute -bottom-8 -left-8 w-32 h-32 rounded-full border border-primary-cyan/10 group-hover:border-primary-cyan/20 transition-all" />
-            <div className="w-14 h-14 rounded-full bg-primary-cyan/10 flex items-center justify-center text-primary-cyan border border-primary-cyan/20 mb-6 group-hover:scale-110 transition-transform relative z-10">
-              <Eye size={22} />
-            </div>
-            <h3 className="text-xl font-black font-headline uppercase tracking-widest mb-4 relative z-10">{t('home.pillars.public.title', 'The Public')}</h3>
-            <p className="text-on-surface-variant text-sm leading-relaxed opacity-70 text-justify mb-6 relative z-10">
-              {t('Discover the creations of tomorrow. Explore the registry, follow the creative journey and contribute to the growth of the works you believe in.', 'Découvrez les créations de demain. Explorez le registre, suivez le parcours créatif et contribuez à la croissance des œuvres en lesquelles vous croyez.')}
-            </p>
-            <div className="flex flex-wrap gap-2 mt-auto relative z-10">
-              <span className="text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full bg-primary-cyan/10 text-primary-cyan border border-primary-cyan/20">{language === 'FR' ? 'Accès gratuit' : 'Free access'}</span>
-              <span className="text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full bg-primary-cyan/10 text-primary-cyan border border-primary-cyan/20">{language === 'FR' ? 'Alertes en direct' : 'Live alerts'}</span>
-              <span className="text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full bg-primary-cyan/10 text-primary-cyan border border-primary-cyan/20">{language === 'FR' ? 'Score communautaire' : 'Community score'}</span>
-            </div>
-          </div>
+          ))}
         </div>
-
         {/* Score Formula Section */}
         <div className="mb-40">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
