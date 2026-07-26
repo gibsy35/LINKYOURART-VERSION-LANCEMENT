@@ -256,7 +256,7 @@ export const InvestorDashboardView: React.FC<{user:UserProfile|null;onNotify:(ms
                           <span className={`px-2 py-0.5 border rounded-full text-[9px] font-black uppercase ${inv.proj.status==='RISK'?'bg-accent-gold/10 border-accent-gold/20 text-accent-gold':'bg-emerald-400/10 border-emerald-400/20 text-emerald-400'}`}>
                             {statusLabel(inv.proj.status)}
                           </span>
-                          <span className={`text-[10px] font-black ${inv.proj.rarity==='Legendary'?'text-accent-gold':inv.proj.rarity==='Epic'?'text-[#a78bfa]':'text-primary-cyan'}`}>★ {inv.proj.rarity}</span>
+                          <span className={`text-[10px] font-black ${inv.proj.rarity==='Signature'?'text-accent-gold':inv.proj.rarity==='Exceptional'?'text-[#a78bfa]':'text-primary-cyan'}`}>★ {inv.proj.rarity}</span>
                         </div>
                         <p className="text-xs text-on-surface-variant/50">{inv.proj.category} · {inv.proj.registryIndex}</p>
                       </div>

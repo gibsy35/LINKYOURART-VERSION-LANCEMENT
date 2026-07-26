@@ -522,7 +522,7 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
               <div className="absolute inset-0 bg-gradient-to-t from-[#0A0F1A] via-[#0A0F1A]/30 to-transparent"/>
               <div className="absolute top-2 left-2 flex items-center gap-1.5">
                 <span className="px-2 py-0.5 bg-emerald-500/25 border border-emerald-500/40 rounded-full text-[8px] font-black text-emerald-400 uppercase">● LIVE</span>
-                <span className="px-2 py-0.5 bg-[#a78bfa]/20 border border-[#a78bfa]/30 rounded-full text-[8px] font-black text-[#a78bfa] uppercase">★ {proj?.rarity || 'Epic'}</span>
+                <span className="px-2 py-0.5 bg-[#a78bfa]/20 border border-[#a78bfa]/30 rounded-full text-[8px] font-black text-[#a78bfa] uppercase">★ {proj?.rarity || 'Exceptional'}</span>
               </div>
             </div>
 

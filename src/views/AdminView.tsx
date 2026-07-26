@@ -58,7 +58,7 @@ export const AdminView: React.FC<{
   const [activeEmailRequest, setActiveEmailRequest] = useState<any | null>(null);
   const [pendingSubmissions, setPendingSubmissions] = useState<any[]>([]);
   const [publishModal, setPublishModal] = useState<any | null>(null);
-  const [publishForm, setPublishForm] = useState({ scoreAlgo: 750, scorePro: 750, growth: 0, rarity: 'Rare', revenueSharePercentage: 5 });
+  const [publishForm, setPublishForm] = useState({ scoreAlgo: 750, scorePro: 750, growth: 0, rarity: 'Distinguished', revenueSharePercentage: 5 });
   const [generatedDemoKey, setGeneratedDemoKey] = useState<string>('');
   const [expandedVerifId, setExpandedVerifId] = useState<string | null>(null);
 
@@ -1664,7 +1664,7 @@ export const AdminView: React.FC<{
 
                             {sub.status === 'PENDING_VALIDATION' && (
                               <div className="flex flex-col gap-2 shrink-0">
-                                <button onClick={() => { setPublishModal(sub); setPublishForm({ scoreAlgo: 750, scorePro: 750, growth: 0, rarity: 'Rare', revenueSharePercentage: 5 }); }}
+                                <button onClick={() => { setPublishModal(sub); setPublishForm({ scoreAlgo: 750, scorePro: 750, growth: 0, rarity: 'Distinguished', revenueSharePercentage: 5 }); }}
                                   className="px-4 py-2 bg-emerald-400/15 border border-emerald-400/25 text-emerald-400 text-[10px] font-black rounded-xl hover:bg-emerald-400/25 transition-all uppercase">
                                   {t('Validate & Publish', 'Valider & Publier')}
                                 </button>
@@ -1731,10 +1731,10 @@ export const AdminView: React.FC<{
                           <label className="text-[9px] font-black text-white/40 uppercase tracking-widest block mb-1">Rarity</label>
                           <select value={publishForm.rarity} onChange={e => setPublishForm(f => ({...f, rarity: e.target.value}))}
                             className="w-full bg-black/30 border border-white/10 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-primary-cyan/50">
-                            <option>Common</option>
-                            <option>Rare</option>
-                            <option>Epic</option>
-                            <option>Legendary</option>
+                            <option>Standard</option>
+                            <option>Distinguished</option>
+                            <option>Exceptional</option>
+                            <option>Signature</option>
                           </select>
                         </div>
 

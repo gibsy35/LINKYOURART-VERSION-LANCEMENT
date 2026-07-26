@@ -396,7 +396,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
                   
                   {/* Badges top gauche */}
                   <div className="absolute top-3 left-3 flex gap-1.5">
-                    <div className={`px-2 py-0.5 text-[9px] font-black uppercase tracking-widest rounded-full ${currentContract.rarity === 'Legendary' ? 'bg-accent-gold text-surface-dim' : currentContract.rarity === 'Epic' ? 'bg-[#a78bfa] text-surface-dim' : 'bg-primary-cyan text-surface-dim'}`}>
+                    <div className={`px-2 py-0.5 text-[9px] font-black uppercase tracking-widest rounded-full ${currentContract.rarity === 'Signature' ? 'bg-accent-gold text-surface-dim' : currentContract.rarity === 'Exceptional' ? 'bg-[#a78bfa] text-surface-dim' : 'bg-primary-cyan text-surface-dim'}`}>
                       {currentContract.rarity}
                     </div>
                     <div className={`px-2 py-0.5 backdrop-blur-sm border text-[9px] font-black uppercase tracking-widest rounded-full ${CATEGORY_COLORS[currentContract.category] ? CATEGORY_COLORS[currentContract.category].replace('text-surface-dim','') + ' border-transparent text-surface-dim' : 'bg-black/50 border-white/20 text-white'}`}>

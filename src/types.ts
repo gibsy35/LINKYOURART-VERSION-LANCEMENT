@@ -281,7 +281,7 @@ export interface Contract {
   pillars: PillarScore[]; // 5 pillars, 0-200 each
   totalScore: number; // 0-1000
   rights: string[];
-  rarity: 'Common' | 'Rare' | 'Epic' | 'Legendary';
+  rarity: 'Standard' | 'Distinguished' | 'Exceptional' | 'Signature';
   category: 'Fine Art' | 'Film' | 'TV Series' | 'Music' | 'Digital Art' | 'Gaming' | 'Literature' | 'Fashion' | 'Architecture' | 'Design' | 'Photography' | 'Podcast' | 'Performing Arts' | 'Gastronomy';
   assetStatus: 'In Development' | 'Production' | 'Post-Production' | 'Completed' | 'Released' | 'Defunct';
   milestones: Milestone[];
@@ -325,7 +325,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 892,
     rights: ['Commercial Usage', 'Fractional Ownership', 'Resale Royalty'],
-    rarity: 'Epic',
+    rarity: 'Exceptional',
     category: 'Fine Art',
     assetStatus: 'Released',
     milestones: [
@@ -369,7 +369,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 710,
     rights: ['Licensing Royalties', 'Design IP Access', 'Exhibition Rights'],
-    rarity: 'Legendary',
+    rarity: 'Signature',
     category: 'Architecture',
     assetStatus: 'In Development',
     milestones: [
@@ -413,7 +413,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 650,
     rights: ['Ad Revenue Share', 'Exclusive Content', 'Sync Rights'],
-    rarity: 'Rare',
+    rarity: 'Distinguished',
     category: 'Podcast',
     assetStatus: 'Released',
     milestones: [
@@ -457,7 +457,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 893,
     rights: ['SVOD Royalties', 'Global Syndication', 'Merchandising IP'],
-    rarity: 'Legendary',
+    rarity: 'Signature',
     category: 'TV Series',
     assetStatus: 'Production',
     milestones: [
@@ -501,7 +501,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 70,
     rights: ['None'],
-    rarity: 'Common',
+    rarity: 'Standard',
     category: 'Music',
     assetStatus: 'In Development',
     milestones: [
@@ -544,7 +544,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 700,
     rights: ['Visual Usage', 'Network Access'],
-    rarity: 'Rare',
+    rarity: 'Distinguished',
     category: 'Digital Art',
     assetStatus: 'Released',
     milestones: [
@@ -587,7 +587,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 330,
     rights: ['Historical Data'],
-    rarity: 'Common',
+    rarity: 'Standard',
     category: 'Digital Art',
     assetStatus: 'In Development',
     milestones: [
@@ -630,7 +630,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 840,
     rights: ['Ad Revenue Share', 'Exclusive Content', 'Voting Rights'],
-    rarity: 'Rare',
+    rarity: 'Distinguished',
     category: 'Podcast',
     assetStatus: 'Production',
     milestones: [
@@ -674,7 +674,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 820,
     rights: ['Box Office Share', 'Streaming Royalties', 'Merchandise Rights'],
-    rarity: 'Epic',
+    rarity: 'Exceptional',
     category: 'Film',
     assetStatus: 'Released',
     milestones: [
@@ -718,7 +718,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 720,
     rights: ['Visual Display', 'Network Access'],
-    rarity: 'Common',
+    rarity: 'Standard',
     category: 'Digital Art',
     assetStatus: 'Released',
     milestones: [
@@ -761,7 +761,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 959,
     rights: ['Scientific Research', 'Visual Display', 'Data Analysis'],
-    rarity: 'Legendary',
+    rarity: 'Signature',
     category: 'Digital Art',
     assetStatus: 'Completed',
     milestones: [
@@ -804,7 +804,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 830,
     rights: ['Visual Display', 'Emotional Connection'],
-    rarity: 'Rare',
+    rarity: 'Distinguished',
     category: 'Digital Art',
     assetStatus: 'Production',
     milestones: [
@@ -847,7 +847,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 878,
     rights: ['Virtual Tourism', 'Visual Display'],
-    rarity: 'Epic',
+    rarity: 'Exceptional',
     category: 'Digital Art',
     assetStatus: 'Completed',
     milestones: [
@@ -889,7 +889,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 660,
     rights: ['Visual Display', 'Atmospheric Access'],
-    rarity: 'Common',
+    rarity: 'Standard',
     category: 'Digital Art',
     assetStatus: 'Released',
     milestones: [
@@ -932,7 +932,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 917,
     rights: ['Digital Citizenship', 'Visual Display'],
-    rarity: 'Legendary',
+    rarity: 'Signature',
     category: 'Digital Art',
     assetStatus: 'Completed',
     milestones: [
@@ -974,7 +974,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 819,
     rights: ['Digital Worship', 'Visual Display'],
-    rarity: 'Rare',
+    rarity: 'Distinguished',
     category: 'Digital Art',
     assetStatus: 'Production',
     milestones: [
@@ -1016,7 +1016,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 720,
     rights: ['Data Analysis', 'Visual Display'],
-    rarity: 'Common',
+    rarity: 'Standard',
     category: 'Digital Art',
     assetStatus: 'Released',
     milestones: [
@@ -1058,7 +1058,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 934,
     rights: ['Consciousness Access', 'Visual Display'],
-    rarity: 'Epic',
+    rarity: 'Exceptional',
     category: 'Digital Art',
     assetStatus: 'In Development',
     milestones: [
@@ -1100,7 +1100,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 920,
     rights: ['Distribution Revenue', 'Merchandising Rights'],
-    rarity: 'Epic',
+    rarity: 'Exceptional',
     category: 'TV Series',
     assetStatus: 'Production',
     milestones: [
@@ -1141,7 +1141,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 890,
     rights: ['Ad Revenue Share', 'Exclusive Content Access'],
-    rarity: 'Rare',
+    rarity: 'Distinguished',
     category: 'Podcast',
     assetStatus: 'Released',
     milestones: [
@@ -1182,7 +1182,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 825,
     rights: ['Ticket Revenue Share', 'Touring Royalties'],
-    rarity: 'Epic',
+    rarity: 'Exceptional',
     category: 'Performing Arts',
     assetStatus: 'Post-Production',
     milestones: [
@@ -1223,7 +1223,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 942,
     rights: ['Licensing Royalties', 'Design IP Access'],
-    rarity: 'Legendary',
+    rarity: 'Signature',
     category: 'Architecture',
     assetStatus: 'In Development',
     milestones: [
@@ -1264,7 +1264,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 890,
     rights: ['Franchise Revenue', 'Recipe IP Royalties'],
-    rarity: 'Rare',
+    rarity: 'Distinguished',
     category: 'Gastronomy',
     assetStatus: 'Production',
     milestones: [
@@ -1305,7 +1305,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 900,
     rights: ['Streaming Royalties', 'Commercial Sync'],
-    rarity: 'Epic',
+    rarity: 'Exceptional',
     category: 'Music',
     assetStatus: 'Production',
     milestones: [
@@ -1344,7 +1344,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 928,
     rights: ['Box Office Share', 'Merchandising Rights'],
-    rarity: 'Legendary',
+    rarity: 'Signature',
     category: 'Film',
     assetStatus: 'Post-Production',
     milestones: [
@@ -1383,7 +1383,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 905,
     rights: ['In-game Revenue', 'Governance Voting'],
-    rarity: 'Rare',
+    rarity: 'Distinguished',
     category: 'Gaming',
     assetStatus: 'Released',
     milestones: [
@@ -1422,7 +1422,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 805,
     rights: ['Publishing Royalties', 'Limited Edition Access'],
-    rarity: 'Epic',
+    rarity: 'Exceptional',
     category: 'Literature',
     assetStatus: 'Completed',
     milestones: [
@@ -1461,7 +1461,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 770,
     rights: ['Commercial Licensing', 'Print Rights'],
-    rarity: 'Common',
+    rarity: 'Standard',
     category: 'Photography',
     assetStatus: 'Released',
     milestones: [
@@ -1500,7 +1500,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 925,
     rights: ['Virtual Sales Share', 'Exclusive Drop Access'],
-    rarity: 'Epic',
+    rarity: 'Exceptional',
     category: 'Fashion',
     assetStatus: 'Production',
     milestones: [
@@ -1539,7 +1539,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 942,
     rights: ['Licensing Royalties', 'Design Attribution'],
-    rarity: 'Legendary',
+    rarity: 'Signature',
     category: 'Architecture',
     assetStatus: 'Completed',
     milestones: [
@@ -1578,7 +1578,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 855,
     rights: ['Manufacturing Royalties', 'Design Rights'],
-    rarity: 'Rare',
+    rarity: 'Distinguished',
     category: 'Design',
     assetStatus: 'Released',
     milestones: [
@@ -1617,7 +1617,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 887,
     rights: ['Streaming Revenue Share', 'Syndication Rights'],
-    rarity: 'Epic',
+    rarity: 'Exceptional',
     category: 'TV Series',
     assetStatus: 'Production',
     milestones: [
@@ -1656,7 +1656,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 780,
     rights: ['Sales Royalties', 'Vinyl Access'],
-    rarity: 'Rare',
+    rarity: 'Distinguished',
     category: 'Music',
     assetStatus: 'Released',
     milestones: [
@@ -1695,7 +1695,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 922,
     rights: ['Reproduction Rights', 'Exhibition Rights'],
-    rarity: 'Epic',
+    rarity: 'Exceptional',
     category: 'Digital Art',
     assetStatus: 'Completed',
     milestones: [
@@ -1734,7 +1734,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 898,
     rights: ['Early Access Revenue', 'Beta Testing Access'],
-    rarity: 'Common',
+    rarity: 'Standard',
     category: 'Gaming',
     assetStatus: 'In Development',
     milestones: [
@@ -1773,7 +1773,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 920,
     rights: ['Future Drop Access', 'Physical Claim Rights'],
-    rarity: 'Legendary',
+    rarity: 'Signature',
     category: 'Fashion',
     assetStatus: 'Released',
     milestones: [
@@ -1812,7 +1812,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 763,
     rights: ['Publication Royalties', 'Exhibition Rights'],
-    rarity: 'Rare',
+    rarity: 'Distinguished',
     category: 'Photography',
     assetStatus: 'Completed',
     milestones: [
@@ -1851,7 +1851,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 825,
     rights: ['Audiobook Royalties', 'Adaptation Rights'],
-    rarity: 'Common',
+    rarity: 'Standard',
     category: 'Literature',
     assetStatus: 'Released',
     milestones: [
@@ -1890,7 +1890,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 943,
     rights: ['Commercial Licensing', 'Update Access'],
-    rarity: 'Epic',
+    rarity: 'Exceptional',
     category: 'Design',
     assetStatus: 'Released',
     milestones: [
@@ -1929,7 +1929,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 923,
     rights: ['Patent Royalties', 'Licensing Rights'],
-    rarity: 'Epic',
+    rarity: 'Exceptional',
     category: 'Architecture',
     assetStatus: 'Production',
     milestones: [
@@ -1968,7 +1968,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 863,
     rights: ['Distribution Revenue', 'Festival Access'],
-    rarity: 'Rare',
+    rarity: 'Distinguished',
     category: 'Film',
     assetStatus: 'Post-Production',
     milestones: [
@@ -2007,7 +2007,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 917,
     rights: ['Licensing Revenue', 'Educational Rights'],
-    rarity: 'Legendary',
+    rarity: 'Signature',
     category: 'TV Series',
     assetStatus: 'Released',
     milestones: [
@@ -2046,7 +2046,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 900,
     rights: ['Marketplace Royalties', 'Early Access'],
-    rarity: 'Epic',
+    rarity: 'Exceptional',
     category: 'Fashion',
     assetStatus: 'Production',
     milestones: [
@@ -2085,7 +2085,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 850,
     rights: ['Streaming Royalties', 'Visual Asset Access'],
-    rarity: 'Rare',
+    rarity: 'Distinguished',
     category: 'Music',
     assetStatus: 'Released',
     milestones: [
@@ -2124,7 +2124,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 927,
     rights: ['Certification Royalties', 'Design Licensing'],
-    rarity: 'Legendary',
+    rarity: 'Signature',
     category: 'Architecture',
     assetStatus: 'Completed',
     milestones: [
@@ -2163,7 +2163,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 945,
     rights: ['Land Sale Share', 'Fee Distribution'],
-    rarity: 'Epic',
+    rarity: 'Exceptional',
     category: 'Gaming',
     assetStatus: 'Production',
     milestones: [
@@ -2202,7 +2202,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 855,
     rights: ['Digital Sales Share', 'Adaptation Rights'],
-    rarity: 'Rare',
+    rarity: 'Distinguished',
     category: 'Literature',
     assetStatus: 'Released',
     milestones: [
@@ -2241,7 +2241,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 853,
     rights: ['VR Licensing', 'Print Royalties'],
-    rarity: 'Epic',
+    rarity: 'Exceptional',
     category: 'Photography',
     assetStatus: 'Released',
     milestones: [
@@ -2280,7 +2280,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 885,
     rights: ['Manufacturing Royalties', 'Patent Access'],
-    rarity: 'Rare',
+    rarity: 'Distinguished',
     category: 'Design',
     assetStatus: 'Production',
     milestones: [
@@ -2319,7 +2319,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 877,
     rights: ['Streaming Royalties', 'Educational Rights'],
-    rarity: 'Epic',
+    rarity: 'Exceptional',
     category: 'Film',
     assetStatus: 'Released',
     milestones: [
@@ -2360,7 +2360,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 910,
     rights: ['Streaming Revenue', 'Merchandising Share'],
-    rarity: 'Epic',
+    rarity: 'Exceptional',
     category: 'TV Series',
     assetStatus: 'Production',
     milestones: [
@@ -2401,7 +2401,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 948,
     rights: ['Secondary Sale Royalties', 'Visual Display'],
-    rarity: 'Legendary',
+    rarity: 'Signature',
     category: 'Digital Art',
     assetStatus: 'Released',
     milestones: [
@@ -2442,7 +2442,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 805,
     rights: ['Licensing Royalties', 'Creator Access'],
-    rarity: 'Common',
+    rarity: 'Standard',
     category: 'Music',
     assetStatus: 'Released',
     milestones: [
@@ -2483,7 +2483,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 932,
     rights: ['Rental Revenue Share', 'Visual Display'],
-    rarity: 'Epic',
+    rarity: 'Exceptional',
     category: 'Architecture',
     assetStatus: 'Completed',
     milestones: [
@@ -2524,7 +2524,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 920,
     rights: ['Tournament Revenue', 'Sponsorship Share'],
-    rarity: 'Epic',
+    rarity: 'Exceptional',
     category: 'Gaming',
     assetStatus: 'Production',
     milestones: [
@@ -2565,7 +2565,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 800,
     rights: ['Subscription Revenue', 'Editorial Voting'],
-    rarity: 'Common',
+    rarity: 'Standard',
     category: 'Literature',
     assetStatus: 'Released',
     milestones: [
@@ -2606,7 +2606,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 860,
     rights: ['Commercial Licensing', 'Visual Display'],
-    rarity: 'Rare',
+    rarity: 'Distinguished',
     category: 'Photography',
     assetStatus: 'Released',
     milestones: [
@@ -2647,7 +2647,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 940,
     rights: ['Apparel Royalties', 'Patent Access'],
-    rarity: 'Epic',
+    rarity: 'Exceptional',
     category: 'Design',
     assetStatus: 'Production',
     milestones: [
@@ -2688,7 +2688,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 941,
     rights: ['Government Royalties', 'Design Attribution'],
-    rarity: 'Legendary',
+    rarity: 'Signature',
     category: 'Architecture',
     assetStatus: 'Completed',
     milestones: [
@@ -2729,7 +2729,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 942,
     rights: ['VR Sales Share', 'Visual Display'],
-    rarity: 'Epic',
+    rarity: 'Exceptional',
     category: 'Film',
     assetStatus: 'Production',
     milestones: [
@@ -2770,7 +2770,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 882,
     rights: ['Streaming Revenue', 'International Royalties'],
-    rarity: 'Epic',
+    rarity: 'Exceptional',
     category: 'TV Series',
     assetStatus: 'Post-Production',
     milestones: [
@@ -2811,7 +2811,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 855,
     rights: ['Commercial Licensing', 'Editorial Usage'],
-    rarity: 'Rare',
+    rarity: 'Distinguished',
     category: 'Photography',
     assetStatus: 'Released',
     milestones: [
@@ -2853,7 +2853,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 862,
     rights: ['Exhibition Access', 'Resale Royalty', 'Governance'],
-    rarity: 'Legendary',
+    rarity: 'Signature',
     category: 'Fine Art',
     assetStatus: 'Released',
     milestones: [
@@ -2895,7 +2895,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 870,
     rights: ['Box Office Share', 'Streaming Royalties'],
-    rarity: 'Epic',
+    rarity: 'Exceptional',
     category: 'Film',
     assetStatus: 'Production',
     milestones: [
@@ -2938,7 +2938,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 897,
     rights: ['Syndication Share', 'Merchandise Rights'],
-    rarity: 'Legendary',
+    rarity: 'Signature',
     category: 'TV Series',
     assetStatus: 'Post-Production',
     milestones: [
@@ -2981,7 +2981,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 900,
     rights: ['Streaming Royalties', 'Sync Rights'],
-    rarity: 'Rare',
+    rarity: 'Distinguished',
     category: 'Music',
     assetStatus: 'Released',
     milestones: [
@@ -3023,7 +3023,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 818,
     rights: ['Resale Royalty', 'Exhibition Rights'],
-    rarity: 'Epic',
+    rarity: 'Exceptional',
     category: 'Fine Art',
     assetStatus: 'Completed',
     milestones: [
@@ -3065,7 +3065,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 935,
     rights: ['Box Office Share', 'Merchandise Rights', 'Sequel Rights'],
-    rarity: 'Legendary',
+    rarity: 'Signature',
     category: 'Film',
     assetStatus: 'Production',
     milestones: [
@@ -3106,7 +3106,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 800,
     rights: ['Streaming Royalties', 'Ad Revenue Share'],
-    rarity: 'Rare',
+    rarity: 'Distinguished',
     category: 'TV Series',
     assetStatus: 'Production',
     milestones: [
@@ -3146,7 +3146,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 775,
     rights: ['Vinyl Sales Share', 'Live Stream Access'],
-    rarity: 'Epic',
+    rarity: 'Exceptional',
     category: 'Music',
     assetStatus: 'Released',
     milestones: [
@@ -3186,7 +3186,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 763,
     rights: ['Park Access', 'Resale Royalty'],
-    rarity: 'Legendary',
+    rarity: 'Signature',
     category: 'Fine Art',
     assetStatus: 'Completed',
     milestones: [
@@ -3226,7 +3226,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 880,
     rights: ['Revenue Share', 'Executive Producer Credit'],
-    rarity: 'Rare',
+    rarity: 'Distinguished',
     category: 'Film',
     assetStatus: 'Production',
     milestones: [
@@ -3266,7 +3266,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 912,
     rights: ['Syndication Royalties', 'Merchandise Share'],
-    rarity: 'Legendary',
+    rarity: 'Signature',
     category: 'TV Series',
     assetStatus: 'Released',
     milestones: [
@@ -3306,7 +3306,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 800,
     rights: ['Streaming Royalties', 'Sync Rights'],
-    rarity: 'Common',
+    rarity: 'Standard',
     category: 'Music',
     assetStatus: 'Released',
     milestones: [
@@ -3346,7 +3346,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 812,
     rights: ['Resale Royalty', 'Digital Twin Access'],
-    rarity: 'Epic',
+    rarity: 'Exceptional',
     category: 'Fine Art',
     assetStatus: 'Completed',
     milestones: [
@@ -3386,7 +3386,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 935,
     rights: ['Streaming Royalties', 'Game Revenue Share'],
-    rarity: 'Legendary',
+    rarity: 'Signature',
     category: 'TV Series',
     assetStatus: 'Production',
     milestones: [
@@ -3426,7 +3426,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 850,
     rights: ['Streaming Royalties', 'Concert Revenue Share'],
-    rarity: 'Rare',
+    rarity: 'Distinguished',
     category: 'Music',
     assetStatus: 'Production',
     milestones: [
@@ -3466,7 +3466,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 737,
     rights: ['Resale Royalty', 'Exhibition Rights'],
-    rarity: 'Epic',
+    rarity: 'Exceptional',
     category: 'Fine Art',
     assetStatus: 'Completed',
     milestones: [
@@ -3506,7 +3506,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 805,
     rights: ['Licensing Royalties', 'Streaming Share'],
-    rarity: 'Rare',
+    rarity: 'Distinguished',
     category: 'Film',
     assetStatus: 'Production',
     milestones: [
@@ -3546,7 +3546,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 798,
     rights: ['Ad Revenue Share', 'Syndication Royalties'],
-    rarity: 'Epic',
+    rarity: 'Exceptional',
     category: 'TV Series',
     assetStatus: 'Released',
     milestones: [
@@ -3586,7 +3586,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 833,
     rights: ['Streaming Royalties', 'Sync Rights'],
-    rarity: 'Rare',
+    rarity: 'Distinguished',
     category: 'Music',
     assetStatus: 'Completed',
     milestones: [
@@ -3626,7 +3626,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 895,
     rights: ['Virtual Access', 'Revenue Share'],
-    rarity: 'Epic',
+    rarity: 'Exceptional',
     category: 'Digital Art',
     assetStatus: 'Production',
     milestones: [
@@ -3666,7 +3666,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 920,
     rights: ['Tournament Share', 'In-Game Items'],
-    rarity: 'Legendary',
+    rarity: 'Signature',
     category: 'Gaming',
     assetStatus: 'Production',
     milestones: [
@@ -3706,7 +3706,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 805,
     rights: ['Publishing Royalties', 'Film Option Share'],
-    rarity: 'Epic',
+    rarity: 'Exceptional',
     category: 'Literature',
     assetStatus: 'Production',
     milestones: [
@@ -3746,7 +3746,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 900,
     rights: ['Digital Wearables', 'Physical Twin Access'],
-    rarity: 'Rare',
+    rarity: 'Distinguished',
     category: 'Fashion',
     assetStatus: 'Production',
     milestones: [
@@ -3786,7 +3786,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 913,
     rights: ['Licensing Royalties', 'Virtual Real Estate'],
-    rarity: 'Legendary',
+    rarity: 'Signature',
     category: 'Architecture',
     assetStatus: 'Completed',
     milestones: [
@@ -3826,7 +3826,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 878,
     rights: ['Tournament Revenue', 'Speedrun Access'],
-    rarity: 'Rare',
+    rarity: 'Distinguished',
     category: 'Gaming',
     assetStatus: 'Production',
     milestones: [
@@ -3866,7 +3866,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 805,
     rights: ['App Revenue Share', 'Print Royalties'],
-    rarity: 'Common',
+    rarity: 'Standard',
     category: 'Literature',
     assetStatus: 'Released',
     milestones: [
@@ -3906,7 +3906,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 863,
     rights: ['Profit Share', 'Governance Voting'],
-    rarity: 'Epic',
+    rarity: 'Exceptional',
     category: 'Fashion',
     assetStatus: 'Production',
     milestones: [
@@ -3947,7 +3947,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 932,
     rights: ['Licensing Royalties', 'Carbon Credit Share'],
-    rarity: 'Epic',
+    rarity: 'Exceptional',
     category: 'Architecture',
     assetStatus: 'Production',
     milestones: [
@@ -3987,7 +3987,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 895,
     rights: ['Subscription Share', 'Virtual Land Rights'],
-    rarity: 'Epic',
+    rarity: 'Exceptional',
     category: 'Gaming',
     assetStatus: 'Production',
     milestones: [
@@ -4027,7 +4027,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 750,
     rights: ['Digital Royalties', 'Reading Access'],
-    rarity: 'Common',
+    rarity: 'Standard',
     category: 'Literature',
     assetStatus: 'Released',
     milestones: [
@@ -4067,7 +4067,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 843,
     rights: ['Asset Ownership', 'Event Access'],
-    rarity: 'Legendary',
+    rarity: 'Signature',
     category: 'Fashion',
     assetStatus: 'Released',
     milestones: [
@@ -4107,7 +4107,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 890,
     rights: ['Design Licensing', 'Virtual Access'],
-    rarity: 'Epic',
+    rarity: 'Exceptional',
     category: 'Architecture',
     assetStatus: 'Completed',
     milestones: [
@@ -4147,7 +4147,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 873,
     rights: ['Prize Pool Share', 'Sponsorship Share'],
-    rarity: 'Legendary',
+    rarity: 'Signature',
     category: 'Gaming',
     assetStatus: 'Released',
     milestones: [
@@ -4187,7 +4187,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 825,
     rights: ['Sales Royalties', 'Digital Access'],
-    rarity: 'Rare',
+    rarity: 'Distinguished',
     category: 'Literature',
     assetStatus: 'Production',
     milestones: [
@@ -4227,7 +4227,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 865,
     rights: ['Sales Royalties', 'Licensing Share'],
-    rarity: 'Rare',
+    rarity: 'Distinguished',
     category: 'Fashion',
     assetStatus: 'Production',
     milestones: [
@@ -4267,7 +4267,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 862,
     rights: ['Licensing Royalties', 'Virtual Access'],
-    rarity: 'Legendary',
+    rarity: 'Signature',
     category: 'Architecture',
     assetStatus: 'Completed',
     milestones: [
@@ -4309,7 +4309,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 923,
     rights: ['Event Revenue Share', 'Sponsorship Share'],
-    rarity: 'Rare',
+    rarity: 'Distinguished',
     category: 'Fashion',
     assetStatus: 'Production',
     milestones: [
@@ -4351,7 +4351,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 845,
     rights: ['Licensing Royalties', 'Design Access'],
-    rarity: 'Epic',
+    rarity: 'Exceptional',
     category: 'Design',
     assetStatus: 'Completed',
     milestones: [
@@ -4393,7 +4393,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 820,
     rights: ['Licensing Royalties', 'Print Access'],
-    rarity: 'Rare',
+    rarity: 'Distinguished',
     category: 'Photography',
     assetStatus: 'Released',
     milestones: [
@@ -4435,7 +4435,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 870,
     rights: ['Sponsorship Share', 'Premium Access'],
-    rarity: 'Rare',
+    rarity: 'Distinguished',
     category: 'Podcast',
     assetStatus: 'Production',
     milestones: [
@@ -4477,7 +4477,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 860,
     rights: ['Ticket Revenue Share', 'Streaming Royalties'],
-    rarity: 'Epic',
+    rarity: 'Exceptional',
     category: 'Performing Arts',
     assetStatus: 'Production',
     milestones: [
@@ -4519,7 +4519,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 860,
     rights: ['Event Revenue Share', 'Recipe Access'],
-    rarity: 'Rare',
+    rarity: 'Distinguished',
     category: 'Gastronomy',
     assetStatus: 'Production',
     milestones: [
@@ -4561,7 +4561,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 865,
     rights: ['Manufacturing Royalties', 'Design Access'],
-    rarity: 'Epic',
+    rarity: 'Exceptional',
     category: 'Design',
     assetStatus: 'Completed',
     milestones: [
@@ -4603,7 +4603,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 820,
     rights: ['Licensing Royalties', 'Exhibition Access'],
-    rarity: 'Common',
+    rarity: 'Standard',
     category: 'Photography',
     assetStatus: 'Released',
     milestones: [
@@ -4645,7 +4645,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 843,
     rights: ['Ad Revenue Share', 'Exclusive Content'],
-    rarity: 'Epic',
+    rarity: 'Exceptional',
     category: 'Podcast',
     assetStatus: 'Released',
     milestones: [
@@ -4687,7 +4687,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 817,
     rights: ['Ticket Revenue Share', 'Merchandise Share'],
-    rarity: 'Legendary',
+    rarity: 'Signature',
     category: 'Performing Arts',
     assetStatus: 'Released',
     milestones: [
@@ -4729,7 +4729,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 870,
     rights: ['Franchise Royalties', 'Event Access'],
-    rarity: 'Epic',
+    rarity: 'Exceptional',
     category: 'Gastronomy',
     assetStatus: 'Production',
     milestones: [
@@ -4771,7 +4771,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 905,
     rights: ['Sales Royalties', 'Design Access'],
-    rarity: 'Rare',
+    rarity: 'Distinguished',
     category: 'Design',
     assetStatus: 'Production',
     milestones: [
@@ -4813,7 +4813,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 768,
     rights: ['Commission Share', 'Licensing Royalties'],
-    rarity: 'Common',
+    rarity: 'Standard',
     category: 'Photography',
     assetStatus: 'Released',
     milestones: [
@@ -4855,7 +4855,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 792,
     rights: ['Licensing Royalties', 'Ad Revenue Share'],
-    rarity: 'Common',
+    rarity: 'Standard',
     category: 'Podcast',
     assetStatus: 'Production',
     milestones: [
@@ -4897,7 +4897,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 900,
     rights: ['Event Revenue Share', 'Digital Content Access'],
-    rarity: 'Rare',
+    rarity: 'Distinguished',
     category: 'Performing Arts',
     assetStatus: 'Production',
     milestones: [
@@ -4939,7 +4939,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 875,
     rights: ['Profit Share', 'Governance Voting'],
-    rarity: 'Epic',
+    rarity: 'Exceptional',
     category: 'Gastronomy',
     assetStatus: 'Production',
     milestones: [
@@ -4981,7 +4981,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 850,
     rights: ['Sales Royalties', 'Design Access'],
-    rarity: 'Rare',
+    rarity: 'Distinguished',
     category: 'Design',
     assetStatus: 'Production',
     milestones: [
@@ -5023,7 +5023,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 860,
     rights: ['Licensing Royalties', 'Exhibition Access'],
-    rarity: 'Epic',
+    rarity: 'Exceptional',
     category: 'Photography',
     assetStatus: 'Released',
     milestones: [
@@ -5065,7 +5065,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 903,
     rights: ['Licensing Royalties', 'Sponsorship Share'],
-    rarity: 'Legendary',
+    rarity: 'Signature',
     category: 'Podcast',
     assetStatus: 'Released',
     milestones: [
@@ -5107,7 +5107,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 835,
     rights: ['Ticket Revenue Share', 'Streaming Royalties'],
-    rarity: 'Epic',
+    rarity: 'Exceptional',
     category: 'Performing Arts',
     assetStatus: 'Released',
     milestones: [
@@ -5149,7 +5149,7 @@ export const CONTRACTS: Contract[] = [
     ],
     totalScore: 807,
     rights: ['Auction Revenue Share', 'Private Sale Share'],
-    rarity: 'Legendary',
+    rarity: 'Signature',
     category: 'Gastronomy',
     assetStatus: 'Released',
     milestones: [

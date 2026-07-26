@@ -344,7 +344,7 @@ export const CreatorDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg
                         <div className="flex items-center gap-2 flex-wrap mb-0.5">
                           <p className="text-xs text-on-surface-variant/40 font-mono">{proj.registryIndex}</p>
                           <StatusBadge status={proj.status}/>
-                          <span className={`text-xs font-black ${proj.rarity==='Legendary'?'text-accent-gold':proj.rarity==='Epic'?'text-[#a78bfa]':proj.rarity==='Rare'?'text-primary-cyan':'text-on-surface-variant/50'}`}>★ {proj.rarity}</span>
+                          <span className={`text-xs font-black ${proj.rarity==='Signature'?'text-accent-gold':proj.rarity==='Exceptional'?'text-[#a78bfa]':proj.rarity==='Distinguished'?'text-primary-cyan':'text-on-surface-variant/50'}`}>★ {proj.rarity}</span>
                         </div>
                         <h3 className="text-sm font-black text-on-surface truncate">{proj.name}</h3>
                         <p className="text-xs text-on-surface-variant/50">{proj.category}</p>

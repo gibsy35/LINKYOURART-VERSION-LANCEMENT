@@ -155,7 +155,7 @@ export const CreatorProfileView: React.FC<Props> = ({ creatorId, onViewChange, o
                       <span className={`px-2 py-0.5 border rounded-full text-[9px] font-black uppercase tracking-widest ${proj.status === 'LIVE' ? 'bg-emerald-400/10 border-emerald-400/20 text-emerald-400' : 'bg-rose-500/10 border-rose-500/20 text-rose-500'}`}>
                         {proj.status === 'LIVE' ? '● LIVE' : `⚠ ${proj.status}`}
                       </span>
-                      <span className={`text-xs font-black ${proj.rarity === 'Legendary' ? 'text-accent-gold' : proj.rarity === 'Epic' ? 'text-[#a78bfa]' : 'text-primary-cyan'}`}>★ {proj.rarity}</span>
+                      <span className={`text-xs font-black ${proj.rarity === 'Signature' ? 'text-accent-gold' : proj.rarity === 'Exceptional' ? 'text-[#a78bfa]' : 'text-primary-cyan'}`}>★ {proj.rarity}</span>
                     </div>
                     <p className="text-xs text-on-surface-variant/50">{proj.category} · {proj.registryIndex}</p>
                     <p className="text-xs text-on-surface-variant/50 mt-0.5 line-clamp-1">{proj.description}</p>

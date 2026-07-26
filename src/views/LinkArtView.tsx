@@ -883,10 +883,10 @@ export const LinkArtView: React.FC<{
                   <div className="space-y-2">
                     <label className="text-xs uppercase tracking-widest text-on-surface-variant font-bold">{t('Rarity Classification', 'Classification de Rareté')}</label>
                     <select className="w-full bg-surface-dim border border-white/10 text-on-surface p-4 focus:border-primary-cyan/50 focus:ring-0 transition-all text-sm uppercase tracking-widest appearance-none">
-                      <option>{t('Common', 'Commun')}</option>
-                      <option>{t('Rare', 'Rare')}</option>
-                      <option>{t('Epic', 'Épique')}</option>
-                      <option>{t('Legendary', 'Légendaire')}</option>
+                      <option>{t('Standard', 'Standard')}</option>
+                      <option>{t('Distinguished', 'Distingué')}</option>
+                      <option>{t('Exceptional', 'Exceptionnel')}</option>
+                      <option>{t('Signature', 'Signature')}</option>
                     </select>
                   </div>
                   <div className="p-6 bg-primary-cyan/5 border border-primary-cyan/20 space-y-4">
@@ -967,7 +967,7 @@ export const LinkArtView: React.FC<{
                       </div>
                     </div>
                     <div className="text-right">
-                      <div className="text-xs font-bold uppercase tracking-widest text-accent-gold">{t('Legendary Tier', 'Niveau Légendaire')}</div>
+                      <div className="text-xs font-bold uppercase tracking-widest text-accent-gold">{t('Signature Tier', 'Niveau Signature')}</div>
                       <div className="text-[10px] text-primary-cyan uppercase tracking-widest mt-2">{t('Maturity', 'Échéance')}: {maturityDate} ({contractDuration} {t('Months', 'Mois')})</div>
                     </div>
                   </div>

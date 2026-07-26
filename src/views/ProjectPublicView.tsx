@@ -52,10 +52,10 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
   }, [project.id]);
 
   const rarityColor: Record<string, string> = {
-    Legendary: 'text-accent-gold border-accent-gold/40 bg-accent-gold/10',
-    Epic: 'text-[#a78bfa] border-[#a78bfa]/40 bg-[#a78bfa]/10',
-    Rare: 'text-primary-cyan border-primary-cyan/40 bg-primary-cyan/10',
-    Common: 'text-white/50 border-white/15 bg-white/5',
+    Signature: 'text-accent-gold border-accent-gold/40 bg-accent-gold/10',
+    Exceptional: 'text-[#a78bfa] border-[#a78bfa]/40 bg-[#a78bfa]/10',
+    Distinguished: 'text-primary-cyan border-primary-cyan/40 bg-primary-cyan/10',
+    Standard: 'text-white/50 border-white/15 bg-white/5',
   };
 
   const copyLink = () => {

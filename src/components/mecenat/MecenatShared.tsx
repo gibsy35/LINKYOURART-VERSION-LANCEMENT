@@ -84,10 +84,10 @@ export function getStatut(units: number) {
 // ─── RARETÉ ───────────────────────────────────────────────────────────────────
 
 export const RARITY_STYLE: Record<string, string> = {
-  Epic:      "bg-purple-600/80 text-on-surface",
-  Legendary: "bg-amber-500/80 text-black",
-  Rare:      "bg-[#00d4ff]/80 text-black",
-  Common:    "bg-gray-500/80 text-on-surface",
+  Exceptional:  "bg-purple-600/80 text-on-surface",
+  Signature:    "bg-amber-500/80 text-black",
+  Distinguished:"bg-[#00d4ff]/80 text-black",
+  Standard:     "bg-gray-500/80 text-on-surface",
 };
 
 export function getUnitPrice(contract: Contract): number {
