@@ -165,6 +165,7 @@ export const LinkArtView: React.FC<{
   const [issuerName, setIssuerName] = useState('');
   const [description, setDescription] = useState('');
   const [showDescExample, setShowDescExample] = useState(false);
+  const [fundingGoal, setFundingGoal] = useState('');
   const [generatedImage, setGeneratedImage] = useState<string | null>(null);
   const [generatedOptions, setGeneratedOptions] = useState<string[]>([]);
   const [isGeneratingImage, setIsGeneratingImage] = useState(false);
@@ -335,6 +336,7 @@ export const LinkArtView: React.FC<{
         image: generatedImage,
         duration: contractDuration,
         maturityDate,
+        totalValue: fundingGoal ? Number(fundingGoal) : null,
         status: 'PENDING',
         milestones,
         createdAt: new Date().toISOString()
@@ -849,6 +851,23 @@ export const LinkArtView: React.FC<{
                       value={maturityDate}
                       onChange={(e) => setMaturityDate(e.target.value)}
                     />
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <label className="text-xs uppercase tracking-widest text-on-surface-variant font-bold">{t('Patronage Funding Goal (Optional)', 'Objectif de Financement Mécénat (Optionnel)')}</label>
+                      <span className="text-[10px] text-on-surface-variant/40 uppercase tracking-widest">USD</span>
+                    </div>
+                    <input 
+                      type="number" 
+                      min="0"
+                      className="w-full bg-surface-dim border border-white/10 text-on-surface p-4 focus:border-primary-cyan/50 focus:ring-0 transition-all font-mono text-sm" 
+                      value={fundingGoal}
+                      onChange={(e) => setFundingGoal(e.target.value)}
+                      placeholder={t('e.g. 5000', 'ex : 5000')}
+                    />
+                    <p className="text-[10px] text-on-surface-variant/50 uppercase tracking-wide leading-relaxed">
+                      {t('Leave blank to simply display cumulative support with no fixed target. Typical ranges: small project $500–2,000 · medium $2,000–10,000 · large $10,000+.', 'Laissez vide pour afficher uniquement le soutien cumulé, sans objectif fixe. Fourchettes indicatives : petit projet 500–2 000$ · moyen 2 000–10 000$ · grand 10 000$+.')}
+                    </p>
                   </div>
                   <div className="space-y-2 pt-4 border-t border-white/5">
                     <div className="flex items-center gap-2 mb-1">

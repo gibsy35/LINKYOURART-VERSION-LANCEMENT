@@ -193,10 +193,13 @@ export function DetailModal({ contract, onClose, onPay, units, onUnitsChange, la
   const T = (fr: string, en: string) => lang === "FR" ? fr : en;
   const totalCost = units * getUnitPrice(contract);
   const statut = getStatut(units);
-  const fundingPct = contract.availableUnits != null
-    ? Math.round(((contract.totalUnits - contract.availableUnits) / contract.totalUnits) * 100)
-    : Math.round(60 + (contract.totalScore / 1000) * 35);
-  const fundingRaised = Math.round(contract.totalValue * (fundingPct / 100));
+  const hasGoal = !!contract.totalValue;
+  const fundingPct = hasGoal
+    ? (contract.availableUnits != null
+        ? Math.round(((contract.totalUnits - contract.availableUnits) / contract.totalUnits) * 100)
+        : Math.round(60 + (contract.totalScore / 1000) * 35))
+    : 0;
+  const fundingRaised = hasGoal ? Math.round(contract.totalValue * (fundingPct / 100)) : Math.round((contract.totalScore / 1000) * 5000);
   const safeImage = getSafeImageUrl(contract.image, contract.category);
 
   return (
@@ -263,17 +266,26 @@ export function DetailModal({ contract, onClose, onPay, units, onUnitsChange, la
 
             {/* Financement */}
             <div className="mb-4">
-              <div className="flex justify-between items-center mb-1">
-                <span className="text-on-surface-variant/50 text-xs font-mono">{T("BUDGET DE PRODUCTION", "TARGET PROJECT BUDGET")}</span>
-                <span className="text-[#00ff88] text-xs font-mono font-bold">{fundingPct}%</span>
-              </div>
-              <div className="w-full bg-surface-high rounded-full h-1.5 mb-1">
-                <div className="bg-[#00ff88] h-1.5 rounded-full transition-all" style={{ width: `${fundingPct}%` }} />
-              </div>
-              <div className="flex justify-between text-xs font-mono text-on-surface-variant/50">
-                <span>{T("Levé : ", "Raised: ")}${fundingRaised.toLocaleString()}</span>
-                <span>{T("Objectif : ", "Goal: ")}${contract.totalValue.toLocaleString()}</span>
-              </div>
+              {hasGoal ? (
+                <>
+                  <div className="flex justify-between items-center mb-1">
+                    <span className="text-on-surface-variant/50 text-xs font-mono">{T("BUDGET DE PRODUCTION", "TARGET PROJECT BUDGET")}</span>
+                    <span className="text-[#00ff88] text-xs font-mono font-bold">{fundingPct}%</span>
+                  </div>
+                  <div className="w-full bg-surface-high rounded-full h-1.5 mb-1">
+                    <div className="bg-[#00ff88] h-1.5 rounded-full transition-all" style={{ width: `${fundingPct}%` }} />
+                  </div>
+                  <div className="flex justify-between text-xs font-mono text-on-surface-variant/50">
+                    <span>{T("Levé : ", "Raised: ")}${fundingRaised.toLocaleString()}</span>
+                    <span>{T("Objectif : ", "Goal: ")}${contract.totalValue.toLocaleString()}</span>
+                  </div>
+                </>
+              ) : (
+                <div className="flex justify-between items-center">
+                  <span className="text-on-surface-variant/50 text-xs font-mono">{T("SOUTIEN CUMULÉ", "CUMULATIVE SUPPORT")}</span>
+                  <span className="text-[#00ff88] text-xs font-mono font-bold">${fundingRaised.toLocaleString()}</span>
+                </div>
+              )}
             </div>
 
             {/* Description */}
@@ -484,10 +496,12 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
   const totalCost = units * unitPrice;
   const statut = getStatut(units);
 
-  const fundingPct = contract.availableUnits != null
-    ? Math.round(((contract.totalUnits - contract.availableUnits) / contract.totalUnits) * 100)
-    : Math.round(55 + (contract.totalScore / 1000) * 40);
-  const fundingRaised = Math.round(contract.totalValue * (fundingPct / 100));
+  const fundingPct = contract.totalValue
+    ? (contract.availableUnits != null
+        ? Math.round(((contract.totalUnits - contract.availableUnits) / contract.totalUnits) * 100)
+        : Math.round(55 + (contract.totalScore / 1000) * 40))
+    : 0;
+  const fundingRaised = contract.totalValue ? Math.round(contract.totalValue * (fundingPct / 100)) : Math.round((contract.totalScore / 1000) * 5000);
 
   const handleLike = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -590,17 +604,26 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
           </div>
         </div>
         <div>
-          <div className="flex justify-between items-center mb-1">
-            <span className="text-on-surface-variant/50 text-[10px] font-mono">{T("FINANCEMENT DU BUDGET", "BUDGET FUNDING")}</span>
-            <span className="text-[#00ff88] text-[10px] font-mono font-bold">{fundingPct}%</span>
-          </div>
-          <div className="w-full bg-surface-high rounded-full h-1.5 mb-1">
-            <div className="bg-[#00ff88] h-1.5 rounded-full" style={{ width: `${fundingPct}%` }} />
-          </div>
-          <div className="flex justify-between text-[10px] font-mono text-on-surface-variant/40">
-            <span>${fundingRaised.toLocaleString()}</span>
-            <span>{T("Cible", "Goal")}: ${contract.totalValue.toLocaleString()}</span>
-          </div>
+          {contract.totalValue ? (
+            <>
+              <div className="flex justify-between items-center mb-1">
+                <span className="text-on-surface-variant/50 text-[10px] font-mono">{T("FINANCEMENT DU BUDGET", "BUDGET FUNDING")}</span>
+                <span className="text-[#00ff88] text-[10px] font-mono font-bold">{fundingPct}%</span>
+              </div>
+              <div className="w-full bg-surface-high rounded-full h-1.5 mb-1">
+                <div className="bg-[#00ff88] h-1.5 rounded-full" style={{ width: `${fundingPct}%` }} />
+              </div>
+              <div className="flex justify-between text-[10px] font-mono text-on-surface-variant/40">
+                <span>${fundingRaised.toLocaleString()}</span>
+                <span>{T("Cible", "Goal")}: ${contract.totalValue.toLocaleString()}</span>
+              </div>
+            </>
+          ) : (
+            <div className="flex justify-between items-center">
+              <span className="text-on-surface-variant/50 text-[10px] font-mono">{T("SOUTIEN CUMULÉ", "CUMULATIVE SUPPORT")}</span>
+              <span className="text-[#00ff88] text-[10px] font-mono font-bold">${fundingRaised.toLocaleString()}</span>
+            </div>
+          )}
         </div>
       </div>
 
