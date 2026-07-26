@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { Check, Zap, Shield, Star, Crown, ArrowRight, Building2, User, Info, Sparkles, Cpu, Layers, Search, Send, CheckCircle } from 'lucide-react';
+import { Check, Zap, Shield, ShieldCheck, Star, Crown, ArrowRight, Building2, User, Info, Sparkles, Cpu, Layers, Search, Send, CheckCircle } from 'lucide-react';
 import { useTranslation } from '../context/LanguageContext';
 import { FeatureShowcaseModal } from '../components/Modals';
 
@@ -9,9 +9,10 @@ import { PageHeader } from '../components/ui/PageHeader';
 interface PricingViewProps {
   onSelectPlan: (plan: { name: string, price: number, billingCycle: 'monthly' | 'yearly' }) => void;
   onNotify?: (msg: string) => void;
+  onBecomeValidator?: () => void;
 }
 
-const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => {
+const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBecomeValidator }) => {
   const { t, language } = useTranslation();
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly');
   const [showcaseFeature, setShowcaseFeature] = useState<'CREATOR' | 'PATRON' | 'PRO' | 'EXPERT_AUDIT' | 'PATRON_ANALYTICS' | 'PREDICTIVE_SCORE' | null>(null);
@@ -319,6 +320,29 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify }) => 
             );
           })}
         </div>
+      </div>
+
+      {/* Become a Certified Validator — accreditation, not a paid plan */}
+      <div className="mt-10 p-6 md:p-8 border border-emerald-400/20 bg-emerald-400/[0.03] rounded-sm flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="flex items-center gap-5">
+          <div className="w-12 h-12 rounded-full bg-emerald-400/10 border border-emerald-400/20 flex items-center justify-center text-emerald-400 shrink-0">
+            <ShieldCheck size={22} />
+          </div>
+          <div>
+            <h3 className="text-sm font-black uppercase tracking-widest text-white mb-1">
+              {t('Become a Certified LYA Validator', 'Devenez Validateur Certifié LYA')}
+            </h3>
+            <p className="text-xs text-on-surface-variant/70 max-w-xl leading-relaxed">
+              {t('Free accreditation for qualified creative professionals. Not a paid plan — validators are compensated for their review activity, funded by LYA\'s Pro and Enterprise service revenue.', 'Accréditation gratuite pour les professionnels créatifs qualifiés. Ce n\'est pas un forfait payant — les validateurs sont rémunérés pour leur activité de revue, financée par les revenus des services Pro et Entreprise de LYA.')}
+            </p>
+          </div>
+        </div>
+        <button
+          onClick={() => onBecomeValidator?.()}
+          className="shrink-0 px-6 py-3 bg-emerald-400/10 border border-emerald-400/30 text-emerald-400 text-[11px] font-black uppercase tracking-widest hover:bg-emerald-400 hover:text-surface-dim transition-all rounded-sm whitespace-nowrap"
+        >
+          {t('Apply for Accreditation', 'Candidater à l\'Accréditation')}
+        </button>
       </div>
 
       {/* LYA AI Needs & Services Assessment Engine */}
