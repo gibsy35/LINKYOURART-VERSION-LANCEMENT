@@ -164,7 +164,7 @@ export const DashboardView: React.FC<{
   [contracts, stableCount]);
 
   const [visibleNews, setVisibleNews] = useState(3);
-  const [visibleNetwork, setVisibleNetwork] = useState(4);
+  const [visibleNetwork, setVisibleNetwork] = useState(6);
   const [visibleActivities, setVisibleActivities] = useState(5);
 
   const [news, setNews] = useState<any[]>([
@@ -181,7 +181,7 @@ export const DashboardView: React.FC<{
     const loadNews = async () => {
       setIsLoadingNews(true);
       const data = await fetchRealtimeNews(language);
-      if (data && active) {
+      if (data && data.length > 0 && active) {
         const formatted = data.map((item: any, idx: number) => ({
           id: item.id || `live-${idx}`,
           title: item.title,
@@ -235,7 +235,7 @@ export const DashboardView: React.FC<{
     setIsLoadingNews(true);
     onNotify?.(t('SYNCHRONIZING WITH GLOBAL REGISTRY...', 'SYNCHRONISATION AVEC LE REGISTRE GLOBAL...'));
     const data = await fetchRealtimeNews(language);
-    if (data) {
+    if (data && data.length > 0) {
       const formatted = data.map((item: any, idx: number) => ({
         id: item.id || `live-${idx}`,
         title: item.title,
@@ -249,7 +249,7 @@ export const DashboardView: React.FC<{
       setNews(formatted);
       onNotify?.(t('REGISTRY DATA SYNCED SUCCESSFULLY.', 'DONNÉES DU REGISTRE SYNCHRONISÉES AVEC SUCCÈS.'));
     } else {
-      onNotify?.(t('REGISTRY DATA SYNCED SUCCESSFULLY.', 'DONNÉES DU REGISTRE SYNCHRONISÉES AVEC SUCCÈS.'));
+      onNotify?.(t('NO NEW REGISTRY DATA AT THIS TIME.', 'AUCUNE NOUVELLE DONNÉE DE REGISTRE POUR LE MOMENT.'));
     }
     setIsRefreshing(false);
     setIsLoadingNews(false);
@@ -951,14 +951,12 @@ export const DashboardView: React.FC<{
               ))}
             </div>
             {visibleNetwork < networkActivity.length && (
-              <div className="pt-2 text-center">
-                <button 
-                  onClick={() => setVisibleNetwork(prev => prev + 2)}
-                  className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant hover:text-white transition-colors"
-                >
-                  {t('Voir plus', 'Voir plus')}
-                </button>
-              </div>
+              <button 
+                onClick={() => setVisibleNetwork(prev => prev + 2)}
+                className="w-full py-2 text-[11px] font-black uppercase tracking-widest text-on-surface-variant hover:text-primary-cyan transition-colors border-t border-white/5 pt-4"
+              >
+                {t('Load More Nodes', 'Voir Plus de Nœuds')}
+              </button>
             )}
           </div>
 

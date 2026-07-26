@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
-  BarChart2, Globe, Sliders, TrendingUp, Bell, RefreshCw,
+  BarChart2, Globe, Sliders, TrendingUp, Bell, RefreshCw, Zap,
   LayoutGrid, Check, ChevronDown, Info,
   Play, Pause, Settings2
 } from 'lucide-react';
@@ -9,11 +9,12 @@ import { CONTRACTS } from '../types';
 import { useTranslation } from '../context/LanguageContext';
 import { useCurrency } from '../context/CurrencyContext';
 import { getStatut, getUnitPrice } from './mecenat/MecenatShared';
+import { fetchRealtimeNews } from '../services/geminiService';
 import { ResponsiveContainer, AreaChart, Area, Tooltip } from 'recharts';
 
 // ─── TYPES ────────────────────────────────────────────────────────────────────
 
-type WidgetKey = 'project_analysis' | 'creative_network' | 'support_simulator' | 'revenue_projection' | 'project_alerts';
+type WidgetKey = 'project_analysis' | 'creative_network' | 'support_simulator' | 'revenue_projection' | 'project_alerts' | 'live_feed';
 
 interface WidgetDef {
   key: WidgetKey;
@@ -73,13 +74,24 @@ const WIDGET_DEFS: WidgetDef[] = [
     descEN: 'Track your favourite projects\' progress in real time.',
     color: 'text-[#00ff88]',
   },
+  {
+    key: 'live_feed',
+    icon: <Zap size={16} />,
+    titleFR: 'Flux Créatif en Direct',
+    titleEN: 'Live Creative Feed',
+    descFR: 'Actualités du monde créatif en temps réel, propulsées par l\'IA LYA.',
+    descEN: 'Real-time creative industry news, powered by LYA AI.',
+    color: 'text-primary-cyan',
+  },
 ];
 
 // ─── WIDGET : ANALYSE DE PROJETS ──────────────────────────────────────────────
 
 const ProjectAnalysisWidget: React.FC<{ lang: 'FR' | 'EN' }> = ({ lang }) => {
   const T = (fr: string, en: string) => lang === 'FR' ? fr : en;
-  const contracts = CONTRACTS.filter(c => c.status === 'LIVE').slice(0, 4);
+  const [visible, setVisible] = useState(4);
+  const allContracts = CONTRACTS.filter(c => c.status === 'LIVE');
+  const contracts = allContracts.slice(0, visible);
   return (
     <div className="space-y-3">
       <p className="text-[11px] font-mono text-on-surface-variant/50 uppercase tracking-widest">{T('PROJETS LES MIEUX NOTÉS', 'TOP RATED PROJECTS')}</p>
@@ -97,6 +109,14 @@ const ProjectAnalysisWidget: React.FC<{ lang: 'FR' | 'EN' }> = ({ lang }) => {
           </div>
         </div>
       ))}
+      {visible < allContracts.length && (
+        <button
+          onClick={() => setVisible(v => v + 4)}
+          className="w-full py-2 text-[11px] font-black uppercase tracking-widest text-on-surface-variant hover:text-primary-cyan transition-colors border-t border-white/5 pt-4"
+        >
+          {T('Voir Plus de Projets', 'Load More Projects')}
+        </button>
+      )}
     </div>
   );
 };
@@ -273,6 +293,56 @@ const ProjectAlertsWidget: React.FC<{ lang: 'FR' | 'EN' }> = ({ lang }) => {
   );
 };
 
+// ─── WIDGET : FLUX CRÉATIF EN DIRECT ─────────────────────────────────────────
+
+const LiveFeedWidget: React.FC<{ lang: 'FR' | 'EN' }> = ({ lang }) => {
+  const T = (fr: string, en: string) => lang === 'FR' ? fr : en;
+  const [items, setItems] = useState<any[]>([
+    { id: 'f1', title: T('Nouveau projet certifié cette semaine', 'New certified project this week'), source: 'LYA Registry', time: T('À l\'instant', 'Just now') },
+    { id: 'f2', title: T('Croissance du secteur Musique en hausse', 'Music sector growth trending up'), source: 'LYA Intelligence', time: T('12 min', '12m ago') },
+  ]);
+  const [loading, setLoading] = useState(false);
+
+  React.useEffect(() => {
+    let active = true;
+    (async () => {
+      setLoading(true);
+      const data = await fetchRealtimeNews(lang);
+      if (data && data.length > 0 && active) {
+        setItems(data.slice(0, 4).map((item: any, idx: number) => ({
+          id: item.id || `feed-${idx}`,
+          title: item.title,
+          source: item.source || 'LYA Intelligence',
+          time: item.timestamp || T('À l\'instant', 'Just now'),
+        })));
+      }
+      if (active) setLoading(false);
+    })();
+    return () => { active = false; };
+  }, [lang]);
+
+  return (
+    <div className="space-y-3">
+      <div className="flex items-center justify-between">
+        <p className="text-[11px] font-mono text-on-surface-variant/50 uppercase tracking-widest">{T('DERNIÈRES ACTUALITÉS', 'LATEST NEWS')}</p>
+        <div className="w-1.5 h-1.5 rounded-full bg-primary-cyan animate-pulse" />
+      </div>
+      {loading ? (
+        <div className="py-4 text-center">
+          <div className="w-5 h-5 border-2 border-primary-cyan border-t-transparent rounded-full animate-spin mx-auto" />
+        </div>
+      ) : (
+        items.map(item => (
+          <div key={item.id} className="pb-2 border-b border-white/5 last:border-0 last:pb-0">
+            <p className="text-xs font-black text-on-surface leading-snug line-clamp-2">{item.title}</p>
+            <p className="text-[10px] text-on-surface-variant/40 font-mono mt-1">{item.source} · {item.time}</p>
+          </div>
+        ))
+      )}
+    </div>
+  );
+};
+
 // ─── COMPOSANT PRINCIPAL : WORKSPACE ─────────────────────────────────────────
 
 export const WorkspaceWidgets: React.FC = () => {
@@ -284,7 +354,7 @@ export const WorkspaceWidgets: React.FC = () => {
   const [isConfiguring, setIsConfiguring] = useState(false);
   const [activeWidgets, setActiveWidgets] = useState<WidgetKey[]>([
     'project_analysis', 'creative_network', 'support_simulator',
-    'revenue_projection', 'project_alerts'
+    'revenue_projection', 'project_alerts', 'live_feed'
   ]);
 
   const toggleWidget = (key: WidgetKey) => {
@@ -300,6 +370,7 @@ export const WorkspaceWidgets: React.FC = () => {
       case 'support_simulator': return <SupportSimulatorWidget lang={lang} formatPrice={formatPrice} />;
       case 'revenue_projection': return <RevenueProjectionWidget lang={lang} />;
       case 'project_alerts': return <ProjectAlertsWidget lang={lang} />;
+      case 'live_feed': return <LiveFeedWidget lang={lang} />;
     }
   };
 
