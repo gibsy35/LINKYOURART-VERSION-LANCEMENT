@@ -383,8 +383,8 @@ export const CONTRACTS: Contract[] = [
       { label: 'Prototype Completion', date: '2026-08', status: 'COMPLETED', scoreImpact: 25 },
       { label: 'Global Licensing', date: '2027-01', status: 'IN_PROGRESS', scoreImpact: 15 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 12,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     scorePro: 810,
     scoreAlgo: 790,
     scoreLYA: 800,
@@ -419,7 +419,7 @@ export const CONTRACTS: Contract[] = [
       { label: 'Growth Potential', score: 145 }
     ],
     totalScore: 650,
-    rights: ['Ad Revenue Share', 'Exclusive Content', 'Sync Rights'],
+    rights: ['Credited Recognition', 'Exclusive Content', 'Sync Rights'],
     rarity: 'Distinguished',
     category: 'Podcast',
     assetStatus: 'Released',
@@ -427,8 +427,8 @@ export const CONTRACTS: Contract[] = [
       { label: 'Season 2 Launch', date: '2026-05', status: 'COMPLETED', scoreImpact: 10 },
       { label: 'Live World Tour', date: '2026-10', status: 'UPCOMING', scoreImpact: 15 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 20,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     scorePro: 680,
     scoreAlgo: 640,
     scoreLYA: 660,
@@ -471,8 +471,8 @@ export const CONTRACTS: Contract[] = [
       { label: 'European SVOD Launch', date: '2026-04', status: 'IN_PROGRESS', scoreImpact: 15 },
       { label: 'Season 2 Pre-Sales', date: '2026-09', status: 'UPCOMING', scoreImpact: 10 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 15,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     scorePro: 910,
     scoreAlgo: 880,
     scoreLYA: 895,
@@ -636,7 +636,7 @@ export const CONTRACTS: Contract[] = [
       { label: 'Growth Potential', score: 180 }
     ],
     totalScore: 840,
-    rights: ['Ad Revenue Share', 'Exclusive Content', 'Voting Rights'],
+    rights: ['Credited Recognition', 'Exclusive Content', 'Voting Rights'],
     rarity: 'Distinguished',
     category: 'Podcast',
     assetStatus: 'Production',
@@ -644,8 +644,8 @@ export const CONTRACTS: Contract[] = [
       { label: 'Season 5 Launch', date: '2026-05', status: 'UPCOMING', scoreImpact: 20 },
       { label: 'Live Tour', date: '2026-11', status: 'UPCOMING', scoreImpact: 15 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 12,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     scorePro: 850,
     scoreAlgo: 830,
     scoreLYA: 840,
@@ -688,8 +688,8 @@ export const CONTRACTS: Contract[] = [
       { label: 'International Distribution', date: '2026-07', status: 'IN_PROGRESS', scoreImpact: 15 },
       { label: 'Sequel Greenlight', date: '2027-02', status: 'UPCOMING', scoreImpact: 25 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 18,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     scorePro: 830,
     scoreAlgo: 810,
     scoreLYA: 820,
@@ -774,8 +774,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'Quantum Entanglement Study', date: '2026-09', status: 'IN_PROGRESS', scoreImpact: 15 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 10,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     scorePro: 920,
     scoreAlgo: 940,
     scoreLYA: 930,
@@ -817,8 +817,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'Dream Engine V2', date: '2026-11', status: 'UPCOMING', scoreImpact: 12 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 20,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     scorePro: 820,
     scoreAlgo: 810,
     scoreLYA: 815,
@@ -902,8 +902,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'Night Market Launch', date: '2026-08', status: 'UPCOMING', scoreImpact: 8 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 5,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     scorePro: 650,
     scoreAlgo: 670,
     scoreLYA: 660,
@@ -988,8 +988,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'Temple Expansion', date: '2026-12', status: 'UPCOMING', scoreImpact: 14 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 12,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     scorePro: 820,
     scoreAlgo: 840,
     scoreLYA: 830,
@@ -1031,8 +1031,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'Data Lake Expansion', date: '2026-10', status: 'UPCOMING', scoreImpact: 10 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 8,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     scorePro: 710,
     scoreAlgo: 730,
     scoreLYA: 720,
@@ -1117,8 +1117,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'Pilot Release', date: '2026-08', status: 'IN_PROGRESS', scoreImpact: 20 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 10,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     scorePro: 920,
     scoreAlgo: 900,
     scoreLYA: 910,
@@ -1152,15 +1152,15 @@ export const CONTRACTS: Contract[] = [
       { label: 'Growth Potential', score: 195 }
     ],
     totalScore: 890,
-    rights: ['Ad Revenue Share', 'Exclusive Content Access'],
+    rights: ['Credited Recognition', 'Exclusive Content Access'],
     rarity: 'Distinguished',
     category: 'Podcast',
     assetStatus: 'Released',
     milestones: [
       { label: 'Season 2 Launch', date: '2026-07', status: 'UPCOMING', scoreImpact: 15 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 20,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     scorePro: 880,
     scoreAlgo: 900,
     scoreLYA: 890,
@@ -1194,15 +1194,15 @@ export const CONTRACTS: Contract[] = [
       { label: 'Growth Potential', score: 150 }
     ],
     totalScore: 825,
-    rights: ['Ticket Revenue Share', 'Touring Royalties'],
+    rights: ['Credited Recognition', 'Touring Access'],
     rarity: 'Exceptional',
     category: 'Performing Arts',
     assetStatus: 'Post-Production',
     milestones: [
       { label: 'Broadway Opening', date: '2026-09', status: 'IN_PROGRESS', scoreImpact: 30 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 12,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     scorePro: 810,
     scoreAlgo: 840,
     scoreLYA: 825,
@@ -1285,8 +1285,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'First Flagship Opening', date: '2026-10', status: 'IN_PROGRESS', scoreImpact: 20 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 15,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     scorePro: 890,
     scoreAlgo: 890,
     scoreLYA: 890,
@@ -1327,8 +1327,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'Spotify Integration', date: '2026-09', status: 'IN_PROGRESS', scoreImpact: 20 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 12,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     professionalRating: 880,
     professionalValidator: 'SONY_MUSIC_HUB_0x5',
     jurisdiction: 'UK (CDPA)'
@@ -1367,8 +1367,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'Cannes Premiere', date: '2026-05', status: 'IN_PROGRESS', scoreImpact: 35 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 8,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     professionalRating: 940,
     professionalValidator: 'A24_DISTRO_0x9',
     jurisdiction: 'US (Federal IP)'
@@ -1407,8 +1407,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'Mobile Version', date: '2026-10', status: 'UPCOMING', scoreImpact: 25 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 15,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     professionalRating: 895,
     professionalValidator: 'UBISOFT_LABS_0x3',
     jurisdiction: 'SG (IP Law)'
@@ -1527,8 +1527,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'Metaverse Runway', date: '2026-07', status: 'IN_PROGRESS', scoreImpact: 30 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 10,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     professionalRating: 915,
     professionalValidator: 'VOGUE_TECH_0x2',
     jurisdiction: 'EU (IP Law)'
@@ -1567,8 +1567,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'First City Implementation', date: '2027-01', status: 'UPCOMING', scoreImpact: 40 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 5,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     professionalRating: 970,
     professionalValidator: 'RIBA_HUB_0x8',
     jurisdiction: 'UK (CDPA)'
@@ -1607,8 +1607,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'Global Distribution', date: '2026-12', status: 'UPCOMING', scoreImpact: 20 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 12,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     professionalRating: 840,
     professionalValidator: 'AD_DIGITAL_0x6',
     jurisdiction: 'EU (IP Law)'
@@ -1640,15 +1640,15 @@ export const CONTRACTS: Contract[] = [
       { label: 'Growth Potential', score: 160 }
     ],
     totalScore: 887,
-    rights: ['Streaming Revenue Share', 'Syndication Rights'],
+    rights: ['Credited Recognition', 'Syndication Rights'],
     rarity: 'Exceptional',
     category: 'TV Series',
     assetStatus: 'Production',
     milestones: [
       { label: 'Season 1 Wrap', date: '2026-08', status: 'IN_PROGRESS', scoreImpact: 15 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 5,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     professionalRating: 905,
     professionalValidator: 'NETFLIX_PRO_0x1',
     jurisdiction: 'US (Federal IP)'
@@ -1687,8 +1687,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'Vinyl Drop', date: '2026-05', status: 'UPCOMING', scoreImpact: 12 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 20,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     professionalRating: 810,
     professionalValidator: 'BLUE_NOTE_0x4',
     jurisdiction: 'EU (IP Law)'
@@ -1767,8 +1767,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'Steam Early Access', date: '2026-06', status: 'IN_PROGRESS', scoreImpact: 40 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 25,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     professionalRating: 870,
     professionalValidator: 'DEVOLVER_DIGITAL_0x2',
     jurisdiction: 'UK (CDPA)'
@@ -1847,8 +1847,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'Pulitzer Prize', date: '2026-04', status: 'COMPLETED', scoreImpact: 100 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 15,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     professionalRating: 985,
     professionalValidator: 'REUTERS_HUB_0x3',
     jurisdiction: 'CH (IP Law)'
@@ -1887,8 +1887,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'Audiobook Launch', date: '2026-06', status: 'UPCOMING', scoreImpact: 15 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 10,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     professionalRating: 835,
     professionalValidator: 'AUDIBLE_PRO_0x7',
     jurisdiction: 'US (Federal IP)'
@@ -1967,8 +1967,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'Factory Setup', date: '2026-09', status: 'IN_PROGRESS', scoreImpact: 25 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 7,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     professionalRating: 930,
     professionalValidator: 'IKEA_PRO_0x9',
     jurisdiction: 'EU (IP Law)'
@@ -2007,8 +2007,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'Sundance Premiere', date: '2027-01', status: 'UPCOMING', scoreImpact: 80 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 30,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     professionalRating: 920,
     professionalValidator: 'SUNDANCE_HUB_0x2',
     jurisdiction: 'US (Federal IP)'
@@ -2047,8 +2047,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'Global Premiere', date: '2026-03', status: 'COMPLETED', scoreImpact: 10 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 3,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     professionalRating: 990,
     professionalValidator: 'BBC_PRO_0x8',
     jurisdiction: 'UK (CDPA)'
@@ -2087,8 +2087,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'Marketplace Launch', date: '2026-08', status: 'IN_PROGRESS', scoreImpact: 15 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 10,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     professionalRating: 885,
     professionalValidator: 'GUCCI_HUB_0x7',
     jurisdiction: 'EU (IP Law)'
@@ -2127,8 +2127,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'World Tour', date: '2026-12', status: 'UPCOMING', scoreImpact: 20 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 15,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     professionalRating: 840,
     professionalValidator: 'WARNER_PRO_0x2',
     jurisdiction: 'US (Federal IP)'
@@ -2167,8 +2167,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'First Eco-Village', date: '2027-06', status: 'UPCOMING', scoreImpact: 30 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 5,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     professionalRating: 965,
     professionalValidator: 'GREEN_BUILD_0x5',
     jurisdiction: 'EU (IP Law)'
@@ -2207,8 +2207,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'Alpha Launch', date: '2026-09', status: 'IN_PROGRESS', scoreImpact: 40 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 20,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     professionalRating: 930,
     professionalValidator: 'EPIC_GAMES_0x9',
     jurisdiction: 'US (Federal IP)'
@@ -2247,8 +2247,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'Film Option Picked Up', date: '2026-11', status: 'UPCOMING', scoreImpact: 50 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 12,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     professionalRating: 875,
     professionalValidator: 'HARPER_COLLINS_0x3',
     jurisdiction: 'UK (CDPA)'
@@ -2327,8 +2327,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'Mass Production Start', date: '2026-11', status: 'UPCOMING', scoreImpact: 20 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 12,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     professionalRating: 860,
     professionalValidator: 'HERMAN_MILLER_0x4',
     jurisdiction: 'US (Federal IP)'
@@ -2367,8 +2367,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'Netflix Acquisition', date: '2026-05', status: 'COMPLETED', scoreImpact: 40 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 10,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     scorePro: 920,
     scoreAlgo: 900,
     scoreLYA: 910,
@@ -2409,8 +2409,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'Season 1 Release', date: '2026-12', status: 'UPCOMING', scoreImpact: 30 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 8,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     scorePro: 900,
     scoreAlgo: 920,
     scoreLYA: 910,
@@ -2493,8 +2493,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'Splice Partnership', date: '2026-07', status: 'UPCOMING', scoreImpact: 15 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 25,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     scorePro: 810,
     scoreAlgo: 800,
     scoreLYA: 805,
@@ -2528,15 +2528,15 @@ export const CONTRACTS: Contract[] = [
       { label: 'Growth Potential', score: 180 }
     ],
     totalScore: 932,
-    rights: ['Rental Revenue Share', 'Visual Display'],
+    rights: ['Credited Recognition', 'Visual Display'],
     rarity: 'Exceptional',
     category: 'Architecture',
     assetStatus: 'Completed',
     milestones: [
       { label: 'Meta Connect Showcase', date: '2026-10', status: 'UPCOMING', scoreImpact: 35 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 15,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     scorePro: 940,
     scoreAlgo: 924,
     scoreLYA: 932,
@@ -2577,8 +2577,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'World Championship', date: '2026-11', status: 'UPCOMING', scoreImpact: 45 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 10,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     scorePro: 910,
     scoreAlgo: 930,
     scoreLYA: 920,
@@ -2619,8 +2619,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: '100k Subscribers', date: '2026-12', status: 'UPCOMING', scoreImpact: 20 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 30,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     scorePro: 810,
     scoreAlgo: 790,
     scoreLYA: 800,
@@ -2703,8 +2703,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'Nike Collaboration', date: '2026-09', status: 'IN_PROGRESS', scoreImpact: 40 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 10,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     scorePro: 950,
     scoreAlgo: 930,
     scoreLYA: 940,
@@ -2745,8 +2745,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'First Smart District', date: '2028-01', status: 'UPCOMING', scoreImpact: 50 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 3,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     scorePro: 940,
     scoreAlgo: 942,
     scoreLYA: 941,
@@ -2787,8 +2787,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'Oculus Store Launch', date: '2026-09', status: 'IN_PROGRESS', scoreImpact: 35 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 15,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     scorePro: 950,
     scoreAlgo: 934,
     scoreLYA: 942,
@@ -2829,8 +2829,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'Global Release', date: '2026-07', status: 'IN_PROGRESS', scoreImpact: 20 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 6,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     scorePro: 900,
     scoreAlgo: 864,
     scoreLYA: 882,
@@ -2871,8 +2871,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'Global Exhibition', date: '2026-09', status: 'UPCOMING', scoreImpact: 15 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 12,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     scorePro: 860,
     scoreAlgo: 850,
     scoreLYA: 855,
@@ -2958,8 +2958,8 @@ export const CONTRACTS: Contract[] = [
       { label: 'Trailer Release', date: '2026-05', status: 'IN_PROGRESS', scoreImpact: 15 },
       { label: 'Cannes Premiere', date: '2026-09', status: 'UPCOMING', scoreImpact: 25 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 20,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     scorePro: 885,
     scoreAlgo: 855,
     scoreLYA: 870,
@@ -3002,8 +3002,8 @@ export const CONTRACTS: Contract[] = [
       { label: 'VFX Completion', date: '2026-07', status: 'IN_PROGRESS', scoreImpact: 12 },
       { label: 'Global Premiere', date: '2026-11', status: 'UPCOMING', scoreImpact: 30 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 15,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     scorePro: 910,
     scoreAlgo: 884,
     scoreLYA: 897,
@@ -3045,8 +3045,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'World Tour Start', date: '2026-09', status: 'UPCOMING', scoreImpact: 20 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 25,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     scorePro: 910,
     scoreAlgo: 890,
     scoreLYA: 900,
@@ -3132,8 +3132,8 @@ export const CONTRACTS: Contract[] = [
       { label: 'Voice Casting', date: '2026-04', status: 'COMPLETED', scoreImpact: 5 },
       { label: 'Animation Wrap', date: '2027-01', status: 'UPCOMING', scoreImpact: 20 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 12,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     professionalRating: 940,
     professionalValidator: 'TOEI_ANIMATION_0x4',
     jurisdiction: 'SG (IP Law)'
@@ -3166,15 +3166,15 @@ export const CONTRACTS: Contract[] = [
       { label: 'Growth Potential', score: 145 }
     ],
     totalScore: 800,
-    rights: ['Streaming Royalties', 'Ad Revenue Share'],
+    rights: ['Streaming Recognition', 'Credited Recognition'],
     rarity: 'Distinguished',
     category: 'TV Series',
     assetStatus: 'Production',
     milestones: [
       { label: 'Episode 1 Release', date: '2026-10', status: 'UPCOMING', scoreImpact: 15 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 10,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     professionalRating: 830,
     professionalValidator: 'NETFLIX_HUB_0x1',
     jurisdiction: 'EU (IP Law)'
@@ -3214,8 +3214,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'Blue Note Residency', date: '2026-12', status: 'UPCOMING', scoreImpact: 10 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 15,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     professionalRating: 910,
     professionalValidator: 'BLUE_NOTE_RECORDS_0x6',
     jurisdiction: 'US (Federal IP)'
@@ -3289,15 +3289,15 @@ export const CONTRACTS: Contract[] = [
       { label: 'Growth Potential', score: 195 }
     ],
     totalScore: 880,
-    rights: ['Revenue Share', 'Executive Producer Credit'],
+    rights: ['Credited Recognition', 'Executive Producer Credit'],
     rarity: 'Distinguished',
     category: 'Film',
     assetStatus: 'Production',
     milestones: [
       { label: 'Sundance Submission', date: '2026-11', status: 'UPCOMING', scoreImpact: 40 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 30,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     professionalRating: 790,
     professionalValidator: 'SUNDANCE_LABS_0x8',
     jurisdiction: 'US (Federal IP)'
@@ -3337,8 +3337,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'Spin-off Announcement', date: '2026-08', status: 'UPCOMING', scoreImpact: 15 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 8,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     professionalRating: 975,
     professionalValidator: 'DISNEY_PLUS_0x1',
     jurisdiction: 'US (Federal IP)'
@@ -3378,8 +3378,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: '100M Streams Milestone', date: '2026-12', status: 'UPCOMING', scoreImpact: 10 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 40,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     professionalRating: 810,
     professionalValidator: 'CHILLHOP_MUSIC_0x3',
     jurisdiction: 'EU (IP Law)'
@@ -3453,15 +3453,15 @@ export const CONTRACTS: Contract[] = [
       { label: 'Growth Potential', score: 185 }
     ],
     totalScore: 935,
-    rights: ['Streaming Royalties', 'Game Revenue Share'],
+    rights: ['Streaming Recognition', 'Credited Recognition'],
     rarity: 'Signature',
     category: 'TV Series',
     assetStatus: 'Production',
     milestones: [
       { label: 'Game Beta Launch', date: '2026-09', status: 'UPCOMING', scoreImpact: 20 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 12,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     professionalRating: 930,
     professionalValidator: 'CD_PROJEKT_NODE_0x1',
     jurisdiction: 'EU (IP Law)'
@@ -3494,15 +3494,15 @@ export const CONTRACTS: Contract[] = [
       { label: 'Growth Potential', score: 160 }
     ],
     totalScore: 850,
-    rights: ['Streaming Royalties', 'Concert Revenue Share'],
+    rights: ['Streaming Recognition', 'Concert Access'],
     rarity: 'Distinguished',
     category: 'Music',
     assetStatus: 'Production',
     milestones: [
       { label: 'Festival Tour', date: '2026-07', status: 'UPCOMING', scoreImpact: 15 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 20,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     professionalRating: 860,
     professionalValidator: 'ROUGH_TRADE_0x4',
     jurisdiction: 'UK (CDPA)'
@@ -3583,8 +3583,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'Educational Partnership', date: '2026-08', status: 'UPCOMING', scoreImpact: 15 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 25,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     professionalRating: 840,
     professionalValidator: 'PBS_NODE_0x2',
     jurisdiction: 'US (Federal IP)'
@@ -3617,15 +3617,15 @@ export const CONTRACTS: Contract[] = [
       { label: 'Growth Potential', score: 130 }
     ],
     totalScore: 798,
-    rights: ['Ad Revenue Share', 'Syndication Royalties'],
+    rights: ['Credited Recognition', 'Syndication Access'],
     rarity: 'Exceptional',
     category: 'TV Series',
     assetStatus: 'Released',
     milestones: [
       { label: 'Season 2 Greenlight', date: '2026-09', status: 'UPCOMING', scoreImpact: 10 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 5,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     professionalRating: 850,
     professionalValidator: 'NBC_UNIVERSAL_0x3',
     jurisdiction: 'US (Federal IP)'
@@ -3665,8 +3665,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'Royal Albert Hall Concert', date: '2026-11', status: 'UPCOMING', scoreImpact: 12 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 15,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     professionalRating: 925,
     professionalValidator: 'DEUTSCHE_GRAMMOPHON_0x1',
     jurisdiction: 'EU (IP Law)'
@@ -3699,15 +3699,15 @@ export const CONTRACTS: Contract[] = [
       { label: 'Growth Potential', score: 160 }
     ],
     totalScore: 895,
-    rights: ['Virtual Access', 'Revenue Share'],
+    rights: ['Virtual Access', 'Credited Recognition'],
     rarity: 'Exceptional',
     category: 'Digital Art',
     assetStatus: 'Production',
     milestones: [
       { label: 'VR Integration', date: '2026-08', status: 'IN_PROGRESS', scoreImpact: 15 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 20,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     professionalRating: 910,
     professionalValidator: 'ADOBE_DIGITAL_LAB_0x1',
     jurisdiction: 'EU (IP Law)'
@@ -3747,8 +3747,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'Beta Launch', date: '2026-07', status: 'IN_PROGRESS', scoreImpact: 20 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 15,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     professionalRating: 935,
     professionalValidator: 'EPIC_GAMES_NODE_0x4',
     jurisdiction: 'US (Federal IP)'
@@ -3788,8 +3788,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'Book 1 Release', date: '2026-09', status: 'UPCOMING', scoreImpact: 25 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 20,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     professionalRating: 890,
     professionalValidator: 'PENGUIN_RANDOM_0x2',
     jurisdiction: 'UK (CDPA)'
@@ -3829,8 +3829,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'Metaverse Fashion Week', date: '2026-10', status: 'UPCOMING', scoreImpact: 20 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 15,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     professionalRating: 885,
     professionalValidator: 'VOGUE_DIGITAL_0x5',
     jurisdiction: 'EU (IP Law)'
@@ -3911,8 +3911,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'Steam Release', date: '2026-11', status: 'UPCOMING', scoreImpact: 35 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 25,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     professionalRating: 820,
     professionalValidator: 'DEVOLVER_DIGITAL_0x3',
     jurisdiction: 'EU (IP Law)'
@@ -3945,15 +3945,15 @@ export const CONTRACTS: Contract[] = [
       { label: 'Growth Potential', score: 130 }
     ],
     totalScore: 805,
-    rights: ['App Revenue Share', 'Print Royalties'],
+    rights: ['Credited Recognition', 'Print Access'],
     rarity: 'Standard',
     category: 'Literature',
     assetStatus: 'Released',
     milestones: [
       { label: 'National Poetry Month Feature', date: '2026-04', status: 'COMPLETED', scoreImpact: 10 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 35,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     professionalRating: 845,
     professionalValidator: 'POETRY_SOCIETY_0x1',
     jurisdiction: 'UK (CDPA)'
@@ -3994,8 +3994,8 @@ export const CONTRACTS: Contract[] = [
       { label: 'Drop 1 Sellout', date: '2026-05', status: 'COMPLETED', scoreImpact: 20 },
       { label: 'Physical Store Opening', date: '2027-01', status: 'UPCOMING', scoreImpact: 30 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 15,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     professionalRating: 870,
     professionalValidator: 'HYPEBEAST_NODE_0x7',
     jurisdiction: 'US (Federal IP)'
@@ -4035,8 +4035,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'First Habitat Build', date: '2026-09', status: 'UPCOMING', scoreImpact: 25 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 10,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     professionalRating: 945,
     professionalValidator: 'GREEN_BUILD_COUNCIL_0x9',
     jurisdiction: 'EU (IP Law)'
@@ -4076,8 +4076,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'Alpha Test', date: '2026-08', status: 'UPCOMING', scoreImpact: 15 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 18,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     professionalRating: 885,
     professionalValidator: 'OCULUS_NODE_0x2',
     jurisdiction: 'US (Federal IP)'
@@ -4117,8 +4117,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'AI Poetry Slam', date: '2026-07', status: 'UPCOMING', scoreImpact: 15 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 45,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     professionalRating: 710,
     professionalValidator: 'OPENAI_NODE_0x6',
     jurisdiction: 'EU (IP Law)'
@@ -4240,8 +4240,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'World Championship Quals', date: '2026-10', status: 'UPCOMING', scoreImpact: 25 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 10,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     professionalRating: 950,
     professionalValidator: 'ESL_NODE_0x1',
     jurisdiction: 'EU (IP Law)'
@@ -4281,8 +4281,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'Issue 1 Release', date: '2026-08', status: 'UPCOMING', scoreImpact: 20 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 25,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     professionalRating: 835,
     professionalValidator: 'IMAGE_COMICS_0x3',
     jurisdiction: 'US (Federal IP)'
@@ -4322,8 +4322,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'B-Corp Certification', date: '2026-12', status: 'UPCOMING', scoreImpact: 15 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 20,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     professionalRating: 875,
     professionalValidator: 'PATAGONIA_NODE_0x2',
     jurisdiction: 'EU (IP Law)'
@@ -4399,15 +4399,15 @@ export const CONTRACTS: Contract[] = [
       { label: 'Growth Potential', score: 195 }
     ],
     totalScore: 923,
-    rights: ['Event Revenue Share', 'Sponsorship Share'],
+    rights: ['Credited Recognition', 'Sponsorship Recognition'],
     rarity: 'Distinguished',
     category: 'Fashion',
     assetStatus: 'Production',
     milestones: [
       { label: 'Main Event Launch', date: '2026-11', status: 'UPCOMING', scoreImpact: 30 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 25,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     scorePro: 915,
     scoreAlgo: 931,
     scoreLYA: 923,
@@ -4492,8 +4492,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'NatGeo Feature', date: '2026-07', status: 'UPCOMING', scoreImpact: 20 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 25,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     scorePro: 890,
     scoreAlgo: 750,
     scoreLYA: 820,
@@ -4535,8 +4535,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: '1M Downloads Milestone', date: '2026-09', status: 'UPCOMING', scoreImpact: 15 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 20,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     scorePro: 860,
     scoreAlgo: 880,
     scoreLYA: 870,
@@ -4571,15 +4571,15 @@ export const CONTRACTS: Contract[] = [
       { label: 'Growth Potential', score: 150 }
     ],
     totalScore: 860,
-    rights: ['Ticket Revenue Share', 'Streaming Royalties'],
+    rights: ['Credited Recognition', 'Streaming Recognition'],
     rarity: 'Exceptional',
     category: 'Performing Arts',
     assetStatus: 'Production',
     milestones: [
       { label: 'World Premiere', date: '2026-10', status: 'UPCOMING', scoreImpact: 25 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 15,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     scorePro: 910,
     scoreAlgo: 810,
     scoreLYA: 860,
@@ -4614,15 +4614,15 @@ export const CONTRACTS: Contract[] = [
       { label: 'Growth Potential', score: 170 }
     ],
     totalScore: 860,
-    rights: ['Event Revenue Share', 'Recipe Access'],
+    rights: ['Credited Recognition', 'Recipe Access'],
     rarity: 'Distinguished',
     category: 'Gastronomy',
     assetStatus: 'Production',
     milestones: [
       { label: 'Michelin Star Review', date: '2026-11', status: 'UPCOMING', scoreImpact: 30 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 20,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     scorePro: 880,
     scoreAlgo: 840,
     scoreLYA: 860,
@@ -4707,8 +4707,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'Magnum Photos Feature', date: '2026-11', status: 'UPCOMING', scoreImpact: 25 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 30,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     scorePro: 810,
     scoreAlgo: 830,
     scoreLYA: 820,
@@ -4743,15 +4743,15 @@ export const CONTRACTS: Contract[] = [
       { label: 'Growth Potential', score: 150 }
     ],
     totalScore: 843,
-    rights: ['Ad Revenue Share', 'Exclusive Content'],
+    rights: ['Credited Recognition', 'Exclusive Content'],
     rarity: 'Exceptional',
     category: 'Podcast',
     assetStatus: 'Released',
     milestones: [
       { label: 'Season 3 Launch', date: '2026-08', status: 'UPCOMING', scoreImpact: 12 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 15,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     scorePro: 875,
     scoreAlgo: 811,
     scoreLYA: 843,
@@ -4786,15 +4786,15 @@ export const CONTRACTS: Contract[] = [
       { label: 'Growth Potential', score: 140 }
     ],
     totalScore: 817,
-    rights: ['Ticket Revenue Share', 'Merchandise Share'],
+    rights: ['Credited Recognition', 'Merchandise Access'],
     rarity: 'Signature',
     category: 'Performing Arts',
     assetStatus: 'Released',
     milestones: [
       { label: 'Broadway Transfer', date: '2027-01', status: 'UPCOMING', scoreImpact: 35 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 10,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     scorePro: 955,
     scoreAlgo: 679,
     scoreLYA: 817,
@@ -4836,8 +4836,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'First Franchise Open', date: '2026-12', status: 'UPCOMING', scoreImpact: 20 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 15,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     scorePro: 895,
     scoreAlgo: 845,
     scoreLYA: 870,
@@ -4879,8 +4879,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'Marketplace Integration', date: '2026-07', status: 'UPCOMING', scoreImpact: 15 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 30,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     scorePro: 840,
     scoreAlgo: 970,
     scoreLYA: 905,
@@ -4922,8 +4922,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'Vogue Feature', date: '2026-09', status: 'UPCOMING', scoreImpact: 15 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 20,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     scorePro: 855,
     scoreAlgo: 681,
     scoreLYA: 768,
@@ -4958,15 +4958,15 @@ export const CONTRACTS: Contract[] = [
       { label: 'Growth Potential', score: 130 }
     ],
     totalScore: 792,
-    rights: ['Licensing Royalties', 'Ad Revenue Share'],
+    rights: ['Licensing Recognition', 'Credited Recognition'],
     rarity: 'Standard',
     category: 'Podcast',
     assetStatus: 'Production',
     milestones: [
       { label: 'BBC Partnership', date: '2026-12', status: 'UPCOMING', scoreImpact: 20 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 25,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     scorePro: 840,
     scoreAlgo: 744,
     scoreLYA: 792,
@@ -5001,15 +5001,15 @@ export const CONTRACTS: Contract[] = [
       { label: 'Growth Potential', score: 175 }
     ],
     totalScore: 900,
-    rights: ['Event Revenue Share', 'Digital Content Access'],
+    rights: ['Credited Recognition', 'Digital Content Access'],
     rarity: 'Distinguished',
     category: 'Performing Arts',
     assetStatus: 'Production',
     milestones: [
       { label: 'Global Tour Launch', date: '2026-11', status: 'UPCOMING', scoreImpact: 20 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 25,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     scorePro: 865,
     scoreAlgo: 935,
     scoreLYA: 900,
@@ -5051,8 +5051,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'Brewery Opening', date: '2026-08', status: 'UPCOMING', scoreImpact: 20 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 12,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     scorePro: 890,
     scoreAlgo: 860,
     scoreLYA: 875,
@@ -5094,8 +5094,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'IKEA Partnership', date: '2027-02', status: 'UPCOMING', scoreImpact: 30 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 20,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     scorePro: 865,
     scoreAlgo: 835,
     scoreLYA: 850,
@@ -5137,8 +5137,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'Vogue Cover Feature', date: '2026-08', status: 'UPCOMING', scoreImpact: 20 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 15,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     scorePro: 915,
     scoreAlgo: 805,
     scoreLYA: 860,
@@ -5180,8 +5180,8 @@ export const CONTRACTS: Contract[] = [
     milestones: [
       { label: 'Nobel Prize Interview', date: '2026-10', status: 'UPCOMING', scoreImpact: 25 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 10,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     scorePro: 975,
     scoreAlgo: 831,
     scoreLYA: 903,
@@ -5216,15 +5216,15 @@ export const CONTRACTS: Contract[] = [
       { label: 'Growth Potential', score: 120 }
     ],
     totalScore: 835,
-    rights: ['Ticket Revenue Share', 'Streaming Royalties'],
+    rights: ['Credited Recognition', 'Streaming Recognition'],
     rarity: 'Exceptional',
     category: 'Performing Arts',
     assetStatus: 'Released',
     milestones: [
       { label: 'La Scala Premiere', date: '2026-12', status: 'UPCOMING', scoreImpact: 20 }
     ],
-    contractType: 'Revenue Share',
-    revenueSharePercentage: 15,
+    contractType: 'Direct Rights',
+    revenueSharePercentage: 0,
     scorePro: 925,
     scoreAlgo: 745,
     scoreLYA: 835,
@@ -5259,7 +5259,7 @@ export const CONTRACTS: Contract[] = [
       { label: 'Growth Potential', score: 120 }
     ],
     totalScore: 807,
-    rights: ['Auction Revenue Share', 'Private Sale Share'],
+    rights: ['Credited Recognition', 'Private Viewing Access'],
     rarity: 'Signature',
     category: 'Gastronomy',
     assetStatus: 'Released',
