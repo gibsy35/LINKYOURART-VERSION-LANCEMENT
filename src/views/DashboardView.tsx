@@ -168,11 +168,11 @@ export const DashboardView: React.FC<{
   const [visibleActivities, setVisibleActivities] = useState(5);
 
   const [news, setNews] = useState<any[]>([
-    { id: '1', title: 'Major Streaming Platform Announces New European Production Fund', source: 'Variety', time: '10m ago', timestamp: '10m ago', impact: '+15%', impactDetail: 'Direct boost to certification interest for Film and TV projects across European registries.', targetProject: 'RENAISSANCE REBORN' },
-    { id: '2', title: 'Creative Certification Adoption Reaches All-Time High', source: 'Bloomberg', time: '45m ago', timestamp: '45m ago', impact: '+8%', impactDetail: 'Heightened institutional interest for objective certification of creative rights.', targetProject: 'SKY GARDENS V4' },
-    { id: '3', title: 'New AI System for Automated IP Verification', source: 'TechCrunch', time: '2h ago', timestamp: '2h ago', impact: '+22%', impactDetail: 'Verification speed improvements reducing certification review friction.', targetProject: 'THE FUTURE VOICE' },
-    { id: '4', title: 'South Korean K-Pop Labels Adopt LYA Registry', source: 'The Korea Herald', time: '15h ago', timestamp: '15h ago', impact: '+42%', impactDetail: 'Massive East Asian interest surge and traction boost across entertainment certification.', targetProject: 'THE FUTURE VOICE' },
-    { id: '5', title: 'Major Advisory Firm Launches Creative Rights Practice', source: 'WSJ', time: '1d ago', timestamp: '1d ago', impact: '+55%', impactDetail: 'Ultimate validation of creative intellectual property certification models.', targetProject: 'RENAISSANCE REBORN' },
+    { id: '1', title: 'Major Streaming Platform Announces New European Production Fund', source: 'Variety', time: '10m ago', timestamp: '10m ago', impact: '+15%', impactDetail: 'Direct boost to certification interest for Film and TV projects across European registries.', targetProject: 'RENAISSANCE REBORN', sector: 'Film' },
+    { id: '2', title: 'Creative Certification Adoption Reaches All-Time High', source: 'Bloomberg', time: '45m ago', timestamp: '45m ago', impact: '+8%', impactDetail: 'Heightened institutional interest for objective certification of creative rights.', targetProject: 'SKY GARDENS V4', sector: 'Architecture' },
+    { id: '3', title: 'New AI System for Automated IP Verification', source: 'TechCrunch', time: '2h ago', timestamp: '2h ago', impact: '+22%', impactDetail: 'Verification speed improvements reducing certification review friction.', targetProject: 'THE FUTURE VOICE', sector: 'Digital Art' },
+    { id: '4', title: 'South Korean K-Pop Labels Adopt LYA Registry', source: 'The Korea Herald', time: '15h ago', timestamp: '15h ago', impact: '+42%', impactDetail: 'Massive East Asian interest surge and traction boost across entertainment certification.', targetProject: 'THE FUTURE VOICE', sector: 'Music' },
+    { id: '5', title: 'Major Advisory Firm Launches Creative Rights Practice', source: 'WSJ', time: '1d ago', timestamp: '1d ago', impact: '+55%', impactDetail: 'Ultimate validation of creative intellectual property certification models.', targetProject: 'RENAISSANCE REBORN', sector: 'Fine Art' },
   ]);
   const [isLoadingNews, setIsLoadingNews] = useState(false);
 
@@ -190,7 +190,8 @@ export const DashboardView: React.FC<{
           timestamp: item.timestamp || 'Just now',
           impact: `${item.impact?.score > 0 ? '+' : ''}${item.impact?.score}%`,
           impactDetail: item.impact?.description || '',
-          targetProject: item.impact?.targetProject || ''
+          targetProject: item.impact?.targetProject || '',
+          sector: item.impact?.affectedSectors?.[0] || item.category || 'Digital Art'
         }));
         setNews(formatted);
       }
@@ -210,6 +211,24 @@ export const DashboardView: React.FC<{
     { label: 'Singapore Registry', status: 'ACTIF', latency: '32ms' },
     { label: 'Berlin Registry', status: 'ACTIF', latency: '18ms' },
   ];
+
+  const SECTOR_COLORS: Record<string, { text: string; bg: string; border: string }> = {
+    'Fine Art':        { text: 'text-rose-400',    bg: 'bg-rose-400/10',    border: 'border-rose-400/40' },
+    'Music':           { text: 'text-accent-pink',  bg: 'bg-accent-pink/10', border: 'border-accent-pink/40' },
+    'Film':            { text: 'text-primary-cyan', bg: 'bg-primary-cyan/10',border: 'border-primary-cyan/40' },
+    'TV Series':       { text: 'text-primary-cyan', bg: 'bg-primary-cyan/10',border: 'border-primary-cyan/40' },
+    'Literature':      { text: 'text-accent-gold',  bg: 'bg-accent-gold/10', border: 'border-accent-gold/40' },
+    'Photography':     { text: 'text-[#a78bfa]',    bg: 'bg-[#a78bfa]/10',   border: 'border-[#a78bfa]/40' },
+    'Fashion':         { text: 'text-accent-gold',  bg: 'bg-accent-gold/10', border: 'border-accent-gold/40' },
+    'Digital Art':     { text: 'text-[#a78bfa]',    bg: 'bg-[#a78bfa]/10',   border: 'border-[#a78bfa]/40' },
+    'Podcast':         { text: 'text-emerald-400',  bg: 'bg-emerald-400/10', border: 'border-emerald-400/40' },
+    'Architecture':    { text: 'text-emerald-400',  bg: 'bg-emerald-400/10', border: 'border-emerald-400/40' },
+    'Gastronomy':      { text: 'text-rose-400',     bg: 'bg-rose-400/10',    border: 'border-rose-400/40' },
+    'Performing Arts': { text: 'text-accent-pink',  bg: 'bg-accent-pink/10', border: 'border-accent-pink/40' },
+    'Gaming':          { text: 'text-[#a78bfa]',    bg: 'bg-[#a78bfa]/10',   border: 'border-[#a78bfa]/40' },
+    'Design':          { text: 'text-primary-cyan', bg: 'bg-primary-cyan/10',border: 'border-primary-cyan/40' },
+  };
+  const getSectorStyle = (sector?: string) => SECTOR_COLORS[sector || ''] || { text: 'text-on-surface-variant', bg: 'bg-white/5', border: 'border-white/20' };
 
   const sectors = useMemo(() => [
     { name: t('Fine Art', 'Beaux-Arts'), icon: Palette, growth: -8.4, color: 'text-rose-400', bg: 'bg-rose-400/10', weight: 35 },
@@ -244,7 +263,8 @@ export const DashboardView: React.FC<{
         timestamp: item.timestamp || 'Just now',
         impact: `${item.impact?.score > 0 ? '+' : ''}${item.impact?.score}%`,
         impactDetail: item.impact?.description || '',
-        targetProject: item.impact?.targetProject || ''
+        targetProject: item.impact?.targetProject || '',
+        sector: item.impact?.affectedSectors?.[0] || item.category || 'Digital Art'
       }));
       setNews(formatted);
       onNotify?.(t('REGISTRY DATA SYNCED SUCCESSFULLY.', 'DONNÉES DU REGISTRE SYNCHRONISÉES AVEC SUCCÈS.'));
@@ -901,10 +921,19 @@ export const DashboardView: React.FC<{
                 </p>
               </div>
             ) : (
-              news.slice(0, visibleNews).map((item) => (
-                <div key={item.id} className="p-4 bg-white/5 border border-white/5 rounded-xl group hover:border-primary-cyan/30 transition-all cursor-pointer">
+              news.slice(0, visibleNews).map((item) => {
+                const sectorStyle = getSectorStyle(item.sector);
+                return (
+                <div key={item.id} className={`p-4 bg-white/5 border-l-2 border border-white/5 rounded-xl group hover:border-primary-cyan/30 transition-all cursor-pointer ${sectorStyle.border}`}>
                   <div className="flex justify-between items-start mb-2">
-                    <span className="text-[11px] font-mono text-on-surface-variant/60 uppercase tracking-widest">{item.time} • {item.source}</span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-[11px] font-mono text-on-surface-variant/60 uppercase tracking-widest">{item.time} • {item.source}</span>
+                      {item.sector && (
+                        <span className={`text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full ${sectorStyle.bg} ${sectorStyle.text}`}>
+                          {item.sector}
+                        </span>
+                      )}
+                    </div>
                     <span className={`text-[10px] font-black uppercase tracking-widest ${
                       item.impact.startsWith('-') ? 'text-rose-400' : 'text-emerald-400'
                     }`}>
@@ -926,7 +955,8 @@ export const DashboardView: React.FC<{
                     </div>
                   )}
                 </div>
-              ))
+                );
+              })
             )}
           </div>
           {visibleNews < news.length && (
