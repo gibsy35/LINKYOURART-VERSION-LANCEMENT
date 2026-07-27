@@ -45,10 +45,11 @@ export const LYAProtocolBadge: React.FC = () => {
   const handleGenerateVisual = async () => {
     setGenerating(true);
     try {
-      const resp = await fetch('/api/gemini/generate-visual', {
+      const resp = await fetch('/api/gemini/copilot', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          action: 'generate-visual',
           prompt: t(
             'Generate an SVG visual representing the LinkYourArt creative ecosystem: a network of artists, patrons and professionals connected by LYA Units. Modern, dark background (#0d1117), cyan (#00d4ff) and violet (#a78bfa) accents. Return only the SVG code.',
             'Génère un visuel SVG représentant l\'écosystème créatif LinkYourArt : un réseau d\'artistes, mécènes et professionnels connectés par des LYA Units. Design moderne, fond sombre (#0d1117), accents cyan (#00d4ff) et violet (#a78bfa). Retourne uniquement le code SVG.'
