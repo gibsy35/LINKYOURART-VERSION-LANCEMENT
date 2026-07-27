@@ -159,7 +159,7 @@ export const RegistryView: React.FC<{
     contract: contract,
     compliance: {
       status: i % 3 === 0 ? 'COMPLIANT' : i % 3 === 1 ? 'PENDING' : 'NON-COMPLIANT',
-      standards: ['KYC/AML', 'SEC Rule 506(c)', 'GDPR', 'ISO 27001'],
+      standards: ['Identity Verification', 'IP Rights Registration', 'GDPR', 'ISO 27001'],
       lastCheck: '2026-03-20'
     },
     auditHistory: [
@@ -263,9 +263,8 @@ export const RegistryView: React.FC<{
                     className="w-full bg-surface-dim border border-white/5 text-[10px] font-black uppercase tracking-widest py-3.5 pl-4 pr-10 appearance-none focus:border-accent-gold outline-none transition-all cursor-pointer"
                   >
                     <option value="ALL">{t('All Agreements', 'Tous les Accords')}</option>
-                    <option value="LYA-721">{t('LYA-721 Master', 'LYA-721 Master')}</option>
+                    <option value="Direct Rights">{t('Direct Rights', 'Droits Directs')}</option>
                     <option value="IP-TRANSFER">{t('IP Transfer', 'Transfert de PI')}</option>
-                    <option value="REVENUE-SHARE">{t('Revenue Share', 'Partage de Revenus')}</option>
                     <option value="PROVENANCE">{t('Provenance', 'Provenance')}</option>
                   </select>
                   <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none opacity-40" size={12} />
@@ -655,9 +654,9 @@ export const RegistryView: React.FC<{
                   <CheckCircle2 size={16} />
                 </div>
                 <div>
-                  <div className="text-base md:text-lg font-bold uppercase tracking-widest mb-1">{t('Multi-Party Custody', 'Garde Multi-Parties')}</div>
+                  <div className="text-base md:text-lg font-bold uppercase tracking-widest mb-1">{t('Multi-Layer Registry Security', 'Sécurité Multi-Niveaux du Registre')}</div>
                   <p className="text-sm text-on-surface-variant leading-relaxed text-justify">
-                    {t('Professional rights are secured in multi-signature digital vaults with hardware-enforced security.', 'Les droits professionnels sont sécurisés dans des coffres-forts numériques multi-signatures avec une sécurité renforcée par le matériel.')}
+                    {t('Professional rights records are secured through redundant digital archiving with hardware-enforced access controls.', 'Les enregistrements de droits professionnels sont sécurisés par un archivage numérique redondant avec des contrôles d\'accès renforcés par le matériel.')}
                   </p>
                 </div>
               </div>
