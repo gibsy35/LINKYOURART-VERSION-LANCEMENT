@@ -319,7 +319,7 @@ const LiveFeedWidget: React.FC<{ lang: 'FR' | 'EN' }> = ({ lang }) => {
       if (active) setLoading(false);
     })();
     return () => { active = false; };
-  }, [lang]);
+  }, []);
 
   return (
     <div className="space-y-3">

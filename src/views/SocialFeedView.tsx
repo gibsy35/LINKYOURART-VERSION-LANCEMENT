@@ -368,7 +368,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
   useEffect(() => {
     setActiveNewsIndex(0);
     loadRealNews();
-  }, [language]);
+  }, []);
 
   useEffect(() => {
     if (news.length === 0) return;

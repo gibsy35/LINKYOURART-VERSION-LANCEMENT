@@ -201,7 +201,7 @@ export const DashboardView: React.FC<{
     return () => {
       active = false;
     };
-  }, [language]);
+  }, []);
 
   const networkActivity = [
     { label: 'Paris Registry', status: 'ACTIF', latency: '12ms' },
