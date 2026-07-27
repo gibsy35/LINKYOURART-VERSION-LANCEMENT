@@ -3,7 +3,8 @@ module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
   const { assetName, description, score, language } = req.body || {};
   const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) return res.status(200).json({ analysis: 'Analysis currently unavailable.' });
+  const isFR0 = language === 'FR';
+  if (!apiKey) return res.status(200).json({ analysis: isFR0 ? 'Analyse indisponible pour le moment.' : 'Analysis currently unavailable.' });
 
   const isFR = language === 'FR';
   const systemPrompt = isFR
