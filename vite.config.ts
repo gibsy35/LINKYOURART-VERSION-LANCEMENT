@@ -56,7 +56,6 @@ export default defineConfig(({mode}) => {
             'views-secondary': [
               './src/views/AcademyView.tsx',
               './src/views/CompareView.tsx',
-              './src/views/TaxOptimizerView.tsx',
               './src/views/RegistryView.tsx',
               './src/views/WatchlistView.tsx',
               './src/views/PricingView.tsx',

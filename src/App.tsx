@@ -40,7 +40,6 @@ import { APIView } from './views/APIView';
 import { AcademyView } from './views/AcademyView';
 import { ApplyForVerificationView } from './views/ApplyForVerificationView';
 import { AboutView } from './views/AboutView';
-import { TaxOptimizerView } from './views/TaxOptimizerView';
 import { IssuerProfileView } from './views/IssuerProfileView';
 import { AdminView } from './views/AdminView';
 import { MecenatView } from './views/MecenatView';
@@ -468,7 +467,7 @@ export default function App() {
               {currentView === 'PROFESSIONAL_DASHBOARD' && <ProfessionalDashboardView user={effectiveUser} onNotify={notify} onViewChange={handleViewChange} />}
               {currentView === 'PROJECT_PUBLIC' && <ProjectPublicView contractId={viewingContract?.id} onViewChange={handleViewChange} onNotify={notify} user={effectiveUser} />}
               {currentView === 'CREATOR_PROFILE' && <CreatorProfileView onViewChange={handleViewChange} onNotify={notify} user={effectiveUser} />}
-              {!['HOME','LANDING','DASHBOARD','VALIDATION','REGISTRY','LINK_ART','LOUNGE','WALLET','SIGNUP','LOGIN','PROFILE','PRICING','SWIPE','MECENAT','BROCHURE','WATCHLIST','SETTINGS','COMPARE','SOCIAL_FEED','PAYMENT','CONTRACT_DETAIL','TERMS','PRIVACY','LEGAL_REGISTRY','GOVERNANCE','API','ACADEMY','APPLY_VERIFICATION','ABOUT','TAX_OPTIMIZER','ADMIN_PANEL','ISSUER_PROFILE','OUR_MODEL','FAQ','LEGAL_MENTIONS','CREATOR_DASHBOARD','PATRON_DASHBOARD','PROFESSIONAL_DASHBOARD','PROJECT_PUBLIC','CREATOR_PROFILE'].includes(currentView) && (<NotFoundView onViewChange={handleViewChange} />)}
+              {!['HOME','LANDING','DASHBOARD','VALIDATION','REGISTRY','LINK_ART','LOUNGE','WALLET','SIGNUP','LOGIN','PROFILE','PRICING','SWIPE','MECENAT','BROCHURE','WATCHLIST','SETTINGS','COMPARE','SOCIAL_FEED','PAYMENT','CONTRACT_DETAIL','TERMS','PRIVACY','LEGAL_REGISTRY','GOVERNANCE','API','ACADEMY','APPLY_VERIFICATION','ABOUT','ADMIN_PANEL','ISSUER_PROFILE','OUR_MODEL','FAQ','LEGAL_MENTIONS','CREATOR_DASHBOARD','PATRON_DASHBOARD','PROFESSIONAL_DASHBOARD','PROJECT_PUBLIC','CREATOR_PROFILE'].includes(currentView) && (<NotFoundView onViewChange={handleViewChange} />)}
               {currentView === 'CONTRACT_DETAIL' && viewingContract && (<ContractDetailView contract={liveContracts.find(c => c.id === viewingContract.id) || viewingContract} onBack={() => setCurrentView('REGISTRY')} onNotify={notify} isWatchlisted={watchlist.includes(viewingContract.id)} onToggleWatchlist={handleToggleWatchlist} />)}
               {currentView === 'TERMS' && <LegalView type="TERMS" onNotify={notify} />}
               {currentView === 'PRIVACY' && <LegalView type="PRIVACY" onNotify={notify} />}
@@ -489,7 +488,6 @@ export default function App() {
               {currentView === 'ACADEMY' && <AcademyView user={effectiveUser} onNotify={notify} onViewChange={handleViewChange} />}
               {currentView === 'ADMIN_PANEL' && <AdminView user={user} onNotify={notify} onViewChange={setCurrentView} liveContracts={liveContracts} />}
               {currentView === 'APPLY_VERIFICATION' && <ApplyForVerificationView onNotify={notify} />}
-              {currentView === 'TAX_OPTIMIZER' && <TaxOptimizerView onNotify={notify} />}
               {currentView === 'ISSUER_PROFILE' && (<IssuerProfileView issuerId={activeIssuerId || 'UNKNOWN'} onBack={() => setCurrentView('REGISTRY')} />)}
               {currentView === 'ABOUT' && <AboutView onViewChange={handleViewChange} onNotify={notify} />}
               {currentView === 'OUR_MODEL' && <LegalView type="OUR_MODEL" onNotify={notify} />}

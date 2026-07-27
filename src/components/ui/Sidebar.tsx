@@ -67,7 +67,6 @@ export type View =
   | 'ACADEMY' 
   | 'APPLY_VERIFICATION' 
   | 'ABOUT' 
-  | 'TAX_OPTIMIZER' 
   | 'ADMIN_PANEL'
   | 'ISSUER_PROFILE'
   | 'OUR_MODEL'
