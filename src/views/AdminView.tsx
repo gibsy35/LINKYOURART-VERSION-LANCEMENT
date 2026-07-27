@@ -58,7 +58,7 @@ export const AdminView: React.FC<{
   const [activeEmailRequest, setActiveEmailRequest] = useState<any | null>(null);
   const [pendingSubmissions, setPendingSubmissions] = useState<any[]>([]);
   const [publishModal, setPublishModal] = useState<any | null>(null);
-  const [publishForm, setPublishForm] = useState({ scoreAlgo: 750, scorePro: 750, growth: 0, rarity: 'Distinguished', revenueSharePercentage: 5 });
+  const [publishForm, setPublishForm] = useState({ scoreAlgo: 750, scorePro: 750, growth: 0, rarity: 'Distinguished' });
   const [generatedDemoKey, setGeneratedDemoKey] = useState<string>('');
   const [expandedVerifId, setExpandedVerifId] = useState<string | null>(null);
 
@@ -477,7 +477,6 @@ export const AdminView: React.FC<{
   const handlePublishProject = async (submission: any, form: typeof publishForm) => {
     try {
       const totalScore = Math.round((form.scoreAlgo + form.scorePro) / 2);
-      const lyaUnit = parseFloat((50 * (1 + form.growth / 100)).toFixed(2));
       const registryIndex = `LYA-${new Date().getFullYear()}-${String(Math.floor(Math.random() * 900) + 100).padStart(3, '0')}`;
 
       // 1. Publier dans la collection contracts (Registre)
@@ -495,10 +494,6 @@ export const AdminView: React.FC<{
         scorePro: form.scorePro,
         totalScore,
         growth: form.growth,
-        lyaUnit,
-        revenueSharePercentage: form.revenueSharePercentage,
-        totalUnits: 10000,
-        availableUnits: 8000,
         registryIndex,
         registryAddress: `LYA_REG_0x${Math.random().toString(16).slice(2, 10).toUpperCase()}`,
         creationDate: new Date().toISOString().split('T')[0],
@@ -1664,7 +1659,7 @@ export const AdminView: React.FC<{
 
                             {sub.status === 'PENDING_VALIDATION' && (
                               <div className="flex flex-col gap-2 shrink-0">
-                                <button onClick={() => { setPublishModal(sub); setPublishForm({ scoreAlgo: 750, scorePro: 750, growth: 0, rarity: 'Distinguished', revenueSharePercentage: 5 }); }}
+                                <button onClick={() => { setPublishModal(sub); setPublishForm({ scoreAlgo: 750, scorePro: 750, growth: 0, rarity: 'Distinguished' }); }}
                                   className="px-4 py-2 bg-emerald-400/15 border border-emerald-400/25 text-emerald-400 text-[10px] font-black rounded-xl hover:bg-emerald-400/25 transition-all uppercase">
                                   {t('Validate & Publish', 'Valider & Publier')}
                                 </button>
@@ -1714,15 +1709,9 @@ export const AdminView: React.FC<{
 
                         <div className="grid grid-cols-2 gap-3">
                           <div>
-                            <label className="text-[9px] font-black text-white/40 uppercase tracking-widest block mb-1">LYA UNIT variation %</label>
+                            <label className="text-[9px] font-black text-white/40 uppercase tracking-widest block mb-1">Score Trend %</label>
                             <input type="number" min="-100" max="500" value={publishForm.growth}
                               onChange={e => setPublishForm(f => ({...f, growth: parseFloat(e.target.value)}))}
-                              className="w-full bg-black/30 border border-white/10 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-primary-cyan/50"/>
-                          </div>
-                          <div>
-                            <label className="text-[9px] font-black text-white/40 uppercase tracking-widest block mb-1">Revenue Share %</label>
-                            <input type="number" min="0" max="50" value={publishForm.revenueSharePercentage}
-                              onChange={e => setPublishForm(f => ({...f, revenueSharePercentage: parseFloat(e.target.value)}))}
                               className="w-full bg-black/30 border border-white/10 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-primary-cyan/50"/>
                           </div>
                         </div>
