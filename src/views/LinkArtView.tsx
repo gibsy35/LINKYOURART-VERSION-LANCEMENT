@@ -343,10 +343,10 @@ export const LinkArtView: React.FC<{
     if (isFrench) return text; // already French, no need to translate
     try {
       setIsTranslating(true);
-      const res = await fetch('/api/gemini/translate-description', {
+      const res = await fetch('/api/gemini/analyze-asset', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ description: text, targetLang: 'fr' })
+        body: JSON.stringify({ action: 'translate', description: text, targetLang: 'fr' })
       });
       if (!res.ok) return text;
       const data = await res.json();
