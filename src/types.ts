@@ -446,8 +446,8 @@ export const CONTRACTS: Contract[] = [
     growth: 32.5,
     image: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&q=80&w=800',
     status: 'LIVE',
-    descriptionFR: `Droits mondiaux de synchronisation et de diffusion SVOD pour la série télévisée de science-fiction premium 'Chronicles of Eldon'. Chaque unité LYA indexe une part proportionnelle des revenus d'abonnement récurrents.`,
-    description: 'Global master synchronization and SVOD broadcasting rights for the premium sci-fi television series "Chronicles of Eldon". Each LYA unit indexes a proportionate share of recurring subscription revenues, multi-territory exhibition licenses, and dynamic digital IP distributions across partners like Netflix, HBO, and Canal+.',
+    descriptionFR: `Droits mondiaux de synchronisation et de diffusion SVOD pour la série télévisée de science-fiction premium 'Chronicles of Eldon', certifiée sur le Registre LYA.`,
+    description: 'Global master synchronization and SVOD broadcasting rights for the premium sci-fi television series "Chronicles of Eldon", certified on the LYA Registry.',
     totalUnits: 24000,
     availableUnits: 1200,
     registryAddress: 'LYA_REG_0xELD8899',
@@ -457,7 +457,7 @@ export const CONTRACTS: Contract[] = [
     maturityDate: '2035-01-01',
     pillars: [
       { label: 'Creative Excellence', score: 198 },
-      { label: 'Market Liquidity', score: 150 },
+      { label: 'Community Engagement', score: 150 },
       { label: 'IP & Legal Clearance', score: 195 },
       { label: 'Distribution Reach', score: 190 },
       { label: 'Syndication Scale', score: 160 }
@@ -1774,8 +1774,8 @@ export const CONTRACTS: Contract[] = [
     jurisdiction: 'UK (CDPA)'
   },
   {
-    id: 'FASHION_NFT',
-    name: 'FASHION NFT: GENESIS',
+    id: 'FASHION_DIGITAL',
+    name: 'DIGITAL FASHION: GENESIS',
     issuerId: 'USR-FASH-02',
     totalValue: 500000,
     unitValue: 50.00,
@@ -2335,19 +2335,19 @@ export const CONTRACTS: Contract[] = [
   },
   {
     id: 'FILM_DOCUMENTARY',
-    name: 'FILM: THE CRYPTO ERA',
+    name: 'FILM: THE DIGITAL AGE',
     issuerId: 'USR-FLM-03',
     totalValue: 500000,
     unitValue: 50.00,
     stability: 0.65,
     scarcity: 0.80,
     growth: 25.0,
-    image: 'https://picsum.photos/seed/cryptoera/800/600',
+    image: 'https://picsum.photos/seed/digitalage/800/600',
     status: 'LIVE',
     description: `Documentary film exploring the rise of digital finance.`,
     descriptionFR: `Film documentaire explorant l'essor de la finance numérique.`,
     totalUnits: 10000,
-    registryAddress: 'LYA_REG_0xCRYPTOE',
+    registryAddress: 'LYA_REG_0xDIGAGE',
     creationDate: '2026-01-15',
     lastAudit: '2026-03-10',
     registryIndex: 'LYA-FLM-CER',
@@ -3959,8 +3959,8 @@ export const CONTRACTS: Contract[] = [
     jurisdiction: 'UK (CDPA)'
   },
   {
-    id: 'STREET_WEAR_DAO',
-    name: 'STREETWEAR DAO',
+    id: 'STREET_WEAR_COLLECTIVE',
+    name: 'STREETWEAR COLLECTIVE',
     issuerId: 'USR-FASH-88',
     totalValue: 500000,
     unitValue: 50.00,
@@ -4124,7 +4124,7 @@ export const CONTRACTS: Contract[] = [
     jurisdiction: 'EU (IP Law)'
   },
   {
-    id: 'LUXURY_LIFESTYLE_DAO',
+    id: 'LUXURY_LIFESTYLE_COLLECTIVE',
     name: 'LUXURY LIFESTYLE',
     issuerId: 'USR-FASH-99',
     totalValue: 1000000,
@@ -4206,7 +4206,7 @@ export const CONTRACTS: Contract[] = [
     jurisdiction: 'US (Federal IP)'
   },
   {
-    id: 'E_SPORTS_TEAM_DAO',
+    id: 'E_SPORTS_TEAM_ORG',
     name: 'E-SPORTS TEAM',
     issuerId: 'USR-GAME-88',
     totalValue: 2000000,
@@ -4288,7 +4288,7 @@ export const CONTRACTS: Contract[] = [
     jurisdiction: 'US (Federal IP)'
   },
   {
-    id: 'SUSTAINABLE_FASHION_DAO',
+    id: 'SUSTAINABLE_FASHION_COLLECTIVE',
     name: 'SUSTAINABLE FASHION',
     issuerId: 'USR-FASH-05',
     totalValue: 200000,
@@ -5017,8 +5017,8 @@ export const CONTRACTS: Contract[] = [
     jurisdiction: 'EU (IP Law)'
   },
   {
-    id: 'CRAFT_BEER_DAO',
-    name: 'CRAFT BEER DAO',
+    id: 'CRAFT_BEER_COLLECTIVE',
+    name: 'CRAFT BEER COLLECTIVE',
     issuerId: 'USR-GAST-05',
     totalValue: 500000,
     unitValue: 50.00,
@@ -5232,7 +5232,7 @@ export const CONTRACTS: Contract[] = [
     jurisdiction: 'EU (IP Law)'
   },
   {
-    id: 'WINE_COLLECTIVE_DAO',
+    id: 'WINE_COLLECTIVE_GROUP',
     name: 'WINE COLLECTIVE',
     issuerId: 'USR-GAST-11',
     totalValue: 1000000,
