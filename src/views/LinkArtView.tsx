@@ -164,6 +164,8 @@ export const LinkArtView: React.FC<{
   const [assetName, setAssetName] = useState('');
   const [issuerName, setIssuerName] = useState('');
   const [description, setDescription] = useState('');
+  const [descriptionFR, setDescriptionFR] = useState('');
+  const [isTranslating, setIsTranslating] = useState(false);
   const [showDescExample, setShowDescExample] = useState(false);
   const [fundingGoal, setFundingGoal] = useState('');
   const [selectedRights, setSelectedRights] = useState<string[]>([]);
@@ -331,6 +333,31 @@ export const LinkArtView: React.FC<{
     }
   };
 
+  // Auto-translate description to French via Claude API
+  const translateDescription = async (text: string): Promise<string> => {
+    if (!text) return '';
+    // Detect if text is already French (simple heuristic)
+    const frenchWords = ['le', 'la', 'les', 'un', 'une', 'des', 'est', 'sont', 'avec', 'pour', 'dans', 'sur'];
+    const words = text.toLowerCase().split(' ');
+    const isFrench = frenchWords.filter(w => words.includes(w)).length >= 2;
+    if (isFrench) return text; // already French, no need to translate
+    try {
+      setIsTranslating(true);
+      const res = await fetch('/api/gemini/translate-description', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ description: text, targetLang: 'fr' })
+      });
+      if (!res.ok) return text;
+      const data = await res.json();
+      return data.translatedDescription || text;
+    } catch {
+      return text; // fallback to original
+    } finally {
+      setIsTranslating(false);
+    }
+  };
+
   const handleSubmit = async () => {
     if (!assetName || !issuerName || !description) {
       onNotify(t('Please complete all contract details before submitting.', 'Veuillez remplir tous les détails du contrat avant de soumettre.'));
@@ -342,12 +369,18 @@ export const LinkArtView: React.FC<{
     onNotify(t('INITIATING CONTRAT CRÉATIF DEPLOYMENT...', 'INITIALISATION DU DÉPLOIEMENT DU CONTRAT CRÉATIF...'));
     
     try {
+      // Auto-translate description to French before saving
+      onNotify(t('TRANSLATING DESCRIPTION...', 'TRADUCTION DE LA DESCRIPTION...'));
+      const translatedFR = descriptionFR || await translateDescription(description);
+      if (translatedFR !== description) setDescriptionFR(translatedFR);
+
       const projectData = {
         name: assetName,
         issuerId: issuerName,
         issuerUid: user?.uid,
         category,
         description,
+        descriptionFR: translatedFR,
         image: generatedImage,
         duration: contractDuration,
         maturityDate,
