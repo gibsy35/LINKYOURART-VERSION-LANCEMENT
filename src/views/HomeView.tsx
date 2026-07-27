@@ -318,7 +318,7 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
           </div>
         </div>
 
-        {/* ── LYA SCORE ANCHOR — Unit concept suspended pending MiCA/SEC ── */}
+        {/* ── LYA SCORE ANCHOR ── */}
         <div className="flex items-center justify-center gap-6 mb-5 md:mb-10 lg:mb-6 md:mb-10 lg:mb-16">
           <div className="h-px flex-1 bg-gradient-to-r from-transparent to-white/10" />
           <div className="flex items-center gap-4 px-6 py-3 border border-white/10 bg-white/[0.02] flex-wrap">

@@ -1066,7 +1066,7 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
             {[
               { label: t('ENCRYPTED', 'CHIFFRÉ'), icon: Lock, x: -35, y: -35, theme: 'emerald' },
               { label: t('2FA_SECURE', '2FA_ACTIF'), icon: ShieldCheck, x: 35, y: -15, theme: 'emerald' },
-              { label: t('KYC_VERIFIED', 'ID_VÉRIFIÉE'), icon: Users, x: 0, y: 40, theme: 'emerald' }
+              { label: t('IDENTITY_VERIFIED', 'ID_VÉRIFIÉE'), icon: Users, x: 0, y: 40, theme: 'emerald' }
             ].map((item, i) => (
               <motion.div
                 key={i}

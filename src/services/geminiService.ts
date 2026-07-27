@@ -17,31 +17,6 @@ export const generateAssetAnalysis = async (assetName: string, description: stri
   }
 };
 
-export const generateInvestmentThesis = async (assetName: string, description: string, marketData?: any, language = 'EN') => {
-  try {
-    const response = await fetch('/api/gemini/investment-thesis', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ assetName, description, marketData, language })
-    });
-    if (!response.ok) {
-      throw new Error(`Thesis API failed with status ${response.status}`);
-    }
-    const data = await response.json();
-    if (data && !data.error && data.bullCase) {
-      return data;
-    }
-    throw new Error("Invalid data format returned for Investment Thesis");
-  } catch (error) {
-    console.error("Thesis failed:", error);
-    return {
-      bullCase: "Strong creative fundamentals driven by organic audience growth, multi-platform IP recognition, and robust metadata indexing on the LYA Registry.",
-      bearCase: "Certification progress may be affected by production timeline deviations or shifts in audience engagement across sectors.",
-      milestones: ["Initial creative audit completed by LYA specialists", "Primary broadcast/streaming distribution agreement signed", "First community recognition milestone reached"]
-    };
-  }
-};
-
 export const suggestMilestones = async (description: string, language = 'EN') => {
   try {
     const response = await fetch('/api/gemini/suggest-milestones', {
