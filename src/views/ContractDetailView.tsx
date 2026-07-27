@@ -29,7 +29,7 @@ import {
   Layers,
   Scale
 } from 'lucide-react';
-import {Contract, PillarScore} from '../types';
+import {Contract, PillarScore, getContractDescription} from '../types';
 import { useTranslation } from '../context/LanguageContext';
 import { simulatePDFDownload } from '../utils/download';
 import { generateAssetAnalysis } from '../services/geminiService';
@@ -360,7 +360,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                               {t('PROJECT SYNOPSIS', 'SYNOPSIS DU PROJET')}
                            </h4>
                            <p className="text-xl font-light text-white/80 leading-relaxed border-l-4 border-primary-cyan pl-6">
-                              "{contract.description}"
+                              "{getContractDescription(contract, language)}"
                            </p>
                          </div>
 

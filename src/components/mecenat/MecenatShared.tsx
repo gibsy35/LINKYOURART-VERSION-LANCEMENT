@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Contract, LYA_UNIT_VALUE } from "../../types";
+import { Contract, LYA_UNIT_VALUE, getContractDescription } from "../../types";
 import { getSafeImageUrl } from "../../utils/image";
 
 // ─── THÈMES / FILTRES ─────────────────────────────────────────────────────────
@@ -300,7 +300,7 @@ export function DetailModal({ contract, onClose, onPay, units, onUnitsChange, la
             {/* Description */}
             <div className="mb-4">
               <p className="text-on-surface-variant/50 text-xs font-mono tracking-widest mb-2">{T("DESCRIPTION DU PROJET", "PROJECT DESCRIPTION")}</p>
-              <p className="text-on-surface-variant text-sm italic border-l-2 border-primary-cyan/30 pl-3 leading-relaxed">"{contract.description}"</p>
+              <p className="text-on-surface-variant text-sm italic border-l-2 border-primary-cyan/30 pl-3 leading-relaxed">"{getContractDescription(contract, lang)}"</p>
             </div>
 
             {/* ── LYA SCORE — 5 PILIERS ── */}
@@ -595,7 +595,7 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
         <p className="text-primary-cyan text-[10px] font-mono tracking-widest mb-1">
           {T("PROJET CERTIFIÉ", "CERTIFIED PROJECT")} · {contract.category.toUpperCase()}
         </p>
-        <p className="text-on-surface-variant/70 text-xs leading-relaxed line-clamp-2">{contract.description}</p>
+        <p className="text-on-surface-variant/70 text-xs leading-relaxed line-clamp-2">{getContractDescription(contract, lang)}</p>
       </div>
 
       {/* Score LYA + Financement */}

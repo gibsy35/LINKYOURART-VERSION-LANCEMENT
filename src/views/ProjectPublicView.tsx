@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { useTranslation } from '../context/LanguageContext';
 import { useCurrency } from '../context/CurrencyContext';
-import { Contract, CONTRACTS } from '../types';
+import { Contract, CONTRACTS, getContractDescription } from '../types';
 import { updatePageMeta, resetPageMeta } from '../utils/seo';
 import { getSafeImageUrl } from '../utils/image';
 import {
@@ -173,7 +173,7 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
           {/* Description */}
           <div className="bg-surface-low/40 border border-white/8 rounded-2xl p-5">
             <h2 className="text-sm font-black text-on-surface uppercase tracking-wider mb-3">{T('À propos', 'About')}</h2>
-            <p className="text-sm text-on-surface-variant/70 leading-relaxed">{project.description}</p>
+            <p className="text-sm text-on-surface-variant/70 leading-relaxed">{getContractDescription(project, language)}</p>
           </div>
 
           {/* Graphe Score LYA */}

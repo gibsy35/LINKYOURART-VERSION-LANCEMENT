@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <!-- Fond sombre -->
+    <radialGradient id="bg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#111827"/>
+      <stop offset="100%" style="stop-color:#0D1117"/>
+    </radialGradient>
+    <!-- Glow blanc central -->
+    <filter id="glow-white">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <!-- Glow rose -->
+    <filter id="glow-pink">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <!-- Glow cyan -->
+    <filter id="glow-cyan">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <!-- Glow violet -->
+    <filter id="glow-purple">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Fond arrondi -->
+  <rect width="512" height="512" rx="110" fill="url(#bg)"/>
+
+  <!-- Halo central blanc (blur) -->
+  <circle cx="256" cy="256" r="38" fill="white" opacity="0.08" filter="url(#glow-white)"/>
+
+  <!-- Cercle intérieur — ROSE (#FF007F), r≈102px, dasharray 60/65 -->
+  <circle cx="256" cy="256" r="102"
+    fill="none"
+    stroke="#FF007F"
+    stroke-width="18"
+    stroke-dasharray="188 205"
+    stroke-dashoffset="32"
+    stroke-linecap="round"
+    opacity="0.95"
+    filter="url(#glow-pink)"/>
+
+  <!-- Cercle intermédiaire — CYAN (#00E0FF), r≈163px, dasharray 120/80 -->
+  <circle cx="256" cy="256" r="163"
+    fill="none"
+    stroke="#00E0FF"
+    stroke-width="16"
+    stroke-dasharray="378 252"
+    stroke-dashoffset="141"
+    stroke-linecap="round"
+    opacity="0.95"
+    filter="url(#glow-cyan)"/>
+
+  <!-- Cercle extérieur — VIOLET (#9D00FF), r≈224px, dasharray 200/75 -->
+  <circle cx="256" cy="256" r="224"
+    fill="none"
+    stroke="#9D00FF"
+    stroke-width="14"
+    stroke-dasharray="630 236"
+    stroke-dashoffset="567"
+    stroke-linecap="round"
+    opacity="0.95"
+    filter="url(#glow-purple)"/>
+
+  <!-- Halo blanc central (glow) -->
+  <circle cx="256" cy="256" r="22" fill="white" opacity="0.15" filter="url(#glow-white)"/>
+
+  <!-- Point central blanc -->
+  <circle cx="256" cy="256" r="13" fill="white" opacity="1" filter="url(#glow-white)"/>
+</svg>

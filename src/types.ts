@@ -295,6 +295,13 @@ export interface Contract {
   scoreAlgo?: number; // Added for explicit SCORE ALGO
 }
 
+// Returns the project description in the requested language, falling back to the
+// English text when no French translation (descriptionFR) has been written yet.
+export function getContractDescription(item: { description: string; descriptionFR?: string }, language: 'EN' | 'FR'): string {
+  if (language === 'FR' && item.descriptionFR) return item.descriptionFR;
+  return item.description;
+}
+
 export const CONTRACTS: Contract[] = [
   {
     id: 'LYA_FINE_ART_MASTER',
