@@ -51,8 +51,8 @@ export const LYAProtocolBadge: React.FC = () => {
         body: JSON.stringify({
           action: 'generate-visual',
           prompt: t(
-            'Generate an SVG visual representing the LinkYourArt creative ecosystem: a network of artists, patrons and professionals connected by LYA Units. Modern, dark background (#0d1117), cyan (#00d4ff) and violet (#a78bfa) accents. Return only the SVG code.',
-            'Génère un visuel SVG représentant l\'écosystème créatif LinkYourArt : un réseau d\'artistes, mécènes et professionnels connectés par des LYA Units. Design moderne, fond sombre (#0d1117), accents cyan (#00d4ff) et violet (#a78bfa). Retourne uniquement le code SVG.'
+            'Generate an SVG visual representing the LinkYourArt creative ecosystem: a network of artists, patrons and professionals connected through LYA certification. Modern, dark background (#0d1117), cyan (#00d4ff) and violet (#a78bfa) accents. Return only the SVG code.',
+            'Génère un visuel SVG représentant l\'écosystème créatif LinkYourArt : un réseau d\'artistes, mécènes et professionnels connectés par la certification LYA. Design moderne, fond sombre (#0d1117), accents cyan (#00d4ff) et violet (#a78bfa). Retourne uniquement le code SVG.'
           )
         })
       });
@@ -65,18 +65,18 @@ export const LYAProtocolBadge: React.FC = () => {
   const features = [
     {
       icon: <Shield className="text-primary-cyan" />,
-      title: t('INSTITUTIONAL GUARANTEE', 'GARANTIE INSTITUTIONNELLE'),
-      description: t('Every creative contract is secured by the LYA reserve fund and our certified legal network.', 'Chaque contrat créatif est sécurisé par le fonds de réserve LYA et notre réseau juridique certifié.')
+      title: t('CERTIFIED VALIDATION', 'VALIDATION CERTIFIÉE'),
+      description: t('Every creative project is reviewed by our network of certified professional validators and the LYA Score algorithm.', 'Chaque projet créatif est évalué par notre réseau de validateurs professionnels certifiés et l\'algorithme du Score LYA.')
     },
     {
       icon: <Globe className="text-accent-gold" />,
-      title: t('GLOBAL ENFORCEABILITY', 'EXÉCUTABILITÉ MONDIALE'),
-      description: t('LYA legal framework is compatible with EU, US and Asia-Pacific jurisdictions.', 'Le cadre légal LYA est compatible avec les juridictions EU, US et Asie-Pacifique.')
+      title: t('EU-BASED FRAMEWORK', 'CADRE JURIDIQUE EUROPÉEN'),
+      description: t('LYA operates under a French legal framework, with certification standards designed to scale across jurisdictions over time.', 'LYA opère sous un cadre juridique français, avec des standards de certification conçus pour s\'étendre progressivement à d\'autres juridictions.')
     },
     {
       icon: <Cpu className="text-accent-purple" />,
-      title: t('AUTOMATED SETTLEMENT', 'RÈGLEMENT AUTOMATISÉ'),
-      description: t('SETTLE_DESC', 'PAYS OFF IMMÉDIAT DÈS QUE LES CONDITIONS DE L’ORACLE SONT REMPLIES.')
+      title: t('REAL-TIME CERTIFICATION', 'CERTIFICATION EN TEMPS RÉEL'),
+      description: t('SETTLE_DESC', 'LE SCORE LYA EST RECALCULÉ AUTOMATIQUEMENT DÈS QU\'UN JALON EST CERTIFIÉ.')
     }
   ];
 
