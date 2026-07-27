@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { useTranslation } from '../context/LanguageContext';
-import { useCurrency } from '../context/CurrencyContext';
-import { CONTRACTS, LYA_UNIT_VALUE, getContractDescription } from '../types';
+import { CONTRACTS, getContractDescription } from '../types';
 import { getSafeImageUrl } from '../utils/image';
 import {
   TrendingUp, TrendingDown, Users, DollarSign, Star, Award,
@@ -10,8 +9,6 @@ import {
   CheckCircle, AlertTriangle, BarChart2, Shield, Zap
 } from 'lucide-react';
 import { ResponsiveContainer, AreaChart, Area, Tooltip, XAxis } from 'recharts';
-
-const unitPrice = (_g: number) => LYA_UNIT_VALUE;
 
 // Données simulées du créateur public
 const CREATOR_PROFILES = [
@@ -41,7 +38,6 @@ interface Props {
 
 export const CreatorProfileView: React.FC<Props> = ({ creatorId, onViewChange, onNotify, user }) => {
   const { language } = useTranslation();
-  const { formatPrice } = useCurrency();
   const T = (fr: string, en: string) => language === 'FR' ? fr : en;
   const [copied, setCopied] = useState(false);
   const [activeTab, setActiveTab] = useState<'projects' | 'about'>('projects');
@@ -49,7 +45,7 @@ export const CreatorProfileView: React.FC<Props> = ({ creatorId, onViewChange, o
   const creator = CREATOR_PROFILES.find(c => c.id === creatorId) || CREATOR_PROFILES[0];
   const projects = CONTRACTS.filter(c => creator.projectIds.includes(c.id));
   const liveProjects = projects.filter(p => p.status === 'LIVE');
-  const totalValue = projects.reduce((s, p) => s + unitPrice(p.growth) * 50, 0);
+  const avgScore = projects.length > 0 ? Math.round(projects.reduce((s, p) => s + (p.totalScore || 0), 0) / projects.length) : 0;
   const avgGrowth = projects.length > 0 ? projects.reduce((s, p) => s + p.growth, 0) / projects.length : 0;
   const up = avgGrowth >= 0;
 
@@ -107,7 +103,7 @@ export const CreatorProfileView: React.FC<Props> = ({ creatorId, onViewChange, o
           {[
             { label: 'LYA Score', value: `${creator.lyaScore}/1000`, color: 'text-[#a78bfa]', icon: <Star size={14}/> },
             { label: T('Projets actifs','Active projects'), value: String(liveProjects.length), color: 'text-emerald-400', icon: <Zap size={14}/> },
-            { label: T('Valeur totale','Total value'), value: formatPrice(totalValue), color: 'text-accent-gold', icon: <DollarSign size={14}/> },
+            { label: T('Score moyen','Avg Score'), value: `${avgScore}/1000`, color: 'text-accent-gold', icon: <Star size={14}/> },
             { label: T('Tendance','Trend'), value: `${up ? '+' : ''}${avgGrowth.toFixed(1)}%`, color: up ? 'text-emerald-400' : 'text-rose-400', icon: up ? <TrendingUp size={14}/> : <TrendingDown size={14}/> },
           ].map((s, i) => (
             <div key={i} className="bg-surface-high/20 border border-white/8 rounded-xl p-3 text-center">
@@ -138,9 +134,9 @@ export const CreatorProfileView: React.FC<Props> = ({ creatorId, onViewChange, o
         <div className="space-y-4">
           {projects.map((proj, i) => {
             const pUp = proj.growth >= 0;
-            const lya = unitPrice(proj.growth);
+            const baseScore = proj.totalScore || 750;
             const genData = Array.from({ length: 20 }, (_, j) => ({
-              v: Math.round(lya * 50 * (1 + (proj.growth/100) * (j/20)) + (Math.random()-0.5) * lya * 2)
+              v: Math.round(baseScore * (1 + (proj.growth/100) * (j/20) * 0.3) + (Math.random()-0.5) * 8)
             }));
             return (
               <motion.div key={proj.id} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}
@@ -164,10 +160,10 @@ export const CreatorProfileView: React.FC<Props> = ({ creatorId, onViewChange, o
 
                 <div className="grid grid-cols-2 sm:grid-cols-4 divide-x divide-white/6 border-t border-white/6">
                   {[
-                    { l: 'LYA UNIT', v: formatPrice(lya), c: 'text-accent-gold' },
-                    { l: T('Variation','Change'), v: `${pUp?'+':''}${proj.growth}%`, c: pUp ? 'text-emerald-400' : 'text-rose-400' },
                     { l: 'LYA Score', v: `${proj.totalScore}/1000`, c: 'text-[#a78bfa]' },
-                    { l: T('Rev. partagés','Rev. share'), v: `${proj.revenueSharePercentage}%`, c: 'text-primary-cyan' },
+                    { l: T('Tendance','Trend'), v: `${pUp?'+':''}${proj.growth}%`, c: pUp ? 'text-emerald-400' : 'text-rose-400' },
+                    { l: T('Catégorie','Category'), v: proj.category, c: 'text-primary-cyan' },
+                    { l: T('Statut','Status'), v: proj.status === 'LIVE' ? T('Certifié','Certified') : proj.status, c: 'text-emerald-400' },
                   ].map((s, si) => (
                     <div key={si} className="p-3 text-center">
                       <p className="text-[10px] text-on-surface-variant/40 uppercase tracking-widest mb-1">{s.l}</p>
@@ -253,7 +249,7 @@ export const CreatorProfileView: React.FC<Props> = ({ creatorId, onViewChange, o
       <div className="bg-gradient-to-br from-[#a78bfa]/10 to-primary-cyan/5 border border-[#a78bfa]/20 rounded-2xl p-6 text-center space-y-3">
         <p className="text-xs font-black text-[#a78bfa] uppercase tracking-widest">✦ LinkYourArt</p>
         <h3 className="text-xl font-black text-white">{T('Soutenez la créativité de demain','Support tomorrow\'s creativity')}</h3>
-        <p className="text-sm text-on-surface-variant/60">{T('Rejoignez la plateforme d\'équité créative et co-possédez les projets qui vous inspirent.','Join the creative equity platform and co-own the projects that inspire you.')}</p>
+        <p className="text-sm text-on-surface-variant/60">{T('Rejoignez la plateforme de certification créative et suivez les projets qui vous inspirent.','Join the creative certification platform and follow the projects that inspire you.')}</p>
         <button onClick={() => onViewChange(user ? 'REGISTRY' : 'SIGNUP')} className="px-8 py-3 bg-[#a78bfa] text-surface-dim font-black text-sm uppercase tracking-widest rounded-xl hover:bg-white transition-all">
           {user ? T('Découvrir tous les créateurs','Discover all creators') : T('Rejoindre LYA — Gratuit','Join LYA — Free')}
         </button>
