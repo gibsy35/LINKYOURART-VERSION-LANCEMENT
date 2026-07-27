@@ -34,6 +34,32 @@ module.exports = async (req, res) => {
     }
   }
 
+  // ── Synopsis generation mode (used by the project quick-create form) ──────
+  if (req.body?.action === 'synopsis') {
+    const { name, category, assetType, language: synLang } = req.body || {};
+    if (!name) return res.status(400).json({ error: 'Missing project name' });
+    const isFRsyn = synLang === 'FR';
+    if (!apiKey) return res.status(200).json({ synopsis: isFRsyn ? `${name} est un projet ${category || 'créatif'} en cours de certification LYA.` : `${name} is a ${category || 'creative'} project undergoing LYA certification.` });
+
+    const prompt = isFRsyn
+      ? `Rédige une courte synopsis (2 phrases maximum) pour un projet créatif nommé "${name}", dans la catégorie "${category || 'Créatif'}"${assetType ? `, type: "${assetType}"` : ''}. Ton professionnel, factuel, orienté certification créative -- jamais de langage financier ou d'investissement. Réponds uniquement avec le texte du synopsis, sans préambule.`
+      : `Write a short synopsis (2 sentences max) for a creative project named "${name}", in the "${category || 'Creative'}" category${assetType ? `, type: "${assetType}"` : ''}. Professional, factual tone, focused on creative certification -- never financial or investment language. Respond only with the synopsis text, no preamble.`;
+
+    try {
+      const r = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey, 'anthropic-version': '2023-06-01' },
+        body: JSON.stringify({ model: 'claude-haiku-4-5-20251001', max_tokens: 200, messages: [{ role: 'user', content: prompt }] })
+      });
+      const data = await r.json();
+      const synopsis = (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('').trim();
+      return res.status(200).json({ synopsis: synopsis || `${name} is a ${category || 'creative'} project undergoing LYA certification.` });
+    } catch (e) {
+      console.error('[ANALYZE-ASSET][synopsis] Error:', e.message);
+      return res.status(200).json({ synopsis: `${name} is a ${category || 'creative'} project undergoing LYA certification.` });
+    }
+  }
+
   const { assetName, description, score, language } = req.body || {};
   const isFR0 = language === 'FR';
   if (!apiKey) return res.status(200).json({ analysis: isFR0 ? 'Analyse indisponible pour le moment.' : 'Analysis currently unavailable.' });

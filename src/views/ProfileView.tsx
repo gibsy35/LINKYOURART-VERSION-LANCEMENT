@@ -51,7 +51,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
   usageStats,
   checkUsageLimit
 }) => {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
   const { formatPrice } = useCurrency();
   const [user, setUserState] = useState<UserProfile>(initialUser);
 
@@ -253,12 +253,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
     category: 'Film',
     assetType: 'Feature Film',
     description: '',
-    initialValue: 5000,
-    revenueShare: 10,
-    totalUnits: 100,
-    unitPrice: 50,
     issuerDetails: '',
-    legalFramework: 'Standard LYA Framework',
     isPremium: false,
     premiumPrice: 0,
     premiumContent: '',
@@ -781,12 +776,8 @@ const ProfileView: React.FC<ProfileViewProps> = ({
         category: newProject.category,
         assetType: newProject.assetType,
         description: newProject.description,
-        initialValue: Number(newProject.initialValue),
-        revenueShare: Number(newProject.revenueShare),
-        totalUnits: Number(newProject.totalUnits),
-        unitValue: Number(newProject.unitPrice),
         issuerDetails: newProject.issuerDetails,
-        legalFramework: newProject.legalFramework,
+        contractType: 'Direct Rights',
         issuerUid: user.uid,
         status: 'PENDING',
         createdAt: serverTimestamp(),
@@ -814,12 +805,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
           category: 'Film',
           assetType: 'Feature Film',
           description: '',
-          initialValue: 5000,
-          revenueShare: 10,
-          totalUnits: 100,
-          unitPrice: 50,
           issuerDetails: '',
-          legalFramework: 'Standard LYA Framework',
           isPremium: false,
           premiumPrice: 0,
           premiumContent: '',
@@ -841,12 +827,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
       category: 'Film',
       assetType: 'Feature Film',
       description: '',
-      initialValue: 5000,
-      revenueShare: 10,
-      totalUnits: 100,
-      unitPrice: 50,
       issuerDetails: '',
-      legalFramework: 'Standard LYA Framework',
       isPremium: false,
       premiumPrice: 0,
       premiumContent: '',
@@ -3321,7 +3302,7 @@ const renderMentorshipContent = () => (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div className="space-y-4">
                       <div className="flex flex-wrap items-center justify-between gap-3">
-                        <label className="text-[10px] uppercase tracking-[0.2em] text-primary-cyan font-black">{t('Strategic Synopsis', 'Synopsis Stratégique')}</label>
+                        <label className="text-[10px] uppercase tracking-[0.2em] text-primary-cyan font-black">{t('Project Synopsis', 'Synopsis du Projet')}</label>
                         <button
                           type="button"
                           onClick={async () => {
@@ -3330,10 +3311,15 @@ const renderMentorshipContent = () => (
                               return;
                             }
                             setIsUploading(true);
-                            onNotify?.(t('AI Generator: Analyzing market potential...', 'Générateur IA : Analyse du potentiel de marché...'));
+                            onNotify?.(t('AI Generator: Writing synopsis...', 'Générateur IA : Rédaction du synopsis...'));
                             try {
-                              // Mock for demo stability
-                              const description = `This ${newProject.category} venture focusing on ${newProject.assetType} is strategically engineered for haute performance dans l'écosystème LYA.`;
+                              const res = await fetch('/api/gemini/analyze-asset', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ action: 'synopsis', name: newProject.name, category: newProject.category, assetType: newProject.assetType, language })
+                              });
+                              const data = await res.json();
+                              const description = data.synopsis || `${newProject.name} is a ${newProject.category} project undergoing LYA certification.`;
                               setNewProject(prev => ({ ...prev, description }));
                               onNotify?.(t('AI Synopsis Generated!', 'Synopsis IA Généré !'), 'success');
                             } catch (err) {
