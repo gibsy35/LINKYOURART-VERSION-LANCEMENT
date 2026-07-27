@@ -27,16 +27,12 @@ import {
   Target,
   Info,
   Layers,
-  Search,
-  Wallet,
-  History,
   Scale
 } from 'lucide-react';
-import {Contract, PillarScore, LYA_UNIT_VALUE} from '../types';
+import {Contract, PillarScore} from '../types';
 import { useTranslation } from '../context/LanguageContext';
-import { useCurrency } from '../context/CurrencyContext';
 import { simulatePDFDownload } from '../utils/download';
-import { generateAssetAnalysis, askCopilot, generateInvestmentThesis } from '../services/geminiService';
+import { generateAssetAnalysis } from '../services/geminiService';
 import { getSafeImageUrl } from '../utils/image';
 import { 
   AreaChart, 
@@ -79,7 +75,6 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
   onToggleWatchlist
 }) => {
   const { t, language, setLanguage } = useTranslation();
-  const { formatPrice, currency, setCurrency } = useCurrency();
   const [activeTab, setActiveTab] = useState<'overview' | 'financials' | 'ai-simulator' | 'legal' | 'milestones' | 'messaging'>('overview');
   const [attachments, setAttachments] = useState<{name:string,url:string,size:number,type:string,uploadedAt:string}[]>([]);
   const [uploading, setUploading] = useState(false);
@@ -94,24 +89,6 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
 
   const [aiAnalysis, setAiAnalysis] = useState<string | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [simAmount, setSimAmount] = useState<number>(5000);
-
-  const [simulationScenario, setSimulationScenario] = useState<string>('balanced');
-  const [simulationGoal, setSimulationGoal] = useState<string>('maximize_performance');
-  const [simulationPersona, setSimulationPersona] = useState<string>('algo_oracle');
-  const [isSimulatingAI, setIsSimulatingAI] = useState<boolean>(false);
-  const [aiSimulationOutput, setAiSimulationOutput] = useState<{
-    multi: number;
-    volCorrection: number;
-    score: number;
-    narrative: string;
-  } | null>(null);
-
-  const simUnits = Math.floor(simAmount / contract.unitValue);
-  const simShare = ((simUnits / contract.totalUnits) * 100).toFixed(4);
-  const simAnnual = (simAmount * (contract.growth / 100));
-  const simRoyalty = (simAmount * ((contract.revenueSharePercentage || 12.5) / 100));
-  const simProjection = (simAmount * Math.pow(1 + (contract.growth / 100), 3));
 
   const handleAIAnalysis = async () => {
     setIsAnalyzing(true);
@@ -125,44 +102,9 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
     }
   };
 
-  const handleAISimulationRun = async () => {
-    setIsSimulatingAI(true);
-    try {
-      let scale = 1.0;
-      if (simulationScenario === 'conservative') scale = 0.5;
-      if (simulationScenario === 'aggressive') scale = 1.8;
-
-      let goalImpact = 1.0;
-      if (simulationGoal === 'maximize_performance') goalImpact = 1.1;
-      if (simulationGoal === 'arbitrage') goalImpact = 0.9;
-
-      const baseMulti = Math.round(contract.growth * 2.5 * scale * goalImpact);
-      const computedMulti = baseMulti > 0 ? baseMulti : 12;
-      const computedVol = Math.round(15 * (1.5 - scale));
-      const computedScore = Math.round(scoreFinalValue * (0.9 + (scale * 0.1)));
-
-      const systemPrompt = `Analyze alternative creative asset '${contract.name}' (${contract.category}) with LYA Index ${scoreFinalValue}/1000 under the scenario model '${simulationScenario}' and investment strategic target '${simulationGoal}'. 
-      Synthesize an executive prediction paragraph of exactly 3 sentences. Write from the perspective of a senior AI '${simulationPersona}'. 
-      Focus on capital allocations, progressions, and compliance. Write in ${language === 'FR' ? 'French' : 'English'}. Do not output JSON.`;
-
-      const response = await askCopilot(systemPrompt, [], language);
-
-      setAiSimulationOutput({
-        multi: computedMulti,
-        volCorrection: computedVol,
-        score: computedScore > 1000 ? 1000 : computedScore,
-        narrative: response || "Analysis compiled: Les indices indiquent une progression positive and strategic alignment with standards créatifs alternatifs."
-      });
-    } catch (err) {
-      onNotify?.("Simulation failed. Retrying...");
-    } finally {
-      setIsSimulatingAI(false);
-    }
-  };
-
   useEffect(() => {
      if (!aiAnalysis) {
-        setAiAnalysis("Analysis indicates strong upward trajectory. Strategic allocation recommended based on algorithmic consistency and expert validation.");
+        setAiAnalysis("This project shows strong certification fundamentals. Continued professional review and milestone completion are recommended to strengthen its LYA Score.");
      }
   }, []);
 
@@ -220,17 +162,6 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
     full: 200
   }));
 
-  const priceHistory = useMemo(() => {
-    const base = [
-      { date: 'Jan', price: contract.unitValue * 0.88 },
-      { date: 'Feb', price: contract.unitValue * 0.92 },
-      { date: 'Mar', price: contract.unitValue * 0.95 },
-      { date: 'Apr', price: contract.unitValue * 0.98 },
-      { date: 'May', price: contract.unitValue },
-    ];
-    return base;
-  }, [contract.unitValue]);
-
   return (
     <div id="contract-detail-dashboard" className="min-h-screen bg-surface-dim text-white lg:pb-32">
       {/* Top Professional Header */}
@@ -269,21 +200,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
             </button>
           </div>
 
-          {/* Currency Toggle */}
-          <div className="flex items-center gap-2 p-1 bg-white/5 rounded-full border border-white/10 shrink-0">
-            <button 
-              onClick={() => setCurrency('EUR')}
-              className={`px-3 py-1.5 rounded-full text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${currency === 'EUR' ? 'bg-white text-black shadow-md' : 'text-white/40 hover:text-white'}`}
-            >
-              EUR
-            </button>
-            <button 
-              onClick={() => setCurrency('USD')}
-              className={`px-3 py-1.5 rounded-full text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${currency === 'USD' ? 'bg-white text-black shadow-md' : 'text-white/40 hover:text-white'}`}
-            >
-              USD
-            </button>
-          </div>
+
 
           <div className="hidden lg:flex flex-col items-end mr-4">
             <span className="text-[10px] font-black text-white/20 uppercase tracking-widest leading-none mb-1">{t('LYA SCORE', 'SCORE LYA')}</span>
@@ -315,7 +232,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                      </div>
                      <h3 className="text-xl font-black uppercase tracking-[0.4em] text-white">{t('AI EXECUTIVE SUMMARY', 'RÉSUMÉ EXÉCUTIF IA')}</h3>
                   </div>
-                  <p className="text-[10px] font-black uppercase tracking-[0.3em] text-on-surface-variant/40 pl-16">{t('REAL-TIME GENERATIVE SYNOPSIS FOR CREATIVE ALLOCATION', 'SYNOPSIS GÉNÉRATIF EN TEMPS RÉEL POUR L\'ALLOCATION CRÉATIVE')}</p>
+                  <p className="text-[10px] font-black uppercase tracking-[0.3em] text-on-surface-variant/40 pl-16">{t('REAL-TIME GENERATIVE SYNOPSIS FOR CREATIVE CERTIFICATION', 'SYNOPSIS GÉNÉRATIF EN TEMPS RÉEL POUR LA CERTIFICATION CRÉATIVE')}</p>
                 </div>
 
                 <button 
@@ -394,8 +311,8 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
               { label: t('LYA SCORE', 'SCORE LYA'), value: `${scoreFinalValue}/1000`, status: 'Certified', color: 'emerald' },
-              { label: t('COMMITTEE REVIEW', 'REVUE COMITÉ'), value: 'A+', status: 'Validated', color: 'cyan' },
-              { label: t('PATRONS', 'MÉCÈNES'), value: '2,841', status: 'Growth', color: 'pink' },
+              { label: t('CERTIFICATION LEVEL', 'NIVEAU DE CERTIFICATION'), value: scoreFinalValue >= 850 ? t('Exceptional', 'Exceptionnel') : scoreFinalValue >= 650 ? t('Distinguished', 'Distingué') : t('Standard', 'Standard'), status: 'Validated', color: 'cyan' },
+              { label: t('SUPPORTERS', 'MÉCÈNES'), value: contract.availableUnits ? contract.availableUnits.toLocaleString() : '—', status: 'Growth', color: 'pink' },
               { label: t('REGISTRY STATUS', 'STATUT REGISTRE'), value: t('Certified', 'Certifié'), status: 'Active', color: 'gold' }
             ].map((metric, i) => (
             <div key={metric.label} className="bg-surface-low border border-white/5 p-6 rounded-[2rem] hover:border-white/10 transition-all group shadow-sm">
@@ -495,16 +412,16 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                       </div>
                     </div>
 
-                     {/* Primary LYA UNIT Dynamic Timeline */}
+                     {/* Score Impact Timeline */}
                      <div className="space-y-6 bg-primary-cyan/5 border border-primary-cyan/20 p-8 rounded-[2.5rem] relative overflow-hidden">
                        <div className="absolute -right-24 -bottom-24 w-64 h-64 bg-primary-cyan/5 rounded-full blur-[80px]" />
                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/5 pb-4">
                          <div className="space-y-1">
                            <span className="text-[10px] font-mono font-black text-primary-cyan uppercase tracking-[0.3em]">
-                             {t('TIMELINE DE VALORISATION LYA UNIT', 'TIMELINE DE VALORISATION LYA UNIT')}
+                             {t('LYA SCORE IMPACT TIMELINE', 'CALENDRIER D\'IMPACT SUR LE SCORE LYA')}
                            </span>
                            <h3 className="text-xl sm:text-2xl font-black font-headline text-white uppercase tracking-tight">
-                             {t('DYNAMIC OPERATION QUALITY TIMELINE', 'CALENDRIER D\'EXÉCUTION & CONCEPTE LYA UNIT')}
+                             {t('MILESTONE-DRIVEN CERTIFICATION PROGRESS', 'PROGRESSION DE CERTIFICATION PAR JALONS')}
                            </h3>
                          </div>
                          <div className="px-4 py-2 bg-black/40 border border-white/5 rounded-full text-[10px] text-white/60 font-black tracking-widest uppercase">
@@ -513,62 +430,58 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                        </div>
 
                        <p className="text-xs text-white/70 leading-relaxed max-w-4xl text-justify">
-                         {t('The baseline LYA UNIT pricing starts at the base LYA UNIT value, representing the initial fractioned value. The price then fluctuates dynamically up (Jalon +) or down (Jalon -) exclusively based on the operational quality. Real-time contrat numérique certifiés automatically adjust indices de référence the second a milestone is certified or missed.', 'Le cours du LYA UNIT (valeur initiale de $50,00) varie de façon autonome en fonction de la validation ou du retard des jalons opérationnels. C\'est l\'indicateur exclusif de la qualité de notre fonctionnement : l\'atteinte des jalons (Jalon +) revalorise l\'index, tandis que les retards de livraison (Jalon -) l\'ajustent à la baisse.')}
+                         {t('The LYA Score evolves exclusively based on operational quality. Certified milestones raise the score (Milestone +), while missed or delayed milestones lower it (Milestone -). The score is recalculated automatically the moment a milestone is certified or missed.', 'Le Score LYA évolue exclusivement en fonction de la qualité opérationnelle du projet. L\'atteinte des jalons (Jalon +) fait progresser le score, tandis que les retards ou jalons manqués (Jalon -) l\'ajustent à la baisse. Le score est recalculé automatiquement dès qu\'un jalon est certifié ou manqué.')}
                        </p>
 
                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
-                         {/* Jalon 1: Setup */}
                          <div className="p-5 bg-emerald-500/5 border border-emerald-500/20 rounded-2xl space-y-3 relative">
                            <div className="flex justify-between items-center">
                              <span className="text-xs font-black text-emerald-400 uppercase tracking-widest bg-emerald-500/10 px-3.5 py-1 rounded-md">
-                               {t('Jalon + (Secured)', '✅ JALON + SÉCURISÉ')}
+                               {t('Milestone + (Secured)', '✅ JALON + SÉCURISÉ')}
                              </span>
-                             <span className="text-[10px] font-mono font-black text-emerald-400">+15.00%</span>
+                             <span className="text-[10px] font-mono font-black text-emerald-400">+45 PTS</span>
                            </div>
                            <h4 className="text-sm font-black text-white uppercase tracking-tight">{t('Conceptual Validation', 'VALIDATION DU CONCEPT')}</h4>
                            <p className="text-[11px] text-white/50 text-left leading-relaxed">
-                             {t('All legal guidelines, patent registrations, and architectural/creative blueprints certified on-registry.', 'Tous les aspects juridiques et brevets de propriété intellectuelle validés et enregistrés.')}
+                             {t('All legal guidelines, rights registrations, and creative blueprints certified on-registry.', 'Tous les aspects juridiques et droits de propriété intellectuelle validés et enregistrés.')}
                            </p>
                          </div>
 
-                         {/* Jalon 2: Execution */}
                          <div className="p-5 bg-amber-500/5 border border-amber-500/20 rounded-2xl space-y-3 relative">
                            <div className="flex justify-between items-center">
                              <span className="text-xs font-black text-accent-gold uppercase tracking-widest bg-amber-500/10 px-3.5 py-1 rounded-md">
-                               {t('Jalon + (Pending)', '⏳ JALON EN COURS')}
+                               {t('Milestone + (Pending)', '⏳ JALON EN COURS')}
                              </span>
-                             <span className="text-[10px] font-mono font-black text-accent-gold">+20.00%</span>
+                             <span className="text-[10px] font-mono font-black text-accent-gold">+60 PTS</span>
                            </div>
-                           <h4 className="text-sm font-black text-white uppercase tracking-tight">{t('Physical Production Step', 'ÉTAPE DE PRODUCTION RÉELLE')}</h4>
+                           <h4 className="text-sm font-black text-white uppercase tracking-tight">{t('Production Phase', 'ÉTAPE DE PRODUCTION')}</h4>
                            <p className="text-[11px] text-white/50 text-left leading-relaxed">
-                             {t('Creation, lab synthesis, clinical simulation or gallery masterworks finalized under certified standards.', 'Acheminement, fabrication ou phases techniques d\'exécution en cours de validation.')}
+                             {t('Creation, production, or technical execution phases finalized under certified standards.', 'Phases de création, production ou d\'exécution technique en cours de validation.')}
                            </p>
                          </div>
 
-                         {/* Jalon 3: Risk */}
                          <div className="p-5 bg-rose-500/5 border border-rose-500/20 rounded-2xl space-y-3 relative">
                            <div className="flex justify-between items-center">
                              <span className="text-xs font-black text-rose-400 uppercase tracking-widest bg-rose-500/10 px-3.5 py-1 rounded-md">
-                               {t('Jalon - (Risk factor)', '⚠️ RETARD IMPACT JALON')}
+                               {t('Milestone - (Risk factor)', '⚠️ RETARD IMPACT JALON')}
                              </span>
-                             <span className="text-[10px] font-mono font-black text-rose-400">-12.50%</span>
+                             <span className="text-[10px] font-mono font-black text-rose-400">-25 PTS</span>
                            </div>
                            <h4 className="text-sm font-black text-white uppercase tracking-tight">{t('Expressed Delay Penalty', 'PÉNALITÉ DE RETARD ÉVENTUEL')}</h4>
                            <p className="text-[11px] text-white/50 text-left leading-relaxed">
-                             {t('Failure to achieve set physical timelines or delayed secondary certifications automatically corrects unit pricing.', 'Les retards ou contre-performances de livraison entraînent une correction automatique temporaire.')}
+                             {t('Failure to meet production timelines or delayed secondary certifications automatically lowers the score.', 'Les retards ou contre-performances de livraison entraînent une correction automatique du score.')}
                            </p>
                          </div>
                        </div>
                      </div>
 
-                     <hr className="border-white/5 my-10" />
+                    <hr className="border-white/5 my-10" />
 
-                    {/* Highly complete technical and financial data grid */}
                     <div className="space-y-8">
                       <div className="flex items-center gap-3">
                         <Scale className="text-accent-gold" size={20} />
                         <h4 className="text-[12px] font-black text-white/40 uppercase tracking-[0.3em]">
-                          {t('COMPLETE REGULATORY & SECURITIZATION SHEET', 'FICHE JURIDIQUE & TECHNIQUE INTÉGRALE')}
+                          {t('COMPLETE REGULATORY & CERTIFICATION SHEET', 'FICHE JURIDIQUE & TECHNIQUE INTÉGRALE')}
                         </h4>
                       </div>
 
@@ -592,7 +505,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                             </div>
                             <div>
                               <div className="text-[11px] font-black text-white/30 uppercase tracking-widest mb-1">{t('PATRON COMMUNITY', "COMMUNAUTÉ DE MÉCÈNES")}</div>
-                              <div className="text-sm font-semibold text-white/90">{contract.availableUnits ? contract.availableUnits.toLocaleString() : '2,841'} {t('supporters', 'mécènes')}</div>
+                              <div className="text-sm font-semibold text-white/90">{contract.availableUnits ? contract.availableUnits.toLocaleString() : '—'} {t('supporters', 'mécènes')}</div>
                             </div>
                           </div>
                         </div>
@@ -813,39 +726,52 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                    <div className="text-xl font-headline font-black text-white uppercase tracking-tight">{contract.issuerId}</div>
                    <div className="flex items-center gap-2 mt-1">
                       <div className="w-2 h-2 rounded-full bg-emerald-400" />
-                      <span className="text-xs font-black text-emerald-400 uppercase tracking-widest">{t('KYC VERIFIED', 'KYC VÉRIFIÉ')}</span>
+                      <span className="text-xs font-black text-emerald-400 uppercase tracking-widest">{t('IDENTITY VERIFIED', 'IDENTITÉ VÉRIFIÉE')}</span>
                    </div>
                 </div>
              </div>
              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="p-5 bg-white/5 rounded-2xl text-center">
-                   <div className="text-[10px] font-black text-white/20 uppercase tracking-widest mb-1">{t('ASSETS', 'ACTIFS')}</div>
-                   <div className="text-lg font-black font-headline text-white">12</div>
+                   <div className="text-[10px] font-black text-white/20 uppercase tracking-widest mb-1">{t('LYA SCORE', 'SCORE LYA')}</div>
+                   <div className="text-lg font-black font-headline text-white">{scoreFinalValue}/1000</div>
                 </div>
                 <div className="p-5 bg-white/5 rounded-2xl text-center">
-                   <div className="text-[10px] font-black text-white/20 uppercase tracking-widest mb-1">{t('PERF.', 'PERF.')}</div>
-                   <div className="text-lg font-black font-headline text-emerald-400">+24%</div>
+                   <div className="text-[10px] font-black text-white/20 uppercase tracking-widest mb-1">{t('STATUS', 'STATUT')}</div>
+                   <div className="text-lg font-black font-headline text-emerald-400">{contract.status === 'LIVE' ? t('Certified', 'Certifié') : contract.status}</div>
                 </div>
              </div>
-             <button className="w-full py-4 text-[10px] font-black uppercase tracking-widest text-primary-cyan hover:text-white transition-all underline decoration-primary-cyan/30 underline-offset-8">
+             <a
+                href={`mailto:contact@linkyourart.com?subject=${encodeURIComponent(t('Question about', 'Question à propos de') + ' ' + contract.name)}`}
+                className="w-full py-4 text-[10px] font-black uppercase tracking-widest text-primary-cyan hover:text-white transition-all underline decoration-primary-cyan/30 underline-offset-8 block text-center"
+             >
                 {t('CONTACT ISSUER SERVICES', 'CONTACTER SERVICES ÉMETTEUR')}
-             </button>
+             </a>
           </div>
 
-          {/* Expert Terminal Links */}
+          {/* Certification Data Export */}
           <div className="bg-[#0A0A0A] border border-white/10 rounded-[3rem] p-10 space-y-6">
              <h3 className="text-xs font-black uppercase tracking-[0.4em] text-white/40 flex items-center gap-3">
                 <BarChart3 size={18} />
-                {t('ANALYTICS EXPORT', 'EXPORT ANALYTIQUE')}
+                {t('DATA EXPORT', 'EXPORT DE DONNÉES')}
              </h3>
              <div className="space-y-4">
-                <button className="w-full py-5 bg-white/5 hover:bg-white hover:text-black rounded-2xl border border-white/10 text-xs font-black uppercase tracking-[0.3em] transition-all flex items-center justify-center gap-4">
+                <button
+                  onClick={() => {
+                    const blob = new Blob([JSON.stringify(contract, null, 2)], { type: 'application/json' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `${contract.registryIndex || contract.id}.json`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                    onNotify(t('✦ Certification data exported', '✦ Données de certification exportées'));
+                  }}
+                  className="w-full py-5 bg-white/5 hover:bg-white hover:text-black rounded-2xl border border-white/10 text-xs font-black uppercase tracking-[0.3em] transition-all flex items-center justify-center gap-4"
+                >
                    <FileText size={16} />
-                   {t('RAW MARKET DATA (JSON)', 'DONNÉES BRUTES (JSON)')}
-                </button>
-                <button className="w-full py-5 bg-white/5 hover:bg-white hover:text-black rounded-2xl border border-white/10 text-xs font-black uppercase tracking-[0.3em] transition-all flex items-center justify-center gap-4">
-                   <ArrowLeft className="rotate-180" size={16} />
-                   {t('EXTERNAL REGISTRY DATA', 'DONNÉES RÉGISTRE EXT.')}
+                   {t('EXPORT CERTIFICATION DATA (JSON)', 'EXPORTER LES DONNÉES DE CERTIFICATION (JSON)')}
                 </button>
              </div>
           </div>
@@ -861,14 +787,11 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
             </div>
             <div className="w-px h-6 bg-white/10" />
             <div className="flex items-center gap-6">
-               <button className="text-[10px] font-black uppercase tracking-widest text-primary-cyan hover:text-white transition-all flex items-center gap-2">
-                  <Plus size={14} />
-                  {t('QUICK EXECUTE', 'EXÉCUTION RAPIDE')}
-               </button>
                <button onClick={onBack} className="text-[10px] font-black uppercase tracking-widest text-white/40 hover:text-white transition-all">
                   {t('EXIT TERMINAL', 'QUITTER TERMINAL')}
                </button>
             </div>
+
          </div>
       </div>
     </div>
