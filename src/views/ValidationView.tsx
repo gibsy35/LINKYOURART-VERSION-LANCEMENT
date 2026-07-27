@@ -11,7 +11,7 @@ import {
   Music, Film, BookOpen, Camera, Shirt, Cpu, Mic,
   Building2, ChefHat, Drama, Gamepad2, X
 } from 'lucide-react';
-import { CONTRACTS, Contract, UserProfile, UserRole } from '../types';
+import { CONTRACTS, Contract, UserProfile, UserRole, getContractDescription } from '../types';
 import { useTranslation } from '../context/LanguageContext';
 import { getSafeImageUrl } from '../utils/image';
 import { ResponsiveContainer, AreaChart, Area, Tooltip, XAxis, YAxis } from 'recharts';
@@ -384,7 +384,7 @@ const ValidationQueue: React.FC<{
                   <div className="px-5 py-4 space-y-4">
                     {/* LYA Score + description */}
                     <div className="flex items-center justify-between">
-                      <p className="text-xs text-on-surface-variant/50 leading-relaxed max-w-xl">{req.contract.description?.slice(0, 120)}...</p>
+                      <p className="text-xs text-on-surface-variant/50 leading-relaxed max-w-xl">{getContractDescription(req.contract, lang)?.slice(0, 120)}...</p>
                       <div className="text-right shrink-0 ml-4">
                         <p className="text-[10px] text-on-surface-variant/40 uppercase tracking-widest">LYA Score</p>
                         <p className="text-xl font-black text-accent-gold">{req.contract.totalScore}<span className="text-xs text-on-surface-variant/30 font-normal">/1000</span></p>
@@ -600,7 +600,7 @@ const DiagnosticConsole: React.FC<{ lang: 'FR' | 'EN'; onNotify: (msg: string) =
             <div>
               <p className="text-[10px] text-on-surface-variant/40 uppercase tracking-widest font-mono">{selected.category}</p>
               <p className="text-sm font-black text-on-surface">{selected.name}</p>
-              <p className="text-xs text-on-surface-variant/60 mt-1 line-clamp-2">{selected.description}</p>
+              <p className="text-xs text-on-surface-variant/60 mt-1 line-clamp-2">{getContractDescription(selected, lang)}</p>
             </div>
           </div>
         )}

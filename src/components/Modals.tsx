@@ -23,7 +23,7 @@ import {
   FileCheck2,
   AlertTriangle
 } from 'lucide-react';
-import { Contract } from '../types';
+import { Contract, getContractDescription } from '../types';
 import { useTranslation } from '../context/LanguageContext';
 import { useCurrency } from '../context/CurrencyContext';
 import { simulatePDFDownload } from '../utils/download';
@@ -81,7 +81,7 @@ export const ContractDetailModal: React.FC<{
   contract: Contract | null;
   onViewProject?: (contract: Contract) => void;
 }> = ({ isOpen, onClose, contract, onViewProject }) => {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
   if (!contract) return null;
 
   return (
@@ -116,7 +116,7 @@ export const ContractDetailModal: React.FC<{
              </div>
           </div>
           
-          <p className="text-xs text-white/60 leading-relaxed text-justify px-1">{contract.description}</p>
+          <p className="text-xs text-white/60 leading-relaxed text-justify px-1">{getContractDescription(contract, language)}</p>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
              <button 

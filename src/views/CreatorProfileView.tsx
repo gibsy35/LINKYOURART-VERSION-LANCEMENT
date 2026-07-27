@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { useTranslation } from '../context/LanguageContext';
 import { useCurrency } from '../context/CurrencyContext';
-import { CONTRACTS, LYA_UNIT_VALUE } from '../types';
+import { CONTRACTS, LYA_UNIT_VALUE, getContractDescription } from '../types';
 import { getSafeImageUrl } from '../utils/image';
 import {
   TrendingUp, TrendingDown, Users, DollarSign, Star, Award,
@@ -158,7 +158,7 @@ export const CreatorProfileView: React.FC<Props> = ({ creatorId, onViewChange, o
                       <span className={`text-xs font-black ${proj.rarity === 'Signature' ? 'text-accent-gold' : proj.rarity === 'Exceptional' ? 'text-[#a78bfa]' : 'text-primary-cyan'}`}>★ {proj.rarity}</span>
                     </div>
                     <p className="text-xs text-on-surface-variant/50">{proj.category} · {proj.registryIndex}</p>
-                    <p className="text-xs text-on-surface-variant/50 mt-0.5 line-clamp-1">{proj.description}</p>
+                    <p className="text-xs text-on-surface-variant/50 mt-0.5 line-clamp-1">{getContractDescription(proj, language)}</p>
                   </div>
                 </div>
 

@@ -229,16 +229,16 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
 
       {/* ── FILTRES CATÉGORIE ── */}
       <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-2">
-        <span className="text-xs font-black text-on-surface-variant/50 uppercase tracking-widest shrink-0">{t('Filtrer:','Filter:')}</span>
+        <span className="text-xs font-black text-on-surface-variant/50 uppercase tracking-widest shrink-0">{t('Filter:','Filtrer:')}</span>
         {categories.map(cat => (
           <button key={cat} onClick={() => { setFilterCategory(cat); setCurrentIndex(0); }}
             className={`px-3 py-1.5 rounded-full text-xs font-black uppercase tracking-wider whitespace-nowrap transition-all ${filterCategory === cat ? (CATEGORY_COLORS[cat] || 'bg-primary-cyan text-surface-dim') : 'bg-surface-high/40 border border-white/10 text-on-surface-variant hover:border-white/25'}`}>
-            {cat === 'ALL' ? t('Tous','All') : cat}
+            {cat === 'ALL' ? t('All','Tous') : cat}
           </button>
         ))}
         <button onClick={() => setShowLiked(!showLiked)}
           className={`ml-auto px-3 py-1.5 rounded-full text-xs font-black uppercase tracking-wider whitespace-nowrap transition-all flex items-center gap-1.5 shrink-0 ${showLiked ? 'bg-emerald-400 text-surface-dim' : 'bg-surface-high/40 border border-white/10 text-on-surface-variant hover:border-emerald-400/30'}`}>
-          <Heart size={11} fill={showLiked ? 'currentColor' : 'none'}/> {t(`Aimés (${likedProjects.length})`,`Liked (${likedProjects.length})`)}
+          <Heart size={11} fill={showLiked ? 'currentColor' : 'none'}/> {t(`Liked (${likedProjects.length})`,`Aimés (${likedProjects.length})`)}
         </button>
       </div>
 
@@ -247,14 +247,14 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
         <div className="bg-surface-low/40 border border-emerald-400/20 rounded-2xl p-5 space-y-4">
           <div className="flex items-center gap-2">
             <Heart size={14} className="text-emerald-400" fill="currentColor"/>
-            <p className="text-sm font-black text-on-surface uppercase tracking-wider">{t('Projets aimés','Liked projects')} — {likedProjects.length}</p>
+            <p className="text-sm font-black text-on-surface uppercase tracking-wider">{t('Liked projects','Projets aimés')} — {likedProjects.length}</p>
           </div>
           {!user && likedProjects.length > 0 && (
             <div className="flex items-center gap-2 p-3 bg-accent-gold/5 border border-accent-gold/15 rounded-xl">
               <span className="text-accent-gold text-xs">⚠</span>
               <p className="text-xs text-on-surface-variant/60">
-                {t('Connectez-vous pour sauvegarder vos likes définitivement.','Sign in to save your likes permanently.')}
-                <button onClick={() => onViewChange?.('LOGIN')} className="ml-1 text-primary-cyan font-black hover:underline">{t('Se connecter →','Sign in →')}</button>
+                {t('Sign in to save your likes permanently.','Connectez-vous pour sauvegarder vos likes définitivement.')}
+                <button onClick={() => onViewChange?.('LOGIN')} className="ml-1 text-primary-cyan font-black hover:underline">{t('Sign in →','Se connecter →')}</button>
               </p>
             </div>
           )}
@@ -278,22 +278,22 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
                     <p className="text-xs text-on-surface-variant/40 uppercase tracking-widest">Score</p>
                     <p className="text-sm font-black text-[#a78bfa]">{proj.totalScore}</p>
                     <button onClick={() => { window.dispatchEvent(new CustomEvent('lya-view-project', { detail: proj.id })); onViewChange?.('PROJECT_PUBLIC'); }}
-                      className="mt-1 text-[9px] font-black text-primary-cyan hover:text-white transition-colors uppercase tracking-widest">{t('Voir →','View →')}</button>
+                      className="mt-1 text-[9px] font-black text-primary-cyan hover:text-white transition-colors uppercase tracking-widest">{t('View →','Voir →')}</button>
                     <button onClick={() => { setLikedProjects(prev => prev.filter(i => i !== id)); removeLike(id); }}
-                      className="mt-0.5 text-[9px] font-black text-rose-400/60 hover:text-rose-400 transition-colors uppercase tracking-widest">{t('Retirer','Remove')}</button>
+                      className="mt-0.5 text-[9px] font-black text-rose-400/60 hover:text-rose-400 transition-colors uppercase tracking-widest">{t('Remove','Retirer')}</button>
                   </div>
                 </div>
               );
             })}
           </div>
-          <button onClick={clearAllLikes} className="text-xs text-on-surface-variant/40 hover:text-rose-400 transition-colors font-black uppercase tracking-widest">{t('Effacer la liste','Clear list')}</button>
+          <button onClick={clearAllLikes} className="text-xs text-on-surface-variant/40 hover:text-rose-400 transition-colors font-black uppercase tracking-widest">{t('Clear list','Effacer la liste')}</button>
         </div>
       )}
 
       {showLiked && likedProjects.length === 0 && (
         <div className="bg-surface-low/40 border border-white/8 rounded-2xl p-8 text-center">
           <Heart size={32} className="text-on-surface-variant/20 mx-auto mb-3"/>
-          <p className="text-sm text-on-surface-variant/40">{t('Aucun projet aimé pour le moment. Swipez !','No liked projects yet. Start swiping!')}</p>
+          <p className="text-sm text-on-surface-variant/40">{t('No liked projects yet. Start swiping!','Aucun projet aimé pour le moment. Swipez !')}</p>
         </div>
       )}
 
@@ -531,7 +531,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
             </h3>
             <div className="space-y-2.5">
               {activeContracts.slice(0, 4).map((c, i) => {
-                const actions = [t('a aimé','liked'), t('surveille','is watching'), t('a soutenu','supported'), t('analyse','is analyzing')];
+                const actions = [t('liked','a aimé'), t('is watching','surveille'), t('supported','a soutenu'), t('is analyzing','analyse')];
                 const colors = ['bg-emerald-400','bg-primary-cyan','bg-[#a78bfa]','bg-accent-gold'];
                 const opacities = ['opacity-90','opacity-70','opacity-50','opacity-30'];
                 return (
