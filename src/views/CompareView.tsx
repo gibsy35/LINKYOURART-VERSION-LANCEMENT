@@ -228,13 +228,11 @@ export const CompareView: React.FC<CompareViewProps> = ({
                   { label: t('INDEX_SCORE', 'SCORE INDEX'), key: (c: Contract) => c.scoreLYA || 0, highlight: true, prefix: '', suffix: '/1000' },
                   { label: t('SCORE_ALGO', 'SCORE ALGO'), key: (c: Contract) => c.scoreAlgo || 0, color: 'text-primary-cyan opacity-80', suffix: '/1000' },
                   { label: t('SCORE_PRO', 'SCORE PRO'), key: (c: Contract) => c.scorePro || 0, color: 'text-accent-gold opacity-80', suffix: '/1000' },
-                  { label: t('ESTIMATED_GROWTH', 'CROISSANCE_ESTIMÉE'), key: (c: Contract) => c.growth || 0, color: 'text-emerald-400', suffix: '%', isTicker: true, decimalPlaces: 1 },
-                  { label: t('LIQUIDITY_DEPTH', 'PROFONDEUR_LIQUIDITÉ'), key: (c: Contract) => c.availableUnits ? (c.availableUnits / c.totalUnits) * 100 : 85.2, color: 'text-primary-cyan/80', suffix: '%', isTicker: true, decimalPlaces: 1 },
-                  { label: t('REVENUE_DISTRIBUTION', 'DISTRIBUTION_REVENUS'), key: (c: Contract) => c.revenueSharePercentage || 0, color: 'text-white/80', suffix: '%', isTicker: true },
-                  { label: t('UNIT_VALUATION', 'VALEUR_UNITÉ'), key: (c: Contract) => c.unitValue || 0, color: 'text-white', prefix: '$', isTicker: true },
-                  { label: t('TOTAL_PROJECT_VALUE', 'VALEUR_TOTAL_PROJET'), key: (c: Contract) => c.totalValue || 0, prefix: '$', isTicker: true },
+                  { label: t('SCORE_TREND', 'TENDANCE_SCORE'), key: (c: Contract) => c.growth || 0, color: 'text-emerald-400', suffix: '%', isTicker: true, decimalPlaces: 1 },
+                  { label: t('COMMUNITY_ENGAGEMENT', 'ENGAGEMENT_COMMUNAUTÉ'), key: (c: Contract) => c.availableUnits ? (c.availableUnits / c.totalUnits) * 100 : 85.2, color: 'text-primary-cyan/80', suffix: '%', isTicker: true, decimalPlaces: 1 },
+                  { label: t('CERTIFICATION_TYPE', 'TYPE_CERTIFICATION'), key: (c: Contract) => c.contractType || 'Direct Rights', color: 'text-white/80' },
                   { label: t('CYBER_SECURITY', 'SÉCURITÉ_CYBER'), key: (c: Contract) => 'VERIFIED_LYA', color: 'text-emerald-400', icon: Shield },
-                  { label: t('REGULATORY_STATUS', 'STATUT_REG'), key: (c: Contract) => c.jurisdiction || 'EU Markets', color: 'text-on-surface-variant' },
+                  { label: t('REGULATORY_STATUS', 'STATUT_REG'), key: (c: Contract) => c.jurisdiction || 'International', color: 'text-on-surface-variant' },
                 ].map((row, idx) => (
                   <tr key={idx} className="hover:bg-white/[0.02] transition-colors group">
                     <td className="p-8 border-r border-white/5 bg-black sticky left-0 z-20 backdrop-blur-md">

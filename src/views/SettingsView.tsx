@@ -143,7 +143,6 @@ export const SettingsView: React.FC = () => {
             <select className="bg-white/5 border border-white/10 text-xs text-on-surface-variant py-2 px-4 uppercase tracking-widest focus:ring-0 outline-none">
               <option value="USD">USD ($)</option>
               <option value="EUR">EUR (€)</option>
-              <option value="LYA">LYA UNITS</option>
             </select>
           </SettingItem>
         </SettingSection>
@@ -198,14 +197,6 @@ export const SettingsView: React.FC = () => {
             description={t('Restrict interface access to recognized hardware signatures.', 'Restreindre l\'accès à l\'interface aux signatures matérielles reconnues.')}
           >
             <Toggle enabled={false} onChange={() => {}} />
-          </SettingItem>
-          <SettingItem 
-            label={t('Institutional Liquidity Pool', 'Pool de Liquidité Institutionnelle')} 
-            description={t('Direct access to secondary market consensus records.', 'Accès direct aux registres de consensus du marché secondaire.')}
-          >
-            <button className="px-4 py-2 bg-primary-cyan/10 border border-primary-cyan/20 text-primary-cyan text-[10px] font-black uppercase tracking-widest hover:bg-primary-cyan hover:text-surface-dim transition-all">
-              {t('SYNC POOL', 'SYNCHRONISER')}
-            </button>
           </SettingItem>
           <SettingItem 
             label={t('Automated Registry Sync', 'Sync du Registre Automatisée')} 
