@@ -25,7 +25,7 @@ import { View } from '../components/ui/Sidebar';
 interface Course {
   id: string;
   title: string;
-  category: 'LEGAL' | 'FINANCE' | 'CREATIVE' | 'TECH';
+  category: 'LEGAL' | 'BUSINESS' | 'CREATIVE' | 'TECH';
   instructor: string;
   duration: string;
   level: 'BEGINNER' | 'INTERMEDIATE' | 'ADVANCED';
@@ -63,7 +63,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({ user, onNotify, onView
     {
       id: '1',
       title: t('Professional Creative Rights: Foundations', 'Droits Créatifs Professionnels : Les Bases'),
-      category: 'FINANCE',
+      category: 'BUSINESS',
       instructor: 'ID_VANCE_88',
       duration: '12h 45m',
       level: 'BEGINNER',
@@ -73,7 +73,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({ user, onNotify, onView
     },
     {
       id: '2',
-      title: t('Architecture LYA-721', 'Architecture LYA-721'),
+      title: t('LYA Certification Architecture', 'Architecture de Certification LYA'),
       category: 'TECH',
       instructor: 'ID_CHEN_42',
       duration: '18h 20m',
@@ -153,7 +153,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({ user, onNotify, onView
           <div className="flex gap-4">
             {[
               { key: 'ALL', label: t('ALL', 'TOUT') },
-              { key: 'FINANCE', label: t('FINANCE', 'FINANCE') },
+              { key: 'BUSINESS', label: t('BUSINESS', 'BUSINESS') },
               { key: 'TECH', label: t('TECH', 'TECH') },
               { key: 'LEGAL', label: t('LEGAL', 'JURIDIQUE') }
             ].map(cat => (
@@ -181,7 +181,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({ user, onNotify, onView
                 <div className="absolute inset-0 bg-gradient-to-t from-surface-dim via-transparent to-transparent" />
                 <div className="absolute top-4 left-4">
                   <span className={`px-3 py-1 rounded-sm text-xs font-black uppercase tracking-widest text-white ${
-                    course.category === 'FINANCE' ? 'bg-accent-gold' :
+                    course.category === 'BUSINESS' ? 'bg-accent-gold' :
                     course.category === 'TECH' ? 'bg-accent-purple' :
                     course.category === 'LEGAL' ? 'bg-emerald-500' : 'bg-primary-cyan'
                   }`}>

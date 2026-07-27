@@ -465,7 +465,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
 
   const [messages, setMessages] = useState([
     { id: '1', from: 'Marcus Thorne', senderRole: 'Global Market Maker', subject: 'Strategic Partnership', content: 'I reviewed your project CHRONOS_V3. The valuation metrics are impressive. Let\'s schedule a call to discuss market options de transfert.', time: '1h ago', read: false, avatar: 'm1' },
-    { id: '2', from: 'Elena Vance', senderRole: 'Grammy Legacy Curator', subject: 'IP Protection Audit', content: 'Your latest music catalog shows potential for a LYA-721 migration. I have some suggestions for the metadata structure.', time: '3h ago', read: true, avatar: 'm2' },
+    { id: '2', from: 'Elena Vance', senderRole: 'Grammy Legacy Curator', subject: 'IP Protection Audit', content: 'Your latest music catalog shows potential for LYA certification. I have some suggestions for the metadata structure.', time: '3h ago', read: true, avatar: 'm2' },
     { id: '3', from: 'Aurelius Art', senderRole: 'Master Curator', subject: 'Gallery Feature', content: 'We are interested in featuring your Fine Art collection in our upcoming digital auction.', time: '1d ago', read: true, avatar: 'm3' }
   ]);
 

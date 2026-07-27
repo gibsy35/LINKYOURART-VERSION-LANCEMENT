@@ -200,21 +200,21 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
   };
 
   const [pulseStats, setPulseStats] = useState({
-    volume: '1.2B',
-    volumeTrend: '+2.4%',
+    activeCertifications: 1240,
+    certTrend: '+2.4%',
     topSector: 'Digital Fine Art',
-    volatility: 'Low / Stable',
+    scoreTrend: 'Rising',
     trend: '+14.2%'
   });
 
   React.useEffect(() => {
     const seeds = [
-      'creative-news', 'market-data', 'professional', 'global-finance', 
+      'creative-news', 'registry-data', 'professional', 'creative-economy', 
       'neural-network', 'architecture', 'abstract', 'technology',
       'vantage', 'luxury', 'monumental', 'abstract-art',
       'urban-tech', 'cyberpunk', 'modern-office', 'abstract-geometry', 
-      'luxury-interior', 'global-trade', 'data-viz', 'high-fashion', 
-      'creative-studio', 'professional-vault'
+      'luxury-interior', 'creative-network', 'data-viz', 'high-fashion', 
+      'creative-studio', 'professional-archive'
     ];
     const updateHeader = () => {
       const randomSeed = seeds[Math.floor(Math.random() * seeds.length)];
@@ -222,10 +222,10 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
       
       // Randomize Pulse Stats
       setPulseStats({
-        volume: `${(Math.random() * 2 + 0.5).toFixed(1)}B`,
-        volumeTrend: `${(Math.random() * 5).toFixed(1)}%`,
+        activeCertifications: Math.floor(Math.random() * 800 + 900),
+        certTrend: `+${(Math.random() * 5).toFixed(1)}%`,
         topSector: ['Music Catalogs', 'Digital Fine Art', 'Cinematic Assets', 'Generative Series', 'Architectural IP'][Math.floor(Math.random() * 5)],
-        volatility: ['Low / Stable', 'Moderate', 'Liquid', 'High Yield'][Math.floor(Math.random() * 4)],
+        scoreTrend: ['Stable', 'Rising', 'Strong Growth', 'Accelerating'][Math.floor(Math.random() * 4)],
         trend: `${(Math.random() * 15 + 5).toFixed(1)}%`
       });
     };
@@ -308,31 +308,31 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
 
   const members: (Member & { hasPremium?: boolean, isUnlocked?: boolean })[] = [
     { id: '1', name: 'Julian Vane', handle: '@LYA_CORE', role: 'CORE_FOUNDER', industry: t('Creative Economy', 'Économie Créative'), status: 'ACTIVE', roleIcon: <Crown className="text-accent-gold" size={20} />, statusColor: 'bg-emerald-500', hasPremium: true },
-    { id: '2', name: 'Elena Vance', handle: '@VANCE_CAPITAL', role: 'LEGACY_CURATOR', industry: t('Venture Capital', 'Capital Risque'), status: 'ON_VALUATION', roleIcon: <Globe className="text-primary-cyan" size={20} />, statusColor: 'bg-accent-pink', hasPremium: true },
+    { id: '2', name: 'Elena Vance', handle: '@VANCE_LEGACY', role: 'LEGACY_CURATOR', industry: t('Cultural Heritage', 'Patrimoine Culturel'), status: 'ON_VALUATION', roleIcon: <Globe className="text-primary-cyan" size={20} />, statusColor: 'bg-accent-pink', hasPremium: true },
     { id: '3', name: 'Aurelius Art', handle: '@AURELIUS_ART', role: 'MASTER_CURATOR', industry: t('Museum Assets', 'Actifs de Musée'), status: 'ACTIVE', roleIcon: <Zap className="text-accent-purple" size={20} />, statusColor: 'bg-emerald-500', hasPremium: false },
     { id: '4', name: 'Sarah Jenkins', handle: '@JENKINS_LEGAL', role: 'LEGAL_AUDITOR', industry: t('IP Law', 'Droit de la PI'), status: 'OFFLINE', roleIcon: <ShieldCheck className="text-emerald-400" size={20} />, statusColor: 'bg-slate-500', hasPremium: true },
     { id: '5', name: 'Chen Wei', handle: '@CHEN_DEV', role: 'SYSTEM_ARCHITECT', industry: t('Software Tech', 'Technologie Logicielle'), status: 'BUSY', roleIcon: <Activity className="text-primary-cyan" size={20} />, statusColor: 'bg-accent-pink', hasPremium: false },
     { id: '6', name: 'Loren Smith', handle: '@LOREN_CURATOR', role: 'IP_STRATEGIST', industry: t('Music Industry', 'Industrie Musicale'), status: 'ACTIVE', roleIcon: <Users className="text-accent-gold" size={20} />, statusColor: 'bg-emerald-500', hasPremium: true },
-    { id: '7', name: 'Marcus Thorne', handle: '@THORNE_STRAT', role: 'MARKET_MAKER', industry: t('Liquidity Pools', 'Pools de Liquidité'), status: 'ACTIVE', roleIcon: <TrendingUp className="text-primary-cyan" size={20} />, statusColor: 'bg-emerald-500', hasPremium: false },
+    { id: '7', name: 'Marcus Thorne', handle: '@THORNE_STRAT', role: 'PATRON_RELATIONS', industry: t('Patron Network', 'Réseau de Mécènes'), status: 'ACTIVE', roleIcon: <TrendingUp className="text-primary-cyan" size={20} />, statusColor: 'bg-emerald-500', hasPremium: false },
     { id: '8', name: 'Claire Dubois', handle: '@DUBOIS_VANTAGE', role: 'SENIOR_ADVISOR', industry: t('Heritage Arts', 'Arts du Patrimoine'), status: 'ON_VALUATION', roleIcon: <Eye className="text-accent-gold" size={20} />, statusColor: 'bg-accent-pink', hasPremium: true },
     { id: '9', name: 'JV CEO', handle: '@JV_CEO', role: 'SECURITY_OFFICER', industry: t('Cyber Security', 'Biosécurité'), status: 'ACTIVE', roleIcon: <Shield className="text-accent-purple" size={20} />, statusColor: 'bg-emerald-500', hasPremium: true },
-    { id: '10', name: 'Quant Research', handle: '@QUANT_RESEARCH', role: 'ALGO_ANALYST', industry: t('Big Data', 'Big Data'), status: 'OFFLINE', roleIcon: <Cpu className="text-primary-cyan" size={20} />, statusColor: 'bg-slate-500', hasPremium: false }
+    { id: '10', name: 'Score Research', handle: '@SCORE_RESEARCH', role: 'SCORE_ANALYST', industry: t('Big Data', 'Big Data'), status: 'OFFLINE', roleIcon: <Cpu className="text-primary-cyan" size={20} />, statusColor: 'bg-slate-500', hasPremium: false }
   ];
 
   const events: Event[] = [
     {
       id: '1',
-      title: t('Professional Art Market 2026', 'Marché de l\'Art Professionnel 2026'),
+      title: t('Creative Certification Landscape 2026', 'Panorama de la Certification Créative 2026'),
       type: 'WEBINAR',
       date: t('TOMORROW, 14:00 GMT', 'DEMAIN, 14h00 GMT'),
-      host: 'Alpha Market Analysis',
+      host: 'LYA Insights',
       image: 'https://picsum.photos/seed/art-market/800/400',
       attendees: 126,
       slots: 24,
-      description: t('An exclusive deep dive into the projected growth of the creative rights market for the next fiscal year.', 'Une plongée exclusive dans la croissance projetée du marché des droits créatifs pour le prochain exercice fiscal.'),
-      highlights: [t('Market Forecasts', 'Prévisions du Marché'), t('Liquidity Analysis', 'Analyse de Liquidité'), t('Global Adoption', 'Adoption Mondiale')],
+      description: t('An exclusive deep dive into the projected growth of creative certification adoption for the coming year.', 'Une plongée exclusive dans la croissance projetée de l\'adoption de la certification créative pour l\'année à venir.'),
+      highlights: [t('Adoption Trends', 'Tendances d\'Adoption'), t('Registry Insights', 'Insights du Registre'), t('Global Adoption', 'Adoption Mondiale')],
       speakers: [
-        { name: 'Dr. Elena Vance', role: t('Chief Economist', 'Économiste en Chef'), avatar: 'https://i.pravatar.cc/150?u=elena' },
+        { name: 'Dr. Elena Vance', role: t('Chief Research Officer', 'Directrice de la Recherche'), avatar: 'https://i.pravatar.cc/150?u=elena' },
         { name: 'Marcus Thorne', role: t('Head of Strategy', 'Responsable de la Stratégie'), avatar: 'https://i.pravatar.cc/150?u=marcus' }
       ],
       status: 'OPEN'
@@ -394,7 +394,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
       image: 'https://picsum.photos/seed/neural/800/400',
       attendees: 85,
       slots: 15,
-      description: t('Technical workshop on implementing the LYA-721 standard for neural-generated assets.', 'Atelier technique sur l\'implémentation du standard LYA-721 pour les actifs générés par neurones.'),
+      description: t('Technical workshop on implementing LYA certification for AI-generated creative assets.', 'Atelier technique sur l\'implémentation de la certification LYA pour les créations générées par IA.'),
       highlights: [t('Code Review', 'Revue de Code'), t('Standard Validation', 'Validation du Standard'), t('Deployment', 'Déploiement')],
       speakers: [
         { name: 'Chen Dev', role: t('Lead Architect', 'Architecte Principal'), avatar: 'https://i.pravatar.cc/150?u=chen' }
@@ -483,17 +483,17 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
     },
     {
       id: '11',
-      title: t('Global Liquidity Roundtable', 'Table Ronde sur la Liquidité Mondiale'),
+      title: t('Global Certification Roundtable', 'Table Ronde sur la Certification Mondiale'),
       type: 'ROUNDTABLE',
       date: t('DECEMBER 5, 16:00 GMT', '5 DÉCEMBRE, 16h00 GMT'),
-      host: 'Capital Alpha',
-      image: 'https://picsum.photos/seed/liquidity/800/400',
+      host: 'LYA Council',
+      image: 'https://picsum.photos/seed/roundtable/800/400',
       attendees: 30,
       slots: 4,
-      description: t('Discussion sur les stratégies de sortie professionnelles et les réserves de droits.', 'Discussion on professional exit strategies and réserves de droits.'),
-      highlights: [t('Liquidity Pools', 'Pools de Liquidité'), t('Exit Strategy', 'Stratégie de Sortie'), t('Market Making', 'Market Making')],
+      description: t('Discussion on professional certification pathways and creative rights registries.', 'Discussion sur les parcours de certification professionnelle et les registres de droits créatifs.'),
+      highlights: [t('Certification Pathways', 'Parcours de Certification'), t('Registry Access', 'Accès au Registre'), t('Professional Standards', 'Standards Professionnels')],
       speakers: [
-        { name: 'Marcus Thorne', role: t('Global Market Maker', 'Market Maker Mondial'), avatar: 'https://i.pravatar.cc/150?u=m1' }
+        { name: 'Marcus Thorne', role: t('Global Registry Lead', 'Responsable Registre Mondial'), avatar: 'https://i.pravatar.cc/150?u=m1' }
       ],
       status: 'OPEN'
     },
@@ -506,7 +506,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
       image: 'https://picsum.photos/seed/art-val/800/400',
       attendees: 200,
       slots: 0,
-      description: t('Mastering the art of valuing non-fungible professional projects.', 'Maîtriser l\'art de valoriser les projets professionnels non fongibles.'),
+      description: t('Mastering the art of assessing unique creative professional projects.', 'Maîtriser l\'art d\'évaluer des projets professionnels créatifs uniques.'),
       highlights: [t('Valuation 101', 'Bases de la Valorisation'), t('Algorithm Intro', 'Intro à l\'Algorithme'), t('Case Studies', 'Études de Cas')],
       speakers: [
         { name: 'Julian Vane', role: t('CEO', 'PDG'), avatar: 'https://i.pravatar.cc/150?u=julian' }
@@ -519,8 +519,8 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
     {
       id: 'm1',
       name: 'Marcus Thorne',
-      role: t('Global Market Maker', 'Market Maker Mondial'),
-      specialty: t('Creative Liquidity & Valuation', 'Liquidité Créative & Valorisation'),
+      role: t('Global Registry Lead', 'Responsable Registre Mondial'),
+      specialty: t('Creative Certification & Valuation', 'Certification Créative & Valorisation'),
       avatar: 'https://i.pravatar.cc/300?u=m1',
       availability: 'AVAILABLE',
       sessions: 142,
@@ -631,10 +631,10 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
   };
 
   const trendingTopics = [
-    { tag: t('LYA-721 Standards', 'Standards LYA-721'), insights: 124, trend: '+12%' },
+    { tag: t('LYA Certification Standards', 'Standards de Certification LYA'), insights: 124, trend: '+12%' },
     { tag: t('EU Creative Rights', 'Droits Créatifs de l\'UE'), insights: 89, trend: '+45%' },
     { tag: t('Generative IP Rights', 'Droits de PI Génératifs'), insights: 56, trend: '+8%' },
-    { tag: t('Professional Liquidity', 'Liquidité Professionnelle'), insights: 42, trend: '-5%' },
+    { tag: t('Professional Registry Activity', 'Activité du Registre Professionnel'), insights: 42, trend: '-5%' },
     { tag: t('Global Art Index', 'Indice Mondial de l\'Art'), insights: 38, trend: '+22%' },
     { tag: t('Tokenized Cinema', 'Cinéma Tokenisé'), insights: 31, trend: '+15%' },
     { tag: t('Smart IP Contracts', 'Creative Contracts de PI'), insights: 27, trend: '+10%' }
@@ -958,23 +958,23 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
                   <div className="absolute bottom-0 left-0 p-10 md:p-14 z-20">
                     <div className="flex items-center gap-3 mb-4">
                       <div className="px-3 py-1 bg-accent-gold text-surface-dim text-[10px] font-black uppercase tracking-[0.3em] rounded-md">EXCLUSIVE</div>
-                      <span className="text-[10px] text-white font-black uppercase tracking-[0.4em] opacity-60">{t('MARKET PULSE', 'POULS DU MARCHÉ')}</span>
+                      <span className="text-[10px] text-white font-black uppercase tracking-[0.4em] opacity-60">{t('REGISTRY PULSE', 'POULS DU REGISTRE')}</span>
                     </div>
                     <h2 className="text-2xl md:text-4xl font-black text-white uppercase tracking-tighter leading-none mb-4">
                       {t('CREATIVE', 'CRÉATIF')} <span className="bg-gradient-to-r from-accent-gold via-white to-accent-gold bg-clip-text text-transparent bg-[length:200%_auto] animate-shimmer">{t('INSIGHTS MONITOR', 'MONITEUR D\'INSIGHTS')}</span>
                     </h2>
                     <div className="flex flex-wrap gap-6 mt-8">
-                      <div className="flex flex-col cursor-pointer group/stat" onClick={() => onNotify(t('✦ Données Depth activées en temps réel','✦ Depth data active in real time'))}>
-                        <span className="text-[10px] text-accent-gold font-black uppercase tracking-widest mb-1 opacity-60 group-hover/stat:opacity-100 transition-opacity">{t('Global Volume', 'Volume Global')}</span>
-                        <span className="text-xl font-black text-white tracking-tighter group-hover/stat:text-accent-gold transition-colors">${pulseStats.volume} <span className="text-[10px] text-emerald-400 ml-1">{pulseStats.volumeTrend}</span></span>
+                      <div className="flex flex-col cursor-pointer group/stat" onClick={() => onNotify(t('✦ Statistiques de registre actualisées','✦ Registry stats refreshed'))}>
+                        <span className="text-[10px] text-accent-gold font-black uppercase tracking-widest mb-1 opacity-60 group-hover/stat:opacity-100 transition-opacity">{t('Active Certifications', 'Certifications Actives')}</span>
+                        <span className="text-xl font-black text-white tracking-tighter group-hover/stat:text-accent-gold transition-colors">{pulseStats.activeCertifications} <span className="text-[10px] text-emerald-400 ml-1">{pulseStats.certTrend}</span></span>
                       </div>
                       <div className="flex flex-col border-l border-white/10 pl-6 cursor-pointer group/stat" onClick={() => onNotify(t('✦ Analyse sectorielle mise à jour','✦ Sector analysis updated'))}>
                         <span className="text-[10px] text-accent-gold font-black uppercase tracking-widest mb-1 opacity-60 group-hover/stat:opacity-100 transition-opacity">{t('Top Sector', 'Meilleur Secteur')}</span>
                         <span className="text-xl font-black text-white tracking-tighter uppercase group-hover/stat:text-accent-gold transition-colors">{t(pulseStats.topSector, pulseStats.topSector)}</span>
                       </div>
-                      <div className="flex flex-col border-l border-white/10 pl-6 cursor-pointer group/stat" onClick={() => onNotify(t('✦ Trace de volatilité activée','✦ Volatility trace activated'))}>
-                        <span className="text-[10px] text-accent-gold font-black uppercase tracking-widest mb-1 opacity-60 group-hover/stat:opacity-100 transition-opacity">{t('Volatility Index', 'Indice de Volatilité')}</span>
-                        <span className="text-xl font-black text-white tracking-tighter uppercase text-primary-cyan group-hover/stat:text-accent-gold transition-colors">{t(pulseStats.volatility, pulseStats.volatility)}</span>
+                      <div className="flex flex-col border-l border-white/10 pl-6 cursor-pointer group/stat" onClick={() => onNotify(t('✦ Tendance de score actualisée','✦ Score trend refreshed'))}>
+                        <span className="text-[10px] text-accent-gold font-black uppercase tracking-widest mb-1 opacity-60 group-hover/stat:opacity-100 transition-opacity">{t('LYA Score Trend', 'Tendance Score LYA')}</span>
+                        <span className="text-xl font-black text-white tracking-tighter uppercase text-primary-cyan group-hover/stat:text-accent-gold transition-colors">{t(pulseStats.scoreTrend, pulseStats.scoreTrend)}</span>
                       </div>
                     </div>
                   </div>
@@ -1582,7 +1582,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
             </div>
             <h4 className="text-2xl font-black text-white uppercase italic tracking-tighter mb-6 leading-none">{t('ELITE MENTORSHIP', 'MENTORAT D\'ÉLITE')}</h4>
             <p className="text-sm text-on-surface-variant/80 leading-relaxed mb-12 font-medium italic text-justify">
-              {t('Strategic 1-on-1 sessions with professional market makers and Grammy-winning legacy curators.', 'Sessions stratégiques 1-sur-1 avec des teneurs de marché professionnels et des conservateurs de patrimoine récompensés aux Grammy.')}
+              {t('Strategic 1-on-1 sessions with professional registry experts and Grammy-winning legacy curators.', 'Sessions stratégiques 1-sur-1 avec des experts de registre professionnels et des conservateurs de patrimoine récompensés aux Grammy.')}
             </p>
             <button 
               onClick={() => {
