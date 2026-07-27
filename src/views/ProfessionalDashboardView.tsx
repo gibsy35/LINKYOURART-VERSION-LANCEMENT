@@ -16,8 +16,6 @@ import {
   ArrowUpRight, ArrowDownRight, Shield, Target, Sparkles, Mail
 } from 'lucide-react';
 
-const unitPrice = (_g: number) => LYA_UNIT_VALUE;
-
 const KpiCard: React.FC<{icon:React.ReactNode;label:string;value:string;sub?:string;subColor?:string;color:string}> = ({icon,label,value,sub,subColor='text-emerald-400',color}) => (
   <div className="bg-surface-low/40 border border-white/8 rounded-2xl p-4 space-y-2 hover:border-white/15 transition-all">
     <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${color}`}>{icon}</div>
@@ -45,7 +43,7 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
   const [messages, setMessages] = useState([
     {from:'Clara Dubois', role:'CREATOR', text:T('Bonjour, avez-vous pu analyser mon dossier ÉPHÉMÉRIS ?','Hello, have you been able to review my EPHEMERIS file?'), time:'09:14', read:true},
     {from:'LYA Platform', role:'SYSTEM', text:T('Nouveau projet soumis en validation : PRJ-2026-051','New project submitted for validation: PRJ-2026-051'), time:'08:45', read:true},
-    {from:'Thomas Bernard', role:'PATRON', text:T('Quelle est votre estimation de la Due Diligence pour Nexus ?','What is your Due Diligence estimate for Nexus?'), time:'Hier','read':false},
+    {from:'Thomas Bernard', role:'PATRON', text:T('Quelle est votre estimation de l\'audit créatif pour Nexus ?','What is your creative audit estimate for Nexus?'), time:'Hier','read':false},
   ]);
   const [projectsShown, setProjectsShown] = useState(3);
 
@@ -56,8 +54,8 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
   const missions = [
     {labelFR:CONTRACTS[1]?.name||'ÉPHÉMÉRIS',labelEN:CONTRACTS[1]?.name||'EPHEMERIS',id:'PRJ-2026-012',typeFR:'Certification LYA Niveau 3',typeEN:'LYA Level 3 Certification',statusFR:'En validation',statusEN:'In validation',pct:75,date:'2026-03-15',statusColor:'bg-accent-gold/10 text-accent-gold border-accent-gold/20'},
     {labelFR:CONTRACTS[3]?.name||'Nexus',labelEN:CONTRACTS[3]?.name||'Nexus',id:'PRJ-2026-008',typeFR:'Audit stratégique institutionnel',typeEN:'Institutional strategic audit',statusFR:'Analyse en cours',statusEN:'Analysis in progress',pct:45,date:'2026-03-20',statusColor:'bg-primary-cyan/10 text-primary-cyan border-primary-cyan/20'},
-    {labelFR:CONTRACTS[4]?.name||'Fragments',labelEN:CONTRACTS[4]?.name||'Fragments',id:'PRJ-2026-019',typeFR:'Due diligence premium',typeEN:'Premium due diligence',statusFR:'Révision finale',statusEN:'Final review',pct:90,date:'2026-03-10',statusColor:'bg-[#a78bfa]/10 text-[#a78bfa] border-[#a78bfa]/20'},
-    {labelFR:CONTRACTS[5]?.name||'Solar Echoes',labelEN:CONTRACTS[5]?.name||'Solar Echoes',id:'PRJ-2026-031',typeFR:'Évaluation de marché',typeEN:'Market assessment',statusFR:'En attente',statusEN:'Pending',pct:10,date:'2026-04-05',statusColor:'bg-white/5 text-on-surface-variant/50 border-white/10'},
+    {labelFR:CONTRACTS[4]?.name||'Fragments',labelEN:CONTRACTS[4]?.name||'Fragments',id:'PRJ-2026-019',typeFR:'Audit créatif premium',typeEN:'Premium creative audit',statusFR:'Révision finale',statusEN:'Final review',pct:90,date:'2026-03-10',statusColor:'bg-[#a78bfa]/10 text-[#a78bfa] border-[#a78bfa]/20'},
+    {labelFR:CONTRACTS[5]?.name||'Solar Echoes',labelEN:CONTRACTS[5]?.name||'Solar Echoes',id:'PRJ-2026-031',typeFR:'Évaluation de potentiel créatif',typeEN:'Creative potential assessment',statusFR:'En attente',statusEN:'Pending',pct:10,date:'2026-04-05',statusColor:'bg-white/5 text-on-surface-variant/50 border-white/10'},
     {labelFR:CONTRACTS[6]?.name||'Quantum Canvas',labelEN:CONTRACTS[6]?.name||'Quantum Canvas',id:'PRJ-2026-044',typeFR:'Certification LYA Niveau 2',typeEN:'LYA Level 2 Certification',statusFR:'En cours',statusEN:'In progress',pct:55,date:'2026-03-28',statusColor:'bg-emerald-400/10 text-emerald-400 border-emerald-400/20'},
   ];
 
@@ -69,8 +67,8 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
 
   const academyModules = [
     {titleFR:'LYA — Fondamentaux',titleEN:'LYA — Fundamentals',descFR:'Maîtrisez les bases du scoring LYA et des 5 piliers d\'évaluation.',descEN:'Master the fundamentals of LYA scoring and the 5 evaluation pillars.',duration:'4h',level:T('Débutant','Beginner'),done:true,color:'bg-primary-cyan/10 border-primary-cyan/20'},
-    {titleFR:'Due Diligence Créative Avancée',titleEN:'Advanced Creative Due Diligence',descFR:'Techniques d\'audit approfondi pour les projets culturels et artistiques.',descEN:'In-depth audit techniques for cultural and artistic projects.',duration:'6h',level:T('Intermédiaire','Intermediate'),done:true,color:'bg-[#a78bfa]/10 border-[#a78bfa]/20'},
-    {titleFR:'Valorisation & LYA UNIT',titleEN:'Valuation & LYA UNIT',descFR:'Calculez et optimisez la valeur LYA UNIT de chaque création.',descEN:'Calculate and optimise the LYA UNIT value of each creation.',duration:'3h',level:T('Intermédiaire','Intermediate'),done:false,color:'bg-accent-gold/10 border-accent-gold/20'},
+    {titleFR:'Audit Créatif Avancé',titleEN:'Advanced Creative Audit',descFR:'Techniques d\'audit approfondi pour les projets culturels et artistiques.',descEN:'In-depth audit techniques for cultural and artistic projects.',duration:'6h',level:T('Intermédiaire','Intermediate'),done:true,color:'bg-[#a78bfa]/10 border-[#a78bfa]/20'},
+    {titleFR:'Méthodologie du Score LYA',titleEN:'LYA Score Methodology',descFR:'Approfondissez l\'analyse des 5 piliers pour affiner vos certifications.',descEN:'Deepen your analysis of the 5 pillars to refine your certifications.',duration:'3h',level:T('Intermédiaire','Intermediate'),done:false,color:'bg-accent-gold/10 border-accent-gold/20'},
     {titleFR:'Stratégie de Lancement Institutionnel',titleEN:'Institutional Launch Strategy',descFR:'Planifiez et exécutez des lancements à impact maximal.',descEN:'Plan and execute maximum-impact launches.',duration:'5h',level:T('Avancé','Advanced'),done:false,color:'bg-emerald-400/10 border-emerald-400/20'},
     {titleFR:'Réseau & Partenariats Créatifs',titleEN:'Network & Creative Partnerships',descFR:'Construisez un réseau institutionnel solide dans les industries créatives.',descEN:'Build a solid institutional network in creative industries.',duration:'4h',level:T('Avancé','Advanced'),done:false,locked:true,color:'bg-rose-400/10 border-rose-400/20'},
     {titleFR:'Certification LYA Expert',titleEN:'LYA Expert Certification',descFR:'Validation officielle de votre expertise par le comité LYA.',descEN:'Official validation of your expertise by the LYA committee.',duration:'8h',level:T('Expert','Expert'),done:false,locked:true,color:'bg-white/5 border-white/10'},
@@ -78,7 +76,7 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
 
   const services = [
     {icon:<Shield size={22}/>,color:'bg-primary-cyan/10 text-primary-cyan',titleFR:'Certification LYA Premium',titleEN:'LYA Premium Certification',price:'2 500€',features:[T('Audit complet 5 piliers','Complete 5-pillar audit'),T('Rapport 50+ pages','50+ page report'),T('Badge certifié','Certified badge'),T('Suivi 30 jours','30-day follow-up')]},
-    {icon:<Briefcase size={22}/>,color:'bg-[#a78bfa]/10 text-[#a78bfa]',titleFR:'Due Diligence Elite',titleEN:'Elite Due Diligence',price:'5 000€',features:[T('Vérification légale','Legal verification'),T('Étude de marché','Market study'),T('Évaluation risque/rendement','Risk/return assessment'),T('Rapport confidentiel','Confidential report')]},
+    {icon:<Briefcase size={22}/>,color:'bg-[#a78bfa]/10 text-[#a78bfa]',titleFR:'Audit Créatif Elite',titleEN:'Elite Creative Audit',price:'5 000€',features:[T('Vérification légale','Legal verification'),T('Étude de marché','Market study'),T('Analyse de potentiel créatif','Creative potential analysis'),T('Rapport confidentiel','Confidential report')]},
     {icon:<TrendingUp size={22}/>,color:'bg-emerald-400/10 text-emerald-400',titleFR:'Stratégie de Lancement',titleEN:'Launch Strategy',price:'3 500€',features:[T('Plan marketing 90j','90-day marketing plan'),T('Optimisation LYA Score','LYA Score optimisation'),T('10 sessions coaching','10 coaching sessions'),T('Garantie visibilité','Visibility guarantee')]},
     {icon:<Star size={22}/>,color:'bg-accent-gold/10 text-accent-gold',titleFR:'Mentoring Mensuel',titleEN:'Monthly Mentoring',price:'1 200€/mois',features:['4 sessions privées/mois',T('Accès réseau premium','Premium network access'),T('Conseils stratégiques','Strategic advice'),T('Support email illimité','Unlimited email support')]},
     {icon:<Award size={22}/>,color:'bg-rose-400/10 text-rose-400',titleFR:'Formation Accélérée',titleEN:'Accelerated Training',price:'800€',features:[T('2 jours intensifs','2 intensive days'),T('Certification reconnue','Recognised certification'),T('Accès plateforme à vie','Lifetime platform access'),T('Communauté alumni','Alumni community')]},
@@ -98,7 +96,7 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
 
   const tabs = [
     {key:'dashboard' as const, labelFR:'Dashboard', labelEN:'Dashboard', icon:<BarChart2 size={13}/>},
-    {key:'dealfinder' as const, labelFR:'Deal Finder Pro', labelEN:'Deal Finder Pro', icon:<Search size={13}/>},
+    {key:'dealfinder' as const, labelFR:'Recherche de Projets', labelEN:'Project Finder', icon:<Search size={13}/>},
     {key:'missions' as const, labelFR:'Missions', labelEN:'Missions', icon:<Target size={13}/>},
     {key:'mentorship' as const, labelFR:'Mentorat Élite', labelEN:'Elite Mentorship', icon:<Users size={13}/>},
     {key:'messages' as const, labelFR:'Messages', labelEN:'Messages', icon:<MessageSquare size={13}/>},
@@ -157,13 +155,13 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
               <div className="bg-gradient-to-r from-primary-cyan/8 to-[#a78bfa]/5 border border-primary-cyan/20 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center gap-4">
                 <div className="w-10 h-10 bg-primary-cyan/15 border border-primary-cyan/25 rounded-xl flex items-center justify-center shrink-0"><span className="text-primary-cyan font-black text-xs">LYA</span></div>
                 <div className="flex-1">
-                  <p className="text-xs font-black text-primary-cyan uppercase tracking-widest mb-0.5">LYA UNIT — {T('Valeur de référence créative','Creative reference value')}</p>
-                  <p className="text-xs text-on-surface-variant/60 leading-relaxed">{T('Vos validations influencent directement le LYA UNIT des projets. Plus votre score pro est élevé, plus votre certification fait monter la valeur des créations.','Your validations directly influence project LYA UNIT values. The higher your pro score, the more your certification raises creation value.')}</p>
+                  <p className="text-xs font-black text-primary-cyan uppercase tracking-widest mb-0.5">LYA UNIT — {T('Étalon de certification fixe', 'Fixed certification standard')}</p>
+                  <p className="text-xs text-on-surface-variant/60 leading-relaxed">{T('Vos validations influencent directement le Score LYA des projets — pas leur valeur financière. Le LYA UNIT reste fixe, quel que soit le score : ce n\'est ni un titre financier, ni un instrument négociable.', 'Your validations directly influence projects\' LYA Score — not their financial value. The LYA UNIT remains fixed regardless of score: it is neither a financial security nor a tradeable instrument.')}</p>
                 </div>
                 <div className="text-right shrink-0">
-                  <p className="text-[10px] text-on-surface-variant/40 uppercase tracking-widest">LYA UNIT base</p>
+                  <p className="text-[10px] text-on-surface-variant/40 uppercase tracking-widest">LYA UNIT</p>
                   <p className="text-2xl font-black text-primary-cyan font-mono">{formatPrice(LYA_UNIT_VALUE)}</p>
-                  <p className="text-xs text-on-surface-variant/40">{T('Étalon souverain','Sovereign standard')}</p>
+                  <p className="text-xs text-on-surface-variant/40">{T('Fixe, non négociable', 'Fixed, non-negotiable')}</p>
                 </div>
               </div>
 
@@ -185,7 +183,7 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
                     </div>
                     <div className="text-right shrink-0">
                       <p className="text-xs font-black text-accent-gold">Score: {proj.totalScore}</p>
-                      <p className={`text-xs font-bold ${proj.growth>=0?'text-emerald-400':'text-rose-400'}`}>{proj.growth>=0?'+':''}{proj.growth}% · LYA UNIT: {formatPrice(unitPrice(proj.growth))}</p>
+                      <p className={`text-xs font-bold ${proj.growth>=0?'text-emerald-400':'text-rose-400'}`}>{proj.growth>=0?'+':''}{proj.growth}% Score Trend</p>
                     </div>
                     <button onClick={()=>{onNotify(T(`✦ Dossier ${proj.name} ouvert`,'File opened'));}} className="p-1.5 text-on-surface-variant hover:text-primary-cyan transition-colors shrink-0"><ArrowRight size={14}/></button>
                   </div>
@@ -216,11 +214,11 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
             </div>
           )}
 
-          {/* ── DEAL FINDER PRO ─────────────────────────────────────────── */}
+          {/* ── RECHERCHE DE PROJETS ─────────────────────────────────────── */}
           {activeSection==='dealfinder' && (
             <div className="space-y-6">
               <div className="text-center space-y-1">
-                <h2 className="font-headline font-black text-on-surface text-2xl tracking-tight">{T('Deal Finder','Deal Finder')} <span className="text-primary-cyan">Pro</span></h2>
+                <h2 className="font-headline font-black text-on-surface text-2xl tracking-tight">{T('Recherche de','Project')} <span className="text-primary-cyan">{T('Projets','Finder')}</span></h2>
                 <p className="text-xs text-on-surface-variant/50">{T('Trouvez les projets à fort potentiel · Score LYA ≥','Find high-potential projects · LYA Score ≥')} {minScore}</p>
               </div>
               <div className="bg-surface-low/40 border border-white/8 rounded-2xl p-5 space-y-4 max-w-2xl mx-auto">
@@ -249,7 +247,7 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
                       <div className="flex-1 min-w-0"><p className="text-sm font-black text-on-surface">{proj.name}</p><p className="text-xs text-on-surface-variant/50">{proj.category} · {proj.registryIndex}</p></div>
                       <div className="text-right shrink-0">
                         <p className="text-base font-black text-accent-gold">{proj.totalScore}<span className="text-xs text-on-surface-variant/30">/1000</span></p>
-                        <p className={`text-xs font-bold ${proj.growth>=0?'text-emerald-400':'text-rose-400'}`}>LYA UNIT: {formatPrice(unitPrice(proj.growth))}</p>
+                        <p className={`text-xs font-bold ${proj.growth>=0?'text-emerald-400':'text-rose-400'}`}>{proj.growth>=0?'+':''}{proj.growth}% Score Trend</p>
                         <button onClick={async()=>{
   try {
     await addDoc(collection(db,'messages'),{type:'deal_request',projectName:proj.name,projectId:proj.id,fromId:user?.uid,fromName:user?.displayName,fromRole:'PROFESSIONAL',toId:proj.issuerId,status:'PENDING',createdAt:serverTimestamp()});
@@ -267,7 +265,7 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
           {/* ── MISSIONS ─────────────────────────────────────────────────── */}
           {activeSection==='missions' && (
             <div className="space-y-4">
-              <p className="text-sm text-on-surface-variant/60">{missions.length} {T('missions · Score LYA & LYA UNIT impactés par vos validations','missions · LYA Score & LYA UNIT impacted by your validations')}</p>
+              <p className="text-sm text-on-surface-variant/60">{missions.length} {T('missions · Score LYA impacté par vos validations','missions · LYA Score impacted by your validations')}</p>
               {missions.slice(0,missionsShown).map((m,i)=>(
                 <div key={i} className="bg-surface-low/40 border border-white/8 rounded-2xl p-5 space-y-4 hover:border-white/15 transition-all">
                   <div className="flex items-start justify-between flex-wrap gap-3">
