@@ -410,8 +410,8 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
       image: 'https://picsum.photos/seed/summit/800/400',
       attendees: 500,
       slots: 100,
-      description: t('The annual gathering of professional associates to define the future of the LYA settlement layer.', 'Le rassemblement annuel des associés professionnels pour définir l\'avenir de la couche de règlement LYA.'),
-      highlights: [t('LYA Roadmap', 'Feuille de Route LYA'), t('Regulatory Sync', 'Synchronisation Réglementaire'), t('DAO Voting', 'Vote DAO')],
+      description: t('The annual gathering of professional associates to define the future of the LYA certification standard.', 'Le rassemblement annuel des associés professionnels pour définir l\'avenir du standard de certification LYA.'),
+      highlights: [t('LYA Roadmap', 'Feuille de Route LYA'), t('Regulatory Sync', 'Synchronisation Réglementaire'), t('Community Feedback', 'Retours Communauté')],
       speakers: [
         { name: 'Jean-Baptiste Lequime', role: t('Founder', 'Fondateur'), avatar: 'https://i.pravatar.cc/150?u=jb' }
       ],
@@ -471,11 +471,11 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
       type: 'WORKSHOP',
       date: t('NOVEMBER 2, 14:00 GMT', '2 NOVEMBRE, 14h00 GMT'),
       host: 'Lya Academy',
-      image: 'https://picsum.photos/seed/equity/800/400',
+      image: 'https://picsum.photos/seed/rights/800/400',
       attendees: 50,
       slots: 10,
-      description: t('Hands-on training for valuing creative rights in early-stage projects.', 'Formation pratique pour évaluer les droits créatifs dans les projets en phase initiale.'),
-      highlights: [t('Valuation Models', 'Modèles de Valorisation'), t('Risk Assessment', 'Évaluation des Risques'), t('Exit Strategies', 'Stratégies de Sortie')],
+      description: t('Hands-on training for certifying creative rights in early-stage projects.', 'Formation pratique pour certifier les droits créatifs dans les projets en phase initiale.'),
+      highlights: [t('Certification Models', 'Modèles de Certification'), t('Quality Assessment', 'Évaluation de Qualité'), t('Registry Standards', 'Standards du Registre')],
       speakers: [
         { name: 'Marcus Thorne', role: t('Head of Strategy', 'Responsable de la Stratégie'), avatar: 'https://i.pravatar.cc/150?u=marcus' }
       ],
@@ -636,7 +636,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
     { tag: t('Generative IP Rights', 'Droits de PI Génératifs'), insights: 56, trend: '+8%' },
     { tag: t('Professional Registry Activity', 'Activité du Registre Professionnel'), insights: 42, trend: '-5%' },
     { tag: t('Global Art Index', 'Indice Mondial de l\'Art'), insights: 38, trend: '+22%' },
-    { tag: t('Tokenized Cinema', 'Cinéma Tokenisé'), insights: 31, trend: '+15%' },
+    { tag: t('Digital Cinema Certification', 'Certification Cinéma Numérique'), insights: 31, trend: '+15%' },
     { tag: t('Smart IP Contracts', 'Creative Contracts de PI'), insights: 27, trend: '+10%' }
   ];
 
@@ -886,7 +886,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
                 onNotify(t('RECONNEXION EN COURS...', 'RÉ-ALIGNEMENT DE LA SIGNATURE DE SÉCURITÉ DU SALON...'));
                 setTimeout(() => {
                   setBiometricScanning(false);
-                  onNotify(t('ELITE CUSTODY CREDENTIALS RE-STABILIZED [SECURE_NODE_99x]', 'CONFORME À L\'INDICE D\'ÉLITE - SIGNATURE RE-SÉCURISÉE [SECURE_NODE_99x]'));
+                  onNotify(t('ELITE ACCESS CREDENTIALS RE-STABILIZED [SECURE_NODE_99x]', 'CONFORME À L\'INDICE D\'ÉLITE - SIGNATURE RE-SÉCURISÉE [SECURE_NODE_99x]'));
                 }, 1500);
               }}
               disabled={biometricScanning}
@@ -895,7 +895,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
               }`}
             >
               <Fingerprint size={14} className={biometricScanning ? 'animate-pulse' : ''} />
-              {biometricScanning ? t('Biometric scanning...', 'Scan Biométrique...') : t('REFRESH CUSTODY PASS', 'VÉRIFIER LE PASSPORT LYA')}
+              {biometricScanning ? t('Biometric scanning...', 'Scan Biométrique...') : t('REFRESH ACCESS PASS', 'VÉRIFIER LE PASSPORT LYA')}
             </button>
           </div>
         </div>

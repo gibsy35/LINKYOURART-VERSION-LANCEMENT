@@ -563,7 +563,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
         <div className="p-6 bg-white/[0.02] border-t border-white/5 flex items-center justify-center gap-8 text-[10px] font-black text-on-surface-variant/40 uppercase tracking-widest">
           <div className="flex items-center gap-2">
             <ShieldCheck size={10} className="text-emerald-400" />
-            MICA COMPLIANT
+            GDPR COMPLIANT
           </div>
           <div className="flex items-center gap-2">
             <Globe size={10} className="text-primary-cyan" />

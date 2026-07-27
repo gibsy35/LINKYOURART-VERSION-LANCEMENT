@@ -401,7 +401,7 @@ const LoginView: React.FC<LoginViewProps> = ({ onViewChange, setUser }) => {
           </div>
           <div className="flex items-center gap-2">
             <Globe size={10} className="text-primary-cyan" />
-            MICA COMPLIANT
+            GDPR COMPLIANT
           </div>
           <div>V4.2 ALPHA</div>
         </div>

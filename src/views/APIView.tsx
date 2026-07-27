@@ -78,9 +78,9 @@ export const APIView: React.FC<APIViewProps> = ({ user, onNotify, onViewChange }
   };
 
   const codeSnippets = {
-    JS: `// Initialize LYA SDK\nimport { LYAClient } from '@lya/protocol-sdk';\n\nconst client = new LYAClient({\n  apiKey: 'YOUR_API_KEY',\n  environment: 'production'\n});\n\n// Fetch Creative Equity Index\nconst index = await client.registry.getIndex('GLOBAL_ART');\nconsole.log('Current Value:', index.unitValue);\n\n// Subscribe to Real-time Settlements\nclient.settlements.on('complete', (data) => {\n  console.log('New Settlement:', data.id);\n});`,
-    PYTHON: `# Initialize LYA SDK\nfrom lya_sdk import LYAClient\n\nclient = LYAClient(\n    api_key='YOUR_API_KEY',\n    environment='production'\n)\n\n# Fetch Creative Equity Index\nindex = client.registry.get_index('GLOBAL_ART')\nconsole.log('Current Value:', index.unit_value)\n\n# List settlements\nsettlements = client.settlements.list(limit=10)\nfor s in settlements:\n    console.log('Settlement:', s.id)`,
-    CURL: `# Fetch Creative Equity Index\ncurl -X GET https://api.linkyourart.com/v1/registry/GLOBAL_ART \\\n  -H "Authorization: Bearer YOUR_API_KEY" \\\n  -H "Content-Type: application/json"\n\n# List settlements\ncurl -X GET https://api.linkyourart.com/v1/settlements?limit=10 \\\n  -H "Authorization: Bearer YOUR_API_KEY"`
+    JS: `// Initialize LYA SDK\nimport { LYAClient } from '@lya/protocol-sdk';\n\nconst client = new LYAClient({\n  apiKey: 'YOUR_API_KEY',\n  environment: 'production'\n});\n\n// Fetch a project's LYA Score\nconst project = await client.registry.getProject('GLOBAL_ART');\nconsole.log('Current LYA Score:', project.totalScore);\n\n// Subscribe to Certification Updates\nclient.certifications.on('updated', (data) => {\n  console.log('Score Updated:', data.id, data.newScore);\n});`,
+    PYTHON: `# Initialize LYA SDK\nfrom lya_sdk import LYAClient\n\nclient = LYAClient(\n    api_key='YOUR_API_KEY',\n    environment='production'\n)\n\n# Fetch a project's LYA Score\nproject = client.registry.get_project('GLOBAL_ART')\nconsole.log('Current LYA Score:', project.total_score)\n\n# List recent certifications\ncertifications = client.certifications.list(limit=10)\nfor c in certifications:\n    console.log('Certification:', c.id)`,
+    CURL: `# Fetch a project's LYA Score\ncurl -X GET https://api.linkyourart.com/v1/registry/GLOBAL_ART \\\n  -H "Authorization: Bearer YOUR_API_KEY" \\\n  -H "Content-Type: application/json"\n\n# List recent certifications\ncurl -X GET https://api.linkyourart.com/v1/certifications?limit=10 \\\n  -H "Authorization: Bearer YOUR_API_KEY"`
   };
   const codeSnippet = codeSnippets[sdkTab];
 
@@ -99,7 +99,7 @@ export const APIView: React.FC<APIViewProps> = ({ user, onNotify, onViewChange }
           {t('Developer Access Restricted', 'Accès Développeur Restreint')}
         </h2>
         <p className="text-on-surface-variant max-w-lg mb-10 text-sm md:text-base leading-relaxed opacity-70">
-          {t('API access and developer tools are exclusive to Professional accounts. Build custom integrations and automate your creative equity workflows.', 'L\'accès à l\'API et aux outils de développement sont exclusifs aux comptes Professionnels. Créez des intégrations personnalisées et automatisez vos flux de travail d\'équité créative.')}
+          {t('API access and developer tools are exclusive to Professional accounts. Build custom integrations and automate your creative certification workflows.', 'L\'accès à l\'API et aux outils de développement sont exclusifs aux comptes Professionnels. Créez des intégrations personnalisées et automatisez vos flux de travail de certification créative.')}
         </p>
         <button 
           onClick={() => onViewChange('PRICING')}

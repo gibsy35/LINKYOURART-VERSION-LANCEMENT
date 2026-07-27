@@ -197,15 +197,15 @@ export const IssuerProfileView: React.FC<IssuerProfileProps> = ({ issuerId, onBa
                    <Zap size={20} />
                  </div>
                  <div>
-                    <h4 className="text-lg font-black text-white uppercase tracking-tighter">{t('TRANSACTIONAL CLEARANCE FEED', 'FLUX DE VALIDATION TRANSACTIONNEL')}</h4>
-                    <p className="text-[10px] text-primary-cyan font-black uppercase tracking-widest">{t('Échanges en temps réel', 'Échanges en temps réel')}</p>
+                    <h4 className="text-lg font-black text-white uppercase tracking-tighter">{t('CERTIFICATION ACTIVITY FEED', 'FLUX D\'ACTIVITÉ DE CERTIFICATION')}</h4>
+                    <p className="text-[10px] text-primary-cyan font-black uppercase tracking-widest">{t('Mises à jour en temps réel', 'Mises à jour en temps réel')}</p>
                  </div>
               </div>
 
               <div className="space-y-4">
                  {[
-                   { msg: "Settlement 0x4E... Authorized", time: "2m ago", status: "STABLE" },
-                   { msg: "Equity Bridge Sync Complete", time: "14m ago", status: "VERIFIED" },
+                   { msg: "Registry Sync Authorized", time: "2m ago", status: "STABLE" },
+                   { msg: "Certification Review Complete", time: "14m ago", status: "VERIFIED" },
                    { msg: "Institutional Audit Pass (v2.4)", time: "1h ago", status: "PASSED" }
                  ].map((log, i) => (
                    <div key={i} className="flex justify-between items-center py-4 border-b border-white/5 last:border-0 group">
