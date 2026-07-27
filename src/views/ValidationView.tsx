@@ -134,17 +134,43 @@ const ValidationQueue: React.FC<{
 }> = ({ user, lang, onNotify }) => {
   const T = (fr: string, en: string) => lang === 'FR' ? fr : en;
 
-  const [requests, setRequests] = useState<ValidationRequest[]>(
-    CONTRACTS.filter(c => c.status === 'LIVE').slice(0, 8).map((contract, i) => ({
-      id: `val-${i}`,
-      contract,
-      timestamp: `${String(Math.floor(Math.random() * 4) + 9).padStart(2,'0')}:${String(Math.floor(Math.random() * 60)).padStart(2,'0')}`,
-      receivedAt: new Date(Date.now() - Math.random() * 1000 * 60 * 60 * 3),
-      status: 'PENDING',
-      steps: { origin: 'PENDING', creative: 'PENDING', rights: 'PENDING', final: 'PENDING' },
-      notes: '',
-    }))
-  );
+  const [requests, setRequests] = useState<ValidationRequest[]>([]);
+  const [isLoadingQueue, setIsLoadingQueue] = useState(true);
+
+  React.useEffect(() => {
+    let active = true;
+    const load = async () => {
+      setIsLoadingQueue(true);
+      try {
+        const snap = await getDocs(query(collection(db, 'contracts'), orderBy('createdAt', 'desc'), limit(100)));
+        if (!active) return;
+        const real = snap.docs
+          .map(d => ({ id: d.id, ...d.data() } as any))
+          .filter(c => c.status === 'PENDING')
+          .map((c): ValidationRequest => ({
+            id: c.id,
+            contract: {
+              ...c,
+              category: c.category || 'Digital Art',
+              totalScore: c.totalScore || 0,
+              registryIndex: c.registryIndex || 'LYA-PENDING',
+            } as Contract,
+            timestamp: c.createdAt?.toDate ? c.createdAt.toDate().toLocaleTimeString(lang === 'FR' ? 'fr-FR' : 'en-US', { hour: '2-digit', minute: '2-digit' }) : '—',
+            receivedAt: c.createdAt?.toDate ? c.createdAt.toDate() : new Date(),
+            status: 'PENDING',
+            steps: { origin: 'PENDING', creative: 'PENDING', rights: 'PENDING', final: 'PENDING' },
+            notes: '',
+          }));
+        setRequests(real);
+      } catch (e) {
+        handleFirestoreError(e, OperationType.GET, 'contracts');
+      } finally {
+        if (active) setIsLoadingQueue(false);
+      }
+    };
+    load();
+    return () => { active = false; };
+  }, []);
 
   const [search, setSearch] = useState('');
   const [catFilter, setCatFilter] = useState('ALL');
@@ -182,29 +208,53 @@ const ValidationQueue: React.FC<{
     }));
   };
 
-  const approve = (reqId: string) => {
+  const approve = async (reqId: string) => {
     const r = requests.find(x => x.id === reqId)!;
     const allDone = VALIDATION_STEPS.every(s => r.steps[s.id] === 'COMPLETED');
     if (!allDone) {
       onNotify(T('⚠ Complétez toutes les étapes avant d\'approuver.', '⚠ Complete all steps before approving.'));
       return;
     }
-    onNotify(`✅ ${r.contract.name} — ${T('Approuvé et indexé sur le Registre LYA.', 'Approved and indexed on the LYA Registry.')}`);
-    setRequests(prev => prev.map(x => x.id === reqId ? { ...x, status: 'APPROVED' } : x));
     try {
+      const registryIndex = r.contract.registryIndex && r.contract.registryIndex !== 'LYA-PENDING'
+        ? r.contract.registryIndex
+        : `LYA-${new Date().getFullYear()}-${String(Math.floor(Math.random() * 900) + 100).padStart(3, '0')}`;
+      await updateDoc(doc(db, 'contracts', r.id), {
+        status: 'LIVE',
+        registryIndex,
+        registryAddress: r.contract.registryAddress || `LYA_REG_0x${Math.random().toString(16).slice(2, 10).toUpperCase()}`,
+        validatedAt: serverTimestamp(),
+        validatedBy: user?.uid,
+      });
+      onNotify(`✅ ${r.contract.name} — ${T('Approuvé et indexé sur le Registre LYA.', 'Approved and indexed on the LYA Registry.')}`);
+      setRequests(prev => prev.map(x => x.id === reqId ? { ...x, status: 'APPROVED' } : x));
       addDoc(collection(db, 'validation_approved'), {
         contractId: r.contract.id, approvedAt: serverTimestamp(), approvedBy: user?.uid
       }).catch(() => {});
-    } catch {}
+    } catch (e) {
+      handleFirestoreError(e, OperationType.WRITE, 'contracts');
+      onNotify(T('⚠ Erreur lors de la publication. Réessayez.', '⚠ Error while publishing. Please retry.'));
+    }
   };
 
-  const confirmReject = () => {
+  const confirmReject = async () => {
     if (!rejectId || !rejectReason.trim()) return;
     const r = requests.find(x => x.id === rejectId)!;
-    onNotify(`✗ ${r.contract.name} — ${T('Rejeté.', 'Rejected.')}`);
-    setRequests(prev => prev.filter(x => x.id !== rejectId));
-    setRejectId(null);
-    setRejectReason('');
+    try {
+      await updateDoc(doc(db, 'contracts', r.id), {
+        status: 'REJECTED',
+        rejectionReason: rejectReason,
+        rejectedAt: serverTimestamp(),
+        rejectedBy: user?.uid,
+      });
+      onNotify(`✗ ${r.contract.name} — ${T('Rejeté.', 'Rejected.')}`);
+      setRequests(prev => prev.filter(x => x.id !== rejectId));
+      setRejectId(null);
+      setRejectReason('');
+    } catch (e) {
+      handleFirestoreError(e, OperationType.WRITE, 'contracts');
+      onNotify(T('⚠ Erreur lors du rejet. Réessayez.', '⚠ Error while rejecting. Please retry.'));
+    }
   };
 
   return (
@@ -243,9 +293,22 @@ const ValidationQueue: React.FC<{
           onClick={async () => {
             onNotify(T('Actualisation...', 'Refreshing...'));
             try {
-              const snap = await getDocs(query(collection(db, 'validation_requests'), orderBy('createdAt', 'desc'), limit(20)));
-              onNotify(T(`${snap.size} demandes reçues`, `${snap.size} requests received`));
-            } catch(e) { handleFirestoreError(e, OperationType.GET, 'validation_requests'); }
+              const snap = await getDocs(query(collection(db, 'contracts'), orderBy('createdAt', 'desc'), limit(100)));
+              const real = snap.docs
+                .map(d => ({ id: d.id, ...d.data() } as any))
+                .filter(c => c.status === 'PENDING')
+                .map((c): ValidationRequest => ({
+                  id: c.id,
+                  contract: { ...c, category: c.category || 'Digital Art', totalScore: c.totalScore || 0, registryIndex: c.registryIndex || 'LYA-PENDING' } as Contract,
+                  timestamp: c.createdAt?.toDate ? c.createdAt.toDate().toLocaleTimeString(lang === 'FR' ? 'fr-FR' : 'en-US', { hour: '2-digit', minute: '2-digit' }) : '—',
+                  receivedAt: c.createdAt?.toDate ? c.createdAt.toDate() : new Date(),
+                  status: 'PENDING',
+                  steps: { origin: 'PENDING', creative: 'PENDING', rights: 'PENDING', final: 'PENDING' },
+                  notes: '',
+                }));
+              setRequests(real);
+              onNotify(T(`${real.length} demande(s) en attente`, `${real.length} pending request(s)`));
+            } catch(e) { handleFirestoreError(e, OperationType.GET, 'contracts'); }
           }}
           className="flex items-center gap-2 bg-primary-cyan text-surface-dim hover:bg-white px-5 py-2.5 text-sm font-black uppercase tracking-wide rounded-xl transition-all shadow-[0_0_16px_rgba(0,224,255,0.2)]"
         >
@@ -253,6 +316,19 @@ const ValidationQueue: React.FC<{
           {T('Actualiser', 'Refresh')}
         </button>
       </div>
+
+      {isLoadingQueue && (
+        <div className="py-16 text-center">
+          <div className="w-8 h-8 border-2 border-primary-cyan border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+          <p className="text-xs text-on-surface-variant/50 uppercase tracking-widest">{T('Chargement de la file...', 'Loading queue...')}</p>
+        </div>
+      )}
+      {!isLoadingQueue && requests.length === 0 && (
+        <div className="py-16 text-center border border-dashed border-white/10 rounded-2xl">
+          <CheckCircle size={28} className="text-emerald-400/40 mx-auto mb-3" />
+          <p className="text-sm text-on-surface-variant/50 uppercase tracking-widest">{T('Aucun projet en attente de validation.', 'No projects pending validation.')}</p>
+        </div>
+      )}
 
       {/* Liste */}
       <div className="space-y-4">

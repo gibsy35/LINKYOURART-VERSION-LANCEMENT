@@ -166,6 +166,8 @@ export const LinkArtView: React.FC<{
   const [description, setDescription] = useState('');
   const [showDescExample, setShowDescExample] = useState(false);
   const [fundingGoal, setFundingGoal] = useState('');
+  const [selectedRights, setSelectedRights] = useState<string[]>([]);
+  const [category, setCategory] = useState('Fine Art');
   const [generatedImage, setGeneratedImage] = useState<string | null>(null);
   const [generatedOptions, setGeneratedOptions] = useState<string[]>([]);
   const [isGeneratingImage, setIsGeneratingImage] = useState(false);
@@ -240,16 +242,28 @@ export const LinkArtView: React.FC<{
     onNotify(t('GENERATING CONCEPT VISUALIZATIONS...', 'GÉNÉRATION DES VISUALISATIONS DE CONCEPT...'));
 
     try {
-      const styles = [
-        "Minimalist, professional, high-end digital art",
-        "Cyberpunk, neon, technical blueprint style",
-        "Abstract, fluid, modern corporate aesthetic"
-      ];
+      const categoryStyles: Record<string, string[]> = {
+        'Fine Art': ['Classical oil painting texture, gallery lighting', 'Contemporary mixed-media fine art, museum quality', 'Abstract expressionist brushwork, rich pigments'],
+        'Music': ['Album cover art, moody atmospheric lighting', 'Vinyl sleeve design, bold typography-inspired composition', 'Concert stage energy, dynamic light trails'],
+        'Film': ['Cinematic film still, dramatic lighting, 35mm grain', 'Movie poster composition, widescreen aspect', 'Behind-the-scenes production still, natural light'],
+        'TV Series': ['Cinematic film still, dramatic lighting, 35mm grain', 'Series key art composition, widescreen aspect', 'Character-driven dramatic still, moody tone'],
+        'Literature': ['Book cover illustration, literary and evocative', 'Vintage manuscript aesthetic, textured paper', 'Minimalist typographic cover design'],
+        'Photography': ['Fine art photography composition, natural light', 'Documentary photojournalism style, candid moment', 'Studio portrait lighting, high detail'],
+        'Fashion': ['Editorial fashion photography, studio lighting', 'Runway show energy, dynamic movement', 'Textile and pattern close-up, tactile detail'],
+        'Digital Art': ['Generative digital art, vibrant gradients', 'Cyberpunk neon aesthetic, technical composition', 'Abstract 3D render, clean modern composition'],
+        'Podcast': ['Podcast cover art, bold graphic composition', 'Audio waveform inspired abstract design', 'Studio microphone still life, warm lighting'],
+        'Architecture': ['Architectural photography, clean geometric lines', 'Blueprint-inspired technical illustration', 'Interior design render, natural light'],
+        'Gastronomy': ['Fine dining food photography, natural light', 'Culinary editorial still life, rich textures', 'Restaurant ambiance, warm atmospheric lighting'],
+        'Performing Arts': ['Stage performance photography, dramatic spotlight', 'Theatrical production still, rich stage colors', 'Dance movement captured in motion blur'],
+        'Gaming': ['Video game concept art, vibrant world-building', 'Character design illustration, dynamic pose', 'Game environment art, atmospheric lighting'],
+        'Design': ['Product design render, clean studio lighting', 'Industrial design blueprint aesthetic', 'Modern minimalist design composition'],
+      };
+      const styles = categoryStyles[category] || categoryStyles['Fine Art'];
 
       const response = await fetch('/api/gemini/generate-cover-art', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ description, styles })
+        body: JSON.stringify({ description: `"${assetName}" — ${description}`, styles })
       });
       if (!response.ok) throw new Error(`Cover art API failed with status ${response.status}`);
       const data = await response.json();
@@ -332,11 +346,13 @@ export const LinkArtView: React.FC<{
         name: assetName,
         issuerId: issuerName,
         issuerUid: user?.uid,
+        category,
         description,
         image: generatedImage,
         duration: contractDuration,
         maturityDate,
         totalValue: fundingGoal ? Number(fundingGoal) : null,
+        rights: selectedRights,
         status: 'PENDING',
         milestones,
         createdAt: new Date().toISOString()
@@ -484,6 +500,18 @@ export const LinkArtView: React.FC<{
                       value={issuerName}
                       onChange={(e) => setIssuerName(e.target.value)}
                     />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-xs uppercase tracking-widest text-on-surface-variant font-bold">{t('Creative Category', 'Catégorie Créative')}</label>
+                    <select 
+                      value={category}
+                      onChange={(e) => setCategory(e.target.value)}
+                      className="w-full bg-surface-dim border border-white/10 text-on-surface p-4 focus:border-primary-cyan/50 focus:ring-0 transition-all text-sm uppercase tracking-widest appearance-none"
+                    >
+                      {['Fine Art', 'Music', 'Film', 'TV Series', 'Literature', 'Photography', 'Fashion', 'Digital Art', 'Podcast', 'Architecture', 'Gastronomy', 'Performing Arts', 'Gaming', 'Design'].map(cat => (
+                        <option key={cat} value={cat}>{cat}</option>
+                      ))}
+                    </select>
                   </div>
                   <div className="space-y-2">
                     <label className="text-xs uppercase tracking-widest text-on-surface-variant font-bold">{t('Contract Description', 'Description du Contrat')}</label>
@@ -925,14 +953,21 @@ export const LinkArtView: React.FC<{
                     t('Institutional Lending Rights', 'Droits de Prêt Institutionnel'),
                     t('Credited Recognition', 'Reconnaissance Créditée'),
                     t('Community Update Access', 'Accès aux Mises à Jour Communautaires')
-                  ].map(right => (
-                    <div key={right} className="flex items-center gap-4 p-4 bg-surface-dim border border-white/5 hover:border-primary-cyan/30 transition-all cursor-pointer group">
-                      <div className="w-5 h-5 border border-white/20 flex items-center justify-center group-hover:border-primary-cyan transition-colors">
-                        <div className="w-2 h-2 bg-primary-cyan opacity-0 group-hover:opacity-100 transition-opacity" />
+                  ].map(right => {
+                    const isChecked = selectedRights.includes(right);
+                    return (
+                      <div 
+                        key={right} 
+                        onClick={() => setSelectedRights(prev => isChecked ? prev.filter(r => r !== right) : [...prev, right])}
+                        className={`flex items-center gap-4 p-4 bg-surface-dim border transition-all cursor-pointer group ${isChecked ? 'border-primary-cyan/50 bg-primary-cyan/5' : 'border-white/5 hover:border-primary-cyan/30'}`}
+                      >
+                        <div className={`w-5 h-5 border flex items-center justify-center transition-colors shrink-0 ${isChecked ? 'border-primary-cyan' : 'border-white/20 group-hover:border-primary-cyan/50'}`}>
+                          <div className={`w-2 h-2 bg-primary-cyan transition-opacity ${isChecked ? 'opacity-100' : 'opacity-0'}`} />
+                        </div>
+                        <span className="text-xs uppercase tracking-widest font-bold">{right}</span>
                       </div>
-                      <span className="text-xs uppercase tracking-widest font-bold">{right}</span>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
                 <div className="p-6 bg-accent-gold/5 border border-accent-gold/20 flex gap-4">
                   <Info className="text-accent-gold shrink-0" size={20} />
