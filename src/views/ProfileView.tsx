@@ -464,7 +464,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
   };
 
   const [messages, setMessages] = useState([
-    { id: '1', from: 'Marcus Thorne', senderRole: 'Global Market Maker', subject: 'Strategic Partnership', content: 'I reviewed your project CHRONOS_V3. The valuation metrics are impressive. Let\'s schedule a call to discuss market options de transfert.', time: '1h ago', read: false, avatar: 'm1' },
+    { id: '1', from: 'Marcus Thorne', senderRole: 'Global Registry Lead', subject: 'Strategic Partnership', content: 'I reviewed your project CHRONOS_V3. The certification metrics are impressive. Let\'s schedule a call to discuss partnership options.', time: '1h ago', read: false, avatar: 'm1' },
     { id: '2', from: 'Elena Vance', senderRole: 'Grammy Legacy Curator', subject: 'IP Protection Audit', content: 'Your latest music catalog shows potential for LYA certification. I have some suggestions for the metadata structure.', time: '3h ago', read: true, avatar: 'm2' },
     { id: '3', from: 'Aurelius Art', senderRole: 'Master Curator', subject: 'Gallery Feature', content: 'We are interested in featuring your Fine Art collection in our upcoming digital auction.', time: '1d ago', read: true, avatar: 'm3' }
   ]);
@@ -525,40 +525,40 @@ const ProfileView: React.FC<ProfileViewProps> = ({
       description: t('Explore our exclusive database of verified creators and professionals. Use advanced filters to find the perfect match for your next strategic collaboration.', 'Explorez notre base de données exclusive de créateurs et professionnels vérifiés. Utilisez des filtres avancés pour trouver le partenaire idéal pour votre prochaine collaboration stratégique.'),
       previewImage: 'https://picsum.photos/seed/talent-discovery/800/400',
       benefits: [
-        { label: t('Advanced Filters', 'Filtres Avancés'), desc: t('Search by LYA score, rarity, specialty, and market performance.', 'Recherche par score LYA, rareté, spécialité et performance du marché.') },
-        { label: t('Direct Secure Contact', 'Contact Direct Sécurisé'), desc: t('Encrypted messaging with verified professional talents.', 'Messagerie cryptée avec les talents professionnels vérifiés.') },
+        { label: t('Advanced Filters', 'Filtres Avancés'), desc: t('Search by LYA score, rarity, specialty, and certification trend.', 'Recherche par score LYA, rareté, spécialité et tendance de certification.') },
+        { label: t('Direct Secure Contact', 'Contact Direct Sécurisé'), desc: t('Encrypted messaging with verified professional talents.', 'Messagerie chiffrée avec les talents professionnels vérifiés.') },
         { label: t('Performance History', 'Historique de Performance'), desc: t('View past successes and verified track records of creators.', 'Consultez les succès passés et les antécédents vérifiés des créateurs.') },
         { label: t('Private Network', 'Réseau Privé'), desc: t('Access to non-public profiles and exclusive creative centers.', 'Accès aux profils non-publics et aux centres créatifs exclusifs.') }
       ]
     },
     'Scan Opportunity': {
-      description: t('Our AI-powered Intelligence Terminal scans the market in real-time to identify high-potential creative assets before they reach the public market.', 'Notre Terminal d\'Intelligence alimenté par l\'IA scanne le marché en temps réel pour identifier les actifs créatifs à haut potentiel avant qu\'ils n\'atteignent le marché public.'),
+      description: t('Our AI-powered Intelligence Terminal scans the registry in real-time to identify high-potential creative projects before they reach broad public visibility.', 'Notre Terminal d\'Intelligence alimenté par l\'IA scanne le registre en temps réel pour identifier les projets créatifs à haut potentiel avant qu\'ils n\'atteignent une large visibilité publique.'),
       previewImage: 'https://picsum.photos/seed/market-scan/800/400',
       benefits: [
         { label: t('Real-time Insight', 'Insight Temps Réel'), desc: t('Be notified instantly as soon as an opportunity matches your criteria.', 'Soyez notifié instantanément dès qu\'une opportunité correspond à vos critères.') },
-        { label: t('Risk/Reward Analysis', 'Analyse Risque/Rendement'), desc: t('Automated assessment of project viability and financial robustness.', 'Évaluation automatisée de la viabilité du projet et de la robustesse financière.') },
-        { label: t('ROI Projection', 'Projection de ROI'), desc: t('36-month ROI estimations based on historical market data.', 'Estimations de ROI sur 36 mois basées sur les données historiques du marché.') },
-        { label: t('Priority Access', 'Accès Prioritaire'), desc: t('Participate in private funding rounds and pre-listing events.', 'Participez aux tours de financement privés et aux événements de pré-listing.') }
+        { label: t('Project Viability Analysis', 'Analyse de Viabilité de Projet'), desc: t('Automated assessment of project quality and creative maturity.', 'Évaluation automatisée de la qualité du projet et de sa maturité créative.') },
+        { label: t('Score Trajectory', 'Trajectoire de Score'), desc: t('36-month LYA Score projections based on historical certification data.', 'Projections du Score LYA sur 36 mois basées sur les données historiques de certification.') },
+        { label: t('Priority Access', 'Accès Prioritaire'), desc: t('Participate in early patronage rounds and pre-certification previews.', 'Participez aux premiers tours de mécénat et aux avant-premières de pré-certification.') }
       ]
     },
     'Expert Terminal': {
-      description: t('Déployez votre propre Terminal Institutionnel pour gérer des catalogues créatifs massifs et fournir une grande accessibilité de marché à vos sous-entités. Externalisez votre vérification initiale directement au protocole de sécurité LYA.', 'Deploy your own Institutional Terminal to manage massive creative catalogs and provide grande accessibilité de marché to your sub-entities. Outsource your initial vetting directly to the LYA security system.'),
+      description: t('Déployez votre propre Terminal Institutionnel pour gérer des catalogues créatifs massifs et offrir un accès élargi au registre à vos sous-entités. Externalisez votre vérification initiale directement au système de certification LYA.', 'Deploy your own Institutional Terminal to manage massive creative catalogs and provide broad registry access to your sub-entities. Outsource your initial vetting directly to the LYA certification system.'),
       previewImage: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800',
       benefits: [
         { label: t('Catalog Management', 'Gestion de Catalogue'), desc: t('Bulk boarding of 1000+ assets with automated indexing.', 'Intégration en masse de 1000+ actifs avec indexation automatisée.') },
-        { label: t('Editorial Externalization', 'Externalisation Éditoriale'), desc: t('Eliminate internal "slush pile" costs via decentralized validation.', 'Éliminez les coûts des comités de lecture via la validation décentralisée.') },
-        { label: t('Accès Institutionnel', 'Accès Institutionnel'), desc: t('Access private réserves de droits for large-scale IP development.', 'Accédez aux réserves de droits privés pour le développement d\'IP à grande échelle.') },
-        { label: t('Master Registry Access', 'Accès au Registre Maître'), desc: t('Full control over sub-indices and corporate valuation benchmarks.', 'Contrôle total sur les sous-indices et benchmarks de valorisation.') }
+        { label: t('Editorial Externalization', 'Externalisation Éditoriale'), desc: t('Reduce internal review costs via our distributed network of certified validators.', 'Réduisez les coûts de revue interne via notre réseau distribué de validateurs certifiés.') },
+        { label: t('Accès Institutionnel', 'Accès Institutionnel'), desc: t('Access private rights registries for large-scale IP development.', 'Accédez aux registres de droits privés pour le développement de PI à grande échelle.') },
+        { label: t('Master Registry Access', 'Accès au Registre Maître'), desc: t('Full control over sub-registries and corporate certification benchmarks.', 'Contrôle total sur les sous-registres et benchmarks de certification.') }
       ]
     },
     'Lounge Access': {
-      description: t('The Pro Lounge is an exclusive digital space for verified professionals to discuss market trends, regulatory updates, and strategic partnerships. Access high-level networking and private deal flow.', 'Le Salon Pro est un espace numérique exclusif pour les professionnels vérifiés afin de discuter des tendances du marché, des mises à jour réglementaires et des partenariats stratégiques. Accédez à un networking de haut niveau et à un deal flow privé.'),
+      description: t('The Pro Lounge is an exclusive digital space for verified professionals to discuss industry trends, regulatory updates, and strategic partnerships. Access high-level networking and exclusive project opportunities.', 'Le Salon Pro est un espace numérique exclusif pour les professionnels vérifiés afin de discuter des tendances du secteur, des mises à jour réglementaires et des partenariats stratégiques. Accédez à un networking de haut niveau et à des opportunités de projets exclusives.'),
       previewImage: 'https://picsum.photos/seed/market-networking/800/400',
       benefits: [
         { label: t('Strategic Networking', 'Networking Stratégique'), desc: t('Connect with other high-level professional actors and verified creators.', 'Connectez-vous avec d\'autres acteurs professionnels de haut niveau et des créateurs vérifiés.') },
-        { label: t('Regulatory Intelligence', 'Intelligence Réglementaire'), desc: t('Real-time discussions on legal frameworks, compliance, and tax optimization.', 'Discussions en temps réel sur les cadres juridiques, la conformité et l\'optimisation fiscale.') },
-        { label: t('Exclusive Deal Flow', 'Deal Flow Exclusif'), desc: t('Early access to private asset listings and professional-grade investment opportunities.', 'Accès anticipé aux listings d\'actifs privés et aux opportunités d\'investissement de qualité professionnelle.') },
-        { label: t('Direct Governance', 'Gouvernance Directe'), desc: t('Influence the platform\'s strategic roadmap and vote on protocol parameters.', 'Influencez la feuille de route stratégique de la plateforme et votez sur les paramètres du protocole.') }
+        { label: t('Regulatory Intelligence', 'Intelligence Réglementaire'), desc: t('Real-time discussions on legal frameworks and compliance standards.', 'Discussions en temps réel sur les cadres juridiques et les standards de conformité.') },
+        { label: t('Exclusive Project Access', 'Accès Projets Exclusif'), desc: t('Early access to private project listings and professional-grade certification opportunities.', 'Accès anticipé aux listings de projets privés et aux opportunités de certification de qualité professionnelle.') },
+        { label: t('Direct Feedback Channel', 'Canal de Retour Direct'), desc: t('Influence the platform\'s strategic roadmap through direct feedback sessions.', 'Influencez la feuille de route stratégique de la plateforme via des sessions de retour direct.') }
       ]
     }
   };
@@ -925,7 +925,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
         {[
           { title: t("Creative Asset Valuation", "Évaluation des Actifs Créatifs"), duration: "45:00", type: t("Masterclass", "Masterclass") },
           { title: t("Indexed Contract Law", "Droit des Contrats Indexés"), duration: "32:15", type: t("Legal", "Juridique") },
-          { title: t("LYA Investment Strategies", "Stratégies d'Investissement LYA"), duration: "28:40", type: t("Finance", "Finance") }
+          { title: t("LYA Certification Strategies", "Stratégies de Certification LYA"), duration: "28:40", type: t("Business", "Business") }
         ].map((video, i) => (
           <div key={i} className="relative aspect-video bg-black/40 border border-white/10 flex flex-col items-center justify-center group/video overflow-hidden">
             <img 
@@ -1579,15 +1579,15 @@ const renderMentorshipContent = () => (
             {/* Creator Header - Premium Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard 
-          title={t('Total Assets', 'Total Actifs')} 
+          title={t('Total Projects', 'Total Projets')} 
           value="12" 
           icon={<Layers size={20} />} 
           trend="+2 this month" 
           color="cyan" 
-          subValue={t('DIVERSIFIED PORTFOLIO', 'PORTFOLIO DIVERSIFIÉ')}
+          subValue={t('DIVERSIFIED CATALOG', 'CATALOGUE DIVERSIFIÉ')}
         />
         <StatCard 
-          title={t('Market Valuation', 'Valorisation Marché')} 
+          title={t('Registry Standing', 'Position Registre')} 
           value="450K LYA" 
           icon={<Wallet size={20} />} 
           trend="+15.4%" 
@@ -1603,7 +1603,7 @@ const renderMentorshipContent = () => (
           subValue="LYA-V4 ALGORITHM"
         />
         <StatCard 
-          title={t('Active Investors', 'Investisseurs Actifs')} 
+          title={t('Active Patrons', 'Mécènes Actifs')} 
           value="1.2K" 
           icon={<Globe size={20} />} 
           trend="Global Reach" 
@@ -1821,7 +1821,7 @@ const renderMentorshipContent = () => (
                       <div className="flex items-center gap-4 md:gap-6">
                         <ShieldCheck className="text-emerald-400" size={32} />
                         <div>
-                          <p className="text-sm md:text-base font-black tracking-tighter text-emerald-400 uppercase">KYC_LEVEL_3</p>
+                          <p className="text-sm md:text-base font-black tracking-tighter text-emerald-400 uppercase">VERIFIED_LEVEL_3</p>
                           <p className="text-[10px] md:text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mt-2">{t('Expert-Grade Verified', 'Vérifié de Qualité Experte')}</p>
                         </div>
                       </div>

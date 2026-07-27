@@ -330,14 +330,14 @@ export const AdminView: React.FC<{
             id: 'verif-003',
             userId: 'user-creative-03',
             displayName: 'Marcus Sterling',
-            email: 'marcus@goldstein-advisors.com',
+            email: 'marcus@sterling-art-advisors.com',
             role: 'EXPERT',
-            firm: 'Goldstein Wealth Art Portfolio',
-            registrationId: 'SEC-US-77491',
+            firm: 'Sterling Art Advisory',
+            registrationId: 'FR-ART-77491',
             status: 'APPROVED',
             createdAt: new Date(Date.now() - 3600000 * 48).toISOString(),
             documents: [
-              { name: 'SEC_Advisory_Accreditation_Goldstein.pdf', data: '#mock-sec' }
+              { name: 'Professional_Art_Advisory_Credentials.pdf', data: '#mock-cred' }
             ]
           }
         ];
@@ -843,7 +843,7 @@ export const AdminView: React.FC<{
                   </div>
                   <div className="mt-4 pt-4 border-t border-white/5 flex justify-between items-center">
                     <div>
-                      <span className="text-xs opacity-30 uppercase font-bold font-mono mr-1.5">KYC STATUS:</span>
+                      <span className="text-xs opacity-30 uppercase font-bold font-mono mr-1.5">IDENTITY STATUS:</span>
                       <span className="text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-400/20 px-3 py-0.5 rounded-sm uppercase font-mono font-bold">TIER 2 VERIFIED</span>
                     </div>
                   </div>
@@ -1305,9 +1305,9 @@ export const AdminView: React.FC<{
                             <span className="text-[10px] font-black uppercase text-white/40 tracking-[0.2em] block border-b border-white/5 pb-2">🛡️ {t('AUDIT PROCESS CHECKLIST', 'VÉRIFICATIONS RÉGLEMENTAIRES')}</span>
                             <div className="space-y-3">
                               {[
-                                { id: 'id_check', name: t('Passport / KYC Identity Cleared', 'Passeport & Identité KYC Approuvé'), desc: t('Validated via international authorities.', 'Validé via registres civils internationaux.') },
+                                { id: 'id_check', name: t('Identity Verification Cleared', 'Identité Vérifiée'), desc: t('Validated via international authorities.', 'Validé via registres civils internationaux.') },
                                 { id: 'portfolio_check', name: t('Portfolio Asset Audit', 'Inspection Technique Portfolio'), desc: t('Creative property integrity checked.', 'Contrôle d\'intégrité des actifs artistiques.') },
-                                { id: 'aml_check', name: t('AML Capital Integrity Stamp', 'Vérification AML & Anti-Blanchiment'), desc: t('Capital proof values certified.', 'Origine des fonds et conformité validée.') },
+                                { id: 'expertise_check', name: t('Professional Expertise Review', 'Vérification d\'Expertise Professionnelle'), desc: t('Credentials and track record certified.', 'Références et parcours professionnel validés.') },
                                 { id: 'entity_check', name: t('Legal Entity Compliance Sync', 'Attestation d\'Activité Commerciale'), desc: t('Corporate authorization verified.', 'Registre de commerce actif et certifié.') },
                               ].map((step) => (
                                 <div 
@@ -1334,7 +1334,7 @@ export const AdminView: React.FC<{
                               {[
                                 { file: 'PASSPORT_IDENTITY_DECRYPT.enc', size: '15.4 MB', schema: 'AES-256' },
                                 { file: 'INCORPORATION_CERTIFICATE.enc', size: '8.2 MB', schema: 'AES-256' },
-                                { file: 'CAPITAL_PROOF_LEDGER.enc', size: '24.1 MB', schema: 'AES-256-GCM' },
+                                { file: 'PROFESSIONAL_CREDENTIALS.enc', size: '24.1 MB', schema: 'AES-256-GCM' },
                               ].map((doc, dIdx) => (
                                 <div 
                                   key={dIdx}
@@ -1353,7 +1353,7 @@ export const AdminView: React.FC<{
                               ))}
                             </div>
                             <div className="p-4 bg-accent-gold/5 border border-accent-gold/20 rounded-xl text-center">
-                              <span className="text-[9.5px] font-bold text-accent-gold uppercase tracking-wider block">🔒 LYA LEDGER CLEARED NODE</span>
+                              <span className="text-[9.5px] font-bold text-accent-gold uppercase tracking-wider block">🔒 LYA REGISTRY CLEARED</span>
                               <span className="text-[8.5px] font-mono text-accent-gold/60 block mt-1">HASH: F843-D08E-CC21-99A0</span>
                             </div>
                           </div>
@@ -1728,8 +1728,8 @@ export const AdminView: React.FC<{
                         </div>
 
                         <div className="bg-accent-gold/10 border border-accent-gold/20 rounded-xl p-3 text-center">
-                          <p className="text-[9px] text-white/40 uppercase tracking-widest">LYA UNIT au lancement</p>
-                          <p className="text-xl font-black text-accent-gold">${(50 * (1 + publishForm.growth / 100)).toFixed(2)}</p>
+                          <p className="text-[9px] text-white/40 uppercase tracking-widest">{t('Score Trend au lancement', 'Score Trend au lancement')}</p>
+                          <p className="text-xl font-black text-accent-gold">{publishForm.growth >= 0 ? '+' : ''}{publishForm.growth}%</p>
                         </div>
                       </div>
 
