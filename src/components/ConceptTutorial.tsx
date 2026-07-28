@@ -25,35 +25,35 @@ interface Step {
 const TUTORIAL_STEPS: (t: any) => Step[] = (t) => [
   {
     id: 1,
-    title: 'BIENVENUE SUR LINKYOURART',
-    description: 'La première plateforme de certification créative qui évalue les œuvres artistiques via le Score LYA — un standard de qualité objectif et transparent, exclusif au monde de la création.',
+    title: t('WELCOME TO LINKYOURART', 'BIENVENUE SUR LINKYOURART'),
+    description: t('The first creative certification platform that evaluates artistic works through the LYA Score — an objective, transparent quality standard, exclusive to the creative world.', 'La première plateforme de certification créative qui évalue les œuvres artistiques via le Score LYA — un standard de qualité objectif et transparent, exclusif au monde de la création.'),
     color: 'text-primary-cyan',
     glowColor: 'rgba(0, 224, 255, 0.3)',
     icon: <Globe size={48} />,
     points: [
-      'CERTIFICATION OBJECTIVE AVEC LE LYA SCORE SUR 1000 POINTS',
-      'ANALYSE ALGORITHMIQUE + REVUE PAR UN COMITÉ D\'EXPERTS',
-      '9+ UNIVERS ARTISTIQUES — MUSIQUE · CINÉMA · MODE · JEU · ARCHITECTURE · PHOTOGRAPHIE · SÉRIES TV · ET PLUS'
+      t('OBJECTIVE CERTIFICATION WITH THE LYA SCORE OUT OF 1000 POINTS', 'CERTIFICATION OBJECTIVE AVEC LE LYA SCORE SUR 1000 POINTS'),
+      t('ALGORITHMIC ANALYSIS + EXPERT COMMITTEE REVIEW', 'ANALYSE ALGORITHMIQUE + REVUE PAR UN COMITÉ D\'EXPERTS'),
+      t('9+ ARTISTIC UNIVERSES — MUSIC · FILM · FASHION · GAMING · ARCHITECTURE · PHOTOGRAPHY · TV SERIES · AND MORE', '9+ UNIVERS ARTISTIQUES — MUSIQUE · CINÉMA · MODE · JEU · ARCHITECTURE · PHOTOGRAPHIE · SÉRIES TV · ET PLUS')
     ],
     illustration: 'welcome'
   },
   {
     id: 2,
-    title: 'LE LYA SCORE — 5 PILIERS',
+    title: t('THE LYA SCORE — 5 PILLARS', 'LE LYA SCORE — 5 PILIERS'),
     description: t('Our proprietary benchmark evaluates each creative work across 5 certified pillars, delivering a transparent quality index out of 1000. Like Moody\'s for finance — but for creative works.', 'Notre étalon propriétaire évalue chaque œuvre selon 5 piliers certifiés, produisant un indice de qualité transparent sur 1000. Comme Moody\'s pour la finance — mais pour la création.'),
     color: 'text-purple-400',
     glowColor: 'rgba(192, 132, 252, 0.3)',
     icon: <Zap size={48} />,
     points: [
       t('IC · INTEGRITY  ·  MA · MATURITY  ·  CE · EVOLUTION  ·  FR · FEASIBILITY  ·  IN · EMBODIMENT', 'IC · INTÉGRITÉ CONCEPTUELLE  ·  MA · MATURITÉ ACTUELLE  ·  CE · CAPACITÉ D\'ÉVOLUTION  ·  FR · FAISABILITÉ RÉELLE  ·  IN · INCARNATION'),
-      'CHAQUE PILIER NOTÉ SUR 200 POINTS MAXIMUM',
-      'LYA SCORE TOTAL SUR 1000 — VÉRIFIABLE & TRANSPARENT'
+      t('EACH PILLAR SCORED OUT OF 200 POINTS MAXIMUM', 'CHAQUE PILIER NOTÉ SUR 200 POINTS MAXIMUM'),
+      t('TOTAL LYA SCORE OUT OF 1000 — VERIFIABLE & TRANSPARENT', 'LYA SCORE TOTAL SUR 1000 — VÉRIFIABLE & TRANSPARENT')
     ],
     illustration: 'score'
   },
   {
     id: 3,
-    title: 'C\'EST QUOI UN JALON ?',
+    title: t('WHAT IS A MILESTONE?', 'C\'EST QUOI UN JALON ?'),
     description: t('A milestone is a key, verified event in a project\'s life. Some are achievements — an exhibition, a signed contract, an award — and push the LYA Score up. Others are risks or delays — a legal dispute, a missed deadline — and pull it down. The LYA Score always reflects reality, good or bad.', 'Un jalon, c\'est un événement clé et vérifié dans la vie d\'un projet. Certains sont des réussites — une exposition, un contrat signé, un prix remporté — et font avancer le LYA Score. D\'autres sont des risques ou des retards — un litige, un délai non tenu — et le font reculer. Le LYA Score reflète toujours la réalité, en bien comme en mal.'),
     color: 'text-emerald-400',
     glowColor: 'rgba(52, 211, 153, 0.3)',
@@ -67,83 +67,83 @@ const TUTORIAL_STEPS: (t: any) => Step[] = (t) => [
   },
   {
     id: 4,
-    title: 'POUR LES CRÉATEURS',
-    description: 'Faites certifier et valoriser officiellement votre œuvre par LinkYourArt. Bénéficiez du soutien de mécènes qui croient en votre vision dès le premier jour.',
+    title: t('FOR CREATORS', 'POUR LES CRÉATEURS'),
+    description: t('Get your work officially certified and showcased by LinkYourArt. Benefit from the support of patrons who believe in your vision from day one.', 'Faites certifier et valoriser officiellement votre œuvre par LinkYourArt. Bénéficiez du soutien de mécènes qui croient en votre vision dès le premier jour.'),
     color: 'text-emerald-400',
     glowColor: 'rgba(52, 211, 153, 0.3)',
     icon: <Sparkles size={48} />,
     points: [
-      'CERTIFICATION LYA OFFICIELLE — VOTRE ŒUVRE ÉVALUÉE PAR DES EXPERTS',
-      'CONSERVEZ LE CONTRÔLE ARTISTIQUE TOTAL DE VOTRE CRÉATION',
-      'RECEVEZ LE SOUTIEN DE MÉCÈNES DÈS LE LANCEMENT DE VOTRE PROJET'
+      t('OFFICIAL LYA CERTIFICATION — YOUR WORK EVALUATED BY EXPERTS', 'CERTIFICATION LYA OFFICIELLE — VOTRE ŒUVRE ÉVALUÉE PAR DES EXPERTS'),
+      t('KEEP FULL ARTISTIC CONTROL OVER YOUR CREATION', 'CONSERVEZ LE CONTRÔLE ARTISTIQUE TOTAL DE VOTRE CRÉATION'),
+      t('RECEIVE SUPPORT FROM PATRONS FROM YOUR PROJECT\'S LAUNCH', 'RECEVEZ LE SOUTIEN DE MÉCÈNES DÈS LE LANCEMENT DE VOTRE PROJET')
     ],
     illustration: 'creators'
   },
   {
     id: 5,
-    title: 'POUR LES MÉCÈNES',
-    description: 'Soutenez les œuvres créatives en lesquelles vous croyez et partagez leurs succès futurs. Simple, accessible, significatif.',
+    title: t('FOR PATRONS', 'POUR LES MÉCÈNES'),
+    description: t('Support the creative works you believe in and share in their future success. Simple, accessible, meaningful.', 'Soutenez les œuvres créatives en lesquelles vous croyez et partagez leurs succès futurs. Simple, accessible, significatif.'),
     color: 'text-accent-gold',
     glowColor: 'rgba(255, 215, 0, 0.3)',
     icon: <Target size={48} />,
     points: [
-      'SOUTENEZ LES ŒUVRES DÈS $50 — ACCESSIBLE À TOUS',
-      'QUALITÉ CERTIFIÉE — LE LYA SCORE GARANTIT LA RIGUEUR DE SÉLECTION',
-      'SUIVEZ VOS ŒUVRES SOUTENUES EN TEMPS RÉEL'
+      t('SUPPORT WORKS FROM $50 — ACCESSIBLE TO EVERYONE', 'SOUTENEZ LES ŒUVRES DÈS $50 — ACCESSIBLE À TOUS'),
+      t('CERTIFIED QUALITY — THE LYA SCORE GUARANTEES SELECTION RIGOR', 'QUALITÉ CERTIFIÉE — LE LYA SCORE GARANTIT LA RIGUEUR DE SÉLECTION'),
+      t('TRACK YOUR SUPPORTED WORKS IN REAL TIME', 'SUIVEZ VOS ŒUVRES SOUTENUES EN TEMPS RÉEL')
     ],
     illustration: 'investors'
   },
   {
     id: 6,
-    title: 'POUR LES PROFESSIONNELS',
+    title: t('FOR PROFESSIONALS', 'POUR LES PROFESSIONNELS'),
     description: t('Join our network of certified validation experts. Evaluate creative works and contribute to the most rigorous quality benchmark in the creative industry.', 'Rejoignez notre réseau d\'experts en validation certifiés. Évaluez des œuvres créatives et contribuez à l\'étalon de qualité le plus rigoureux du secteur.'),
     color: 'text-pink-400',
     glowColor: 'rgba(244, 114, 182, 0.3)',
     icon: <Users size={48} />,
     points: [
-      'DEVENEZ EXPERT LYA EN VALIDATION CERTIFIÉ',
+      t('BECOME A CERTIFIED LYA VALIDATION EXPERT', 'DEVENEZ EXPERT LYA EN VALIDATION CERTIFIÉ'),
       t('EVALUATE WORKS ACROSS YOUR FIELD OF EXPERTISE', 'ÉVALUEZ DES ŒUVRES DANS VOTRE DOMAINE D\'EXPERTISE'),
-      'RÉSEAU PROFESSIONNEL EXCLUSIF INTER-SECTEURS'
+      t('EXCLUSIVE CROSS-SECTOR PROFESSIONAL NETWORK', 'RÉSEAU PROFESSIONNEL EXCLUSIF INTER-SECTEURS')
     ],
     illustration: 'professionals'
   },
   {
     id: 7,
-    title: 'EXPLOREZ LES ŒUVRES',
+    title: t('EXPLORE THE WORKS', 'EXPLOREZ LES ŒUVRES'),
     description: t('Several ways to discover creative projects across 9+ artistic universes — Music, Film, Visual Art, Fashion, Gaming, Architecture, TV Series, Photography and more.', "Plusieurs façons de découvrir des projets créatifs à travers 9+ univers artistiques — Musique, Cinéma, Art Visuel, Mode, Gaming, Architecture, Séries TV, Photographie et bien d'autres."),
     color: 'text-cyan-400',
     glowColor: 'rgba(34, 211, 238, 0.3)',
     icon: <Layers size={48} />,
     points: [
-      'MODE SWIPE — DÉCOUVERTE RAPIDE ET INTUITIVE',
-      'PATRONAGE HUB — SOUTENEZ VOS CRÉATIONS FAVORITES',
-      'FILTRES AVANCÉS PAR UNIVERS, LYA SCORE & RARETÉ'
+      t('SWIPE MODE — QUICK AND INTUITIVE DISCOVERY', 'MODE SWIPE — DÉCOUVERTE RAPIDE ET INTUITIVE'),
+      t('PATRONAGE HUB — SUPPORT YOUR FAVORITE CREATIONS', 'PATRONAGE HUB — SOUTENEZ VOS CRÉATIONS FAVORITES'),
+      t('ADVANCED FILTERS BY UNIVERSE, LYA SCORE & RARITY', 'FILTRES AVANCÉS PAR UNIVERS, LYA SCORE & RARETÉ')
     ],
     illustration: 'explore'
   },
   {
     id: 8,
-    title: 'VOTRE WATCHLIST',
-    description: 'Suivez les œuvres créatives qui vous importent et ne manquez aucune évolution de leur LYA SCORE.',
+    title: t('YOUR WATCHLIST', 'VOTRE WATCHLIST'),
+    description: t('Follow the creative works that matter to you and never miss a single evolution of their LYA SCORE.', 'Suivez les œuvres créatives qui vous importent et ne manquez aucune évolution de leur LYA SCORE.'),
     color: 'text-red-400',
     glowColor: 'rgba(248, 113, 113, 0.3)',
     icon: <Target size={48} />,
     points: [
       t('REAL-TIME LYA SCORE EVOLUTION ALERTS', 'ALERTES D\'ÉVOLUTION DU LYA SCORE EN TEMPS RÉEL'),
-      'ALERTES DE PROGRESSION SUR VOS ŒUVRES SUIVIES',
-      'SUIVI PERSONNALISÉ DE VOS ŒUVRES SOUTENUES'
+      t('PROGRESS ALERTS ON YOUR FOLLOWED WORKS', 'ALERTES DE PROGRESSION SUR VOS ŒUVRES SUIVIES'),
+      t('PERSONALIZED TRACKING OF YOUR SUPPORTED WORKS', 'SUIVI PERSONNALISÉ DE VOS ŒUVRES SOUTENUES')
     ],
     illustration: 'watchlist'
   },
   {
     id: 9,
-    title: 'ANALYSEZ & COMPAREZ',
-    description: 'Utilisez des outils de niveau professionnel pour analyser et comparer les œuvres avant de les soutenir.',
+    title: t('ANALYZE & COMPARE', 'ANALYSEZ & COMPAREZ'),
+    description: t('Use professional-grade tools to analyze and compare works before supporting them.', 'Utilisez des outils de niveau professionnel pour analyser et comparer les œuvres avant de les soutenir.'),
     color: 'text-indigo-400',
     glowColor: 'rgba(129, 140, 248, 0.3)',
     icon: <BarChart3 size={48} />,
     points: [
-      'DÉTAIL DU LYA SCORE PAR PILIER',
+      t('LYA SCORE BREAKDOWN BY PILLAR', 'DÉTAIL DU LYA SCORE PAR PILIER'),
       t('SIDE-BY-SIDE CREATIVE WORK COMPARISON', 'COMPARAISON D\'ŒUVRES CÔTE À CÔTE'),
       t('PREDICTIVE ANALYTICS POWERED BY AI', 'ANALYSES PRÉDICTIVES PROPULSÉES PAR L\'IA')
     ],
@@ -151,29 +151,29 @@ const TUTORIAL_STEPS: (t: any) => Step[] = (t) => [
   },
   {
     id: 10,
-    title: 'REGISTRE & ÉCOSYSTÈME',
+    title: t('REGISTRY & ECOSYSTEM', 'REGISTRE & ÉCOSYSTÈME'),
     description: t('The complete certification registry, tracking every certified project alongside a growing ecosystem — Press & Media, and soon Jobs.', 'Le registre de certification complet, suivant chaque projet certifié au sein d\'un écosystème grandissant — Presse & Médias, et bientôt Jobs.'),
     color: 'text-amber-400',
     glowColor: 'rgba(251, 191, 36, 0.3)',
     icon: <TrendingUp size={48} />,
     points: [
-      'REGISTRE PUBLIC — TOUS LES PROJETS CERTIFIÉS ET LEUR SCORE LYA',
-      'PRESSE & MÉDIAS — UN ESPACE DÉDIÉ AUX JOURNALISTES ET RÉDACTEURS',
+      t('PUBLIC REGISTRY — ALL CERTIFIED PROJECTS AND THEIR LYA SCORE', 'REGISTRE PUBLIC — TOUS LES PROJETS CERTIFIÉS ET LEUR SCORE LYA'),
+      t('PRESS & MEDIA — A DEDICATED SPACE FOR JOURNALISTS AND EDITORS', 'PRESSE & MÉDIAS — UN ESPACE DÉDIÉ AUX JOURNALISTES ET RÉDACTEURS'),
       t('REGISTRY OVERVIEW & PREDICTIVE ANALYTICS', 'VUE D\'ENSEMBLE DU REGISTRE & ANALYSES PRÉDICTIVES')
     ],
     illustration: 'market'
   },
   {
     id: 11,
-    title: 'SÉCURITÉ & CONFIANCE',
-    description: 'LinkYourArt est bâti sur des fondations de conformité juridique rigoureuse, protection des données et certification des droits créatifs.',
+    title: t('SECURITY & TRUST', 'SÉCURITÉ & CONFIANCE'),
+    description: t('LinkYourArt is built on foundations of rigorous legal compliance, data protection, and certified creative rights.', 'LinkYourArt est bâti sur des fondations de conformité juridique rigoureuse, protection des données et certification des droits créatifs.'),
     color: 'text-emerald-500',
     glowColor: 'rgba(16, 185, 129, 0.3)',
     icon: <Shield size={48} />,
     points: [
-      'CONFORME RGPD — PROTECTION DES DONNÉES DE BOUT EN BOUT',
-      'DROITS CRÉATIFS CERTIFIÉS LÉGALEMENT À CHAQUE ÉTAPE',
-      'AUTHENTIFICATION MULTI-FACTEURS & INFRASTRUCTURE SÉCURISÉE'
+      t('GDPR COMPLIANT — END-TO-END DATA PROTECTION', 'CONFORME RGPD — PROTECTION DES DONNÉES DE BOUT EN BOUT'),
+      t('LEGALLY CERTIFIED CREATIVE RIGHTS AT EVERY STEP', 'DROITS CRÉATIFS CERTIFIÉS LÉGALEMENT À CHAQUE ÉTAPE'),
+      t('MULTI-FACTOR AUTHENTICATION & SECURE INFRASTRUCTURE', 'AUTHENTIFICATION MULTI-FACTEURS & INFRASTRUCTURE SÉCURISÉE')
     ],
     illustration: 'security'
   }
