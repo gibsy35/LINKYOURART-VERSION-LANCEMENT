@@ -107,15 +107,6 @@ service cloud.firestore {
       allow delete: if isAdmin();
     }
 
-    // ── LIQUIDITY REQUESTS ─────────────────────────────────────────────────
-    match /liquidity_requests/{docId} {
-      allow create: if isSignedIn();
-      allow read: if isSignedIn() && (
-        resource.data.userId == request.auth.uid || isAdmin()
-      );
-      allow delete: if isAdmin();
-    }
-
     // ── PROJECTS ───────────────────────────────────────────────────────────
     match /projects/{projectId} {
       allow read: if true;
@@ -201,11 +192,6 @@ service cloud.firestore {
       allow update, delete: if isSignedIn() && (
         resource.data.creatorId == request.auth.uid || isAdmin()
       );
-    }
-
-    match /settlements/{docId} {
-      allow read: if isSignedIn();
-      allow create, update, delete: if isAdmin();
     }
 
     match /audit_requests/{docId} {
