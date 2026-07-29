@@ -510,7 +510,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                     {
                       value: "1",
                       label: t("unique value standard", "valeur unique au monde"),
-                      sub: t("The LYA Score — a sovereign certification standard", "Le Score LYA — un standard de certification souverain"),
+                      sub: t("The LYA Score — an objective certification standard", "Le Score LYA — un standard de certification objectif"),
                       color: "#00ff88"
                     }
                   ].map((stat, i) => (
