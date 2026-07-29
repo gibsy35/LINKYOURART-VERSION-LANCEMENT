@@ -125,7 +125,7 @@ export const Topbar: React.FC<TopbarProps> = ({
                 rows.push({
                   key: `score-${item.id}-${i}`,
                   node: (
-                    <div className="flex items-center gap-6 cursor-pointer group h-full px-4 transition-colors"
+                    <div className="flex items-center gap-6 cursor-pointer group h-full px-4 border-l-2 border-primary-cyan/30 hover:bg-white/5 transition-colors"
                       onClick={() => onSelectContract ? onSelectContract(item) : onViewChange('DASHBOARD')}>
                       <span className="text-[10px] font-black text-white group-hover:text-primary-cyan transition-colors uppercase tracking-widest flex items-center gap-2">
                         <span className="text-on-surface-variant/40">{item.registryIndex}</span>
@@ -146,9 +146,10 @@ export const Topbar: React.FC<TopbarProps> = ({
                   rows.push({
                     key: `milestone-${item.id}-${i}`,
                     node: (
-                      <div className="flex items-center gap-2 h-full px-4">
+                      <div className="flex items-center gap-2 h-full px-4 cursor-pointer group border-l-2 border-accent-gold/30 hover:bg-accent-gold/5 transition-colors"
+                        onClick={() => onSelectContract ? onSelectContract(item) : onViewChange('DASHBOARD')}>
                         <Award size={11} className="text-accent-gold" />
-                        <span className="text-[10px] font-black text-accent-gold uppercase tracking-widest">{item.name}:</span>
+                        <span className="text-[10px] font-black text-accent-gold uppercase tracking-widest group-hover:text-white transition-colors">{item.name}:</span>
                         <span className="text-[10px] text-on-surface-variant/60 uppercase tracking-widest">{m.label}</span>
                       </div>
                     ),
@@ -158,27 +159,30 @@ export const Topbar: React.FC<TopbarProps> = ({
               mediaAnnouncements.forEach((txt, i) => rows.push({
                 key: `media-${i}`,
                 node: (
-                  <div className="flex items-center gap-2 h-full px-4">
+                  <div className="flex items-center gap-2 h-full px-4 cursor-pointer group border-l-2 border-[#a78bfa]/30 hover:bg-[#a78bfa]/5 transition-colors"
+                    onClick={() => onViewChange('SOCIAL_FEED')}>
                     <Newspaper size={11} className="text-[#a78bfa]" />
-                    <span className="text-[10px] text-on-surface-variant/70 uppercase tracking-widest">{txt}</span>
+                    <span className="text-[10px] text-on-surface-variant/70 uppercase tracking-widest group-hover:text-[#a78bfa] transition-colors">{txt}</span>
                   </div>
                 ),
               }));
               registryStats.forEach((txt, i) => rows.push({
                 key: `stat-${i}`,
                 node: (
-                  <div className="flex items-center gap-2 h-full px-4">
+                  <div className="flex items-center gap-2 h-full px-4 cursor-pointer group border-l-2 border-primary-cyan/30 hover:bg-primary-cyan/5 transition-colors"
+                    onClick={() => onViewChange('REGISTRY')}>
                     <ShieldCheck size={11} className="text-primary-cyan" />
-                    <span className="text-[10px] text-on-surface-variant/70 uppercase tracking-widest">{txt}</span>
+                    <span className="text-[10px] text-on-surface-variant/70 uppercase tracking-widest group-hover:text-primary-cyan transition-colors">{txt}</span>
                   </div>
                 ),
               }));
               sectorHighlights.forEach((txt, i) => rows.push({
                 key: `sector-${i}`,
                 node: (
-                  <div className="flex items-center gap-2 h-full px-4">
+                  <div className="flex items-center gap-2 h-full px-4 cursor-pointer group border-l-2 border-emerald-400/30 hover:bg-emerald-400/5 transition-colors"
+                    onClick={() => onViewChange('DASHBOARD')}>
                     <TrendingUp size={11} className="text-emerald-400" />
-                    <span className="text-[10px] text-on-surface-variant/70 uppercase tracking-widest">{txt}</span>
+                    <span className="text-[10px] text-on-surface-variant/70 uppercase tracking-widest group-hover:text-emerald-400 transition-colors">{txt}</span>
                   </div>
                 ),
               }));
