@@ -459,7 +459,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                   {/* ── TITRE : 2 lignes, typo ultra grasse ── */}
                   <h2 className="font-headline text-5xl md:text-6xl xl:text-7xl font-black uppercase tracking-tighter leading-[0.88] text-on-surface mb-6" style={{ textShadow: "0 0 60px rgba(0,212,255,0.12)" }}>
                     <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}>
-                      {t("THE SOVEREIGN STANDARD", "L'ÉTALON SOUVERAIN")}<br />
+                      {t("THE REFERENCE STANDARD", "L'ÉTALON DE RÉFÉRENCE")}<br />
                       <span className="text-primary-cyan" style={{ WebkitTextStroke: "1px rgba(0,212,255,0.3)" }}>{t("FOR CREATIVE WORKS", "DE LA CRÉATION")}</span>
                     </motion.div>
                   </h2>
