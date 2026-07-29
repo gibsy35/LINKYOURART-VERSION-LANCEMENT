@@ -140,7 +140,7 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange, onNotify }) 
             </div>
 
             <p className="text-xl md:text-3xl text-white font-black uppercase tracking-[0.2em] max-w-4xl mx-auto drop-shadow-xl text-justify">
-              {t('World First Creative Exchange System', 'Premier Système d\'Échange Créatif au Monde')}
+              {t('World First Creative Certification Standard', 'Premier Standard de Certification Créative au Monde')}
             </p>
             
             <div className="mt-12 flex flex-wrap justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
@@ -176,20 +176,20 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange, onNotify }) 
             <div className="space-y-6 text-on-surface-variant leading-relaxed text-base md:text-lg font-medium opacity-70 text-justify">
               <p>
                 {t(
-                  "In 2006, Jean-Baptiste Lequime founded LINKYOURART with a single, clear-eyed ambition: to build the first international bridge between creative works and the industries that need them. Music, film, fashion, gaming, design, architecture, performing arts — every creation found a home here, at a time when no platform dared to unite them all.",
-                  "En 2006, Jean-Baptiste Lequime fonde LINKYOURART avec une ambition claire et pionnière : bâtir le premier pont international entre les créations et les industries qui en ont besoin. Musique, cinéma, mode, jeux vidéo, design, architecture, arts de la scène — chaque création y trouve sa place, à une époque où aucune plateforme n'osait encore toutes les réunir."
+                  "In 2006, Jean-Baptiste Lequime founded LINKYOURART, drawing on years of experience in business development within the creative industries — specialized in film and entertainment projects. His ambition was clear and pioneering: to build the first international bridge between creative works and the industries that need them. Music, film, fashion, gaming, design, architecture, performing arts — every creation found a home here, at a time when no platform dared to unite them all.",
+                  "En 2006, Jean-Baptiste Lequime fonde LINKYOURART, fort de plusieurs années d'expérience en développement commercial (business development) au sein des industries créatives — spécialisé dans les projets de films et de divertissement. Son ambition était claire et pionnière : bâtir le premier pont international entre les créations et les industries qui en ont besoin. Musique, cinéma, mode, jeux vidéo, design, architecture, arts de la scène — chaque création y trouve sa place, à une époque où aucune plateforme n'osait encore toutes les réunir."
                 )}
               </p>
               <p>
                 {t(
-                  "For nearly two decades, LINKYOURART has quietly shaped the creative economy — revealing emerging works, forging collaborations, and giving the most ambitious projects the visibility they deserve. A space where creation meets technology, and vision meets opportunity.",
-                  "Pendant près de deux décennies, LINKYOURART a façonné en silence l'économie créative — révélant des créations émergentes, tissant des collaborations, et offrant aux projets les plus ambitieux la visibilité qu'ils méritent. Un espace où la création rencontre la technologie, et la vision rencontre l'opportunité."
+                  "For nearly two decades, LINKYOURART has quietly shaped the creative industries — revealing emerging works, forging collaborations, and giving the most ambitious projects the visibility they deserve. A space where creation meets technology, and vision meets opportunity.",
+                  "Pendant près de deux décennies, LINKYOURART a façonné en silence les industries créatives — révélant des créations émergentes, tissant des collaborations, et offrant aux projets les plus ambitieux la visibilité qu'ils méritent. Un espace où la création rencontre la technologie, et la vision rencontre l'opportunité."
                 )}
               </p>
               <p>
                 {t(
-                  "Today, on its 20th anniversary, LINKYOURART is embarking on a new stage with the launch of an entirely redesigned platform, more contemporary, more immersive, and aligned with new economic models of creation.",
-                  "Aujourd'hui, à l'occasion de ses 20 ans, LINKYOURART entame une nouvelle étape avec le lancement d'une plateforme entièrement repensée, plus contemporaine, plus immersive et alignée avec les nouveaux modèles économiques de la création."
+                  "Today, on its 20th anniversary, LINKYOURART is embarking on a new stage with the launch of an entirely redesigned platform, more contemporary, more immersive, and built around an objective standard for creative certification.",
+                  "Aujourd'hui, à l'occasion de ses 20 ans, LINKYOURART entame une nouvelle étape avec le lancement d'une plateforme entièrement repensée, plus contemporaine, plus immersive et construite autour d'un standard objectif de certification créative."
                 )}
               </p>
             </div>
@@ -263,8 +263,8 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange, onNotify }) 
               title: t('Mission', 'Mission'),
               icon: <Target className="text-primary-cyan" />,
               desc: t(
-                "Transforming creative ideas into living projects. We professionally evaluate each project, then break it down into contractual rights indexed to its performance.",
-                "Transformer les idées créatives en projets vivants. Nous évaluons professionnellement chaque projet, puis le découpons en droits contractuels indexés sur sa performance."
+                "Transforming creative ideas into living projects. We professionally evaluate each project, then certify it through the LYA Score, an objective standard recognized by patrons and industry professionals.",
+                "Transformer les idées créatives en projets vivants. Nous évaluons professionnellement chaque projet, puis le certifions via le Score LYA, un standard objectif reconnu par les mécènes et les professionnels de l'industrie."
               )
             },
             {
@@ -279,16 +279,16 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange, onNotify }) 
               title: t('Innovation', 'Innovation'),
               icon: <Zap className="text-accent-purple" />,
               desc: t(
-                "We combine professional evaluation, indexed contractual rights, and a community market in a spectacular creative experience. Neural Network LYA, Project DNA, Live Exchange Feed.",
-                "Nous combinons évaluation professionnelle, droits contractuels indexés et marché communautaire dans une expérience créative spectaculaire. Neural Network LYA, Project DNA, Live Exchange Feed."
+                "We combine professional evaluation, certified creative rights, and a patron recognition network in a spectacular creative experience. Neural Network LYA, Project DNA, Live Certification Feed.",
+                "Nous combinons évaluation professionnelle, droits créatifs certifiés et réseau de reconnaissance des mécènes dans une expérience créative spectaculaire. Neural Network LYA, Project DNA, Flux de Certification en Direct."
               )
             },
             {
               title: t('International', 'International'),
               icon: <Globe className="text-primary-cyan" />,
               desc: t(
-                "LinkYourArt is multilingual and open to creative projects, partenaire créatifs, and professionals from all over the world. The creative industry has no borders.",
-                "LinkYourArt est multilingue et ouvert aux projets créatifs, partenaire créatifs et professionnels du monde entier. L'industrie créative n'a pas de frontières."
+                "LinkYourArt is multilingual and open to creative projects, patrons, and professionals from all over the world. The creative industry has no borders.",
+                "LinkYourArt est multilingue et ouvert aux projets créatifs, aux mécènes et aux professionnels du monde entier. L'industrie créative n'a pas de frontières."
               )
             }
           ].map((value, i) => (
@@ -318,8 +318,8 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange, onNotify }) 
             </h2>
             <p className="text-on-surface-variant max-w-2xl mx-auto text-lg font-medium opacity-80 text-justify">
               {t(
-                "Whether you are a creator, partenaire créatif, or art professional, LinkYourArt is made for you.",
-                "Que vous soyez créateur, partenaire créatif, ou professionnel de l'art, LinkYourArt est fait pour vous."
+                "Whether you are a creator, a patron, or an art professional, LinkYourArt is made for you.",
+                "Que vous soyez créateur, mécène, ou professionnel de l'art, LinkYourArt est fait pour vous."
               )}
             </p>
           </div>
@@ -346,7 +346,7 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange, onNotify }) 
         <div className="flex flex-col items-center gap-6">
           <Heart className="text-accent-pink animate-pulse" size={32} />
           <p className="text-xs font-black text-on-surface-variant uppercase tracking-[0.5em] opacity-40">
-            {t('MADE WITH PASSION FOR THE CREATIVE ECONOMY', 'FAIT AVEC PASSION POUR L\'ÉCONOMIE CRÉATIVE')}
+            {t('MADE WITH PASSION FOR THE CREATIVE INDUSTRIES', 'FAIT AVEC PASSION POUR LES INDUSTRIES CRÉATIVES')}
           </p>
         </div>
       </footer>
