@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ShieldCheck, Eye, Palette, TrendingUp, Briefcase, ChevronDown, Zap } from 'lucide-react';
+import { ShieldCheck, Eye, Palette, TrendingUp, Briefcase, ChevronDown, Zap, EyeOff } from 'lucide-react';
 import { UserRole } from '../../types';
 
 export type SimulatedRole = 'VISITOR' | UserRole.CREATOR | UserRole.PATRON | UserRole.PROFESSIONAL | UserRole.ADMIN;
@@ -20,7 +20,23 @@ const ROLES: { key: SimulatedRole; label: string; labelFr: string; icon: React.R
 
 export const RoleSimulatorBar: React.FC<RoleSimulatorBarProps> = ({ simulatedRole, onRoleChange }) => {
   const [open, setOpen] = useState(false);
+  const [hidden, setHidden] = useState(false);
   const active = ROLES.find(r => r.key === (simulatedRole ?? UserRole.ADMIN)) ?? ROLES[4];
+
+  // Masqué : ne laisse qu'un petit tab discret en bas à droite pour le réafficher
+  if (hidden) {
+    return (
+      <div className="fixed bottom-4 right-4 z-[600] pointer-events-auto">
+        <button
+          onClick={() => setHidden(false)}
+          title="Réafficher le simulateur admin"
+          className="flex items-center justify-center w-8 h-8 bg-[#0D1117]/80 border border-emerald-500/20 backdrop-blur-xl hover:border-emerald-500/50 transition-all rounded-full opacity-40 hover:opacity-100"
+        >
+          <Eye size={12} className="text-emerald-400/70" />
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[600] pointer-events-auto">
@@ -41,6 +57,15 @@ export const RoleSimulatorBar: React.FC<RoleSimulatorBarProps> = ({ simulatedRol
             {active.icon} {active.labelFr}
           </span>
           <ChevronDown size={12} className={`text-white/40 transition-transform ${open ? 'rotate-180' : ''}`} />
+          <span className="w-px h-4 bg-white/10" />
+          <span
+            role="button"
+            onClick={(e) => { e.stopPropagation(); setHidden(true); setOpen(false); }}
+            title="Masquer (utile pour les captures d'écran)"
+            className="flex items-center justify-center hover:text-white/80 text-white/40 transition-colors"
+          >
+            <EyeOff size={13} />
+          </span>
         </button>
 
         {/* Dropdown */}
