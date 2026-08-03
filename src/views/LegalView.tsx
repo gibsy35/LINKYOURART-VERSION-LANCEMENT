@@ -90,7 +90,7 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify, onViewChan
       sections: [
         {
           title: t('1. Identity', '1. Identité'),
-          text: t('LINKYOURART SASU, a company registered in France, headquartered at 122 rue Amelot, 75011 Paris, France. SIRET: 108 141 946 00013. Founded by Jean-Baptiste LEQUIME. LINKYOURART SASU is an independent platform dedicated to the creative economy. Contact: contact@linkyourart.com', 'LINKYOURART SASU, société immatriculée en France, domiciliée au 122 rue Amelot, 75011 Paris, France. SIRET : 108 141 946 00013. Fondée par Jean-Baptiste LEQUIME. LINKYOURART SASU est une plateforme indépendante dédiée à l\'économie créative. Contact : contact@linkyourart.com')
+          text: t('LINKYOURART SASU, a company registered in France, headquartered at 122 rue Amelot, 75011 Paris, France. SIRET: 108 141 946 00013. Founded by Jean-Baptiste LEQUIME. LINKYOURART SASU is an independent platform building the global certification standard for creative work. Contact: contact@linkyourart.com', 'LINKYOURART SASU, société immatriculée en France, domiciliée au 122 rue Amelot, 75011 Paris, France. SIRET : 108 141 946 00013. Fondée par Jean-Baptiste LEQUIME. LINKYOURART SASU est une plateforme indépendante qui construit le standard mondial de certification des œuvres créatives. Contact : contact@linkyourart.com')
         },
         {
           title: t('2. Hosting', '2. Hébergement'),
