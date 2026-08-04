@@ -151,7 +151,7 @@ export default function App() {
   const [selectedContract, setSelectedContract] = useState<Contract | null>(null);
   const [viewingContract, setViewingContract] = useState<Contract | null>(null);
   const [selectedPlan, setSelectedPlan] = useState<{ name: string, price: number, billingCycle: 'monthly' | 'yearly' } | null>(null);
-  const [checkoutData, setCheckoutData] = useState<{ type: 'PRO_UPGRADE' | 'ASSET_PURCHASE'; amount: number; metadata: any; title: string; projectName?: string; } | null>(null);
+  const [checkoutData, setCheckoutData] = useState<{ type: 'PRO_UPGRADE'; amount: number; metadata: any; title: string; projectName?: string; } | null>(null);
   const [userContracts, setUserContracts] = useState<any[]>([]);
   useEffect(() => {
     const defaultHoldings = [

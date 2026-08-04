@@ -177,7 +177,7 @@ const CheckoutForm: React.FC<{
 
 export const PaymentView: React.FC<{ 
   checkoutData: {
-    type: 'PRO_UPGRADE' | 'ASSET_PURCHASE';
+    type: 'PRO_UPGRADE';
     amount: number;
     metadata: any;
     title: string;

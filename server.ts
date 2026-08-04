@@ -66,13 +66,13 @@ async function startServer() {
         const paymentIntent = event.data.object as Stripe.PaymentIntent;
         console.log(`[PAYMENT_SUCCESS] PaymentIntent: ${paymentIntent.id}`);
         
-        const type = paymentIntent.metadata.type; // PRO_UPGRADE or ASSET_PURCHASE
+        const type = paymentIntent.metadata.type; // PRO_UPGRADE
         const userEmail = paymentIntent.metadata.userEmail;
         const customerId = paymentIntent.customer as string;
 
         if (userEmail && firebaseAdminApp) {
           const db = firebaseAdminApp.firestore();
-          
+
           if (type === 'PRO_UPGRADE') {
             try {
               const usersRef = db.collection('users');
@@ -90,35 +90,10 @@ async function startServer() {
             } catch (err) {
               console.error(`[PRO_ERROR] Failed for ${userEmail}:`, err);
             }
-          } else if (type === 'ASSET_PURCHASE') {
-            try {
-              const { contractId, units, price, projectName, userId } = paymentIntent.metadata;
-              if (userId && contractId) {
-                const contractRef = db.collection('users').doc(userId).collection('contracts').doc(contractId);
-                const doc = await contractRef.get();
-                
-                if (doc.exists) {
-                  const existingUnits = doc.data()?.units || 0;
-                  await contractRef.update({
-                    units: existingUnits + Number(units),
-                    updatedAt: admin.firestore.FieldValue.serverTimestamp()
-                  });
-                } else {
-                  await contractRef.set({
-                    uid: userId,
-                    projectId: contractId,
-                    projectName: projectName || 'Unknown Project',
-                    units: Number(units),
-                    entryPrice: Number(price),
-                    purchaseDate: admin.firestore.FieldValue.serverTimestamp()
-                  });
-                }
-                console.log(`[ASSET_PURCHASE] ${units} units of ${contractId} granted to ${userId}`);
-              }
-            } catch (err) {
-              console.error(`[ASSET_ERROR] Failed for ${userEmail}:`, err);
-            }
           }
+          // Note: ASSET_PURCHASE (unit/share purchase) intentionally removed.
+          // Phase 1 positioning is certification-only — no negotiable financial
+          // instrument or unit purchase flow should process real payments.
         }
         break;
       case 'checkout.session.completed':
