@@ -72,12 +72,18 @@ function generateReferralCode(name) {
   return 'LYA-' + prefix + '-' + suffix;
 }
 
-function buildEmail(name, position, referralCode, referralLink, lang) {
+function buildEmail(name, position, referralCode, referralLink, lang, tier, accessKey) {
   const isFR = lang === 'FR';
+  const isInstant = tier === 'FOUNDING_PIONEER' || tier === 'ORIGINAL';
+  const isFounding = tier === 'FOUNDING_PIONEER';
 
   const subject = isFR
-    ? `[LYA Originals] ${name}, votre inscription est confirmée`
-    : `[LYA Originals] ${name}, your registration is confirmed`;
+    ? (isInstant
+        ? `[LYA Originals] ${name}, votre accès est prêt`
+        : `[LYA Originals] ${name}, votre inscription est confirmée`)
+    : (isInstant
+        ? `[LYA Originals] ${name}, your access is ready`
+        : `[LYA Originals] ${name}, your registration is confirmed`);
 
   const html = `<!DOCTYPE html>
 <html lang="${isFR ? 'fr' : 'en'}">
@@ -92,8 +98,12 @@ function buildEmail(name, position, referralCode, referralLink, lang) {
 <!-- Preheader text (anti-spam + preview) -->
 <div style="display:none;max-height:0;overflow:hidden;color:#f4f6f9">
   ${isFR
-    ? `${name}, votre demande d'accès LYA Originals LinkYourArt est bien enregistrée. Notre équipe vous contactera personnellement pour vous ouvrir les portes.`
-    : `${name}, your LinkYourArt LYA Originals access request is registered. Our team will personally contact you to open the doors.`
+    ? (isInstant
+        ? `${name}, votre accès LYA Originals est accordé — votre clé est prête, aucune attente.`
+        : `${name}, votre demande d'accès LYA Originals LinkYourArt est bien enregistrée.`)
+    : (isInstant
+        ? `${name}, your LYA Originals access is granted — your key is ready, no waiting.`
+        : `${name}, your LinkYourArt LYA Originals access request is registered.`)
   }
 &zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;
 </div>
@@ -114,11 +124,11 @@ function buildEmail(name, position, referralCode, referralLink, lang) {
         <td>
           <p style="margin:0;font-size:22px;font-weight:900;color:#ffffff;letter-spacing:0.18em;text-transform:uppercase">LINKYOURART</p>
           <p style="margin:6px 0 0;font-size:13px;color:rgba(255,255,255,0.35);font-style:italic;letter-spacing:0.02em">
-            "${isFR ? "Ce que vous créez aujourd'hui peut appartenir à mille personnes demain." : "What you create today can belong to a thousand people tomorrow."}"
+            "${isFR ? "Ce que vous certifiez aujourd'hui peut inspirer des milliers de personnes demain." : "What you certify today can inspire thousands of people tomorrow."}"
           </p>
         </td>
         <td align="right" style="vertical-align:top">
-          <span style="display:inline-block;background:rgba(245,200,66,0.12);border:1px solid rgba(245,200,66,0.35);border-radius:30px;padding:7px 16px;font-size:11px;font-weight:900;color:#f5c842;text-transform:uppercase;letter-spacing:0.12em;white-space:nowrap">✦ LYA ORIGINALS</span>
+          <span style="display:inline-block;background:rgba(245,200,66,0.12);border:1px solid rgba(245,200,66,0.35);border-radius:30px;padding:7px 16px;font-size:11px;font-weight:900;color:#f5c842;text-transform:uppercase;letter-spacing:0.12em;white-space:nowrap">✦ ${isFounding ? (isFR ? 'FOUNDING PIONEER' : 'FOUNDING PIONEER') : 'LYA ORIGINALS'}</span>
         </td>
       </tr>
     </table>
@@ -132,8 +142,12 @@ function buildEmail(name, position, referralCode, referralLink, lang) {
     </h1>
     <p style="margin:0;font-size:17px;color:rgba(255,255,255,0.55);line-height:1.6;max-width:420px;margin:0 auto">
       ${isFR
-        ? 'Votre demande d\'accès LYA Originals a été enregistrée avec succès. Vous rejoignez un cercle exclusif de créateurs, mécènes et professionnels visionnaires.'
-        : 'Your LYA Originals access request has been successfully registered. You are joining an exclusive circle of visionary creators, patrons and professionals.'
+        ? (isInstant
+            ? 'Votre accès LYA Originals est accordé, immédiatement — sans revue manuelle. Vous rejoignez un cercle exclusif de créateurs, mécènes et professionnels visionnaires.'
+            : 'Votre demande d\'accès LYA Originals a été enregistrée avec succès. Vous rejoignez un cercle exclusif de créateurs, mécènes et professionnels visionnaires.')
+        : (isInstant
+            ? 'Your LYA Originals access is granted, immediately — no manual review. You are joining an exclusive circle of visionary creators, patrons and professionals.'
+            : 'Your LYA Originals access request has been successfully registered. You are joining an exclusive circle of visionary creators, patrons and professionals.')
       }
     </p>
   </td></tr>
@@ -150,7 +164,7 @@ function buildEmail(name, position, referralCode, referralLink, lang) {
           </p>
 
           <!-- ÉTAPE 1 : ACTIF -->
-          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:16px">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:${isInstant ? '0' : '16px'}">
             <tr>
               <td style="width:44px;vertical-align:top">
                 <div style="width:40px;height:40px;background:#0d1117;border-radius:10px;text-align:center;line-height:40px;font-size:16px;color:#00d4ff">✓</div>
@@ -162,18 +176,35 @@ function buildEmail(name, position, referralCode, referralLink, lang) {
             </tr>
           </table>
 
+          ${isInstant ? `
+          <!-- ÉTAPE 2 : ACCÈS ACCORDÉ (INSTANTANÉ) -->
+          <div style="margin-left:20px;border-left:2px solid #00d4ff;padding-left:36px;margin-top:16px">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+            <tr>
+              <td style="width:44px;vertical-align:top">
+                <div style="width:40px;height:40px;background:#0d1117;border-radius:10px;text-align:center;line-height:40px;font-size:16px;color:${isFounding ? '#f5c842' : '#00d4ff'}">✓</div>
+              </td>
+              <td style="padding-left:16px;vertical-align:top">
+                <p style="margin:0 0 3px;font-size:15px;font-weight:900;color:#0d1117">${isFounding
+                  ? (isFR ? '02 — Founding Pioneer confirmé' : '02 — Founding Pioneer confirmed')
+                  : (isFR ? '02 — Accès accordé' : '02 — Access granted')}</p>
+                <p style="margin:0;font-size:13px;color:#475569;line-height:1.5">${isFR ? 'Aucune revue manuelle : votre clé d\'accès est ci-dessous, prête à l\'emploi.' : 'No manual review: your access key is below, ready to use.'}</p>
+              </td>
+            </tr>
+          </table>
+          </div>` : `
           <!-- DIVISEUR -->
           <div style="margin-left:20px;border-left:2px dashed #e2e8f0;padding-left:36px;margin-bottom:16px">
 
-          <!-- ÉTAPE 2 -->
+          <!-- ÉTAPE 2 : EN ATTENTE -->
           <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:16px;opacity:0.5">
             <tr>
               <td style="width:44px;vertical-align:top">
                 <div style="width:40px;height:40px;background:#f1f5f9;border:1.5px solid #e2e8f0;border-radius:10px;text-align:center;line-height:40px;font-size:13px;font-weight:900;color:#94a3b8">02</div>
               </td>
               <td style="padding-left:16px;vertical-align:top">
-                <p style="margin:0 0 3px;font-size:15px;font-weight:900;color:#475569">${isFR ? 'Sélection personnelle' : 'Personal selection'}</p>
-                <p style="margin:0;font-size:13px;color:#94a3b8;line-height:1.5">${isFR ? 'Notre équipe examine votre profil et vous sélectionne personnellement.' : 'Our team reviews your profile and personally selects you.'}</p>
+                <p style="margin:0 0 3px;font-size:15px;font-weight:900;color:#475569">${isFR ? 'Prochaine cohorte' : 'Next cohort'}</p>
+                <p style="margin:0;font-size:13px;color:#94a3b8;line-height:1.5">${isFR ? 'La cohorte actuelle est complète. Votre clé sera envoyée automatiquement à l\'ouverture de la suivante.' : 'The current cohort is full. Your key will be sent automatically once the next one opens.'}</p>
               </td>
             </tr>
           </table>
@@ -185,16 +216,32 @@ function buildEmail(name, position, referralCode, referralLink, lang) {
                 <div style="width:40px;height:40px;background:#f1f5f9;border:1.5px solid #e2e8f0;border-radius:10px;text-align:center;line-height:40px;font-size:13px;font-weight:900;color:#94a3b8">03</div>
               </td>
               <td style="padding-left:16px;vertical-align:top">
-                <p style="margin:0 0 3px;font-size:15px;font-weight:900;color:#475569">${isFR ? 'Accès exclusif' : 'Exclusive access'}</p>
-                <p style="margin:0;font-size:13px;color:#94a3b8;line-height:1.5">${isFR ? 'Vous recevrez un lien d\'accès unique pour créer votre compte.' : 'You will receive a unique access link to create your account.'}</p>
+                <p style="margin:0 0 3px;font-size:15px;font-weight:900;color:#475569">${isFR ? 'Accès automatique' : 'Automatic access'}</p>
+                <p style="margin:0;font-size:13px;color:#94a3b8;line-height:1.5">${isFR ? 'Dès l\'ouverture, votre clé d\'accès vous est envoyée par email, sans démarche de votre part.' : 'As soon as it opens, your access key is emailed to you automatically — no action needed on your end.'}</p>
               </td>
             </tr>
           </table>
-          </div>
+          </div>`}
 
         </td>
       </tr>
     </table>
+
+    ${isInstant ? `
+    <!-- CLÉ D'ACCÈS -->
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:36px">
+      <tr>
+        <td style="background:linear-gradient(135deg,#0d1117,#1a2332);border:1.5px solid ${isFounding ? 'rgba(245,200,66,0.35)' : 'rgba(0,212,255,0.25)'};border-radius:16px;padding:32px;text-align:center">
+          <p style="margin:0 0 8px;font-size:11px;font-weight:900;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.18em">${isFounding
+            ? (isFR ? 'Votre clé Founding Pioneer' : 'Your Founding Pioneer key')
+            : (isFR ? 'Votre clé d\'accès' : 'Your access key')}</p>
+          <p style="margin:0 0 16px;font-size:32px;font-weight:900;color:${isFounding ? '#f5c842' : '#00d4ff'};font-family:'Courier New',Courier,monospace;letter-spacing:0.06em">${accessKey || ''}</p>
+          <a href="https://linkyourart.com" style="display:inline-block;background:#ffffff;color:#0d1117;text-decoration:none;font-size:12px;font-weight:900;padding:14px 28px;border-radius:10px;text-align:center;letter-spacing:0.08em;text-transform:uppercase">
+            ${isFR ? 'Entrer maintenant' : 'Enter now'}
+          </a>
+        </td>
+      </tr>
+    </table>` : ''}
 
     <!-- CODE PARRAINAGE -->
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:36px">
@@ -316,7 +363,7 @@ module.exports = async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const { to, name, position, referralCode, referralLink, lang = 'FR' } = req.body || {};
+  const { to, name, position, referralCode, referralLink, lang = 'FR', tier, accessKey } = req.body || {};
   if (!to || !name) return res.status(400).json({ error: 'Missing required fields: to, name' });
 
   const code = referralCode || generateReferralCode(name);
@@ -327,7 +374,7 @@ module.exports = async (req, res) => {
   const user = process.env.SMTP_USER;
   const pass = process.env.SMTP_PASS;
 
-  const { subject, html } = buildEmail(name, position || 1, code, link, lang);
+  const { subject, html } = buildEmail(name, position || 1, code, link, lang, tier, accessKey);
 
   if (!host || !user || !pass) {
     console.log('[PRE_REG SIMULATED]', to, subject);

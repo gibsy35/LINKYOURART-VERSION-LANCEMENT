@@ -88,6 +88,8 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
   const [submitted, setSubmitted] = useState(false);
   const [queuePosition, setQueuePosition] = useState<number | null>(null);
   const [referralCode, setReferralCode] = useState<string | null>(null);
+  const [grantedAccessKey, setGrantedAccessKey] = useState<string | null>(null);
+  const [accessTier, setAccessTier] = useState<'FOUNDING_PIONEER' | 'ORIGINAL' | 'WAITLIST' | null>(null);
   const [referralAutoFilled, setReferralAutoFilled] = useState(false);
   const [referredBy, setReferredBy] = useState<string | null>(null);
   const [totalRegistrations, setTotalRegistrations] = useState<number | null>(null);
@@ -181,15 +183,50 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
     return `${initials}-${suffix}`;
   };
 
+  const generateAccessKey = () => {
+    const suffix1 = Math.random().toString(36).substring(2, 6).toUpperCase();
+    const suffix2 = Math.random().toString(36).substring(2, 6).toUpperCase();
+    return `LYA-${suffix1}-${suffix2}`;
+  };
+
+  // Common disposable/temporary email providers — blocked from instant access
+  // tiers to keep the founding cohort real. Not exhaustive by design (an
+  // arms race with new domains isn't worth chasing); catches the vast
+  // majority of throwaway-inbox signups.
+  const DISPOSABLE_EMAIL_DOMAINS = [
+    'mailinator.com', 'guerrillamail.com', 'guerrillamail.info', 'sharklasers.com',
+    '10minutemail.com', '10minutemail.net', 'tempmail.com', 'temp-mail.org',
+    'yopmail.com', 'yopmail.fr', 'throwawaymail.com', 'trashmail.com',
+    'getnada.com', 'dispostable.com', 'fakeinbox.com', 'maildrop.cc',
+    'moakt.com', 'mailnesia.com', 'mintemail.com', 'mohmal.com',
+    'emailondeck.com', 'tempinbox.com', 'discard.email', 'spamgourmet.com',
+    'mytemp.email', 'tempmailo.com', 'tempail.com', 'inboxbear.com',
+    'burnermail.io', 'crazymailing.com', 'harakirimail.com', 'anonbox.net',
+  ];
+
+  const isDisposableEmail = (addr: string) => {
+    const domain = addr.toLowerCase().trim().split('@')[1] || '';
+    return DISPOSABLE_EMAIL_DOMAINS.includes(domain);
+  };
+
   const TEST_EMAILS = ['linkyourart@gmail.com', 'jblequime27061983@gmail.com', 'lequimejeanbaptiste@gmail.com', 'jlequime@hotmail.com'];
 
   const handlePreRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !name) return;
+
+    const isTestEmail = TEST_EMAILS.includes(email.toLowerCase().trim());
+    if (!isTestEmail && isDisposableEmail(email)) {
+      window.alert(language === 'FR'
+        ? 'Les adresses email temporaires/jetables ne sont pas acceptées. Merci d\'utiliser une adresse email personnelle ou professionnelle.'
+        : 'Temporary/disposable email addresses are not accepted. Please use a personal or professional email address.'
+      );
+      return;
+    }
+
     setIsSubmitting(true);
 
     // Check email uniqueness (except test emails)
-    const isTestEmail = TEST_EMAILS.includes(email.toLowerCase().trim());
     if (!isTestEmail) {
       try {
         const existing = await getDocs(query(
@@ -241,9 +278,35 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
       console.error("Error saving pre-registration:", writeError);
     });
 
+    // 2b. Tiered instant access — first 150 = Founding Pioneer, up to 1000 =
+    // Original, both get an access key immediately (no manual review).
+    // Beyond 1000, real waitlist until the next cohort opens.
+    const tier: 'FOUNDING_PIONEER' | 'ORIGINAL' | 'WAITLIST' =
+      position <= 150 ? 'FOUNDING_PIONEER' : position <= 1000 ? 'ORIGINAL' : 'WAITLIST';
+    setAccessTier(tier);
+
+    let issuedKey: string | null = null;
+    if (tier !== 'WAITLIST') {
+      issuedKey = generateAccessKey();
+      setGrantedAccessKey(issuedKey);
+      try { localStorage.setItem('lya_my_access_key', issuedKey); } catch {}
+
+      addDoc(collection(db, 'access_keys'), {
+        key: issuedKey,
+        assignedTo: `${name} <${email}>`,
+        tier,
+        position,
+        createdAt: serverTimestamp(),
+        status: 'ACTIVE',
+        source: 'AUTO_PRE_REGISTRATION',
+      }).catch((writeError) => {
+        console.error("Error issuing access key:", writeError);
+      });
+    }
+
     // 3. Toujours persister localement et confirmer à l'utilisateur
     const localPre = JSON.parse(localStorage.getItem('lya_local_pre_registrations') || '[]');
-    localPre.push({ id: 'local_pre_' + Date.now(), name, email, category, position, referralCode: code, timestamp: { toDate: () => new Date() }, type: 'PRE_REGISTRATION' });
+    localPre.push({ id: 'local_pre_' + Date.now(), name, email, category, position, referralCode: code, tier, accessKey: issuedKey, timestamp: { toDate: () => new Date() }, type: 'PRE_REGISTRATION' });
     localStorage.setItem('lya_local_pre_registrations', JSON.stringify(localPre));
 
     setQueuePosition(position);
@@ -259,7 +322,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
     fetch('/api/email/pre-registration', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ to: email, name, position, referralCode: code, referralLink: referralLinkForEmail, lang: language })
+      body: JSON.stringify({ to: email, name, position, referralCode: code, referralLink: referralLinkForEmail, lang: language, tier, accessKey: issuedKey })
     })
     .then(r => r.json())
     .then(data => {
@@ -642,11 +705,39 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                       </div>
 
                       <div>
-                        <h3 className="font-headline text-4xl font-black tracking-tighter uppercase mb-3">{t('IN QUEUE', 'EN ATTENTE')}</h3>
+                        <h3 className="font-headline text-4xl font-black tracking-tighter uppercase mb-3">
+                          {accessTier === 'WAITLIST'
+                            ? t('IN QUEUE', 'EN ATTENTE')
+                            : t('ACCESS GRANTED', 'ACCÈS ACCORDÉ')}
+                        </h3>
                         <p className="text-white/40 font-medium max-w-xs mx-auto leading-relaxed">
-                          {t('Your entry has been validated. Our team will contact you once the terminal is ready for your profile.', 'Votre inscription a été validée. Notre équipe vous contactera une fois que le terminal sera prêt pour votre profil.')}
+                          {accessTier === 'FOUNDING_PIONEER'
+                            ? t('You\'re one of our first 150 Founding Pioneers. Your access key is ready below — enter it now to unlock your account.', 'Vous faites partie de nos 150 premiers Founding Pioneers. Votre clé d\'accès est prête ci-dessous — utilisez-la dès maintenant pour débloquer votre compte.')
+                            : accessTier === 'ORIGINAL'
+                            ? t('You\'re an LYA Original. Your access key is ready below — enter it now to unlock your account.', 'Vous êtes un LYA Original. Votre clé d\'accès est prête ci-dessous — utilisez-la dès maintenant pour débloquer votre compte.')
+                            : t('This cohort is full for now. We\'ll email your access key automatically as soon as the next one opens — no manual review, no waiting on us.', 'Ce cercle est complet pour le moment. Nous vous enverrons votre clé d\'accès automatiquement dès l\'ouverture du prochain — sans revue manuelle, sans attente de notre part.')}
                         </p>
                       </div>
+
+                      {grantedAccessKey && (
+                        <div className={`rounded-3xl p-6 border ${accessTier === 'FOUNDING_PIONEER' ? 'bg-accent-gold/[0.06] border-accent-gold/30' : 'bg-white/[0.03] border-primary-cyan/20'}`}>
+                          <p className={`text-[10px] font-black tracking-widest uppercase mb-2 ${accessTier === 'FOUNDING_PIONEER' ? 'text-accent-gold/70' : 'text-white/30'}`}>
+                            {accessTier === 'FOUNDING_PIONEER'
+                              ? t('YOUR FOUNDING PIONEER KEY', 'VOTRE CLÉ FOUNDING PIONEER')
+                              : t('YOUR ACCESS KEY', 'VOTRE CLÉ D\'ACCÈS')}
+                          </p>
+                          <p className={`font-mono text-2xl sm:text-3xl font-black tracking-wider break-all ${accessTier === 'FOUNDING_PIONEER' ? 'text-accent-gold' : 'text-primary-cyan'}`}>
+                            {grantedAccessKey}
+                          </p>
+                          <button
+                            type="button"
+                            onClick={async () => { try { await navigator.clipboard.writeText(grantedAccessKey); } catch {} }}
+                            className="mt-3 text-[10px] font-black tracking-widest text-white/40 hover:text-white/70 uppercase transition-colors"
+                          >
+                            {t('Copy key', 'Copier la clé')}
+                          </button>
+                        </div>
+                      )}
 
                       {queuePosition !== null && (
                         <div className="bg-white/[0.03] border border-primary-cyan/20 rounded-3xl p-6">
@@ -675,7 +766,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                         </div>
                       )}
 
-                      <button onClick={() => { setSubmitted(false); setQueuePosition(null); setReferralCode(null); }} className="text-[10px] font-black tracking-widest text-primary-cyan uppercase hover:underline">
+                      <button onClick={() => { setSubmitted(false); setQueuePosition(null); setReferralCode(null); setGrantedAccessKey(null); setAccessTier(null); }} className="text-[10px] font-black tracking-widest text-primary-cyan uppercase hover:underline">
                         {t('SUBMIT ANOTHER', 'NOUVELLE INSCRIPTION')}
                       </button>
 
