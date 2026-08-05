@@ -26,6 +26,7 @@ import {
   ChevronRight
 } from 'lucide-react';
 import { CONTRACTS, Contract, UserProfile, UserRole } from '../types';
+import { getPermissions } from '../lib/permissions';
 import { useTranslation } from '../context/LanguageContext';
 import { PageHeader } from '../components/ui/PageHeader';
 import { ComplianceCertificateModal } from '../components/Modals';
@@ -46,8 +47,11 @@ export const RegistryView: React.FC<{
   const liveContracts = allContracts;
   const { t, language } = useTranslation();
 
-  // Access Control: Only Admin or Pro users can access the Legal Registry
-  if (user?.role !== UserRole.ADMIN && !user?.isPro) {
+  // Access Control: contract-level detail is a Professional certification
+  // tool (see src/lib/permissions.ts) — distinct from the public,
+  // marketing-facing certification registry browsing.
+  const perms = getPermissions(user);
+  if (!perms.canAccessRegistryCertificationTools) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] p-8 text-center">
         <motion.div 
@@ -194,8 +198,7 @@ export const RegistryView: React.FC<{
         return prev.filter(i => i !== id);
       } else {
         // Enforce 4-item limit for non-pro users (though non-pros are nominally blocked from this view)
-        const isPro = user?.role === UserRole.ADMIN || user?.role === UserRole.PROFESSIONAL || user?.isPro;
-        if (prev.length >= 4 && !isPro) {
+        if (prev.length >= 4 && !perms.canAccessRegistryCertificationTools) {
           onNotify(t('COMPARISON LIMIT REACHED (4/4). UPGRADE TO PRO FOR UNLIMITED COMPARISONS.', 'LIMITE DE COMPARAISON ATTEINTE (4/4). PASSEZ AU PRO POUR DES COMPARAISONS ILLIMITÉES.'));
           return prev;
         }

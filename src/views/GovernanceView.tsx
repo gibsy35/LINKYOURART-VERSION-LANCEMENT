@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { useTranslation } from '../context/LanguageContext';
 import { UserProfile, UserRole } from '../types';
+import { getPermissions } from '../lib/permissions';
 
 interface Proposal {
   id: string;
@@ -120,8 +121,10 @@ export const GovernanceView: React.FC<GovernanceViewProps> = ({ user, onNotify, 
     }
   ];
 
-  // Access Control: Only Admin or Pro users can access Governance
-  if (user?.role !== UserRole.ADMIN && !user?.isPro) {
+  // Access Control: Governance is reserved for manually-vetted Validators
+  // (see src/lib/permissions.ts) — not automatically granted by any paid
+  // subscription tier.
+  if (!getPermissions(user).canAccessGovernance) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] p-8 text-center">
         <motion.div 

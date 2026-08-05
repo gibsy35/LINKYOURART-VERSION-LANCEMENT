@@ -7,13 +7,12 @@ import { useTranslation } from '../context/LanguageContext';
 import { useCurrency } from '../context/CurrencyContext';
 import { UserProfile, CONTRACTS, LYA_UNIT_VALUE } from '../types';
 import { PageHeader } from '../components/ui/PageHeader';
-import { ServiceContactModal } from '../components/DashboardModals';
 import { getSafeImageUrl } from '../utils/image';
 import {
-  Search, Award, Users, TrendingUp, ChevronDown, Star,
-  CheckCircle, Clock, BarChart2, DollarSign, Briefcase, Zap, ArrowRight,
+  Search, Award, Users, ChevronDown,
+  CheckCircle, Clock, BarChart2, DollarSign, Briefcase, ArrowRight,
   MessageSquare, BookOpen, Play, Lock, Send, User, AlertTriangle,
-  ArrowUpRight, ArrowDownRight, Shield, Target, Sparkles, Mail
+  ArrowUpRight, ArrowDownRight, Target, Mail
 } from 'lucide-react';
 
 const KpiCard: React.FC<{icon:React.ReactNode;label:string;value:string;sub?:string;subColor?:string;color:string}> = ({icon,label,value,sub,subColor='text-emerald-400',color}) => (
@@ -31,8 +30,7 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
   const lang: 'FR'|'EN' = language === 'FR' ? 'FR' : 'EN';
   const T = (fr: string, en: string) => lang === 'FR' ? fr : en;
 
-  const [activeSection, setActiveSection] = useState<'dashboard'|'dealfinder'|'missions'|'mentorship'|'messages'|'academy'|'services'>('dashboard');
-  const [serviceModal, setServiceModal] = useState<{name:string;price:string}|null>(null);
+  const [activeSection, setActiveSection] = useState<'dashboard'|'dealfinder'|'missions'|'mentorship'|'messages'|'academy'>('dashboard');
   const [searchCat, setSearchCat] = useState('');
   const [searchBudget, setSearchBudget] = useState('');
   const [minScore, setMinScore] = useState(600);
@@ -74,14 +72,6 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
     {titleFR:'Certification LYA Expert',titleEN:'LYA Expert Certification',descFR:'Validation officielle de votre expertise par le comité LYA.',descEN:'Official validation of your expertise by the LYA committee.',duration:'8h',level:T('Expert','Expert'),done:false,locked:true,color:'bg-white/5 border-white/10'},
   ];
 
-  const services = [
-    {icon:<Shield size={22}/>,color:'bg-primary-cyan/10 text-primary-cyan',titleFR:'Certification LYA Premium',titleEN:'LYA Premium Certification',price:'2 500€',features:[T('Audit complet 5 piliers','Complete 5-pillar audit'),T('Rapport 50+ pages','50+ page report'),T('Badge certifié','Certified badge'),T('Suivi 30 jours','30-day follow-up')]},
-    {icon:<Briefcase size={22}/>,color:'bg-[#a78bfa]/10 text-[#a78bfa]',titleFR:'Audit Créatif Elite',titleEN:'Elite Creative Audit',price:'5 000€',features:[T('Vérification légale','Legal verification'),T('Étude de marché','Market study'),T('Analyse de potentiel créatif','Creative potential analysis'),T('Rapport confidentiel','Confidential report')]},
-    {icon:<TrendingUp size={22}/>,color:'bg-emerald-400/10 text-emerald-400',titleFR:'Stratégie de Lancement',titleEN:'Launch Strategy',price:'3 500€',features:[T('Plan marketing 90j','90-day marketing plan'),T('Optimisation LYA Score','LYA Score optimisation'),T('10 sessions coaching','10 coaching sessions'),T('Garantie visibilité','Visibility guarantee')]},
-    {icon:<Star size={22}/>,color:'bg-accent-gold/10 text-accent-gold',titleFR:'Mentoring Mensuel',titleEN:'Monthly Mentoring',price:'1 200€/mois',features:['4 sessions privées/mois',T('Accès réseau premium','Premium network access'),T('Conseils stratégiques','Strategic advice'),T('Support email illimité','Unlimited email support')]},
-    {icon:<Award size={22}/>,color:'bg-rose-400/10 text-rose-400',titleFR:'Formation Accélérée',titleEN:'Accelerated Training',price:'800€',features:[T('2 jours intensifs','2 intensive days'),T('Certification reconnue','Recognised certification'),T('Accès plateforme à vie','Lifetime platform access'),T('Communauté alumni','Alumni community')]},
-    {icon:<Zap size={22}/>,color:'bg-gradient-to-br from-[#a78bfa]/15 to-rose-400/15 text-white',titleFR:'Package All-Inclusive',titleEN:'All-Inclusive Package',price:'15 000€',features:[T('TOUS les services','ALL services'),T('Support dédié 24/7','Dedicated 24/7 support'),T('Garantie résultats','Results guarantee'),T('Priorité absolue','Absolute priority')]},
-  ];
 
   const runSearch = () => {
     if (!searchCat) { onNotify(T('Sélectionnez une catégorie','Please select a category')); return; }
@@ -101,7 +91,6 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
     {key:'mentorship' as const, labelFR:'Mentorat Élite', labelEN:'Elite Mentorship', icon:<Users size={13}/>},
     {key:'messages' as const, labelFR:'Messages', labelEN:'Messages', icon:<MessageSquare size={13}/>},
     {key:'academy' as const, labelFR:'Académie Pro', labelEN:'Pro Academy', icon:<BookOpen size={13}/>},
-    {key:'services' as const, labelFR:'Services', labelEN:'Services', icon:<Sparkles size={13}/>},
   ];
 
   if (!user) return <AuthGuard user={user} onViewChange={onViewChange}>{null}</AuthGuard>;
@@ -393,52 +382,9 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
             </div>
           )}
 
-          {/* ── SERVICES PREMIUM ─────────────────────────────────────────── */}
-          {activeSection==='services' && (
-            <div className="space-y-8">
-              <div className="text-center space-y-1">
-                <h2 className="font-headline font-black text-on-surface text-2xl tracking-tight uppercase">{T('Services','Services')} <span className="text-primary-cyan">{T('Premium','Premium')}</span></h2>
-                <p className="text-xs text-on-surface-variant/50">• {T('Expertise institutionnelle pour l\'excellence créative','Institutional expertise for creative excellence')}</p>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {services.map((s,i)=>(
-                  <div key={i} className={`bg-surface-low/40 border border-white/8 rounded-2xl p-5 space-y-4 hover:border-white/20 transition-all flex flex-col`}>
-                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${s.color}`}>{s.icon}</div>
-                    <div className="flex-1"><h3 className="text-sm font-black text-on-surface">{T(s.titleFR,s.titleEN)}</h3>
-                      <ul className="space-y-1.5 mt-3">{s.features.map((f,fi)=><li key={fi} className="flex items-center gap-2 text-xs text-on-surface-variant/60"><CheckCircle size={11} className="text-emerald-400 shrink-0"/>{f}</li>)}</ul>
-                    </div>
-                    <div className="border-t border-white/8 pt-3 flex items-center justify-between">
-                      <div><p className="text-[10px] text-on-surface-variant/40 uppercase tracking-widest">{T('Tarif','Price')}</p><p className="text-lg font-black text-on-surface">{s.price}</p></div>
-                      <button onClick={()=>setServiceModal({name:T(s.titleFR,s.titleEN),price:s.price})} className="px-4 py-2 bg-primary-cyan/10 border border-primary-cyan/20 text-primary-cyan text-xs font-black rounded-xl hover:bg-primary-cyan hover:text-surface-dim transition-all flex items-center gap-1.5"><ArrowRight size={12}/> {T('Demander','Request')}</button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                {[{q:T('"Service exceptionnel. L\'audit LYA a transformé ma compréhension."','"Exceptional service. The LYA audit transformed my understanding."'),n:'Clara Dubois',p:'ÉPHÉMÉRIS'},{q:T('"Expertise mondiale. Accompagnement premium qui fait la différence."','"World-class expertise. Premium support that makes the difference."'),n:'Thomas Bernard',p:'Nexus'},{q:T('"Le package all-inclusive a dépassé toutes mes attentes."','"The all-inclusive package exceeded all my expectations."'),n:'Sophie Martin',p:'Fragments'}].map((te,i)=>(
-                  <div key={i} className="bg-surface-low/40 border border-white/8 rounded-2xl p-4 space-y-3">
-                    <div className="flex gap-0.5">{[...Array(4)].map((_,si)=><Star key={si} size={12} className="fill-accent-gold text-accent-gold"/>)}<Star size={12} className="text-accent-gold/40"/></div>
-                    <p className="text-xs text-on-surface-variant/70 italic leading-relaxed">{te.q}</p>
-                    <div><p className="text-xs font-black text-on-surface">{te.n}</p><p className="text-[10px] text-on-surface-variant/40 uppercase tracking-widest">{te.p}</p></div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
         </motion.div>
       </AnimatePresence>
 
-      <ServiceContactModal open={!!serviceModal} onClose={()=>setServiceModal(null)} lang={lang} serviceName={serviceModal?.name} servicePrice={serviceModal?.price} onSubmit={async(data?:any)=>{
-  try {
-    await addDoc(collection(db,'service_requests'),{
-      serviceName:serviceModal?.name,servicePrice:serviceModal?.price,
-      fromId:user?.uid,fromName:user?.displayName,fromEmail:user?.email,
-      message:data?.message||'',status:'PENDING',createdAt:serverTimestamp()
-    });
-    onNotify(T('✦ Demande envoyée — Réponse sous 24h','✦ Request sent — Reply within 24h'));
-  } catch(e){onNotify(T('Erreur réseau','Network error'));}
-  setServiceModal(null);
-}}/>
     </div>
   );
 };

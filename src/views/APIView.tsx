@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { useTranslation } from '../context/LanguageContext';
 import { UserProfile, UserRole } from '../types';
+import { getPermissions } from '../lib/permissions';
 
 import { PageHeader } from '../components/ui/PageHeader';
 
@@ -84,8 +85,8 @@ export const APIView: React.FC<APIViewProps> = ({ user, onNotify, onViewChange }
   };
   const codeSnippet = codeSnippets[sdkTab];
 
-  // Access Control: Only Admin or Pro users can access API
-  if (user?.role !== UserRole.ADMIN && !user?.isPro) {
+  // Access Control: API access is a Professional-tier feature (see src/lib/permissions.ts)
+  if (!getPermissions(user).canAccessAPI) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] p-8 text-center">
         <motion.div 

@@ -402,6 +402,7 @@ export const AdminView: React.FC<{
         currentUser.isPro = true;
         currentUser.role = UserRole.PROFESSIONAL;
         currentUser.verificationStatus = 'APPROVED';
+        currentUser.isVerifiedValidator = true;
         localStorage.setItem('lya_user_profile', JSON.stringify(currentUser));
       }
 
@@ -415,12 +416,15 @@ export const AdminView: React.FC<{
         const requestRef = doc(db, 'verification_requests', requestId);
         batch.update(requestRef, { status: 'APPROVED', processedAt: serverTimestamp() });
         
-        // Upgrade user to Professional
+        // Upgrade user to Professional + grant validator status (Governance/Lounge access —
+        // see src/lib/permissions.ts). This IS the "Become a Certified LYA Validator"
+        // accreditation flow advertised on the Pricing page.
         const userRef = doc(db, 'users', userId);
         batch.update(userRef, { 
           isPro: true, 
           role: UserRole.PROFESSIONAL,
-          verificationStatus: 'APPROVED'
+          verificationStatus: 'APPROVED',
+          isVerifiedValidator: true
         });
         
         await batch.commit();

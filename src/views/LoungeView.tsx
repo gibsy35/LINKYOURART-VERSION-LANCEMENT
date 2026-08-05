@@ -37,6 +37,7 @@ import {
   Settings
 } from 'lucide-react';
 import { UserProfile, UserRole } from '../types';
+import { getPermissions } from '../lib/permissions';
 import { useTranslation } from '../context/LanguageContext';
 import { SecureMail } from '../components/ui/SecureMail';
 import { db, auth, handleFirestoreError, OperationType } from '../firebase';
@@ -115,7 +116,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
 
   // Fetch posts from Firestore
   React.useEffect(() => {
-    if (!user || (user.role !== UserRole.ADMIN && !user.isPro)) {
+    if (!user || !getPermissions(user).canAccessLounge) {
       setLoadingPosts(false);
       setPosts([]);
       return;
@@ -277,7 +278,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
         likes: 0,
         commentsCount: 0,
         tags: ['INSIGHT'],
-        verified: user.isPro || false
+        verified: user.role === UserRole.ADMIN || !!user.isVerifiedValidator || !!user.isEnterprise
       };
 
       await addDoc(collection(db, 'lounge_posts'), postData);
@@ -640,8 +641,10 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
     { tag: t('Smart IP Contracts', 'Creative Contracts de PI'), insights: 27, trend: '+10%' }
   ];
 
-  // Access Control: Only Admin or Pro users can access the Lounge
-  if (user?.role !== UserRole.ADMIN && !user?.isPro) {
+  // Access Control: the Lounge is reserved for manually-vetted Validators
+  // (see src/lib/permissions.ts) — not automatically granted by any paid
+  // subscription tier.
+  if (!getPermissions(user).canAccessLounge) {
     return (
       <div className="w-full max-w-5xl mx-auto py-10 px-4 md:px-8">
         <div className="relative bg-gradient-to-b from-surface-low to-surface-dim border border-white/5 rounded-[2.5rem] p-8 md:p-16 overflow-hidden shadow-[0_30px_60px_rgba(0,0,0,0.8)]">

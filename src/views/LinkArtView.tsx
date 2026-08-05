@@ -19,6 +19,7 @@ import {
   Lock
 } from 'lucide-react';
 import { Milestone, UserProfile, UserRole } from '../types';
+import { getPermissions } from '../lib/permissions';
 import { useTranslation } from '../context/LanguageContext';
 import { PageHeader } from '../components/ui/PageHeader';
 import { suggestMilestones } from '../services/geminiService';
@@ -32,8 +33,6 @@ interface Step {
   description: string;
 }
 
-const FREE_CREATOR_PROJECT_LIMIT = 3;
-
 export const LinkArtView: React.FC<{ 
   user: UserProfile | null;
   onNotify: (msg: string) => void;
@@ -42,15 +41,15 @@ export const LinkArtView: React.FC<{
 }> = ({ user, onNotify, onViewChange, allContracts = [] }) => {
   const { t, language } = useTranslation();
 
-  // Access Control: Admins and Pro users have unlimited access.
-  // Creators (free tier) can access too, capped at FREE_CREATOR_PROJECT_LIMIT
-  // active submissions — matching the public pricing page.
-  const isAdminOrPro = user?.role === UserRole.ADMIN || !!user?.isPro;
-  const isCreator = user?.role === UserRole.CREATOR;
+  // Access control lives in src/lib/permissions.ts — the single source of
+  // truth for what each role can actually do (see LYA_Audit_Services_Pricing.md
+  // for why this used to be a scattered, inconsistent `isPro` check).
+  const perms = getPermissions(user);
   const creatorProjectCount = user ? allContracts.filter(c => c.issuerUid === user.uid).length : 0;
-  const creatorLimitReached = isCreator && !isAdminOrPro && creatorProjectCount >= FREE_CREATOR_PROJECT_LIMIT;
+  const submissionLimit = perms.projectSubmissionLimit; // null = unlimited
+  const limitReached = perms.canSubmitProjects && submissionLimit !== null && creatorProjectCount >= submissionLimit;
 
-  if (!isAdminOrPro && !isCreator) {
+  if (!perms.canSubmitProjects) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] p-8 text-center">
         <motion.div 
@@ -87,7 +86,7 @@ export const LinkArtView: React.FC<{
     );
   }
 
-  if (creatorLimitReached) {
+  if (limitReached) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] p-8 text-center">
         <motion.div 
@@ -101,7 +100,7 @@ export const LinkArtView: React.FC<{
           {t('Free Limit Reached', 'Limite Gratuite Atteinte')}
         </h2>
         <p className="text-on-surface-variant max-w-lg mb-10 text-sm md:text-base leading-relaxed opacity-70">
-          {t(`You've reached the ${FREE_CREATOR_PROJECT_LIMIT}-project limit on the free Creator plan. Upgrade to submit more projects for certification.`, `Vous avez atteint la limite de ${FREE_CREATOR_PROJECT_LIMIT} projets du forfait Créateur gratuit. Passez à un forfait supérieur pour soumettre davantage de projets à la certification.`)}
+          {t(`You've reached the ${submissionLimit}-project limit on the free Creator plan. Add a single certification for €5, or upgrade to Professional for unlimited submissions.`, `Vous avez atteint la limite de ${submissionLimit} projets du forfait Créateur gratuit. Ajoutez une certification à l'unité pour 5€, ou passez au forfait Professionnel pour des soumissions illimitées.`)}
         </p>
         <button 
           onClick={() => {
@@ -110,7 +109,7 @@ export const LinkArtView: React.FC<{
           }}
           className="px-10 py-4 bg-primary-cyan text-surface-dim font-black uppercase tracking-[0.2em] hover:bg-white transition-all shadow-[0_0_20px_rgba(0,224,255,0.3)]"
         >
-          {t('Upgrade Plan', 'Améliorer le Forfait')}
+          {t('View Options', 'Voir les Options')}
         </button>
       </div>
     );

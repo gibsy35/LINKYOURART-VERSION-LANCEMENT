@@ -12,6 +12,7 @@ import {
   Building2, ChefHat, Drama, Gamepad2, X
 } from 'lucide-react';
 import { CONTRACTS, Contract, UserProfile, UserRole, getContractDescription } from '../types';
+import { getPermissions } from '../lib/permissions';
 import { useTranslation } from '../context/LanguageContext';
 import { getSafeImageUrl } from '../utils/image';
 import { ResponsiveContainer, AreaChart, Area, Tooltip, XAxis, YAxis } from 'recharts';
@@ -834,8 +835,8 @@ export const ValidationView: React.FC<{
 
   const [activeTab, setActiveTab] = useState<'queue' | 'diagnostic' | 'dashboard'>('queue');
 
-  // Accès restreint
-  if (user?.role !== UserRole.ADMIN && !user?.isPro) {
+  // Accès restreint : outils de certification, réservés aux Professionnels (voir src/lib/permissions.ts)
+  if (!getPermissions(user).canAccessRegistryCertificationTools) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] p-8 text-center">
         <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}

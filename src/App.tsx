@@ -55,6 +55,7 @@ import { GuestPreviewOverlay } from './components/ui/GuestPreviewOverlay';
 import { CommandPalette } from './components/CommandPalette';
 import { Search, RefreshCw } from 'lucide-react';
 import { UserRole, UserProfile } from './types';
+import { getPermissions } from './lib/permissions';
 import { useTranslation } from './context/LanguageContext';
 import { useMarketData } from './hooks/useMarketData';
 import { auth, db, handleFirestoreError, OperationType, testConnection } from './firebase';
@@ -194,10 +195,10 @@ export default function App() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
   const checkUsageLimit = (type: 'swipe' | 'compare' | 'simulator' | 'scan' | 'talent') => {
-    const isPro = user?.role === UserRole.ADMIN || user?.role === UserRole.PROFESSIONAL || user?.isPro;
-    if (isPro) return true;
-    const limitMap = { swipe: 20, compare: 20, simulator: 4, scan: 3, talent: 3 };
+    const perms = getPermissions(effectiveUser);
+    const limitMap = { swipe: perms.swipeLimit, compare: perms.compareLimit, simulator: perms.simulatorLimit, scan: perms.scanLimit, talent: perms.talentLimit };
     const limit = limitMap[type];
+    if (limit === null) return true; // unlimited
     let currentCount = 0;
     if (type === 'swipe') currentCount = watchlist.length;
     else if (type === 'compare') currentCount = comparisonList.length;
@@ -513,8 +514,8 @@ export default function App() {
               {currentView === 'PRICING' && (<PricingView onSelectPlan={(plan) => { if (!effectiveUser) { notify(t('Please sign in to upgrade', 'Veuillez vous connecter pour passer au Pro')); setIsAuthModalOpen(true); return; } setCheckoutData({ type: 'PRO_UPGRADE', amount: plan.price, title: plan.name, metadata: { type: 'PRO_UPGRADE', planName: plan.name, userEmail: effectiveUser.email, userId: effectiveUser.uid } }); }} onNotify={notify} onBecomeValidator={() => { if (!effectiveUser) { notify(t('Please sign in to apply', 'Veuillez vous connecter pour candidater')); setIsAuthModalOpen(true); return; } setIsVerificationModalOpen(true); }} />)}
               {currentView === 'SWIPE' && (<SwipeView user={effectiveUser} usageStats={usageStats} onUsageUpdate={handleUsageUpdate} onNotify={notify} watchlist={watchlist} allContracts={CONTRACTS} onToggleWatchlist={handleToggleWatchlist} comparisonList={comparisonList} onToggleComparison={handleToggleComparison} onViewChange={setCurrentView} checkUsageLimit={checkUsageLimit} />)}
               {currentView === 'MECENAT' && (<MecenatView />)}
-              {currentView === 'COMPARE' && (<CompareView comparisonList={comparisonList} allContracts={CONTRACTS} onRemoveFromComparison={handleToggleComparison} onNotify={notify} onViewChange={setCurrentView} onViewDetail={(c) => { setViewingContract(c); setCurrentView('CONTRACT_DETAIL'); }} isPro={user?.role === UserRole.ADMIN || user?.role === UserRole.PROFESSIONAL || user?.isPro} />)}
-              {currentView === 'WATCHLIST' && (<WatchlistView onNotify={notify} watchlist={watchlist} allContracts={CONTRACTS} onToggleWatchlist={handleToggleWatchlist} onSelectContract={(c) => { setViewingContract(c); setCurrentView('CONTRACT_DETAIL'); }} />)}
+              {currentView === 'COMPARE' && (<CompareView comparisonList={comparisonList} allContracts={CONTRACTS} onRemoveFromComparison={handleToggleComparison} onNotify={notify} onViewChange={setCurrentView} onViewDetail={(c) => { setViewingContract(c); setCurrentView('CONTRACT_DETAIL'); }} isPro={getPermissions(effectiveUser).isPaidTier} />)}
+              {currentView === 'WATCHLIST' && (<WatchlistView onNotify={notify} watchlist={watchlist} allContracts={CONTRACTS} onToggleWatchlist={handleToggleWatchlist} onSelectContract={(c) => { setViewingContract(c); setCurrentView('CONTRACT_DETAIL'); }} isPro={getPermissions(effectiveUser).isPaidTier} />)}
               {currentView === 'SOCIAL_FEED' && <SocialFeedView onNotify={notify} />}
               {currentView === 'GOVERNANCE' && <GovernanceView user={effectiveUser} onNotify={notify} />}
               {currentView === 'API' && <APIView user={effectiveUser} onNotify={notify} />}

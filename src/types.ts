@@ -31,6 +31,16 @@ export interface UserProfile {
   stripeCustomerId?: string;
   watchlist?: string[];
   comparisonList?: string[];
+  // Extra project submissions purchased individually (€5 each) beyond the
+  // free Creator tier's included cap. See src/lib/permissions.ts.
+  extraCertifications?: number;
+  // Manually-vetted status for access to the Pro Lounge and Governance
+  // views — granted through the "Become a Validator" application flow,
+  // not automatically by any subscription tier (except Enterprise/Admin).
+  isVerifiedValidator?: boolean;
+  // Institutional/catalog-scale account — grants Professional-level access
+  // plus bulk tooling and automatic Lounge/Governance access.
+  isEnterprise?: boolean;
   usageStats?: {
     simulator: number;
     swipe: number;
@@ -262,6 +272,7 @@ export interface Contract {
   id: string;
   name: string;
   issuerId: string; // Privacy focused: ID instead of name
+  issuerUid?: string; // Firebase auth UID of the creator who submitted this project — used to count a creator's own submissions against their plan's cap
   totalValue: number; // Total project value in USD/EUR
   unitValue: number; // Fixed at 50
   stability: number;
