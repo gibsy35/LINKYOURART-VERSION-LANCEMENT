@@ -37,6 +37,12 @@ export default defineConfig(({mode}) => {
           // caching live payment or auth data would be actively wrong.
           globPatterns: ['**/*.{js,css,html,svg,png,ico,woff2}'],
           navigateFallback: '/index.html',
+          // PDFs are loaded inside an <iframe>, which counts as a navigation
+          // request. Without this denylist, the SW's navigateFallback hijacks
+          // that request and serves the app shell (index.html) instead of the
+          // actual PDF — which is why the brochure viewer showed the LYA
+          // loader/pre-registration page instead of the document.
+          navigateFallbackDenylist: [/\.pdf$/],
           runtimeCaching: [
             {
               urlPattern: ({ url }) => url.pathname.startsWith('/api/'),
