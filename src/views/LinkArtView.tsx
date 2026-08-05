@@ -32,15 +32,25 @@ interface Step {
   description: string;
 }
 
+const FREE_CREATOR_PROJECT_LIMIT = 3;
+
 export const LinkArtView: React.FC<{ 
   user: UserProfile | null;
   onNotify: (msg: string) => void;
   onViewChange: (view: any) => void;
-}> = ({ user, onNotify, onViewChange }) => {
+  allContracts?: { issuerUid?: string }[];
+}> = ({ user, onNotify, onViewChange, allContracts = [] }) => {
   const { t, language } = useTranslation();
 
-  // Access Control: Only Admin or Pro users can issue new contracts
-  if (user?.role !== UserRole.ADMIN && !user?.isPro) {
+  // Access Control: Admins and Pro users have unlimited access.
+  // Creators (free tier) can access too, capped at FREE_CREATOR_PROJECT_LIMIT
+  // active submissions — matching the public pricing page.
+  const isAdminOrPro = user?.role === UserRole.ADMIN || !!user?.isPro;
+  const isCreator = user?.role === UserRole.CREATOR;
+  const creatorProjectCount = user ? allContracts.filter(c => c.issuerUid === user.uid).length : 0;
+  const creatorLimitReached = isCreator && !isAdminOrPro && creatorProjectCount >= FREE_CREATOR_PROJECT_LIMIT;
+
+  if (!isAdminOrPro && !isCreator) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] p-8 text-center">
         <motion.div 
@@ -54,7 +64,7 @@ export const LinkArtView: React.FC<{
           {t('Access Restricted', 'Accès Restreint')}
         </h2>
         <p className="text-on-surface-variant max-w-lg mb-10 text-sm md:text-base leading-relaxed opacity-70">
-          {t('Project submission is reserved for Certified Professionals and Institutional Partners. Upgrade your account to start submitting projects for certification.', 'La soumission de projets est réservée aux professionnels certifiés et aux partenaires institutionnels. Améliorez votre compte pour commencer à soumettre des projets à la certification.')}
+          {t('Project submission is reserved for Creators, Certified Professionals and Institutional Partners. Create a Creator account to start submitting projects for certification.', 'La soumission de projets est réservée aux créateurs, professionnels certifiés et partenaires institutionnels. Créez un compte Créateur pour commencer à soumettre des projets à la certification.')}
         </p>
         <div className="flex flex-col sm:flex-row gap-4">
           <button 
@@ -64,7 +74,7 @@ export const LinkArtView: React.FC<{
             }}
             className="px-10 py-4 bg-primary-cyan text-surface-dim font-black uppercase tracking-[0.2em] hover:bg-white transition-all shadow-[0_0_20px_rgba(0,224,255,0.3)]"
           >
-            {t('Upgrade to Pro', 'Passer à Pro')}
+            {t('View Plans', 'Voir les Forfaits')}
           </button>
           <button 
             onClick={() => window.location.reload()}
@@ -73,6 +83,35 @@ export const LinkArtView: React.FC<{
             {t('Contact Support', 'Contacter le Support')}
           </button>
         </div>
+      </div>
+    );
+  }
+
+  if (creatorLimitReached) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[60vh] p-8 text-center">
+        <motion.div 
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          className="w-24 h-24 bg-amber-500/10 rounded-full flex items-center justify-center mb-8 border border-amber-500/20 shadow-[0_0_30px_rgba(245,158,11,0.2)]"
+        >
+          <Lock size={48} className="text-amber-500" />
+        </motion.div>
+        <h2 className="text-3xl md:text-5xl font-black font-headline uppercase italic text-on-surface mb-6 tracking-tighter">
+          {t('Free Limit Reached', 'Limite Gratuite Atteinte')}
+        </h2>
+        <p className="text-on-surface-variant max-w-lg mb-10 text-sm md:text-base leading-relaxed opacity-70">
+          {t(`You've reached the ${FREE_CREATOR_PROJECT_LIMIT}-project limit on the free Creator plan. Upgrade to submit more projects for certification.`, `Vous avez atteint la limite de ${FREE_CREATOR_PROJECT_LIMIT} projets du forfait Créateur gratuit. Passez à un forfait supérieur pour soumettre davantage de projets à la certification.`)}
+        </p>
+        <button 
+          onClick={() => {
+            onNotify(t('Redirecting to membership plans...', 'Redirection vers les plans d\'adhésion...'));
+            onViewChange('PRICING');
+          }}
+          className="px-10 py-4 bg-primary-cyan text-surface-dim font-black uppercase tracking-[0.2em] hover:bg-white transition-all shadow-[0_0_20px_rgba(0,224,255,0.3)]"
+        >
+          {t('Upgrade Plan', 'Améliorer le Forfait')}
+        </button>
       </div>
     );
   }

@@ -113,7 +113,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
       monthlyPrice: 0,
       description: t('Try LYA certification with real limits, no cost.', 'Essayez la certification LYA avec de vraies limites, sans coût.'),
       features: [
-        t('Project submission (up to 2)', 'Soumission de projets (jusqu\'à 2)'),
+        t('Project submission (up to 3)', 'Soumission de projets (jusqu\'à 3)'),
         t('LYA Score basic analysis', 'Analyse de base du Score LYA'),
         t('Free certification', 'Certification gratuite'),
         t('20 Swipe / Compare actions per month', '20 actions Swipe / Comparaison par mois'),
@@ -313,7 +313,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
                 </button>
                 {plan.id === 'CREATOR' && (
                   <p className="text-[9px] text-on-surface-variant/60 uppercase font-bold tracking-wide text-center mt-3">
-                    {t('More than 2 projects? Add extra certifications for €5 each — no need to change plan.', 'Plus de 2 projets\u00a0? Ajoutez des certifications supplémentaires à 5€ chacune — sans changer de forfait.')}
+                    {t('More than 3 projects? Add extra certifications for €5 each — no need to change plan.', 'Plus de 3 projets\u00a0? Ajoutez des certifications supplémentaires à 5€ chacune — sans changer de forfait.')}
                   </p>
                 )}
               </motion.div>
