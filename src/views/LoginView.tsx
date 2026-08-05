@@ -5,7 +5,7 @@ import { UserProfile, UserRole } from '../types';
 import { View } from '../components/ui/Sidebar';
 import { useTranslation } from '../context/LanguageContext';
 import { auth, db } from '../firebase';
-import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail } from 'firebase/auth';
+import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, signInWithRedirect, sendPasswordResetEmail, type User as FirebaseUser } from 'firebase/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { handleFirestoreError, OperationType } from '../firebase';
 import { Logo } from '../components/ui/Logo';
@@ -138,54 +138,81 @@ const LoginView: React.FC<LoginViewProps> = ({ onViewChange, setUser }) => {
     }
   };
 
+  // In-app browsers (LinkedIn, Instagram, Facebook, TikTok, etc.) and most
+  // mobile browsers frequently block or kill OAuth popups mid-flow, which is
+  // what throws 'auth/popup-closed-by-user'. Redirect-based auth sidesteps
+  // that entirely (full navigation instead of a popup window), so we use it
+  // there and keep the nicer no-navigation popup UX on desktop.
+  const shouldUseRedirect = () => {
+    if (typeof navigator === 'undefined') return false;
+    const ua = navigator.userAgent || '';
+    const isInAppBrowser = /FBAN|FBAV|Instagram|LinkedInApp|Line\/|Twitter|TikTok|MicroMessenger|GSA\//i.test(ua);
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(ua);
+    return isInAppBrowser || isMobile;
+  };
+
+  const processGoogleAuthUser = async (firebaseUser: FirebaseUser) => {
+    let userDoc;
+    try {
+      userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
+    } catch (err: any) {
+      console.warn('Profile fetch failed during Google login (Quota?):', err);
+      // userDoc remains undefined, we'll hit the auto-create logic below
+    }
+
+    if (userDoc && userDoc.exists()) {
+      const existingUser = { uid: firebaseUser.uid, ...userDoc.data() } as UserProfile;
+      localStorage.setItem(`lya_user_${firebaseUser.uid}`, JSON.stringify(existingUser));
+      setUser(existingUser);
+      onViewChange('HOME');
+    } else {
+      // Auto-signup with default role if first time Google Login or if Firestore failed
+      const emailLower = firebaseUser.email?.toLowerCase() || '';
+      const isAdmin = emailLower === 'linkyourart@gmail.com' ||
+                      emailLower === 'lequimejeanbaptiste@gmail.com' ||
+                      emailLower === 'linkart@gmail.com';
+
+      const newProfile: UserProfile = {
+        uid: firebaseUser.uid,
+        email: firebaseUser.email || '',
+        displayName: firebaseUser.displayName || firebaseUser.email?.split('@')[0].toUpperCase() || 'USER',
+        role: isAdmin ? UserRole.ADMIN : UserRole.CREATOR,
+        isPro: isAdmin,
+        createdAt: new Date().toISOString(),
+        watchlist: [],
+        comparisonList: [],
+        usageStats: { simulator: 0, swipe: 0, compare: 0, scan: 0, talent: 0 }
+      };
+
+      try {
+        await setDoc(doc(db, 'users', firebaseUser.uid), newProfile);
+      } catch (saveErr) {
+        console.warn('Profile creation failed (Quota?), using local fallback session.', saveErr);
+      }
+      setUser(newProfile);
+      onViewChange('HOME');
+    }
+  };
+
+  // Note: the return trip after signInWithRedirect() is handled centrally
+  // in App.tsx (always mounted), since currentView resets to LANDING on
+  // this component's remount and would never catch it here.
+
   const handleGoogleLogin = async () => {
     setIsLoading(true);
     setError(null);
     try {
       const provider = new GoogleAuthProvider();
-      const result = await signInWithPopup(auth, provider);
-      const firebaseUser = result.user;
 
-      let userDoc;
-      try {
-        userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
-      } catch (err: any) {
-        console.warn('Profile fetch failed during Google login (Quota?):', err);
-        // userDoc remains undefined, we'll hit the auto-create logic below
+      if (shouldUseRedirect()) {
+        // Navigates away; the return trip (and profile setup) is handled
+        // centrally in App.tsx once the browser comes back from Google.
+        await signInWithRedirect(auth, provider);
+        return;
       }
-      
-      if (userDoc && userDoc.exists()) {
-        const existingUser = { uid: firebaseUser.uid, ...userDoc.data() } as UserProfile;
-        localStorage.setItem(`lya_user_${firebaseUser.uid}`, JSON.stringify(existingUser));
-        setUser(existingUser);
-        onViewChange('HOME');
-      } else {
-        // Auto-signup with default role if first time Google Login or if Firestore failed
-        const emailLower = firebaseUser.email?.toLowerCase() || '';
-        const isAdmin = emailLower === 'linkyourart@gmail.com' || 
-                        emailLower === 'lequimejeanbaptiste@gmail.com' || 
-                        emailLower === 'linkart@gmail.com';
-        
-        const newProfile: UserProfile = {
-          uid: firebaseUser.uid,
-          email: firebaseUser.email || '',
-          displayName: firebaseUser.displayName || firebaseUser.email?.split('@')[0].toUpperCase() || 'USER',
-          role: isAdmin ? UserRole.ADMIN : UserRole.CREATOR,
-          isPro: isAdmin,
-          createdAt: new Date().toISOString(),
-          watchlist: [],
-          comparisonList: [],
-          usageStats: { simulator: 0, swipe: 0, compare: 0, scan: 0, talent: 0 }
-        };
-        
-        try {
-          await setDoc(doc(db, 'users', firebaseUser.uid), newProfile);
-        } catch (saveErr) {
-          console.warn('Profile creation failed (Quota?), using local fallback session.', saveErr);
-        }
-        setUser(newProfile);
-        onViewChange('HOME');
-      }
+
+      const result = await signInWithPopup(auth, provider);
+      await processGoogleAuthUser(result.user);
     } catch (err: any) {
       console.error('Google login error:', err);
       if (err.code === 'auth/popup-closed-by-user') {

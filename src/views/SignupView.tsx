@@ -5,7 +5,7 @@ import { View } from '../components/ui/Sidebar';
 import { ArrowRight, User, Briefcase, TrendingUp, Loader2, ShieldCheck, Mail, Lock, Globe, ChevronLeft, X, Send, Heart } from 'lucide-react';
 import { useTranslation } from '../context/LanguageContext';
 import { auth, db, handleFirestoreError, OperationType } from '../firebase';
-import { createUserWithEmailAndPassword, updateProfile, GoogleAuthProvider, signInWithPopup, sendEmailVerification } from 'firebase/auth';
+import { createUserWithEmailAndPassword, updateProfile, GoogleAuthProvider, signInWithPopup, signInWithRedirect, sendEmailVerification, type User as FirebaseUser } from 'firebase/auth';
 import { doc, setDoc, getDoc, collection, query, where, getDocs, limit } from 'firebase/firestore';
 import { Logo } from '../components/ui/Logo';
 import { OracleWidget } from '../components/ui/OracleWidget';
@@ -230,55 +230,77 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
     }
   };
 
+  const shouldUseRedirect = () => {
+    if (typeof navigator === 'undefined') return false;
+    const ua = navigator.userAgent || '';
+    const isInAppBrowser = /FBAN|FBAV|Instagram|LinkedInApp|Line\/|Twitter|TikTok|MicroMessenger|GSA\//i.test(ua);
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(ua);
+    return isInAppBrowser || isMobile;
+  };
+
+  const processGoogleSignupUser = async (firebaseUser: FirebaseUser, selectedRole: UserRole) => {
+    let userDoc;
+    try {
+      userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
+    } catch (err: any) {
+      console.warn('Profile fetch failed during Google signup (Quota?):', err);
+      // userDoc remains undefined, we'll proceed with creating a fallback profile
+    }
+
+    if (userDoc && userDoc.exists()) {
+      const existingUser = userDoc.data() as UserProfile;
+      setUser(existingUser);
+      onViewChange('HOME');
+    } else {
+      const newUser: UserProfile = {
+        uid: firebaseUser.uid,
+        displayName: firebaseUser.displayName || 'User',
+        email: firebaseUser.email || '',
+        role: selectedRole,
+        status: 'PENDING_APPROVAL',
+        createdAt: new Date().toISOString(),
+        twitter: '@' + (firebaseUser.displayName || 'user').toLowerCase().replace(/\s+/g, '_'),
+        instagram: (firebaseUser.displayName || 'user').toLowerCase().replace(/\s+/g, '_') + '_official',
+        linkedin: 'https://linkedin.com/in/' + (firebaseUser.displayName || 'user').toLowerCase().replace(/\s+/g, '-'),
+        usageStats: {
+          simulator: 0,
+          swipe: 0,
+          compare: 0,
+          scan: 0,
+          talent: 0
+        }
+      };
+
+      try {
+        await setDoc(doc(db, 'users', firebaseUser.uid), newUser);
+      } catch (err: any) {
+        console.warn('Could not save profile during Google signup (Quota?), using local fallback:', err);
+      }
+      setUser(newUser);
+      onViewChange('HOME');
+    }
+  };
+
+  // Note: the return trip after signInWithRedirect() is handled centrally
+  // in App.tsx (always mounted), since currentView resets to LANDING on
+  // this component's remount and would never catch it here. The role
+  // stashed in sessionStorage just above is read back and applied there.
+
   const handleGoogleSignup = async () => {
     if (!role) return;
     setIsLoading(true);
     setError(null);
     try {
       const provider = new GoogleAuthProvider();
+
+      if (shouldUseRedirect()) {
+        sessionStorage.setItem('lya_signup_pending_role', role);
+        await signInWithRedirect(auth, provider);
+        return;
+      }
+
       const result = await signInWithPopup(auth, provider);
-      const firebaseUser = result.user;
-
-      let userDoc;
-      try {
-        userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
-      } catch (err: any) {
-        console.warn('Profile fetch failed during Google signup (Quota?):', err);
-        // userDoc remains undefined, we'll proceed with creating a fallback profile
-      }
-      
-      if (userDoc && userDoc.exists()) {
-        const existingUser = userDoc.data() as UserProfile;
-        setUser(existingUser);
-        onViewChange('HOME');
-      } else {
-        const newUser: UserProfile = {
-          uid: firebaseUser.uid,
-          displayName: firebaseUser.displayName || 'User',
-          email: firebaseUser.email || '',
-          role: role,
-          status: 'PENDING_APPROVAL',
-          createdAt: new Date().toISOString(),
-          twitter: '@' + (firebaseUser.displayName || 'user').toLowerCase().replace(/\s+/g, '_'),
-          instagram: (firebaseUser.displayName || 'user').toLowerCase().replace(/\s+/g, '_') + '_official',
-          linkedin: 'https://linkedin.com/in/' + (firebaseUser.displayName || 'user').toLowerCase().replace(/\s+/g, '-'),
-          usageStats: {
-            simulator: 0,
-            swipe: 0,
-            compare: 0,
-            scan: 0,
-            talent: 0
-          }
-        };
-
-        try {
-          await setDoc(doc(db, 'users', firebaseUser.uid), newUser);
-        } catch (err: any) {
-          console.warn('Could not save profile during Google signup (Quota?), using local fallback:', err);
-        }
-        setUser(newUser);
-        onViewChange('HOME');
-      }
+      await processGoogleSignupUser(result.user, role);
     } catch (err: any) {
       setError(err.message || 'Google signup failed.');
     } finally {

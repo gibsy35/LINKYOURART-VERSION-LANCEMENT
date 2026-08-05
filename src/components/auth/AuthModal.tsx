@@ -6,9 +6,11 @@ import { useTranslation } from '../../context/LanguageContext';
 import { auth, db } from '../../firebase';
 import { 
   signInWithPopup, 
+  signInWithRedirect,
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword
+  signInWithEmailAndPassword,
+  type User as FirebaseUser
 } from 'firebase/auth';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { UserProfile, UserRole } from '../../types';
@@ -78,41 +80,62 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onNotify,
     return e === 'linkyourart@gmail.com' || e === 'lequimejeanbaptiste@gmail.com' || e === 'linkart@gmail.com';
   };
 
+  const shouldUseRedirect = () => {
+    if (typeof navigator === 'undefined') return false;
+    const ua = navigator.userAgent || '';
+    const isInAppBrowser = /FBAN|FBAV|Instagram|LinkedInApp|Line\/|Twitter|TikTok|MicroMessenger|GSA\//i.test(ua);
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(ua);
+    return isInAppBrowser || isMobile;
+  };
+
+  const processGoogleAuthUser = async (firebaseUser: FirebaseUser) => {
+    let userDoc;
+    try {
+      userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
+    } catch (err) {
+      console.warn('Firestore fetch failed during Google Auth:', err);
+    }
+
+    if (userDoc && userDoc.exists()) {
+      setUser(userDoc.data() as UserProfile);
+    } else {
+      const isAdmin = isAdminEmail(firebaseUser.email || '');
+      const newProfile = buildProfile(
+        firebaseUser.uid,
+        firebaseUser.email || '',
+        firebaseUser.displayName || firebaseUser.email?.split('@')[0].toUpperCase() || 'USER',
+        selectedRole,
+        isAdmin
+      );
+      try {
+        await setDoc(doc(db, 'users', firebaseUser.uid), newProfile);
+      } catch (saveErr) {
+        console.warn('Could not save profile to Firestore:', saveErr);
+      }
+      setUser(newProfile);
+    }
+
+    onNotify(t('ACCESS GRANTED', 'ACCÈS AUTORISÉ'));
+    onClose();
+  };
+
+  // Note: the return trip after signInWithRedirect() is handled centrally
+  // in App.tsx (always mounted) — this modal won't be open/mounted after
+  // the full-page reload that redirect-based auth causes.
+
   const handleGoogleAuth = async () => {
     setIsLoading(true);
     try {
       const provider = new GoogleAuthProvider();
+
+      if (shouldUseRedirect()) {
+        if (mode === 'SIGNUP') sessionStorage.setItem('lya_signup_pending_role', selectedRole);
+        await signInWithRedirect(auth, provider);
+        return;
+      }
+
       const result = await signInWithPopup(auth, provider);
-      const firebaseUser = result.user;
-
-      let userDoc;
-      try {
-        userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
-      } catch (err) {
-        console.warn('Firestore fetch failed during Google Auth:', err);
-      }
-
-      if (userDoc && userDoc.exists()) {
-        setUser(userDoc.data() as UserProfile);
-      } else {
-        const isAdmin = isAdminEmail(firebaseUser.email || '');
-        const newProfile = buildProfile(
-          firebaseUser.uid,
-          firebaseUser.email || '',
-          firebaseUser.displayName || firebaseUser.email?.split('@')[0].toUpperCase() || 'USER',
-          selectedRole,
-          isAdmin
-        );
-        try {
-          await setDoc(doc(db, 'users', firebaseUser.uid), newProfile);
-        } catch (saveErr) {
-          console.warn('Could not save profile to Firestore:', saveErr);
-        }
-        setUser(newProfile);
-      }
-
-      onNotify(t('ACCESS GRANTED', 'ACCÈS AUTORISÉ'));
-      onClose();
+      await processGoogleAuthUser(result.user);
     } catch (err) {
       console.error('Auth Error:', err);
       onNotify(t('AUTHENTICATION FAILED', "ÉCHEC DE L'AUTHENTIFICATION"));

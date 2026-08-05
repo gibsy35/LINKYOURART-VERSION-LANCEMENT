@@ -58,7 +58,7 @@ import { UserRole, UserProfile } from './types';
 import { useTranslation } from './context/LanguageContext';
 import { useMarketData } from './hooks/useMarketData';
 import { auth, db, handleFirestoreError, OperationType, testConnection } from './firebase';
-import { onAuthStateChanged, signOut } from 'firebase/auth';
+import { onAuthStateChanged, signOut, getRedirectResult } from 'firebase/auth';
 import { doc, onSnapshot, getDoc, updateDoc, setDoc, collection, addDoc, serverTimestamp } from 'firebase/firestore';
 export default function App() {
   const { t, language } = useTranslation();
@@ -323,6 +323,39 @@ export default function App() {
       } else { setUser(null); setIsAuthReady(true); }
     });
     return () => { unsubscribeAuth(); if (unsubscribeProfile) unsubscribeProfile(); };
+  }, []);
+
+  // Catches the return trip after signInWithRedirect() (used on mobile /
+  // in-app browsers where OAuth popups get killed mid-flow — see
+  // LoginView/SignupView/AuthModal). currentView always resets to LANDING
+  // on this fresh page load, so LoginView/SignupView never remount to
+  // handle it themselves — this top-level, always-mounted effect is the
+  // only reliable place to catch it and route the person to HOME.
+  // Profile fetch/creation itself is already handled by the
+  // onAuthStateChanged listener above; this effect only needs to (a) apply
+  // the role chosen pre-redirect on SignupView, if any, and (b) navigate.
+  useEffect(() => {
+    getRedirectResult(auth)
+      .then(async (result) => {
+        if (!result || !result.user) return;
+        const pendingRole = sessionStorage.getItem('lya_signup_pending_role');
+        if (pendingRole) {
+          sessionStorage.removeItem('lya_signup_pending_role');
+          try {
+            await setDoc(doc(db, 'users', result.user.uid), {
+              role: pendingRole,
+              status: 'PENDING_APPROVAL',
+            }, { merge: true });
+          } catch (err) {
+            console.warn('Could not apply pending signup role after redirect:', err);
+          }
+        }
+        setCurrentView('HOME');
+      })
+      .catch((err) => {
+        console.error('Google redirect result error:', err);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     if (!isAuthReady || isBooting) return;
