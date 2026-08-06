@@ -965,7 +965,7 @@ export const LinkArtView: React.FC<{
                       placeholder={t('e.g. 5000', 'ex : 5000')}
                     />
                     <p className="text-[10px] text-on-surface-variant/50 uppercase tracking-wide leading-relaxed">
-                      {t('Leave blank to simply display cumulative support with no fixed target. Typical ranges: small project $500–2,000 · medium $2,000–10,000 · large $10,000+.', 'Laissez vide pour afficher uniquement le soutien cumulé, sans objectif fixe. Fourchettes indicatives : petit projet 500–2 000$ · moyen 2 000–10 000$ · grand 10 000$+.')}
+                      {t('Leave blank to simply display cumulative support with no fixed target. Typical ranges: small project €500–2,000 · medium €2,000–10,000 · large €10,000+.', 'Laissez vide pour afficher uniquement le soutien cumulé, sans objectif fixe. Fourchettes indicatives : petit projet 500–2 000 € · moyen 2 000–10 000 € · grand 10 000 €+.')}
                     </p>
                   </div>
                   <div className="space-y-2 pt-4 border-t border-white/5">

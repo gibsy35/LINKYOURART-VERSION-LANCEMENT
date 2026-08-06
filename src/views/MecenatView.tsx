@@ -69,7 +69,7 @@ export function MecenatView() {
                       {T('VALORISATION DE RÉFÉRENCE', 'REFERENCE VALUATION')}
                     </p>
                     <p className="font-mono font-black text-2xl text-primary-cyan tracking-tight">
-                      $50.00
+                      €50.00
                     </p>
                     <div className="h-px w-full" style={{ background: 'linear-gradient(90deg, transparent, rgba(251,191,36,0.3), transparent)' }} />
                     <p className="text-xs font-mono text-on-surface-variant/50 leading-relaxed">

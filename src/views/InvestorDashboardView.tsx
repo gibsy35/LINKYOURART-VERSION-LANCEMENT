@@ -175,7 +175,7 @@ export const InvestorDashboardView: React.FC<{user:UserProfile|null;onNotify:(ms
                 <div className="w-10 h-10 bg-accent-gold/15 border border-accent-gold/25 rounded-xl flex items-center justify-center shrink-0"><span className="text-accent-gold font-black text-xs">LYA</span></div>
                 <div className="flex-1">
                   <p className="text-xs font-black text-accent-gold uppercase tracking-widest mb-0.5">{T('LYA UNIT — Prix fixe de référence','LYA UNIT — Fixed reference price')}</p>
-                  <p className="text-xs text-on-surface-variant/60">{T('Le prix de l\'unité LYA est fixe à 50$, quel que soit le projet ou ses jalons. Ce n\'est ni un titre financier, ni un instrument négociable.','The LYA unit price is fixed at $50, regardless of the project or its milestones. It is neither a financial security nor a tradeable instrument.')}</p>
+                  <p className="text-xs text-on-surface-variant/60">{T('Le prix de l\'unité LYA est fixe à 50 €, quel que soit le projet ou ses jalons. Ce n\'est ni un titre financier, ni un instrument négociable.','The LYA unit price is fixed at €50, regardless of the project or its milestones. It is neither a financial security nor a tradeable instrument.')}</p>
                 </div>
                 <div className="text-right shrink-0">
                   <p className="text-[10px] text-on-surface-variant/40 uppercase">{T('Jalons franchis','Milestones reached')}</p>

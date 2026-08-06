@@ -5,13 +5,14 @@ module.exports = async (req, res) => {
   const apiKey = process.env.ANTHROPIC_API_KEY;
 
   const isEnterprise = (projectSize || '').includes('Enterprise');
-  const isPro = !isEnterprise && ((role || '').includes('Producer') || (creativeField || '').includes('Cinema'));
+  const isAdvanced = !isEnterprise && ((role || '').includes('Producer') || (creativeField || '').includes('Cinema'));
+  const isPro = isAdvanced || (!isEnterprise && (role || '').toLowerCase().includes('pro'));
   const fallback = {
     analysis: "Votre profil dans le domaine de la création reflète des besoins de certification et de reconnaissance objective. Notre analyse de vos activités indique une excellente opportunité de valorisation de votre propriété intellectuelle et de vos droits d'auteur via les modules de certification de LinkYourArt.",
-    recommendedPlanId: isEnterprise ? 'PRO_ENTERPRISE' : isPro ? 'PRO' : 'PATRON',
-    recommendedPlanName: isEnterprise ? 'Entreprise Institutionnelle' : isPro ? 'Pro Personnel' : 'Mécène',
+    recommendedPlanId: isEnterprise ? 'PRO_ENTERPRISE' : isAdvanced ? 'PRO_ADVANCED' : isPro ? 'PRO_STARTER' : 'CREATOR',
+    recommendedPlanName: isEnterprise ? 'Entreprise Institutionnelle' : isAdvanced ? 'Pro Avancé' : isPro ? 'Pro Starter' : 'Créateur',
     primaryReason: "Recommandé pour optimiser d'importants portefeuilles de propriété intellectuelle avec rapports personnalisés pour les partenaires créatifs.",
-    estimatedMonthlyCost: isEnterprise ? 15000 : isPro ? 299 : 9,
+    estimatedMonthlyCost: isEnterprise ? 15000 : isAdvanced ? 249 : isPro ? 79 : 0,
     suggestedAddons: [],
     projectedBenefits: [
       "Certification fluide de vos droits d'exploitation en adéquation totale avec vos activités d'artiste.",
@@ -24,30 +25,30 @@ module.exports = async (req, res) => {
 
   const isFR = language === 'FR';
   const systemPrompt = isFR
-    ? `Tu es un conseiller en certification créative pour LinkYourArt (LYA), une plateforme de certification de projets créatifs. LYA propose 4 profils : CREATOR (gratuit, individus, 2 projets), PATRON (9€/mois + 5% de frais sur le mécénat, mécènes qui soutiennent des projets), PRO (299€/mois, professionnels/agents indépendants), PRO_ENTERPRISE (sur devis, studios/labels/éditeurs). Analyse le profil fourni et recommande le forfait le plus adapté.
+    ? `Tu es un conseiller en certification créative pour LinkYourArt (LYA), une plateforme de certification de projets créatifs. La découverte et le mécénat (parcourir le Registre, suivre et soutenir des projets certifiés) sont gratuits et illimités pour tout le monde — LYA prélève uniquement une commission de 5% sur les montants de mécénat versés, jamais de frais d'entrée. Les paliers payants ne concernent que la soumission de créations et les outils de certification professionnelle : CREATOR (gratuit, individus, 3 projets inclus puis 5€/certification supplémentaire), PRO_STARTER (79€/mois, professionnels indépendants — Registre complet, soumissions illimitées, file de revue prioritaire), PRO_ADVANCED (249€/mois, tout Pro Starter + accès API, rapports en marque blanche, gestionnaire de compte dédié), PRO_ENTERPRISE (sur devis, studios/labels/éditeurs — certification de catalogue à grande échelle). Analyse le profil fourni et recommande le forfait le plus adapté.
 
 Réponds UNIQUEMENT en JSON valide, sans texte avant/après, sans backticks. Format exact :
 {
   "analysis": "2-3 phrases d'analyse du profil créatif de la personne",
-  "recommendedPlanId": "CREATOR" | "PATRON" | "PRO" | "PRO_ENTERPRISE",
+  "recommendedPlanId": "CREATOR" | "PRO_STARTER" | "PRO_ADVANCED" | "PRO_ENTERPRISE",
   "recommendedPlanName": "Nom du forfait en français",
   "primaryReason": "1 phrase expliquant pourquoi ce forfait est recommandé",
-  "estimatedMonthlyCost": nombre (0, 9, 299 ou 15000 selon le forfait),
+  "estimatedMonthlyCost": nombre (0, 79, 249 ou 15000 selon le forfait),
   "suggestedAddons": [],
   "projectedBenefits": ["bénéfice 1", "bénéfice 2", "bénéfice 3"],
   "auditIndexScore": nombre entre 60 et 95
 }
 
 Ne mentionne jamais de prix d'unité LYA, de marché secondaire, de rendement financier, ou d'investissement.`
-    : `You are a creative certification advisor for LinkYourArt (LYA), a certification platform for creative projects. LYA offers 4 tiers: CREATOR (free, individuals, 2 projects), PATRON (€9/month + 5% patronage fee, patrons supporting projects), PRO (€299/month, independent professionals/agents), PRO_ENTERPRISE (custom quote, studios/labels/publishers). Analyze the provided profile and recommend the best-fit plan.
+    : `You are a creative certification advisor for LinkYourArt (LYA), a certification platform for creative projects. Discovery and patronage (browsing the Registry, following and supporting certified projects) are free and unlimited for everyone — LYA only takes a 5% commission on patronage amounts pledged, never an entry fee. Paid tiers only cover submitting creative work and professional certification tooling: CREATOR (free, individuals, 3 projects included then €5/extra certification), PRO_STARTER (€79/month, independent professionals — full Registry access, unlimited submissions, priority review queue), PRO_ADVANCED (€249/month, everything Pro Starter has plus API access, white-label reporting, dedicated account manager), PRO_ENTERPRISE (custom quote, studios/labels/publishers — catalog-scale certification). Analyze the provided profile and recommend the best-fit plan.
 
 Respond ONLY with valid JSON, no text before/after, no backticks. Exact format:
 {
   "analysis": "2-3 sentence analysis of the person's creative profile",
-  "recommendedPlanId": "CREATOR" | "PATRON" | "PRO" | "PRO_ENTERPRISE",
+  "recommendedPlanId": "CREATOR" | "PRO_STARTER" | "PRO_ADVANCED" | "PRO_ENTERPRISE",
   "recommendedPlanName": "Plan name in English",
   "primaryReason": "1 sentence explaining why this plan is recommended",
-  "estimatedMonthlyCost": number (0, 9, 299 or 15000 depending on plan),
+  "estimatedMonthlyCost": number (0, 79, 249 or 15000 depending on plan),
   "suggestedAddons": [],
   "projectedBenefits": ["benefit 1", "benefit 2", "benefit 3"],
   "auditIndexScore": number between 60 and 95

@@ -179,7 +179,7 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify, onViewChan
     "Mécènes & Partenaires": [
       {
         q: t('How do I support a creative project?', 'Comment soutenir un projet créatif ?'),
-        a: t('Browse the Registry to find certified projects. You can support a project directly with the amount of your choice, starting from $50, as part of a recognition-based patronage campaign.', 'Parcourez le Registre pour trouver des projets certifiés. Vous pouvez soutenir un projet directement avec le montant de votre choix, à partir de $50, dans le cadre d\'une campagne de mécénat de reconnaissance.')
+        a: t('Browse the Registry to find certified projects. You can support a project directly with the amount of your choice, starting from €50, as part of a recognition-based patronage campaign.', 'Parcourez le Registre pour trouver des projets certifiés. Vous pouvez soutenir un projet directement avec le montant de votre choix, à partir de 50 €, dans le cadre d\'une campagne de mécénat de reconnaissance.')
       },
       {
         q: t('What do I receive in return for my support?', 'Que reçois-je en échange de mon soutien ?'),

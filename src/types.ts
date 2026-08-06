@@ -41,6 +41,11 @@ export interface UserProfile {
   // Institutional/catalog-scale account — grants Professional-level access
   // plus bulk tooling and automatic Lounge/Governance access.
   isEnterprise?: boolean;
+  // Sub-tier within the PROFESSIONAL role. STARTER gets the Registry and
+  // unlimited own-catalogue submissions; ADVANCED additionally unlocks API
+  // access, white-label reporting and a dedicated account manager. See
+  // src/lib/permissions.ts.
+  proTier?: 'STARTER' | 'ADVANCED';
   usageStats?: {
     simulator: number;
     swipe: number;

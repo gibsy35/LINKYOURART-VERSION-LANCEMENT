@@ -1943,7 +1943,7 @@ export const AdminView: React.FC<{
                 <div className="p-5 bg-primary-cyan/5 border border-primary-cyan/25 rounded-2xl space-y-3">
                    <div className="flex justify-between items-center">
                      <span className="text-[10px] font-black text-primary-cyan uppercase tracking-wider">{t('MARKET_PERF_PRICING', 'CRITÈRE DE COTATION ET VALEUR DU UNIT')}</span>
-                     <span className="text-[10px] font-bold text-accent-gold uppercase tracking-widest">Base: $50.00 Price-Fix</span>
+                     <span className="text-[10px] font-bold text-accent-gold uppercase tracking-widest">Base: €50.00 Price-Fix</span>
                    </div>
                    
                    <div className="space-y-2">
@@ -1966,7 +1966,7 @@ export const AdminView: React.FC<{
                    <div className="p-3.5 bg-black/40 rounded-xl border border-white/5 flex justify-between items-center text-[10px] text-white/60">
                      <span>{t('CORRESPONDING_UNIT_QUOTE', 'VALEUR FIXE DE L\'UNITÉ LYA')} :</span>
                      <span className="text-emerald-400 font-black text-xs font-mono leading-none">
-                       $50.00
+                       €50.00
                        <span className="text-[9.5px] font-bold text-white/40 ml-1">FIXE</span>
                      </span>
                    </div>

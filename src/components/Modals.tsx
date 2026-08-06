@@ -284,28 +284,41 @@ export const FeatureShowcaseModal: React.FC<{
         };
       case 'PATRON':
         return {
-          title: t('PATRON TIER ACCESS', 'ACCÈS AU FORFAIT MÉCÈNE'),
+          title: t('FREE DISCOVERY & PATRONAGE', 'DÉCOUVERTE & MÉCÉNAT GRATUITS'),
           badge: t('COLLECTORS, PATRONS & SUPPORTERS', 'COLLECTIONNEURS, MÉCÈNES & SOUTIENS'),
           description: t(
-            'Optimized for patrons, independent co-producers, and creative supporters looking to follow certified projects across music catalogs, film productions, and multidisciplinary creations.',
-            'Idéal pour les mécènes, coproducteurs indépendants et soutiens créatifs cherchant à suivre des projets certifiés à travers des catalogues musicaux, des productions cinématographiques et des créations multidisciplinaires.'
+            'Free and unlimited for everyone, signed in or not — browse, follow and support certified projects across music catalogs, film productions, and multidisciplinary creations. Like Kickstarter, there is no fee to give — only a platform commission on successful patronage.',
+            'Gratuit et illimité pour tous, connecté ou non — parcourez, suivez et soutenez des projets certifiés à travers des catalogues musicaux, des productions cinématographiques et des créations multidisciplinaires. Comme Kickstarter, aucun frais pour soutenir — seulement une commission de plateforme sur le mécénat abouti.'
           ),
-          feature1: t('Project Tracking', 'Suivi de Projets'),
-          feature1Value: t('UNLIMITED', 'ILLIMITÉ'),
+          feature1: t('Discovery & Tracking', 'Découverte & Suivi'),
+          feature1Value: t('FREE & UNLIMITED', 'GRATUIT & ILLIMITÉ'),
           feature2: t('Platform Fee on Patronage', 'Frais de Plateforme sur le Mécénat'),
           feature2Value: '5.0%',
         };
-      case 'PRO':
+      case 'PRO_STARTER':
         return {
-          title: t('PRO PERSONAL CONTRACTS', 'CONTRATS PRO PERSONNEL'),
-          badge: t('VALIDATORS, SHOWRUNNERS & AGENTS', 'VALIDATEURS, AGENTS & DIFFUSEURS'),
+          title: t('PRO STARTER ACCESS', 'ACCÈS PRO STARTER'),
+          badge: t('VALIDATORS, SOURCERS & INDEPENDENT AGENTS', 'VALIDATEURS, SOURCEURS & AGENTS INDÉPENDANTS'),
           description: t(
-            'High-caliber specialized workspace engineered for executive producers, showrunners, talent agents, and certification professionals. Gain advanced audit tools, white-label client reporting, and priority review access.',
-            'Espace de travail de haut calibre conçu pour les producteurs délégués, showrunners, agents artistiques et professionnels de la certification. Bénéficiez d\'outils d\'audit avancés, de rapports en marque blanche pour vos clients, et d\'un accès prioritaire aux revues.'
+            'Certification workspace for independent professionals sourcing and auditing creative work: full Registry access, unlimited submissions for your own catalogue, and priority review.',
+            'Espace de travail de certification pour les professionnels indépendants qui sourcent et auditent des créations : accès complet au Registre, soumissions illimitées pour votre propre catalogue, et revue prioritaire.'
           ),
-          feature1: t('White-label Reporting Suite', 'Rapports en Marque Blanche'),
-          feature1Value: t('ENABLED', 'INSTALLÉ'),
+          feature1: t('Registry Access', 'Accès Registre'),
+          feature1Value: t('FULL', 'COMPLET'),
           feature2: t('Priority Review Access', 'Accès Prioritaire aux Revues'),
+          feature2Value: t('INCLUDED', 'INCLUS'),
+        };
+      case 'PRO_ADVANCED':
+        return {
+          title: t('PRO ADVANCED CONTRACTS', 'CONTRATS PRO AVANCÉ'),
+          badge: t('SHOWRUNNERS, AGENTS & TECHNICAL INTEGRATORS', 'SHOWRUNNERS, AGENTS & INTÉGRATEURS TECHNIQUES'),
+          description: t(
+            'Everything in Pro Starter, plus API access, white-label client reporting, and a dedicated account manager — built for teams that need to integrate LYA certification into their own workflows.',
+            "Tout Pro Starter, plus l'accès API, des rapports en marque blanche pour vos clients, et un gestionnaire de compte dédié — pensé pour les équipes qui doivent intégrer la certification LYA dans leurs propres outils."
+          ),
+          feature1: t('API Access', 'Accès API'),
+          feature1Value: t('ENABLED', 'INSTALLÉ'),
+          feature2: t('White-label Reporting Suite', 'Rapports en Marque Blanche'),
           feature2Value: t('INCLUDED', 'INCLUS'),
         };
       case 'PRO_ENTERPRISE':

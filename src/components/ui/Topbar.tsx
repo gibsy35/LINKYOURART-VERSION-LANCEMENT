@@ -212,8 +212,8 @@ export const Topbar: React.FC<TopbarProps> = ({
           {/* Currency Switcher */}
           <div className="flex items-center gap-1 bg-white/5 p-0.5 rounded-full border border-white/10">
             {[
-              { id: 'USD', symbol: '$' },
               { id: 'EUR', symbol: '€' },
+              { id: 'USD', symbol: '$' },
               { id: 'GBP', symbol: '£' },
               { id: 'JPY', symbol: '¥' }
             ].map((curr) => (

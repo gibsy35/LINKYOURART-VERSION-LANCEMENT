@@ -5,6 +5,7 @@ import { useTranslation } from '../context/LanguageContext';
 import { FeatureShowcaseModal } from '../components/Modals';
 
 import { PageHeader } from '../components/ui/PageHeader';
+import { PRO_STARTER_PRICE_EUR, PRO_ADVANCED_PRICE_EUR } from '../lib/permissions';
 
 interface PricingViewProps {
   onSelectPlan: (plan: { name: string, price: number, billingCycle: 'monthly' | 'yearly' }) => void;
@@ -15,7 +16,7 @@ interface PricingViewProps {
 const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBecomeValidator }) => {
   const { t, language } = useTranslation();
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly');
-  const [showcaseFeature, setShowcaseFeature] = useState<'CREATOR' | 'PATRON' | 'PRO' | 'EXPERT_AUDIT' | 'PATRON_ANALYTICS' | 'PREDICTIVE_SCORE' | null>(null);
+  const [showcaseFeature, setShowcaseFeature] = useState<'CREATOR' | 'PRO_STARTER' | 'PRO_ADVANCED' | 'EXPERT_AUDIT' | 'PATRON_ANALYTICS' | 'PREDICTIVE_SCORE' | null>(null);
 
   const [creativeField, setCreativeField] = useState('Cinema / Film / TV');
   const [customRole, setCustomRole] = useState('Producer / Showrunner');
@@ -25,7 +26,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
   const [analysisProgress, setAnalysisProgress] = useState('');
   const [assessmentResult, setAssessmentResult] = useState<{
     analysis: string;
-    recommendedPlanId: 'CREATOR' | 'PATRON' | 'PRO' | 'PRO_ENTERPRISE';
+    recommendedPlanId: 'CREATOR' | 'PRO_STARTER' | 'PRO_ADVANCED' | 'PRO_ENTERPRISE';
     recommendedPlanName: string;
     primaryReason: string;
     estimatedMonthlyCost: number;
@@ -85,10 +86,10 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
       setTimeout(() => {
         setAssessmentResult({
           analysis: "Votre profil dans le domaine de la création reflète des besoins de certification et de reconnaissance objective. Notre analyse de vos activités indique une excellente opportunité de valorisation de votre propriété intellectuelle et de vos droits d'auteur via les modules de certification de LinkYourArt.",
-          recommendedPlanId: projectSize.includes('Enterprise') ? 'PRO_ENTERPRISE' : customRole.includes('Producer') || creativeField.includes('Cinema') ? 'PRO' : 'PATRON',
-          recommendedPlanName: projectSize.includes('Enterprise') ? 'Entreprise Institutionnelle' : customRole.includes('Producer') || creativeField.includes('Cinema') ? 'Pro Personnel' : 'Mécène',
+          recommendedPlanId: projectSize.includes('Enterprise') ? 'PRO_ENTERPRISE' : customRole.includes('Producer') || creativeField.includes('Cinema') ? 'PRO_ADVANCED' : 'PRO_STARTER',
+          recommendedPlanName: projectSize.includes('Enterprise') ? 'Entreprise Institutionnelle' : customRole.includes('Producer') || creativeField.includes('Cinema') ? 'Pro Avancé' : 'Pro Starter',
           primaryReason: "Recommandé pour optimiser d'importants portefeuilles de propriété intellectuelle avec rapports personnalisés pour les partenaire créatifs.",
-          estimatedMonthlyCost: projectSize.includes('Enterprise') ? 15000 : 299,
+          estimatedMonthlyCost: projectSize.includes('Enterprise') ? 15000 : customRole.includes('Producer') || creativeField.includes('Cinema') ? PRO_ADVANCED_PRICE_EUR : PRO_STARTER_PRICE_EUR,
           suggestedAddons: [
             { name: "Risk Audit Pro", reason: "Sécurise l'audit préliminaire de vos contrats d'exploitation de manière automatisée." },
             { name: "Tax & Legal Suite", reason: "Idéal pour structurer les rapports multi-pays issus de la diffusion de vos œuvres." }
@@ -111,41 +112,39 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
       id: 'CREATOR',
       name: t('Creator', 'Créateur'),
       monthlyPrice: 0,
-      description: t('Try LYA certification with real limits, no cost.', 'Essayez la certification LYA avec de vraies limites, sans coût.'),
+      description: t('Certify your own work. Free forever, no hidden limits on discovery or patronage.', 'Certifiez vos propres créations. Gratuit à vie, aucune limite cachée sur la découverte ou le mécénat.'),
       features: [
         t('Project submission (up to 3)', 'Soumission de projets (jusqu\'à 3)'),
+        t('Extra certifications at €5 each', 'Certifications supplémentaires à 5€ l\'unité'),
         t('LYA Score basic analysis', 'Analyse de base du Score LYA'),
         t('Free certification', 'Certification gratuite'),
-        t('20 Swipe / Compare actions per month', '20 actions Swipe / Comparaison par mois'),
       ],
       color: 'primary-cyan',
       icon: <Zap size={24} />,
     },
     {
-      id: 'PATRON',
-      name: t('Patron', 'Mécène'),
-      monthlyPrice: 9,
-      description: t('For patrons and collectors following certified projects.', 'Pour les mécènes et collectionneurs suivant des projets certifiés.'),
+      id: 'PRO_STARTER',
+      name: t('Pro Starter', 'Pro Starter'),
+      monthlyPrice: PRO_STARTER_PRICE_EUR,
+      description: t('For independent professionals sourcing and certifying creative work.', 'Pour les professionnels indépendants qui sourcent et certifient des créations.'),
       features: [
-        t('Unlimited Swipe / Compare / Tracking', 'Swipe / Comparaison / Suivi illimités'),
-        t('Advanced LYA Score analytics', 'Analyses avancées du Score LYA'),
-        t('Priority patronage access', 'Accès prioritaire au mécénat'),
-        t('LYA Academy access', 'Accès à l\'Académie LYA'),
+        t('Unlimited project submissions', 'Soumissions de projets illimitées'),
+        t('Full Registry access', 'Accès complet au Registre'),
+        t('Professional validation tools', 'Outils de validation professionnelle'),
+        t('Priority review queue', 'File de revue prioritaire'),
       ],
       color: 'accent-gold',
       icon: <Star size={24} />,
       popular: true,
     },
     {
-      id: 'PRO',
-      name: t('Pro Personal', 'Pro Personnel'),
-      monthlyPrice: 299,
-      description: t('For independent professionals and agents.', 'Pour les professionnels et agents indépendants.'),
+      id: 'PRO_ADVANCED',
+      name: t('Pro Advanced', 'Pro Avancé'),
+      monthlyPrice: PRO_ADVANCED_PRICE_EUR,
+      description: t('Everything in Starter, plus API access and dedicated support.', 'Tout Starter, plus l\'accès API et un accompagnement dédié.'),
       features: [
-        t('Unlimited project submissions', 'Soumissions de projets illimitées'),
-        t('Professional validation tools', 'Outils de validation professionnelle'),
+        t('Everything in Pro Starter', 'Tout Pro Starter'),
         t('API access for certification', 'Accès API pour la certification'),
-        t('Priority review queue', 'File de revue prioritaire'),
         t('White-label reporting', 'Rapports en marque blanche'),
         t('Dedicated account manager', 'Gestionnaire de compte dédié'),
       ],
@@ -161,7 +160,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
         t('Full Catalog Certification & Migration', 'Certification et Migration de Catalogue Complet'),
         t('Externalized Editorial Management', 'Gestion Éditoriale Externalisée'),
         t('Custom Certification Workflow', 'Processus de Certification Personnalisé'),
-        t('Dedicated Registry Access', 'Accès Registre Dédié'),
+        t('Governance & Lounge access included', 'Accès Gouvernance & Salon inclus'),
         t('Advanced LYA Reporting', 'Rapports Avancés LYA'),
       ],
       color: 'accent-purple',
@@ -182,11 +181,33 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
       <PageHeader 
         titleWhite={t('Platform', 'Modèles de')}
         titleAccent={t('Pricing', 'Tarification')}
-        description={t('UNLOCK ACCESS TO PROFESSIONAL DATA FEEDS, DEEP CERTIFICATION ANALYTICS, AND PROFESSIONAL REVIEW INFRASTRUCTURE.', 'DÉBLOQUEZ L\'ACCÈS AUX FLUX DE DONNÉES PROFESSIONNELS, AUX ANALYSES DE CERTIFICATION APPROFONDIES ET À L\'INFRASTRUCTURE DE REVUE PROFESSIONNELLE.')}
+        description={t('DISCOVERY AND PATRONAGE ARE FREE FOR EVERYONE. PROFESSIONAL TIERS UNLOCK CERTIFICATION TOOLING FOR SOURCING AND AUDITING WORK AT SCALE.', 'LA DÉCOUVERTE ET LE MÉCÉNAT SONT GRATUITS POUR TOUS. LES PALIERS PROFESSIONNELS DÉBLOQUENT LES OUTILS DE CERTIFICATION POUR SOURCER ET AUDITER À GRANDE ÉCHELLE.')}
         accentColor="text-primary-cyan"
       />
 
-      <div className="flex flex-col lg:flex-row lg:items-center justify-end gap-8 -mt-16 md:-mt-24 mb-12 relative z-20">
+      {/* Free tier banner — deliberately placed before any paid plan so the
+          page reads "open platform with a pro option", not "paid platform
+          with a free trial". Discovery/patronage have no card of their own
+          below because they aren't a plan to choose — they're just how the
+          platform works, for everyone, always. */}
+      <div className="relative z-20 border border-emerald-400/25 bg-emerald-400/[0.04] rounded-sm p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center gap-5 md:gap-8">
+        <div className="w-12 h-12 rounded-full bg-emerald-400/10 border border-emerald-400/25 flex items-center justify-center text-emerald-400 shrink-0">
+          <Star size={22} />
+        </div>
+        <div className="flex-1">
+          <h3 className="text-sm font-black uppercase tracking-widest text-emerald-400 mb-1">
+            {t('Discovery & Patronage — Free & Unlimited, For Everyone', 'Découverte & Mécénat — Gratuits et Illimités, Pour Tous')}
+          </h3>
+          <p className="text-xs md:text-sm text-on-surface-variant/70 leading-relaxed max-w-2xl">
+            {t('Browse the Registry, follow certified projects and support the creators you believe in — no account tier, no monthly fee, no cap. Like Kickstarter, LYA never charges the person giving money; the platform only takes a 5% commission on successful patronage.', 'Parcourez le Registre, suivez des projets certifiés et soutenez les créateurs auxquels vous croyez — sans palier de compte, sans abonnement, sans plafond. Comme Kickstarter, LYA ne fait jamais payer la personne qui soutient ; la plateforme prélève seulement une commission de 5% sur le mécénat abouti.')}
+          </p>
+        </div>
+      </div>
+
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8 mt-4 mb-4 relative z-20">
+        <p className="text-xs font-black uppercase tracking-widest text-on-surface-variant/50">
+          {t('Professional tiers — for sourcing, auditing & scale', 'Paliers professionnels — pour sourcer, auditer et passer à l\'échelle')}
+        </p>
         {/* Billing Toggle */}
         <div className="bg-surface-high/40 border border-white/10 p-1 rounded-sm flex items-center backdrop-blur-xl">
           <button 
@@ -612,8 +633,8 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
                       onClick={() => {
                         onSelectPlan({
                           name: assessmentResult.recommendedPlanId === 'CREATOR' ? t('Creator', 'Créateur') :
-                                assessmentResult.recommendedPlanId === 'PATRON' ? t('Patron', 'Mécène') :
-                                assessmentResult.recommendedPlanId === 'PRO' ? t('Pro Personal', 'Pro Personnel') : t('Institutional Enterprise', 'Entreprise Institutionnelle'),
+                                assessmentResult.recommendedPlanId === 'PRO_STARTER' ? t('Pro Starter', 'Pro Starter') :
+                                assessmentResult.recommendedPlanId === 'PRO_ADVANCED' ? t('Pro Advanced', 'Pro Avancé') : t('Institutional Enterprise', 'Entreprise Institutionnelle'),
                           price: assessmentResult.estimatedMonthlyCost,
                           billingCycle
                         });
@@ -808,7 +829,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
       <FeatureShowcaseModal 
         isOpen={!!showcaseFeature} 
         onClose={() => setShowcaseFeature(null)} 
-        featureName={showcaseFeature || 'PRO'} 
+        featureName={showcaseFeature || 'PRO_STARTER'} 
       />
     </div>
   );
