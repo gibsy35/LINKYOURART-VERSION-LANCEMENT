@@ -119,7 +119,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: 'WATCHLIST', icon: CheckCircle, label: t('WATCHLIST', 'MA VEILLE'), category: t('INDEX', 'INDEX'), count: watchlist.length },
     { id: 'VALIDATION', icon: ShieldCheck, label: t('Administrative Services', 'Services Administratifs'), category: t('LYA SYSTEM', 'LYA SYSTEME') },
     { id: 'WALLET', icon: CreditCard, label: t('MY WALLET', 'MON PORTEFEUILLE'), category: t('VAULT', 'COFFRE') },
-    { id: 'LINK_ART', icon: Link2, label: t('THE LYA SYSTEM', 'LE LYA SYSTEME'), category: t('SYSTEM', 'SYSTÈME') },
+    { id: 'LINK_ART', icon: Link2, label: t('LYA SUBMIT', 'LYA SUBMIT'), category: t('SYSTEM', 'SYSTÈME') },
     { id: 'ABOUT', icon: Globe, label: t('DISCOVER LYA', 'DÉCOUVRIR LYA'), category: t('SYSTEM', 'SYSTÈME') },
     { id: 'SOCIAL_FEED', icon: Users, label: t('COMMUNITY', 'COMMUNAUTÉ'), category: t('COMMUNITY', 'COMMUNAUTÉ') },
     { id: 'LOUNGE', icon: Coffee, label: t('THE LOUNGE', 'LE SALON'), category: t('COMMUNITY', 'COMMUNAUTÉ') },

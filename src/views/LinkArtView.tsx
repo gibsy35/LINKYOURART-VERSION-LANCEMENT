@@ -485,9 +485,9 @@ export const LinkArtView: React.FC<{
   return (
     <div className="space-y-12 pb-24 relative min-h-screen">
       <PageHeader 
-        titleWhite={t('The', 'Le')}
-        titleAccent={t('Protocol', 'Protocole')}
-        description={t('Initialize a new fractional contract. Configure issuance pillars, legal rights, and financial structure.', 'Initialisez un nouveau contrat fractionné. Configurez les piliers d\'émission, les droits légaux et la structure financière.')}
+        titleWhite={t('LYA', 'LYA')}
+        titleAccent={t('Submit', 'Submit')}
+        description={t('Submit a new creative project for LYA certification. Configure your submission details, milestones, and patronage goals.', 'Soumettez un nouveau projet créatif à la certification LYA. Configurez les détails de votre soumission, vos jalons et vos objectifs de mécénat.')}
         accentColor="text-primary-cyan"
       />
 

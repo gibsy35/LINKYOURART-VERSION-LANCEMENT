@@ -161,7 +161,7 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify, onViewChan
     Creators: [
       {
         q: t('How do I submit a creative project?', 'Comment soumettre un projet créatif ?'),
-        a: t('Go to the LinkArt section and fill in your project details: title, category, description, budget and milestones. Once submitted, your project enters the LYA certification queue.', 'Rendez-vous dans la section LinkArt et renseignez les détails de votre projet : titre, catégorie, description, budget et jalons. Une fois soumis, votre projet entre dans la file de certification LYA.')
+        a: t('Go to the LYA Submit section and fill in your project details: title, category, description, budget and milestones. Once submitted, your project enters the LYA certification queue.', 'Rendez-vous dans la section LYA Submit et renseignez les détails de votre projet : titre, catégorie, description, budget et jalons. Une fois soumis, votre projet entre dans la file de certification LYA.')
       },
       {
         q: t('What types of projects are accepted?', 'Quels types de projets sont acceptés ?'),
