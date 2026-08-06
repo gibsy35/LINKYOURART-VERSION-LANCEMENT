@@ -123,7 +123,7 @@ export const APIView: React.FC<APIViewProps> = ({ user, onNotify, onViewChange }
       <PageHeader 
         titleWhite={t('Developer', 'Interface')}
         titleAccent={t('Terminal', 'Développeur')}
-        description={t('Integrate the LYA Registry into your own applications. Access real-time market data, manage creative contracts, and automate settlements through our secure REST and WebSocket APIs.', 'Intégrez le plateforme LYA dans vos propres applications. Accédez aux données de marché en temps réel, gérez les contrats créatifs et automatisez les règlements via nos API REST et WebSocket sécurisées.')}
+        description={t('Integrate the LYA Registry into your own applications. Access real-time certification data, manage project submissions, and automate registry updates through our secure REST and WebSocket APIs.', 'Intégrez le Registre LYA dans vos propres applications. Accédez aux données de certification en temps réel, gérez les soumissions de projets et automatisez les mises à jour du registre via nos API REST et WebSocket sécurisées.')}
         accentColor="text-primary-cyan"
       />
 
@@ -295,7 +295,7 @@ export const APIView: React.FC<APIViewProps> = ({ user, onNotify, onViewChange }
               WEBHOOKS
             </h4>
             <p className="text-[11px] text-on-surface-variant leading-relaxed mb-6 font-medium">
-              Receive real-time notifications for contract validations, settlements, and market shifts.
+              {t('Receive real-time notifications for certification updates, milestone validations, and registry changes.', 'Recevez des notifications en temps réel pour les mises à jour de certification, les validations de jalons et les changements de registre.')}
             </p>
             <button 
               onClick={() => { window.open('https://docs.linkyourart.com/webhooks', '_blank'); onNotify(t('Documentation webhooks ouverte', 'Webhook documentation opened')); }}

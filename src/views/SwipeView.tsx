@@ -331,7 +331,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
           <div className="p-6 bg-primary-cyan/5 border border-primary-cyan/10 rounded-2xl">
             <h4 className="text-[10px] font-black text-primary-cyan uppercase tracking-widest mb-3">{t('Expert Tip', 'Conseil Expert')}</h4>
             <p className="text-[11px] text-on-surface-variant leading-relaxed italic">
-              {t('Contracts with a LYA Score above 850 represent the top 5% of creative assets in terms of professional validation and revenue potential.', 'Les contrats avec un score LYA supérieur à 850 représentent le top 5% des actifs créatifs en termes de validation professionnelle et de potentiel de revenus.')}
+              {t('Projects with a LYA Score above 850 represent the top 5% of certified creative works in terms of professional validation and recognition.', 'Les projets avec un score LYA supérieur à 850 représentent le top 5% des œuvres créatives certifiées en termes de validation professionnelle et de reconnaissance.')}
             </p>
           </div>
         </div>
@@ -669,7 +669,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
           </div>
           <h4 className="text-sm font-black text-white uppercase tracking-widest mb-2">{t('Ma Liste de Suivi', 'My Watchlist')}</h4>
           <p className="text-[11px] text-on-surface-variant leading-relaxed opacity-60 uppercase tracking-wider">
-            {t('Build and monitor your portfolio with advanced analytics and real-time performance tracking.', 'Construisez et surveillez votre portefeuille avec des analyses avancées et un suivi des performances en temps réel.')}
+            {t('Build and monitor your watchlist with advanced analytics and real-time LYA Score tracking.', 'Construisez et surveillez votre liste de suivi avec des analyses avancées et un suivi du Score LYA en temps réel.')}
           </p>
         </div>
       </div>

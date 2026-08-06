@@ -182,7 +182,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
             <p className="text-[10px] md:text-[10px] text-accent-gold uppercase tracking-widest font-bold opacity-40">
               {user.role === UserRole.PATRON ? t('Track the impact of your patronage across the LYA Registry', 'Suivez l\'impact de votre mécénat sur le Registre LYA') :
                user.role === UserRole.PROFESSIONAL ? t('Analyze your network validation efficiency', 'Analysez l\'efficacité de validation de votre réseau') :
-               t('Predict your professional valuation potential', 'Prédisez votre potentiel de valorisation professionnelle')}
+               t('Predict your certification potential', 'Prédisez votre potentiel de certification')}
             </p>
           </div>
           <div className="flex items-center gap-4">
@@ -512,7 +512,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
 
   const PREMIUM_FEATURES_CONTENT: Record<string, { description: string, previewImage?: string, benefits: { label: string, desc: string }[] }> = {
     'LYA Score': {
-      description: t('Access the full LYA evaluation algorithm to precisely evaluate your market potential and professional radiation. Get a deep-dive audit of your creative rights.', "Accédez à l'algorithme complet d'évaluation LYA pour évaluer précisément votre potentiel de marché et votre rayonnement professionnel. Obtenez un audit approfondi de vos droits créatifs."),
+      description: t('Access the full LYA evaluation algorithm to precisely assess your creative reach and professional standing. Get a deep-dive audit of your creative rights.', "Accédez à l'algorithme complet d'évaluation LYA pour évaluer précisément votre rayonnement créatif et votre positionnement professionnel. Obtenez un audit approfondi de vos droits créatifs."),
       previewImage: 'https://picsum.photos/seed/lya-score-audit/800/400',
       benefits: [
         { label: t('Full AI Audit', 'Audit IA Complet'), desc: t('Deep analysis of 50+ data points across 5 strategic pillars.', 'Analyse approfondie de 50+ points de données sur 5 piliers stratégiques.') },
@@ -923,8 +923,8 @@ const ProfileView: React.FC<ProfileViewProps> = ({
       
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
         {[
-          { title: t("Creative Asset Valuation", "Évaluation des Actifs Créatifs"), duration: "45:00", type: t("Masterclass", "Masterclass") },
-          { title: t("Indexed Contract Law", "Droit des Contrats Indexés"), duration: "32:15", type: t("Legal", "Juridique") },
+          { title: t("Creative Work Certification", "Certification des Œuvres Créatives"), duration: "45:00", type: t("Masterclass", "Masterclass") },
+          { title: t("Certified Registry Law", "Droit du Registre Certifié"), duration: "32:15", type: t("Legal", "Juridique") },
           { title: t("LYA Certification Strategies", "Stratégies de Certification LYA"), duration: "28:40", type: t("Business", "Business") }
         ].map((video, i) => (
           <div key={i} className="relative aspect-video bg-black/40 border border-white/10 flex flex-col items-center justify-center group/video overflow-hidden">
@@ -1245,7 +1245,7 @@ const renderMentorshipContent = () => (
                <div className="flex justify-start">
                  <div className="max-w-[70%] bg-white/5 border border-white/10 p-6 rounded-2xl rounded-tl-none shadow-xl">
                    <p className="text-sm text-on-surface leading-relaxed opacity-80">
-                     <ScrambleText text="The licensing structure for the neural assets is complex. I need guidance on the secondary rights clause before we move to Phase 2." />
+                     <ScrambleText text="The certification requirements for the AI-generated works are complex. I need guidance on the attribution clause before we move to Phase 2." />
                    </p>
                    <p className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest mt-4 opacity-40">10:42 AM • DECRYPTED</p>
                  </div>
@@ -1540,7 +1540,7 @@ const renderMentorshipContent = () => (
                     </h2>
                   </div>
                   <p className="text-sm md:text-lg text-on-surface-variant font-medium max-w-xl mb-6">
-                    {t('Estimate your creative valuation potential. Our algorithm analyzes your professional radiation and market performance to provide a preliminary LYA Score.', 'Estimez votre potentiel de valorisation créative. Notre algorithme analyse votre rayonnement professionnel et vos performances de marché pour fournir un score LYA préliminaire.')}
+                    {t('Estimate your certification potential. Our algorithm analyzes your creative reach and professional standing to provide a preliminary LYA Score.', 'Estimez votre potentiel de certification. Notre algorithme analyse votre rayonnement créatif et votre positionnement professionnel pour fournir un score LYA préliminaire.')}
                   </p>
                   <button 
                     onClick={() => {
@@ -2520,9 +2520,9 @@ const renderMentorshipContent = () => (
                   <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 md:mb-10 lg:mb-12 gap-4 md:gap-6 relative z-10">
                     <div>
                       <h3 className="text-xl md:text-2xl lg:text-3xl font-black uppercase italic tracking-tight flex items-center gap-3 md:gap-4 mb-2">
-                        <TrendingUp className="text-primary-cyan" size={28} /> {t('Market Intelligence', 'Intelligence Marché')}
+                        <TrendingUp className="text-primary-cyan" size={28} /> {t('Registry Intelligence', 'Intelligence Registre')}
                       </h3>
-                      <p className="text-xs md:text-xs text-on-surface-variant uppercase tracking-widest font-bold opacity-40">{t('Real-time institutional asset tracking', 'Suivi institutionnel des actifs en temps réel')}</p>
+                      <p className="text-xs md:text-xs text-on-surface-variant uppercase tracking-widest font-bold opacity-40">{t('Real-time institutional certification tracking', 'Suivi institutionnel de la certification en temps réel')}</p>
                     </div>
                     <div className="px-3 md:px-6 py-1.5 md:py-3 bg-primary-cyan/10 border border-primary-cyan/30 text-primary-cyan text-[10px] md:text-[10px] font-black uppercase tracking-[0.15em] md:tracking-[0.3em] animate-pulse shadow-[0_0_20px_rgba(0,224,255,0.1)]">
                       {t('LIVE TERMINAL DATA', 'DONNÉES TERMINAL EN DIRECT')}
@@ -2634,7 +2634,7 @@ const renderMentorshipContent = () => (
                       <h3 className="text-xl md:text-2xl lg:text-3xl font-black uppercase italic tracking-tight flex items-center gap-3 md:gap-4 mb-2">
                         <Shield className="text-primary-cyan" size={28} /> {t('Validation Queue', 'File de Validation')}
                       </h3>
-                      <p className="text-xs md:text-xs text-on-surface-variant uppercase tracking-widest font-bold opacity-40">{t('Institutional asset verification pipeline', 'Pipeline de vérification institutionnelle des actifs')}</p>
+                      <p className="text-xs md:text-xs text-on-surface-variant uppercase tracking-widest font-bold opacity-40">{t('Institutional certification verification pipeline', 'Pipeline de vérification institutionnelle de la certification')}</p>
                     </div>
                   </div>
                   
@@ -2768,8 +2768,8 @@ const renderMentorshipContent = () => (
                   </h3>
                   <div className="space-y-3 md:space-y-4">
                     {[
-                      { title: t('AI Valuation', 'Évaluation IA'), desc: t('Institutional Grade Analysis', 'Analyse de Qualité Institutionnelle'), icon: BarChart3 },
-                      { title: t('Générateur de Contrats', 'Générateur de Contrats'), desc: t('Automated Legal Framework', 'Cadre Juridique Automatisé'), icon: FileCode },
+                      { title: t('AI Assessment', 'Évaluation IA'), desc: t('Institutional Grade Analysis', 'Analyse de Qualité Institutionnelle'), icon: BarChart3 },
+                      { title: t('Certification Generator', 'Générateur de Certificats'), desc: t('Automated Legal Framework', 'Cadre Juridique Automatisé'), icon: FileCode },
                       { title: t('Compliance Center', 'Centre de Conformité'), desc: t('Intégration Registre LYA', 'Intégration Registre LYA'), icon: Globe },
                     ].map((tool, i) => (
                       <button 
@@ -2820,7 +2820,7 @@ const renderMentorshipContent = () => (
                       {t('The Pro Lounge is your gateway to certified project opportunities and regulatory intelligence. Discuss professional frameworks, creative certification, and strategic partnerships with verified peers.', 'Le Salon Pro est votre porte d\'entrée vers des opportunités de projets certifiés et l\'intelligence réglementaire. Discutez des cadres professionnels, de la certification créative et des partenaires stratégiques avec des pairs vérifiés.')}
                     </p>
                     <p className="text-[10px] md:text-sm italic text-on-surface-variant leading-relaxed opacity-80">
-                      "Join the private discussion on the latest regulatory updates and their impact on creative asset indexing and secondary accessibilité de marché."
+                      "Join the private discussion on the latest regulatory updates and their impact on creative certification standards worldwide."
                     </p>
                   </div>
                   <button 
@@ -3699,8 +3699,8 @@ const renderMentorshipContent = () => (
                     {(premiumFeature && PREMIUM_FEATURES_CONTENT[premiumFeature] 
                       ? PREMIUM_FEATURES_CONTENT[premiumFeature].benefits 
                       : [
-                        { label: t('Professional Data', 'Données Professionnelles'), desc: t('Direct access to verified market feeds.', 'Accès direct aux flux de marché vérifiés.') },
-                        { label: t('Priority Access', 'Accès Prioritaire'), desc: t('Be the first to see new high-potential assets.', 'Soyez le premier à voir les nouveaux actifs.') },
+                        { label: t('Professional Data', 'Données Professionnelles'), desc: t('Direct access to verified certification feeds.', 'Accès direct aux flux de certification vérifiés.') },
+                        { label: t('Priority Access', 'Accès Prioritaire'), desc: t('Be the first to see new high-potential projects.', 'Soyez le premier à voir les nouveaux projets à fort potentiel.') },
                         { label: t('Advanced Analytics', 'Analyses Avancées'), desc: t('Predictive modeling and risk assessment.', 'Modélisation prédictive et évaluation des risques.') },
                         { label: t('Private Network', 'Réseau Privé'), desc: t('Connect with top-tier LYA professionals.', 'Connectez-vous avec des professionnels LYA d\'élite.') },
                       ]).map((benefit, i) => (

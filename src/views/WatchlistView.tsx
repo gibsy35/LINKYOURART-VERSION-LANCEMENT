@@ -100,7 +100,7 @@ export const WatchlistView: React.FC<WatchlistViewProps> = ({
           </div>
           <h2 className="text-2xl font-black text-white uppercase tracking-tighter mb-4">{t('WATCHLIST_EMPTY', 'LISTE_VIDE')}</h2>
           <p className="text-[10px] text-on-surface-variant max-w-xs uppercase tracking-[0.3em] font-bold opacity-40 leading-relaxed">
-            {t('Live monitoring is currently unassigned. Mark creative assets to track market performance.', 'La surveillance neuronale est actuellement non assignée. Marquez des actifs pour suivre les performances des marchés.')}
+            {t('Your watchlist is empty. Follow certified projects to track their LYA Score progress.', 'Votre liste de suivi est vide. Suivez des projets certifiés pour suivre l\'évolution de leur Score LYA.')}
           </p>
         </div>
       ) : (
