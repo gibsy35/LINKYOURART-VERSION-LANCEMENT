@@ -171,7 +171,7 @@ export const ProfessionalOnboardingModal: React.FC<{
                  {i}
                </div>
                <span className="text-[10px] font-black uppercase tracking-widest text-white/40 hidden sm:inline">
-                 {i === 1 ? 'Credentials' : i === 2 ? 'Audit Scope' : 'Validation Bond'}
+                 {i === 1 ? 'Credentials' : i === 2 ? 'Audit Scope' : 'Code of Conduct'}
                </span>
              </div>
            ))}

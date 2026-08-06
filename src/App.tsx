@@ -375,7 +375,7 @@ export default function App() {
     if (!user) return;
     setIsVerifying(true);
     try {
-      await addDoc(collection(db, 'verification_requests'), { userId: user.uid, userEmail: user.email, userName: user.displayName || data.name, firm: data.firm, registrationId: data.registrationId, documents: data.documents, status: 'PENDING', timestamp: serverTimestamp() });
+      await addDoc(collection(db, 'verification_requests'), { userId: user.uid, userEmail: user.email, userName: user.displayName || data.entityName, firm: data.entityName, registrationId: data.registrationNumber, authority: data.authority, documents: data.uploadedDocs, status: 'PENDING', timestamp: serverTimestamp() });
       const userRef = doc(db, 'users', user.uid);
       await updateDoc(userRef, { verificationStatus: 'PENDING' });
       setIsVerifying(false); setIsVerificationModalOpen(false);

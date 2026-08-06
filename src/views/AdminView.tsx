@@ -899,6 +899,10 @@ export const AdminView: React.FC<{
                           <div className="text-xs opacity-40 uppercase font-bold mb-1">Registration ID</div>
                           <div className="text-xs font-bold text-white uppercase">{req.registrationId || 'N/A'}</div>
                         </div>
+                        <div>
+                          <div className="text-xs opacity-40 uppercase font-bold mb-1">Jurisdiction / IP Authority</div>
+                          <div className="text-xs font-bold text-white uppercase">{req.authority || 'N/A'}</div>
+                        </div>
                       </div>
                       <div>
                         <div className="text-xs opacity-40 uppercase font-bold mb-2">Submitted Documents</div>
