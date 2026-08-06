@@ -9,7 +9,7 @@ import { PageHeader } from '../components/ui/PageHeader';
 import { PRO_STARTER_PRICE_EUR, PRO_ADVANCED_PRICE_EUR } from '../lib/permissions';
 
 interface PricingViewProps {
-  onSelectPlan: (plan: { name: string, price: number, billingCycle: 'monthly' | 'yearly' }) => void;
+  onSelectPlan: (plan: { id: string, name: string, price: number, billingCycle: 'monthly' | 'yearly' }) => void;
   onNotify?: (msg: string) => void;
   onBecomeValidator?: () => void;
 }
@@ -320,7 +320,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
                     if (plan.id === 'PRO_ENTERPRISE') {
                       onNotify?.(t('ENTERPRISE INFRASTRUCTURE DESK NOTIFIED. PRIVATE CORRESPONDENCE INITIATED.', 'CELLULE D\'INFRASTRUCTURE ENTREPRISE CONTACTÉE. ENVOI DES LYA SYSTEMES PRIVÉS EN COURS.'));
                     } else {
-                      onSelectPlan({ name: plan.name, price: currentPrice, billingCycle });
+                      onSelectPlan({ id: plan.id, name: plan.name, price: currentPrice, billingCycle });
                     }
                   }}
                   className={`w-full py-3 font-black uppercase text-xs tracking-tighter transition-all active:scale-95 flex items-center justify-center gap-2 ${
@@ -634,6 +634,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
                     <button
                       onClick={() => {
                         onSelectPlan({
+                          id: assessmentResult.recommendedPlanId,
                           name: assessmentResult.recommendedPlanId === 'CREATOR' ? t('Creator', 'Créateur') :
                                 assessmentResult.recommendedPlanId === 'PRO_STARTER' ? t('Pro Starter', 'Pro Starter') :
                                 assessmentResult.recommendedPlanId === 'PRO_ADVANCED' ? t('Pro Advanced', 'Pro Avancé') : t('Institutional Enterprise', 'Entreprise Institutionnelle'),
