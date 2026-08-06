@@ -139,71 +139,22 @@ async function startServer() {
       const response = await ai.models.generateContent({
         model: DEFAULT_MODEL,
         config: {
-          systemInstruction: `You are a senior financial analyst specializing in alternative creative assets. You must write your response in ${responseLang}.`
+          systemInstruction: `You are a creative certification analyst for LinkYourArt (LYA). Write factual, professional analyses of a certified project's quality and potential. Never mention price, LYA units, secondary markets, financial returns, or investment -- LYA certifies creative projects, it is not a financial instrument. You must write your response in ${responseLang}.`
         },
-        contents: `Analyze the following creative asset for an investment platform. 
+        contents: `Analyze the following certified creative project.
         Asset Name: ${assetName}
         Description: ${description}
         Current LYA Score: ${score}/1000
-        Provide a concise 2-sentence summary. The summary MUST be written in ${responseLang}.`
+        Provide a concise 2-sentence summary of its creative quality and certification standing. The summary MUST be written in ${responseLang}.`
       });
       res.json({ analysis: response.text || "Analysis currently unavailable." });
     } catch (error: any) {
       console.warn("Gemini Analyze Error (using resilient fallback):", error.message || error);
       const isFr = req.body.language === 'FR';
       if (isFr) {
-        res.json({ analysis: `Cette œuvre originale présente d'excellentes perspectives qualitatives. Établi sur nos indicateurs de redevances certifiés LinkYourArt, le projet ${req.body.assetName || "sélectionné"} préserve une dynamique d'exploitation solide et régulière, assurant une parfaite liquidité de revente au sein de nos registres d'actifs d'art.` });
+        res.json({ analysis: `Cette œuvre présente d'excellentes perspectives qualitatives. Le projet ${req.body.assetName || "sélectionné"} affiche une trajectoire de certification solide et régulière au sein du Registre LYA.` });
       } else {
-        res.json({ analysis: `This creative asset displays high qualitative prospects. Grounded on our standard LYA index parameters, ${req.body.assetName || "the creative project"} holds steady demand curves and is projected to retain optimal liquidity profiles across our alternative intellectual property registries.` });
-      }
-    }
-  });
-
-  app.post('/api/gemini/investment-thesis', async (req, res) => {
-    try {
-      const { assetName, description, marketData, language } = req.body;
-      const isFr = language === 'FR';
-      const responseLang = isFr ? 'French' : 'English';
-      const marketContext = marketData ? `
-        Market Data:
-        - Total Valuation: $${marketData.totalValue.toLocaleString()}
-        - Growth Rate: ${marketData.growth}%
-        - Stability Index: ${marketData.stability * 100}%
-        - Scarcity Index: ${marketData.scarcity * 100}%
-        - LYA Score: ${marketData.totalScore}/1000
-      ` : "";
-
-      const response = await ai.models.generateContent({
-        model: DEFAULT_MODEL,
-        config: {
-          responseMimeType: "application/json"
-        },
-        contents: `Generate a professional investment thesis for: ${assetName}. 
-        Description: ${description}
-        ${marketContext}
-        Provide Bull Case, Bear Case, and 3 Milestones. Ensure everything (bullCase, bearCase, milestones) is written in ${responseLang}. Output JSON matching this schema:
-        { "bullCase": string, "bearCase": string, "milestones": string[] }`
-      });
-      res.json(JSON.parse(response.text || '{}'));
-    } catch (error: any) {
-      console.warn("Gemini Thesis Error (using resilient fallback):", error.message || error);
-      const isFr = req.body.language === 'FR';
-      if (isFr) {
-        res.json({
-          bullCase: `Fondations de création solides portées par des flux d'audiences organiques constants, des canaux de syndication SVOD mondiaux et un archivage certifié sur le grand livre LYA pour  ${req.body.assetName || "ce catalogue"}.`,
-          bearCase: "Fluctuations temporaires de cours possibles dues aux variables de répartition internationale ou à des reports d'agendas de diffusion à court terme.",
-          milestones: [
-            "Audit légal de propriété intellectuelle achevé par l'équipe LYA",
-            "Négociation de redevances multilatérales de diffusion numérique achevée",
-            "Premier versement automatisé de dividendes aux détenteurs de parts"
-          ]
-        });
-      } else {
-        res.json({
-          bullCase: `Strong creative fundamentals driven by organic audience growth, multi-platform IP syndication channels, and robust metadata indexing on the LYA ledger for ${req.body.assetName || "this project"}.`,
-          bearCase: "Short-term valuation adjustments resulting from global market shifts, production timeline deviations, or fluctuating secondary liquidity levels.",
-          milestones: ["Initial creative audit completed by LYA specialists", "Primary SVOD/broadcast syndication contract signatures", "First dynamic revenue-share royalty distribution yield"]
-        });
+        res.json({ analysis: `This creative asset displays high qualitative prospects. ${req.body.assetName || "This project"} shows a steady, solid certification trajectory on the LYA Registry.` });
       }
     }
   });
@@ -218,8 +169,8 @@ async function startServer() {
         config: {
           responseMimeType: "application/json"
         },
-        contents: `Suggest 3 relevant milestones for: ${description}. Output JSON as an array of objects. Write everything in ${responseLang}:
-        [{ "label": string, "date": string, "priceImpact": number }]`
+        contents: `Suggest 3 realistic certification milestones for this creative project: ${description}. Never mention price, royalties, or revenue distribution. Output JSON as an array of objects. Write everything in ${responseLang}:
+        [{ "label": string, "date": string, "scoreImpact": number }]`
       });
       res.json(JSON.parse(response.text || '[]'));
     } catch (error: any) {
@@ -227,15 +178,15 @@ async function startServer() {
       const isFr = req.body.language === 'FR';
       if (isFr) {
         res.json([
-          { label: "Phase 1: Enregistrement souverain de la Propriété Intellectuelle", date: "2026-10", priceImpact: 10 },
-          { label: "Phase 2: Lancement des pré-ventes des droits de diffusion SVOD", date: "2027-02", priceImpact: 20 },
-          { label: "Phase 3: Activation en ligne du reversement automatisé de royalties", date: "2027-06", priceImpact: 15 }
+          { label: "Phase 1 : Enregistrement de la propriété intellectuelle", date: "2026-10", scoreImpact: 10 },
+          { label: "Phase 2 : Accord de distribution signé", date: "2027-02", scoreImpact: 20 },
+          { label: "Phase 3 : Lancement public", date: "2027-06", scoreImpact: 15 }
         ]);
       } else {
         res.json([
-          { label: "Phase 1: Intellectual Property Registration", date: "2026-10", priceImpact: 10 },
-          { label: "Phase 2: Global Broadcasting Presales", date: "2027-02", priceImpact: 20 },
-          { label: "Phase 3: Automated Royalty Split Live Activation", date: "2027-06", priceImpact: 15 }
+          { label: "Phase 1: Intellectual Property Registration", date: "2026-10", scoreImpact: 10 },
+          { label: "Phase 2: Distribution Agreement Signed", date: "2027-02", scoreImpact: 20 },
+          { label: "Phase 3: Public Launch", date: "2027-06", scoreImpact: 15 }
         ]);
       }
     }
@@ -249,7 +200,7 @@ async function startServer() {
 
       const response = await ai.models.generateContent({
         model: DEFAULT_MODEL,
-        contents: `Retrieve 4 or 5 of the absolute latest and most relevant news headlines or breaking stories *today* from around the world that concern the creative industries, fine arts, Hollywood, Netflix, generative music platforms, fashion conglomerates, architecture designs, or digital intellectual property rights. Ground this with Google Search. Return a beautifully formatted JSON output containing specific details and calculating estimated percentages of co-valuation/price fluctuations on the LINKYOURART alternative asset registry. IMPORTANT: All text properties including headline title, summary, and impact.description MUST be written completely in ${responseLang}.`,
+        contents: `Retrieve 4 or 5 of the absolute latest and most relevant news headlines or breaking stories *today* from around the world that concern the creative industries, fine arts, Hollywood, Netflix, generative music platforms, fashion conglomerates, architecture designs, or digital intellectual property rights. Ground this with Google Search. Return a beautifully formatted JSON output describing how each story connects to creative certification trends, LYA Score momentum, or registry growth on the LINKYOURART creative certification platform. Never describe LYA as a financial exchange, asset registry, or trading venue -- it certifies creative work and facilitates non-financial recognition-based patronage. IMPORTANT: All text properties including headline title, summary, and impact.description MUST be written completely in ${responseLang}.`,
         config: {
           tools: [{ googleSearch: {} }],
           responseMimeType: "application/json",
@@ -269,7 +220,7 @@ async function startServer() {
                     score: { type: Type.INTEGER, description: "Positive or negative percentage score value (-100 to 100)" },
                     trend: { type: Type.STRING, description: "Must be: UP, DOWN, or STABLE" },
                     description: { type: Type.STRING, description: "Detailed description of the news' absolute impact on LYA creative projects" },
-                    targetProject: { type: Type.STRING, description: "The name of a major project or contract on LinkYourArt (e.g. RENAISSANCE REBORN, SKY GARDENS V4, THE FUTURE VOICE, METAVERSE MUSEUM, SOUNDWAVE DIGITAL, etc.) that acts as a real benchmark linked to this news" }
+                    targetProject: { type: Type.STRING, description: "The name of a major certified project on LinkYourArt (e.g. RENAISSANCE REBORN, SKY GARDENS V4, THE FUTURE VOICE, METAVERSE MUSEUM, SOUNDWAVE DIGITAL, etc.) that acts as a real benchmark linked to this news" }
                   },
                   required: ["score", "trend", "description", "targetProject"]
                 }
@@ -320,60 +271,60 @@ async function startServer() {
       const fallbackNews = isFr ? [
         {
           id: `realtime-fallback-1-${Date.now()}`,
-          title: "Netflix finalise pour 500M$ l'acquisition mondiale de droits cinématographiques d'œuvres européennes",
-          summary: "Le géant de la vidéo en ligne Netflix annonce un partenariat d'autorisation de licences de diffusion pour distribuer à l'échelle internationale plusieurs portefeuilles d'art alternatif d'envergure.",
+          title: "Netflix finalise un accord de licence de 500M$ pour des œuvres d'art européennes indépendantes",
+          summary: "Le géant du streaming Netflix annonce un partenariat de diffusion mondiale pour des portefeuilles d'art et de cinéma de haut niveau, renforçant l'intérêt pour la certification d'œuvres européennes.",
           source: "Variety",
           category: "GLOBAL",
           timestamp: "À l'instant",
           impact: {
             score: 18,
             trend: "UP",
-            description: "Hausse directe de la demande d'évaluation pour le catalogue d'actifs artistiques souverains.",
+            description: "Intérêt accru pour la certification de catalogues cinématographiques et artistiques souverains.",
             targetProject: "RENAISSANCE REBORN"
           },
           imageUrl: fallbackImages.GLOBAL
         },
         {
           id: `realtime-fallback-2-${Date.now()}`,
-          title: "Sotheby's dévoile un module d'enchères fractionnées pour les droits de propriété intellectuelle LYA",
-          summary: "Pour étendre la portée des droits d'exploitation d'œuvres artistiques, Sotheby's certifie un modèle permettant d'acheter des parts de redevances instantanément.",
+          title: "Sotheby's intègre un module de certification numérique pour les œuvres d'art et droits IP",
+          summary: "Pour renforcer la confiance de ses acheteurs, Sotheby's adopte un standard de certification tiers permettant de vérifier instantanément l'authenticité et la provenance des œuvres numériques.",
           source: "Financial Times",
           category: "MARKET",
           timestamp: "Il y a 32m",
           impact: {
             score: 25,
             trend: "UP",
-            description: "Augmentation de la confiance du public, stimulant les reventes et rendements sur le marché secondaire.",
+            description: "Hausse de la confiance institutionnelle dans les standards de certification tiers du marché de l'art.",
             targetProject: "SKY GARDENS V4"
           },
           imageUrl: fallbackImages.MARKET
         },
         {
           id: `realtime-fallback-3-${Date.now()}`,
-          title: "Les studios déploient des contrats intelligents de répartition automatisée de redevances en direct",
-          summary: "Une coalition de producteurs adopte un algorithme de suivi automatisé pour reverser sans intermédiaire les flux de royalties de musique et SVOD.",
+          title: "Les studios déploient un suivi automatisé et transparent des jalons de production",
+          summary: "Une coalition de producteurs adopte un système de suivi automatisé pour documenter et certifier chaque étape clé de production de leurs œuvres musicales et audiovisuelles.",
           source: "TechCrunch",
           category: "INNOVATION",
           timestamp: "Il y a 2h",
           impact: {
             score: 32,
             trend: "UP",
-            description: "Élimination des latences d'audit sur l'exploitation internationale des catalogues d'œuvres.",
+            description: "Réduction des délais d'audit sur la documentation des catalogues d'œuvres.",
             targetProject: "THE FUTURE VOICE"
           },
           imageUrl: fallbackImages.INNOVATION
         },
         {
           id: `realtime-fallback-4-${Date.now()}`,
-          title: "Universal Music Group intègre son cadre de vérification d'enregistrements sonores sur le grand livre LYA",
-          summary: "Accompagnement poussé destiné à pister, évaluer et sécuriser automatiquement l'indexation de propriété intellectuelle de nouveaux talents musicaux.",
+          title: "Universal Music Group adopte un cadre de vérification d'enregistrements sonores sur le Registre LYA",
+          summary: "Accompagnement dédié pour documenter, évaluer et certifier automatiquement l'indexation de propriété intellectuelle de nouveaux talents musicaux.",
           source: "Billboard",
           category: "PROFESSIONAL",
           timestamp: "Il y a 5h",
           impact: {
             score: 15,
             trend: "UP",
-            description: "Stabilisation de l'évaluation du secteur audio et réduction de la volatilité des rendements musicaux.",
+            description: "Standardisation de l'évaluation qualité dans le secteur audio et réduction des écarts de certification.",
             targetProject: "THE FUTURE VOICE"
           },
           imageUrl: fallbackImages.PROFESSIONAL
@@ -381,60 +332,60 @@ async function startServer() {
       ] : [
         {
           id: `realtime-fallback-1-${Date.now()}`,
-          title: "Netflix Finalizes $500M Global Acquisition Rights for Independent European Art Masterpieces",
-          summary: "Streaming giant Netflix announced a landmark licensing agreement to distribute high-profile fine art content and cinematic portfolios globally, bolstering creative registry valuations.",
+          title: "Netflix Finalizes $500M Global Licensing Deal for Independent European Art Masterpieces",
+          summary: "Streaming giant Netflix announced a landmark licensing agreement to distribute high-profile fine art content and cinematic portfolios globally, boosting interest in certified European catalogues.",
           source: "Variety",
           category: "GLOBAL",
           timestamp: "Just now",
           impact: {
             score: 18,
             trend: "UP",
-            description: "Direct upward pressure on sovereign cinematic and physical masterpieces alternative registries.",
+            description: "Rising interest in certification for major cinematic and fine art catalogues.",
             targetProject: "RENAISSANCE REBORN"
           },
           imageUrl: fallbackImages.GLOBAL
         },
         {
           id: `realtime-fallback-2-${Date.now()}`,
-          title: "Sotheby's Unveils Co-Fractional Bidding for Certified Digital Art & Creative IP Assets",
-          summary: "Amplify the reach of digital collections, Sotheby's has integrated a modern system allowing high-net-worth curators to trade fractional IP rights instantly.",
+          title: "Sotheby's Rolls Out Digital Certification Standard for Art & Creative IP",
+          summary: "To strengthen buyer confidence, Sotheby's has adopted a third-party certification standard allowing instant verification of authenticity and provenance for digital works.",
           source: "Financial Times",
           category: "MARKET",
           timestamp: "32m ago",
           impact: {
             score: 25,
             trend: "UP",
-            description: "Institutional trust index rises, driving active co-fraction trading spreads and secondary market volume.",
+            description: "Rising institutional confidence in third-party certification standards across the art market.",
             targetProject: "SKY GARDENS V4"
           },
           imageUrl: fallbackImages.MARKET
         },
         {
           id: `realtime-fallback-3-${Date.now()}`,
-          title: "Major Studios Launch Automated Live Smart Legal Contracts for Creative Royalty Splits",
-          summary: "A cooperative index introduces machine-readable micro-claims that directly clear royalty revenues with zero friction back to creative creators.",
+          title: "Major Studios Roll Out Automated, Transparent Production Milestone Tracking",
+          summary: "A cooperative of producers adopts an automated tracking system to document and certify each key production milestone across their music and film catalogues.",
           source: "TechCrunch",
           category: "INNOVATION",
           timestamp: "2h ago",
           impact: {
             score: 32,
             trend: "UP",
-            description: "Reduces audit latency and speeds up smart-contract security verification times.",
+            description: "Reduces audit turnaround time for documenting creative work catalogues.",
             targetProject: "THE FUTURE VOICE"
           },
           imageUrl: fallbackImages.INNOVATION
         },
         {
           id: `realtime-fallback-4-${Date.now()}`,
-          title: "Universal Music Group Expands Unified Soundwave IP Validation Framework",
-          summary: "Strategic push to automatically track, audit, and index decentralized music rights of emerging international audio creators.",
+          title: "Universal Music Group Adopts Sound Recording Verification Framework on the LYA Registry",
+          summary: "Dedicated support to document, evaluate and automatically certify intellectual property indexing for emerging international music talent.",
           source: "Billboard",
           category: "PROFESSIONAL",
           timestamp: "5h ago",
           impact: {
             score: 15,
             trend: "UP",
-            description: "Stabilizes digital audio co-valuation indexes and optimizes asset registry predictability.",
+            description: "Standardizes quality evaluation across the audio sector and narrows certification gaps.",
             targetProject: "THE FUTURE VOICE"
           },
           imageUrl: fallbackImages.PROFESSIONAL
@@ -451,47 +402,39 @@ async function startServer() {
       const isFr = language === 'FR';
       const promptLang = isFr ? 'FRENCH' : 'ENGLISH';
 
-      const prompt = `You are a high-level creative economist and senior intellectual property appraiser at LinkYourArt (LYA). Your task is to analyze the creative profile and needs of our user and deliver a highly professional customized quote and services recommendation.
+      const prompt = `You are a creative certification advisor at LinkYourArt (LYA). Discovery and patronage (browsing the Registry, following and supporting certified projects) are free and unlimited for everyone -- LYA only takes a 5% commission on patronage amounts pledged, never an entry fee. Paid tiers only cover submitting creative work and professional certification tooling. Your task is to analyze the creative profile and needs of our user and recommend the best-fit tier.
 
       User Context:
       - Creative Sector/Field: ${creativeField} (such as cinema, music, tv series, podcast, visual arts, dance, etc.)
-      - Professional Role: ${role} (such as creator, film producer, music label executive, talent agent, private collector, etc.)
-      - Portfolio/Scale of Projects: ${projectSize} (ranging from single small project to multi-catalog international systems)
-      - Detailed project background or requirements: "${description || 'Default valuation and liquidity on creative IP rights'}"
+      - Professional Role: ${role} (such as creator, film producer, music label executive, talent agent, industry professional, etc.)
+      - Portfolio/Scale of Projects: ${projectSize} (ranging from a single small project to multi-catalog international operations)
+      - Detailed project background or requirements: "${description || 'Creative certification needs not specified'}"
 
-      Our Core Platform Membership Tiers:
-      1. CREATOR TIER ($49/month or $529/year): Best suited for independent creative creators (directors, composers, scriptwriters) to register/tokenize up to 4 IP contracts, assess basic LYA Scores, and activate peer-to-peer funding streams.
-      2. INVESTOR TIER ($149/month or $1609/year): Best for co-producers, labels, collectors, and financial backers seeking unlimited catalog tracking, advanced analytics, and priority settlement with 3% platform fees.
-      3. PRO PERSONAL WORKSPACE ($890/month or $9612/year): For executive producers, showrunners, talent agents, brokers, and catalog syndicators wishing for advanced audits, customized white-label client reports, and optimal 2% platform transaction fees.
-      4. INSTITUTIONAL ENTERPRISE ($15,000/month or bespoke, dedicated platform node): High-performance architecture for major film studios (such as Canal+, Netflix partners), global music labels (such as Universal partners), and massive entertainment conglomerates requiring dedicated priority nodes 24/7, full physical/digital library migrations, and institutional liquidity bridges.
+      Our Platform Tiers:
+      1. CREATOR (free): individuals submitting their own work, 3 certifications included then 5 EUR/extra certification.
+      2. PRO_STARTER (79 EUR/month): independent professionals sourcing and certifying creative work -- full Registry access, unlimited own-catalogue submissions, priority review queue.
+      3. PRO_ADVANCED (249 EUR/month): everything Pro Starter has, plus API access, white-label reporting, dedicated account manager.
+      4. PRO_ENTERPRISE (custom quote): major studios, labels, publishers needing catalog-scale certification, custom workflow, dedicated support.
 
-      Our a-la-carte specialty systems:
-      - Market Access Plus ($2,500/year) - Opens global sovereign alternative liquidity bridges
-      - Risk Audit Pro ($1,200/year) - Direct expert compliance and deep-dive valuation audits
-      - Portfolio AI ($1,800/year) - Automated royalty rebalancing index engines
-      - Tax & Legal Suite ($950/year) - Cross-jurisdictional SVOD and broadcasting reporting
-
-      Analyse their setup with depth, using beautiful, professional creative economy vocabulary (e.g. streaming collection, syndication, SVOD rights, masters, royalties, co-production, theatrical release, etc.). Calibrate your answer to matches their creative sector! 
+      Analyse their setup with depth, using professional creative-industry vocabulary (e.g. catalogue, syndication, distribution rights, masters, co-production, theatrical release, etc.) grounded in certification, never in trading, investment, or financial return. Calibrate your answer to match their creative sector.
 
       Generate a custom, precise response. Return a JSON object matching this schema exactly:
       {
-        "analysis": "A highly detailed, 4-sentence diagnostic in ${promptLang} explaining how LinkYourArt will index, syndicate, and structure royalty distributions or backing for their specific creative activities in the ${creativeField} sector.",
-        "recommendedPlanId": "CREATOR" | "INVESTOR" | "PRO" | "PRO_ENTERPRISE",
-        "recommendedPlanName": "Translated into ${promptLang} (e.g., 'Créateur' / 'Investor' etc.)",
-        "primaryReason": "One compelling localized reason in ${promptLang} for prioritizing this specific plan according to their business scope.",
-        "estimatedMonthlyCost": number (e.g., 49, 149, 890, 15000),
-        "suggestedAddons": [
-          {"name": "Market Access Plus" | "Risk Audit Pro" | "Portfolio AI" | "Tax & Legal Suite", "reason": "Why this specific add-on is critical for their ${creativeField} activities, explained in ${promptLang} (1 sentence)"}
-        ],
+        "analysis": "A detailed, 4-sentence diagnostic in ${promptLang} explaining how LinkYourArt will certify and support their specific creative activities in the ${creativeField} sector.",
+        "recommendedPlanId": "CREATOR" | "PRO_STARTER" | "PRO_ADVANCED" | "PRO_ENTERPRISE",
+        "recommendedPlanName": "Translated into ${promptLang}",
+        "primaryReason": "One compelling localized reason in ${promptLang} for prioritizing this specific tier according to their business scope.",
+        "estimatedMonthlyCost": number (0, 79, 249, or 15000),
+        "suggestedAddons": [],
         "projectedBenefits": [
-          "Benefit 1 in ${promptLang} (specific to their field, e.g. Sync licensing optimization, SVOD royalty speed, or catalog monetization)",
+          "Benefit 1 in ${promptLang} (specific to their field, e.g. certification turnaround, registry visibility, or catalogue audit readiness)",
           "Benefit 2 in ${promptLang}",
           "Benefit 3 in ${promptLang}"
         ],
-        "auditIndexScore": number (representing an estimated asset-audit feasibility on a 0-100 scale, e.g., 85)
+        "auditIndexScore": number (representing an estimated certification-readiness score on a 0-100 scale, e.g., 85)
       }
 
-      Return only the bare JSON parsing structure. Do not wrap in markdown or any other tags. Use double quotes. Deliver the analysis, reasons, and benefits in elegant ${promptLang} as requested by the user's active interface language.`;
+      Never mention LYA unit prices, secondary markets, financial returns, tokenization, or investment. Return only the bare JSON parsing structure. Do not wrap in markdown or any other tags. Use double quotes. Deliver the analysis, reasons, and benefits in elegant ${promptLang} as requested by the user's active interface language.`;
 
       const response = await ai.models.generateContent({
         model: DEFAULT_MODEL,
@@ -503,63 +446,56 @@ async function startServer() {
       res.json(JSON.parse(response.text || '{}'));
     } catch (error: any) {
       console.warn("Pricing Assessment Gemini Error (using resilient fallback):", error.message || error);
-      
+
       const creativeField = req.body.creativeField || "Industries Créatives";
-      const role = req.body.role || "Créateur";
+      const role = req.body.role || "Createur";
       const isFr = req.body.language === 'FR';
       const isEnterprise = req.body.projectSize === "Enterprise" || req.body.role === "Enterprise/Label/Studio" || (req.body.description && req.body.description.toLowerCase().includes("studio"));
-      const isPro = req.body.role === "Broker/Agent/Lawyer" || req.body.projectSize === "Multiple Large Scale" || (req.body.description && req.body.description.toLowerCase().includes("produc"));
+      const isAdvanced = req.body.role === "Broker/Agent/Lawyer" || req.body.projectSize === "Multiple Large Scale" || (req.body.description && req.body.description.toLowerCase().includes("produc"));
+      const isPro = isAdvanced || req.body.role === "Patron/Backer" || req.body.projectSize === "Medium Scale";
 
       let recommendedPlanId = "CREATOR";
       let recommendedPlanName = isFr ? "Créateur" : "Creator";
-      let estimatedMonthlyCost = 49;
-      let primaryReason = isFr 
-        ? "S'adapte parfaitement aux artistes, réalisateurs et créateurs indépendants pour lancer leurs premières indexations de droits à taille humaine."
-        : "Perfectly fits independent artists, producers, and writers starting their first IP rights indexations.";
+      let estimatedMonthlyCost = 0;
+      let primaryReason = isFr
+        ? "S'adapte parfaitement aux artistes, réalisateurs et créateurs indépendants pour lancer leurs premières certifications, gratuitement."
+        : "Perfectly fits independent artists, producers, and writers starting their first free certifications.";
 
       if (isEnterprise) {
         recommendedPlanId = "PRO_ENTERPRISE";
         recommendedPlanName = isFr ? "Entreprise Institutionnelle" : "Institutional Enterprise";
         estimatedMonthlyCost = 15000;
-        primaryReason = isFr 
-          ? "Idéal pour les structures d'envergure, studios de cinéma et labels de musique nécessitant un nœud dédié."
-          : "Tailored for major studios and entertainment groups requiring private ledger architecture.";
+        primaryReason = isFr
+          ? "Idéal pour les structures d'envergure, studios de cinéma et labels de musique nécessitant une certification de catalogue à grande échelle."
+          : "Tailored for major studios and entertainment groups requiring catalog-scale certification.";
+      } else if (isAdvanced) {
+        recommendedPlanId = "PRO_ADVANCED";
+        recommendedPlanName = isFr ? "Pro Avancé" : "Pro Advanced";
+        estimatedMonthlyCost = 249;
+        primaryReason = isFr
+          ? "Recommandé pour les agents, diffuseurs et showrunners ayant besoin d'un accès API et d'un accompagnement dédié."
+          : "Recommended for talent agents, catalog syndicators, and producers who need API access and dedicated support.";
       } else if (isPro) {
-        recommendedPlanId = "PRO";
-        recommendedPlanName = isFr ? "Pro Personnel" : "Pro Personal";
-        estimatedMonthlyCost = 890;
-        primaryReason = isFr 
-          ? "Recommandé pour les agents, diffuseurs et showrunners gérant d'importants portefeuilles de propriété intellectuelle."
-          : "Highly recommended for talent agents, catalog syndicators, and active producers.";
-      } else if (req.body.role === "Patron/Backer" || req.body.projectSize === "Medium Scale") {
-        recommendedPlanId = "INVESTOR";
-        recommendedPlanName = isFr ? "Investisseur" : "Investor";
-        estimatedMonthlyCost = 149;
-        primaryReason = isFr 
-          ? "Optimisé pour les investisseurs, co-producteurs et labels indépendants souhaitant diversifier leurs portefeuilles créatifs."
-          : "Optimized for private backers, collectors, and independent studios aiming to co-finance catalogs.";
+        recommendedPlanId = "PRO_STARTER";
+        recommendedPlanName = isFr ? "Pro Starter" : "Pro Starter";
+        estimatedMonthlyCost = 79;
+        primaryReason = isFr
+          ? "Optimisé pour les professionnels indépendants sourçant et certifiant des créations pour des tiers."
+          : "Optimized for independent professionals sourcing and certifying creative work for others.";
       }
 
       const fallbackAnalysis = isFr
-        ? `Votre profil dans le domaine de l'industrie créative (${creativeField}) reflète des besoins stratégiques d'évaluation et d'indexation d'actifs. Notre analyse de vos activités en tant que ${role} indique une excellente opportunité de valorisation de votre propriété intellectuelle, de vos masters musicaux ou de vos droits de diffusion SVOD via les modules d'indexation certifiés de LinkYourArt.`
-        : `Your profile in the creative field of ${creativeField} reflects strategic asset valuation and indexing requirements. Our analysis of your activities as a ${role} indicates an outstanding opportunity to maximize the value of your IP, audiovisual assets, or music sync rights via LinkYourArt.`;
-
-      const fallbackAddons = isFr ? [
-        { name: "Risk Audit Pro", reason: "Indispensable pour sécuriser l'audit préliminaire de vos contrats d'exploitation avant indexation publique." },
-        { name: "Tax & Legal Suite", reason: "Structuration avancée des flux de redevances multi-pays issus de la syndication mondiale de vos œuvres." }
-      ] : [
-        { name: "Risk Audit Pro", reason: "Essential for securing the preliminary audit of your licensing rights agreements before indexing." },
-        { name: "Tax & Legal Suite", reason: "Advanced framework to configure cross-border royalty streams and SVOD distribution royalties." }
-      ];
+        ? `Votre profil dans le domaine de l'industrie creative (${creativeField}) reflète des besoins de certification et de reconnaissance objective. Notre analyse de vos activités en tant que ${role} indique une excellente opportunité de valorisation de votre propriété intellectuelle via les modules de certification de LinkYourArt.`
+        : `Your profile in the creative field of ${creativeField} reflects certification and objective-recognition needs. Our analysis of your activities as a ${role} indicates an excellent opportunity to have your intellectual property certified via LinkYourArt.`;
 
       const fallbackBenefits = isFr ? [
-        `Indexation fluide de vos droits d'exploitation en adéquation totale avec vos activités de ${creativeField}.`,
-        "Distribution automatisée de dividendes de co-production via des contrats intelligents et transparents.",
-        "Connexion directe avec un réseau mondial de co-financeurs, de labels indépendants et de diffuseurs certifiés."
+        `Certification fluide de vos droits d'exploitation en adéquation totale avec vos activités de ${creativeField}.`,
+        "Reconnaissance et visibilité via des projets certifiés et transparents sur le Registre LYA.",
+        "Connexion directe avec un réseau mondial de mécènes et de partenaires certifiés."
       ] : [
-        `Smooth indexing of your distribution rights aligned perfectly with your ${creativeField} workflows.`,
-        "Automated split payouts for co-productions governed by transparent smart ledger triggers.",
-        "Direct engagement with a worldwide community of validated co-financiers, labels, and creative patrons."
+        `Smooth certification of your creative rights aligned perfectly with your ${creativeField} workflows.`,
+        "Recognition and visibility through certified, transparent projects on the LYA Registry.",
+        "Direct engagement with a worldwide network of patrons and certified partners."
       ];
 
       res.json({
@@ -568,7 +504,7 @@ async function startServer() {
         recommendedPlanName,
         primaryReason,
         estimatedMonthlyCost,
-        suggestedAddons: fallbackAddons,
+        suggestedAddons: [],
         projectedBenefits: fallbackBenefits,
         auditIndexScore: 88
       });
@@ -595,12 +531,13 @@ async function startServer() {
       const response = await ai.models.generateContent({
         model: DEFAULT_MODEL,
         config: {
-          systemInstruction: `You are the LYA Artistic Guide (Copilot v2.2), an expert AI specialized in creative projects and art investment. 
-            Your tone is elegant, professional, and inspiring. 
-            Use art and creativity-related terminology. 
-            LinkYourArt matches creators with patrons. 
+          systemInstruction: `You are LYA Copilot, the assistant for the LinkYourArt (LYA) platform, a creative certification standard. Answer clearly and concisely about the LYA Score, certification, the Registry, and patronage.
+            Your tone is elegant, professional, and inspiring.
+            Use art and creativity-related terminology.
+            LinkYourArt matches creators with patrons through objective certification.
             LYA Score: average of Score ALGO and Score PRO (both /1000).
-            P2P Fees: 2% to 5%.
+            Patronage commission: 5% on pledges to certified projects.
+            Never mention a secondary market, a fixed-price LYA unit, or a financial instrument -- LYA certifies creative projects, it is not an investment platform.
             Keep responses concise (max 4 sentences).
             IMPORTANT: You MUST write your response completely in ${promptLang}.`
         },

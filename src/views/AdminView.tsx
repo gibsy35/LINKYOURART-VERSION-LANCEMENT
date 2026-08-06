@@ -1302,7 +1302,7 @@ export const AdminView: React.FC<{
                               <div>
                                 <span className="text-xs font-semibold text-white/30 uppercase tracking-widest block">{t('SECURE ENDPOINT URL', 'POINT D\'ACCÈS WEB')}</span>
                                 <a href={req.website || '#'} target="_blank" rel="noreferrer" className="text-xs font-semibold text-primary-cyan underline hover:text-white mt-0.5 block break-all">
-                                  {req.website || 'https://alpha.ltd/investments'}
+                                  {req.website || 'https://alpha-studio.example.com'}
                                 </a>
                               </div>
                             </div>

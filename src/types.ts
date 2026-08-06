@@ -288,7 +288,7 @@ export interface Contract {
   description: string;
   descriptionFR?: string;
   totalUnits: number; // totalValue / 50
-  availableUnits?: number; // New: Units currently available for purchase in the P2P exchange
+  availableUnits?: number; // Units currently visible on the registry for a project
   registryAddress: string;
   creationDate: string;
   lastAudit: string;
