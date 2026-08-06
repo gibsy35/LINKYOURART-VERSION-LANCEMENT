@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { Check, Zap, Shield, ShieldCheck, Star, Crown, ArrowRight, Building2, User, Info, Sparkles, Cpu, Layers, Search, Send, CheckCircle } from 'lucide-react';
 import { useTranslation } from '../context/LanguageContext';
+import { useCurrency } from '../context/CurrencyContext';
 import { FeatureShowcaseModal } from '../components/Modals';
 
 import { PageHeader } from '../components/ui/PageHeader';
@@ -15,6 +16,7 @@ interface PricingViewProps {
 
 const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBecomeValidator }) => {
   const { t, language } = useTranslation();
+  const { formatPrice } = useCurrency();
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly');
   const [showcaseFeature, setShowcaseFeature] = useState<'CREATOR' | 'PRO_STARTER' | 'PRO_ADVANCED' | 'EXPERT_AUDIT' | 'PATRON_ANALYTICS' | 'PREDICTIVE_SCORE' | null>(null);
 
@@ -282,7 +284,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
                     </div>
                   ) : (
                     <div className="flex items-baseline gap-1 flex-wrap">
-                      <span className="text-3xl font-black">${currentPrice}</span>
+                      <span className="text-3xl font-black">{formatPrice(currentPrice)}</span>
                       <span className="text-on-surface-variant text-[10px] uppercase font-bold tracking-widest">/ {billingCycle === 'yearly' ? t('year', 'an') : t('month', 'mois')}</span>
                     </div>
                   )}
@@ -548,8 +550,8 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
                       <span className="text-[10px] text-on-surface-variant block uppercase font-black tracking-widest">{t('ESTIMATED COST', 'COÛT ESTIMATIF')}</span>
                       <span className="text-xl font-black text-white">
                         {assessmentResult.estimatedMonthlyCost === 15000 
-                          ? t('Sur de vis', 'Sur Devis') 
-                          : `$${assessmentResult.estimatedMonthlyCost}/${billingCycle === 'yearly' ? t('an', 'an') : t('mois', 'mois')}`}
+                          ? t('Custom Quote', 'Sur Devis') 
+                          : `${formatPrice(assessmentResult.estimatedMonthlyCost)}/${billingCycle === 'yearly' ? t('year', 'an') : t('month', 'mois')}`}
                       </span>
                     </div>
                   </div>

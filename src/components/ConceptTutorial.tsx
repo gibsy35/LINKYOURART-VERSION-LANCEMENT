@@ -592,7 +592,7 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
               <div className="flex justify-between items-center mb-2">
                 <div>
                   <p className="text-[8px] text-accent-gold/60 font-black uppercase tracking-widest">{t('Total Supported','Total Soutenu')}</p>
-                  <p className="text-xl font-black text-accent-gold">$48,210</p>
+                  <p className="text-xl font-black text-accent-gold">€48,210</p>
                   <p className="text-[9px] text-emerald-400 font-black flex items-center gap-1">3 {t('projects','projets')}</p>
                 </div>
                 <div className="text-right">

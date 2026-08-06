@@ -813,7 +813,7 @@ async function startServer() {
   // Stripe Payment Intent
   app.post('/api/create-payment-intent', async (req, res) => {
     try {
-      const { amount, currency = 'usd', metadata, customerId } = req.body;
+      const { amount, currency = 'eur', metadata, customerId } = req.body;
 
       if (!process.env.STRIPE_SECRET_KEY) {
         return res.status(500).json({ error: 'Stripe secret key not configured' });

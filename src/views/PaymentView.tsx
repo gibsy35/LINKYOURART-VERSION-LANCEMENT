@@ -56,6 +56,7 @@ const CheckoutForm: React.FC<{
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
           amount, 
+          currency: 'eur',
           metadata: { 
             ...metadata,
             userEmail: userEmail || 'anonymous'
@@ -188,6 +189,7 @@ export const PaymentView: React.FC<{
   stripeCustomerId?: string;
 }> = ({ checkoutData, onSuccess, onCancel, userEmail, stripeCustomerId }) => {
   const { t } = useTranslation();
+  const { formatPrice } = useCurrency();
   
   return (
     <div className="max-w-xl mx-auto">
@@ -219,7 +221,7 @@ export const PaymentView: React.FC<{
             </div>
             <div className="text-right">
               <span className="text-[10px] font-black uppercase tracking-[0.3em] text-on-surface-variant block mb-1">{t('Total Amount', 'Montant Total')}</span>
-              <div className="text-3xl font-black text-white italic">${checkoutData.amount.toLocaleString()}</div>
+              <div className="text-3xl font-black text-white italic">{formatPrice(checkoutData.amount)}</div>
               <div className="text-xs font-bold text-primary-cyan uppercase tracking-widest">
                 {t('ONE-TIME PAYMENT', 'PAIEMENT UNIQUE')}
               </div>

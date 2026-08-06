@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Contract, LYA_UNIT_VALUE, getContractDescription } from "../../types";
 import { getSafeImageUrl } from "../../utils/image";
+import { useCurrency } from "../../context/CurrencyContext";
 
 // ─── THÈMES / FILTRES ─────────────────────────────────────────────────────────
 
@@ -104,6 +105,7 @@ export function getUnitPrice(contract: Contract): number {
 
 interface PaymentModalProps { contract: Contract; units: number; onClose: () => void; lang: "FR" | "EN"; }
 export function PaymentModal({ contract, units, onClose, lang }: PaymentModalProps) {
+  const { formatPrice } = useCurrency();
   const [email, setEmail] = useState("linkyourart@gmail.com");
   const [cardName, setCardName] = useState("");
   const [cardNumber, setCardNumber] = useState("");
@@ -129,11 +131,11 @@ export function PaymentModal({ contract, units, onClose, lang }: PaymentModalPro
             <div>
               <p className="text-on-surface-variant/50 text-xs font-mono mb-1">{T("ENGAGEMENT DE SOUTIEN :", "PATRONAGE PLEDGE:")}</p>
               <p className="text-on-surface font-bold font-mono italic">{contract.name}</p>
-              <p className="text-on-surface-variant/70 text-xs font-mono mt-1">{units} {T("unités", "units")} × ${getUnitPrice(contract).toFixed(2)}</p>
+              <p className="text-on-surface-variant/70 text-xs font-mono mt-1">{units} {T("unités", "units")} × {formatPrice(getUnitPrice(contract))}</p>
             </div>
             <div className="text-right">
               <p className="text-on-surface-variant/50 text-xs font-mono mb-1">{T("TOTAL", "TOTAL COST")}</p>
-              <p className="text-[#00ff88] font-bold text-2xl font-mono">${totalCost.toFixed(2)}</p>
+              <p className="text-[#00ff88] font-bold text-2xl font-mono">{formatPrice(totalCost)}</p>
             </div>
           </div>
           {[
@@ -168,7 +170,7 @@ export function PaymentModal({ contract, units, onClose, lang }: PaymentModalPro
             </div>
           </div>
           <button className="w-full bg-[#00ff88] hover:bg-[#00cc66] text-black font-bold font-mono py-4 rounded-xl transition-colors text-sm tracking-widest">
-            ✦ {T("CONFIRMER", "CONFIRM")} — ${totalCost.toFixed(2)}
+            ✦ {T("CONFIRMER", "CONFIRM")} — {formatPrice(totalCost)}
           </button>
           <p className="text-center text-on-surface-variant/40 text-xs font-mono">
             {T("Sécurisé par Stripe · Registre LYA certifié", "Secured by Stripe · LYA Certified Registry")}
@@ -190,6 +192,7 @@ interface DetailModalProps {
   lang: "FR" | "EN";
 }
 export function DetailModal({ contract, onClose, onPay, units, onUnitsChange, lang }: DetailModalProps) {
+  const { formatPrice } = useCurrency();
   const T = (fr: string, en: string) => lang === "FR" ? fr : en;
   const totalCost = units * getUnitPrice(contract);
   const statut = getStatut(units);
@@ -279,8 +282,8 @@ export function DetailModal({ contract, onClose, onPay, units, onUnitsChange, la
                     <div className="bg-[#00ff88] h-1.5 rounded-full transition-all" style={{ width: `${Math.min(fundingPct, 100)}%` }} />
                   </div>
                   <div className="flex justify-between text-xs font-mono text-on-surface-variant/50">
-                    <span>{T("Levé : ", "Raised: ")}${fundingRaised.toLocaleString()}</span>
-                    <span>{T("Objectif : ", "Goal: ")}${contract.totalValue.toLocaleString()}</span>
+                    <span>{T("Levé : ", "Raised: ")}{formatPrice(fundingRaised)}</span>
+                    <span>{T("Objectif : ", "Goal: ")}{formatPrice(contract.totalValue)}</span>
                   </div>
                   {contract.maturityDate && (
                     <p className="text-[10px] text-on-surface-variant/30 font-mono mt-1.5">
@@ -292,7 +295,7 @@ export function DetailModal({ contract, onClose, onPay, units, onUnitsChange, la
               ) : (
                 <div className="flex justify-between items-center">
                   <span className="text-on-surface-variant/50 text-xs font-mono">{T("SOUTIEN CUMULÉ", "CUMULATIVE SUPPORT")}</span>
-                  <span className="text-[#00ff88] text-xs font-mono font-bold">${fundingRaised.toLocaleString()}</span>
+                  <span className="text-[#00ff88] text-xs font-mono font-bold">{formatPrice(fundingRaised)}</span>
                 </div>
               )}
             </div>
@@ -435,7 +438,7 @@ export function DetailModal({ contract, onClose, onPay, units, onUnitsChange, la
                 className="w-full h-1 bg-surface-high rounded-full appearance-none cursor-pointer accent-primary-cyan" />
               <div className="flex justify-between text-[10px] font-mono text-on-surface-variant/30 mt-1">
                 <span>{T("Palier", "Tier")} {units}</span>
-                <span>{T("Total :", "Total:")} <span className="text-white font-bold">${(units * getUnitPrice(contract)).toFixed(2)}</span></span>
+                <span>{T("Total :", "Total:")} <span className="text-white font-bold">{formatPrice(units * getUnitPrice(contract))}</span></span>
               </div>
             </div>
 
@@ -497,6 +500,7 @@ export interface ProjectCardProps {
   onToggleWatchlist?: (e: React.MouseEvent, id: string) => void;
 }
 export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchlisted, onToggleWatchlist }: ProjectCardProps) {
+  const { formatPrice } = useCurrency();
   const [units, setUnits] = useState(5);
   const [liked, setLiked] = useState(!!isWatchlisted);
   const T = (fr: string, en: string) => lang === "FR" ? fr : en;
@@ -626,14 +630,14 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
                 <div className="bg-[#00ff88] h-1.5 rounded-full" style={{ width: `${Math.min(fundingPct, 100)}%` }} />
               </div>
               <div className="flex justify-between text-[10px] font-mono text-on-surface-variant/40">
-                <span>${fundingRaised.toLocaleString()}</span>
-                <span>{T("Cible", "Goal")}: ${contract.totalValue.toLocaleString()}</span>
+                <span>{formatPrice(fundingRaised)}</span>
+                <span>{T("Cible", "Goal")}: {formatPrice(contract.totalValue)}</span>
               </div>
             </>
           ) : (
             <div className="flex justify-between items-center">
               <span className="text-on-surface-variant/50 text-[10px] font-mono">{T("SOUTIEN CUMULÉ", "CUMULATIVE SUPPORT")}</span>
-              <span className="text-[#00ff88] text-[10px] font-mono font-bold">${fundingRaised.toLocaleString()}</span>
+              <span className="text-[#00ff88] text-[10px] font-mono font-bold">{formatPrice(fundingRaised)}</span>
             </div>
           )}
         </div>
@@ -665,7 +669,7 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
           <div className="bg-surface-high border border-white/10 rounded-lg p-3">
             <p className="text-on-surface-variant/50 text-xs font-mono tracking-widest mb-1.5">{T("VOTRE ENGAGEMENT", "YOUR PLEDGE")}</p>
-            <p className="text-on-surface font-bold font-mono text-base">${totalCost.toFixed(2)}</p>
+            <p className="text-on-surface font-bold font-mono text-base">{formatPrice(totalCost)}</p>
           </div>
           <div className="bg-surface-high border border-white/10 rounded-lg p-3">
             <p className="text-on-surface-variant/50 text-xs font-mono tracking-widest mb-1.5">{T("NIVEAU DE RECONNAISSANCE", "RECOGNITION LEVEL")} <span className="opacity-50">ⓘ</span></p>

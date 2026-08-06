@@ -36,7 +36,7 @@ export const IssuerProfileView: React.FC<IssuerProfileProps> = ({ issuerId, onBa
     founded: "2024",
     location: "Geneva, CH / Metaverse Sector 7",
     rating: "AAA+",
-    totalVolume: "$1.2B",
+    totalVolume: "€1.2B",
     activeContracts: 14,
     successRate: "98.2%",
     team: [
@@ -176,7 +176,7 @@ export const IssuerProfileView: React.FC<IssuerProfileProps> = ({ issuerId, onBa
                       <div className="flex justify-between items-center border-t border-white/5 pt-4">
                          <div>
                             <p className="text-[10px] text-on-surface-variant uppercase tracking-widest font-black opacity-30">{t('Project Value', 'Valeur Projet')}</p>
-                            <p className="text-lg font-black text-accent-gold">$842k</p>
+                            <p className="text-lg font-black text-accent-gold">€842k</p>
                          </div>
                          <ArrowRight size={20} className="text-white/20 group-hover:text-primary-cyan transition-colors" />
                       </div>

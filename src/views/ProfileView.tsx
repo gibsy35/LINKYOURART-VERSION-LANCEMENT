@@ -1769,7 +1769,7 @@ const renderMentorshipContent = () => (
                           fontSize={10} 
                           tickLine={false} 
                           axisLine={false} 
-                          tickFormatter={(v) => `$${v}`}
+                          tickFormatter={(v) => `€${v}`}
                           tick={{ fill: '#ffffff40', fontWeight: 'bold' }}
                         />
                         <Tooltip 
@@ -2018,9 +2018,9 @@ const renderMentorshipContent = () => (
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard 
           title={t('Total Contributed', 'Total Contribué')} 
-          value="$142,500" 
+          value="€142,500" 
           icon={<Wallet size={20} />} 
-          trend="+$12.4K this week" 
+          trend="+€12.4K this week" 
           color="emerald" 
           subValue={t('EXPERT GRADE', 'GRADE EXPERT')}
         />
@@ -2101,7 +2101,7 @@ const renderMentorshipContent = () => (
                           fontSize={9} 
                           tickLine={false} 
                           axisLine={false} 
-                          tickFormatter={(v) => `$${v/1000}k`}
+                          tickFormatter={(v) => `€${v/1000}k`}
                           tick={{ fill: '#ffffff40', fontWeight: 'bold' }}
                         />
                         <Tooltip 
