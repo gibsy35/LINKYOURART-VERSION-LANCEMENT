@@ -337,7 +337,7 @@ export const LinkArtView: React.FC<{
     { 
       id: 2, 
       title: t('Project Milestones', 'Jalons du Projet'), 
-      description: t('Establish key development phases and market impacts.', 'Établissez les phases clés du développement et les impacts sur le marché.') 
+      description: t('Establish key development phases and their certification impact.', 'Établissez les phases clés du développement et leur impact sur la certification.') 
     },
     { 
       id: 3, 

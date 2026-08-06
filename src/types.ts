@@ -680,7 +680,7 @@ export const CONTRACTS: Contract[] = [
     image: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&q=80&w=800',
     status: 'LIVE',
     descriptionFR: `Film indépendant primé. Correction post-sortie suite à des performances de streaming inférieures aux projections.`,
-    description: 'Award-winning independent film. Sharp post-release correction as initial streaming demand underperforms against market projections.',
+    description: 'Award-winning independent film. Sharp Score correction as initial streaming demand underperforms against expectations.',
     totalUnits: 9000,
     availableUnits: 450,
     registryAddress: 'LYA_REG_0xFILM9900',

@@ -1499,9 +1499,9 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
                     <Award size={150} className="text-primary-cyan" />
                   </div>
                   <div className="max-w-2xl relative z-10">
-                    <h3 className="text-2xl font-black text-white uppercase italic tracking-tighter mb-6">{t('Elite Education Protocol', 'Protocole d\'Éducation d\'Élite')}</h3>
+                    <h3 className="text-2xl font-black text-white uppercase italic tracking-tighter mb-6">{t('Elite Education Program', 'Programme d\'Éducation d\'Élite')}</h3>
                     <p className="text-sm text-on-surface-variant leading-relaxed mb-8 font-medium italic opacity-70 text-justify">
-                      {t('Our mentorship program connects emerging creators with the architects of the creative economy. Access exclusive insights, direct feedback, and market growth strategies.', 'Notre programme de mentorat relie les créateurs émergents aux architectes de l\'économie créative. Accédez à des perspectives exclusives, des commentaires directs et des stratégies de croissance du marché.')}
+                      {t('Our mentorship program connects emerging creators with the architects of the creative economy. Access exclusive insights, direct feedback, and career growth strategies.', 'Notre programme de mentorat relie les créateurs émergents aux architectes de l\'économie créative. Accédez à des perspectives exclusives, des commentaires directs et des stratégies de développement de carrière.')}
                     </p>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                       <div className="flex items-start gap-4">

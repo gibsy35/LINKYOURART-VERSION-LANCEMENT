@@ -1975,7 +1975,7 @@ export const AdminView: React.FC<{
                      </span>
                    </div>
                    <p className="text-[10px] text-primary-cyan/60 pl-1">
-                     * Modifying this percent instantly updates the trading quote in real-time between $25.00 and $150.00 under algorithmic stability rules, maintaining pricing integrity.
+                     * This percentage reflects the project's LYA Score growth trend. The LYA unit value remains fixed at €50 regardless of this indicator.
                    </p>
                 </div>
 

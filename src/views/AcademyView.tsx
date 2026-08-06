@@ -279,8 +279,8 @@ export const AcademyView: React.FC<AcademyViewProps> = ({ user, onNotify, onView
           <h3 className="text-2xl font-black text-white uppercase tracking-tight mb-4">{t('EXPERT WORKSHOPS', 'ATELIERS D\'EXPERTS')}</h3>
           <p className="text-sm text-on-surface-variant leading-relaxed mb-8 max-w-md text-justify">
             {t(
-              "Join live, interactive sessions with industry leaders. Deep dive into market analysis, legal frameworks, and creative technology.",
-              "Participez à des sessions interactives en direct avec des leaders de l'industrie. Plongez dans l'analyse du marché, les cadres juridiques et la technologie créative."
+              "Join live, interactive sessions with industry leaders. Deep dive into certification standards, legal frameworks, and creative technology.",
+              "Participez à des sessions interactives en direct avec des leaders de l'industrie. Plongez dans les standards de certification, les cadres juridiques et la technologie créative."
             )}
           </p>
           <div className="space-y-4 mb-8">

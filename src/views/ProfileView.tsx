@@ -152,7 +152,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
       }
       return { 
         visibility: { label: t('Visibility & Radiation', 'Visibilité & Rayonnement'), score: 185, status: 'OPTIMAL', color: 'bg-primary-cyan/20 text-primary-cyan' },
-        market: { label: t('Market Performance', 'Performance Marché'), score: 142, status: 'GROWING', color: 'bg-accent-gold/20 text-accent-gold' },
+        market: { label: t('Registry Momentum', 'Dynamique Registre'), score: 142, status: 'GROWING', color: 'bg-accent-gold/20 text-accent-gold' },
         technical: { label: t('Technical Framework', 'Cadre Technique'), score: 190, status: 'EXPERT', color: 'bg-emerald-500/20 text-emerald-400' },
         community: { label: t('Community Engagement', 'Engagement Communauté'), score: 195, status: 'PASSIONATE', color: 'bg-accent-magenta/20 text-accent-magenta' },
         recognition: { label: t('Professional Recognition', 'Reconnaissance Professionnelle'), score: 160, status: 'ESTABLISHED', color: 'bg-accent-purple/20 text-accent-purple' }
@@ -956,7 +956,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
       <div className="mt-5 md:mt-8 p-4 md:p-6 border border-dashed border-white/20 flex flex-col lg:flex-row items-center justify-between gap-4 md:gap-6">
         <div className="text-center lg:text-left">
           <p className="text-[10px] md:text-sm font-bold uppercase mb-1">{t('Unlimited Access to YouTube Premium Content', 'Accès Illimité au Contenu Premium YouTube')}</p>
-          <p className="text-[10px] md:text-xs text-gray-500">{t('Continuous training, market analysis, and exclusive tutorials.', 'Formation continue, analyse de marché et tutoriels exclusifs.')}</p>
+          <p className="text-[10px] md:text-xs text-gray-500">{t('Continuous training, certification insights, and exclusive tutorials.', 'Formation continue, analyses de certification et tutoriels exclusifs.')}</p>
         </div>
         <button 
           onClick={() => {
@@ -1120,7 +1120,7 @@ const renderMentorshipContent = () => (
                 <h3 className="text-2xl font-black uppercase tracking-tighter text-white flex items-center gap-4 mb-2">
                   <Crown className="text-accent-gold" size={32} /> {t('ELITE MENTORSHIP LYA SYSTEM', 'LYA SYSTEME DE MENTORAT D\'ÉLITE')}
                 </h3>
-                <p className="text-[10px] text-on-surface-variant font-black uppercase tracking-[0.3em] opacity-40">{t('Managing market guidance for high-potential creative entities', 'Gestion de l\'orientation du marché pour les entités créatives à haut potentiel')}</p>
+                <p className="text-[10px] text-on-surface-variant font-black uppercase tracking-[0.3em] opacity-40">{t('Providing career guidance for high-potential creative talent', 'Accompagnement de carrière pour les talents créatifs à haut potentiel')}</p>
               </div>
               <div className="px-6 py-3 bg-accent-gold/10 border border-accent-gold/30 rounded-2xl flex items-center gap-3">
                 <div className="w-2 h-2 rounded-full bg-accent-gold animate-pulse shadow-[0_0_10px_rgba(255,215,0,0.5)]" />
@@ -1483,7 +1483,7 @@ const renderMentorshipContent = () => (
                             <h4 className="text-sm md:text-lg font-black text-white uppercase tracking-widest">{t('DEMO INITIALIZATION', 'INITIALISATION DÉMO')}</h4>
                           </div>
                           <p className="text-[10px] md:text-xs text-on-surface-variant leading-relaxed opacity-60">
-                            {t('Populate the platform with institutional grade mock data for high-level demonstrations. This simulates global market activity.', 'Peuplez la plateforme avec des données fictives de qualité institutionnelle pour des démonstrations de haut niveau. Cela simule l\'activité du marché mondial.')}
+                            {t('Populate the platform with institutional grade mock data for high-level demonstrations. This simulates global registry activity.', 'Peuplez la plateforme avec des données fictives de qualité institutionnelle pour des démonstrations de haut niveau. Cela simule l\'activité mondiale du registre.')}
                           </p>
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <button 
@@ -2690,7 +2690,7 @@ const renderMentorshipContent = () => (
                       <Search className="text-accent-magenta" size={28} /> {t('Find Talent', 'Trouver des Talents')}
                     </h3>
                     <p className="text-sm text-on-surface-variant italic mb-8 max-w-md opacity-80 leading-relaxed">
-                      {t('Access our exclusive database of verified creators. Filter by LYA score, rarity, and market potential. Direct contact is reserved for institutional members.', 'Accédez à notre base de données exclusive de créateurs vérifiés. Filtrez par score LYA, rareté et potentiel de marché. Le contact direct est réservé aux membres institutionnels.')}
+                      {t('Access our exclusive database of verified creators. Filter by LYA score, rarity, and creative reach. Direct contact is reserved for institutional members.', 'Accédez à notre base de données exclusive de créateurs vérifiés. Filtrez par score LYA, rareté et rayonnement créatif. Le contact direct est réservé aux membres institutionnels.')}
                     </p>
                     <button 
                       onClick={handleFindTalent}
@@ -3465,7 +3465,7 @@ const renderMentorshipContent = () => (
                     <span className="text-primary-cyan">{t('Simulator', 'Simulateur')}</span>
                   </h2>
                   <p className="text-[10px] text-on-surface-variant font-bold uppercase tracking-widest leading-relaxed mb-4 sm:mb-8">
-                    {t('Our algorithm will analyze your professional radiation and market performance to provide a preliminary LYA Score.', 'Notre algorithme analysera votre rayonnement professionnel et vos performances de marché pour fournir un score LYA préliminaire.')}
+                    {t('Our algorithm will analyze your creative reach and professional standing to provide a preliminary LYA Score.', 'Notre algorithme analysera votre rayonnement créatif et votre positionnement professionnel pour fournir un score LYA préliminaire.')}
                   </p>
 
                   {/* Real-time score in left panel */}
@@ -3692,7 +3692,7 @@ const renderMentorshipContent = () => (
                   <p className="text-lg text-on-surface-variant leading-relaxed opacity-80 italic">
                     {premiumFeature && PREMIUM_FEATURES_CONTENT[premiumFeature] 
                       ? PREMIUM_FEATURES_CONTENT[premiumFeature].description 
-                      : t(`Unlock the full potential of ${premiumFeature} with a Professional subscription. This feature provides exclusive access to expert-grade tools and private market opportunities.`, `Débloquez tout le potentiel de ${premiumFeature} avec un abonnement Professionnel. Cette fonctionnalité offre un accès exclusif à des outils de qualité experte et à des opportunités de marché privé.`)}
+                      : t(`Unlock the full potential of ${premiumFeature} with a Professional subscription. This feature provides exclusive access to expert-grade tools and priority certification opportunities.`, `Débloquez tout le potentiel de ${premiumFeature} avec un abonnement Professionnel. Cette fonctionnalité offre un accès exclusif à des outils de qualité experte et à des opportunités de certification prioritaires.`)}
                   </p>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

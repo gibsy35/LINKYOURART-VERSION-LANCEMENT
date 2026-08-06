@@ -77,7 +77,7 @@ export const CompareView: React.FC<CompareViewProps> = ({
                 {t('PROJECT_MATRIX_OFFLINE', 'MATRICE_PROJET_OFFLINE')}
               </h3>
               <p className="text-[10px] md:text-xs text-on-surface-variant uppercase tracking-[0.4em] font-bold opacity-40 max-w-lg mx-auto leading-relaxed text-justify">
-                {t('Select and benchmark creative contracts to reveal market growth potential. LYA Neuro-Engine awaits data initialization.', 'Sélectionnez et comparez les contrats créatifs. Le Neuro-Engine LYA attend l\'initialisation des données.')}
+                {t('Select and benchmark certified projects to reveal LYA Score trends. LYA Neuro-Engine awaits data initialization.', 'Sélectionnez et comparez les projets certifiés pour révéler les tendances du Score LYA. Le Neuro-Engine LYA attend l\'initialisation des données.')}
               </p>
             </div>
 
