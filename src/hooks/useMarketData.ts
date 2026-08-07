@@ -4,8 +4,17 @@ import { collection, onSnapshot, query, limit } from 'firebase/firestore';
 import { db, handleFirestoreError, OperationType } from '../firebase';
 import { CONTRACTS, Contract, LYA_UNIT_VALUE } from '../types';
 
+// NOTE (August 2026): this hook previously simulated a fluctuating market
+// price for each project -- a live setInterval nudged `unitValue` up/down
+// every 4 seconds around a "$50 base", with a random fallback for `growth`
+// when no real data existed, plus a fabricated "trading volume" figure.
+// That directly contradicted LYA's certification-only positioning (the LYA
+// unit price is fixed, not a negotiable/fluctuating instrument -- see the
+// brochures and src/lib/permissions.ts). Removed: the LYA unit value is now
+// always the fixed LYA_UNIT_VALUE, and no synthetic price/volume data is
+// generated anywhere in this hook.
+
 export const useMarketData = () => {
-  const [contracts, setContracts] = useState<Contract[]>(CONTRACTS);
   const [firestoreContracts, setFirestoreContracts] = useState<Contract[]>([]);
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
 
@@ -25,19 +34,10 @@ export const useMarketData = () => {
 
     try {
       unsubscribe = onSnapshot(q, (snapshot) => {
-        // ... (existing logic)
         if (!snapshot.empty) {
           const list = snapshot.docs.map(doc => {
             const data = doc.data();
-            const basePrice = 50.00;
-            
-            let growth = parseFloat(data.growth);
-            if (isNaN(growth) || growth === 0) {
-              growth = (Math.random() * 2) - 1;
-            }
-            
-            const calculatedUnitValue = parseFloat((basePrice * (1 + (growth / 100))).toFixed(2));
-    
+
             const staticContract = CONTRACTS.find(c => c.id === doc.id || c.name === data.name);
             const defaultPillars = [
               { label: 'Project Quality', score: 150 },
@@ -54,9 +54,10 @@ export const useMarketData = () => {
               category: data.category || staticContract?.category || 'Fine Art',
               image: data.image || staticContract?.image || `https://picsum.photos/seed/${encodeURIComponent(doc.id)}/800/600`,
               pillars: data.pillars && data.pillars.length === 5 ? data.pillars : (staticContract?.pillars || defaultPillars),
-              growth,
-              unitValue: calculatedUnitValue,
-              totalValue: parseFloat(data.totalValue || (calculatedUnitValue * (data.totalUnits || 1000))),
+              // The LYA unit price is fixed and does not fluctuate -- see
+              // note at the top of this file.
+              unitValue: LYA_UNIT_VALUE,
+              totalValue: parseFloat(data.totalValue || (LYA_UNIT_VALUE * (data.totalUnits || 1000))),
               availableUnits: parseInt(data.availableUnits || 0),
               scoreAlgo: data.scoreAlgo || 700,
               scorePro: data.scorePro || 700,
@@ -64,7 +65,7 @@ export const useMarketData = () => {
               totalScore: data.scoreLYA || data.totalScore || Math.round(((data.scoreAlgo || 700) + (data.scorePro || 700)) / 2)
             } as Contract;
           });
-          
+
           setFirestoreContracts(list);
         } else if (firestoreContracts.length === 0) {
           setFirestoreContracts(CONTRACTS);
@@ -74,7 +75,7 @@ export const useMarketData = () => {
         if (unsubscribe) {
           try { unsubscribe(); } catch(e) {}
         }
-        
+
         console.warn("Market sync interrupted:", error);
         handleFirestoreError(error, OperationType.GET, 'contracts');
 
@@ -112,15 +113,15 @@ export const useMarketData = () => {
   };
 
   // Use Firestore if data exists, otherwise fallback to static
-  const activeContracts = useMemo(() => {
+  const contracts = useMemo(() => {
     const rawList = firestoreContracts.length > 0 ? firestoreContracts : CONTRACTS;
     return rawList.map(contract => {
-      // 1. Enforce official algorithmic score formula for LYA: 0.70 * Expert + 0.30 * Algo
+      // Official LYA Score formula: 0.70 * Committee (Expert) + 0.30 * Algo
       const algo = contract.scoreAlgo || 750;
       const pro = contract.scorePro || 750;
       const calculatedLYAScore = Math.min(1000, Math.round(0.70 * pro + 0.30 * algo));
 
-      // 2. Fallback Picsum photos or broken placeholders to glorious high-performance Unsplash assets
+      // Fallback Picsum photos or broken placeholders to reliable Unsplash assets
       let currentImg = contract.image || '';
       if (!currentImg || currentImg.includes('picsum.photos')) {
         currentImg = categoryImages[contract.category] || categoryImages['Fine Art'];
@@ -129,56 +130,22 @@ export const useMarketData = () => {
       return {
         ...contract,
         image: currentImg,
+        unitValue: LYA_UNIT_VALUE,
         scoreLYA: calculatedLYAScore,
         totalScore: calculatedLYAScore
       };
     });
   }, [firestoreContracts]);
 
-  // Handle local fluctuations
-  useEffect(() => {
-    setContracts(activeContracts);
-  }, [activeContracts]);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setContracts(prev => prev.map(contract => {
-        // Controlled fluctuation with clear limits
-        const volatility = 0.05; // 5% max swing per tick
-        const drift = 0.005; // Slight upward bias
-        const variation = (Math.random() - 0.5 + drift) * volatility;
-        
-        const newGrowth = Math.round((contract.growth + variation) * 100) / 100;
-        
-        // Strict anchoring to $50.00 base
-        const basePrice = 50.00;
-        const newUnitValue = Math.round((basePrice * (1 + (newGrowth / 100))) * 100) / 100;
-
-        return {
-          ...contract,
-          growth: newGrowth,
-          unitValue: Math.max(0.01, newUnitValue) // Prevent non-positive price
-        };
-      }));
-      setLastUpdate(new Date());
-    }, 4000); 
-
-    return () => clearInterval(interval);
-  }, [activeContracts.length]); // Re-run when source data changes
-
   const marketStats = useMemo(() => {
     const totalCap = contracts.reduce((acc, c) => acc + c.totalValue, 0);
     const totalAvailable = contracts.reduce((acc, c) => acc + (c.availableUnits || 0), 0);
-    const avgGrowth = contracts.reduce((acc, c) => acc + c.growth, 0) / contracts.length;
     const avgScore = contracts.length ? contracts.reduce((acc, c) => acc + (c.totalScore || 0), 0) / contracts.length : 0;
-    const totalVolume = totalCap * 0.034; // Simulated volume
-    
+
     return {
       totalCap,
       totalAvailable,
-      avgGrowth,
       avgScore,
-      totalVolume,
       lastUpdate
     };
   }, [contracts, lastUpdate]);

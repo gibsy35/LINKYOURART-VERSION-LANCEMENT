@@ -262,7 +262,8 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
             {likedProjects.map(id => {
               const proj = allContracts.find(c => c.id === id);
               if (!proj) return null;
-              const up = proj.growth >= 0;
+              const hasGrowth = typeof proj.growth === 'number';
+              const up = hasGrowth && (proj.growth as number) >= 0;
               return (
                 <div key={id} className="flex items-center gap-3 p-3 bg-surface-high/30 border border-white/6 rounded-xl hover:border-emerald-400/30 transition-all">
                   <img src={proj.image} alt={proj.name} className="w-12 h-12 rounded-lg object-cover border border-white/10 shrink-0" referrerPolicy="no-referrer"/>
@@ -271,7 +272,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
                     <p className="text-xs text-on-surface-variant/50">{proj.category}</p>
                     <div className="flex items-center gap-2 mt-0.5">
                       <span className="text-xs font-black text-accent-gold">{t('Certifié', 'Certified')}</span>
-                      <span className={`text-xs font-black ${up ? 'text-emerald-400' : 'text-rose-400'}`}>{up ? '+' : ''}{proj.growth}%</span>
+                      {hasGrowth && <span className={`text-xs font-black ${up ? 'text-emerald-400' : 'text-rose-400'}`}>{up ? '+' : ''}{proj.growth}%</span>}
                     </div>
                   </div>
                   <div className="text-right shrink-0">
@@ -436,9 +437,9 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
                       <p className="text-[8px] font-black text-[#a78bfa] uppercase tracking-widest">LYA Score</p>
                       <p className="text-base font-black text-white leading-tight">{currentContract.totalScore}<span className="text-[8px] text-white/30">/1000</span></p>
                     </div>
-                    <div className={`border rounded-xl p-2 text-center ${currentContract.growth >= 0 ? 'bg-emerald-400/10 border-emerald-400/25' : 'bg-rose-400/10 border-rose-400/25'}`}>
+                    <div className={`border rounded-xl p-2 text-center ${typeof currentContract.growth === 'number' && currentContract.growth >= 0 ? 'bg-emerald-400/10 border-emerald-400/25' : 'bg-white/5 border-white/10'}`}>
                       <p className="text-[8px] font-black text-accent-gold uppercase tracking-widest">{t('Progression', 'Progress')}</p>
-                      <p className={`text-base font-black leading-tight ${currentContract.growth >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>{currentContract.growth >= 0 ? '+' : ''}{currentContract.growth}%</p>
+                      <p className={`text-base font-black leading-tight ${typeof currentContract.growth === 'number' ? (currentContract.growth >= 0 ? 'text-emerald-400' : 'text-rose-400') : 'text-on-surface-variant/40'}`}>{typeof currentContract.growth === 'number' ? `${currentContract.growth >= 0 ? '+' : ''}${currentContract.growth}%` : '—'}</p>
                       <p className="text-[8px] font-black text-white/30">{t('depuis certification', 'since certification')}</p>
                     </div>
                   </div>
@@ -593,7 +594,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
                   </div>
                   <div className="text-right">
                     <p className="text-xs text-on-surface-variant font-bold uppercase tracking-widest opacity-40">{t('Progression', 'Progress')}</p>
-                    <p className="text-sm font-black text-emerald-400 italic">+{contract.growth}%</p>
+                    <p className="text-sm font-black text-emerald-400 italic">{typeof contract.growth === 'number' ? `+${contract.growth}%` : '—'}</p>
                   </div>
                 </div>
               </div>

@@ -155,10 +155,14 @@ export const ContractCard = React.memo<ContractCardProps>(({
                </div>
                <div className="text-right">
                   <div className="text-xs font-black text-white/30 uppercase tracking-[0.3em] mb-1">{t('PROGRESS', 'PROGRESSION')}</div>
-                  <div className={`flex items-center justify-end gap-1.5 text-xl font-black font-headline ${contract.growth >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
-                     {contract.growth >= 0 ? <TrendingUp size={16} /> : <TrendingDown size={16} />}
-                     {contract.growth >= 0 ? '+' : ''}{contract.growth}%
-                  </div>
+                  {typeof contract.growth === 'number' ? (
+                    <div className={`flex items-center justify-end gap-1.5 text-xl font-black font-headline ${contract.growth >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+                       {contract.growth >= 0 ? <TrendingUp size={16} /> : <TrendingDown size={16} />}
+                       {contract.growth >= 0 ? '+' : ''}{contract.growth}%
+                    </div>
+                  ) : (
+                    <div className="text-xl font-black font-headline text-on-surface-variant/40">—</div>
+                  )}
                </div>
             </div>
 

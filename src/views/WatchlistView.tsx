@@ -154,10 +154,12 @@ export const WatchlistView: React.FC<WatchlistViewProps> = ({
                         <div className="text-xl font-black font-mono text-white tracking-tighter">
                           {formatPrice(contract.unitValue || 0)}
                         </div>
-                        <div className={`flex items-center justify-end gap-1 text-[10px] font-black font-mono mt-1 ${contract.growth >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
-                          {contract.growth >= 0 ? <TrendingUp size={10} /> : <ArrowDownLeft size={10} />}
-                          {contract.growth > 0 ? '+' : ''}{contract.growth}%
-                        </div>
+                        {typeof contract.growth === 'number' && (
+                          <div className={`flex items-center justify-end gap-1 text-[10px] font-black font-mono mt-1 ${contract.growth >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                            {contract.growth >= 0 ? <TrendingUp size={10} /> : <ArrowDownLeft size={10} />}
+                            {contract.growth > 0 ? '+' : ''}{contract.growth}%
+                          </div>
+                        )}
                       </div>
                     </div>
 
@@ -220,9 +222,11 @@ export const WatchlistView: React.FC<WatchlistViewProps> = ({
                          <div className="text-[10px] font-mono text-on-surface-variant uppercase tracking-widest mb-0.5 opacity-40">Value</div>
                          <div className="text-sm font-black text-white font-mono">{formatPrice(contract.unitValue || 0)}</div>
                       </div>
-                      <div className={`px-3 py-1 rounded-lg text-[10px] font-black font-mono ${contract.growth >= 0 ? 'bg-emerald-500/10 text-emerald-400' : 'bg-red-500/10 text-red-400'}`}>
-                        {contract.growth > 0 ? '+' : ''}{contract.growth}%
-                      </div>
+                      {typeof contract.growth === 'number' && (
+                        <div className={`px-3 py-1 rounded-lg text-[10px] font-black font-mono ${contract.growth >= 0 ? 'bg-emerald-500/10 text-emerald-400' : 'bg-red-500/10 text-red-400'}`}>
+                          {contract.growth > 0 ? '+' : ''}{contract.growth}%
+                        </div>
+                      )}
                     </div>
                   </div>
                   <div className="flex gap-2 shrink-0 w-full md:w-auto">

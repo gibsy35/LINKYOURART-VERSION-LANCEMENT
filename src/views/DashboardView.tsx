@@ -241,11 +241,11 @@ export const DashboardView: React.FC<{
   ], [t]);
 
   const marketSentiment = useMemo(() => {
-    const avgGrowth = marketStats.avgGrowth;
-    if (avgGrowth > 5) return { label: t('EN HAUSSE', 'RISING'), color: 'text-emerald-400', value: 85 };
-    if (avgGrowth > 0) return { label: t('NEUTRAL', 'NEUTRE'), color: 'text-primary-cyan', value: 55 };
-    return { label: t('EN BAISSE', 'FALLING'), color: 'text-rose-400', value: 35 };
-  }, [marketStats.avgGrowth, t]);
+    const avgScore = marketStats.avgScore;
+    if (avgScore > 700) return { label: t('EXCELLENT', 'EXCELLENT'), color: 'text-emerald-400', value: 85 };
+    if (avgScore > 500) return { label: t('SOLID', 'SOLIDE'), color: 'text-primary-cyan', value: 55 };
+    return { label: t('DEVELOPING', 'EN DÉVELOPPEMENT'), color: 'text-accent-gold', value: 35 };
+  }, [marketStats.avgScore, t]);
 
   const [isRefreshing, setIsRefreshing] = useState(false);
   
@@ -308,8 +308,8 @@ export const DashboardView: React.FC<{
                 </div>
                 <p className="text-xs sm:text-lg font-black font-mono text-on-surface leading-none tracking-tighter truncate">
                   {t('Registry', 'Registre')} <span className="text-primary-cyan">{activeContractsCount || 0}</span> {t('certified projects', 'projets certifiés')}
-                  <span className={`ml-2 text-xs ${marketStats.avgGrowth >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
-                    {t('avg score trend', 'tendance score moy.')} {marketStats.avgGrowth >= 0 ? '+' : ''}{Number(marketStats.avgGrowth).toFixed(1)}%
+                  <span className="ml-2 text-xs text-primary-cyan">
+                    {t('avg LYA Score', 'Score LYA moy.')} {Math.round(marketStats.avgScore || 0)}/1000
                   </span>
                 </p>
               </div>
@@ -725,9 +725,9 @@ export const DashboardView: React.FC<{
                 </div>
                 <div className="p-8 bg-white/[0.01] border-t border-white/5 flex flex-col gap-4">
                   <div className="flex items-center justify-between text-xs font-black uppercase tracking-widest text-on-surface-variant opacity-40">
-                    <span>SECTOR AGGREGATE</span>
-                    <span className={marketStats.avgGrowth >= 0 ? 'text-emerald-400' : 'text-rose-400'}>
-                      {marketStats.avgGrowth >= 0 ? '+' : ''}{marketStats.avgGrowth.toFixed(1)}%
+                    <span>SCORE MOYEN REGISTRE</span>
+                    <span className="text-primary-cyan">
+                      {Math.round(marketStats.avgScore || 0)}/1000
                     </span>
                   </div>
                   <button 
