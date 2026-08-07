@@ -129,9 +129,9 @@ export const ApplyForVerificationView: React.FC<{ onNotify: (msg: string) => voi
       </div>
 
       <PageHeader 
-        titleWhite={t('LYA SYSTEM', 'LYA SYSTEME')}
-        titleAccent={t('VERIFICATION', 'VÉRIFICATION')}
-        description={t('ACCESS THE ELITE NETWORK OF GLOBAL CREATIVE ARCHITECTS. OUR MULTI-LAYERED AUDIT LYA SYSTEM ENSURES THE INTEGRITY OF HIGH-VALUE CONTRACT LENDING AND SETTLEMENT.', 'ACCÉDEZ AU RÉSEAU D\'ÉLITE DES ARCHITECTES CRÉATIFS MONDIAUX. NOTRE LYA SYSTEME D\'AUDIT MULTI-NIVEAUX GARANTIT L\'INTÉGRITÉ DU PRÊT ET DU RÈGLEMENT DES CONTRATS DE GRANDE VALEUR.')}
+        titleWhite={t('LYA', 'LYA')}
+        titleAccent={t('VALIDATOR APPLICATION', 'CANDIDATURE VALIDATEUR')}
+        description={t('Join the network of accredited creative certification experts. Our multi-layered review process ensures the integrity of every certification issued on the LYA Registry.', 'Rejoignez le réseau d\'experts accrédités en certification créative. Notre processus de revue multi-niveaux garantit l\'intégrité de chaque certification délivrée sur le Registre LYA.')}
         accentColor="text-primary-cyan"
       />
 
