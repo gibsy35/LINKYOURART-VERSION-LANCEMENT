@@ -157,7 +157,7 @@ export const RegistryView: React.FC<{
     securityScore: 95 + (i % 5),
     auditScore: 88 + (i % 10),
     totalScore: contract.totalScore,
-    agreementType: contract.contractType,
+    agreementType: 'Direct Rights',
     category: contract.category,
     jurisdiction: contract.jurisdiction,
     contract: contract,
