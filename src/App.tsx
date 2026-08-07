@@ -408,6 +408,43 @@ export default function App() {
     try { await handleUpdateUser({ comparisonList: nextList, usageStats: { ...usageStats, compare: nextList.length } }); } catch (err) { console.error('Comparison update failed:', err); setComparisonList(comparisonList); }
   };
   const handleUsageUpdate = (newStats: any) => { setUsageStats(newStats); if (user?.uid) { updateDoc(doc(db, 'users', user.uid), { usageStats: newStats }); } };
+  const handleSelectPlan = async (plan: { id: string, name: string, price: number, billingCycle: 'monthly' | 'yearly' }) => {
+    if (!effectiveUser) { notify(t('Please sign in to upgrade', 'Veuillez vous connecter pour passer au Pro')); setIsAuthModalOpen(true); return; }
+    if (plan.id === 'CREATOR') {
+      notify(t('You\'re already on the free Creator plan — head to LYA Submit to certify your first project.', 'Vous êtes déjà sur le forfait Créateur gratuit — direction LYA Submit pour certifier votre premier projet.'));
+      setCurrentView('LINK_ART');
+      return;
+    }
+    if (plan.id === 'PRO_STARTER' || plan.id === 'PRO_ADVANCED') {
+      notify(t('Redirecting to secure checkout...', 'Redirection vers le paiement sécurisé...'));
+      try {
+        const response = await fetch('/api/create-checkout-session', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            planId: plan.id,
+            userEmail: effectiveUser.email,
+            userId: effectiveUser.uid,
+            successUrl: `${window.location.origin}/?checkout=success`,
+            cancelUrl: `${window.location.origin}/pricing?checkout=cancelled`,
+          }),
+        });
+        const data = await response.json();
+        if (data.url) {
+          window.location.href = data.url;
+        } else {
+          notify(t('Could not start checkout. Please try again.', 'Impossible de démarrer le paiement. Veuillez réessayer.'));
+        }
+      } catch (err) {
+        console.error('Checkout session error:', err);
+        notify(t('Could not start checkout. Please try again.', 'Impossible de démarrer le paiement. Veuillez réessayer.'));
+      }
+      return;
+    }
+    // Fallback (shouldn't normally be reached — Enterprise is handled inside
+    // PricingView itself via a contact request, not a real charge).
+    setCheckoutData({ type: 'PRO_UPGRADE', amount: plan.price, title: plan.name, metadata: { type: 'PRO_UPGRADE', planId: plan.id, planName: plan.name, userEmail: effectiveUser.email, userId: effectiveUser.uid } });
+  };
   const handleLogout = async () => {
     try { sessionStorage.setItem('lya_visitor_mode', 'true'); await signOut(auth); setSimulatedRole(null); setUser(null); setNotification(t('LOGGED OUT SUCCESSFULLY', 'DÉCONNEXION RÉUSSIE')); setCurrentView('HOME'); } catch (err) { console.error('Logout Error:', err); }
   };
@@ -500,7 +537,7 @@ export default function App() {
               {currentView === 'REGISTRY' && (<><RegistryView user={effectiveUser} onNotify={notify} allContracts={liveContracts} onSelectContract={(c) => { setViewingContract(c); setCurrentView('CONTRACT_DETAIL'); }} onViewChange={setCurrentView} />{!effectiveUser && (<div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 flex items-center gap-4 px-6 py-4 bg-[#0D1117]/95 border border-primary-cyan/30 backdrop-blur-xl shadow-2xl font-mono"><span className="text-[10px] font-black text-white/60 uppercase tracking-widest">Aperçu visiteur</span><button onClick={() => setIsAuthModalOpen(true)} className="px-5 py-2 bg-primary-cyan text-surface-dim text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all">Créer un compte</button><button onClick={() => setIsAuthModalOpen(true)} className="px-5 py-2 border border-white/10 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white/5 transition-all">Se connecter</button></div>)}</>)}
               {currentView === 'LINK_ART' && (<LinkArtView user={effectiveUser} onNotify={notify} onViewChange={setCurrentView} allContracts={liveContracts} />)}
               {currentView === 'LOUNGE' && (<LoungeView user={effectiveUser} onNotify={notify} onViewChange={setCurrentView} onProfessionalChatToggle={setIsProfessionalChatActive} />)}
-              {currentView === 'PRICING' && (<PricingView onSelectPlan={(plan) => { if (!effectiveUser) { notify(t('Please sign in to upgrade', 'Veuillez vous connecter pour passer au Pro')); setIsAuthModalOpen(true); return; } setCheckoutData({ type: 'PRO_UPGRADE', amount: plan.price, title: plan.name, metadata: { type: 'PRO_UPGRADE', planId: plan.id, planName: plan.name, userEmail: effectiveUser.email, userId: effectiveUser.uid } }); }} onNotify={notify} onBecomeValidator={() => { if (!effectiveUser) { notify(t('Please sign in to apply', 'Veuillez vous connecter pour candidater')); setIsAuthModalOpen(true); return; } setIsVerificationModalOpen(true); }} />)}
+              {currentView === 'PRICING' && (<PricingView onSelectPlan={handleSelectPlan} onNotify={notify} onBecomeValidator={() => { if (!effectiveUser) { notify(t('Please sign in to apply', 'Veuillez vous connecter pour candidater')); setIsAuthModalOpen(true); return; } setIsVerificationModalOpen(true); }} />)}
               {currentView === 'SWIPE' && (<SwipeView user={effectiveUser} usageStats={usageStats} onUsageUpdate={handleUsageUpdate} onNotify={notify} watchlist={watchlist} allContracts={CONTRACTS} onToggleWatchlist={handleToggleWatchlist} comparisonList={comparisonList} onToggleComparison={handleToggleComparison} onViewChange={setCurrentView} checkUsageLimit={checkUsageLimit} />)}
               {currentView === 'MECENAT' && (<MecenatView />)}
               {currentView === 'COMPARE' && (<CompareView comparisonList={comparisonList} allContracts={CONTRACTS} onRemoveFromComparison={handleToggleComparison} onNotify={notify} onViewChange={setCurrentView} onViewDetail={(c) => { setViewingContract(c); setCurrentView('CONTRACT_DETAIL'); }} isPro={true /* discovery/comparison is free & unlimited for everyone, see src/lib/permissions.ts */} />)}

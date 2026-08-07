@@ -25,8 +25,19 @@ service cloud.firestore {
       allow read: if isSignedIn() && (request.auth.uid == userId || isAdmin());
       // Tout utilisateur peut créer son profil à l'inscription
       allow create: if isSignedIn();
-      // Mise à jour : soi-même ou admin
-      allow update: if isSignedIn() && (request.auth.uid == userId || isAdmin());
+      // Mise à jour : soi-même ou admin — MAIS un utilisateur non-admin ne
+      // peut jamais modifier les champs qui contrôlent son propre accès
+      // payant. Ces champs ne sont écrits que par le webhook Stripe
+      // (api/webhook.js, via le SDK Admin qui contourne ces règles) ou par
+      // un administrateur (ex: validation manuelle d'un dossier Validateur).
+      // Sans ce garde-fou, n'importe qui pourrait s'auto-attribuer l'accès
+      // Pro/Entreprise depuis la console du navigateur.
+      allow update: if isSignedIn() && (
+        isAdmin() ||
+        (request.auth.uid == userId &&
+         !request.resource.data.diff(resource.data).affectedKeys()
+           .hasAny(['role', 'isPro', 'proTier', 'isVerifiedValidator', 'isEnterprise', 'stripeCustomerId', 'stripeSubscriptionId']))
+      );
       allow delete: if isAdmin();
     }
 
