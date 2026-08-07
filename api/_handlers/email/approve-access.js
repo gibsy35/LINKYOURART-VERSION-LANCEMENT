@@ -1,69 +1,4 @@
-const net = require('net');
-const tls = require('tls');
-const crypto = require('crypto');
-
-function b64(s) { return Buffer.from(s).toString('base64'); }
-
-async function sendSMTP(cfg) {
-  return new Promise((resolve) => {
-    let sock, buf = '', step = 0, upgraded = false;
-    const timer = setTimeout(() => { try { sock.destroy(); } catch(e){} resolve({ ok: false, err: 'timeout' }); }, 15000);
-    const ok = () => { clearTimeout(timer); resolve({ ok: true }); };
-    const fail = (e) => { clearTimeout(timer); try { sock.destroy(); } catch(ex){} resolve({ ok: false, err: String(e) }); };
-    const w = (s) => { try { sock.write(s + '\r\n'); } catch(e){ fail(e); } };
-    const mail = [
-      'From: "LinkYourArt" <' + cfg.user + '>',
-      'Reply-To: contact@linkyourart.com',
-      'To: ' + cfg.to,
-      'Subject: =?UTF-8?B?' + b64(cfg.subject) + '?=',
-      'MIME-Version: 1.0',
-      'Content-Type: text/html; charset=UTF-8',
-      'Content-Transfer-Encoding: base64',
-      'X-Priority: 3',
-      'X-MSMail-Priority: Normal',
-      'Importance: Normal',
-      'Message-ID: <' + Date.now() + '-lya@linkyourart.com>',
-      'List-Unsubscribe: <mailto:contact@linkyourart.com?subject=unsubscribe>',
-      '',
-      b64(cfg.html),
-      '.'
-    ].join('\r\n');
-    const handle = (line) => {
-      const c = parseInt(line.slice(0, 3));
-      if (c >= 400) return fail(line.trim());
-      if (step === 0 && c === 220) { step++; w('EHLO linkyourart.com'); }
-      else if (step === 1 && c === 250) { step++; w('STARTTLS'); }
-      else if (step === 2 && c === 220 && !upgraded) {
-        step++;
-        const plain = sock;
-        sock = tls.connect({ socket: plain, host: cfg.host, rejectUnauthorized: false }, () => {
-          upgraded = true; sock.on('data', onData); w('EHLO linkyourart.com');
-        });
-        sock.on('error', fail);
-      }
-      else if (step === 3 && c === 250) { step++; w('AUTH LOGIN'); }
-      else if (step === 4 && c === 334) { step++; w(b64(cfg.user)); }
-      else if (step === 5 && c === 334) { step++; w(b64(cfg.pass)); }
-      else if (step === 6 && c === 235) { step++; w('MAIL FROM:<' + cfg.user + '>'); }
-      else if (step === 7 && c === 250) { step++; w('RCPT TO:<' + cfg.to + '>'); }
-      else if (step === 8 && c === 250) { step++; w('DATA'); }
-      else if (step === 9 && c === 354) { step++; sock.write(mail + '\r\n'); }
-      else if (step === 10 && c === 250) { step++; w('QUIT'); }
-      else if (step === 11 && c === 221) ok();
-    };
-    const onData = (d) => {
-      buf += d.toString();
-      let i;
-      while ((i = buf.indexOf('\r\n')) !== -1) {
-        const line = buf.slice(0, i); buf = buf.slice(i + 2);
-        if (line && !line.match(/^250-/)) handle(line);
-      }
-    };
-    sock = net.connect(cfg.port, cfg.host, () => {});
-    sock.on('data', onData);
-    sock.on('error', fail);
-  });
-}
+const { sendEmail } = require('../resend');
 
 function buildApprovalEmail(name, accessUrl, lang) {
   const isFR = lang === 'FR';
@@ -123,10 +58,6 @@ module.exports = async (req, res) => {
   const { to, name, token, lang = 'FR' } = req.body || {};
   if (!to || !name || !token) return res.status(400).json({ error: 'Missing fields' });
 
-  const host = process.env.SMTP_HOST;
-  const port = parseInt(process.env.SMTP_PORT || '587');
-  const user = process.env.SMTP_USER;
-  const pass = process.env.SMTP_PASS;
   const baseUrl = process.env.VITE_APP_URL || 'https://linkyourart.com';
 
   const accessUrl = `${baseUrl}?access=${token}`;
@@ -135,14 +66,14 @@ module.exports = async (req, res) => {
     ? `✦ Votre accès LinkYourArt est approuvé — ${name}`
     : `✦ Your LinkYourArt access is approved — ${name}`;
 
-  if (!host || !user || !pass) {
+  if (!process.env.RESEND_API_KEY) {
     console.log('[APPROVE_SIMULATED]', to, accessUrl);
     return res.status(200).json({ success: true, method: 'simulated', accessUrl });
   }
 
   const html = buildApprovalEmail(name, accessUrl, lang);
-  const result = await sendSMTP({ host, port, user, pass, to, subject, html });
+  const result = await sendEmail({ to, subject, html });
 
-  console.log(result.ok ? `[APPROVE_SENT] ✓ ${to}` : `[APPROVE_ERROR] ${result.err}`);
-  return res.status(200).json({ success: result.ok, method: 'smtp', error: result.err, accessUrl });
+  console.log(result.ok ? `[APPROVE_SENT] ✓ ${to} (${result.id})` : `[APPROVE_ERROR] ${result.err}`);
+  return res.status(200).json({ success: result.ok, method: 'resend', error: result.err, accessUrl });
 };
