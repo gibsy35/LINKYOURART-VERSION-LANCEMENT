@@ -109,7 +109,7 @@ export const LandingTicker: React.FC<LandingTickerProps> = ({ liveProjects }) =>
         <motion.div
           className="flex items-center h-full whitespace-nowrap absolute left-0"
           animate={{ x: ['0%', '-50%'] }}
-          transition={{ duration: 130, repeat: Infinity, ease: 'linear' }}
+          transition={{ duration: 240, repeat: Infinity, ease: 'linear' }}
         >
           {rows.map((r, i) => <div key={`${r.key}-${i}`} className="h-full flex items-center">{r.node}</div>)}
         </motion.div>
