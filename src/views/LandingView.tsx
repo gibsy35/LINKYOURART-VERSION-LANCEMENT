@@ -439,7 +439,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
   };
 
   return (
-    <div className="min-h-screen bg-[#06080C] text-white font-body selection:bg-primary-cyan/30 overflow-x-hidden relative pb-9">
+    <div className="min-h-screen bg-[#06080C] text-white font-body selection:bg-primary-cyan/30 overflow-x-hidden relative pb-20 md:pb-9">
       <LandingTicker liveProjects={liveProjects} />
       <AnimatePresence mode="wait">
         {stage === 'INTRO' ? (
