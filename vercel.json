@@ -3,6 +3,18 @@
   "outputDirectory": "dist",
   "rewrites": [
     {
+      "source": "/api/email/:action",
+      "destination": "/api/email-router?action=:action"
+    },
+    {
+      "source": "/api/gemini/:action",
+      "destination": "/api/gemini-router?action=:action"
+    },
+    {
+      "source": "/api/stripe/:action",
+      "destination": "/api/stripe-router?action=:action"
+    },
+    {
       "source": "/api/(.*)",
       "destination": "/api/$1"
     },
