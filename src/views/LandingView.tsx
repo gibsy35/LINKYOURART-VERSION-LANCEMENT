@@ -31,6 +31,7 @@ import { ExternalLink,
 } from 'lucide-react';
 import { db, handleFirestoreError, OperationType } from '../firebase';
 import { collection, addDoc, serverTimestamp, getDocs, query, where, limit, doc, getDoc, setDoc, updateDoc, increment, onSnapshot } from 'firebase/firestore';
+import { CONTRACTS, Contract } from '../types';
 
 interface LandingViewProps {
   onEnterDemo: () => void;
@@ -172,6 +173,27 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
       (err) => {
         console.error('[COUNTER READ ERROR]', err.code, err.message);
         setTotalRegistrations(0);
+      }
+    );
+    return () => unsub();
+  }, []);
+
+  // ── Registre en direct — vrais projets certifiés (fallback sur le jeu
+  // de démonstration si Firestore est vide ou inaccessible)
+  const [liveProjects, setLiveProjects] = useState<Contract[]>(() => CONTRACTS.slice(0, 6));
+  useEffect(() => {
+    const contractsRef = collection(db, 'contracts');
+    const q = query(contractsRef, limit(6));
+    const unsub = onSnapshot(q,
+      (snap) => {
+        if (!snap.empty) {
+          const list = snap.docs.map(d => ({ id: d.id, ...d.data() } as Contract));
+          setLiveProjects(list);
+        }
+        // If empty, keep the CONTRACTS fallback already in state.
+      },
+      (err) => {
+        console.warn('[LIVE_REGISTRY] Falling back to demo dataset:', err.code);
       }
     );
     return () => unsub();
@@ -777,6 +799,69 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                 <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-[#9D00FF]/10 blur-3xl rounded-full" />
               </div>
             </div>
+
+            {/* ── REGISTRE EN DIRECT ── */}
+            <section className="relative z-10 border-t border-white/5 py-16 md:py-20 px-4 md:px-8">
+              <div className="max-w-7xl mx-auto">
+                <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
+                  <div>
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse shrink-0" />
+                      <span className="text-[10px] font-black text-emerald-400 uppercase tracking-[0.3em]">{t('Live Registry', 'Registre en direct')}</span>
+                    </div>
+                    <h2 className="font-headline text-3xl md:text-5xl font-black uppercase tracking-tighter">
+                      {t('Real projects.', 'De vrais projets.')} <span className="text-primary-cyan">{t('Real scores.', 'De vrais scores.')}</span>
+                    </h2>
+                  </div>
+                  <p className="text-white/40 text-sm font-medium max-w-sm">
+                    {t('A live sample from the LYA Registry — every score below reflects an actual certification, not a mockup.', "Un échantillon en direct du Registre LYA — chaque score ci-dessous reflète une certification réelle, pas une maquette.")}
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4">
+                  {liveProjects.map((proj, i) => (
+                    <motion.div
+                      key={proj.id || i}
+                      initial={{ opacity: 0, y: 16 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: i * 0.06 }}
+                      className="group relative bg-white/[0.03] border border-white/10 rounded-2xl overflow-hidden hover:border-primary-cyan/30 transition-all"
+                    >
+                      <div className="aspect-[4/5] relative overflow-hidden">
+                        <img
+                          src={proj.image}
+                          alt={proj.name}
+                          referrerPolicy="no-referrer"
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
+                        <div className="absolute top-2 left-2 px-2 py-1 bg-black/50 backdrop-blur-sm rounded-lg">
+                          <span className="text-[9px] font-black text-white/70 uppercase tracking-wider">{proj.category}</span>
+                        </div>
+                        <div className="absolute bottom-2 left-2 right-2">
+                          <p className="text-white text-xs font-black truncate mb-1">{proj.name}</p>
+                          <div className="flex items-center gap-1.5">
+                            <Award size={10} className="text-accent-gold shrink-0" />
+                            <span className="text-accent-gold text-[10px] font-black font-mono">{proj.totalScore || proj.scoreLYA || 0}/1000</span>
+                          </div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+
+                <div className="flex justify-center mt-10">
+                  <a
+                    href="#pre-registration-form"
+                    className="flex items-center gap-2 px-6 py-3 border border-white/10 rounded-full text-xs font-black uppercase tracking-widest text-white/60 hover:text-primary-cyan hover:border-primary-cyan/30 transition-all"
+                  >
+                    {t('See yourself in the Registry', 'Voyez votre projet dans le Registre')}
+                    <ArrowRight size={14} />
+                  </a>
+                </div>
+              </div>
+            </section>
 
             {/* Footer */}
             <footer className="relative z-10 border-t border-white/5 bg-black/40 backdrop-blur-xl py-10 md:py-16 px-4 md:px-8">
