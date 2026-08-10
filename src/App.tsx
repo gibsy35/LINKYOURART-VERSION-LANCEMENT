@@ -418,7 +418,7 @@ export default function App() {
     if (plan.id === 'PRO_STARTER' || plan.id === 'PRO_ADVANCED') {
       notify(t('Redirecting to secure checkout...', 'Redirection vers le paiement sécurisé...'));
       try {
-        const response = await fetch('/api/create-checkout-session', {
+        const response = await fetch('/api/stripe/create-checkout-session', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({

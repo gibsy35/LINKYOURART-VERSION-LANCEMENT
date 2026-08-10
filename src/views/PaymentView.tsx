@@ -51,7 +51,7 @@ const CheckoutForm: React.FC<{
 
     try {
       // 1. Create Payment Intent on our server
-      const response = await fetch('/api/create-payment-intent', {
+      const response = await fetch('/api/stripe/create-payment-intent', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
