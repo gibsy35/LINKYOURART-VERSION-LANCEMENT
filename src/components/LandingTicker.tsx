@@ -15,6 +15,7 @@ interface LandingTickerProps {
 // occasional announcements.
 const ANNOUNCEMENTS: { fr: string; en: string }[] = [
   { fr: "LinkYourArt ouvre ses inscriptions — rejoignez les LYA Originals", en: 'LinkYourArt is now open for registration — join the LYA Originals' },
+  { fr: "LYA Jobs — la place de marché de l'emploi créatif — bientôt disponible", en: 'LYA Jobs — the creative employment marketplace — coming soon' },
 ];
 
 export const LandingTicker: React.FC<LandingTickerProps> = ({ liveProjects }) => {
