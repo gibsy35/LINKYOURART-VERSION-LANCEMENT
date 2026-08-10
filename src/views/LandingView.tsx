@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { useTranslation } from '../context/LanguageContext';
 import { Logo } from '../components/ui/Logo';
 import { KidiWorldModal } from '../components/ui/KidiWorldModal';
+import { LandingTicker } from '../components/LandingTicker';
 import { ExternalLink, 
   Users, 
   Briefcase, 
@@ -438,7 +439,8 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
   };
 
   return (
-    <div className="min-h-screen bg-[#06080C] text-white font-body selection:bg-primary-cyan/30 overflow-x-hidden relative">
+    <div className="min-h-screen bg-[#06080C] text-white font-body selection:bg-primary-cyan/30 overflow-x-hidden relative pb-9">
+      <LandingTicker liveProjects={liveProjects} />
       <AnimatePresence mode="wait">
         {stage === 'INTRO' ? (
           <motion.div 
@@ -611,33 +613,6 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                       <div className="text-white/30 text-xs leading-tight">{stat.sub}</div>
                     </motion.div>
                   ))}
-                </div>
-
-                {/* Registre en direct — bandeau continu, pas de scroll requis */}
-                <div className="relative mt-2 rounded-2xl border border-white/10 bg-white/[0.03] overflow-hidden">
-                  <div className="flex items-center gap-2 px-4 pt-3">
-                    <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse shrink-0" />
-                    <span className="text-[9px] font-black text-emerald-400 uppercase tracking-[0.3em]">{t('Live Registry', 'Registre en direct')}</span>
-                  </div>
-                  <div className="relative overflow-hidden py-3 mt-1">
-                    <div className="absolute left-0 top-0 bottom-0 w-10 bg-gradient-to-r from-[#05060a] to-transparent z-10 pointer-events-none" />
-                    <div className="absolute right-0 top-0 bottom-0 w-10 bg-gradient-to-l from-[#05060a] to-transparent z-10 pointer-events-none" />
-                    <motion.div
-                      className="flex items-center gap-8 whitespace-nowrap px-4"
-                      animate={{ x: ['0%', '-50%'] }}
-                      transition={{ duration: 28, repeat: Infinity, ease: 'linear' }}
-                    >
-                      {[...liveProjects, ...liveProjects].map((proj, i) => (
-                        <div key={`${proj.id || proj.name}-${i}`} className="flex items-center gap-2 shrink-0">
-                          <span className="text-xs font-black text-white uppercase tracking-tight">{proj.name}</span>
-                          <span className="text-[10px] text-white/30 font-bold uppercase">{proj.category}</span>
-                          <Award size={10} className="text-accent-gold" />
-                          <span className="text-[10px] font-black font-mono text-accent-gold">{proj.totalScore || proj.scoreLYA || 0}/1000</span>
-                          <span className="w-1 h-1 rounded-full bg-white/15 ml-4" />
-                        </div>
-                      ))}
-                    </motion.div>
-                  </div>
                 </div>
               </div>
 
