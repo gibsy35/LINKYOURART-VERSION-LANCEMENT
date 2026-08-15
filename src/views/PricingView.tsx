@@ -6,7 +6,7 @@ import { useCurrency } from '../context/CurrencyContext';
 import { FeatureShowcaseModal } from '../components/Modals';
 
 import { PageHeader } from '../components/ui/PageHeader';
-import { PRO_STARTER_PRICE_EUR, PRO_ADVANCED_PRICE_EUR } from '../lib/permissions';
+import { PRO_STARTER_PRICE_EUR, PRO_ADVANCED_PRICE_EUR, VALIDATOR_TIERS, EXPRESS_48H_PRICE_EUR, EXPRESS_24H_PRICE_EUR } from '../lib/permissions';
 
 interface PricingViewProps {
   onSelectPlan: (plan: { id: string, name: string, price: number, billingCycle: 'monthly' | 'yearly' }) => void;
@@ -346,26 +346,49 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
       </div>
 
       {/* Become a Certified Validator — accreditation, not a paid plan */}
-      <div className="mt-10 p-6 md:p-8 border border-emerald-400/20 bg-emerald-400/[0.03] rounded-sm flex flex-col md:flex-row items-center justify-between gap-6">
-        <div className="flex items-center gap-5">
-          <div className="w-12 h-12 rounded-full bg-emerald-400/10 border border-emerald-400/20 flex items-center justify-center text-emerald-400 shrink-0">
-            <ShieldCheck size={22} />
+      <div className="mt-10 border border-emerald-400/20 bg-emerald-400/[0.03] rounded-sm overflow-hidden">
+        <div className="p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="flex items-center gap-5">
+            <div className="w-12 h-12 rounded-full bg-emerald-400/10 border border-emerald-400/20 flex items-center justify-center text-emerald-400 shrink-0">
+              <ShieldCheck size={22} />
+            </div>
+            <div>
+              <h3 className="text-sm font-black uppercase tracking-widest text-white mb-1">
+                {t('Become a Certified LYA Validator', 'Devenez Validateur Certifié LYA')}
+              </h3>
+              <p className="text-xs text-on-surface-variant/70 max-w-xl leading-relaxed">
+                {t('Free accreditation for qualified creative professionals. Not a paid plan — validators are compensated for every certification, funded by the Validator Remuneration Fund (patronage commission + Pro/Enterprise revenue + Express margin).', 'Accréditation gratuite pour les professionnels créatifs qualifiés. Ce n\'est pas un forfait payant — les validateurs sont rémunérés pour chaque certification, financée par le Fonds de Rémunération des Validateurs (commission mécénat + revenus Pro/Enterprise + marge Express).')}
+              </p>
+            </div>
           </div>
-          <div>
-            <h3 className="text-sm font-black uppercase tracking-widest text-white mb-1">
-              {t('Become a Certified LYA Validator', 'Devenez Validateur Certifié LYA')}
-            </h3>
-            <p className="text-xs text-on-surface-variant/70 max-w-xl leading-relaxed">
-              {t('Free accreditation for qualified creative professionals. Not a paid plan — validators are compensated for their review activity, funded by LYA\'s Pro and Enterprise service revenue.', 'Accréditation gratuite pour les professionnels créatifs qualifiés. Ce n\'est pas un forfait payant — les validateurs sont rémunérés pour leur activité de revue, financée par les revenus des services Pro et Entreprise de LYA.')}
-            </p>
-          </div>
+          <button
+            onClick={() => onBecomeValidator?.()}
+            className="shrink-0 px-6 py-3 bg-emerald-400/10 border border-emerald-400/30 text-emerald-400 text-[11px] font-black uppercase tracking-widest hover:bg-emerald-400 hover:text-surface-dim transition-all rounded-sm whitespace-nowrap"
+          >
+            {t('Apply for Accreditation', 'Candidater à l\'Accréditation')}
+          </button>
         </div>
-        <button
-          onClick={() => onBecomeValidator?.()}
-          className="shrink-0 px-6 py-3 bg-emerald-400/10 border border-emerald-400/30 text-emerald-400 text-[11px] font-black uppercase tracking-widest hover:bg-emerald-400 hover:text-surface-dim transition-all rounded-sm whitespace-nowrap"
-        >
-          {t('Apply for Accreditation', 'Candidater à l\'Accréditation')}
-        </button>
+        <div className="border-t border-emerald-400/10 px-6 md:px-8 py-5 grid grid-cols-2 md:grid-cols-4 gap-4">
+          {VALIDATOR_TIERS.map((tier, i) => (
+            <div key={tier.id} className="flex items-center justify-between gap-2">
+              <div>
+                <div className="text-[9px] font-black uppercase tracking-widest text-on-surface-variant/50">{tier.name}</div>
+                <div className="text-[10px] text-on-surface-variant/40">
+                  {tier.minCertifications === 0 ? t('< 50 certs', '< 50 certifs') : `${tier.minCertifications}+ · ${tier.minRating}/5`}
+                </div>
+              </div>
+              <div className="text-right">
+                <div className="text-sm font-black text-white">{tier.standardPayoutEUR}€</div>
+                {tier.expressPayoutEUR && <div className="text-[10px] font-bold text-accent-gold">{tier.expressPayoutEUR}€ XP</div>}
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="border-t border-emerald-400/10 px-6 md:px-8 py-3 text-center">
+          <span className="text-[10px] text-on-surface-variant/50 uppercase tracking-widest">
+            {t(`LYA Express: ${EXPRESS_48H_PRICE_EUR}€ (48h) · ${EXPRESS_24H_PRICE_EUR}€ (24h) — creators pay for processing priority only, never a lower review bar`, `LYA Express : ${EXPRESS_48H_PRICE_EUR}€ (48h) · ${EXPRESS_24H_PRICE_EUR}€ (24h) — les créateurs paient la priorité de traitement, jamais un examen moins rigoureux`)}
+          </span>
+        </div>
       </div>
 
       {/* LYA AI Needs & Services Assessment Engine */}

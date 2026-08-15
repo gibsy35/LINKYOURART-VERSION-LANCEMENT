@@ -26,11 +26,12 @@ import {
 } from 'lucide-react';
 import { useTranslation } from '../context/LanguageContext';
 import { PageHeader } from '../components/ui/PageHeader';
+import { VALIDATOR_TIERS, EXPRESS_48H_PRICE_EUR, EXPRESS_24H_PRICE_EUR } from '../lib/permissions';
 
 export const ApplyForVerificationView: React.FC<{ onNotify: (msg: string) => void; user?: any }> = ({ onNotify, user }) => {
   const { t } = useTranslation();
   const [step, setStep] = useState(1);
-  const [selectedTier, setSelectedTier] = useState<string | null>(null);
+  const [selectedSector, setSelectedSector] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -48,7 +49,7 @@ export const ApplyForVerificationView: React.FC<{ onNotify: (msg: string) => voi
         userId: user?.uid || null,
         userEmail: user?.email || null,
         userDisplayName: user?.displayName || null,
-        selectedTier,
+        selectedSector,
         formData: formData,
         status: 'PENDING',
         createdAt: serverTimestamp(),
@@ -62,61 +63,13 @@ export const ApplyForVerificationView: React.FC<{ onNotify: (msg: string) => voi
     }
   };
 
-  const tiers = [
-    {
-      id: 'professional',
-      name: t('PROFESSIONAL', 'PROFESSIONNEL'),
-      icon: <Building2 size={24} />,
-      color: 'text-primary-cyan',
-      borderColor: 'border-primary-cyan/20',
-      bgColor: 'bg-primary-cyan/5',
-      requirements: [
-        t('Linked Creative Portfolio', 'Portfolio Créatif Lié'),
-        t('Registry ID Verification', 'Vérification d\'ID du Registre'),
-        t('Min. 2 Active Contracts', 'Min. 2 Contrats Actifs')
-      ],
-      benefits: [
-        t('Verified Profile Badge', 'Badge de Profil Vérifié'),
-        t('Priority Support', 'Support Prioritaire'),
-        t('Basic Analytics', 'Analyses de Base')
-      ]
-    },
-    {
-      id: 'expert',
-      name: t('MARKET EXPERT', 'EXPERT DU MARCHÉ'),
-      icon: <Lock size={24} />,
-      color: 'text-accent-gold',
-      borderColor: 'border-accent-gold/20',
-      bgColor: 'bg-accent-gold/5',
-      requirements: [
-        t('Legal Entity Documentation', 'Documentation d\'Entité Légale'),
-        t('Capital Proof ($100k+)', 'Preuve de Capital (100k$+'),
-        t('Regulatory Compliance Sync', 'Synchronisation de Conformité')
-      ],
-      benefits: [
-        { label: t('Lounge Access', 'Accès au Salon'), desc: t('Access to the professional lounge and dedicated hubs.', 'Accès au salon professionnel et aux hubs dédiés.') },
-        t('Sub-Registry Issuance', 'Émission de Sous-Registre'),
-        t('Advanced Risk Tools', 'Outils de Risque Avancés')
-      ]
-    },
-    {
-      id: 'elite',
-      name: t('ELITE PARTNER', 'PARTENAIRE ÉLITE'),
-      icon: <Crown size={24} />,
-      color: 'text-accent-magenta',
-      borderColor: 'border-accent-magenta/20',
-      bgColor: 'bg-accent-magenta/5',
-      requirements: [
-        t('Invitation Only', 'Sur Invitation Uniquement'),
-        t('Creative Rights Mastery', 'Maîtrise des Droits Créatifs'),
-        t('Min. $1M Asset Holding', 'Min. 1M$ de Détention d\'Actifs')
-      ],
-      benefits: [
-        t('Direct Node Governance', 'Gouvernance Directe de Nœud'),
-        t('Elite Mentorship Access', 'Accès au Mentorat d\'Élite'),
-        t('Platform Profit Sharing', 'Partage des Bénéfices Plateforme')
-      ]
-    }
+  const sectors = [
+    { id: 'fine-art', name: t('FINE ART', 'BEAUX-ARTS'), icon: <Building2 size={24} />, color: 'text-accent-pink', borderColor: 'border-accent-pink/20', bgColor: 'bg-accent-pink/5' },
+    { id: 'film', name: t('FILM & TV', 'CINÉMA & TV'), icon: <Award size={24} />, color: 'text-rose-400', borderColor: 'border-rose-400/20', bgColor: 'bg-rose-400/5' },
+    { id: 'music', name: t('MUSIC', 'MUSIQUE'), icon: <Gem size={24} />, color: 'text-emerald-400', borderColor: 'border-emerald-400/20', bgColor: 'bg-emerald-400/5' },
+    { id: 'architecture', name: t('ARCHITECTURE', 'ARCHITECTURE'), icon: <Shield size={24} />, color: 'text-primary-cyan', borderColor: 'border-primary-cyan/20', bgColor: 'bg-primary-cyan/5' },
+    { id: 'fashion', name: t('FASHION & DESIGN', 'MODE & DESIGN'), icon: <Crown size={24} />, color: 'text-pink-400', borderColor: 'border-pink-400/20', bgColor: 'bg-pink-400/5' },
+    { id: 'other', name: t('OTHER CREATIVE SECTOR', 'AUTRE SECTEUR CRÉATIF'), icon: <Lock size={24} />, color: 'text-accent-gold', borderColor: 'border-accent-gold/20', bgColor: 'bg-accent-gold/5' },
   ];
 
   return (
@@ -131,22 +84,9 @@ export const ApplyForVerificationView: React.FC<{ onNotify: (msg: string) => voi
       <PageHeader 
         titleWhite={t('LYA', 'LYA')}
         titleAccent={t('VALIDATOR APPLICATION', 'CANDIDATURE VALIDATEUR')}
-        description={t('Join the network of accredited creative certification experts. Our multi-layered review process ensures the integrity of every certification issued on the LYA Registry.', 'Rejoignez le réseau d\'experts accrédités en certification créative. Notre processus de revue multi-niveaux garantit l\'intégrité de chaque certification délivrée sur le Registre LYA.')}
+        description={t('Join the network of accredited creative certification experts. Standard certification is always free for creators — validators are compensated for every review, funded by the Validator Remuneration Fund.', 'Rejoignez le réseau d\'experts accrédités en certification créative. La certification standard reste toujours gratuite pour les créateurs — les validateurs sont rémunérés pour chaque revue, financée par le Fonds de Rémunération des Validateurs.')}
         accentColor="text-primary-cyan"
       />
-
-      <div className="flex flex-col lg:flex-row lg:items-center justify-end gap-8 mt-10 mb-8 relative z-20">
-        <div className="flex gap-6">
-           <div className="relative group">
-              <div className="absolute -inset-0.5 bg-gradient-to-r from-primary-cyan to-accent-gold rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
-              <div className="relative bg-surface-low/80 backdrop-blur-3xl border border-white/10 p-4 text-center min-w-[120px] rounded-xl shadow-2xl">
-                <Fingerprint className="mx-auto mb-2 text-primary-cyan" size={24} />
-                <div className="text-[10px] text-primary-cyan uppercase tracking-widest mb-1 font-black opacity-80">{t('Success Rate', 'Taux de Succès')}</div>
-                <div className="text-2xl font-black text-white italic tracking-tighter">14.2%</div>
-              </div>
-           </div>
-        </div>
-      </div>
 
       <div className="relative max-w-6xl mx-auto z-10">
         <AnimatePresence mode="wait">
@@ -156,64 +96,101 @@ export const ApplyForVerificationView: React.FC<{ onNotify: (msg: string) => voi
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -30 }}
-              className="space-y-12"
+              className="space-y-16"
             >
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                {tiers.map((tier) => (
-                  <motion.div 
-                    key={tier.id}
-                    whileHover={{ y: -10 }}
-                    onClick={() => setSelectedTier(tier.id)}
-                    className={`relative p-8 md:p-12 rounded-[3rem] border transition-all duration-500 cursor-pointer group ${
-                      selectedTier === tier.id 
-                        ? `${tier.borderColor} ${tier.bgColor} shadow-[0_30px_60px_rgba(0,0,0,0.4)]` 
-                        : 'border-white/5 bg-surface-low/40 hover:border-white/20'
-                    }`}
-                  >
-                    <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-10 transition-colors ${
-                      selectedTier === tier.id ? 'bg-white text-surface-dim' : 'bg-white/5 text-white/40'
-                    }`}>
-                      {tier.icon}
-                    </div>
-                    <h3 className={`text-2xl font-black uppercase italic tracking-tighter mb-4 ${selectedTier === tier.id ? 'text-white' : 'text-white/40'}`}>
-                      {tier.name}
-                    </h3>
-                    <div className="space-y-4 mb-10">
-                      <p className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant opacity-40 italic">{t('Requirements', 'Exigences')}</p>
-                      {tier.requirements.map(req => (
-                        <div key={req} className="flex items-center gap-3">
-                          <CheckCircle size={14} className={selectedTier === tier.id ? tier.color : 'text-white/10'} />
-                          <span className="text-[11px] font-bold text-white/60 tracking-tight uppercase">{req}</span>
-                        </div>
-                      ))}
-                    </div>
-                    <div className="space-y-4">
-                      <p className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant opacity-40 italic">{t('Benefits', 'Avantages')}</p>
-                      {tier.benefits.map((benefit, index) => {
-                        const label = typeof benefit === 'string' ? benefit : benefit.label;
-                        return (
-                          <div key={`${tier.id}-benefit-${index}`} className="flex items-center gap-3">
-                            <Zap size={14} className={selectedTier === tier.id ? tier.color : 'text-white/10'} />
-                            <span className="text-[11px] font-bold text-white/90 tracking-tight uppercase">{label}</span>
-                          </div>
-                        );
-                      })}
-                    </div>
-                    
-                    <div className={`mt-10 pt-10 border-t border-white/5 flex items-center justify-between ${selectedTier === tier.id ? 'opacity-100' : 'opacity-0'}`}>
-                      <span className="text-[10px] font-black text-primary-cyan uppercase tracking-[0.3em] font-serif italic">Tier Selected</span>
-                      <div className="w-10 h-10 rounded-full bg-primary-cyan flex items-center justify-center text-surface-dim">
-                        <ArrowRight size={20} />
+              {/* Informational: how compensation progresses — everyone starts at Bronze */}
+              <div>
+                <div className="flex items-center gap-3 mb-2">
+                  <ShieldCheck size={18} className="text-primary-cyan" />
+                  <h3 className="text-sm font-black uppercase tracking-widest text-white">
+                    {t('How you get paid — every validator starts at Bronze', 'Comment vous êtes payé — tout validateur démarre à Bronze')}
+                  </h3>
+                </div>
+                <p className="text-xs text-on-surface-variant/70 max-w-2xl leading-relaxed mb-8">
+                  {t(
+                    `There's no applying for a higher tier. Your tier is recalculated every month from your certification volume and average rating — the more consistent you are, the more you're paid, including on Express jobs (${EXPRESS_48H_PRICE_EUR}€/48h, ${EXPRESS_24H_PRICE_EUR}€/24h paid by creators who need priority processing, never a lower review bar).`,
+                    `Il n'y a rien à candidater pour monter de palier. Votre palier est recalculé chaque mois selon votre volume de certifications et votre note moyenne — plus vous êtes constant, mieux vous êtes payé, y compris sur les dossiers Express (${EXPRESS_48H_PRICE_EUR}€/48h, ${EXPRESS_24H_PRICE_EUR}€/24h payés par les créateurs pressés, jamais un examen moins rigoureux).`
+                  )}
+                </p>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  {VALIDATOR_TIERS.map((tier, i) => (
+                    <div
+                      key={tier.id}
+                      className={`p-5 rounded-2xl border ${i === 3 ? 'border-primary-cyan/30 bg-primary-cyan/5 shadow-[0_0_30px_rgba(0,224,255,0.12)]' : i === 0 ? 'border-white/5 bg-surface-low/40' : 'border-white/10 bg-surface-low/60'}`}
+                      style={{ transform: `translateY(${(3 - i) * 6}px)` }}
+                    >
+                      <div className="text-[9px] font-black uppercase tracking-widest text-on-surface-variant opacity-50 mb-1">
+                        {t('TIER', 'PALIER')} {i + 1}
                       </div>
+                      <h4 className={`text-lg font-black uppercase italic tracking-tighter mb-3 ${i === 3 ? 'text-primary-cyan' : i === 0 ? 'text-accent-gold/70' : 'text-white'}`}>
+                        {tier.name}
+                      </h4>
+                      <p className="text-[10px] text-on-surface-variant/60 uppercase font-bold tracking-tight mb-4 min-h-[28px]">
+                        {tier.minCertifications === 0
+                          ? t('< 50 certifications', '< 50 certifications')
+                          : `${tier.minCertifications}+ ${t('certifications', 'certifications')} · ${tier.minRating}/5`}
+                      </p>
+                      <div className="flex items-center justify-between pt-3 border-t border-white/5">
+                        <span className="text-[10px] text-on-surface-variant/50 uppercase font-bold">{t('Standard', 'Standard')}</span>
+                        <span className="text-sm font-black text-white">{tier.standardPayoutEUR}€</span>
+                      </div>
+                      {tier.expressPayoutEUR && (
+                        <div className="flex items-center justify-between pt-2">
+                          <span className="text-[10px] text-on-surface-variant/50 uppercase font-bold">{t('Express', 'Express')}</span>
+                          <span className="text-sm font-black text-accent-gold">{tier.expressPayoutEUR}€</span>
+                        </div>
+                      )}
                     </div>
-                  </motion.div>
-                ))}
+                  ))}
+                </div>
               </div>
 
-              <div className="flex justify-center mt-20">
+              {/* Real selection: sector of expertise, not a wealth tier */}
+              <div>
+                <div className="flex items-center gap-3 mb-2">
+                  <Fingerprint size={18} className="text-primary-cyan" />
+                  <h3 className="text-sm font-black uppercase tracking-widest text-white">
+                    {t('Your sector of expertise', 'Votre secteur d\'expertise')}
+                  </h3>
+                </div>
+                <p className="text-xs text-on-surface-variant/70 max-w-2xl leading-relaxed mb-8">
+                  {t('Select the creative sector you can credibly review. You\'ll certify work in this sector only — you can apply for an additional sector later once accredited.', 'Choisissez le secteur créatif que vous pouvez évaluer avec crédibilité. Vous certifierez uniquement dans ce secteur — vous pourrez candidater pour un secteur supplémentaire une fois accrédité.')}
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  {sectors.map((sector) => (
+                    <motion.div 
+                      key={sector.id}
+                      whileHover={{ y: -6 }}
+                      onClick={() => setSelectedSector(sector.id)}
+                      className={`relative p-8 rounded-[2rem] border transition-all duration-500 cursor-pointer group ${
+                        selectedSector === sector.id 
+                          ? `${sector.borderColor} ${sector.bgColor} shadow-[0_30px_60px_rgba(0,0,0,0.4)]` 
+                          : 'border-white/5 bg-surface-low/40 hover:border-white/20'
+                      }`}
+                    >
+                      <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 transition-colors ${
+                        selectedSector === sector.id ? 'bg-white text-surface-dim' : 'bg-white/5 text-white/40'
+                      }`}>
+                        {sector.icon}
+                      </div>
+                      <h3 className={`text-xl font-black uppercase italic tracking-tighter ${selectedSector === sector.id ? 'text-white' : 'text-white/40'}`}>
+                        {sector.name}
+                      </h3>
+                      <div className={`mt-8 pt-6 border-t border-white/5 flex items-center justify-between ${selectedSector === sector.id ? 'opacity-100' : 'opacity-0'}`}>
+                        <span className="text-[10px] font-black text-primary-cyan uppercase tracking-[0.3em]">{t('Selected', 'Sélectionné')}</span>
+                        <div className="w-9 h-9 rounded-full bg-primary-cyan flex items-center justify-center text-surface-dim">
+                          <ArrowRight size={18} />
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="flex justify-center pt-4">
                 <button 
-                  onClick={() => selectedTier && setStep(2)}
-                  disabled={!selectedTier}
+                  onClick={() => selectedSector && setStep(2)}
+                  disabled={!selectedSector}
                   className="px-20 py-8 bg-white text-surface-dim font-black uppercase italic tracking-[0.5em] text-sm hover:bg-primary-cyan transition-all active:scale-95 disabled:opacity-10 shadow-[0_20px_50px_rgba(255,255,255,0.1)]"
                 >
                   {t('Start Verification', 'Lancer la Vérification')}

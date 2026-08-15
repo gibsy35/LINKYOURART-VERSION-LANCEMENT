@@ -39,6 +39,41 @@ export const EXTRA_CERTIFICATION_PRICE_EUR = 5;
 export const PRO_STARTER_PRICE_EUR = 79;
 export const PRO_ADVANCED_PRICE_EUR = 249;
 
+/**
+ * Validator compensation model.
+ *
+ * Everyone starts at BRONZE the day they're accredited — there is no
+ * "applying for Gold". Tier is recalculated monthly from the validator's
+ * trailing 3-month certification volume and average rating (Committee +
+ * creator feedback combined). Standard certifications are always free for
+ * the creator; the payout below is funded by the Validator Remuneration
+ * Fund (1.5pt of the 5% patronage commission + a share of Pro/Enterprise
+ * subscription revenue + LYA's margin on Express certifications — never
+ * out of the validator's own pocket).
+ *
+ * LYA Express lets a creator pay for processing priority only — it never
+ * changes review criteria or rigor. Only Argent and above are eligible.
+ */
+export const EXPRESS_48H_PRICE_EUR = 19;
+export const EXPRESS_24H_PRICE_EUR = 39;
+
+export interface ValidatorTier {
+  id: 'bronze' | 'silver' | 'gold' | 'platinum';
+  name: string;
+  minCertifications: number;
+  minRating: number | null;
+  standardPayoutEUR: number;
+  expressPayoutEUR: number | null; // null = not eligible for Express jobs
+  expressWindows: ('48h' | '24h')[];
+}
+
+export const VALIDATOR_TIERS: ValidatorTier[] = [
+  { id: 'bronze',   name: 'Bronze',  minCertifications: 0,   minRating: null, standardPayoutEUR: 5,  expressPayoutEUR: null, expressWindows: [] },
+  { id: 'silver',   name: 'Argent',  minCertifications: 50,  minRating: 4.2,  standardPayoutEUR: 9,  expressPayoutEUR: 15,   expressWindows: ['48h'] },
+  { id: 'gold',     name: 'Or',      minCertifications: 200, minRating: 4.5,  standardPayoutEUR: 15, expressPayoutEUR: 19,   expressWindows: ['48h', '24h'] },
+  { id: 'platinum', name: 'Platine', minCertifications: 500, minRating: 4.8,  standardPayoutEUR: 25, expressPayoutEUR: 29,   expressWindows: ['48h', '24h'] },
+];
+
 export interface Permissions {
   /** Any paid tier (Professional at any sub-tier, or Enterprise) or Admin.
    *  Kept for places that only need a coarse "is this a paying account"
