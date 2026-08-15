@@ -287,14 +287,14 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
                   {plan.icon}
                 </div>
 
-                <h3 className={`text-xl font-black uppercase mb-1 tracking-tighter ${
+                <h3 className={`text-xl font-black uppercase tracking-tighter leading-tight mb-1 min-h-[56px] flex items-start ${
                   plan.color === 'accent-gold' ? 'text-accent-gold' :
                   plan.color === 'accent-purple' ? 'text-accent-purple' :
                   plan.color === 'accent-pink' ? 'text-accent-pink' :
                   plan.color === 'emerald-400' ? 'text-emerald-400' :
                   'text-primary-cyan'
                 }`}>{plan.name}</h3>
-                <div className="flex flex-col mb-4">
+                <div className="flex flex-col justify-end mb-4 min-h-[76px]">
                   {plan.id === 'PRO_ENTERPRISE' ? (
                     <div>
                       <span className="text-2xl font-black text-accent-purple tracking-widest block uppercase leading-none">{t('Custom Quote', 'Sur Devis')}</span>
@@ -352,34 +352,36 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
                   ))}
                 </div>
 
-                <button 
-                  onClick={() => {
-                    if (plan.id === 'PRO_ENTERPRISE') {
-                      onNotify?.(t('ENTERPRISE INFRASTRUCTURE DESK NOTIFIED. PRIVATE CORRESPONDENCE INITIATED.', 'CELLULE D\'INFRASTRUCTURE ENTREPRISE CONTACTÉE. ENVOI DES LYA SYSTEMES PRIVÉS EN COURS.'));
-                    } else if (plan.id === 'VALIDATOR_PRO') {
-                      onBecomeValidator?.();
-                    } else {
-                      onSelectPlan({ id: plan.id, name: plan.name, price: currentPrice, billingCycle });
-                    }
-                  }}
-                  className={`w-full py-3 font-black uppercase text-xs tracking-tighter transition-all active:scale-95 flex items-center justify-center gap-2 ${
-                  plan.id === 'PRO_ENTERPRISE'
-                    ? 'bg-accent-purple/90 text-white shadow-lg shadow-accent-purple/20 hover:bg-white hover:text-surface-dim'
-                    : plan.id === 'VALIDATOR_PRO'
-                    ? 'bg-emerald-400/90 text-surface-dim shadow-lg shadow-emerald-400/20 hover:bg-white'
-                    : plan.popular 
-                    ? 'bg-accent-gold text-surface-dim hover:bg-white' 
-                    : plan.color === 'accent-pink'
-                    ? 'bg-accent-pink/90 text-white shadow-lg shadow-accent-pink/20 hover:bg-white hover:text-surface-dim'
-                    : 'bg-white/5 text-white border border-white/10 hover:bg-white hover:text-surface-dim'
-                }`}>
-                  {plan.id === 'PRO_ENTERPRISE' ? t('Submit Request', 'Contacter Notre Conseil') : plan.id === 'VALIDATOR_PRO' ? t('Apply for Accreditation', 'Candidater à l\'Accréditation') : t('Get Started', 'Commencer')} <ArrowRight size={14} />
-                </button>
-                {plan.id === 'CREATOR' && (
-                  <p className="text-[9px] text-on-surface-variant/60 uppercase font-bold tracking-wide text-center mt-3">
-                    {t('More than 3 projects? Add extra certifications for €5 each — no need to change plan.', 'Plus de 3 projets\u00a0? Ajoutez des certifications supplémentaires à 5€ chacune — sans changer de forfait.')}
-                  </p>
-                )}
+                <div className="min-h-[96px] flex flex-col justify-start">
+                  <button 
+                    onClick={() => {
+                      if (plan.id === 'PRO_ENTERPRISE') {
+                        onNotify?.(t('ENTERPRISE INFRASTRUCTURE DESK NOTIFIED. PRIVATE CORRESPONDENCE INITIATED.', 'CELLULE D\'INFRASTRUCTURE ENTREPRISE CONTACTÉE. ENVOI DES LYA SYSTEMES PRIVÉS EN COURS.'));
+                      } else if (plan.id === 'VALIDATOR_PRO') {
+                        onBecomeValidator?.();
+                      } else {
+                        onSelectPlan({ id: plan.id, name: plan.name, price: currentPrice, billingCycle });
+                      }
+                    }}
+                    className={`w-full py-3 font-black uppercase text-xs tracking-tighter transition-all active:scale-95 flex items-center justify-center gap-2 ${
+                    plan.id === 'PRO_ENTERPRISE'
+                      ? 'bg-accent-purple/90 text-white shadow-lg shadow-accent-purple/20 hover:bg-white hover:text-surface-dim'
+                      : plan.id === 'VALIDATOR_PRO'
+                      ? 'bg-emerald-400/90 text-surface-dim shadow-lg shadow-emerald-400/20 hover:bg-white'
+                      : plan.popular 
+                      ? 'bg-accent-gold text-surface-dim hover:bg-white' 
+                      : plan.color === 'accent-pink'
+                      ? 'bg-accent-pink/90 text-white shadow-lg shadow-accent-pink/20 hover:bg-white hover:text-surface-dim'
+                      : 'bg-white/5 text-white border border-white/10 hover:bg-white hover:text-surface-dim'
+                  }`}>
+                    {plan.id === 'PRO_ENTERPRISE' ? t('Submit Request', 'Contacter Notre Conseil') : plan.id === 'VALIDATOR_PRO' ? t('Apply for Accreditation', 'Candidater à l\'Accréditation') : t('Get Started', 'Commencer')} <ArrowRight size={14} />
+                  </button>
+                  {plan.id === 'CREATOR' && (
+                    <p className="text-[9px] text-on-surface-variant/60 uppercase font-bold tracking-wide text-center mt-3">
+                      {t('More than 3 projects? Add extra certifications for €5 each — no need to change plan.', 'Plus de 3 projets\u00a0? Ajoutez des certifications supplémentaires à 5€ chacune — sans changer de forfait.')}
+                    </p>
+                  )}
+                </div>
               </motion.div>
             );
           })}
