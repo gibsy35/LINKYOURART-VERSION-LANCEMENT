@@ -21,7 +21,12 @@ import {
   Award,
   Upload,
   FileCheck2,
-  AlertTriangle
+  AlertTriangle,
+  Sparkles,
+  Flame,
+  Gem,
+  Crown,
+  ChevronDown
 } from 'lucide-react';
 import { Contract, getContractDescription } from '../types';
 import { useTranslation } from '../context/LanguageContext';
@@ -29,6 +34,7 @@ import { useCurrency } from '../context/CurrencyContext';
 import { simulatePDFDownload } from '../utils/download';
 import { CONTRACTS } from '../types';
 import { getSafeImageUrl } from '../utils/image';
+import { VALIDATOR_TIERS, EXPRESS_48H_PRICE_EUR, EXPRESS_24H_PRICE_EUR } from '../lib/permissions';
 
 interface ModalProps {
   isOpen: boolean;
@@ -137,6 +143,41 @@ export const ContractDetailModal: React.FC<{
   );
 };
 
+// Visual identity per tier — used across the onboarding modal and status badges everywhere.
+const TIER_STYLES: Record<string, { grad: string; glow: string; border: string; text: string; icon: React.ReactNode; chipBg: string }> = {
+  bronze:   { grad: 'from-amber-700/30 to-amber-900/10',   glow: 'shadow-[0_0_25px_rgba(180,120,60,0.15)]',  border: 'border-amber-600/30',   text: 'text-amber-500',   icon: <Shield size={18} />, chipBg: 'bg-amber-600/10' },
+  silver:   { grad: 'from-slate-300/20 to-slate-500/5',    glow: 'shadow-[0_0_25px_rgba(200,210,225,0.15)]', border: 'border-slate-300/30',   text: 'text-slate-200',   icon: <Sparkles size={18} />, chipBg: 'bg-slate-300/10' },
+  gold:     { grad: 'from-accent-gold/30 to-accent-gold/5', glow: 'shadow-[0_0_30px_rgba(255,215,0,0.2)]',   border: 'border-accent-gold/40', text: 'text-accent-gold', icon: <Gem size={18} />, chipBg: 'bg-accent-gold/10' },
+  platinum: { grad: 'from-primary-cyan/30 to-primary-cyan/5', glow: 'shadow-[0_0_35px_rgba(0,224,255,0.28)]', border: 'border-primary-cyan/50', text: 'text-primary-cyan', icon: <Crown size={18} />, chipBg: 'bg-primary-cyan/10' },
+};
+
+const JURISDICTIONS = [
+  'EU (IP Law — EUIPO)',
+  'France (SACD)',
+  'France (SACEM)',
+  'US (Federal IP — USPTO)',
+  'UK (CDPA — UKIPO)',
+  'Canada (CIPO)',
+  'Switzerland (IPI)',
+  'Germany (DPMA)',
+  'Italy (UIBM)',
+  'Spain (OEPM)',
+  'Belgium (SABAM)',
+  'Netherlands (BOIP)',
+];
+
+const SECTORS = [
+  { id: 'Fine Art', color: 'text-accent-pink', bg: 'bg-accent-pink/10', border: 'border-accent-pink/30' },
+  { id: 'Film', color: 'text-rose-400', bg: 'bg-rose-400/10', border: 'border-rose-400/30' },
+  { id: 'TV Series', color: 'text-indigo-400', bg: 'bg-indigo-400/10', border: 'border-indigo-400/30' },
+  { id: 'Music', color: 'text-emerald-400', bg: 'bg-emerald-400/10', border: 'border-emerald-400/30' },
+  { id: 'Architecture', color: 'text-primary-cyan', bg: 'bg-primary-cyan/10', border: 'border-primary-cyan/30' },
+  { id: 'Fashion', color: 'text-pink-400', bg: 'bg-pink-400/10', border: 'border-pink-400/30' },
+  { id: 'Design', color: 'text-orange-400', bg: 'bg-orange-400/10', border: 'border-orange-400/30' },
+  { id: 'Photography', color: 'text-blue-400', bg: 'bg-blue-400/10', border: 'border-blue-400/30' },
+  { id: 'Literature', color: 'text-amber-400', bg: 'bg-amber-400/10', border: 'border-amber-400/30' },
+];
+
 export const ProfessionalOnboardingModal: React.FC<{
   isOpen: boolean;
   onClose: () => void;
@@ -145,103 +186,235 @@ export const ProfessionalOnboardingModal: React.FC<{
 }> = ({ isOpen, onClose, onVerify, isVerifying }) => {
   const { t } = useTranslation();
   const [step, setStep] = useState(1);
+  const [customAuthority, setCustomAuthority] = useState(false);
   const [formData, setFormData] = useState({
     entityName: '',
     registrationNumber: '',
-    authority: 'EU (IP Law)',
+    authority: 'EU (IP Law — EUIPO)',
+    sector: '',
     authorizedSignatory: '',
     uploadedDocs: false
   });
 
   const handleNext = () => {
-    if (step < 3) setStep(step + 1);
+    if (step < 4) setStep(step + 1);
     else {
       onVerify(formData);
       onClose();
     }
   };
 
+  const stepLabels = [
+    t('Credentials', 'Identité'),
+    t('Sector & Earnings', 'Secteur & Rémunération'),
+    t('Audit Scope', 'Périmètre'),
+    t('Code of Conduct', 'Engagement'),
+  ];
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="PROFESSIONAL_ONBOARDING: CERTIFIED_VALIDATOR">
-       <div className="space-y-6">
-         <div className="flex gap-2 items-center justify-between border-b border-white/5 pb-4">
-           {[1, 2, 3].map(i => (
-             <div key={i} className="flex-1 flex items-center gap-2">
-               <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-black ${step >= i ? 'bg-primary-cyan text-surface-dim' : 'bg-white/5 text-white/35 border border-white/10'}`}>
-                 {i}
+       <div className="space-y-7">
+         {/* Step indicator */}
+         <div className="flex gap-1.5 items-center border-b border-white/5 pb-5">
+           {[1, 2, 3, 4].map(i => (
+             <React.Fragment key={i}>
+               <div className="flex flex-col items-center gap-1.5 flex-1">
+                 <div className={`w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-black transition-all ${
+                   step > i ? 'bg-primary-cyan text-surface-dim' :
+                   step === i ? 'bg-primary-cyan text-surface-dim shadow-[0_0_16px_rgba(0,224,255,0.5)]' :
+                   'bg-white/5 text-white/35 border border-white/10'
+                 }`}>
+                   {step > i ? <CheckCircle2 size={13} /> : i}
+                 </div>
+                 <span className={`text-[8.5px] font-black uppercase tracking-widest text-center hidden sm:block ${step >= i ? 'text-white/70' : 'text-white/25'}`}>
+                   {stepLabels[i - 1]}
+                 </span>
                </div>
-               <span className="text-[10px] font-black uppercase tracking-widest text-white/40 hidden sm:inline">
-                 {i === 1 ? 'Credentials' : i === 2 ? 'Audit Scope' : 'Code of Conduct'}
-               </span>
-             </div>
+               {i < 4 && <div className={`h-[2px] flex-1 -mt-4 ${step > i ? 'bg-primary-cyan/60' : 'bg-white/10'}`} />}
+             </React.Fragment>
            ))}
          </div>
 
+         {/* STEP 1 — Identity & jurisdiction */}
          {step === 1 && (
            <div className="space-y-4">
               <h3 className="text-sm font-black text-white uppercase tracking-widest">{t('IDENTITY & REGULATORY CREDENTIALS', 'IDENTITÉ & CRÉDENTIALS RÉGLEMENTAIRES')}</h3>
-              <p className="text-[10px] text-white/50 leading-relaxed">{t('Certified validation requires formal professional identification.', 'La validation certifiée nécessite une identification professionnelle formelle.')}</p>
+              <p className="text-[11px] text-white/50 leading-relaxed">{t('Certified validation requires formal professional identification, recognized by a rights-management or IP authority in your jurisdiction.', 'La validation certifiée nécessite une identification professionnelle formelle, reconnue par une autorité de gestion des droits ou de propriété intellectuelle de votre juridiction.')}</p>
               
               <div className="space-y-3 pt-2">
                 <input 
                   placeholder={t('ENTITY / INSTITUTION NAME', 'NOM DE L\'ENTITÉ / INSTITUTION')}
-                  className="w-full bg-black/40 border border-white/10 p-4 text-white text-xs placeholder:text-white/20 focus:outline-none focus:border-primary-cyan"
+                  className="w-full bg-black/40 border border-white/10 p-4 rounded-xl text-white text-xs placeholder:text-white/20 focus:outline-none focus:border-primary-cyan focus:shadow-[0_0_20px_rgba(0,224,255,0.12)] transition-all"
                   value={formData.entityName}
                   onChange={e => setFormData({...formData, entityName: e.target.value})}
                 />
                 <input 
                   placeholder={t('REGISTRATION OR SIRET NUMBER', 'NUMÉRO D\'ENREGISTREMENT OU SIRET')}
-                  className="w-full bg-black/40 border border-white/10 p-4 text-white text-xs placeholder:text-white/20 focus:outline-none focus:border-primary-cyan"
+                  className="w-full bg-black/40 border border-white/10 p-4 rounded-xl text-white text-xs placeholder:text-white/20 focus:outline-none focus:border-primary-cyan focus:shadow-[0_0_20px_rgba(0,224,255,0.12)] transition-all"
                   value={formData.registrationNumber}
                   onChange={e => setFormData({...formData, registrationNumber: e.target.value})}
                 />
-                <select 
-                  className="w-full bg-black/40 border border-white/10 p-4 text-white text-xs focus:outline-none focus:border-primary-cyan"
-                  value={formData.authority}
-                  onChange={e => setFormData({...formData, authority: e.target.value})}
-                >
-                  <option value="EU (IP Law)">EU (IP Law Registered)</option>
-                  <option value="France (SACD)">France (SACD Registered)</option>
-                  <option value="US (Federal IP)">US (Federal IP Registered)</option>
-                  <option value="UK (CDPA)">UK (CDPA Registered)</option>
-                </select>
+
+                <div>
+                  <label className="text-[9px] font-black uppercase tracking-widest text-white/40 mb-2 block">{t('Regulatory Authority', 'Autorité Réglementaire')}</label>
+                  {!customAuthority ? (
+                    <div className="relative">
+                      <select 
+                        className="w-full appearance-none bg-black/40 border border-white/10 p-4 rounded-xl text-white text-xs focus:outline-none focus:border-primary-cyan transition-all"
+                        value={formData.authority}
+                        onChange={e => {
+                          if (e.target.value === '__other__') { setCustomAuthority(true); setFormData({...formData, authority: ''}); }
+                          else setFormData({...formData, authority: e.target.value});
+                        }}
+                      >
+                        {JURISDICTIONS.map(j => <option key={j} value={j}>{j}</option>)}
+                        <option value="__other__">{t('+ Other — not listed', '+ Autre — non listée')}</option>
+                      </select>
+                      <ChevronDown size={14} className="absolute right-4 top-1/2 -translate-y-1/2 text-white/30 pointer-events-none" />
+                    </div>
+                  ) : (
+                    <div className="flex gap-2">
+                      <input 
+                        autoFocus
+                        placeholder={t('Type your authority / registry name', 'Indiquez votre autorité / registre')}
+                        className="flex-1 bg-black/40 border border-primary-cyan/40 p-4 rounded-xl text-white text-xs placeholder:text-white/20 focus:outline-none transition-all"
+                        value={formData.authority}
+                        onChange={e => setFormData({...formData, authority: e.target.value})}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => { setCustomAuthority(false); setFormData({...formData, authority: JURISDICTIONS[0]}); }}
+                        className="px-4 rounded-xl border border-white/10 text-white/40 hover:text-white hover:border-white/30 transition-all text-[10px] font-black uppercase"
+                      >
+                        {t('List', 'Liste')}
+                      </button>
+                    </div>
+                  )}
+                  <p className="text-[9.5px] text-white/30 mt-2 leading-relaxed">{t('Not registered with a formal authority yet? Select "Other" and describe your credentials — reviewed case-by-case.', 'Pas encore enregistré auprès d\'une autorité formelle\u00a0? Choisissez "Autre" et décrivez vos crédentials — étudié au cas par cas.')}</p>
+                </div>
               </div>
            </div>
          )}
 
+         {/* STEP 2 — Sector + full compensation ladder, explained */}
          {step === 2 && (
+           <div className="space-y-6">
+              <div>
+                <h3 className="text-sm font-black text-white uppercase tracking-widest mb-1">{t('YOUR SECTOR OF EXPERTISE', 'VOTRE SECTEUR D\'EXPERTISE')}</h3>
+                <p className="text-[11px] text-white/50 leading-relaxed mb-3">{t('You\'ll certify work in this sector only — you can apply for an additional one later.', 'Vous certifierez uniquement dans ce secteur — vous pourrez en candidater un second plus tard.')}</p>
+                <div className="flex flex-wrap gap-2">
+                  {SECTORS.map(s => (
+                    <button
+                      key={s.id}
+                      type="button"
+                      onClick={() => setFormData({...formData, sector: s.id})}
+                      className={`px-3.5 py-2 rounded-full text-[10px] font-black uppercase tracking-wider border transition-all ${
+                        formData.sector === s.id ? `${s.bg} ${s.color} ${s.border} shadow-[0_0_16px_rgba(255,255,255,0.08)]` : 'bg-white/[0.02] text-white/35 border-white/10 hover:border-white/25'
+                      }`}
+                    >
+                      {s.id}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="border-t border-white/5 pt-6">
+                <div className="flex items-center gap-2 mb-1">
+                  <Flame size={15} className="text-accent-gold" />
+                  <h3 className="text-sm font-black text-white uppercase tracking-widest">{t('How you get paid', 'Comment vous êtes payé')}</h3>
+                </div>
+                <p className="text-[11px] text-white/50 leading-relaxed mb-4">
+                  {t(
+                    `Everyone starts at Bronze — no applying for a higher tier. It's recalculated monthly from your volume and rating. Standard certification is always free for creators; LYA Express (${EXPRESS_48H_PRICE_EUR}€/48h, ${EXPRESS_24H_PRICE_EUR}€/24h) pays more for priority processing only — never a lower review bar.`,
+                    `Tout le monde démarre à Bronze — rien à candidater pour monter. Le palier est recalculé chaque mois selon votre volume et votre note. La certification standard reste toujours gratuite pour le créateur\u00a0; LYA Express (${EXPRESS_48H_PRICE_EUR}€/48h, ${EXPRESS_24H_PRICE_EUR}€/24h) rémunère mieux pour la priorité de traitement uniquement — jamais un examen moins rigoureux.`
+                  )}
+                </p>
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                  {VALIDATOR_TIERS.map((tier, i) => {
+                    const style = TIER_STYLES[tier.id];
+                    return (
+                      <div
+                        key={tier.id}
+                        className={`relative rounded-2xl border ${style.border} bg-gradient-to-br ${style.grad} ${style.glow} p-4`}
+                      >
+                        <div className={`flex items-center gap-1.5 mb-2 ${style.text}`}>
+                          {style.icon}
+                          <span className="text-[9px] font-black uppercase tracking-widest opacity-70">{t('Tier', 'Palier')} {i + 1}</span>
+                        </div>
+                        <h4 className={`text-base font-black uppercase italic tracking-tighter mb-2 ${style.text}`}>{tier.name}</h4>
+                        <p className="text-[9px] text-white/40 uppercase font-bold mb-3 min-h-[24px] leading-tight">
+                          {tier.minCertifications === 0 ? t('< 50 certs', '< 50 certifs') : `${tier.minCertifications}+ · ${tier.minRating}/5`}
+                        </p>
+                        <div className="flex items-center justify-between text-[10px] pt-2 border-t border-white/10">
+                          <span className="text-white/40 font-bold uppercase">Std</span>
+                          <span className="font-black text-white">{tier.standardPayoutEUR}€</span>
+                        </div>
+                        {tier.expressPayoutEUR && (
+                          <div className="flex items-center justify-between text-[10px] pt-1.5">
+                            <span className="text-white/40 font-bold uppercase">XP</span>
+                            <span className={`font-black ${style.text}`}>{tier.expressPayoutEUR}€</span>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+                <div className="mt-4 flex items-start gap-2.5 p-3.5 rounded-xl bg-emerald-400/[0.04] border border-emerald-400/15">
+                  <Coins size={14} className="text-emerald-400 shrink-0 mt-0.5" />
+                  <p className="text-[10px] text-emerald-400/80 leading-relaxed">
+                    {t('Funded by the Validator Remuneration Fund (patronage commission + Pro/Enterprise revenue + Express margin) — never out of your own pocket, and no certification ever goes unpaid.', 'Financé par le Fonds de Rémunération des Validateurs (commission mécénat + revenus Pro/Enterprise + marge Express) — jamais à vos frais, et aucune certification ne reste non rémunérée.')}
+                  </p>
+                </div>
+              </div>
+           </div>
+         )}
+
+         {/* STEP 3 — Audit scope */}
+         {step === 3 && (
            <div className="space-y-4">
               <h3 className="text-sm font-black text-white uppercase tracking-widest">{t('CERTIFICATION REVIEW SCOPE', 'PÉRIMÈTRE DE REVUE DE CERTIFICATION')}</h3>
-              <div className="p-5 bg-white/[0.01] border border-white/5 rounded-2xl space-y-3">
-                 <div className="flex items-center justify-between text-[10px]">
-                    <span className="text-white/70">LYA SCORE METHODOLOGY REVIEW</span>
-                    <input type="checkbox" defaultChecked className="accent-primary-cyan" />
-                 </div>
-                 <div className="flex items-center justify-between text-[10px]">
-                    <span className="text-white/70">CREATIVE WORK QUALITY OVERSIGHT</span>
-                    <input type="checkbox" defaultChecked className="accent-primary-cyan" />
-                 </div>
-                 <div className="flex items-center justify-between text-[10px]">
-                    <span className="text-white/70">REGISTRY CERTIFICATION STANDARDS</span>
-                    <input type="checkbox" defaultChecked className="accent-primary-cyan" />
-                 </div>
+              <p className="text-[11px] text-white/50 leading-relaxed">{t('What you\'ll be reviewing on every submission in your sector.', 'Ce que vous évaluerez sur chaque dossier de votre secteur.')}</p>
+              <div className="p-5 bg-white/[0.02] border border-white/10 rounded-2xl space-y-1 divide-y divide-white/5">
+                 {[
+                   { icon: <Target size={14} />, label: t('LYA Score Methodology Review', 'Revue de la méthodologie du Score LYA') },
+                   { icon: <Star size={14} />, label: t('Creative Work Quality Oversight', 'Contrôle qualité de l\'œuvre créative') },
+                   { icon: <FileCheck2 size={14} />, label: t('Registry Certification Standards', 'Standards de certification du registre') },
+                 ].map((item, idx) => (
+                   <div key={idx} className="flex items-center justify-between text-[11px] py-3">
+                      <span className="flex items-center gap-2.5 text-white/70 font-bold uppercase tracking-tight">
+                        <span className="text-primary-cyan">{item.icon}</span>{item.label}
+                      </span>
+                      <input type="checkbox" defaultChecked className="accent-primary-cyan w-4 h-4" />
+                   </div>
+                 ))}
               </div>
-              <div className="border border-dashed border-white/10 p-6 flex flex-col items-center justify-center gap-3 bg-black/40 rounded-xl cursor-pointer" onClick={() => setFormData({...formData, uploadedDocs: true})}>
-                 <Upload size={24} className={formData.uploadedDocs ? 'text-primary-cyan' : 'text-white/35'} />
-                 <span className="text-[10px] font-black uppercase text-white tracking-widest">
-                   {formData.uploadedDocs ? 'PROFESSIONAL_CREDENTIALS_SECURED.PDF' : 'Upload Professional Credentials PDF'}
+              <div 
+                className={`border border-dashed p-6 flex flex-col items-center justify-center gap-3 rounded-2xl cursor-pointer transition-all ${formData.uploadedDocs ? 'border-primary-cyan/40 bg-primary-cyan/[0.04]' : 'border-white/10 bg-black/30 hover:border-white/25'}`}
+                onClick={() => setFormData({...formData, uploadedDocs: true})}
+              >
+                 <Upload size={22} className={formData.uploadedDocs ? 'text-primary-cyan' : 'text-white/35'} />
+                 <span className="text-[10px] font-black uppercase text-white tracking-widest text-center">
+                   {formData.uploadedDocs ? t('PROFESSIONAL_CREDENTIALS_SECURED.PDF', 'CRÉDENTIALS_PROFESSIONNELS_SÉCURISÉS.PDF') : t('Upload Professional Credentials PDF', 'Téléverser vos crédentials professionnels (PDF)')}
                  </span>
               </div>
            </div>
          )}
 
-         {step === 3 && (
+         {/* STEP 4 — Code of conduct */}
+         {step === 4 && (
            <div className="space-y-4 text-center">
-              <Award size={48} className="mx-auto text-accent-gold" />
+              <div className={`w-16 h-16 mx-auto rounded-2xl flex items-center justify-center bg-accent-gold/10 border border-accent-gold/25 ${TIER_STYLES.gold.glow}`}>
+                <Award size={30} className="text-accent-gold" />
+              </div>
               <h3 className="text-sm font-black text-white uppercase tracking-widest">{t('PROFESSIONAL ACCREDITATION', 'ACCRÉDITATION PROFESSIONNELLE')}</h3>
-              <p className="text-[10px] text-white/50 max-w-sm mx-auto leading-relaxed">
+              <p className="text-[11px] text-white/50 max-w-sm mx-auto leading-relaxed">
                  {t('Certified validators commit to the LYA Code of Conduct to protect the registry and creators from certification errors or misconduct.', 'Les validateurs agréés s\'engagent à respecter le code de conduite LYA pour protéger le registre et les créateurs contre les erreurs de certification ou les manquements.')}
               </p>
+              {formData.sector && (
+                <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full ${SECTORS.find(s => s.id === formData.sector)?.bg} ${SECTORS.find(s => s.id === formData.sector)?.border} border`}>
+                  <span className={`text-[10px] font-black uppercase tracking-widest ${SECTORS.find(s => s.id === formData.sector)?.color}`}>{formData.sector}</span>
+                </div>
+              )}
               <div className="p-4 bg-accent-gold/5 border border-accent-gold/20 text-accent-gold text-xs font-black uppercase tracking-widest rounded-xl max-w-xs mx-auto">
                  {t('CODE OF CONDUCT: ACCEPTED', 'CODE DE CONDUITE : ACCEPTÉ')}
               </div>
@@ -250,10 +423,10 @@ export const ProfessionalOnboardingModal: React.FC<{
 
          <button 
            onClick={handleNext}
-           disabled={step === 1 && (!formData.entityName || !formData.registrationNumber)}
-           className="w-full py-4.5 bg-primary-cyan text-surface-dim font-black uppercase text-[10px] tracking-widest hover:bg-white transition-all rounded-xl disabled:opacity-45 disabled:pointer-events-none"
+           disabled={(step === 1 && (!formData.entityName || !formData.registrationNumber || !formData.authority)) || (step === 2 && !formData.sector)}
+           className="w-full py-4.5 bg-primary-cyan text-surface-dim font-black uppercase text-[10px] tracking-widest hover:bg-white transition-all rounded-xl disabled:opacity-45 disabled:pointer-events-none shadow-[0_0_25px_rgba(0,224,255,0.25)]"
          >
-           {step === 3 ? t('CONFIRM & APPLY LICENSE', 'VALIDER ET ACTIVER LA LICENCE') : t('CONTINUE', 'CONTINUER')}
+           {step === 4 ? t('CONFIRM & APPLY LICENSE', 'VALIDER ET ACTIVER LA LICENCE') : t('CONTINUE', 'CONTINUER')}
          </button>
        </div>
     </Modal>
