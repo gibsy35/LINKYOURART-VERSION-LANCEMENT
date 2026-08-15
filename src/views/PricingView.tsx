@@ -248,8 +248,8 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
         </div>
       </div>
 
-      <div className="max-w-full overflow-x-auto pb-4">
-        <div className="flex md:grid md:grid-cols-5 gap-6 min-w-full max-w-6xl overflow-x-auto md:min-w-0">
+      <div className="max-w-full overflow-x-auto pb-4 pt-5 -mt-5">
+        <div className="flex md:grid md:grid-cols-5 gap-6 min-w-full max-w-6xl overflow-x-auto md:min-w-0 pt-5 -mt-5">
           {plans.map((plan, i) => {
             const currentPrice = calculatePrice(plan.monthlyPrice);
             return (
@@ -356,7 +356,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
                   <button 
                     onClick={() => {
                       if (plan.id === 'PRO_ENTERPRISE') {
-                        onNotify?.(t('ENTERPRISE INFRASTRUCTURE DESK NOTIFIED. PRIVATE CORRESPONDENCE INITIATED.', 'CELLULE D\'INFRASTRUCTURE ENTREPRISE CONTACTÉE. ENVOI DES LYA SYSTEMES PRIVÉS EN COURS.'));
+                        onSelectPlan({ id: plan.id, name: plan.name, price: currentPrice, billingCycle });
                       } else if (plan.id === 'VALIDATOR_PRO') {
                         onBecomeValidator?.();
                       } else {
@@ -453,7 +453,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
                 <select
                   value={customRole}
                   onChange={(e) => setCustomRole(e.target.value)}
-                  className="w-full bg-surface-high border border-white/10 px-3 py-2.5 text-xs font-bold text-white uppercase focus:outline-none focus:border-primary-cyan rounded-none"
+                  className="w-full bg-surface-high border border-white/10 pl-3 pr-9 py-2.5 text-xs font-bold text-white uppercase focus:outline-none focus:border-primary-cyan rounded-none truncate"
                 >
                   <option value="Independent Creator / Composer / Writer">{t('Independent Creator / Composer / Writer', 'Créateur / Compositeur / Auteur Indépendant')}</option>
                   <option value="Film Producer / Showrunner / Broadcaster">{t('Film Producer / Showrunner / Broadcaster', 'Producteur de Cinéma / Showrunner / Diffuseur')}</option>
@@ -470,7 +470,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
                 <select
                   value={projectSize}
                   onChange={(e) => setProjectSize(e.target.value)}
-                  className="w-full bg-surface-high border border-white/10 px-3 py-2.5 text-xs font-bold text-white uppercase focus:outline-none focus:border-primary-cyan rounded-none"
+                  className="w-full bg-surface-high border border-white/10 pl-3 pr-9 py-2.5 text-xs font-bold text-white uppercase focus:outline-none focus:border-primary-cyan rounded-none truncate"
                 >
                   <option value="Single Small Scale (1-4 assets)">{t('Single Premium Work (1-4 assets)', 'Œuvre unique / Petit catalogue (1 à 4 actifs)')}</option>
                   <option value="Medium Catalog (5-20 assets)">{t('Medium scale IP portfolio (5-20 assets)', 'Portefeuille de droits moyen (5 à 20 actifs)')}</option>
@@ -783,7 +783,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
                     {[
                       t('Real-time Certification index', 'Indice de Certification en tps réel'),
                       t('Predictive Performance data', 'Données de Performance Prédictives'),
-                      t('Suite de Accès Institutionnel', 'Accès Institutionnel Suite'),
+                      t('Institutional Access Suite', 'Suite d\'Accès Institutionnel'),
                       t('Master Registry Access', 'Accès au Registre Maître'),
                     ].map((f, i) => (
                       <li key={i} className="flex items-center gap-3 text-[10px] text-on-surface-variant uppercase font-bold tracking-wide">

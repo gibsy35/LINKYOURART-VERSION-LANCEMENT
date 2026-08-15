@@ -375,9 +375,22 @@ export default function App() {
     if (!user) return;
     setIsVerifying(true);
     try {
-      await addDoc(collection(db, 'verification_requests'), { userId: user.uid, userEmail: user.email, userName: user.displayName || data.entityName, firm: data.entityName, registrationId: data.registrationNumber, authority: data.authority, documents: data.uploadedDocs, status: 'PENDING', timestamp: serverTimestamp() });
+      await addDoc(collection(db, 'verification_requests'), { userId: user.uid, userEmail: user.email, userName: user.displayName || data.entityName, firm: data.entityName, registrationId: data.registrationNumber, authority: data.authority, sector: data.sector || null, documents: data.uploadedDocs, status: 'PENDING', timestamp: serverTimestamp() });
       const userRef = doc(db, 'users', user.uid);
       await updateDoc(userRef, { verificationStatus: 'PENDING' });
+      fetch('/api/email/validator-application', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userName: user.displayName,
+          userEmail: user.email,
+          userId: user.uid,
+          entityName: data.entityName,
+          registrationNumber: data.registrationNumber,
+          authority: data.authority,
+          sector: data.sector,
+        }),
+      }).catch(err => console.error('Validator alert email failed (non-blocking):', err));
       setIsVerifying(false); setIsVerificationModalOpen(false);
       notify(t('DOSSIER SUBMITTED. OUR AGENTS WILL AUDIT YOUR PROFILE.', 'DOSSIER SOUMIS. NOS AGENTS VONT AUDITER VOTRE PROFIL.'));
     } catch (error) { console.error('Error submitting verification:', error); handleFirestoreError(error, OperationType.WRITE, 'verification_requests'); setIsVerifying(false); }
@@ -415,6 +428,36 @@ export default function App() {
       setCurrentView('LINK_ART');
       return;
     }
+    if (plan.id === 'PRO_ENTERPRISE') {
+      notify(t('Sending your request...', 'Envoi de votre demande...'));
+      try {
+        await addDoc(collection(db, 'enterprise_requests'), {
+          userId: effectiveUser.uid,
+          userEmail: effectiveUser.email,
+          userName: effectiveUser.displayName || null,
+          planName: plan.name,
+          status: 'PENDING',
+          createdAt: serverTimestamp(),
+        });
+        const emailRes = await fetch('/api/email/enterprise-request', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            userName: effectiveUser.displayName,
+            userEmail: effectiveUser.email,
+            userId: effectiveUser.uid,
+            planName: plan.name,
+          }),
+        }).then(r => r.json()).catch(() => ({ success: false }));
+        notify(emailRes.success
+          ? t('Request sent — our team will reach out within 48h.', 'Demande envoyée — notre équipe vous recontacte sous 48h.')
+          : t('Request saved. Our team will follow up shortly.', 'Demande enregistrée. Notre équipe vous recontacte prochainement.'));
+      } catch (err) {
+        console.error('Enterprise request error:', err);
+        handleFirestoreError(err, OperationType.CREATE, 'enterprise_requests');
+      }
+      return;
+    }
     if (plan.id === 'PRO_STARTER' || plan.id === 'PRO_ADVANCED') {
       notify(t('Redirecting to secure checkout...', 'Redirection vers le paiement sécurisé...'));
       try {
@@ -441,9 +484,8 @@ export default function App() {
       }
       return;
     }
-    // Fallback (shouldn't normally be reached — Enterprise is handled inside
-    // PricingView itself via a contact request, not a real charge).
-    setCheckoutData({ type: 'PRO_UPGRADE', amount: plan.price, title: plan.name, metadata: { type: 'PRO_UPGRADE', planId: plan.id, planName: plan.name, userEmail: effectiveUser.email, userId: effectiveUser.uid } });
+    // Fallback for any future plan id not explicitly handled above.
+    notify(t('This plan isn\'t available yet.', 'Ce forfait n\'est pas encore disponible.'));
   };
   const handleLogout = async () => {
     try { sessionStorage.setItem('lya_visitor_mode', 'true'); await signOut(auth); setSimulatedRole(null); setUser(null); setNotification(t('LOGGED OUT SUCCESSFULLY', 'DÉCONNEXION RÉUSSIE')); setCurrentView('HOME'); } catch (err) { console.error('Logout Error:', err); }

@@ -24,6 +24,8 @@ const handlers = {
   'monthly-report': require('./_handlers/email/monthly-report'),
   'pre-registration': require('./_handlers/email/pre-registration'),
   'welcome': require('./_handlers/email/welcome'),
+  'enterprise-request': require('./_handlers/email/enterprise-request'),
+  'validator-application': require('./_handlers/email/validator-application'),
 };
 
 module.exports = async (req, res) => {
