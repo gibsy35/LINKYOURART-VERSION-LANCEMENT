@@ -6,7 +6,7 @@ import { useCurrency } from '../context/CurrencyContext';
 import { FeatureShowcaseModal } from '../components/Modals';
 
 import { PageHeader } from '../components/ui/PageHeader';
-import { PRO_STARTER_PRICE_EUR, PRO_ADVANCED_PRICE_EUR, VALIDATOR_TIERS, EXPRESS_48H_PRICE_EUR, EXPRESS_24H_PRICE_EUR } from '../lib/permissions';
+import { PRO_STARTER_PRICE_EUR, PRO_ADVANCED_PRICE_EUR, EXPRESS_48H_PRICE_EUR, EXPRESS_24H_PRICE_EUR } from '../lib/permissions';
 
 interface PricingViewProps {
   onSelectPlan: (plan: { id: string, name: string, price: number, billingCycle: 'monthly' | 'yearly' }) => void;
@@ -168,6 +168,20 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
       color: 'accent-purple',
       icon: <Building2 size={24} />,
     },
+    {
+      id: 'VALIDATOR_PRO',
+      name: t('Certified Validator', 'Validateur Certifié'),
+      monthlyPrice: 0,
+      description: t('Not a plan you pay for — a professional accreditation. Certify creative work and get paid for every review, Standard or Express.', 'Ce n\'est pas un forfait que vous payez — une accréditation professionnelle. Certifiez des œuvres et soyez rémunéré pour chaque revue, Standard ou Express.'),
+      features: [
+        t('Standard certification: always free to review, always paid', 'Certification standard\u00a0: toujours gratuite à traiter, toujours rémunérée'),
+        t('LYA Express: priority jobs, higher payout', 'LYA Express\u00a0: dossiers prioritaires, rémunération plus élevée'),
+        t('4 tiers: Bronze → Platine, paid automatically', '4 paliers\u00a0: Bronze → Platine, rémunérés automatiquement'),
+        t('Funded by the Validator Remuneration Fund', 'Financé par le Fonds de Rémunération des Validateurs'),
+      ],
+      color: 'emerald-400',
+      icon: <ShieldCheck size={24} />,
+    },
   ];
 
   const calculatePrice = (monthlyPrice: number) => {
@@ -235,7 +249,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
       </div>
 
       <div className="max-w-full overflow-x-auto pb-4">
-        <div className="flex md:grid md:grid-cols-4 gap-6 min-w-full max-w-5xl overflow-x-auto md:min-w-0">
+        <div className="flex md:grid md:grid-cols-5 gap-6 min-w-full max-w-6xl overflow-x-auto md:min-w-0">
           {plans.map((plan, i) => {
             const currentPrice = calculatePrice(plan.monthlyPrice);
             return (
@@ -249,6 +263,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
                   plan.color === 'accent-purple' ? 'border-accent-purple/30' :
                   plan.color === 'accent-pink' ? 'border-accent-pink/30' :
                   plan.color === 'primary-cyan' ? 'border-primary-cyan/25' :
+                  plan.color === 'emerald-400' ? 'border-emerald-400/30 shadow-[0_0_30px_rgba(52,211,153,0.08)]' :
                   'border-white/10'
                 } p-5 sm:p-6 backdrop-blur-xl flex flex-col`}
               >
@@ -265,6 +280,8 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
                     ? 'bg-accent-purple/10 border border-accent-purple/30 text-accent-purple'
                     : plan.color === 'accent-pink'
                     ? 'bg-accent-pink/10 border border-accent-pink/30 text-accent-pink'
+                    : plan.color === 'emerald-400'
+                    ? 'bg-emerald-400/10 border border-emerald-400/30 text-emerald-400'
                     : `bg-${plan.color}/10 border border-${plan.color}/30 text-${plan.color}`
                 }`}>
                   {plan.icon}
@@ -274,6 +291,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
                   plan.color === 'accent-gold' ? 'text-accent-gold' :
                   plan.color === 'accent-purple' ? 'text-accent-purple' :
                   plan.color === 'accent-pink' ? 'text-accent-pink' :
+                  plan.color === 'emerald-400' ? 'text-emerald-400' :
                   'text-primary-cyan'
                 }`}>{plan.name}</h3>
                 <div className="flex flex-col mb-4">
@@ -281,6 +299,17 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
                     <div>
                       <span className="text-2xl font-black text-accent-purple tracking-widest block uppercase leading-none">{t('Custom Quote', 'Sur Devis')}</span>
                       <span className="text-[10px] text-on-surface-variant/75 uppercase tracking-[0.2em] font-black block mt-2">{t('Enterprise Private Node / Dedicated Node', 'Nœud d\'infrastructure Élite / Nœud Dédié')}</span>
+                    </div>
+                  ) : plan.id === 'VALIDATOR_PRO' ? (
+                    <div className="space-y-2">
+                      <div className="flex items-baseline gap-2">
+                        <span className="text-2xl font-black text-emerald-400 tracking-tighter uppercase leading-none">{t('Free', 'Gratuit')}</span>
+                        <span className="text-[9px] text-on-surface-variant/60 uppercase font-bold tracking-widest">{t('Standard review', 'Revue standard')}</span>
+                      </div>
+                      <div className="flex items-baseline gap-2">
+                        <span className="text-lg font-black text-accent-gold tracking-tighter">{EXPRESS_48H_PRICE_EUR}€–{EXPRESS_24H_PRICE_EUR}€</span>
+                        <span className="text-[9px] text-on-surface-variant/60 uppercase font-bold tracking-widest">{t('LYA Express payout', 'Rémunération Express')}</span>
+                      </div>
                     </div>
                   ) : (
                     <div className="flex items-baseline gap-1 flex-wrap">
@@ -293,13 +322,20 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
                   {plan.description}
                 </p>
 
-                <button 
-                  onClick={() => setShowcaseFeature(plan.id as any)}
-                  className="flex items-center gap-2 text-[10px] font-black uppercase tracking-wide text-primary-cyan hover:text-white transition-colors mb-4 sm:mb-6"
-                >
-                  <Info size={12} />
-                  {t('Learn More', 'En savoir plus')}
-                </button>
+                {plan.id === 'VALIDATOR_PRO' ? (
+                  <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-wide text-emerald-400 mb-4 sm:mb-6">
+                    <ShieldCheck size={12} />
+                    {t('Bronze → Platine, paid monthly', 'Bronze → Platine, payé chaque mois')}
+                  </div>
+                ) : (
+                  <button 
+                    onClick={() => setShowcaseFeature(plan.id as any)}
+                    className="flex items-center gap-2 text-[10px] font-black uppercase tracking-wide text-primary-cyan hover:text-white transition-colors mb-4 sm:mb-6"
+                  >
+                    <Info size={12} />
+                    {t('Learn More', 'En savoir plus')}
+                  </button>
+                )}
 
                 <div className="space-y-3 mb-8 flex-1">
                   {plan.features.map((feature, j) => (
@@ -308,6 +344,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
                         plan.color === 'accent-gold' ? 'text-accent-gold' :
                         plan.color === 'accent-purple' ? 'text-accent-purple' :
                         plan.color === 'accent-pink' ? 'text-accent-pink' :
+                        plan.color === 'emerald-400' ? 'text-emerald-400' :
                         'text-primary-cyan'
                       }`} />
                       <span className="text-[10px] text-on-surface/80 uppercase font-bold tracking-wide leading-tight">{feature}</span>
@@ -319,6 +356,8 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
                   onClick={() => {
                     if (plan.id === 'PRO_ENTERPRISE') {
                       onNotify?.(t('ENTERPRISE INFRASTRUCTURE DESK NOTIFIED. PRIVATE CORRESPONDENCE INITIATED.', 'CELLULE D\'INFRASTRUCTURE ENTREPRISE CONTACTÉE. ENVOI DES LYA SYSTEMES PRIVÉS EN COURS.'));
+                    } else if (plan.id === 'VALIDATOR_PRO') {
+                      onBecomeValidator?.();
                     } else {
                       onSelectPlan({ id: plan.id, name: plan.name, price: currentPrice, billingCycle });
                     }
@@ -326,13 +365,15 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
                   className={`w-full py-3 font-black uppercase text-xs tracking-tighter transition-all active:scale-95 flex items-center justify-center gap-2 ${
                   plan.id === 'PRO_ENTERPRISE'
                     ? 'bg-accent-purple/90 text-white shadow-lg shadow-accent-purple/20 hover:bg-white hover:text-surface-dim'
+                    : plan.id === 'VALIDATOR_PRO'
+                    ? 'bg-emerald-400/90 text-surface-dim shadow-lg shadow-emerald-400/20 hover:bg-white'
                     : plan.popular 
                     ? 'bg-accent-gold text-surface-dim hover:bg-white' 
                     : plan.color === 'accent-pink'
                     ? 'bg-accent-pink/90 text-white shadow-lg shadow-accent-pink/20 hover:bg-white hover:text-surface-dim'
                     : 'bg-white/5 text-white border border-white/10 hover:bg-white hover:text-surface-dim'
                 }`}>
-                  {plan.id === 'PRO_ENTERPRISE' ? t('Submit Request', 'Contacter Notre Conseil') : t('Get Started', 'Commencer')} <ArrowRight size={14} />
+                  {plan.id === 'PRO_ENTERPRISE' ? t('Submit Request', 'Contacter Notre Conseil') : plan.id === 'VALIDATOR_PRO' ? t('Apply for Accreditation', 'Candidater à l\'Accréditation') : t('Get Started', 'Commencer')} <ArrowRight size={14} />
                 </button>
                 {plan.id === 'CREATOR' && (
                   <p className="text-[9px] text-on-surface-variant/60 uppercase font-bold tracking-wide text-center mt-3">
@@ -342,52 +383,6 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
               </motion.div>
             );
           })}
-        </div>
-      </div>
-
-      {/* Become a Certified Validator — accreditation, not a paid plan */}
-      <div className="mt-10 border border-emerald-400/20 bg-emerald-400/[0.03] rounded-sm overflow-hidden">
-        <div className="p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-5">
-            <div className="w-12 h-12 rounded-full bg-emerald-400/10 border border-emerald-400/20 flex items-center justify-center text-emerald-400 shrink-0">
-              <ShieldCheck size={22} />
-            </div>
-            <div>
-              <h3 className="text-sm font-black uppercase tracking-widest text-white mb-1">
-                {t('Become a Certified LYA Validator', 'Devenez Validateur Certifié LYA')}
-              </h3>
-              <p className="text-xs text-on-surface-variant/70 max-w-xl leading-relaxed">
-                {t('Free accreditation for qualified creative professionals. Not a paid plan — validators are compensated for every certification, funded by the Validator Remuneration Fund (patronage commission + Pro/Enterprise revenue + Express margin).', 'Accréditation gratuite pour les professionnels créatifs qualifiés. Ce n\'est pas un forfait payant — les validateurs sont rémunérés pour chaque certification, financée par le Fonds de Rémunération des Validateurs (commission mécénat + revenus Pro/Enterprise + marge Express).')}
-              </p>
-            </div>
-          </div>
-          <button
-            onClick={() => onBecomeValidator?.()}
-            className="shrink-0 px-6 py-3 bg-emerald-400/10 border border-emerald-400/30 text-emerald-400 text-[11px] font-black uppercase tracking-widest hover:bg-emerald-400 hover:text-surface-dim transition-all rounded-sm whitespace-nowrap"
-          >
-            {t('Apply for Accreditation', 'Candidater à l\'Accréditation')}
-          </button>
-        </div>
-        <div className="border-t border-emerald-400/10 px-6 md:px-8 py-5 grid grid-cols-2 md:grid-cols-4 gap-4">
-          {VALIDATOR_TIERS.map((tier, i) => (
-            <div key={tier.id} className="flex items-center justify-between gap-2">
-              <div>
-                <div className="text-[9px] font-black uppercase tracking-widest text-on-surface-variant/50">{tier.name}</div>
-                <div className="text-[10px] text-on-surface-variant/40">
-                  {tier.minCertifications === 0 ? t('< 50 certs', '< 50 certifs') : `${tier.minCertifications}+ · ${tier.minRating}/5`}
-                </div>
-              </div>
-              <div className="text-right">
-                <div className="text-sm font-black text-white">{tier.standardPayoutEUR}€</div>
-                {tier.expressPayoutEUR && <div className="text-[10px] font-bold text-accent-gold">{tier.expressPayoutEUR}€ XP</div>}
-              </div>
-            </div>
-          ))}
-        </div>
-        <div className="border-t border-emerald-400/10 px-6 md:px-8 py-3 text-center">
-          <span className="text-[10px] text-on-surface-variant/50 uppercase tracking-widest">
-            {t(`LYA Express: ${EXPRESS_48H_PRICE_EUR}€ (48h) · ${EXPRESS_24H_PRICE_EUR}€ (24h) — creators pay for processing priority only, never a lower review bar`, `LYA Express : ${EXPRESS_48H_PRICE_EUR}€ (48h) · ${EXPRESS_24H_PRICE_EUR}€ (24h) — les créateurs paient la priorité de traitement, jamais un examen moins rigoureux`)}
-          </span>
         </div>
       </div>
 
