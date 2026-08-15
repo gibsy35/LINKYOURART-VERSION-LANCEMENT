@@ -248,8 +248,8 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
         </div>
       </div>
 
-      <div className="max-w-full overflow-x-auto pb-4 pt-5 -mt-5">
-        <div className="flex md:grid md:grid-cols-5 gap-6 min-w-full max-w-6xl overflow-x-auto md:min-w-0 pt-5 -mt-5">
+      <div className="max-w-full overflow-x-auto md:overflow-visible pb-4 pt-5 -mt-5">
+        <div className="flex md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 min-w-full max-w-6xl overflow-x-auto md:min-w-0 md:overflow-visible pt-5 -mt-5">
           {plans.map((plan, i) => {
             const currentPrice = calculatePrice(plan.monthlyPrice);
             return (
