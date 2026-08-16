@@ -15,6 +15,7 @@ const handlers = {
   'pricing-assessment': require('./_handlers/gemini/pricing-assessment'),
   'realtime-news': require('./_handlers/gemini/realtime-news'),
   'suggest-milestones': require('./_handlers/gemini/suggest-milestones'),
+  'health-check': require('./_handlers/gemini/health-check'),
 };
 
 module.exports = async (req, res) => {
