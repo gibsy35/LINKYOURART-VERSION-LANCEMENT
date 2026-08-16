@@ -291,13 +291,13 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
                 <div className="flex flex-col justify-end mb-4 min-h-[76px]">
                   {plan.id === 'PRO_ENTERPRISE' ? (
                     <div>
-                      <span className="text-2xl font-black text-accent-purple tracking-widest block uppercase leading-none">{t('Custom Quote', 'Sur Devis')}</span>
+                      <span className="text-2xl font-black text-white tracking-widest block uppercase leading-none">{t('Custom Quote', 'Sur Devis')}</span>
                       <span className="text-[10px] text-on-surface-variant/75 uppercase tracking-[0.2em] font-black block mt-2">{t('Enterprise Private Node / Dedicated Node', 'Nœud d\'infrastructure Élite / Nœud Dédié')}</span>
                     </div>
                   ) : plan.id === 'VALIDATOR_PRO' ? (
                     <div className="space-y-2">
                       <div className="flex items-baseline gap-2">
-                        <span className="text-2xl font-black text-emerald-400 tracking-tighter uppercase leading-none">{t('Free', 'Gratuit')}</span>
+                        <span className="text-2xl font-black text-white tracking-tighter uppercase leading-none">{t('Free', 'Gratuit')}</span>
                         <span className="text-[9px] text-on-surface-variant/60 uppercase font-bold tracking-widest">{t('Standard review', 'Revue standard')}</span>
                       </div>
                       <div className="flex items-baseline gap-2">
@@ -307,13 +307,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
                     </div>
                   ) : (
                     <div className="flex items-baseline gap-1 flex-wrap">
-                      <span className={`text-3xl font-black ${
-                        plan.color === 'accent-gold' ? 'text-accent-gold' :
-                        plan.color === 'accent-purple' ? 'text-accent-purple' :
-                        plan.color === 'accent-pink' ? 'text-accent-pink' :
-                        plan.color === 'emerald-400' ? 'text-emerald-400' :
-                        'text-primary-cyan'
-                      }`}>{formatPrice(currentPrice)}</span>
+                      <span className="text-3xl font-black text-white">{formatPrice(currentPrice)}</span>
                       <span className="text-on-surface-variant text-[10px] uppercase font-bold tracking-widest">/ {billingCycle === 'yearly' ? t('year', 'an') : t('month', 'mois')}</span>
                     </div>
                   )}
