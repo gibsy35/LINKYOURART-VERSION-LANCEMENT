@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useTranslation } from '../context/LanguageContext';
 import { Logo } from '../components/ui/Logo';
-import { KidiWorldModal } from '../components/ui/KidiWorldModal';
 import { LandingTicker } from '../components/LandingTicker';
 import { ExternalLink, 
   Users, 
@@ -105,7 +104,6 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
   const [showKeyInput, setShowKeyInput] = useState(false);
   const [activeLegal, setActiveLegal] = useState<'GDPR' | 'PRIVACY' | 'TERMS' | null>(null);
   const [activeInfo, setActiveInfo] = useState<'HOW' | 'SCORE' | 'SECURITY' | null>(null);
-  const [showKidiModal, setShowKidiModal] = useState(false);
   const [logoTapCount, setLogoTapCount] = useState(0);
   const [showLoginEaster, setShowLoginEaster] = useState(false);
   const logoTapTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -832,21 +830,12 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                     <span onClick={() => setActiveLegal('TERMS')} className="hover:text-white cursor-pointer transition-colors">Terms</span>
                   </div>
                   <div className="text-xs font-black text-white/10 tracking-[0.2em]">© 2026 LINKYOURART INDUSTRIES. ALL RIGHTS RESERVED.</div>
-                  <button onClick={() => setShowKidiModal(true)} className="flex items-center gap-2 mt-4 group md:ml-auto">
-                    <div className="flex items-center gap-1.5 px-3 py-1.5 border border-white/10 bg-white/[0.03] group-hover:border-accent-gold/40 group-hover:bg-accent-gold/5 transition-all">
-                      <span className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-[#FF6BFF] to-[#00E0FF] animate-pulse" />
-                      <span className="text-xs font-black uppercase tracking-[0.35em] text-white/40 group-hover:text-accent-gold transition-colors">KIDI.WORLD</span>
-                      <span className="text-[10px] text-white/20 group-hover:text-white/40 transition-colors font-bold uppercase tracking-widest">{t('— COMING SOON', '— BIENTÔT')}</span>
-                    </div>
-                  </button>
                 </div>
               </div>
             </footer>
           </motion.div>
         )}
       </AnimatePresence>
-
-      <KidiWorldModal isOpen={showKidiModal} onClose={() => setShowKidiModal(false)} />
 
       {/* Legal Modal */}
       <AnimatePresence mode="sync">

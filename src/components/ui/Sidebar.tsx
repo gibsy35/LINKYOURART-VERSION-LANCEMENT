@@ -35,7 +35,6 @@ import { ExternalLink, Sparkles, Star, TrendingUp,
 import { useTranslation } from '../../context/LanguageContext';
 import { UserProfile, UserRole } from '../../types';
 import { Logo } from './Logo';
-import { KidiWorldModal } from './KidiWorldModal';
 
 export type View = 
   | 'LANDING'
@@ -104,7 +103,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onToggleCollapse
 }) => {
   const { t } = useTranslation();
-  const [showKidiModal, setShowKidiModal] = React.useState(false);
 
   const menuItems = [
     { id: 'HOME', icon: Home, label: t('TERMINAL', 'TERMINAL'), category: t('SYSTEM', 'SYSTÈME') },
@@ -257,24 +255,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
           )}
         </button>
 
-        {/* KIDI.WORLD partnership */}
-        {!isCollapsed && (
-          <button
-            onClick={() => setShowKidiModal(true)}
-            className="w-full flex items-center gap-3 px-3 py-2.5 mt-1 border border-accent-gold/20 bg-accent-gold/5 hover:bg-accent-gold/10 hover:border-accent-gold/40 transition-all group text-left"
-          >
-            <div className="w-5 h-5 border border-accent-gold/40 flex items-center justify-center shrink-0">
-              <span className="text-accent-gold text-[10px] font-black">K</span>
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-xs font-black text-accent-gold uppercase tracking-widest leading-none">KIDI.WORLD</p>
-              <p className="text-[7px] text-white/25 uppercase tracking-widest mt-0.5 truncate">{t('Creative ecosystem', 'Écosystème créatif')}</p>
-            </div>
-            <Sparkles size={10} className="text-accent-gold/40 group-hover:text-accent-gold shrink-0" />
-          </button>
-        )}
-
-        <KidiWorldModal isOpen={showKidiModal} onClose={() => setShowKidiModal(false)} />
       </div>
 
       {/* User Status Area */}
