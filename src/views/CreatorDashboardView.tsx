@@ -1,11 +1,11 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { AuthGuard } from '../components/AuthGuard';
 import { motion, AnimatePresence } from 'motion/react';
 import { useTranslation } from '../context/LanguageContext';
 import { useCurrency } from '../context/CurrencyContext';
-import { UserProfile, CONTRACTS } from '../types';
+import { UserProfile } from '../types';
 import { db } from '../firebase';
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { addDoc, collection, serverTimestamp, query, where, onSnapshot, doc, updateDoc, arrayUnion } from 'firebase/firestore';
 import { RealtimeChart } from '../components/RealtimeChart';
 import { PageHeader } from '../components/ui/PageHeader';
 import { NewCreationModal, MilestoneModal, UploadModal } from '../components/DashboardModals';
@@ -233,18 +233,53 @@ export const CreatorDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg
   const [showMilestone, setShowMilestone] = useState(false);
   const [showUpload, setShowUpload] = useState(false);
   const [milestoneProject, setMilestoneProject] = useState('');
+  const [milestoneProjectId, setMilestoneProjectId] = useState('');
   const [uploadedFiles, setUploadedFiles] = useState<{name:string;access:string;price:string}[]>([]);
   const [projectsShown, setProjectsShown] = useState(3);
 
-  // Projets réels incluant des projets en difficulté
-  const allProjects = CONTRACTS.filter(c => c.status !== 'LIQUIDATION').slice(0, 12);
-  const myProjects = allProjects.slice(0, 2); // projets principaux (LIVE)
-  const riskProjects = CONTRACTS.filter(c => c.status === 'RISK').slice(0, 2);
+  // Vos vraies créations, en direct depuis Firestore (collection "contracts",
+  // écrite par LinkArtView.tsx lors de la soumission d'un projet). Avant, cette
+  // section affichait CONTRACTS — des données de démo statiques — donc les
+  // projets et jalons réellement créés n'apparaissaient jamais ici.
+  const [myRealProjects, setMyRealProjects] = useState<any[]>([]);
+  const [projectsLoaded, setProjectsLoaded] = useState(false);
 
-  // KPIs réels avec données positives ET négatives
-  const avgGrowth = allProjects.reduce((s,c) => s + c.growth, 0) / allProjects.length;
-  const liveCount = CONTRACTS.filter(c => c.status === 'LIVE').length;
-  const riskCount = CONTRACTS.filter(c => ['RISK','SUSPENDED','LIQUIDATION'].includes(c.status)).length;
+  useEffect(() => {
+    if (!user?.uid) return;
+    const q = query(collection(db, 'contracts'), where('issuerUid', '==', user.uid));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const list = snapshot.docs.map(d => {
+        const data: any = d.data();
+        return {
+          id: d.id,
+          name: data.name || 'Untitled',
+          category: data.category || '',
+          image: data.image || '',
+          status: data.status || 'PENDING',
+          registryIndex: data.registryIndex || `LYA-${d.id.slice(0, 8).toUpperCase()}`,
+          rarity: data.rarity || 'Standard',
+          totalScore: typeof data.totalScore === 'number' ? data.totalScore : 0,
+          growth: typeof data.growth === 'number' ? data.growth : 0,
+          milestones: Array.isArray(data.milestones) ? data.milestones : [],
+        };
+      });
+      setMyRealProjects(list);
+      setProjectsLoaded(true);
+    }, (err) => {
+      console.error('[CreatorDashboard] contracts query error:', err);
+      setProjectsLoaded(true);
+    });
+    return () => unsubscribe();
+  }, [user?.uid]);
+
+  const allProjects = myRealProjects;
+  const myProjects = myRealProjects.slice(0, 2);
+  const riskProjects = myRealProjects.filter(c => c.status === 'RISK').slice(0, 2);
+
+  // KPIs calculés sur vos vraies créations (0 si aucun projet encore soumis)
+  const avgGrowth = allProjects.length ? allProjects.reduce((s,c) => s + c.growth, 0) / allProjects.length : 0;
+  const liveCount = allProjects.filter(c => c.status === 'LIVE').length;
+  const riskCount = allProjects.filter(c => ['RISK','SUSPENDED','LIQUIDATION'].includes(c.status)).length;
 
   const tabs = [
     {key:'overview' as const, labelFR:'Vue d\'ensemble', labelEN:'Overview'},
@@ -300,7 +335,7 @@ export const CreatorDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg
               {/* KPIs — incluant données négatives */}
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                 {[
-                  {icon:<Sparkles size={18} className="text-[#a78bfa]"/>, label:T('Score moyen','Avg Score'), value:String(Math.round(allProjects.reduce((s,c)=>s+c.totalScore,0)/allProjects.length)), sub:`${avgGrowth>=0?'+':''}${avgGrowth.toFixed(1)}%`, up:avgGrowth>=0, color:'bg-[#a78bfa]/10'},
+                  {icon:<Sparkles size={18} className="text-[#a78bfa]"/>, label:T('Score moyen','Avg Score'), value:String(allProjects.length ? Math.round(allProjects.reduce((s,c)=>s+c.totalScore,0)/allProjects.length) : 0), sub:`${avgGrowth>=0?'+':''}${avgGrowth.toFixed(1)}%`, up:avgGrowth>=0, color:'bg-[#a78bfa]/10'},
                   {icon:<Users size={18} className="text-primary-cyan"/>, label:T('Mécènes actifs','Active patrons'), value:'290', sub:'+8 '+T('ce mois','this month'), up:true, color:'bg-primary-cyan/10'},
                   {icon:<Sparkles size={18} className="text-emerald-400"/>, label:T('Projets LIVE','LIVE Projects'), value:String(liveCount), sub:`${riskCount} ${T('en risque','at risk')}`, up:false, color:'bg-emerald-400/10'},
                   {icon:<Target size={18} className="text-accent-gold"/>, label:T('Statut Certification','Certification Status'), value:T('Certifié','Certified'), sub:`${avgGrowth>=0?'+':''}${avgGrowth.toFixed(1)}%`, up:avgGrowth>=0, color:'bg-accent-gold/10'},
@@ -327,12 +362,22 @@ export const CreatorDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg
                 </div>
                 <div className="text-right shrink-0">
                   <p className="text-xs text-on-surface-variant/40 uppercase tracking-widest">{T('Score moyen','Avg Score')}</p>
-                  <p className="text-2xl font-black text-accent-gold font-mono">{Math.round(allProjects.reduce((s,c)=>s+c.totalScore,0)/allProjects.length)}<span className="text-xs text-white/20">/1000</span></p>
+                  <p className="text-2xl font-black text-accent-gold font-mono">{allProjects.length ? Math.round(allProjects.reduce((s,c)=>s+c.totalScore,0)/allProjects.length) : 0}<span className="text-xs text-white/20">/1000</span></p>
                   <p className={`text-xs font-bold mt-0.5 ${avgGrowth>=0?'text-emerald-400':'text-rose-400'}`}>{avgGrowth>=0?'+':''}{avgGrowth.toFixed(1)}% {T('tendance actuelle','current trend')}</p>
                 </div>
               </div>
 
               {/* Projets principaux */}
+              {projectsLoaded && myProjects.length === 0 && (
+                <div className="bg-surface-low/40 border border-dashed border-white/10 rounded-2xl p-8 text-center space-y-3">
+                  <Sparkles size={28} className="mx-auto text-[#a78bfa]/50"/>
+                  <p className="text-sm font-black text-on-surface">{T('Aucune création pour le moment', 'No creations yet')}</p>
+                  <p className="text-xs text-on-surface-variant/60 max-w-sm mx-auto">{T('Soumettez votre premier projet pour le certifier et commencer à publier des jalons.', 'Submit your first project to certify it and start publishing milestones.')}</p>
+                  <button onClick={()=>setShowNewCreation(true)} className="mt-2 px-5 py-2.5 bg-[#a78bfa]/15 border border-[#a78bfa]/30 text-[#a78bfa] text-xs font-black rounded-xl hover:bg-[#a78bfa]/25 transition-all inline-flex items-center gap-2">
+                    <Plus size={13}/> {T('Nouvelle création', 'New creation')}
+                  </button>
+                </div>
+              )}
               {myProjects.map((proj, idx) => {
                 const chartData = genChartData(20, proj.totalScore, proj.growth);
                 const up = proj.growth >= 0;
@@ -375,7 +420,7 @@ export const CreatorDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg
                       <div className="p-4 space-y-3">
                         <div className="flex items-center justify-between">
                           <p className="text-xs font-black text-on-surface uppercase tracking-wider">{T('Jalons','Milestones')}</p>
-                          <button onClick={()=>{setMilestoneProject(proj.name);setShowMilestone(true);}} className="text-[10px] font-black text-[#a78bfa] hover:text-white transition-colors uppercase">+ {T('Ajouter','Add')}</button>
+                          <button onClick={()=>{setMilestoneProject(proj.name);setMilestoneProjectId(proj.id);setShowMilestone(true);}} className="text-[10px] font-black text-[#a78bfa] hover:text-white transition-colors uppercase">+ {T('Ajouter','Add')}</button>
                         </div>
                         {(proj.milestones||[]).slice(0,3).map((m,mi)=>(
                           <div key={mi} className={`flex items-start gap-2 p-2.5 rounded-lg border ${m.status==='COMPLETED'?'bg-emerald-400/5 border-emerald-400/15':m.status==='FAILED'?'bg-rose-400/5 border-rose-400/15':'bg-surface-high/20 border-white/6'}`}>
@@ -387,7 +432,7 @@ export const CreatorDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg
                             {m.scoreImpact && <span className={`text-[10px] font-black shrink-0 ${m.scoreImpact>0?'text-emerald-400':'text-rose-400'}`}>{m.scoreImpact>0?'+':''}{m.scoreImpact}%</span>}
                           </div>
                         ))}
-                        <button onClick={()=>{setMilestoneProject(proj.name);setShowMilestone(true);}} className="w-full py-2 bg-[#a78bfa]/10 border border-[#a78bfa]/20 text-[#a78bfa] text-xs font-black rounded-xl hover:bg-[#a78bfa]/20 transition-all flex items-center justify-center gap-1.5">
+                        <button onClick={()=>{setMilestoneProject(proj.name);setMilestoneProjectId(proj.id);setShowMilestone(true);}} className="w-full py-2 bg-[#a78bfa]/10 border border-[#a78bfa]/20 text-[#a78bfa] text-xs font-black rounded-xl hover:bg-[#a78bfa]/20 transition-all flex items-center justify-center gap-1.5">
                           <Flag size={11}/> {T('Publier un jalon','Publish milestone')}
                         </button>
                       </div>
@@ -485,7 +530,7 @@ export const CreatorDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg
                 <div key={proj.id} className="bg-surface-low/40 border border-white/8 rounded-2xl p-5 space-y-4">
                   <div className="flex items-center justify-between flex-wrap gap-3">
                     <div><p className="text-xs text-on-surface-variant/40 font-mono">{proj.registryIndex}</p><h3 className="text-sm font-black text-on-surface">{proj.name}</h3></div>
-                    <button onClick={()=>{setMilestoneProject(proj.name);setShowMilestone(true);}} className="flex items-center gap-1.5 px-3 py-2 bg-[#a78bfa]/10 border border-[#a78bfa]/20 text-[#a78bfa] text-xs font-black rounded-xl hover:bg-[#a78bfa]/20 transition-all">
+                    <button onClick={()=>{setMilestoneProject(proj.name);setMilestoneProjectId(proj.id);setShowMilestone(true);}} className="flex items-center gap-1.5 px-3 py-2 bg-[#a78bfa]/10 border border-[#a78bfa]/20 text-[#a78bfa] text-xs font-black rounded-xl hover:bg-[#a78bfa]/20 transition-all">
                       <Plus size={12}/> {T('Ajouter','Add')}
                     </button>
                   </div>
@@ -526,7 +571,7 @@ export const CreatorDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg
               <div className="flex items-center justify-between flex-wrap gap-3">
                 <div><h2 className="text-xl font-black text-on-surface">{T('Analytics','Analytics')} <span className="text-[#a78bfa]">{T('Créateur','Creator')}</span></h2><p className="text-xs text-on-surface-variant/50">{T('Données réelles de vos projets','Real data from your projects')}</p></div>
                 <div className="flex items-center gap-2">
-                  {[{l:T('Score moyen','Avg score'),v:String(Math.round(allProjects.reduce((s,c)=>s+c.totalScore,0)/allProjects.length)),c:'text-on-surface'},{l:T('Tendance','Trend'),v:`${avgGrowth>=0?'+':''}${avgGrowth.toFixed(1)}%`,c:avgGrowth>=0?'text-emerald-400':'text-rose-400'}].map((s,i)=>(
+                  {[{l:T('Score moyen','Avg score'),v:String(allProjects.length ? Math.round(allProjects.reduce((s,c)=>s+c.totalScore,0)/allProjects.length) : 0),c:'text-on-surface'},{l:T('Tendance','Trend'),v:`${avgGrowth>=0?'+':''}${avgGrowth.toFixed(1)}%`,c:avgGrowth>=0?'text-emerald-400':'text-rose-400'}].map((s,i)=>(
                     <div key={i} className="bg-surface-low/40 border border-white/10 rounded-xl px-3 py-2 text-right"><p className="text-[10px] text-on-surface-variant/50 uppercase tracking-widest">{s.l}</p><p className={`text-lg font-black ${s.c}`}>{s.v}</p></div>
                   ))}
                 </div>
@@ -596,12 +641,12 @@ export const CreatorDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg
 
       <NewCreationModal open={showNewCreation} onClose={()=>setShowNewCreation(false)} lang={lang} onSubmit={async (data)=>{
         try {
-          await addDoc(collection(db, 'projects_pending'), {
+          await addDoc(collection(db, 'contracts'), {
             ...data,
-            creatorId: user?.uid,
-            creatorEmail: user?.email,
-            creatorName: user?.displayName,
-            status: 'PENDING_VALIDATION',
+            issuerId: user?.displayName || user?.email || 'Créateur LYA',
+            issuerUid: user?.uid,
+            milestones: [],
+            status: 'PENDING',
             createdAt: serverTimestamp(),
           });
           onNotify(T(`✦ ${data.name} soumis en validation LYA`,`✦ ${data.name} submitted to LYA validation`));
@@ -609,13 +654,18 @@ export const CreatorDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg
         setShowNewCreation(false);
       }}/>
       <MilestoneModal open={showMilestone} onClose={()=>setShowMilestone(false)} lang={lang} projectName={milestoneProject} onSubmit={async (data)=>{
+        if (!milestoneProjectId) {
+          onNotify(T('Projet introuvable — réessayez depuis la fiche projet.', 'Project not found — try again from the project card.'));
+          setShowMilestone(false);
+          return;
+        }
         try {
-          await addDoc(collection(db, 'milestones'), {
-            ...data,
-            projectName: milestoneProject,
-            creatorId: user?.uid,
-            status: 'IN_PROGRESS',
-            createdAt: serverTimestamp(),
+          await updateDoc(doc(db, 'contracts', milestoneProjectId), {
+            milestones: arrayUnion({
+              ...data,
+              status: 'IN_PROGRESS',
+              createdAt: new Date().toISOString(),
+            }),
           });
           onNotify(T(`✦ Jalon "${data.title}" publié`,`✦ Milestone "${data.title}" published`));
         } catch(e) { onNotify(T('Erreur lors de la publication','Publication error')); }
