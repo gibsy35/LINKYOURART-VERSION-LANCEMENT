@@ -81,7 +81,7 @@
     "step9": {
       "title": "LYA Registry",
       "desc": "Track the Score progression of every certified project",
-      "p1": "Fixed, non-negotiable price: $50 per unit",
+      "p1": "Fixed, non-negotiable price: €50 per unit",
       "p2": "Recognition tiers graduated by level of support",
       "p3": "A clear, transparent patronage agreement"
     }
@@ -114,7 +114,7 @@
     "standard": {
       "title": "The LYA",
       "title_cyan": "Unit Standard",
-      "desc": "LinkYourArt introduces the unique certification standard for the creative market. Each LYA Unit represents a fixed reference price of $50 — non-negotiable, non-speculative. This standard, combining algorithmic analysis and expert committee review, provides the only objective measure of creative quality."
+      "desc": "LinkYourArt introduces the unique certification standard for the creative market. Each LYA Unit represents a fixed reference price of €50 — non-negotiable, non-speculative. This standard, combining algorithmic analysis and expert committee review, provides the only objective measure of creative quality."
     },
     "not_lya": {
       "title": "What LinkYourArt",

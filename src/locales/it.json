@@ -66,7 +66,7 @@
     "step9": {
       "title": "Registro LYA",
       "desc": "Seguite l'evoluzione del Punteggio di ogni progetto certificato",
-      "p1": "Prezzo fisso e non negoziabile: $50 per unità",
+      "p1": "Prezzo fisso e non negoziabile: 50€ per unità",
       "p2": "Livelli di riconoscimento graduati in base al sostegno",
       "p3": "Un accordo di mecenatismo chiaro e trasparente"
     }
@@ -99,7 +99,7 @@
     "standard": {
       "title": "Lo Standard",
       "title_cyan": "Unità LYA",
-      "desc": "LinkYourArt introduce lo standard di certificazione unico per il mercato creativo. Ogni Unità LYA rappresenta un prezzo di riferimento fisso di $50 — non negoziabile, non speculativo. Questo standard, che combina analisi algoritmica e revisione del Comitato di esperti, fornisce l'unica misura obiettiva della qualità creativa."
+      "desc": "LinkYourArt introduce lo standard di certificazione unico per il mercato creativo. Ogni Unità LYA rappresenta un prezzo di riferimento fisso di 50€ — non negoziabile, non speculativo. Questo standard, che combina analisi algoritmica e revisione del Comitato di esperti, fornisce l'unica misura obiettiva della qualità creativa."
     },
     "not_lya": {
       "title": "Cosa LinkYourArt",
