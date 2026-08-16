@@ -181,8 +181,8 @@ const SupportSimulatorWidget: React.FC<{ lang: 'FR' | 'EN', formatPrice: (n: num
       </div>
       <div className="space-y-1.5">
         <div className="flex justify-between">
-          <p className="text-[11px] font-mono text-on-surface-variant/50 uppercase tracking-widest">{T('UNITÉS LYA', 'LYA UNITS')}</p>
-          <p className="text-[11px] font-black text-primary-cyan">{units} {T('unités', 'units')}</p>
+          <p className="text-[11px] font-mono text-on-surface-variant/50 uppercase tracking-widest">{T('NIVEAU DE SOUTIEN', 'SUPPORT LEVEL')}</p>
+          <p className="text-[11px] font-black text-primary-cyan">{T(`Niveau ${units}`, `Level ${units}`)}</p>
         </div>
         <input type="range" min={1} max={500} value={units} onChange={e => setUnits(+e.target.value)} className="w-full h-1 bg-white/10 rounded-full appearance-none cursor-pointer accent-primary-cyan" />
       </div>

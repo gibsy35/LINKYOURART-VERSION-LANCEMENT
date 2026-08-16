@@ -82,7 +82,7 @@
     "step9": {
       "title": "Registre LYA",
       "desc": "Suivez l'évolution du Score de chaque projet certifié",
-      "p1": "Prix fixe et non négociable : 50$ par unité",
+      "p1": "Soutien à partir de 50€, aucun prix d'unité fixe",
       "p2": "Statuts de reconnaissance gradués selon le soutien",
       "p3": "Contrat de mécénat clair et transparent"
     }
@@ -114,8 +114,8 @@
     },
     "standard": {
       "title": "Le Standard",
-      "title_cyan": "Unités LYA",
-      "desc": "LinkYourArt introduit l'indice de certification unique pour le marché créatif. Chaque Unité LYA représente un prix de référence fixe de 50€ — non négociable, non spéculatif. Ce standard, combinant analyse algorithmique et revue du Comité d'experts, fournit la seule mesure objective de la qualité créative."
+      "title_cyan": "Score LYA",
+      "desc": "LinkYourArt introduit le standard unique de certification qualité pour le marché créatif. Le Score LYA — de 0 à 1000 points — combine analyse algorithmique et revue du Comité d'experts pour fournir la seule mesure objective, transparente et publique de la qualité créative."
     },
     "not_lya": {
       "title": "Ce que LinkYourArt",
@@ -153,11 +153,26 @@
       "title": "Le Système",
       "title_cyan": "D'ÉVALUATION LYA",
       "subtitle": "Notre algorithme propriétaire évalue chaque projet selon 5 piliers officiels, fournissant un Score LYA objectif et transparent sur 1000.",
-      "c1": { "label": "IC · Intégrité Conceptuelle", "desc": "Cohérence et clarté de la vision créative : le projet tient-il sa promesse artistique de bout en bout ?" },
-      "c2": { "label": "MA · Maturité Actuelle", "desc": "État d'avancement réel du projet : ce qui est déjà produit, documenté et vérifiable aujourd'hui." },
-      "c3": { "label": "CE · Capacité d'Évolution", "desc": "Marge de progression du projet : sa capacité à franchir de nouveaux jalons de certification." },
-      "c4": { "label": "FR · Faisabilité Réelle", "desc": "Solidité du plan d'exécution : ressources, calendrier et moyens réunis pour aller au bout." },
-      "c5": { "label": "IN · Incarnation", "desc": "Présence et crédibilité du créateur : son engagement direct et vérifiable dans le projet." }
+      "c1": {
+        "label": "IC · Intégrité Conceptuelle",
+        "desc": "Cohérence et clarté de la vision créative : le projet tient-il sa promesse artistique de bout en bout ?"
+      },
+      "c2": {
+        "label": "MA · Maturité Actuelle",
+        "desc": "État d'avancement réel du projet : ce qui est déjà produit, documenté et vérifiable aujourd'hui."
+      },
+      "c3": {
+        "label": "CE · Capacité d'Évolution",
+        "desc": "Marge de progression du projet : sa capacité à franchir de nouveaux jalons de certification."
+      },
+      "c4": {
+        "label": "FR · Faisabilité Réelle",
+        "desc": "Solidité du plan d'exécution : ressources, calendrier et moyens réunis pour aller au bout."
+      },
+      "c5": {
+        "label": "IN · Incarnation",
+        "desc": "Présence et crédibilité du créateur : son engagement direct et vérifiable dans le projet."
+      }
     },
     "cta": {
       "title": "Commencer",

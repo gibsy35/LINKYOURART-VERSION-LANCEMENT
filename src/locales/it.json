@@ -66,7 +66,7 @@
     "step9": {
       "title": "Registro LYA",
       "desc": "Seguite l'evoluzione del Punteggio di ogni progetto certificato",
-      "p1": "Prezzo fisso e non negoziabile: 50€ per unità",
+      "p1": "Sostegno a partire da 50€, nessun prezzo fisso per unità",
       "p2": "Livelli di riconoscimento graduati in base al sostegno",
       "p3": "Un accordo di mecenatismo chiaro e trasparente"
     }
@@ -98,8 +98,8 @@
     },
     "standard": {
       "title": "Lo Standard",
-      "title_cyan": "Unità LYA",
-      "desc": "LinkYourArt introduce lo standard di certificazione unico per il mercato creativo. Ogni Unità LYA rappresenta un prezzo di riferimento fisso di 50€ — non negoziabile, non speculativo. Questo standard, che combina analisi algoritmica e revisione del Comitato di esperti, fornisce l'unica misura obiettiva della qualità creativa."
+      "title_cyan": "Punteggio LYA",
+      "desc": "LinkYourArt introduce lo standard unico di certificazione della qualità per il mercato creativo. Il Punteggio LYA — da 0 a 1000 punti — combina analisi algoritmica e revisione del Comitato di esperti per fornire l'unica misura oggettiva, trasparente e pubblica della qualità creativa."
     },
     "not_lya": {
       "title": "Cosa LinkYourArt",
@@ -137,11 +137,26 @@
       "title": "Il Sistema",
       "title_cyan": "di Valutazione LYA",
       "subtitle": "Il nostro algoritmo proprietario valuta ogni progetto secondo 5 pilastri ufficiali, fornendo un Punteggio LYA obiettivo e trasparente su 1000.",
-      "c1": { "label": "IC · Integrità Concettuale", "desc": "Coerenza e chiarezza della visione creativa: il progetto mantiene la sua promessa artistica dall'inizio alla fine?" },
-      "c2": { "label": "MA · Maturità Attuale", "desc": "Lo stato di avanzamento reale del progetto: ciò che è già prodotto, documentato e verificabile oggi." },
-      "c3": { "label": "CE · Capacità di Evoluzione", "desc": "Il margine di progressione del progetto: la sua capacità di raggiungere nuovi traguardi di certificazione." },
-      "c4": { "label": "FR · Fattibilità Reale", "desc": "Solidità del piano di esecuzione: risorse, tempistiche e mezzi riuniti per portarlo a termine." },
-      "c5": { "label": "IN · Incarnazione", "desc": "Presenza e credibilità del creatore: il suo coinvolgimento diretto e verificabile nel progetto." }
+      "c1": {
+        "label": "IC · Integrità Concettuale",
+        "desc": "Coerenza e chiarezza della visione creativa: il progetto mantiene la sua promessa artistica dall'inizio alla fine?"
+      },
+      "c2": {
+        "label": "MA · Maturità Attuale",
+        "desc": "Lo stato di avanzamento reale del progetto: ciò che è già prodotto, documentato e verificabile oggi."
+      },
+      "c3": {
+        "label": "CE · Capacità di Evoluzione",
+        "desc": "Il margine di progressione del progetto: la sua capacità di raggiungere nuovi traguardi di certificazione."
+      },
+      "c4": {
+        "label": "FR · Fattibilità Reale",
+        "desc": "Solidità del piano di esecuzione: risorse, tempistiche e mezzi riuniti per portarlo a termine."
+      },
+      "c5": {
+        "label": "IN · Incarnazione",
+        "desc": "Presenza e credibilità del creatore: il suo coinvolgimento diretto e verificabile nel progetto."
+      }
     },
     "cta": {
       "title": "Inizia l'impegno",

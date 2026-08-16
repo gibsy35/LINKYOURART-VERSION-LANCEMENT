@@ -81,7 +81,7 @@
     "step9": {
       "title": "LYA Registry",
       "desc": "Track the Score progression of every certified project",
-      "p1": "Fixed, non-negotiable price: €50 per unit",
+      "p1": "Support from €50, no fixed unit price",
       "p2": "Recognition tiers graduated by level of support",
       "p3": "A clear, transparent patronage agreement"
     }
@@ -113,8 +113,8 @@
     },
     "standard": {
       "title": "The LYA",
-      "title_cyan": "Unit Standard",
-      "desc": "LinkYourArt introduces the unique certification standard for the creative market. Each LYA Unit represents a fixed reference price of €50 — non-negotiable, non-speculative. This standard, combining algorithmic analysis and expert committee review, provides the only objective measure of creative quality."
+      "title_cyan": "Score Standard",
+      "desc": "LinkYourArt introduces the unique quality certification standard for the creative market. The LYA Score — from 0 to 1000 points — combines algorithmic analysis and expert committee review to provide the only objective, transparent and public measure of creative quality."
     },
     "not_lya": {
       "title": "What LinkYourArt",
@@ -152,11 +152,26 @@
       "title": "The LYA",
       "title_cyan": "Scoring System",
       "subtitle": "Our proprietary algorithm evaluates every project across 5 official pillars, providing a transparent and objective LYA Score out of 1000.",
-      "c1": { "label": "IC · Conceptual Integrity", "desc": "Coherence and clarity of the creative vision: does the project deliver on its artistic promise end to end?" },
-      "c2": { "label": "MA · Current Maturity", "desc": "The project's real progress: what is already produced, documented, and verifiable today." },
-      "c3": { "label": "CE · Evolution Capacity", "desc": "The project's room to grow: its capacity to reach new certification milestones." },
-      "c4": { "label": "FR · Real Feasibility", "desc": "Soundness of the execution plan: resources, timeline, and means in place to see it through." },
-      "c5": { "label": "IN · Embodiment", "desc": "The creator's presence and credibility: their direct, verifiable involvement in the project." }
+      "c1": {
+        "label": "IC · Conceptual Integrity",
+        "desc": "Coherence and clarity of the creative vision: does the project deliver on its artistic promise end to end?"
+      },
+      "c2": {
+        "label": "MA · Current Maturity",
+        "desc": "The project's real progress: what is already produced, documented, and verifiable today."
+      },
+      "c3": {
+        "label": "CE · Evolution Capacity",
+        "desc": "The project's room to grow: its capacity to reach new certification milestones."
+      },
+      "c4": {
+        "label": "FR · Real Feasibility",
+        "desc": "Soundness of the execution plan: resources, timeline, and means in place to see it through."
+      },
+      "c5": {
+        "label": "IN · Embodiment",
+        "desc": "The creator's presence and credibility: their direct, verifiable involvement in the project."
+      }
     },
     "cta": {
       "title": "Start",

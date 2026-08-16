@@ -4,7 +4,7 @@ import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { motion, AnimatePresence } from 'motion/react';
 import { useTranslation } from '../context/LanguageContext';
 import { useCurrency } from '../context/CurrencyContext';
-import { UserProfile, CONTRACTS, LYA_UNIT_VALUE } from '../types';
+import { UserProfile, CONTRACTS } from '../types';
 import { RealtimeChart } from '../components/RealtimeChart';
 import { PageHeader } from '../components/ui/PageHeader';
 import { Modal } from '../components/DashboardModals';
@@ -155,11 +155,10 @@ export const InvestorDashboardView: React.FC<{user:UserProfile|null;onNotify:(ms
 
           {activeSection === 'portfolio' && (
             <div className="space-y-5">
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
                 {[
                   {icon:<Award size={18} className="text-primary-cyan"/>,label:T('Total contribué','Total contributed'),value:formatPrice(totalContributed),sub:`${mySupports.length} ${T('projets','projects')}`,up:true,color:'bg-primary-cyan/10'},
                   {icon:<TrendingUp size={18} className="text-emerald-400"/>,label:T('Score moyen suivi','Average score followed'),value:`${avgScoreNow.toFixed(0)}/1000`,sub:T('des projets soutenus','of supported projects'),up:true,color:'bg-emerald-400/10'},
-                  {icon:<Sparkles size={18} className="text-[#a78bfa]"/>,label:T('Prix de l\'unité LYA','LYA unit price'),value:formatPrice(LYA_UNIT_VALUE),sub:T('Fixe, non négociable','Fixed, non-negotiable'),up:true,color:'bg-[#a78bfa]/10'},
                   {icon:<Star size={18} className="text-accent-gold"/>,label:T('En progression / à surveiller','Progressing / to watch'),value:`${progressing}/${needsAttention}`,sub:T(`${totalMilestones} jalons franchis au total`,`${totalMilestones} milestones reached total`),up:progressing>=needsAttention,color:'bg-accent-gold/10'},
                 ].map((k,i)=>(
                   <div key={i} className="bg-surface-low/40 border border-white/8 rounded-2xl p-4 space-y-2 hover:border-white/15 transition-all">
@@ -174,8 +173,8 @@ export const InvestorDashboardView: React.FC<{user:UserProfile|null;onNotify:(ms
               <div className="bg-gradient-to-r from-accent-gold/8 to-primary-cyan/5 border border-accent-gold/20 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center gap-4">
                 <div className="w-10 h-10 bg-accent-gold/15 border border-accent-gold/25 rounded-xl flex items-center justify-center shrink-0"><span className="text-accent-gold font-black text-xs">LYA</span></div>
                 <div className="flex-1">
-                  <p className="text-xs font-black text-accent-gold uppercase tracking-widest mb-0.5">{T('LYA UNIT — Prix fixe de référence','LYA UNIT — Fixed reference price')}</p>
-                  <p className="text-xs text-on-surface-variant/60">{T('Le prix de l\'unité LYA est fixe à 50 €, quel que soit le projet ou ses jalons. Ce n\'est ni un titre financier, ni un instrument négociable.','The LYA unit price is fixed at €50, regardless of the project or its milestones. It is neither a financial security nor a tradeable instrument.')}</p>
+                  <p className="text-xs font-black text-accent-gold uppercase tracking-widest mb-0.5">{T('Score LYA — Standard de certification','LYA Score — Certification standard')}</p>
+                  <p className="text-xs text-on-surface-variant/60">{T('Votre soutien finance des jalons certifiés, pas un titre financier ni un instrument négociable.','Your support funds certified milestones — not a financial security or a tradeable instrument.')}</p>
                 </div>
                 <div className="text-right shrink-0">
                   <p className="text-[10px] text-on-surface-variant/40 uppercase">{T('Jalons franchis','Milestones reached')}</p>

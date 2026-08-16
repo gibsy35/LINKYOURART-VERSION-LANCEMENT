@@ -131,7 +131,7 @@ export function PaymentModal({ contract, units, onClose, lang }: PaymentModalPro
             <div>
               <p className="text-on-surface-variant/50 text-xs font-mono mb-1">{T("ENGAGEMENT DE SOUTIEN :", "PATRONAGE PLEDGE:")}</p>
               <p className="text-on-surface font-bold font-mono italic">{contract.name}</p>
-              <p className="text-on-surface-variant/70 text-xs font-mono mt-1">{units} {T("unités", "units")} × {formatPrice(getUnitPrice(contract))}</p>
+              <p className="text-on-surface-variant/70 text-xs font-mono mt-1">{T("Palier de soutien", "Support level")} {units}</p>
             </div>
             <div className="text-right">
               <p className="text-on-surface-variant/50 text-xs font-mono mb-1">{T("TOTAL", "TOTAL COST")}</p>

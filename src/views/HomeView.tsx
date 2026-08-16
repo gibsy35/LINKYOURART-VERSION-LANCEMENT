@@ -38,7 +38,7 @@ import {
   RefreshCw,
   Flag
 } from 'lucide-react';
-import { LYA_UNIT_VALUE, Contract, PillarScore } from '../types';
+import { Contract, PillarScore } from '../types';
 import { useTranslation } from '../context/LanguageContext';
 import { useCurrency } from '../context/CurrencyContext';
 

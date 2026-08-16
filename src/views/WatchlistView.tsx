@@ -3,7 +3,7 @@ import React from 'react';
 import { AuthGuard } from '../components/AuthGuard';
 import { motion } from 'motion/react';
 import { Star, ArrowUpRight, ArrowDownLeft, Trash2, LayoutGrid, List, Zap, Shield, Activity, TrendingUp, ChevronLeft, ChevronRight } from 'lucide-react';
-import { CONTRACTS, Contract , LYA_UNIT_VALUE} from '../types';
+import { CONTRACTS, Contract } from '../types';
 import { useTranslation } from '../context/LanguageContext';
 import { PageHeader } from '../components/ui/PageHeader';
 import { NumberTicker } from '../components/ui/NumberTicker';

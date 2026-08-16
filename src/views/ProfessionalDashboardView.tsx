@@ -5,7 +5,7 @@ import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { motion, AnimatePresence } from 'motion/react';
 import { useTranslation } from '../context/LanguageContext';
 import { useCurrency } from '../context/CurrencyContext';
-import { UserProfile, CONTRACTS, LYA_UNIT_VALUE } from '../types';
+import { UserProfile, CONTRACTS } from '../types';
 import { PageHeader } from '../components/ui/PageHeader';
 import { getSafeImageUrl } from '../utils/image';
 import {
@@ -140,17 +140,12 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
                 <KpiCard icon={<BarChart2 size={18} className="text-accent-gold"/>} label={T('Score professionnel','Professional score')} value="940/1000" sub="+15 ce mois" color="bg-accent-gold/10"/>
               </div>
 
-              {/* LYA UNIT encadré */}
+              {/* Rappel de positionnement — certification, pas instrument financier */}
               <div className="bg-gradient-to-r from-primary-cyan/8 to-[#a78bfa]/5 border border-primary-cyan/20 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center gap-4">
                 <div className="w-10 h-10 bg-primary-cyan/15 border border-primary-cyan/25 rounded-xl flex items-center justify-center shrink-0"><span className="text-primary-cyan font-black text-xs">LYA</span></div>
                 <div className="flex-1">
-                  <p className="text-xs font-black text-primary-cyan uppercase tracking-widest mb-0.5">LYA UNIT — {T('Étalon de certification fixe', 'Fixed certification standard')}</p>
-                  <p className="text-xs text-on-surface-variant/60 leading-relaxed">{T('Vos validations influencent directement le Score LYA des projets — pas leur valeur financière. Le LYA UNIT reste fixe, quel que soit le score : ce n\'est ni un titre financier, ni un instrument négociable.', 'Your validations directly influence projects\' LYA Score — not their financial value. The LYA UNIT remains fixed regardless of score: it is neither a financial security nor a tradeable instrument.')}</p>
-                </div>
-                <div className="text-right shrink-0">
-                  <p className="text-[10px] text-on-surface-variant/40 uppercase tracking-widest">LYA UNIT</p>
-                  <p className="text-2xl font-black text-primary-cyan font-mono">{formatPrice(LYA_UNIT_VALUE)}</p>
-                  <p className="text-xs text-on-surface-variant/40">{T('Fixe, non négociable', 'Fixed, non-negotiable')}</p>
+                  <p className="text-xs font-black text-primary-cyan uppercase tracking-widest mb-0.5">{T('Score LYA — Standard de certification', 'LYA Score — Certification standard')}</p>
+                  <p className="text-xs text-on-surface-variant/60 leading-relaxed">{T('Vos validations influencent directement le Score LYA des projets — une mesure de qualité créative, pas un instrument financier.', 'Your validations directly influence projects\' LYA Score — a measure of creative quality, not a financial instrument.')}</p>
                 </div>
               </div>
 
