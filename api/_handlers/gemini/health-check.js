@@ -1,54 +1,40 @@
 // Diagnostic endpoint — never exposes the actual key value, only whether
-// it's present and whether a minimal real call to Anthropic succeeds.
+// it's present and whether a minimal real call to Gemini succeeds.
 // Visit /api/gemini/health-check in a browser (GET) to check.
+const { GoogleGenAI } = require('@google/genai');
+
 module.exports = async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
 
-  const apiKey = process.env.ANTHROPIC_API_KEY;
-  const altKey = process.env.VITE_ANTHROPIC_API_KEY;
+  const viteKey = process.env.VITE_GEMINI_API_KEY;
+  const plainKey = process.env.GEMINI_API_KEY;
 
   const result = {
-    ANTHROPIC_API_KEY_present: Boolean(apiKey),
-    ANTHROPIC_API_KEY_length: apiKey ? apiKey.length : 0,
-    VITE_ANTHROPIC_API_KEY_present: Boolean(altKey),
+    VITE_GEMINI_API_KEY_present: Boolean(viteKey),
+    VITE_GEMINI_API_KEY_length: viteKey ? viteKey.length : 0,
+    GEMINI_API_KEY_present: Boolean(plainKey),
+    GEMINI_API_KEY_length: plainKey ? plainKey.length : 0,
     testCall: null,
   };
 
-  const keyToTest = apiKey || altKey;
+  const keyToTest = viteKey || plainKey;
 
   if (!keyToTest) {
-    result.diagnosis = 'NO_KEY_FOUND — ANTHROPIC_API_KEY is not set (or not set for this environment: Production/Preview/Development) on Vercel, or a redeploy hasn\'t happened since it was added.';
+    result.diagnosis = 'NO_KEY_FOUND — neither VITE_GEMINI_API_KEY nor GEMINI_API_KEY is visible to this function (wrong environment scope, or no redeploy since it was added).';
     return res.status(200).json(result);
   }
 
   try {
-    const r = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': keyToTest,
-        'anthropic-version': '2023-06-01',
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-5',
-        max_tokens: 16,
-        messages: [{ role: 'user', content: 'Reply with exactly: OK' }],
-      }),
+    const ai = new GoogleGenAI({ apiKey: keyToTest });
+    const response = await ai.models.generateContent({
+      model: 'gemini-2.5-flash',
+      contents: 'Reply with exactly: OK',
     });
-    const data = await r.json();
-    result.testCall = {
-      httpStatus: r.status,
-      ok: r.ok,
-      anthropicResponse: r.ok
-        ? (data.content || []).map(b => b.text).join('')
-        : data,
-    };
-    result.diagnosis = r.ok
-      ? 'SUCCESS — the key works and claude-sonnet-5 responded correctly.'
-      : `API_ERROR — the key was sent but Anthropic rejected the request (HTTP ${r.status}). See testCall.anthropicResponse.error for the exact reason.`;
+    result.testCall = { ok: true, geminiResponse: response.text || '' };
+    result.diagnosis = 'SUCCESS — the key works and gemini-2.5-flash responded correctly.';
   } catch (e) {
-    result.testCall = { networkError: e.message };
-    result.diagnosis = 'NETWORK_ERROR — the request to api.anthropic.com itself failed (not a key/auth problem). See testCall.networkError.';
+    result.testCall = { ok: false, error: e.message };
+    result.diagnosis = `API_ERROR — the key was sent but Gemini rejected the request. See testCall.error for the exact reason.`;
   }
 
   return res.status(200).json(result);

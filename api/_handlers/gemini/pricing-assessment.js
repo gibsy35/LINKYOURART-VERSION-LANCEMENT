@@ -1,8 +1,10 @@
+const { GoogleGenAI } = require('@google/genai');
+
 module.exports = async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
   const { creativeField, role, projectSize, description, language } = req.body || {};
-  const apiKey = process.env.ANTHROPIC_API_KEY;
+  const apiKey = process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
 
   const isEnterprise = (projectSize || '').includes('Enterprise');
   const isAdvanced = !isEnterprise && ((role || '').includes('Producer') || (creativeField || '').includes('Cinema'));
@@ -36,6 +38,7 @@ module.exports = async (req, res) => {
     auditIndexScore: 84
   };
   if (!apiKey) return res.status(200).json(fallback);
+
   const systemPrompt = isFR
     ? `Tu es un conseiller en certification créative pour LinkYourArt (LYA), une plateforme de certification de projets créatifs. La découverte et le mécénat (parcourir le Registre, suivre et soutenir des projets certifiés) sont gratuits et illimités pour tout le monde — LYA prélève uniquement une commission de 5% sur les montants de mécénat versés, jamais de frais d'entrée. Les paliers payants ne concernent que la soumission de créations et les outils de certification professionnelle : CREATOR (gratuit, individus, 3 projets inclus puis 5€/certification supplémentaire), PRO_STARTER (79€/mois, professionnels indépendants — Registre complet, soumissions illimitées, file de revue prioritaire), PRO_ADVANCED (249€/mois, tout Pro Starter + accès API, rapports en marque blanche, gestionnaire de compte dédié), PRO_ENTERPRISE (sur devis, studios/labels/éditeurs — certification de catalogue à grande échelle). Analyse le profil fourni et recommande le forfait le plus adapté.
 
@@ -73,13 +76,13 @@ Never mention LYA unit prices, secondary markets, financial returns, or investme
     : `Creative field: ${creativeField || 'Unspecified'}\nRole: ${role || 'Unspecified'}\nProject size: ${projectSize || 'Unspecified'}\nDescribed needs: ${description || 'No details provided'}`;
 
   try {
-    const r = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey, 'anthropic-version': '2023-06-01' },
-      body: JSON.stringify({ model: 'claude-sonnet-5', max_tokens: 900, system: systemPrompt, messages: [{ role: 'user', content: userPrompt }] })
+    const ai = new GoogleGenAI({ apiKey });
+    const response = await ai.models.generateContent({
+      model: 'gemini-2.5-flash',
+      contents: userPrompt,
+      config: { systemInstruction: systemPrompt, responseMimeType: 'application/json' },
     });
-    const data = await r.json();
-    const text = (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('');
+    const text = response.text || '';
     const jsonMatch = text.match(/\{[\s\S]*\}/);
     if (!jsonMatch) return res.status(200).json(fallback);
     const result = JSON.parse(jsonMatch[0]);

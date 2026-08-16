@@ -1,9 +1,11 @@
+const { GoogleGenAI } = require('@google/genai');
+
 module.exports = async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
 
   const lang = req.query.lang || 'EN';
   const isFR = lang === 'FR';
-  const apiKey = process.env.ANTHROPIC_API_KEY;
+  const apiKey = process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
 
   if (!apiKey) {
     return res.status(200).json({ news: [] });
@@ -71,7 +73,9 @@ Pour chaque actualité :
 
 Catégories disponibles : GLOBAL, INDUSTRY, INNOVATION, PROFESSIONAL
 
-Assure-toi que les news couvrent différents secteurs créatifs et continents.`
+Assure-toi que les news couvrent différents secteurs créatifs et continents.
+
+Réponds uniquement avec le tableau JSON, sans texte avant ou après.`
     : `Search for the 6 most important and recent global creative industry news (music, film, fashion, gaming, art, architecture, TV series, copyright, streaming, festivals, awards).
 
 For each news item:
@@ -81,47 +85,28 @@ For each news item:
 
 Available categories: GLOBAL, INDUSTRY, INNOVATION, PROFESSIONAL
 
-Make sure news covers different creative sectors and continents.`;
+Make sure news covers different creative sectors and continents.
+
+Respond only with the JSON array, no text before or after.`;
 
   try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01'
+    const ai = new GoogleGenAI({ apiKey });
+    const response = await ai.models.generateContent({
+      model: 'gemini-2.5-flash',
+      contents: userPrompt,
+      config: {
+        systemInstruction: systemPrompt,
+        tools: [{ googleSearch: {} }],
       },
-      body: JSON.stringify({
-        model: 'claude-sonnet-5',
-        max_tokens: 4000,
-        system: systemPrompt,
-        tools: [{
-          type: 'web_search_20250305',
-          name: 'web_search'
-        }],
-        messages: [{ role: 'user', content: userPrompt }]
-      })
     });
 
-    const data = await response.json();
-    
-    if (data.error) {
-      console.error('[NEWS] API error:', data.error);
-      return res.status(200).json({ news: [] });
-    }
-
-    // Extraire le texte JSON de la réponse (peut être après des tool_use blocks)
-    const textBlocks = (data.content || [])
-      .filter(b => b.type === 'text')
-      .map(b => b.text)
-      .join('');
+    const textBlocks = response.text || '';
 
     if (!textBlocks) {
       console.log('[NEWS] No text in response');
       return res.status(200).json({ news: [] });
     }
 
-    // Parser le JSON
     const jsonMatch = textBlocks.match(/\[[\s\S]*\]/);
     if (!jsonMatch) {
       console.log('[NEWS] No JSON array found in:', textBlocks.slice(0, 200));
@@ -129,8 +114,7 @@ Make sure news covers different creative sectors and continents.`;
     }
 
     const newsItems = JSON.parse(jsonMatch[0]);
-    
-    // Ajouter des images Unsplash selon la catégorie/secteur
+
     const categoryImages = {
       'Film': 'photo-1478720568477-152d9b164e26',
       'Music': 'photo-1493225457124-a3eb161ffa5f',

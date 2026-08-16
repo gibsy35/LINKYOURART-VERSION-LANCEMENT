@@ -1,7 +1,10 @@
+const { GoogleGenAI } = require('@google/genai');
+
 module.exports = async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
-  const apiKey = process.env.ANTHROPIC_API_KEY || process.env.VITE_ANTHROPIC_API_KEY;
+  const apiKey = process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
+  const ai = apiKey ? new GoogleGenAI({ apiKey }) : null;
 
   // ── Translation mode (merged from the former /api/gemini/translate-description
   // route to stay within the Hobby plan's 12 serverless function limit) ──────
@@ -15,19 +18,9 @@ module.exports = async (req, res) => {
         ? `Translate the following creative project description from English to French. Keep the tone professional and creative. Return ONLY the translated text, nothing else:\n\n${description}`
         : `Translate the following creative project description from French to English. Keep the tone professional and creative. Return ONLY the translated text, nothing else:\n\n${description}`;
 
-      const r = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey, 'anthropic-version': '2023-06-01' },
-        body: JSON.stringify({ model: 'claude-haiku-4-5-20251001', max_tokens: 1024, messages: [{ role: 'user', content: prompt }] })
-      });
-      if (!r.ok) {
-        const err = await r.text();
-        console.error('[ANALYZE-ASSET][translate] Claude API error:', err);
-        return res.status(200).json({ translatedDescription: description, source: 'passthrough' });
-      }
-      const data = await r.json();
-      const translated = (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('').trim();
-      return res.status(200).json({ translatedDescription: translated || description, source: 'claude' });
+      const response = await ai.models.generateContent({ model: 'gemini-2.5-flash', contents: prompt });
+      const translated = (response.text || '').trim();
+      return res.status(200).json({ translatedDescription: translated || description, source: 'gemini' });
     } catch (e) {
       console.error('[ANALYZE-ASSET][translate] Error:', e.message);
       return res.status(200).json({ translatedDescription: description, source: 'passthrough' });
@@ -46,13 +39,8 @@ module.exports = async (req, res) => {
       : `Write a short synopsis (2 sentences max) for a creative project named "${name}", in the "${category || 'Creative'}" category${assetType ? `, type: "${assetType}"` : ''}. Professional, factual tone, focused on creative certification -- never financial or investment language. Respond only with the synopsis text, no preamble.`;
 
     try {
-      const r = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey, 'anthropic-version': '2023-06-01' },
-        body: JSON.stringify({ model: 'claude-haiku-4-5-20251001', max_tokens: 200, messages: [{ role: 'user', content: prompt }] })
-      });
-      const data = await r.json();
-      const synopsis = (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('').trim();
+      const response = await ai.models.generateContent({ model: 'gemini-2.5-flash', contents: prompt });
+      const synopsis = (response.text || '').trim();
       return res.status(200).json({ synopsis: synopsis || `${name} is a ${category || 'creative'} project undergoing LYA certification.` });
     } catch (e) {
       console.error('[ANALYZE-ASSET][synopsis] Error:', e.message);
@@ -74,13 +62,12 @@ module.exports = async (req, res) => {
     : `Project: "${assetName || 'Untitled Project'}"\nDescription: ${description || 'No description provided.'}\nCurrent LYA Score: ${score || 750}/1000\n\nWrite a short analysis of this project's certification quality and potential.`;
 
   try {
-    const r = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey, 'anthropic-version': '2023-06-01' },
-      body: JSON.stringify({ model: 'claude-sonnet-5', max_tokens: 400, system: systemPrompt, messages: [{ role: 'user', content: userPrompt }] })
+    const response = await ai.models.generateContent({
+      model: 'gemini-2.5-flash',
+      contents: userPrompt,
+      config: { systemInstruction: systemPrompt },
     });
-    const data = await r.json();
-    const text = (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('').trim();
+    const text = (response.text || '').trim();
     return res.status(200).json({ analysis: text || 'Analysis currently unavailable.' });
   } catch (e) {
     console.error('[ANALYZE-ASSET] Error:', e.message);

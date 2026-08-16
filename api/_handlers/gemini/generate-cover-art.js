@@ -4,7 +4,7 @@ module.exports = async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
   const { description, styles } = req.body || {};
-  const apiKey = process.env.GEMINI_API_KEY;
+  const apiKey = process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
   if (!apiKey) return res.status(200).json({ images: [] });
 
   const styleList = Array.isArray(styles) && styles.length > 0 ? styles : [

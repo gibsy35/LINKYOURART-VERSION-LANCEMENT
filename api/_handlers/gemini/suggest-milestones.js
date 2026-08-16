@@ -1,8 +1,10 @@
+const { GoogleGenAI } = require('@google/genai');
+
 module.exports = async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
   const { description, language } = req.body || {};
-  const apiKey = process.env.ANTHROPIC_API_KEY;
+  const apiKey = process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
   const fallback = [
     { label: 'Phase 1: Intellectual Property Registration', date: '2026-10', scoreImpact: 10 },
     { label: 'Phase 2: Distribution Agreement Signed', date: '2027-02', scoreImpact: 20 },
@@ -20,13 +22,13 @@ module.exports = async (req, res) => {
     : `Creative project description: ${description || 'Unspecified creative project.'}\n\nSuggest 3 to 4 realistic milestones for this project, with approximate dates starting from today.`;
 
   try {
-    const r = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey, 'anthropic-version': '2023-06-01' },
-      body: JSON.stringify({ model: 'claude-sonnet-5', max_tokens: 500, system: systemPrompt, messages: [{ role: 'user', content: userPrompt }] })
+    const ai = new GoogleGenAI({ apiKey });
+    const response = await ai.models.generateContent({
+      model: 'gemini-2.5-flash',
+      contents: userPrompt,
+      config: { systemInstruction: systemPrompt, responseMimeType: 'application/json' },
     });
-    const data = await r.json();
-    const text = (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('');
+    const text = response.text || '';
     const jsonMatch = text.match(/\[[\s\S]*\]/);
     if (!jsonMatch) return res.status(200).json(fallback);
     const milestones = JSON.parse(jsonMatch[0]);
