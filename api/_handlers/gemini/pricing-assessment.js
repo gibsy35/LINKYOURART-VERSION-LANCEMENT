@@ -7,7 +7,8 @@ module.exports = async (req, res) => {
   const isEnterprise = (projectSize || '').includes('Enterprise');
   const isAdvanced = !isEnterprise && ((role || '').includes('Producer') || (creativeField || '').includes('Cinema'));
   const isPro = isAdvanced || (!isEnterprise && (role || '').toLowerCase().includes('pro'));
-  const fallback = {
+  const isFR = language === 'FR';
+  const fallback = isFR ? {
     analysis: "Votre profil dans le domaine de la création reflète des besoins de certification et de reconnaissance objective. Notre analyse de vos activités indique une excellente opportunité de valorisation de votre propriété intellectuelle et de vos droits d'auteur via les modules de certification de LinkYourArt.",
     recommendedPlanId: isEnterprise ? 'PRO_ENTERPRISE' : isAdvanced ? 'PRO_ADVANCED' : isPro ? 'PRO_STARTER' : 'CREATOR',
     recommendedPlanName: isEnterprise ? 'Entreprise Institutionnelle' : isAdvanced ? 'Pro Avancé' : isPro ? 'Pro Starter' : 'Créateur',
@@ -20,10 +21,21 @@ module.exports = async (req, res) => {
       "Connexion directe avec un réseau mondial de mécènes et de partenaires certifiés."
     ],
     auditIndexScore: 84
+  } : {
+    analysis: "Your creative profile reflects a need for certification and objective recognition. Our analysis of your activity indicates a strong opportunity to unlock the value of your intellectual property and authorship rights through LinkYourArt's certification modules.",
+    recommendedPlanId: isEnterprise ? 'PRO_ENTERPRISE' : isAdvanced ? 'PRO_ADVANCED' : isPro ? 'PRO_STARTER' : 'CREATOR',
+    recommendedPlanName: isEnterprise ? 'Institutional Enterprise' : isAdvanced ? 'Pro Advanced' : isPro ? 'Pro Starter' : 'Creator',
+    primaryReason: "Recommended to optimize significant intellectual property portfolios with tailored reporting for creative partners.",
+    estimatedMonthlyCost: isEnterprise ? 15000 : isAdvanced ? 249 : isPro ? 79 : 0,
+    suggestedAddons: [],
+    projectedBenefits: [
+      "Seamless certification of your exploitation rights, fully aligned with your work as an artist.",
+      "Recognition and personal upside through certified, transparent projects.",
+      "Direct connection to a worldwide network of certified patrons and partners."
+    ],
+    auditIndexScore: 84
   };
   if (!apiKey) return res.status(200).json(fallback);
-
-  const isFR = language === 'FR';
   const systemPrompt = isFR
     ? `Tu es un conseiller en certification créative pour LinkYourArt (LYA), une plateforme de certification de projets créatifs. La découverte et le mécénat (parcourir le Registre, suivre et soutenir des projets certifiés) sont gratuits et illimités pour tout le monde — LYA prélève uniquement une commission de 5% sur les montants de mécénat versés, jamais de frais d'entrée. Les paliers payants ne concernent que la soumission de créations et les outils de certification professionnelle : CREATOR (gratuit, individus, 3 projets inclus puis 5€/certification supplémentaire), PRO_STARTER (79€/mois, professionnels indépendants — Registre complet, soumissions illimitées, file de revue prioritaire), PRO_ADVANCED (249€/mois, tout Pro Starter + accès API, rapports en marque blanche, gestionnaire de compte dédié), PRO_ENTERPRISE (sur devis, studios/labels/éditeurs — certification de catalogue à grande échelle). Analyse le profil fourni et recommande le forfait le plus adapté.
 

@@ -87,19 +87,25 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
       console.error("Assessment Failed:", error);
       setTimeout(() => {
         setAssessmentResult({
-          analysis: "Votre profil dans le domaine de la création reflète des besoins de certification et de reconnaissance objective. Notre analyse de vos activités indique une excellente opportunité de valorisation de votre propriété intellectuelle et de vos droits d'auteur via les modules de certification de LinkYourArt.",
+          analysis: t(
+            "Your creative profile reflects a need for certification and objective recognition. Our analysis of your activity indicates a strong opportunity to unlock the value of your intellectual property and authorship rights through LinkYourArt's certification modules.",
+            "Votre profil dans le domaine de la création reflète des besoins de certification et de reconnaissance objective. Notre analyse de vos activités indique une excellente opportunité de valorisation de votre propriété intellectuelle et de vos droits d'auteur via les modules de certification de LinkYourArt."
+          ),
           recommendedPlanId: projectSize.includes('Enterprise') ? 'PRO_ENTERPRISE' : customRole.includes('Producer') || creativeField.includes('Cinema') ? 'PRO_ADVANCED' : 'PRO_STARTER',
-          recommendedPlanName: projectSize.includes('Enterprise') ? 'Entreprise Institutionnelle' : customRole.includes('Producer') || creativeField.includes('Cinema') ? 'Pro Avancé' : 'Pro Starter',
-          primaryReason: "Recommandé pour optimiser d'importants portefeuilles de propriété intellectuelle avec rapports personnalisés pour les partenaire créatifs.",
+          recommendedPlanName: projectSize.includes('Enterprise') ? t('Institutional Enterprise', 'Entreprise Institutionnelle') : customRole.includes('Producer') || creativeField.includes('Cinema') ? t('Pro Advanced', 'Pro Avancé') : t('Pro Starter', 'Pro Starter'),
+          primaryReason: t(
+            "Recommended to optimize significant intellectual property portfolios with tailored reporting for creative partners.",
+            "Recommandé pour optimiser d'importants portefeuilles de propriété intellectuelle avec rapports personnalisés pour les partenaire créatifs."
+          ),
           estimatedMonthlyCost: projectSize.includes('Enterprise') ? 15000 : customRole.includes('Producer') || creativeField.includes('Cinema') ? PRO_ADVANCED_PRICE_EUR : PRO_STARTER_PRICE_EUR,
           suggestedAddons: [
-            { name: "Risk Audit Pro", reason: "Sécurise l'audit préliminaire de vos contrats d'exploitation de manière automatisée." },
-            { name: "Tax & Legal Suite", reason: "Idéal pour structurer les rapports multi-pays issus de la diffusion de vos œuvres." }
+            { name: "Risk Audit Pro", reason: t("Automatically secures the preliminary audit of your exploitation contracts.", "Sécurise l'audit préliminaire de vos contrats d'exploitation de manière automatisée.") },
+            { name: "Tax & Legal Suite", reason: t("Ideal for structuring multi-country reporting from the distribution of your work.", "Idéal pour structurer les rapports multi-pays issus de la diffusion de vos œuvres.") }
           ],
           projectedBenefits: [
-            "Certification fluide de vos droits d'exploitation en adéquation totale avec vos activités d'artiste.",
-            "Reconnaissance et contreparties personnelles via des projets certifiés et transparents.",
-            "Connexion directe avec un réseau mondial de mécènes et de partenaires certifiés."
+            t("Seamless certification of your exploitation rights, fully aligned with your work as an artist.", "Certification fluide de vos droits d'exploitation en adéquation totale avec vos activités d'artiste."),
+            t("Recognition and personal upside through certified, transparent projects.", "Reconnaissance et contreparties personnelles via des projets certifiés et transparents."),
+            t("Direct connection to a worldwide network of certified patrons and partners.", "Connexion directe avec un réseau mondial de mécènes et de partenaires certifiés.")
           ],
           auditIndexScore: 84
         });
