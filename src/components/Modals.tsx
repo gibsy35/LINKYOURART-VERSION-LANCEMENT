@@ -445,10 +445,10 @@ export const FeatureShowcaseModal: React.FC<{
       case 'CREATOR':
         return {
           title: t('CREATOR TIER ACCESS', 'ACCÈS AU FORFAIT CRÉATEUR'),
-          badge: t('CREATORS, PRODUCERS & WRITERS', 'CRÉATEURS, PRODUCTEURS & AUTEURS'),
+          badge: t('ALL INDEPENDENT CREATORS', 'TOUS LES CRÉATEURS INDÉPENDANTS'),
           description: t(
-            'Designed specifically for creators—including filmmakers, musicians, writers, choreographers, and designers—to submit up to 3 projects for certification, track their LYA Score, and connect with patrons who believe in their work.',
-            'Conçu spécifiquement pour les créateurs—cinéastes, musiciens, auteurs, chorégraphes et designers indépendants—pour soumettre jusqu\'à 3 projets à la certification, suivre leur Score LYA, et se connecter à des mécènes qui croient en leur travail.'
+            'Designed for every independent creator — filmmakers, musicians, writers, choreographers, designers, and any other creative discipline — to submit up to 3 projects for certification, track their LYA Score, and connect with patrons who believe in their work.',
+            'Conçu pour tout créateur indépendant — cinéastes, musiciens, auteurs, chorégraphes, designers, et toute autre discipline créative — pour soumettre jusqu\'à 3 projets à la certification, suivre son Score LYA, et se connecter à des mécènes qui croient en son travail.'
           ),
           feature1: t('Certification Access', 'Accès à la Certification'),
           feature1Value: t('UP TO 3 PROJECTS', 'JUSQU\'À 3 PROJETS'),

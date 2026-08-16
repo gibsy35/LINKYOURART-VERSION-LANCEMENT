@@ -290,7 +290,7 @@ export function downloadLegalDocument(title: string, content: string): void {
     <div class="divider"></div>
     <div class="content-block">
       <h3>MENTION LÉGALE</h3>
-      <p>Ce document constitue un enregistrement juridique officiel de la plateforme LYA. Il est protégé par les lois applicables en matière de propriété intellectuelle. Toute reproduction ou distribution non autorisée est interdite. Pour toute demande juridique, contactez legal@linkyourart.com.</p>
+      <p>Ce document constitue un enregistrement juridique officiel de la plateforme LYA. Il est protégé par les lois applicables en matière de propriété intellectuelle. Toute reproduction ou distribution non autorisée est interdite. Pour toute demande juridique, contactez contact@linkyourart.com.</p>
     </div>`;
 
   triggerDownload(

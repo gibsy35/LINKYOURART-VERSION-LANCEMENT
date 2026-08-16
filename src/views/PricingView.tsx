@@ -114,12 +114,11 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
       id: 'CREATOR',
       name: t('Creator', 'Créateur'),
       monthlyPrice: 0,
-      description: t('Certify your own work. Free forever, no hidden limits on discovery or patronage.', 'Certifiez vos propres créations. Gratuit à vie, aucune limite cachée sur la découverte ou le mécénat.'),
+      description: t('Certify your own work, free forever.', 'Certifiez vos créations, gratuit à vie.'),
       features: [
-        t('Project submission (up to 3)', 'Soumission de projets (jusqu\'à 3)'),
-        t('Extra certifications at €5 each', 'Certifications supplémentaires à 5€ l\'unité'),
-        t('LYA Score basic analysis', 'Analyse de base du Score LYA'),
-        t('Free certification', 'Certification gratuite'),
+        t('Up to 3 projects', 'Jusqu\'à 3 projets'),
+        t('Free LYA Score', 'Score LYA gratuit'),
+        t('Extra certifications at €5', 'Certifications suppl. à 5€'),
       ],
       color: 'primary-cyan',
       icon: <Zap size={24} />,
@@ -128,11 +127,10 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
       id: 'PRO_STARTER',
       name: t('Pro Starter', 'Pro Starter'),
       monthlyPrice: PRO_STARTER_PRICE_EUR,
-      description: t('For independent professionals sourcing and certifying creative work.', 'Pour les professionnels indépendants qui sourcent et certifient des créations.'),
+      description: t('For independent professionals sourcing and certifying work.', 'Pour les pros indépendants qui sourcent et certifient.'),
       features: [
-        t('Unlimited project submissions', 'Soumissions de projets illimitées'),
+        t('Unlimited submissions', 'Soumissions illimitées'),
         t('Full Registry access', 'Accès complet au Registre'),
-        t('Professional validation tools', 'Outils de validation professionnelle'),
         t('Priority review queue', 'File de revue prioritaire'),
       ],
       color: 'accent-gold',
@@ -143,11 +141,10 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
       id: 'PRO_ADVANCED',
       name: t('Pro Advanced', 'Pro Avancé'),
       monthlyPrice: PRO_ADVANCED_PRICE_EUR,
-      description: t('Everything in Starter, plus API access and dedicated support.', 'Tout Starter, plus l\'accès API et un accompagnement dédié.'),
+      description: t('Everything in Starter, plus API and dedicated support.', 'Tout Starter, plus API et accompagnement dédié.'),
       features: [
         t('Everything in Pro Starter', 'Tout Pro Starter'),
-        t('API access for certification', 'Accès API pour la certification'),
-        t('White-label reporting', 'Rapports en marque blanche'),
+        t('API access', 'Accès API'),
         t('Dedicated account manager', 'Gestionnaire de compte dédié'),
       ],
       color: 'accent-pink',
@@ -157,13 +154,11 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
       id: 'PRO_ENTERPRISE',
       name: t('Institutional Enterprise', 'Entreprise Institutionnelle'),
       monthlyPrice: 15000,
-      description: t('Strategic infrastructure for major studios, publishers, and labels. Dedicated support with 24/7 priority access.', 'Infrastructure stratégique pour les grands studios, éditeurs et labels. Support dédié avec accès prioritaire 24/7.'),
+      description: t('Strategic infrastructure for major studios, publishers, and labels.', 'Infrastructure stratégique pour studios, éditeurs et labels.'),
       features: [
-        t('Full Catalog Certification & Migration', 'Certification et Migration de Catalogue Complet'),
-        t('Externalized Editorial Management', 'Gestion Éditoriale Externalisée'),
-        t('Custom Certification Workflow', 'Processus de Certification Personnalisé'),
-        t('Governance & Lounge access included', 'Accès Gouvernance & Salon inclus'),
-        t('Advanced LYA Reporting', 'Rapports Avancés LYA'),
+        t('Full catalog certification', 'Certification de catalogue complet'),
+        t('Custom certification workflow', 'Processus personnalisé'),
+        t('24/7 dedicated support', 'Support dédié 24/7'),
       ],
       color: 'accent-purple',
       icon: <Building2 size={24} />,
@@ -172,12 +167,11 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
       id: 'VALIDATOR_PRO',
       name: t('Certified Validator', 'Validateur Certifié'),
       monthlyPrice: 0,
-      description: t('Not a plan you pay for — a professional accreditation. Certify creative work and get paid for every review, Standard or Express.', 'Ce n\'est pas un forfait que vous payez — une accréditation professionnelle. Certifiez des œuvres et soyez rémunéré pour chaque revue, Standard ou Express.'),
+      description: t('A professional accreditation, not a paid plan — get paid to certify.', 'Une accréditation professionnelle, pas un forfait — soyez payé pour certifier.'),
       features: [
-        t('Standard certification: always free to review, always paid', 'Certification standard\u00a0: toujours gratuite à traiter, toujours rémunérée'),
-        t('LYA Express: priority jobs, higher payout', 'LYA Express\u00a0: dossiers prioritaires, rémunération plus élevée'),
-        t('4 tiers: Bronze → Platine, paid automatically', '4 paliers\u00a0: Bronze → Platine, rémunérés automatiquement'),
-        t('Funded by the Validator Remuneration Fund', 'Financé par le Fonds de Rémunération des Validateurs'),
+        t('Standard: always free, always paid', 'Standard\u00a0: toujours gratuit, toujours rémunéré'),
+        t('Express: priority, higher payout', 'Express\u00a0: priorité, rémunération plus élevée'),
+        t('4 tiers, paid automatically', '4 paliers, rémunérés automatiquement'),
       ],
       color: 'emerald-400',
       icon: <ShieldCheck size={24} />,
@@ -313,7 +307,13 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
                     </div>
                   ) : (
                     <div className="flex items-baseline gap-1 flex-wrap">
-                      <span className="text-3xl font-black">{formatPrice(currentPrice)}</span>
+                      <span className={`text-3xl font-black ${
+                        plan.color === 'accent-gold' ? 'text-accent-gold' :
+                        plan.color === 'accent-purple' ? 'text-accent-purple' :
+                        plan.color === 'accent-pink' ? 'text-accent-pink' :
+                        plan.color === 'emerald-400' ? 'text-emerald-400' :
+                        'text-primary-cyan'
+                      }`}>{formatPrice(currentPrice)}</span>
                       <span className="text-on-surface-variant text-[10px] uppercase font-bold tracking-widest">/ {billingCycle === 'yearly' ? t('year', 'an') : t('month', 'mois')}</span>
                     </div>
                   )}
