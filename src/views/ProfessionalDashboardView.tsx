@@ -47,7 +47,7 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
 
   const receivedProjects = CONTRACTS.filter(c => c.status === 'LIVE');
   const riskProjects = CONTRACTS.filter(c => c.status === 'RISK');
-  const categories = ['Fine Art','Music','Film','Literature','Fashion','Architecture','Photography','Gaming','Design'];
+  const categories = ['Fine Art','Music','Film','TV Series','Literature','Fashion','Architecture','Photography','Gaming','Design','Podcast','Digital Art','Performing Arts','Gastronomy'];
 
   const missions = [
     {labelFR:CONTRACTS[1]?.name||'ÉPHÉMÉRIS',labelEN:CONTRACTS[1]?.name||'EPHEMERIS',id:'PRJ-2026-012',typeFR:'Certification LYA Niveau 3',typeEN:'LYA Level 3 Certification',statusFR:'En validation',statusEN:'In validation',pct:75,date:'2026-03-15',statusColor:'bg-accent-gold/10 text-accent-gold border-accent-gold/20'},
@@ -211,7 +211,7 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
                     <div className="relative"><select value={searchCat} onChange={e=>setSearchCat(e.target.value)} className="w-full bg-surface-high/40 border border-white/10 text-sm px-3 py-2.5 rounded-xl appearance-none focus:outline-none focus:border-primary-cyan transition-colors"><option value="">{T('Sélectionner','Select')}</option>{categories.map(c=><option key={c} value={c}>{c}</option>)}</select><ChevronDown size={11} className="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none"/></div>
                   </div>
                   <div className="space-y-1"><label className="text-[10px] font-black text-on-surface-variant/50 uppercase tracking-widest">Budget</label>
-                    <div className="relative"><select value={searchBudget} onChange={e=>setSearchBudget(e.target.value)} className="w-full bg-surface-high/40 border border-white/10 text-sm px-3 py-2.5 rounded-xl appearance-none focus:outline-none focus:border-primary-cyan transition-colors"><option value="">{T('Tous budgets','All budgets')}</option><option value="small">{'< 50K€'}</option><option value="medium">50K - 200K€</option><option value="large">{'> 200K€'}</option></select><ChevronDown size={11} className="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none"/></div>
+                    <div className="relative"><select value={searchBudget} onChange={e=>setSearchBudget(e.target.value)} className="w-full bg-surface-high/40 border border-white/10 text-sm px-3 py-2.5 rounded-xl appearance-none focus:outline-none focus:border-primary-cyan transition-colors"><option value="">{T('Tous budgets','All budgets')}</option><option value="xs">{'< 50K€'}</option><option value="small">{'50K - 200K€'}</option><option value="medium">{'200K - 500K€'}</option><option value="large">{'500K - 1M€'}</option><option value="xl">{'1M - 5M€'}</option><option value="xxl">{'> 5M€'}</option></select><ChevronDown size={11} className="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none"/></div>
                   </div>
                 </div>
                 <div className="space-y-2">
