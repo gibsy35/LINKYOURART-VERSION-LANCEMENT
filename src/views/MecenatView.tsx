@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { CONTRACTS } from "../types";
 import { useTranslation } from "../context/LanguageContext";
 import {
@@ -20,6 +20,9 @@ export function MecenatView() {
   const [activeTheme, setActiveTheme] = useState("all");
   const [detail, setDetail] = useState<{ contract: Contract; units: number } | null>(null);
   const [showPayment, setShowPayment] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(12);
+
+  useEffect(() => { setVisibleCount(12); }, [activeTheme]);
 
   // Utilise tous les contrats LIVE de types.ts
   const filteredContracts = useMemo(() => {
@@ -63,15 +66,15 @@ export function MecenatView() {
                 </p>
               </div>
               <div className="shrink-0 w-[180px]">
-                <div className="relative rounded-2xl p-px" style={{ background: 'linear-gradient(145deg, rgba(251,191,36,0.4) 0%, rgba(255,255,255,0.06) 60%)' }}>
+                <div className="relative rounded-2xl p-px" style={{ background: 'linear-gradient(145deg, rgba(0,212,232,0.35) 0%, rgba(255,255,255,0.06) 60%)' }}>
                   <div className="bg-surface-low/80 rounded-2xl p-5 text-center space-y-3">
-                    <p className="text-xs font-mono tracking-[0.22em] uppercase" style={{ color: 'rgba(251,191,36,0.55)' }}>
-                      {T('VALORISATION DE RÉFÉRENCE', 'REFERENCE VALUATION')}
+                    <p className="text-xs font-mono tracking-[0.22em] uppercase" style={{ color: 'rgba(0,212,232,0.6)' }}>
+                      {T('SCORE LYA', 'LYA SCORE')}
                     </p>
                     <p className="font-mono font-black text-2xl text-primary-cyan tracking-tight">
-                      €50.00
+                      0-1000
                     </p>
-                    <div className="h-px w-full" style={{ background: 'linear-gradient(90deg, transparent, rgba(251,191,36,0.3), transparent)' }} />
+                    <div className="h-px w-full" style={{ background: 'linear-gradient(90deg, transparent, rgba(0,212,232,0.3), transparent)' }} />
                     <p className="text-xs font-mono text-on-surface-variant/50 leading-relaxed">
                       {T('Standard de certification créative', 'Creative certification standard')}
                     </p>
@@ -118,17 +121,29 @@ export function MecenatView() {
             {T("Aucun projet dans cette catégorie.", "No projects in this category.")}
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {filteredContracts.map(contract => (
-              <ProjectCard
-                key={contract.id}
-                contract={contract}
-                lang={lang}
-                onViewProject={(c, u) => { setShowPayment(false); setDetail({ contract: c, units: u }); }}
-                onSupport={(c, u) => { setShowPayment(true); setDetail({ contract: c, units: u }); }}
-              />
-            ))}
-          </div>
+          <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {filteredContracts.slice(0, visibleCount).map(contract => (
+                <ProjectCard
+                  key={contract.id}
+                  contract={contract}
+                  lang={lang}
+                  onViewProject={(c, u) => { setShowPayment(false); setDetail({ contract: c, units: u }); }}
+                  onSupport={(c, u) => { setShowPayment(true); setDetail({ contract: c, units: u }); }}
+                />
+              ))}
+            </div>
+            {visibleCount < filteredContracts.length && (
+              <div className="flex justify-center mt-8">
+                <button
+                  onClick={() => setVisibleCount(n => n + 12)}
+                  className="px-6 py-3 bg-surface-high/40 border border-white/10 rounded-xl text-sm font-black text-on-surface-variant hover:text-on-surface hover:border-primary-cyan/40 transition-all"
+                >
+                  {T('Voir plus', 'Load more')} ({filteredContracts.length - visibleCount} {T('restants', 'remaining')})
+                </button>
+              </div>
+            )}
+          </>
         )}
       </div>
 
