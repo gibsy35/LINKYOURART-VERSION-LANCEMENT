@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
+import { getAuth, setPersistence, indexedDBLocalPersistence, browserLocalPersistence } from 'firebase/auth';
 import { getFirestore, doc, getDocFromServer } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 import firebaseConfig from '../firebase-applet-config.json';
@@ -9,6 +9,19 @@ const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app, firebaseConfig.firestoreDatabaseId);
 export const auth = getAuth(app);
 export const storage = getStorage(app);
+
+// Explicit persistence, favoring IndexedDB. This matters specifically for
+// signInWithRedirect() on mobile browsers (Safari ITP, Chrome storage
+// partitioning): without it, some mobile browsers lose track of the
+// pending redirect between leaving for Google and coming back, so
+// getRedirectResult() silently resolves to null even though the Google
+// sign-in itself succeeded — the person lands back on the app logged out,
+// with no error shown. IndexedDB persistence is Firebase's own recommended
+// fix for this. Falls back to browserLocalPersistence if IndexedDB isn't
+// available (e.g. Safari private browsing).
+setPersistence(auth, indexedDBLocalPersistence).catch(() => {
+  setPersistence(auth, browserLocalPersistence).catch(() => {});
+});
 
 // Validate Connection to Firestore
 export async function testConnection() {

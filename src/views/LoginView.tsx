@@ -207,6 +207,12 @@ const LoginView: React.FC<LoginViewProps> = ({ onViewChange, setUser }) => {
       if (shouldUseRedirect()) {
         // Navigates away; the return trip (and profile setup) is handled
         // centrally in App.tsx once the browser comes back from Google.
+        // The marker below lets that central handler tell the difference
+        // between "no redirect was pending" and "a redirect was pending
+        // but the browser lost track of it" (a known mobile Safari/Chrome
+        // storage-partitioning issue) — the latter should show an error
+        // instead of silently dropping the person back on the landing page.
+        sessionStorage.setItem('lya_google_redirect_pending', '1');
         await signInWithRedirect(auth, provider);
         return;
       }

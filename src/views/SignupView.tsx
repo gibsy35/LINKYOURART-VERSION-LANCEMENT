@@ -295,6 +295,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
 
       if (shouldUseRedirect()) {
         sessionStorage.setItem('lya_signup_pending_role', role);
+        sessionStorage.setItem('lya_google_redirect_pending', '1');
         await signInWithRedirect(auth, provider);
         return;
       }

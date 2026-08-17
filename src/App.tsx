@@ -327,7 +327,24 @@ export default function App() {
   useEffect(() => {
     getRedirectResult(auth)
       .then(async (result) => {
-        if (!result || !result.user) return;
+        const wasPending = sessionStorage.getItem('lya_google_redirect_pending') === '1';
+        sessionStorage.removeItem('lya_google_redirect_pending');
+
+        if (!result || !result.user) {
+          // A redirect was sent to Google (marker set right before leaving)
+          // but nothing came back on this return trip -- the browser lost
+          // track of the pending sign-in (known issue on mobile Safari/
+          // Chrome with strict storage partitioning). Surface this instead
+          // of silently leaving the person on the landing page looking
+          // logged out with no explanation.
+          if (wasPending) {
+            notify(t(
+              'Google sign-in did not complete — your browser may have blocked it. Please try again, or use Email instead.',
+              'La connexion Google ne s\'est pas terminée — votre navigateur l\'a peut-être bloquée. Réessayez, ou utilisez votre e-mail.'
+            ));
+          }
+          return;
+        }
         const pendingRole = sessionStorage.getItem('lya_signup_pending_role');
         if (pendingRole) {
           sessionStorage.removeItem('lya_signup_pending_role');
@@ -344,6 +361,8 @@ export default function App() {
       })
       .catch((err) => {
         console.error('Google redirect result error:', err);
+        sessionStorage.removeItem('lya_google_redirect_pending');
+        notify(t('Google sign-in failed. Please try again.', 'La connexion Google a échoué. Veuillez réessayer.'));
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

@@ -130,6 +130,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onNotify,
 
       if (shouldUseRedirect()) {
         if (mode === 'SIGNUP') sessionStorage.setItem('lya_signup_pending_role', selectedRole);
+        sessionStorage.setItem('lya_google_redirect_pending', '1');
         await signInWithRedirect(auth, provider);
         return;
       }
