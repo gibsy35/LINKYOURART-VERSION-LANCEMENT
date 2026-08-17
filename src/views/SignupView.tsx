@@ -4,7 +4,7 @@ import { UserRole, UserProfile } from '../types';
 import { View } from '../components/ui/Sidebar';
 import { ArrowRight, User, Briefcase, TrendingUp, Loader2, ShieldCheck, Mail, Lock, Globe, ChevronLeft, X, Send, Heart } from 'lucide-react';
 import { useTranslation } from '../context/LanguageContext';
-import { auth, db, handleFirestoreError, OperationType } from '../firebase';
+import { auth, db, handleFirestoreError, OperationType, logAuthDebugEvent } from '../firebase';
 import { createUserWithEmailAndPassword, updateProfile, GoogleAuthProvider, signInWithPopup, signInWithRedirect, sendEmailVerification, type User as FirebaseUser } from 'firebase/auth';
 import { doc, setDoc, getDoc, collection, query, where, getDocs, limit } from 'firebase/firestore';
 import { Logo } from '../components/ui/Logo';
@@ -296,6 +296,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
       if (shouldUseRedirect()) {
         sessionStorage.setItem('lya_signup_pending_role', role);
         sessionStorage.setItem('lya_google_redirect_pending', '1');
+        await logAuthDebugEvent('redirect_initiated', { source: 'SignupView', role });
         await signInWithRedirect(auth, provider);
         return;
       }

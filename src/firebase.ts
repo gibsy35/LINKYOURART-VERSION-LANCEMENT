@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, setPersistence, indexedDBLocalPersistence, browserLocalPersistence } from 'firebase/auth';
-import { getFirestore, doc, getDocFromServer } from 'firebase/firestore';
+import { getFirestore, doc, getDocFromServer, collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 import firebaseConfig from '../firebase-applet-config.json';
 
@@ -36,6 +36,28 @@ export async function testConnection() {
   }
 }
 testConnection();
+
+// ─── Google redirect-auth diagnostic logging ───────────────────────────────
+// Temporary instrumentation to debug the mobile "Google sign-in silently
+// fails and lands back on landing" issue. Logs to Firestore (not just
+// console) specifically because mobile devtools access is impractical --
+// this lets the failure be inspected after the fact from any machine.
+// Safe to remove once the mobile redirect-auth issue is confirmed fixed.
+export async function logAuthDebugEvent(stage: 'redirect_initiated' | 'redirect_return', details: Record<string, any>) {
+  try {
+    await addDoc(collection(db, 'auth_debug_logs'), {
+      stage,
+      ...details,
+      userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : null,
+      url: typeof window !== 'undefined' ? window.location.href : null,
+      timestamp: serverTimestamp(),
+    });
+  } catch (e) {
+    // Never let debug logging break the actual auth flow.
+    console.warn('[auth_debug_logs] failed to write:', e);
+  }
+}
+
 
 export enum OperationType {
   CREATE = 'create',

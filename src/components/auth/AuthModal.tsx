@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, LogIn, UserPlus, Mail, Lock, ShieldCheck, Globe, Palette, TrendingUp, Briefcase } from 'lucide-react';
 import { useTranslation } from '../../context/LanguageContext';
-import { auth, db } from '../../firebase';
+import { auth, db, logAuthDebugEvent } from '../../firebase';
 import { 
   signInWithPopup, 
   signInWithRedirect,
@@ -131,6 +131,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onNotify,
       if (shouldUseRedirect()) {
         if (mode === 'SIGNUP') sessionStorage.setItem('lya_signup_pending_role', selectedRole);
         sessionStorage.setItem('lya_google_redirect_pending', '1');
+        await logAuthDebugEvent('redirect_initiated', { source: 'AuthModal', mode });
         await signInWithRedirect(auth, provider);
         return;
       }

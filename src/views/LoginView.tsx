@@ -4,7 +4,7 @@ import { ArrowRight, LogIn, Loader2, Mail, Lock, ShieldCheck, Globe, Send, Trend
 import { UserProfile, UserRole } from '../types';
 import { View } from '../components/ui/Sidebar';
 import { useTranslation } from '../context/LanguageContext';
-import { auth, db } from '../firebase';
+import { auth, db, logAuthDebugEvent } from '../firebase';
 import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, signInWithRedirect, sendPasswordResetEmail, type User as FirebaseUser } from 'firebase/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { handleFirestoreError, OperationType } from '../firebase';
@@ -213,6 +213,7 @@ const LoginView: React.FC<LoginViewProps> = ({ onViewChange, setUser }) => {
         // storage-partitioning issue) — the latter should show an error
         // instead of silently dropping the person back on the landing page.
         sessionStorage.setItem('lya_google_redirect_pending', '1');
+        await logAuthDebugEvent('redirect_initiated', { source: 'LoginView' });
         await signInWithRedirect(auth, provider);
         return;
       }
@@ -221,6 +222,7 @@ const LoginView: React.FC<LoginViewProps> = ({ onViewChange, setUser }) => {
       await processGoogleAuthUser(result.user);
     } catch (err: any) {
       console.error('Google login error:', err);
+      logAuthDebugEvent('redirect_return', { outcome: 'initiate_error', source: 'LoginView', errorCode: err?.code || null, errorMessage: err?.message || String(err) });
       if (err.code === 'auth/popup-closed-by-user') {
         setError(t(
           'Authentification popup closed. Please try again or use your Email login.',

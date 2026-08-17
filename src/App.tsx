@@ -58,7 +58,7 @@ import { UserRole, UserProfile } from './types';
 import { getPermissions } from './lib/permissions';
 import { useTranslation } from './context/LanguageContext';
 import { useMarketData } from './hooks/useMarketData';
-import { auth, db, handleFirestoreError, OperationType, testConnection } from './firebase';
+import { auth, db, handleFirestoreError, OperationType, testConnection, logAuthDebugEvent } from './firebase';
 import { onAuthStateChanged, signOut, getRedirectResult } from 'firebase/auth';
 import { doc, onSnapshot, getDoc, updateDoc, setDoc, collection, addDoc, serverTimestamp } from 'firebase/firestore';
 export default function App() {
@@ -325,9 +325,9 @@ export default function App() {
   // onAuthStateChanged listener above; this effect only needs to (a) apply
   // the role chosen pre-redirect on SignupView, if any, and (b) navigate.
   useEffect(() => {
+    const wasPending = sessionStorage.getItem('lya_google_redirect_pending') === '1';
     getRedirectResult(auth)
       .then(async (result) => {
-        const wasPending = sessionStorage.getItem('lya_google_redirect_pending') === '1';
         sessionStorage.removeItem('lya_google_redirect_pending');
 
         if (!result || !result.user) {
@@ -338,6 +338,7 @@ export default function App() {
           // of silently leaving the person on the landing page looking
           // logged out with no explanation.
           if (wasPending) {
+            await logAuthDebugEvent('redirect_return', { outcome: 'no_result', wasPending: true });
             notify(t(
               'Google sign-in did not complete — your browser may have blocked it. Please try again, or use Email instead.',
               'La connexion Google ne s\'est pas terminée — votre navigateur l\'a peut-être bloquée. Réessayez, ou utilisez votre e-mail.'
@@ -345,6 +346,7 @@ export default function App() {
           }
           return;
         }
+        await logAuthDebugEvent('redirect_return', { outcome: 'success', wasPending, uid: result.user.uid, email: result.user.email });
         const pendingRole = sessionStorage.getItem('lya_signup_pending_role');
         if (pendingRole) {
           sessionStorage.removeItem('lya_signup_pending_role');
@@ -359,9 +361,10 @@ export default function App() {
         }
         setCurrentView('HOME');
       })
-      .catch((err) => {
+      .catch(async (err) => {
         console.error('Google redirect result error:', err);
         sessionStorage.removeItem('lya_google_redirect_pending');
+        await logAuthDebugEvent('redirect_return', { outcome: 'error', wasPending, errorCode: err?.code || null, errorMessage: err?.message || String(err) });
         notify(t('Google sign-in failed. Please try again.', 'La connexion Google a échoué. Veuillez réessayer.'));
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
