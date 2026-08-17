@@ -425,7 +425,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
                       </div>
                       <div className="space-y-0.5">
                         <h3 className={`text-[10px] font-black uppercase tracking-widest transition-colors ${role === r.id ? 'text-primary-cyan' : 'text-white'}`}>{r.title}</h3>
-                        <p className="text-[10px] text-on-surface-variant/70 leading-relaxed uppercase font-bold tracking-tight line-clamp-1">{r.description}</p>
+                        <p className="text-[10px] text-on-surface-variant/70 leading-relaxed uppercase font-bold tracking-tight line-clamp-2">{r.description}</p>
                       </div>
                     </div>
                   ))}
@@ -529,7 +529,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
                         value={formData.accessCode}
                         onChange={(e) => setFormData({ ...formData, accessCode: e.target.value })}
                         className="w-full bg-transparent rounded-xl p-4 pl-12 text-sm font-black text-white focus:outline-none transition-all placeholder:text-white/30 uppercase tracking-[0.15em] text-center"
-                        placeholder={t('DEMO ACCESS CODE (e.g. LYA2026)', 'CODE D\'ACCÈS PRIVILÉGIÉ (e.g. LYA2026)')}
+                        placeholder={t('DEMO ACCESS CODE (OPTIONAL)', 'CODE D\'ACCÈS PRIVILÉGIÉ (OPTIONNEL)')}
                       />
                     </div>
                   </div>
