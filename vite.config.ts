@@ -42,7 +42,13 @@ export default defineConfig(({mode}) => {
           // that request and serves the app shell (index.html) instead of the
           // actual PDF — which is why the brochure viewer showed the LYA
           // loader/pre-registration page instead of the document.
-          navigateFallbackDenylist: [/\.pdf$/],
+          // Same issue for /api/*: visiting an API route directly (typed in
+          // the address bar, not called via fetch() from JS) also counts as
+          // a navigation request, so it was equally hijacked and served the
+          // app shell instead of the real JSON response — this is why
+          // /api/gemini/auth-debug-logs rendered nothing when opened
+          // directly on a phone.
+          navigateFallbackDenylist: [/\.pdf$/, /^\/api\//],
           runtimeCaching: [
             {
               urlPattern: ({ url }) => url.pathname.startsWith('/api/'),
