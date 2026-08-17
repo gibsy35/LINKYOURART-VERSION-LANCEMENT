@@ -778,8 +778,12 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
         </div>
       </div>
       
-      {/* Dynamic Floating Visualizer (Ambient Design) */}
-      <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-50 pointer-events-none">
+      {/* Dynamic Floating Visualizer (Ambient Design) — hidden on mobile:
+          fixed positioning with no bottom-padding compensation on the
+          content column caused it to overlap scrolling text on narrow
+          screens, and its only functional element (Exit) already exists
+          as the back button in the header above. */}
+      <div className="hidden md:block fixed bottom-10 left-1/2 -translate-x-1/2 z-50 pointer-events-none">
          <div className="px-10 py-6 bg-black/80 backdrop-blur-3xl border border-white/10 rounded-full flex items-center gap-10 shadow-[0_50px_100px_rgba(0,0,0,0.8)] pointer-events-auto group">
             <div className="flex items-center gap-4">
                <div className="w-3 h-3 rounded-full bg-primary-cyan animate-pulse shadow-[0_0_10px_#00E0FF]" />
