@@ -481,103 +481,24 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
 
             {/* ── HERO ── */}
             <div className="max-w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 px-4 md:px-8 pt-8 md:pt-16 pb-20 md:pb-32 items-center relative z-10">
-              <div className="lg:col-span-7 space-y-8 relative z-20">
-                <motion.div initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}>
-                  
-                  <div className="inline-flex items-center gap-4 px-5 py-2 border border-primary-cyan/30 bg-primary-cyan/10 rounded-full text-[11px] font-black tracking-[0.3em] text-primary-cyan uppercase mb-6 backdrop-blur-md">
-                    <span className="relative flex h-2 w-2">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-cyan opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-primary-cyan"></span>
-                    </span>
-                    {t('EXCLUSIVE ACCESS — PIONEERS ONLY', "ACCÈS EXCLUSIF — PIONNIERS UNIQUEMENT")}
-                  </div>
 
-                  {/* ── TITRE : 2 lignes, typo ultra grasse ── */}
-                  <h2 className="font-headline text-5xl md:text-6xl xl:text-7xl font-black uppercase tracking-tighter leading-[0.88] text-on-surface mb-6" style={{ textShadow: "0 0 60px rgba(0,212,255,0.12)" }}>
-                    <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}>
-                      {t("THE REFERENCE STANDARD", "L'ÉTALON DE RÉFÉRENCE")}<br />
-                      <span className="text-primary-cyan" style={{ WebkitTextStroke: "1px rgba(0,212,255,0.3)" }}>{t("FOR CREATIVE WORKS", "DE LA CRÉATION")}</span>
-                    </motion.div>
-                  </h2>
-
-                  {/* ── PHRASE SIGNATURE ── */}
-                  <motion.p initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, delay: 0.5 }}
-                    className="text-xl md:text-2xl xl:text-3xl font-black text-white italic tracking-tight mb-6 border-l-4 border-primary-cyan pl-5">
-                    "{t('Your creativity has value. We certify it. Patrons recognize it.', 'Votre créativité a une valeur. Nous la certifions. Des mécènes la reconnaissent.')}"
-                  </motion.p>
-
-                  <p className="text-white/70 text-base md:text-lg xl:text-xl font-medium leading-relaxed max-w-2xl">
-                    {t(
-                      "20 years of history. One conviction, art has value: LinkYourArt appraises it, certifies it and shares it — for every creator in the world.",
-                      "20 ans d'histoire. Une seule conviction, l'art a de la valeur : LinkYourArt l'expertise, la certifie et la partage — pour tous les créateurs du monde."
-                    )}
-                  </p>
-
-                </motion.div>
-
-                {/* Compteur pré-inscrits — intégré */}
-                <div className="flex items-center gap-3 p-4 bg-white/[0.04] border border-white/10 rounded-2xl backdrop-blur-sm w-fit">
-                  <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse shrink-0"/>
-                    <span className="text-xs font-black text-emerald-400 uppercase tracking-widest">{t('Open', 'Ouvert')}</span>
-                  </div>
-                  <div className="w-px h-5 bg-white/10"/>
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-2xl font-black text-primary-cyan">{(totalRegistrations || 0).toLocaleString()}</span>
-                    <span className="text-xs text-white/40 font-black uppercase tracking-widest">{t('pioneers registered', 'pionniers inscrits')}</span>
-                  </div>
-                </div>
-
-                {/* Preuve sociale */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-4 mb-16 md:mb-0">
-                  {[
-                    {
-                      value: "20",
-                      label: t("years of creative history", "ans d'histoire créative"),
-                      sub: t("Founded in 2006", "Fondé en 2006"),
-                      color: "#00d4ff"
-                    },
-                    {
-                      value: "9+",
-                      label: t("artistic universes & beyond", "univers artistiques & plus"),
-                      sub: t("Music · Film · Fashion · Gaming · Architecture · Photography · TV Series · and more", "Musique · Film · Mode · Jeu · Architecture · Photographie · Séries TV · et plus"),
-                      color: "#a78bfa"
-                    },
-                    {
-                      value: "1",
-                      label: t("unique value standard", "valeur unique au monde"),
-                      sub: t("The LYA Score — an objective certification standard", "Le Score LYA — un standard de certification objectif"),
-                      color: "#00ff88"
-                    }
-                  ].map((stat, i) => (
-                    <motion.div
-                      key={i}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.8 + (i * 0.15) }}
-                      className="bg-white/[0.03] border border-white/10 rounded-2xl p-4 hover:border-white/20 transition-all"
-                    >
-                      <div className="font-black font-mono text-2xl md:text-3xl mb-1" style={{ color: stat.color }}>{stat.value}</div>
-                      <div className="text-white text-xs font-bold mb-1">{stat.label}</div>
-                      <div className="text-white/30 text-xs leading-tight">{stat.sub}</div>
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
-
-              {/* ── FORMULAIRE PRÉ-INSCRIPTION ── */}
+              {/* ── FORMULAIRE PRÉ-INSCRIPTION — GAUCHE, STYLE VIP DORÉ ── */}
               <div className="lg:col-span-5 relative z-20 flex flex-col justify-center">
                 <motion.div
                   id="pre-registration-form"
                   initial={{ opacity: 0, scale: 0.95 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
-                  transition={{ delay: 0.8, duration: 1 }}
-                  className="bg-white/[0.03] border border-white/10 rounded-[3rem] p-8 md:p-10 xl:p-12 backdrop-blur-2xl relative overflow-hidden mt-6 lg:mt-0"
+                  transition={{ delay: 0.4, duration: 1 }}
+                  className="relative rounded-[3rem] p-8 md:p-10 xl:p-12 backdrop-blur-2xl overflow-hidden mt-6 lg:mt-0"
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(255,215,0,0.08), rgba(255,165,0,0.03), rgba(13,17,23,0.97))',
+                    border: '1px solid rgba(255,215,0,0.35)',
+                    boxShadow: '0 0 80px rgba(255,215,0,0.07), inset 0 1px 0 rgba(255,215,0,0.12)',
+                  }}
                 >
-                  <div className="absolute top-0 right-0 w-64 h-64 bg-primary-cyan/10 blur-[100px] rounded-full -mr-20 -mt-20" />
-                  
-                  {!submitted ? (
+                  <div className="absolute top-0 right-0 w-64 h-64 blur-[100px] rounded-full -mr-20 -mt-20" style={{background:'rgba(255,215,0,0.05)'}} />
+                                    {!submitted ? (
                     <div className="relative z-10 space-y-8">
                       <div className="space-y-2">
                         <h3 className="font-headline text-3xl font-black uppercase tracking-tighter">{t('PRE-REGISTRATION', 'PRÉ-INSCRIPTION')}</h3>
@@ -746,9 +667,73 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                       {/* Debug email — temporaire */}
                     </motion.div>
                   )}
+
                 </motion.div>
-                <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-[#9D00FF]/10 blur-3xl rounded-full"/>
               </div>
+
+              {/* ── TEXTE HERO — DROITE ── */}
+              <div className="lg:col-span-7 space-y-8 relative z-20">
+                <motion.div initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}>
+                  <div className="inline-flex items-center gap-4 px-5 py-2 border border-primary-cyan/30 bg-primary-cyan/10 rounded-full text-[11px] font-black tracking-[0.3em] text-primary-cyan uppercase mb-6 backdrop-blur-md">
+                    <span className="relative flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-cyan opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-primary-cyan"></span>
+                    </span>
+                    {t('EXCLUSIVE ACCESS — PIONEERS ONLY', "ACCÈS EXCLUSIF — PIONNIERS UNIQUEMENT")}
+                  </div>
+
+                  {/* ── TITRE ── */}
+                  <h2 className="font-headline text-5xl md:text-6xl xl:text-7xl font-black uppercase tracking-tighter leading-[0.88] text-on-surface mb-6" style={{ textShadow: "0 0 60px rgba(0,212,255,0.12)" }}>
+                    <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}>
+                      {t("THE REFERENCE STANDARD", "L'ÉTALON DE RÉFÉRENCE")}<br />
+                      <span className="text-primary-cyan" style={{ WebkitTextStroke: "1px rgba(0,212,255,0.3)" }}>{t("FOR CREATIVE WORKS", "DE LA CRÉATION")}</span>
+                    </motion.div>
+                  </h2>
+
+                  {/* ── PHRASE SIGNATURE ── */}
+                  <motion.p initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, delay: 0.5 }}
+                    className="text-xl md:text-2xl xl:text-3xl font-black text-white italic tracking-tight mb-6 border-l-4 border-primary-cyan pl-5">
+                    "{t('Your creativity has value. We certify it. Patrons recognize it.', 'Votre créativité a une valeur. Nous la certifions. Des mécènes la reconnaissent.')}"
+                  </motion.p>
+
+                  <p className="text-white/70 text-base md:text-lg xl:text-xl font-medium leading-relaxed max-w-2xl">
+                    {t(
+                      "20 years of history. One conviction, art has value: LinkYourArt appraises it, certifies it and shares it — for every creator in the world.",
+                      "20 ans d'histoire. Une seule conviction, l'art a de la valeur : LinkYourArt l'expertise, la certifie et la partage — pour tous les créateurs du monde."
+                    )}
+                  </p>
+                </motion.div>
+
+                {/* Compteur pré-inscrits */}
+                <div className="flex items-center gap-3 p-4 bg-white/[0.04] border border-white/10 rounded-2xl backdrop-blur-sm w-fit">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse shrink-0"/>
+                    <span className="text-xs font-black text-emerald-400 uppercase tracking-widest">{t('Open', 'Ouvert')}</span>
+                  </div>
+                  <div className="w-px h-5 bg-white/10"/>
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-2xl font-black text-primary-cyan">{(totalRegistrations || 0).toLocaleString()}</span>
+                    <span className="text-xs text-white/40 font-black uppercase tracking-widest">{t('pioneers registered', 'pionniers inscrits')}</span>
+                  </div>
+                </div>
+
+                {/* Stats */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-4">
+                  {[
+                    { value: "20", label: t("years of creative history", "ans d'histoire créative"), sub: t("Founded in 2006", "Fondé en 2006"), color: "#00d4ff" },
+                    { value: "9+", label: t("artistic universes & beyond", "univers artistiques & plus"), sub: t("Music · Film · Fashion · Gaming · Architecture · Photography · TV Series · and more", "Musique · Film · Mode · Jeu · Architecture · Photographie · Séries TV · et plus"), color: "#a78bfa" },
+                    { value: "1", label: t("unique value standard", "valeur unique au monde"), sub: t("The LYA Score — an objective certification standard", "Le Score LYA — un standard de certification objectif"), color: "#00ff88" }
+                  ].map((stat, i) => (
+                    <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8 + (i * 0.15) }}
+                      className="bg-white/[0.03] border border-white/10 rounded-2xl p-4 hover:border-white/20 transition-all">
+                      <div className="font-black font-mono text-2xl md:text-3xl mb-1" style={{ color: stat.color }}>{stat.value}</div>
+                      <div className="text-white text-xs font-bold mb-1">{stat.label}</div>
+                      <div className="text-white/30 text-xs leading-tight">{stat.sub}</div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+
             </div>
 
             {/* Footer */}
