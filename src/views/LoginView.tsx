@@ -146,9 +146,12 @@ const LoginView: React.FC<LoginViewProps> = ({ onViewChange, setUser }) => {
   const shouldUseRedirect = () => {
     if (typeof navigator === 'undefined') return false;
     const ua = navigator.userAgent || '';
-    const isInAppBrowser = /FBAN|FBAV|Instagram|LinkedInApp|Line\/|Twitter|TikTok|MicroMessenger|GSA\//i.test(ua);
-    const isMobile = /Android|iPhone|iPad|iPod/i.test(ua);
-    return isInAppBrowser || isMobile;
+    // Only use redirect for in-app browsers where popups are truly blocked.
+    // Standard mobile browsers (Chrome Android, Safari iOS) handle popups
+    // fine — forcing redirect on all mobiles was causing the sign-in to
+    // silently fail on return (getRedirectResult() resolving to null).
+    const isInAppBrowser = /FBAN|FBAV|Instagram|LinkedInApp|Line\/|Twitter|TikTok|MicroMessenger/i.test(ua);
+    return isInAppBrowser;
   };
 
   const processGoogleAuthUser = async (firebaseUser: FirebaseUser) => {
