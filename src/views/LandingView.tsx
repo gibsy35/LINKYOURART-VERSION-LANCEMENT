@@ -95,13 +95,8 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
   const [referredBy, setReferredBy] = useState<string | null>(null);
   const [totalRegistrations, setTotalRegistrations] = useState<number | null>(null);
   const [linkCopied, setLinkCopied] = useState(false);
-  const [showDemoModal, setShowDemoModal] = useState(false);
-  const [demoRequestReason, setDemoRequestReason] = useState('');
-  const [demoSubmitted, setDemoSubmitted] = useState(false);
   const [accessKey, setAccessKey] = useState('');
-  const [keyError, setKeyError] = useState(false);
   const [isVerifyingKey, setIsVerifyingKey] = useState(false);
-  const [showKeyInput, setShowKeyInput] = useState(false);
   const [activeLegal, setActiveLegal] = useState<'GDPR' | 'PRIVACY' | 'TERMS' | null>(null);
   const [activeInfo, setActiveInfo] = useState<'HOW' | 'SCORE' | 'SECURITY' | null>(null);
   const [logoTapCount, setLogoTapCount] = useState(0);
@@ -361,43 +356,6 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
     setIsSubmitting(false);
   };
 
-  const handleDemoRequest = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    try {
-      const localDemo = JSON.parse(localStorage.getItem('lya_local_demo_requests') || '[]');
-      localDemo.push({ id: 'local_demo_' + Date.now(), name, email, reason: demoRequestReason, timestamp: { toDate: () => new Date() }, type: 'DEMO_REQUEST', status: 'PENDING' });
-      localStorage.setItem('lya_local_demo_requests', JSON.stringify(localDemo));
-      await addDoc(collection(db, 'demo_requests'), { name, email, reason: demoRequestReason, timestamp: serverTimestamp(), type: 'DEMO_REQUEST' });
-      setDemoSubmitted(true);
-    } catch (error) {
-      console.error("Error saving demo request:", error);
-      handleFirestoreError(error, OperationType.CREATE, 'demo_requests');
-      setDemoSubmitted(true);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const verifyKey = async () => {
-    if (!accessKey) return;
-    setIsVerifyingKey(true);
-    setKeyError(false);
-    try {
-      const localKeys = JSON.parse(localStorage.getItem('lya_local_access_keys') || '[]');
-      const hasLocalKey = localKeys.some((k: any) => k.key.trim().toUpperCase() === accessKey.trim().toUpperCase() && k.status !== 'REVOKED');
-      if (hasLocalKey) { onEnterDemo(); return; }
-      const q = query(collection(db, 'access_keys'), where('key', '==', accessKey.trim().toUpperCase()), where('status', '==', 'ACTIVE'), limit(1));
-      const querySnapshot = await getDocs(q);
-      if (!querySnapshot.empty) { onEnterDemo(); } else { setKeyError(true); }
-    } catch (error) {
-      console.error("Error verifying key:", error);
-      if (accessKey.trim().length >= 4) { onEnterDemo(); } else { setKeyError(true); }
-    } finally {
-      setIsVerifyingKey(false);
-    }
-  };
-
   const referralLink = referralCode && typeof window !== 'undefined'
     ? `${window.location.origin}${window.location.pathname}?ref=${referralCode}`
     : '';
@@ -475,9 +433,6 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
             <nav className="px-4 md:px-8 py-4 md:py-6 flex justify-between items-center max-w-full max-w-7xl mx-auto relative z-[60]">
               <div className="flex md:hidden w-full items-center relative py-2">
                 <div className="flex flex-col items-start gap-2 z-10">
-                  <button onClick={() => setShowDemoModal(true)} className="flex bg-white/5 border border-white/10 hover:border-primary-cyan/50 transition-all p-2.5 rounded-full items-center justify-center">
-                    <Lock size={13} />
-                  </button>
                   <div className="flex items-center bg-white/5 border border-white/10 rounded-full p-0.5">
                     <button onClick={() => setLanguage('FR')} className={`px-3 py-1 rounded-full text-xs font-black tracking-wider transition-all ${language === 'FR' ? 'bg-white text-black' : 'text-white/40'}`}>FR</button>
                     <button onClick={() => setLanguage('EN')} className={`px-3 py-1 rounded-full text-xs font-black tracking-wider transition-all ${language === 'EN' ? 'bg-white text-black' : 'text-white/40'}`}>EN</button>
@@ -520,10 +475,6 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                 <button onClick={() => onViewChange?.('LOGIN')} className="hidden md:flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-white/60 hover:text-white transition-colors">
                   <User size={14} />
                   {t('LOGIN', 'CONNEXION')}
-                </button>
-                <button onClick={() => setShowDemoModal(true)} className="flex items-center gap-2 px-3 md:px-5 py-2 md:py-2.5 rounded-full text-[10px] font-black tracking-widest uppercase transition-all" style={{background:'linear-gradient(135deg,rgba(255,215,0,0.12),rgba(255,215,0,0.06))',border:'1px solid rgba(255,215,0,0.35)',color:'#FFD700',boxShadow:'0 0 20px rgba(255,215,0,0.1)'}}>
-                  <span style={{fontSize:'10px'}}>◆</span>
-                  <span className="hidden sm:inline">{t('PRIVATE DISCOVERY', 'DÉCOUVERTE PRIVÉE')}</span>
                 </button>
               </div>
             </nav>
@@ -960,75 +911,6 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
         )}
       </AnimatePresence>
 
-      {/* Demo Modal */}
-      <AnimatePresence mode="sync">
-        {showDemoModal && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowDemoModal(false)} className="absolute inset-0 bg-black/90 backdrop-blur-2xl" />
-            <motion.div initial={{ opacity: 0, scale: 0.95, y: 30 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 30 }} className="relative w-full max-w-xl max-h-[95vh] lg:max-h-[90vh] overflow-y-auto scrollbar-thin bg-[#0D1117] border border-white/10 rounded-[2.5rem] p-6 sm:p-8 md:p-10 shadow-3xl">
-              <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-[#FFD700] via-[#FFA500] to-[#FFD700] rounded-t-[2.5rem]" />
-              {!demoSubmitted ? (
-                <div className="space-y-6 md:space-y-8">
-                  <div className="flex items-center gap-6">
-                    <div className="w-16 h-16 bg-primary-cyan/10 rounded-2xl flex items-center justify-center text-primary-cyan border border-primary-cyan/20"><Lock size={32} /></div>
-                    <div>
-                      <h3 className="font-headline text-3xl font-black uppercase tracking-tighter">{t('PRIVATE DISCOVERY ACCESS', 'ACCÈS DÉCOUVERTE PRIVÉE')}</h3>
-                      <p className="text-xs text-white/30 font-black uppercase tracking-[0.4em]">{t('FOR PATRONS & INSTITUTIONS', 'POUR MÉCÈNES & INSTITUTIONS')}</p>
-                    </div>
-                  </div>
-                  <form onSubmit={handleDemoRequest} className="space-y-6">
-                    <div className="space-y-4">
-                      <input type="text" placeholder={t('Identity Name', 'Identité Nom')} required value={name} onChange={(e) => setName(e.target.value)} className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 px-8 focus:outline-none focus:border-primary-cyan/50 transition-all font-bold text-sm tracking-tight" />
-                      <input type="email" placeholder={t('Professional Email', 'Email Professionnel')} required value={email} onChange={(e) => setEmail(e.target.value)} className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 px-8 focus:outline-none focus:border-primary-cyan/50 transition-all font-bold text-sm tracking-tight" />
-                      <textarea placeholder={t('Your role & reason for requesting private access', 'Votre rôle & motif de demande d\'accès privé')} required value={demoRequestReason} onChange={(e) => setDemoRequestReason(e.target.value)} rows={4} className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 px-8 focus:outline-none focus:border-primary-cyan/50 transition-all font-bold text-sm tracking-tight resize-none" />
-                    </div>
-                    <div className="pt-4 flex flex-col gap-4">
-                      <button type="submit" disabled={isSubmitting} className="w-full py-6 bg-primary-cyan text-black font-black uppercase tracking-[0.3em] rounded-2xl hover:shadow-[0_0_40px_rgba(0,224,255,0.3)] transition-all active:scale-95 text-xs flex items-center justify-center gap-3">
-                        {isSubmitting ? <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin" /> : <>{t('REQUEST PRIVATE ACCESS', 'DEMANDER UN ACCÈS PRIVÉ')}<ArrowRight size={20} /></>}
-                      </button>
-                      <div className="text-center pt-2">
-                        <p className="text-[10px] font-bold text-white/20 uppercase leading-relaxed font-mono">{t('Existing partners: Please authenticate via the Terminal Login.', 'Partenaires existants : Veuillez vous authentifier via le Login Terminal.')}</p>
-                        <div className="mt-8 pt-6 border-t border-white/10 space-y-4">
-                          {!showKeyInput ? (
-                            <button type="button" onClick={() => setShowKeyInput(true)} className="w-full py-4 px-6 bg-gradient-to-r from-accent-gold/10 to-primary-cyan/15 hover:from-accent-gold/20 hover:to-primary-cyan/25 border border-accent-gold/30 rounded-2xl flex flex-col items-center justify-center gap-1.5 transition-all duration-300 group">
-                              <span className="text-[11px] font-black uppercase tracking-[0.2em] text-accent-gold group-hover:text-primary-cyan transition-colors">🔑 {t('SECURE PARTNER RESERVATION ACCESS', 'RÉSERVATION PARTENAIRE SÉCURISÉE')}</span>
-                              <span className="text-[10px] font-bold text-white/50 uppercase tracking-wider">{t('ENTER SECURITY KEY TO BYPASS WAITLIST & START DEMO', 'SAISISSEZ VOTRE CLÉ POUR ACCÉDER DIRECTEMENT À LA DÉMO')}</span>
-                            </button>
-                          ) : (
-                            <motion.div initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} className="p-5 bg-gradient-to-b from-accent-gold/5 to-transparent border border-accent-gold/30 rounded-2xl space-y-4">
-                              <div className="text-center pb-1"><span className="text-xs font-black uppercase tracking-[0.25em] text-accent-gold">{t('AUTHORIZED GATEWAY KEY DECRYPTION', 'DÉCRYPTAGE DE LA CLÉ DE PORTAIL AUTORISÉE')}</span></div>
-                              <div className="relative group">
-                                <Lock className={`absolute left-5 top-1/2 -translate-y-1/2 transition-colors ${keyError ? 'text-rose-500' : 'text-accent-gold/60 group-focus-within:text-primary-cyan'}`} size={14} />
-                                <input type="text" placeholder={t('ENTER PARTNER ACCESS KEY', 'SAISISSEZ LA CLÉ D\'ACCÈS PARTENAIRE')} value={accessKey} onChange={(e) => { setAccessKey(e.target.value); setKeyError(false); }} className={`w-full bg-black border ${keyError ? 'border-rose-500/50' : 'border-accent-gold/20 focus:border-primary-cyan/50'} rounded-xl py-4 pl-12 pr-4 focus:outline-none text-[10px] font-black uppercase tracking-[0.22em] text-white transition-all`} />
-                              </div>
-                              <div className="flex gap-2.5">
-                                <button type="button" onClick={verifyKey} disabled={isVerifyingKey || !accessKey} className="flex-1 py-4 bg-accent-gold text-black text-xs font-black uppercase tracking-[0.2em] hover:bg-accent-gold/80 transition-all rounded-xl disabled:opacity-30 flex items-center justify-center gap-2">
-                                  {isVerifyingKey ? <RefreshCw className="animate-spin mx-auto" size={14} /> : <span>{t('AUTHENTICATE SECURITY ACCESS', "AUTHENTIFIER L'ACCÈS")}</span>}
-                                </button>
-                                <button type="button" onClick={() => { setShowKeyInput(false); setKeyError(false); }} className="px-4 py-4 bg-white/5 border border-white/10 text-xs font-black uppercase hover:bg-white/10 text-white/70 transition-all rounded-xl">X</button>
-                              </div>
-                              {keyError && <p className="text-[10px] font-black text-rose-500 uppercase tracking-widest text-center animate-bounce">{t('INVALID OR EXPIRED PRIVILEGE KEY', 'CLÉ DE PRIVILÈGE INVALIDE OU EXPIRÉE')}</p>}
-                            </motion.div>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-              ) : (
-                <div className="text-center py-10 space-y-10">
-                  <div className="w-24 h-24 bg-primary-cyan/10 rounded-full flex items-center justify-center mx-auto border border-primary-cyan/20"><CheckCircle2 size={48} className="text-primary-cyan" /></div>
-                  <div className="space-y-4">
-                    <h3 className="font-headline text-4xl font-black uppercase tracking-tighter leading-none">{t('CLEARANCE PENDING', 'AUTORISATION EN ATTENTE')}</h3>
-                    <p className="text-white/40 font-medium max-w-sm mx-auto leading-relaxed">{t('Our analysts are reviewing your profile. You will receive a secure access code via email within 24 hours.', "Nos analystes examinent votre profil. Vous recevrez un jeton d'accès sécurisé par e-mail sous 24 heures.")}</p>
-                  </div>
-                  <button onClick={() => setShowDemoModal(false)} className="w-full py-5 bg-white/5 border border-white/10 rounded-2xl text-[10px] font-black tracking-widest text-white/40 uppercase hover:text-white transition-colors">{t('CLOSE TERMINAL', 'FERMER LE TERMINAL')}</button>
-                </div>
-              )}
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
 
       {/* Easter Egg Admin Login */}
       {showLoginEaster && (
