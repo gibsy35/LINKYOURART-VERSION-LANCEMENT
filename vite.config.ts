@@ -31,6 +31,11 @@ export default defineConfig(({mode}) => {
           ],
         },
         workbox: {
+          // Skip waiting and claim clients immediately so a new SW takes
+          // over as soon as it's installed — prevents stale code from being
+          // served after a deploy while the old SW is still "waiting".
+          skipWaiting: true,
+          clientsClaim: true,
           // Precache the built app shell (JS/CSS/HTML/icons) for instant
           // repeat loads and basic offline resilience. Firestore/Firebase
           // Auth/Stripe calls are left alone (network-only, no caching) —
