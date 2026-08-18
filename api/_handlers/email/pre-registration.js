@@ -222,24 +222,40 @@ function buildEmail(name, position, referralCode, referralLink, lang, tier, acce
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:28px">
       <tr><td>
         <p style="margin:0 0 16px;font-size:11px;font-weight:900;color:#94a3b8;text-transform:uppercase;letter-spacing:0.15em;text-align:center">
-          ${isFR ? '— Téléchargez notre présentation officielle —' : '— Download our official presentation —'}
+          ${isFR ? '— Notre présentation officielle —' : '— Our official presentation —'}
         </p>
-        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+        <!-- Ligne 1 : version navigateur (compatible tous appareils) -->
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:8px">
           <tr>
             <td width="50%" style="padding-right:8px">
-              <a href="https://linkyourart.com/LYA_Brochure_FR_updated.pdf" style="display:block;background:linear-gradient(135deg,#0d1117,#1a2332);border:1.5px solid rgba(0,212,255,0.3);color:#00d4ff;text-decoration:none;font-size:13px;font-weight:900;padding:16px 20px;border-radius:12px;text-align:center;letter-spacing:0.08em;text-transform:uppercase">
-                📄 ${isFR ? 'Brochure LYA — FR' : 'LYA Brochure — FR'}
+              <a href="https://linkyourart.com/LYA_Brochure_FR.html" style="display:block;background:linear-gradient(135deg,#0d1117,#1a2332);border:1.5px solid rgba(0,212,255,0.3);color:#00d4ff;text-decoration:none;font-size:13px;font-weight:900;padding:16px 20px;border-radius:12px;text-align:center;letter-spacing:0.08em;text-transform:uppercase">
+                🌐 ${isFR ? 'Voir la brochure — FR' : 'View brochure — FR'}
               </a>
             </td>
             <td width="50%" style="padding-left:8px">
-              <a href="https://linkyourart.com/LYA_Brochure_EN_updated.pdf" style="display:block;background:linear-gradient(135deg,#0d1117,#1a2332);border:1.5px solid rgba(167,139,250,0.3);color:#a78bfa;text-decoration:none;font-size:13px;font-weight:900;padding:16px 20px;border-radius:12px;text-align:center;letter-spacing:0.08em;text-transform:uppercase">
-                📄 ${isFR ? 'LYA Brochure — EN' : 'LYA Brochure — EN'}
+              <a href="https://linkyourart.com/LYA_Brochure_EN.html" style="display:block;background:linear-gradient(135deg,#0d1117,#1a2332);border:1.5px solid rgba(167,139,250,0.3);color:#a78bfa;text-decoration:none;font-size:13px;font-weight:900;padding:16px 20px;border-radius:12px;text-align:center;letter-spacing:0.08em;text-transform:uppercase">
+                🌐 ${isFR ? 'View brochure — EN' : 'View brochure — EN'}
               </a>
             </td>
           </tr>
         </table>
-        <p style="margin:12px 0 0;font-size:12px;color:#94a3b8;text-align:center">
-          ${isFR ? 'Découvrez tout ce que LinkYourArt a à vous offrir.' : 'Discover everything LinkYourArt has to offer you.'}
+        <!-- Ligne 2 : version PDF (pour impression) -->
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+          <tr>
+            <td width="50%" style="padding-right:8px">
+              <a href="https://linkyourart.com/LYA_Brochure_FR_updated.pdf" style="display:block;background:transparent;border:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.35);text-decoration:none;font-size:11px;font-weight:700;padding:10px 16px;border-radius:10px;text-align:center;letter-spacing:0.06em">
+                📄 PDF — FR
+              </a>
+            </td>
+            <td width="50%" style="padding-left:8px">
+              <a href="https://linkyourart.com/LYA_Brochure_EN_updated.pdf" style="display:block;background:transparent;border:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.35);text-decoration:none;font-size:11px;font-weight:700;padding:10px 16px;border-radius:10px;text-align:center;letter-spacing:0.06em">
+                📄 PDF — EN
+              </a>
+            </td>
+          </tr>
+        </table>
+        <p style="margin:10px 0 0;font-size:11px;color:#64748b;text-align:center;font-style:italic">
+          ${isFR ? 'Ouvre dans votre navigateur · Compatible Mac, PC, iOS, Android' : 'Opens in your browser · Compatible with Mac, PC, iOS, Android'}
         </p>
       </td></tr>
     </table>

@@ -10,7 +10,7 @@ const VALID_CODES = [
   "LYA-VIP-003",
 ];
 
-const BROCHURES = { fr: "/LYA_Brochure_FR_final.pdf", en: "/LYA_Brochure_EN_final.pdf" };
+const BROCHURES = { fr: "/LYA_Brochure_FR_updated.pdf", en: "/LYA_Brochure_EN_updated.pdf" };
 
 const TEXT = {
   fr: { title: "Accès Réservé — LYA Originals", placeholder: "Entrez votre code d'invitation", submit: "Accéder", invalid: "Code invalide. Vérifiez votre invitation.", session: "Session expire dans", expired: "Session expirée. Veuillez recharger la page." },
