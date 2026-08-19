@@ -1,7 +1,7 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { db, handleFirestoreError, OperationType } from '../firebase';
-import { collection, addDoc, doc, updateDoc, increment, serverTimestamp } from 'firebase/firestore';
+import { collection, addDoc, doc, updateDoc, increment, serverTimestamp, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { motion } from 'motion/react';
 import { 
   Scale, 
@@ -63,6 +63,37 @@ export const GovernanceView: React.FC<GovernanceViewProps> = ({ user, onNotify, 
   const [votedProposals, setVotedProposals] = useState<Record<string, 'FOR' | 'AGAINST'>>({});
   const [visibleHistory, setVisibleHistory] = useState(3);
   const [visibleNodes, setVisibleNodes] = useState(3);
+  const [proposals, setProposals] = useState<Proposal[]>([]);
+
+  useEffect(() => {
+    const q = query(collection(db, 'governance_proposals'), orderBy('createdAt', 'desc'));
+    const unsub = onSnapshot(q, snap => {
+      const live = snap.docs.map(d => {
+        const data = d.data();
+        return {
+          id: d.id,
+          title: data.title || 'Untitled',
+          description: data.description || '',
+          status: data.status || 'DRAFT',
+          votesFor: data.votesFor || 0,
+          votesAgainst: data.votesAgainst || 0,
+          endTime: data.endTime || '',
+          proposer: data.authorEmail || data.proposer || 'LYA-COMMITTEE',
+        } as Proposal;
+      });
+      if (live.length === 0) {
+        setProposals([
+          { id: 'LYA-P-42', title: 'Mise à jour LYA : V3.0', description: 'Migration of all creative rights hubs to the new high-throughput validation engine.', status: 'ACTIVE', votesFor: 1250000, votesAgainst: 45000, endTime: '2d 14h left', proposer: 'LYA_CORE_FOUNDATION' },
+          { id: 'LYA-P-41', title: 'Expansion of Professional Validator Network', description: 'Onboarding of three new certified professional validators for expert review.', status: 'PASSED', votesFor: 2800000, votesAgainst: 120000, endTime: 'Ended 3d ago', proposer: 'LYA-COMMITTEE' },
+          { id: 'LYA-P-40', title: 'Reduction of Professional Review Turnaround Time', description: 'Proposal to reduce average certification review time for independent creators by 15%.', status: 'QUEUED', votesFor: 980000, votesAgainst: 890000, endTime: 'Execution in 12h', proposer: 'CREATOR_GUILD_V2' },
+        ]);
+      } else {
+        setProposals(live);
+      }
+    }, err => console.error('[GovernanceView]', err));
+    return () => unsub();
+  }, []);
+
   
   const handleVote = async (proposalId: string, direction: 'FOR' | 'AGAINST') => {
     try {
@@ -88,38 +119,6 @@ export const GovernanceView: React.FC<GovernanceViewProps> = ({ user, onNotify, 
     onNotify(`VOTE CAST ${direction} FOR PROPOSAL ${proposalId}. POWER: 12,450 LYA`);
   };
 
-  const proposals: Proposal[] = [
-    {
-      id: 'LYA-P-42',
-      title: 'Mise à jour LYA : V3.0',
-      description: 'Migration of all creative rights hubs to the new high-throughput validation engine.',
-      status: 'ACTIVE',
-      votesFor: 1250000,
-      votesAgainst: 45000,
-      endTime: '2d 14h left',
-      proposer: 'LYA_CORE_FOUNDATION'
-    },
-    {
-      id: 'LYA-P-41',
-      title: 'Expansion of Professional Validator Network',
-      description: 'Onboarding of three new certified professional validators for expert review.',
-      status: 'PASSED',
-      votesFor: 2800000,
-      votesAgainst: 120000,
-      endTime: 'Ended 3d ago',
-      proposer: 'LYA-COMMITTEE'
-    },
-    {
-      id: 'LYA-P-40',
-      title: 'Reduction of Professional Review Turnaround Time',
-      description: 'Proposal to reduce average certification review time for independent creators by 15%.',
-      status: 'QUEUED',
-      votesFor: 980000,
-      votesAgainst: 890000,
-      endTime: 'Execution in 12h',
-      proposer: 'CREATOR_GUILD_V2'
-    }
-  ];
 
   // Access Control: Governance is reserved for manually-vetted Validators
   // (see src/lib/permissions.ts) — not automatically granted by any paid

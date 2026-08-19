@@ -2,6 +2,12 @@ import React, { useState } from "react";
 import { Contract, LYA_UNIT_VALUE, getContractDescription } from "../../types";
 import { getSafeImageUrl } from "../../utils/image";
 import { useCurrency } from "../../context/CurrencyContext";
+import { db, auth } from "../../firebase";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || '');
 
 // ─── THÈMES / FILTRES ─────────────────────────────────────────────────────────
 
@@ -106,15 +112,116 @@ export function getUnitPrice(contract: Contract): number {
 interface PaymentModalProps { contract: Contract; units: number; onClose: () => void; lang: "FR" | "EN"; }
 export function PaymentModal({ contract, units, onClose, lang }: PaymentModalProps) {
   const { formatPrice } = useCurrency();
-  const [email, setEmail] = useState("linkyourart@gmail.com");
-  const [cardName, setCardName] = useState("");
-  const [cardNumber, setCardNumber] = useState("");
-  const [expiry, setExpiry] = useState("");
-  const [cvv, setCvv] = useState("");
   const totalCost = units * getUnitPrice(contract);
-  const fmt4 = (v: string) => v.replace(/\D/g, "").slice(0, 16).replace(/(.{4})/g, "$1 ").trim();
-  const fmtExp = (v: string) => v.replace(/\D/g, "").slice(0, 4).replace(/(.{2})/, "$1/");
   const T = (fr: string, en: string) => lang === "FR" ? fr : en;
+  const user = auth.currentUser;
+
+  const StripeForm = () => {
+    const stripe = useStripe();
+    const elements = useElements();
+    const [processing, setProcessing] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [succeeded, setSucceeded] = useState(false);
+
+    const handlePay = async (e: React.FormEvent) => {
+      e.preventDefault();
+      if (!stripe || !elements) return;
+      setProcessing(true);
+      setError(null);
+      try {
+        // 1. Create payment intent
+        const res = await fetch('/api/stripe/create-payment-intent', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            amount: totalCost,
+            currency: 'eur',
+            metadata: {
+              type: 'PROJECT_SUPPORT',
+              contractId: contract.id,
+              contractName: contract.name,
+              category: contract.category,
+              supportLevel: units,
+              userId: user?.uid || null,
+              userEmail: user?.email || null,
+            },
+          }),
+        });
+        const { clientSecret, error: piError } = await res.json();
+        if (piError) { setError(piError); setProcessing(false); return; }
+
+        // 2. Confirm card payment
+        const card = elements.getElement(CardElement);
+        if (!card) { setError('Card element not found'); setProcessing(false); return; }
+        const result = await stripe.confirmCardPayment(clientSecret, {
+          payment_method: { card, billing_details: { email: user?.email || undefined } },
+        });
+
+        if (result.error) {
+          setError(result.error.message || 'Payment failed');
+        } else if (result.paymentIntent?.status === 'succeeded') {
+          // 3. Write support record to Firestore
+          if (user?.uid) {
+            await addDoc(collection(db, 'patronage_pledges'), {
+              userId: user.uid,
+              userEmail: user.email,
+              contractId: contract.id,
+              contractName: contract.name,
+              category: contract.category,
+              amount: totalCost,
+              supportLevel: units,
+              stripePaymentIntentId: result.paymentIntent.id,
+              status: 'COMPLETED',
+              createdAt: serverTimestamp(),
+            });
+          }
+          setSucceeded(true);
+          setTimeout(onClose, 2500);
+        }
+      } catch (err: any) {
+        setError(err.message || 'An unexpected error occurred');
+      } finally {
+        setProcessing(false);
+      }
+    };
+
+    if (succeeded) return (
+      <div className="p-10 flex flex-col items-center justify-center gap-4 text-center">
+        <div className="w-16 h-16 rounded-full bg-[#00ff88]/10 border border-[#00ff88]/30 flex items-center justify-center text-2xl">✦</div>
+        <p className="text-[#00ff88] font-black font-mono tracking-widest text-sm">{T("SOUTIEN CONFIRMÉ", "SUPPORT CONFIRMED")}</p>
+        <p className="text-on-surface-variant/60 text-xs font-mono">{T("Votre soutien a été enregistré.", "Your pledge has been recorded.")}</p>
+      </div>
+    );
+
+    return (
+      <form onSubmit={handlePay} className="p-6 space-y-4">
+        <div className="bg-surface-high/40 rounded-xl p-4 flex justify-between items-start">
+          <div>
+            <p className="text-on-surface-variant/50 text-xs font-mono mb-1">{T("ENGAGEMENT DE SOUTIEN :", "PATRONAGE PLEDGE:")}</p>
+            <p className="text-on-surface font-bold font-mono italic">{contract.name}</p>
+            <p className="text-on-surface-variant/70 text-xs font-mono mt-1">{T("Palier de soutien", "Support level")} {units}</p>
+          </div>
+          <div className="text-right">
+            <p className="text-on-surface-variant/50 text-xs font-mono mb-1">{T("TOTAL", "TOTAL")}</p>
+            <p className="text-[#00ff88] font-bold text-2xl font-mono">{formatPrice(totalCost)}</p>
+          </div>
+        </div>
+        <div>
+          <label className="text-on-surface-variant/70 text-xs font-mono tracking-widest block mb-2">{T("CARTE BANCAIRE", "CARD DETAILS")}</label>
+          <div className="bg-surface-high border border-white/10 rounded-lg px-4 py-3.5 focus-within:border-primary-cyan transition-colors">
+            <CardElement options={{ style: { base: { color: '#e8ecf4', fontFamily: 'monospace', fontSize: '14px', '::placeholder': { color: '#6b7280' } } } }} />
+          </div>
+        </div>
+        {error && <p className="text-rose-400 text-xs font-mono">{error}</p>}
+        <button type="submit" disabled={processing || !stripe} className="w-full bg-[#00ff88] hover:bg-[#00cc66] disabled:opacity-50 text-black font-bold font-mono py-4 rounded-xl transition-colors text-sm tracking-widest">
+          {processing ? T("TRAITEMENT...", "PROCESSING...") : `✦ ${T("CONFIRMER", "CONFIRM")} — ${formatPrice(totalCost)}`}
+        </button>
+        <p className="text-center text-on-surface-variant/40 text-xs font-mono">
+          {T("Sécurisé par Stripe · Registre LYA certifié", "Secured by Stripe · LYA Certified Registry")}
+        </p>
+      </form>
+    );
+  };
 
   return (
     <div className="fixed inset-0 z-[200] bg-black/85 backdrop-blur-sm flex items-center justify-center p-4" onClick={onClose}>
@@ -126,56 +233,9 @@ export function PaymentModal({ contract, units, onClose, lang }: PaymentModalPro
           </div>
           <button onClick={onClose} className="text-on-surface-variant/70 hover:text-on-surface w-7 h-7 flex items-center justify-center rounded border border-white/10 hover:border-primary-cyan transition-colors">✕</button>
         </div>
-        <div className="p-6 space-y-4">
-          <div className="bg-surface-high/40 rounded-xl p-4 flex justify-between items-start">
-            <div>
-              <p className="text-on-surface-variant/50 text-xs font-mono mb-1">{T("ENGAGEMENT DE SOUTIEN :", "PATRONAGE PLEDGE:")}</p>
-              <p className="text-on-surface font-bold font-mono italic">{contract.name}</p>
-              <p className="text-on-surface-variant/70 text-xs font-mono mt-1">{T("Palier de soutien", "Support level")} {units}</p>
-            </div>
-            <div className="text-right">
-              <p className="text-on-surface-variant/50 text-xs font-mono mb-1">{T("TOTAL", "TOTAL COST")}</p>
-              <p className="text-[#00ff88] font-bold text-2xl font-mono">{formatPrice(totalCost)}</p>
-            </div>
-          </div>
-          {[
-            { label: T("ADRESSE EMAIL", "BILLING EMAIL ADDRESS"), type: "email", val: email, set: setEmail, ph: "" },
-            { label: T("NOM DU TITULAIRE", "CARDHOLDER NAME"), type: "text", val: cardName, set: setCardName, ph: "JANE DOE" },
-          ].map(f => (
-            <div key={f.label}>
-              <label className="text-on-surface-variant/70 text-xs font-mono tracking-widest block mb-2">{f.label}</label>
-              <input type={f.type} value={f.val} onChange={e => f.set(e.target.value)} placeholder={f.ph} className="w-full bg-surface-high border border-white/10 rounded-lg px-4 py-3 text-on-surface font-mono text-sm placeholder-on-surface-variant/30 focus:border-primary-cyan focus:outline-none transition-colors" />
-            </div>
-          ))}
-          <div>
-            <label className="text-on-surface-variant/70 text-xs font-mono tracking-widest block mb-2">{T("NUMÉRO DE CARTE", "CARD NUMBER")}</label>
-            <div className="relative">
-              <input type="text" value={cardNumber} onChange={e => setCardNumber(fmt4(e.target.value))} placeholder="4242 4242 4242 4242" maxLength={19} className="w-full bg-surface-high border border-white/10 rounded-lg px-4 py-3 text-on-surface font-mono text-sm placeholder-on-surface-variant/30 focus:border-primary-cyan focus:outline-none transition-colors pr-36" />
-              <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
-                <span className="bg-[#1a1f71] text-on-surface text-[10px] font-bold px-3 py-0.5 rounded italic">VISA</span>
-                <span className="flex"><span className="w-4 h-4 rounded-full bg-[#eb001b] opacity-90 -mr-1.5" /><span className="w-4 h-4 rounded-full bg-[#f79e1b] opacity-90" /></span>
-                <span className="bg-[#2557d6] text-on-surface text-xs font-bold px-1.5 py-0.5 rounded">AMEX</span>
-                <span className="bg-[#00a1e0] text-on-surface text-[10px] font-bold px-1.5 py-0.5 rounded">CB</span>
-              </div>
-            </div>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div>
-              <label className="text-on-surface-variant/70 text-xs font-mono tracking-widest block mb-2">{T("EXPIRATION", "EXPIRY DATE")}</label>
-              <input type="text" value={expiry} onChange={e => setExpiry(fmtExp(e.target.value))} placeholder="MM/YY" maxLength={5} className="w-full bg-surface-high border border-white/10 rounded-lg px-4 py-3 text-on-surface font-mono text-sm placeholder-on-surface-variant/30 focus:border-primary-cyan focus:outline-none" />
-            </div>
-            <div>
-              <label className="text-on-surface-variant/70 text-xs font-mono tracking-widest block mb-2">CVV</label>
-              <input type="password" value={cvv} onChange={e => setCvv(e.target.value.replace(/\D/g, "").slice(0, 4))} placeholder="•••" maxLength={4} className="w-full bg-surface-high border border-white/10 rounded-lg px-4 py-3 text-on-surface font-mono text-sm placeholder-on-surface-variant/30 focus:border-primary-cyan focus:outline-none" />
-            </div>
-          </div>
-          <button className="w-full bg-[#00ff88] hover:bg-[#00cc66] text-black font-bold font-mono py-4 rounded-xl transition-colors text-sm tracking-widest">
-            ✦ {T("CONFIRMER", "CONFIRM")} — {formatPrice(totalCost)}
-          </button>
-          <p className="text-center text-on-surface-variant/40 text-xs font-mono">
-            {T("Sécurisé par Stripe · Registre LYA certifié", "Secured by Stripe · LYA Certified Registry")}
-          </p>
-        </div>
+        <Elements stripe={stripePromise}>
+          <StripeForm />
+        </Elements>
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AuthGuard } from '../components/AuthGuard';
 import { motion, AnimatePresence } from 'motion/react';
 import { PageHeader } from '../components/ui/PageHeader';
@@ -20,6 +20,8 @@ import {
 } from 'lucide-react';
 import { useTranslation } from '../context/LanguageContext';
 import { useCurrency } from '../context/CurrencyContext';
+import { db } from '../firebase';
+import { collection, query, where, onSnapshot, orderBy } from 'firebase/firestore';
 
 interface WalletViewProps {
   user: any;
@@ -33,15 +35,38 @@ export const WalletView: React.FC<WalletViewProps> = ({ user, onNotify, onViewCh
   const [activeTab, setActiveTab] = useState<'overview' | 'cards'>('overview');
   const [copied, setCopied] = useState(false);
 
-  const totalSupported = 12450.75;
-  const projectsSupported = 14;
+  // Live patronage pledges from Firestore
+  const [pledges, setPledges] = useState<any[]>([]);
+  const [pledgesLoaded, setPledgesLoaded] = useState(false);
 
-  const transactions = [
-    { id: '1', type: 'SUPPORT', amount: 2500, status: 'COMPLETED', date: '2026-05-15 14:22', method: 'RENAISSANCE REBORN' },
-    { id: '2', type: 'SUPPORT', amount: 450, status: 'COMPLETED', date: '2026-05-14 09:15', method: 'SKY GARDENS V4' },
-    { id: '3', type: 'SUPPORT', amount: 320, status: 'COMPLETED', date: '2026-05-11 11:45', method: 'THE FUTURE VOICE' },
-    { id: '4', type: 'SUPPORT', amount: 150, status: 'PENDING', date: '2026-05-12 18:30', method: 'NOIR: THE AWAKENING' },
-  ];
+  useEffect(() => {
+    if (!user?.uid) return;
+    const q = query(
+      collection(db, 'patronage_pledges'),
+      where('userId', '==', user.uid),
+      orderBy('createdAt', 'desc')
+    );
+    const unsub = onSnapshot(q, snap => {
+      setPledges(snap.docs.map(d => ({ id: d.id, ...d.data() })));
+      setPledgesLoaded(true);
+    }, err => {
+      console.error('[WalletView] pledges query error:', err);
+      setPledgesLoaded(true);
+    });
+    return () => unsub();
+  }, [user?.uid]);
+
+  const totalSupported = pledges.filter(p => p.status === 'COMPLETED').reduce((s, p) => s + (p.amount || 0), 0);
+  const projectsSupported = new Set(pledges.filter(p => p.status === 'COMPLETED').map(p => p.contractId)).size;
+
+  const transactions = pledges.map(p => ({
+    id: p.id,
+    type: 'SUPPORT',
+    amount: p.amount || 0,
+    status: p.status || 'COMPLETED',
+    date: p.createdAt?.toDate?.()?.toISOString?.()?.slice(0, 16)?.replace('T', ' ') || '—',
+    method: p.contractName || '—',
+  }));
 
   const handleDownloadStatement = () => {
     downloadWalletStatement(transactions, user?.displayName || 'LYA MEMBER', totalSupported, projectsSupported);
