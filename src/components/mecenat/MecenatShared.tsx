@@ -519,7 +519,7 @@ export function DetailModal({ contract, onClose, onPay, units, onUnitsChange, la
 
 // ─── SCORE LYA DÉFINITION ──────────────────────────────────────────────────────
 
-export function WhatIsLyaUnit({ lang }: { lang: "FR" | "EN" }) {
+export function WhatIsLyaScore({ lang }: { lang: "FR" | "EN" }) {
   const T = (fr: string, en: string) => lang === "FR" ? fr : en;
   const cols = [
     { num: "01", color: "#00d4ff", titleFR: "MESURE ÉVOLUTIVE", titleEN: "EVOLUTIONARY MEASURE", textFR: "C'est le standard de certification officiel qui mesure l'état évolutif d'une création.", textEN: "It is the official certification standard that measures the evolving state of a creation." },

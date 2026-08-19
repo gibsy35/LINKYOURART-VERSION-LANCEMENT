@@ -755,7 +755,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
               </div>
 
               <p className="text-on-surface-variant text-sm md:text-base leading-relaxed opacity-70">
-                {t('The Pro Lounge represent the ultimate elite tier of the LYA platform. A secure physical and digital workspace reserved strictly for vetted private collectors, museum associate directors, legal curators, and authenticated index providers.', 'Le Salon Pro représente le niveau d\'élite absolu de la plateforme LYA. Un espace de travail physique et sécurisé strictement réservé aux collectionneurs privés accrédités, directeurs de musées, conservateurs et validateurs d\'indices.')}
+                {t('The Pro Lounge is the professional collaboration space of the LYA platform — a secure workspace reserved for accredited validators, certified creators and institutional partners to exchange, mentor and co-develop certified projects.', 'Le Salon Pro est l\'espace de collaboration professionnelle de la plateforme LYA — un espace sécurisé réservé aux validateurs accrédités, créateurs certifiés et partenaires institutionnels pour échanger, mentorer et co-développer des projets certifiés.')}
               </p>
 
               {/* Elite feature checklist */}

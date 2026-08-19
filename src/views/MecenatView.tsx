@@ -3,7 +3,7 @@ import { CONTRACTS } from "../types";
 import { useTranslation } from "../context/LanguageContext";
 import {
   MECENAT_THEMES,
-  WhatIsLyaUnit,
+  WhatIsLyaScore,
   ProjectCard,
   DetailModal,
   PaymentModal,
@@ -86,7 +86,7 @@ export function MecenatView() {
         </div>
 
         {/* LYA Score definition */}
-        <WhatIsLyaUnit lang={lang} />
+        <WhatIsLyaScore lang={lang} />
 
         {/* Filtres thématiques */}
         <div className="mb-8">
