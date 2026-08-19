@@ -16,7 +16,8 @@
     "search": "Search",
     "notifications": "Notifications",
     "Administrative Services": "Administrative Services",
-    "Registry Settlement": "Registry Tracking"
+    "Registry Settlement": "Registry Tracking",
+    "ledger": "Creative Registry"
   },
   "sidebar": {
     "home": "Terminal",

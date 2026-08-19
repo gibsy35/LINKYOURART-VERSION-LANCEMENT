@@ -134,8 +134,8 @@ export const PendingApprovalView: React.FC<PendingApprovalViewProps> = ({ user, 
                 </h2>
                 <p className="text-white/50 text-[10px] uppercase tracking-widest font-bold leading-relaxed pt-2 leading-relaxed text-justify">
                   {t(
-                    'The LinkYourArt demonstration platform is a private space reserved for partners, artistic creators, and investment funds invited to analyze the project. Your pre-registration application has been successfully filed.',
-                    'L\'espace de démonstration LinkYourArt est un espace privé réservé aux partenaires, créateurs artistiques, et fonds d\'investissement invités à analyser le projet dans le cadre de notre levée de fonds. Votre demande de pré-inscription a été enregistrée avec succès.'
+                    'The LinkYourArt certification platform is a space reserved for creators, patrons and creative industry professionals. Your pre-registration has been successfully submitted — our team will review your profile shortly.',
+                    'La plateforme de certification LinkYourArt est un espace réservé aux créateurs, mécènes et professionnels des industries créatives. Votre pré-inscription a été enregistrée avec succès — notre équipe examinera votre profil prochainement.'
                   )}
                 </p>
               </div>

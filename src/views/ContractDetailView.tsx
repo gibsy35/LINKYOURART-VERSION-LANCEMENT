@@ -75,7 +75,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
   onToggleWatchlist
 }) => {
   const { t, language, setLanguage } = useTranslation();
-  const [activeTab, setActiveTab] = useState<'overview' | 'financials' | 'ai-simulator' | 'legal' | 'milestones' | 'messaging'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'certification' | 'ai-simulator' | 'legal' | 'milestones' | 'messaging'>('overview');
   const [attachments, setAttachments] = useState<{name:string,url:string,size:number,type:string,uploadedAt:string}[]>([]);
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);

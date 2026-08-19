@@ -31,7 +31,7 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
   const { formatPrice } = useCurrency();
   const T = (fr: string, en: string) => language === 'FR' ? fr : en;
 
-  const [activeTab, setActiveTab] = useState<'story' | 'data' | 'invest'>('story');
+  const [activeTab, setActiveTab] = useState<'story' | 'data' | 'support'>('story');
   const [copied, setCopied] = useState(false);
 
   const project: Contract = CONTRACTS.find(c => c.id === contractId) || CONTRACTS[0];
@@ -157,7 +157,7 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
         {[
           { key: 'story' as const, labelFR: 'Le Projet', labelEN: 'The Project' },
           { key: 'data'  as const, labelFR: 'Données & Score', labelEN: 'Data & Score' },
-          { key: 'invest' as const, labelFR: 'Soutenir', labelEN: 'Support' },
+          { key: 'support' as const, labelFR: 'Soutenir', labelEN: 'Support' },
         ].map(tab => (
           <button key={tab.key} onClick={() => setActiveTab(tab.key)}
             className={`px-5 pb-3 text-sm font-black uppercase tracking-wider relative whitespace-nowrap transition-all ${activeTab === tab.key ? 'text-primary-cyan' : 'text-on-surface-variant hover:text-on-surface'}`}>
@@ -304,7 +304,7 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
       )}
 
       {/* ── ONGLET : SOUTENIR ────────────────────────────────────────────── */}
-      {activeTab === 'invest' && (
+      {activeTab === 'support' && (
         <div className="space-y-5">
           {/* Explication Score LYA */}
           <div className="bg-accent-gold/5 border border-accent-gold/20 rounded-2xl p-5 space-y-3">

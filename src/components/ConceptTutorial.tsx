@@ -19,7 +19,7 @@ interface Step {
   glowColor: string;
   icon: React.ReactNode;
   points: string[];
-  illustration: 'welcome' | 'score' | 'milestone' | 'creators' | 'investors' | 'professionals' | 'explore' | 'watchlist' | 'invest-smartly' | 'market' | 'security';
+  illustration: 'welcome' | 'score' | 'milestone' | 'creators' | 'patrons' | 'professionals' | 'explore' | 'watchlist' | 'discover-projects' | 'market' | 'security';
 }
 
 const TUTORIAL_STEPS: (t: any) => Step[] = (t) => [
@@ -91,7 +91,7 @@ const TUTORIAL_STEPS: (t: any) => Step[] = (t) => [
       t('CERTIFIED QUALITY — THE LYA SCORE GUARANTEES SELECTION RIGOR', 'QUALITÉ CERTIFIÉE — LE LYA SCORE GARANTIT LA RIGUEUR DE SÉLECTION'),
       t('TRACK YOUR SUPPORTED WORKS IN REAL TIME', 'SUIVEZ VOS ŒUVRES SOUTENUES EN TEMPS RÉEL')
     ],
-    illustration: 'investors'
+    illustration: 'patrons'
   },
   {
     id: 6,
@@ -147,7 +147,7 @@ const TUTORIAL_STEPS: (t: any) => Step[] = (t) => [
       t('SIDE-BY-SIDE CREATIVE WORK COMPARISON', 'COMPARAISON D\'ŒUVRES CÔTE À CÔTE'),
       t('PREDICTIVE ANALYTICS POWERED BY AI', 'ANALYSES PRÉDICTIVES PROPULSÉES PAR L\'IA')
     ],
-    illustration: 'invest-smartly'
+    illustration: 'discover-projects'
   },
   {
     id: 10,
@@ -578,7 +578,7 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
       );
     }
 
-    case 'investors': {
+    case 'patrons': {
       const proj0 = CONTRACTS[0];
       const proj1 = CONTRACTS[2];
       const proj2 = CONTRACTS[5];
@@ -825,7 +825,7 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
         </div>
       );
 
-    case 'invest-smartly':
+    case 'discover-projects':
       return (
         <div className="relative w-full h-full flex flex-col items-center justify-center p-3 md:p-4 bg-gradient-to-br from-indigo-900/10 to-transparent">
           <div className="w-full max-w-[320px] md:max-w-full max-w-sm space-y-3 md:space-y-4">

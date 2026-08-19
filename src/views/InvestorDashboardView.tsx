@@ -25,12 +25,12 @@ export const InvestorDashboardView: React.FC<{user:UserProfile|null;onNotify:(ms
 
   if (!user) return <AuthGuard user={user} onViewChange={onViewChange}>{null}</AuthGuard>;
 
-  const [activeSection, setActiveSection] = useState<'portfolio'|'investments'|'analytics'|'social'>('portfolio');
+  const [activeSection, setActiveSection] = useState<'portfolio'|'pledges'|'analytics'|'social'>('portfolio');
   const [compareMode, setCompareMode] = useState<'bars'|'radar'>('bars');
   const [showFilters, setShowFilters] = useState(false);
   const [sendingReport, setSendingReport] = useState(false);
   const [contactProject, setContactProject] = useState<string|null>(null);
-  const [investmentsShown, setInvestmentsShown] = useState(3);
+  const [pledgesShown, setInvestmentsShown] = useState(3);
   const [socialMessage, setSocialMessage] = useState('');
   const [socialPosts, setSocialPosts] = useState<{user:string;avatar:string;action:string;project:string;time:string;likes:number;comments:number;liked:boolean;quote?:string}[]>([
     {user:'Emma Laurent',avatar:'👩',action:T('a soutenu 5000€ dans','pledged €5000 in'),project:'Digital Dreams',time:T('Il y a 3h','3h ago'),likes:24,comments:8,liked:false},
@@ -101,7 +101,7 @@ export const InvestorDashboardView: React.FC<{user:UserProfile|null;onNotify:(ms
 
   const tabs = [
     {key:'portfolio' as const,labelFR:'Mon Espace',labelEN:'My Space'},
-    {key:'investments' as const,labelFR:'Mes Soutiens',labelEN:'My Pledges'},
+    {key:'pledges' as const,labelFR:'Mes Soutiens',labelEN:'My Pledges'},
     {key:'analytics' as const,labelFR:'Analytics',labelEN:'Analytics'},
     {key:'social' as const,labelFR:'Hub Social',labelEN:'Social Hub'},
   ];
@@ -224,7 +224,7 @@ export const InvestorDashboardView: React.FC<{user:UserProfile|null;onNotify:(ms
             </div>
           )}
 
-          {activeSection === 'investments' && (
+          {activeSection === 'pledges' && (
             <div className="space-y-4">
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 {[
@@ -242,7 +242,7 @@ export const InvestorDashboardView: React.FC<{user:UserProfile|null;onNotify:(ms
 
               <p className="text-sm text-on-surface-variant/60">{mySupports.length} {T('projets soutenus','pledged projects')} · {progressing} {T('en progression','progressing')} · {needsAttention} {T('à surveiller','to watch')}</p>
 
-              {mySupports.slice(0, investmentsShown).map((inv,i) => {
+              {mySupports.slice(0, pledgesShown).map((inv,i) => {
                 const scoreDelta = inv.proj.totalScore - inv.scoreAtSupport;
                 const up = scoreDelta >= 0;
                 return (
@@ -294,9 +294,9 @@ export const InvestorDashboardView: React.FC<{user:UserProfile|null;onNotify:(ms
                   </div>
                 );
               })}
-              {investmentsShown < mySupports.length && (
+              {pledgesShown < mySupports.length && (
                 <button onClick={()=>setInvestmentsShown(n=>n+3)} className="w-full py-3 bg-surface-high/30 border border-white/8 text-sm font-black text-on-surface-variant hover:text-on-surface hover:border-white/20 rounded-xl transition-all flex items-center justify-center gap-2">
-                  <ChevronDown size={14}/> {T(`Voir plus (${mySupports.length-investmentsShown} restants)`,`Load more (${mySupports.length-investmentsShown} remaining)`)}
+                  <ChevronDown size={14}/> {T(`Voir plus (${mySupports.length-pledgesShown} restants)`,`Load more (${mySupports.length-pledgesShown} remaining)`)}
                 </button>
               )}
             </div>
