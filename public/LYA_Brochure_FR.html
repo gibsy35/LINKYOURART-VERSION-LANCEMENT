@@ -2,6 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
+<title>LYA — Brochure FR</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
   @page { margin: 0; }
@@ -93,7 +94,21 @@
   .glow-bg{ position:absolute; pointer-events:none; z-index:0; opacity:0.95; }
   .glow-bg.corner{ width:1280px; height:1280px; right:-380px; top:-260px; opacity:1; }
   .glow-bg.corner2{ width:820px; height:820px; right:-460px; bottom:-320px; opacity:0.55; position:absolute; pointer-events:none; z-index:0; }
-  </style>
+  
+/* ── Screen: scale each slide to fill the viewport width ────────────── */
+@media screen {
+  html, body { margin: 0; padding: 0; background: #05070a; overflow-x: hidden; }
+  .slide {
+    display: block;
+    transform-origin: top left;
+    /* JS will set transform and margin-bottom dynamically */
+  }
+}
+@media print {
+  .slide { transform: none !important; margin-bottom: 0 !important; }
+}
+
+</style>
 </head>
 <body>
 
@@ -504,6 +519,28 @@
   <div class="footer"><span>© 2026 LinkYourArt SASU</span><span></span></div>
   <div class="badge-cert"><span class="chk">✓</span>LYA CERTIFIÉ</div>
 </div>
+
+
+<script>
+(function(){
+  function applyScale(){
+    var slides = document.querySelectorAll('.slide');
+    if (!slides.length) return;
+    var sw = 1305, sh = 914;
+    var scale = window.innerWidth / sw;
+    slides.forEach(function(slide){
+      slide.style.transformOrigin = 'top left';
+      slide.style.transform = 'scale(' + scale + ')';
+      slide.style.display = 'block';
+      // Compensate collapsed height from the scale transform
+      slide.style.marginBottom = Math.round(sh * scale - sh) + 'px';
+    });
+  }
+  // Run immediately + on resize
+  document.addEventListener('DOMContentLoaded', applyScale);
+  window.addEventListener('resize', applyScale);
+})();
+</script>
 
 </body>
 </html>
