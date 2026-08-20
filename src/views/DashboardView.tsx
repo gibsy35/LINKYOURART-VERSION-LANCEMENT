@@ -713,7 +713,7 @@ export const DashboardView: React.FC<{
                     </div>
                   ))}
                 </div>
-                <div className="px-6 pb-4 grid grid-cols-2 gap-3">
+                <div className="px-6 pb-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div className="bg-black/20 border border-white/8 rounded-sm p-3 text-center">
                     <p className="text-lg font-black text-primary-cyan">{sectors.length}</p>
                     <p className="text-[8px] text-on-surface-variant/40 font-black uppercase tracking-widest mt-1">{t('Sectors Tracked', 'Secteurs Suivis')}</p>
@@ -879,7 +879,7 @@ export const DashboardView: React.FC<{
           <p className="text-xs text-on-surface-variant/60 leading-relaxed max-w-lg">
             {t('Recent certification milestones and LYA Score movements across the registry.', 'Derniers jalons de certification et évolutions du Score LYA sur le registre.')}
           </p>
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="bg-black/20 border border-white/8 rounded-xl p-4 text-center">
               <p className="text-2xl font-black text-primary-cyan">128</p>
               <p className="text-[9px] text-on-surface-variant/40 font-black uppercase tracking-widest mt-1">{t('Certified Projects', 'Projets Certifiés')}</p>

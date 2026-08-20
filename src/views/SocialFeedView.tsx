@@ -864,7 +864,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
           </div>
 
           {/* Quick Stats */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="bg-surface-low border border-white/5 p-4 text-center">
               <div className="text-[10px] font-mono text-on-surface-variant/40 uppercase mb-1">Total News</div>
               <div className="text-2xl font-black text-white">{news.length * 124}</div>

@@ -89,7 +89,7 @@ export const SettingsView: React.FC = () => {
       <PageHeader 
         titleWhite={t('System', 'Réglages')}
         titleAccent={t('Settings', 'Système')}
-        description={t('CONFIGURE YOUR PROFESSIONAL INTERFACE AND NEURAL LINK PARAMETERS FOR OPTIMIZED MARKET INTERACTION.', 'CONFIGUREZ VOTRE INTERFACE PROFESSIONNELLE ET VOS PARAMÈTRES DE LIEN NEURAL POUR UNE INTERACTION DE MARCHÉ OPTIMISÉE.')}
+        description={t('CONFIGURE YOUR INTERFACE PREFERENCES, LANGUAGE AND NOTIFICATION SETTINGS.', 'CONFIGUREZ VOS PRÉFÉRENCES D\'INTERFACE, DE LANGUE ET DE NOTIFICATIONS.')}
         accentColor="text-primary-cyan"
       />
 

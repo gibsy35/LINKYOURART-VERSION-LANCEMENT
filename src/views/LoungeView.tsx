@@ -763,7 +763,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
                 <div className="flex flex-wrap items-center gap-2 text-white/95">
                   <ShieldCheck size={14} className="text-accent-gold shrink-0" />
                   <span className="uppercase tracking-wide">
-                    {t('Direct OTC Licensing & Master Right Transfers', 'Transfert Direct de Droits Maîtres & Négociations OTC')}
+                    {t('Co-development & Rights Structuring', 'Co-développement & Structuration des droits')}
                   </span>
                 </div>
                 <div className="flex flex-wrap items-center gap-2 text-white/95">
