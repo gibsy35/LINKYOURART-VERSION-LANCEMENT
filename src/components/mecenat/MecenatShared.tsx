@@ -110,11 +110,18 @@ export function getUnitPrice(contract: Contract): number {
 // ─── MODAL PAIEMENT ───────────────────────────────────────────────────────────
 
 interface PaymentModalProps { contract: Contract; units: number; onClose: () => void; lang: "FR" | "EN"; }
-export function PaymentModal({ contract, units, onClose, lang }: PaymentModalProps) {
+export function PaymentModal({ contract, units: initialUnits, onClose, lang }: PaymentModalProps) {
   const { formatPrice } = useCurrency();
-  const totalCost = units * getUnitPrice(contract);
   const T = (fr: string, en: string) => lang === "FR" ? fr : en;
   const user = auth.currentUser;
+  const unitPrice = getUnitPrice(contract);
+
+  // Local state so the user can adjust the amount directly inside the modal
+  const [units, setUnits] = useState(initialUnits);
+  const totalCost = units * unitPrice;
+  const statut = getStatut(units);
+
+  const QUICK_AMOUNTS = [1, 5, 10, 25, 50];
 
   const StripeForm = () => {
     const stripe = useStripe();
@@ -195,23 +202,84 @@ export function PaymentModal({ contract, units, onClose, lang }: PaymentModalPro
 
     return (
       <form onSubmit={handlePay} className="p-6 space-y-4">
+
+        {/* Project recap */}
         <div className="bg-surface-high/40 rounded-xl p-4 flex justify-between items-start">
           <div>
-            <p className="text-on-surface-variant/50 text-xs font-mono mb-1">{T("ENGAGEMENT DE SOUTIEN :", "PATRONAGE PLEDGE:")}</p>
+            <p className="text-on-surface-variant/50 text-xs font-mono mb-1">{T("PROJET :", "PROJECT:")}</p>
             <p className="text-on-surface font-bold font-mono italic">{contract.name}</p>
-            <p className="text-on-surface-variant/70 text-xs font-mono mt-1">{T("Palier de soutien", "Support level")} {units}</p>
+            <p className={`text-xs font-mono mt-1 ${statut.color}`}>{T(statut.labelFR, statut.labelEN)}</p>
           </div>
           <div className="text-right">
             <p className="text-on-surface-variant/50 text-xs font-mono mb-1">{T("TOTAL", "TOTAL")}</p>
             <p className="text-[#00ff88] font-bold text-2xl font-mono">{formatPrice(totalCost)}</p>
           </div>
         </div>
+
+        {/* Amount selector */}
+        <div className="space-y-3">
+          <label className="text-on-surface-variant/70 text-xs font-mono tracking-widest block">
+            {T("MONTANT DU SOUTIEN", "PLEDGE AMOUNT")}
+          </label>
+          {/* Quick amounts */}
+          <div className="flex gap-2 flex-wrap">
+            {QUICK_AMOUNTS.map(q => (
+              <button
+                key={q}
+                type="button"
+                onClick={() => setUnits(q)}
+                className={`px-3 py-1.5 rounded-lg text-xs font-black font-mono transition-all ${
+                  units === q
+                    ? 'bg-[#00ff88] text-black'
+                    : 'bg-surface-high border border-white/10 text-on-surface-variant hover:border-[#00ff88]/40 hover:text-[#00ff88]'
+                }`}
+              >
+                {formatPrice(q * unitPrice)}
+              </button>
+            ))}
+          </div>
+          {/* Slider */}
+          <div className="space-y-1">
+            <input
+              type="range"
+              min={1}
+              max={100}
+              value={units}
+              onChange={e => setUnits(Number(e.target.value))}
+              className="w-full h-1 rounded-full appearance-none cursor-pointer accent-[#00ff88] bg-surface-high"
+            />
+            <div className="flex justify-between text-[10px] font-mono text-on-surface-variant/40">
+              <span>{formatPrice(unitPrice)}</span>
+              <span className="text-[#00ff88] font-bold">{formatPrice(units * unitPrice)}</span>
+              <span>{formatPrice(100 * unitPrice)}</span>
+            </div>
+          </div>
+          {/* Manual input */}
+          <div className="flex items-center gap-2">
+            <button type="button" onClick={() => setUnits(u => Math.max(1, u - 1))}
+              className="w-8 h-8 rounded-lg bg-surface-high border border-white/10 text-white font-black hover:border-[#00ff88]/40 transition-colors flex items-center justify-center">−</button>
+            <input
+              type="number"
+              min={1}
+              max={500}
+              value={units}
+              onChange={e => setUnits(Math.max(1, Math.min(500, Number(e.target.value))))}
+              className="flex-1 bg-surface-high border border-white/10 rounded-lg px-3 py-2 text-white text-center text-sm font-bold font-mono focus:outline-none focus:border-[#00ff88] transition-colors"
+            />
+            <button type="button" onClick={() => setUnits(u => Math.min(500, u + 1))}
+              className="w-8 h-8 rounded-lg bg-surface-high border border-white/10 text-white font-black hover:border-[#00ff88]/40 transition-colors flex items-center justify-center">+</button>
+            <span className="text-on-surface-variant/50 text-xs font-mono">{T("soutiens", "pledges")}</span>
+          </div>
+        </div>
+
+        {/* Card */}
         <div>
           <label className="text-on-surface-variant/70 text-xs font-mono tracking-widest block mb-2">{T("CARTE BANCAIRE", "CARD DETAILS")}</label>
-          <div className="bg-surface-high border border-white/10 rounded-lg px-4 py-3.5 focus-within:border-primary-cyan transition-colors">
+          <div className="bg-surface-high border border-white/10 rounded-lg px-4 py-3.5 focus-within:border-[#00ff88] transition-colors">
             <CardElement options={{ style: { base: { color: '#e8ecf4', fontFamily: 'monospace', fontSize: '14px', '::placeholder': { color: '#6b7280' } } } }} />
           </div>
         </div>
+
         {error && <p className="text-rose-400 text-xs font-mono">{error}</p>}
         <button type="submit" disabled={processing || !stripe} className="w-full bg-[#00ff88] hover:bg-[#00cc66] disabled:opacity-50 text-black font-bold font-mono py-4 rounded-xl transition-colors text-sm tracking-widest">
           {processing ? T("TRAITEMENT...", "PROCESSING...") : `✦ ${T("CONFIRMER", "CONFIRM")} — ${formatPrice(totalCost)}`}
