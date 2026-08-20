@@ -858,9 +858,9 @@ export const ValidationView: React.FC<{
   }
 
   const tabs = [
-    { key: 'queue' as const, labelFR: 'File de Validation', labelEN: 'Validation Queue', icon: <CheckSquare size={14} /> },
-    { key: 'diagnostic' as const, labelFR: 'Console de Diagnostic', labelEN: 'Diagnostic Console', icon: <Activity size={14} /> },
-    { key: 'dashboard' as const, labelFR: 'Tableau de Bord Qualité', labelEN: 'Quality Dashboard', icon: <BarChart2 size={14} /> },
+    { key: 'queue' as const, labelFR: 'Validation', labelEN: 'Validation', icon: <CheckSquare size={14} /> },
+    { key: 'diagnostic' as const, labelFR: 'Diagnostic', labelEN: 'Diagnostic', icon: <Activity size={14} /> },
+    { key: 'dashboard' as const, labelFR: 'Tableau de Bord', labelEN: 'Dashboard', icon: <BarChart2 size={14} /> },
   ];
 
   return (

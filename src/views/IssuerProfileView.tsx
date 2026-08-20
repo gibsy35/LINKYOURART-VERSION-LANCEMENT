@@ -32,10 +32,10 @@ export const IssuerProfileView: React.FC<IssuerProfileProps> = ({ issuerId, onBa
   // Mock data for the issuer
   const issuerData = {
     name: issuerId,
-    description: "LinkYourArt Professional registry specializing in high-frequency creative rights and neural project distribution. This issuer maintains a triple-A rating within the LYA compliance framework.",
+    description: "LinkYourArt Professional registry specializing in certified creative projects spanning multiple disciplines. This profile is indexed on the official LYA Registry.",
     founded: "2024",
     location: "Geneva, CH / Metaverse Sector 7",
-    rating: "AAA+",
+    rating: "CERTIFIED",
     totalVolume: "€1.2B",
     activeContracts: 14,
     successRate: "98.2%",
@@ -45,7 +45,7 @@ export const IssuerProfileView: React.FC<IssuerProfileProps> = ({ issuerId, onBa
       { name: "Kaelen Voss", role: "Market Integrity Lead", avatar: "https://i.pravatar.cc/150?u=kaelen" }
     ],
     stats: [
-      { label: "Market Dominance", value: "14.2%", growth: "+2.1%" },
+      { label: "Registry Presence", value: "14.2%", growth: "+2.1%" },
       { label: "Disponibilité", value: "High", growth: "Stable" },
       { label: "Compliance Score", value: "998/1000", growth: "+5" }
     ]
@@ -59,7 +59,7 @@ export const IssuerProfileView: React.FC<IssuerProfileProps> = ({ issuerId, onBa
           onClick={onBack}
           className="flex items-center gap-3 text-[10px] font-black text-on-surface-variant hover:text-white transition-all uppercase tracking-[0.3em] mb-12 group"
         >
-          <ChevronLeft size={16} className="group-hover:-translate-x-1 transition-transform" /> {t('Back to Marketplace', 'Retour au Marché')}
+          <ChevronLeft size={16} className="group-hover:-translate-x-1 transition-transform" /> {t('Back to Registry', 'Retour au Registre')}
         </button>
 
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-12">
@@ -85,11 +85,11 @@ export const IssuerProfileView: React.FC<IssuerProfileProps> = ({ issuerId, onBa
 
           <div className="flex flex-wrap gap-4">
              <div className="bg-surface-low/30 backdrop-blur-2xl border border-white/10 p-6 rounded-3xl min-w-[180px]">
-               <p className="text-[10px] text-on-surface-variant uppercase tracking-widest font-black mb-1 opacity-50">{t('Registry Rating', 'Note du Registre')}</p>
+               <p className="text-[10px] text-on-surface-variant uppercase tracking-widest font-black mb-1 opacity-50">{t('Certification Status', 'Statut de Certification')}</p>
                <p className="text-2xl font-black text-accent-gold tracking-tighter">{issuerData.rating}</p>
              </div>
              <div className="bg-surface-low/30 backdrop-blur-2xl border border-white/10 p-6 rounded-3xl min-w-[180px]">
-               <p className="text-[10px] text-on-surface-variant uppercase tracking-widest font-black mb-1 opacity-50">{t('Total AUM', 'AUM Total')}</p>
+               <p className="text-[10px] text-on-surface-variant uppercase tracking-widest font-black mb-1 opacity-50">{t('Certified Volume', 'Volume Certifié')}</p>
                <p className="text-2xl font-black text-white tracking-tighter">{issuerData.totalVolume}</p>
              </div>
           </div>
@@ -101,7 +101,7 @@ export const IssuerProfileView: React.FC<IssuerProfileProps> = ({ issuerId, onBa
         {/* Left Side: Stats & Info */}
         <div className="lg:col-span-4 space-y-8">
            <div className="bg-surface-dim border border-white/5 p-8 rounded-[2rem] space-y-8 shadow-2xl">
-              <h3 className="text-xs font-black text-white uppercase tracking-[0.4em] mb-4">{t('INSTITUTIONAL METRICS', 'MÉTRIQUES INSTITUTIONNELLES')}</h3>
+              <h3 className="text-xs font-black text-white uppercase tracking-[0.4em] mb-4">{t('CERTIFICATION METRICS', 'MÉTRIQUES DE CERTIFICATION')}</h3>
               
               <div className="space-y-6">
                 {issuerData.stats.map((stat, i) => (
