@@ -273,10 +273,31 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                 </div>
                 
                 <div className="flex gap-3">
-                   <button className="w-12 h-12 rounded-2xl bg-black/40 backdrop-blur-xl border border-white/10 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all">
+                   <button
+                     onClick={() => {
+                       const data = JSON.stringify({
+                         registryIndex: contract.registryIndex || contract.id,
+                         name: contract.name,
+                         category: contract.category,
+                         lyaScore: contract.totalScore,
+                         status: contract.status,
+                         rarity: contract.rarity,
+                         issuedBy: 'LinkYourArt SASU',
+                         exportedAt: new Date().toISOString(),
+                       }, null, 2);
+                       const blob = new Blob([data], { type: 'application/json' });
+                       const url = URL.createObjectURL(blob);
+                       const a = document.createElement('a');
+                       a.href = url;
+                       a.download = `${contract.registryIndex || contract.id}_LYA_certification.json`;
+                       a.click();
+                       URL.revokeObjectURL(url);
+                     }}
+                     title={t('Download certification data', 'Télécharger les données de certification')}
+                     className="w-12 h-12 rounded-2xl bg-black/40 backdrop-blur-xl border border-white/10 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all">
                       <Download size={18} />
                    </button>
-                   <button onClick={() => { window.dispatchEvent(new CustomEvent('lya-navigate', { detail: 'PROJECT_PUBLIC' })); }} title="Page publique" className="w-12 h-12 rounded-2xl bg-primary-cyan/20 backdrop-blur-xl border border-primary-cyan/30 flex items-center justify-center text-primary-cyan hover:bg-primary-cyan hover:text-surface-dim transition-all">
+                   <button onClick={() => { window.dispatchEvent(new CustomEvent('lya-navigate', { detail: 'PROJECT_PUBLIC' })); }} title={t('Public project page', 'Page publique du projet')} className="w-12 h-12 rounded-2xl bg-primary-cyan/20 backdrop-blur-xl border border-primary-cyan/30 flex items-center justify-center text-primary-cyan hover:bg-primary-cyan hover:text-surface-dim transition-all">
                       <ExternalLink size={18} />
                    </button>
                 </div>

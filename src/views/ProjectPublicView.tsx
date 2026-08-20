@@ -5,8 +5,9 @@ import { useCurrency } from '../context/CurrencyContext';
 import { Contract, CONTRACTS, getContractDescription } from '../types';
 import { updatePageMeta, resetPageMeta } from '../utils/seo';
 import { getSafeImageUrl } from '../utils/image';
+import { PaymentModal } from '../components/mecenat/MecenatShared';
 import {
-  TrendingUp, TrendingDown, Users, DollarSign, Star, Award,
+  TrendingUp, TrendingDown, Users, Star, Award,
   Shield, CheckCircle, Clock, ArrowUpRight, ArrowDownRight,
   Share2, Copy, ExternalLink, Zap, Target, AlertTriangle,
   Lock, BarChart2, RefreshCw, Flag, ChevronRight, Twitter
@@ -33,6 +34,7 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
 
   const [activeTab, setActiveTab] = useState<'story' | 'data' | 'support'>('story');
   const [copied, setCopied] = useState(false);
+  const [showPayment, setShowPayment] = useState(false);
 
   const project: Contract = CONTRACTS.find(c => c.id === contractId) || CONTRACTS[0];
   const up = project.growth >= 0;
@@ -339,9 +341,9 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
 
           {/* CTA */}
           {user ? (
-            <button onClick={() => project.status === 'LIVE' ? onViewChange('MECENAT') : null}
+            <button onClick={() => project.status === 'LIVE' ? setShowPayment(true) : null}
               className={`w-full py-5 text-base font-black uppercase tracking-widest rounded-2xl transition-all flex items-center justify-center gap-3 ${project.status === 'LIVE' ? 'bg-primary-cyan text-surface-dim hover:bg-white shadow-[0_0_30px_rgba(0,212,255,0.25)]' : 'bg-white/5 text-on-surface-variant cursor-not-allowed'}`}>
-              <DollarSign size={20}/>
+              ✦
               {project.status === 'LIVE' ? T('Soutenir ce projet', 'Support this project') : T('Non disponible actuellement', 'Currently unavailable')}
             </button>
           ) : (
@@ -368,6 +370,16 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
             {T('Le mécénat sur des projets artistiques constitue un soutien de reconnaissance, non un investissement financier. Les contreparties reçues sont personnelles et non-financières.', 'Patronage of artistic projects constitutes recognition-based support, not a financial investment. Considerations received are personal and non-financial.')}
           </p>
         </div>
+      )}
+
+      {/* PaymentModal — opens inline on this page, no redirect needed */}
+      {showPayment && (
+        <PaymentModal
+          contract={project}
+          units={1}
+          onClose={() => setShowPayment(false)}
+          lang={language as 'FR' | 'EN'}
+        />
       )}
 
       {/* ── PROJETS SIMILAIRES ───────────────────────────────────────────── */}
