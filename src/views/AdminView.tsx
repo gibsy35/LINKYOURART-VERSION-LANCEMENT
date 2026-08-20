@@ -37,7 +37,6 @@ import { useTranslation } from '../context/LanguageContext';
 import { useCurrency } from '../context/CurrencyContext';
 import { CONTRACTS, Contract, UserRole, UserProfile } from '../types';
 import { db, handleFirestoreError, OperationType } from '../firebase';
-import { AdminKeysManagement } from '../components/AdminKeysManagement';
 import { collection, query, onSnapshot, doc, updateDoc, getDocs, limit, orderBy, deleteDoc, addDoc, setDoc, writeBatch, serverTimestamp } from 'firebase/firestore';
 
 export const AdminView: React.FC<{
@@ -48,117 +47,25 @@ export const AdminView: React.FC<{
 }> = ({ user, onNotify, onViewChange, liveContracts }) => {
   const { t } = useTranslation();
   const { formatPrice } = useCurrency();
-  const [activeTab, setActiveTab] = useState<'users' | 'projects' | 'financials' | 'system' | 'validation' | 'engagement' | 'submissions'>('users');
+  const [activeTab, setActiveTab] = useState<'users' | 'projects' | 'validation' | 'engagement' | 'submissions'>('users');
   const [users, setUsers] = useState<UserProfile[]>([]);
   const [projectsList, setProjectsList] = useState<any[]>([]);
   const [validationQueue, setValidationQueue] = useState<any[]>([]);
   const [verificationRequests, setVerificationRequests] = useState<any[]>([]);
   const [preRegistrations, setPreRegistrations] = useState<any[]>([]);
-  const [demoRequests, setDemoRequests] = useState<any[]>([]);
-  const [activeEmailRequest, setActiveEmailRequest] = useState<any | null>(null);
   const [pendingSubmissions, setPendingSubmissions] = useState<any[]>([]);
   const [publishModal, setPublishModal] = useState<any | null>(null);
   const [publishForm, setPublishForm] = useState({ scoreAlgo: 750, scorePro: 750, growth: 0, rarity: 'Distinguished' });
-  const [generatedDemoKey, setGeneratedDemoKey] = useState<string>('');
   const [expandedVerifId, setExpandedVerifId] = useState<string | null>(null);
 
-  const handleApproveDemoRequest = async (request: any) => {
-    try {
-      const gK = `LYA-DEMO-${Math.random().toString(36).substring(2, 6).toUpperCase()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
-      
-      // Update local storage first
-      const localDemo = JSON.parse(localStorage.getItem('lya_local_demo_requests') || '[]');
-      const localIndex = localDemo.findIndex((d: any) => d.id === request.id);
-      if (localIndex !== -1) {
-        localDemo[localIndex].status = 'APPROVED';
-        localDemo[localIndex].codeSent = gK;
-        localStorage.setItem('lya_local_demo_requests', JSON.stringify(localDemo));
-      }
 
-      const localKeys = JSON.parse(localStorage.getItem('lya_local_access_keys') || '[]');
-      localKeys.unshift({
-        id: 'local_key_' + Date.now(),
-        key: gK,
-        assignedTo: request.name || request.email,
-        createdAt: { toDate: () => new Date() },
-        status: 'ACTIVE' as const
-      });
-      localStorage.setItem('lya_local_access_keys', JSON.stringify(localKeys));
 
-      // Update state for instant UI update
-      setDemoRequests(prev => prev.map(d => d.id === request.id ? { ...d, status: 'APPROVED', codeSent: gK } : d));
-
-      if (!request.id.startsWith('local_')) {
-        // 1. Write standard access key
-        await addDoc(collection(db, 'access_keys'), {
-          key: gK,
-          assignedTo: request.name || request.email,
-          createdAt: serverTimestamp(),
-          status: 'ACTIVE'
-        });
-
-        // 2. Update status and key inside 'demo_requests' document
-        await updateDoc(doc(db, 'demo_requests', request.id), {
-          status: 'APPROVED',
-          codeSent: gK,
-          updatedAt: serverTimestamp()
-        });
-      }
-
-      setGeneratedDemoKey(gK);
-      setActiveEmailRequest(request);
-      onNotify('DEMO ACCESS APPROVED • CLEARANCE CODE REGISTERED!');
-    } catch (e: any) {
-      console.error(e);
-      onNotify('Error validating co-optation.');
-    }
-  };
-
-  const handleDeleteDemoRequest = async (id: string) => {
-    try {
-      if (!id.startsWith('local_')) {
-        await deleteDoc(doc(db, 'demo_requests', id));
-      }
-      setDemoRequests(prev => prev.filter(d => d.id !== id));
-      const localDemo = JSON.parse(localStorage.getItem('lya_local_demo_requests') || '[]');
-      localStorage.setItem('lya_local_demo_requests', JSON.stringify(localDemo.filter((d: any) => d.id !== id)));
-      onNotify(t('Demo request deleted.', 'Demande démo supprimée.'));
-    } catch(e) {
-      console.error(e);
-    }
-  };
-
-  const handleRejectDemoRequest = async (id: string) => {
-    try {
-      const localDemo = JSON.parse(localStorage.getItem('lya_local_demo_requests') || '[]');
-      const localIndex = localDemo.findIndex((d: any) => d.id === id);
-      if (localIndex !== -1) {
-        localDemo[localIndex].status = 'REJECTED';
-        localStorage.setItem('lya_local_demo_requests', JSON.stringify(localDemo));
-      }
-
-      // Update state for instant UI update
-      setDemoRequests(prev => prev.map(d => d.id === id ? { ...d, status: 'REJECTED' } : d));
-
-      if (!id.startsWith('local_')) {
-        await updateDoc(doc(db, 'demo_requests', id), {
-          status: 'REJECTED',
-          updatedAt: serverTimestamp()
-        });
-      }
-      onNotify('Demo request declined.');
-    } catch (e) {
-      console.error(e);
-      onNotify('Error updating request.');
-    }
-  };
   const [loading, setLoading] = useState(true);
   const [loadingProjects, setLoadingProjects] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterRole, setFilterRole] = useState<string>('ALL');
   const [usersPage, setUsersPage] = useState(1);
   const USERS_PER_PAGE = 100;
-  const [isSeeding, setIsSeeding] = useState(false);
   const [viewingUser, setViewingUser] = useState<UserProfile | null>(null);
   const [editingProject, setEditingProject] = useState<any | null>(null);
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
@@ -208,24 +115,10 @@ export const AdminView: React.FC<{
   useEffect(() => {
     const loadLocalData = () => {
       const localPre = JSON.parse(localStorage.getItem('lya_local_pre_registrations') || '[]');
-      const localDemo = JSON.parse(localStorage.getItem('lya_local_demo_requests') || '[]');
-      
       setPreRegistrations(prev => {
         const merged = [...prev];
         localPre.forEach((lp: any) => {
-          if (!merged.some(m => m.id === lp.id)) {
-            merged.push(lp);
-          }
-        });
-        return merged;
-      });
-
-      setDemoRequests(prev => {
-        const merged = [...prev];
-        localDemo.forEach((ld: any) => {
-          if (!merged.some(m => m.id === ld.id)) {
-            merged.push(ld);
-          }
+          if (!merged.some(m => m.id === lp.id)) merged.push(lp);
         });
         return merged;
       });
@@ -235,7 +128,6 @@ export const AdminView: React.FC<{
 
     if ((window as any).lya_quota_reached) return;
     const preRef = collection(db, 'pre_registrations');
-    const demoRef = collection(db, 'demo_requests');
     const submissionsRef = collection(db, 'projects_pending');
 
     const unsubs: (() => void)[] = [];
@@ -266,18 +158,6 @@ export const AdminView: React.FC<{
       });
       setPreRegistrations(merged);
     }, (e) => handleFirestoreError(e, OperationType.GET, 'pre_registrations')));
-
-    unsubs.push(onSnapshot(query(demoRef, limit(50)), (snap) => {
-      const dbDemo = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      const localDemo = JSON.parse(localStorage.getItem('lya_local_demo_requests') || '[]');
-      const merged = [...dbDemo];
-      localDemo.forEach((ld: any) => {
-        if (!merged.some(m => m.id === ld.id)) {
-          merged.push(ld);
-        }
-      });
-      setDemoRequests(merged);
-    }, (e) => handleFirestoreError(e, OperationType.GET, 'demo_requests')));
 
     return () => unsubs.forEach(u => u());
   }, []);
@@ -720,88 +600,7 @@ export const AdminView: React.FC<{
     return matchSearch && matchRole;
   });
 
-  const seedMockUsers = async () => {
-    setIsSeeding(true);
-    const batch = writeBatch(db);
-    const names = ['Jean-Luc Moreau', 'Sarah Wilson', 'Hideo Tanaka', 'Moussa Diouf', 'Hans Müller', 'Emily Brown', 'Carlos Diaz'];
-    const roles = [UserRole.CREATOR, UserRole.PATRON, UserRole.PROFESSIONAL];
 
-    try {
-      for (let i = 0; i < 50; i++) {
-        const uid = `DEMO_USER_${Math.random().toString(36).substring(2, 10).toUpperCase()}`;
-        const userDoc = doc(collection(db, 'users'), uid);
-        batch.set(userDoc, {
-          uid,
-          displayName: names[Math.floor(Math.random() * names.length)] + ' ' + (i + 1),
-          email: `demo.${i}@lya.com`,
-          role: roles[Math.floor(Math.random() * roles.length)],
-          country: countries[Math.floor(Math.random() * countries.length)],
-          isPro: Math.random() > 0.5,
-          createdAt: serverTimestamp(),
-          usageStats: { scan: 50, swipe: 120, compare: 10, simulator: 5, talent: 15 }
-        });
-      }
-      await batch.commit();
-      onNotify(t('DEMO USERS GENERATED', 'UTILISATEURS DÉMO GÉNÉRÉS'));
-    } catch (err) {
-      handleFirestoreError(err, OperationType.WRITE, 'users');
-    } finally {
-      setIsSeeding(false);
-    }
-  };
-
-  const seedMockContracts = async () => {
-    setIsSeeding(true);
-    const batch = writeBatch(db);
-    try {
-      for (let i = 0; i < 20; i++) {
-        const growthValue = Math.round((Math.random() * 40 - 15) * 100) / 100;
-        // Base is $50.00
-        const unitValue = Math.round((50 * (1 + growthValue / 100)) * 100) / 100;
-        const projectId = `DEMO_PROJ_${i}_${Date.now()}`;
-        const projectDoc = doc(collection(db, 'contracts'), projectId);
-        batch.set(projectDoc, {
-          id: projectId,
-          name: `Project ${['Alpha', 'Omega', 'Zion', 'Nova', 'Flux'][i % 5]} ${i + 1}`,
-          category: ['Digital Art', 'Music', 'Film', 'Fashion', 'Gaming'][i % 5],
-          unitValue,
-          growth: growthValue,
-          totalUnits: 1000,
-          status: 'LIVE',
-          image: [
-            'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?auto=format&fit=crop&q=80&w=600',
-            'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=600',
-            'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=600',
-            'https://images.unsplash.com/photo-1633167606207-d840b5070fc2?auto=format&fit=crop&q=80&w=600',
-            'https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&q=80&w=600',
-            'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&q=80&w=600',
-            'https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&q=80&w=600',
-            'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=600',
-            'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&q=80&w=600',
-            'https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&q=80&w=600',
-            'https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&q=80&w=600',
-            'https://images.unsplash.com/photo-1561214115-f2f134cc4912?auto=format&fit=crop&q=80&w=600'
-          ][i % 12],
-          scoreAlgo: 700 + Math.floor(Math.random() * 200),
-          scorePro: 700 + Math.floor(Math.random() * 200),
-          totalScore: 700 + Math.floor(Math.random() * 300),
-          createdAt: serverTimestamp(),
-          updatedAt: serverTimestamp(),
-          registryAddress: `LYA_REG_0x${Math.random().toString(16).substring(2, 10).toUpperCase()}`,
-          registryIndex: `LYA-DEMO-${i}`,
-          milestones: [
-            { label: 'Initial Launch', date: '2026-01', status: 'COMPLETED', scoreImpact: 5 }
-          ]
-        });
-      }
-      await batch.commit();
-      onNotify(t('DEMO PROJECTS GENERATED', 'PROJETS DÉMO GÉNÉRÉS'));
-    } catch (err) {
-      handleFirestoreError(err, OperationType.WRITE, 'contracts');
-    } finally {
-      setIsSeeding(false);
-    }
-  };
 
   const renderUserModal = () => (
     <AnimatePresence mode="sync">
@@ -1386,130 +1185,10 @@ export const AdminView: React.FC<{
     </div>
   );
 
-  const renderFinancialsTab = () => (
-    <div className="space-y-6">
-       {/* Placeholder for financials */}
-    </div>
-  );
 
-  const renderSystemTab = () => (
-    <div className="space-y-6">
-       <div className="p-8 bg-surface-low border border-white/5 rounded-3xl">
-          <h3 className="text-lg font-black text-white uppercase mb-6">{t('DEMO TOOLS', 'OUTILS DÉMO')}</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-white">
-            <button onClick={seedMockUsers} disabled={isSeeding} className="p-6 bg-white/5 border border-white/10 rounded-xl hover:border-primary-cyan transition-all text-left">
-              <Users className="text-primary-cyan mb-2" />
-              <div className="text-xs font-black uppercase text-white tracking-widest">{t('SEEDED USERS', 'SÉMENCE USERS')}</div>
-            </button>
-            <button onClick={seedMockContracts} disabled={isSeeding} className="p-6 bg-white/5 border border-white/10 rounded-xl hover:border-accent-gold transition-all text-left">
-              <CreditCard className="text-accent-gold mb-2" />
-              <div className="text-xs font-black uppercase text-white tracking-widest">{t('DEMO PROJECTS', 'PROJETS DE DÉMONSTRATION')}</div>
-            </button>
-          </div>
-       </div>
-
-       <AdminKeysManagement />
-    </div>
-  );
 
   const renderEngagementTab = () => (
     <div className="space-y-8">
-      {/* Demo Requests */}
-      <div className="bg-surface-low border border-white/5 rounded-3xl overflow-hidden">
-        <div className="p-6 border-b border-white/5 bg-white/[0.02]">
-          <h3 className="text-lg font-black text-white uppercase tracking-tighter flex items-center gap-3">
-            <Clock className="text-[#FF007F]" /> {t('DEMO CLEARANCE REQUESTS', 'DEMANDES D\'ACCÈS DÉMO')}
-          </h3>
-        </div>
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
-            <thead className="bg-surface-dim uppercase font-black text-on-surface-variant/60">
-              <tr>
-                <th className="p-6">{t('Identity', 'Identité')}</th>
-                <th className="p-6">{t('Reason / Context', 'Motif / Contexte')}</th>
-                <th className="p-6">{t('Status', 'Statut')}</th>
-                <th className="p-6 text-right">{t('Actions', 'Actions / Validation')}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {demoRequests.map(r => {
-                const isApproved = r.status === 'APPROVED';
-                const isRejected = r.status === 'REJECTED';
-                const isPending = !isApproved && !isRejected;
-
-                return (
-                  <tr key={r.id} className="border-t border-white/5 hover:bg-white/[0.02]">
-                    <td className="p-6">
-                      <div className="font-black text-white uppercase">{r.name}</div>
-                      <div className="opacity-40 font-mono text-xs">{r.email}</div>
-                    </td>
-                    <td className="p-6">
-                      <p className="max-w-xs text-on-surface-variant italic">"{r.reason}"</p>
-                      {r.codeSent && (
-                        <div className="mt-2 inline-flex items-center gap-1.5 px-3.5 py-1 bg-primary-cyan/10 border border-primary-cyan/20 rounded font-mono text-xs text-primary-cyan">
-                          <span>KEY: {r.codeSent}</span>
-                        </div>
-                      )}
-                    </td>
-                    <td className="p-6">
-                      {isApproved ? (
-                        <span className="px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded text-xs font-black text-emerald-400 uppercase tracking-widest">{t('VALIDATED', 'VALIDÉ')}</span>
-                      ) : isRejected ? (
-                        <span className="px-3 py-1 bg-rose-500/10 border border-rose-500/20 rounded text-xs font-black text-rose-400 uppercase tracking-widest">{t('DECLINED', 'REFUSÉ')}</span>
-                      ) : (
-                        <span className="px-3 py-1 bg-amber-500/10 border border-amber-500/20 rounded text-xs font-black text-amber-500 uppercase tracking-widest animate-pulse">{t('PENDING', 'EN ATTENTE')}</span>
-                      )}
-                    </td>
-                    <td className="p-6 text-right">
-                      {isPending ? (
-                        <div className="flex gap-2 justify-end">
-                          <button
-                            onClick={() => handleApproveDemoRequest(r)}
-                            className="px-3 py-1.5 bg-emerald-500 text-black font-black text-xs uppercase tracking-wider rounded-lg transition-all hover:bg-emerald-400 active:scale-95"
-                          >
-                            {t('GRANT ACCESS', 'VALIDER ET ACTIVER')}
-                          </button>
-                          <button
-                            onClick={() => handleRejectDemoRequest(r.id)}
-                            className="px-3 py-1.5 bg-white/5 border border-white/10 text-white/50 hover:text-rose-400 hover:border-rose-400/30 font-black text-xs uppercase tracking-wider rounded-lg transition-all active:scale-95"
-                          >
-                            {t('REJECT', 'REFUSER')}
-                          </button>
-                          <button
-                            onClick={() => handleDeleteDemoRequest(r.id)}
-                            className="p-1.5 bg-white/5 border border-white/10 text-white/30 hover:text-rose-400 hover:border-rose-400/30 rounded-lg transition-all active:scale-95"
-                            title={t('Delete', 'Supprimer')}
-                          >
-                            <Trash2 size={12} />
-                          </button>
-                        </div>
-                      ) : isApproved ? (
-                        <button
-                          onClick={() => {
-                            setGeneratedDemoKey(r.codeSent);
-                            setActiveEmailRequest(r);
-                          }}
-                          className="px-3.5 py-1.5 bg-primary-cyan/10 border border-primary-cyan/20 hover:bg-primary-cyan hover:text-black rounded text-xs font-black text-primary-cyan uppercase tracking-widest transition-all"
-                        >
-                          {t('SHOW INVITATION EMAIL', 'VOIR E-MAIL ENVOYÉ')}
-                        </button>
-                      ) : (
-                        <button
-                          onClick={() => handleDeleteDemoRequest(r.id)}
-                          className="p-1.5 bg-white/5 border border-white/10 text-white/30 hover:text-rose-400 hover:border-rose-400/30 rounded-lg transition-all"
-                          title={t('Delete', 'Supprimer')}
-                        >
-                          <Trash2 size={12} />
-                        </button>
-                      )}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      </div>
 
       {/* Pre-Registrations */}
       <div className="bg-surface-low border border-white/5 rounded-3xl overflow-hidden">
@@ -1608,7 +1287,6 @@ export const AdminView: React.FC<{
             {id: 'engagement', label: t('Engagement', 'Engagement'), icon: <Mail size={16}/>},
             {id: 'validation', label: t('Verifications', 'Vérifications'), icon: <Shield size={16}/>},
             {id: 'projects', label: t('Projects', 'Projets'), icon: <Activity size={16}/>},
-            {id: 'system', label: t('Infrastructure', 'Infrastructure'), icon: <Settings size={16}/>}
           ].map(it => (
             <button key={it.id} onClick={() => setActiveTab(it.id as any)} className={`w-full flex items-center gap-4 p-4 rounded-xl font-black uppercase text-[10px] tracking-widest transition-all ${activeTab === it.id ? 'bg-accent-gold text-surface-dim shadow-xl' : 'text-on-surface-variant hover:bg-white/5'}`}>
               {it.icon} {it.label}
@@ -1759,7 +1437,6 @@ export const AdminView: React.FC<{
             {activeTab === 'engagement' && <motion.div key="e" initial={{opacity:0, y:10}} animate={{opacity:1, y:0}} exit={{opacity:0, y:-10}}>{renderEngagementTab()}</motion.div>}
             {activeTab === 'validation' && <motion.div key="v" initial={{opacity:0, y:10}} animate={{opacity:1, y:0}} exit={{opacity:0, y:-10}}>{renderValidationTab()}</motion.div>}
             {activeTab === 'projects' && <motion.div key="p" initial={{opacity:0, y:10}} animate={{opacity:1, y:0}} exit={{opacity:0, y:-10}}>{renderProjectsTab()}</motion.div>}
-            {activeTab === 'system' && <motion.div key="s" initial={{opacity:0, y:10}} animate={{opacity:1, y:0}} exit={{opacity:0, y:-10}}>{renderSystemTab()}</motion.div>}
           </AnimatePresence>
         </main>
       </div>
@@ -1767,133 +1444,6 @@ export const AdminView: React.FC<{
       {renderUserModal()}
 
       {/* Simulated Email Modal */}
-      <AnimatePresence mode="sync">
-        {activeEmailRequest && (
-          <div className="fixed inset-0 z-[550] flex items-center justify-center p-4">
-            <div className="fixed inset-0 bg-black/95 backdrop-blur-2xl" onClick={() => setActiveEmailRequest(null)} />
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.9, y: 30 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 30 }}
-              className="bg-[#0D1117] border border-white/10 w-full max-w-2xl relative z-10 rounded-[2rem] overflow-hidden shadow-2xl flex flex-col font-sans"
-            >
-              {/* Email Header bar */}
-              <div className="p-6 bg-white/[0.02] border-b border-white/10 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-3 h-3 rounded-full bg-emerald-500 shadow-[0_0_8px_#10B981]" />
-                  <h3 className="text-xs font-mono font-black text-white/60 tracking-widest uppercase">{t('SIMULATED SYSTEM EMAIL', 'SYSTÈME D\'E-MAIL INVITATION SIMULÉ')}</h3>
-                </div>
-                <button 
-                  onClick={() => setActiveEmailRequest(null)}
-                  className="text-white/40 hover:text-white font-mono text-xs uppercase"
-                >
-                  [ {t('CLOSE', 'FERMER')} ]
-                </button>
-              </div>
-
-              {/* Header Metadata */}
-              <div className="p-6 bg-black/40 border-b border-white/5 space-y-3 font-mono text-xs text-white/70">
-                <div className="flex"><span className="w-20 font-black text-white/40 uppercase">{t('From', 'De')} :</span> <span className="text-primary-cyan font-black">contact@linkyourart.com</span></div>
-                <div className="flex"><span className="w-20 font-black text-white/40 uppercase">{t('To', 'À')} :</span> <span className="text-white font-black">{activeEmailRequest.email}</span></div>
-                <div className="flex"><span className="w-20 font-black text-white/40 uppercase">{t('Subject', 'SuJet')} :</span> <span className="text-accent-gold font-black">📥 LINKYOURART : Clé d'accès et validation co-optation</span></div>
-              </div>
-
-              {/* Email Content Box */}
-              <div className="p-8 md:p-12 space-y-6 text-sm text-white/80 leading-relaxed max-h-[50vh] overflow-y-auto">
-                <p className="font-bold">Bonjour {activeEmailRequest.name},</p>
-                <p>
-                  {t(
-                    'The LinkYourArt co-optation committee had reviewed your registration details to access our private demo workspace.',
-                    'Le comité d\'admission et de co-optation de la plateforme LINKYOURART s\'est réuni afin d\'examiner votre demande d\'accès privilégié.'
-                  )}
-                </p>
-                <p>
-                  {t(
-                    'We are extremely pleased to inform you that your professional profile has been approved by our committee. You have been granted immediate clearance within the preview.',
-                    'Nous avons le plaisir de vous informer que votre profil professionnel a été validé et accrédité par les membres fondateurs. Votre statut LYA Originals a été mis à jour directement.'
-                  )}
-                </p>
-
-                {/* Golden Key Block */}
-                <div className="my-8 p-6 bg-gradient-to-r from-yellow-500/10 to-transparent border border-yellow-500/20 rounded-2xl flex flex-col items-center justify-center gap-3">
-                  <span className="text-xs font-black text-amber-500 uppercase tracking-[0.3em] font-mono">{t('YOUR ACTIVE CO-OPTATION CODE', 'VOTRE CLÉ D\'ACCÈS DÉMO SÉCURISÉE')}</span>
-                  <div className="px-6 py-3 bg-black/60 border border-yellow-500/40 rounded-xl font-mono text-base md:text-lg font-black text-yellow-500 tracking-widest uppercase select-all shadow-inner text-center">
-                    {generatedDemoKey}
-                  </div>
-                  <p className="text-[10px] text-white/40 text-center uppercase tracking-wider">
-                    {t('Copy and paste this key into your clearance screen to unlock instantly.', 'Saisissez ce code sur votre écran de validation pour lever le verrou.')}
-                  </p>
-                </div>
-
-                <p>
-                  {t(
-                    'You can also use this same key with your email address to log in anytime during our VC fund-raising campaign.',
-                    'Cette clé d\'invitation unique vous permet d\'accréditer votre compte pour toute la durée des présentations privées.'
-                  )}
-                </p>
-
-                <div className="pt-6 border-t border-white/5 text-xs text-white/40 font-mono">
-                  <p className="font-bold">LINKYOURART Admissions Hub</p>
-                  <p className="text-[10px]">Private preview environment</p>
-                </div>
-              </div>
-
-              {/* Actions bar */}
-              <div className="p-6 bg-black/60 border-t border-white/5 flex flex-wrap justify-end gap-3">
-                <button 
-                  onClick={() => {
-                    navigator.clipboard.writeText(generatedDemoKey);
-                    onNotify('CODE ACCÈS COPIÉ !');
-                  }}
-                  className="px-5 py-3.5 bg-white/5 hover:bg-white/10 text-white font-mono text-xs uppercase tracking-widest rounded-xl transition-all"
-                >
-                  {t('Copy Access Code', 'Copier le code')}
-                </button>
-
-                <button 
-                  onClick={async () => {
-                    onNotify(t('Sending real email via SMTP...', 'Envoi de l\'e-mail réel en cours...'));
-                    try {
-                      const res = await fetch('/api/send-demo-email', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                          to: activeEmailRequest.email,
-                          key: generatedDemoKey,
-                          name: activeEmailRequest.name || 'Creative Patron'
-                        })
-                      });
-                      const data = await res.json();
-                      if (res.ok && data.success) {
-                        if (data.method === 'smtp') {
-                          onNotify(t('✓ EMAIL INBOX DELIVERED!', '✓ E-MAIL ENVOYÉ DANS LA BOÎTE DE RÉCEPTION !'));
-                        } else {
-                          onNotify(t('✓ CODE REGISTERED SATELLITE (SMTP sandbox fallback)', '✓ SATELLITE ENREGISTRÉ (Fallback SMTP simulation)'));
-                        }
-                      } else {
-                        onNotify(t('✕ FAILED TO DISPATCH EMAIL', '✕ ÉCHEC DE L\'ENVOI DE L\'E-MAIL'));
-                      }
-                    } catch (e) {
-                      console.error(e);
-                      onNotify(t('Error connecting to Mail API.', 'Erreur lors de la connexion à l\'API d\'envoi.'));
-                    }
-                  }}
-                  className="px-5 py-3.5 bg-accent-gold text-surface-dim hover:bg-white text-xs font-black uppercase tracking-widest rounded-xl transition-all shadow-[0_0_15px_rgba(255,193,7,0.3)]"
-                >
-                  {t('SEND REAL EMAIL NOW', 'ENVOYER LE VRAI E-MAIL')}
-                </button>
-                
-                <button 
-                  onClick={() => setActiveEmailRequest(null)}
-                  className="px-5 py-3.5 bg-primary-cyan text-surface-dim hover:bg-white text-xs font-black uppercase tracking-widest rounded-xl transition-all"
-                >
-                  {t('Acknowledge & Close', 'Confirmer et Fermer')}
-                </button>
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
 
       {/* Overhauled Admin Editing Modal */}
       <AnimatePresence mode="sync">
