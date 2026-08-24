@@ -22,11 +22,17 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isVerificationSent, setIsVerificationSent] = useState(false);
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    accessCode: ''
+  const [formData, setFormData] = useState(() => {
+    // Pre-fill access code from ?code= URL param (set by the email link)
+    const urlCode = typeof window !== 'undefined'
+      ? new URLSearchParams(window.location.search).get('code') || ''
+      : '';
+    return {
+      name: '',
+      email: '',
+      password: '',
+      accessCode: urlCode.trim().toUpperCase()
+    };
   });
 
   const handleSignup = async (e: React.FormEvent) => {
@@ -50,8 +56,9 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
       const urlParams = new URLSearchParams(window.location.search);
       const accessToken = urlParams.get('access') || '';
       const codeInputCheck = formData.accessCode?.trim().toUpperCase() || '';
-      const LEGACY_CODES = ['LYA2026', 'VC2026', 'LYA-DEMO-2026', 'DEMO', 'LYADOCK', 'LYAPARTNER', 'LYA_DEMO_2026', 'VC_DEMO'];
-      const hasLegacyCode = LEGACY_CODES.includes(codeInputCheck);
+      // No more shared legacy codes — every user gets a unique LYA-XXXX-XXXX code
+      const LEGACY_CODES: string[] = [];
+      const hasLegacyCode = false;
 
       let hasValidAccess = hasLegacyCode;
 
@@ -184,6 +191,18 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
           const { updateDoc: updateDocFn, doc: docFn } = await import('firebase/firestore');
           await updateDocFn(docFn(db, 'access_tokens', usedToken), { used: true, usedAt: new Date().toISOString() });
         } catch(e) { console.warn('Token mark used failed:', e); }
+      }
+
+      // Marquer le code d'accès LYA-XXXX-XXXX comme utilisé (une seule fois)
+      const usedCode = formData.accessCode.trim().toUpperCase();
+      if (usedCode.startsWith('LYA-') && usedCode.length > 4) {
+        try {
+          const { collection: colFn, query: qFn, where: whereFn, getDocs: getDocsFn, updateDoc: updateDocFn2, doc: docFn2, limit: limitFn } = await import('firebase/firestore');
+          const keysSnap = await getDocsFn(qFn(colFn(db, 'access_keys'), whereFn('key', '==', usedCode), limitFn(1)));
+          if (!keysSnap.empty) {
+            await updateDocFn2(keysSnap.docs[0].ref, { status: 'USED', usedAt: new Date().toISOString(), usedByEmail: firebaseUser.email });
+          }
+        } catch(e) { console.warn('Access key mark used failed:', e); }
       }
 
       await sendEmailVerification(firebaseUser);

@@ -161,21 +161,28 @@ function buildEmail(name, position, referralCode, referralLink, lang, tier, acce
       </tr>
     </table>
 
-    ${isInstant ? `
-    <!-- CLÉ D'ACCÈS -->
+    <!-- CLÉ D'ACCÈS UNIQUE -->
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:36px">
       <tr>
-        <td style="background:linear-gradient(135deg,#0d1117,#1a2332);border:1.5px solid ${isFounding ? 'rgba(245,200,66,0.35)' : 'rgba(0,212,255,0.25)'};border-radius:16px;padding:32px;text-align:center">
-          <p style="margin:0 0 8px;font-size:11px;font-weight:900;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.18em">${isFounding
-            ? (isFR ? 'Votre clé Founding Pioneer' : 'Your Founding Pioneer key')
-            : (isFR ? 'Votre clé d\'accès' : 'Your access key')}</p>
-          <p style="margin:0 0 16px;font-size:32px;font-weight:900;color:${isFounding ? '#f5c842' : '#00d4ff'};font-family:'Courier New',Courier,monospace;letter-spacing:0.06em">${accessKey || ''}</p>
-          <a href="https://linkyourart.com" style="display:inline-block;background:#ffffff;color:#0d1117;text-decoration:none;font-size:12px;font-weight:900;padding:14px 28px;border-radius:10px;text-align:center;letter-spacing:0.08em;text-transform:uppercase">
-            ${isFR ? 'Entrer maintenant' : 'Enter now'}
+        <td style="background:linear-gradient(135deg,#0d1117,#1a2332);border:1.5px solid ${isFounding ? 'rgba(245,200,66,0.45)' : 'rgba(0,212,255,0.35)'};border-radius:16px;padding:32px;text-align:center">
+          <p style="margin:0 0 6px;font-size:11px;font-weight:900;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.18em">
+            ${isFR ? 'Votre code d\'accès personnel' : 'Your personal access code'}
+          </p>
+          <p style="margin:0 0 6px;font-size:34px;font-weight:900;color:${isFounding ? '#f5c842' : '#00d4ff'};font-family:'Courier New',Courier,monospace;letter-spacing:0.08em">
+            ${accessKey || ''}
+          </p>
+          <p style="margin:0 0 20px;font-size:11px;color:rgba(255,255,255,0.3);">
+            ${isFR ? 'Code unique et personnel — ne pas partager' : 'Unique personal code — do not share'}
+          </p>
+          <a href="https://linkyourart.com?code=${encodeURIComponent(accessKey || '')}" style="display:inline-block;background:#ffffff;color:#0d1117;text-decoration:none;font-size:12px;font-weight:900;padding:14px 32px;border-radius:10px;text-align:center;letter-spacing:0.08em;text-transform:uppercase">
+            ${isFR ? '✦ Accéder à LYA maintenant' : '✦ Access LYA now'}
           </a>
+          <p style="margin:14px 0 0;font-size:10px;color:rgba(255,255,255,0.25);">
+            ${isFR ? 'Le lien ci-dessus pré-remplit automatiquement votre code.' : 'The link above automatically fills in your code.'}
+          </p>
         </td>
       </tr>
-    </table>` : ''}
+    </table>
 
     <!-- CODE PARRAINAGE -->
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:36px">
