@@ -495,23 +495,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
                         placeholder={t('PASSWORD', 'MOT DE PASSE')}
                       />
                     </div>
-                    <div className="relative group bg-[#1a0c14]/40 border border-[#FF007F]/40 hover:border-[#FF007F] rounded-xl transition-all duration-300 shadow-[0_0_15px_rgba(255,0,127,0.15)] focus-within:shadow-[0_0_25px_rgba(255,0,127,0.3)]">
-                      <ShieldCheck className="absolute left-5 top-1/2 -translate-y-1/2 text-[#FF007F] group-focus-within:scale-110 transition-transform" size={18} />
-                      <input 
-                        value={formData.accessCode}
-                        onChange={(e) => setFormData({ ...formData, accessCode: e.target.value })}
-                        className="w-full bg-transparent rounded-xl p-4 pl-12 text-sm font-black text-white focus:outline-none transition-all placeholder:text-white/30 uppercase tracking-[0.15em] text-center"
-                        placeholder={t('DEMO ACCESS CODE (OPTIONAL)', 'CODE D\'ACCÈS PRIVILÉGIÉ (OPTIONNEL)')}
-                      />
-                    </div>
                   </div>
-
-                  <p className="text-[10px] text-white/30 uppercase tracking-widest font-black leading-normal text-center bg-white/[0.01] p-3 border border-white/5 rounded-2xl">
-                    {t(
-                      'No partner code? Leave it blank. Direct bypass and request access are available in the dashboard.',
-                      'Pas de code ? Laissez vide. Le bypass d\'évaluation et la demande d\'accès se trouvent dans le dashboard.'
-                    )}
-                  </p>
 
                   <button 
                     type="submit"
