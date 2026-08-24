@@ -643,28 +643,9 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                         ✦ {t('Vérifiez vos spams si vous ne le recevez pas', 'Check your spam folder if you do not receive it')}
                       </p>
 
-                      {referralLink && (
-                        <div className="space-y-3">
-                          <p className="text-[10px] font-black tracking-widest text-white/30 uppercase">
-                            {t('Move up the list — invite your network', "Montez dans la liste — invitez votre réseau")}
-                          </p>
-                          <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-2xl p-2">
-                            <p className="flex-1 text-left text-white/60 text-xs font-mono px-3 truncate">{referralLink}</p>
-                            <button onClick={handleCopyReferralLink} className="shrink-0 w-10 h-10 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-white/60 hover:text-white transition-all">
-                              <Copy size={14} />
-                            </button>
-                            <button onClick={handleShareReferralLink} className="shrink-0 w-10 h-10 rounded-xl bg-primary-cyan/10 hover:bg-primary-cyan/20 border border-primary-cyan/20 flex items-center justify-center text-primary-cyan transition-all">
-                              <Share2 size={14} />
-                            </button>
-                          </div>
-                          {linkCopied && (
-                            <p className="text-primary-cyan text-[10px] font-black uppercase tracking-widest">{t('Link copied!', 'Lien copié !')}</p>
-                          )}
-                        </div>
-                      )}
 
-                      <button onClick={() => { setSubmitted(false); setQueuePosition(null); setReferralCode(null); setGrantedAccessKey(null); setAccessTier(null); }} className="text-[10px] font-black tracking-widest text-primary-cyan uppercase hover:underline">
-                        {t('SUBMIT ANOTHER', 'NOUVELLE INSCRIPTION')}
+                      <button onClick={() => { setSubmitted(false); setQueuePosition(null); setReferralCode(null); setGrantedAccessKey(null); setAccessTier(null); }} className="text-[10px] font-black tracking-widest text-white/20 uppercase hover:text-white/40 transition-colors">
+                        {t('NOUVELLE CANDIDATURE', 'SUBMIT ANOTHER')}
                       </button>
 
                       {/* Debug email — temporaire */}
