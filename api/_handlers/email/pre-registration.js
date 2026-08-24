@@ -174,7 +174,7 @@ function buildEmail(name, position, referralCode, referralLink, lang, tier, acce
           <p style="margin:0 0 20px;font-size:11px;color:rgba(255,255,255,0.3);">
             ${isFR ? 'Code unique et personnel — ne pas partager' : 'Unique personal code — do not share'}
           </p>
-          <a href="https://linkyourart.com?code=${encodeURIComponent(accessKey || '')}" style="display:inline-block;background:#ffffff;color:#0d1117;text-decoration:none;font-size:12px;font-weight:900;padding:14px 32px;border-radius:10px;text-align:center;letter-spacing:0.08em;text-transform:uppercase">
+          <a href="https://linkyourart.com?signup=1&code=${encodeURIComponent(accessKey || '')}" style="display:inline-block;background:#ffffff;color:#0d1117;text-decoration:none;font-size:12px;font-weight:900;padding:14px 32px;border-radius:10px;text-align:center;letter-spacing:0.08em;text-transform:uppercase">
             ${isFR ? '✦ Accéder à LYA maintenant' : '✦ Access LYA now'}
           </a>
           <p style="margin:14px 0 0;font-size:10px;color:rgba(255,255,255,0.25);">

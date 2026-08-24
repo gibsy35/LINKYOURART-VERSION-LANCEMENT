@@ -23,10 +23,17 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
   const [error, setError] = useState<string | null>(null);
   const [isVerificationSent, setIsVerificationSent] = useState(false);
   const [formData, setFormData] = useState(() => {
-    // Pre-fill access code from ?code= URL param (set by the email link)
-    const urlCode = typeof window !== 'undefined'
-      ? new URLSearchParams(window.location.search).get('code') || ''
-      : '';
+    // Read pre-filled code from sessionStorage (set by LandingView when
+    // user arrives via the email link ?signup=1&code=LYA-XXXX)
+    let urlCode = '';
+    try {
+      urlCode = sessionStorage.getItem('lya_prefilled_code') || '';
+      if (urlCode) sessionStorage.removeItem('lya_prefilled_code');
+    } catch {}
+    // Also check URL param directly (in case user opens link without SPA routing)
+    if (!urlCode && typeof window !== 'undefined') {
+      urlCode = new URLSearchParams(window.location.search).get('code') || '';
+    }
     return {
       name: '',
       email: '',

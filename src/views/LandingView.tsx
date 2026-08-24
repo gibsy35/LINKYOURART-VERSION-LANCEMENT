@@ -133,6 +133,23 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
     }
   }, [stage]);
 
+  // ── Lien email pré-inscription : ?signup=1&code=LYA-XXXX redirige vers Signup ──
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const params = new URLSearchParams(window.location.search);
+    const signup = params.get('signup');
+    const code = params.get('code');
+    if (signup === '1') {
+      // Stocker le code pour que SignupView le lise
+      if (code) {
+        try { sessionStorage.setItem('lya_prefilled_code', code.trim().toUpperCase()); } catch {}
+      }
+      // Naviguer vers l'inscription
+      onViewChange('SIGNUP');
+      return;
+    }
+  }, []);
+
   // ── Parrainage : capture du code ?ref= dans l'URL ──
   useEffect(() => {
     if (typeof window === 'undefined') return;
