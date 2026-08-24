@@ -92,7 +92,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
         displayName: formData.name,
         email: formData.email,
         role: role,
-        status: isValidCode ? 'APPROVED' : 'PENDING_APPROVAL',
+        status: 'APPROVED',
         createdAt: new Date().toISOString(),
         twitter: '@' + formData.name.toLowerCase().replace(/\s+/g, '_'),
         instagram: formData.name.toLowerCase().replace(/\s+/g, '_') + '_official',
