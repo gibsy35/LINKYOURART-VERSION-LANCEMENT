@@ -51,83 +51,8 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
     setError(null);
 
     try {
-      // ── VÉRIFICATION TOKEN D'ACCÈS VIP ──────────────────────────────────
-      // Récupérer le token depuis l'URL
-      const urlParams = new URLSearchParams(window.location.search);
-      const accessToken = urlParams.get('access') || '';
-      const codeInputCheck = formData.accessCode?.trim().toUpperCase() || '';
-
-      let hasValidAccess = false;
-
-      // 1. Vérifier le token ?access= dans l'URL (ancien système)
-      if (!hasValidAccess && accessToken) {
-        try {
-          const tokenDoc = await getDoc(doc(db, 'access_tokens', accessToken));
-          if (tokenDoc.exists()) {
-            const td = tokenDoc.data();
-            const wrongEmail = td.email?.toLowerCase() !== formData.email.toLowerCase().trim();
-            if (!td.used && !wrongEmail) {
-              hasValidAccess = true;
-            } else if (wrongEmail) {
-              setIsLoading(false);
-              setError(t(
-                "✦ Ce lien d'accès est associé à une autre adresse email.",
-                '✦ This access link is associated with a different email address.'
-              ));
-              return;
-            } else if (td.used) {
-              setIsLoading(false);
-              setError(t(
-                "✦ Ce lien d'accès a déjà été utilisé. Contactez LinkYourArt.",
-                '✦ This access link has already been used. Contact LinkYourArt.'
-              ));
-              return;
-            }
-          }
-        } catch(e) { console.warn('Token check failed:', e); }
-      }
-
-      // 2. Vérifier le code LYA-XXXX-XXXX dans Firestore access_keys (nouveau système)
-      if (!hasValidAccess && codeInputCheck.startsWith('LYA-')) {
-        try {
-          const keysRef = collection(db, 'access_keys');
-          const q = query(keysRef, where('key', '==', codeInputCheck), where('status', '==', 'ACTIVE'), limit(1));
-          const snap = await getDocs(q);
-          if (!snap.empty) {
-            hasValidAccess = true;
-          } else {
-            // Code not found or already used
-            setIsLoading(false);
-            setError(t(
-              "✦ Ce code d'accès est invalide ou a déjà été utilisé.",
-              '✦ This access code is invalid or has already been used.'
-            ));
-            return;
-          }
-        } catch(e) { console.warn('Access key check failed:', e); }
-      }
-
-      // 3. Vérifier si l'email est pré-inscrit ET approuvé manuellement
-      if (!hasValidAccess) {
-        try {
-          const preRef = collection(db, 'pre_registrations');
-          const preSnap = await getDocs(preRef);
-          const preDoc = preSnap.docs.find(d =>
-            d.data().email?.toLowerCase().trim() === formData.email.toLowerCase().trim() &&
-            d.data().status === 'APPROVED'
-          );
-          if (preDoc) hasValidAccess = true;
-        } catch(e) { console.warn('Pre-reg check failed:', e); }
-      }
-
-      if (!hasValidAccess) {
-        setIsLoading(false);
-        setError(t(
-          "✦ Accès sur invitation uniquement. Pré-inscrivez-vous ou attendez votre email d'approbation.",
-          '✦ Access by invitation only. Pre-register or wait for your approval email.'
-        ));
-        return;
-      }
+      // Accès ouvert — toute pré-inscription peut créer un compte directement.
+      // Le verrou d'accès par code unique sera réactivé après stabilisation.
 
       const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
       const firebaseUser = userCredential.user;
