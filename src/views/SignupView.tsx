@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { UserRole, UserProfile } from '../types';
 import { View } from '../components/ui/Sidebar';
-import { ArrowRight, User, Briefcase, TrendingUp, Loader2, ShieldCheck, Mail, Lock, Globe, ChevronLeft, X, Send, Heart } from 'lucide-react';
+import { ArrowRight, User, Briefcase, TrendingUp, Loader2, ShieldCheck, Mail, Lock, Globe, ChevronLeft, X, Send, Heart, Eye, EyeOff } from 'lucide-react';
 import { useTranslation } from '../context/LanguageContext';
 import { auth, db, handleFirestoreError, OperationType, logAuthDebugEvent } from '../firebase';
 import { createUserWithEmailAndPassword, updateProfile, GoogleAuthProvider, signInWithPopup, signInWithRedirect, sendEmailVerification, type User as FirebaseUser } from 'firebase/auth';
@@ -19,6 +19,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
   const { t, language } = useTranslation();
   const [role, setRole] = useState<UserRole | null>(null);
   const [step, setStep] = useState(1);
+  const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isVerificationSent, setIsVerificationSent] = useState(false);
@@ -487,13 +488,22 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
                     <div className="relative group">
                       <Lock className="absolute left-5 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary-cyan transition-colors" size={18} />
                       <input 
-                        type="password" 
+                        type={showPassword ? 'text' : 'password'}
                         required
                         value={formData.password}
                         onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 text-sm font-bold text-white focus:border-primary-cyan outline-none transition-all placeholder:text-on-surface-variant/30 uppercase tracking-widest"
+                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 pr-12 text-sm font-bold text-white focus:border-primary-cyan outline-none transition-all placeholder:text-on-surface-variant/30 uppercase tracking-widest"
                         placeholder={t('PASSWORD', 'MOT DE PASSE')}
                       />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(v => !v)}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant/40 hover:text-primary-cyan transition-colors"
+                        tabIndex={-1}
+                        aria-label={showPassword ? t('Hide password', 'Masquer le mot de passe') : t('Show password', 'Afficher le mot de passe')}
+                      >
+                        {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                      </button>
                     </div>
                   </div>
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ArrowRight, LogIn, Loader2, Mail, Lock, ShieldCheck, Globe, Send, TrendingUp, X } from 'lucide-react';
+import { ArrowRight, LogIn, Loader2, Mail, Lock, ShieldCheck, Globe, Send, TrendingUp, X, Eye, EyeOff } from 'lucide-react';
 import { UserProfile, UserRole } from '../types';
 import { View } from '../components/ui/Sidebar';
 import { useTranslation } from '../context/LanguageContext';
@@ -20,6 +20,7 @@ const LoginView: React.FC<LoginViewProps> = ({ onViewChange, setUser }) => {
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [isForgotPassword, setIsForgotPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -315,13 +316,22 @@ const LoginView: React.FC<LoginViewProps> = ({ onViewChange, setUser }) => {
                     <div className="relative group">
                       <Lock className="absolute left-5 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary-cyan transition-colors" size={18} />
                       <input 
-                        type="password" 
+                        type={showPassword ? 'text' : 'password'}
                         required
                         value={formData.password}
                         onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 text-sm font-bold text-white focus:border-primary-cyan focus:bg-white/[0.08] outline-none transition-all placeholder:text-on-surface-variant/30 uppercase tracking-widest"
+                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 pr-12 text-sm font-bold text-white focus:border-primary-cyan focus:bg-white/[0.08] outline-none transition-all placeholder:text-on-surface-variant/30 uppercase tracking-widest"
                         placeholder={t('PASSWORD', 'MOT DE PASSE')}
                       />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(v => !v)}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant/40 hover:text-primary-cyan transition-colors"
+                        tabIndex={-1}
+                        aria-label={showPassword ? t('Hide password', 'Masquer') : t('Show password', 'Afficher')}
+                      >
+                        {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                      </button>
                     </div>
                   </div>
 
