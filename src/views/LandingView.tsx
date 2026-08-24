@@ -616,53 +616,32 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                       </div>
                     </div>
                   ) : (
-                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="py-12 text-center space-y-8">
+                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="py-12 text-center space-y-6">
                       <div className="w-24 h-24 bg-primary-cyan/10 rounded-full flex items-center justify-center mx-auto border border-primary-cyan/20 relative">
                         <CheckCircle2 size={48} className="text-primary-cyan" />
                         <motion.div animate={{ scale: [1, 1.5, 1], opacity: [0, 0.5, 0] }} transition={{ duration: 2, repeat: Infinity }} className="absolute inset-0 bg-primary-cyan rounded-full" />
                       </div>
 
                       <div>
-                        <h3 className="font-headline text-4xl font-black tracking-tighter uppercase mb-3">
-                          {accessTier === 'WAITLIST'
-                            ? t('IN QUEUE', 'EN ATTENTE')
-                            : t('ACCESS GRANTED', 'ACCÈS ACCORDÉ')}
+                        <h3 className="font-headline text-3xl font-black tracking-tighter uppercase mb-3 text-primary-cyan">
+                          {t('CANDIDATURE REÇUE', 'APPLICATION RECEIVED')}
                         </h3>
-                        <p className="text-white/40 font-medium max-w-xs mx-auto leading-relaxed">
-                          {accessTier === 'FOUNDING_PIONEER'
-                            ? t('You\'re one of our first 150 Founding Pioneers. Your access key is ready below — enter it now to unlock your account.', 'Vous faites partie de nos 150 premiers Founding Pioneers. Votre clé d\'accès est prête ci-dessous — utilisez-la dès maintenant pour débloquer votre compte.')
-                            : accessTier === 'ORIGINAL'
-                            ? t('You\'re an LYA Original. Your access key is ready below — enter it now to unlock your account.', 'Vous êtes un LYA Original. Votre clé d\'accès est prête ci-dessous — utilisez-la dès maintenant pour débloquer votre compte.')
-                            : t('This cohort is full for now. We\'ll email your access key automatically as soon as the next one opens — no manual review, no waiting on us.', 'Ce cercle est complet pour le moment. Nous vous enverrons votre clé d\'accès automatiquement dès l\'ouverture du prochain — sans revue manuelle, sans attente de notre part.')}
+                        <p className="text-white/50 font-medium max-w-xs mx-auto leading-relaxed text-sm">
+                          {t(
+                            "L'équipe LYA examine votre profil avec soin. Vous recevrez un email de confirmation très prochainement.",
+                            "The LYA team is reviewing your profile carefully. You will receive a confirmation email very soon."
+                          )}
                         </p>
                       </div>
 
-                      {grantedAccessKey && (
-                        <div className={`rounded-3xl p-6 border ${accessTier === 'FOUNDING_PIONEER' ? 'bg-accent-gold/[0.06] border-accent-gold/30' : 'bg-white/[0.03] border-primary-cyan/20'}`}>
-                          <p className={`text-[10px] font-black tracking-widest uppercase mb-2 ${accessTier === 'FOUNDING_PIONEER' ? 'text-accent-gold/70' : 'text-white/30'}`}>
-                            {accessTier === 'FOUNDING_PIONEER'
-                              ? t('YOUR FOUNDING PIONEER KEY', 'VOTRE CLÉ FOUNDING PIONEER')
-                              : t('YOUR ACCESS KEY', 'VOTRE CLÉ D\'ACCÈS')}
-                          </p>
-                          <p className={`font-mono text-2xl sm:text-3xl font-black tracking-wider break-all ${accessTier === 'FOUNDING_PIONEER' ? 'text-accent-gold' : 'text-primary-cyan'}`}>
-                            {grantedAccessKey}
-                          </p>
-                          <button
-                            type="button"
-                            onClick={async () => { try { await navigator.clipboard.writeText(grantedAccessKey); } catch {} }}
-                            className="mt-3 text-[10px] font-black tracking-widest text-white/40 hover:text-white/70 uppercase transition-colors"
-                          >
-                            {t('Copy key', 'Copier la clé')}
-                          </button>
-                        </div>
-                      )}
+                      <div className="bg-white/[0.03] border border-primary-cyan/15 rounded-2xl p-5">
+                        <p className="text-[10px] font-black tracking-widest text-white/25 uppercase mb-1">{t('EMAIL ENVOYÉ À', 'EMAIL SENT TO')}</p>
+                        <p className="font-mono text-primary-cyan font-bold text-sm">{email}</p>
+                      </div>
 
-                      {queuePosition !== null && (
-                        <div className="bg-white/[0.03] border border-primary-cyan/20 rounded-3xl p-6">
-                          <p className="text-[10px] font-black tracking-widest text-white/30 uppercase mb-2">{t('YOUR POSITION', 'VOTRE POSITION')}</p>
-                          <p className="font-headline text-5xl font-black text-primary-cyan tracking-tighter">#{queuePosition.toLocaleString('fr-FR')}</p>
-                        </div>
-                      )}
+                      <p className="text-[10px] text-white/20 uppercase tracking-widest">
+                        ✦ {t('Vérifiez vos spams si vous ne le recevez pas', 'Check your spam folder if you do not receive it')}
+                      </p>
 
                       {referralLink && (
                         <div className="space-y-3">
