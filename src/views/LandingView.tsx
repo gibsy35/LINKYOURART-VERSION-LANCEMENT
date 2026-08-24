@@ -355,7 +355,14 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
     fetch('/api/email/pre-registration', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ to: email, name, position, referralCode: code, referralLink: referralLinkForEmail, lang: language, tier, accessKey: issuedKey })
+      body: JSON.stringify({
+        to: email,
+        name,
+        email,
+        role: category?.toUpperCase() || 'CREATOR',
+        lang: language,
+        type: 'confirmation'
+      })
     })
     .then(r => r.json())
     .then(data => {
