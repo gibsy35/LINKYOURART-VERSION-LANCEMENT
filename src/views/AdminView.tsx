@@ -473,7 +473,7 @@ export const AdminView: React.FC<{
     // ÉTAPE 3 — Envoyer email d'approbation LYA
     try {
       const lang = reg.lang || reg.language || 'FR';
-      const signupLink = `${baseUrl}?signup=1`;
+      const signupLink = `${baseUrl}?signup=1&email=${encodeURIComponent(email)}`;
       const resp = await fetch('/api/email/pre-registration', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

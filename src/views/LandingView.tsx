@@ -133,18 +133,20 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
     }
   }, [stage]);
 
-  // ── Lien email pré-inscription : ?signup=1&code=LYA-XXXX redirige vers Signup ──
+  // ── Lien email pré-inscription : ?signup=1&email=x redirige vers Signup ──
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const params = new URLSearchParams(window.location.search);
     const signup = params.get('signup');
     const code = params.get('code');
+    const emailParam = params.get('email');
     if (signup === '1') {
-      // Stocker le code pour que SignupView le lise
       if (code) {
         try { sessionStorage.setItem('lya_prefilled_code', code.trim().toUpperCase()); } catch {}
       }
-      // Naviguer vers l'inscription
+      if (emailParam) {
+        try { sessionStorage.setItem('lya_prefilled_email', emailParam.trim().toLowerCase()); } catch {}
+      }
       onViewChange('SIGNUP');
       return;
     }

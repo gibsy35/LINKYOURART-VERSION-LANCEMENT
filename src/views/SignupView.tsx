@@ -23,22 +23,22 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
   const [error, setError] = useState<string | null>(null);
   const [isVerificationSent, setIsVerificationSent] = useState(false);
   const [formData, setFormData] = useState(() => {
-    // Read pre-filled code from sessionStorage (set by LandingView when
-    // user arrives via the email link ?signup=1&code=LYA-XXXX)
-    let urlCode = '';
+    let prefillEmail = '';
+    let prefillCode = '';
     try {
-      urlCode = sessionStorage.getItem('lya_prefilled_code') || '';
-      if (urlCode) sessionStorage.removeItem('lya_prefilled_code');
+      prefillEmail = sessionStorage.getItem('lya_prefilled_email') || '';
+      prefillCode = sessionStorage.getItem('lya_prefilled_code') || '';
+      if (prefillEmail) sessionStorage.removeItem('lya_prefilled_email');
+      if (prefillCode) sessionStorage.removeItem('lya_prefilled_code');
     } catch {}
-    // Also check URL param directly (in case user opens link without SPA routing)
-    if (!urlCode && typeof window !== 'undefined') {
-      urlCode = new URLSearchParams(window.location.search).get('code') || '';
+    if (!prefillEmail && typeof window !== 'undefined') {
+      prefillEmail = new URLSearchParams(window.location.search).get('email') || '';
     }
     return {
       name: '',
-      email: '',
+      email: prefillEmail.trim().toLowerCase(),
       password: '',
-      accessCode: urlCode.trim().toUpperCase()
+      accessCode: prefillCode.trim().toUpperCase()
     };
   });
 
