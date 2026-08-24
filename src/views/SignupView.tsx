@@ -56,21 +56,17 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
       const urlParams = new URLSearchParams(window.location.search);
       const accessToken = urlParams.get('access') || '';
       const codeInputCheck = formData.accessCode?.trim().toUpperCase() || '';
-      // No more shared legacy codes — every user gets a unique LYA-XXXX-XXXX code
-      const LEGACY_CODES: string[] = [];
-      const hasLegacyCode = false;
 
-      let hasValidAccess = hasLegacyCode;
+      let hasValidAccess = false;
 
+      // 1. Vérifier le token ?access= dans l'URL (ancien système)
       if (!hasValidAccess && accessToken) {
-        // Vérifier le token dans Firestore
         try {
           const tokenDoc = await getDoc(doc(db, 'access_tokens', accessToken));
           if (tokenDoc.exists()) {
             const td = tokenDoc.data();
-            const expired = false; // Links never expire
             const wrongEmail = td.email?.toLowerCase() !== formData.email.toLowerCase().trim();
-            if (!expired && !td.used && !wrongEmail) {
+            if (!td.used && !wrongEmail) {
               hasValidAccess = true;
             } else if (wrongEmail) {
               setIsLoading(false);
@@ -79,11 +75,11 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
                 '✦ This access link is associated with a different email address.'
               ));
               return;
-            } else if (expired || td.used) {
+            } else if (td.used) {
               setIsLoading(false);
               setError(t(
-                "✦ Ce lien d'accès a expiré ou a déjà été utilisé. Contactez LinkYourArt.",
-                '✦ This access link has expired or already been used. Contact LinkYourArt.'
+                "✦ Ce lien d'accès a déjà été utilisé. Contactez LinkYourArt.",
+                '✦ This access link has already been used. Contact LinkYourArt.'
               ));
               return;
             }
@@ -91,12 +87,32 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
         } catch(e) { console.warn('Token check failed:', e); }
       }
 
+      // 2. Vérifier le code LYA-XXXX-XXXX dans Firestore access_keys (nouveau système)
+      if (!hasValidAccess && codeInputCheck.startsWith('LYA-')) {
+        try {
+          const keysRef = collection(db, 'access_keys');
+          const q = query(keysRef, where('key', '==', codeInputCheck), where('status', '==', 'ACTIVE'), limit(1));
+          const snap = await getDocs(q);
+          if (!snap.empty) {
+            hasValidAccess = true;
+          } else {
+            // Code not found or already used
+            setIsLoading(false);
+            setError(t(
+              "✦ Ce code d'accès est invalide ou a déjà été utilisé.",
+              '✦ This access code is invalid or has already been used.'
+            ));
+            return;
+          }
+        } catch(e) { console.warn('Access key check failed:', e); }
+      }
+
+      // 3. Vérifier si l'email est pré-inscrit ET approuvé manuellement
       if (!hasValidAccess) {
-        // Vérifier aussi si l'email est pré-inscrit ET approuvé
         try {
           const preRef = collection(db, 'pre_registrations');
           const preSnap = await getDocs(preRef);
-          const preDoc = preSnap.docs.find(d => 
+          const preDoc = preSnap.docs.find(d =>
             d.data().email?.toLowerCase().trim() === formData.email.toLowerCase().trim() &&
             d.data().status === 'APPROVED'
           );
