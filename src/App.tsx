@@ -385,7 +385,7 @@ export default function App() {
     setIsTransitioning(true);
     setTimeout(() => { setCurrentView(view); window.scrollTo(0, 0); setIsTransitioning(false); }, 350);
   };
-  const notify = (msg: string) => { setNotification(msg); setTimeout(() => setNotification(null), 3000); };
+  const notify = (msg: string) => { setNotification(msg); setTimeout(() => setNotification(null), 6000); };
   const handleOpenIssuerProfile = (issuerId: string) => { setActiveIssuerId(issuerId); setCurrentView('ISSUER_PROFILE'); };
   const addNotification = (title: string, message: string, type: 'INFO' | 'SUCCESS' | 'WARNING' = 'INFO') => {
     const newNotif = { id: Math.random().toString(36).substr(2, 9), title, message, timestamp: new Date().toISOString(), read: false, type };

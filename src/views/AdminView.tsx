@@ -298,6 +298,20 @@ export const AdminView: React.FC<{
         });
 
         await batch.commit();
+
+        // Email de confirmation — n'existait pas du tout avant, la
+        // candidature était approuvée sans que la personne ne le sache.
+        // Best-effort : ne bloque jamais l'approbation si l'email échoue.
+        const approvedReq = verificationRequests.find(r => r.id === requestId);
+        const applicantEmail = approvedReq?.userEmail || approvedReq?.formData?.email;
+        const applicantName = approvedReq?.formData?.name || approvedReq?.userDisplayName || 'Validator';
+        if (applicantEmail) {
+          fetch('/api/email/welcome', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ to: applicantEmail, name: applicantName, role: 'PROFESSIONAL', lang: 'FR' }),
+          }).catch((err) => console.warn('[VALIDATOR_APPROVAL_EMAIL]', err));
+        }
       }
 
       // Update local storage mirror
