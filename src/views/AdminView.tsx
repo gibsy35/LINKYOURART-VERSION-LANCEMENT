@@ -1127,8 +1127,7 @@ export const AdminView: React.FC<{
                               ].map((step) => (
                                 <div 
                                   key={step.id} 
-                                  onClick={() => onNotify(t('✦ Compliance step passed', '✦ Étape de conformité validée'))}
-                                  className="p-3 bg-white/[0.01] hover:bg-white/[0.03] border border-white/5 hover:border-primary-cyan/20 rounded-xl cursor-pointer transition-all flex items-start gap-3 group"
+                                  className="p-3 bg-white/[0.01] border border-white/5 rounded-xl flex items-start gap-3 group"
                                 >
                                   <div className="w-4 h-4 rounded bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center shrink-0 mt-0.5">
                                     <CheckCircle2 size={10} className="text-emerald-400" />
@@ -1153,8 +1152,7 @@ export const AdminView: React.FC<{
                               ].map((doc, dIdx) => (
                                 <div 
                                   key={dIdx}
-                                  onClick={() => onNotify(t('✦ Document de conformité ouvert', '✦ Document de conformité ouvert'))}
-                                  className="p-4 bg-white/[0.02] hover:bg-primary-cyan/[0.03] border border-white/5 hover:border-primary-cyan/30 rounded-xl cursor-pointer transition-all flex items-center justify-between group"
+                                  className="p-4 bg-white/[0.02] border border-white/5 rounded-xl flex items-center justify-between group"
                                 >
                                   <div className="flex items-center gap-3">
                                     <Database size={16} className="text-primary-cyan group-hover:scale-110 transition-transform" />

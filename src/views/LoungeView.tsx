@@ -967,17 +967,17 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
                       {t('CREATIVE', 'CRÉATIF')} <span className="bg-gradient-to-r from-accent-gold via-white to-accent-gold bg-clip-text text-transparent bg-[length:200%_auto] animate-shimmer">{t('INSIGHTS MONITOR', 'MONITEUR D\'INSIGHTS')}</span>
                     </h2>
                     <div className="flex flex-wrap gap-6 mt-8">
-                      <div className="flex flex-col cursor-pointer group/stat" onClick={() => onNotify(t('✦ Statistiques de registre actualisées','✦ Registry stats refreshed'))}>
-                        <span className="text-[10px] text-accent-gold font-black uppercase tracking-widest mb-1 opacity-60 group-hover/stat:opacity-100 transition-opacity">{t('Active Certifications', 'Certifications Actives')}</span>
-                        <span className="text-xl font-black text-white tracking-tighter group-hover/stat:text-accent-gold transition-colors">{pulseStats.activeCertifications} <span className="text-[10px] text-emerald-400 ml-1">{pulseStats.certTrend}</span></span>
+                      <div className="flex flex-col group/stat">
+                        <span className="text-[10px] text-accent-gold font-black uppercase tracking-widest mb-1 opacity-60">{t('Active Certifications', 'Certifications Actives')}</span>
+                        <span className="text-xl font-black text-white tracking-tighter">{pulseStats.activeCertifications} <span className="text-[10px] text-emerald-400 ml-1">{pulseStats.certTrend}</span></span>
                       </div>
-                      <div className="flex flex-col border-l border-white/10 pl-6 cursor-pointer group/stat" onClick={() => onNotify(t('✦ Analyse sectorielle mise à jour','✦ Sector analysis updated'))}>
-                        <span className="text-[10px] text-accent-gold font-black uppercase tracking-widest mb-1 opacity-60 group-hover/stat:opacity-100 transition-opacity">{t('Top Sector', 'Meilleur Secteur')}</span>
-                        <span className="text-xl font-black text-white tracking-tighter uppercase group-hover/stat:text-accent-gold transition-colors">{t(pulseStats.topSector, pulseStats.topSector)}</span>
+                      <div className="flex flex-col border-l border-white/10 pl-6 group/stat">
+                        <span className="text-[10px] text-accent-gold font-black uppercase tracking-widest mb-1 opacity-60">{t('Top Sector', 'Meilleur Secteur')}</span>
+                        <span className="text-xl font-black text-white tracking-tighter uppercase">{t(pulseStats.topSector, pulseStats.topSector)}</span>
                       </div>
-                      <div className="flex flex-col border-l border-white/10 pl-6 cursor-pointer group/stat" onClick={() => onNotify(t('✦ Tendance de score actualisée','✦ Score trend refreshed'))}>
-                        <span className="text-[10px] text-accent-gold font-black uppercase tracking-widest mb-1 opacity-60 group-hover/stat:opacity-100 transition-opacity">{t('LYA Score Trend', 'Tendance Score LYA')}</span>
-                        <span className="text-xl font-black text-white tracking-tighter uppercase text-primary-cyan group-hover/stat:text-accent-gold transition-colors">{t(pulseStats.scoreTrend, pulseStats.scoreTrend)}</span>
+                      <div className="flex flex-col border-l border-white/10 pl-6 group/stat">
+                        <span className="text-[10px] text-accent-gold font-black uppercase tracking-widest mb-1 opacity-60">{t('LYA Score Trend', 'Tendance Score LYA')}</span>
+                        <span className="text-xl font-black text-white tracking-tighter uppercase text-primary-cyan">{t(pulseStats.scoreTrend, pulseStats.scoreTrend)}</span>
                       </div>
                     </div>
                   </div>
@@ -1006,15 +1006,12 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
                   </div>
                 </div>
                 <div className="hidden md:flex items-center gap-4">
-                  <button 
-                    onClick={() => onNotify(t('✦ Nœud synchronisé','✦ Node synchronized'))}
-                    className="flex items-center gap-3 bg-black/40 px-5 py-2.5 rounded-xl border border-emerald-500/20 hover:border-emerald-500/50 backdrop-blur-md transition-all group/node"
-                  >
+                  <div className="flex items-center gap-3 bg-black/40 px-5 py-2.5 rounded-xl border border-emerald-500/20 backdrop-blur-md">
                     <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.6)]" />
                     <span className="text-[10px] font-black text-emerald-400 uppercase tracking-widest">{t('NODE ACTIVE', 'NŒUD ACTIF')}</span>
-                  </button>
-                  <button 
-                    onClick={() => onNotify(t('PRO PANEL ACTIVE', 'PANNEAU PRO ACTIF'))}
+                  </div>
+                  <button
+                    onClick={() => onViewChange && onViewChange('SETTINGS')}
                     className="flex items-center gap-3 bg-white/5 px-5 py-2.5 rounded-xl border border-white/10 hover:border-accent-gold/30 backdrop-blur-md transition-all"
                   >
                     <Settings size={14} className="text-on-surface-variant" />
