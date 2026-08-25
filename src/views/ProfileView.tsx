@@ -562,39 +562,20 @@ const ProfileView: React.FC<ProfileViewProps> = ({
     }
   };
 
+  // Table de correspondance réduite au strict nécessaire : uniquement les
+  // clés effectivement appelées par un bouton dans ce fichier. Plus de
+  // secours "notification factice" — si une clé n'a pas de vraie
+  // destination, elle n'a pas sa place ici (le bouton correspondant doit
+  // soit naviguer vraiment, soit être retiré).
   const handlePremiumFeature = (featureName: string) => {
-    if (user.isPro || user.role === UserRole.PROFESSIONAL || user.role === UserRole.ADMIN) {
-      if (!onViewChange) return;
-
-      const featureMap: Record<string, any> = {
-        'Lounge Access': 'LOUNGE',
-        'LYA Academy Subscription': 'ACADEMY',
-        'Générateur de Contrats': 'LINK_ART',
-        'AI Valuation': 'COMPARE',
-        'Compliance Center': 'VALIDATION',
-        'B2B Registry Status': 'REGISTRY',
-        'Expert Mentorship': 'LOUNGE',
-        'Explore Professional Offers': 'PRICING',
-        'Premium Services': 'PRICING'
-      };
-
-      const targetView = featureMap[featureName];
-      if (targetView) {
-        onViewChange(targetView);
-        return;
-      }
-
-      onNotify?.(t(`Accessing ${featureName}...`, `Accès à ${featureName}...`));
-      return;
-    }
-    
-    // For non-pro users, clicking these should take them to pricing
-    if (onViewChange && (featureName === 'Explore Professional Offers' || featureName === 'Premium Services')) {
-      onViewChange('PRICING');
-      return;
-    }
-
-    setPremiumFeature(featureName);
+    if (!onViewChange) return;
+    const featureMap: Record<string, any> = {
+      'Lounge Access': 'LOUNGE',
+      'Explore Professional Offers': 'PRICING',
+      'Premium Services': 'PRICING',
+    };
+    const targetView = featureMap[featureName];
+    if (targetView) onViewChange(targetView);
   };
 
   const handleManageSubscription = async () => {
@@ -1691,13 +1672,13 @@ const renderMentorshipContent = () => (
                           
                           <div className="mt-auto flex gap-3 md:gap-4">
                             <button 
-                              onClick={() => handlePremiumFeature('IP Rights Management')}
+                              onClick={() => onViewChange && onViewChange('CREATOR_DASHBOARD')}
                               className="flex-1 py-3 md:py-4 bg-white/5 border border-white/10 text-xs md:text-[10px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] hover:bg-primary-cyan hover:text-surface-dim hover:border-primary-cyan transition-all duration-300 rounded-xl"
                             >
                               {t('Manage IP Rights', 'Gérer les Droits PI')}
                             </button>
                             <button 
-                              onClick={() => handlePremiumFeature('Settings')}
+                              onClick={() => onViewChange && onViewChange('SETTINGS')}
                               className="px-4 md:px-5 py-3 md:py-4 bg-white/5 border border-white/10 text-on-surface-variant hover:text-primary-cyan hover:border-primary-cyan/50 transition-all group/btn rounded-xl"
                             >
                               <Settings size={16} className="group-hover/btn:rotate-90 transition-transform duration-700" />
@@ -2309,18 +2290,6 @@ const renderMentorshipContent = () => (
                     >
                       {t('Browse Registry', 'Parcourir le Registre')}
                     </button>
-                    <button 
-                      onClick={() => handlePremiumFeature('Institutional Access')}
-                      className="w-full py-4 md:py-5 border border-white/10 text-white text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] hover:bg-white/5 transition-all active:scale-95"
-                    >
-                      {t('Institutional Access', 'Accès Institutionnel')}
-                    </button>
-                    <button 
-                      onClick={() => handlePremiumFeature('Premium Insights')}
-                      className="w-full py-4 md:py-5 border border-accent-gold/30 text-accent-gold text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] hover:bg-accent-gold hover:text-surface-dim transition-all active:scale-95"
-                    >
-                      {t('Premium Insights', 'Analyses Premium')}
-                    </button>
                   </div>
                 </section>
 
@@ -2561,7 +2530,7 @@ const renderMentorshipContent = () => (
                     </p>
                   </div>
                           <button 
-                            onClick={() => handlePremiumFeature('Contact Creator')}
+                            onClick={() => setActiveTab('messages')}
                             className="w-full sm:w-auto px-5 md:px-8 py-2 md:py-3 bg-white/5 border border-white/10 text-[10px] md:text-[10px] font-black uppercase tracking-[0.15em] md:tracking-[0.2em] text-on-surface-variant hover:text-white hover:border-white/30 flex items-center justify-center gap-2 md:gap-4 transition-all active:scale-95 rounded-xl"
                           >
                             {t('Contact Creator', 'Contacter le Créateur')} <ExternalLink size={14} />
@@ -2614,15 +2583,9 @@ const renderMentorshipContent = () => (
                         </div>
                         <span className="text-xs md:text-[11px] font-black uppercase tracking-[0.15em] md:tracking-[0.2em] text-primary-cyan">{t('Milestone Alerts', 'Alertes de Jalons')}</span>
                       </div>
-                      <p className="text-[10px] md:text-sm text-on-surface-variant italic mb-6 md:mb-10 leading-relaxed opacity-70">
+                      <p className="text-[10px] md:text-sm text-on-surface-variant italic mb-2 leading-relaxed opacity-70">
                         {t('Follow certification updates on the projects you support, and get notified when a milestone is validated by the committee.', 'Suivez les mises à jour de certification des projets que vous soutenez, et recevez une alerte à chaque jalon validé par le comité.')}
                       </p>
-                      <button 
-                        onClick={() => handlePremiumFeature('Milestone Alerts Management')}
-                        className="w-full py-3.5 md:py-5 bg-primary-cyan/10 border border-primary-cyan/30 text-primary-cyan text-xs md:text-[11px] font-black uppercase tracking-[0.15em] md:tracking-[0.3em] hover:bg-primary-cyan hover:text-surface-dim transition-all active:scale-95 shadow-[0_10px_30px_rgba(0,224,255,0.1)]"
-                      >
-                        {t('Manage Alerts', 'Gérer les Alertes')}
-                      </button>
                     </div>
                   </div>
                 </section>
@@ -2737,13 +2700,11 @@ const renderMentorshipContent = () => (
                   </h3>
                   <div className="space-y-3 md:space-y-4">
                     {[
-                      { title: t('AI Assessment', 'Évaluation IA'), desc: t('Institutional Grade Analysis', 'Analyse de Qualité Institutionnelle'), icon: BarChart3 },
-                      { title: t('Certification Generator', 'Générateur de Certificats'), desc: t('Automated Legal Framework', 'Cadre Juridique Automatisé'), icon: FileCode },
-                      { title: t('Compliance Center', 'Centre de Conformité'), desc: t('Intégration Registre LYA', 'Intégration Registre LYA'), icon: Globe },
+                      { title: t('Compliance Center', 'Centre de Conformité'), desc: t('Intégration Registre LYA', 'Intégration Registre LYA'), icon: Globe, view: 'VALIDATION' as const },
                     ].map((tool, i) => (
                       <button 
                         key={i} 
-                        onClick={() => handlePremiumFeature(tool.title)}
+                        onClick={() => onViewChange && onViewChange(tool.view)}
                         className="w-full p-4 md:p-6 lg:p-8 bg-white/5 border border-white/10 flex items-center gap-4 md:gap-8 hover:bg-primary-cyan/10 hover:border-primary-cyan/40 transition-all text-left group active:scale-[0.98]"
                       >
                         <div className="p-3 md:p-5 bg-primary-cyan/10 text-primary-cyan group-hover:bg-primary-cyan group-hover:text-surface-dim transition-all duration-500">
