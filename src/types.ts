@@ -46,10 +46,6 @@ export interface UserProfile {
   // access, white-label reporting and a dedicated account manager. See
   // src/lib/permissions.ts.
   proTier?: 'STARTER' | 'ADVANCED';
-  // Elite Invitation (profil) — chaque membre dispose d'une invitation
-  // exclusive. Voir src/components/InvitationCard.tsx.
-  invitationSentAt?: string;
-  invitationSentTo?: string;
   usageStats?: {
     simulator: number;
     swipe: number;
