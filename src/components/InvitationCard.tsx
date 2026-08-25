@@ -162,7 +162,11 @@ export const InvitationCard: React.FC<InvitationCardProps> = ({ user, onSent, on
   };
 
   return (
-    <section className={`bg-surface-low/30 border ${cfg.accentBorder} p-5 md:p-8 lg:p-10 backdrop-blur-2xl relative overflow-hidden group rounded-2xl shadow-2xl`}>
+    <section className={`bg-surface-low border ${cfg.accentBorder} p-5 md:p-8 lg:p-10 relative overflow-hidden group rounded-2xl shadow-2xl`}>
+      {/* No backdrop-blur here on purpose — ProfileView already stacks ~48
+          backdrop-blur instances on this page, a known mobile GPU/scroll
+          performance risk. bg-surface-low (opaque) keeps the same dark
+          card look without adding to that cost. */}
       <div className="absolute top-0 right-0 p-6 md:p-8 opacity-[0.04] group-hover:opacity-[0.08] transition-opacity duration-700">
         <UserPlus size={100} className={cfg.accent} />
       </div>

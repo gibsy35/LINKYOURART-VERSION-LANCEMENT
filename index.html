@@ -68,6 +68,21 @@
       }
     }
     </script>
+
+    <!-- ── CRITICAL CSS: intro overlay ──────────────────────────────
+         Duplicated inline so the entry animation is correctly
+         fixed/full-screen/on-top from the very first paint, even on a
+         cold load where the external Tailwind stylesheet hasn't
+         finished downloading yet. Without this, the overlay can
+         briefly render unstyled (in normal document flow instead of
+         a fixed full-screen layer) before the stylesheet applies —
+         visible as the intro looking "stuck in the background" on
+         first visit, but correct on any subsequent (cached) load. -->
+    <style>
+      .fixed { position: fixed; }
+      .inset-0 { inset: 0px; }
+      .z-\[200\] { z-index: 200; }
+    </style>
   </head>
   <body>
     <div id="root"></div>
