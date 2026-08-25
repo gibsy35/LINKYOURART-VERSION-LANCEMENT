@@ -1,7 +1,8 @@
 
 import React, { useState } from 'react';
-import { db, handleFirestoreError, OperationType } from '../firebase';
+import { db, storage, handleFirestoreError, OperationType } from '../firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   ShieldCheck, 
@@ -22,7 +23,8 @@ import {
   Gem,
   Award,
   CheckCircle,
-  Shield
+  Shield,
+  X
 } from 'lucide-react';
 import { useTranslation } from '../context/LanguageContext';
 import { PageHeader } from '../components/ui/PageHeader';
@@ -40,17 +42,51 @@ export const ApplyForVerificationView: React.FC<{ onNotify: (msg: string) => voi
     website: '',
     notes: ''
   });
+  const [documents, setDocuments] = useState<File[]>([]);
+  const [isUploadingDocs, setIsUploadingDocs] = useState(false);
+
+  const handleDocumentSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) setDocuments(prev => [...prev, ...Array.from(e.target.files!)]);
+  };
+  const removeDocument = (idx: number) => setDocuments(prev => prev.filter((_, i) => i !== idx));
+
+  // Upload réel vers Firebase Storage — même schéma que l'upload de projet
+  // déjà utilisé ailleurs dans l'app (ProfileView.handleFileUpload), pour
+  // rester cohérent avec l'infrastructure existante.
+  const uploadDocuments = async (): Promise<{ name: string; url: string; size: number }[]> => {
+    if (documents.length === 0) return [];
+    setIsUploadingDocs(true);
+    try {
+      const uploaded = await Promise.all(documents.map(async (file) => {
+        const storageRef = ref(storage, `verification_documents/${user?.uid || 'anonymous'}/${Date.now()}_${file.name}`);
+        const task = uploadBytesResumable(storageRef, file);
+        await new Promise<void>((resolve, reject) => {
+          task.on('state_changed', undefined, reject, () => resolve());
+        });
+        const url = await getDownloadURL(task.snapshot.ref);
+        return { name: file.name, url, size: file.size };
+      }));
+      return uploaded;
+    } finally {
+      setIsUploadingDocs(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     onNotify(t('SUBMITTING PROFESSIONAL VERIFICATION REQUEST...', 'SOUMISSION DE LA DEMANDE DE VÉRIFICATION PROFESSIONNELLE...'));
     try {
+      const uploadedDocuments = await uploadDocuments();
       await addDoc(collection(db, 'verification_requests'), {
         userId: user?.uid || null,
         userEmail: user?.email || null,
         userDisplayName: user?.displayName || null,
         selectedSector,
         formData: formData,
+        firm: formData.organization,
+        registrationId: null,
+        authority: null,
+        documents: uploadedDocuments,
         status: 'PENDING',
         createdAt: serverTimestamp(),
       });
@@ -248,6 +284,8 @@ export const ApplyForVerificationView: React.FC<{ onNotify: (msg: string) => voi
                       <input 
                         required
                         type="text" 
+                        value={formData.name}
+                        onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
                         placeholder="E.G. ALEXANDER VANCE"
                         className="w-full bg-white/[0.02] border border-white/10 px-8 py-5 text-base font-black uppercase tracking-widest text-white focus:outline-none focus:border-primary-cyan/40 focus:bg-white/[0.05] transition-all rounded-2xl shadow-inner placeholder:opacity-20"
                       />
@@ -260,6 +298,8 @@ export const ApplyForVerificationView: React.FC<{ onNotify: (msg: string) => voi
                         <input 
                           required
                           type="text" 
+                          value={formData.organization}
+                          onChange={(e) => setFormData(prev => ({ ...prev, organization: e.target.value }))}
                           placeholder="ALPHA FUND"
                           className="w-full bg-white/[0.02] border border-white/10 px-8 py-5 text-base font-black uppercase tracking-widest text-white focus:outline-none focus:border-accent-gold/40 focus:bg-white/[0.05] transition-all rounded-2xl shadow-inner placeholder:opacity-20"
                         />
@@ -270,6 +310,8 @@ export const ApplyForVerificationView: React.FC<{ onNotify: (msg: string) => voi
                         <input 
                           required
                           type="text" 
+                          value={formData.role}
+                          onChange={(e) => setFormData(prev => ({ ...prev, role: e.target.value }))}
                           placeholder="CHIEF STRATEGIST"
                           className="w-full bg-white/[0.02] border border-white/10 px-8 py-5 text-base font-black uppercase tracking-widest text-white focus:outline-none focus:border-accent-magenta/40 focus:bg-white/[0.05] transition-all rounded-2xl shadow-inner placeholder:opacity-20"
                         />
@@ -283,20 +325,49 @@ export const ApplyForVerificationView: React.FC<{ onNotify: (msg: string) => voi
                         <input 
                           required
                           type="email" 
+                          value={formData.email}
+                          onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
                           placeholder="VANCE@NET.ALPHA"
                           className="w-full bg-white/[0.02] border border-white/10 px-8 py-5 text-base font-black uppercase tracking-widest text-white focus:outline-none focus:border-primary-cyan/40 focus:bg-white/[0.05] transition-all rounded-2xl shadow-inner placeholder:opacity-20 pr-14"
                         />
                         <Mail className="absolute right-6 top-1/2 -translate-y-1/2 text-white/10 group-focus-within:text-primary-cyan/30 transition-colors" size={20} />
                       </div>
                     </div>
+
+                    <div className="group relative">
+                      <label className="block text-xs font-black uppercase tracking-[0.4em] text-on-surface-variant mb-3">{t('Supporting Documents (optional)', 'Documents Justificatifs (facultatif)')}</label>
+                      <label className="flex flex-col items-center gap-3 p-8 border-2 border-dashed border-white/10 hover:border-primary-cyan/40 rounded-2xl cursor-pointer transition-all bg-white/[0.01]">
+                        <input type="file" multiple className="hidden" onChange={handleDocumentSelect} />
+                        <Upload size={22} className="text-white/30" />
+                        <p className="text-xs text-center text-on-surface-variant/60 uppercase tracking-widest font-bold">
+                          {t('Credentials, accreditation, ID...', 'Accréditations, pièce d\'identité...')}
+                        </p>
+                      </label>
+                      {documents.length > 0 && (
+                        <div className="space-y-2 mt-3">
+                          {documents.map((f, i) => (
+                            <div key={i} className="flex items-center justify-between gap-2 px-4 py-2.5 bg-white/[0.02] border border-white/10 rounded-xl">
+                              <span className="text-xs text-white/70 truncate">{f.name}</span>
+                              <button type="button" onClick={() => removeDocument(i)} className="text-white/30 hover:text-rose-400 transition-colors shrink-0">
+                                <X size={14} />
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                      {isUploadingDocs && (
+                        <p className="text-[10px] text-primary-cyan uppercase tracking-widest font-black mt-2 animate-pulse">{t('Uploading...', 'Téléversement...')}</p>
+                      )}
+                    </div>
                   </div>
 
                   <div className="pt-8 text-center">
                     <button 
                       type="submit"
-                      className="w-full py-7 bg-white text-surface-dim font-black uppercase italic tracking-[0.6em] text-sm hover:bg-primary-cyan transition-all active:scale-95 shadow-[0_30px_60px_rgba(0,0,0,0.4)] rounded-2xl transform hover:-translate-y-1 duration-300"
+                      disabled={isUploadingDocs}
+                      className="w-full py-7 bg-white text-surface-dim font-black uppercase italic tracking-[0.6em] text-sm hover:bg-primary-cyan transition-all active:scale-95 shadow-[0_30px_60px_rgba(0,0,0,0.4)] rounded-2xl transform hover:-translate-y-1 duration-300 disabled:opacity-50 disabled:hover:translate-y-0"
                     >
-                      {t('Seal & Submit Audit', 'Sceller et Soumettre l\'Audit')}
+                      {isUploadingDocs ? t('Uploading documents...', 'Téléversement des documents...') : t('Seal & Submit Audit', 'Sceller et Soumettre l\'Audit')}
                     </button>
                     <div className="flex items-center justify-center gap-3 mt-10 opacity-30 select-none">
                       <Shield size={12} className="text-primary-cyan animate-pulse" />

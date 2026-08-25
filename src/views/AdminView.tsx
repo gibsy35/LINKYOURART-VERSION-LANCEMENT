@@ -717,8 +717,9 @@ export const AdminView: React.FC<{
                           {req.documents?.map((doc: any, i: number) => (
                             <a 
                               key={i} 
-                              href={doc.data} 
-                              download={doc.name}
+                              href={doc.url} 
+                              target="_blank"
+                              rel="noreferrer"
                               className="flex items-center gap-2 bg-white/5 border border-white/10 px-3 py-2 rounded-lg text-[10px] text-white hover:bg-white/10 transition-all"
                             >
                               <FileText size={12} className="text-primary-cyan" />
@@ -1029,7 +1030,7 @@ export const AdminView: React.FC<{
                       <div className="flex flex-col gap-1 text-left">
                         <div className="font-bold text-accent-gold uppercase">{req.firm || req.organization || 'Individual Entity'}</div>
                         <div className="text-[10px] opacity-50 flex items-center gap-1">
-                           <FileText size={10} className="text-primary-cyan" /> {req.documents?.length || 3} {t('SEALED_FILES', 'Documents de Clearance')}
+                           <FileText size={10} className="text-primary-cyan" /> {req.documents?.length || 0} {t('SEALED_FILES', 'Documents de Clearance')}
                         </div>
                       </div>
                     </td>
@@ -1096,79 +1097,83 @@ export const AdminView: React.FC<{
                             <div className="space-y-3">
                               <div>
                                 <span className="text-xs font-semibold text-white/30 uppercase tracking-widest block">{t('FULL IDENTITY', 'IDENTITÉ COMPLÈTE')}</span>
-                                <span className="text-xs font-black text-white mt-0.5 block">{req.userName || 'ALEXANDER VANCE'}</span>
+                                <span className="text-xs font-black text-white mt-0.5 block">{req.formData?.name || req.userDisplayName || '—'}</span>
                               </div>
                               <div>
                                 <span className="text-xs font-semibold text-white/30 uppercase tracking-widest block">{t('ORGANIZATION / FIRM', 'ENTITÉ EXPLOITANTE')}</span>
-                                <span className="text-xs font-bold text-accent-gold mt-0.5 block">{req.firm || req.organization || 'ALPHA FUND SERVICES'}</span>
+                                <span className="text-xs font-bold text-accent-gold mt-0.5 block">{req.formData?.organization || req.firm || '—'}</span>
                               </div>
                               <div>
                                 <span className="text-xs font-semibold text-white/30 uppercase tracking-widest block">{t('OPERATIONAL ROLE', 'RÔLE OPÉRATIONNEL')}</span>
-                                <span className="text-xs font-medium text-white/80 mt-0.5 block">{req.role || 'PATRON'}</span>
+                                <span className="text-xs font-medium text-white/80 mt-0.5 block">{req.formData?.role || '—'}</span>
                               </div>
                               <div>
-                                <span className="text-xs font-semibold text-white/30 uppercase tracking-widest block">{t('SECURE ENDPOINT URL', 'POINT D\'ACCÈS WEB')}</span>
-                                <a href={req.website || '#'} target="_blank" rel="noreferrer" className="text-xs font-semibold text-primary-cyan underline hover:text-white mt-0.5 block break-all">
-                                  {req.website || 'https://alpha-studio.example.com'}
+                                <span className="text-xs font-semibold text-white/30 uppercase tracking-widest block">{t('EMAIL', 'EMAIL')}</span>
+                                <a href={req.userEmail ? `mailto:${req.userEmail}` : '#'} className="text-xs font-semibold text-primary-cyan underline hover:text-white mt-0.5 block break-all">
+                                  {req.userEmail || req.formData?.email || '—'}
                                 </a>
                               </div>
-                            </div>
-                          </div>
-
-                          {/* Col 2: Security Verification Steps */}
-                          <div className="space-y-4">
-                            <span className="text-[10px] font-black uppercase text-white/40 tracking-[0.2em] block border-b border-white/5 pb-2">🛡️ {t('AUDIT PROCESS CHECKLIST', 'VÉRIFICATIONS RÉGLEMENTAIRES')}</span>
-                            <div className="space-y-3">
-                              {[
-                                { id: 'id_check', name: t('Identity Verification Cleared', 'Identité Vérifiée'), desc: t('Validated via international authorities.', 'Validé via registres civils internationaux.') },
-                                { id: 'portfolio_check', name: t('Portfolio Asset Audit', 'Inspection Technique Portfolio'), desc: t('Creative property integrity checked.', 'Contrôle d\'intégrité des actifs artistiques.') },
-                                { id: 'expertise_check', name: t('Professional Expertise Review', 'Vérification d\'Expertise Professionnelle'), desc: t('Credentials and track record certified.', 'Références et parcours professionnel validés.') },
-                                { id: 'entity_check', name: t('Legal Entity Compliance Sync', 'Attestation d\'Activité Commerciale'), desc: t('Corporate authorization verified.', 'Registre de commerce actif et certifié.') },
-                              ].map((step) => (
-                                <div 
-                                  key={step.id} 
-                                  className="p-3 bg-white/[0.01] border border-white/5 rounded-xl flex items-start gap-3 group"
-                                >
-                                  <div className="w-4 h-4 rounded bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center shrink-0 mt-0.5">
-                                    <CheckCircle2 size={10} className="text-emerald-400" />
-                                  </div>
-                                  <div>
-                                    <span className="text-[10px] font-black text-white/90 uppercase tracking-tight block group-hover:text-primary-cyan transition-colors">{step.name}</span>
-                                    <span className="text-[8.5px] font-medium text-white/30 block mt-0.5">{step.desc}</span>
-                                  </div>
+                              {req.selectedSector && (
+                                <div>
+                                  <span className="text-xs font-semibold text-white/30 uppercase tracking-widest block">{t('SECTOR', 'SECTEUR')}</span>
+                                  <span className="text-xs font-medium text-white/80 mt-0.5 block uppercase">{req.selectedSector}</span>
                                 </div>
-                              ))}
+                              )}
                             </div>
                           </div>
 
-                          {/* Col 3: Encrypted Document Vault */}
+                          {/* Col 2: Submitted notes — pas de vérification automatisée existante,
+                              donc on affiche ce qui a été réellement soumis plutôt qu'une
+                              checklist fictive de conformité. */}
                           <div className="space-y-4">
-                            <span className="text-[10px] font-black uppercase text-white/40 tracking-[0.2em] block border-b border-white/5 pb-2">🔑 {t('ENCRYPTED COMPLIANCE VAULT', 'COFFRE-FORT DE DOCUMENTS SÉCURISÉ')}</span>
+                            <span className="text-[10px] font-black uppercase text-white/40 tracking-[0.2em] block border-b border-white/5 pb-2">📝 {t('SUBMITTED BY APPLICANT', 'FOURNI PAR LE CANDIDAT')}</span>
                             <div className="space-y-3">
-                              {[
-                                { file: 'PASSPORT_IDENTITY_DECRYPT.enc', size: '15.4 MB', schema: 'AES-256' },
-                                { file: 'INCORPORATION_CERTIFICATE.enc', size: '8.2 MB', schema: 'AES-256' },
-                                { file: 'PROFESSIONAL_CREDENTIALS.enc', size: '24.1 MB', schema: 'AES-256-GCM' },
-                              ].map((doc, dIdx) => (
-                                <div 
-                                  key={dIdx}
-                                  className="p-4 bg-white/[0.02] border border-white/5 rounded-xl flex items-center justify-between group"
-                                >
-                                  <div className="flex items-center gap-3">
-                                    <Database size={16} className="text-primary-cyan group-hover:scale-110 transition-transform" />
-                                    <div>
-                                      <span className="text-[11px] font-black text-white block group-hover:text-primary-cyan transition-colors">{doc.file}</span>
-                                      <span className="text-xs font-mono text-white/30 block mt-0.5">{doc.schema} • {doc.size}</span>
+                              {req.formData?.website && (
+                                <div>
+                                  <span className="text-xs font-semibold text-white/30 uppercase tracking-widest block">{t('WEBSITE', 'SITE WEB')}</span>
+                                  <a href={req.formData.website} target="_blank" rel="noreferrer" className="text-xs font-semibold text-primary-cyan underline hover:text-white mt-0.5 block break-all">
+                                    {req.formData.website}
+                                  </a>
+                                </div>
+                              )}
+                              {req.formData?.notes ? (
+                                <div>
+                                  <span className="text-xs font-semibold text-white/30 uppercase tracking-widest block">{t('NOTES', 'NOTES')}</span>
+                                  <span className="text-xs font-medium text-white/70 mt-0.5 block leading-relaxed">{req.formData.notes}</span>
+                                </div>
+                              ) : (
+                                <p className="text-[10px] text-white/25 italic">{t('No additional notes provided.', 'Aucune note complémentaire fournie.')}</p>
+                              )}
+                            </div>
+                          </div>
+
+                          {/* Col 3: Documents réellement fournis — plus de contenu fabriqué */}
+                          <div className="space-y-4">
+                            <span className="text-[10px] font-black uppercase text-white/40 tracking-[0.2em] block border-b border-white/5 pb-2">📎 {t('DOCUMENTS PROVIDED', 'DOCUMENTS FOURNIS')}</span>
+                            {req.documents && req.documents.length > 0 ? (
+                              <div className="space-y-3">
+                                {req.documents.map((doc: any, dIdx: number) => (
+                                  <a
+                                    key={dIdx}
+                                    href={doc.url}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="p-4 bg-white/[0.02] border border-white/5 rounded-xl flex items-center justify-between group hover:border-primary-cyan/30 transition-all"
+                                  >
+                                    <div className="flex items-center gap-3 min-w-0">
+                                      <Database size={16} className="text-primary-cyan group-hover:scale-110 transition-transform shrink-0" />
+                                      <div className="min-w-0">
+                                        <span className="text-[11px] font-black text-white block group-hover:text-primary-cyan transition-colors truncate">{doc.name}</span>
+                                        <span className="text-xs font-mono text-white/30 block mt-0.5">{doc.size ? `${(doc.size / 1024 / 1024).toFixed(1)} MB` : ''}</span>
+                                      </div>
                                     </div>
-                                  </div>
-                                  <Download size={13} className="text-white/30 group-hover:text-primary-cyan" />
-                                </div>
-                              ))}
-                            </div>
-                            <div className="p-4 bg-accent-gold/5 border border-accent-gold/20 rounded-xl text-center">
-                              <span className="text-[9.5px] font-bold text-accent-gold uppercase tracking-wider block">🔒 LYA REGISTRY CLEARED</span>
-                              <span className="text-[8.5px] font-mono text-accent-gold/60 block mt-1">HASH: F843-D08E-CC21-99A0</span>
-                            </div>
+                                    <Download size={13} className="text-white/30 group-hover:text-primary-cyan shrink-0" />
+                                  </a>
+                                ))}
+                              </div>
+                            ) : (
+                              <p className="text-[10px] text-white/25 italic">{t('No documents were submitted with this application.', 'Aucun document n\'a été fourni avec cette candidature.')}</p>
+                            )}
                           </div>
 
                         </div>
