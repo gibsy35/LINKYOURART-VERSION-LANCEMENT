@@ -2,7 +2,6 @@
 import React from 'react';
 import { AuthGuard } from '../components/AuthGuard';
 import { motion } from 'motion/react';
-import { downloadResourceDocument } from '../utils/premiumDownload';
 import { PageHeader } from '../components/ui/PageHeader';
 import { 
   GraduationCap, 
@@ -110,46 +109,31 @@ export const AcademyView: React.FC<AcademyViewProps> = ({ user, onNotify, onView
 
       <div className="relative z-20 -mt-20 mb-8">
         <div className="flex flex-col lg:flex-row lg:items-center justify-end gap-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="px-4 sm:px-8 py-4 sm:py-5 bg-surface-low border border-white/5 rounded-2xl backdrop-blur-3xl shadow-2xl relative overflow-hidden group">
-              <div className="absolute inset-0 bg-accent-gold/5 opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="text-[10px] text-accent-gold uppercase tracking-widest font-black mb-1 opacity-70">{t('Active Learners', 'Apprenants Actifs')}</div>
-              <div className="text-3xl font-black text-white italic tracking-tighter uppercase">12.4K+</div>
-            </div>
-            <div className="px-4 sm:px-8 py-4 sm:py-5 bg-surface-low border border-white/5 rounded-2xl backdrop-blur-3xl shadow-2xl relative overflow-hidden group">
-              <div className="absolute inset-0 bg-primary-cyan/5 opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="text-[10px] text-primary-cyan uppercase tracking-widest font-black mb-1 opacity-70">{t('Certifications', 'Certifications')}</div>
-              <div className="text-3xl font-black text-white italic tracking-tighter uppercase">4.2K</div>
-            </div>
+          <div className="px-5 py-3 bg-accent-gold/10 border border-accent-gold/25 rounded-2xl backdrop-blur-3xl shadow-2xl">
+            <p className="text-[10px] font-black uppercase tracking-widest text-accent-gold">
+              {t('Programs launching progressively — validator verification is live now', 'Programmes lancés progressivement — la vérification validateur est disponible dès maintenant')}
+            </p>
           </div>
         </div>
       </div>
 
-        {/* Academy Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-20">
-        {[
-          { label: t('Active Learners', 'Apprenants Actifs'), value: '12.4K+', icon: <Users size={20} /> },
-          { label: t('Expert Mentors', 'Mentors Experts'), value: '85', icon: <Award size={20} /> },
-          { label: t('Certifications', 'Certifications'), value: '4.2K', icon: <ShieldCheck size={20} /> },
-          { label: t('Resource Library', 'Bibliothèque'), value: '1.5K+', icon: <BookOpen size={20} /> }
-        ].map((stat, i) => (
-          <div key={i} className="bg-surface-low/30 border border-white/5 p-6 rounded-2xl text-center group hover:border-primary-cyan/30 transition-all">
-            <div className="flex justify-center mb-4 text-on-surface-variant group-hover:text-primary-cyan transition-colors">
-              {stat.icon}
-            </div>
-            <h3 className="text-2xl font-black text-white italic tracking-tight mb-1">{stat.value}</h3>
-            <p className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest opacity-60">{stat.label}</p>
-          </div>
-        ))}
-      </div>
+        {/* Academy Stats — retiré : aucune donnée réelle derrière ces chiffres
+            (12.4K apprenants, 4.2K certifications...) tant que les programmes
+            ne sont pas réellement lancés. */}
 
-      {/* Featured Courses */}
-      <section className="px-6 space-y-8 mt-16 sm:mt-24">
-        <div className="flex items-center justify-between">
+      {/* Featured Courses — pas encore lancé, contenu non disponible */}
+      <section className="px-6 space-y-8 mt-16 sm:mt-24 relative">
+        <div className="flex items-center justify-between flex-wrap gap-3">
           <h2 className="text-2xl font-black text-white uppercase tracking-tight flex items-center gap-3">
             <BookOpen className="text-primary-cyan" size={24} />
             {t('FEATURED CURRICULUM', 'PROGRAMME À L\'AFFICHE')}
           </h2>
+          <span className="px-3 py-1.5 bg-accent-gold/10 border border-accent-gold/25 rounded-full text-[10px] font-black uppercase tracking-widest text-accent-gold">
+            {t('Coming Soon', 'Bientôt Disponible')}
+          </span>
+        </div>
+        <div className="relative">
+          <div className="pointer-events-none opacity-40 grayscale">
           <div className="flex gap-4">
             {[
               { key: 'ALL', label: t('ALL', 'TOUT') },
@@ -166,7 +150,6 @@ export const AcademyView: React.FC<AcademyViewProps> = ({ user, onNotify, onView
               </button>
             ))}
           </div>
-        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredCourses.map((course) => (
@@ -237,9 +220,9 @@ export const AcademyView: React.FC<AcademyViewProps> = ({ user, onNotify, onView
             </div>
           ))}
         </div>
+        </div>
+        </div>
       </section>
-
-      {/* Academy Programs */}
       <section className="px-6 grid grid-cols-1 lg:grid-cols-2 gap-8 mt-16 sm:mt-24">
         <div className="bg-gradient-to-br from-surface-low/50 to-primary-cyan/10 border border-white/5 rounded-2xl p-8 relative overflow-hidden group">
           <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 transition-transform">
@@ -272,10 +255,13 @@ export const AcademyView: React.FC<AcademyViewProps> = ({ user, onNotify, onView
           </button>
         </div>
 
-        <div className="bg-gradient-to-br from-surface-low/50 to-accent-purple/10 border border-white/5 rounded-2xl p-8 relative overflow-hidden group">
+        <div className="bg-gradient-to-br from-surface-low/50 to-accent-purple/10 border border-white/5 rounded-2xl p-8 relative overflow-hidden group opacity-40 grayscale pointer-events-none">
           <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 transition-transform">
             <Users size={100} className="text-accent-purple" />
           </div>
+          <span className="inline-block mb-4 px-3 py-1.5 bg-accent-gold/10 border border-accent-gold/25 rounded-full text-[10px] font-black uppercase tracking-widest text-accent-gold">
+            {t('Coming Soon', 'Bientôt Disponible')}
+          </span>
           <h3 className="text-2xl font-black text-white uppercase tracking-tight mb-4">{t('EXPERT WORKSHOPS', 'ATELIERS D\'EXPERTS')}</h3>
           <p className="text-sm text-on-surface-variant leading-relaxed mb-8 max-w-md text-justify">
             {t(
@@ -296,8 +282,8 @@ export const AcademyView: React.FC<AcademyViewProps> = ({ user, onNotify, onView
             ))}
           </div>
           <button 
-            onClick={() => onViewChange('SOCIAL_FEED')}
-            className="px-10 py-4 bg-accent-purple text-white font-black uppercase italic tracking-widest text-[11px] hover:bg-white hover:text-surface-dim transition-all shadow-2xl"
+            disabled
+            className="px-10 py-4 bg-white/5 border border-white/10 text-on-surface-variant font-black uppercase italic tracking-widest text-[11px] cursor-not-allowed"
           >
             {t('BROWSE WORKSHOPS', 'PARCOURIR LES ATELIERS')}
           </button>
@@ -306,18 +292,15 @@ export const AcademyView: React.FC<AcademyViewProps> = ({ user, onNotify, onView
 
       {/* Resource Library */}
       <section className="px-6 mt-16 sm:mt-24 mb-16">
-        <div className="bg-surface-low/30 border border-white/5 rounded-2xl p-8">
-          <div className="flex items-center justify-between mb-8">
+        <div className="bg-surface-low/30 border border-white/5 rounded-2xl p-8 opacity-40 grayscale pointer-events-none">
+          <div className="flex items-center justify-between mb-8 flex-wrap gap-3">
             <h2 className="text-xl font-black text-white uppercase tracking-tight flex items-center gap-3">
               <BookOpen className="text-primary-cyan" size={24} />
               {t('RESOURCE LIBRARY', 'BIBLIOTHÈQUE DE RESSOURCES')}
             </h2>
-            <button 
-              onClick={() => onNotify(t('Full resource library coming soon', 'Bibliothèque complète bientôt disponible'))}
-              className="text-[10px] font-black uppercase tracking-widest text-primary-cyan hover:text-white transition-colors"
-            >
-              {t('VIEW ALL RESOURCES', 'VOIR TOUTES LES RESSOURCES')}
-            </button>
+            <span className="px-3 py-1.5 bg-accent-gold/10 border border-accent-gold/25 rounded-full text-[10px] font-black uppercase tracking-widest text-accent-gold">
+              {t('Coming Soon', 'Bientôt Disponible')}
+            </span>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
@@ -326,20 +309,16 @@ export const AcademyView: React.FC<AcademyViewProps> = ({ user, onNotify, onView
               { title: t('Legal Framework Guide', 'Guide du Cadre Juridique'), icon: <ShieldCheck /> },
               { title: t('Professional Validator Guide', 'Guide du Validateur Professionnel'), icon: <Zap /> }
             ].map((resource, i) => (
-              <button 
+              <div
                 key={i} 
-                onClick={() => {
-                  downloadResourceDocument(resource.title);
-                  onNotify(t(`DOWNLOADING ${resource.title.toUpperCase()}`, `TÉLÉCHARGEMENT ${resource.title.toUpperCase()}`));
-                }}
-                className="flex items-center justify-between p-4 bg-black/20 border border-white/5 rounded-xl hover:border-primary-cyan/30 transition-all group"
+                className="flex items-center justify-between p-4 bg-black/20 border border-white/5 rounded-xl"
               >
                 <div className="flex items-center gap-3">
-                  <span className="text-on-surface-variant group-hover:text-primary-cyan transition-colors">{resource.icon}</span>
-                  <span className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest group-hover:text-white transition-colors">{resource.title}</span>
+                  <span className="text-on-surface-variant">{resource.icon}</span>
+                  <span className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest">{resource.title}</span>
                 </div>
-                <ChevronRight size={14} className="text-on-surface-variant group-hover:text-primary-cyan transition-colors" />
-              </button>
+                <ChevronRight size={14} className="text-on-surface-variant" />
+              </div>
             ))}
           </div>
         </div>
