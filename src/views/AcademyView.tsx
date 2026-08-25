@@ -268,7 +268,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({ user, onNotify, onView
             onClick={() => onViewChange('APPLY_VERIFICATION')}
             className="px-10 py-4 bg-primary-cyan text-surface-dim font-black uppercase italic tracking-widest text-[11px] hover:bg-white transition-all shadow-2xl"
           >
-            {t('VIEW CERTIFICATIONS', 'VOIR LES CERTIFICATIONS')}
+            {t('APPLY FOR VALIDATOR VERIFICATION', 'DEVENIR VALIDATEUR')}
           </button>
         </div>
 
