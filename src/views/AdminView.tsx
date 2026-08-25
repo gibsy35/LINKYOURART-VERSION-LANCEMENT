@@ -239,7 +239,11 @@ export const AdminView: React.FC<{
 
     if ((window as any).lya_quota_reached) return;
     const requestsRef = collection(db, 'verification_requests');
-    const q = query(requestsRef, limit(50));
+    // Sans tri explicite, "limit(50)" ne garantit pas de récupérer les
+    // plus RÉCENTES demandes — Firestore peut retourner n'importe quel
+    // lot de 50 documents. Avec le volume de test accumulé, une nouvelle
+    // candidature pouvait donc rester invisible, exclue du lot retourné.
+    const q = query(requestsRef, orderBy('createdAt', 'desc'), limit(50));
 
     let unsubscribe: () => void = () => {};
 
@@ -1077,7 +1081,7 @@ export const AdminView: React.FC<{
                     <td className="p-6">
                       <div>
                         <div className="font-black text-white uppercase flex items-center gap-2">
-                          {req.userName}
+                          {req.userDisplayName || req.formData?.name || '—'}
                           <span className={`text-[7.5px] font-mono font-black tracking-widest px-3 py-0.5 rounded-sm shrink-0 ${
                             req.tier === 'elite' ? 'bg-accent-magenta/10 text-accent-magenta border border-accent-magenta/20' :
                             req.tier === 'expert' ? 'bg-accent-gold/10 text-accent-gold border border-accent-gold/20' :
