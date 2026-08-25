@@ -37,15 +37,8 @@ function buildInvitationEmail({ fromName, fromRole, code, message, lang }) {
     <p style="margin:4px 0 0;font-size:9px;color:rgba(255,255,255,0.2);letter-spacing:0.2em;text-transform:uppercase;">YOUR SCORE. YOUR STANDARD.</p>
   </td></tr>
 
-  <tr><td style="background:linear-gradient(160deg,#0F1621 0%,#0D1117 60%,#12192A 100%);border-radius:20px 20px 0 0;padding:52px 40px 44px;text-align:center;border:1px solid rgba(224,50,110,0.15);border-bottom:none;">
-    <div style="margin:0 auto 28px;width:80px;height:80px;">
-      <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="40" cy="40" r="34" stroke="#E0326E" stroke-width="1.5" opacity="0.6"/>
-        <circle cx="40" cy="40" r="26" stroke="#7C3FBF" stroke-width="1.5" opacity="0.6"/>
-        <path d="M40 24 L40 56 M24 40 L56 40" stroke="#00D4E8" stroke-width="1" opacity="0.4"/>
-        <circle cx="40" cy="40" r="5" fill="#ffffff"/>
-      </svg>
-    </div>
+  <tr><td bgcolor="#0F1621" style="background:linear-gradient(160deg,#0F1621 0%,#0D1117 60%,#12192A 100%);border-radius:20px 20px 0 0;padding:52px 40px 44px;text-align:center;border:1px solid rgba(224,50,110,0.15);border-bottom:none;">
+    <img src="https://www.linkyourart.com/favicon-512x512.png" width="72" height="72" alt="LinkYourArt" style="display:block;margin:0 auto 24px;border-radius:16px;width:72px;height:72px;" />
     <p style="margin:0 0 6px;font-size:11px;font-weight:900;color:rgba(255,255,255,0.35);letter-spacing:0.25em;text-transform:uppercase;">${isFR ? 'INVITATION PERSONNELLE' : 'PERSONAL INVITATION'}</p>
     <p style="margin:0 0 20px;font-size:28px;font-weight:900;color:#ffffff;line-height:1.2;">${isFR ? 'Vous êtes' : "You're"} <span style="color:#E0326E;">${isFR ? 'invité·e' : 'invited'}</span> ${isFR ? 'sur LYA' : 'to LYA'}</p>
     <p style="margin:0 auto;font-size:13px;color:rgba(255,255,255,0.5);line-height:1.7;max-width:400px;">${isFR
@@ -54,9 +47,9 @@ function buildInvitationEmail({ fromName, fromRole, code, message, lang }) {
     }</p>
   </td></tr>
 
-  <tr><td style="background:linear-gradient(90deg,#E0326E,#7C3FBF,#00D4E8);height:2px;"></td></tr>
+  <tr><td bgcolor="#7C3FBF" style="background:linear-gradient(90deg,#E0326E,#7C3FBF,#00D4E8);height:2px;font-size:0;line-height:0;">&nbsp;</td></tr>
 
-  <tr><td style="background:#0F1621;border:1px solid rgba(255,255,255,0.05);border-top:none;border-bottom:none;padding:40px;">
+  <tr><td bgcolor="#0F1621" style="background:#0F1621;border:1px solid rgba(255,255,255,0.05);border-top:none;border-bottom:none;padding:40px;">
 
     ${message ? `
     <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:rgba(255,255,255,0.03);border-left:2px solid #E0326E;border-radius:0 12px 12px 0;margin-bottom:28px;">
@@ -66,11 +59,15 @@ function buildInvitationEmail({ fromName, fromRole, code, message, lang }) {
       </td></tr>
     </table>` : ''}
 
-    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:linear-gradient(135deg,#0D1117,#1A2332);border:1.5px solid rgba(224,50,110,0.3);border-radius:16px;margin-bottom:28px;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#151d2e;background:linear-gradient(135deg,#0D1117,#1A2332);border:1.5px solid rgba(224,50,110,0.3);border-radius:16px;margin-bottom:28px;">
       <tr><td style="padding:32px;text-align:center;">
         <p style="margin:0 0 6px;font-size:9px;font-weight:900;color:rgba(255,255,255,0.3);letter-spacing:0.25em;text-transform:uppercase;">${isFR ? 'Votre code d\u2019accès' : 'Your access code'}</p>
         <p style="margin:0 0 22px;font-size:26px;font-weight:900;color:#E0326E;letter-spacing:0.12em;">${code}</p>
-        <a href="${signupUrl}" style="display:inline-block;background:linear-gradient(135deg,#E0326E,#7C3FBF);color:#ffffff;text-decoration:none;font-size:13px;font-weight:900;padding:18px 44px;border-radius:12px;letter-spacing:0.1em;text-transform:uppercase;">✦ ${isFR ? 'REJOINDRE LYA' : 'JOIN LYA'}</a>
+        <table cellpadding="0" cellspacing="0" border="0" style="margin:0 auto;">
+          <tr><td bgcolor="#E0326E" style="background:#E0326E;background:linear-gradient(135deg,#E0326E,#7C3FBF);border-radius:12px;">
+            <a href="${signupUrl}" style="display:inline-block;color:#ffffff;text-decoration:none;font-size:13px;font-weight:900;padding:18px 44px;letter-spacing:0.1em;text-transform:uppercase;">✦ ${isFR ? 'REJOINDRE LYA' : 'JOIN LYA'}</a>
+          </td></tr>
+        </table>
         <p style="margin:16px 0 0;font-size:9px;color:rgba(255,255,255,0.2);">${isFR ? 'Vous choisirez votre profil — Créateur, Mécène ou Professionnel — lors de l\u2019inscription.' : 'You\u2019ll choose your profile — Creator, Patron or Professional — during signup.'}</p>
       </td></tr>
     </table>
@@ -78,9 +75,9 @@ function buildInvitationEmail({ fromName, fromRole, code, message, lang }) {
     <p style="margin:0;font-size:11px;text-align:center;color:rgba(255,255,255,0.2);">${isFR ? 'Ce code est personnel et à usage unique.' : 'This code is personal and single-use.'}</p>
   </td></tr>
 
-  <tr><td style="background:linear-gradient(90deg,#00D4E8,#7C3FBF,#E0326E);height:2px;"></td></tr>
+  <tr><td bgcolor="#00D4E8" style="background:linear-gradient(90deg,#00D4E8,#7C3FBF,#E0326E);height:2px;font-size:0;line-height:0;">&nbsp;</td></tr>
 
-  <tr><td style="background:#080C10;border-radius:0 0 20px 20px;border:1px solid rgba(255,255,255,0.04);border-top:none;padding:24px 40px;text-align:center;">
+  <tr><td bgcolor="#080C10" style="background:#080C10;border-radius:0 0 20px 20px;border:1px solid rgba(255,255,255,0.04);border-top:none;padding:24px 40px;text-align:center;">
     <p style="margin:0 0 4px;font-size:10px;color:rgba(255,255,255,0.18);">contact@linkyourart.com · linkyourart.com</p>
     <p style="margin:0 0 4px;font-size:9px;color:rgba(255,255,255,0.1);">LINKYOURART SASU · Paris · Rennes · London</p>
     <p style="margin:8px 0 0;font-size:9px;color:rgba(255,255,255,0.08);">${isFR ? `Vous recevez cet email car ${fromName} vous a invité·e sur linkyourart.com` : `You are receiving this email because ${fromName} invited you on linkyourart.com`}</p>
