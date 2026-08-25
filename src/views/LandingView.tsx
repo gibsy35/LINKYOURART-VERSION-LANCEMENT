@@ -594,28 +594,27 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
 
                       <div>
                         <h3 className="font-headline text-3xl font-black tracking-tighter uppercase mb-3 text-primary-cyan">
-                          {t('CANDIDATURE REÇUE', 'APPLICATION RECEIVED')}
+                          {t('APPLICATION RECEIVED', 'CANDIDATURE REÇUE')}
                         </h3>
                         <p className="text-white/50 font-medium max-w-xs mx-auto leading-relaxed text-sm">
                           {t(
-                            "L'équipe LYA examine votre profil avec soin. Vous recevrez un email de confirmation très prochainement.",
-                            "The LYA team is reviewing your profile carefully. You will receive a confirmation email very soon."
+                            "The LYA team is reviewing your profile carefully. You will receive a confirmation email very soon.",
+                            "L'équipe LYA examine votre profil avec soin. Vous recevrez un email de confirmation très prochainement."
                           )}
                         </p>
                       </div>
 
                       <div className="bg-white/[0.03] border border-primary-cyan/15 rounded-2xl p-5">
-                        <p className="text-[10px] font-black tracking-widest text-white/25 uppercase mb-1">{t('EMAIL ENVOYÉ À', 'EMAIL SENT TO')}</p>
+                        <p className="text-[10px] font-black tracking-widest text-white/25 uppercase mb-1">{t('EMAIL SENT TO', 'EMAIL ENVOYÉ À')}</p>
                         <p className="font-mono text-primary-cyan font-bold text-sm">{email}</p>
                       </div>
 
                       <p className="text-[10px] text-white/20 uppercase tracking-widest">
-                        ✦ {t('Vérifiez vos spams si vous ne le recevez pas', 'Check your spam folder if you do not receive it')}
+                        ✦ {t('Check your spam folder if you do not receive it', 'Vérifiez vos spams si vous ne le recevez pas')}
                       </p>
 
-
                       <button onClick={() => { setSubmitted(false); setQueuePosition(null); setReferralCode(null); setGrantedAccessKey(null); setAccessTier(null); }} className="text-[10px] font-black tracking-widest text-white/20 uppercase hover:text-white/40 transition-colors">
-                        {t('NOUVELLE CANDIDATURE', 'SUBMIT ANOTHER')}
+                        {t('SUBMIT ANOTHER', 'NOUVELLE CANDIDATURE')}
                       </button>
 
                       {/* Debug email — temporaire */}
