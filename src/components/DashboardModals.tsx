@@ -35,22 +35,28 @@ export const Modal: React.FC<{
 export const NewCreationModal: React.FC<{
   open: boolean;
   onClose: () => void;
-  onSubmit: (data: { name: string; category: string; description: string }) => void;
+  onSubmit: (data: { name: string; category: string; description: string; materials: string[] }) => void;
   lang: 'FR' | 'EN';
 }> = ({ open, onClose, onSubmit, lang }) => {
   const T = (fr: string, en: string) => lang === 'FR' ? fr : en;
   const [name, setName] = useState('');
   const [category, setCategory] = useState('');
   const [description, setDescription] = useState('');
+  const [materials, setMaterials] = useState<File[]>([]);
   const [done, setDone] = useState(false);
 
   const categories = ['Fine Art', 'Music', 'Film', 'TV Series', 'Podcast', 'Literature', 'Fashion', 'Architecture', 'Photography', 'Gaming', 'Design', 'Performing Arts', 'Gastronomy', 'Digital Art'];
 
+  const handleMaterials = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) setMaterials(prev => [...prev, ...Array.from(e.target.files!)]);
+  };
+  const removeMaterial = (idx: number) => setMaterials(prev => prev.filter((_, i) => i !== idx));
+
   const handleSubmit = () => {
     if (!name || !category) return;
-    onSubmit({ name, category, description });
+    onSubmit({ name, category, description, materials: materials.map(f => f.name) });
     setDone(true);
-    setTimeout(() => { setDone(false); setName(''); setCategory(''); setDescription(''); onClose(); }, 2000);
+    setTimeout(() => { setDone(false); setName(''); setCategory(''); setDescription(''); setMaterials([]); onClose(); }, 2000);
   };
 
   return (
@@ -82,6 +88,29 @@ export const NewCreationModal: React.FC<{
               <textarea value={description} onChange={e => setDescription(e.target.value)} rows={3}
                 placeholder={T('Décrivez votre projet créatif...', 'Describe your creative project...')}
                 className="w-full bg-surface-high/40 border border-white/10 text-sm px-4 py-3 rounded-xl focus:outline-none focus:border-[#a78bfa] transition-colors resize-none" />
+            </div>
+            <div className="space-y-1.5">
+              <label className="text-xs font-black text-on-surface-variant/60 uppercase tracking-widest">{T('Pièces & matériaux (facultatif)', 'Materials & files (optional)')}</label>
+              <label className="flex flex-col items-center gap-2 p-5 border-2 border-dashed border-white/10 hover:border-white/25 rounded-xl cursor-pointer transition-all">
+                <input type="file" multiple className="hidden" onChange={handleMaterials} />
+                <Upload size={20} className="text-on-surface-variant/40" />
+                <p className="text-xs text-center text-on-surface-variant/50">
+                  {T('Ajoutez des visuels, extraits audio, documents...', 'Add visuals, audio excerpts, documents...')}
+                </p>
+              </label>
+              {materials.length > 0 && (
+                <div className="space-y-1.5 pt-1">
+                  {materials.map((f, i) => (
+                    <div key={i} className="flex items-center justify-between gap-2 px-3 py-2 bg-surface-high/40 border border-white/8 rounded-lg">
+                      <span className="text-xs text-on-surface truncate">{f.name}</span>
+                      <button onClick={() => removeMaterial(i)} className="text-on-surface-variant/40 hover:text-rose-400 transition-colors shrink-0">
+                        <X size={13} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+              <p className="text-[10px] text-on-surface-variant/35">{T('Vous pourrez en ajouter d\'autres après la soumission, depuis l\'onglet Documents.', 'You can add more after submission, from the Documents tab.')}</p>
             </div>
           </div>
           <div className="flex gap-3">

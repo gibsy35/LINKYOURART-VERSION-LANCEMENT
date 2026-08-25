@@ -1,11 +1,11 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { AuthGuard } from '../components/AuthGuard';
 import { motion, AnimatePresence } from 'motion/react';
 import { useTranslation } from '../context/LanguageContext';
 import { useCurrency } from '../context/CurrencyContext';
 import { UserProfile } from '../types';
 import { db } from '../firebase';
-import { addDoc, collection, serverTimestamp, query, where, onSnapshot, doc, updateDoc, arrayUnion } from 'firebase/firestore';
+import { addDoc, collection, serverTimestamp, query, where, onSnapshot, doc, updateDoc, arrayUnion, deleteDoc } from 'firebase/firestore';
 import { RealtimeChart } from '../components/RealtimeChart';
 import { PageHeader } from '../components/ui/PageHeader';
 import { NewCreationModal, MilestoneModal, UploadModal } from '../components/DashboardModals';
@@ -14,7 +14,7 @@ import {
   TrendingUp, TrendingDown, Users, DollarSign, Zap, Upload, FileText, Music,
   Plus, ChevronDown, CheckCircle, Clock, Star, BarChart2,
   Sparkles, Target, Award, ArrowUpRight, ArrowDownRight, Flag,
-  AlertTriangle, Info, ChevronRight, RefreshCw
+  AlertTriangle, Info, ChevronRight, RefreshCw, Trash2
 } from 'lucide-react';
 import { ResponsiveContainer, AreaChart, Area, Tooltip, XAxis, BarChart, Bar, Cell } from 'recharts';
 
@@ -276,6 +276,34 @@ export const CreatorDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg
   const myProjects = myRealProjects.slice(0, 2);
   const riskProjects = myRealProjects.filter(c => c.status === 'RISK').slice(0, 2);
 
+  // Suppression d'un projet — confirmation en deux temps sur la ligne
+  // elle-même (pas de modale séparée) : premier clic arme la confirmation,
+  // second clic dans les 4s supprime réellement. Évite les suppressions
+  // accidentelles sans complexifier l'UI avec une modale de plus.
+  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const confirmDeleteTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const handleDeleteProject = async (id: string, name: string) => {
+    if (confirmDeleteId !== id) {
+      setConfirmDeleteId(id);
+      if (confirmDeleteTimer.current) clearTimeout(confirmDeleteTimer.current);
+      confirmDeleteTimer.current = setTimeout(() => setConfirmDeleteId(null), 4000);
+      return;
+    }
+    if (confirmDeleteTimer.current) clearTimeout(confirmDeleteTimer.current);
+    setConfirmDeleteId(null);
+    setDeletingId(id);
+    try {
+      await deleteDoc(doc(db, 'contracts', id));
+      onNotify(T(`Projet "${name}" retiré`, `Project "${name}" removed`));
+    } catch (e) {
+      onNotify(T('Erreur lors de la suppression', 'Error while deleting'));
+    } finally {
+      setDeletingId(null);
+    }
+  };
+
   // KPIs calculés sur vos vraies créations (0 si aucun projet encore soumis)
   const avgGrowth = allProjects.length ? allProjects.reduce((s,c) => s + c.growth, 0) / allProjects.length : 0;
   const liveCount = allProjects.filter(c => c.status === 'LIVE').length;
@@ -475,6 +503,17 @@ export const CreatorDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg
                       <p className="text-xs text-on-surface-variant/40">Score</p>
                       <p className="text-base font-black text-accent-gold">{proj.totalScore}</p>
                     </div>
+                    <button
+                      onClick={() => handleDeleteProject(proj.id, proj.name)}
+                      disabled={deletingId === proj.id}
+                      className={`shrink-0 pl-3 ml-1 border-l border-white/8 flex items-center gap-1.5 h-full transition-all disabled:opacity-40 ${confirmDeleteId === proj.id ? 'text-rose-400' : 'text-on-surface-variant/30 hover:text-rose-400'}`}
+                      title={confirmDeleteId === proj.id ? T('Cliquer à nouveau pour confirmer', 'Click again to confirm') : T('Retirer ce projet', 'Remove this project')}
+                    >
+                      <Trash2 size={15} />
+                      {confirmDeleteId === proj.id && (
+                        <span className="text-[10px] font-black uppercase tracking-wider whitespace-nowrap">{T('Confirmer', 'Confirm')}</span>
+                      )}
+                    </button>
                   </div>
                 );
               })}
