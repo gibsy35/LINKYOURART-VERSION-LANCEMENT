@@ -88,8 +88,16 @@ export const InvitationCard: React.FC<InvitationCardProps> = ({ user, onSent, on
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [isSending, setIsSending] = useState(false);
+  // Fallback local state: some parent views (the per-role Dashboard views)
+  // don't hold/refresh a live user object the way ProfileView does, so
+  // relying solely on user.invitationSentAt would leave the form visible
+  // after a successful send until the next full reload. This local flag
+  // guarantees the "sent" state shows immediately regardless of whether
+  // the parent re-passes an updated user prop.
+  const [justSent, setJustSent] = useState<{ email: string } | null>(null);
 
-  const alreadySent = Boolean((user as any).invitationSentAt);
+  const alreadySent = Boolean((user as any).invitationSentAt) || Boolean(justSent);
+  const sentTo = justSent?.email || (user as any).invitationSentTo;
 
   const handleInvite = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -149,6 +157,7 @@ export const InvitationCard: React.FC<InvitationCardProps> = ({ user, onSent, on
       }, { merge: true });
 
       const updatedUser = { ...user, invitationSentAt: sentAt, invitationSentTo: cleanEmail } as UserProfile;
+      setJustSent({ email: cleanEmail });
       onSent?.(updatedUser);
       onNotify?.(t('Invitation sent successfully!', 'Invitation envoyée avec succès !'), 'success');
       setEmail('');
@@ -192,7 +201,7 @@ export const InvitationCard: React.FC<InvitationCardProps> = ({ user, onSent, on
             <div className="flex items-center gap-3 py-2">
               <Check size={18} className={cfg.accent} />
               <p className="text-[11px] md:text-xs font-bold text-white/70 uppercase tracking-widest">
-                {t('Sent to', 'Envoyée à')} {(user as any).invitationSentTo}
+                {t('Sent to', 'Envoyée à')} {sentTo}
               </p>
             </div>
           ) : (

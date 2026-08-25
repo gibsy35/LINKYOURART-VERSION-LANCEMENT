@@ -7,6 +7,7 @@ import { useCurrency } from '../context/CurrencyContext';
 import { UserProfile, CONTRACTS } from '../types';
 import { RealtimeChart } from '../components/RealtimeChart';
 import { PageHeader } from '../components/ui/PageHeader';
+import { InvitationCard } from '../components/InvitationCard';
 import { Modal } from '../components/DashboardModals';
 import { AuthGuard } from '../components/AuthGuard';
 import { getSafeImageUrl } from '../utils/image';
@@ -118,6 +119,8 @@ export const InvestorDashboardView: React.FC<{user:UserProfile|null;onNotify:(ms
           <Mail size={14}/> {sendingReport ? T('Envoi...','Sending...') : T('Rapport mensuel','Monthly report')}
         </button>
       </div>
+
+      <InvitationCard user={user} onNotify={onNotify} />
 
       {attentionProjects.length > 0 && (
         <div className="bg-accent-gold/8 border border-accent-gold/20 rounded-2xl p-4 flex items-start gap-3">

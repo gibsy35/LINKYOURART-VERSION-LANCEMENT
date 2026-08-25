@@ -8,6 +8,7 @@ import { db } from '../firebase';
 import { addDoc, collection, serverTimestamp, query, where, onSnapshot, doc, updateDoc, arrayUnion, deleteDoc } from 'firebase/firestore';
 import { RealtimeChart } from '../components/RealtimeChart';
 import { PageHeader } from '../components/ui/PageHeader';
+import { InvitationCard } from '../components/InvitationCard';
 import { NewCreationModal, MilestoneModal, UploadModal } from '../components/DashboardModals';
 import { getSafeImageUrl } from '../utils/image';
 import {
@@ -330,6 +331,8 @@ export const CreatorDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg
         <button onClick={() => setActiveSection('simulator')} className="flex items-center gap-2 px-4 py-2.5 bg-[#a78bfa]/10 border border-[#a78bfa]/30 text-[#a78bfa] text-sm font-black rounded-xl hover:bg-[#a78bfa]/20 transition-all uppercase tracking-wider"><Target size={14}/> {T('Simuler mon score LYA','Simulate my LYA score')}</button>
         <button onClick={() => setShowNewCreation(true)} className="flex items-center gap-2 px-4 py-2.5 bg-[#a78bfa] text-surface-dim text-sm font-black rounded-xl hover:bg-white transition-all uppercase tracking-wider"><Plus size={14}/> {T('Nouvelle création','New creation')}</button>
       </div>
+
+      <InvitationCard user={user} onNotify={onNotify} />
 
       {/* Alerte projets en difficulté */}
       {riskProjects.length > 0 && (

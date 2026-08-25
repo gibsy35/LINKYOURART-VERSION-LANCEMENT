@@ -7,6 +7,7 @@ import { useTranslation } from '../context/LanguageContext';
 import { useCurrency } from '../context/CurrencyContext';
 import { UserProfile, CONTRACTS } from '../types';
 import { PageHeader } from '../components/ui/PageHeader';
+import { InvitationCard } from '../components/InvitationCard';
 import { getSafeImageUrl } from '../utils/image';
 import {
   Search, Award, Users, ChevronDown,
@@ -107,6 +108,8 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
           {messages.filter(m=>!m.read).length > 0 && <span className="absolute -top-1 -right-1 w-4 h-4 bg-rose-400 rounded-full text-[9px] font-black text-white flex items-center justify-center">{messages.filter(m=>!m.read).length}</span>}
         </button>
       </div>
+
+      <InvitationCard user={user} onNotify={onNotify} />
 
       {/* Alerte projets risque */}
       {riskProjects.length > 0 && (
