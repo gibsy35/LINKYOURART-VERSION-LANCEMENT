@@ -44,6 +44,7 @@ export const ApplyForVerificationView: React.FC<{ onNotify: (msg: string) => voi
   });
   const [documents, setDocuments] = useState<File[]>([]);
   const [isUploadingDocs, setIsUploadingDocs] = useState(false);
+  const [submittedRequestId, setSubmittedRequestId] = useState<string | null>(null);
 
   const handleDocumentSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) setDocuments(prev => [...prev, ...Array.from(e.target.files!)]);
@@ -77,7 +78,7 @@ export const ApplyForVerificationView: React.FC<{ onNotify: (msg: string) => voi
     onNotify(t('SUBMITTING PROFESSIONAL VERIFICATION REQUEST...', 'SOUMISSION DE LA DEMANDE DE VÉRIFICATION PROFESSIONNELLE...'));
     try {
       const uploadedDocuments = await uploadDocuments();
-      await addDoc(collection(db, 'verification_requests'), {
+      const docRef = await addDoc(collection(db, 'verification_requests'), {
         userId: user?.uid || null,
         userEmail: user?.email || null,
         userDisplayName: user?.displayName || null,
@@ -90,6 +91,7 @@ export const ApplyForVerificationView: React.FC<{ onNotify: (msg: string) => voi
         status: 'PENDING',
         createdAt: serverTimestamp(),
       });
+      setSubmittedRequestId(docRef.id);
       setStep(3);
       onNotify(t('REQUEST RECEIVED. AUDIT PENDING.', 'DEMANDE REÇUE. AUDIT EN ATTENTE.'));
     } catch (err) {
@@ -404,15 +406,14 @@ export const ApplyForVerificationView: React.FC<{ onNotify: (msg: string) => voi
                 {t('Your professional dossier is now being reviewed by the LYA Registry.', 'Votre dossier professionnel est en cours d\'examen par le Registre LYA.')}
               </p>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-lg mx-auto">
-                 <div className="p-6 bg-white/5 border border-white/10 rounded-2xl">
-                    <div className="text-[10px] font-black text-primary-cyan uppercase tracking-widest mb-1 italic">Protocol Code</div>
-                    <div className="text-lg font-black text-white italic">#LYA-VD-842</div>
-                 </div>
-                 <div className="p-6 bg-white/5 border border-white/10 rounded-2xl">
-                    <div className="text-[10px] font-black text-accent-gold uppercase tracking-widest mb-1 italic">Estimated Completion</div>
-                    <div className="text-lg font-black text-white italic">48 HOURS</div>
-                 </div>
+              {/* Cadre aux couleurs de marque LYA (dégradé tri-couleur) —
+                  le code affiché est désormais l'identifiant réel du
+                  dossier en base, pas une valeur fixe. */}
+              <div className="max-w-lg mx-auto p-[1.5px] rounded-2xl bg-gradient-to-r from-accent-purple via-primary-cyan to-accent-pink">
+                <div className="p-6 bg-surface-dim rounded-2xl">
+                  <div className="text-[10px] font-black text-primary-cyan uppercase tracking-widest mb-1 italic">{t('Dossier ID', 'Identifiant du Dossier')}</div>
+                  <div className="text-lg font-black text-white italic break-all">{submittedRequestId ? `#LYA-VD-${submittedRequestId.slice(0, 8).toUpperCase()}` : '—'}</div>
+                </div>
               </div>
 
                <button 
