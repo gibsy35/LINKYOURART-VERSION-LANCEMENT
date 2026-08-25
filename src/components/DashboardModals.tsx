@@ -44,7 +44,7 @@ export const NewCreationModal: React.FC<{
   const [description, setDescription] = useState('');
   const [done, setDone] = useState(false);
 
-  const categories = ['Fine Art', 'Music', 'Film', 'Literature', 'Fashion', 'Architecture', 'Photography', 'Gaming', 'Design', 'Performing Arts', 'Gastronomy', 'Digital Art'];
+  const categories = ['Fine Art', 'Music', 'Film', 'TV Series', 'Podcast', 'Literature', 'Fashion', 'Architecture', 'Photography', 'Gaming', 'Design', 'Performing Arts', 'Gastronomy', 'Digital Art'];
 
   const handleSubmit = () => {
     if (!name || !category) return;

@@ -1445,6 +1445,12 @@ const renderMentorshipContent = () => (
             {activeTab === 'admin' && renderAdminContent()}
             {activeTab === 'dashboard' && (
               <div className="space-y-16">
+                <InvitationCard
+                  user={user}
+                  onSent={(updated) => { setUserState(updated); onUpdateUser?.(updated); }}
+                  onNotify={onNotify}
+                />
+
                 {/* Admin Terminal - Integrated at top for Admins */}
                 {user.role === UserRole.ADMIN && (
                    <div className="bg-surface-low/30 border-2 border-accent-gold/40 p-8 md:p-12 rounded-[3.5rem] backdrop-blur-3xl relative overflow-hidden shadow-2xl mb-16">
@@ -1916,12 +1922,6 @@ const renderMentorshipContent = () => (
                     ))}
                   </div>
                 </section>
-
-                <InvitationCard
-                  user={user}
-                  onSent={(updated) => { setUserState(updated); onUpdateUser?.(updated); }}
-                  onNotify={onNotify}
-                />
               </div>
             </div>
           </div>
@@ -1962,6 +1962,12 @@ const renderMentorshipContent = () => (
             {activeTab === 'academy' && renderAcademyContent()}
             {activeTab === 'dashboard' && (
               <div className="space-y-8 md:space-y-16">
+                <InvitationCard
+                  user={user}
+                  onSent={(updated) => { setUserState(updated); onUpdateUser?.(updated); }}
+                  onNotify={onNotify}
+                />
+
                 {/* Scan Opportunity CTA */}
             <section className="relative overflow-hidden rounded-3xl group">
               <div className="absolute inset-0 bg-gradient-to-r from-accent-magenta/20 via-accent-purple/20 to-primary-cyan/20 opacity-50 group-hover:opacity-80 transition-opacity duration-700" />
@@ -2360,12 +2366,6 @@ const renderMentorshipContent = () => (
                     </div>
                   </div>
                 </section>
-
-                <InvitationCard
-                  user={user}
-                  onSent={(updated) => { setUserState(updated); onUpdateUser?.(updated); }}
-                  onNotify={onNotify}
-                />
               </div>
             </div>
           </div>
@@ -2421,6 +2421,12 @@ const renderMentorshipContent = () => (
           {activeTab === 'academy' && renderAcademyContent()}
           {activeTab === 'dashboard' && (
             <div className="space-y-16">
+              <InvitationCard
+                user={user}
+                onSent={(updated) => { setUserState(updated); onUpdateUser?.(updated); }}
+                onNotify={onNotify}
+              />
+
               <section className="relative h-60 md:h-80 rounded-3xl overflow-hidden mb-12 group">
                 <div className="absolute inset-0">
                 <img 
@@ -2723,12 +2729,6 @@ const renderMentorshipContent = () => (
                     )}
                   </div>
                 </section>
-
-                <InvitationCard
-                  user={user}
-                  onSent={(updated) => { setUserState(updated); onUpdateUser?.(updated); }}
-                  onNotify={onNotify}
-                />
 
                 {/* Pro Toolkit - Premium Tools */}
                 <section className="bg-surface-low border border-white/5 p-5 md:p-8 lg:p-10 backdrop-blur-2xl">
