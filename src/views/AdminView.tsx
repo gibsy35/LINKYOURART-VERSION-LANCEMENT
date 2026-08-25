@@ -55,6 +55,7 @@ export const AdminView: React.FC<{
   const [preRegistrations, setPreRegistrations] = useState<any[]>([]);
   const [pendingSubmissions, setPendingSubmissions] = useState<any[]>([]);
   const [publishModal, setPublishModal] = useState<any | null>(null);
+  const [approvalSuccessModal, setApprovalSuccessModal] = useState<{ name: string; emailSent: boolean } | null>(null);
   const [publishForm, setPublishForm] = useState({ scoreAlgo: 750, scorePro: 750, growth: 0, rarity: 'Distinguished' });
   const [expandedVerifId, setExpandedVerifId] = useState<string | null>(null);
 
@@ -275,6 +276,9 @@ export const AdminView: React.FC<{
       return;
     }
     try {
+      let emailSent = false;
+      const approvedReq = verificationRequests.find(r => r.id === requestId);
+      const applicantName = approvedReq?.formData?.name || approvedReq?.userDisplayName || t('Validator', 'Validateur');
       // L'écriture Firestore se fait D'ABORD — l'écran ne se met à jour
       // qu'une fois confirmée. Avant, l'affichage passait en "Approuvé"
       // immédiatement, indépendamment du succès réel de l'écriture : en
@@ -301,16 +305,34 @@ export const AdminView: React.FC<{
 
         // Email de confirmation — n'existait pas du tout avant, la
         // candidature était approuvée sans que la personne ne le sache.
-        // Best-effort : ne bloque jamais l'approbation si l'email échoue.
-        const approvedReq = verificationRequests.find(r => r.id === requestId);
+        // Avant : fetch() sans vérifier response.ok — un 400 (ex. champ
+        // manquant) ou un échec Resend passait totalement inaperçu, y
+        // compris dans la console, puisque fetch() ne rejette QUE sur
+        // une panne réseau, jamais sur un statut d'erreur HTTP.
         const applicantEmail = approvedReq?.userEmail || approvedReq?.formData?.email;
-        const applicantName = approvedReq?.formData?.name || approvedReq?.userDisplayName || 'Validator';
-        if (applicantEmail) {
-          fetch('/api/email/welcome', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ to: applicantEmail, name: applicantName, role: 'PROFESSIONAL', lang: 'FR' }),
-          }).catch((err) => console.warn('[VALIDATOR_APPROVAL_EMAIL]', err));
+
+        if (!applicantEmail) {
+          console.error('[VALIDATOR_APPROVAL_EMAIL] No email address on this request — cannot send confirmation.', approvedReq);
+          emailSent = false;
+        } else {
+          try {
+            const emailRes = await fetch('/api/email/welcome', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ to: applicantEmail, name: applicantName, role: 'PROFESSIONAL', lang: 'FR' }),
+            });
+            const emailJson = await emailRes.json().catch(() => null);
+            if (!emailRes.ok || !emailJson?.success) {
+              console.error('[VALIDATOR_APPROVAL_EMAIL] Failed:', emailRes.status, emailJson);
+              emailSent = false;
+            } else {
+              console.log('[VALIDATOR_APPROVAL_EMAIL] Sent successfully', emailJson);
+              emailSent = true;
+            }
+          } catch (emailErr) {
+            console.error('[VALIDATOR_APPROVAL_EMAIL] Network error:', emailErr);
+            emailSent = false;
+          }
         }
       }
 
@@ -334,7 +356,7 @@ export const AdminView: React.FC<{
 
       // L'écran ne se met à jour qu'une fois l'écriture confirmée.
       setVerificationRequests(prev => prev.map(r => r.id === requestId ? { ...r, status: 'APPROVED' } : r));
-      onNotify(t('VERIFICATION APPROVED. USER UPGRADED TO PROFESSIONAL.', 'VÉRIFICATION APPROUVÉE. UTILISATEUR PASSÉ AU STATUT PROFESSIONNEL.'));
+      setApprovalSuccessModal({ name: applicantName, emailSent });
     } catch (err) {
       console.error(err);
       const message = err instanceof Error ? err.message : String(err);
@@ -1672,6 +1694,74 @@ export const AdminView: React.FC<{
               </div>
             </motion.div>
           </div>
+        )}
+      </AnimatePresence>
+
+      {/* Confirmation de validateur — remplace la simple notification en
+          bas d'écran, jugée trop discrète pour une action de cette
+          importance (upgrade de rôle + validation officielle). */}
+      <AnimatePresence>
+        {approvalSuccessModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[4000] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md"
+            onClick={() => setApprovalSuccessModal(null)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.85, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{ type: 'spring', damping: 20, stiffness: 300 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative max-w-md w-full bg-surface-low border border-emerald-500/30 rounded-3xl p-10 text-center shadow-[0_0_80px_rgba(16,185,129,0.25)] overflow-hidden"
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-transparent to-primary-cyan/10 pointer-events-none" />
+
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ type: 'spring', damping: 12, stiffness: 300, delay: 0.15 }}
+                className="relative mx-auto mb-6 w-20 h-20 rounded-full bg-emerald-500/15 border-2 border-emerald-500 flex items-center justify-center"
+              >
+                <CheckCircle2 size={40} className="text-emerald-400" />
+              </motion.div>
+
+              <p className="relative text-[10px] font-black uppercase tracking-[0.3em] text-emerald-400 mb-3">
+                {t('VALIDATOR VERIFIED', 'VALIDATEUR VÉRIFIÉ')}
+              </p>
+              <h2 className="relative text-2xl font-black text-white mb-2 uppercase tracking-tight">
+                {approvalSuccessModal.name}
+              </h2>
+              <p className="relative text-sm text-on-surface-variant mb-8">
+                {t(
+                  'Access upgraded to Professional. Governance and Pro Lounge features are now unlocked.',
+                  'Accès mis à niveau vers Professionnel. La Gouvernance et le Lounge Pro sont désormais débloqués.'
+                )}
+              </p>
+
+              <div className={`relative flex items-center justify-center gap-2 px-4 py-3 rounded-xl border mb-6 ${
+                approvalSuccessModal.emailSent 
+                  ? 'bg-emerald-500/10 border-emerald-500/25 text-emerald-400' 
+                  : 'bg-amber-500/10 border-amber-500/25 text-amber-400'
+              }`}>
+                {approvalSuccessModal.emailSent ? <Mail size={14} /> : <ShieldAlert size={14} />}
+                <span className="text-[11px] font-black uppercase tracking-widest">
+                  {approvalSuccessModal.emailSent 
+                    ? t('Confirmation email sent', 'Email de confirmation envoyé')
+                    : t('Approved, but the email failed to send — check manually', 'Approuvé, mais l\u2019email n\u2019a pas pu être envoyé — à vérifier manuellement')}
+                </span>
+              </div>
+
+              <button
+                onClick={() => setApprovalSuccessModal(null)}
+                className="relative w-full py-4 bg-emerald-500 text-surface-dim font-black uppercase tracking-widest text-xs rounded-xl hover:bg-white transition-all active:scale-95"
+              >
+                {t('DONE', 'TERMINÉ')}
+              </button>
+            </motion.div>
+          </motion.div>
         )}
       </AnimatePresence>
     </div>
