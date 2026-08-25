@@ -104,6 +104,7 @@ export default defineConfig(({mode}) => {
               './src/views/LegalView.tsx',
               './src/views/SettingsView.tsx',
               './src/views/ProfileView.tsx',
+              './src/components/InvitationCard.tsx',
             ],
             'views-onboarding': [
               './src/components/ConceptTutorial.tsx',
