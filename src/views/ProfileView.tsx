@@ -8,6 +8,7 @@ import { useTranslation } from '../context/LanguageContext';
 import { useCurrency } from '../context/CurrencyContext';
 import { LockedOverlay } from '../components/LockedOverlay';
 import { LYAProtocolBadge } from '../components/LYAProtocol';
+import { InvitationCard } from '../components/InvitationCard';
 import { generateAssetAnalysis, askCopilot } from '../services/geminiService';
 import { 
   AreaChart, 
@@ -267,8 +268,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
   const [simulatorResult, setSimulatorResult] = useState<number | null>(null);
   const [isScanning, setIsScanning] = useState(false);
   const [isFindingTalent, setIsFindingTalent] = useState(false);
-  const [isInviting, setIsInviting] = useState(false);
-  const [inviteEmail, setInviteEmail] = useState('');
+
   const [activeTab, setActiveTab] = useState<'dashboard' | 'academy' | 'messages' | 'mentorship' | 'directory' | 'admin'>('dashboard');
   const [viewingUser, setViewingUser] = useState<UserProfile | null>(null);
 
@@ -697,17 +697,6 @@ const ProfileView: React.FC<ProfileViewProps> = ({
       setTalentResults(results);
       onNotify?.(t('Talent search completed. 3 matching profiles identified.', 'Recherche de talents terminée. 3 profils correspondants identifiés.'));
     }, 3000);
-  };
-
-  const handleInvite = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!inviteEmail) return;
-    setIsInviting(true);
-    setTimeout(() => {
-      setIsInviting(false);
-      setInviteEmail('');
-      onNotify?.(t('Elite invitation sent successfully!', 'Invitation Élite envoyée avec succès !'), 'success');
-    }, 2000);
   };
 
   const [projects, setProjects] = useState<any[]>([]);
@@ -1927,6 +1916,12 @@ const renderMentorshipContent = () => (
                     ))}
                   </div>
                 </section>
+
+                <InvitationCard
+                  user={user}
+                  onSent={(updated) => { setUserState(updated); onUpdateUser?.(updated); }}
+                  onNotify={onNotify}
+                />
               </div>
             </div>
           </div>
@@ -2365,6 +2360,12 @@ const renderMentorshipContent = () => (
                     </div>
                   </div>
                 </section>
+
+                <InvitationCard
+                  user={user}
+                  onSent={(updated) => { setUserState(updated); onUpdateUser?.(updated); }}
+                  onNotify={onNotify}
+                />
               </div>
             </div>
           </div>
@@ -2723,41 +2724,11 @@ const renderMentorshipContent = () => (
                   </div>
                 </section>
 
-                {/* Elite Invitation System - Premium Card */}
-                <section className="bg-surface-low/30 border border-accent-gold/20 p-5 md:p-8 lg:p-10 backdrop-blur-2xl relative overflow-hidden group rounded-2xl shadow-2xl">
-                  <div className="absolute top-0 right-0 p-6 md:p-8 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity duration-700">
-                    <UserPlus size={100} className="text-accent-gold" />
-                  </div>
-                  <div className="absolute top-0 right-0 p-6 md:p-8 opacity-[0.05] group-hover:opacity-[0.1] transition-opacity duration-700">
-                    <UserPlus size={100} className="text-accent-gold" />
-                  </div>
-                  <h3 className="text-lg md:text-xl lg:text-2xl font-black uppercase italic mb-6 md:mb-10 flex items-center gap-3 md:gap-4 relative z-10">
-                    <UserPlus className="text-accent-gold" size={24} /> {t('Elite Invitation', 'Invitation Élite')}
-                  </h3>
-                  <div className="space-y-6 md:space-y-8 relative z-10">
-                    <p className="text-[10px] md:text-sm text-on-surface-variant italic leading-relaxed opacity-70">
-                      {t('As a Professional member, you hold 1 exclusive invitation. Invite a high-level peer to join the LinkYourArt institutional creative network.', 'En tant que membre Professionnel, vous détenez 1 invitation exclusive. Invitez un pair de haut niveau à rejoindre le réseau créatif institutionnel LinkYourArt.')}
-                    </p>
-                    <div className="p-5 md:p-8 bg-accent-gold/5 border border-accent-gold/20 relative overflow-hidden group/invite">
-                      <div className="flex justify-between items-center mb-4 md:mb-6">
-                        <span className="text-[10px] md:text-[10px] font-black uppercase tracking-[0.15em] md:tracking-[0.2em] text-accent-gold">{t('Available Invitations', 'Invitations Disponibles')}</span>
-                        <span className="text-lg md:text-2xl font-black italic text-white">1 / 1</span>
-                      </div>
-                      <div className="space-y-4">
-                        <div className="relative">
-                          <input 
-                            type="email" 
-                            placeholder={t('Enter professional email...', 'Entrer l\'email professionnel...')}
-                            className="w-full bg-surface-dim border border-white/10 px-4 md:px-6 py-3 md:py-4 text-xs md:text-xs font-bold uppercase tracking-widest focus:border-accent-gold/50 transition-all outline-none text-white placeholder:text-white/20"
-                          />
-                        </div>
-                        <button className="w-full py-3.5 md:py-5 bg-accent-gold text-surface-dim font-black uppercase tracking-[0.15em] md:tracking-[0.3em] text-xs md:text-[11px] hover:bg-white transition-all active:scale-95 shadow-[0_15px_30px_rgba(245,158,11,0.2)]">
-                          {t('Send Invitation', 'Envoyer l\'Invitation')}
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </section>
+                <InvitationCard
+                  user={user}
+                  onSent={(updated) => { setUserState(updated); onUpdateUser?.(updated); }}
+                  onNotify={onNotify}
+                />
 
                 {/* Pro Toolkit - Premium Tools */}
                 <section className="bg-surface-low border border-white/5 p-5 md:p-8 lg:p-10 backdrop-blur-2xl">
