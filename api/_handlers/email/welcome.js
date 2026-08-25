@@ -40,13 +40,14 @@ function buildWelcomeEmail(name, role, lang) {
   // Header sombre
   '<tr><td style="background:#0d1117;padding:40px">' +
   '<table width="100%" cellpadding="0" cellspacing="0"><tr>' +
-  '<td><span style="font-size:20px;font-weight:900;color:white;letter-spacing:0.2em">LINKYOURART</span></td>' +
-  '<td align="right"><span style="font-size:10px;font-weight:900;color:#00d4ff;text-transform:uppercase;letter-spacing:0.15em;border:1px solid rgba(0,212,255,0.3);padding:4px 12px;border-radius:20px">★ ' + roleLabel + '</span></td>' +
+  '<td width="40" valign="middle"><img src="https://www.linkyourart.com/logo-brochure.png" width="36" height="36" alt="LinkYourArt" style="display:block;width:36px;height:36px" /></td>' +
+  '<td valign="middle"><span style="font-size:18px;font-weight:900;color:white;letter-spacing:0.15em">LINKYOURART</span></td>' +
+  '<td align="right" valign="middle"><span style="font-size:10px;font-weight:900;color:#00d4ff;text-transform:uppercase;letter-spacing:0.15em;border:1px solid rgba(0,212,255,0.3);padding:4px 12px;border-radius:20px">★ ' + roleLabel + '</span></td>' +
   '</tr></table>' +
   '</td></tr>' +
 
   // Gradient band
-  '<tr><td style="background:linear-gradient(90deg,#00d4ff,#a78bfa,#f5c842);height:3px;font-size:0">&nbsp;</td></tr>' +
+  '<tr><td bgcolor="#00d4ff" style="background:#00d4ff;background:linear-gradient(90deg,#00d4ff,#a78bfa,#f5c842);height:3px;font-size:0">&nbsp;</td></tr>' +
 
   // Corps blanc
   '<tr><td style="background:#ffffff;padding:48px 40px">' +
@@ -87,15 +88,15 @@ function buildWelcomeEmail(name, role, lang) {
   // Footer sombre
   '<tr><td style="background:#0d1117;padding:24px 40px">' +
   '<table width="100%" cellpadding="0" cellspacing="0"><tr>' +
-  '<td><p style="margin:0;font-size:11px;color:rgba(255,255,255,0.3)">LinkYourArt · contact@linkyourart.com</p>' +
-  '<p style="margin:4px 0 0;font-size:10px;color:rgba(255,255,255,0.15);font-style:italic">' +
+  '<td><p style="margin:0;font-size:11px;color:#9CA3AF">LinkYourArt · contact@linkyourart.com</p>' +
+  '<p style="margin:4px 0 0;font-size:10px;color:#6B7280;font-style:italic">' +
   (isFR ? 'Vous recevez cet email car vous avez créé un compte sur linkyourart.com' : 'You are receiving this email because you created an account on linkyourart.com') +
   '</p></td>' +
   '<td align="right"><span style="font-size:14px;font-weight:900;color:#00d4ff">✦ LYA</span></td>' +
   '</tr></table>' +
   '</td></tr>' +
 
-  '<tr><td style="background:linear-gradient(90deg,#00d4ff,#a78bfa,#f5c842);height:3px;font-size:0">&nbsp;</td></tr>' +
+  '<tr><td bgcolor="#00d4ff" style="background:#00d4ff;background:linear-gradient(90deg,#00d4ff,#a78bfa,#f5c842);height:3px;font-size:0">&nbsp;</td></tr>' +
   '</table></td></tr></table></body></html>';
 }
 

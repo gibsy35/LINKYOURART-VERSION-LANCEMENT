@@ -7,11 +7,14 @@ function buildAdminAlertEmail({ userName, userEmail, userId, planName, source })
   '<body style="margin:0;padding:0;background:#f0f4f8;font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',sans-serif">' +
   '<table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:40px 16px">' +
   '<table width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;border-radius:16px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,0.12)">' +
-  '<tr><td style="background:#0d1117;padding:28px 32px">' +
-  '<span style="font-size:16px;font-weight:900;color:white;letter-spacing:0.15em">LINKYOURART</span>' +
-  '<span style="float:right;font-size:9px;font-weight:900;color:#00d4ff;text-transform:uppercase;letter-spacing:0.15em;border:1px solid rgba(0,212,255,0.3);padding:4px 10px;border-radius:20px">' + source + '</span>' +
+  '<tr><td bgcolor="#0d1117" style="background:#0d1117;padding:28px 32px">' +
+  '<table width="100%" cellpadding="0" cellspacing="0"><tr>' +
+  '<td width="32" valign="middle"><img src="https://www.linkyourart.com/logo-brochure.png" width="28" height="28" alt="LinkYourArt" style="display:block;width:28px;height:28px" /></td>' +
+  '<td valign="middle"><span style="font-size:16px;font-weight:900;color:white;letter-spacing:0.15em">LINKYOURART</span></td>' +
+  '<td align="right" valign="middle"><span style="font-size:9px;font-weight:900;color:#00d4ff;text-transform:uppercase;letter-spacing:0.15em;border:1px solid rgba(0,212,255,0.3);padding:4px 10px;border-radius:20px">' + source + '</span></td>' +
+  '</tr></table>' +
   '</td></tr>' +
-  '<tr><td style="background:linear-gradient(90deg,#00d4ff,#a78bfa,#f5c842);height:3px;font-size:0">&nbsp;</td></tr>' +
+  '<tr><td bgcolor="#00d4ff" style="background:linear-gradient(90deg,#00d4ff,#a78bfa,#f5c842);height:3px;font-size:0">&nbsp;</td></tr>' +
   '<tr><td style="background:#ffffff;padding:32px">' +
   '<h1 style="margin:0 0 20px;font-size:20px;font-weight:900;color:#0d1117">New ' + source + ' request</h1>' +
   '<table width="100%" cellpadding="0" cellspacing="0" style="font-size:13px;color:#374151">' +
@@ -22,7 +25,7 @@ function buildAdminAlertEmail({ userName, userEmail, userId, planName, source })
   '</table>' +
   '<p style="margin:24px 0 0;font-size:11px;color:#9ca3af">Full record saved to Firestore for follow-up.</p>' +
   '</td></tr>' +
-  '<tr><td style="background:#0d1117;padding:16px 32px"><p style="margin:0;font-size:10px;color:rgba(255,255,255,0.3)">LinkYourArt · automated admin alert</p></td></tr>' +
+  '<tr><td style="background:#0d1117;padding:16px 32px"><p style="margin:0;font-size:10px;color:#8B94A3">LinkYourArt · automated admin alert</p></td></tr>' +
   '</table></td></tr></table></body></html>';
 }
 
