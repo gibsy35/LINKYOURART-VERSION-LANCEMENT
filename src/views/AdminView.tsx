@@ -267,7 +267,39 @@ export const AdminView: React.FC<{
   }, []);
 
   const handleApproveVerification = async (requestId: string, userId: string) => {
+    if (!userId) {
+      onNotify(t(
+        'Cannot approve: this application has no linked user account (submitted while signed out).',
+        'Impossible d\u2019approuver : cette candidature n\u2019a aucun compte utilisateur lié (soumise sans être connecté).'
+      ));
+      return;
+    }
     try {
+      // L'écriture Firestore se fait D'ABORD — l'écran ne se met à jour
+      // qu'une fois confirmée. Avant, l'affichage passait en "Approuvé"
+      // immédiatement, indépendamment du succès réel de l'écriture : en
+      // cas d'échec (permissions, réseau...), tout semblait fonctionner
+      // à l'écran alors que rien n'avait été enregistré.
+      if (!requestId.startsWith('local_')) {
+        const batch = writeBatch(db);
+
+        const requestRef = doc(db, 'verification_requests', requestId);
+        batch.update(requestRef, { status: 'APPROVED', processedAt: serverTimestamp() });
+
+        // Upgrade user to Professional + grant validator status (Governance/Lounge access —
+        // see src/lib/permissions.ts). This IS the "Become a Certified LYA Validator"
+        // accreditation flow advertised on the Pricing page.
+        const userRef = doc(db, 'users', userId);
+        batch.update(userRef, { 
+          isPro: true, 
+          role: UserRole.PROFESSIONAL,
+          verificationStatus: 'APPROVED',
+          isVerifiedValidator: true
+        });
+
+        await batch.commit();
+      }
+
       // Update local storage mirror
       const localVerif = JSON.parse(localStorage.getItem('lya_local_verification_requests') || '[]');
       const localIndex = localVerif.findIndex((v: any) => v.id === requestId);
@@ -286,32 +318,16 @@ export const AdminView: React.FC<{
         localStorage.setItem('lya_user_profile', JSON.stringify(currentUser));
       }
 
-      // Update local state instantly for perfect demo response
+      // L'écran ne se met à jour qu'une fois l'écriture confirmée.
       setVerificationRequests(prev => prev.map(r => r.id === requestId ? { ...r, status: 'APPROVED' } : r));
-
-      if (!requestId.startsWith('local_')) {
-        const batch = writeBatch(db);
-        
-        // Update request status
-        const requestRef = doc(db, 'verification_requests', requestId);
-        batch.update(requestRef, { status: 'APPROVED', processedAt: serverTimestamp() });
-        
-        // Upgrade user to Professional + grant validator status (Governance/Lounge access —
-        // see src/lib/permissions.ts). This IS the "Become a Certified LYA Validator"
-        // accreditation flow advertised on the Pricing page.
-        const userRef = doc(db, 'users', userId);
-        batch.update(userRef, { 
-          isPro: true, 
-          role: UserRole.PROFESSIONAL,
-          verificationStatus: 'APPROVED',
-          isVerifiedValidator: true
-        });
-        
-        await batch.commit();
-      }
       onNotify(t('VERIFICATION APPROVED. USER UPGRADED TO PROFESSIONAL.', 'VÉRIFICATION APPROUVÉE. UTILISATEUR PASSÉ AU STATUT PROFESSIONNEL.'));
     } catch (err) {
       console.error(err);
+      const message = err instanceof Error ? err.message : String(err);
+      onNotify(t(
+        `Approval failed: ${message}`,
+        `Échec de l'approbation : ${message}`
+      ));
       if (!requestId.startsWith('local_')) {
         handleFirestoreError(err as any, OperationType.UPDATE, `verification_requests/${requestId}`);
       }
@@ -319,7 +335,26 @@ export const AdminView: React.FC<{
   };
 
   const handleRejectVerification = async (requestId: string, userId: string) => {
+    if (!userId) {
+      onNotify(t(
+        'Cannot reject: this application has no linked user account.',
+        'Impossible de rejeter : cette candidature n\u2019a aucun compte utilisateur lié.'
+      ));
+      return;
+    }
     try {
+      if (!requestId.startsWith('local_')) {
+        const batch = writeBatch(db);
+
+        const requestRef = doc(db, 'verification_requests', requestId);
+        batch.update(requestRef, { status: 'REJECTED', processedAt: serverTimestamp() });
+
+        const userRef = doc(db, 'users', userId);
+        batch.update(userRef, { verificationStatus: 'REJECTED' });
+
+        await batch.commit();
+      }
+
       // Update local storage mirror
       const localVerif = JSON.parse(localStorage.getItem('lya_local_verification_requests') || '[]');
       const localIndex = localVerif.findIndex((v: any) => v.id === requestId);
@@ -334,23 +369,15 @@ export const AdminView: React.FC<{
         localStorage.setItem('lya_user_profile', JSON.stringify(currentUser));
       }
 
-      // Update local state instantly for perfect demo response
       setVerificationRequests(prev => prev.map(r => r.id === requestId ? { ...r, status: 'REJECTED' } : r));
-
-      if (!requestId.startsWith('local_')) {
-        const batch = writeBatch(db);
-        
-        const requestRef = doc(db, 'verification_requests', requestId);
-        batch.update(requestRef, { status: 'REJECTED', processedAt: serverTimestamp() });
-        
-        const userRef = doc(db, 'users', userId);
-        batch.update(userRef, { verificationStatus: 'REJECTED' });
-        
-        await batch.commit();
-      }
       onNotify(t('VERIFICATION REJECTED.', 'VÉRIFICATION REJETÉE.'));
     } catch (err) {
       console.error(err);
+      const message = err instanceof Error ? err.message : String(err);
+      onNotify(t(
+        `Rejection failed: ${message}`,
+        `Échec du rejet : ${message}`
+      ));
       if (!requestId.startsWith('local_')) {
         handleFirestoreError(err as any, OperationType.UPDATE, `verification_requests/${requestId}`);
       }
