@@ -156,7 +156,16 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
   const paginatedNews = filteredNews.slice(0, currentPage * pageSize);
   const hasMore = paginatedNews.length < filteredNews.length;
 
-  const activeItem = news[activeNewsIndex] || news[0] || INITIAL_NEWS[0];
+  const activeItem = news[activeNewsIndex] || news[0] || {
+    id: 'placeholder',
+    category: 'GLOBAL' as const,
+    title: t('Waiting for live news...', 'En attente du flux en direct...'),
+    summary: t('Real-time creative industry news will appear here shortly.', 'Les actualités en direct du monde créatif apparaîtront ici sous peu.'),
+    timestamp: '',
+    source: '',
+    imageUrl: undefined,
+    relatedProjects: undefined,
+  };
 
   return (
     <div className="space-y-8 pb-12 w-full overflow-hidden block">
