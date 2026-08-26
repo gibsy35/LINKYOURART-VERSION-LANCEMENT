@@ -51,6 +51,14 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
 
   const [visibleExtended, setVisibleExtended] = useState(3);
   const [filterCategory, setFilterCategory] = useState<string>('ALL');
+  // Le survol (:hover) ne se déclenche pas de façon fiable sur tactile —
+  // bascule au tap en plus du survol souris pour desktop.
+  const [revealedCards, setRevealedCards] = useState<Set<string>>(new Set());
+  const toggleRevealed = (id: string) => setRevealedCards(prev => {
+    const next = new Set(prev);
+    next.has(id) ? next.delete(id) : next.add(id);
+    return next;
+  });
   const [likedProjects, setLikedProjects] = useState<string[]>([]);
   const [likesLoading, setLikesLoading] = useState(false);
 
@@ -568,10 +576,11 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="glass-panel p-6 rounded-3xl group relative overflow-hidden flex flex-col h-full"
+              onClick={() => toggleRevealed(contract.id)}
+              className="glass-panel p-6 rounded-3xl group relative overflow-hidden flex flex-col h-full cursor-pointer"
             >
               <div className="aspect-video rounded-2xl overflow-hidden mb-6 relative">
-                <img src={contract.image} alt={contract.name} className="w-full h-full object-cover grayscale blur-sm scale-105 opacity-60 transition-all duration-700 group-hover:grayscale-0 group-hover:blur-0 group-hover:scale-110 group-hover:opacity-100" referrerPolicy="no-referrer" />
+                <img src={contract.image} alt={contract.name} className={`w-full h-full object-cover transition-all duration-700 group-hover:grayscale-0 group-hover:blur-0 group-hover:scale-110 group-hover:opacity-100 ${revealedCards.has(contract.id) ? 'grayscale-0 blur-0 scale-110 opacity-100' : 'grayscale blur-sm scale-105 opacity-60'}`} referrerPolicy="no-referrer" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
                 <div className="absolute bottom-4 left-4">
                   <div className="text-[10px] text-primary-cyan font-black uppercase tracking-widest mb-1">{contract.rarity}</div>

@@ -281,6 +281,14 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
   const { t, language } = useTranslation();
   const [news, setNews] = useState<NewsItem[]>(INITIAL_NEWS);
   const [filter, setFilter] = useState<string>('ALL');
+  // Le survol (:hover) ne se déclenche pas de façon fiable sur tactile —
+  // bascule au tap en plus du survol souris pour desktop.
+  const [revealedCards, setRevealedCards] = useState<Set<string>>(new Set());
+  const toggleRevealed = (id: string) => setRevealedCards(prev => {
+    const next = new Set(prev);
+    next.has(id) ? next.delete(id) : next.add(id);
+    return next;
+  });
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [activeNewsIndex, setActiveNewsIndex] = useState(0);
@@ -648,7 +656,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
                 className="bg-surface-low/40 backdrop-blur-xl border border-white/5 overflow-hidden group hover:border-primary-cyan/30 transition-all rounded-xl shadow-2xl"
               >
                 <div className="flex flex-col md:flex-row">
-                  <div className="w-full md:w-64 h-48 md:h-auto overflow-hidden relative shrink-0 bg-surface-low">
+                  <div onClick={() => toggleRevealed(item.id)} className="w-full md:w-64 h-48 md:h-auto overflow-hidden relative shrink-0 bg-surface-low cursor-pointer">
                     {/* Placeholder gradient shown until image loads */}
                     <div className={`absolute inset-0 bg-gradient-to-br from-primary-cyan/10 to-surface-dim flex items-center justify-center transition-opacity duration-500 ${imageLoadedStates[item.id] ? 'opacity-0' : 'opacity-100'}`}>
                       <div className="w-10 h-10 border-2 border-primary-cyan/30 border-t-primary-cyan rounded-full animate-spin" />
@@ -661,7 +669,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
                         (e.target as HTMLImageElement).src = `https://picsum.photos/seed/${item.id}${item.category}/800/600`;
                         setImageLoadedStates(prev => ({ ...prev, [item.id]: true }));
                       }}
-                      className={`w-full h-full object-cover grayscale blur-sm scale-105 transition-all duration-700 group-hover:grayscale-0 group-hover:blur-0 group-hover:scale-110 ${imageLoadedStates[item.id] ? 'opacity-60 group-hover:opacity-100' : 'opacity-0'}`}
+                      className={`w-full h-full object-cover transition-all duration-700 group-hover:grayscale-0 group-hover:blur-0 group-hover:scale-110 ${revealedCards.has(item.id) ? 'grayscale-0 blur-0 scale-110' : 'grayscale blur-sm scale-105'} ${imageLoadedStates[item.id] ? (revealedCards.has(item.id) ? 'opacity-100' : 'opacity-60 group-hover:opacity-100') : 'opacity-0'}`}
                       referrerPolicy="no-referrer"
                       crossOrigin="anonymous"
                     />

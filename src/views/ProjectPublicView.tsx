@@ -35,6 +35,9 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
   const [activeTab, setActiveTab] = useState<'story' | 'data' | 'support'>('story');
   const [copied, setCopied] = useState(false);
   const [showPayment, setShowPayment] = useState(false);
+  // Le survol (:hover) ne se déclenche pas de façon fiable sur tactile.
+  // Ces cartes naviguent déjà au clic — premier tap révèle, second ouvre.
+  const [revealedCards, setRevealedCards] = useState<Set<string>>(new Set());
 
   const project: Contract = CONTRACTS.find(c => c.id === contractId) || CONTRACTS[0];
   const up = project.growth >= 0;
@@ -390,10 +393,16 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
             {similar.map((s, i) => {
               const sup = s.growth >= 0;
               return (
-                <button key={i} onClick={() => { window.dispatchEvent(new CustomEvent('lya-view-project', { detail: s.id })); }}
+                <button key={i} onClick={() => {
+                    if (!revealedCards.has(s.id)) {
+                      setRevealedCards(prev => new Set(prev).add(s.id));
+                      return;
+                    }
+                    window.dispatchEvent(new CustomEvent('lya-view-project', { detail: s.id }));
+                  }}
                   className="bg-surface-low/40 border border-white/8 rounded-2xl overflow-hidden hover:border-white/20 transition-all text-left group">
                   <div className="relative h-24 overflow-hidden">
-                    <img src={getSafeImageUrl(s.image, s.category)} alt={s.name} className="w-full h-full object-cover grayscale blur-sm scale-105 opacity-60 transition-all duration-700 group-hover:grayscale-0 group-hover:blur-0 group-hover:scale-105 group-hover:opacity-100" referrerPolicy="no-referrer"/>
+                    <img src={getSafeImageUrl(s.image, s.category)} alt={s.name} className={`w-full h-full object-cover transition-all duration-700 group-hover:grayscale-0 group-hover:blur-0 group-hover:scale-105 group-hover:opacity-100 ${revealedCards.has(s.id) ? 'grayscale-0 blur-0 scale-105 opacity-100' : 'grayscale blur-sm scale-105 opacity-60'}`} referrerPolicy="no-referrer"/>
                     <div className="absolute inset-0 bg-gradient-to-t from-surface-dim/80 to-transparent"/>
                   </div>
                   <div className="p-3 space-y-1">
