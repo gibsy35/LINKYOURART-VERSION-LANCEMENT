@@ -29,15 +29,15 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange, onNotify }) 
   const { t } = useTranslation();
   
   const backgroundImages = [
-    'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&q=80&w=2000', // Women in pool overlooking magnificent sea
-    'https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&q=80&w=2000', // Hyper-creative colorful abstract flowing digital sculpture
-    'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&q=80&w=2000', // Classical illustration with colorful energetic modern painting strokes
-    'https://images.unsplash.com/photo-1500485035595-cbe6f645feb1?auto=format&fit=crop&q=80&w=2000', // Breathtaking surrealistic cosmic landscape with geometric structures
-    'https://images.unsplash.com/photo-1508921912186-1d1a45ebb3c1?auto=format&fit=crop&q=80&w=2000', // Surreal high-key creative abstract reflection art
-    'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=2000', // Double exposure artwork merging technology grids and human face
     'https://images.unsplash.com/photo-1515405295579-ba7b45403062?auto=format&fit=crop&q=80&w=2000', // Art workshop painting explosion of splash acrylics
-    'https://images.unsplash.com/photo-1536924940846-227afb31e2a5?auto=format&fit=crop&q=80&w=2000', // Hyper-creative kinetic neon paint sculpture
     'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?auto=format&fit=crop&q=80&w=2000', // Vibrant neo-classical portrait artwork painting
+    'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&q=80&w=2000', // Classical illustration with colorful energetic modern painting strokes
+    'https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&q=80&w=2000', // Hyper-creative colorful abstract flowing digital sculpture
+    'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&q=80&w=2000', // Women in pool overlooking magnificent sea
+    'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=2000', // Double exposure artwork merging technology grids and human face
+    'https://images.unsplash.com/photo-1508921912186-1d1a45ebb3c1?auto=format&fit=crop&q=80&w=2000', // Surreal high-key creative abstract reflection art
+    'https://images.unsplash.com/photo-1500485035595-cbe6f645feb1?auto=format&fit=crop&q=80&w=2000', // Breathtaking surrealistic cosmic landscape with geometric structures
+    'https://images.unsplash.com/photo-1536924940846-227afb31e2a5?auto=format&fit=crop&q=80&w=2000', // Hyper-creative kinetic neon paint sculpture
     'https://images.unsplash.com/photo-1549490349-8643362247b5?auto=format&fit=crop&q=80&w=2000'  // Futuristic glowing geometric museum installation
   ];
 
@@ -163,8 +163,100 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange, onNotify }) 
             <MousePointer2 className="text-white animate-bounce" size={20} />
           </div>
         </section>
-  
-        {/* History Section */}
+
+        {/* Legacy Archive — 20 ans de projets LinkYourArt. Flouté par défaut,
+            la fiche projet se révèle au survol (test demandé). */}
+        <section className="px-4 md:px-8 space-y-12">
+          <div className="text-center space-y-4">
+            <h2 className="text-3xl md:text-5xl font-black font-headline text-white tracking-tighter uppercase mb-6 drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]">
+              {t('The Legacy Archive', 'Les Archives Légendaires')}
+            </h2>
+            <p className="text-sm text-on-surface-variant uppercase tracking-[0.3em] font-black opacity-50">
+              {t('Selected works from two decades of LinkYourArt — hover to reveal', 'Œuvres sélectionnées de deux décennies LinkYourArt — survolez pour révéler')}
+            </p>
+            <div className="w-24 h-1 bg-primary-cyan mx-auto rounded-full" />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              {
+                title: 'GONE GOLFING',
+                creator: 'Maxie Dejoie',
+                year: '2007',
+                category: t('Illustration', 'Illustration'),
+                img: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&q=80&w=1200'
+              },
+              {
+                title: 'SILENT FREQUENCIES',
+                creator: 'Amara Voss',
+                year: '2011',
+                category: t('Sound Design', 'Design Sonore'),
+                img: 'https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&q=80&w=1200'
+              },
+              {
+                title: 'THE VELVET HOUR',
+                creator: 'Camille Renard',
+                year: '2009',
+                category: t('Fashion Film', 'Film de Mode'),
+                img: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?auto=format&fit=crop&q=80&w=1200'
+              },
+              {
+                title: 'PAPER CITIES',
+                creator: 'Théo Vantard',
+                year: '2017',
+                category: t('Architecture', 'Architecture'),
+                img: 'https://images.unsplash.com/photo-1508921912186-1d1a45ebb3c1?auto=format&fit=crop&q=80&w=1200'
+              },
+              {
+                title: 'URBAN ECHOES',
+                creator: 'Kenji Osei',
+                year: '2014',
+                category: t('Photography', 'Photographie'),
+                img: 'https://images.unsplash.com/photo-1515405295579-ba7b45403062?auto=format&fit=crop&q=80&w=1200'
+              },
+              {
+                title: 'CHROMATIC DRIFT',
+                creator: 'Lena Ashworth',
+                year: '2019',
+                category: t('Digital Art', 'Art Digital'),
+                img: 'https://images.unsplash.com/photo-1536924940846-227afb31e2a5?auto=format&fit=crop&q=80&w=1200'
+              }
+            ].map((piece, i) => (
+              <div
+                key={i}
+                className="group/piece relative aspect-[4/5] rounded-2xl overflow-hidden border border-white/10 shadow-xl cursor-pointer"
+              >
+                <img
+                  src={piece.img}
+                  alt={piece.title}
+                  className="absolute inset-0 w-full h-full object-cover grayscale blur-md scale-110 opacity-50 transition-all duration-700 ease-out group-hover/piece:grayscale-0 group-hover/piece:blur-0 group-hover/piece:scale-100 group-hover/piece:opacity-100"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-surface-dim via-surface-dim/20 to-transparent opacity-90 transition-opacity duration-700 group-hover/piece:opacity-60" />
+
+                {/* État par défaut — flouté, juste un repère discret */}
+                <div className="absolute inset-0 flex items-center justify-center opacity-100 group-hover/piece:opacity-0 transition-opacity duration-500">
+                  <div className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center backdrop-blur-sm bg-white/5">
+                    <MousePointer2 size={16} className="text-white/50" />
+                  </div>
+                </div>
+
+                {/* Fiche projet — révélée au survol */}
+                <div className="absolute inset-0 p-6 flex flex-col justify-end opacity-0 translate-y-3 group-hover/piece:opacity-100 group-hover/piece:translate-y-0 transition-all duration-500">
+                  <span className="text-[9px] font-black text-primary-cyan uppercase tracking-[0.25em] mb-2">
+                    {piece.category} · {piece.year}
+                  </span>
+                  <h3 className="text-xl font-black text-white uppercase tracking-tight leading-tight mb-1">
+                    {piece.title}
+                  </h3>
+                  <p className="text-xs font-bold text-white/60 uppercase tracking-widest">
+                    {piece.creator}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-32 items-center px-4 md:px-0">
           <div className="space-y-8">
             <div className="text-center space-y-4 mb-8">
