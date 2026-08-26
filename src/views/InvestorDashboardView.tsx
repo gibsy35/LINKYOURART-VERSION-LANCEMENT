@@ -31,6 +31,13 @@ export const InvestorDashboardView: React.FC<{user:UserProfile|null;onNotify:(ms
   const [showFilters, setShowFilters] = useState(false);
   const [sendingReport, setSendingReport] = useState(false);
   const [contactProject, setContactProject] = useState<string|null>(null);
+  // Le survol (:hover) ne se déclenche pas de façon fiable au tactile.
+  const [revealedCards, setRevealedCards] = useState<Set<string>>(new Set());
+  const toggleRevealed = (id: string) => setRevealedCards(prev => {
+    const next = new Set(prev);
+    next.has(id) ? next.delete(id) : next.add(id);
+    return next;
+  });
   const [pledgesShown, setInvestmentsShown] = useState(3);
   const [socialMessage, setSocialMessage] = useState('');
   const [socialPosts, setSocialPosts] = useState<{user:string;avatar:string;action:string;project:string;time:string;likes:number;comments:number;liked:boolean;quote?:string}[]>([
@@ -251,7 +258,7 @@ export const InvestorDashboardView: React.FC<{user:UserProfile|null;onNotify:(ms
                 return (
                   <div key={i} className={`bg-surface-low/40 border rounded-2xl overflow-hidden transition-all ${inv.proj.status==='RISK'?'border-accent-gold/25 hover:border-accent-gold/40':'border-white/8 hover:border-white/20'}`}>
                     <div className="flex items-center gap-3 p-4">
-                      <img src={getSafeImageUrl(inv.proj.image,inv.proj.category)} alt={inv.proj.name} className="w-14 h-14 rounded-xl object-cover border border-white/10 shrink-0" referrerPolicy="no-referrer"/>
+                      <img onClick={() => toggleRevealed(inv.proj.id)} src={getSafeImageUrl(inv.proj.image,inv.proj.category)} alt={inv.proj.name} className={`w-14 h-14 rounded-xl object-cover border border-white/10 shrink-0 cursor-pointer transition-all duration-500 ${revealedCards.has(inv.proj.id) ? '' : 'grayscale blur-[2px] opacity-70'}`} referrerPolicy="no-referrer"/>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap mb-0.5">
                           <p className="text-sm font-black text-on-surface truncate">{inv.proj.name}</p>

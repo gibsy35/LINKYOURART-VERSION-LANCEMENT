@@ -29,6 +29,13 @@ export const CompareView: React.FC<CompareViewProps> = ({
 }) => {
   const { t } = useTranslation();
   const { formatPrice } = useCurrency();
+  // Le survol (:hover) ne se déclenche pas de façon fiable au tactile.
+  const [revealedCards, setRevealedCards] = React.useState<Set<string>>(new Set());
+  const toggleRevealed = (id: string) => setRevealedCards(prev => {
+    const next = new Set(prev);
+    next.has(id) ? next.delete(id) : next.add(id);
+    return next;
+  });
   const selectedContracts = allContracts.filter(c => comparisonList.includes(c.id)).slice(0, isPro ? 50 : 20);
   
   const suggestedProjects = allContracts
@@ -110,6 +117,10 @@ export const CompareView: React.FC<CompareViewProps> = ({
                     transition={{ delay: i * 0.1 }}
                     className="bg-surface-low/50 border border-white/5 p-4 sm:p-8 flex flex-col gap-4 sm:gap-6 group hover:border-primary-cyan/30 transition-all cursor-pointer rounded-sm relative overflow-hidden" 
                     onClick={() => {
+                        if (!revealedCards.has(project.id)) {
+                          setRevealedCards(prev => new Set(prev).add(project.id));
+                          return;
+                        }
                         const updateEvent = new CustomEvent('lyCompare', { detail: project.id });
                         window.dispatchEvent(updateEvent);
                         onNotify(`${project.name} ${t('ADDED TO COMPARISON', 'AJOUTÉ À LA COMPARAISON')}`);
@@ -120,7 +131,7 @@ export const CompareView: React.FC<CompareViewProps> = ({
                     </div>
                     <div className="flex flex-wrap items-center gap-3">
                       <div className="w-16 h-16 bg-surface-dim overflow-hidden border border-white/10 group-hover:border-primary-cyan/30 shadow-2xl transition-all duration-700 rounded-sm">
-                        <img src={project.image} alt={project.name} className="w-full h-full object-cover opacity-50 group-hover:opacity-100 group-hover:scale-110 transition-all" referrerPolicy="no-referrer" />
+                        <img src={project.image} alt={project.name} className={`w-full h-full object-cover transition-all duration-700 group-hover:grayscale-0 group-hover:blur-0 group-hover:opacity-100 group-hover:scale-110 ${revealedCards.has(project.id) ? 'grayscale-0 blur-0 opacity-100 scale-110' : 'grayscale blur-sm opacity-50 scale-105'}`} referrerPolicy="no-referrer" />
                       </div>
                       <div>
                         <div className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest mb-1 opacity-60">{project.category}</div>
@@ -178,8 +189,8 @@ export const CompareView: React.FC<CompareViewProps> = ({
                         </div>
                       </div>
                       <div className="flex flex-wrap items-center gap-3">
-                        <div className="w-24 h-24 bg-surface-dim border border-white/10 overflow-hidden shadow-2xl shrink-0 group relative rounded-sm">
-                          <img src={contract.image} alt={contract.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" referrerPolicy="no-referrer" />
+                        <div onClick={() => toggleRevealed(contract.id)} className="w-24 h-24 bg-surface-dim border border-white/10 overflow-hidden shadow-2xl shrink-0 group relative rounded-sm cursor-pointer">
+                          <img src={contract.image} alt={contract.name} className={`w-full h-full object-cover transition-all duration-1000 group-hover:grayscale-0 group-hover:blur-0 group-hover:scale-110 ${revealedCards.has(contract.id) ? 'grayscale-0 blur-0 scale-110' : 'grayscale blur-sm scale-105'}`} referrerPolicy="no-referrer" />
                           <div className="absolute inset-0 bg-primary-cyan/10 opacity-0 group-hover:opacity-100 transition-opacity" />
                         </div>
                         <div className="min-w-0">

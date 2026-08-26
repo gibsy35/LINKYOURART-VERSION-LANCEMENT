@@ -233,6 +233,13 @@ export const CreatorDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg
   const [showNewCreation, setShowNewCreation] = useState(false);
   const [showMilestone, setShowMilestone] = useState(false);
   const [showUpload, setShowUpload] = useState(false);
+  // Le survol (:hover) ne se déclenche pas de façon fiable au tactile.
+  const [revealedCards, setRevealedCards] = useState<Set<string>>(new Set());
+  const toggleRevealed = (id: string) => setRevealedCards(prev => {
+    const next = new Set(prev);
+    next.has(id) ? next.delete(id) : next.add(id);
+    return next;
+  });
   const [milestoneProject, setMilestoneProject] = useState('');
   const [milestoneProjectId, setMilestoneProjectId] = useState('');
   const [uploadedFiles, setUploadedFiles] = useState<{name:string;access:string;price:string}[]>([]);
@@ -415,7 +422,7 @@ export const CreatorDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg
                 return (
                   <div key={proj.id} className="bg-surface-low/40 border border-white/8 rounded-2xl overflow-hidden hover:border-white/15 transition-all">
                     <div className="flex items-center gap-3 p-4 border-b border-white/6">
-                      <img src={getSafeImageUrl(proj.image, proj.category)} alt={proj.name} className="w-14 h-14 rounded-xl object-cover border border-white/10 shrink-0" referrerPolicy="no-referrer"/>
+                      <img onClick={() => toggleRevealed(proj.id)} src={getSafeImageUrl(proj.image, proj.category)} alt={proj.name} className={`w-14 h-14 rounded-xl object-cover border border-white/10 shrink-0 cursor-pointer transition-all duration-500 ${revealedCards.has(proj.id) ? '' : 'grayscale blur-[2px] opacity-70'}`} referrerPolicy="no-referrer"/>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap mb-0.5">
                           <p className="text-xs text-on-surface-variant/40 font-mono">{proj.registryIndex}</p>
@@ -488,7 +495,7 @@ export const CreatorDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg
                 const up = proj.growth >= 0;
                 return (
                   <div key={proj.id} className={`flex items-center gap-3 p-4 border rounded-2xl hover:border-white/20 transition-all ${proj.status==='RISK'?'border-rose-500/20 bg-rose-500/3':proj.status==='SUSPENDED'?'border-accent-gold/20 bg-accent-gold/3':'border-white/8 bg-surface-low/40'}`}>
-                    <img src={getSafeImageUrl(proj.image,proj.category)} alt={proj.name} className="w-12 h-12 rounded-xl object-cover border border-white/10 shrink-0" referrerPolicy="no-referrer"/>
+                    <img onClick={() => toggleRevealed(proj.id)} src={getSafeImageUrl(proj.image,proj.category)} alt={proj.name} className={`w-12 h-12 rounded-xl object-cover border border-white/10 shrink-0 cursor-pointer transition-all duration-500 ${revealedCards.has(proj.id) ? '' : 'grayscale blur-[2px] opacity-70'}`} referrerPolicy="no-referrer"/>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap mb-0.5">
                         <p className="text-sm font-black text-on-surface truncate">{proj.name}</p>

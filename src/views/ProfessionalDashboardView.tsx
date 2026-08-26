@@ -35,6 +35,13 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
   const [searchCat, setSearchCat] = useState('');
   const [searchBudget, setSearchBudget] = useState('');
   const [minScore, setMinScore] = useState(600);
+  // Le survol (:hover) ne se déclenche pas de façon fiable au tactile.
+  const [revealedCards, setRevealedCards] = useState<Set<string>>(new Set());
+  const toggleRevealed = (id: string) => setRevealedCards(prev => {
+    const next = new Set(prev);
+    next.has(id) ? next.delete(id) : next.add(id);
+    return next;
+  });
   const [searchResults, setSearchResults] = useState<typeof CONTRACTS|null>(null);
   const [searching, setSearching] = useState(false);
   const [missionsShown, setMissionsShown] = useState(3);
@@ -160,7 +167,7 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
                 </div>
                 {receivedProjects.slice(0, projectsShown).map((proj,i)=>(
                   <div key={proj.id} className="flex items-center gap-3 p-3 bg-surface-high/30 border border-white/6 rounded-xl hover:border-white/15 transition-all">
-                    <img src={getSafeImageUrl(proj.image, proj.category)} alt={proj.name} className="w-10 h-10 rounded-lg object-cover border border-white/10 shrink-0" referrerPolicy="no-referrer"/>
+                    <img onClick={() => toggleRevealed(proj.id)} src={getSafeImageUrl(proj.image, proj.category)} alt={proj.name} className={`w-10 h-10 rounded-lg object-cover border border-white/10 shrink-0 cursor-pointer transition-all duration-500 ${revealedCards.has(proj.id) ? '' : 'grayscale blur-[2px] opacity-70'}`} referrerPolicy="no-referrer"/>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
                         <p className="text-sm font-black text-on-surface truncate">{proj.name}</p>
@@ -230,7 +237,7 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
                   <p className="text-sm font-black text-on-surface">{searchResults.length} {T('projets trouvés','projects found')} · <span className="text-primary-cyan">{searchCat}</span> · Score ≥ {minScore}</p>
                   {searchResults.map((proj,i)=>(
                     <div key={proj.id} className="flex items-center gap-3 p-4 bg-surface-low/40 border border-white/8 rounded-2xl hover:border-white/15 transition-all">
-                      <img src={getSafeImageUrl(proj.image,proj.category)} alt={proj.name} className="w-12 h-12 rounded-xl object-cover border border-white/10 shrink-0" referrerPolicy="no-referrer"/>
+                      <img onClick={() => toggleRevealed(proj.id)} src={getSafeImageUrl(proj.image,proj.category)} alt={proj.name} className={`w-12 h-12 rounded-xl object-cover border border-white/10 shrink-0 cursor-pointer transition-all duration-500 ${revealedCards.has(proj.id) ? '' : 'grayscale blur-[2px] opacity-70'}`} referrerPolicy="no-referrer"/>
                       <div className="flex-1 min-w-0"><p className="text-sm font-black text-on-surface">{proj.name}</p><p className="text-xs text-on-surface-variant/50">{proj.category} · {proj.registryIndex}</p></div>
                       <div className="text-right shrink-0">
                         <p className="text-base font-black text-accent-gold">{proj.totalScore}<span className="text-xs text-on-surface-variant/30">/1000</span></p>

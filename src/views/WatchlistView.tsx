@@ -33,6 +33,13 @@ export const WatchlistView: React.FC<WatchlistViewProps> = ({
 
   const [viewMode, setViewMode] = React.useState<'mosaic' | 'bars'>('mosaic');
   const [currentPage, setCurrentPage] = React.useState(1);
+  // Le survol (:hover) ne se déclenche pas de façon fiable au tactile.
+  const [revealedCards, setRevealedCards] = React.useState<Set<string>>(new Set());
+  const toggleRevealed = (id: string) => setRevealedCards(prev => {
+    const next = new Set(prev);
+    next.has(id) ? next.delete(id) : next.add(id);
+    return next;
+  });
   const itemsPerPage = viewMode === 'mosaic' ? 18 : 25;
   
   const totalPages = Math.ceil(watchlistedContracts.length / itemsPerPage);
@@ -117,11 +124,11 @@ export const WatchlistView: React.FC<WatchlistViewProps> = ({
                 >
                   <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-accent-gold/30 to-transparent z-20" />
                   
-                  <div className="relative h-60 overflow-hidden">
+                  <div onClick={() => toggleRevealed(contract.id)} className="relative h-60 overflow-hidden cursor-pointer">
                     <img 
                       src={contract.image} 
                       alt={contract.name}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
+                      className={`w-full h-full object-cover transition-all duration-1000 group-hover:grayscale-0 group-hover:blur-0 group-hover:scale-110 ${revealedCards.has(contract.id) ? 'grayscale-0 blur-0 scale-110' : 'grayscale blur-sm scale-105'}`}
                       referrerPolicy="no-referrer"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-surface-dim via-surface-dim/20 to-transparent" />
@@ -205,8 +212,8 @@ export const WatchlistView: React.FC<WatchlistViewProps> = ({
                   transition={{ delay: index * 0.05 }}
                   className="group flex flex-col md:flex-row items-center gap-6 p-4 bg-surface-low/30 backdrop-blur-md border border-white/5 hover:border-accent-gold/40 transition-all rounded-sm"
                 >
-                  <div className="w-full md:w-24 h-16 shrink-0 overflow-hidden rounded-xl border border-white/10">
-                    <img src={contract.image} alt={contract.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" referrerPolicy="no-referrer" />
+                  <div onClick={() => toggleRevealed(contract.id)} className="w-full md:w-24 h-16 shrink-0 overflow-hidden rounded-xl border border-white/10 cursor-pointer">
+                    <img src={contract.image} alt={contract.name} className={`w-full h-full object-cover transition-all duration-700 group-hover:grayscale-0 group-hover:blur-0 group-hover:scale-110 ${revealedCards.has(contract.id) ? 'grayscale-0 blur-0 scale-110' : 'grayscale blur-sm scale-105'}`} referrerPolicy="no-referrer" />
                   </div>
                   <div className="flex-1 flex flex-col md:flex-row md:items-center gap-4 md:gap-8 min-w-0">
                     <div className="min-w-0 flex-1">
