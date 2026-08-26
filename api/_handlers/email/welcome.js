@@ -42,7 +42,7 @@ function buildWelcomeEmail(name, role, lang) {
   '<table width="100%" cellpadding="0" cellspacing="0"><tr>' +
   '<td width="40" valign="middle"><img src="https://www.linkyourart.com/logo-brochure.png" width="36" height="36" alt="LinkYourArt" style="display:block;width:36px;height:36px" /></td>' +
   '<td valign="middle"><span style="font-size:18px;font-weight:900;color:white;letter-spacing:0.15em">LINKYOURART</span></td>' +
-  '<td align="right" valign="middle"><span style="font-size:10px;font-weight:900;color:#00d4ff;text-transform:uppercase;letter-spacing:0.15em;border:1px solid rgba(0,212,255,0.3);padding:4px 12px;border-radius:20px">★ ' + roleLabel + '</span></td>' +
+  '<td align="right" valign="middle"><span style="font-size:10px;font-weight:900;color:#00d4ff;text-transform:uppercase;letter-spacing:0.15em;border:1px solid #094c5d;padding:4px 12px;border-radius:20px">★ ' + roleLabel + '</span></td>' +
   '</tr></table>' +
   '</td></tr>' +
 

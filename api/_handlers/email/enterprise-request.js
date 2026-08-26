@@ -11,7 +11,7 @@ function buildAdminAlertEmail({ userName, userEmail, userId, planName, source })
   '<table width="100%" cellpadding="0" cellspacing="0"><tr>' +
   '<td width="32" valign="middle"><img src="https://www.linkyourart.com/logo-brochure.png" width="28" height="28" alt="LinkYourArt" style="display:block;width:28px;height:28px" /></td>' +
   '<td valign="middle"><span style="font-size:16px;font-weight:900;color:white;letter-spacing:0.15em">LINKYOURART</span></td>' +
-  '<td align="right" valign="middle"><span style="font-size:9px;font-weight:900;color:#00d4ff;text-transform:uppercase;letter-spacing:0.15em;border:1px solid rgba(0,212,255,0.3);padding:4px 10px;border-radius:20px">' + source + '</span></td>' +
+  '<td align="right" valign="middle"><span style="font-size:9px;font-weight:900;color:#00d4ff;text-transform:uppercase;letter-spacing:0.15em;border:1px solid #094c5d;padding:4px 10px;border-radius:20px">' + source + '</span></td>' +
   '</tr></table>' +
   '</td></tr>' +
   '<tr><td bgcolor="#00d4ff" style="background:linear-gradient(90deg,#00d4ff,#a78bfa,#f5c842);height:3px;font-size:0">&nbsp;</td></tr>' +

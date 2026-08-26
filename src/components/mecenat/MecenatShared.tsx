@@ -631,6 +631,9 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
   const { formatPrice } = useCurrency();
   const [units, setUnits] = useState(5);
   const [liked, setLiked] = useState(!!isWatchlisted);
+  // Le survol (:hover) ne se déclenche pas de façon fiable au tactile.
+  // La carte navigue déjà au clic — premier tap révèle, second ouvre.
+  const [revealed, setRevealed] = useState(false);
   const T = (fr: string, en: string) => lang === "FR" ? fr : en;
 
   const unitPrice = getUnitPrice(contract);
@@ -654,14 +657,17 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
     <div className="bg-surface-low border-2 border-white/10 rounded-2xl overflow-hidden flex flex-col hover:border-primary-cyan/40 transition-colors h-full shadow-xl shadow-black/40">
       {/* Image — ratio fixe 16/9, pas d'étirement */}
       <div
-        className="relative cursor-pointer overflow-hidden flex-shrink-0 w-full"
+        className="relative cursor-pointer overflow-hidden flex-shrink-0 w-full group"
         style={{ aspectRatio: "3/2" }}
-        onClick={() => onViewProject(contract, units)}
+        onClick={() => {
+          if (!revealed) { setRevealed(true); return; }
+          onViewProject(contract, units);
+        }}
       >
         <img
           src={getSafeImageUrl(contract.image, contract.category)}
           alt={contract.name}
-          className="w-full h-full object-cover object-center"
+          className={`w-full h-full object-cover object-center transition-all duration-700 group-hover:grayscale-0 group-hover:blur-0 group-hover:scale-105 ${revealed ? 'grayscale-0 blur-0 scale-105' : 'grayscale blur-sm scale-105'}`}
           referrerPolicy="no-referrer"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />

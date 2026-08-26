@@ -11,7 +11,7 @@ function buildValidatorAlertEmail({ userName, userEmail, userId, entityName, reg
   '<table width="100%" cellpadding="0" cellspacing="0"><tr>' +
   '<td width="32" valign="middle"><img src="https://www.linkyourart.com/logo-brochure.png" width="28" height="28" alt="LinkYourArt" style="display:block;width:28px;height:28px" /></td>' +
   '<td valign="middle"><span style="font-size:16px;font-weight:900;color:white;letter-spacing:0.15em">LINKYOURART</span></td>' +
-  '<td align="right" valign="middle"><span style="font-size:9px;font-weight:900;color:#34d399;text-transform:uppercase;letter-spacing:0.15em;border:1px solid rgba(52,211,153,0.3);padding:4px 10px;border-radius:20px">Validator</span></td>' +
+  '<td align="right" valign="middle"><span style="font-size:9px;font-weight:900;color:#34d399;text-transform:uppercase;letter-spacing:0.15em;border:1px solid #194b3e;padding:4px 10px;border-radius:20px">Validator</span></td>' +
   '</tr></table>' +
   '</td></tr>' +
   '<tr><td bgcolor="#34d399" style="background:linear-gradient(90deg,#34d399,#00d4ff,#a78bfa);height:3px;font-size:0">&nbsp;</td></tr>' +

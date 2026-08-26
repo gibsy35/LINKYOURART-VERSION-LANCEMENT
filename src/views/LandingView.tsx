@@ -556,7 +556,9 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                           ))}
                         </div>
 
-                        <div className="space-y-4">                            <User className="absolute left-6 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-primary-cyan transition-colors" size={18} />
+                        <div className="space-y-4">
+                          <div className="relative group">
+                            <User className="absolute left-6 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-primary-cyan transition-colors" size={18} />
                             <input type="text" placeholder={t('Identity Name', 'Identité Nom')} required value={name} onChange={(e) => setName(e.target.value)}
                               className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 pl-16 pr-8 focus:outline-none focus:border-primary-cyan/50 focus:bg-white/10 transition-all font-bold text-sm tracking-tight"
                             />
@@ -567,7 +569,6 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                               className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 pl-16 pr-8 focus:outline-none focus:border-primary-cyan/50 focus:bg-white/10 transition-all font-bold text-sm tracking-tight"
                             />
                           </div>
-                          <div className="relative group">
                         </div>
 
                         <button type="submit" disabled={isSubmitting}

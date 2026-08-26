@@ -37,7 +37,7 @@ function buildInvitationEmail({ fromName, fromRole, code, message, lang }) {
     <p style="margin:4px 0 0;font-size:9px;color:#7B8291;letter-spacing:0.2em;text-transform:uppercase;">YOUR SCORE. YOUR STANDARD.</p>
   </td></tr>
 
-  <tr><td bgcolor="#0F1621" style="background:linear-gradient(160deg,#0F1621 0%,#0D1117 60%,#12192A 100%);border-radius:20px 20px 0 0;padding:52px 40px 44px;text-align:center;border:1px solid rgba(224,50,110,0.15);border-bottom:none;">
+  <tr><td bgcolor="#0F1621" style="background:linear-gradient(160deg,#0F1621 0%,#0D1117 60%,#12192A 100%);border-radius:20px 20px 0 0;padding:52px 40px 44px;text-align:center;border:1px solid #2d1624;border-bottom:none;">
     <img src="https://www.linkyourart.com/logo-brochure.png" width="72" height="72" alt="LinkYourArt" style="display:block;margin:0 auto 24px;width:72px;height:72px;" />
     <p style="margin:0 0 6px;font-size:11px;font-weight:900;color:#93A0AC;letter-spacing:0.25em;text-transform:uppercase;">${isFR ? 'INVITATION PERSONNELLE' : 'PERSONAL INVITATION'}</p>
     <p style="margin:0 0 20px;font-size:28px;font-weight:900;color:#ffffff;line-height:1.2;">${isFR ? 'Vous êtes' : "You're"} <span style="color:#E0326E;">${isFR ? 'invité·e' : 'invited'}</span> ${isFR ? 'sur LYA' : 'to LYA'}</p>
@@ -49,10 +49,10 @@ function buildInvitationEmail({ fromName, fromRole, code, message, lang }) {
 
   <tr><td bgcolor="#7C3FBF" style="background:linear-gradient(90deg,#E0326E,#7C3FBF,#00D4E8);height:2px;font-size:0;line-height:0;">&nbsp;</td></tr>
 
-  <tr><td bgcolor="#0F1621" style="background:#0F1621;border:1px solid rgba(255,255,255,0.05);border-top:none;border-bottom:none;padding:40px;">
+  <tr><td bgcolor="#0F1621" style="background:#0F1621;border:1px solid #191d23;border-top:none;border-bottom:none;padding:40px;">
 
     ${message ? `
-    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:rgba(255,255,255,0.03);border-left:2px solid #E0326E;border-radius:0 12px 12px 0;margin-bottom:28px;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#14181e;border-left:2px solid #E0326E;border-radius:0 12px 12px 0;margin-bottom:28px;">
       <tr><td style="padding:20px 24px;">
         <p style="margin:0 0 6px;font-size:9px;font-weight:900;color:#8B94A3;letter-spacing:0.15em;text-transform:uppercase;">${isFR ? `Message de ${fromName}` : `Message from ${fromName}`}</p>
         <p style="margin:0;font-size:13px;color:#C9CDD6;line-height:1.6;font-style:italic;">"${message}"</p>
@@ -77,7 +77,7 @@ function buildInvitationEmail({ fromName, fromRole, code, message, lang }) {
 
   <tr><td bgcolor="#00D4E8" style="background:linear-gradient(90deg,#00D4E8,#7C3FBF,#E0326E);height:2px;font-size:0;line-height:0;">&nbsp;</td></tr>
 
-  <tr><td bgcolor="#080C10" style="background:#080C10;border-radius:0 0 20px 20px;border:1px solid rgba(255,255,255,0.04);border-top:none;padding:24px 40px;text-align:center;">
+  <tr><td bgcolor="#080C10" style="background:#080C10;border-radius:0 0 20px 20px;border:1px solid #171b20;border-top:none;padding:24px 40px;text-align:center;">
     <p style="margin:0 0 4px;font-size:10px;color:#767D8C;">contact@linkyourart.com · linkyourart.com</p>
     <p style="margin:0 0 4px;font-size:9px;color:#5B6270;">LINKYOURART SASU · Paris · Rennes · London</p>
     <p style="margin:8px 0 0;font-size:9px;color:#565D6B;">${isFR ? `Vous recevez cet email car ${fromName} vous a invité·e sur linkyourart.com` : `You are receiving this email because ${fromName} invited you on linkyourart.com`}</p>
