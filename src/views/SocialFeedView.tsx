@@ -75,7 +75,6 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [activeNewsIndex, setActiveNewsIndex] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const [visibleNodes, setVisibleNodes] = useState(8);
   const [visibleSectors, setVisibleSectors] = useState(9);
   const [selectedNews, setSelectedNews] = useState<NewsItem | null>(null);
   const [imageLoadedStates, setImageLoadedStates] = useState<Record<string, boolean>>({});
@@ -87,35 +86,27 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
     [news]
   );
 
-  const nodes = [
-    { label: 'Paris Registry', status: 'SYNCED', latency: '12ms' },
-    { label: 'Tokyo Registry', status: 'SYNCED', latency: '45ms' },
-    { label: 'NY Registry', status: 'SYNCED', latency: '28ms' },
-    { label: 'London Center', status: 'SYNCED', latency: '15ms' },
-    { label: 'Berlin Registry', status: 'SYNCED', latency: '18ms' },
-    { label: 'Seoul Registry', status: 'SYNCED', latency: '38ms' },
-    { label: 'Singapore Registry', status: 'SYNCED', latency: '22ms' },
-    { label: 'Sydney Registry', status: 'SYNCED', latency: '52ms' },
-    { label: 'Zurich Vault', status: 'SYNCED', latency: '10ms' },
-    { label: 'Dubai Registry', status: 'SYNCED', latency: '33ms' },
-    { label: 'Toronto Registry', status: 'SYNCED', latency: '25ms' },
-    { label: 'Mumbai Registry', status: 'SYNCED', latency: '41ms' }
-  ];
+  // Les 14 catégories réelles utilisées par les projets LYA (src/types.ts)
+  const LYA_CATEGORIES = ['Fine Art', 'Film', 'TV Series', 'Music', 'Digital Art', 'Gaming', 'Literature', 'Fashion', 'Architecture', 'Design', 'Photography', 'Podcast', 'Performing Arts', 'Gastronomy'];
 
-  const sectors = [
-    { label: 'Music Rights', trend: '+12.4%', color: 'text-primary-cyan' },
-    { label: 'Film', trend: '+8.2%', color: 'text-emerald-400' },
-    { label: 'Digital Art', trend: '-2.1%', color: 'text-red-400' },
-    { label: 'Gaming IP', trend: '+15.7%', color: 'text-accent-purple' },
-    { label: 'TV Series', trend: '+10.4%', color: 'text-accent-gold' },
-    { label: 'Fashion IP', trend: '+5.3%', color: 'text-primary-cyan' },
-    { label: 'Literary Rights', trend: '+3.1%', color: 'text-emerald-400' },
-    { label: 'Design', trend: '+7.8%', color: 'text-accent-gold' },
-    { label: 'Photography', trend: '+2.4%', color: 'text-primary-cyan' },
-    { label: 'Architecture', trend: '+4.9%', color: 'text-emerald-400' },
-    { label: 'Sculpture', trend: '+1.2%', color: 'text-accent-purple' },
-    { label: 'Performance', trend: '+6.5%', color: 'text-accent-gold' }
-  ];
+  // Remplace l'ancienne liste "Live Network Activity" — un faux réseau de
+  // registres multi-villes (Paris/Tokyo/NY...) avec latences inventées.
+  // Aucune infrastructure distribuée de ce type n'existe réellement :
+  // remplacé par un état honnête basé sur les vrais projets certifiés.
+  const realCertifiedCount = CONTRACTS.filter(c => c.status === 'LIVE').length;
+
+  // Remplace l'ancienne liste "Trending Sectors" — des pourcentages de
+  // tendance figés dans le code, jamais recalculés. Remplacé par un
+  // vrai comptage de projets certifiés par catégorie (source : CONTRACTS,
+  // la même donnée utilisée sur Exchange/Comparateur/Watchlist).
+  const sectors = LYA_CATEGORIES
+    .map(cat => {
+      const inCat = CONTRACTS.filter(c => c.category === cat && c.status === 'LIVE');
+      const avgScore = inCat.length > 0 ? Math.round(inCat.reduce((s, c) => s + c.totalScore, 0) / inCat.length) : 0;
+      return { label: cat, count: inCat.length, avgScore };
+    })
+    .filter(s => s.count > 0)
+    .sort((a, b) => b.count - a.count);
 
   const loadRealNews = async () => {
     setIsLoading(true);
@@ -585,32 +576,23 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
             </div>
           </div>
 
-          {/* Live Network Activity */}
+          {/* Registre LYA — remplace l'ancien "Live Network Activity"
+              (faux réseau de registres multi-villes) par un état réel */}
           <div className="bg-surface-low border border-white/5 p-6">
             <h3 className="text-xs font-black uppercase tracking-[0.3em] text-primary-cyan mb-6 flex items-center gap-2">
               <Globe className="w-4 h-4" />
-              Live Network Activity
+              {t('LYA Registry', 'Registre LYA')}
             </h3>
-            
-            <div className="space-y-4">
-              {nodes.slice(0, visibleNodes).map((node, i) => (
-                <div key={i} className="flex items-center justify-between p-3 bg-white/5 border border-white/5">
-                  <div className="flex items-center gap-3">
-                    <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-white">{node.label}</span>
-                  </div>
-                  <span className="text-[9px] font-mono text-on-surface-variant/40">{node.latency}</span>
-                </div>
-              ))}
+            <div className="flex items-center justify-between p-4 bg-white/5 border border-white/5">
+              <div className="flex items-center gap-3">
+                <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
+                <span className="text-[10px] font-bold uppercase tracking-widest text-white">{t('Certified Projects', 'Projets Certifiés')}</span>
+              </div>
+              <span className="text-sm font-black text-primary-cyan tabular-nums">{realCertifiedCount}</span>
             </div>
-            {visibleNodes < nodes.length && (
-              <button 
-                onClick={() => setVisibleNodes(prev => prev + 4)}
-                className="w-full mt-4 py-2 text-[9px] font-black uppercase tracking-widest text-on-surface-variant hover:text-primary-cyan transition-colors border-t border-white/5 pt-4"
-              >
-                {t('Load More Registries', 'Charger plus de Registres')}
-              </button>
-            )}
+            <p className="text-[9px] text-on-surface-variant/40 mt-3 leading-relaxed">
+              {t('Live count of projects currently certified on LinkYourArt.', 'Compte en direct des projets actuellement certifiés sur LinkYourArt.')}
+            </p>
           </div>
 
           {/* Trending Sectors */}
@@ -618,14 +600,14 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
             <div className="absolute top-0 right-0 w-32 h-32 bg-accent-gold/5 rounded-full -mr-16 -mt-16 blur-2xl group-hover:bg-accent-gold/10 transition-all" />
             <h3 className="text-xs font-black uppercase tracking-[0.3em] text-accent-gold mb-6 flex items-center gap-2 relative z-10">
               <TrendingUp className="w-4 h-4" />
-              Trending Sectors
+              {t('Sectors by Certified Projects', 'Secteurs par Projets Certifiés')}
             </h3>
             
             <div className="space-y-4 relative z-10">
               {sectors.slice(0, visibleSectors).map((sector, i) => (
                 <div key={i} className="flex items-center justify-between p-3 bg-white/5 border border-white/5 hover:border-white/20 transition-all cursor-pointer group/item">
                   <span className="text-[10px] font-bold uppercase tracking-widest text-white group-hover/item:text-accent-gold transition-colors">{sector.label}</span>
-                  <span className={`text-[9px] font-mono font-black ${sector.color}`}>{sector.trend}</span>
+                  <span className="text-[9px] font-mono font-black text-accent-gold">{sector.count} · {sector.avgScore}/1000</span>
                 </div>
               ))}
             </div>
