@@ -184,7 +184,7 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange, onNotify }) 
                 creator: 'Maxie Dejoie',
                 year: '2007',
                 category: t('Illustration', 'Illustration'),
-                img: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&q=80&w=1200'
+                img: '/legacy/gone-golfing.svg'
               },
               {
                 title: 'SILENT FREQUENCIES',
