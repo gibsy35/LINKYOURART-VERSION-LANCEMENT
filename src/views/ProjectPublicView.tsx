@@ -393,7 +393,7 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
                 <button key={i} onClick={() => { window.dispatchEvent(new CustomEvent('lya-view-project', { detail: s.id })); }}
                   className="bg-surface-low/40 border border-white/8 rounded-2xl overflow-hidden hover:border-white/20 transition-all text-left group">
                   <div className="relative h-24 overflow-hidden">
-                    <img src={getSafeImageUrl(s.image, s.category)} alt={s.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" referrerPolicy="no-referrer"/>
+                    <img src={getSafeImageUrl(s.image, s.category)} alt={s.name} className="w-full h-full object-cover grayscale blur-sm scale-105 opacity-60 transition-all duration-700 group-hover:grayscale-0 group-hover:blur-0 group-hover:scale-105 group-hover:opacity-100" referrerPolicy="no-referrer"/>
                     <div className="absolute inset-0 bg-gradient-to-t from-surface-dim/80 to-transparent"/>
                   </div>
                   <div className="p-3 space-y-1">

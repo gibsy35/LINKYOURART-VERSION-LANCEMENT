@@ -571,7 +571,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
               className="glass-panel p-6 rounded-3xl group relative overflow-hidden flex flex-col h-full"
             >
               <div className="aspect-video rounded-2xl overflow-hidden mb-6 relative">
-                <img src={contract.image} alt={contract.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" referrerPolicy="no-referrer" />
+                <img src={contract.image} alt={contract.name} className="w-full h-full object-cover grayscale blur-sm scale-105 opacity-60 transition-all duration-700 group-hover:grayscale-0 group-hover:blur-0 group-hover:scale-110 group-hover:opacity-100" referrerPolicy="no-referrer" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
                 <div className="absolute bottom-4 left-4">
                   <div className="text-[10px] text-primary-cyan font-black uppercase tracking-widest mb-1">{contract.rarity}</div>
