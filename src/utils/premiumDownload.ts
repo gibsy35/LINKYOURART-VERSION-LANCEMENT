@@ -167,8 +167,11 @@ export function downloadWalletStatement(
   transactions: WalletTransaction[],
   userName: string,
   cashBalance: number,
-  lyaUnits: number
+  lyaUnits: number,
+  lang: 'FR' | 'EN' = 'FR'
 ): void {
+  const isFR = lang === 'FR';
+  const locale = isFR ? 'fr-FR' : 'en-US';
   const totalIn = transactions.filter(t => t.amount > 0).reduce((s,t) => s + t.amount, 0);
 
   const rows = transactions.map(tx => {
@@ -176,7 +179,7 @@ export function downloadWalletStatement(
     const statusColor = tx.status === 'COMPLETED' ? 'green' : 'gold';
     const amtColor = tx.amount > 0 ? 'green' : '';
     const sign = tx.amount > 0 ? '+' : '';
-    const amt = Math.abs(tx.amount).toLocaleString('fr-FR', { minimumFractionDigits: 2 });
+    const amt = Math.abs(tx.amount).toLocaleString(locale, { minimumFractionDigits: 2 });
     return `<tr>
       <td class="muted">${tx.date}</td>
       <td><span class="badge ${typeColor}">${tx.type}</span></td>
@@ -188,30 +191,38 @@ export function downloadWalletStatement(
 
   const body = `
     <div class="stats-row">
-      <div class="stat-box"><div class="stat-label">Total soutenu</div><div class="stat-value cyan">€${cashBalance.toLocaleString('fr-FR',{minimumFractionDigits:2})}</div></div>
-      <div class="stat-box"><div class="stat-label">Total entrées</div><div class="stat-value">€${totalIn.toLocaleString('fr-FR',{minimumFractionDigits:2})}</div></div>
-      <div class="stat-box"><div class="stat-label">Projets soutenus</div><div class="stat-value gold">${lyaUnits.toLocaleString('fr-FR')}</div></div>
+      <div class="stat-box"><div class="stat-label">${isFR ? 'Total soutenu' : 'Total supported'}</div><div class="stat-value cyan">€${cashBalance.toLocaleString(locale,{minimumFractionDigits:2})}</div></div>
+      <div class="stat-box"><div class="stat-label">${isFR ? 'Total entrées' : 'Total inflows'}</div><div class="stat-value">€${totalIn.toLocaleString(locale,{minimumFractionDigits:2})}</div></div>
+      <div class="stat-box"><div class="stat-label">${isFR ? 'Projets soutenus' : 'Projects supported'}</div><div class="stat-value gold">${lyaUnits.toLocaleString(locale)}</div></div>
     </div>
     <div class="table-container">
-      <div class="table-header"><div class="table-title">Historique de soutien · ${transactions.length} opérations</div></div>
+      <div class="table-header"><div class="table-title">${isFR ? 'Historique de soutien' : 'Support history'} · ${transactions.length} ${isFR ? 'opérations' : 'operations'}</div></div>
       <table>
-        <thead><tr><th>Date</th><th>Type</th><th>Projet</th><th>Statut</th><th style="text-align:right">Montant</th></tr></thead>
+        <thead><tr><th>${isFR ? 'Date' : 'Date'}</th><th>${isFR ? 'Type' : 'Type'}</th><th>${isFR ? 'Projet' : 'Project'}</th><th>${isFR ? 'Statut' : 'Status'}</th><th style="text-align:right">${isFR ? 'Montant' : 'Amount'}</th></tr></thead>
         <tbody>${rows}</tbody>
       </table>
     </div>
     <div class="divider"></div>
     <div class="section">
-      <div class="section-title">Informations du compte</div>
+      <div class="section-title">${isFR ? 'Informations du compte' : 'Account information'}</div>
       <div class="content-block">
         <h3>${userName.toUpperCase()}</h3>
-        <p>Mécène certifié de la plateforme LYA · Statut : Membre vérifié<br>
-        Tous les soutiens listés sont enregistrés de manière traçable dans le Registre LYA. Ce relevé est généré automatiquement à titre informatif.</p>
+        <p>${isFR
+          ? 'Mécène certifié de la plateforme LYA · Statut : Membre vérifié<br>Tous les soutiens listés sont enregistrés de manière traçable dans le Registre LYA. Ce relevé est généré automatiquement à titre informatif.'
+          : 'Certified LYA platform patron · Status: Verified Member<br>All listed support is recorded traceably in the LYA Registry. This statement is generated automatically for informational purposes.'
+        }</p>
       </div>
     </div>`;
 
   triggerDownload(
-    wrapDocument('HISTORIQUE DE SOUTIEN', `${userName.toUpperCase()} · RÉSUMÉ DU COMPTE`, 'RELEVÉ', body, 'fr'),
-    `LYA_Historique_Soutien_${new Date().toISOString().split('T')[0]}`
+    wrapDocument(
+      isFR ? 'HISTORIQUE DE SOUTIEN' : 'SUPPORT HISTORY',
+      `${userName.toUpperCase()} · ${isFR ? 'RÉSUMÉ DU COMPTE' : 'ACCOUNT SUMMARY'}`,
+      isFR ? 'RELEVÉ' : 'STATEMENT',
+      body,
+      isFR ? 'fr' : 'en'
+    ),
+    `LYA_${isFR ? 'Historique_Soutien' : 'Support_History'}_${new Date().toISOString().split('T')[0]}`
   );
 }
 

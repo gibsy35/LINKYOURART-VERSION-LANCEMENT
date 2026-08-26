@@ -30,7 +30,7 @@ interface WalletViewProps {
 }
 
 export const WalletView: React.FC<WalletViewProps> = ({ user, onNotify, onViewChange }) => {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
   const { formatPrice } = useCurrency();
   const [activeTab, setActiveTab] = useState<'overview' | 'cards'>('overview');
   const [copied, setCopied] = useState(false);
@@ -69,7 +69,7 @@ export const WalletView: React.FC<WalletViewProps> = ({ user, onNotify, onViewCh
   }));
 
   const handleDownloadStatement = () => {
-    downloadWalletStatement(transactions, user?.displayName || 'LYA MEMBER', totalSupported, projectsSupported);
+    downloadWalletStatement(transactions, user?.displayName || 'LYA MEMBER', totalSupported, projectsSupported, language === 'FR' ? 'FR' : 'EN');
     onNotify(t('SUPPORT HISTORY GENERATED', 'HISTORIQUE DE SOUTIEN GÉNÉRÉ'));
   };
 

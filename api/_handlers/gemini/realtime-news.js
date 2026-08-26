@@ -2,14 +2,29 @@ const { GoogleGenAI } = require('@google/genai');
 const { initializeApp, getApps, cert } = require('firebase-admin/app');
 const { getFirestore } = require('firebase-admin/firestore');
 
-if (!getApps().length) {
-  initializeApp({
-    credential: cert({
-      projectId: process.env.FIREBASE_PROJECT_ID || 'linkyourart-cb221',
-      clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-      privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
-    }),
-  });
+// IMPORTANT : ce module est require() de façon EAGER par gemini-router.js
+// (tous les handlers sont chargés en un seul objet au démarrage — voir ce
+// fichier). Si initializeApp()/cert() lève une exception ici, au niveau
+// module (ex. FIREBASE_PRIVATE_KEY mal formée), le require() lui-même
+// plante, ce qui fait tomber TOUT le routeur Gemini — copilot,
+// analyse d'œuvre, tout — pas seulement les actualités. D'où le try/catch :
+// une panne d'initialisation Firestore ne doit jamais empêcher le reste
+// de l'app de fonctionner ; elle désactive juste la mise en correspondance
+// avec les vrais projets pour cette fonctionnalité précise.
+let firebaseAdminReady = false;
+try {
+  if (!getApps().length) {
+    initializeApp({
+      credential: cert({
+        projectId: process.env.FIREBASE_PROJECT_ID || 'linkyourart-cb221',
+        clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+        privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+      }),
+    });
+  }
+  firebaseAdminReady = true;
+} catch (initErr) {
+  console.error('[NEWS] Firebase Admin init failed (continuing without real-project matching):', initErr.message);
 }
 
 // Catégories réelles utilisées par les projets LYA (voir src/types.ts)
@@ -117,12 +132,14 @@ Do NOT produce any estimated field, score, or trend — facts verifiable via sea
     // Correspondance réelle avec les projets certifiés sur LYA — remplace
     // entièrement l'ancien "impact score" fabriqué par le modèle.
     let realContracts = [];
-    try {
-      const db = getFirestore();
-      const snap = await db.collection('contracts').select('category', 'totalScore').limit(500).get();
-      realContracts = snap.docs.map(d => d.data());
-    } catch (fsErr) {
-      console.warn('[NEWS] Firestore contracts fetch failed (matching skipped):', fsErr.message);
+    if (firebaseAdminReady) {
+      try {
+        const db = getFirestore();
+        const snap = await db.collection('contracts').select('category', 'totalScore').limit(500).get();
+        realContracts = snap.docs.map(d => d.data());
+      } catch (fsErr) {
+        console.warn('[NEWS] Firestore contracts fetch failed (matching skipped):', fsErr.message);
+      }
     }
 
     const enriched = newsItems.map((item, idx) => {
