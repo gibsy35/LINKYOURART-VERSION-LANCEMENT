@@ -661,7 +661,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
                         (e.target as HTMLImageElement).src = `https://picsum.photos/seed/${item.id}${item.category}/800/600`;
                         setImageLoadedStates(prev => ({ ...prev, [item.id]: true }));
                       }}
-                      className={`w-full h-full object-cover group-hover:scale-110 transition-all duration-700 ${imageLoadedStates[item.id] ? 'opacity-70 group-hover:opacity-100' : 'opacity-0'}`}
+                      className={`w-full h-full object-cover grayscale blur-sm scale-105 transition-all duration-700 group-hover:grayscale-0 group-hover:blur-0 group-hover:scale-110 ${imageLoadedStates[item.id] ? 'opacity-60 group-hover:opacity-100' : 'opacity-0'}`}
                       referrerPolicy="no-referrer"
                       crossOrigin="anonymous"
                     />
