@@ -274,7 +274,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
               const up = hasGrowth && (proj.growth as number) >= 0;
               return (
                 <div key={id} className="flex items-center gap-3 p-3 bg-surface-high/30 border border-white/6 rounded-xl hover:border-emerald-400/30 transition-all">
-                  <img src={proj.image} alt={proj.name} className="w-12 h-12 rounded-lg object-cover border border-white/10 shrink-0" referrerPolicy="no-referrer"/>
+                  <img onClick={() => toggleRevealed(id)} src={proj.image} alt={proj.name} className={`w-12 h-12 rounded-lg object-cover border border-white/10 shrink-0 cursor-pointer transition-all duration-500 ${revealedCards.has(id) ? '' : 'grayscale blur-[2px] opacity-70'}`} referrerPolicy="no-referrer"/>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-black text-on-surface truncate">{proj.name}</p>
                     <p className="text-xs text-on-surface-variant/50">{proj.category}</p>
@@ -509,8 +509,8 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
                 .slice(0, 3)
                 .map((contract, i) => (
                 <div key={i} className="flex items-center gap-3 p-2 hover:bg-white/5 rounded-lg transition-colors cursor-pointer group">
-                  <div className="w-10 h-10 rounded-lg overflow-hidden shrink-0">
-                    <img src={contract.image} alt="" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                  <div onClick={() => toggleRevealed(contract.id)} className="w-10 h-10 rounded-lg overflow-hidden shrink-0 cursor-pointer">
+                    <img src={contract.image} alt="" className={`w-full h-full object-cover transition-all duration-500 ${revealedCards.has(contract.id) ? '' : 'grayscale blur-[2px] opacity-70'}`} referrerPolicy="no-referrer" />
                   </div>
                   <div className="min-w-0">
                     <div className="text-[10px] font-black text-white truncate group-hover:text-primary-cyan transition-colors">{contract.name}</div>

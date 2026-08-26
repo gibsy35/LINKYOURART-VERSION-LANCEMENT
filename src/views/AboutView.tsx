@@ -32,13 +32,11 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange, onNotify }) 
     'https://images.unsplash.com/photo-1515405295579-ba7b45403062?auto=format&fit=crop&q=80&w=2000', // Art workshop painting explosion of splash acrylics
     'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?auto=format&fit=crop&q=80&w=2000', // Vibrant neo-classical portrait artwork painting
     'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&q=80&w=2000', // Classical illustration with colorful energetic modern painting strokes
-    'https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&q=80&w=2000', // Hyper-creative colorful abstract flowing digital sculpture
-    'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&q=80&w=2000', // Women in pool overlooking magnificent sea
-    'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=2000', // Double exposure artwork merging technology grids and human face
-    'https://images.unsplash.com/photo-1508921912186-1d1a45ebb3c1?auto=format&fit=crop&q=80&w=2000', // Surreal high-key creative abstract reflection art
-    'https://images.unsplash.com/photo-1500485035595-cbe6f645feb1?auto=format&fit=crop&q=80&w=2000', // Breathtaking surrealistic cosmic landscape with geometric structures
-    'https://images.unsplash.com/photo-1536924940846-227afb31e2a5?auto=format&fit=crop&q=80&w=2000', // Hyper-creative kinetic neon paint sculpture
-    'https://images.unsplash.com/photo-1549490349-8643362247b5?auto=format&fit=crop&q=80&w=2000'  // Futuristic glowing geometric museum installation
+    'https://images.unsplash.com/photo-1755085381840-572a27fb0735?auto=format&fit=crop&q=80&w=2000', // Large abstract canvas painting, brush strokes ("Standing the Streets")
+    'https://images.unsplash.com/photo-1777033481363-96640776ae62?auto=format&fit=crop&q=80&w=2000', // Abstract orange and black fluid art texture
+    'https://images.unsplash.com/photo-1774893582522-c8e9c0aeaec9?auto=format&fit=crop&q=80&w=2000', // Abstract blue and white swirling fluid patterns
+    'https://images.unsplash.com/photo-1758843415051-34a01dfcc227?auto=format&fit=crop&q=80&w=2000', // Abstract gradient spheres, vibrant colorful 3D art
+    'https://images.unsplash.com/photo-1744035783523-203d2bfc75d0?auto=format&fit=crop&q=80&w=2000'  // Abstract acrylic pouring art, orange and red
   ];
 
   const [activeImageBatch, setActiveImageBatch] = React.useState<string[]>([]);
