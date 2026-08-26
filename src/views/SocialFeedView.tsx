@@ -37,241 +37,23 @@ interface NewsItem {
   title: string;
   summary: string;
   timestamp: string;
-  impact: {
-    score: number;
-    trend: 'UP' | 'DOWN' | 'STABLE';
-    description: string;
+  // Score d'impact LYA — réel, dérivé des vrais projets certifiés sur
+  // la plateforme dont la catégorie est mentionnée dans l'article.
+  // Absent (undefined) si aucun projet réel ne correspond — jamais
+  // remplacé par une estimation.
+  relatedProjects?: {
+    count: number;
+    avgLyaScore: number;
+    categories: string[];
   };
   source: string;
+  url?: string;
   imageUrl?: string;
 }
 
-const INITIAL_NEWS: NewsItem[] = [
-  {
-    id: '1',
-    category: 'PROFESSIONAL',
-    title: 'Netflix Announces New $500M European Production Center',
-    summary: 'The streaming giant is expanding its footprint in Europe, focusing on local language content and regional talent development.',
-    timestamp: '10m ago',
-    impact: {
-      score: 15,
-      trend: 'UP',
-      description: 'Significant boost to European creative contracts. Registries reporting 12% increase in validation requests.'
-    },
-    source: 'Variety',
-    imageUrl: 'https://picsum.photos/seed/netflix/800/500'
-  },
-  {
-    id: '5',
-    category: 'INDUSTRY',
-    title: 'Regulatory Shift in Digital Asset Taxation',
-    summary: 'New guidelines from the G7 could impact how creative contracts are taxed across international borders.',
-    timestamp: '8h ago',
-    impact: {
-      score: -12,
-      trend: 'DOWN',
-      description: 'New compliance requirements expected for cross-border certifications. Advisory: Review jurisdiction filters.'
-    },
-    source: 'Financial Times',
-    imageUrl: 'https://picsum.photos/seed/regulation/800/500'
-  },
-  {
-    id: '2',
-    category: 'INDUSTRY',
-    title: 'Creative Certification Adoption Reaches All-Time High',
-    summary: 'Global creative projects are increasingly seeking objective certification standards as professional associates look for reliable quality signals.',
-    timestamp: '45m ago',
-    impact: {
-      score: 8,
-      trend: 'UP',
-      description: 'LYA Score adoption at record levels across certified sectors.'
-    },
-    source: 'Bloomberg Creative',
-    imageUrl: 'https://picsum.photos/seed/creative/800/500'
-  },
-  {
-    id: '6',
-    category: 'INDUSTRY',
-    title: 'Major Music Catalog Valuation Dispute',
-    summary: 'A high-profile dispute over the certification of a legendary rock band\'s catalog is causing debate in the music industry.',
-    timestamp: '10h ago',
-    impact: {
-      score: -25,
-      trend: 'DOWN',
-      description: 'Ongoing review process for legacy music certifications. Registries reporting increased audit requests.'
-    },
-    source: 'Rolling Stone',
-    imageUrl: 'https://picsum.photos/seed/music/800/500'
-  },
-  {
-    id: '3',
-    category: 'INNOVATION',
-    title: 'New AI System for Automated IP Validation',
-    summary: 'A consortium of major labels and studios has released a new standard for tracking creative rights across digital platforms.',
-    timestamp: '2h ago',
-    impact: {
-      score: 22,
-      trend: 'UP',
-      description: 'Certification speed expected to increase by 40%. Reducing administrative friction for new project submissions.'
-    },
-    source: 'TechCrunch',
-    imageUrl: 'https://picsum.photos/seed/innovation/800/500'
-  },
-  {
-    id: '7',
-    category: 'PROFESSIONAL',
-    title: 'Cybersecurity Alert: Registry Sync Latency',
-    summary: 'Several professional registries in the Asia-Pacific region are reporting synchronization delays due to a coordinated DDoS attempt.',
-    timestamp: '15h ago',
-    impact: {
-      score: -45,
-      trend: 'DOWN',
-      description: 'Temporary certification delays for APAC-registered projects. Security protocol V5.1 activated.'
-    },
-    source: 'Cyber Defense',
-    imageUrl: 'https://picsum.photos/seed/security/800/500'
-  },
-  {
-    id: '4',
-    category: 'GLOBAL',
-    title: 'Venice Biennale Reports Record Attendance',
-    summary: 'The world\'s most prestigious art exhibition shows a massive surge in interest for interactive and digital-first installations.',
-    timestamp: '5h ago',
-    impact: {
-      score: 5,
-      trend: 'STABLE',
-      description: 'Positive sentiment for contemporary art registries.'
-    },
-    source: 'The Art Newspaper',
-    imageUrl: 'https://picsum.photos/seed/venice/800/500'
-  },
-  {
-    id: '8',
-    category: 'INNOVATION',
-    title: 'Spatial Audio Rights Framework Released',
-    summary: 'A new standard for immersive audio licensing aims to simplify royalty distribution for VR and AR experiences.',
-    timestamp: '12h ago',
-    impact: {
-      score: 15,
-      trend: 'UP',
-      description: 'Opening new certification pathways for music producers. 15% growth projected in immersive audio sector.'
-    },
-    source: 'Wired',
-    imageUrl: 'https://picsum.photos/seed/audio/800/500'
-  },
-  {
-    id: '9',
-    category: 'GLOBAL',
-    title: 'South Korean K-Pop Labels Adopt LYA Registry',
-    summary: 'Major entertainment agencies in Seoul are moving their trainee contracts to the LYA registry for transparent funding.',
-    timestamp: '15h ago',
-    impact: {
-      score: 42,
-      trend: 'UP',
-      description: 'Massive influx of public interest from Asia. K-Pop sector submissions seeing 300% increase.'
-    },
-    source: 'The Korea Herald',
-    imageUrl: 'https://picsum.photos/seed/music/800/500'
-  },
-  {
-    id: '10',
-    category: 'PROFESSIONAL',
-    title: 'Major Financial Institution Launches Creative Rights Advisory',
-    summary: 'A leading advisory firm is the first major Wall Street player to open a dedicated advisory practice for creative IP certification.',
-    timestamp: '1d ago',
-    impact: {
-      score: 55,
-      trend: 'UP',
-      description: 'Ultimate expert validation. Certification volume expected to double in the next quarter.'
-    },
-    source: 'Wall Street Journal',
-    imageUrl: 'https://picsum.photos/seed/finance/800/500'
-  },
-  {
-    id: '11',
-    category: 'INNOVATION',
-    title: 'AI-Generated Film Wins Major Festival Award',
-    summary: 'A short film produced entirely with generative AI tools has secured a top prize, sparking debate on creative ownership.',
-    timestamp: '2h ago',
-    impact: {
-      score: 18,
-      trend: 'UP',
-      description: 'New category of AI-assisted contracts being drafted for the LYA registry.'
-    },
-    source: 'The Verge',
-    imageUrl: 'https://picsum.photos/seed/film/800/500'
-  },
-  {
-    id: '12',
-    category: 'INDUSTRY',
-    title: 'Independent Studio Revolution in Europe',
-    summary: 'Boutique production houses are leveraging LYA certification to attract patron support and bypass traditional financing hurdles in France and Germany.',
-    timestamp: '5h ago',
-    impact: {
-      score: 12,
-      trend: 'UP',
-      description: 'Patron-based support models are becoming the new standard for mid-budget cinema.'
-    },
-    source: 'Le Monde',
-    imageUrl: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&q=80&w=800'
-  },
-  {
-    id: '13',
-    category: 'GLOBAL',
-    title: 'Creative Centers in Southeast Asia See 300% Growth',
-    summary: 'Emerging markets are rapidly adopting the LYA platform for transparent project funding and rights management.',
-    timestamp: '8h ago',
-    impact: {
-      score: 35,
-      trend: 'UP',
-      description: 'Massive expansion in regional creative economies soutenu par des partenaires professionnels.'
-    },
-    source: 'Nikkei Asia',
-    imageUrl: 'https://images.unsplash.com/photo-1504609773096-104ff2c73ba4?auto=format&fit=crop&q=80&w=800'
-  },
-  {
-    id: '14',
-    category: 'PROFESSIONAL',
-    title: 'Industry Report: Major Studios Form IP Consortium',
-    summary: 'Several major studios are collaborating on a shared registry for legacy IP rights management.',
-    timestamp: '1d ago',
-    impact: {
-      score: 28,
-      trend: 'UP',
-      description: 'Standardization of legacy rights will unlock significant value in dormant creative catalogs.'
-    },
-    source: 'Hollywood Reporter',
-    imageUrl: 'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&q=80&w=800'
-  },
-  {
-    id: '15',
-    category: 'INDUSTRY',
-    title: 'Le Monde: French Government Backs Creative Certification',
-    summary: 'The Ministry of Culture announces tax incentives for projects using professional creative registries.',
-    timestamp: '2d ago',
-    impact: {
-      score: 45,
-      trend: 'UP',
-      description: 'France becomes the first G7 nation to officially integrate creative certification into national policy.'
-    },
-    source: 'Le Monde',
-    imageUrl: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&q=80&w=800'
-  },
-  {
-    id: '16',
-    category: 'INNOVATION',
-    title: 'New Protocol for Real-Time Royalty Settlement',
-    summary: 'A breakthrough in contrat numérique certifié technology allows for micro-payments to be settled instantly upon content consumption.',
-    timestamp: '3d ago',
-    impact: {
-      score: 62,
-      trend: 'UP',
-      description: 'Eliminating the 6-month delay in music and film royalty payments. Game changer for creators.'
-    },
-    source: 'The Verge',
-    imageUrl: 'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&q=80&w=800'
-  }
-];
+// Aucun article de démonstration — reste vide tant que le vrai flux
+// (/api/news) n'a pas répondu. Pas de contenu inventé en secours.
+const INITIAL_NEWS: NewsItem[] = [];
 
 interface SocialFeedViewProps {
   onNotify: (msg: string) => void;
@@ -297,26 +79,13 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
   const [visibleSectors, setVisibleSectors] = useState(9);
   const [selectedNews, setSelectedNews] = useState<NewsItem | null>(null);
   const [imageLoadedStates, setImageLoadedStates] = useState<Record<string, boolean>>({});
-  const [liveFilter, setLiveFilter] = useState(99.4);
   const [mainTab, setMainTab] = useState<'news' | 'press' | 'jobs'>('news');
   const pageSize = 6;
 
-  // Animate the neural filter percentage slightly in real time
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setLiveFilter(prev => {
-        const delta = (Math.random() - 0.48) * 0.3;
-        return Math.round(Math.min(99.9, Math.max(98.5, prev + delta)) * 10) / 10;
-      });
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const avgImpact = React.useMemo(() => {
-    if (!news.length) return 0;
-    const sum = news.reduce((acc, n) => acc + (n.impact.trend === 'UP' ? n.impact.score : -n.impact.score), 0);
-    return Math.round(sum / news.length);
-  }, [news]);
+  const articlesWithRealMatch = React.useMemo(
+    () => news.filter(n => n.relatedProjects && n.relatedProjects.count > 0).length,
+    [news]
+  );
 
   const nodes = [
     { label: 'Paris Registry', status: 'SYNCED', latency: '12ms' },
@@ -359,16 +128,14 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
         title: item.title,
         summary: item.summary,
         timestamp: item.timestamp || 'Just now',
-        impact: {
-          score: Math.abs(item.impact?.score || 0),
-          trend: item.impact?.trend || 'UP',
-          description: `${item.impact?.description || ''} ${item.impact?.targetProject ? `[Benchmark: ${item.impact.targetProject}]` : ''}`
-        },
+        relatedProjects: item.relatedProjects || undefined,
         source: item.source,
         imageUrl: item.imageUrl
       }));
       setNews(formatted);
       onNotify(t('Real-time news streaming is online.', 'Le flux d\'actualités en direct est en ligne.'));
+    } else {
+      onNotify(t('No live news available right now.', 'Aucune actualité en direct disponible pour le moment.'));
     }
     setIsLoading(false);
   };
@@ -464,13 +231,15 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
                 <span className="text-white/80 text-[8px] md:text-[10px] font-mono uppercase tracking-widest whitespace-nowrap">
                   {activeItem.timestamp}
                 </span>
-                <div className="h-3 w-[1px] bg-white/20 hidden sm:block" />
-                <div className={`hidden sm:flex items-center gap-1 text-[8px] md:text-[10px] font-black font-mono ${
-                  activeItem.impact.trend === 'UP' ? 'text-emerald-400' : 'text-red-400'
-                }`}>
-                  {activeItem.impact.trend === 'UP' ? <ArrowUpRight size={10} /> : <ArrowDownRight size={10} />}
-                  {activeItem.impact.score > 0 ? '+' : ''}{activeItem.impact.score}%
-                </div>
+                {activeItem.relatedProjects && (
+                  <>
+                    <div className="h-3 w-[1px] bg-white/20 hidden sm:block" />
+                    <div className="hidden sm:flex items-center gap-1 text-[8px] md:text-[10px] font-black font-mono text-primary-cyan">
+                      <Activity size={10} />
+                      {activeItem.relatedProjects.count} {t('LYA PROJECTS', 'PROJETS LYA')}
+                    </div>
+                  </>
+                )}
               </div>
             </motion.div>
           </AnimatePresence>
@@ -571,15 +340,16 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
             </div>
           </div>
           <div className="bg-surface-low border border-white/5 p-4 text-center min-w-[120px]">
-            <div className="text-[10px] text-on-surface-variant uppercase tracking-widest mb-1">{t('Neural Filter', 'Filtre Neural')}</div>
-            <div className="text-2xl font-black text-emerald-400 tabular-nums">
-              {liveFilter}<span className="text-sm">%</span>
+            <div className="text-[10px] text-on-surface-variant uppercase tracking-widest mb-1">{t('Feed Status', 'État du Flux')}</div>
+            <div className={`flex items-center justify-center gap-2 text-sm font-black ${news.length > 0 ? 'text-emerald-400' : 'text-on-surface-variant/40'}`}>
+              <span className={`w-2 h-2 rounded-full ${news.length > 0 ? 'bg-emerald-400 animate-pulse' : 'bg-on-surface-variant/30'}`} />
+              {news.length > 0 ? t('LIVE', 'EN DIRECT') : t('OFFLINE', 'HORS LIGNE')}
             </div>
           </div>
           <div className="bg-surface-low border border-white/5 p-4 text-center min-w-[120px]">
-            <div className="text-[10px] text-on-surface-variant uppercase tracking-widest mb-1">{t('Avg Impact', 'Impact Moy.')}</div>
-            <div className={`text-2xl font-black tabular-nums ${avgImpact >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
-              {avgImpact >= 0 ? '+' : ''}{avgImpact}
+            <div className="text-[10px] text-on-surface-variant uppercase tracking-widest mb-1">{t('Linked to LYA Projects', 'Liées à des Projets LYA')}</div>
+            <div className="text-2xl font-black tabular-nums text-primary-cyan">
+              {articlesWithRealMatch}/{news.length}
             </div>
           </div>
         </div>
@@ -690,21 +460,19 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
                             <span className="mx-2">•</span>
                             {item.source}
                           </div>
-                          {item.impact.score > 80 && (
+                          {item.relatedProjects && item.relatedProjects.count >= 3 && (
                             <span className="flex items-center gap-1 px-2 py-0.5 bg-accent-gold/10 text-accent-gold text-[8px] font-black uppercase tracking-widest border border-accent-gold/20 rounded-sm animate-pulse">
                               <TrendingUp className="w-2 h-2" />
                               Trending
                             </span>
                           )}
                         </div>
-                        <div className={`flex items-center gap-1 text-[10px] font-black uppercase tracking-widest ${
-                          item.impact.trend === 'UP' ? 'text-emerald-400' : 
-                          item.impact.trend === 'DOWN' ? 'text-red-400' : 'text-primary-cyan'
-                        }`}>
-                          {item.impact.trend === 'UP' ? <TrendingUp size={12} /> : 
-                           item.impact.trend === 'DOWN' ? <ArrowDownRight size={12} /> : <Activity size={12} />}
-                          {item.impact.score > 0 ? '+' : ''}{item.impact.score}% IMPACT
-                        </div>
+                        {item.relatedProjects && (
+                          <div className="flex items-center gap-1 text-[10px] font-black uppercase tracking-widest text-primary-cyan">
+                            <Activity size={12} />
+                            {item.relatedProjects.count} {t('LYA PROJECTS', 'PROJETS LYA')} · {item.relatedProjects.avgLyaScore}/1000
+                          </div>
+                        )}
                       </div>
                       <h3 className="text-xl font-black font-headline uppercase leading-tight mb-3 group-hover:text-primary-cyan transition-colors line-clamp-2">
                         {item.title}
@@ -950,21 +718,32 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
 
                   <div className="space-y-6">
                     <div className="p-6 bg-white/5 border border-white/5 rounded-2xl">
-                      <h4 className="text-[10px] font-black text-primary-cyan uppercase tracking-widest mb-4">LYA SIGNIFICANCE ANALYSIS</h4>
-                      <div className="flex items-center gap-4 mb-4">
-                        <div className={`text-3xl font-black ${selectedNews.impact.trend === 'UP' ? 'text-emerald-400' : 'text-red-400'}`}>
-                          {selectedNews.impact.score > 0 ? '+' : ''}{selectedNews.impact.score}%
-                        </div>
-                        <div className="text-[10px] font-medium text-on-surface-variant leading-tight text-justify">
-                          {selectedNews.impact.description}
-                        </div>
-                      </div>
-                      <div className="h-1 bg-white/5 rounded-full overflow-hidden">
-                        <div 
-                          className={`h-full ${selectedNews.impact.trend === 'UP' ? 'bg-emerald-400' : 'bg-red-400'}`} 
-                          style={{ width: `${Math.abs(selectedNews.impact.score)}%` }} 
-                        />
-                      </div>
+                      <h4 className="text-[10px] font-black text-primary-cyan uppercase tracking-widest mb-4">{t('LYA PLATFORM RELEVANCE', 'PERTINENCE POUR LA PLATEFORME LYA')}</h4>
+                      {selectedNews.relatedProjects ? (
+                        <>
+                          <div className="flex items-center gap-4 mb-4">
+                            <div className="text-3xl font-black text-primary-cyan">
+                              {selectedNews.relatedProjects.count}
+                            </div>
+                            <div className="text-[10px] font-medium text-on-surface-variant leading-tight text-justify">
+                              {t(
+                                `Real certified LYA projects in ${selectedNews.relatedProjects.categories.join(', ')} — average LYA Score ${selectedNews.relatedProjects.avgLyaScore}/1000.`,
+                                `Vrais projets certifiés LYA en ${selectedNews.relatedProjects.categories.join(', ')} — Score LYA moyen ${selectedNews.relatedProjects.avgLyaScore}/1000.`
+                              )}
+                            </div>
+                          </div>
+                          <div className="h-1 bg-white/5 rounded-full overflow-hidden">
+                            <div
+                              className="h-full bg-primary-cyan"
+                              style={{ width: `${Math.min(100, (selectedNews.relatedProjects.avgLyaScore / 1000) * 100)}%` }}
+                            />
+                          </div>
+                        </>
+                      ) : (
+                        <p className="text-[10px] font-medium text-on-surface-variant/50 italic">
+                          {t('No certified LYA project currently matches this article\'s sector.', 'Aucun projet certifié LYA ne correspond actuellement au secteur de cet article.')}
+                        </p>
+                      )}
                     </div>
 
                     <button 
