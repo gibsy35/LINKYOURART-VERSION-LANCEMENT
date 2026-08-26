@@ -871,16 +871,17 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
             )}
           </div>
 
-          {/* Quick Stats */}
+          {/* Quick Stats — comptent réellement les articles/sources
+              affichés, plus aucune formule inventée par-dessus */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="bg-surface-low border border-white/5 p-4 text-center">
-              <div className="text-[10px] font-mono text-on-surface-variant/40 uppercase mb-1">Total News</div>
-              <div className="text-2xl font-black text-white">{news.length * 124}</div>
+              <div className="text-[10px] font-mono text-on-surface-variant/40 uppercase mb-1">{t('Total Articles', 'Total Articles')}</div>
+              <div className="text-2xl font-black text-white">{news.length}</div>
             </div>
             <div className="bg-surface-low border border-white/5 p-4 text-center">
-              <div className="text-[10px] font-mono text-on-surface-variant/40 uppercase mb-1">Impact Score</div>
+              <div className="text-[10px] font-mono text-on-surface-variant/40 uppercase mb-1">{t('Sources', 'Sources')}</div>
               <div className="text-2xl font-black text-primary-cyan">
-                +{news.reduce((acc, item) => acc + Math.abs(item.impact.score), 0) / news.length > 0 ? (news.reduce((acc, item) => acc + Math.abs(item.impact.score), 0) / news.length).toFixed(1) : '42.5'}
+                {new Set(news.map(item => item.source)).size}
               </div>
             </div>
           </div>
