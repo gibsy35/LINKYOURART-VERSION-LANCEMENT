@@ -300,18 +300,41 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
     onNotify(t(isPinned ? 'INSIGHT UNPINNED FROM PROFILE' : 'INSIGHT PINNED TO PROFILE', isPinned ? 'INSIGHT DÉPINGLÉ DU PROFIL' : 'INSIGHT ÉPINGLÉ AU PROFIL'));
   };
 
-  const members: (Member & { hasPremium?: boolean, isUnlocked?: boolean })[] = [
-    { id: '1', name: 'Julian Vane', handle: '@LYA_CORE', role: 'CORE_FOUNDER', industry: t('Creative Economy', 'Économie Créative'), status: 'ACTIVE', roleIcon: <Crown className="text-accent-gold" size={20} />, statusColor: 'bg-emerald-500', hasPremium: true },
-    { id: '2', name: 'Elena Vance', handle: '@VANCE_LEGACY', role: 'LEGACY_CURATOR', industry: t('Cultural Heritage', 'Patrimoine Culturel'), status: 'ON_VALUATION', roleIcon: <Globe className="text-primary-cyan" size={20} />, statusColor: 'bg-accent-pink', hasPremium: true },
-    { id: '3', name: 'Aurelius Art', handle: '@AURELIUS_ART', role: 'MASTER_CURATOR', industry: t('Museum Assets', 'Actifs de Musée'), status: 'ACTIVE', roleIcon: <Zap className="text-accent-purple" size={20} />, statusColor: 'bg-emerald-500', hasPremium: false },
-    { id: '4', name: 'Sarah Jenkins', handle: '@JENKINS_LEGAL', role: 'LEGAL_AUDITOR', industry: t('IP Law', 'Droit de la PI'), status: 'OFFLINE', roleIcon: <ShieldCheck className="text-emerald-400" size={20} />, statusColor: 'bg-slate-500', hasPremium: true },
-    { id: '5', name: 'Chen Wei', handle: '@CHEN_DEV', role: 'SYSTEM_ARCHITECT', industry: t('Software Tech', 'Technologie Logicielle'), status: 'BUSY', roleIcon: <Activity className="text-primary-cyan" size={20} />, statusColor: 'bg-accent-pink', hasPremium: false },
-    { id: '6', name: 'Loren Smith', handle: '@LOREN_CURATOR', role: 'IP_STRATEGIST', industry: t('Music Industry', 'Industrie Musicale'), status: 'ACTIVE', roleIcon: <Users className="text-accent-gold" size={20} />, statusColor: 'bg-emerald-500', hasPremium: true },
-    { id: '7', name: 'Marcus Thorne', handle: '@THORNE_STRAT', role: 'PATRON_RELATIONS', industry: t('Patron Network', 'Réseau de Mécènes'), status: 'ACTIVE', roleIcon: <TrendingUp className="text-primary-cyan" size={20} />, statusColor: 'bg-emerald-500', hasPremium: false },
-    { id: '8', name: 'Claire Dubois', handle: '@DUBOIS_VANTAGE', role: 'SENIOR_ADVISOR', industry: t('Heritage Arts', 'Arts du Patrimoine'), status: 'ON_VALUATION', roleIcon: <Eye className="text-accent-gold" size={20} />, statusColor: 'bg-accent-pink', hasPremium: true },
-    { id: '9', name: 'JV CEO', handle: '@JV_CEO', role: 'SECURITY_OFFICER', industry: t('Cyber Security', 'Biosécurité'), status: 'ACTIVE', roleIcon: <Shield className="text-accent-purple" size={20} />, statusColor: 'bg-emerald-500', hasPremium: true },
-    { id: '10', name: 'Score Research', handle: '@SCORE_RESEARCH', role: 'SCORE_ANALYST', industry: t('Big Data', 'Big Data'), status: 'OFFLINE', roleIcon: <Cpu className="text-primary-cyan" size={20} />, statusColor: 'bg-slate-500', hasPremium: false }
-  ];
+  // Membres réels du Salon Pro — remplace les 10 personnes fictives
+  // codées en dur. Interroge les vrais comptes vérifiés (Pro, Validateur
+  // ou Admin). Le réseau est encore en cours de constitution — voir
+  // realMembersLoaded plus bas pour l'état honnête si la liste est vide.
+  const [realMembers, setRealMembers] = useState<(Member & { hasPremium?: boolean })[]>([]);
+  const [realMembersLoaded, setRealMembersLoaded] = useState(false);
+  React.useEffect(() => {
+    const q = query(collection(db, 'users'), where('isPro', '==', true));
+    const unsub = onSnapshot(q, (snap) => {
+      const list = snap.docs
+        .filter(d => d.id !== user?.uid)
+        .map(d => {
+          const data = d.data() as any;
+          const roleLabel = data.role === UserRole.ADMIN ? 'ADMIN'
+            : data.isVerifiedValidator ? 'VALIDATOR'
+            : data.role === UserRole.PROFESSIONAL ? 'PROFESSIONAL'
+            : (data.role || 'MEMBER');
+          return {
+            id: d.id,
+            name: data.displayName || t('LYA Member', 'Membre LYA'),
+            handle: `@${(data.displayName || 'member').toUpperCase().replace(/\s+/g, '_')}`,
+            role: roleLabel,
+            industry: data.industry || t('Creative Economy', 'Économie Créative'),
+            status: 'ACTIVE',
+            roleIcon: data.role === UserRole.ADMIN ? <Crown className="text-accent-gold" size={20} /> : data.isVerifiedValidator ? <ShieldCheck className="text-emerald-400" size={20} /> : <Users className="text-primary-cyan" size={20} />,
+            statusColor: 'bg-emerald-500',
+            hasPremium: true,
+          };
+        });
+      setRealMembers(list);
+      setRealMembersLoaded(true);
+    }, () => setRealMembersLoaded(true));
+    return () => unsub();
+  }, [user?.uid]);
+  const members: (Member & { hasPremium?: boolean, isUnlocked?: boolean })[] = realMembers;
 
   const events: Event[] = [
     {
@@ -1051,86 +1074,77 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
                 exit={{ opacity: 0, y: -20 }}
                 className="space-y-6"
               >
-                <div className="grid grid-cols-1 gap-4">
-                  {members.slice(0, visibleMembers).map((member) => (
-                    <div key={member.id} className="bg-surface-low/30 backdrop-blur-2xl border border-white/5 rounded-3xl p-4 md:p-6 flex flex-col md:flex-row items-center justify-between gap-6 hover:bg-surface-low/50 transition-all group relative overflow-hidden">
-                      <div className="flex items-center gap-6 flex-1 w-full sm:w-auto">
-                        <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-surface-low border border-white/10 flex items-center justify-center relative shrink-0 shadow-xl overflow-hidden group-hover:border-primary-cyan/50 transition-all duration-500">
-                          <img 
-                            src={`https://i.pravatar.cc/300?u=${member.handle}`} 
-                            alt="" 
-                            className={`w-full h-full object-cover rounded-xl transition-all duration-1000 ${viewedDossiers.has(member.id) ? 'blur-0' : 'blur-2xl grayscale'}`} 
-                            referrerPolicy="no-referrer"
-                          />
-                          <div className={`absolute -bottom-1 -right-1 w-4 h-4 rounded-full border-2 border-surface-dim ${member.statusColor}`} />
-                        </div>
-                        
-                        <div className="min-w-0">
-                          <div className="flex items-center gap-3">
-                            <h4 className="text-lg font-black text-white uppercase italic tracking-tighter truncate max-w-[150px] sm:max-w-none">
-                              {viewedDossiers.has(member.id) ? member.name : generateProfessionalId(member.id)}
-                            </h4>
-                            <div className="opacity-50 scale-75 shrink-0">{member.roleIcon}</div>
-                          </div>
-                          <div className="flex items-center gap-3 mt-1">
-                             <span className="text-[10px] font-mono font-bold text-primary-cyan uppercase tracking-widest opacity-40">{viewedDossiers.has(member.id) ? member.handle : 'ENCRYPTED_ID'}</span>
-                             <span className="w-1 h-1 rounded-full bg-white/10" />
-                             <span className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest opacity-60 italic">{member.industry}</span>
-                          </div>
-                        </div>
-                      </div>
+                {!realMembersLoaded ? (
+                  <div className="py-24 text-center text-on-surface-variant/40 text-xs uppercase tracking-widest font-black">
+                    {t('Loading members...', 'Chargement des membres...')}
+                  </div>
+                ) : members.length === 0 ? (
+                  <div className="py-24 text-center max-w-md mx-auto">
+                    <Users size={32} className="text-accent-gold/40 mx-auto mb-4" />
+                    <p className="text-sm font-black text-white uppercase tracking-widest mb-2">
+                      {t('Network Under Construction', 'Réseau en Cours de Constitution')}
+                    </p>
+                    <p className="text-xs text-on-surface-variant/50 leading-relaxed">
+                      {t('LYA\'s elite professional network is being built deliberately, member by member. Verified Pro accounts will appear here as they join.', 'Le réseau professionnel d\'élite de LYA se construit avec exigence, membre par membre. Les comptes Pro vérifiés apparaîtront ici au fur et à mesure.')}
+                    </p>
+                  </div>
+                ) : (
+                  <>
+                    <div className="grid grid-cols-1 gap-4">
+                      {members.slice(0, visibleMembers).map((member) => (
+                        <div key={member.id} className="bg-surface-low/30 backdrop-blur-2xl border border-white/5 rounded-3xl p-4 md:p-6 flex flex-col md:flex-row items-center justify-between gap-6 hover:bg-surface-low/50 transition-all group relative overflow-hidden">
+                          <div className="flex items-center gap-6 flex-1 w-full sm:w-auto">
+                            <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-surface-low border border-white/10 flex items-center justify-center relative shrink-0 shadow-xl overflow-hidden group-hover:border-primary-cyan/50 transition-all duration-500">
+                              <span className="text-xl font-black text-white/60 uppercase">{member.name.slice(0, 2)}</span>
+                              <div className={`absolute -bottom-1 -right-1 w-4 h-4 rounded-full border-2 border-surface-dim ${member.statusColor}`} />
+                            </div>
 
-                      <div className="flex items-center gap-8 md:gap-12 w-full md:w-auto justify-between md:justify-end">
-                        <div className="flex flex-col items-center">
-                          <p className="text-[7px] font-black text-on-surface-variant uppercase tracking-[0.3em] mb-1 opacity-40">{t('Status', 'Statut')}</p>
-                          <p className={`text-[10px] font-black italic uppercase ${member.statusColor.replace('bg-', 'text-')}`}>{t(member.status, member.status === 'ACTIVE' ? 'ACTIF' : member.status === 'BUSY' ? 'OCCUPÉ' : member.status === 'OFFLINE' ? 'HORS LIGNE' : 'EN ÉVALUATION')}</p>
-                        </div>
-                        
-                        <div className="flex flex-col items-center">
-                          <p className="text-[7px] font-black text-accent-gold uppercase tracking-[0.3em] mb-1 opacity-40">{t('Verification', 'Vérification')}</p>
-                          <div className="flex items-baseline gap-1">
-                            <span className="text-xs font-black text-white italic">{t('LVL', 'NIV')} {Math.floor(Math.random() * 5) + 5}</span>
+                            <div className="min-w-0">
+                              <div className="flex items-center gap-3">
+                                <h4 className="text-lg font-black text-white uppercase italic tracking-tighter truncate max-w-[150px] sm:max-w-none">
+                                  {member.name}
+                                </h4>
+                                <div className="opacity-50 scale-75 shrink-0">{member.roleIcon}</div>
+                              </div>
+                              <div className="flex items-center gap-3 mt-1">
+                                 <span className="text-[10px] font-mono font-bold text-primary-cyan uppercase tracking-widest opacity-40">{member.handle}</span>
+                                 <span className="w-1 h-1 rounded-full bg-white/10" />
+                                 <span className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest opacity-60 italic">{member.industry}</span>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="flex items-center gap-8 md:gap-12 w-full md:w-auto justify-between md:justify-end">
+                            <div className="flex flex-col items-center">
+                              <p className="text-[7px] font-black text-accent-gold uppercase tracking-[0.3em] mb-1 opacity-40">{t('Role', 'Rôle')}</p>
+                              <p className="text-[10px] font-black italic uppercase text-white">{member.role}</p>
+                            </div>
+
+                            <div className="flex items-center gap-3">
+                              <button
+                                onClick={() => handleInitiateContact(member.name, member.role)}
+                                className="px-6 py-3 rounded-xl font-black text-xs uppercase italic tracking-[0.2em] transition-all bg-white text-surface-dim hover:bg-primary-cyan"
+                              >
+                                {t('Contact', 'CONTACT')}
+                              </button>
+                            </div>
                           </div>
                         </div>
-
-                        <div className="flex items-center gap-3">
-                          <button 
-                            onClick={() => handleViewDossier(member.id, member.name)}
-                            className={`w-10 h-10 rounded-xl border flex items-center justify-center transition-all ${
-                              viewedDossiers.has(member.id) ? 'bg-primary-cyan/10 border-primary-cyan/20 text-primary-cyan' : 'bg-white/5 border-white/10 text-white/40 hover:text-white'
-                            }`}
-                          >
-                            <Eye size={16} />
-                          </button>
-                          
-                          <button 
-                            onClick={() => {
-                              if (!viewedDossiers.has(member.id)) {
-                                onNotify(t('ACCESS DENIED. DECRYPT DOSSIER FIRST.', 'ACCÈS REFUSÉ. DÉCRYPTER LE DOSSIER D\'ABORD.'));
-                                return;
-                              }
-                              handleInitiateContact(member.name, member.role);
-                            }}
-                            className={`px-6 py-3 rounded-xl font-black text-xs uppercase italic tracking-[0.2em] transition-all ${
-                              viewedDossiers.has(member.id) ? 'bg-white text-surface-dim hover:bg-primary-cyan' : 'bg-white/5 text-white/10 cursor-not-allowed'
-                            }`}
-                          >
-                            {t('Contact', 'CONTACT')}
-                          </button>
-                        </div>
-                      </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
 
-                <div className="flex justify-center pt-8">
-                  <button 
-                    onClick={() => setVisibleMembers(prev => prev + 10)}
-                    className="px-10 py-4 bg-white/5 border border-white/10 text-xs font-black uppercase italic tracking-[0.4em] text-white hover:bg-white/10 transition-all rounded-xl"
-                  >
-                    {t('ACCESS MORE HUBS', 'ACCÉDER À PLUS DE HUBS')}
-                  </button>
-                </div>
+                    {visibleMembers < members.length && (
+                      <div className="flex justify-center pt-8">
+                        <button
+                          onClick={() => setVisibleMembers(prev => prev + 10)}
+                          className="px-10 py-4 bg-white/5 border border-white/10 text-xs font-black uppercase italic tracking-[0.4em] text-white hover:bg-white/10 transition-all rounded-xl"
+                        >
+                          {t('LOAD MORE', 'CHARGER PLUS')}
+                        </button>
+                      </div>
+                    )}
+                  </>
+                )}
               </motion.div>
             )}
 
@@ -1140,128 +1154,18 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -30 }}
-                className="grid grid-cols-1 gap-12"
+                className="py-24 text-center max-w-lg mx-auto"
               >
-                {events.slice(0, visibleEvents).map((event) => (
-                  <div key={event.id} className="glass-panel border-white/10 rounded-[3rem] overflow-hidden group hover:border-accent-gold/40 transition-all duration-1000 shadow-[0_30px_60px_rgba(0,0,0,0.5)] relative flex flex-col lg:flex-row">
-                    <div className="relative lg:w-2/5 h-80 lg:h-auto overflow-hidden">
-                      <img 
-                        src={event.image} 
-                        alt={event.title} 
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[2s] grayscale-[0.6] group-hover:grayscale-0"
-                        referrerPolicy="no-referrer"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t lg:bg-gradient-to-r from-surface-dim via-surface-dim/20 to-transparent" />
-                      
-                      <div className="absolute top-10 left-10 flex flex-col gap-4">
-                        <span className={`px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-[0.3em] text-white shadow-2xl backdrop-blur-xl border border-white/20 ${
-                          event.type === 'GALA' ? 'bg-accent-gold/80 text-surface-dim border-accent-gold/50' : 
-                          event.type === 'ROUNDTABLE' ? 'bg-accent-purple/80' : 
-                          'bg-primary-cyan/80 text-surface-dim'
-                        }`}>
-                          {event.type}
-                        </span>
-                        <div className={`px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-[0.3em] border backdrop-blur-xl ${
-                          event.status === 'OPEN' ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-400' :
-                          'bg-accent-gold/20 border-accent-gold/40 text-accent-gold'
-                        }`}>
-                          {event.status === 'OPEN' ? t('ADMISSIONS OPEN', 'ADMISSIONS OUVERTES') : event.status}
-                        </div>
-                      </div>
-                    </div>
+                <Calendar size={32} className="text-accent-gold/40 mx-auto mb-4" />
+                <p className="text-sm font-black text-white uppercase tracking-widest mb-2">
+                  {t('Private Events — Coming Soon', 'Événements Privés — Bientôt Disponible')}
+                </p>
+                <p className="text-xs text-on-surface-variant/50 leading-relaxed">
+                  {t('Exclusive webinars, roundtables and networking events for verified LYA members will be announced here as the elite network grows.', 'Webinaires exclusifs, tables rondes et événements de réseautage pour les membres vérifiés LYA seront annoncés ici au fur et à mesure de la croissance du réseau élite.')}
+                </p>
+              </motion.div>
+            )}
 
-                    <div className="p-10 md:p-14 lg:w-3/5 flex flex-col justify-between space-y-12 bg-white/[0.01]">
-                      <div className="space-y-8">
-                        <div>
-                          <h3 className="text-2xl md:text-4xl font-black text-white uppercase italic tracking-tighter leading-none mb-6 group-hover:text-accent-gold transition-colors duration-700">
-                            {event.title}
-                          </h3>
-                          <p className="text-sm md:text-base text-on-surface-variant leading-relaxed font-serif italic opacity-70 max-w-xl text-justify">
-                            "{event.description}"
-                          </p>
-                        </div>
-
-                        <div className="grid md:grid-cols-2 gap-10">
-                          <div className="space-y-4">
-                            <p className="text-[10px] font-black text-accent-gold uppercase tracking-[0.4em] mb-4">{t('SESSION HIGHLIGHTS', 'POINTS FORTS')}</p>
-                            <div className="flex flex-wrap gap-3">
-                              {event.highlights.map((h, i) => (
-                                <span key={i} className="px-4 py-1.5 bg-white/5 border border-white/10 rounded-xl text-[10px] font-black text-white/50 uppercase tracking-widest group-hover:border-accent-gold/30 group-hover:text-white transition-all">
-                                  {h}
-                                </span>
-                              ))}
-                            </div>
-                          </div>
-
-                          <div className="space-y-4">
-                            <p className="text-[10px] font-black text-accent-gold uppercase tracking-[0.4em] mb-4">{t('DISTINGUISHED SPEAKERS', 'INTERVENANTS')}</p>
-                            <div className="flex items-center gap-5">
-                              {event.speakers.map((s, i) => (
-                                <div key={i} className="group/speaker relative">
-                                  <img src={s.avatar} alt={s.name} className="w-14 h-14 rounded-2xl border-2 border-white/10 group-hover/speaker:border-accent-gold group-hover/speaker:scale-110 transition-all duration-500" />
-                                  <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-primary-cyan border-2 border-surface-dim opacity-0 group-hover/speaker:opacity-100 transition-opacity" />
-                                </div>
-                              ))}
-                              <div className="w-14 h-14 rounded-2xl border-2 border-white/10 bg-surface-low flex items-center justify-center text-[10px] font-black text-white/40">
-                                +{event.attendees}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="flex flex-col md:flex-row items-center justify-between gap-8 pt-10 border-t border-white/5">
-                        <div className="flex items-center gap-8 w-full md:w-auto">
-                          <div className="flex items-center gap-3">
-                            <Calendar size={18} className="text-accent-gold" />
-                            <span className="text-xs font-black uppercase tracking-[0.2em] text-on-surface-variant">{event.date}</span>
-                          </div>
-                          <div className="flex items-center gap-3">
-                            <Users size={18} className="text-accent-gold" />
-                            <span className="text-xs font-black uppercase tracking-[0.2em] text-on-surface-variant">{event.slots} {t('REMAINING', 'RESTANTS')}</span>
-                          </div>
-                        </div>
-
-                        <button 
-                          onClick={() => handleRequestAdmission(event.id, event.title)}
-                          disabled={event.status === 'FULL' || admissionsRequested.has(event.id)}
-                          className={`w-full md:w-auto px-12 py-5 font-black uppercase italic tracking-[0.4em] text-[11px] rounded-2xl transition-all duration-700 active:scale-95 shadow-[0_20px_40px_rgba(0,0,0,0.5)] group/btn relative overflow-hidden ${
-                            event.status === 'FULL' || admissionsRequested.has(event.id) 
-                              ? 'bg-emerald-500 text-surface-dim opacity-50' 
-                              : 'bg-white text-surface-dim hover:bg-accent-gold'
-                          }`}
-                        >
-                          <span className="relative z-10 flex items-center gap-4 justify-center">
-                            {admissionsRequested.has(event.id) ? (
-                              <>
-                                <CheckCircle2 size={18} />
-                                {t('REQUEST SENT', 'DEMANDE ENVOYÉE')}
-                              </>
-                            ) : (
-                              <>
-                                {event.status === 'WAITLIST' ? t('JOIN WAITLIST', 'REJOINDRE LISTE D\'ATTENTE') : t('REQUEST ADMISSION', 'DEMANDER ADMISSION')} 
-                                <ChevronRight size={20} className="group-hover/btn:translate-x-2 transition-transform duration-500" />
-                              </>
-                            )}
-                          </span>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-
-                {visibleEvents < events.length && (
-                  <div className="flex justify-center pt-8">
-                    <button 
-                      onClick={() => setVisibleEvents(prev => prev + 5)}
-                      className="px-12 py-5 bg-white text-surface-dim font-black uppercase italic tracking-[0.4em] text-[11px] rounded-2xl hover:bg-accent-gold transition-all shadow-[0_20px_40px_rgba(0,0,0,0.4)] active:scale-95"
-                    >
-                      {t('LOAD MORE EVENTS', 'CHARGER PLUS D\'ÉVÉNEMENTS')}
-                    </button>
-                  </div>
-                )}
-            </motion.div>
-          )}
 
             {activeTab === 'MENTORSHIP' && (
               <motion.div
@@ -1269,167 +1173,15 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
-                className="space-y-16"
+                className="py-24 text-center max-w-lg mx-auto"
               >
-                {/* Active Conversations Section */}
-                {conversations.length > 0 && (
-                  <section className="bg-surface-low/30 backdrop-blur-3xl border border-white/5 rounded-[2.5rem] p-10 overflow-hidden relative group">
-                    <div className="absolute top-0 right-0 p-8 opacity-5">
-                      <MessageSquare size={100} className="text-accent-gold" />
-                    </div>
-                    <h3 className="text-xl font-black text-white uppercase italic tracking-tighter mb-8 flex items-center gap-4">
-                      <div className="w-2 h-2 bg-accent-gold rounded-full animate-pulse shadow-[0_0_10px_rgba(251,191,36,0.8)]" />
-                      {t('ACTIVE MENTOR CONVERSATIONS', 'CONVERSATIONS DE MENTORAT ACTIVES')}
-                    </h3>
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                      {conversations.map((conv) => (
-                        <div 
-                          key={conv.id} 
-                          onClick={() => handleInitiateContact(conv.name, conv.role)}
-                          className="p-6 bg-white/5 border border-white/10 rounded-2xl hover:border-accent-gold/40 transition-all cursor-pointer group/conv flex items-center justify-between"
-                        >
-                          <div className="flex items-center gap-5">
-                            <div className="w-12 h-12 rounded-xl bg-surface-high border border-white/10 overflow-hidden p-1">
-                              <img src={`https://i.pravatar.cc/100?u=${conv.name}`} alt="" className="w-full h-full object-cover rounded-lg" referrerPolicy="no-referrer" />
-                            </div>
-                            <div>
-                              <p className="text-sm font-black text-white uppercase italic truncate max-w-[150px]">{conv.name}</p>
-                              <p className="text-xs text-accent-gold font-black uppercase tracking-widest">{conv.role}</p>
-                            </div>
-                          </div>
-                          <div className="text-right">
-                             <p className="text-[10px] text-on-surface-variant font-bold uppercase opacity-40">{conv.time}</p>
-                             <div className="mt-2 flex items-center gap-2 justify-end text-primary-cyan opacity-0 group-hover/conv:opacity-100 transition-opacity">
-                                <span className="text-[10px] font-black uppercase tracking-widest">{t('RESUME', 'REPRENDRE')}</span>
-                                <ArrowRight size={12} />
-                             </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </section>
-                )}
-
-                <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-8">
-                  {mentors.slice(0, visibleMentors).map((mentor) => (
-                    <div key={mentor.id} className="bg-surface-low/30 backdrop-blur-3xl border border-white/5 rounded-[2.5rem] p-8 hover:border-accent-gold/40 transition-all group relative overflow-hidden shadow-2xl">
-                      <div className="flex items-start justify-between mb-8 relative z-10">
-                        <div className="flex items-center gap-5">
-                          <div className="w-16 h-16 rounded-2xl bg-surface-low border border-white/10 group-hover:border-accent-gold transition-all duration-700 relative shadow-xl overflow-hidden p-1">
-                            <img 
-                              src={mentor.avatar} 
-                              alt="" 
-                              className={`w-full h-full object-cover rounded-xl transition-all duration-1000 ${viewedMentors.has(mentor.id) ? 'blur-0' : 'blur-3xl grayscale'}`} 
-                              referrerPolicy="no-referrer"
-                            />
-                            <div className={`absolute -bottom-1 -right-1 w-5 h-5 rounded-full border-2 border-surface-dim ${mentor.availability === 'AVAILABLE' ? 'bg-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.5)]' : 'bg-accent-gold shadow-[0_0_15px_rgba(238,192,94,0.5)]'}`} />
-                          </div>
-                          <div className="space-y-1">
-                            <h4 className="text-xl font-black text-white uppercase italic tracking-tighter group-hover:text-accent-gold transition-colors">
-                              {viewedMentors.has(mentor.id) ? mentor.name : generateProfessionalId(mentor.id)}
-                            </h4>
-                            <div className="flex items-center gap-2">
-                               <Crown size={12} className="text-accent-gold/60" />
-                               <span className="text-xs text-accent-gold font-black uppercase tracking-widest italic">{mentor.role}</span>
-                            </div>
-                          </div>
-                        </div>
-                            <div className="flex items-center gap-1.5 shrink-0">
-                               <button 
-                                 onClick={(e) => {
-                                   e.stopPropagation();
-                                   handleInitiateContact(mentor.name, 'Elite Mentor');
-                                 }}
-                                 className="p-2 bg-accent-gold/10 border border-accent-gold/20 text-accent-gold rounded-lg hover:bg-accent-gold hover:text-surface-dim transition-all"
-                                 title={t('Send Secure Message', 'Envoyer un Message Sécurisé')}
-                               >
-                                 <Send size={14} />
-                               </button>
-                               <div className="bg-accent-gold/10 border border-accent-gold/20 px-3 py-2 rounded-xl text-center">
-                                  <p className="text-[7px] font-black text-accent-gold uppercase tracking-widest mb-1 opacity-50">Impact</p>
-                                  <p className="text-sm font-black text-white italic tracking-tighter">ELITE</p>
-                               </div>
-                            </div>
-                      </div>
-
-                      <div className="space-y-6 relative z-10">
-                        <div className="p-4 bg-black/40 border border-white/5 rounded-2xl">
-                          <p className="text-[10px] text-on-surface-variant font-bold uppercase tracking-tight italic opacity-70 leading-relaxed min-h-[40px] text-justify">
-                            {mentor.specialty}
-                          </p>
-                        </div>
-
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                           <div className="bg-white/5 p-4 rounded-2xl flex flex-col items-center border border-white/5 transition-colors group-hover:border-accent-gold/10">
-                              <p className="text-[10px] font-black uppercase tracking-[0.2em] opacity-40 mb-1">Sessions</p>
-                              <p className="text-base font-black text-white italic">{mentor.sessions}+</p>
-                           </div>
-                           <div className="bg-white/5 p-4 rounded-2xl flex flex-col items-center border border-white/5 transition-colors group-hover:border-accent-gold/10">
-                              <p className="text-[10px] font-black uppercase tracking-[0.2em] opacity-40 mb-1">Status</p>
-                              <p className={`text-base font-black italic ${mentor.availability === 'AVAILABLE' ? 'text-emerald-400 font-headline' : 'text-accent-gold'}`}>{mentor.availability}</p>
-                           </div>
-                        </div>
-
-                        <button 
-                          onClick={() => {
-                            if (!viewedMentors.has(mentor.id)) {
-                              handleViewMentor(mentor.id, mentor.name);
-                            } else {
-                              handleInitiateContact(mentor.name, 'Elite Mentor');
-                            }
-                          }}
-                          className={`w-full py-4 text-[10px] font-black uppercase italic tracking-[0.3em] rounded-xl transition-all shadow-xl active:scale-95 ${
-                            mentor.availability === 'AVAILABLE'
-                            ? 'bg-white text-surface-dim hover:bg-accent-gold hover:translate-y-[-2px]'
-                            : 'bg-white/5 text-white/10 cursor-not-allowed border border-white/10'
-                          }`}
-                        >
-                          {!viewedMentors.has(mentor.id) 
-                            ? t('DECRYPT IDENTITY', 'DÉCRYPTER') 
-                            : conversations.find(c => c.name === mentor.name)
-                              ? t('RESUME CONVERSATION', 'REPRENDRE LA CONVERSATION')
-                              : t('INITIATE MENTORSHIP', 'INITIER LE MENTORAT')}
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                {visibleMentors < mentors.length && (
-                  <div className="flex justify-center mt-12 pb-8">
-                     <button 
-                       onClick={() => setVisibleMentors(prev => prev + 6)}
-                       className="px-10 py-4 bg-white text-surface-dim font-black uppercase italic tracking-[0.3em] text-[10px] rounded-xl hover:bg-accent-gold transition-all shadow-2xl active:scale-95"
-                     >
-                       {t('LOAD MORE MENTORS', 'CHARGER PLUS DE MENTORS')}
-                     </button>
-                  </div>
-                )}
-                <div className="bg-gradient-to-br from-indigo-900/20 to-surface-low border border-white/5 p-12 rounded-[2.5rem] relative overflow-hidden group">
-                  <div className="absolute top-0 right-0 p-12 opacity-5">
-                    <Award size={150} className="text-primary-cyan" />
-                  </div>
-                  <div className="max-w-2xl relative z-10">
-                    <h3 className="text-2xl font-black text-white uppercase italic tracking-tighter mb-6">{t('Elite Education Program', 'Programme d\'Éducation d\'Élite')}</h3>
-                    <p className="text-sm text-on-surface-variant leading-relaxed mb-8 font-medium italic opacity-70 text-justify">
-                      {t('Our mentorship program connects emerging creators with the architects of the creative economy. Access exclusive insights, direct feedback, and career growth strategies.', 'Notre programme de mentorat relie les créateurs émergents aux architectes de l\'économie créative. Accédez à des perspectives exclusives, des commentaires directs et des stratégies de développement de carrière.')}
-                    </p>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                      <div className="flex items-start gap-4">
-                        <div className="w-10 h-10 rounded-xl bg-primary-cyan/10 flex items-center justify-center text-primary-cyan shrink-0">
-                          <CheckCircle2 size={20} />
-                        </div>
-                        <p className="text-xs text-white/80 font-bold uppercase tracking-wider">{t('Priority Access to Private Rounds', 'Accès Prioritaire aux Rounds Privés')}</p>
-                      </div>
-                      <div className="flex items-start gap-4">
-                        <div className="w-10 h-10 rounded-xl bg-primary-cyan/10 flex items-center justify-center text-primary-cyan shrink-0">
-                          <CheckCircle2 size={20} />
-                        </div>
-                        <p className="text-xs text-white/80 font-bold uppercase tracking-wider">{t('Direct Strategic Feedback', 'Feedback Stratégique Direct')}</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <Crown size={32} className="text-accent-gold/40 mx-auto mb-4" />
+                <p className="text-sm font-black text-white uppercase tracking-widest mb-2">
+                  {t('Elite Mentorship — Coming Soon', 'Mentorat d\'Élite — Bientôt Disponible')}
+                </p>
+                <p className="text-xs text-on-surface-variant/50 leading-relaxed">
+                  {t('Direct mentorship pairing between verified LYA experts and emerging creators is being built. It will launch once the professional network has grown enough to make meaningful matches.', 'La mise en relation directe entre experts vérifiés LYA et créateurs émergents est en cours de construction. Elle sera lancée une fois le réseau professionnel suffisamment développé pour proposer des correspondances pertinentes.')}
+                </p>
               </motion.div>
             )}
           </AnimatePresence>
@@ -1455,39 +1207,6 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
               <div className="w-2.5 h-2.5 rounded-full bg-primary-cyan animate-pulse shadow-[0_0_15px_rgba(0,224,255,0.5)]" />
               <span className="text-[10px] font-black text-primary-cyan uppercase tracking-widest">{t('ENTITY SHIELD ACTIVE', 'BOUCLIER D\'ENTITÉ ACTIF')}</span>
             </div>
-          </div>
-
-          <div className="glass-panel p-10 rounded-[2.5rem] border-white/10">
-            <div className="flex items-center justify-between mb-12">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-2xl bg-accent-gold/10 flex items-center justify-center text-accent-gold">
-                  <TrendingUp size={24} />
-                </div>
-                <h4 className="text-base font-black text-white uppercase tracking-[0.3em] italic">{t('INTELLIGENCE', 'INTELLIGENCE')}</h4>
-              </div>
-              <span className="text-[10px] font-black text-accent-gold uppercase tracking-widest opacity-40 italic">LIVE FEED</span>
-            </div>
-            <div className="space-y-8">
-              {trendingTopics.slice(0, visibleTopics).map((topic, i) => (
-                <div key={topic.tag} className="flex items-center justify-between group cursor-pointer">
-                  <div className="space-y-1">
-                    <p className="text-sm font-black text-white uppercase italic tracking-tight group-hover:text-primary-cyan transition-colors">#{topic.tag}</p>
-                    <p className="text-[10px] text-on-surface-variant font-black uppercase tracking-widest opacity-30">{topic.insights} {t('SECURE INSIGHTS', 'INSIGHTS SÉCURISÉS')}</p>
-                  </div>
-                  <div className={`px-3 py-1 rounded-lg text-[10px] font-black ${topic.trend.startsWith('+') ? 'bg-emerald-500/10 text-emerald-400' : 'bg-red-500/10 text-red-400'}`}>
-                    {topic.trend}
-                  </div>
-                </div>
-              ))}
-            </div>
-            {visibleTopics < trendingTopics.length && (
-              <button 
-                onClick={() => setVisibleTopics(prev => prev + 4)}
-                className="w-full mt-12 py-5 border border-white/5 rounded-2xl text-[10px] font-black uppercase tracking-[0.3em] text-white/40 hover:text-primary-cyan hover:bg-white/5 transition-all italic"
-              >
-                {t('DOWNLOAD FULL REGISTRY', 'TÉLÉCHARGER LE REGISTRE')}
-              </button>
-            )}
           </div>
 
           <div className="p-12 bg-gradient-to-br from-indigo-900/40 to-surface-low border border-white/5 rounded-[3rem] relative overflow-hidden group hover:scale-[1.02] transition-all duration-700 shadow-2xl">
