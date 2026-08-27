@@ -508,22 +508,32 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
             {/* ── HERO ── */}
             <div className="max-w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 px-4 md:px-8 pt-8 md:pt-16 pb-20 md:pb-32 items-center relative z-10">
 
-              {/* ── FORMULAIRE PRÉ-INSCRIPTION — GAUCHE, STYLE VIP DORÉ ── */}
+              {/* ── FORMULAIRE PRÉ-INSCRIPTION — GAUCHE, CADRE DÉGRADÉ LYA ── */}
               <div className="lg:col-span-5 relative z-20 flex flex-col justify-center">
                 <motion.div
-                  id="pre-registration-form"
                   initial={{ opacity: 0, scale: 0.95 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.4, duration: 1 }}
-                  className="relative rounded-[3rem] p-8 md:p-10 xl:p-12 backdrop-blur-2xl overflow-hidden mt-6 lg:mt-0"
+                  className="relative rounded-[3rem] p-[1.5px] mt-6 lg:mt-0 overflow-hidden"
                   style={{
-                    background: 'linear-gradient(135deg, rgba(255,215,0,0.08), rgba(255,165,0,0.03), rgba(13,17,23,0.97))',
-                    border: '1px solid rgba(255,215,0,0.35)',
-                    boxShadow: '0 0 80px rgba(255,215,0,0.07), inset 0 1px 0 rgba(255,215,0,0.12)',
+                    background: 'linear-gradient(135deg, #00D4E8, #7C3FBF 45%, #EED75E 85%)',
+                    boxShadow: '0 0 90px rgba(124,63,191,0.15), 0 0 50px rgba(0,212,232,0.08)',
                   }}
                 >
-                  <div className="absolute top-0 right-0 w-64 h-64 blur-[100px] rounded-full -mr-20 -mt-20" style={{background:'rgba(255,215,0,0.05)'}} />
+                  {/* Coins accentués — un repère visuel dans chaque angle, couleurs LYA */}
+                  <div className="absolute top-4 left-4 w-8 h-8 border-t-2 border-l-2 border-white/70 rounded-tl-2xl pointer-events-none z-20" />
+                  <div className="absolute top-4 right-4 w-8 h-8 border-t-2 border-r-2 border-white/70 rounded-tr-2xl pointer-events-none z-20" />
+                  <div className="absolute bottom-4 left-4 w-8 h-8 border-b-2 border-l-2 border-white/70 rounded-bl-2xl pointer-events-none z-20" />
+                  <div className="absolute bottom-4 right-4 w-8 h-8 border-b-2 border-r-2 border-white/70 rounded-br-2xl pointer-events-none z-20" />
+
+                  <div
+                    id="pre-registration-form"
+                    className="relative rounded-[calc(3rem-1.5px)] p-8 md:p-10 xl:p-12 backdrop-blur-2xl overflow-hidden"
+                    style={{ background: 'rgba(13,17,23,0.97)' }}
+                  >
+                  <div className="absolute top-0 right-0 w-64 h-64 blur-[100px] rounded-full -mr-20 -mt-20" style={{background:'rgba(124,63,191,0.10)'}} />
+                  <div className="absolute bottom-0 left-0 w-56 h-56 blur-[100px] rounded-full -ml-16 -mb-16" style={{background:'rgba(0,212,232,0.08)'}} />
                                     {!submitted ? (
                     <div className="relative z-10 space-y-8">
                       <div className="space-y-2">
@@ -622,6 +632,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                     </motion.div>
                   )}
 
+                  </div>
                 </motion.div>
               </div>
 
