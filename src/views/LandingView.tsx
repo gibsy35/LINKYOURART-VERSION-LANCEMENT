@@ -517,7 +517,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                   transition={{ delay: 0.4, duration: 1 }}
                   className="relative rounded-[3rem] p-[1.5px] mt-6 lg:mt-0 overflow-hidden"
                   style={{
-                    background: 'linear-gradient(135deg, #00D4E8, #7C3FBF 45%, #EED75E 85%)',
+                    background: 'linear-gradient(135deg, #00D4E8, #7C3FBF 100%)',
                     boxShadow: '0 0 90px rgba(124,63,191,0.15), 0 0 50px rgba(0,212,232,0.08)',
                   }}
                 >
