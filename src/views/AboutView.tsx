@@ -19,6 +19,9 @@ import { Logo } from '../components/ui/Logo';
 import { View } from '../components/ui/Sidebar';
 import { PageHeader } from '../components/ui/PageHeader';
 import { Player } from '../components/ui/Player';
+import { CONTRACTS } from '../types';
+import { db } from '../firebase';
+import { collection, query, where, onSnapshot } from 'firebase/firestore';
 
 interface AboutViewProps {
   onViewChange?: (view: View) => void;
@@ -27,16 +30,25 @@ interface AboutViewProps {
 
 export const AboutView: React.FC<AboutViewProps> = ({ onViewChange, onNotify }) => {
   const { t } = useTranslation();
-  
+
+  // Compte réel de validateurs vérifiés — remplace l'ancien "100+" fixe,
+  // même source que HomeView.
+  const [realValidatorCount, setRealValidatorCount] = React.useState<number | null>(null);
+  React.useEffect(() => {
+    const q = query(collection(db, 'users'), where('isVerifiedValidator', '==', true));
+    const unsub = onSnapshot(q, (snap) => setRealValidatorCount(snap.size), () => setRealValidatorCount(null));
+    return () => unsub();
+  }, []);
+
   const backgroundImages = [
-    'https://images.unsplash.com/photo-1515405295579-ba7b45403062?auto=format&fit=crop&q=80&w=2000', // Art workshop painting explosion of splash acrylics
-    'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?auto=format&fit=crop&q=80&w=2000', // Vibrant neo-classical portrait artwork painting
-    'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&q=80&w=2000', // Classical illustration with colorful energetic modern painting strokes
-    'https://images.unsplash.com/photo-1755085381840-572a27fb0735?auto=format&fit=crop&q=80&w=2000', // Large abstract canvas painting, brush strokes ("Standing the Streets")
-    'https://images.unsplash.com/photo-1777033481363-96640776ae62?auto=format&fit=crop&q=80&w=2000', // Abstract orange and black fluid art texture
-    'https://images.unsplash.com/photo-1774893582522-c8e9c0aeaec9?auto=format&fit=crop&q=80&w=2000', // Abstract blue and white swirling fluid patterns
-    'https://images.unsplash.com/photo-1758843415051-34a01dfcc227?auto=format&fit=crop&q=80&w=2000', // Abstract gradient spheres, vibrant colorful 3D art
-    'https://images.unsplash.com/photo-1744035783523-203d2bfc75d0?auto=format&fit=crop&q=80&w=2000'  // Abstract acrylic pouring art, orange and red
+    'https://images.unsplash.com/photo-1515405295579-ba7b45403062?auto=format&fit=crop&q=80&w=2000', // Fine Art — Art workshop painting explosion of splash acrylics
+    'https://images.unsplash.com/photo-1773062189964-75a471b19934?auto=format&fit=crop&q=80&w=2000', // Music — Vinyl record player, green/purple
+    'https://images.unsplash.com/photo-1760868718218-ff73db4518fd?auto=format&fit=crop&q=80&w=2000', // Architecture — Modern geometric building, blue/purple
+    'https://images.unsplash.com/photo-1755085381840-572a27fb0735?auto=format&fit=crop&q=80&w=2000', // Fine Art — Large abstract canvas painting ("Standing the Streets")
+    'https://images.unsplash.com/photo-1771098206650-81d713e2e2b9?auto=format&fit=crop&q=80&w=2000', // Fashion — Stacked textile rolls, blue/teal/purple
+    'https://images.unsplash.com/photo-1774893582522-c8e9c0aeaec9?auto=format&fit=crop&q=80&w=2000', // Digital Art — Abstract blue and white swirling fluid patterns
+    'https://images.unsplash.com/photo-1760966362386-e1012dbc3657?auto=format&fit=crop&q=80&w=2000', // Performing Arts — Concert stage, blue/pink/purple lights
+    'https://images.unsplash.com/photo-1744035783523-203d2bfc75d0?auto=format&fit=crop&q=80&w=2000'  // Fine Art — Abstract acrylic pouring art, orange and red
   ];
 
   const [activeImageBatch, setActiveImageBatch] = React.useState<string[]>([]);
@@ -58,9 +70,9 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange, onNotify }) 
 
   const stats = [
     { label: t('Years of existence', 'Ans d\'existence'), value: '20+', sub: t('Since 2006', 'Depuis 2006') },
-    { label: t('Creative disciplines', 'Disciplines créatives'), value: '14', sub: t('Music, film, fashion, gaming...', 'Musique, cinéma, mode, gaming...') },
-    { label: t('Countries reached', 'Pays touchés'), value: '6', sub: t('Continents represented', 'Continents représentés') },
-    { label: t('Certified validators', 'Validateurs certifiés'), value: '100+', sub: t('Active professional network', 'Réseau professionnel actif') }
+    { label: t('Creative disciplines', 'Disciplines créatives'), value: '9+', sub: t('Music, film, fashion, gaming...', 'Musique, cinéma, mode, gaming...') },
+    { label: t('Certified projects', 'Projets certifiés'), value: String(CONTRACTS.filter(c => c.status === 'LIVE').length), sub: t('Live on the registry', 'En direct sur le registre') },
+    { label: t('Certified validators', 'Validateurs certifiés'), value: realValidatorCount === null ? '—' : String(realValidatorCount), sub: t('Active professional network', 'Réseau professionnel actif') }
   ];
 
   return (
