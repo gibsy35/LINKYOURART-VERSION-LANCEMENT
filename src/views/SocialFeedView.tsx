@@ -121,6 +121,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
         timestamp: item.timestamp || 'Just now',
         relatedProjects: item.relatedProjects || undefined,
         source: item.source,
+        url: item.url || undefined,
         imageUrl: item.imageUrl
       }));
       setNews(formatted);
@@ -689,6 +690,20 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
                   <span className="text-xs font-mono text-on-surface-variant uppercase tracking-widest">
                     {selectedNews.timestamp} • {selectedNews.source}
                   </span>
+                  {selectedNews.url ? (
+                    <a
+                      href={selectedNews.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="ml-auto flex items-center gap-1.5 px-4 py-1.5 border border-primary-cyan/40 text-primary-cyan text-[10px] font-black uppercase tracking-widest rounded-sm hover:bg-primary-cyan hover:text-surface-dim transition-all"
+                    >
+                      {t('Read Original Article', 'Lire l\'article original')} <ArrowUpRight size={12} />
+                    </a>
+                  ) : (
+                    <span className="ml-auto text-[9px] font-mono text-on-surface-variant/30 italic">
+                      {t('Source link unavailable', 'Lien source indisponible')}
+                    </span>
+                  )}
                 </div>
 
                 <h2 className="text-3xl md:text-6xl font-black font-headline uppercase tracking-tighter leading-tight text-white">

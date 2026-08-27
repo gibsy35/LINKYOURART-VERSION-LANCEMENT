@@ -116,6 +116,16 @@ Do NOT produce any estimated field, score, or trend — facts verifiable via sea
 
     const newsItems = JSON.parse(jsonMatch[0]);
 
+    // Vraies sources citées par la recherche Google (jamais générées par
+    // le modèle) — voir groundingChunks dans la doc officielle Gemini.
+    // On ne demande PAS au modèle d'écrire lui-même une URL dans son JSON :
+    // un LLM peut inventer une URL plausible mais fausse. Ici, chaque uri
+    // vient réellement d'un résultat de recherche que le modèle a consulté.
+    const groundingChunks = response.candidates?.[0]?.groundingMetadata?.groundingChunks || [];
+    const realSources = groundingChunks
+      .map(c => c.web)
+      .filter(w => w && w.uri);
+
     const categoryImages = {
       'Film': 'photo-1478720568477-152d9b164e26',
       'Music': 'photo-1493225457124-a3eb161ffa5f',
@@ -142,6 +152,11 @@ Do NOT produce any estimated field, score, or trend — facts verifiable via sea
       }
     }
 
+    // Normalise un nom de source pour comparaison (minuscules, sans
+    // espaces/ponctuation/TLD) — ex. "TechCrunch" et "techcrunch.com"
+    // doivent matcher malgré la différence de format.
+    const normalize = (s) => (s || '').toLowerCase().replace(/\.(com|org|net|co|fr|io)$/i, '').replace(/[^a-z0-9]/g, '');
+
     const enriched = newsItems.map((item, idx) => {
       const sectors = Array.isArray(item.affectedSectors)
         ? item.affectedSectors.filter(s => LYA_CATEGORIES.includes(s))
@@ -162,6 +177,18 @@ Do NOT produce any estimated field, score, or trend — facts verifiable via sea
         }
       }
 
+      // Lien source réel — uniquement si le nom de source annoncé par le
+      // modèle correspond à l'un des titres/domaines réellement cités par
+      // la recherche Google. Aucune correspondance fiable → pas de lien,
+      // jamais une URL approximative ou devinée.
+      const normalizedSource = normalize(item.source);
+      const matchedSource = normalizedSource
+        ? realSources.find(s => {
+            const t = normalize(s.title);
+            return t && (t.includes(normalizedSource) || normalizedSource.includes(t));
+          })
+        : null;
+
       return {
         id: item.id || `live_${Date.now()}_${idx}`,
         category: item.category,
@@ -169,6 +196,7 @@ Do NOT produce any estimated field, score, or trend — facts verifiable via sea
         summary: item.summary,
         timestamp: item.timestamp,
         source: item.source,
+        url: matchedSource ? matchedSource.uri : undefined,
         imageUrl: `https://images.unsplash.com/${photoId}?auto=format&fit=crop&q=80&w=800`,
         relatedProjects, // null si aucun projet réel correspondant — jamais estimé
       };
