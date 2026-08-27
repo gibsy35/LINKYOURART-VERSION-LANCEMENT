@@ -470,6 +470,10 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                     ALL CREATIVE INDUSTRIES
                   </motion.span>
                 </div>
+                <button onClick={() => onViewChange?.('LOGIN')} className="ml-auto z-10 flex items-center gap-1.5 px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest text-white border border-primary-cyan/40 bg-primary-cyan/10 active:bg-primary-cyan active:text-black transition-all">
+                  <User size={13} />
+                  {t('LOGIN', 'CONNEXION')}
+                </button>
               </div>
 
               <div className="hidden md:flex items-center gap-3 cursor-pointer" onClick={handleLogoTap}>
@@ -498,7 +502,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                   <button onClick={() => setLanguage('FR')} className={`px-3 py-1.5 rounded-full text-xs font-black uppercase tracking-widest transition-all ${language === 'FR' ? 'bg-white text-black' : 'text-white/40 hover:text-white'}`}>FR</button>
                   <button onClick={() => setLanguage('EN')} className={`px-3 py-1.5 rounded-full text-xs font-black uppercase tracking-widest transition-all ${language === 'EN' ? 'bg-white text-black' : 'text-white/40 hover:text-white'}`}>EN</button>
                 </div>
-                <button onClick={() => onViewChange?.('LOGIN')} className="hidden md:flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-white/60 hover:text-white transition-colors">
+                <button onClick={() => onViewChange?.('LOGIN')} className="flex items-center gap-2 px-5 py-2.5 rounded-full text-[11px] font-black uppercase tracking-widest text-white border border-primary-cyan/40 bg-primary-cyan/10 hover:bg-primary-cyan hover:text-black hover:border-primary-cyan transition-all shadow-[0_0_20px_rgba(0,212,232,0.15)]">
                   <User size={14} />
                   {t('LOGIN', 'CONNEXION')}
                 </button>
