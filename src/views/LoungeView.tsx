@@ -37,11 +37,12 @@ import {
   Settings
 } from 'lucide-react';
 import { UserProfile, UserRole } from '../types';
+import { CONTRACTS } from '../types';
 import { getPermissions } from '../lib/permissions';
 import { useTranslation } from '../context/LanguageContext';
 import { SecureMail } from '../components/ui/SecureMail';
 import { db, auth, handleFirestoreError, OperationType } from '../firebase';
-import { collection, addDoc, query, onSnapshot, orderBy, serverTimestamp, Timestamp, doc, updateDoc, increment } from 'firebase/firestore';
+import { collection, addDoc, query, where, onSnapshot, orderBy, serverTimestamp, Timestamp, doc, updateDoc, increment } from 'firebase/firestore';
 
 type LoungeTab = 'FEED' | 'MEMBERS' | 'EVENTS' | 'MENTORSHIP';
 
@@ -200,39 +201,31 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
     return `PRT-${absHash.substring(0, 4)}-${absHash.substring(4, 8)}`;
   };
 
-  const [pulseStats, setPulseStats] = useState({
-    activeCertifications: 1240,
-    certTrend: '+2.4%',
-    topSector: 'Digital Fine Art',
-    scoreTrend: 'Rising',
-    trend: '+14.2%'
-  });
+  // "Registry Pulse" — remplace l'ancien pulseStats qui se régénérait au
+  // hasard toutes les 20 secondes (Math.random()). Calculé une fois à
+  // partir des vrais projets certifiés (CONTRACTS, même source que
+  // Exchange/Comparateur/Watchlist). Pas de "tendance" affichée : aucun
+  // historique dans le temps n'est suivi, donc aucun pourcentage
+  // d'évolution ne serait honnête.
+  const realPulseStats = React.useMemo(() => {
+    const live = CONTRACTS.filter(c => c.status === 'LIVE');
+    const byCategory: Record<string, number> = {};
+    live.forEach(c => { byCategory[c.category] = (byCategory[c.category] || 0) + 1; });
+    const topSector = Object.entries(byCategory).sort((a, b) => b[1] - a[1])[0]?.[0] || '—';
+    return { activeCertifications: live.length, topSector };
+  }, []);
 
   React.useEffect(() => {
-    const seeds = [
-      'creative-news', 'registry-data', 'professional', 'creative-economy', 
-      'neural-network', 'architecture', 'abstract', 'technology',
-      'vantage', 'luxury', 'monumental', 'abstract-art',
-      'urban-tech', 'cyberpunk', 'modern-office', 'abstract-geometry', 
-      'luxury-interior', 'creative-network', 'data-viz', 'high-fashion', 
-      'creative-studio', 'professional-archive'
-    ];
-    const updateHeader = () => {
-      const randomSeed = seeds[Math.floor(Math.random() * seeds.length)];
-      setMonitorImage(`https://picsum.photos/seed/${randomSeed}/${1200 + Math.floor(Math.random() * 1000)}/600?t=${Date.now()}`);
-      
-      // Randomize Pulse Stats
-      setPulseStats({
-        activeCertifications: Math.floor(Math.random() * 800 + 900),
-        certTrend: `+${(Math.random() * 5).toFixed(1)}%`,
-        topSector: ['Music Catalogs', 'Digital Fine Art', 'Cinematic Assets', 'Generative Series', 'Architectural IP'][Math.floor(Math.random() * 5)],
-        scoreTrend: ['Stable', 'Rising', 'Strong Growth', 'Accelerating'][Math.floor(Math.random() * 4)],
-        trend: `${(Math.random() * 15 + 5).toFixed(1)}%`
-      });
-    };
-    updateHeader();
-    const interval = setInterval(updateHeader, 20000); // 20 seconds for more activity
-    return () => clearInterval(interval);
+    setMonitorImage('https://picsum.photos/seed/lya-lounge-registry/1600/600');
+  }, []);
+
+  // Compte réel de membres vérifiés (statut Pro) — remplace l'ancien
+  // "1,248" codé en dur.
+  const [realMemberCount, setRealMemberCount] = useState<number | null>(null);
+  React.useEffect(() => {
+    const q = query(collection(db, 'users'), where('isPro', '==', true));
+    const unsub = onSnapshot(q, (snap) => setRealMemberCount(snap.size), () => setRealMemberCount(null));
+    return () => unsub();
   }, []);
 
   const [activeChat, setActiveChat] = useState<string | null>(null);
@@ -671,69 +664,17 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
                 <span className="absolute w-48 h-48 rounded-full border-2 border-dashed border-accent-gold/10 animate-[spin_60s_linear_infinite]" />
                 <span className="absolute w-40 h-40 rounded-full border border-primary-cyan/10 animate-[spin_30s_linear_infinite_reverse]" />
 
-                <AnimatePresence mode="wait">
-                  {biometricScanning ? (
-                    <motion.div 
-                      key="scanning"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      className="flex flex-col items-center justify-center text-primary-cyan text-center"
-                    >
-                      <motion.div
-                        animate={{ y: [-15, 15, -15] }}
-                        transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
-                        className="w-24 h-0.5 bg-primary-cyan shadow-[0_0_15px_rgba(0,224,255,1)] mb-4"
-                      />
-                      <Fingerprint size={54} className="animate-pulse text-primary-cyan/80 mb-3" />
-                      <span className="text-xs font-mono font-bold tracking-[0.3em] uppercase animate-pulse">{t('DECRYPTING KEY...', 'CHIFFREMENT EN COURS...')}</span>
-                    </motion.div>
-                  ) : biometricStatus === 'SUCCESS' ? (
-                    <motion.div 
-                      key="scanning_denied"
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      className="flex flex-col items-center justify-center text-red-500 text-center"
-                    >
-                      <Lock size={48} className="mb-4 text-red-400 animate-bounce" />
-                      <span className="text-[10px] font-black font-mono tracking-widest text-red-400 uppercase bg-red-950/20 px-3 py-1 border border-red-500/10 rounded-md">
-                        {t('VERIFICATION DENIED', 'ACCÈS REFUSÉ')}
-                      </span>
-                      <p className="text-[10px] text-red-400/60 uppercase font-bold tracking-wider mt-2 max-w-[140px] sm:max-w-[180px]">
-                        {t('LEVEL 3 STATUS REQUIRED', 'STATUT PROFESSIONNEL DE NIVEAU 3 REQUIS')}
-                      </p>
-                    </motion.div>
-                  ) : (
-                    <motion.div 
-                      key="ready"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      className="flex flex-col items-center justify-center text-center"
-                    >
-                      <div className="w-16 h-16 bg-accent-gold/10 border border-accent-gold/20 rounded-full flex items-center justify-center mb-6 shadow-2xl relative">
-                        <Lock size={28} className="text-accent-gold" />
-                      </div>
-                      
-                      <button 
-                        onClick={() => {
-                          setBiometricScanning(true);
-                          onNotify(t('INITIATING RECURSIVE BIOMETRIC PROBE...', 'LANCEMENT DE LA SONDE BIOMÉTRIQUE RÉCURSIVE...'));
-                          setTimeout(() => {
-                            setBiometricScanning(false);
-                            setBiometricStatus('SUCCESS');
-                            onNotify(t('ACCÈS REFUSÉ (LVL3_PRO_NOT_STABILIZED)', 'ACCÈS REFUSÉ : SÉCURITÉ DE CLÉ NON DÉTECTÉE (PRO_NV3)'));
-                          }, 2000);
-                        }}
-                        className="px-5 py-2.5 bg-accent-gold/5 border border-accent-gold/30 hover:border-accent-gold hover:bg-accent-gold/10 rounded-xl transition-all shadow-xl group/scan active:scale-95"
-                      >
-                        <span className="flex items-center gap-2 text-[10px] font-black tracking-wide uppercase text-accent-gold">
-                          <Fingerprint size={12} className="group-hover/scan:scale-110 transition-transform" />
-                          {t('SCAN CREDENTIALS', 'SCANNER IDENTITÉ')}
-                        </span>
-                      </button>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                <div className="flex flex-col items-center justify-center text-center relative z-10">
+                  <div className="w-16 h-16 bg-accent-gold/10 border border-accent-gold/20 rounded-full flex items-center justify-center mb-6 shadow-2xl">
+                    <Lock size={28} className="text-accent-gold" />
+                  </div>
+                  <span className="text-[10px] font-black font-mono tracking-widest text-accent-gold/70 uppercase px-3 py-1 border border-accent-gold/10 rounded-md">
+                    {t('MANUALLY VETTED ACCESS', 'ACCÈS SOUMIS À VALIDATION MANUELLE')}
+                  </span>
+                  <p className="text-[10px] text-on-surface-variant/50 uppercase font-bold tracking-wider mt-3 max-w-[180px]">
+                    {t('No automated check can unlock this — see options below.', 'Aucune vérification automatique ne peut débloquer ceci — voir les options ci-dessous.')}
+                  </p>
+                </div>
                 
                 {/* Simulated Telemetry lines */}
                 <div className="absolute bottom-3 left-4 right-4 text-[7px] font-mono text-on-surface-variant/25 flex justify-between uppercase">
@@ -870,36 +811,20 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
 
         {/* Right Side: Interactive Biometric Refresh sensor */}
         <div className="flex flex-col items-center sm:flex-row gap-6 w-full lg:w-auto shrink-0 z-10 justify-end">
-          {/* Quick numbers */}
+          {/* Quick numbers — comptage réel, plus de "staking" (mécanisme
+              retiré de la plateforme lors du repositionnement CVI) */}
           <div className="flex gap-4 border-l border-white/5 pl-4">
             <div className="text-right">
-              <span className="text-[10px] text-on-surface-variant opacity-45 uppercase tracking-widest block">{t('Verified Members', 'Membres')}</span>
-              <span className="text-lg font-black text-white">1,248</span>
-            </div>
-            <div className="text-right border-l border-white/5 pl-4">
-              <span className="text-[10px] text-on-surface-variant opacity-45 uppercase tracking-widest block">{t('Power Staked', 'Staké')}</span>
-              <span className="text-lg font-black text-accent-gold">85.4M <span className="text-xs opacity-40">LYA</span></span>
+              <span className="text-[10px] text-on-surface-variant opacity-45 uppercase tracking-widest block">{t('Verified Members', 'Membres Vérifiés')}</span>
+              <span className="text-lg font-black text-white">{realMemberCount === null ? '—' : realMemberCount}</span>
             </div>
           </div>
 
           <div className="flex items-center gap-3">
-            <button 
-              onClick={() => {
-                setBiometricScanning(true);
-                onNotify(t('RECONNEXION EN COURS...', 'RÉ-ALIGNEMENT DE LA SIGNATURE DE SÉCURITÉ DU SALON...'));
-                setTimeout(() => {
-                  setBiometricScanning(false);
-                  onNotify(t('ELITE ACCESS CREDENTIALS RE-STABILIZED [SECURE_NODE_99x]', 'CONFORME À L\'INDICE D\'ÉLITE - SIGNATURE RE-SÉCURISÉE [SECURE_NODE_99x]'));
-                }, 1500);
-              }}
-              disabled={biometricScanning}
-              className={`px-5 py-3 rounded-xl font-mono text-xs font-black uppercase tracking-widest border transition-all active:scale-95 flex items-center gap-2 ${
-                biometricScanning ? 'bg-primary-cyan/15 border-primary-cyan text-primary-cyan shadow-[0_0_15px_rgba(0,224,255,0.2)]' : 'bg-white/5 border-white/10 text-white hover:border-accent-gold hover:text-accent-gold hover:bg-accent-gold/5'
-              }`}
-            >
-              <Fingerprint size={14} className={biometricScanning ? 'animate-pulse' : ''} />
-              {biometricScanning ? t('Biometric scanning...', 'Scan Biométrique...') : t('REFRESH ACCESS PASS', 'VÉRIFIER LE PASSPORT LYA')}
-            </button>
+            <div className="px-5 py-3 rounded-xl font-mono text-xs font-black uppercase tracking-widest border bg-emerald-500/10 border-emerald-500/20 text-emerald-400 flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              {t('ACCESS VERIFIED', 'ACCÈS VÉRIFIÉ')}
+            </div>
           </div>
         </div>
       </div>
@@ -969,26 +894,15 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
                     <div className="flex flex-wrap gap-6 mt-8">
                       <div className="flex flex-col group/stat">
                         <span className="text-[10px] text-accent-gold font-black uppercase tracking-widest mb-1 opacity-60">{t('Active Certifications', 'Certifications Actives')}</span>
-                        <span className="text-xl font-black text-white tracking-tighter">{pulseStats.activeCertifications} <span className="text-[10px] text-emerald-400 ml-1">{pulseStats.certTrend}</span></span>
+                        <span className="text-xl font-black text-white tracking-tighter">{realPulseStats.activeCertifications}</span>
                       </div>
                       <div className="flex flex-col border-l border-white/10 pl-6 group/stat">
                         <span className="text-[10px] text-accent-gold font-black uppercase tracking-widest mb-1 opacity-60">{t('Top Sector', 'Meilleur Secteur')}</span>
-                        <span className="text-xl font-black text-white tracking-tighter uppercase">{t(pulseStats.topSector, pulseStats.topSector)}</span>
-                      </div>
-                      <div className="flex flex-col border-l border-white/10 pl-6 group/stat">
-                        <span className="text-[10px] text-accent-gold font-black uppercase tracking-widest mb-1 opacity-60">{t('LYA Score Trend', 'Tendance Score LYA')}</span>
-                        <span className="text-xl font-black text-white tracking-tighter uppercase text-primary-cyan">{t(pulseStats.scoreTrend, pulseStats.scoreTrend)}</span>
+                        <span className="text-xl font-black text-white tracking-tighter uppercase">{realPulseStats.topSector}</span>
                       </div>
                     </div>
                   </div>
 
-                  <div className="absolute top-10 right-10 flex flex-col items-end gap-2">
-                    <div className="text-[10px] text-accent-gold font-black uppercase tracking-widest mb-1">{t('MARKET TREND', 'TENDANCE DU MARCHÉ')}</div>
-                    <div className="flex items-center gap-2 bg-black/40 px-4 py-2 rounded-lg border border-white/5 backdrop-blur-md">
-                      <TrendingUp size={14} className="text-emerald-400" />
-                      <span className="text-xs font-black text-white">{pulseStats.trend}</span>
-                    </div>
-                  </div>
                 </div>
 
                 {/* Active Identity & Post Input */}
