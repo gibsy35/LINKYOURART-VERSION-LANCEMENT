@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AuthGuard } from '../components/AuthGuard';
 import { db } from '../firebase';
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { addDoc, collection, serverTimestamp, doc, getDoc, setDoc, onSnapshot, query, where } from 'firebase/firestore';
 import { motion, AnimatePresence } from 'motion/react';
 import { useTranslation } from '../context/LanguageContext';
 import { useCurrency } from '../context/CurrencyContext';
@@ -57,28 +57,92 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
   const riskProjects = CONTRACTS.filter(c => c.status === 'RISK');
   const categories = ['Fine Art','Music','Film','TV Series','Literature','Fashion','Architecture','Photography','Gaming','Design','Podcast','Digital Art','Performing Arts','Gastronomy'];
 
-  const missions = [
-    {labelFR:CONTRACTS[1]?.name||'ÉPHÉMÉRIS',labelEN:CONTRACTS[1]?.name||'EPHEMERIS',id:'PRJ-2026-012',typeFR:'Certification LYA Niveau 3',typeEN:'LYA Level 3 Certification',statusFR:'En validation',statusEN:'In validation',pct:75,date:'2026-03-15',statusColor:'bg-accent-gold/10 text-accent-gold border-accent-gold/20'},
-    {labelFR:CONTRACTS[3]?.name||'Nexus',labelEN:CONTRACTS[3]?.name||'Nexus',id:'PRJ-2026-008',typeFR:'Audit stratégique institutionnel',typeEN:'Institutional strategic audit',statusFR:'Analyse en cours',statusEN:'Analysis in progress',pct:45,date:'2026-03-20',statusColor:'bg-primary-cyan/10 text-primary-cyan border-primary-cyan/20'},
-    {labelFR:CONTRACTS[4]?.name||'Fragments',labelEN:CONTRACTS[4]?.name||'Fragments',id:'PRJ-2026-019',typeFR:'Audit créatif premium',typeEN:'Premium creative audit',statusFR:'Révision finale',statusEN:'Final review',pct:90,date:'2026-03-10',statusColor:'bg-[#a78bfa]/10 text-[#a78bfa] border-[#a78bfa]/20'},
-    {labelFR:CONTRACTS[5]?.name||'Solar Echoes',labelEN:CONTRACTS[5]?.name||'Solar Echoes',id:'PRJ-2026-031',typeFR:'Évaluation de potentiel créatif',typeEN:'Creative potential assessment',statusFR:'En attente',statusEN:'Pending',pct:10,date:'2026-04-05',statusColor:'bg-white/5 text-on-surface-variant/50 border-white/10'},
-    {labelFR:CONTRACTS[6]?.name||'Quantum Canvas',labelEN:CONTRACTS[6]?.name||'Quantum Canvas',id:'PRJ-2026-044',typeFR:'Certification LYA Niveau 2',typeEN:'LYA Level 2 Certification',statusFR:'En cours',statusEN:'In progress',pct:55,date:'2026-03-28',statusColor:'bg-emerald-400/10 text-emerald-400 border-emerald-400/20'},
-  ];
+  // Missions réelles — remplace les 5 fausses missions (IDs, pourcentages
+  // et dates inventés) par les vraies demandes envoyées via "Contacter"
+  // ci-dessous (collection messages, type deal_request). Pas de fausse
+  // barre de progression : aucun workflow d'acceptation/pourcentage
+  // n'existe réellement derrière une demande envoyée.
+  const [missions, setMissions] = useState<{id:string,projectName:string,status:string,date:string}[]>([]);
+  const [missionsLoaded, setMissionsLoaded] = useState(false);
+  useEffect(() => {
+    if (!user?.uid) { setMissionsLoaded(true); return; }
+    const q = query(collection(db,'messages'), where('type','==','deal_request'), where('fromId','==',user.uid));
+    const unsub = onSnapshot(q, (snap) => {
+      const list = snap.docs.map(d => {
+        const data = d.data() as any;
+        const dateStr = data.createdAt?.toDate ? data.createdAt.toDate().toLocaleDateString(language==='FR'?'fr-FR':'en-US') : '—';
+        return { id: d.id, projectName: data.projectName || '—', status: data.status || 'PENDING', date: dateStr };
+      });
+      setMissions(list);
+      setMissionsLoaded(true);
+    }, () => setMissionsLoaded(true));
+    return () => unsub();
+  }, [user?.uid, language]);
 
-  const mentoredCreators = [
-    {name:'Clara Dubois', project:'ÉPHÉMÉRIS', progress:78, score:834, sessions:8, nextSession:T('Vendredi 21 juin, 14h','Friday June 21, 2pm'), status:'ACTIVE'},
-    {name:'Marc Fontaine', project:'Digital Horizons', progress:45, score:712, sessions:3, nextSession:T('Mardi 25 juin, 10h','Tuesday June 25, 10am'), status:'ACTIVE'},
-    {name:'Sofia Reyes', project:'Urban Canvas', progress:92, score:891, sessions:12, nextSession:T('Terminé','Completed'), status:'COMPLETED'},
-  ];
+  // Créateurs mentorés réels — remplace les 3 personnes fictives par les
+  // vraies sessions de mentorat demandées (collection mentorship_sessions).
+  const [mentoredCreators, setMentoredCreators] = useState<{id:string,name:string,status:string}[]>([]);
+  const [mentorshipLoaded, setMentorshipLoaded] = useState(false);
+  useEffect(() => {
+    if (!user?.uid) { setMentorshipLoaded(true); return; }
+    const q = query(collection(db,'mentorship_sessions'), where('mentorId','==',user.uid));
+    const unsub = onSnapshot(q, (snap) => {
+      const list = snap.docs.map(d => {
+        const data = d.data() as any;
+        return { id: d.id, name: data.studentName || T('Créateur','Creator'), status: data.status || 'REQUESTED' };
+      });
+      setMentoredCreators(list);
+      setMentorshipLoaded(true);
+    }, () => setMentorshipLoaded(true));
+    return () => unsub();
+  }, [user?.uid]);
 
   const academyModules = [
-    {titleFR:'LYA — Fondamentaux',titleEN:'LYA — Fundamentals',descFR:'Maîtrisez les bases du scoring LYA et des 5 piliers d\'évaluation.',descEN:'Master the fundamentals of LYA scoring and the 5 evaluation pillars.',duration:'4h',level:T('Débutant','Beginner'),done:true,color:'bg-primary-cyan/10 border-primary-cyan/20'},
-    {titleFR:'Audit Créatif Avancé',titleEN:'Advanced Creative Audit',descFR:'Techniques d\'audit approfondi pour les projets culturels et artistiques.',descEN:'In-depth audit techniques for cultural and artistic projects.',duration:'6h',level:T('Intermédiaire','Intermediate'),done:true,color:'bg-[#a78bfa]/10 border-[#a78bfa]/20'},
-    {titleFR:'Méthodologie du Score LYA',titleEN:'LYA Score Methodology',descFR:'Approfondissez l\'analyse des 5 piliers pour affiner vos certifications.',descEN:'Deepen your analysis of the 5 pillars to refine your certifications.',duration:'3h',level:T('Intermédiaire','Intermediate'),done:false,color:'bg-accent-gold/10 border-accent-gold/20'},
-    {titleFR:'Stratégie de Lancement Institutionnel',titleEN:'Institutional Launch Strategy',descFR:'Planifiez et exécutez des lancements à impact maximal.',descEN:'Plan and execute maximum-impact launches.',duration:'5h',level:T('Avancé','Advanced'),done:false,color:'bg-emerald-400/10 border-emerald-400/20'},
-    {titleFR:'Réseau & Partenariats Créatifs',titleEN:'Network & Creative Partnerships',descFR:'Construisez un réseau institutionnel solide dans les industries créatives.',descEN:'Build a solid institutional network in creative industries.',duration:'4h',level:T('Avancé','Advanced'),done:false,locked:true,color:'bg-rose-400/10 border-rose-400/20'},
-    {titleFR:'Certification LYA Expert',titleEN:'LYA Expert Certification',descFR:'Validation officielle de votre expertise par le comité LYA.',descEN:'Official validation of your expertise by the LYA committee.',duration:'8h',level:T('Expert','Expert'),done:false,locked:true,color:'bg-white/5 border-white/10'},
+    {id:'lya-fundamentals',titleFR:'LYA — Fondamentaux',titleEN:'LYA — Fundamentals',descFR:'Maîtrisez les bases du scoring LYA et des 5 piliers d\'évaluation.',descEN:'Master the fundamentals of LYA scoring and the 5 evaluation pillars.',duration:'4h',hours:4,level:T('Débutant','Beginner'),color:'bg-primary-cyan/10 border-primary-cyan/20'},
+    {id:'advanced-creative-audit',titleFR:'Audit Créatif Avancé',titleEN:'Advanced Creative Audit',descFR:'Techniques d\'audit approfondi pour les projets culturels et artistiques.',descEN:'In-depth audit techniques for cultural and artistic projects.',duration:'6h',hours:6,level:T('Intermédiaire','Intermediate'),color:'bg-[#a78bfa]/10 border-[#a78bfa]/20'},
+    {id:'lya-score-methodology',titleFR:'Méthodologie du Score LYA',titleEN:'LYA Score Methodology',descFR:'Approfondissez l\'analyse des 5 piliers pour affiner vos certifications.',descEN:'Deepen your analysis of the 5 pillars to refine your certifications.',duration:'3h',hours:3,level:T('Intermédiaire','Intermediate'),color:'bg-accent-gold/10 border-accent-gold/20'},
+    {id:'institutional-launch-strategy',titleFR:'Stratégie de Lancement Institutionnel',titleEN:'Institutional Launch Strategy',descFR:'Planifiez et exécutez des lancements à impact maximal.',descEN:'Plan and execute maximum-impact launches.',duration:'5h',hours:5,level:T('Avancé','Advanced'),color:'bg-emerald-400/10 border-emerald-400/20'},
+    {id:'network-creative-partnerships',titleFR:'Réseau & Partenariats Créatifs',titleEN:'Network & Creative Partnerships',descFR:'Construisez un réseau institutionnel solide dans les industries créatives.',descEN:'Build a solid institutional network in creative industries.',duration:'4h',hours:4,level:T('Avancé','Advanced'),color:'bg-rose-400/10 border-rose-400/20'},
+    {id:'lya-expert-certification',titleFR:'Certification LYA Expert',titleEN:'LYA Expert Certification',descFR:'Validation officielle de votre expertise par le comité LYA.',descEN:'Official validation of your expertise by the LYA committee.',duration:'8h',hours:8,level:T('Expert','Expert'),color:'bg-white/5 border-white/10'},
   ];
+
+  // Progression réelle par utilisateur — remplace les indicateurs "done"
+  // codés en dur (identiques pour tout le monde) par un vrai suivi
+  // Firestore (academy_progress/{uid}). Un module ne devient disponible
+  // qu'une fois le précédent complété ; les deux derniers restent
+  // verrouillés jusqu'à ce que tout le reste soit fait.
+  const [completedModuleIds, setCompletedModuleIds] = useState<string[]>([]);
+  const [progressLoaded, setProgressLoaded] = useState(false);
+  useEffect(() => {
+    if (!user?.uid) { setProgressLoaded(true); return; }
+    const ref = doc(db, 'academy_progress', user.uid);
+    const unsub = onSnapshot(ref, (snap) => {
+      setCompletedModuleIds(snap.exists() ? (snap.data().completedModuleIds || []) : []);
+      setProgressLoaded(true);
+    }, () => setProgressLoaded(true));
+    return () => unsub();
+  }, [user?.uid]);
+
+  const completeModule = async (moduleId: string) => {
+    if (!user?.uid) { onNotify(T('Connectez-vous pour suivre votre progression','Sign in to track your progress')); return; }
+    const next = Array.from(new Set([...completedModuleIds, moduleId]));
+    setCompletedModuleIds(next); // optimiste, corrigé par onSnapshot si besoin
+    try {
+      await setDoc(doc(db, 'academy_progress', user.uid), { completedModuleIds: next, updatedAt: serverTimestamp() }, { merge: true });
+      onNotify(T('Module complété ✓','Module completed ✓'));
+    } catch (e) {
+      onNotify(T('Erreur — réessayez','Error — please retry'));
+    }
+  };
+
+  const academyModulesWithStatus = academyModules.map((mod, i) => {
+    const done = completedModuleIds.includes(mod.id);
+    const prevDone = i === 0 || completedModuleIds.includes(academyModules[i - 1].id);
+    return { ...mod, done, locked: !done && !prevDone };
+  });
+  const completedHours = academyModules.filter(m => completedModuleIds.includes(m.id)).reduce((sum, m) => sum + m.hours, 0);
+  const totalHours = academyModules.reduce((sum, m) => sum + m.hours, 0);
+  const certificationPct = Math.round((completedModuleIds.length / academyModules.length) * 100);
 
 
   const runSearch = () => {
@@ -143,11 +207,10 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
           {/* ── DASHBOARD ─────────────────────────────────────────────────── */}
           {activeSection==='dashboard' && (
             <div className="space-y-6">
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                <KpiCard icon={<Search size={18} className="text-primary-cyan"/>} label={T('Projets en mission','Projects in mission')} value="24" sub={T('3 en attente','3 pending')} color="bg-primary-cyan/10"/>
-                <KpiCard icon={<Award size={18} className="text-[#a78bfa]"/>} label={T('Certifications délivrées','Certifications delivered')} value="156" sub="+12 ce mois" color="bg-[#a78bfa]/10"/>
-                <KpiCard icon={<Users size={18} className="text-emerald-400"/>} label={T('Créateurs mentorés','Mentored creators')} value="18" sub={T('3 actifs','3 active')} color="bg-emerald-400/10"/>
-                <KpiCard icon={<BarChart2 size={18} className="text-accent-gold"/>} label={T('Score professionnel','Professional score')} value="940/1000" sub="+15 ce mois" color="bg-accent-gold/10"/>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <KpiCard icon={<Search size={18} className="text-primary-cyan"/>} label={T('Missions envoyées','Missions sent')} value={String(missions.length)} sub={T(`${missions.filter(m=>m.status==='PENDING').length} en attente`,`${missions.filter(m=>m.status==='PENDING').length} pending`)} color="bg-primary-cyan/10"/>
+                <KpiCard icon={<Award size={18} className="text-[#a78bfa]"/>} label={T('Projets certifiés (plateforme)','Certified projects (platform)')} value={String(CONTRACTS.filter(c=>c.status==='LIVE').length)} sub={T('Total en direct','Live total')} color="bg-[#a78bfa]/10"/>
+                <KpiCard icon={<Users size={18} className="text-emerald-400"/>} label={T('Créateurs mentorés','Mentored creators')} value={String(mentoredCreators.length)} sub={T(`${mentoredCreators.filter(c=>c.status!=='COMPLETED').length} actifs`,`${mentoredCreators.filter(c=>c.status!=='COMPLETED').length} active`)} color="bg-emerald-400/10"/>
               </div>
 
               {/* Rappel de positionnement — certification, pas instrument financier */}
@@ -195,15 +258,17 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
                   <p className="text-sm font-black text-on-surface uppercase tracking-wider">{T('Missions en cours','Active Missions')}</p>
                   <button onClick={()=>setActiveSection('missions')} className="text-xs font-black text-primary-cyan hover:text-white transition-colors uppercase tracking-widest">{T('Voir tout →','See all →')}</button>
                 </div>
-                {missions.slice(0,3).map((m,i)=>(
-                  <div key={i} className="space-y-1.5 pb-3 border-b border-white/5 last:border-0 last:pb-0">
+                {missions.slice(0,3).map((m)=>(
+                  <div key={m.id} className="space-y-1.5 pb-3 border-b border-white/5 last:border-0 last:pb-0">
                     <div className="flex items-center justify-between flex-wrap gap-2">
-                      <div><p className="text-sm font-black text-on-surface">{T(m.labelFR,m.labelEN)}</p><p className="text-xs text-on-surface-variant/40 font-mono">{m.id}</p></div>
-                      <div className="text-right"><span className={`px-2 py-0.5 border rounded-full text-[9px] font-black uppercase ${m.statusColor}`}>{T(m.statusFR,m.statusEN)}</span><p className="text-xs font-black text-on-surface mt-1">{m.pct}%</p></div>
+                      <div><p className="text-sm font-black text-on-surface">{m.projectName}</p><p className="text-xs text-on-surface-variant/40 font-mono">{m.date}</p></div>
+                      <span className="px-2 py-0.5 border rounded-full text-[9px] font-black uppercase bg-accent-gold/10 text-accent-gold border-accent-gold/20">{m.status}</span>
                     </div>
-                    <div className="h-1.5 bg-white/5 rounded-full overflow-hidden"><motion.div initial={{width:0}} animate={{width:`${m.pct}%`}} transition={{duration:1,delay:i*0.1}} className="h-full bg-gradient-to-r from-primary-cyan to-[#a78bfa] rounded-full"/></div>
                   </div>
                 ))}
+                {missions.length===0 && missionsLoaded && (
+                  <p className="text-xs text-on-surface-variant/40 italic">{T('Aucune mission envoyée pour l\'instant','No missions sent yet')}</p>
+                )}
               </div>
             </div>
           )}
@@ -259,20 +324,29 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
           {/* ── MISSIONS ─────────────────────────────────────────────────── */}
           {activeSection==='missions' && (
             <div className="space-y-4">
-              <p className="text-sm text-on-surface-variant/60">{missions.length} {T('missions · Score LYA impacté par vos validations','missions · LYA Score impacted by your validations')}</p>
-              {missions.slice(0,missionsShown).map((m,i)=>(
-                <div key={i} className="bg-surface-low/40 border border-white/8 rounded-2xl p-5 space-y-4 hover:border-white/15 transition-all">
-                  <div className="flex items-start justify-between flex-wrap gap-3">
-                    <div><p className="text-base font-black text-on-surface">{T(m.labelFR,m.labelEN)}</p><p className="text-xs text-on-surface-variant/40 font-mono">{m.id}</p><p className="text-xs text-on-surface-variant/60 mt-0.5">{T(m.typeFR,m.typeEN)} · {m.date}</p></div>
-                    <div className="text-right"><span className={`px-2 py-0.5 border rounded-full text-[9px] font-black uppercase ${m.statusColor}`}>{T(m.statusFR,m.statusEN)}</span><p className="text-lg font-black text-primary-cyan mt-1">{m.pct}%</p></div>
-                  </div>
-                  <div className="h-2 bg-white/5 rounded-full overflow-hidden"><motion.div initial={{width:0}} animate={{width:`${m.pct}%`}} transition={{duration:1.2,delay:i*0.1}} className="h-full bg-gradient-to-r from-primary-cyan to-[#a78bfa] rounded-full"/></div>
+              {!missionsLoaded ? (
+                <p className="text-sm text-on-surface-variant/40">{T('Chargement...','Loading...')}</p>
+              ) : missions.length === 0 ? (
+                <div className="py-16 text-center max-w-md mx-auto">
+                  <Target size={28} className="text-primary-cyan/40 mx-auto mb-3" />
+                  <p className="text-sm font-black text-on-surface mb-1">{T('Aucune mission pour l\'instant','No missions yet')}</p>
+                  <p className="text-xs text-on-surface-variant/50">{T('Contactez un projet certifié depuis "Recherche de Projets" pour lancer une mission.','Reach out to a certified project from "Project Finder" to start a mission.')}</p>
                 </div>
-              ))}
-              {missionsShown < missions.length && (
-                <button onClick={()=>setMissionsShown(n=>n+3)} className="w-full py-3 bg-surface-high/30 border border-white/8 text-sm font-black text-on-surface-variant hover:text-on-surface hover:border-white/20 rounded-xl transition-all flex items-center justify-center gap-2">
-                  <ChevronDown size={14}/> {T(`Voir plus (${missions.length-missionsShown} restantes)`,`Load more (${missions.length-missionsShown} remaining)`)}
-                </button>
+              ) : (
+                <>
+                  <p className="text-sm text-on-surface-variant/60">{missions.length} {T('missions envoyées','missions sent')}</p>
+                  {missions.slice(0,missionsShown).map((m)=>(
+                    <div key={m.id} className="bg-surface-low/40 border border-white/8 rounded-2xl p-5 flex items-start justify-between flex-wrap gap-3 hover:border-white/15 transition-all">
+                      <div><p className="text-base font-black text-on-surface">{m.projectName}</p><p className="text-xs text-on-surface-variant/60 mt-0.5">{m.date}</p></div>
+                      <span className="px-2 py-0.5 border rounded-full text-[9px] font-black uppercase bg-accent-gold/10 text-accent-gold border-accent-gold/20">{m.status}</span>
+                    </div>
+                  ))}
+                  {missionsShown < missions.length && (
+                    <button onClick={()=>setMissionsShown(n=>n+3)} className="w-full py-3 bg-surface-high/30 border border-white/8 text-sm font-black text-on-surface-variant hover:text-on-surface hover:border-white/20 rounded-xl transition-all flex items-center justify-center gap-2">
+                      <ChevronDown size={14}/> {T(`Voir plus (${missions.length-missionsShown} restantes)`,`Load more (${missions.length-missionsShown} remaining)`)}
+                    </button>
+                  )}
+                </>
               )}
             </div>
           )}
@@ -280,42 +354,44 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
           {/* ── MENTORAT ÉLITE ───────────────────────────────────────────── */}
           {activeSection==='mentorship' && (
             <div className="space-y-6">
-              <div className="grid grid-cols-3 gap-4">
-                {[{l:T('Créateurs actifs','Active creators'),v:'3',c:'text-primary-cyan'},{l:T('Sessions ce mois','Sessions this month'),v:'14',c:'text-[#a78bfa]'},{l:T('Score mentor moyen','Avg mentor score'),v:'94%',c:'text-emerald-400'}].map((s,i)=>(
+              {!mentorshipLoaded ? (
+                <p className="text-sm text-on-surface-variant/40">{T('Chargement...','Loading...')}</p>
+              ) : (
+              <>
+              <div className="grid grid-cols-2 gap-4">
+                {[
+                  {l:T('Créateurs','Creators'),v:String(mentoredCreators.length),c:'text-primary-cyan'},
+                  {l:T('Sessions actives','Active sessions'),v:String(mentoredCreators.filter(c=>c.status!=='COMPLETED').length),c:'text-[#a78bfa]'}
+                ].map((s,i)=>(
                   <div key={i} className="bg-surface-low/40 border border-white/8 rounded-2xl p-4 text-center"><p className="text-xs text-on-surface-variant/60 mb-1">{s.l}</p><p className={`text-2xl font-black ${s.c}`}>{s.v}</p></div>
                 ))}
               </div>
-              {mentoredCreators.map((c,i)=>(
-                <div key={i} className={`bg-surface-low/40 border rounded-2xl p-5 space-y-4 ${c.status==='COMPLETED'?'border-emerald-400/20':'border-white/8 hover:border-white/15'} transition-all`}>
-                  <div className="flex items-start justify-between flex-wrap gap-3">
+              {mentoredCreators.length === 0 ? (
+                <div className="py-16 text-center max-w-md mx-auto">
+                  <Users size={28} className="text-[#a78bfa]/40 mx-auto mb-3" />
+                  <p className="text-sm font-black text-on-surface mb-1">{T('Aucun créateur mentoré pour l\'instant','No mentored creators yet')}</p>
+                  <p className="text-xs text-on-surface-variant/50">{T('Ajoutez un créateur ci-dessous pour démarrer un mentorat.','Add a creator below to start a mentorship.')}</p>
+                </div>
+              ) : (
+                mentoredCreators.map((c)=>(
+                  <div key={c.id} className={`bg-surface-low/40 border rounded-2xl p-5 flex items-center justify-between flex-wrap gap-3 ${c.status==='COMPLETED'?'border-emerald-400/20':'border-white/8 hover:border-white/15'} transition-all`}>
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 bg-[#a78bfa]/20 border border-[#a78bfa]/30 rounded-xl flex items-center justify-center text-lg shrink-0">👤</div>
-                      <div><p className="text-sm font-black text-on-surface">{c.name}</p><p className="text-xs text-on-surface-variant/50">{c.project}</p><p className={`text-xs font-bold mt-0.5 ${c.status==='COMPLETED'?'text-emerald-400':'text-primary-cyan'}`}>{c.status==='COMPLETED'?T('✓ Terminé','✓ Completed'):T('● Actif','● Active')}</p></div>
+                      <div><p className="text-sm font-black text-on-surface">{c.name}</p><p className={`text-xs font-bold mt-0.5 ${c.status==='COMPLETED'?'text-emerald-400':'text-primary-cyan'}`}>{c.status==='COMPLETED'?T('✓ Terminé','✓ Completed'):T('● En attente','● Pending')}</p></div>
                     </div>
-                    <div className="text-right"><p className="text-xs text-on-surface-variant/40 uppercase tracking-widest">LYA Score</p><p className="text-xl font-black text-accent-gold">{c.score}</p></div>
                   </div>
-                  <div className="grid grid-cols-3 gap-3">
-                    {[{l:T('Progression','Progress'),v:`${c.progress}%`},{l:T('Sessions','Sessions'),v:`${c.sessions} /12`},{l:T('Prochaine session','Next session'),v:c.nextSession}].map((s,si)=>(
-                      <div key={si} className="bg-surface-high/30 rounded-lg p-2.5"><p className="text-[10px] text-on-surface-variant/40 uppercase tracking-widest mb-1">{s.l}</p><p className="text-xs font-black text-on-surface">{s.v}</p></div>
-                    ))}
-                  </div>
-                  <div className="h-1.5 bg-white/5 rounded-full overflow-hidden"><div className="h-full bg-gradient-to-r from-[#a78bfa] to-primary-cyan rounded-full transition-all" style={{width:`${c.progress}%`}}/></div>
-                  {c.status==='ACTIVE' && (
-                    <button onClick={async()=>{
-  try {
-    await addDoc(collection(db,'mentorship_sessions'),{mentorId:user?.uid,mentorName:user?.displayName,studentName:c.name,status:'REQUESTED',createdAt:serverTimestamp()});
-    onNotify(T(`✦ Session planifiée avec ${c.name}`,`✦ Session scheduled with ${c.name}`));
-  } catch(e){onNotify(T('Erreur réseau','Network error'));}
-}} className="w-full py-2.5 bg-[#a78bfa]/10 border border-[#a78bfa]/20 text-[#a78bfa] text-xs font-black rounded-xl hover:bg-[#a78bfa]/20 transition-all flex items-center justify-center gap-2"><Users size={12}/> {T('Planifier une session','Schedule a session')}</button>
-                  )}
-                </div>
-              ))}
+                ))
+              )}
               <button onClick={async()=>{
+  const name = window.prompt(T('Nom du créateur à mentorer :','Name of the creator to mentor:'));
+  if (!name || !name.trim()) return;
   try{
-    await addDoc(collection(db,'mentorship_sessions'),{type:'new',status:'OPEN',createdAt:serverTimestamp(),mentorId:user?.uid});
-    onNotify(T('✦ Nouveau mentorat ouvert','✦ New mentorship opened'));
+    await addDoc(collection(db,'mentorship_sessions'),{mentorId:user?.uid,mentorName:user?.displayName,studentName:name.trim(),status:'REQUESTED',createdAt:serverTimestamp()});
+    onNotify(T('✦ Créateur ajouté','✦ Creator added'));
   }catch(e){onNotify(T('Erreur réseau','Network error'));}
 }} className="w-full py-3 bg-[#a78bfa] text-surface-dim text-sm font-black rounded-xl hover:bg-white transition-all uppercase tracking-widest flex items-center justify-center gap-2"><Users size={14}/> {T('Ajouter un créateur','Add a creator')}</button>
+              </>
+              )}
             </div>
           )}
 
@@ -356,14 +432,24 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
           {/* ── ACADÉMIE PRO ─────────────────────────────────────────────── */}
           {activeSection==='academy' && (
             <div className="space-y-6">
+              {!progressLoaded ? (
+                <div className="py-16 text-center text-on-surface-variant/40 text-xs uppercase tracking-widest font-black">
+                  {T('Chargement de votre progression...','Loading your progress...')}
+                </div>
+              ) : (
+              <>
               <div className="grid grid-cols-3 gap-4">
-                {[{l:T('Modules complétés','Completed modules'),v:`${academyModules.filter(m=>m.done).length}/${academyModules.length}`,c:'text-primary-cyan'},{l:T('Heures de formation','Training hours'),v:'13h/30h',c:'text-[#a78bfa]'},{l:T('Certification','Certification'),v:'43%',c:'text-accent-gold'}].map((s,i)=>(
+                {[
+                  {l:T('Modules complétés','Completed modules'),v:`${completedModuleIds.length}/${academyModules.length}`,c:'text-primary-cyan'},
+                  {l:T('Heures de formation','Training hours'),v:`${completedHours}h/${totalHours}h`,c:'text-[#a78bfa]'},
+                  {l:T('Certification','Certification'),v:`${certificationPct}%`,c:'text-accent-gold'}
+                ].map((s,i)=>(
                   <div key={i} className="bg-surface-low/40 border border-white/8 rounded-2xl p-4 text-center"><p className="text-xs text-on-surface-variant/60 mb-1">{s.l}</p><p className={`text-xl font-black ${s.c}`}>{s.v}</p></div>
                 ))}
               </div>
               <div className="space-y-3">
-                {academyModules.map((mod,i)=>(
-                  <div key={i} className={`bg-surface-low/40 border rounded-2xl p-4 ${mod.done?'border-emerald-400/20':mod.locked?'border-white/5 opacity-60':'border-white/8 hover:border-white/20'} transition-all`}>
+                {academyModulesWithStatus.map((mod,i)=>(
+                  <div key={mod.id} className={`bg-surface-low/40 border rounded-2xl p-4 ${mod.done?'border-emerald-400/20':mod.locked?'border-white/5 opacity-60':'border-white/8 hover:border-white/20'} transition-all`}>
                     <div className="flex items-start gap-3">
                       <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 border ${mod.color}`}>
                         {mod.locked?<Lock size={14} className="text-on-surface-variant/40"/>:mod.done?<CheckCircle size={14} className="text-emerald-400"/>:<Play size={14} className="text-primary-cyan"/>}
@@ -379,11 +465,13 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
                       </div>
                     </div>
                     {!mod.locked && !mod.done && (
-                      <button onClick={()=>onNotify(T(`✦ Module "${mod.titleFR}" démarré`,`Module "${mod.titleEN}" started`))} className="w-full mt-3 py-2 bg-primary-cyan/10 border border-primary-cyan/20 text-primary-cyan text-xs font-black rounded-xl hover:bg-primary-cyan hover:text-surface-dim transition-all flex items-center justify-center gap-1.5"><Play size={11}/> {T('Démarrer','Start')}</button>
+                      <button onClick={()=>completeModule(mod.id)} className="w-full mt-3 py-2 bg-primary-cyan/10 border border-primary-cyan/20 text-primary-cyan text-xs font-black rounded-xl hover:bg-primary-cyan hover:text-surface-dim transition-all flex items-center justify-center gap-1.5"><CheckCircle size={11}/> {T('Marquer comme terminé','Mark as completed')}</button>
                     )}
                   </div>
                 ))}
               </div>
+              </>
+              )}
             </div>
           )}
 
