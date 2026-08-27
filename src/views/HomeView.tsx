@@ -61,6 +61,8 @@ import { Logo } from '../components/ui/Logo';
 import { View } from '../components/ui/Sidebar';
 import { Ticker } from '../components/ui/Ticker';
 import { CONTRACTS } from '../types';
+import { db } from '../firebase';
+import { collection, query, where, onSnapshot } from 'firebase/firestore';
 import { LYAProtocolBadge } from '../components/LYAProtocol';
 import { Player } from '../components/ui/Player';
 
@@ -896,6 +898,14 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
 
   const { t, language } = useTranslation();
   const [showLegalPopup, setShowLegalPopup] = useState(false);
+  // Compte réel des validateurs vérifiés — remplace l'ancien "100+" fixe,
+  // qui ne correspondait à aucune donnée réelle.
+  const [realValidatorCount, setRealValidatorCount] = useState<number | null>(null);
+  useEffect(() => {
+    const q = query(collection(db, 'users'), where('isVerifiedValidator', '==', true));
+    const unsub = onSnapshot(q, (snap) => setRealValidatorCount(snap.size), () => setRealValidatorCount(null));
+    return () => unsub();
+  }, []);
 
   return (
     <div className="relative min-h-screen bg-surface-dim overflow-x-hidden">
@@ -1417,8 +1427,8 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
             </h2>
             <p className="text-sm md:text-base text-on-surface-variant/70 max-w-2xl mx-auto leading-relaxed">
               {t(
-                'Since 2006, LinkYourArt has cultivated deep institutional relationships across every major creative industry. Our network of certified validators and professional partners spans 14 disciplines worldwide.',
-                'Depuis 2006, LinkYourArt a cultivé des relations institutionnelles profondes dans chaque grande industrie créative. Notre réseau de validateurs certifiés et de partenaires professionnels couvre 14 disciplines à l\'échelle mondiale.'
+                'Since 2006, LinkYourArt has cultivated deep institutional relationships across every major creative industry. Our network of certified validators and professional partners spans 9+ disciplines worldwide.',
+                'Depuis 2006, LinkYourArt a cultivé des relations institutionnelles profondes dans chaque grande industrie créative. Notre réseau de validateurs certifiés et de partenaires professionnels couvre 9+ disciplines à l\'échelle mondiale.'
               )}
             </p>
           </div>
@@ -1427,8 +1437,8 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10 md:mb-14">
             {[
               { value: '20+', labelFR: 'ans de présence\ninstit.', labelEN: 'years of institutional\npresence', color: 'text-accent-gold' },
-              { value: '14', labelFR: 'disciplines\ncréatives couvertes', labelEN: 'creative\ndisciplines covered', color: 'text-primary-cyan' },
-              { value: '100+', labelFR: 'validateurs\nprofessionnels actifs', labelEN: 'active professional\nvalidators', color: 'text-[#a78bfa]' },
+              { value: '9+', labelFR: 'disciplines\ncréatives couvertes', labelEN: 'creative\ndisciplines covered', color: 'text-primary-cyan' },
+              { value: realValidatorCount === null ? '—' : String(realValidatorCount), labelFR: 'validateurs\nprofessionnels actifs', labelEN: 'active professional\nvalidators', color: 'text-[#a78bfa]' },
               { value: '6', labelFR: 'continents\nreprésentés', labelEN: 'continents\nrepresented', color: 'text-emerald-400' },
             ].map((s, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}
