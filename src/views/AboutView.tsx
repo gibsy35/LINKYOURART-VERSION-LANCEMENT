@@ -42,12 +42,12 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange, onNotify }) 
 
   const backgroundImages = [
     'https://images.unsplash.com/photo-1515405295579-ba7b45403062?auto=format&fit=crop&q=80&w=2000', // Fine Art — Art workshop painting explosion of splash acrylics
-    'https://images.unsplash.com/photo-1773062189964-75a471b19934?auto=format&fit=crop&q=80&w=2000', // Music — Vinyl record player, green/purple
     'https://images.unsplash.com/photo-1760868718218-ff73db4518fd?auto=format&fit=crop&q=80&w=2000', // Architecture — Modern geometric building, blue/purple
     'https://images.unsplash.com/photo-1755085381840-572a27fb0735?auto=format&fit=crop&q=80&w=2000', // Fine Art — Large abstract canvas painting ("Standing the Streets")
-    'https://images.unsplash.com/photo-1771098206650-81d713e2e2b9?auto=format&fit=crop&q=80&w=2000', // Fashion — Stacked textile rolls, blue/teal/purple
+    'https://images.unsplash.com/photo-1747171053296-84c4e8015b24?auto=format&fit=crop&q=80&w=2000', // Fashion — Runway show, catwalk
     'https://images.unsplash.com/photo-1774893582522-c8e9c0aeaec9?auto=format&fit=crop&q=80&w=2000', // Digital Art — Abstract blue and white swirling fluid patterns
     'https://images.unsplash.com/photo-1760966362386-e1012dbc3657?auto=format&fit=crop&q=80&w=2000', // Performing Arts — Concert stage, blue/pink/purple lights
+    'https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&q=80&w=2000', // Film — Cinema signage, pink/purple neon night
     'https://images.unsplash.com/photo-1744035783523-203d2bfc75d0?auto=format&fit=crop&q=80&w=2000'  // Fine Art — Abstract acrylic pouring art, orange and red
   ];
 
