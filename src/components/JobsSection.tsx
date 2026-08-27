@@ -114,9 +114,9 @@ export const JobsSection: React.FC<Props> = ({ t, language, onNotify }) => {
       setSubmitted(applyModal?.code || '');
       setApplyModal(null);
       setForm({ name: '', lyaProfile: '', message: '' });
-      onNotify(t('✦ Candidature envoyée — Réponse sous 5 jours via votre espace.', '✦ Application sent — Reply within 5 days via your space.'));
+      onNotify(t('✦ Application sent — Reply within 5 days via your space.', '✦ Candidature envoyée — Réponse sous 5 jours via votre espace.'));
     } catch (e) {
-      onNotify(t('Erreur réseau', 'Network error'));
+      onNotify(t('Network error', 'Erreur réseau'));
     }
   };
 
@@ -130,9 +130,9 @@ export const JobsSection: React.FC<Props> = ({ t, language, onNotify }) => {
       });
       setPostSubmitted(true);
       setPostModal(false);
-      onNotify(t('✦ Demande de publication envoyée — Revue sous 48h.', '✦ Posting request sent — Review within 48h.'));
+      onNotify(t('✦ Posting request sent — Review within 48h.', '✦ Demande de publication envoyée — Revue sous 48h.'));
     } catch (e) {
-      onNotify(t('Erreur réseau', 'Network error'));
+      onNotify(t('Network error', 'Erreur réseau'));
     }
   };
 
@@ -146,19 +146,18 @@ export const JobsSection: React.FC<Props> = ({ t, language, onNotify }) => {
           <div className="space-y-4">
             <div className="flex items-center gap-2">
               <span className="px-3 py-1 bg-accent-gold/20 border border-accent-gold/30 rounded-full text-[10px] font-black text-accent-gold uppercase tracking-widest">★ LYA Jobs</span>
-              <span className="px-2 py-1 bg-emerald-400/10 border border-emerald-400/20 rounded-full text-[9px] font-black text-emerald-400">● {t('Actif', 'Active')}</span>
+              <span className="px-2 py-1 bg-emerald-400/10 border border-emerald-400/20 rounded-full text-[9px] font-black text-emerald-400">● {t('Active', 'Actif')}</span>
             </div>
             <h2 className="text-2xl font-black text-white leading-tight">
-              {t('Le talent certifié,', 'Certified talent,')}<br/>
-              <span className="text-accent-gold">{t('recruté ici.', 'hired here.')}</span>
+              {t('Certified talent,', 'Le talent certifié,')}<br/>
+              <span className="text-accent-gold">{t('hired here.', 'recruté ici.')}</span>
             </h2>
             <p className="text-sm text-on-surface-variant/60 leading-relaxed">
-              {t('La place de marché de l\'emploi créatif LYA. Ouverte à tous — les profils certifiés sont mis en avant. Publiez une offre, ou postulez avec votre Score LYA en avantage.',
-                 'The LYA creative jobs marketplace. Open to all — certified profiles are prioritised. Post a listing, or apply with your LYA Score as an edge.')}
+              {t('The LYA creative jobs marketplace. Open to all — certified profiles are prioritised. Post a listing, or apply with your LYA Score as an edge.', 'La place de marché de l\'emploi créatif LYA. Ouverte à tous — les profils certifiés sont mis en avant. Publiez une offre, ou postulez avec votre Score LYA en avantage.')}
             </p>
             <button onClick={() => setPostModal(true)}
               className="px-6 py-3 bg-accent-gold text-surface-dim text-xs font-black uppercase tracking-widest rounded-xl hover:bg-white transition-all shadow-[0_0_20px_rgba(232,196,104,0.2)]">
-              {postSubmitted ? t('✓ Demande envoyée', '✓ Request sent') : t('Publier une offre', 'Post a listing')}
+              {postSubmitted ? t('✓ Request sent', '✓ Demande envoyée') : t('Post a listing', 'Publier une offre')}
             </button>
           </div>
           {/* Stats */}
@@ -177,8 +176,8 @@ export const JobsSection: React.FC<Props> = ({ t, language, onNotify }) => {
       <div className="space-y-4">
         <div className="flex items-center justify-between flex-wrap gap-3">
           <div className="flex items-center gap-3">
-            <h3 className="text-sm font-black text-white uppercase tracking-widest">{t('Offres ouvertes', 'Open Listings')}</h3>
-            <span className="px-2 py-0.5 bg-emerald-400/10 border border-emerald-400/20 rounded-full text-[9px] font-black text-emerald-400">● {JOBS.length} {t('ouvertes', 'open')}</span>
+            <h3 className="text-sm font-black text-white uppercase tracking-widest">{t('Open Listings', 'Offres ouvertes')}</h3>
+            <span className="px-2 py-0.5 bg-emerald-400/10 border border-emerald-400/20 rounded-full text-[9px] font-black text-emerald-400">● {JOBS.length} {t('open', 'ouvertes')}</span>
           </div>
           <div className="flex gap-1.5 flex-wrap">
             {filters.map(f => (
@@ -207,7 +206,7 @@ export const JobsSection: React.FC<Props> = ({ t, language, onNotify }) => {
                           <span className="px-2 py-0.5 bg-white/5 border border-white/10 rounded text-[8px] font-black text-white/50 uppercase">{item.org}</span>
                           {item.verified && (
                             <span className="px-2 py-0.5 bg-primary-cyan/10 border border-primary-cyan/25 rounded text-[8px] font-black text-primary-cyan uppercase flex items-center gap-1">
-                              <ShieldCheck size={8}/> {t('Vérifié LYA', 'LYA Verified')}
+                              <ShieldCheck size={8}/> {t('LYA Verified', 'Vérifié LYA')}
                             </span>
                           )}
                           {item.scoreMin > 0 && (
@@ -217,7 +216,7 @@ export const JobsSection: React.FC<Props> = ({ t, language, onNotify }) => {
                           )}
                           {submitted === item.code && (
                             <span className="px-2 py-0.5 bg-emerald-400/15 border border-emerald-400/30 rounded text-[8px] font-black text-emerald-400 flex items-center gap-1">
-                              <CheckCircle size={8}/> {t('Candidaté', 'Applied')}
+                              <CheckCircle size={8}/> {t('Applied', 'Candidaté')}
                             </span>
                           )}
                         </div>
@@ -234,7 +233,7 @@ export const JobsSection: React.FC<Props> = ({ t, language, onNotify }) => {
                     <div className="flex items-center gap-2 shrink-0">
                       <button onClick={(e) => { e.stopPropagation(); setApplyModal(item); }}
                         className={`px-4 py-2 text-[10px] font-black uppercase tracking-wider rounded-xl transition-all ${submitted === item.code ? 'bg-emerald-400/10 text-emerald-400 border border-emerald-400/20' : 'bg-accent-gold/15 border border-accent-gold/25 text-accent-gold hover:bg-accent-gold/30'}`}>
-                        {submitted === item.code ? '✓' : t('Postuler', 'Apply')}
+                        {submitted === item.code ? '✓' : t('Apply', 'Postuler')}
                       </button>
                       {expandedCard === item.code ? <ChevronUp size={14} className="text-white/30"/> : <ChevronDown size={14} className="text-white/30"/>}
                     </div>
@@ -248,7 +247,7 @@ export const JobsSection: React.FC<Props> = ({ t, language, onNotify }) => {
                       <div className="p-5 space-y-3">
                         <div className="flex items-center gap-2 mb-2">
                           <Briefcase size={12} className="text-accent-gold"/>
-                          <p className="text-[10px] font-black text-accent-gold uppercase tracking-widest">{t('Description du poste', 'Role brief')}</p>
+                          <p className="text-[10px] font-black text-accent-gold uppercase tracking-widest">{t('Role brief', 'Description du poste')}</p>
                         </div>
                         <p className="text-sm text-on-surface-variant/70 leading-relaxed">{isFR ? item.brief_fr : item.brief_en}</p>
                         <div className="flex gap-2 flex-wrap pt-2">
@@ -273,16 +272,16 @@ export const JobsSection: React.FC<Props> = ({ t, language, onNotify }) => {
             <div className="w-16 h-16 bg-primary-cyan/15 border-2 border-primary-cyan/30 rounded-2xl flex items-center justify-center mx-auto">
               <ShieldCheck size={28} className="text-primary-cyan"/>
             </div>
-            <p className="text-xs font-black text-primary-cyan uppercase tracking-widest">{t('Certification = Priorité', 'Certification = Priority')}</p>
+            <p className="text-xs font-black text-primary-cyan uppercase tracking-widest">{t('Certification = Priority', 'Certification = Priorité')}</p>
           </div>
           <div className="space-y-2">
-            <p className="text-sm font-black text-white">{t('Ouvert à tous, les profils certifiés en tête', 'Open to all, certified profiles first')}</p>
+            <p className="text-sm font-black text-white">{t('Open to all, certified profiles first', 'Ouvert à tous, les profils certifiés en tête')}</p>
             <ul className="space-y-1">
               {[
-                t('Badge visible sur chaque candidature', 'Visible badge on every application'),
-                t('Priorité de classement pour les recruteurs', 'Priority ranking for recruiters'),
-                t('Aucune obligation de certification pour postuler', 'No certification required to apply'),
-                t('Organisations vérifiées via LYA Trust Assurance', 'Organisations verified via LYA Trust Assurance'),
+                t('Visible badge on every application', 'Badge visible sur chaque candidature'),
+                t('Priority ranking for recruiters', 'Priorité de classement pour les recruteurs'),
+                t('No certification required to apply', 'Aucune obligation de certification pour postuler'),
+                t('Organisations verified via LYA Trust Assurance', 'Organisations vérifiées via LYA Trust Assurance'),
               ].map((item, i) => (
                 <li key={i} className="flex items-center gap-2 text-[10px] text-on-surface-variant/60">
                   <span className="w-1 h-1 bg-primary-cyan rounded-full shrink-0"/>
@@ -294,9 +293,9 @@ export const JobsSection: React.FC<Props> = ({ t, language, onNotify }) => {
           <div className="space-y-3">
             <button onClick={() => setPostModal(true)}
               className="w-full py-3 bg-primary-cyan text-surface-dim text-xs font-black uppercase tracking-widest rounded-xl hover:bg-white transition-all">
-              {t('Publier une offre', 'Post a listing')}
+              {t('Post a listing', 'Publier une offre')}
             </button>
-            <p className="text-[9px] text-on-surface-variant/30 text-center">{t('Inclus pour les comptes Pro · Frais fixe sinon', 'Included for Pro accounts · Flat fee otherwise')}</p>
+            <p className="text-[9px] text-on-surface-variant/30 text-center">{t('Included for Pro accounts · Flat fee otherwise', 'Inclus pour les comptes Pro · Frais fixe sinon')}</p>
           </div>
         </div>
       </div>
@@ -315,32 +314,32 @@ export const JobsSection: React.FC<Props> = ({ t, language, onNotify }) => {
               </div>
               <div className="space-y-3">
                 <div>
-                  <label className="text-[9px] font-black text-white/40 uppercase tracking-widest block mb-1">{t('Nom *', 'Name *')}</label>
+                  <label className="text-[9px] font-black text-white/40 uppercase tracking-widest block mb-1">{t('Name *', 'Nom *')}</label>
                   <input value={form.name} onChange={e => setForm(f => ({...f, name: e.target.value}))}
-                    placeholder={t('Votre nom', 'Your name')}
+                    placeholder={t('Your name', 'Votre nom')}
                     className="w-full bg-black/30 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-white/20 outline-none focus:border-accent-gold/50"/>
                 </div>
                 <div>
-                  <label className="text-[9px] font-black text-white/40 uppercase tracking-widest block mb-1">{t('Profil / Score LYA (optionnel)', 'LYA Profile / Score (optional)')}</label>
+                  <label className="text-[9px] font-black text-white/40 uppercase tracking-widest block mb-1">{t('LYA Profile / Score (optional)', 'Profil / Score LYA (optionnel)')}</label>
                   <input value={form.lyaProfile} onChange={e => setForm(f => ({...f, lyaProfile: e.target.value}))}
-                    placeholder={t('Lien vers votre profil certifié', 'Link to your certified profile')}
+                    placeholder={t('Link to your certified profile', 'Lien vers votre profil certifié')}
                     className="w-full bg-black/30 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-white/20 outline-none focus:border-accent-gold/50"/>
                 </div>
                 <div>
                   <label className="text-[9px] font-black text-white/40 uppercase tracking-widest block mb-1">{t('Message *', 'Message *')}</label>
                   <textarea value={form.message} onChange={e => setForm(f => ({...f, message: e.target.value}))}
-                    rows={3} placeholder={t('Pourquoi ce poste vous intéresse...', 'Why this role interests you...')}
+                    rows={3} placeholder={t('Why this role interests you...', 'Pourquoi ce poste vous intéresse...')}
                     className="w-full bg-black/30 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-white/20 outline-none focus:border-accent-gold/50 resize-none"/>
                 </div>
               </div>
               <div className="flex gap-3">
                 <button onClick={() => setApplyModal(null)}
                   className="flex-1 py-3 bg-white/5 border border-white/10 text-xs font-black text-white/50 rounded-xl hover:bg-white/10 transition-all uppercase">
-                  {t('Annuler', 'Cancel')}
+                  {t('Cancel', 'Annuler')}
                 </button>
                 <button onClick={handleApply} disabled={!form.name || !form.message}
                   className="flex-1 py-3 bg-accent-gold text-surface-dim text-xs font-black uppercase tracking-widest rounded-xl hover:bg-white disabled:opacity-40 transition-all flex items-center justify-center gap-2">
-                  <Send size={12}/> {t('Envoyer', 'Send')}
+                  <Send size={12}/> {t('Send', 'Envoyer')}
                 </button>
               </div>
             </motion.div>
@@ -357,46 +356,46 @@ export const JobsSection: React.FC<Props> = ({ t, language, onNotify }) => {
               className="bg-surface-low border border-primary-cyan/30 rounded-3xl p-6 max-w-md w-full space-y-5">
               <div className="text-center space-y-2">
                 <Briefcase size={32} className="text-primary-cyan mx-auto"/>
-                <h3 className="text-sm font-black text-white">{t('Publier une offre', 'Post a listing')}</h3>
-                <p className="text-[10px] text-on-surface-variant/40">{t('Inclus pour les comptes Pro · Frais fixe pour les autres', 'Included for Pro accounts · Flat fee for others')}</p>
+                <h3 className="text-sm font-black text-white">{t('Post a listing', 'Publier une offre')}</h3>
+                <p className="text-[10px] text-on-surface-variant/40">{t('Included for Pro accounts · Flat fee for others', 'Inclus pour les comptes Pro · Frais fixe pour les autres')}</p>
               </div>
               <div className="space-y-3">
                 <div>
                   <label className="text-[9px] font-black text-white/40 uppercase tracking-widest block mb-1">{t('Organisation *', 'Organisation *')}</label>
                   <input value={postForm.org} onChange={e => setPostForm(f => ({...f, org: e.target.value}))}
-                    placeholder={t('Nom du studio, institution...', 'Studio, institution name...')}
+                    placeholder={t('Studio, institution name...', 'Nom du studio, institution...')}
                     className="w-full bg-black/30 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-white/20 outline-none focus:border-primary-cyan/50"/>
                 </div>
                 <div>
-                  <label className="text-[9px] font-black text-white/40 uppercase tracking-widest block mb-1">{t('Intitulé du poste *', 'Job title *')}</label>
+                  <label className="text-[9px] font-black text-white/40 uppercase tracking-widest block mb-1">{t('Job title *', 'Intitulé du poste *')}</label>
                   <input value={postForm.title} onChange={e => setPostForm(f => ({...f, title: e.target.value}))}
-                    placeholder={t('Ex : Directeur artistique', 'E.g: Art Director')}
+                    placeholder={t('E.g: Art Director', 'Ex : Directeur artistique')}
                     className="w-full bg-black/30 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-white/20 outline-none focus:border-primary-cyan/50"/>
                 </div>
                 <div>
                   <label className="text-[9px] font-black text-white/40 uppercase tracking-widest block mb-1">{t('Contact *', 'Contact *')}</label>
                   <input value={postForm.contact} onChange={e => setPostForm(f => ({...f, contact: e.target.value}))}
-                    placeholder={t('Email de contact', 'Contact email')}
+                    placeholder={t('Contact email', 'Email de contact')}
                     className="w-full bg-black/30 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-white/20 outline-none focus:border-primary-cyan/50"/>
                 </div>
                 <div>
                   <label className="text-[9px] font-black text-white/40 uppercase tracking-widest block mb-1">{t('Description *', 'Description *')}</label>
                   <textarea value={postForm.message} onChange={e => setPostForm(f => ({...f, message: e.target.value}))}
-                    rows={3} placeholder={t('Décrivez le poste, le contexte, les attentes...', 'Describe the role, context, expectations...')}
+                    rows={3} placeholder={t('Describe the role, context, expectations...', 'Décrivez le poste, le contexte, les attentes...')}
                     className="w-full bg-black/30 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-white/20 outline-none focus:border-primary-cyan/50 resize-none"/>
                 </div>
               </div>
               <div className="flex gap-3">
                 <button onClick={() => setPostModal(false)}
                   className="flex-1 py-3 bg-white/5 border border-white/10 text-xs font-black text-white/50 rounded-xl hover:bg-white/10 transition-all uppercase">
-                  {t('Annuler', 'Cancel')}
+                  {t('Cancel', 'Annuler')}
                 </button>
                 <button onClick={handlePost} disabled={!postForm.org || !postForm.title || !postForm.message}
                   className="flex-1 py-3 bg-primary-cyan text-surface-dim text-xs font-black uppercase tracking-widest rounded-xl hover:bg-white disabled:opacity-40 transition-all flex items-center justify-center gap-2">
-                  <Send size={12}/> {t('Envoyer', 'Send')}
+                  <Send size={12}/> {t('Send', 'Envoyer')}
                 </button>
               </div>
-              <p className="text-[9px] text-center text-white/20">{t('Revue LYA sous 48h avant mise en ligne', 'LYA review within 48h before going live')}</p>
+              <p className="text-[9px] text-center text-white/20">{t('LYA review within 48h before going live', 'Revue LYA sous 48h avant mise en ligne')}</p>
             </motion.div>
           </motion.div>
         )}
