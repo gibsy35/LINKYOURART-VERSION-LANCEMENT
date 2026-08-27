@@ -70,6 +70,7 @@ interface Member {
   avatar?: string;
   roleIcon: React.ReactNode;
   statusColor: string;
+  email?: string;
 }
 
 interface Event {
@@ -109,7 +110,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
   const [visibleMentors, setVisibleMentors] = useState(2);
   const [monitorImage, setMonitorImage] = React.useState<string | null>(null);
   const [showMail, setShowMail] = useState(false);
-  const [selectedRecipient, setSelectedRecipient] = useState<{name: string, role: string} | null>(null);
+  const [selectedRecipient, setSelectedRecipient] = useState<{name: string, role: string, email?: string} | null>(null);
   const [posts, setPosts] = useState<Post[]>([]);
   const [loadingPosts, setLoadingPosts] = useState(true);
   const [biometricScanning, setBiometricScanning] = useState(false);
@@ -174,10 +175,10 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
     }, 1200);
   };
 
-  const handleInitiateContact = (name: string, role: string) => {
-    setSelectedRecipient({ name, role });
+  const handleInitiateContact = (name: string, role: string, email?: string | null) => {
+    setSelectedRecipient({ name, role, email: email || undefined });
     setShowMail(true);
-    
+
     // Add to mock conversations if not exists
     if (!conversations.find(c => c.name === name)) {
       setConversations(prev => [{
@@ -327,6 +328,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
             roleIcon: data.role === UserRole.ADMIN ? <Crown className="text-accent-gold" size={20} /> : data.isVerifiedValidator ? <ShieldCheck className="text-emerald-400" size={20} /> : <Users className="text-primary-cyan" size={20} />,
             statusColor: 'bg-emerald-500',
             hasPremium: true,
+            email: data.email || null,
           };
         });
       setRealMembers(list);
@@ -1122,7 +1124,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
 
                             <div className="flex items-center gap-3">
                               <button
-                                onClick={() => handleInitiateContact(member.name, member.role)}
+                                onClick={() => handleInitiateContact(member.name, member.role, (member as any).email)}
                                 className="px-6 py-3 rounded-xl font-black text-xs uppercase italic tracking-[0.2em] transition-all bg-white text-surface-dim hover:bg-primary-cyan"
                               >
                                 {t('Contact', 'CONTACT')}
@@ -1232,8 +1234,10 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
           <SecureMail 
             isOpen={showMail}
             recipient={selectedRecipient} 
+            senderName={user?.displayName || undefined}
+            senderRole={user?.role}
             onClose={() => setShowMail(false)} 
-            onSend={() => onNotify(t('MAIL SUCCESSFULLY DISPATCHED TO THE INSTITUTIONAL NETWORK.', 'COURRIEL ENVOYÉ AVEC SUCCÈS AU RÉSEAU INSTITUTIONNEL.'))}
+            onSend={() => onNotify(t('EMAIL SENT.', 'EMAIL ENVOYÉ.'))}
           />
         )}
       </div>

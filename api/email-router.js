@@ -27,6 +27,7 @@ const handlers = {
   'enterprise-request': require('./_handlers/email/enterprise-request'),
   'validator-application': require('./_handlers/email/validator-application'),
   'invitation': require('./_handlers/email/invitation'),
+  'lounge-contact': require('./_handlers/email/lounge-contact'),
 };
 
 module.exports = async (req, res) => {

@@ -1,36 +1,71 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Send, X, Shield, Lock, Paperclip, ChevronDown, CheckCircle2 } from 'lucide-react';
+import { Send, X, Shield, Lock, Paperclip, ChevronDown, CheckCircle2, AlertTriangle } from 'lucide-react';
 import { useTranslation } from '../../context/LanguageContext';
 
 interface SecureMailProps {
   isOpen: boolean;
   onClose: () => void;
-  recipient?: { name: string, role: string } | null;
+  recipient?: { name: string, role: string, email?: string } | null;
+  senderName?: string;
+  senderRole?: string;
   onSend: (data: any) => void;
 }
 
-export const SecureMail: React.FC<SecureMailProps> = ({ isOpen, onClose, recipient, onSend }) => {
-  const { t } = useTranslation();
+export const SecureMail: React.FC<SecureMailProps> = ({ isOpen, onClose, recipient, senderName, senderRole, onSend }) => {
+  const { t, language } = useTranslation();
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
   const [isSending, setIsSending] = useState(false);
   const [isSent, setIsSent] = useState(false);
+  const [sendError, setSendError] = useState<string | null>(null);
 
-  const handleSend = () => {
+  const handleSend = async () => {
     if (!message.trim()) return;
+
+    if (!recipient?.email) {
+      setSendError(t('This member has no reachable email on file yet.', "Ce membre n'a pas encore d'email joignable enregistré."));
+      return;
+    }
+
+    setSendError(null);
     setIsSending(true);
-    setTimeout(() => {
+    try {
+      const res = await fetch('/api/email/lounge-contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          recipientEmail: recipient.email,
+          senderName: senderName || 'LYA Member',
+          senderRole,
+          subject,
+          message,
+          lang: language,
+        }),
+      });
+      const json = await res.json().catch(() => null);
+
+      if (res.ok && json?.success) {
+        setIsSending(false);
+        setIsSent(true);
+        onSend({ subject, message, recipient });
+        setTimeout(() => {
+          setIsSent(false);
+          setSubject('');
+          setMessage('');
+          onClose();
+        }, 2000);
+      } else {
+        setIsSending(false);
+        setSendError(json?.error || t('Could not send. Please try again.', "Impossible d'envoyer. Réessayez."));
+      }
+    } catch (err) {
       setIsSending(false);
-      setIsSent(true);
-      onSend({ subject, message, recipient });
-      setTimeout(() => {
-        setIsSent(false);
-        onClose();
-      }, 2000);
-    }, 2000);
+      setSendError(t('Network error. Please try again.', 'Erreur réseau. Réessayez.'));
+    }
   };
+
 
   return (
     <AnimatePresence mode="sync">
@@ -62,7 +97,7 @@ export const SecureMail: React.FC<SecureMailProps> = ({ isOpen, onClose, recipie
                   </h3>
                   <div className="flex items-center gap-2 mt-1">
                     <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
-                    <span className="text-[10px] text-emerald-400 font-bold uppercase tracking-widest">{t('ENCRYPTION: AES-256 ACTIVE', 'CHIFFREMENT : AES-256 ACTIF')}</span>
+                    <span className="text-[10px] text-emerald-400 font-bold uppercase tracking-widest">{t('SENT TO VERIFIED PRO EMAIL', 'ENVOYÉ À L\'EMAIL PRO VÉRIFIÉ')}</span>
                   </div>
                 </div>
               </div>
@@ -115,6 +150,12 @@ export const SecureMail: React.FC<SecureMailProps> = ({ isOpen, onClose, recipie
               </div>
 
               {/* Action */}
+              {sendError && (
+                <div className="flex items-center gap-3 px-4 py-3 bg-rose-500/10 border border-rose-500/20 rounded-sm">
+                  <AlertTriangle size={16} className="text-rose-400 shrink-0" />
+                  <span className="text-[11px] font-bold text-rose-400 uppercase tracking-wide">{sendError}</span>
+                </div>
+              )}
               <button 
                 onClick={handleSend}
                 disabled={isSending || isSent || !message.trim()}
