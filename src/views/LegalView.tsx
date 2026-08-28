@@ -15,6 +15,7 @@ interface LegalViewProps {
 export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify, onViewChange }) => {
   const { t } = useTranslation();
   const [activeFaqTab, setActiveFaqTab] = React.useState('General');
+  const [activeModelTab, setActiveModelTab] = React.useState<'vision' | 'pillars' | 'process' | 'trust'>('vision');
 
   // Les 5 vrais piliers du Score LYA (voir Contract.pillars dans
   // types.ts — /200 points chacun, /1000 au total). Descriptions
@@ -352,7 +353,7 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify, onViewChan
           </div>
         )}
 
-        {type !== 'FAQ' && (
+        {type !== 'FAQ' && type !== 'OUR_MODEL' && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
             {activeContent.sections.map((section, i) => (
               <motion.section 
@@ -394,81 +395,132 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify, onViewChan
         )}
 
         {type === 'OUR_MODEL' && (
-          <div className="mt-24 space-y-24">
+          <div className="mt-16">
 
-            {/* Les 5 piliers réels */}
-            <section>
-              <div className="text-center mb-14">
-                <p className="text-xs font-black text-primary-cyan uppercase tracking-[0.3em] mb-3">{t('Methodology', 'Méthodologie')}</p>
-                <h2 className="text-3xl md:text-4xl font-black text-white tracking-tighter uppercase mb-4">
-                  {t('The 5 Pillars of the LYA Score', 'Les 5 Piliers du Score LYA')}
-                </h2>
-                <p className="text-on-surface-variant max-w-2xl mx-auto leading-relaxed">
-                  {t('Every certified project is evaluated across 5 independent dimensions, each scored out of 200 points, for a total LYA Score out of 1000. Nothing is a black box — this is the exact framework used on every certification.', 'Chaque projet certifié est évalué selon 5 dimensions indépendantes, notées chacune sur 200 points, pour un Score LYA total sur 1000. Rien n\'est une boîte noire — c\'est exactement le cadre utilisé pour chaque certification.')}
-                </p>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5">
-                {SCORE_PILLARS.map((p, i) => (
-                  <div key={p.key} className="glass-panel p-6 rounded-2xl border-white/10 bg-surface-dim/60 hover:border-primary-cyan/30 transition-all">
-                    <div className="w-11 h-11 rounded-xl bg-primary-cyan/10 border border-primary-cyan/20 flex items-center justify-center mb-4">
-                      <p.icon size={20} className="text-primary-cyan" />
-                    </div>
-                    <h3 className="text-sm font-black text-white uppercase tracking-tight mb-2">{t(p.titleEN, p.titleFR)}</h3>
-                    <p className="text-xs text-on-surface-variant leading-relaxed mb-3">{t(p.descEN, p.descFR)}</p>
-                    <span className="text-[10px] font-mono text-on-surface-variant/40 uppercase tracking-widest">/ 200 {t('points', 'points')}</span>
-                  </div>
-                ))}
-              </div>
-            </section>
+            {/* Onglets */}
+            <div className="flex gap-2 mb-12 flex-wrap">
+              {[
+                { id: 'vision' as const, label: t('Vision', 'Vision'), color: 'bg-primary-cyan' },
+                { id: 'pillars' as const, label: t('The 5 Pillars', 'Les 5 Piliers'), color: 'bg-[#a78bfa]' },
+                { id: 'process' as const, label: t('Validation Process', 'Processus de Validation'), color: 'bg-accent-gold' },
+                { id: 'trust' as const, label: t('Independence & Trust', 'Indépendance & Confiance'), color: 'bg-emerald-400' },
+              ].map(tab => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveModelTab(tab.id)}
+                  className={`px-6 py-2.5 text-xs font-black uppercase tracking-widest rounded-xl transition-all ${
+                    activeModelTab === tab.id ? `${tab.color} text-surface-dim shadow-lg` : 'bg-surface-low border border-white/8 text-on-surface-variant hover:text-white hover:border-white/20'
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
 
-            {/* Le processus de validation */}
-            <section>
-              <div className="text-center mb-14">
-                <p className="text-xs font-black text-primary-cyan uppercase tracking-[0.3em] mb-3">{t('Process', 'Processus')}</p>
-                <h2 className="text-3xl md:text-4xl font-black text-white tracking-tighter uppercase mb-4">
-                  {t('4-Step Validation', 'Une Validation en 4 Étapes')}
-                </h2>
-                <p className="text-on-surface-variant max-w-2xl mx-auto leading-relaxed">
-                  {t('Every project goes through the same 4-step review before it can be certified — no shortcuts, no exceptions.', 'Chaque projet passe par les 4 mêmes étapes de revue avant de pouvoir être certifié — aucun raccourci, aucune exception.')}
-                </p>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
-                {VALIDATION_PROCESS.map((s, i) => (
-                  <div key={i} className="relative">
-                    <div className="glass-panel p-6 rounded-2xl border-white/10 bg-surface-dim/60 h-full">
-                      <div className="flex items-center gap-3 mb-3">
-                        <span className="text-[10px] font-mono text-primary-cyan font-black">0{i + 1}</span>
-                        <s.icon size={18} className="text-primary-cyan" />
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeModelTab}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3, ease: 'easeOut' }}
+              >
+
+                {activeModelTab === 'vision' && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                    {activeContent.sections.map((section, i) => (
+                      <div key={i} className="relative group h-full">
+                        <div className="absolute -inset-1 bg-gradient-to-br from-primary-cyan/10 to-transparent rounded-[3rem] blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                        <div className="relative glass-panel p-12 rounded-[3rem] border-white/10 bg-surface-dim/60 hover:bg-surface-dim/80 hover:border-primary-cyan/30 transition-all duration-500 shadow-[0_30px_60px_rgba(0,0,0,0.4)] flex flex-col h-full">
+                          <h2 className="text-2xl font-black text-white tracking-tighter uppercase leading-none mb-6 group-hover:text-primary-cyan transition-colors">
+                            {section.title}
+                          </h2>
+                          <p className="text-base text-gray-400 leading-relaxed font-medium opacity-80 group-hover:opacity-100 transition-opacity text-justify">
+                            {section.text}
+                          </p>
+                        </div>
                       </div>
-                      <h3 className="text-sm font-black text-white uppercase tracking-tight mb-2">{t(s.titleEN, s.titleFR)}</h3>
-                      <p className="text-xs text-on-surface-variant leading-relaxed">{t(s.descEN, s.descFR)}</p>
-                    </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-            </section>
+                )}
 
-            {/* Indépendance & transparence */}
-            <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="glass-panel p-10 rounded-[2rem] border-white/10 bg-surface-dim/60">
-                <div className="w-12 h-12 rounded-xl bg-emerald-400/10 border border-emerald-400/20 flex items-center justify-center mb-5">
-                  <ShieldCheck size={22} className="text-emerald-400" />
-                </div>
-                <h3 className="text-lg font-black text-white uppercase tracking-tight mb-3">{t('Certifier Independence', 'Indépendance des Certificateurs')}</h3>
-                <p className="text-sm text-on-surface-variant leading-relaxed">
-                  {t('LYA certifiers are never paid by the creator or project they evaluate. Their assessment is not influenced by the outcome of the project they are certifying — this is a structural commitment, not a marketing claim.', 'Les certificateurs LYA ne sont jamais rémunérés par le créateur ou le projet qu\'ils évaluent. Leur évaluation n\'est pas influencée par le succès du projet qu\'ils certifient — c\'est un engagement structurel, pas un argument marketing.')}
-                </p>
-              </div>
-              <div className="glass-panel p-10 rounded-[2rem] border-white/10 bg-surface-dim/60">
-                <div className="w-12 h-12 rounded-xl bg-primary-cyan/10 border border-primary-cyan/20 flex items-center justify-center mb-5">
-                  <Users size={22} className="text-primary-cyan" />
-                </div>
-                <h3 className="text-lg font-black text-white uppercase tracking-tight mb-3">{t('Why the Number of Certifiers Matters', 'Pourquoi le Nombre de Certificateurs Compte')}</h3>
-                <p className="text-sm text-on-surface-variant leading-relaxed">
-                  {t('A score backed by a single reviewer is an opinion. A score backed by several independent certifiers is a signal. We display the real number of certifiers behind every LYA Score, and flag scores still built on a limited sample — so you always know how much weight to give a number.', 'Un score porté par un seul évaluateur est une opinion. Un score porté par plusieurs certificateurs indépendants est un signal. Nous affichons le vrai nombre de certificateurs derrière chaque Score LYA, et signalons les scores encore construits sur un échantillon limité — pour que vous sachiez toujours quel poids donner à un chiffre.')}
-                </p>
-              </div>
-            </section>
+                {activeModelTab === 'pillars' && (
+                  <section>
+                    <div className="text-center mb-14">
+                      <p className="text-xs font-black text-[#a78bfa] uppercase tracking-[0.3em] mb-3">{t('Methodology', 'Méthodologie')}</p>
+                      <h2 className="text-3xl md:text-4xl font-black text-white tracking-tighter uppercase mb-4">
+                        {t('The 5 Pillars of the LYA Score', 'Les 5 Piliers du Score LYA')}
+                      </h2>
+                      <p className="text-on-surface-variant max-w-2xl mx-auto leading-relaxed">
+                        {t('Every certified project is evaluated across 5 independent dimensions, each scored out of 200 points, for a total LYA Score out of 1000. Nothing is a black box — this is the exact framework used on every certification.', 'Chaque projet certifié est évalué selon 5 dimensions indépendantes, notées chacune sur 200 points, pour un Score LYA total sur 1000. Rien n\'est une boîte noire — c\'est exactement le cadre utilisé pour chaque certification.')}
+                      </p>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5">
+                      {SCORE_PILLARS.map((p, i) => (
+                        <div key={p.key} className="glass-panel p-6 rounded-2xl border-white/10 bg-surface-dim/60 hover:border-[#a78bfa]/30 transition-all">
+                          <div className="w-11 h-11 rounded-xl bg-[#a78bfa]/10 border border-[#a78bfa]/20 flex items-center justify-center mb-4">
+                            <p.icon size={20} className="text-[#a78bfa]" />
+                          </div>
+                          <h3 className="text-sm font-black text-white uppercase tracking-tight mb-2">{t(p.titleEN, p.titleFR)}</h3>
+                          <p className="text-xs text-on-surface-variant leading-relaxed mb-3">{t(p.descEN, p.descFR)}</p>
+                          <span className="text-[10px] font-mono text-on-surface-variant/40 uppercase tracking-widest">/ 200 {t('points', 'points')}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+                )}
+
+                {activeModelTab === 'process' && (
+                  <section>
+                    <div className="text-center mb-14">
+                      <p className="text-xs font-black text-accent-gold uppercase tracking-[0.3em] mb-3">{t('Process', 'Processus')}</p>
+                      <h2 className="text-3xl md:text-4xl font-black text-white tracking-tighter uppercase mb-4">
+                        {t('4-Step Validation', 'Une Validation en 4 Étapes')}
+                      </h2>
+                      <p className="text-on-surface-variant max-w-2xl mx-auto leading-relaxed">
+                        {t('Every project goes through the same 4-step review before it can be certified — no shortcuts, no exceptions.', 'Chaque projet passe par les 4 mêmes étapes de revue avant de pouvoir être certifié — aucun raccourci, aucune exception.')}
+                      </p>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
+                      {VALIDATION_PROCESS.map((s, i) => (
+                        <div key={i} className="glass-panel p-6 rounded-2xl border-white/10 bg-surface-dim/60 h-full hover:border-accent-gold/30 transition-all">
+                          <div className="flex items-center gap-3 mb-3">
+                            <span className="text-[10px] font-mono text-accent-gold font-black">0{i + 1}</span>
+                            <s.icon size={18} className="text-accent-gold" />
+                          </div>
+                          <h3 className="text-sm font-black text-white uppercase tracking-tight mb-2">{t(s.titleEN, s.titleFR)}</h3>
+                          <p className="text-xs text-on-surface-variant leading-relaxed">{t(s.descEN, s.descFR)}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+                )}
+
+                {activeModelTab === 'trust' && (
+                  <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="glass-panel p-10 rounded-[2rem] border-white/10 bg-surface-dim/60">
+                      <div className="w-12 h-12 rounded-xl bg-emerald-400/10 border border-emerald-400/20 flex items-center justify-center mb-5">
+                        <ShieldCheck size={22} className="text-emerald-400" />
+                      </div>
+                      <h3 className="text-lg font-black text-white uppercase tracking-tight mb-3">{t('Certifier Independence', 'Indépendance des Certificateurs')}</h3>
+                      <p className="text-sm text-on-surface-variant leading-relaxed">
+                        {t('LYA certifiers are never paid by the creator or project they evaluate. Their assessment is not influenced by the outcome of the project they are certifying — this is a structural commitment, not a marketing claim.', 'Les certificateurs LYA ne sont jamais rémunérés par le créateur ou le projet qu\'ils évaluent. Leur évaluation n\'est pas influencée par le succès du projet qu\'ils certifient — c\'est un engagement structurel, pas un argument marketing.')}
+                      </p>
+                    </div>
+                    <div className="glass-panel p-10 rounded-[2rem] border-white/10 bg-surface-dim/60">
+                      <div className="w-12 h-12 rounded-xl bg-primary-cyan/10 border border-primary-cyan/20 flex items-center justify-center mb-5">
+                        <Users size={22} className="text-primary-cyan" />
+                      </div>
+                      <h3 className="text-lg font-black text-white uppercase tracking-tight mb-3">{t('Why the Number of Certifiers Matters', 'Pourquoi le Nombre de Certificateurs Compte')}</h3>
+                      <p className="text-sm text-on-surface-variant leading-relaxed">
+                        {t('A score backed by a single reviewer is an opinion. A score backed by several independent certifiers is a signal. We display the real number of certifiers behind every LYA Score, and flag scores still built on a limited sample — so you always know how much weight to give a number.', 'Un score porté par un seul évaluateur est une opinion. Un score porté par plusieurs certificateurs indépendants est un signal. Nous affichons le vrai nombre de certificateurs derrière chaque Score LYA, et signalons les scores encore construits sur un échantillon limité — pour que vous sachiez toujours quel poids donner à un chiffre.')}
+                      </p>
+                    </div>
+                  </section>
+                )}
+
+              </motion.div>
+            </AnimatePresence>
 
           </div>
         )}
