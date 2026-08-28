@@ -215,6 +215,22 @@ export const RegistryView: React.FC<{
   const totalPages = Math.ceil(sortedItems.length / pageSize);
   const paginatedItems = sortedItems.slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
+  // Pagination tronquée — évite d'afficher tous les numéros de page
+  // d'affilée (illisible dès qu'il y en a beaucoup, ex. 1 à 39).
+  // Montre toujours la première/dernière page, la page courante et ses
+  // voisines immédiates, avec '…' pour le reste.
+  const getVisiblePageNumbers = (): (number | 'ellipsis')[] => {
+    if (totalPages <= 7) return Array.from({ length: totalPages }, (_, i) => i + 1);
+    const pages = new Set<number>([1, totalPages, currentPage, currentPage - 1, currentPage + 1]);
+    const sorted = Array.from(pages).filter(p => p >= 1 && p <= totalPages).sort((a, b) => a - b);
+    const result: (number | 'ellipsis')[] = [];
+    sorted.forEach((p, i) => {
+      if (i > 0 && p - sorted[i - 1] > 1) result.push('ellipsis');
+      result.push(p);
+    });
+    return result;
+  };
+
   const toggleContractExpansion = (id: string) => {
     setExpandedContractIds(prev => 
       prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]
@@ -604,9 +620,10 @@ export const RegistryView: React.FC<{
             </button>
 
             <div className="flex items-center gap-1 mx-1">
-              {[...Array(totalPages)].map((_, i) => {
-                const pageNum = i + 1;
-                return (
+              {getVisiblePageNumbers().map((pageNum, idx) => (
+                pageNum === 'ellipsis' ? (
+                  <span key={`ellipsis-${idx}`} className="w-8 h-8 flex items-center justify-center text-on-surface-variant/30 text-xs font-black">…</span>
+                ) : (
                   <button
                     key={pageNum}
                     onClick={() => setCurrentPage(pageNum)}
@@ -618,8 +635,8 @@ export const RegistryView: React.FC<{
                   >
                     {pageNum}
                   </button>
-                );
-              })}
+                )
+              ))}
             </div>
 
             <button

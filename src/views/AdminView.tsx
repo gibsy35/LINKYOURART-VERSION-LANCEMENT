@@ -174,68 +174,21 @@ export const AdminView: React.FC<{
   }, [liveContracts]);
 
   useEffect(() => {
-    const loadLocalVerif = () => {
-      let localVerif = JSON.parse(localStorage.getItem('lya_local_verification_requests') || '[]');
-      if (localVerif.length === 0) {
-        localVerif = [
-          {
-            id: 'verif-001',
-            userId: 'user-creative-01',
-            displayName: 'Aurélia Dubois-Mercier',
-            email: 'aurelia.dubois@contemporary-arts.fr',
-            role: 'EXPERT',
-            firm: 'Paris Contemporary Fine Arts Institute',
-            registrationId: 'FR-8820492-PC',
-            status: 'PENDING',
-            createdAt: new Date(Date.now() - 3600000 * 4).toISOString(),
-            documents: [
-              { name: 'Kbis_Certified_Art_House.pdf', data: '#mock-kbis' },
-              { name: 'Adhesion_Maison_Artistes_2026.pdf', data: '#mock-artists' }
-            ]
-          },
-          {
-            id: 'verif-002',
-            userId: 'user-creative-02',
-            displayName: 'Hans-Dieter Werner',
-            email: 'werner.finearts@berlin-registry.de',
-            role: 'EXPERT',
-            firm: 'Werner & Partners Galleries',
-            registrationId: 'DE-DE9949102',
-            status: 'PENDING',
-            createdAt: new Date(Date.now() - 3600000 * 18).toISOString(),
-            documents: [
-              { name: 'Berlin_Gallery_License_Werner.pdf', data: '#mock-berlin' }
-            ]
-          },
-          {
-            id: 'verif-003',
-            userId: 'user-creative-03',
-            displayName: 'Marcus Sterling',
-            email: 'marcus@sterling-art-advisors.com',
-            role: 'EXPERT',
-            firm: 'Sterling Art Advisory',
-            registrationId: 'FR-ART-77491',
-            status: 'APPROVED',
-            createdAt: new Date(Date.now() - 3600000 * 48).toISOString(),
-            documents: [
-              { name: 'Professional_Art_Advisory_Credentials.pdf', data: '#mock-cred' }
-            ]
-          }
-        ];
-        localStorage.setItem('lya_local_verification_requests', JSON.stringify(localVerif));
+    // Purge ponctuelle des candidatures de démonstration fictives
+    // (Aurélia Dubois-Mercier, Hans-Dieter Werner, Marcus Sterling)
+    // qui pouvaient déjà être stockées en local depuis une session
+    // précédente — leurs documents avaient des liens factices
+    // ('#mock-kbis'...) jamais téléchargeables. Les vraies candidatures
+    // (soumises via ApplyForVerificationView.tsx, avec un vrai fichier
+    // uploadé sur Firebase Storage) ne sont pas concernées.
+    const MOCK_VERIF_IDS = ['verif-001', 'verif-002', 'verif-003'];
+    try {
+      const stored = JSON.parse(localStorage.getItem('lya_local_verification_requests') || '[]');
+      const cleaned = stored.filter((v: any) => !MOCK_VERIF_IDS.includes(v.id));
+      if (cleaned.length !== stored.length) {
+        localStorage.setItem('lya_local_verification_requests', JSON.stringify(cleaned));
       }
-      setVerificationRequests(prev => {
-        const merged = [...prev];
-        localVerif.forEach((lv: any) => {
-          if (!merged.some(m => m.id === lv.id)) {
-            merged.push(lv);
-          }
-        });
-        return merged;
-      });
-    };
-
-    loadLocalVerif();
+    } catch {}
 
     if ((window as any).lya_quota_reached) return;
     const requestsRef = collection(db, 'verification_requests');
@@ -264,7 +217,10 @@ export const AdminView: React.FC<{
         }
         console.warn('Admin verifications fetch failed:', error);
         handleFirestoreError(error, OperationType.GET, 'verification_requests');
-        loadLocalVerif();
+        try {
+          const localVerif = JSON.parse(localStorage.getItem('lya_local_verification_requests') || '[]');
+          setVerificationRequests(localVerif);
+        } catch {}
       });
     } catch (e) { /* Ignore */ }
 

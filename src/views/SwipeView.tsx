@@ -368,10 +368,6 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
             {cat === 'ALL' ? t('All','Tous') : cat}
           </button>
         ))}
-        <button onClick={() => setShowLiked(!showLiked)}
-          className={`ml-auto px-3 py-1.5 rounded-full text-xs font-black uppercase tracking-wider whitespace-nowrap transition-all flex items-center gap-1.5 shrink-0 ${showLiked ? 'bg-emerald-400 text-surface-dim' : 'bg-surface-high/40 border border-white/10 text-on-surface-variant hover:border-emerald-400/30'}`}>
-          <Heart size={11} fill={showLiked ? 'currentColor' : 'none'}/> {t(`Liked (${likedProjects.length})`,`Aimés (${likedProjects.length})`)}
-        </button>
       </div>
 
       {/* ── SECTION PROJETS LIKÉS ── */}
@@ -638,6 +634,14 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
               className="w-16 h-16 rounded-full bg-surface-high border border-white/10 flex items-center justify-center text-emerald-500 hover:bg-emerald-500/10 hover:border-emerald-500/50 transition-all active:scale-90 shadow-xl"
             >
               <Heart size={32} fill="currentColor" />
+            </button>
+
+            <button onClick={() => setShowLiked(!showLiked)}
+              className={`w-12 h-12 rounded-full flex flex-col items-center justify-center transition-all active:scale-90 shadow-lg border ${showLiked ? 'bg-emerald-400 border-emerald-400 text-surface-dim' : 'bg-surface-high border-white/10 text-emerald-500 hover:border-emerald-500/50 hover:bg-emerald-500/10'}`}
+              title={t('View Liked', 'Voir les Aimés')}
+            >
+              <Heart size={16} fill={showLiked ? 'currentColor' : 'none'} />
+              <span className="text-[9px] font-black leading-none mt-0.5">{likedProjects.length}</span>
             </button>
           </div>
           </>
