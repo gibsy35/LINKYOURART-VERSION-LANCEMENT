@@ -3,7 +3,7 @@ import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { downloadLegalDocument } from '../utils/premiumDownload';
 import { PageHeader } from '../components/ui/PageHeader';
-import { Shield, Lock, FileText, Scale, Globe, AlertCircle, Target, MessageSquare, HelpCircle } from 'lucide-react';
+import { Shield, Lock, FileText, Scale, Globe, AlertCircle, Target, MessageSquare, HelpCircle, Award, TrendingUp, Gavel, Cpu, LineChart, ShieldCheck, Sparkles, FileCheck, CheckCircle, Users } from 'lucide-react';
 import { useTranslation } from '../context/LanguageContext';
 
 interface LegalViewProps {
@@ -15,6 +15,28 @@ interface LegalViewProps {
 export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify, onViewChange }) => {
   const { t } = useTranslation();
   const [activeFaqTab, setActiveFaqTab] = React.useState('General');
+
+  // Les 5 vrais piliers du Score LYA (voir Contract.pillars dans
+  // types.ts — /200 points chacun, /1000 au total). Descriptions
+  // honnêtes de ce que chaque pilier évalue concrètement.
+  const SCORE_PILLARS = [
+    { key: 'Project Quality', icon: Award, titleFR: 'Qualité du Projet', titleEN: 'Project Quality', descFR: 'La rigueur créative et technique de l\'œuvre elle-même — exécution, cohérence artistique, niveau de finition.', descEN: 'The creative and technical rigor of the work itself — execution, artistic coherence, level of finish.' },
+    { key: 'Marketability', icon: TrendingUp, titleFR: 'Potentiel de Marché', titleEN: 'Marketability', descFR: 'La capacité du projet à trouver un public et une audience réelle, au-delà de sa seule valeur artistique intrinsèque.', descEN: 'The project\'s ability to find a real audience, beyond its intrinsic artistic value alone.' },
+    { key: 'Legal Security', icon: Gavel, titleFR: 'Sécurité Juridique', titleEN: 'Legal Security', descFR: 'La clarté et la solidité des droits de propriété intellectuelle documentés — absence de litige, chaîne de titres claire.', descEN: 'The clarity and solidity of documented intellectual property rights — no disputes, clear chain of title.' },
+    { key: 'Technical Innovation', icon: Cpu, titleFR: 'Innovation Technique', titleEN: 'Technical Innovation', descFR: 'L\'originalité de l\'approche ou de la technique employée, par rapport à l\'état actuel de la discipline.', descEN: 'The originality of the approach or technique used, relative to the current state of the discipline.' },
+    { key: 'Growth Potential', icon: LineChart, titleFR: 'Potentiel de Croissance', titleEN: 'Growth Potential', descFR: 'La capacité du projet et de son porteur à se développer dans la durée, au-delà de l\'œuvre présentée aujourd\'hui.', descEN: 'The project\'s and creator\'s ability to grow over time, beyond the work presented today.' },
+  ];
+
+  // Les 4 vraies étapes du processus de validation — identiques à
+  // celles utilisées réellement par les certificateurs dans
+  // ValidationView.tsx (VALIDATION_STEPS), reprises ici pour la
+  // transparence publique.
+  const VALIDATION_PROCESS = [
+    { icon: ShieldCheck, titleFR: 'Vérification d\'Origine', titleEN: 'Origin Verification', descFR: 'Authenticité et traçabilité de la création.', descEN: 'Authenticity and traceability of the work.' },
+    { icon: Sparkles, titleFR: 'Analyse Créative', titleEN: 'Creative Analysis', descFR: 'Originalité, qualité et potentiel artistique.', descEN: 'Originality, quality and artistic potential.' },
+    { icon: FileCheck, titleFR: 'Droits & Conformité', titleEN: 'Rights & Compliance', descFR: 'Vérification des droits de propriété et licences.', descEN: 'Ownership rights and license verification.' },
+    { icon: CheckCircle, titleFR: 'Validation Finale', titleEN: 'Final Validation', descFR: 'Approbation définitive d\'indexation LYA.', descEN: 'Final LYA indexation approval.' },
+  ];
 
   const faqThemes = [
     { id: 'General', label: t('General', 'Général') },
@@ -368,6 +390,86 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify, onViewChan
                 </div>
               </motion.section>
             ))}
+          </div>
+        )}
+
+        {type === 'OUR_MODEL' && (
+          <div className="mt-24 space-y-24">
+
+            {/* Les 5 piliers réels */}
+            <section>
+              <div className="text-center mb-14">
+                <p className="text-xs font-black text-primary-cyan uppercase tracking-[0.3em] mb-3">{t('Methodology', 'Méthodologie')}</p>
+                <h2 className="text-3xl md:text-4xl font-black text-white tracking-tighter uppercase mb-4">
+                  {t('The 5 Pillars of the LYA Score', 'Les 5 Piliers du Score LYA')}
+                </h2>
+                <p className="text-on-surface-variant max-w-2xl mx-auto leading-relaxed">
+                  {t('Every certified project is evaluated across 5 independent dimensions, each scored out of 200 points, for a total LYA Score out of 1000. Nothing is a black box — this is the exact framework used on every certification.', 'Chaque projet certifié est évalué selon 5 dimensions indépendantes, notées chacune sur 200 points, pour un Score LYA total sur 1000. Rien n\'est une boîte noire — c\'est exactement le cadre utilisé pour chaque certification.')}
+                </p>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5">
+                {SCORE_PILLARS.map((p, i) => (
+                  <div key={p.key} className="glass-panel p-6 rounded-2xl border-white/10 bg-surface-dim/60 hover:border-primary-cyan/30 transition-all">
+                    <div className="w-11 h-11 rounded-xl bg-primary-cyan/10 border border-primary-cyan/20 flex items-center justify-center mb-4">
+                      <p.icon size={20} className="text-primary-cyan" />
+                    </div>
+                    <h3 className="text-sm font-black text-white uppercase tracking-tight mb-2">{t(p.titleEN, p.titleFR)}</h3>
+                    <p className="text-xs text-on-surface-variant leading-relaxed mb-3">{t(p.descEN, p.descFR)}</p>
+                    <span className="text-[10px] font-mono text-on-surface-variant/40 uppercase tracking-widest">/ 200 {t('points', 'points')}</span>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            {/* Le processus de validation */}
+            <section>
+              <div className="text-center mb-14">
+                <p className="text-xs font-black text-primary-cyan uppercase tracking-[0.3em] mb-3">{t('Process', 'Processus')}</p>
+                <h2 className="text-3xl md:text-4xl font-black text-white tracking-tighter uppercase mb-4">
+                  {t('4-Step Validation', 'Une Validation en 4 Étapes')}
+                </h2>
+                <p className="text-on-surface-variant max-w-2xl mx-auto leading-relaxed">
+                  {t('Every project goes through the same 4-step review before it can be certified — no shortcuts, no exceptions.', 'Chaque projet passe par les 4 mêmes étapes de revue avant de pouvoir être certifié — aucun raccourci, aucune exception.')}
+                </p>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
+                {VALIDATION_PROCESS.map((s, i) => (
+                  <div key={i} className="relative">
+                    <div className="glass-panel p-6 rounded-2xl border-white/10 bg-surface-dim/60 h-full">
+                      <div className="flex items-center gap-3 mb-3">
+                        <span className="text-[10px] font-mono text-primary-cyan font-black">0{i + 1}</span>
+                        <s.icon size={18} className="text-primary-cyan" />
+                      </div>
+                      <h3 className="text-sm font-black text-white uppercase tracking-tight mb-2">{t(s.titleEN, s.titleFR)}</h3>
+                      <p className="text-xs text-on-surface-variant leading-relaxed">{t(s.descEN, s.descFR)}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            {/* Indépendance & transparence */}
+            <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="glass-panel p-10 rounded-[2rem] border-white/10 bg-surface-dim/60">
+                <div className="w-12 h-12 rounded-xl bg-emerald-400/10 border border-emerald-400/20 flex items-center justify-center mb-5">
+                  <ShieldCheck size={22} className="text-emerald-400" />
+                </div>
+                <h3 className="text-lg font-black text-white uppercase tracking-tight mb-3">{t('Certifier Independence', 'Indépendance des Certificateurs')}</h3>
+                <p className="text-sm text-on-surface-variant leading-relaxed">
+                  {t('LYA certifiers are never paid by the creator or project they evaluate. Their assessment is not influenced by the outcome of the project they are certifying — this is a structural commitment, not a marketing claim.', 'Les certificateurs LYA ne sont jamais rémunérés par le créateur ou le projet qu\'ils évaluent. Leur évaluation n\'est pas influencée par le succès du projet qu\'ils certifient — c\'est un engagement structurel, pas un argument marketing.')}
+                </p>
+              </div>
+              <div className="glass-panel p-10 rounded-[2rem] border-white/10 bg-surface-dim/60">
+                <div className="w-12 h-12 rounded-xl bg-primary-cyan/10 border border-primary-cyan/20 flex items-center justify-center mb-5">
+                  <Users size={22} className="text-primary-cyan" />
+                </div>
+                <h3 className="text-lg font-black text-white uppercase tracking-tight mb-3">{t('Why the Number of Certifiers Matters', 'Pourquoi le Nombre de Certificateurs Compte')}</h3>
+                <p className="text-sm text-on-surface-variant leading-relaxed">
+                  {t('A score backed by a single reviewer is an opinion. A score backed by several independent certifiers is a signal. We display the real number of certifiers behind every LYA Score, and flag scores still built on a limited sample — so you always know how much weight to give a number.', 'Un score porté par un seul évaluateur est une opinion. Un score porté par plusieurs certificateurs indépendants est un signal. Nous affichons le vrai nombre de certificateurs derrière chaque Score LYA, et signalons les scores encore construits sur un échantillon limité — pour que vous sachiez toujours quel poids donner à un chiffre.')}
+                </p>
+              </div>
+            </section>
+
           </div>
         )}
 
