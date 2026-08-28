@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence, useMotionValue, useTransform } from 'motion/react';
-import { Heart, X, Info, Star, Zap, Scale, Activity, Plus } from 'lucide-react';
+import { Heart, X, Info, Star, Zap, Scale, Activity, Plus, Bell, BellRing, Share2 } from 'lucide-react';
 import { CONTRACTS, Contract, UserProfile, UserRole } from '../types';
 import { useTranslation } from '../context/LanguageContext';
 import { PageHeader } from '../components/ui/PageHeader';
@@ -41,6 +41,65 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
   const [direction, setDirection] = useState<'left' | 'right' | null>(null);
   const [swipedIds, setSwipedIds] = useState<string[]>([]);
   const swipeDirectionRef = React.useRef<'left' | 'right' | null>(null);
+
+  // Alertes de variation de Score LYA — préférence réellement stockée
+  // par utilisateur (score_alerts/{uid}). Le déclenchement effectif de
+  // la notification ne peut se brancher que le jour où les scores
+  // seront recalculés dynamiquement (CONTRACTS est aujourd'hui un
+  // catalogue statique) — ce bouton enregistre honnêtement l'intérêt
+  // de l'utilisateur en attendant.
+  const [scoreAlerts, setScoreAlerts] = useState<string[]>([]);
+  useEffect(() => {
+    if (!user?.uid) return;
+    getDoc(doc(db, 'score_alerts', user.uid)).then(snap => {
+      if (snap.exists()) setScoreAlerts(snap.data().contractIds || []);
+    }).catch(() => {});
+  }, [user?.uid]);
+
+  const toggleScoreAlert = async (e: React.MouseEvent, contractId: string) => {
+    e.stopPropagation();
+    if (!user?.uid) { onNotify(t('Sign in to set alerts', 'Connectez-vous pour activer les alertes')); return; }
+    const isActive = scoreAlerts.includes(contractId);
+    const next = isActive ? scoreAlerts.filter(id => id !== contractId) : [...scoreAlerts, contractId];
+    setScoreAlerts(next);
+    try {
+      await setDoc(doc(db, 'score_alerts', user.uid), { contractIds: next, updatedAt: new Date().toISOString() }, { merge: true });
+      onNotify(isActive
+        ? t('Alert removed', 'Alerte retirée')
+        : t('You\'ll be notified when this LYA Score changes', 'Vous serez notifié si ce Score LYA évolue'));
+    } catch {
+      setScoreAlerts(scoreAlerts); // rollback
+      onNotify(t('Network error', 'Erreur réseau'));
+    }
+  };
+
+  const shareProject = async (e: React.MouseEvent, contract: Contract) => {
+    e.stopPropagation();
+    const url = `${window.location.origin}/?project=${contract.id}`;
+    const shareData = {
+      title: `${contract.name} — LinkYourArt`,
+      text: t(`Check out "${contract.name}" on LinkYourArt — LYA Score ${contract.totalScore}/1000`, `Découvrez "${contract.name}" sur LinkYourArt — Score LYA ${contract.totalScore}/1000`),
+      url,
+    };
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        await navigator.clipboard.writeText(url);
+        onNotify(t('Link copied to clipboard', 'Lien copié dans le presse-papier'));
+      }
+    } catch (err) {
+      if ((err as any)?.name !== 'AbortError') {
+        try {
+          await navigator.clipboard.writeText(url);
+          onNotify(t('Link copied to clipboard', 'Lien copié dans le presse-papier'));
+        } catch {
+          onNotify(t('Could not share', 'Impossible de partager'));
+        }
+      }
+    }
+  };
+
   
   const x = useMotionValue(0);
   const rotate = useTransform(x, [-200, 200], [-25, 25]);
@@ -426,6 +485,20 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
                       className={`p-2 rounded-full backdrop-blur-md border transition-all ${comparisonList.includes(currentContract.id) ? 'bg-primary-cyan border-primary-cyan text-surface-dim' : 'bg-black/30 border-white/15 text-white'}`}
                     >
                       <Scale size={15} />
+                    </button>
+                    <button
+                      onClick={(e) => toggleScoreAlert(e, currentContract.id)}
+                      title={t('Notify me if the LYA Score changes', 'Me notifier si le Score LYA change')}
+                      className={`p-2 rounded-full backdrop-blur-md border transition-all ${scoreAlerts.includes(currentContract.id) ? 'bg-[#a78bfa] border-[#a78bfa] text-surface-dim' : 'bg-black/30 border-white/15 text-white'}`}
+                    >
+                      {scoreAlerts.includes(currentContract.id) ? <BellRing size={15} /> : <Bell size={15} />}
+                    </button>
+                    <button
+                      onClick={(e) => shareProject(e, currentContract)}
+                      title={t('Share this project', 'Partager ce projet')}
+                      className="p-2 rounded-full backdrop-blur-md border bg-black/30 border-white/15 text-white transition-all hover:bg-black/50"
+                    >
+                      <Share2 size={15} />
                     </button>
                   </div>
 
