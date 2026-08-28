@@ -13,6 +13,8 @@ import {
   Lock, BarChart2, RefreshCw, Flag, ChevronRight, Twitter
 } from 'lucide-react';
 import { ResponsiveContainer, AreaChart, Area, Tooltip, XAxis } from 'recharts';
+import { db } from '../firebase';
+import { collection, query, where, onSnapshot } from 'firebase/firestore';
 
 const genChart = (baseScore: number, growth: number, points = 30) =>
   Array.from({ length: points }, (_, i) => ({
@@ -42,6 +44,25 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
   const project: Contract = CONTRACTS.find(c => c.id === contractId) || CONTRACTS[0];
   const up = project.growth >= 0;
   const baseScore = Math.max(1, project.totalScore - project.growth * 5);
+
+  // Nombre réel de certificateurs distincts ayant validé ce projet —
+  // remplace le texte vague "Certifié par les validateurs LYA" par un
+  // vrai compteur, façon avis Google. Compte les documents
+  // validation_approved (écrits par ValidationView.tsx) pour ce
+  // contrat, dédupliqués par validateur. Honnête : ce nombre sera
+  // souvent bas ou nul aujourd'hui — la plateforme est en pré-lancement
+  // et la plupart des projets démo n'ont jamais eu de vraie validation
+  // enregistrée depuis ce flux.
+  const [certifierCount, setCertifierCount] = useState<number | null>(null);
+  React.useEffect(() => {
+    const q = query(collection(db, 'validation_approved'), where('contractId', '==', project.id));
+    const unsub = onSnapshot(q, (snap) => {
+      const distinct = new Set(snap.docs.map(d => d.data().approvedBy).filter(Boolean));
+      setCertifierCount(distinct.size);
+    }, () => setCertifierCount(null));
+    return () => unsub();
+  }, [project.id]);
+
   const chartData = genChart(baseScore, project.growth);
   const similar = CONTRACTS.filter(c => c.category === project.category && c.id !== project.id).slice(0, 3);
 
@@ -265,7 +286,13 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
             </div>
             <div className="text-right">
               <span className={`px-3 py-1.5 border rounded-full text-sm font-black uppercase tracking-widest ${rarityColor[project.rarity]}`}>★ {project.rarity}</span>
-              <p className="text-xs text-on-surface-variant/40 mt-2">{T('Certifié par les validateurs LYA', 'Certified by LYA validators')}</p>
+              <p className="text-xs text-on-surface-variant/40 mt-2">
+                {certifierCount === null
+                  ? T('Certifié par les validateurs LYA', 'Certified by LYA validators')
+                  : certifierCount === 0
+                    ? T('Aucun certificateur enregistré pour l\'instant', 'No certifier recorded yet')
+                    : T(`Certifié par ${certifierCount} certificateur${certifierCount > 1 ? 's' : ''} LYA`, `Certified by ${certifierCount} LYA certifier${certifierCount > 1 ? 's' : ''}`)}
+              </p>
             </div>
           </div>
 
