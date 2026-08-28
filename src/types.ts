@@ -39,6 +39,10 @@ export interface UserProfile {
   // not automatically by any subscription tier (except Enterprise/Admin).
   isVerifiedValidator?: boolean;
   publicCertifierOptIn?: boolean;
+  themePreference?: 'dark' | 'light';
+  notificationsEnabled?: boolean;
+  highPerformanceMode?: boolean;
+  privacyLevel?: 'PUBLIC' | 'PRIVATE' | 'PROFESSIONAL';
   // Institutional/catalog-scale account — grants Professional-level access
   // plus bulk tooling and automatic Lounge/Governance access.
   isEnterprise?: boolean;

@@ -3,21 +3,15 @@ import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { PageHeader } from '../components/ui/PageHeader';
 import { 
-  Settings as SettingsIcon, 
   Moon, 
   Sun, 
   Globe, 
   Bell, 
   Shield, 
-  User, 
-  Database, 
-  Cpu,
-  Monitor,
-  Eye,
-  Lock,
-  ChevronRight
+  Monitor
 } from 'lucide-react';
 import { useTranslation } from '../context/LanguageContext';
+import { useCurrency } from '../context/CurrencyContext';
 import { UserProfile } from '../types';
 import { db } from '../firebase';
 import { doc, updateDoc } from 'firebase/firestore';
@@ -30,9 +24,23 @@ interface SettingsViewProps {
 
 export const SettingsView: React.FC<SettingsViewProps> = ({ user, onUserUpdate, onNotify }) => {
   const { t, language, setLanguage } = useTranslation();
-  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
-  const [notifications, setNotifications] = useState(true);
-  const [highPerformance, setHighPerformance] = useState(true);
+  const { currency, setCurrency } = useCurrency();
+  // Préférences réellement persistées par utilisateur (Firestore), au
+  // lieu de retomber sur les valeurs par défaut à chaque rechargement.
+  const [theme, setTheme] = useState<'dark' | 'light'>(user?.themePreference || 'dark');
+  const [notifications, setNotifications] = useState(user?.notificationsEnabled ?? true);
+  const [highPerformance, setHighPerformance] = useState(user?.highPerformanceMode ?? true);
+  const [privacyLevel, setPrivacyLevel] = useState(user?.privacyLevel || 'PUBLIC');
+
+  const savePreference = async (field: string, value: any) => {
+    if (!user?.uid) return;
+    try {
+      await updateDoc(doc(db, 'users', user.uid), { [field]: value });
+      onUserUpdate({ ...user, [field]: value } as UserProfile);
+    } catch {
+      onNotify(t('Network error — preference not saved', 'Erreur réseau — préférence non sauvegardée'));
+    }
+  };
 
   const handleVisualModeToggle = (mode: 'light' | 'dark') => {
     setTheme(mode);
@@ -41,13 +49,14 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ user, onUserUpdate, 
     } else {
       document.documentElement.classList.remove('light');
     }
+    savePreference('themePreference', mode);
   };
 
   const handlePerformanceToggle = () => {
     const next = !highPerformance;
     setHighPerformance(next);
-    // You could set a data attribute on body or a context value here
     document.body.setAttribute('data-performance', next ? 'high' : 'standard');
+    savePreference('highPerformanceMode', next);
   };
 
   const SettingSection = ({ title, children, icon: Icon }: { title: string, children: React.ReactNode, icon: any }) => (
@@ -149,9 +158,16 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ user, onUserUpdate, 
             label={t('Currency Display', 'Affichage de la Devise')} 
             description={t('Choose how monetary values are displayed.', 'Choisissez comment les valeurs monétaires sont affichées.')}
           >
-            <select className="bg-white/5 border border-white/10 text-xs text-on-surface-variant py-2 px-4 uppercase tracking-widest focus:ring-0 outline-none">
-              <option value="USD">USD ($)</option>
+            <select
+              value={currency}
+              onChange={(e) => setCurrency(e.target.value as any)}
+              className="bg-white/5 border border-white/10 text-xs text-on-surface-variant py-2 px-4 uppercase tracking-widest focus:ring-0 outline-none"
+            >
               <option value="EUR">EUR (€)</option>
+              <option value="USD">USD ($)</option>
+              <option value="GBP">GBP (£)</option>
+              <option value="CHF">CHF</option>
+              <option value="JPY">JPY (¥)</option>
             </select>
           </SettingItem>
         </SettingSection>
@@ -159,17 +175,21 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ user, onUserUpdate, 
         <SettingSection title={t('Security & Privacy', 'Sécurité et Confidentialité')} icon={Shield}>
           <SettingItem 
             label={t('Two-Factor Authentication', 'Authentification à Deux Facteurs')} 
-            description={t('Add an extra layer of security to your professional account.', 'Ajoutez une couche de sécurité supplémentaire à votre compte professionnel.')}
+            description={t('Add an extra layer of security to your professional account. Coming soon.', 'Ajoutez une couche de sécurité supplémentaire à votre compte professionnel. Bientôt disponible.')}
           >
-            <button className="px-4 py-2 bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-widest hover:border-primary-cyan/50 hover:text-primary-cyan transition-all">
-              {t('Configure 2FA', 'Configurer 2FA')}
-            </button>
+            <span className="px-4 py-2 bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-widest text-on-surface-variant/40">
+              {t('Coming Soon', 'Bientôt Disponible')}
+            </span>
           </SettingItem>
           <SettingItem 
             label={t('Privacy Level', 'Niveau de Confidentialité')} 
             description={t('Control how your profile is indexed in the global registry.', 'Contrôlez comment votre profil est indexé dans le registre mondial.')}
           >
-            <select className="bg-white/5 border border-white/10 text-xs text-on-surface-variant py-2 px-4 uppercase tracking-widest focus:ring-0 outline-none">
+            <select
+              value={privacyLevel}
+              onChange={(e) => { const v = e.target.value as any; setPrivacyLevel(v); savePreference('privacyLevel', v); }}
+              className="bg-white/5 border border-white/10 text-xs text-on-surface-variant py-2 px-4 uppercase tracking-widest focus:ring-0 outline-none"
+            >
               <option value="PUBLIC">{t('Public Registry', 'Registre Public')}</option>
               <option value="PRIVATE">{t('Private / Hidden', 'Privé / Caché')}</option>
               <option value="PROFESSIONAL">{t('Professional Only', 'Professionnel Uniquement')}</option>
@@ -204,59 +224,18 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ user, onUserUpdate, 
             label={t('Neural Alerts', 'Alertes Neurales')} 
             description={t('Receive real-time updates on your indexed contracts.', 'Recevez des mises à jour en temps réel sur vos contrats indexés.')}
           >
-            <Toggle enabled={notifications} onChange={() => setNotifications(!notifications)} />
+            <Toggle enabled={notifications} onChange={() => { const next = !notifications; setNotifications(next); savePreference('notificationsEnabled', next); }} />
           </SettingItem>
           <SettingItem 
             label={t('Market Reports', 'Rapports de Marché')} 
-            description={t('Weekly professional summary of global creative rights.', 'Résumé professionnel hebdomadaire des droits créatifs mondiaux.')}
+            description={t('Weekly professional summary of global creative rights. Coming soon.', 'Résumé professionnel hebdomadaire des droits créatifs mondiaux. Bientôt disponible.')}
           >
-            <button className="px-4 py-2 bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-widest hover:border-accent-gold/50 hover:text-accent-gold transition-all">
-              {t('Manage Reports', 'Gérer les Rapports')}
-            </button>
+            <span className="px-4 py-2 bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-widest text-on-surface-variant/40">
+              {t('Coming Soon', 'Bientôt Disponible')}
+            </span>
           </SettingItem>
         </SettingSection>
 
-        <SettingSection title={t('Professional Controls', 'Commandes Professionnelles')} icon={Cpu}>
-          <SettingItem 
-            label={t('API Neural Link', 'Lien Neural API')} 
-            description={t('Enable high-speed data stream for external certification data feeds.', 'Activez le flux de données haute vitesse pour les flux de données de certification externes.')}
-          >
-            <Toggle enabled={true} onChange={() => {}} />
-          </SettingItem>
-          <SettingItem 
-            label={t('Verified Terminal Access', 'Accès Terminal Vérifié')} 
-            description={t('Restrict interface access to recognized hardware signatures.', 'Restreindre l\'accès à l\'interface aux signatures matérielles reconnues.')}
-          >
-            <Toggle enabled={false} onChange={() => {}} />
-          </SettingItem>
-          <SettingItem 
-            label={t('Automated Registry Sync', 'Sync du Registre Automatisée')} 
-            description={t('Synchronize all creative assets with the global LYA index every hour.', 'Synchronisez tous les actifs créatifs avec l\'index mondial LYA toutes les heures.')}
-          >
-            <Toggle enabled={true} onChange={() => {}} />
-          </SettingItem>
-        </SettingSection>
-      </div>
-
-      <div className="mt-12 p-8 bg-primary-cyan/5 border border-primary-cyan/20 backdrop-blur-xl flex flex-col md:flex-row items-center justify-between gap-8">
-        <div className="flex items-center gap-6">
-          <div className="w-16 h-16 bg-primary-cyan/10 border border-primary-cyan/30 flex items-center justify-center rounded-sm shrink-0">
-            <Cpu size={32} className="text-primary-cyan" />
-          </div>
-          <div>
-            <h4 className="text-xl font-black uppercase mb-1 tracking-tighter">{t('Professional Node Status', 'Statut du Nœud Professionnel')}</h4>
-            <p className="text-sm text-on-surface-variant">
-              {t('Your connection to the LinkYourArt Global Registry is encrypted and verified.', 'Votre connexion au registre mondial LinkYourArt est cryptée et vérifiée.')}
-            </p>
-          </div>
-        </div>
-        <div className="flex items-center gap-3">
-          <div className="flex flex-col items-end">
-            <span className="text-[10px] font-black text-emerald-400 uppercase tracking-widest">Node: LYA-EU-WEST-2</span>
-            <span className="text-[10px] text-on-surface-variant uppercase tracking-widest">Version 4.2.0-STABLE</span>
-          </div>
-          <div className="w-3 h-3 bg-emerald-400 rounded-full animate-pulse shadow-[0_0_10px_rgba(52,211,153,0.5)]" />
-        </div>
       </div>
     </div>
   );
