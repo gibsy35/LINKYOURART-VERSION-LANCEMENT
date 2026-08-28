@@ -211,6 +211,14 @@ const ValidationQueue: React.FC<{
 
   const approve = async (reqId: string) => {
     const r = requests.find(x => x.id === reqId)!;
+    // Garde-fou d'indépendance — un certificateur ne peut jamais valider
+    // un projet dont il est lui-même le porteur. Rien n'empêchait ça
+    // techniquement avant ce correctif, malgré l'engagement d'indépendance
+    // affiché publiquement sur la page Notre Modèle.
+    if (r.contract.issuerId && user?.uid && r.contract.issuerId === user.uid) {
+      onNotify(T('⚠ Conflit d\'intérêt : vous ne pouvez pas certifier votre propre projet.', '⚠ Conflict of interest: you cannot certify your own project.'));
+      return;
+    }
     const allDone = VALIDATION_STEPS.every(s => r.steps[s.id] === 'COMPLETED');
     if (!allDone) {
       onNotify(T('⚠ Complétez toutes les étapes avant d\'approuver.', '⚠ Complete all steps before approving.'));
@@ -336,6 +344,7 @@ const ValidationQueue: React.FC<{
         <AnimatePresence mode="sync">
           {filtered.map((req, idx) => {
             const allDone = VALIDATION_STEPS.every(s => req.steps[s.id] === 'COMPLETED');
+            const isOwnProject = !!(req.contract.issuerId && user?.uid && req.contract.issuerId === user.uid);
             const progress = VALIDATION_STEPS.filter(s => req.steps[s.id] === 'COMPLETED').length;
             return (
               <motion.div
@@ -417,10 +426,11 @@ const ValidationQueue: React.FC<{
                         </button>
                         <button
                           onClick={() => approve(req.id)}
-                          disabled={!allDone}
-                          className={`px-6 py-2 text-sm font-black uppercase tracking-wide rounded-xl transition-all ${allDone ? 'bg-primary-cyan text-surface-dim hover:bg-white shadow-[0_0_16px_rgba(0,224,255,0.2)]' : 'bg-white/5 text-on-surface-variant/30 cursor-not-allowed border border-white/8'}`}
+                          disabled={!allDone || isOwnProject}
+                          title={isOwnProject ? T('Conflit d\'intérêt — vous êtes le porteur de ce projet', 'Conflict of interest — you are this project\'s owner') : undefined}
+                          className={`px-6 py-2 text-sm font-black uppercase tracking-wide rounded-xl transition-all ${allDone && !isOwnProject ? 'bg-primary-cyan text-surface-dim hover:bg-white shadow-[0_0_16px_rgba(0,224,255,0.2)]' : 'bg-white/5 text-on-surface-variant/30 cursor-not-allowed border border-white/8'}`}
                         >
-                          {T('Approuver', 'Approve')}
+                          {isOwnProject ? T('Conflit d\'intérêt', 'Conflict of interest') : T('Approuver', 'Approve')}
                         </button>
                         <button
                           onClick={async () => {

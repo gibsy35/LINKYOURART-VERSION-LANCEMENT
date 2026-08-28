@@ -30,6 +30,7 @@ import {
   Scale
 } from 'lucide-react';
 import {Contract, PillarScore, getContractDescription} from '../types';
+import { translatePillarLabel } from '../utils/pillars';
 import { useTranslation } from '../context/LanguageContext';
 import { simulatePDFDownload } from '../utils/download';
 import { generateAssetAnalysis } from '../services/geminiService';
@@ -157,7 +158,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
   };
 
   const pillarData = (contract.pillars || []).map(p => ({
-    name: p.label,
+    name: translatePillarLabel(p.label, language),
     value: p.score,
     full: 200
   }));

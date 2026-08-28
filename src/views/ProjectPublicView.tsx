@@ -15,6 +15,7 @@ import {
 import { ResponsiveContainer, AreaChart, Area, Tooltip, XAxis } from 'recharts';
 import { db } from '../firebase';
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
+import { translatePillarLabel } from '../utils/pillars';
 
 const genChart = (baseScore: number, growth: number, points = 30) =>
   Array.from({ length: points }, (_, i) => ({
@@ -317,7 +318,7 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
               return (
                 <div key={i} className="space-y-2">
                   <div className="flex justify-between items-center">
-                    <p className="text-sm font-black text-on-surface">{p.label}</p>
+                    <p className="text-sm font-black text-on-surface">{translatePillarLabel(p.label, language)}</p>
                     <p className="text-sm font-black" style={{color:colors[i]}}>{p.score}<span className="text-xs text-on-surface-variant/30">/200</span></p>
                   </div>
                   <div className="h-2 bg-white/5 rounded-full overflow-hidden">

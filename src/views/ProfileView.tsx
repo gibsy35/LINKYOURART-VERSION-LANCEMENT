@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { UserRole, UserProfile, LYA_SIMULATOR_STEPS, LYASimulatorStep, CONTRACTS, LYA_UNIT_VALUE } from '../types';
+import { translatePillarLabel } from '../utils/pillars';
 import { View } from '../components/ui/Sidebar';
 import { User, Settings, Shield, BarChart3, Layers, Globe, LogOut, Lock, Play, ExternalLink, Save, Camera, Mail, Briefcase, TrendingUp, Award, ShieldCheck, Zap, Activity, Cpu, FileCode, X, LayoutGrid, Plus, FileText, Download, MessageSquare, PieChart as PieChartIcon, Wallet, Clock, UserPlus, LayoutDashboard, History, Target, Info, Trash2, ArrowRight, Twitter, Instagram, Linkedin, Bell, CheckCircle2, XCircle, AlertCircle, Search, Radar, Sparkles, Check, Loader2, Crown, CreditCard, Send, Paperclip, RefreshCw, Eye, TrendingDown, MapPin, Users, Building2, BriefcaseIcon, Database } from 'lucide-react';
 import { StatCard } from '../components/StatCard';
@@ -1663,7 +1664,7 @@ const renderMentorshipContent = () => (
                                     {p.score}
                                   </div>
                                   <div className="text-[10px] text-white uppercase tracking-widest font-bold opacity-80 truncate">
-                                    {p.label.split(' ')[0]}
+                                    {translatePillarLabel(p.label, language).split(' ')[0]}
                                   </div>
                                 </div>
                               ))}
