@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence, useMotionValue, useTransform } from 'motion/react';
-import { Heart, X, Info, Star, Zap, Scale, Activity, Plus, Bell, BellRing, Share2 } from 'lucide-react';
+import { Heart, X, Info, Star, Zap, Scale, Activity, Plus, Bell, BellRing, Share2, Search, SlidersHorizontal } from 'lucide-react';
 import { CONTRACTS, Contract, UserProfile, UserRole } from '../types';
 import { useTranslation } from '../context/LanguageContext';
 import { PageHeader } from '../components/ui/PageHeader';
@@ -176,7 +176,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
     }
   };
   const [showLiked, setShowLiked] = useState(false);
-  const categories = ['ALL', 'Film', 'Fashion', ...Array.from(new Set(allContracts.map(c => c.category))).filter(c => c !== 'Film' && c !== 'Fashion').slice(0, 5)];
+  const categories = ['ALL', ...Array.from(new Set(allContracts.map(c => c.category))).sort()];
 
   const CATEGORY_COLORS: Record<string, string> = {
     'ALL': 'bg-primary-cyan text-surface-dim',
@@ -189,16 +189,34 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
     'TV Series': 'bg-primary-cyan text-surface-dim',
     'Photography': 'bg-[#7FA8F0] text-surface-dim',
     'Gaming': 'bg-[#D66FE0] text-surface-dim',
+    'Digital Art': 'bg-[#6FE0C4] text-surface-dim',
+    'Design': 'bg-[#E0A96F] text-surface-dim',
+    'Literature': 'bg-[#A8E06F] text-surface-dim',
+    'Gastronomy': 'bg-[#E06F8E] text-surface-dim',
+    'Performing Arts': 'bg-[#8E6FE0] text-surface-dim',
   };
+
+  // Recherche & filtres avancés — même moteur que MecenatView.tsx.
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showFilters, setShowFilters] = useState(false);
+  const [minScore, setMinScore] = useState(0);
 
   const activeContracts = React.useMemo(() => {
     // Shuffle the contracts for better diversity as requested
-    return [...allContracts]
+    let base = [...allContracts]
       .filter(c => c.status === 'LIVE' && (filterCategory === 'ALL' || c.category === filterCategory))
       .sort(() => Math.random() - 0.5);
-  }, [allContracts, filterCategory]);
+    if (minScore > 0) base = base.filter(c => c.totalScore >= minScore);
+    const q = searchQuery.trim().toLowerCase();
+    if (q) base = base.filter(c =>
+      c.name.toLowerCase().includes(q) ||
+      c.issuerId?.toLowerCase().includes(q) ||
+      c.category.toLowerCase().includes(q)
+    );
+    return base;
+  }, [allContracts, filterCategory, minScore, searchQuery]);
   
-  const currentContract = activeContracts[currentIndex % activeContracts.length];
+  const currentContract = activeContracts[currentIndex % activeContracts.length] || null;
 
   const handleSwipe = (dir: 'left' | 'right') => {
     if (direction) return; // Prevent multiple swipes
@@ -292,6 +310,53 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
             <div className="text-xl font-black text-primary-cyan italic">1.2B LYA</div>
           </div>
         </div>
+      </div>
+
+      {/* ── RECHERCHE & FILTRES ── */}
+      <div className="space-y-3">
+        <div className="flex gap-3">
+          <div className="relative flex-1">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant/40" size={16} />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => { setSearchQuery(e.target.value); setCurrentIndex(0); }}
+              placeholder={t('Search a project, a creator...', 'Rechercher un projet, un créateur...') as string}
+              className="w-full bg-surface-low/60 border border-white/10 rounded-xl py-3 pl-11 pr-10 text-sm text-on-surface placeholder:text-on-surface-variant/40 focus:outline-none focus:border-primary-cyan/50 transition-all"
+            />
+            {searchQuery && (
+              <button onClick={() => setSearchQuery("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant/40 hover:text-on-surface">
+                <X size={15} />
+              </button>
+            )}
+          </div>
+          <button
+            onClick={() => setShowFilters(v => !v)}
+            className={`flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-bold border transition-all shrink-0 ${showFilters || minScore > 0 ? "bg-primary-cyan text-surface-dim border-primary-cyan" : "border-white/10 text-on-surface-variant hover:border-primary-cyan/40"}`}
+          >
+            <SlidersHorizontal size={15} />
+            {t('Filters', 'Filtres')}
+          </button>
+        </div>
+
+        {showFilters && (
+          <div className="bg-surface-low/40 border border-white/10 rounded-xl p-5">
+            <label className="text-[10px] font-mono text-on-surface-variant/50 uppercase tracking-widest block mb-2">
+              {t('Minimum LYA Score', 'Score LYA minimum')} — {minScore}/1000
+            </label>
+            <input
+              type="range" min={0} max={950} step={50}
+              value={minScore}
+              onChange={(e) => { setMinScore(Number(e.target.value)); setCurrentIndex(0); }}
+              className="w-full accent-primary-cyan"
+            />
+            {minScore > 0 && (
+              <button onClick={() => setMinScore(0)} className="mt-3 text-xs font-bold text-on-surface-variant hover:text-primary-cyan transition-colors">
+                {t('↺ Reset', '↺ Réinitialiser')}
+              </button>
+            )}
+          </div>
+        )}
       </div>
 
       {/* ── FILTRES CATÉGORIE ── */}
@@ -406,6 +471,14 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
 
         {/* Center - Swipe Card */}
         <div className="lg:col-span-6">
+          {!currentContract ? (
+            <div className="aspect-[4/5] w-full max-w-sm mx-auto flex flex-col items-center justify-center text-center bg-surface-low/30 border border-white/10 rounded-3xl p-8">
+              <Search size={28} className="text-on-surface-variant/30 mb-4" />
+              <p className="text-sm font-black text-on-surface mb-1">{t('No project matches', 'Aucun projet ne correspond')}</p>
+              <p className="text-xs text-on-surface-variant/50">{t('Try adjusting your search or filters.', 'Essayez d\'ajuster votre recherche ou vos filtres.')}</p>
+            </div>
+          ) : (
+          <>
           <div className="relative aspect-[4/5] w-full max-w-sm mx-auto touch-none will-change-transform">
             <AnimatePresence mode="sync">
               <motion.div
@@ -567,6 +640,8 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
               <Heart size={32} fill="currentColor" />
             </button>
           </div>
+          </>
+          )}
         </div>
 
         {/* Right Sidebar - Trending */}
