@@ -59,14 +59,12 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
     setError(null);
 
     try {
-      // Accès ouvert — toute pré-inscription peut créer un compte directement.
-      // Le verrou d'accès par code unique sera réactivé après stabilisation.
-
-      const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
-      const firebaseUser = userCredential.user;
-
-      await updateProfile(firebaseUser, { displayName: formData.name });
-
+      // Un compte LYA ne peut être créé qu'avec un code d'accès valide,
+      // délivré après approbation d'une pré-inscription. Sans ce
+      // contrôle, la pré-inscription (et tout le système d'approbation
+      // Founding Pioneer / LYA Original) n'a plus aucune utilité —
+      // c'était exactement le problème avant ce correctif : le code
+      // vérifiait la validité mais ne bloquait jamais rien.
       const codeInput = formData.accessCode.trim().toUpperCase();
       let isValidCode = false;
       if (codeInput) {
@@ -94,6 +92,20 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
           }
         }
       }
+
+      if (!isValidCode) {
+        setError(t(
+          'A valid access code is required. Register via our pre-registration form and wait for approval to receive yours.',
+          'Un code d\'accès valide est requis. Inscrivez-vous via notre formulaire de pré-inscription et attendez votre approbation pour recevoir le vôtre.'
+        ));
+        setIsLoading(false);
+        return;
+      }
+
+      const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
+      const firebaseUser = userCredential.user;
+
+      await updateProfile(firebaseUser, { displayName: formData.name });
 
       const newUser: UserProfile = {
         uid: firebaseUser.uid,
@@ -505,6 +517,20 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
                         {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                       </button>
                     </div>
+                    <div className="relative group">
+                      <ShieldCheck className="absolute left-5 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary-cyan transition-colors" size={18} />
+                      <input
+                        type="text"
+                        required
+                        value={formData.accessCode}
+                        onChange={(e) => setFormData({ ...formData, accessCode: e.target.value.toUpperCase() })}
+                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 text-sm font-bold text-white focus:border-primary-cyan outline-none transition-all placeholder:text-on-surface-variant/30 uppercase tracking-widest"
+                        placeholder={t('ACCESS CODE', 'CODE D\'ACCÈS')}
+                      />
+                    </div>
+                    <p className="text-[10px] text-on-surface-variant/40 -mt-2 px-1">
+                      {t('Received after your pre-registration is approved.', 'Reçu après approbation de votre pré-inscription.')}
+                    </p>
                   </div>
 
                   <button 
