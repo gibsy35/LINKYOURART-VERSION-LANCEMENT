@@ -38,6 +38,7 @@ export interface UserProfile {
   // views — granted through the "Become a Validator" application flow,
   // not automatically by any subscription tier (except Enterprise/Admin).
   isVerifiedValidator?: boolean;
+  publicCertifierOptIn?: boolean;
   // Institutional/catalog-scale account — grants Professional-level access
   // plus bulk tooling and automatic Lounge/Governance access.
   isEnterprise?: boolean;

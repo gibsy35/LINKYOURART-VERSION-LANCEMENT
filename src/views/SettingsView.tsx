@@ -18,8 +18,17 @@ import {
   ChevronRight
 } from 'lucide-react';
 import { useTranslation } from '../context/LanguageContext';
+import { UserProfile } from '../types';
+import { db } from '../firebase';
+import { doc, updateDoc } from 'firebase/firestore';
 
-export const SettingsView: React.FC = () => {
+interface SettingsViewProps {
+  user: UserProfile | null;
+  onUserUpdate: (u: UserProfile | null) => void;
+  onNotify: (msg: string) => void;
+}
+
+export const SettingsView: React.FC<SettingsViewProps> = ({ user, onUserUpdate, onNotify }) => {
   const { t, language, setLanguage } = useTranslation();
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
   const [notifications, setNotifications] = useState(true);
@@ -166,6 +175,28 @@ export const SettingsView: React.FC = () => {
               <option value="PROFESSIONAL">{t('Professional Only', 'Professionnel Uniquement')}</option>
             </select>
           </SettingItem>
+          {user?.isVerifiedValidator && (
+            <SettingItem
+              label={t('Public Certifier Showcase', 'Vitrine Publique des Certificateurs')}
+              description={t('Show your name publicly among LYA\'s certifiers on our showcase page. Off by default — your certification work stays private unless you opt in.', 'Affichez votre nom publiquement parmi les certificateurs LYA sur notre page vitrine. Désactivé par défaut — votre activité de certification reste privée sauf si vous l\'activez.')}
+            >
+              <Toggle
+                enabled={!!user?.publicCertifierOptIn}
+                onChange={async () => {
+                  const next = !user?.publicCertifierOptIn;
+                  try {
+                    await updateDoc(doc(db, 'users', user!.uid), { publicCertifierOptIn: next });
+                    onUserUpdate({ ...user!, publicCertifierOptIn: next } as UserProfile);
+                    onNotify(next
+                      ? t('You\'re now listed on the public showcase', 'Vous apparaissez maintenant sur la vitrine publique')
+                      : t('Removed from the public showcase', 'Retiré de la vitrine publique'));
+                  } catch {
+                    onNotify(t('Network error', 'Erreur réseau'));
+                  }
+                }}
+              />
+            </SettingItem>
+          )}
         </SettingSection>
 
         <SettingSection title={t('Notifications', 'Notifications')} icon={Bell}>

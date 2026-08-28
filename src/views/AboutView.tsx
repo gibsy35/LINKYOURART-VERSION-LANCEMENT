@@ -75,6 +75,24 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange, onNotify }) 
     { label: t('Certified validators', 'Validateurs certifiés'), value: realValidatorCount === null ? '—' : String(realValidatorCount), sub: t('Active professional network', 'Réseau professionnel actif') }
   ];
 
+  // Vitrine "Ils nous font confiance" — uniquement les certificateurs
+  // vérifiés ayant explicitement activé l'option dans leurs Réglages
+  // (publicCertifierOptIn). Personne n'y apparaît sans consentement
+  // explicite. Liste vide tant qu'aucun certificateur n'a opté in —
+  // état honnête, pas de nom fictif en attendant.
+  const [showcaseCertifiers, setShowcaseCertifiers] = React.useState<{ name: string; industry?: string }[]>([]);
+  React.useEffect(() => {
+    const q = query(
+      collection(db, 'users'),
+      where('isVerifiedValidator', '==', true),
+      where('publicCertifierOptIn', '==', true)
+    );
+    const unsub = onSnapshot(q, (snap) => {
+      setShowcaseCertifiers(snap.docs.map(d => ({ name: d.data().displayName || 'LYA Certifier', industry: d.data().industry })));
+    }, () => setShowcaseCertifiers([]));
+    return () => unsub();
+  }, []);
+
   return (
     <div className="space-y-24 pb-24">
       {/* Interactive Hero Section - Creative Collage Background */}
@@ -256,6 +274,31 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange, onNotify }) 
           ))}
         </div>
       </section>
+
+      {/* Certifier Trust Showcase — "Ils nous font confiance" */}
+      {showcaseCertifiers.length > 0 && (
+        <section className="px-8">
+          <p className="text-center text-xs font-black text-on-surface-variant/50 uppercase tracking-[0.3em] mb-8">
+            {t('They certify with us', 'Ils certifient avec nous')}
+          </p>
+          <div className="relative overflow-hidden py-4">
+            <div className="flex gap-12 items-center animate-[scroll_30s_linear_infinite] whitespace-nowrap" style={{ width: 'max-content' }}>
+              {[...showcaseCertifiers, ...showcaseCertifiers].map((c, i) => (
+                <div key={i} className="flex items-center gap-3 shrink-0 opacity-70 hover:opacity-100 transition-opacity">
+                  <div className="w-10 h-10 rounded-full bg-primary-cyan/10 border border-primary-cyan/20 flex items-center justify-center text-sm font-black text-primary-cyan uppercase">
+                    {c.name.slice(0, 2)}
+                  </div>
+                  <div>
+                    <p className="text-sm font-black text-white">{c.name}</p>
+                    {c.industry && <p className="text-[10px] text-on-surface-variant/50 uppercase tracking-widest">{c.industry}</p>}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <style>{`@keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }`}</style>
+        </section>
+      )}
 
       {/* Values Section */}
       <section className="px-8 space-y-12">
