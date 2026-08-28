@@ -1564,7 +1564,7 @@ export const AdminView: React.FC<{
                       value={editingProject.category || 'Fine Art'}
                       onChange={e => setEditingProject({...editingProject, category: e.target.value})}
                     >
-                      {['Fine Art', 'Architecture', 'Music', 'Film', 'TV Series', 'Digital Art', 'Literature', 'Fashion', 'Design', 'Photography', 'Performing Arts', 'Gastronomy'].map(cat => (
+                      {['Fine Art', 'Architecture', 'Music', 'Film', 'TV Series', 'Digital Art', 'Gaming', 'Literature', 'Fashion', 'Design', 'Photography', 'Podcast', 'Performing Arts', 'Gastronomy'].map(cat => (
                         <option key={cat} value={cat} className="bg-surface-high text-white">{cat.toUpperCase()}</option>
                       ))}
                     </select>

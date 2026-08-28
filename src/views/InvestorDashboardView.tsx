@@ -93,13 +93,18 @@ export const InvestorDashboardView: React.FC<{user:UserProfile|null;onNotify:(ms
   const needsAttention = mySupports.filter(x => x.proj.totalScore <= x.scoreAtSupport).length;
   const totalMilestones = mySupports.reduce((s,x) => s + (x.proj.milestones||[]).filter((m:any)=>m.status==='COMPLETED').length, 0);
 
-  const trends = [
-    {cat:T('Art Digital','Digital Art'),pct:'+12',up:true},
-    {cat:T('Musique','Music'),pct:'+8',up:true},
-    {cat:T('Film','Film'),pct:'-2',up:false},
-    {cat:T('Design','Design'),pct:'+16',up:true},
-    {cat:T('Mode','Fashion'),pct:'-5',up:false},
-  ];
+  // Remplace les fausses tendances (+12%, -5%... codées en dur) par un
+  // vrai comptage de projets certifiés par catégorie. Pas de "tendance"
+  // affichée : aucun historique dans le temps n'est suivi.
+  const trends = Object.entries(
+    CONTRACTS.filter(c => c.status === 'LIVE').reduce((acc: Record<string, number>, c) => {
+      acc[c.category] = (acc[c.category] || 0) + 1;
+      return acc;
+    }, {})
+  )
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 5)
+    .map(([cat, count]) => ({ cat, count }));
 
   const alerts = [
     {textFR:`${CONTRACTS[4].name} n'a pas encore franchi de nouveau jalon depuis votre soutien`,textEN:`${CONTRACTS[4].name} hasn't reached a new milestone since your support`,time:T('Il y a 2h','2h ago'),type:'warning'},
@@ -140,12 +145,12 @@ export const InvestorDashboardView: React.FC<{user:UserProfile|null;onNotify:(ms
       )}
 
       <div className="bg-surface-low/30 border border-white/6 rounded-xl p-3 flex items-center gap-3 overflow-x-auto no-scrollbar">
-        <div className="flex items-center gap-1.5 text-[10px] font-black text-on-surface-variant/50 uppercase tracking-widest shrink-0"><TrendingUp size={11}/> {T('Tendances Score','Score Trends')}</div>
+        <div className="flex items-center gap-1.5 text-[10px] font-black text-on-surface-variant/50 uppercase tracking-widest shrink-0"><TrendingUp size={11}/> {T('Secteurs Certifiés','Certified Sectors')}</div>
         <div className="w-px h-4 bg-white/10 shrink-0"/>
         {trends.map((tr,i)=>(
           <div key={i} className="flex items-center gap-1.5 shrink-0 px-3 py-1 bg-surface-high/40 rounded-lg border border-white/8">
             <span className="text-xs font-bold text-on-surface">{tr.cat}</span>
-            <span className={`text-xs font-black ${tr.up?'text-emerald-400':'text-rose-400'}`}>{tr.up?'↑':'↓'}{tr.pct} pts</span>
+            <span className="text-xs font-black text-primary-cyan">{tr.count}</span>
           </div>
         ))}
       </div>
