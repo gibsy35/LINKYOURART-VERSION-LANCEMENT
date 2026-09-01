@@ -1294,7 +1294,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
           {[
             {
               icon: <Users size={22} />,
-              styles: { card: 'hover:border-primary-cyan/30', glow: 'bg-primary-cyan/5 group-hover:bg-primary-cyan/10', icon: 'bg-primary-cyan/10 text-primary-cyan border-primary-cyan/20', badge: 'bg-primary-cyan/10 text-primary-cyan border-primary-cyan/20' },
+              styles: { card: 'hover:border-accent-pink/30', glow: 'bg-accent-pink/5 group-hover:bg-accent-pink/10', icon: 'bg-accent-pink/10 text-accent-pink border-accent-pink/20', badge: 'bg-accent-pink/10 text-accent-pink border-accent-pink/20' },
               titleFR: 'Créateurs', titleEN: 'Creators',
               descFR: "Le cœur de l'écosystème. Soumettez votre projet, obtenez un Score LYA certifié, et construisez votre réputation créative sur le registre public.",
               descEN: 'The heart of the ecosystem. Submit your project, receive a certified LYA Score, and build your creative reputation on the public registry.',
