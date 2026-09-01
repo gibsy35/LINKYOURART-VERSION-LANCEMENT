@@ -44,7 +44,13 @@ service cloud.firestore {
     // ── PUBLIC STATS (compteur pré-inscription) ─────────────────────────────
     match /public_stats/{docId} {
       allow read: if true;
-      allow write: if true; // public counter — must be writable by everyone
+      // Public counter must stay writable without login (anonymous visitors
+      // trigger the increment), but only as a strict +1 increment — never an
+      // arbitrary overwrite. This blocks any client (buggy or malicious) from
+      // resetting the count back to 0 or setting it to an arbitrary value.
+      allow create: if request.resource.data.count == 0 || request.resource.data.count == 1;
+      allow update: if request.resource.data.count == resource.data.count + 1;
+      allow delete: if isAdmin();
     }
 
     // ── PRE-REGISTRATIONS ──────────────────────────────────────────────────
