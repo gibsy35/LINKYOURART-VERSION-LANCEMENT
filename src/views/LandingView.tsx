@@ -705,6 +705,61 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
 
             </div>
 
+            {/* ── BANNIÈRE MARKETING — 3 PREMIERS DÉPÔTS GRATUITS ── */}
+            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }}
+              className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 mt-8 mb-4">
+              <div className="relative overflow-hidden rounded-3xl border border-accent-gold/25 bg-gradient-to-br from-accent-gold/[0.08] via-white/[0.02] to-primary-cyan/[0.05] p-8 md:p-12">
+                <div className="absolute top-0 right-0 w-72 h-72 blur-[100px] rounded-full -mr-20 -mt-20" style={{background:'rgba(240,197,111,0.15)'}} />
+                <div className="absolute bottom-0 left-0 w-72 h-72 blur-[100px] rounded-full -ml-20 -mb-20" style={{background:'rgba(0,212,232,0.1)'}} />
+
+                <div className="relative z-10 flex flex-col lg:flex-row items-center gap-10">
+                  <div className="flex-1 text-center lg:text-left">
+                    <div className="inline-flex items-center gap-3 px-4 py-1.5 border border-accent-gold/30 bg-accent-gold/10 rounded-full text-[11px] font-black tracking-[0.3em] text-accent-gold uppercase mb-5">
+                      <span className="relative flex h-2 w-2">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-gold opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-accent-gold"></span>
+                      </span>
+                      {t('PIONEER OFFER — LIMITED TIME', 'OFFRE PIONNIER — DURÉE LIMITÉE')}
+                    </div>
+
+                    <h3 className="font-headline text-3xl md:text-4xl xl:text-5xl font-black uppercase tracking-tighter leading-[0.95] text-on-surface mb-4">
+                      {t('YOUR FIRST 3 PROJECTS,', 'VOS 3 PREMIERS PROJETS,')}<br />
+                      <span className="text-accent-gold">{t('100% FREE TO CERTIFY.', 'CERTIFIÉS À 100% GRATUITEMENT.')}</span>
+                    </h3>
+
+                    <p className="text-white/60 text-base md:text-lg font-medium leading-relaxed max-w-xl mx-auto lg:mx-0">
+                      {t(
+                        'Every Founding Pioneer gets their first 3 project submissions certified with zero fees — no standard certification cost, no catch. Build your creative reputation on the public registry from day one, completely free.',
+                        "Chaque Pionnier Fondateur voit ses 3 premiers projets certifiés sans aucun frais — pas de coût de certification standard, aucune contrepartie cachée. Construisez votre réputation créative sur le registre public dès le premier jour, entièrement gratuitement."
+                      )}
+                    </p>
+                  </div>
+
+                  <div className="flex flex-row lg:flex-col gap-4 shrink-0">
+                    {[1, 2, 3].map((n) => (
+                      <div key={n} className="flex items-center gap-3 bg-white/[0.04] border border-accent-gold/20 rounded-2xl px-5 py-3 backdrop-blur-sm">
+                        <div className="w-9 h-9 rounded-full bg-accent-gold/15 border border-accent-gold/30 flex items-center justify-center font-black text-accent-gold text-sm shrink-0">{n}</div>
+                        <div>
+                          <div className="text-white font-black text-sm">{t('Project', 'Projet')} #{n}</div>
+                          <div className="text-emerald-400 text-[11px] font-black uppercase tracking-widest">{t('Free', 'Gratuit')}</div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="relative z-10 mt-8 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-center gap-3 text-center">
+                  <p className="text-white/40 text-xs md:text-sm font-medium">
+                    {t('Reserved for the first 150 Founding Pioneers only.', 'Réservé aux 150 premiers Pionniers Fondateurs uniquement.')}
+                  </p>
+                  <span className="hidden sm:inline text-white/20">·</span>
+                  <p className="text-accent-gold text-xs md:text-sm font-black uppercase tracking-widest">
+                    {t('Pre-register above to secure your spot', 'Pré-inscrivez-vous ci-dessus pour garantir votre place')}
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+
             {/* Footer */}
             <footer className="relative z-10 border-t border-white/5 bg-black/40 backdrop-blur-xl py-10 md:py-16 px-4 md:px-8">
               <div className="max-w-full max-w-7xl mx-auto flex flex-col md:flex-row items-start gap-16">
