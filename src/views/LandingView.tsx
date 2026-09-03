@@ -98,6 +98,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
   const [accessKey, setAccessKey] = useState('');
   const [isVerifyingKey, setIsVerifyingKey] = useState(false);
   const [activeLegal, setActiveLegal] = useState<'GDPR' | 'PRIVACY' | 'TERMS' | null>(null);
+  const [showFreeOffer, setShowFreeOffer] = useState(false);
   const [activeInfo, setActiveInfo] = useState<'HOW' | 'SCORE' | 'SECURITY' | null>(null);
   const [logoTapCount, setLogoTapCount] = useState(0);
   const [showLoginEaster, setShowLoginEaster] = useState(false);
@@ -686,6 +687,21 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                   </div>
                 </div>
 
+                {/* Bouton — 3 premiers projets gratuits */}
+                <motion.button
+                  onClick={() => setShowFreeOffer(true)}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="relative overflow-hidden flex items-center gap-3 px-6 py-4 rounded-2xl bg-gradient-to-r from-accent-gold to-[#f0c56f] text-black font-black text-sm md:text-base uppercase tracking-wide shadow-[0_8px_30px_rgba(240,197,111,0.35)] w-fit mx-auto lg:mx-0"
+                >
+                  <span className="relative flex h-2.5 w-2.5 shrink-0">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-black/40"></span>
+                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-black/60"></span>
+                  </span>
+                  {t('Your first 3 projects — 100% free', 'Vos 3 premiers projets — 100% gratuits')}
+                  <ArrowRight size={18} className="shrink-0" />
+                </motion.button>
+
                 {/* Stats */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-4">
                   {[
@@ -705,62 +721,6 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
 
             </div>
 
-            {/* ── BANNIÈRE MARKETING — 3 PREMIERS DÉPÔTS TOUJOURS GRATUITS ── */}
-            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }}
-              className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 mt-8 mb-4">
-              <div className="relative overflow-hidden rounded-3xl border border-accent-gold/25 bg-gradient-to-br from-accent-gold/[0.08] via-white/[0.02] to-primary-cyan/[0.05] p-6 md:p-8 lg:p-12">
-                <div className="absolute top-0 right-0 w-72 h-72 blur-[100px] rounded-full -mr-20 -mt-20" style={{background:'rgba(240,197,111,0.15)'}} />
-                <div className="absolute bottom-0 left-0 w-72 h-72 blur-[100px] rounded-full -ml-20 -mb-20" style={{background:'rgba(0,212,232,0.1)'}} />
-
-                <div className="relative z-10 flex flex-col lg:flex-row items-center gap-6 lg:gap-10">
-                  <div className="flex-1 text-center lg:text-left">
-                    <div className="inline-flex items-center gap-3 px-4 py-1.5 border border-accent-gold/30 bg-accent-gold/10 rounded-full text-[11px] font-black tracking-[0.3em] text-accent-gold uppercase mb-4">
-                      <span className="relative flex h-2 w-2">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-gold opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-accent-gold"></span>
-                      </span>
-                      {t('ALWAYS ON — EVERY CREATOR', 'TOUJOURS ACTIF — TOUS LES CRÉATEURS')}
-                    </div>
-
-                    <h3 className="font-headline text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-black uppercase tracking-tighter leading-[0.95] text-on-surface mb-3">
-                      {t('YOUR FIRST 3 PROJECTS,', 'VOS 3 PREMIERS PROJETS,')}<br />
-                      <span className="text-accent-gold">{t('100% FREE TO CERTIFY.', 'CERTIFIÉS À 100% GRATUITEMENT.')}</span>
-                    </h3>
-
-                    <p className="text-white/60 text-sm md:text-base lg:text-lg font-medium leading-relaxed max-w-xl mx-auto lg:mx-0">
-                      {t(
-                        'Every creator on LinkYourArt gets their first 3 project submissions certified with zero fees — always, for everyone, no time limit. No standard certification cost, no catch. Build your creative reputation on the public registry from day one.',
-                        "Chaque créateur sur LinkYourArt voit ses 3 premiers projets certifiés sans aucun frais — toujours, pour tout le monde, sans limite de temps. Pas de coût de certification standard, aucune contrepartie cachée. Construisez votre réputation créative sur le registre public dès le premier jour."
-                      )}
-                    </p>
-                  </div>
-
-                  <div className="grid grid-cols-3 lg:flex lg:flex-col gap-3 lg:gap-4 w-full lg:w-auto shrink-0">
-                    {[1, 2, 3].map((n) => (
-                      <div key={n} className="flex flex-col lg:flex-row items-center lg:items-center gap-2 lg:gap-3 bg-white/[0.04] border border-accent-gold/20 rounded-2xl px-3 py-3 lg:px-5 backdrop-blur-sm text-center lg:text-left">
-                        <div className="w-8 h-8 lg:w-9 lg:h-9 rounded-full bg-accent-gold/15 border border-accent-gold/30 flex items-center justify-center font-black text-accent-gold text-sm shrink-0">{n}</div>
-                        <div>
-                          <div className="text-white font-black text-xs lg:text-sm whitespace-nowrap">{t('Project', 'Projet')} #{n}</div>
-                          <div className="text-emerald-400 text-[10px] lg:text-[11px] font-black uppercase tracking-widest">{t('Free', 'Gratuit')}</div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="relative z-10 mt-6 lg:mt-8 pt-5 lg:pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 text-center">
-                  <p className="text-white/40 text-xs md:text-sm font-medium">
-                    {t('Applies automatically to every account, from the very first submission.', "S'applique automatiquement à chaque compte, dès la toute première soumission.")}
-                  </p>
-                  <span className="hidden sm:inline text-white/20">·</span>
-                  <p className="text-accent-gold text-xs md:text-sm font-black uppercase tracking-widest">
-                    {t('Pre-register above to secure your spot', 'Pré-inscrivez-vous ci-dessus pour garantir votre place')}
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Footer */}
             <footer className="relative z-10 border-t border-white/5 bg-black/40 backdrop-blur-xl py-10 md:py-16 px-4 md:px-8">
               <div className="max-w-full max-w-7xl mx-auto flex flex-col md:flex-row items-start gap-16">
                 <div className="space-y-4 md:w-1/3">
@@ -836,6 +796,64 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                       <p>{t("All disputes are handled through our internal legal arbitration process.", "Tous les litiges sont gérés par notre processus d'arbitrage légal interne.")}</p>
                     </div>
                   )}
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Free Offer Modal — 3 premiers projets toujours gratuits */}
+      <AnimatePresence mode="sync">
+        {showFreeOffer && (
+          <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 md:p-6">
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowFreeOffer(false)} className="absolute inset-0 bg-black/95 backdrop-blur-3xl" />
+            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }}
+              className="relative w-full max-w-2xl bg-[#0D1117] border border-accent-gold/25 rounded-[2.5rem] p-6 md:p-10 lg:p-12 max-h-[90vh] overflow-y-auto lya-scrollbar shadow-3xl">
+              <button onClick={() => setShowFreeOffer(false)} className="absolute top-6 right-6 md:top-8 md:right-8 text-white/20 hover:text-white transition-colors"><X size={24} /></button>
+
+              <div className="relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-72 h-72 blur-[100px] rounded-full -mr-20 -mt-20 pointer-events-none" style={{background:'rgba(240,197,111,0.15)'}} />
+
+                <div className="relative z-10 inline-flex items-center gap-3 px-4 py-1.5 border border-accent-gold/30 bg-accent-gold/10 rounded-full text-[11px] font-black tracking-[0.3em] text-accent-gold uppercase mb-5">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-gold opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-accent-gold"></span>
+                  </span>
+                  {t('ALWAYS ON — EVERY CREATOR', 'TOUJOURS ACTIF — TOUS LES CRÉATEURS')}
+                </div>
+
+                <h3 className="relative z-10 font-headline text-3xl md:text-4xl font-black uppercase tracking-tighter leading-[0.95] text-on-surface mb-4">
+                  {t('YOUR FIRST 3 PROJECTS,', 'VOS 3 PREMIERS PROJETS,')}<br />
+                  <span className="text-accent-gold">{t('100% FREE TO CERTIFY.', 'CERTIFIÉS À 100% GRATUITEMENT.')}</span>
+                </h3>
+
+                <p className="relative z-10 text-white/60 text-sm md:text-base font-medium leading-relaxed mb-8">
+                  {t(
+                    'Every creator on LinkYourArt gets their first 3 project submissions certified with zero fees — always, for everyone, no time limit. No standard certification cost, no catch. Build your creative reputation on the public registry from day one.',
+                    "Chaque créateur sur LinkYourArt voit ses 3 premiers projets certifiés sans aucun frais — toujours, pour tout le monde, sans limite de temps. Pas de coût de certification standard, aucune contrepartie cachée. Construisez votre réputation créative sur le registre public dès le premier jour."
+                  )}
+                </p>
+
+                <div className="relative z-10 grid grid-cols-3 gap-3 mb-8">
+                  {[1, 2, 3].map((n) => (
+                    <div key={n} className="flex flex-col items-center text-center gap-2 bg-white/[0.04] border border-accent-gold/20 rounded-2xl px-3 py-4 backdrop-blur-sm">
+                      <div className="w-9 h-9 rounded-full bg-accent-gold/15 border border-accent-gold/30 flex items-center justify-center font-black text-accent-gold text-sm shrink-0">{n}</div>
+                      <div>
+                        <div className="text-white font-black text-xs md:text-sm whitespace-nowrap">{t('Project', 'Projet')} #{n}</div>
+                        <div className="text-emerald-400 text-[10px] md:text-[11px] font-black uppercase tracking-widest">{t('Free', 'Gratuit')}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="relative z-10 pt-6 border-t border-white/10 flex flex-col gap-3 text-center">
+                  <p className="text-white/40 text-xs md:text-sm font-medium">
+                    {t('Applies automatically to every account, from the very first submission.', "S'applique automatiquement à chaque compte, dès la toute première soumission.")}
+                  </p>
+                  <button onClick={() => setShowFreeOffer(false)} className="mt-2 px-6 py-3.5 rounded-2xl bg-gradient-to-r from-accent-gold to-[#f0c56f] text-black font-black text-sm uppercase tracking-wide shadow-[0_8px_30px_rgba(240,197,111,0.35)]">
+                    {t('Pre-register to secure your spot', 'Pré-inscrivez-vous pour garantir votre place')}
+                  </button>
                 </div>
               </div>
             </motion.div>
