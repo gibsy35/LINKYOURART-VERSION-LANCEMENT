@@ -705,52 +705,52 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
 
             </div>
 
-            {/* ── BANNIÈRE MARKETING — 3 PREMIERS DÉPÔTS GRATUITS ── */}
+            {/* ── BANNIÈRE MARKETING — 3 PREMIERS DÉPÔTS TOUJOURS GRATUITS ── */}
             <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }}
               className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 mt-8 mb-4">
-              <div className="relative overflow-hidden rounded-3xl border border-accent-gold/25 bg-gradient-to-br from-accent-gold/[0.08] via-white/[0.02] to-primary-cyan/[0.05] p-8 md:p-12">
+              <div className="relative overflow-hidden rounded-3xl border border-accent-gold/25 bg-gradient-to-br from-accent-gold/[0.08] via-white/[0.02] to-primary-cyan/[0.05] p-6 md:p-8 lg:p-12">
                 <div className="absolute top-0 right-0 w-72 h-72 blur-[100px] rounded-full -mr-20 -mt-20" style={{background:'rgba(240,197,111,0.15)'}} />
                 <div className="absolute bottom-0 left-0 w-72 h-72 blur-[100px] rounded-full -ml-20 -mb-20" style={{background:'rgba(0,212,232,0.1)'}} />
 
-                <div className="relative z-10 flex flex-col lg:flex-row items-center gap-10">
+                <div className="relative z-10 flex flex-col lg:flex-row items-center gap-6 lg:gap-10">
                   <div className="flex-1 text-center lg:text-left">
-                    <div className="inline-flex items-center gap-3 px-4 py-1.5 border border-accent-gold/30 bg-accent-gold/10 rounded-full text-[11px] font-black tracking-[0.3em] text-accent-gold uppercase mb-5">
+                    <div className="inline-flex items-center gap-3 px-4 py-1.5 border border-accent-gold/30 bg-accent-gold/10 rounded-full text-[11px] font-black tracking-[0.3em] text-accent-gold uppercase mb-4">
                       <span className="relative flex h-2 w-2">
                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-gold opacity-75"></span>
                         <span className="relative inline-flex rounded-full h-2 w-2 bg-accent-gold"></span>
                       </span>
-                      {t('PIONEER OFFER — LIMITED TIME', 'OFFRE PIONNIER — DURÉE LIMITÉE')}
+                      {t('ALWAYS ON — EVERY CREATOR', 'TOUJOURS ACTIF — TOUS LES CRÉATEURS')}
                     </div>
 
-                    <h3 className="font-headline text-3xl md:text-4xl xl:text-5xl font-black uppercase tracking-tighter leading-[0.95] text-on-surface mb-4">
+                    <h3 className="font-headline text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-black uppercase tracking-tighter leading-[0.95] text-on-surface mb-3">
                       {t('YOUR FIRST 3 PROJECTS,', 'VOS 3 PREMIERS PROJETS,')}<br />
                       <span className="text-accent-gold">{t('100% FREE TO CERTIFY.', 'CERTIFIÉS À 100% GRATUITEMENT.')}</span>
                     </h3>
 
-                    <p className="text-white/60 text-base md:text-lg font-medium leading-relaxed max-w-xl mx-auto lg:mx-0">
+                    <p className="text-white/60 text-sm md:text-base lg:text-lg font-medium leading-relaxed max-w-xl mx-auto lg:mx-0">
                       {t(
-                        'Every Founding Pioneer gets their first 3 project submissions certified with zero fees — no standard certification cost, no catch. Build your creative reputation on the public registry from day one, completely free.',
-                        "Chaque Pionnier Fondateur voit ses 3 premiers projets certifiés sans aucun frais — pas de coût de certification standard, aucune contrepartie cachée. Construisez votre réputation créative sur le registre public dès le premier jour, entièrement gratuitement."
+                        'Every creator on LinkYourArt gets their first 3 project submissions certified with zero fees — always, for everyone, no time limit. No standard certification cost, no catch. Build your creative reputation on the public registry from day one.',
+                        "Chaque créateur sur LinkYourArt voit ses 3 premiers projets certifiés sans aucun frais — toujours, pour tout le monde, sans limite de temps. Pas de coût de certification standard, aucune contrepartie cachée. Construisez votre réputation créative sur le registre public dès le premier jour."
                       )}
                     </p>
                   </div>
 
-                  <div className="flex flex-row lg:flex-col gap-4 shrink-0">
+                  <div className="grid grid-cols-3 lg:flex lg:flex-col gap-3 lg:gap-4 w-full lg:w-auto shrink-0">
                     {[1, 2, 3].map((n) => (
-                      <div key={n} className="flex items-center gap-3 bg-white/[0.04] border border-accent-gold/20 rounded-2xl px-5 py-3 backdrop-blur-sm">
-                        <div className="w-9 h-9 rounded-full bg-accent-gold/15 border border-accent-gold/30 flex items-center justify-center font-black text-accent-gold text-sm shrink-0">{n}</div>
+                      <div key={n} className="flex flex-col lg:flex-row items-center lg:items-center gap-2 lg:gap-3 bg-white/[0.04] border border-accent-gold/20 rounded-2xl px-3 py-3 lg:px-5 backdrop-blur-sm text-center lg:text-left">
+                        <div className="w-8 h-8 lg:w-9 lg:h-9 rounded-full bg-accent-gold/15 border border-accent-gold/30 flex items-center justify-center font-black text-accent-gold text-sm shrink-0">{n}</div>
                         <div>
-                          <div className="text-white font-black text-sm">{t('Project', 'Projet')} #{n}</div>
-                          <div className="text-emerald-400 text-[11px] font-black uppercase tracking-widest">{t('Free', 'Gratuit')}</div>
+                          <div className="text-white font-black text-xs lg:text-sm whitespace-nowrap">{t('Project', 'Projet')} #{n}</div>
+                          <div className="text-emerald-400 text-[10px] lg:text-[11px] font-black uppercase tracking-widest">{t('Free', 'Gratuit')}</div>
                         </div>
                       </div>
                     ))}
                   </div>
                 </div>
 
-                <div className="relative z-10 mt-8 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-center gap-3 text-center">
+                <div className="relative z-10 mt-6 lg:mt-8 pt-5 lg:pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 text-center">
                   <p className="text-white/40 text-xs md:text-sm font-medium">
-                    {t('Reserved for the first 150 Founding Pioneers only.', 'Réservé aux 150 premiers Pionniers Fondateurs uniquement.')}
+                    {t('Applies automatically to every account, from the very first submission.', "S'applique automatiquement à chaque compte, dès la toute première soumission.")}
                   </p>
                   <span className="hidden sm:inline text-white/20">·</span>
                   <p className="text-accent-gold text-xs md:text-sm font-black uppercase tracking-widest">
