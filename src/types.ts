@@ -292,6 +292,7 @@ export interface Contract {
   stability: number;
   scarcity: number;
   growth: number;
+  createdAtMs?: number | null; // Real Firestore certification timestamp (ms), when available
   image: string;
   status: 'LIVE' | 'SUSPENDED' | 'RISK' | 'LIQUIDATION';
   description: string;

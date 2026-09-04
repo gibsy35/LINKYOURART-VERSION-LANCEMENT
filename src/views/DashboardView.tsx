@@ -51,15 +51,18 @@ import { StatCard } from '../components/StatCard';
 import { NumberTicker } from '../components/ui/NumberTicker';
 import { PageHeader } from '../components/ui/PageHeader';
 
-const data = [
-  { name: '00:00', value: 340 },
-  { name: '04:00', value: 290 },
-  { name: '08:00', value: 520 },
-  { name: '12:00', value: 710 },
-  { name: '16:00', value: 480 },
-  { name: '20:00', value: 820 },
-  { name: '23:59', value: 890 },
-];
+// Formats a real Firestore timestamp (ms) as a relative "time ago" string —
+// used by the certification activity feed instead of any fabricated data.
+function formatTimeAgo(ms: number, t: (en: string, fr: string) => string): string {
+  const diffSec = Math.max(0, Math.floor((Date.now() - ms) / 1000));
+  if (diffSec < 60) return t('Just now', "À l'instant");
+  const diffMin = Math.floor(diffSec / 60);
+  if (diffMin < 60) return `${diffMin}${t('m ago', ' min')}`;
+  const diffH = Math.floor(diffMin / 60);
+  if (diffH < 24) return `${diffH}${t('h ago', ' h')}`;
+  const diffD = Math.floor(diffH / 24);
+  return `${diffD}${t('d ago', ' j')}`;
+}
 
 
 
@@ -105,52 +108,46 @@ export const DashboardView: React.FC<{
   }, [followedScoreAvg]);
 
   const chartData = useMemo(() => {
-    switch (activeRange) {
-      case '1W':
-        return [
-          { name: 'Lun', value: 650 },
-          { name: 'Mar', value: 720 },
-          { name: 'Mer', value: 680 },
-          { name: 'Jeu', value: 790 },
-          { name: 'Ven', value: 850 },
-          { name: 'Sam', value: 880 },
-          { name: 'Dim', value: 920 },
-        ];
-      case '1M':
-        return [
-          { name: 'Sem. 1', value: 720 },
-          { name: 'Sem. 2', value: 780 },
-          { name: 'Sem. 3', value: 850 },
-          { name: 'Sem. 4', value: 920 },
-        ];
-      case '1Y':
-        return [
-          { name: 'Jan', value: 520 },
-          { name: 'Mar', value: 610 },
-          { name: 'Mai', value: 680 },
-          { name: 'Jul', value: 750 },
-          { name: 'Sep', value: 820 },
-          { name: 'Nov', value: 890 },
-        ];
-      case 'ALL':
-        return [
-          { name: '2023', value: 380 },
-          { name: '2024', value: 560 },
-          { name: '2025', value: 750 },
-          { name: '2026', value: 890 },
-        ];
-      default: // 1D
-        return [
-          { name: '00:00', value: 780 },
-          { name: '04:00', value: 775 },
-          { name: '08:00', value: 800 },
-          { name: '12:00', value: 830 },
-          { name: '16:00', value: 815 },
-          { name: '20:00', value: 860 },
-          { name: '23:59', value: 892 },
-        ];
+    const now = Date.now();
+    const windows: Record<string, { spanMs: number; bucketMs: number; fmt: (ms: number) => string }> = {
+      '1D': { spanMs: 24 * 3600e3, bucketMs: 3600e3, fmt: (ms) => new Date(ms).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false }) },
+      '1W': { spanMs: 7 * 24 * 3600e3, bucketMs: 24 * 3600e3, fmt: (ms) => new Date(ms).toLocaleDateString(language === 'FR' ? 'fr-FR' : 'en-US', { weekday: 'short' }) },
+      '1M': { spanMs: 30 * 24 * 3600e3, bucketMs: 7 * 24 * 3600e3, fmt: (ms) => new Date(ms).toLocaleDateString(language === 'FR' ? 'fr-FR' : 'en-US', { day: '2-digit', month: 'short' }) },
+      '1Y': { spanMs: 365 * 24 * 3600e3, bucketMs: 30 * 24 * 3600e3, fmt: (ms) => new Date(ms).toLocaleDateString(language === 'FR' ? 'fr-FR' : 'en-US', { month: 'short' }) },
+      'ALL': { spanMs: Infinity, bucketMs: 90 * 24 * 3600e3, fmt: (ms) => new Date(ms).getFullYear().toString() },
+    };
+    const w = windows[activeRange] || windows['1D'];
+
+    // Real certified projects with a genuine timestamp, sorted chronologically.
+    const timed = [...contracts]
+      .filter((c: any) => c.createdAtMs)
+      .sort((a: any, b: any) => (a.createdAtMs || 0) - (b.createdAtMs || 0));
+
+    const inWindow = w.spanMs === Infinity ? timed : timed.filter((c: any) => now - c.createdAtMs <= w.spanMs);
+
+    if (inWindow.length === 0) {
+      // No real certification history yet in this window — show a single
+      // flat point at the current real registry average rather than any
+      // fabricated trend.
+      return [{ name: t('Now', 'Maintenant'), value: Math.round(marketStats.avgScore || 0) }];
     }
-  }, [activeRange]);
+
+    // Bucket real certifications into time slots and compute the real
+    // cumulative average LYA Score at each point in time.
+    const buckets = new Map<number, { sum: number; count: number; lastMs: number }>();
+    let cumulativeSum = 0;
+    let cumulativeCount = 0;
+    inWindow.forEach((c: any) => {
+      cumulativeSum += c.scoreLYA || c.totalScore || 0;
+      cumulativeCount += 1;
+      const bucketKey = Math.floor(c.createdAtMs / w.bucketMs);
+      buckets.set(bucketKey, { sum: cumulativeSum, count: cumulativeCount, lastMs: c.createdAtMs });
+    });
+
+    return Array.from(buckets.values())
+      .sort((a, b) => a.lastMs - b.lastMs)
+      .map(b => ({ name: w.fmt(b.lastMs), value: Math.round(b.sum / b.count) }));
+  }, [activeRange, contracts, marketStats.avgScore, language, t]);
 
   const [topCount, setTopCount] = React.useState(5);
   const [stableCount, setStableCount] = React.useState(5);
@@ -203,14 +200,6 @@ export const DashboardView: React.FC<{
     };
   }, []);
 
-  const networkActivity = [
-    { label: 'Paris Registry', status: 'ACTIF', latency: '12ms' },
-    { label: 'Tokyo Registry', status: 'ACTIF', latency: '45ms' },
-    { label: 'NY Registry', status: 'ACTIF', latency: '28ms' },
-    { label: 'London Center', status: 'ACTIF', latency: '15ms' },
-    { label: 'Singapore Registry', status: 'ACTIF', latency: '32ms' },
-    { label: 'Berlin Registry', status: 'ACTIF', latency: '18ms' },
-  ];
 
   const SECTOR_COLORS: Record<string, { text: string; bg: string; border: string }> = {
     'Fine Art':        { text: 'text-rose-400',    bg: 'bg-rose-400/10',    border: 'border-rose-400/40' },
@@ -230,21 +219,72 @@ export const DashboardView: React.FC<{
   };
   const getSectorStyle = (sector?: string) => SECTOR_COLORS[sector || ''] || { text: 'text-on-surface-variant', bg: 'bg-white/5', border: 'border-white/20' };
 
-  const sectors = useMemo(() => [
-    { name: t('Fine Art', 'Beaux-Arts'), icon: Palette, growth: -8.4, color: 'text-rose-400', bg: 'bg-rose-400/10', weight: 35 },
-    { name: t('Music', 'Musique'), icon: Music, growth: 15.8, color: 'text-accent-pink', bg: 'bg-accent-pink/10', weight: 25 },
-    { name: t('Digital', 'Digital'), icon: Zap, growth: -12.1, color: 'text-rose-400', bg: 'bg-rose-400/10', weight: 15 },
-    { name: t('Film', 'Cinéma'), icon: Film, growth: 8.2, color: 'text-primary-cyan', bg: 'bg-primary-cyan/10', weight: 12 },
-    { name: t('TV Series', 'Séries TV'), icon: Tv, growth: -4.1, color: 'text-rose-400', bg: 'bg-rose-400/10', weight: 8 },
-    { name: t('Podcast', 'Podcast'), icon: Mic, growth: -15.5, color: 'text-rose-400', bg: 'bg-rose-400/10', weight: 3 },
-    { name: t('Theatre', 'Théâtre'), icon: Drama, growth: 1.8, color: 'text-primary-cyan', bg: 'bg-primary-cyan/10', weight: 2 },
-  ], [t]);
+  // Icon mapping for each real project category (used to render the real
+  // per-category breakdown below — no fabricated growth/weight numbers).
+  const CATEGORY_ICONS: Record<string, any> = {
+    'Fine Art': Palette, 'Film': Film, 'TV Series': Tv, 'Music': Music,
+    'Digital Art': Zap, 'Gaming': Zap, 'Literature': PenTool, 'Fashion': Layers,
+    'Architecture': Layers, 'Design': PenTool, 'Photography': Camera,
+    'Podcast': Mic, 'Performing Arts': Drama, 'Gastronomy': Palette,
+  };
+  const CATEGORY_LABELS: Record<string, string> = {
+    'Fine Art': t('Fine Art', 'Beaux-Arts'), 'Film': t('Film', 'Cinéma'),
+    'TV Series': t('TV Series', 'Séries TV'), 'Music': t('Music', 'Musique'),
+    'Digital Art': t('Digital Art', 'Art Numérique'), 'Gaming': t('Gaming', 'Gaming'),
+    'Literature': t('Literature', 'Littérature'), 'Fashion': t('Fashion', 'Mode'),
+    'Architecture': t('Architecture', 'Architecture'), 'Design': t('Design', 'Design'),
+    'Photography': t('Photography', 'Photographie'), 'Podcast': t('Podcast', 'Podcast'),
+    'Performing Arts': t('Performing Arts', 'Arts du Spectacle'), 'Gastronomy': t('Gastronomy', 'Gastronomie'),
+  };
+  // Real per-category breakdown, derived from actual certified projects on
+  // the registry (marketStats.categoryBreakdown) — replaces the previously
+  // hardcoded sector list with fabricated growth/weight values.
+  const sectors = useMemo(() => {
+    return (marketStats.categoryBreakdown || []).map((c: any) => {
+      const style = getSectorStyle(c.category);
+      return {
+        name: CATEGORY_LABELS[c.category] || c.category,
+        icon: CATEGORY_ICONS[c.category] || Palette,
+        growth: c.recentShare, // % of that category's projects certified in the last 30 days
+        color: style.text,
+        bg: style.bg,
+        weight: c.weight, // real % share of the registry
+      };
+    });
+  }, [marketStats.categoryBreakdown, t]);
+
+  // Real recent certification activity, derived from actual certified
+  // projects sorted by their genuine Firestore timestamp — replaces the
+  // previous feed of random IDs and fabricated point deltas.
+  const recentActivity = useMemo(() => {
+    return [...contracts]
+      .filter((c: any) => c.createdAtMs)
+      .sort((a: any, b: any) => (b.createdAtMs || 0) - (a.createdAtMs || 0))
+      .map((c: any) => ({
+        id: c.id,
+        name: c.name,
+        category: c.category,
+        score: c.scoreLYA || c.totalScore || 0,
+        timestampMs: c.createdAtMs as number,
+      }));
+  }, [contracts]);
+
+  // Real recently-certified projects, used for the "Live Activity" sidebar —
+  // replaces the previous list of fabricated city names and fake latencies
+  // (no real multi-region infrastructure exists to report on).
+  const networkActivity = useMemo(() => {
+    return recentActivity.slice(0, 6).map((a) => ({
+      label: a.name,
+      status: t('CERTIFIED', 'CERTIFIÉ'),
+      latency: formatTimeAgo(a.timestampMs, t),
+    }));
+  }, [recentActivity, t]);
 
   const marketSentiment = useMemo(() => {
     const avgScore = marketStats.avgScore;
-    if (avgScore > 700) return { label: t('EXCELLENT', 'EXCELLENT'), color: 'text-emerald-400', value: 85 };
-    if (avgScore > 500) return { label: t('SOLID', 'SOLIDE'), color: 'text-primary-cyan', value: 55 };
-    return { label: t('DEVELOPING', 'EN DÉVELOPPEMENT'), color: 'text-accent-gold', value: 35 };
+    if (avgScore > 700) return { label: t('EXCELLENT', 'EXCELLENT'), color: 'text-emerald-400' };
+    if (avgScore > 500) return { label: t('SOLID', 'SOLIDE'), color: 'text-primary-cyan' };
+    return { label: t('DEVELOPING', 'EN DÉVELOPPEMENT'), color: 'text-accent-gold' };
   }, [marketStats.avgScore, t]);
 
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -400,8 +440,8 @@ export const DashboardView: React.FC<{
             {[
               { label: t('Supported Projects', 'Projets Soutenus'), value: activeContractsCount || 0, isCurrency: false, trend: t('Active', 'Actifs'), color: 'border-primary-cyan', icon: <Layers size={16} />, suffix: '', tooltip: t('The number of certified creative projects you are supporting on the LYA Registry.', 'Le nombre de projets créatifs certifiés que vous soutenez sur le Registre LYA.') },
               { label: t('Average LYA Score', 'Score LYA Moyen'), value: marketStats.avgScore ? Math.round(marketStats.avgScore) : '—', isCurrency: false, trend: t('/ 1000 pts', '/ 1000 pts'), color: 'border-primary-cyan', icon: <TrendingUp size={16} />, suffix: ' pts', tooltip: t('The average LYA Score across all certified projects you follow. Reflects overall quality on the registry.', 'Le Score LYA moyen de tous les projets certifiés que vous suivez. Reflète la qualité globale sur le registre.') },
-              { label: t('Certified Projects', 'Projets Certifiés'), value: activeContractsCount || 0, isCurrency: false, trend: t('On Registry', 'Au Registre'), color: 'border-white/20', icon: <LayoutGrid size={16} />, suffix: '', tooltip: t('The number of unique creative projects certified on the LYA Registry that you are following.', 'Le nombre de projets créatifs uniques certifiés sur le Registre LYA que vous suivez.') },
-              { label: t('Community Confidence', 'Confiance Communautaire'), value: marketSentiment.label, isCurrency: false, trend: `${marketSentiment.value}%`, color: 'border-accent-gold', icon: <ActivityIcon size={16} />, suffix: '', tooltip: t('Real-time analysis of community and patron confidence in certified projects on the registry.', 'Analyse en temps réel de la confiance de la communauté et des mécènes envers les projets certifiés du registre.') }
+              { label: t('Certified Projects', 'Projets Certifiés'), value: marketStats.totalProjects || 0, isCurrency: false, trend: t('On Registry', 'Au Registre'), color: 'border-white/20', icon: <LayoutGrid size={16} />, suffix: '', tooltip: t('The total number of creative projects certified on the LYA Registry, registry-wide.', 'Le nombre total de projets créatifs certifiés sur le Registre LYA, tout registre confondu.') },
+              { label: t('Registry Quality', 'Qualité du Registre'), value: marketSentiment.label, isCurrency: false, trend: `${Math.round(marketStats.avgScore || 0)}/1000 ${t('avg', 'moy.')}`, color: 'border-accent-gold', icon: <ActivityIcon size={16} />, suffix: '', tooltip: t('Qualitative rating derived from the real average LYA Score across all certified projects on the registry.', 'Évaluation qualitative dérivée du Score LYA moyen réel de tous les projets certifiés sur le registre.') }
             ].map((stat, i) => (
                 <div key={i} className="relative group">
                   <div className="absolute inset-0 bg-surface-low/30 backdrop-blur-2xl border border-white/10 rounded-sm group-hover:border-primary-cyan/30 transition-all duration-500" />
@@ -706,7 +746,7 @@ export const DashboardView: React.FC<{
                       <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
                         <motion.div 
                           initial={{ width: 0 }}
-                          animate={{ width: `${sector.weight * 2}%` }}
+                          animate={{ width: `${Math.min(100, sector.weight * 2)}%` }}
                           className={`h-full ${sector.bg.replace('/10', '')} shadow-[0_0_10px_rgba(0,224,255,0.2)]`}
                         />
                       </div>
@@ -754,35 +794,51 @@ export const DashboardView: React.FC<{
                 </div>
               </div>
               <div className="p-8 space-y-4">
-                {[...Array(visibleActivities)].map((_, i) => {
-                  const scoreDelta = 8 + (i * 3);
+                {recentActivity.length === 0 ? (
+                  <p className="text-xs text-on-surface-variant/40 uppercase tracking-widest text-center py-6">
+                    {t('No certification activity yet.', 'Aucune activité de certification pour le moment.')}
+                  </p>
+                ) : recentActivity.slice(0, visibleActivities).map((activity, i) => {
+                  const style = getSectorStyle(activity.category);
                   return (
                     <motion.div 
-                      key={i}
+                      key={activity.id}
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: i * 0.05 }}
                       className="flex items-center justify-between p-5 bg-surface-dim/30 border border-white/5 rounded-sm hover:bg-white/[0.02] transition-all group"
                     >
                       <div className="flex items-center gap-6">
-                        <div className={`w-12 h-12 flex items-center justify-center rounded-sm ${i % 2 === 0 ? 'bg-emerald-400/10 text-emerald-400' : 'bg-primary-cyan/10 text-primary-cyan'} border border-white/5 shadow-inner`}>
-                          {i % 2 === 0 ? <ArrowUpRight size={18} /> : <Award size={18} />}
+                        <div className={`w-12 h-12 flex items-center justify-center rounded-sm ${style.bg} ${style.text} border border-white/5 shadow-inner`}>
+                          <Award size={18} />
                         </div>
                         <div>
                           <div className="text-xs font-black uppercase tracking-wider text-on-surface group-hover:text-primary-cyan transition-colors">
-                            {i % 2 === 0 ? t('Milestone Validated', 'Jalon Validé') : t('Professional Review Completed', 'Revue Professionnelle Complétée')}
+                            {activity.name}
                           </div>
-                          <div className="text-[11px] text-on-surface-variant uppercase tracking-[0.2em] font-bold opacity-40 mt-1">REG-{Math.random().toString(16).slice(2, 8).toUpperCase()}</div>
+                          <div className="text-[11px] text-on-surface-variant uppercase tracking-[0.2em] font-bold opacity-40 mt-1">
+                            {activity.category} · {formatTimeAgo(activity.timestampMs, t)}
+                          </div>
                         </div>
                       </div>
                       <div className="text-right">
-                        <div className="text-sm font-mono font-black text-primary-cyan">+{scoreDelta} PTS</div>
+                        <div className="text-sm font-mono font-black text-primary-cyan">{activity.score}/1000</div>
                         <div className="text-[10px] text-on-surface-variant font-bold opacity-40 mt-1">{t('LYA Score', 'Score LYA')}</div>
                       </div>
                     </motion.div>
                   );
                 })}
               </div>
+              {visibleActivities < recentActivity.length && (
+                <div className="px-8 pb-8">
+                  <button
+                    onClick={() => setVisibleActivities(prev => prev + 5)}
+                    className="w-full py-3 bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-widest hover:bg-white/10 hover:border-white/30 transition-all flex items-center justify-center gap-2 rounded-sm"
+                  >
+                    {t('Load More', 'Voir Plus')} <RefreshCw size={14} />
+                  </button>
+                </div>
+              )}
               <div className="px-8 pb-8 flex flex-col sm:flex-row gap-4">
                 <button 
                   onClick={() => setVisibleActivities(prev => prev + 5)}
@@ -805,26 +861,19 @@ export const DashboardView: React.FC<{
                   <ActivityIcon size={16} className="text-primary-cyan" />
                   {t('Registry Distribution', 'Répartition du Registre')}
                 </h2>
-                <div className="text-xs font-black uppercase tracking-widest text-on-surface-variant opacity-40">GLOBAL COVERAGE</div>
+                <div className="text-xs font-black uppercase tracking-widest text-on-surface-variant opacity-40">{t('BY DISCIPLINE', 'PAR DISCIPLINE')}</div>
               </div>
               <div className="h-[300px] w-full">
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={[
-                    { name: 'NA', value: 45 },
-                    { name: 'EU', value: 32 },
-                    { name: 'AS', value: 28 },
-                    { name: 'OC', value: 12 },
-                    { name: 'SA', value: 8 },
-                    { name: 'AF', value: 3 },
-                  ]}>
+                  <BarChart data={(marketStats.categoryBreakdown || []).slice(0, 6).map((c: any) => ({ name: c.category, value: c.weight }))}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#ffffff03" vertical={false} />
                     <XAxis 
                       dataKey="name" 
                       stroke="#ffffff05" 
-                      fontSize={10} 
+                      fontSize={9} 
                       tickLine={false} 
                       axisLine={false}
-                      tick={{ fill: '#8E9299', fontWeight: 'bold', letterSpacing: '0.1em' }}
+                      tick={{ fill: '#8E9299', fontWeight: 'bold', letterSpacing: '0.05em' }}
                     />
                     <YAxis 
                       stroke="#ffffff05" 
@@ -848,7 +897,7 @@ export const DashboardView: React.FC<{
                       formatter={(value: number) => [`${value}%`, t('Registry Share', 'Part du Registre')]}
                     />
                     <Bar dataKey="value" radius={[2, 2, 0, 0]} barSize={35}>
-                      {[0, 1, 2, 3, 4, 5].map((entry, index) => (
+                      {(marketStats.categoryBreakdown || []).slice(0, 6).map((entry: any, index: number) => (
                         <Cell key={`cell-${index}`} fill={index === 0 ? '#00E0FF' : 'rgba(255,255,255,0.05)'} />
                       ))}
                     </Bar>
@@ -858,9 +907,13 @@ export const DashboardView: React.FC<{
               <div className="mt-10 flex justify-between items-center bg-surface-dim/30 p-6 rounded-sm border border-white/5 shadow-inner">
                 <div className="flex items-center gap-4">
                   <div className="w-3 h-3 bg-primary-cyan rounded-full shadow-[0_0_15px_rgba(0,224,255,0.6)]"></div>
-                  <span className="text-[11px] uppercase tracking-[0.3em] text-on-surface-variant font-black opacity-60">{t('Primary Registry: North America', 'Registre Principal : Amérique du Nord')}</span>
+                  <span className="text-[11px] uppercase tracking-[0.3em] text-on-surface-variant font-black opacity-60">
+                    {marketStats.categoryBreakdown?.[0]
+                      ? `${t('Leading Discipline:', 'Discipline Principale :')} ${CATEGORY_LABELS[marketStats.categoryBreakdown[0].category] || marketStats.categoryBreakdown[0].category}`
+                      : t('No certified projects yet', 'Aucun projet certifié pour le moment')}
+                  </span>
                 </div>
-                <span className="text-[11px] font-black text-primary-cyan uppercase tracking-[0.3em]">128 {t('ACTIVE REGISTRIES', 'REGISTRES ACTIFS')}</span>
+                <span className="text-[11px] font-black text-primary-cyan uppercase tracking-[0.3em]">{marketStats.totalProjects || 0} {t('CERTIFIED PROJECTS', 'PROJETS CERTIFIÉS')}</span>
               </div>
             </div>
           </div>
@@ -881,15 +934,15 @@ export const DashboardView: React.FC<{
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="bg-black/20 border border-white/8 rounded-xl p-4 text-center">
-              <p className="text-2xl font-black text-primary-cyan">128</p>
+              <p className="text-2xl font-black text-primary-cyan">{marketStats.totalProjects || 0}</p>
               <p className="text-[9px] text-on-surface-variant/40 font-black uppercase tracking-widest mt-1">{t('Certified Projects', 'Projets Certifiés')}</p>
             </div>
             <div className="bg-black/20 border border-white/8 rounded-xl p-4 text-center">
-              <p className="text-2xl font-black text-[#a78bfa]">847</p>
+              <p className="text-2xl font-black text-[#a78bfa]">{marketStats.recentCount30d || 0}</p>
               <p className="text-[9px] text-on-surface-variant/40 font-black uppercase tracking-widest mt-1">{t('Score Updates (30d)', 'Mises à Jour Score (30j)')}</p>
             </div>
             <div className="bg-black/20 border border-white/8 rounded-xl p-4 text-center">
-              <p className="text-2xl font-black text-emerald-400">892</p>
+              <p className="text-2xl font-black text-emerald-400">{Math.round(marketStats.avgScore || 0)}</p>
               <p className="text-[9px] text-on-surface-variant/40 font-black uppercase tracking-widest mt-1">{t('Avg LYA Score', 'Score LYA Moyen')}</p>
             </div>
           </div>

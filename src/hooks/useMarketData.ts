@@ -54,6 +54,10 @@ export const useMarketData = () => {
               category: data.category || staticContract?.category || 'Fine Art',
               image: data.image || staticContract?.image || `https://picsum.photos/seed/${encodeURIComponent(doc.id)}/800/600`,
               pillars: data.pillars && data.pillars.length === 5 ? data.pillars : (staticContract?.pillars || defaultPillars),
+              // Real Firestore timestamp of certification/submission — used to
+              // derive genuine recency-based metrics (registry activity feed,
+              // score evolution chart) instead of any fabricated data.
+              createdAtMs: data.createdAt?.toMillis ? data.createdAt.toMillis() : (data.validatedAt?.toMillis ? data.validatedAt.toMillis() : null),
               // The LYA unit price is fixed and does not fluctuate -- see
               // note at the top of this file.
               unitValue: LYA_UNIT_VALUE,
@@ -127,12 +131,21 @@ export const useMarketData = () => {
         currentImg = categoryImages[contract.category] || categoryImages['Fine Art'];
       }
 
+      // Real "growth" metric: how much the expert committee adjusted the
+      // score versus the initial algorithmic signal. A positive value means
+      // the committee validated the project above what the algorithm alone
+      // suggested; negative means a downward adjustment. This replaces the
+      // old fabricated/static growth field with something genuinely derived
+      // from real certification data, available for every contract.
+      const realGrowth = algo > 0 ? Math.round(((pro - algo) / algo) * 1000) / 10 : 0;
+
       return {
         ...contract,
         image: currentImg,
         unitValue: LYA_UNIT_VALUE,
         scoreLYA: calculatedLYAScore,
-        totalScore: calculatedLYAScore
+        totalScore: calculatedLYAScore,
+        growth: realGrowth
       };
     });
   }, [firestoreContracts]);
@@ -142,10 +155,41 @@ export const useMarketData = () => {
     const totalAvailable = contracts.reduce((acc, c) => acc + (c.availableUnits || 0), 0);
     const avgScore = contracts.length ? contracts.reduce((acc, c) => acc + (c.totalScore || 0), 0) / contracts.length : 0;
 
+    // Real count of certifications/updates in the last 30 days, derived from
+    // actual Firestore timestamps (createdAtMs) — replaces the previously
+    // hardcoded "847" figure.
+    const thirtyDaysAgo = Date.now() - 30 * 24 * 60 * 60 * 1000;
+    const recentCount30d = contracts.filter((c: any) => c.createdAtMs && c.createdAtMs >= thirtyDaysAgo).length;
+
+    // Real per-category breakdown (proportion of the registry each creative
+    // discipline represents) — replaces the hardcoded sector weights.
+    const categoryTotals: Record<string, number> = {};
+    contracts.forEach(c => {
+      const cat = c.category || 'Fine Art';
+      categoryTotals[cat] = (categoryTotals[cat] || 0) + 1;
+    });
+    const categoryBreakdown = Object.entries(categoryTotals)
+      .map(([category, count]) => ({
+        category,
+        count,
+        weight: contracts.length ? Math.round((count / contracts.length) * 1000) / 10 : 0,
+        // Real recency-based "growth" for the sector: share of that
+        // category's projects certified in the last 30 days vs older ones.
+        recentShare: (() => {
+          const catContracts = contracts.filter(c => (c.category || 'Fine Art') === category);
+          const recent = catContracts.filter((c: any) => c.createdAtMs && c.createdAtMs >= thirtyDaysAgo).length;
+          return catContracts.length ? Math.round((recent / catContracts.length) * 1000) / 10 : 0;
+        })()
+      }))
+      .sort((a, b) => b.count - a.count);
+
     return {
       totalCap,
       totalAvailable,
       avgScore,
+      totalProjects: contracts.length,
+      recentCount30d,
+      categoryBreakdown,
       lastUpdate
     };
   }, [contracts, lastUpdate]);
