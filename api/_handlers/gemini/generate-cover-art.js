@@ -20,7 +20,7 @@ module.exports = async (req, res) => {
       try {
         const prompt = `Generate a square, high-quality, professional digital art piece for a creative project described as: ${description || 'a creative project'}. Style: ${style}. High resolution, clean composition.`;
         const response = await ai.models.generateContent({
-          model: 'gemini-2.5-flash-image',
+          model: 'gemini-3.1-flash-image-preview',
           contents: prompt
         });
         for (const part of response.candidates?.[0]?.content?.parts || []) {
