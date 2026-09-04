@@ -674,33 +674,34 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                   </p>
                 </motion.div>
 
-                {/* Compteur pré-inscrits */}
-                <div className="flex items-center gap-3 p-4 bg-white/[0.04] border border-white/10 rounded-2xl backdrop-blur-sm w-fit">
-                  <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse shrink-0"/>
-                    <span className="text-xs font-black text-emerald-400 uppercase tracking-widest">{t('Open', 'Ouvert')}</span>
+                {/* Compteur pré-inscrits + Bouton offre gratuite — côte à côte */}
+                <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3">
+                  <div className="flex items-center gap-3 p-4 bg-white/[0.04] border border-white/10 rounded-2xl backdrop-blur-sm w-fit">
+                    <div className="flex items-center gap-2">
+                      <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse shrink-0"/>
+                      <span className="text-xs font-black text-emerald-400 uppercase tracking-widest">{t('Open', 'Ouvert')}</span>
+                    </div>
+                    <div className="w-px h-5 bg-white/10"/>
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-2xl font-black text-primary-cyan">{(totalRegistrations || 0).toLocaleString()}</span>
+                      <span className="text-xs text-white/40 font-black uppercase tracking-widest">{t('pioneers registered', 'pionniers inscrits')}</span>
+                    </div>
                   </div>
-                  <div className="w-px h-5 bg-white/10"/>
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-2xl font-black text-primary-cyan">{(totalRegistrations || 0).toLocaleString()}</span>
-                    <span className="text-xs text-white/40 font-black uppercase tracking-widest">{t('pioneers registered', 'pionniers inscrits')}</span>
-                  </div>
-                </div>
 
-                {/* Bouton — 3 premiers projets gratuits */}
-                <motion.button
-                  onClick={() => setShowFreeOffer(true)}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="relative overflow-hidden flex items-center gap-3 px-6 py-4 rounded-2xl bg-gradient-to-r from-accent-gold to-[#f0c56f] text-black font-black text-sm md:text-base uppercase tracking-wide shadow-[0_8px_30px_rgba(240,197,111,0.35)] w-fit mx-auto lg:mx-0"
-                >
-                  <span className="relative flex h-2.5 w-2.5 shrink-0">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-black/40"></span>
-                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-black/60"></span>
-                  </span>
-                  {t('Your first 3 projects — 100% free', 'Vos 3 premiers projets — 100% gratuits')}
-                  <ArrowRight size={18} className="shrink-0" />
-                </motion.button>
+                  <motion.button
+                    onClick={() => setShowFreeOffer(true)}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="relative overflow-hidden flex items-center gap-3 px-6 py-4 rounded-2xl bg-gradient-to-r from-accent-gold to-[#f0c56f] text-black font-black text-sm md:text-base uppercase tracking-wide shadow-[0_8px_30px_rgba(240,197,111,0.35)] w-fit"
+                  >
+                    <span className="relative flex h-2.5 w-2.5 shrink-0">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-black/40"></span>
+                      <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-black/60"></span>
+                    </span>
+                    {t('Your first 3 projects — 100% free', 'Vos 3 premiers projets — 100% gratuits')}
+                    <ArrowRight size={18} className="shrink-0" />
+                  </motion.button>
+                </div>
 
                 {/* Stats */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-4">
