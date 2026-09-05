@@ -25,6 +25,7 @@ import { PageHeader } from '../components/ui/PageHeader';
 import { suggestMilestones } from '../services/geminiService';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db, handleFirestoreError, OperationType } from '../firebase';
+import { getSafeImageUrl } from '../utils/image';
 import { Trash2, Edit2, Check, X as CloseIcon, Mic } from 'lucide-react';
 
 interface Step {
@@ -320,7 +321,7 @@ export const LinkArtView: React.FC<{
       }
     } catch (error) {
       console.error('Image generation failed:', error);
-      const fallback = `https://picsum.photos/seed/${encodeURIComponent(description.slice(0, 10))}/800/800`;
+      const fallback = getSafeImageUrl(undefined, category);
       setGeneratedImage(fallback);
       onNotify(t('GENERATION FAILED. USING PROFESSIONAL PLACEHOLDER.', 'ÉCHEC DE LA GÉNÉRATION. UTILISATION D\'UN ESPACE RÉSERVÉ PROFESSIONNEL.'));
     } finally {
