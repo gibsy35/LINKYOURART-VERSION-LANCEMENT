@@ -27,11 +27,11 @@ module.exports = async (req, res) => {
   try {
     const ai = new GoogleGenAI({ apiKey: keyToTest });
     const response = await ai.models.generateContent({
-      model: 'gemini-3.5-flash',
+      model: 'gemini-3.6-flash',
       contents: 'Reply with exactly: OK',
     });
     result.testCall = { ok: true, geminiResponse: response.text || '' };
-    result.diagnosis = 'SUCCESS — the key works and gemini-3.5-flash responded correctly.';
+    result.diagnosis = 'SUCCESS — the key works and gemini-3.6-flash responded correctly.';
   } catch (e) {
     result.testCall = { ok: false, error: e.message };
     result.diagnosis = `API_ERROR — the key was sent but Gemini rejected the request. See testCall.error for the exact reason.`;

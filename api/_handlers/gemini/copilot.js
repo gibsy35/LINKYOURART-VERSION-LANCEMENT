@@ -13,7 +13,7 @@ module.exports = async (req, res) => {
   if (action === 'generate-visual') {
     try {
       const response = await ai.models.generateContent({
-        model: 'gemini-3.5-flash',
+        model: 'gemini-3.6-flash',
         contents: prompt || '',
       });
       const text = response.text || '';
@@ -35,7 +35,7 @@ module.exports = async (req, res) => {
 
   try {
     const response = await ai.models.generateContent({
-      model: 'gemini-3.5-flash',
+      model: 'gemini-3.6-flash',
       contents,
       config: { systemInstruction: systemPrompt },
     });

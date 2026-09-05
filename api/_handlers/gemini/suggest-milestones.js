@@ -24,7 +24,7 @@ module.exports = async (req, res) => {
   try {
     const ai = new GoogleGenAI({ apiKey });
     const response = await ai.models.generateContent({
-      model: 'gemini-3.5-flash',
+      model: 'gemini-3.6-flash',
       contents: userPrompt,
       config: { systemInstruction: systemPrompt, responseMimeType: 'application/json' },
     });
