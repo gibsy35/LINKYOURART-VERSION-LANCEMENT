@@ -18,7 +18,7 @@ module.exports = async (req, res) => {
         ? `Translate the following creative project description from English to French. Keep the tone professional and creative. Return ONLY the translated text, nothing else:\n\n${description}`
         : `Translate the following creative project description from French to English. Keep the tone professional and creative. Return ONLY the translated text, nothing else:\n\n${description}`;
 
-      const response = await ai.models.generateContent({ model: 'gemini-3.6-flash', contents: prompt, config: { thinkingConfig: { thinkingLevel: 'low' } } });
+      const response = await ai.models.generateContent({ model: 'gemini-3.6-flash', contents: prompt, config: { thinkingConfig: { thinkingLevel: 'minimal' } } });
       const translated = (response.text || '').trim();
       return res.status(200).json({ translatedDescription: translated || description, source: 'gemini' });
     } catch (e) {
@@ -39,7 +39,7 @@ module.exports = async (req, res) => {
       : `Write a short synopsis (2 sentences max) for a creative project named "${name}", in the "${category || 'Creative'}" category${assetType ? `, type: "${assetType}"` : ''}. Professional, factual tone, focused on creative certification -- never financial or investment language. Respond only with the synopsis text, no preamble.`;
 
     try {
-      const response = await ai.models.generateContent({ model: 'gemini-3.6-flash', contents: prompt, config: { thinkingConfig: { thinkingLevel: 'low' } } });
+      const response = await ai.models.generateContent({ model: 'gemini-3.6-flash', contents: prompt, config: { thinkingConfig: { thinkingLevel: 'minimal' } } });
       const synopsis = (response.text || '').trim();
       return res.status(200).json({ synopsis: synopsis || `${name} is a ${category || 'creative'} project undergoing LYA certification.` });
     } catch (e) {
@@ -65,7 +65,7 @@ module.exports = async (req, res) => {
     const response = await ai.models.generateContent({
       model: 'gemini-3.6-flash',
       contents: userPrompt,
-      config: { systemInstruction: systemPrompt, thinkingConfig: { thinkingLevel: 'low' } },
+      config: { systemInstruction: systemPrompt, thinkingConfig: { thinkingLevel: 'minimal' } },
     });
     const text = (response.text || '').trim();
     return res.status(200).json({ analysis: text || 'Analysis currently unavailable.' });

@@ -100,7 +100,7 @@ Do NOT produce any estimated field, score, or trend — facts verifiable via sea
       config: {
         systemInstruction: systemPrompt,
         tools: [{ googleSearch: {} }],
-        thinkingConfig: { thinkingLevel: 'low' },
+        thinkingConfig: { thinkingLevel: 'minimal' },
       },
     });
 

@@ -33,6 +33,7 @@ import {Contract, PillarScore, getContractDescription} from '../types';
 import { translatePillarLabel } from '../utils/pillars';
 import { useTranslation } from '../context/LanguageContext';
 import { simulatePDFDownload } from '../utils/download';
+import { generateCertificate } from '../utils/lyaDocuments';
 import { generateAssetAnalysis } from '../services/geminiService';
 import { getSafeImageUrl, handleImageError } from '../utils/image';
 import { 
@@ -276,26 +277,8 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                 
                 <div className="flex gap-3">
                    <button
-                     onClick={() => {
-                       const data = JSON.stringify({
-                         registryIndex: contract.registryIndex || contract.id,
-                         name: contract.name,
-                         category: contract.category,
-                         lyaScore: contract.totalScore,
-                         status: contract.status,
-                         rarity: contract.rarity,
-                         issuedBy: 'LinkYourArt SASU',
-                         exportedAt: new Date().toISOString(),
-                       }, null, 2);
-                       const blob = new Blob([data], { type: 'application/json' });
-                       const url = URL.createObjectURL(blob);
-                       const a = document.createElement('a');
-                       a.href = url;
-                       a.download = `${contract.registryIndex || contract.id}_LYA_certification.json`;
-                       a.click();
-                       URL.revokeObjectURL(url);
-                     }}
-                     title={t('Download certification data', 'Télécharger les données de certification')}
+                     onClick={() => generateCertificate(contract, language)}
+                     title={t('View certification document', 'Voir le document de certification')}
                      className="w-12 h-12 rounded-2xl bg-black/40 backdrop-blur-xl border border-white/10 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all">
                       <Download size={18} />
                    </button>

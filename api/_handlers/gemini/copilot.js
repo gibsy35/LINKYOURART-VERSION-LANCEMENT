@@ -15,7 +15,7 @@ module.exports = async (req, res) => {
       const response = await ai.models.generateContent({
         model: 'gemini-3.6-flash',
         contents: prompt || '',
-        config: { thinkingConfig: { thinkingLevel: 'low' } },
+        config: { thinkingConfig: { thinkingLevel: 'minimal' } },
       });
       const text = response.text || '';
       const svgMatch = text.match(/<svg[\s\S]*<\/svg>/);
@@ -38,7 +38,7 @@ module.exports = async (req, res) => {
     const response = await ai.models.generateContent({
       model: 'gemini-3.6-flash',
       contents,
-      config: { systemInstruction: systemPrompt, thinkingConfig: { thinkingLevel: 'low' } },
+      config: { systemInstruction: systemPrompt, thinkingConfig: { thinkingLevel: 'minimal' } },
     });
     return res.status(200).json({ answer: response.text || 'No response received.' });
   } catch (e) {
