@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { motion } from 'motion/react';
+import React, { useState, useRef, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { useTranslation } from '../context/LanguageContext';
 import { useCurrency } from '../context/CurrencyContext';
 import { Contract, CONTRACTS, getContractDescription } from '../types';
@@ -36,6 +36,15 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
   const T = (fr: string, en: string) => language === 'FR' ? fr : en;
 
   const [activeTab, setActiveTab] = useState<'story' | 'data' | 'support'>('story');
+  const tabsRef = useRef<HTMLDivElement>(null);
+
+  // Fix: switching to a shorter tab (e.g. "Data & Score" after the longer
+  // "The Project" tab) used to leave the page scrolled past the new,
+  // shorter content — a jarring "shrinking" effect. Scroll back to the top
+  // of the tabs section every time the active tab changes.
+  useEffect(() => {
+    tabsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, [activeTab]);
   const [copied, setCopied] = useState(false);
   const [showPayment, setShowPayment] = useState(false);
   // Le survol (:hover) ne se déclenche pas de façon fiable sur tactile.
@@ -180,7 +189,7 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
       </div>
 
       {/* ── SECTION 5 : ONGLETS ──────────────────────────────────────────── */}
-      <div className="flex gap-1 border-b border-white/8 overflow-x-auto no-scrollbar mb-6">
+      <div ref={tabsRef} className="flex gap-1 border-b border-white/8 overflow-x-auto no-scrollbar mb-6 scroll-mt-6">
         {[
           { key: 'story' as const, labelFR: 'Le Projet', labelEN: 'The Project' },
           { key: 'data'  as const, labelFR: 'Données & Score', labelEN: 'Data & Score' },
@@ -194,9 +203,10 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
         ))}
       </div>
 
+      <AnimatePresence mode="wait">
       {/* ── ONGLET : LE PROJET ───────────────────────────────────────────── */}
       {activeTab === 'story' && (
-        <div className="space-y-5">
+        <motion.div key="story" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.2 }} className="space-y-5">
           {/* Description */}
           <div className="bg-surface-low/40 border border-white/8 rounded-2xl p-5">
             <h2 className="text-sm font-black text-on-surface uppercase tracking-wider mb-3">{T('À propos', 'About')}</h2>
@@ -269,12 +279,12 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
               </div>
             )}
           </div>
-        </div>
+        </motion.div>
       )}
 
       {/* ── ONGLET : DONNÉES & SCORE ─────────────────────────────────────── */}
       {activeTab === 'data' && (
-        <div className="space-y-5">
+        <motion.div key="data" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.2 }} className="space-y-5">
           {/* Score global */}
           <div className="bg-gradient-to-r from-[#a78bfa]/10 to-primary-cyan/5 border border-[#a78bfa]/20 rounded-2xl p-6 flex items-center justify-between gap-4 flex-wrap">
             <div>
@@ -345,12 +355,12 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
               </div>
             ))}
           </div>
-        </div>
+        </motion.div>
       )}
 
       {/* ── ONGLET : SOUTENIR ────────────────────────────────────────────── */}
       {activeTab === 'support' && (
-        <div className="space-y-5">
+        <motion.div key="support" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.2 }} className="space-y-5">
           {/* Explication Score LYA */}
           <div className="bg-accent-gold/5 border border-accent-gold/20 rounded-2xl p-5 space-y-3">
             <p className="text-xs font-black text-accent-gold uppercase tracking-widest">✦ {T('Comment fonctionne le Score LYA ?', 'How does the LYA Score work?')}</p>
@@ -412,8 +422,9 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
           <p className="text-xs text-on-surface-variant/25 text-center leading-relaxed">
             {T('Le mécénat sur des projets artistiques constitue un soutien de reconnaissance, non un investissement financier. Les contreparties reçues sont personnelles et non-financières.', 'Patronage of artistic projects constitutes recognition-based support, not a financial investment. Considerations received are personal and non-financial.')}
           </p>
-        </div>
+        </motion.div>
       )}
+      </AnimatePresence>
 
       {/* PaymentModal — opens inline on this page, no redirect needed */}
       {showPayment && (
