@@ -138,7 +138,6 @@ const LoginView: React.FC<LoginViewProps> = ({ onViewChange, setUser }) => {
         'Password reset email sent. Please check your inbox.',
         'E-mail de réinitialisation envoyé. Veuillez vérifier votre boîte de réception.'
       ));
-      setIsForgotPassword(false);
     } catch (err: any) {
       if (err.message === 'TIMEOUT') {
         setError(t(
@@ -352,7 +351,7 @@ const LoginView: React.FC<LoginViewProps> = ({ onViewChange, setUser }) => {
                   <div className="flex justify-end">
                     <button 
                       type="button" 
-                      onClick={() => setIsForgotPassword(true)}
+                      onClick={() => { setIsForgotPassword(true); setError(null); setSuccessMessage(null); }}
                       className="text-[10px] font-black uppercase tracking-widest text-primary-cyan hover:text-white transition-colors"
                     >
                       {t('PASSWORD FORGOTTEN?', 'MOT DE PASSE OUBLIÉ ?')}
@@ -417,6 +416,24 @@ const LoginView: React.FC<LoginViewProps> = ({ onViewChange, setUser }) => {
                 </div>
 
                 <form className="space-y-6" onSubmit={handleForgotPassword}>
+                  {error && (
+                    <motion.div 
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="p-3 bg-red-500/10 border border-red-500/20 text-red-500 text-xs font-black uppercase tracking-widest rounded-xl text-center"
+                    >
+                      {error}
+                    </motion.div>
+                  )}
+                  {successMessage && (
+                    <motion.div 
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="p-3 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-black uppercase tracking-widest rounded-xl text-center"
+                    >
+                      {successMessage}
+                    </motion.div>
+                  )}
                   <div className="relative group">
                     <Mail className="absolute left-6 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary-cyan transition-colors" size={20} />
                     <input 
@@ -444,7 +461,7 @@ const LoginView: React.FC<LoginViewProps> = ({ onViewChange, setUser }) => {
 
                   <button 
                     type="button" 
-                    onClick={() => setIsForgotPassword(false)}
+                    onClick={() => { setIsForgotPassword(false); setError(null); setSuccessMessage(null); }}
                     className="w-full text-[10px] font-black uppercase tracking-widest text-on-surface-variant hover:text-white transition-colors text-center"
                   >
                     {t('RETURN TO LOGIN', 'RETOUR À LA CONNEXION')}
