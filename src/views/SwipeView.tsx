@@ -5,7 +5,7 @@ import { Heart, X, Info, Star, Zap, Scale, Activity, Plus, Bell, BellRing, Share
 import { CONTRACTS, Contract, UserProfile, UserRole } from '../types';
 import { useTranslation } from '../context/LanguageContext';
 import { PageHeader } from '../components/ui/PageHeader';
-import { getSafeImageUrl } from '../utils/image';
+import { getSafeImageUrl, handleImageError } from '../utils/image';
 import { db } from '../firebase';
 import { doc, getDoc, setDoc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
 
@@ -394,7 +394,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
               const up = hasGrowth && (proj.growth as number) >= 0;
               return (
                 <div key={id} className="flex items-center gap-3 p-3 bg-surface-high/30 border border-white/6 rounded-xl hover:border-emerald-400/30 transition-all">
-                  <img onClick={() => toggleRevealed(id)} src={proj.image} alt={proj.name} className={`w-12 h-12 rounded-lg object-cover border border-white/10 shrink-0 cursor-pointer transition-all duration-500 ${revealedCards.has(id) ? '' : 'grayscale blur-[2px] opacity-70'}`} referrerPolicy="no-referrer"/>
+                  <img onClick={() => toggleRevealed(id)} src={getSafeImageUrl(proj.image, proj.category)} onError={handleImageError(proj.category)} alt={proj.name} className={`w-12 h-12 rounded-lg object-cover border border-white/10 shrink-0 cursor-pointer transition-all duration-500 ${revealedCards.has(id) ? '' : 'grayscale blur-[2px] opacity-70'}`} referrerPolicy="no-referrer"/>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-black text-on-surface truncate">{proj.name}</p>
                     <p className="text-xs text-on-surface-variant/50">{proj.category}</p>
@@ -662,7 +662,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
                 .map((contract, i) => (
                 <div key={i} className="flex items-center gap-3 p-2 hover:bg-white/5 rounded-lg transition-colors cursor-pointer group">
                   <div onClick={() => toggleRevealed(contract.id)} className="w-10 h-10 rounded-lg overflow-hidden shrink-0 cursor-pointer">
-                    <img src={contract.image} alt="" className={`w-full h-full object-cover transition-all duration-500 ${revealedCards.has(contract.id) ? '' : 'grayscale blur-[2px] opacity-70'}`} referrerPolicy="no-referrer" />
+                    <img src={getSafeImageUrl(contract.image, contract.category)} onError={handleImageError(contract.category)} alt="" className={`w-full h-full object-cover transition-all duration-500 ${revealedCards.has(contract.id) ? '' : 'grayscale blur-[2px] opacity-70'}`} referrerPolicy="no-referrer" />
                   </div>
                   <div className="min-w-0">
                     <div className="text-[10px] font-black text-white truncate group-hover:text-primary-cyan transition-colors">{contract.name}</div>
@@ -732,7 +732,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
               className="glass-panel p-6 rounded-3xl group relative overflow-hidden flex flex-col h-full cursor-pointer"
             >
               <div className="aspect-video rounded-2xl overflow-hidden mb-6 relative">
-                <img src={contract.image} alt={contract.name} className={`w-full h-full object-cover transition-all duration-700 group-hover:grayscale-0 group-hover:blur-0 group-hover:scale-110 group-hover:opacity-100 ${revealedCards.has(contract.id) ? 'grayscale-0 blur-0 scale-110 opacity-100' : 'grayscale blur-sm scale-105 opacity-60'}`} referrerPolicy="no-referrer" />
+                <img src={getSafeImageUrl(contract.image, contract.category)} onError={handleImageError(contract.category)} alt={contract.name} className={`w-full h-full object-cover transition-all duration-700 group-hover:grayscale-0 group-hover:blur-0 group-hover:scale-110 group-hover:opacity-100 ${revealedCards.has(contract.id) ? 'grayscale-0 blur-0 scale-110 opacity-100' : 'grayscale blur-sm scale-105 opacity-60'}`} referrerPolicy="no-referrer" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
                 <div className="absolute bottom-4 left-4">
                   <div className="text-[10px] text-primary-cyan font-black uppercase tracking-widest mb-1">{contract.rarity}</div>

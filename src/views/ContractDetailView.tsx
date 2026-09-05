@@ -34,7 +34,7 @@ import { translatePillarLabel } from '../utils/pillars';
 import { useTranslation } from '../context/LanguageContext';
 import { simulatePDFDownload } from '../utils/download';
 import { generateAssetAnalysis } from '../services/geminiService';
-import { getSafeImageUrl } from '../utils/image';
+import { getSafeImageUrl, handleImageError } from '../utils/image';
 import { 
   AreaChart, 
   Area, 
@@ -258,6 +258,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
             <img 
               src={getSafeImageUrl(contract.image, contract.category)} 
               alt={contract.name} 
+              onError={handleImageError(contract.category)}
               className="w-full h-full object-cover opacity-90 transition-all duration-1000"
               referrerPolicy="no-referrer"
             />

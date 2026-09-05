@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { getSafeImageUrl, handleImageError } from '../utils/image';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   ShieldAlert, 
@@ -961,7 +962,7 @@ export const AdminView: React.FC<{
         <div key={p.id} className="bg-surface-low border border-white/5 p-6 rounded-[2rem] hover:border-accent-gold/40 transition-all group relative overflow-hidden shadow-xl">
           <div className="absolute top-0 right-0 w-32 h-32 bg-accent-gold/5 rounded-full -mr-16 -mt-16 blur-2xl group-hover:bg-accent-gold/10 transition-all" />
           
-          <img src={p.image} className="w-full h-40 object-cover rounded-2xl mb-6 group-hover:scale-[1.02] transition-transform shadow-lg" />
+          <img src={getSafeImageUrl(p.image, p.category)} onError={handleImageError(p.category)} className="w-full h-40 object-cover rounded-2xl mb-6 group-hover:scale-[1.02] transition-transform shadow-lg" />
           
           <div className="flex justify-between items-start mb-4">
             <div>

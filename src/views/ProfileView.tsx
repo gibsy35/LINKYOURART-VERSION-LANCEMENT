@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { getSafeImageUrl, handleImageError } from '../utils/image';
 import { motion, AnimatePresence } from 'motion/react';
 import { UserRole, UserProfile, LYA_SIMULATOR_STEPS, LYASimulatorStep, CONTRACTS, LYA_UNIT_VALUE } from '../types';
 import { translatePillarLabel } from '../utils/pillars';
@@ -2511,7 +2512,7 @@ const renderMentorshipContent = () => (
                         <div className="absolute top-0 left-0 w-[2px] h-full bg-primary-cyan opacity-0 group-hover/item:opacity-100 transition-opacity" />
                         <div className="flex flex-col sm:flex-row items-center gap-4 md:gap-10 w-full sm:w-auto">
                           <div className="w-16 h-16 md:w-24 md:h-24 bg-surface-dim border border-white/10 overflow-hidden relative group-hover/item:border-primary-cyan/30 transition-colors shrink-0 rounded-xl">
-                            <img src={project.image} alt={project.name} className="w-full h-full object-cover opacity-40 group-hover/item:opacity-100 group-hover/item:scale-110 transition-all duration-700" referrerPolicy="no-referrer" />
+                            <img src={getSafeImageUrl(project.image, project.category)} onError={handleImageError(project.category)} alt={project.name} className="w-full h-full object-cover opacity-40 group-hover/item:opacity-100 group-hover/item:scale-110 transition-all duration-700" referrerPolicy="no-referrer" />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                           </div>
                           <div className="text-center sm:text-left">

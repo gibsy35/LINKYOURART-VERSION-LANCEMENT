@@ -80,7 +80,7 @@ Never mention LYA unit prices, secondary markets, financial returns, or investme
     const response = await ai.models.generateContent({
       model: 'gemini-3.6-flash',
       contents: userPrompt,
-      config: { systemInstruction: systemPrompt, responseMimeType: 'application/json' },
+      config: { systemInstruction: systemPrompt, responseMimeType: 'application/json', thinkingConfig: { thinkingLevel: 'low' } },
     });
     const text = response.text || '';
     const jsonMatch = text.match(/\{[\s\S]*\}/);

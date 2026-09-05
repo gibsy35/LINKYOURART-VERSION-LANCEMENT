@@ -4,7 +4,7 @@ import { useTranslation } from '../context/LanguageContext';
 import { useCurrency } from '../context/CurrencyContext';
 import { Contract, CONTRACTS, getContractDescription } from '../types';
 import { updatePageMeta, resetPageMeta } from '../utils/seo';
-import { getSafeImageUrl } from '../utils/image';
+import { getSafeImageUrl, handleImageError } from '../utils/image';
 import { PaymentModal } from '../components/mecenat/MecenatShared';
 import {
   TrendingUp, TrendingDown, Users, Star, Award,
@@ -114,6 +114,7 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
         {/* Image de fond */}
         <div className="relative h-56 sm:h-72">
           <img src={getSafeImageUrl(project.image, project.category)} alt={project.name}
+            onError={handleImageError(project.category)}
             className="w-full h-full object-cover" referrerPolicy="no-referrer"/>
           <div className="absolute inset-0 bg-gradient-to-t from-[#0D1117] via-[#0D1117]/40 to-transparent"/>
           <div className="absolute inset-0 bg-gradient-to-r from-[#0D1117]/60 to-transparent"/>
@@ -453,7 +454,7 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
                   }}
                   className="bg-surface-low/40 border border-white/8 rounded-2xl overflow-hidden hover:border-white/20 transition-all text-left group">
                   <div className="relative h-24 overflow-hidden">
-                    <img src={getSafeImageUrl(s.image, s.category)} alt={s.name} className={`w-full h-full object-cover transition-all duration-700 group-hover:grayscale-0 group-hover:blur-0 group-hover:scale-105 group-hover:opacity-100 ${revealedCards.has(s.id) ? 'grayscale-0 blur-0 scale-105 opacity-100' : 'grayscale blur-sm scale-105 opacity-60'}`} referrerPolicy="no-referrer"/>
+                    <img src={getSafeImageUrl(s.image, s.category)} onError={handleImageError(s.category)} alt={s.name} className={`w-full h-full object-cover transition-all duration-700 group-hover:grayscale-0 group-hover:blur-0 group-hover:scale-105 group-hover:opacity-100 ${revealedCards.has(s.id) ? 'grayscale-0 blur-0 scale-105 opacity-100' : 'grayscale blur-sm scale-105 opacity-60'}`} referrerPolicy="no-referrer"/>
                     <div className="absolute inset-0 bg-gradient-to-t from-surface-dim/80 to-transparent"/>
                   </div>
                   <div className="p-3 space-y-1">

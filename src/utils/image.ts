@@ -1,3 +1,5 @@
+import React from 'react';
+
 export const getSafeImageUrl = (image: string | undefined, category: string = 'Fine Art'): string => {
   if (!image || image.includes('picsum.photos') || image.includes('placeholder')) {
     const fallbacks: Record<string, string> = {
@@ -19,3 +21,18 @@ export const getSafeImageUrl = (image: string | undefined, category: string = 'F
   }
   return image;
 };
+
+// Universal <img onError> handler for project visuals. However an image URL
+// went bad — a broken AI-generated data URI, an expired link, a blocked
+// third-party host — this swaps it for a real, reliable Unsplash fallback
+// at the moment it fails to load in the browser, instead of leaving a
+// permanently broken/blank image. Use on every <img> that renders a
+// project's picture, not just the ones going through getSafeImageUrl.
+export const handleImageError = (category: string = 'Fine Art') =>
+  (e: React.SyntheticEvent<HTMLImageElement>) => {
+    const target = e.target as HTMLImageElement;
+    const fallback = getSafeImageUrl(undefined, category);
+    if (target.src !== fallback) {
+      target.src = fallback;
+    }
+  };

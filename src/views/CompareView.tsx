@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { getSafeImageUrl, handleImageError } from '../utils/image';
 import { motion } from 'motion/react';
 import { Scale, X, Zap, ArrowRight, Lock, BarChart3, Shield, Info, Activity, Crown } from 'lucide-react';
 import { Contract, CONTRACTS } from '../types';
@@ -131,7 +132,7 @@ export const CompareView: React.FC<CompareViewProps> = ({
                     </div>
                     <div className="flex flex-wrap items-center gap-3">
                       <div className="w-16 h-16 bg-surface-dim overflow-hidden border border-white/10 group-hover:border-primary-cyan/30 shadow-2xl transition-all duration-700 rounded-sm">
-                        <img src={project.image} alt={project.name} className={`w-full h-full object-cover transition-all duration-700 group-hover:grayscale-0 group-hover:blur-0 group-hover:opacity-100 group-hover:scale-110 ${revealedCards.has(project.id) ? 'grayscale-0 blur-0 opacity-100 scale-110' : 'grayscale blur-sm opacity-50 scale-105'}`} referrerPolicy="no-referrer" />
+                        <img src={getSafeImageUrl(project.image, project.category)} onError={handleImageError(project.category)} alt={project.name} className={`w-full h-full object-cover transition-all duration-700 group-hover:grayscale-0 group-hover:blur-0 group-hover:opacity-100 group-hover:scale-110 ${revealedCards.has(project.id) ? 'grayscale-0 blur-0 opacity-100 scale-110' : 'grayscale blur-sm opacity-50 scale-105'}`} referrerPolicy="no-referrer" />
                       </div>
                       <div>
                         <div className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest mb-1 opacity-60">{project.category}</div>
@@ -190,7 +191,7 @@ export const CompareView: React.FC<CompareViewProps> = ({
                       </div>
                       <div className="flex flex-wrap items-center gap-3">
                         <div onClick={() => toggleRevealed(contract.id)} className="w-24 h-24 bg-surface-dim border border-white/10 overflow-hidden shadow-2xl shrink-0 group relative rounded-sm cursor-pointer">
-                          <img src={contract.image} alt={contract.name} className={`w-full h-full object-cover transition-all duration-1000 group-hover:grayscale-0 group-hover:blur-0 group-hover:scale-110 ${revealedCards.has(contract.id) ? 'grayscale-0 blur-0 scale-110' : 'grayscale blur-sm scale-105'}`} referrerPolicy="no-referrer" />
+                          <img src={getSafeImageUrl(contract.image, contract.category)} onError={handleImageError(contract.category)} alt={contract.name} className={`w-full h-full object-cover transition-all duration-1000 group-hover:grayscale-0 group-hover:blur-0 group-hover:scale-110 ${revealedCards.has(contract.id) ? 'grayscale-0 blur-0 scale-110' : 'grayscale blur-sm scale-105'}`} referrerPolicy="no-referrer" />
                           <div className="absolute inset-0 bg-primary-cyan/10 opacity-0 group-hover:opacity-100 transition-opacity" />
                         </div>
                         <div className="min-w-0">

@@ -29,6 +29,7 @@ module.exports = async (req, res) => {
     const response = await ai.models.generateContent({
       model: 'gemini-3.6-flash',
       contents: 'Reply with exactly: OK',
+      config: { thinkingConfig: { thinkingLevel: 'low' } },
     });
     result.testCall = { ok: true, geminiResponse: response.text || '' };
     result.diagnosis = 'SUCCESS — the key works and gemini-3.6-flash responded correctly.';
