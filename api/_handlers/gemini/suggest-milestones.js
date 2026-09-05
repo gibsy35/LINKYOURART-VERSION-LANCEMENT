@@ -26,7 +26,7 @@ module.exports = async (req, res) => {
     const response = await ai.models.generateContent({
       model: 'gemini-3.6-flash',
       contents: userPrompt,
-      config: { systemInstruction: systemPrompt, responseMimeType: 'application/json', thinkingConfig: { thinkingLevel: 'minimal' } },
+      config: { systemInstruction: systemPrompt, responseMimeType: 'application/json', thinkingConfig: { thinkingLevel: 'low' } },
     });
     const text = response.text || '';
     const jsonMatch = text.match(/\[[\s\S]*\]/);

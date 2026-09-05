@@ -100,7 +100,10 @@ Do NOT produce any estimated field, score, or trend — facts verifiable via sea
       config: {
         systemInstruction: systemPrompt,
         tools: [{ googleSearch: {} }],
-        thinkingConfig: { thinkingLevel: 'minimal' },
+        // Note: thinkingConfig is intentionally omitted here. Several
+        // documented cases show Gemini 3.x combining thinkingConfig with
+        // Google Search grounding unreliably (empty grounding metadata or
+        // dropped search results). Grounded search stays on model defaults.
       },
     });
 
