@@ -133,7 +133,10 @@ const LoginView: React.FC<LoginViewProps> = ({ onViewChange, setUser }) => {
       const timeout = new Promise((_, reject) =>
         setTimeout(() => reject(new Error('TIMEOUT')), 15000)
       );
-      await Promise.race([sendPasswordResetEmail(auth, formData.email), timeout]);
+      await Promise.race([
+        sendPasswordResetEmail(auth, formData.email, { url: window.location.origin, handleCodeInApp: false }),
+        timeout
+      ]);
       setSuccessMessage(t(
         'Password reset email sent. Please check your inbox.',
         'E-mail de réinitialisation envoyé. Veuillez vérifier votre boîte de réception.'

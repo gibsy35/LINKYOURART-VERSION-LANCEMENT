@@ -25,6 +25,7 @@ import { WalletView } from './views/WalletView';
 import { HomeView } from './views/HomeView';
 import SignupView from './views/SignupView';
 import LoginView from './views/LoginView';
+import ResetPasswordView from './views/ResetPasswordView';
 import ProfileView from './views/ProfileView';
 import PricingView from './views/PricingView';
 import { SwipeView } from './views/SwipeView';
@@ -71,7 +72,14 @@ export default function App() {
     const path = window.location.pathname;
     const knownPaths = ['/', '/app', '/home', '/login', '/signup', '/exchange', '/legal', '/about', '/pricing', '/brochure'];
     const hasAccess = window.location.search.includes('access=');
-    if (path === '/brochure') {
+    const params = new URLSearchParams(window.location.search);
+    // Firebase's password reset email links to the app with
+    // ?mode=resetPassword&oobCode=... appended. Without this check, the SPA
+    // had no route for it and fell through to the default landing/
+    // pre-registration page — making the reset link a dead end.
+    if (params.get('mode') === 'resetPassword' && params.get('oobCode')) {
+      setCurrentView('RESET_PASSWORD');
+    } else if (path === '/brochure') {
       setCurrentView('BROCHURE');
     } else if (path !== '/' && !knownPaths.includes(path) && !hasAccess) {
       setIs404(true);
@@ -513,7 +521,7 @@ export default function App() {
     try { sessionStorage.setItem('lya_visitor_mode', 'true'); await signOut(auth); setSimulatedRole(null); setUser(null); setNotification(t('LOGGED OUT SUCCESSFULLY', 'DÉCONNEXION RÉUSSIE')); setCurrentView('HOME'); } catch (err) { console.error('Logout Error:', err); }
   };
   const handleEnterDemo = () => { localStorage.setItem('lya_demo_access', 'true'); setCurrentView('HOME'); addNotification('DEMO ACCESS GRANTED', t('Welcome to the LYA Demo environment.', 'Bienvenue dans l\'environnement de démonstration LYA.'), 'SUCCESS'); };
-  const isAuthView = currentView === 'LOGIN' || currentView === 'SIGNUP';
+  const isAuthView = currentView === 'LOGIN' || currentView === 'SIGNUP' || currentView === 'RESET_PASSWORD';
   const isLandingView = currentView === 'LANDING';
   const isBrochureView = currentView === 'BROCHURE';
 
@@ -584,6 +592,7 @@ export default function App() {
               {currentView === 'HOME' && <HomeView user={effectiveUser} onViewChange={handleViewChange} liveContracts={liveContracts} />}
               {currentView === 'SIGNUP' && <SignupView onViewChange={handleViewChange} setUser={(u) => { setUser(u); addNotification('ACCOUNT CREATED', 'Your professional account has been successfully initialized.', 'SUCCESS'); }} />}
               {currentView === 'LOGIN' && <LoginView onViewChange={handleViewChange} setUser={(u) => { setUser(u); addNotification('LOGIN SUCCESSFUL', `Welcome back to the LYA terminal, ${u.displayName}.`, 'SUCCESS'); }} />}
+              {currentView === 'RESET_PASSWORD' && <ResetPasswordView onViewChange={handleViewChange} />}
               {currentView === 'PROFILE' && (effectiveUser ? (<ProfileView user={effectiveUser ?? user!} onUpdateUser={handleUpdateUser} onNotify={notify} onViewChange={handleViewChange} onLogout={() => { setUser(null); setCurrentView('HOME'); notify('LOGGED OUT'); }} usageStats={usageStats} checkUsageLimit={checkUsageLimit} />) : (<div className="flex-1 flex flex-col items-center justify-center p-12 text-center" onClick={() => setIsAuthModalOpen(true)}><div className="w-20 h-20 bg-primary-cyan/10 rounded-full flex items-center justify-center mb-6 border border-primary-cyan/20 cursor-pointer"><RefreshCw size={32} className="text-primary-cyan animate-spin-slow" /></div><h2 className="text-2xl font-black text-white uppercase tracking-tighter mb-4">{t('AUTHENTICATING...', 'AUTHENTIFICATION...')}</h2><p className="text-on-surface-variant max-w-xs mx-auto text-sm mb-8 opacity-70">{t('Verifying credentials with the LYA terminal...', 'Vérification des identifiants avec le terminal LYA...')}</p></div>))}
               {currentView === 'DASHBOARD' && <DashboardView onViewChange={handleViewChange} onNotify={notify} onSelectContract={(c) => { const liveContract = liveContracts.find(lc => lc.id === c.id) || c; setViewingContract(liveContract); setCurrentView('CONTRACT_DETAIL'); }} watchlist={watchlist} onToggleWatchlist={handleToggleWatchlist} userContracts={userContracts} liveContracts={liveContracts} user={effectiveUser} />}
               {currentView === 'CREATOR_DASHBOARD' && <CreatorDashboardView user={effectiveUser} onNotify={notify} onViewChange={handleViewChange} />}

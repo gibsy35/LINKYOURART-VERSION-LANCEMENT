@@ -75,7 +75,8 @@ export type View =
   | 'PATRON_DASHBOARD'
   | 'PROFESSIONAL_DASHBOARD'
   | 'PROJECT_PUBLIC'
-  | 'CREATOR_PROFILE';
+  | 'CREATOR_PROFILE'
+  | 'RESET_PASSWORD';
 
 interface SidebarProps {
   user: UserProfile | null;
