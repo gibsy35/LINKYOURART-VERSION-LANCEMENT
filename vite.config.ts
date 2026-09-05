@@ -59,6 +59,18 @@ export default defineConfig(({mode}) => {
               urlPattern: ({ url }) => url.pathname.startsWith('/api/'),
               handler: 'NetworkOnly',
             },
+            // Firebase Auth (sendPasswordResetEmail, sign-in, etc.) talks
+            // directly to Google's identity endpoints from the browser.
+            // Without an explicit NetworkOnly passthrough here, a stale or
+            // misbehaving service worker can intercept these cross-origin
+            // calls and leave them hanging forever — the promise never
+            // resolves or rejects, so the UI spinner never stops and no
+            // error is ever shown. This guarantees these requests always
+            // go straight to the network, untouched by the SW.
+            {
+              urlPattern: ({ url }) => url.hostname === 'identitytoolkit.googleapis.com' || url.hostname === 'securetoken.googleapis.com',
+              handler: 'NetworkOnly',
+            },
           ],
         },
       }),

@@ -126,14 +126,28 @@ const LoginView: React.FC<LoginViewProps> = ({ onViewChange, setUser }) => {
     setIsLoading(true);
     setError(null);
     try {
-      await sendPasswordResetEmail(auth, formData.email);
+      // Guard against the request hanging indefinitely (e.g. a service
+      // worker or network layer swallowing the request without ever
+      // resolving or rejecting it) — after 15s, surface a clear error
+      // instead of leaving the user staring at a spinner forever.
+      const timeout = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('TIMEOUT')), 15000)
+      );
+      await Promise.race([sendPasswordResetEmail(auth, formData.email), timeout]);
       setSuccessMessage(t(
         'Password reset email sent. Please check your inbox.',
         'E-mail de réinitialisation envoyé. Veuillez vérifier votre boîte de réception.'
       ));
       setIsForgotPassword(false);
     } catch (err: any) {
-      setError(err.message || t('Failed to send reset email.', 'Échec de l\'envoi de l\'e-mail.'));
+      if (err.message === 'TIMEOUT') {
+        setError(t(
+          'The request took too long and was cancelled. Please check your connection and try again.',
+          'La requête a pris trop de temps et a été annulée. Vérifiez votre connexion et réessayez.'
+        ));
+      } else {
+        setError(err.message || t('Failed to send reset email.', 'Échec de l\'envoi de l\'e-mail.'));
+      }
     } finally {
       setIsLoading(false);
     }
