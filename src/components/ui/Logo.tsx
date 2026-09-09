@@ -21,7 +21,7 @@ export const Logo: React.FC<{
   // Colors as requested
   const colors = {
     inner: color === 'white' ? "text-white" : "text-[#FF007F]", // Vibrant Pink
-    middle: color === 'white' ? "text-white/60" : "text-primary-cyan", // Electric Cyan
+    middle: color === 'white' ? "text-white/60" : "text-[#00e0ff]", // Electric Cyan (couleur fixe, independante du theme)
     outer: color === 'white' ? "text-white/30" : "text-[#9D00FF]", // Darker Neon Purple
     center: "bg-white"       // White focal point
   };
