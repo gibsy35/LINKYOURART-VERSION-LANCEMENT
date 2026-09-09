@@ -571,7 +571,12 @@ export default function App() {
   // ?preview=terminal dans l'URL — à retirer une fois la direction validée
   // et le vrai routage mis en place.
   if (typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('preview') === 'terminal') {
-    return <TerminalView onEnterApp={() => setCurrentView('LANDING')} />;
+    return (
+      <TerminalView
+        onJoin={() => setCurrentView('LANDING')}
+        onLogin={() => setCurrentView('LOGIN')}
+      />
+    );
   }
 
   return (
