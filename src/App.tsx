@@ -62,6 +62,7 @@ import { useMarketData } from './hooks/useMarketData';
 import { auth, db, handleFirestoreError, OperationType, testConnection, logAuthDebugEvent } from './firebase';
 import { onAuthStateChanged, signOut, getRedirectResult } from 'firebase/auth';
 import { doc, onSnapshot, getDoc, updateDoc, setDoc, collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { TerminalView } from './views/TerminalView';
 export default function App() {
   const { t, language } = useTranslation();
   const { contracts: liveContracts } = useMarketData();
@@ -563,6 +564,14 @@ export default function App() {
         }} onLogout={handleLogout} />
       </div>
     );
+  }
+
+  // Point d'accès temporaire et isolé pour prévisualiser le nouveau Terminal clair,
+  // sans toucher au comportement par défaut de l'app. Actif uniquement via
+  // ?preview=terminal dans l'URL — à retirer une fois la direction validée
+  // et le vrai routage mis en place.
+  if (typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('preview') === 'terminal') {
+    return <TerminalView onEnterApp={() => setCurrentView('LANDING')} />;
   }
 
   return (
