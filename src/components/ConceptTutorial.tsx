@@ -22,6 +22,36 @@ interface Step {
   illustration: 'welcome' | 'score' | 'milestone' | 'creators' | 'patrons' | 'professionals' | 'explore' | 'watchlist' | 'discover-projects' | 'market' | 'security';
 }
 
+// Table statique text->bg : les classes Tailwind construites dynamiquement
+// (ex: step.color.replace('text-','bg-')) ne sont pas detectees par le
+// compilateur JIT si elles n'apparaissent nulle part ailleurs en toutes
+// lettres dans le code — resultat : bouton sans fond (noir) sur les etapes
+// utilisant une couleur personnalisee (primary-cyan, accent-gold...).
+const TEXT_TO_BG: Record<string, string> = {
+  'text-primary-cyan': 'bg-primary-cyan',
+  'text-purple-400': 'bg-purple-400',
+  'text-emerald-400': 'bg-emerald-400',
+  'text-emerald-500': 'bg-emerald-500',
+  'text-accent-gold': 'bg-accent-gold',
+  'text-pink-400': 'bg-pink-400',
+  'text-cyan-400': 'bg-cyan-400',
+  'text-red-400': 'bg-red-400',
+  'text-indigo-400': 'bg-indigo-400',
+  'text-amber-400': 'bg-amber-400',
+};
+const TEXT_TO_BORDER: Record<string, string> = {
+  'text-primary-cyan': 'border-primary-cyan',
+  'text-purple-400': 'border-purple-400',
+  'text-emerald-400': 'border-emerald-400',
+  'text-emerald-500': 'border-emerald-500',
+  'text-accent-gold': 'border-accent-gold',
+  'text-pink-400': 'border-pink-400',
+  'text-cyan-400': 'border-cyan-400',
+  'text-red-400': 'border-red-400',
+  'text-indigo-400': 'border-indigo-400',
+  'text-amber-400': 'border-amber-400',
+};
+
 const TUTORIAL_STEPS: (t: any) => Step[] = (t) => [
   {
     id: 1,
@@ -1170,7 +1200,7 @@ export const ConceptTutorial: React.FC<Props> = ({ isOpen, onClose }) => {
           <div className="absolute top-0 left-0 w-full h-1 bg-white/5 overflow-hidden z-20">
             <motion.div 
                animate={{ width: `${((currentStep + 1) / steps.length) * 100}%` }}
-               className={`h-full ${step.color.replace('text-', 'bg-')} transition-all duration-700 shadow-[0_0_10px_rgba(0,224,255,0.4)]`}
+               className={`h-full ${TEXT_TO_BG[step.color] || 'bg-primary-cyan'} transition-all duration-700 shadow-[0_0_10px_rgba(0,224,255,0.4)]`}
             />
           </div>
 
@@ -1242,7 +1272,7 @@ export const ConceptTutorial: React.FC<Props> = ({ isOpen, onClose }) => {
                       key={i} 
                       className="flex items-center gap-1.5 md:gap-3 p-1 md:p-2 bg-black/30 border border-white/5 rounded-xl text-left hover:border-white/10 transition-colors"
                     >
-                      <div className={`w-3.5 h-3.5 md:w-6 md:h-6 shrink-0 rounded-full flex items-center justify-center text-[6px] md:text-[10px] font-black italic border bg-black/60 shadow-lg ${step.color.replace('text-', 'border-')} ${step.color}`}>
+                      <div className={`w-3.5 h-3.5 md:w-6 md:h-6 shrink-0 rounded-full flex items-center justify-center text-[6px] md:text-[10px] font-black italic border bg-black/60 shadow-lg ${TEXT_TO_BORDER[step.color] || 'border-primary-cyan'} ${step.color}`}>
                         {i + 1}
                       </div>
                       <span className="text-[7px] md:text-xs lg:text-[11px] font-black text-white uppercase tracking-[0.1em] leading-tight">
@@ -1275,7 +1305,7 @@ export const ConceptTutorial: React.FC<Props> = ({ isOpen, onClose }) => {
               {steps.map((_, i) => (
                 <div 
                   key={i}
-                  className={`h-0.5 rounded-full transition-all duration-500 cursor-pointer ${i === currentStep ? `w-6 ${step.color.replace('text-', 'bg-')}` : 'w-1.5 bg-white/10 hover:bg-white/20'}`}
+                  className={`h-0.5 rounded-full transition-all duration-500 cursor-pointer ${i === currentStep ? `w-6 ${TEXT_TO_BG[step.color] || 'bg-primary-cyan'}` : 'w-1.5 bg-white/10 hover:bg-white/20'}`}
                   onClick={() => setCurrentStep(i)}
                 />
               ))}
@@ -1300,7 +1330,7 @@ export const ConceptTutorial: React.FC<Props> = ({ isOpen, onClose }) => {
 
                 <button 
                   onClick={handleNext}
-                  className={`flex items-center justify-center gap-1.5 md:gap-3 px-3 md:px-5 py-1 md:py-1.5 rounded-lg font-black uppercase text-[10px] md:text-[11px] tracking-[0.05em] md:tracking-[0.1em] transition-all active:scale-95 shadow-[0_0_10px_rgba(0,224,255,0.1)] relative group overflow-hidden ${step.color.replace('text-', 'bg-')} text-black min-w-[80px] md:min-w-[140px] border border-white/5`}
+                  className={`flex items-center justify-center gap-1.5 md:gap-3 px-3 md:px-5 py-1 md:py-1.5 rounded-lg font-black uppercase text-[10px] md:text-[11px] tracking-[0.05em] md:tracking-[0.1em] transition-all active:scale-95 shadow-[0_0_10px_rgba(0,224,255,0.1)] relative group overflow-hidden ${TEXT_TO_BG[step.color] || 'bg-primary-cyan'} text-black min-w-[80px] md:min-w-[140px] border border-white/5`}
                 >
                   <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
                   <div className="relative z-10 flex items-center gap-1 text-black font-black">
