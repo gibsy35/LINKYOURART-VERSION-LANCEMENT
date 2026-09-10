@@ -296,7 +296,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
           
           <button 
             onClick={handleCompareTrigger}
-            className="px-4 md:px-6 py-2 md:py-3 bg-accent-gold/10 border border-accent-gold/20 rounded-sm flex items-center gap-2 md:gap-3 hover:bg-accent-gold/20 transition-all group shadow-[0_0_20px_rgba(251,191,36,0.1)] relative overflow-hidden"
+            className="px-4 md:px-6 py-2 md:py-3 bg-accent-gold/10 border border-accent-gold/20 rounded-sm flex items-center gap-2 md:gap-3 hover:bg-accent-gold/20 transition-all group shadow-[0_0_20px_rgba(126,28,241,0.1)] relative overflow-hidden"
           >
             <div className="absolute left-0 top-0 w-1 h-full bg-accent-gold group-hover:h-full transition-all" />
             <div className="text-left">
@@ -451,7 +451,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
                   <span className="text-accent-gold">42%</span>
                 </div>
                 <div className="h-1 bg-white/5 rounded-full overflow-hidden">
-                  <div className="h-full bg-accent-gold w-[42%] shadow-[0_0_10px_rgba(245,158,11,0.3)]" />
+                  <div className="h-full bg-accent-gold w-[42%] shadow-[0_0_10px_rgba(126,28,241,0.3)]" />
                 </div>
               </div>
             </div>
@@ -765,7 +765,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
                   onClick={() => onToggleWatchlist({ stopPropagation: () => {} } as any, contract.id)}
                   className={`flex-1 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
                     watchlist.includes(contract.id)
-                      ? 'bg-accent-gold text-surface-dim shadow-[0_0_20px_rgba(245,158,11,0.3)]'
+                      ? 'bg-accent-gold text-surface-dim shadow-[0_0_20px_rgba(126,28,241,0.3)]'
                       : 'bg-white/5 text-white hover:bg-white/10'
                   }`}
                 >
