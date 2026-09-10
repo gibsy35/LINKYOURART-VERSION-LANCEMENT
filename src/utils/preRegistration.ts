@@ -159,6 +159,9 @@ export async function submitPreRegistration(params: {
       role: category?.toUpperCase() || 'CREATOR',
       lang: language,
       type: 'confirmation',
+      tier,
+      position,
+      accessKey: issuedKey,
     }),
   })
     .then((r) => r.json())
