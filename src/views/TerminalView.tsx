@@ -19,11 +19,29 @@ interface TerminalViewProps {
 }
 
 const pillars = [
-  { n: '01', title: 'Intégrité conceptuelle', bg: 'dark' },
-  { n: '02', title: 'Maturité actuelle', bg: 'lav' },
-  { n: '03', title: "Capacité d'évolution", bg: 'grey' },
-  { n: '04', title: 'Faisabilité réelle', bg: 'dark' },
-  { n: '05', title: 'Incarnation', bg: 'lav' },
+  { n: '01', title: 'Intégrité conceptuelle', desc: 'Cohérence et clarté de la vision créative : le projet tient-il sa promesse artistique de bout en bout ?', bg: 'dark' },
+  { n: '02', title: 'Maturité actuelle', desc: "État d'avancement réel du projet : ce qui est déjà produit, documenté et vérifiable aujourd'hui.", bg: 'lav' },
+  { n: '03', title: "Capacité d'évolution", desc: 'Marge de progression du projet : sa capacité à franchir de nouveaux jalons de certification.', bg: 'grey' },
+  { n: '04', title: 'Faisabilité réelle', desc: "Solidité du plan d'exécution : ressources, calendrier et moyens réunis pour aller au bout.", bg: 'dark' },
+  { n: '05', title: 'Incarnation du porteur', desc: 'Présence et crédibilité du créateur : son engagement direct et vérifiable dans le projet.', bg: 'lav' },
+];
+
+const comparison = {
+  is: [
+    { t: 'Certification objective', d: 'Le Score LYA est un indicateur vivant et transparent, qui évolue strictement selon des jalons vérifiés.' },
+    { t: 'Reconnaissance mécène certifiée', d: 'Chaque mécène obtient un badge de soutien public et traçable, inscrit sur le registre LYA.' },
+  ],
+  isNot: [
+    { t: 'Un intermédiaire traditionnel', d: "Pas de label, d'agent ou de studio décidant seul de la reconnaissance, sans standard transparent." },
+    { t: 'Un crowdfunding classique', d: "Pas de récompenses génériques déconnectées de l'avancement réellement certifié du projet." },
+  ],
+};
+
+const values = [
+  { n: '01', title: 'Mission', desc: 'Transformer les idées créatives en projets vivants, évalués professionnellement et certifiés via le Score LYA.' },
+  { n: '02', title: 'Transparence', desc: 'Le Score LYA évalue chaque projet selon 5 critères objectifs et publics. Zéro opacité, données vérifiables.' },
+  { n: '03', title: 'Innovation', desc: 'Évaluation professionnelle, droits créatifs certifiés et réseau de reconnaissance des mécènes, réunis dans une même expérience.' },
+  { n: '04', title: 'International', desc: "LinkYourArt est multilingue et ouvert aux projets créatifs, mécènes et professionnels du monde entier. La création n'a pas de frontières." },
 ];
 
 const newEra = [
@@ -34,13 +52,13 @@ const newEra = [
 ];
 
 const registry = [
-  { title: 'Fragments Solaires', cat: 'Arts visuels', score: 842, catColor: '#E61A97' },
-  { title: 'Chambre 7', cat: 'Musique', score: 778, catColor: '#7E1CF1' },
-  { title: 'Le Silence des Villes', cat: 'Écriture', score: 915, catColor: '#F0C55E' },
-  { title: 'Récits Suspendus', cat: 'Spectacle vivant', score: 701, catColor: '#3ADB76' },
-  { title: 'Horizon Perdu', cat: 'Film', score: 867, catColor: '#FF7A45' },
-  { title: 'Fractures', cat: 'Série TV', score: 793, catColor: '#02C6FA' },
-  { title: 'Néon Requiem', cat: 'Jeu vidéo', score: 888, catColor: '#B5308E' },
+  { title: 'Fragments Solaires', cat: 'Arts visuels', score: 842, fund: 68, catColor: '#E61A97' },
+  { title: 'Chambre 7', cat: 'Musique', score: 778, fund: 81, catColor: '#7E1CF1' },
+  { title: 'Le Silence des Villes', cat: 'Écriture', score: 915, fund: 45, catColor: '#F0C55E' },
+  { title: 'Récits Suspendus', cat: 'Spectacle vivant', score: 701, fund: 29, catColor: '#3ADB76' },
+  { title: 'Horizon Perdu', cat: 'Film', score: 867, fund: 74, catColor: '#FF7A45' },
+  { title: 'Fractures', cat: 'Série TV', score: 793, fund: 52, catColor: '#02C6FA' },
+  { title: 'Néon Requiem', cat: 'Jeu vidéo', score: 888, fund: 90, catColor: '#B5308E' },
 ];
 
 export const TerminalView: React.FC<TerminalViewProps> = ({ onJoin, onLogin }) => {
@@ -80,13 +98,41 @@ export const TerminalView: React.FC<TerminalViewProps> = ({ onJoin, onLogin }) =
         .term-pillars{ padding:72px 0; }
         .term-pillars-grid{ display:grid; grid-template-columns:repeat(5,1fr); gap:14px; }
         @media (max-width:900px){ .term-pillars-grid{ grid-template-columns:repeat(2,1fr); } }
-        .term-pillar{ border-radius:20px; padding:26px 20px; min-height:160px; display:flex; flex-direction:column; justify-content:space-between; }
+        .term-pillar{ border-radius:20px; padding:26px 20px; min-height:200px; display:flex; flex-direction:column; justify-content:space-between; }
         .term-pillar.dark{ background:var(--term-ink); color:#fff; }
         .term-pillar.lav{ background:var(--term-lav); }
         .term-pillar.grey{ background:var(--term-grey); }
         .term-pillar .n{ font-family:'Sora',sans-serif; font-weight:800; font-size:30px; }
         .term-pillar.dark .n{ color:#E61A97; } .term-pillar.lav .n, .term-pillar.grey .n{ color:#7E1CF1; }
         .term-pillar .t{ font-family:'Sora',sans-serif; font-weight:700; font-size:15px; margin-top:20px; }
+        .term-pillar .d{ font-size:12.5px; line-height:1.5; margin-top:8px; opacity:0.8; }
+        .term-compare{ padding:20px 0 72px; }
+        .term-compare-grid{ display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:32px; }
+        @media (max-width:800px){ .term-compare-grid{ grid-template-columns:1fr; } }
+        .term-compare-col{ border-radius:18px; padding:30px 26px; background:var(--term-grey); border:1px solid var(--term-line); }
+        .term-compare-col.is{ border-top:3px solid #7E1CF1; }
+        .term-compare-badge{ display:inline-block; font-family:'Sora',sans-serif; font-weight:700; font-size:11px; letter-spacing:0.03em; padding:5px 12px; border-radius:100px; margin-bottom:18px; }
+        .term-compare-col.is .term-compare-badge{ background:var(--term-lav); color:#7A2062; }
+        .term-compare-col.isnot .term-compare-badge{ background:var(--term-line); color:var(--term-ink-soft); }
+        .term-compare-item{ margin-bottom:18px; }
+        .term-compare-item:last-child{ margin-bottom:0; }
+        .term-compare-item h5{ font-size:14.5px; font-weight:700; margin-bottom:4px; }
+        .term-compare-item p{ font-size:13px; color:var(--term-ink-soft); line-height:1.55; }
+        .term-history{ padding:72px 0; background:var(--term-grey); }
+        .term-history-grid{ display:grid; grid-template-columns:1.3fr 1fr; gap:44px; align-items:start; margin-top:32px; }
+        @media (max-width:800px){ .term-history-grid{ grid-template-columns:1fr; } }
+        .term-history-text p{ font-size:14px; line-height:1.7; color:var(--term-ink-soft); margin-bottom:16px; }
+        .term-history-stats{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+        .term-history-stat{ background:#fff; border-radius:14px; padding:22px; }
+        .term-history-stat .y{ font-family:'Sora',sans-serif; font-weight:800; font-size:32px; }
+        .term-history-stat:first-child .y{ color:#02C6FA; } .term-history-stat:last-child .y{ color:#7E1CF1; }
+        .term-history-stat .l{ font-family:'Sora',sans-serif; font-weight:700; font-size:10px; letter-spacing:0.04em; color:var(--term-ink-soft); margin-top:4px; }
+        .term-values{ padding:72px 0; }
+        .term-values-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:18px; margin-top:32px; }
+        @media (max-width:800px){ .term-values-grid{ grid-template-columns:1fr 1fr; } }
+        .term-values-grid .n{ font-family:'Sora',sans-serif; font-weight:700; font-size:13px; color:#7E1CF1; margin-bottom:12px; }
+        .term-values-grid h4{ font-size:15px; font-weight:700; margin-bottom:6px; }
+        .term-values-grid p{ font-size:13px; color:var(--term-ink-soft); line-height:1.55; }
         .term-mission{ background:var(--term-ink); padding:56px 0; }
         .term-mission p{ color:#fff; font-family:'Sora',sans-serif; font-style:italic; font-weight:800; font-size:clamp(24px,3.2vw,36px); max-width:18ch; }
         .term-newera{ padding:72px 0; background:var(--term-grey); }
@@ -107,11 +153,19 @@ export const TerminalView: React.FC<TerminalViewProps> = ({ onJoin, onLogin }) =
         .term-why-item p{ font-size:13px; color:var(--term-ink-soft); line-height:1.55; }
         .term-registry{ padding:20px 0 72px; }
         .term-reg-scroll{ display:flex; gap:16px; overflow-x:auto; margin-top:28px; }
-        .term-reg-card{ flex:0 0 190px; }
-        .term-reg-art{ position:relative; aspect-ratio:3/4; border-radius:12px; margin-bottom:8px; }
-        .term-reg-score{ position:absolute; bottom:8px; left:8px; background:rgba(11,14,20,0.85); border-radius:8px; padding:4px 8px; font-family:'Sora',sans-serif; font-weight:800; font-size:13px; color:#fff; }
-        .term-reg-tag{ position:absolute; top:8px; left:8px; font-size:9px; font-weight:700; padding:3px 7px; border-radius:5px; color:#fff; font-family:'Sora',sans-serif; }
-        .term-reg-title{ font-size:13px; font-weight:700; }
+        .term-reg-card{ flex:0 0 230px; background:var(--term-ink); border-radius:14px; overflow:hidden; color:#fff; }
+        .term-reg-art{ position:relative; aspect-ratio:16/11; }
+        .term-reg-tags{ position:absolute; top:8px; left:8px; display:flex; gap:5px; }
+        .term-reg-tag{ font-size:9px; font-weight:700; padding:3px 7px; border-radius:5px; color:#fff; font-family:'Sora',sans-serif; text-transform:uppercase; }
+        .term-reg-tag.status{ background:#02C6FA; color:#0B0E14; }
+        .term-reg-body{ padding:12px 14px 14px; }
+        .term-reg-title{ font-size:13px; font-weight:800; font-family:'Sora',sans-serif; text-transform:uppercase; margin-bottom:8px; }
+        .term-reg-bar-row{ margin-bottom:7px; }
+        .term-reg-bar-row .lbl{ display:flex; justify-content:space-between; font-size:9px; color:#8A87A8; font-weight:600; margin-bottom:3px; text-transform:uppercase; }
+        .term-reg-bar{ height:4px; background:rgba(255,255,255,0.1); border-radius:100px; overflow:hidden; }
+        .term-reg-bar .fill{ height:100%; border-radius:100px; }
+        .term-reg-bar.score .fill{ background:linear-gradient(90deg,#F0C55E,#E61A97); }
+        .term-reg-bar.fund .fill{ background:linear-gradient(90deg,#02C6FA,#3ADB76); }
         .term-pricing{ padding:20px 0 72px; }
         .term-price-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:32px; }
         @media (max-width:900px){ .term-price-grid{ grid-template-columns:repeat(2,1fr); } }
@@ -175,12 +229,15 @@ export const TerminalView: React.FC<TerminalViewProps> = ({ onJoin, onLogin }) =
           <div className="term-pillars-grid">
             {pillars.map(p => (
               <div key={p.n} className={`term-pillar ${p.bg}`}>
-                <div className="n">{p.n}</div>
-                <div className="t">{p.title}</div>
+                <div>
+                  <div className="n">{p.n}</div>
+                  <div className="t">{p.title}</div>
+                </div>
+                <div className="d">{p.desc}</div>
               </div>
             ))}
           </div>
-          <div className="term-section-cta"><button onClick={onJoin}>Rejoindre LYA et faire certifier mon projet →</button></div>
+          <div className="term-section-cta"><button onClick={onJoin}>Comprendre comment le Score est calculé →</button></div>
         </div>
       </section>
 
@@ -202,6 +259,66 @@ export const TerminalView: React.FC<TerminalViewProps> = ({ onJoin, onLogin }) =
                 <div className="n">{c.n}</div>
                 <h4>{c.title}</h4>
                 <p>{c.desc}</p>
+              </div>
+            ))}
+          </div>
+          <div className="term-section-cta"><button onClick={onJoin}>Rejoindre LYA et faire certifier mon projet →</button></div>
+        </div>
+      </section>
+
+      {/* Comparaison */}
+      <section className="term-compare">
+        <div className="term-wrap">
+          <div className="term-eyebrow">Comparaison</div>
+          <h2 style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>Ce que LYA est — et n'est pas.</h2>
+          <div className="term-compare-grid">
+            <div className="term-compare-col is">
+              <span className="term-compare-badge">CE QUE LYA EST</span>
+              {comparison.is.map(item => (
+                <div key={item.t} className="term-compare-item"><h5>{item.t}</h5><p>{item.d}</p></div>
+              ))}
+            </div>
+            <div className="term-compare-col isnot">
+              <span className="term-compare-badge">CE QUE LYA N'EST PAS</span>
+              {comparison.isNot.map(item => (
+                <div key={item.t} className="term-compare-item"><h5>{item.t}</h5><p>{item.d}</p></div>
+              ))}
+            </div>
+          </div>
+          <div className="term-section-cta"><button onClick={onJoin}>Voir des exemples concrets →</button></div>
+        </div>
+      </section>
+
+      {/* Histoire */}
+      <section className="term-history">
+        <div className="term-wrap">
+          <div className="term-eyebrow">Notre histoire</div>
+          <h2 style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)', maxWidth: '20ch' }}>Vingt ans avant d'avoir un nom pour ça.</h2>
+          <div className="term-history-grid">
+            <div className="term-history-text">
+              <p>En 2006, Jean-Baptiste Lequime fonde LinkYourArt avec une ambition claire : bâtir le premier pont international entre les créations et les industries qui en ont besoin. C'est LinkYourArt lui-même qui a forgé, au fil des années, son expérience en développement commercial dans les industries créatives, avec une spécialisation film et divertissement. Musique, cinéma, mode, jeux vidéo, design, architecture, arts de la scène — chaque création y trouve sa place, à une époque où aucune plateforme n'osait encore toutes les réunir.</p>
+              <p>Pendant près de deux décennies, LinkYourArt a façonné en silence les industries créatives — révélant des créations émergentes, tissant des collaborations, et offrant aux projets les plus ambitieux la visibilité qu'ils méritent.</p>
+              <p>Aujourd'hui, à l'occasion de ses 20 ans, LinkYourArt entame une nouvelle étape avec le lancement d'une plateforme entièrement repensée, construite autour d'un standard objectif de certification créative.</p>
+            </div>
+            <div className="term-history-stats">
+              <div className="term-history-stat"><div className="y">2006</div><div className="l">FONDATION</div></div>
+              <div className="term-history-stat"><div className="y">2026</div><div className="l">RÉVOLUTION</div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Valeurs */}
+      <section className="term-values">
+        <div className="term-wrap">
+          <div className="term-eyebrow">Nos valeurs</div>
+          <h2 style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>Ce qui ne bouge pas, même quand tout évolue.</h2>
+          <div className="term-values-grid">
+            {values.map(v => (
+              <div key={v.n}>
+                <div className="n">{v.n}</div>
+                <h4>{v.title}</h4>
+                <p>{v.desc}</p>
               </div>
             ))}
           </div>
@@ -230,10 +347,22 @@ export const TerminalView: React.FC<TerminalViewProps> = ({ onJoin, onLogin }) =
             {registry.map(r => (
               <div key={r.title} className="term-reg-card">
                 <div className="term-reg-art" style={{ background: `linear-gradient(150deg, ${r.catColor}, #0B0E14)` }}>
-                  <span className="term-reg-tag" style={{ background: r.catColor }}>{r.cat.toUpperCase()}</span>
-                  <span className="term-reg-score">{r.score}<span style={{ fontSize: 9, fontWeight: 500 }}>/1000</span></span>
+                  <div className="term-reg-tags">
+                    <span className="term-reg-tag" style={{ background: r.catColor }}>{r.cat.toUpperCase()}</span>
+                    <span className="term-reg-tag status">CERTIFIED</span>
+                  </div>
                 </div>
-                <div className="term-reg-title">{r.title}</div>
+                <div className="term-reg-body">
+                  <div className="term-reg-title">{r.title}</div>
+                  <div className="term-reg-bar-row">
+                    <div className="lbl"><span>LYA Score</span><span>{r.score}/1000</span></div>
+                    <div className="term-reg-bar score"><div className="fill" style={{ width: `${Math.round(r.score / 10)}%` }} /></div>
+                  </div>
+                  <div className="term-reg-bar-row">
+                    <div className="lbl"><span>Financement</span><span>{r.fund}%</span></div>
+                    <div className="term-reg-bar fund"><div className="fill" style={{ width: `${r.fund}%` }} /></div>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
