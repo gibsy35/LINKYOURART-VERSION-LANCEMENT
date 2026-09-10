@@ -274,6 +274,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-score-hero-num .big{ font-family:'Sora',sans-serif; font-weight:800; font-size:clamp(72px,11vw,140px); line-height:1; background:linear-gradient(90deg,#7E1CF1,#E61A97,#02C6FA); -webkit-background-clip:text; background-clip:text; color:transparent; }
         .term-score-hero-num .max{ font-family:'Sora',sans-serif; font-weight:700; font-size:clamp(20px,2.4vw,30px); color:#565B6B; margin-left:6px; }
         .term-score-hero-text{ flex:1; min-width:260px; }
+        .term-gradient-text{ background:linear-gradient(90deg,#7E1CF1,#E61A97,#02C6FA); -webkit-background-clip:text; background-clip:text; color:transparent; }
         .term-score-hero-text .term-eyebrow{ color:#8A87A8; }
         .term-score-hero-text h2{ color:#fff; font-family:'Sora',sans-serif; font-weight:700; font-size:clamp(22px,2.6vw,30px); margin:8px 0 12px; max-width:20ch; }
         .term-score-hero-text p{ color:#B9B7C7; font-size:14px; line-height:1.6; max-width:44ch; }
@@ -295,11 +296,21 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-security-item{ display:flex; align-items:center; gap:14px; background:var(--term-grey); padding:18px 22px; font-size:14px; font-weight:500; }
         .term-security-item svg{ color:#3ADB76; flex-shrink:0; }
         .term-milestone{ padding:64px 0; background:var(--term-grey); }
-        .term-milestone-grid{ display:grid; grid-template-columns:1.1fr 1fr; gap:44px; align-items:center; }
-        @media (max-width:800px){ .term-milestone-grid{ grid-template-columns:1fr; } }
-        .term-milestone-text h2{ font-family:'Sora',sans-serif; font-weight:700; font-size:clamp(22px,2.8vw,30px); margin:8px 0 14px; max-width:18ch; }
-        .term-milestone-text p{ font-size:14px; line-height:1.65; color:var(--term-ink-soft); }
-        .term-milestone-points{ display:flex; flex-direction:column; gap:10px; }
+        .term-milestone-h2{ font-family:'Sora',sans-serif; font-weight:700; font-size:clamp(24px,3vw,34px); margin:8px 0 14px; max-width:16ch; }
+        .term-milestone-intro{ font-size:14.5px; line-height:1.7; color:var(--term-ink-soft); max-width:64ch; margin-bottom:40px; }
+        .term-timeline{ display:flex; align-items:flex-start; gap:8px; margin-bottom:36px; }
+        @media (max-width:800px){ .term-timeline{ flex-direction:column; } }
+        .term-timeline-step{ flex:1; background:#fff; border-radius:16px; padding:22px 20px; }
+        .term-timeline-arrow{ display:flex; align-items:center; justify-content:center; color:#B9B7C7; font-size:20px; padding-top:20px; }
+        @media (max-width:800px){ .term-timeline-arrow{ transform:rotate(90deg); padding:0; align-self:center; } }
+        .term-timeline-step .dot{ width:14px; height:14px; border-radius:50%; margin-bottom:14px; }
+        .term-timeline-step .dot.green{ background:#3ADB76; box-shadow:0 0 0 5px rgba(58,219,118,0.15); }
+        .term-timeline-step .dot.amber{ background:#F0C55E; box-shadow:0 0 0 5px rgba(240,197,94,0.18); }
+        .term-timeline-step .dot.grey{ background:#8A87A8; box-shadow:0 0 0 5px rgba(138,135,168,0.15); }
+        .term-timeline-step .tl-label{ font-family:'Sora',sans-serif; font-weight:700; font-size:14.5px; margin-bottom:6px; }
+        .term-timeline-step .tl-desc{ font-size:12.5px; line-height:1.55; color:var(--term-ink-soft); }
+        .term-milestone-examples{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+        @media (max-width:700px){ .term-milestone-examples{ grid-template-columns:1fr; } }
         .term-milestone-point{ display:flex; align-items:flex-start; gap:14px; background:#fff; border-radius:12px; padding:16px 18px; }
         .term-milestone-point .ex-title{ font-size:13.5px; font-weight:600; margin-bottom:4px; }
         .term-milestone-point .ex-score{ font-size:12px; color:var(--term-ink-soft); font-family:'Sora',sans-serif; }
@@ -307,11 +318,9 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-milestone-point .delta{ font-weight:700; margin-left:4px; }
         .term-milestone-point .up-delta{ color:#1E8449; }
         .term-milestone-point .down-delta{ color:#B33B3B; }
-        .term-milestone-point .neutral-delta{ color:#7A2062; }
         .term-milestone-point .ico{ font-family:'Sora',sans-serif; font-weight:800; font-size:16px; width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
         .term-milestone-point.up .ico{ background:#E4F9EC; color:#1E8449; }
         .term-milestone-point.down .ico{ background:#FBE4E4; color:#B33B3B; }
-        .term-milestone-point.neutral .ico{ background:var(--term-lav); color:#7A2062; }
         .term-mission{ position:relative; overflow:hidden; padding:56px 0;
           background:linear-gradient(120deg, #0B0E14 0%, #0B0E14 28%, #7E1CF1 48%, #7E1CF1 58%, #E61A97 74%, #E61A97 84%, #02C6FA 100%);
         }
@@ -511,7 +520,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         <div className="term-wrap">
           <div className="term-eyebrow">{t('Le Score LYA', 'The LYA Score')}</div>
           <h2 style={{ fontWeight: 700, fontSize: 'clamp(26px,3.2vw,38px)', marginBottom: 36 }}>
-            {t('Cinq critères. Un standard commun à tout le secteur créatif.', 'Five criteria. One standard shared across the whole creative sector.')}
+            <span className="term-gradient-text">{t('Cinq critères.', 'Five criteria.')}</span> {t('Un standard commun à tout le secteur créatif.', 'One standard shared across the whole creative sector.')}
           </h2>
           <div className="term-pillars-grid">
             {pillars.map(p => (
@@ -568,36 +577,46 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       {/* Jalon : comment le score evolue */}
       <section className="term-milestone">
         <div className="term-wrap">
-          <div className="term-milestone-grid">
-            <div className="term-milestone-text">
-              <div className="term-eyebrow">{t("C'est quoi un jalon ?", 'What is a milestone?')}</div>
-              <h2>{t('Le Score LYA bouge — et ce mouvement raconte une histoire.', 'The LYA Score moves — and that movement tells a story.')}</h2>
-              <p>{t(
-                "Un jalon, c'est un événement clé et vérifié dans la vie d'un projet. Certains sont des réussites — une exposition, un contrat signé, un prix remporté — et font avancer le LYA Score. D'autres sont des risques ou des retards — un litige, un délai non tenu — et le font reculer. Le LYA Score reflète toujours la réalité, en bien comme en mal.",
-                "A milestone is a key, verified event in a project's life. Some are achievements — an exhibition, a signed contract, an award — and push the LYA Score up. Others are risks or delays — a legal dispute, a missed deadline — and pull it down. The LYA Score always reflects reality, good or bad."
-              )}</p>
+          <div className="term-eyebrow">{t("C'est quoi un jalon ?", 'What is a milestone?')}</div>
+          <h2 className="term-milestone-h2">{t('Un score doit rester vivant.', 'A score has to stay alive.')}</h2>
+          <p className="term-milestone-intro">{t(
+            "Un jalon, c'est un événement clé et vérifié dans la vie d'un projet : une exposition, un contrat signé, un acteur qui rejoint le casting font avancer le Score LYA. Un litige ou un retard le font reculer. Mais un projet qui n'avance plus du tout n'est pas neutre — c'est un problème. LYA existe pour faire émerger les créateurs de demain, pas pour héberger des projets à l'arrêt.",
+            "A milestone is a key, verified event in a project's life: an exhibition, a signed contract, an actor joining the cast push the LYA Score up. A dispute or a delay pull it down. But a project that stops moving isn't neutral — it's a problem. LYA exists to surface tomorrow's creators, not to host stalled projects."
+          )}</p>
+
+          <div className="term-timeline">
+            <div className="term-timeline-step term-reveal">
+              <div className="dot green" />
+              <div className="tl-label">{t('Jalon vérifié', 'Verified milestone')}</div>
+              <div className="tl-desc">{t('Le score évolue, à la hausse ou à la baisse — il reflète la réalité du projet.', 'The score moves, up or down — it reflects the real state of the project.')}</div>
             </div>
-            <div className="term-milestone-points">
-              <div className="term-milestone-point up">
-                <span className="ico">↑</span>
-                <div>
-                  <div className="ex-title">{t('Un acteur reconnu rejoint le casting', 'A recognized actor joins the cast')}</div>
-                  <div className="ex-score">780 → <b>812</b> <span className="delta up-delta">+32</span></div>
-                </div>
+            <div className="term-timeline-arrow">→</div>
+            <div className="term-timeline-step term-reveal">
+              <div className="dot amber" />
+              <div className="tl-label">{t('30 à 60 jours sans jalon', '30–60 days with no milestone')}</div>
+              <div className="tl-desc">{t('LYA envoie un email de relance — une chance de reprendre la main sur votre projet.', 'LYA sends a reminder email — one chance to get back on track.')}</div>
+            </div>
+            <div className="term-timeline-arrow">→</div>
+            <div className="term-timeline-step term-reveal">
+              <div className="dot grey" />
+              <div className="tl-label">{t('Toujours rien ?', 'Still nothing?')}</div>
+              <div className="tl-desc">{t('Le projet et son score sont gelés temporairement, jusqu\'à la reprise d\'activité.', 'The project and its score are temporarily frozen, until activity resumes.')}</div>
+            </div>
+          </div>
+
+          <div className="term-milestone-examples">
+            <div className="term-milestone-point up term-reveal">
+              <span className="ico">↑</span>
+              <div>
+                <div className="ex-title">{t('Un acteur reconnu rejoint le casting', 'A recognized actor joins the cast')}</div>
+                <div className="ex-score">780 → <b>812</b> <span className="delta up-delta">+32</span></div>
               </div>
-              <div className="term-milestone-point down">
-                <span className="ico">↓</span>
-                <div>
-                  <div className="ex-title">{t('Le distributeur repousse la sortie de six mois', 'The distributor delays the release by six months')}</div>
-                  <div className="ex-score">812 → <b>781</b> <span className="delta down-delta">-31</span></div>
-                </div>
-              </div>
-              <div className="term-milestone-point neutral">
-                <span className="ico">＝</span>
-                <div>
-                  <div className="ex-title">{t('Aucun jalon vérifié depuis 3 mois — le score reste stable', 'No verified milestone in 3 months — the score stays flat')}</div>
-                  <div className="ex-score">781 → <b>781</b> <span className="delta neutral-delta">±0</span></div>
-                </div>
+            </div>
+            <div className="term-milestone-point down term-reveal">
+              <span className="ico">↓</span>
+              <div>
+                <div className="ex-title">{t('Le distributeur repousse la sortie de six mois', 'The distributor delays the release by six months')}</div>
+                <div className="ex-score">812 → <b>781</b> <span className="delta down-delta">-31</span></div>
               </div>
             </div>
           </div>
@@ -832,11 +851,11 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       <section className="term-pricing" id="pricing" style={{ scrollMarginTop: 80 }}>
         <div className="term-wrap">
           <div className="term-eyebrow">{t('Tarifs', 'Pricing')}</div>
-          <h2 style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t('Certifier et mécéner restent gratuits.', 'Certifying and patronizing stay free.')}</h2>
+          <h2 style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t('3 certifications gratuites, mécéner toujours gratuit.', '3 free certifications, patronizing always free.')}</h2>
           <div className="term-price-grid">
-            <div className="term-price lav term-reveal"><div><div className="name">{t('Gratuit', 'Free')}</div><div className="amount">0€</div><div className="desc">{t('3 certifications, accès au registre', '3 certifications, access to the registry')}</div></div></div>
-            <div className="term-price grey term-reveal"><div><div className="name">Pro Starter</div><div className="amount">79€<span style={{ fontSize: 13 }}>{t('/mois', '/mo')}</span></div><div className="desc">{t('Certifications illimitées, outils pro', 'Unlimited certifications, pro tools')}</div></div></div>
-            <div className="term-price dark term-reveal"><div><div className="name">Pro Advanced</div><div className="amount">249€<span style={{ fontSize: 13 }}>{t('/mois', '/mo')}</span></div><div className="desc">{t('Analytics, API, accompagnement dédié', 'Analytics, API, dedicated support')}</div></div></div>
+            <div className="term-price lav term-reveal"><div><div className="name">{t('Gratuit', 'Free')}</div><div className="amount">0€</div><div className="desc">{t('3 certifications offertes, puis 5€/certification', '3 free certifications, then €5/certification')}</div></div></div>
+            <div className="term-price grey term-reveal"><div><div className="name">Pro Starter</div><div className="amount">79€<span style={{ fontSize: 13 }}>{t('/mois', '/mo')}</span></div><div className="desc">{t('Certifications illimitées, traitement prioritaire', 'Unlimited certifications, priority processing')}</div></div></div>
+            <div className="term-price dark term-reveal"><div><div className="name">Pro Advanced</div><div className="amount">249€<span style={{ fontSize: 13 }}>{t('/mois', '/mo')}</span></div><div className="desc">{t('Certification la plus rapide, analytics, API', 'Fastest certification, analytics, API')}</div></div></div>
             <div className="term-price lav term-reveal"><div><div className="name">{t('Entreprise', 'Enterprise')}</div><div className="amount">{t('Sur mesure', 'Custom')}</div><div className="desc">{t('Volumes élevés, contrat dédié', 'High volumes, dedicated contract')}</div></div></div>
           </div>
         </div>
