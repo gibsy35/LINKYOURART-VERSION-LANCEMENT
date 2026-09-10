@@ -378,7 +378,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                               {contract.rights?.map((right, i) => (
                                 <div key={i} className="p-4 bg-white/5 border border-white/5 rounded-2xl flex items-center gap-4 group hover:bg-white/10 transition-all">
-                                   <div className="w-2 h-2 rounded-full bg-accent-gold shadow-[0_0_8px_#D4AF37]" />
+                                   <div className="w-2 h-2 rounded-full bg-accent-gold shadow-[0_0_8px_#7E1CF1]" />
                                    <span className="text-[10px] font-black text-white/70 uppercase tracking-wide">{right}</span>
                                 </div>
                               ))}
