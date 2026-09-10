@@ -668,13 +668,31 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin 
             ) : (
               <div className="term-join-success">
                 <div className="icon">✓</div>
-                <div className="term-join-title">{t('Vous y êtes presque !', 'Almost there!')}</div>
-                <div className="pos">{t(`Position #${joinResult.position} sur la liste`, `Position #${joinResult.position} on the list`)}</div>
-                <div className="term-join-steps">
-                  <div className="step"><span>1.</span><span><b>{t('Email de confirmation', 'Confirmation email')}</b> — {t('vérifiez votre boîte de réception.', 'check your inbox.')}</span></div>
-                  <div className="step"><span>2.</span><span><b>{t('Validation interne', 'Internal review')}</b> — {t('notre équipe valide votre inscription.', 'our team reviews your registration.')}</span></div>
-                  <div className="step"><span>3.</span><span><b>{t('Découverte de LYA', 'Discover LYA')}</b> — {t('accès à la plateforme.', 'access to the platform.')}</span></div>
-                </div>
+                {joinResult.tier === 'WAITLIST' ? (
+                  <>
+                    <div className="term-join-title">{t('Vous êtes sur la liste !', "You're on the list!")}</div>
+                    <div className="pos">{t(`Position #${joinResult.position} — liste d'attente`, `Position #${joinResult.position} — waitlist`)}</div>
+                    <div className="term-join-steps">
+                      <div className="step"><span>1.</span><span><b>{t('Email de confirmation', 'Confirmation email')}</b> — {t('vérifiez votre boîte de réception.', 'check your inbox.')}</span></div>
+                      <div className="step"><span>2.</span><span><b>{t("En file d'attente", 'On the waitlist')}</b> — {t('les 1000 premières places sont prises ; vous serez prévenu(e) à la prochaine ouverture de cohorte.', 'the first 1000 spots are taken; we\'ll notify you when the next cohort opens.')}</span></div>
+                      <div className="step"><span>3.</span><span><b>{t('Découverte de LYA', 'Discover LYA')}</b> — {t('accès à la plateforme dès votre cohorte ouverte.', 'access to the platform once your cohort opens.')}</span></div>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="term-join-title">{t('Accès immédiat débloqué !', 'Instant access unlocked!')}</div>
+                    <div className="pos">
+                      {t(`Position #${joinResult.position}`, `Position #${joinResult.position}`)}
+                      {' — '}
+                      {joinResult.tier === 'FOUNDING_PIONEER' ? t('Founding Pioneer', 'Founding Pioneer') : t('Original', 'Original')}
+                    </div>
+                    <div className="term-join-steps">
+                      <div className="step"><span>1.</span><span><b>{t('Email de confirmation', 'Confirmation email')}</b> — {t('vérifiez votre boîte de réception, votre clé d\'accès y est jointe.', "check your inbox — your access key is attached.")}</span></div>
+                      <div className="step"><span>2.</span><span><b>{t('Accès activé automatiquement', 'Access activated automatically')}</b> — {t("votre position vous donne un accès immédiat, sans validation manuelle.", 'your position gives you instant access, no manual review needed.')}</span></div>
+                      <div className="step"><span>3.</span><span><b>{t('Découverte de LYA', 'Discover LYA')}</b> — {t('connectez-vous avec votre clé pour explorer la plateforme.', 'log in with your key to explore the platform.')}</span></div>
+                    </div>
+                  </>
+                )}
                 <button className="term-join-submit" onClick={closeJoin} style={{ marginTop: 20 }}>{t('Fermer', 'Close')}</button>
               </div>
             )}
