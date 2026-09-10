@@ -299,22 +299,22 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
   const roles = [
     {
       id: UserRole.CREATOR,
-      title: t('Creator, Independent Producer & Talent', 'Créateur, Label & Talent Indépendant'),
-      description: t('Showcase your catalog of creative works, protect your rights and co-develop digital projects.', 'Exposez votre catalogue d\'œuvres, valorisez vos droits et co-développez vos projets créatifs.'),
+      title: t('Creator', 'Créateur'),
+      description: t('Showcase and protect your work.', 'Exposez et protégez vos œuvres.'),
       icon: User,
       color: 'primary-cyan'
     },
     {
       id: UserRole.PATRON,
-      title: t('Art Patrons, VCs & Cultural Backers', 'Mécène, Fonds d\'Accompagnement & VC'),
-      description: t('Discover emerging projects, participate in co-productions, and support global modern creation.', 'Découvrez les projets émergents, participez à la coproduction et soutenez la création moderne.'),
+      title: t('Patron', 'Mécène'),
+      description: t('Discover and support projects.', 'Découvrez et soutenez des projets.'),
       icon: TrendingUp,
       color: 'accent-gold'
     },
     {
       id: UserRole.PROFESSIONAL,
-      title: t('Arts Curator, Agent & Cultural Advisor', 'Curateur, Agent Artistique & Conseiller'),
-      description: t('Evaluate artistic catalogs, advise creators, and structure distribution agreements.', 'Évaluez les catalogues artistiques, conseillez les créateurs et structurez les accords de diffusion.'),
+      title: t('Professional', 'Professionnel'),
+      description: t('Evaluate and advise creators.', 'Évaluez et conseillez les créateurs.'),
       icon: Briefcase,
       color: 'accent-purple'
     }
@@ -406,14 +406,14 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
                     <div 
                       key={r.id} 
                       onClick={() => setRole(r.id)}
-                      className={`flex gap-3 group cursor-pointer p-3 rounded-2xl transition-all border ${role === r.id ? 'bg-primary-cyan/10 border-primary-cyan scale-[1.01]' : 'bg-white/[0.03] border-white/10 hover:bg-white/5 hover:border-white/20'}`}
+                      className={`flex gap-3 items-center group cursor-pointer p-4 mb-2.5 rounded-2xl transition-all border ${role === r.id ? 'bg-primary-cyan/10 border-primary-cyan scale-[1.01]' : 'bg-white/[0.03] border-white/10 hover:bg-white/5 hover:border-white/20'}`}
                     >
                       <div className={`w-10 h-10 rounded-xl border flex items-center justify-center shrink-0 transition-all ${role === r.id ? 'bg-primary-cyan border-primary-cyan shadow-[0_0_15px_rgba(0,224,255,0.4)]' : 'bg-white/5 border-white/10 group-hover:border-primary-cyan/50'}`}>
                         <r.icon size={18} className={role === r.id ? 'text-surface-dim' : 'text-on-surface-variant group-hover:text-primary-cyan'} />
                       </div>
-                      <div className="space-y-0.5">
-                        <h3 className={`text-[10px] font-black uppercase tracking-widest transition-colors ${role === r.id ? 'text-primary-cyan' : 'text-white'}`}>{r.title}</h3>
-                        <p className="text-[10px] text-on-surface-variant/70 leading-relaxed uppercase font-bold tracking-tight line-clamp-2">{r.description}</p>
+                      <div className="space-y-1">
+                        <h3 className={`text-xs font-black uppercase tracking-widest transition-colors ${role === r.id ? 'text-primary-cyan' : 'text-white'}`}>{r.title}</h3>
+                        <p className="text-[11px] text-on-surface-variant/70 leading-snug">{r.description}</p>
                       </div>
                     </div>
                   ))}
