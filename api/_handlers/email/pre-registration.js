@@ -27,7 +27,7 @@ function buildConfirmationEmail(name, email, role, lang) {
     <img src="https://www.linkyourart.com/logo-brochure.png" width="72" height="72" alt="LinkYourArt" style="display:block;margin:0 auto 24px;width:72px;height:72px;" />
     <p style="margin:0 0 6px;font-size:11px;font-weight:900;color:#93A0AC;letter-spacing:0.25em;text-transform:uppercase;">${isFR ? 'CANDIDATURE REÇUE' : 'APPLICATION RECEIVED'}</p>
     <p style="margin:0 0 20px;font-size:30px;font-weight:900;color:#ffffff;line-height:1.15;">${name},<br><span style="color:#00D4E8;">${isFR ? 'votre dossier est entre nos mains.' : 'your application is in our hands.'}</span></p>
-    <p style="margin:0 auto;font-size:13px;color:#B4BAC6;line-height:1.7;max-width:400px;">${isFR ? "L'équipe LYA examine chaque profil avec le plus grand soin. Nous voulons nous assurer que chaque membre partage notre vision de la certification créative." : "The LYA team reviews every profile with great care. We want to make sure every member shares our vision of creative certification."}</p>
+    <p style="margin:0 auto;font-size:13px;color:#B4BAC6;line-height:1.7;max-width:400px;">${isFR ? "Votre position dans la liste vient d'être enregistrée. Selon votre rang, un accès peut être activé automatiquement, ou débloqué à la prochaine ouverture de cohorte — vous serez prévenu(e) par email dans tous les cas." : "Your position on the list has just been recorded. Depending on your rank, access may be activated automatically, or unlocked at the next cohort opening — either way, you'll be notified by email."}</p>
   </td></tr>
 
   <tr><td bgcolor="#7C3FBF" style="background:linear-gradient(90deg,#7C3FBF,#00D4E8,#E0326E);height:2px;"></td></tr>
