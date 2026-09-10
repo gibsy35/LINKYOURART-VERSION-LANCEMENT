@@ -259,7 +259,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.1 }}
                 className={`relative bg-surface-high/40 border ${
-                  plan.popular ? 'border-accent-gold shadow-[0_0_30px_rgba(212,175,55,0.1)]' :
+                  plan.popular ? 'border-accent-gold shadow-[0_0_30px_rgba(126,28,241,0.1)]' :
                   plan.color === 'accent-purple' ? 'border-accent-purple/30' :
                   plan.color === 'accent-pink' ? 'border-accent-pink/30' :
                   plan.color === 'primary-cyan' ? 'border-primary-cyan/25' :
@@ -813,7 +813,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
               <div key={i} className="relative z-10 flex flex-col items-center text-center group">
                 <div className={`w-16 h-16 rounded-full bg-surface-dim border-2 flex items-center justify-center mb-4 transition-all duration-500 group-hover:scale-110 ${
                   step.color === 'primary-cyan' ? 'border-primary-cyan text-primary-cyan shadow-[0_0_20px_rgba(0,224,255,0.3)]' :
-                  step.color === 'accent-gold' ? 'border-accent-gold text-accent-gold shadow-[0_0_20px_rgba(212,175,55,0.3)]' :
+                  step.color === 'accent-gold' ? 'border-accent-gold text-accent-gold shadow-[0_0_20px_rgba(126,28,241,0.3)]' :
                   step.color === 'accent-purple' ? 'border-accent-purple text-accent-purple shadow-[0_0_20px_rgba(168,85,247,0.3)]' :
                   'border-white text-white shadow-[0_0_20px_rgba(255,255,255,0.2)]'
                 }`}>
