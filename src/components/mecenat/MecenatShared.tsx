@@ -441,14 +441,14 @@ export function DetailModal({ contract, onClose, onPay, units, onUnitsChange, la
                 { labelFR: "Intégrité conceptuelle", labelEN: "Conceptual Integrity", pts: Math.round(score * 0.22), color: "#00d4ff" },
                 { labelFR: "Maturité actuelle",      labelEN: "Current Maturity",      pts: Math.round(score * 0.20), color: "#a78bfa" },
                 { labelFR: "Capacité d'évolution",   labelEN: "Growth Capacity",       pts: Math.round(score * 0.20), color: "#00ff88" },
-                { labelFR: "Faisabilité",             labelEN: "Feasibility",           pts: Math.round(score * 0.19), color: "#f59e0b" },
+                { labelFR: "Faisabilité",             labelEN: "Feasibility",           pts: Math.round(score * 0.19), color: "#E61A97" },
                 { labelFR: "Incarnation réelle",      labelEN: "Real Embodiment",       pts: Math.round(score * 0.19), color: "#ff6b6b" },
               ];
               const evalItems = [
                 { labelFR: "Qualité Artistique",   labelEN: "Artistic Quality",   note: Math.round(score / 111), descFR: "Vision créative exceptionnelle",  descEN: "Exceptional creative vision",    color: "#ec4899" },
                 { labelFR: "Viabilité Économique", labelEN: "Economic Viability", note: Math.round(score / 125), descFR: "Modèle financier solide",          descEN: "Solid financial model",          color: "#00ff88" },
                 { labelFR: "Équipe",               labelEN: "Team",               note: Math.round(score / 111), descFR: "Réalisateurs primés",             descEN: "Award-winning directors",        color: "#3b82f6" },
-                { labelFR: "Budget",               labelEN: "Budget",             note: Math.round(score / 125), descFR: "Réaliste et justifié",            descEN: "Realistic and justified",        color: "#f59e0b" },
+                { labelFR: "Budget",               labelEN: "Budget",             note: Math.round(score / 125), descFR: "Réaliste et justifié",            descEN: "Realistic and justified",        color: "#E61A97" },
                 { labelFR: "Calendrier",           labelEN: "Timeline",           note: Math.round(score / 125), descFR: "Planification détaillée",         descEN: "Detailed planning",              color: "#8b5cf6" },
                 { labelFR: "Potentiel Impact",     labelEN: "Impact Potential",   note: Math.round(score / 111), descFR: "Large audience potentielle",      descEN: "Large potential audience",       color: "#06b6d4" },
               ];
@@ -469,7 +469,7 @@ export function DetailModal({ contract, onClose, onPay, units, onUnitsChange, la
 
                   {/* 5 Piliers LYA SCORE — source de vérité directe depuis contract.pillars */}
                   {(() => {
-                    const PILLAR_COLORS = ["#00d4ff","#a78bfa","#00ff88","#f59e0b","#ff6b6b"];
+                    const PILLAR_COLORS = ["#00d4ff","#a78bfa","#00ff88","#E61A97","#ff6b6b"];
                     const PILLAR_LABELS_FR = ["Intégrité conceptuelle","Maturité actuelle","Capacité d'évolution","Faisabilité","Incarnation réelle"];
                     const PILLAR_LABELS_EN = ["Conceptual Integrity","Current Maturity","Growth Capacity","Feasibility","Real Embodiment"];
                     // Sous-critères : chaque pilier = 2 sous-critères sur 10, leur moyenne × 20 = score pilier /200
@@ -481,7 +481,7 @@ export function DetailModal({ contract, onClose, onPay, units, onUnitsChange, la
                       { pillarIdx: 0, labelFR: "Vision artistique",      labelEN: "Artistic Vision",       color: "#00d4ff" },
                       { pillarIdx: 1, labelFR: "Traction actuelle",       labelEN: "Current Traction",      color: "#a78bfa" },
                       { pillarIdx: 2, labelFR: "Potentiel de croissance", labelEN: "Growth Potential",      color: "#00ff88" },
-                      { pillarIdx: 3, labelFR: "Solidité du projet",      labelEN: "Project Solidity",      color: "#f59e0b" },
+                      { pillarIdx: 3, labelFR: "Solidité du projet",      labelEN: "Project Solidity",      color: "#E61A97" },
                       { pillarIdx: 4, labelFR: "Impact réel",             labelEN: "Real Impact",           color: "#ff6b6b" },
                       { pillarIdx: -1, labelFR: "Score global LYA",       labelEN: "Overall LYA Score",     color: "#ffffff" },
                     ];
@@ -686,8 +686,8 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
 
           {/* Badge LYA SCORE — premium compact */}
           <div style={{
-            background: "linear-gradient(135deg, rgba(245,158,11,0.9) 0%, rgba(234,88,12,0.9) 100%)",
-            boxShadow: "0 0 8px rgba(245,158,11,0.5), 0 1px 4px rgba(0,0,0,0.4)",
+            background: "linear-gradient(135deg, rgba(126,28,241,0.9) 0%, rgba(126,28,241,0.9) 100%)",
+            boxShadow: "0 0 8px rgba(126,28,241,0.5), 0 1px 4px rgba(0,0,0,0.4)",
             border: "1px solid rgba(255,200,50,0.4)",
           }} className="rounded-md px-3 py-1 backdrop-blur-sm w-[80px]">
             <p className="text-[7px] font-mono font-bold text-violet-900/70 tracking-widest leading-none mb-0.5">LYA SCORE</p>
@@ -741,11 +741,11 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
         {/* LYA SCORE premium row */}
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-1.5">
-            <span className="text-xs font-mono font-bold tracking-widest" style={{ color: "#f59e0b" }}>★ LYA SCORE</span>
+            <span className="text-xs font-mono font-bold tracking-widest" style={{ color: "#E61A97" }}>★ LYA SCORE</span>
           </div>
           <div className="flex items-center gap-1.5 flex-1 min-w-0">
             <div className="flex-1 bg-surface-high rounded-full h-1.5 overflow-hidden">
-              <div className="h-1.5 rounded-full" style={{ width: `${(contract.totalScore / 1000) * 100}%`, background: "linear-gradient(90deg,#f59e0b,#ef4444)" }} />
+              <div className="h-1.5 rounded-full" style={{ width: `${(contract.totalScore / 1000) * 100}%`, background: "linear-gradient(90deg,#E61A97,#ef4444)" }} />
             </div>
             <span className="text-violet-400 font-mono font-black text-sm shrink-0">{contract.totalScore}<span className="text-on-surface-variant/30 font-normal text-xs">/1k</span></span>
           </div>
