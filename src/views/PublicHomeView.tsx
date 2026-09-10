@@ -138,6 +138,26 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin 
     els.forEach((el) => io.observe(el));
     return () => io.disconnect();
   }, []);
+
+  // Scroll-spy : surligne l'onglet du menu correspondant a la section visible.
+  const [activeSection, setActiveSection] = React.useState<string>('');
+  React.useEffect(() => {
+    const sectionIds = ['pillars', 'registry', 'pricing'];
+    const sections = sectionIds
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => !!el);
+    if (sections.length === 0) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActiveSection(entry.target.id);
+        });
+      },
+      { rootMargin: '-45% 0px -50% 0px', threshold: 0 }
+    );
+    sections.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
   return (
     <div className="term-root" ref={rootRef}>
       <style>{`
@@ -150,12 +170,13 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin 
         .term-root h1, .term-root h2, .term-root h3, .term-root .sora{ font-family:'Sora',sans-serif; }
         .term-wrap{ max-width:1160px; margin:0 auto; padding:0 40px; }
         @media (max-width:700px){ .term-wrap{ padding:0 22px; } }
-        .term-header{ background:rgba(11,14,20,0.72); backdrop-filter:blur(14px) saturate(160%); -webkit-backdrop-filter:blur(14px) saturate(160%); padding:22px 0; position:sticky; top:0; z-index:100; border-bottom:1px solid rgba(255,255,255,0.08); }
+        .term-header{ background:var(--term-ink); padding:22px 0; position:sticky; top:0; z-index:100; border-bottom:1px solid rgba(255,255,255,0.08); }
         .term-head-inner{ display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:20px; }
         .term-word{ font-family:'Sora',sans-serif; font-weight:800; font-size:22px; color:#fff; }
         .term-nav{ display:flex; align-items:center; gap:28px; margin-left:auto; }
         .term-nav ul{ display:flex; gap:28px; list-style:none; margin:0; padding:0; }
-        .term-nav a{ color:#B9B7C7; text-decoration:none; font-size:14.5px; font-weight:500; }
+        .term-nav a{ color:#B9B7C7; text-decoration:none; font-size:14.5px; font-weight:500; padding-bottom:4px; border-bottom:2px solid transparent; transition:color 0.2s ease, border-color 0.2s ease; }
+        .term-nav a.active{ color:#fff; border-bottom-color:#E61A97; }
         .term-nav a:hover{ color:#fff; }
         .term-pill{ color:#fff; background:var(--term-ink); border:1px solid rgba(255,255,255,0.2); padding:10px 20px; border-radius:100px; font-size:14px; font-weight:600; cursor:pointer; }
         .term-pill:hover{ background:#7E1CF1; border-color:transparent; }
@@ -365,9 +386,9 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin 
           </div>
           <nav className="term-nav">
             <ul>
-              <li><a href="#pillars">{t('Le Score', 'The Score')}</a></li>
-              <li><a href="#registry">{t('Projets', 'Projects')}</a></li>
-              <li><a href="#pricing">{t('Tarifs', 'Pricing')}</a></li>
+              <li><a href="#pillars" className={activeSection === 'pillars' ? 'active' : ''}>{t('Le Score', 'The Score')}</a></li>
+              <li><a href="#registry" className={activeSection === 'registry' ? 'active' : ''}>{t('Projets', 'Projects')}</a></li>
+              <li><a href="#pricing" className={activeSection === 'pricing' ? 'active' : ''}>{t('Tarifs', 'Pricing')}</a></li>
             </ul>
             <div className="term-lang-toggle">
               <button className={lang === 'fr' ? 'active' : ''} onClick={() => setLang('fr')}>FR</button>
@@ -397,7 +418,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin 
       </section>
 
       {/* Pillars */}
-      <section className="term-pillars" id="pillars">
+      <section className="term-pillars" id="pillars" style={{ scrollMarginTop: 80 }}>
         <div className="term-wrap">
           <div className="term-eyebrow">{t('Le Score LYA', 'The LYA Score')}</div>
           <h2 style={{ fontWeight: 700, fontSize: 'clamp(26px,3.2vw,38px)', marginBottom: 36 }}>
@@ -414,7 +435,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin 
               </div>
             ))}
           </div>
-          <div className="term-section-cta"><button onClick={() => setShowJoin(true)}>{t('Comprendre comment le Score est calculé →', 'Understand how the Score is calculated →')}</button></div>
+          <div className="term-section-cta"><button onClick={() => document.getElementById('registry')?.scrollIntoView({ behavior: 'smooth' })}>{t('Voir des exemples de scores réels →', 'See real score examples →')}</button></div>
         </div>
       </section>
 
@@ -462,7 +483,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin 
               ))}
             </div>
           </div>
-          <div className="term-section-cta"><button onClick={() => setShowJoin(true)}>{t('Voir des exemples concrets →', 'See real examples →')}</button></div>
+          <div className="term-section-cta"><button onClick={() => document.getElementById('registry')?.scrollIntoView({ behavior: 'smooth' })}>{t('Voir des exemples concrets →', 'See real examples →')}</button></div>
         </div>
       </section>
 
@@ -525,7 +546,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin 
       </section>
 
       {/* Registre */}
-      <section className="term-registry" id="registry">
+      <section className="term-registry" id="registry" style={{ scrollMarginTop: 80 }}>
         <div className="term-wrap">
           <div className="term-eyebrow">{t('Le registre', 'The registry')}</div>
           <h2 style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t('Parcourez des projets déjà certifiés', 'Browse already certified projects')}</h2>
@@ -591,7 +612,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin 
       )}
 
       {/* Tarifs */}
-      <section className="term-pricing" id="pricing">
+      <section className="term-pricing" id="pricing" style={{ scrollMarginTop: 80 }}>
         <div className="term-wrap">
           <div className="term-eyebrow">{t('Tarifs', 'Pricing')}</div>
           <h2 style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t('Certifier et mécéner restent gratuits.', 'Certifying and patronizing stay free.')}</h2>
