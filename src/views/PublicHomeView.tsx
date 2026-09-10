@@ -197,8 +197,11 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-hero{ background:var(--term-ink); position:relative; overflow:hidden; padding:64px 0 90px; }
         .term-hero-shape{ position:absolute; top:-10%; right:-10%; width:70%; height:130%;
           background:linear-gradient(135deg,#7E1CF1 0%,#7E1CF1 16%,#E61A97 42%,#E61A97 58%,#02C6FA 86%,#02C6FA 100%);
+          background-size:140% 140%;
           clip-path:polygon(30% 0%,100% 0%,100% 100%,0% 100%);
+          animation:termBreathe 16s ease-in-out infinite;
         }
+        @keyframes termBreathe{ 0%,100%{ background-position:0% 50%; } 50%{ background-position:100% 50%; } }
         .term-hero-title{ color:#fff; font-weight:800; font-size:clamp(34px,5.2vw,58px); line-height:1.08; letter-spacing:-0.02em; max-width:19ch; position:relative; z-index:1; }
         .term-hero-sub{ color:#D6D4E2; font-size:17px; line-height:1.6; max-width:46ch; margin-top:26px; position:relative; z-index:1; }
         .term-btn-primary{ background:#fff; color:var(--term-ink); padding:14px 26px; border-radius:100px; font-weight:600; font-size:15px; border:none; cursor:pointer; }
@@ -280,7 +283,8 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-score-hero-text p{ color:#B9B7C7; font-size:14px; line-height:1.6; max-width:44ch; }
         .term-badges{ padding:32px 0; border-bottom:1px solid var(--term-line); }
         .term-badges-row{ display:flex; gap:14px; flex-wrap:wrap; justify-content:center; }
-        .term-badge{ display:flex; align-items:center; gap:8px; background:var(--term-grey); border-radius:100px; padding:10px 18px; font-size:12.5px; font-weight:600; color:var(--term-ink-soft); }
+        .term-badge{ display:flex; align-items:center; gap:8px; background:var(--term-grey); border-radius:100px; padding:10px 18px; font-size:12.5px; font-weight:600; color:var(--term-ink-soft); transition:transform 0.25s ease, background 0.25s ease; }
+        .term-badge:hover{ transform:translateY(-3px); background:#fff; box-shadow:0 8px 20px rgba(0,0,0,0.08); }
         .term-badge svg{ width:16px; height:16px; color:#7E1CF1; flex-shrink:0; }
         .term-network{ padding:72px 0; }
         .term-network-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:32px; }
@@ -293,7 +297,8 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-network-card p{ font-size:13px; line-height:1.6; color:var(--term-ink-soft); }
         .term-security{ padding:56px 0 72px; }
         .term-security-grid{ display:flex; flex-direction:column; gap:2px; margin-top:28px; border-radius:16px; overflow:hidden; }
-        .term-security-item{ display:flex; align-items:center; gap:14px; background:var(--term-grey); padding:18px 22px; font-size:14px; font-weight:500; }
+        .term-security-item{ display:flex; align-items:center; gap:14px; background:var(--term-grey); padding:18px 22px; font-size:14px; font-weight:500; transition:background 0.25s ease, padding-left 0.25s ease; }
+        .term-security-item:hover{ background:#E4F9EC; padding-left:28px; }
         .term-security-item svg{ color:#3ADB76; flex-shrink:0; }
         .term-milestone{ padding:64px 0; background:var(--term-grey); }
         .term-milestone-h2{ font-family:'Sora',sans-serif; font-weight:700; font-size:clamp(24px,3vw,34px); margin:8px 0 14px; max-width:16ch; }
@@ -304,7 +309,8 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-timeline-arrow{ display:flex; align-items:center; justify-content:center; color:#B9B7C7; font-size:20px; padding-top:20px; }
         @media (max-width:800px){ .term-timeline-arrow{ transform:rotate(90deg); padding:0; align-self:center; } }
         .term-timeline-step .dot{ width:14px; height:14px; border-radius:50%; margin-bottom:14px; }
-        .term-timeline-step .dot.green{ background:#3ADB76; box-shadow:0 0 0 5px rgba(58,219,118,0.15); }
+        .term-timeline-step .dot.green{ background:#3ADB76; box-shadow:0 0 0 5px rgba(58,219,118,0.15); animation:termPulse 2.4s ease-in-out infinite; }
+        @keyframes termPulse{ 0%,100%{ box-shadow:0 0 0 5px rgba(58,219,118,0.15); } 50%{ box-shadow:0 0 0 9px rgba(58,219,118,0.06); } }
         .term-timeline-step .dot.amber{ background:#F0C55E; box-shadow:0 0 0 5px rgba(240,197,94,0.18); }
         .term-timeline-step .dot.grey{ background:#8A87A8; box-shadow:0 0 0 5px rgba(138,135,168,0.15); }
         .term-timeline-step .tl-label{ font-family:'Sora',sans-serif; font-weight:700; font-size:14.5px; margin-bottom:6px; }
@@ -455,14 +461,16 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-model{ padding:72px 0; background:var(--term-grey); }
         .term-model-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:32px; }
         @media (max-width:800px){ .term-model-grid{ grid-template-columns:1fr; } }
-        .term-model-card{ background:#fff; border-radius:16px; padding:26px 22px; }
+        .term-model-card{ background:#fff; border-radius:16px; padding:26px 22px; transition:transform 0.3s cubic-bezier(.2,.8,.2,1), box-shadow 0.3s ease; }
+        .term-model-card:hover{ transform:translateY(-6px); box-shadow:0 16px 32px rgba(0,0,0,0.08); }
         .term-model-card .n{ font-family:'Sora',sans-serif; font-weight:700; font-size:13px; color:#7E1CF1; margin-bottom:12px; }
         .term-model-card h4{ font-size:15px; font-weight:700; margin-bottom:8px; }
         .term-model-card p{ font-size:13px; line-height:1.6; color:var(--term-ink-soft); }
         .term-legal{ padding:56px 0; }
         .term-legal-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:2px; margin-top:28px; border-radius:16px; overflow:hidden; }
         @media (max-width:700px){ .term-legal-grid{ grid-template-columns:1fr; } }
-        .term-legal-item{ background:var(--term-grey); padding:20px 22px; }
+        .term-legal-item{ background:var(--term-grey); padding:20px 22px; transition:background 0.25s ease; }
+        .term-legal-item:hover{ background:var(--term-lav); }
         .term-legal-item h5{ font-family:'Sora',sans-serif; font-weight:700; font-size:13px; margin-bottom:8px; }
         .term-legal-item p{ font-size:12px; line-height:1.6; color:var(--term-ink-soft); }
         .term-foot-row{ display:flex; align-items:center; gap:20px; margin-bottom:40px; }
@@ -764,9 +772,9 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       <section className="term-badges">
         <div className="term-wrap">
           <div className="term-badges-row">
-            <div className="term-badge"><Shield /><span>{t('Conforme RGPD', 'GDPR compliant')}</span></div>
-            <div className="term-badge"><Shield /><span>{t('Droits créatifs certifiés', 'Certified creative rights')}</span></div>
-            <div className="term-badge"><Shield /><span>{t('Authentification multi-facteurs', 'Multi-factor authentication')}</span></div>
+            <div className="term-badge term-reveal"><Shield /><span>{t('Conforme RGPD', 'GDPR compliant')}</span></div>
+            <div className="term-badge term-reveal"><Shield /><span>{t('Droits créatifs certifiés', 'Certified creative rights')}</span></div>
+            <div className="term-badge term-reveal"><Shield /><span>{t('Authentification multi-facteurs', 'Multi-factor authentication')}</span></div>
           </div>
         </div>
       </section>
@@ -805,9 +813,9 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
           <div className="term-eyebrow">{t('Sécurité & confiance', 'Security & trust')}</div>
           <h2 style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t('Bâti sur des fondations rigoureuses.', 'Built on rigorous foundations.')}</h2>
           <div className="term-security-grid">
-            <div className="term-security-item"><Shield size={18} /><span>{t('Conforme RGPD — protection des données de bout en bout', 'GDPR compliant — end-to-end data protection')}</span></div>
-            <div className="term-security-item"><Shield size={18} /><span>{t('Droits créatifs certifiés légalement à chaque étape', 'Legally certified creative rights at every step')}</span></div>
-            <div className="term-security-item"><Shield size={18} /><span>{t('Authentification multi-facteurs & infrastructure sécurisée', 'Multi-factor authentication & secure infrastructure')}</span></div>
+            <div className="term-security-item term-reveal"><Shield size={18} /><span>{t('Conforme RGPD — protection des données de bout en bout', 'GDPR compliant — end-to-end data protection')}</span></div>
+            <div className="term-security-item term-reveal"><Shield size={18} /><span>{t('Droits créatifs certifiés légalement à chaque étape', 'Legally certified creative rights at every step')}</span></div>
+            <div className="term-security-item term-reveal"><Shield size={18} /><span>{t('Authentification multi-facteurs & infrastructure sécurisée', 'Multi-factor authentication & secure infrastructure')}</span></div>
           </div>
         </div>
       </section>
@@ -996,19 +1004,19 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         <div className="term-wrap">
           <div className="term-eyebrow">{t('Informations légales', 'Legal information')}</div>
           <div className="term-legal-grid">
-            <div className="term-legal-item">
+            <div className="term-legal-item term-reveal">
               <h5>{t('Identité', 'Identity')}</h5>
               <p>{t('LINKYOURART SASU, société immatriculée en France, 122 rue Amelot, 75011 Paris. SIRET : 108 141 946 00013. Fondée par Jean-Baptiste Lequime.', 'LINKYOURART SASU, a company registered in France, 122 rue Amelot, 75011 Paris. SIRET: 108 141 946 00013. Founded by Jean-Baptiste Lequime.')}</p>
             </div>
-            <div className="term-legal-item">
+            <div className="term-legal-item term-reveal">
               <h5>{t('Propriété intellectuelle', 'Intellectual property')}</h5>
               <p>{t("Logo, nom, design et algorithme du Score LYA sont la propriété exclusive de LINKYOURART SASU. Les projets créatifs enregistrés restent la propriété exclusive de leurs créateurs.", 'Logo, name, design and the LYA Score algorithm are the exclusive property of LINKYOURART SASU. Registered creative projects remain the exclusive property of their creators.')}</p>
             </div>
-            <div className="term-legal-item">
+            <div className="term-legal-item term-reveal">
               <h5>{t('Données personnelles & RGPD', 'Personal data & GDPR')}</h5>
               <p>{t('Nom, email et rôle sont collectés uniquement pour le fonctionnement de la plateforme. Droit d\'accès, de rectification et de suppression. Vos données ne sont jamais vendues.', 'Name, email and role are collected solely to operate the platform. Right to access, rectify and delete. Your data is never sold.')}</p>
             </div>
-            <div className="term-legal-item">
+            <div className="term-legal-item term-reveal">
               <h5>{t('Hébergement', 'Hosting')}</h5>
               <p>{t("Hébergé par Vercel Inc. (San Francisco, USA), avec Firebase (Google LLC) pour les données. Stockage conforme au RGPD.", 'Hosted by Vercel Inc. (San Francisco, USA), with Firebase (Google LLC) for data. GDPR-compliant storage.')}</p>
             </div>
