@@ -184,7 +184,7 @@ const TUTORIAL_STEPS: (t: any) => Step[] = (t) => [
     title: t('REGISTRY & ECOSYSTEM', 'REGISTRE & ÉCOSYSTÈME'),
     description: t('The complete certification registry, tracking every certified project alongside a growing ecosystem — Press & Media, and soon Jobs.', 'Le registre de certification complet, suivant chaque projet certifié au sein d\'un écosystème grandissant — Presse & Médias, et bientôt Jobs.'),
     color: 'text-violet-400',
-    glowColor: 'rgba(251, 191, 36, 0.3)',
+    glowColor: 'rgba(126,28,241, 0.3)',
     icon: <TrendingUp size={48} />,
     points: [
       t('PUBLIC REGISTRY — ALL CERTIFIED PROJECTS AND THEIR LYA SCORE', 'REGISTRE PUBLIC — TOUS LES PROJETS CERTIFIÉS ET LEUR SCORE LYA'),
