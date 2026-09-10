@@ -104,7 +104,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
   const [joinError, setJoinError] = React.useState<string | null>(null);
   const [joinResult, setJoinResult] = React.useState<{ position: number; tier: string; accessKey: string | null } | null>(null);
   const [keyCopied, setKeyCopied] = React.useState(false);
-  const [footerTab, setFooterTab] = React.useState<'model' | 'legal' | 'cgu' | null>(null);
+  const [footerTab, setFooterTab] = React.useState<'model' | 'legal' | 'privacy' | 'cgu' | null>(null);
 
   const handleJoinSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -333,8 +333,16 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         }
         .term-mission p{ color:#fff; font-family:'Sora',sans-serif; font-style:italic; font-weight:800; font-size:clamp(26px,3.6vw,42px); max-width:26ch; line-height:1.2; }
         .term-newera{ padding:72px 0; background:var(--term-grey); }
-        .term-eyebrow{ font-family:'Sora',sans-serif; font-weight:700; font-size:12px; letter-spacing:0.04em; color:#7A2062; text-transform:uppercase; margin-bottom:14px; display:flex; align-items:center; gap:8px; }
-        .term-eyebrow::before{ content:''; width:7px; height:7px; border-radius:50%; background:linear-gradient(135deg,#7E1CF1,#E61A97,#02C6FA); flex-shrink:0; }
+        .term-eyebrow{ font-family:'Sora',sans-serif; font-weight:700; font-size:12px; letter-spacing:0.04em; color:#7A2062; text-transform:uppercase; margin-bottom:14px; }
+        .term-validation{ padding:56px 0 72px; }
+        .term-validation-sub{ font-size:14px; color:var(--term-ink-soft); max-width:56ch; margin:8px 0 32px; }
+        .term-validation-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+        @media (max-width:800px){ .term-validation-grid{ grid-template-columns:1fr 1fr; } }
+        .term-validation-step{ background:var(--term-grey); border-radius:16px; padding:22px 20px; transition:transform 0.3s cubic-bezier(.2,.8,.2,1); }
+        .term-validation-step:hover{ transform:translateY(-5px); }
+        .term-validation-step .num{ font-family:'Sora',sans-serif; font-weight:800; font-size:13px; color:#7E1CF1; }
+        .term-validation-step h5{ font-family:'Sora',sans-serif; font-weight:700; font-size:14.5px; margin:10px 0 6px; }
+        .term-validation-step p{ font-size:12.5px; color:var(--term-ink-soft); line-height:1.5; }
         .term-newera-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:18px; margin-top:36px; }
         @media (max-width:900px){ .term-newera-grid{ grid-template-columns:repeat(2,1fr); } }
         .term-newera-card{ background:#fff; border-radius:16px; padding:28px 22px; border-top:3px solid var(--term-line); }
@@ -429,7 +437,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-join-keybox span{ font-family:'Sora',sans-serif; font-weight:800; font-size:14px; letter-spacing:0.03em; }
         .term-join-keybox button{ flex-shrink:0; border:1px solid var(--term-line); background:#fff; color:var(--term-ink); font-family:'Sora',sans-serif; font-weight:700; font-size:12px; padding:8px 14px; border-radius:100px; cursor:pointer; }
         /* Animations : apparition au scroll + survol */
-        .term-reveal{ opacity:0; transform:translateY(26px) scale(0.97); filter:blur(6px); transition:opacity 0.7s cubic-bezier(.16,1,.3,1), transform 0.7s cubic-bezier(.16,1,.3,1), filter 0.7s cubic-bezier(.16,1,.3,1); }
+        .term-reveal{ opacity:0; transform:translateY(38px) scale(0.95); filter:blur(8px); transition:opacity 0.85s cubic-bezier(.16,1,.3,1), transform 0.85s cubic-bezier(.16,1,.3,1), filter 0.85s cubic-bezier(.16,1,.3,1); }
         .term-reveal.visible{ filter:blur(0); }
         .term-reveal.visible{ opacity:1; transform:translateY(0); }
         .term-pillar{ transition:transform 0.3s cubic-bezier(.2,.8,.2,1), box-shadow 0.3s ease, opacity 0.6s ease; }
@@ -641,6 +649,21 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
                 <div className="ex-score">812 → <b>781</b> <span className="delta down-delta">-31</span></div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Processus de validation en 4 etapes */}
+      <section className="term-validation">
+        <div className="term-wrap">
+          <div className="term-eyebrow">{t('Processus', 'Process')}</div>
+          <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t('Une validation en 4 étapes.', 'A 4-step validation.')}</h2>
+          <p className="term-validation-sub">{t('Chaque projet passe par les 4 mêmes étapes de revue avant de pouvoir être certifié — aucun raccourci, aucune exception.', 'Every project goes through the same 4 review steps before certification — no shortcuts, no exceptions.')}</p>
+          <div className="term-validation-grid">
+            <div className="term-validation-step term-reveal"><span className="num">01</span><h5>{t("Vérification d'origine", 'Origin verification')}</h5><p>{t('Authenticité et traçabilité de la création.', 'Authenticity and traceability of the work.')}</p></div>
+            <div className="term-validation-step term-reveal"><span className="num">02</span><h5>{t('Analyse créative', 'Creative analysis')}</h5><p>{t('Originalité, qualité et potentiel artistique.', 'Originality, quality and artistic potential.')}</p></div>
+            <div className="term-validation-step term-reveal"><span className="num">03</span><h5>{t('Droits & conformité', 'Rights & compliance')}</h5><p>{t('Vérification des droits de propriété et licences.', 'Ownership rights and license verification.')}</p></div>
+            <div className="term-validation-step term-reveal"><span className="num">04</span><h5>{t('Validation finale', 'Final validation')}</h5><p>{t("Approbation définitive d'indexation LYA.", 'Final LYA indexation approval.')}</p></div>
           </div>
         </div>
       </section>
@@ -1043,6 +1066,26 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
               </>
             )}
 
+            {footerTab === 'privacy' && (
+              <>
+                <div className="term-join-title">{t('Politique de confidentialité', 'Privacy Policy')}</div>
+                <div className="term-legal-grid">
+                  <div className="term-legal-item">
+                    <h5>{t('Utilisation éthique', 'Ethical data use')}</h5>
+                    <p>{t("Vos données vous appartiennent. Nous ne collectons que les informations nécessaires au fonctionnement de l'écosystème LYA, conformément aux exigences du RGPD.", 'Your data belongs to you. We only collect the information necessary for the operation of the LYA ecosystem, in line with GDPR requirements.')}</p>
+                  </div>
+                  <div className="term-legal-item">
+                    <h5>{t('Stockage sécurisé', 'Secure storage')}</h5>
+                    <p>{t('Nous utilisons des standards de cryptage modernes pour assurer que vos informations personnelles restent confidentielles.', 'We use modern encryption standards to ensure that your personal information remains confidential.')}</p>
+                  </div>
+                  <div className="term-legal-item">
+                    <h5>{t('Contrôle total', 'Full control')}</h5>
+                    <p>{t('Vous avez un contrôle total sur votre profil et votre activité — gestion des données simple et intuitive.', 'You have complete control over your profile and activity — simple, intuitive data management.')}</p>
+                  </div>
+                </div>
+              </>
+            )}
+
             {footerTab === 'cgu' && (
               <>
                 <div className="term-join-title">{t('Conditions générales d\'utilisation', 'Terms of Service')}</div>
@@ -1056,8 +1099,16 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
                     <p>{t("Chaque projet est évalué par une combinaison d'analyse algorithmique et de revue par des professionnels certifiés. Le Score LYA est un standard de certification — ce n'est pas un instrument financier.", 'Each project is evaluated by algorithmic analysis and review by certified professionals. The LYA Score is a certification standard — it is not a financial instrument.')}</p>
                   </div>
                   <div className="term-legal-item">
+                    <h5>{t('Participation pour tous', 'Participation for all')}</h5>
+                    <p>{t("Que vous soyez un artiste de renommée mondiale, un professionnel créatif ou simplement un passionné d'art, LYA vous propose des outils adaptés à vos besoins.", 'Whether you are a world-renowned artist, a creative professional, or simply an art enthusiast, LYA offers you tools tailored to your needs.')}</p>
+                  </div>
+                  <div className="term-legal-item">
                     <h5>{t('Transparence & sécurité', 'Transparency & security')}</h5>
                     <p>{t('Chaque projet certifié et chaque jalon sont enregistrés dans notre registre immuable. Cela assure une transparence totale pour tous les participants.', 'Every certified project and every milestone is registered in our immutable registry. This ensures total transparency for all participants.')}</p>
+                  </div>
+                  <div className="term-legal-item">
+                    <h5>{t('Indépendance créative', 'Creative independence')}</h5>
+                    <p>{t("LYA redonne le pouvoir aux créateurs et à ceux qui les soutiennent. L'art ne doit pas être régi par les lois de la haute finance.", 'LYA gives power back to creators and those who support them. Art should not be governed by the laws of high finance.')}</p>
                   </div>
                 </div>
               </>
@@ -1094,7 +1145,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
             <div>
               <h5>{t('LÉGAL', 'LEGAL')}</h5>
               <a href="#" onClick={(e) => { e.preventDefault(); setFooterTab('legal'); }}>{t('Mentions légales', 'Legal notice')}</a>
-              <a href="#" onClick={(e) => { e.preventDefault(); setFooterTab('legal'); }}>{t('Confidentialité', 'Privacy')}</a>
+              <a href="#" onClick={(e) => { e.preventDefault(); setFooterTab('privacy'); }}>{t('Confidentialité', 'Privacy')}</a>
               <a href="#" onClick={(e) => { e.preventDefault(); setFooterTab('cgu'); }}>{t('CGU', 'Terms of Service')}</a>
             </div>
           </div>
