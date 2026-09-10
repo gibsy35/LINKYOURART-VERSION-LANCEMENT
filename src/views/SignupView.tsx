@@ -35,6 +35,9 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
     if (!prefillEmail && typeof window !== 'undefined') {
       prefillEmail = new URLSearchParams(window.location.search).get('email') || '';
     }
+    if (!prefillCode && typeof window !== 'undefined') {
+      prefillCode = new URLSearchParams(window.location.search).get('code') || '';
+    }
     return {
       name: '',
       email: prefillEmail.trim().toLowerCase(),
