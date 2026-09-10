@@ -325,7 +325,7 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
             <h3 className="text-sm font-black text-on-surface uppercase tracking-wider">{T('Les 5 Piliers d\'évaluation', 'The 5 Evaluation Pillars')}</h3>
             {project.pillars.map((p, i) => {
               const pct = (p.score / 200) * 100;
-              const colors = ['#a78bfa','#00d4ff','#10b981','#f59e0b','#f43f5e'];
+              const colors = ['#a78bfa','#00d4ff','#10b981','#E61A97','#f43f5e'];
               return (
                 <div key={i} className="space-y-2">
                   <div className="flex justify-between items-center">
