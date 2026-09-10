@@ -53,6 +53,14 @@ const newEra = [
   { n: '04', title: { fr: 'Protection Juridique', en: 'Legal Protection' }, desc: { fr: "Chaque projet sur LYA bénéficie d'une protection juridique des droits reconnue sur 6 continents.", en: 'Every project on LYA benefits from legal rights protection recognized across 6 continents.' } },
 ];
 
+// Memes donnees d'exemple que le tutoriel in-app, pour montrer le Score LYA
+// sur des statuts et categories varies (pas juste "certifie").
+const scoreExamples = [
+  { id: '#LYA-812', category: 'Film', score: 928, status: 'Certifié', statusColor: 'certified', barColor: '#3ADB76' },
+  { id: '#LYA-445', category: 'Série TV', score: 580, status: 'En révision', statusColor: 'review', barColor: '#F0C55E' },
+  { id: '#LYA-901', category: 'Mode', score: 420, status: 'Audit en cours', statusColor: 'audit', barColor: '#E86A6A' },
+];
+
 const registry = [
   { title: 'Fragments Solaires', cat: 'Arts visuels', score: 842, fund: 68, catColor: '#E61A97', img: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?auto=format&fit=crop&q=80&w=800', desc: "Une série de peintures monumentales explorant la lumière solaire comme matière brute. Le projet en est à son troisième cycle de production, avec une exposition itinérante prévue en 2027.", creator: 'Inès Vasseur', patrons: 34, status: 'En cours' },
   { title: 'Chambre 7', cat: 'Musique', score: 778, fund: 81, catColor: '#7E1CF1', img: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&q=80&w=800', desc: "Album concept sur l'isolement urbain, entre électro minimale et field recordings. Neuf titres déjà masterisés, le dixième et dernier morceau est en cours de finalisation.", creator: 'Karim Djellal', patrons: 21, status: 'Finalisation' },
@@ -243,6 +251,22 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-values-grid .n{ font-family:'Sora',sans-serif; font-weight:700; font-size:13px; color:#7E1CF1; margin-bottom:12px; }
         .term-values-grid h4{ font-size:15px; font-weight:700; margin-bottom:6px; }
         .term-values-grid p{ font-size:13px; color:var(--term-ink-soft); line-height:1.55; }
+        .term-examples{ padding:0 0 56px; }
+        .term-examples-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+        @media (max-width:800px){ .term-examples-grid{ grid-template-columns:1fr; } }
+        .term-example-card{ background:var(--term-grey); border-radius:16px; padding:18px 20px; }
+        .term-example-top{ display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+        .term-example-top .cat{ font-family:'Sora',sans-serif; font-weight:700; font-size:11px; letter-spacing:0.04em; text-transform:uppercase; color:var(--term-ink-soft); }
+        .term-example-top .status{ font-size:10px; font-weight:700; padding:3px 9px; border-radius:100px; text-transform:uppercase; letter-spacing:0.02em; }
+        .term-example-top .status.certified{ background:#E4F9EC; color:#1E8449; }
+        .term-example-top .status.review{ background:#FBF3D9; color:#8A6D1D; }
+        .term-example-top .status.audit{ background:#FBE4E4; color:#B33B3B; }
+        .term-example-card .id{ font-family:'Sora',sans-serif; font-weight:800; font-size:15px; margin-bottom:12px; }
+        .term-example-card .score-row{ display:flex; align-items:center; gap:10px; }
+        .term-example-card .bar{ flex:1; height:6px; background:var(--term-line); border-radius:100px; overflow:hidden; }
+        .term-example-card .bar .fill{ height:100%; border-radius:100px; }
+        .term-example-card .val{ font-family:'Sora',sans-serif; font-weight:800; font-size:14px; white-space:nowrap; }
+        .term-example-card .val .max{ font-size:10px; font-weight:500; color:var(--term-ink-soft); }
         .term-mission{ position:relative; overflow:hidden; padding:56px 0;
           background:linear-gradient(120deg, #0B0E14 0%, #0B0E14 28%, #7E1CF1 48%, #7E1CF1 58%, #E61A97 74%, #E61A97 84%, #02C6FA 100%);
         }
@@ -446,6 +470,27 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         </div>
       </section>
 
+      {/* Exemples concrets de score, sur 3 categories */}
+      <section className="term-examples">
+        <div className="term-wrap">
+          <div className="term-examples-grid">
+            {scoreExamples.map((ex) => (
+              <div key={ex.id} className="term-example-card term-reveal">
+                <div className="term-example-top">
+                  <span className="cat">{ex.category}</span>
+                  <span className={`status ${ex.statusColor}`}>{ex.status}</span>
+                </div>
+                <div className="id">{ex.id}</div>
+                <div className="score-row">
+                  <div className="bar"><div className="fill" style={{ width: `${ex.score / 10}%`, background: ex.barColor }} /></div>
+                  <span className="val">{ex.score}<span className="max">/1000</span></span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Mission */}
       <div className="term-mission">
         <div className="term-wrap">
@@ -502,7 +547,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
           <div className="term-history-grid">
             <div className="term-history-text">
               <p>{t(
-                "En 2006, Jean-Baptiste Lequime fonde LinkYourArt avec une ambition claire : bâtir le premier pont international entre les créations et les industries qui en ont besoin. C'est LinkYourArt lui-même qui a forgé, au fil des années, son expérience en développement commercial dans les industries créatives, avec une spécialisation film et divertissement. Musique, cinéma, mode, jeux vidéo, design, architecture, arts de la scène — chaque création y trouve sa place, à une époque où aucune plateforme n'osait encore toutes les réunir.",
+                "En 2006, Jean-Baptiste Lequime fonde LinkYourArt avec une ambition claire : bâtir le premier pont international entre les créations et les industries qui en ont besoin. C'est en construisant LinkYourArt, au fil des années, qu'il a forgé son expérience en développement commercial dans les industries créatives, avec une spécialisation film et divertissement. Musique, cinéma, mode, jeux vidéo, design, architecture, arts de la scène — chaque création y trouve sa place, à une époque où aucune plateforme n'osait encore toutes les réunir.",
                 'In 2006, Jean-Baptiste Lequime founded LinkYourArt with a clear ambition: to build the first international bridge between creative works and the industries that need them. It was LinkYourArt itself that forged, over the years, his business development expertise within the creative industries, specializing in film and entertainment. Music, film, fashion, gaming, design, architecture, performing arts — every creation found a home here, at a time when no platform dared unite them all.'
               )}</p>
               <p>{t(
