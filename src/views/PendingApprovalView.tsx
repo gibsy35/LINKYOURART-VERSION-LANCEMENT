@@ -124,7 +124,7 @@ export const PendingApprovalView: React.FC<PendingApprovalViewProps> = ({ user, 
               </div>
 
               <div className="space-y-3">
-                <div className="inline-flex items-center gap-2 px-3 py-1 bg-amber-500/10 border border-amber-500/20 text-amber-500 text-[10px] font-black uppercase tracking-[0.2em] rounded-full">
+                <div className="inline-flex items-center gap-2 px-3 py-1 bg-violet-500/10 border border-violet-500/20 text-violet-500 text-[10px] font-black uppercase tracking-[0.2em] rounded-full">
                   <Clock size={10} className="animate-pulse" />
                   {t('MEMBER REVIEW PENDING', 'DÉMARCHE DE CO-OPTATION EN COURS')}
                 </div>
@@ -183,9 +183,9 @@ export const PendingApprovalView: React.FC<PendingApprovalViewProps> = ({ user, 
 
                 {/* Step 2 */}
                 <div className="relative">
-                  <div className="absolute -left-[19px] top-0 w-3 h-3 rounded-full bg-amber-500 border-2 border-black flex items-center justify-center animate-pulse" />
+                  <div className="absolute -left-[19px] top-0 w-3 h-3 rounded-full bg-violet-500 border-2 border-black flex items-center justify-center animate-pulse" />
                   <div className="space-y-0.5">
-                    <div className="text-xs font-black text-amber-500 uppercase tracking-wider">{t('STEP 2: COMMITEE OVERVIEW', '2. REVUE DU PORTFOLIO')}</div>
+                    <div className="text-xs font-black text-violet-500 uppercase tracking-wider">{t('STEP 2: COMMITEE OVERVIEW', '2. REVUE DU PORTFOLIO')}</div>
                     <p className="text-[10px] text-white/50 lowercase italic leading-none">{t('validation of creative or professional alignment', 'relecture de l\'alignement professionnel sous 24h')}</p>
                   </div>
                 </div>
