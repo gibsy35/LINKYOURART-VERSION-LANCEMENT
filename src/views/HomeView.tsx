@@ -259,7 +259,7 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
 
   const activeJalons = CASE_JALONS[selectedCaseIdx];
   const activeMeta = CASE_META[selectedCaseIdx];
-  const activeColor = selectedCaseIdx === 0 ? '#00E0FF' : selectedCaseIdx === 1 ? '#FFD700' : '#FF007F';
+  const activeColor = selectedCaseIdx === 0 ? '#00E0FF' : selectedCaseIdx === 1 ? '#7E1CF1' : '#FF007F';
 
   // ── SINGLE SOURCE OF TRUTH pour la progression du Score ───────────────────
   // Calcule le score final et les etapes intermediaires pour toutes les etudes
@@ -1039,9 +1039,9 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
                 <motion.button 
                   onClick={() => setShowLegalPopup(true)}
                   whileHover={{ scale: 1.03, backgroundColor: 'rgba(245, 158, 11, 0.12)', boxShadow: '0 0 30px rgba(245, 158, 11, 0.15)' }}
-                  className="px-6 py-3.5 bg-amber-500/[0.05] border border-amber-500/20 hover:border-amber-500 rounded-xl backdrop-blur-md flex items-center gap-2.5 transition-all group text-amber-500 font-black"
+                  className="px-6 py-3.5 bg-violet-500/[0.05] border border-violet-500/20 hover:border-violet-500 rounded-xl backdrop-blur-md flex items-center gap-2.5 transition-all group text-violet-500 font-black"
                 >
-                  <Shield size={14} className="text-amber-500" />
+                  <Shield size={14} className="text-violet-500" />
                   <span className="text-[10px] font-black uppercase tracking-[0.2em]">{t('Legal Advisory', 'Conseil Légal')}</span>
                 </motion.button>
               </div>
