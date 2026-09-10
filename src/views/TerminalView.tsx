@@ -164,7 +164,9 @@ export const TerminalView: React.FC<TerminalViewProps> = ({ onJoin, onLogin }) =
         .term-values-grid .n{ font-family:'Sora',sans-serif; font-weight:700; font-size:13px; color:#7E1CF1; margin-bottom:12px; }
         .term-values-grid h4{ font-size:15px; font-weight:700; margin-bottom:6px; }
         .term-values-grid p{ font-size:13px; color:var(--term-ink-soft); line-height:1.55; }
-        .term-mission{ background:var(--term-ink); padding:56px 0; }
+        .term-mission{ position:relative; overflow:hidden; padding:56px 0;
+          background:linear-gradient(120deg, #0B0E14 0%, #0B0E14 28%, #7E1CF1 48%, #7E1CF1 58%, #E61A97 74%, #E61A97 84%, #02C6FA 100%);
+        }
         .term-mission p{ color:#fff; font-family:'Sora',sans-serif; font-style:italic; font-weight:800; font-size:clamp(24px,3.2vw,36px); max-width:18ch; }
         .term-newera{ padding:72px 0; background:var(--term-grey); }
         .term-eyebrow{ font-family:'Sora',sans-serif; font-weight:700; font-size:12px; letter-spacing:0.04em; color:#7A2062; text-transform:uppercase; margin-bottom:14px; }
@@ -264,7 +266,12 @@ export const TerminalView: React.FC<TerminalViewProps> = ({ onJoin, onLogin }) =
         .term-footer{ background:var(--term-ink); color:#B9B7C7; padding-top:48px; }
         .term-foot-row{ display:flex; align-items:center; gap:20px; margin-bottom:40px; }
         .term-foot-big{ font-family:'Sora',sans-serif; font-weight:800; color:#fff; font-size:clamp(38px,6vw,80px); }
-        .term-foot-grid{ display:flex; justify-content:space-between; padding:24px 0; border-top:1px solid #22242E; font-size:13px; flex-wrap:wrap; gap:8px; }
+        .term-foot-grid{ display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:24px; padding-bottom:40px; border-top:1px solid #22242E; padding-top:32px; }
+        @media (max-width:800px){ .term-foot-grid{ grid-template-columns:1fr 1fr; } }
+        .term-foot-grid h5{ font-family:'Sora',sans-serif; font-size:12px; font-weight:700; letter-spacing:0.05em; color:#8A87A8; margin-bottom:16px; }
+        .term-foot-grid a, .term-foot-grid div.line{ display:block; font-size:14px; margin-bottom:10px; text-decoration:none; color:#D6D4E2; transition:color 0.2s ease; }
+        .term-foot-grid a:hover{ color:#E61A97; }
+        .term-foot-bottom{ display:flex; justify-content:space-between; padding:22px 0; font-size:13px; color:#8A87A8; flex-wrap:wrap; gap:8px; }
       `}</style>
 
       {/* Header */}
@@ -519,8 +526,35 @@ export const TerminalView: React.FC<TerminalViewProps> = ({ onJoin, onLogin }) =
             <div className="term-foot-big">LINKYOURART</div>
           </div>
           <div className="term-foot-grid">
-            <span>LYA — LinkYourArt · Rennes / Paris</span>
-            <span>© 2026</span>
+            <div>
+              <h5>NEWSLETTER</h5>
+              <div className="line" style={{ color: '#8A87A8', fontSize: 13.5, marginBottom: 14 }}>Suivez le lancement et les prochaines certifications.</div>
+              <a href="mailto:hello@linkyourart.com?subject=Newsletter">S'abonner →</a>
+            </div>
+            <div>
+              <h5>NAVIGATION</h5>
+              <a href="#pillars">Le Score</a>
+              <a href="#registry">Projets</a>
+              <a href="#pricing">Tarifs</a>
+            </div>
+            <div>
+              <h5>CONTACT</h5>
+              <div className="line">contact@linkyourart.com</div>
+              <div className="line">Rennes / Paris</div>
+            </div>
+            <div>
+              <h5>LÉGAL</h5>
+              <a href="#">Mentions légales</a>
+              <a href="#">Confidentialité</a>
+            </div>
+          </div>
+          <div className="term-foot-bottom">
+            <span>© 2026 LinkYourArt (LYA)</span>
+            <div style={{ display: 'flex', gap: 16 }}>
+              <a href="#" style={{ color: '#8A87A8', textDecoration: 'none' }}>Instagram</a>
+              <a href="#" style={{ color: '#8A87A8', textDecoration: 'none' }}>LinkedIn</a>
+              <a href="#" style={{ color: '#8A87A8', textDecoration: 'none' }}>X</a>
+            </div>
           </div>
         </div>
       </footer>
