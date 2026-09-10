@@ -73,8 +73,28 @@ function splitScore(score: number): number[] {
 export const TerminalView: React.FC<TerminalViewProps> = ({ onJoin, onLogin }) => {
   const [selected, setSelected] = React.useState<number | null>(null);
   const project = selected !== null ? registry[selected] : null;
+  const rootRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    const root = rootRef.current;
+    if (!root) return;
+    const els = root.querySelectorAll('.term-reveal');
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            io.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
   return (
-    <div className="term-root">
+    <div className="term-root" ref={rootRef}>
       <style>{`
         .term-root{
           --term-ink:#0B0E14; --term-ink-soft:#565B6B; --term-paper:#FFFFFF;
@@ -205,6 +225,29 @@ export const TerminalView: React.FC<TerminalViewProps> = ({ onJoin, onLogin }) =
         .term-modal-cta button{ font-family:'Sora',sans-serif; font-weight:700; font-size:13px; padding:12px 20px; border-radius:100px; border:none; cursor:pointer; }
         .term-modal-cta .primary{ background:var(--term-ink); color:#fff; }
         .term-modal-cta .secondary{ background:none; border:1px solid var(--term-line); color:var(--term-ink); }
+        /* Animations : apparition au scroll + survol */
+        .term-reveal{ opacity:0; transform:translateY(22px); transition:opacity 0.6s ease, transform 0.6s cubic-bezier(.2,.8,.2,1); }
+        .term-reveal.visible{ opacity:1; transform:translateY(0); }
+        .term-pillar{ transition:transform 0.3s cubic-bezier(.2,.8,.2,1), box-shadow 0.3s ease, opacity 0.6s ease; }
+        .term-pillar:hover{ transform:translateY(-6px); box-shadow:0 16px 32px rgba(0,0,0,0.14); }
+        .term-newera-card{ transition:transform 0.3s cubic-bezier(.2,.8,.2,1), box-shadow 0.3s ease, border-color 0.3s ease, opacity 0.6s ease; }
+        .term-newera-card:hover{ transform:translateY(-8px); box-shadow:0 20px 40px rgba(0,0,0,0.1); border-top-color:#7E1CF1; }
+        .term-why-item{ transition:background 0.25s ease; }
+        .term-why-item:hover{ background:var(--term-grey); }
+        .term-compare-col{ transition:transform 0.3s cubic-bezier(.2,.8,.2,1), box-shadow 0.3s ease, opacity 0.6s ease; }
+        .term-compare-col:hover{ transform:translateY(-6px); box-shadow:0 20px 40px rgba(0,0,0,0.08); }
+        .term-history-stat{ transition:transform 0.3s cubic-bezier(.2,.8,.2,1); }
+        .term-history-stat:hover{ transform:translateY(-6px); }
+        .term-reg-card{ transition:transform 0.25s ease, box-shadow 0.25s ease; }
+        .term-reg-card:hover{ transform:translateY(-6px); box-shadow:0 16px 32px rgba(0,0,0,0.25); }
+        .term-price{ transition:transform 0.3s cubic-bezier(.2,.8,.2,1), box-shadow 0.3s ease, opacity 0.6s ease; }
+        .term-price:hover{ transform:translateY(-6px); box-shadow:0 16px 32px rgba(0,0,0,0.1); }
+        .term-values-grid > div{ transition:transform 0.3s cubic-bezier(.2,.8,.2,1); }
+        .term-values-grid > div:hover{ transform:translateY(-6px); }
+        .term-btn-primary{ transition:background 0.25s ease, transform 0.2s ease; }
+        .term-btn-primary:active{ transform:scale(0.97); }
+        .term-modal-card{ animation:termModalIn 0.3s cubic-bezier(.2,.8,.2,1); }
+        @keyframes termModalIn{ from{ opacity:0; transform:translateY(20px) scale(0.98); } to{ opacity:1; transform:translateY(0) scale(1); } }
         .term-pricing{ padding:20px 0 72px; }
         .term-price-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:32px; }
         @media (max-width:900px){ .term-price-grid{ grid-template-columns:repeat(2,1fr); } }
@@ -267,7 +310,7 @@ export const TerminalView: React.FC<TerminalViewProps> = ({ onJoin, onLogin }) =
           </h2>
           <div className="term-pillars-grid">
             {pillars.map(p => (
-              <div key={p.n} className={`term-pillar ${p.bg}`}>
+              <div key={p.n} className={`term-pillar ${p.bg} term-reveal`}>
                 <div>
                   <div className="n">{p.n}</div>
                   <div className="t">{p.title}</div>
@@ -294,7 +337,7 @@ export const TerminalView: React.FC<TerminalViewProps> = ({ onJoin, onLogin }) =
           <h2 style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px) ' }}>Pour l'excellence créative.</h2>
           <div className="term-newera-grid">
             {newEra.map(c => (
-              <div key={c.n} className="term-newera-card">
+              <div key={c.n} className="term-newera-card term-reveal">
                 <div className="n">{c.n}</div>
                 <h4>{c.title}</h4>
                 <p>{c.desc}</p>
@@ -311,13 +354,13 @@ export const TerminalView: React.FC<TerminalViewProps> = ({ onJoin, onLogin }) =
           <div className="term-eyebrow">Comparaison</div>
           <h2 style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>Ce que LYA est — et n'est pas.</h2>
           <div className="term-compare-grid">
-            <div className="term-compare-col is">
+            <div className="term-compare-col is term-reveal">
               <span className="term-compare-badge">CE QUE LYA EST</span>
               {comparison.is.map(item => (
                 <div key={item.t} className="term-compare-item"><h5>{item.t}</h5><p>{item.d}</p></div>
               ))}
             </div>
-            <div className="term-compare-col isnot">
+            <div className="term-compare-col isnot term-reveal">
               <span className="term-compare-badge">CE QUE LYA N'EST PAS</span>
               {comparison.isNot.map(item => (
                 <div key={item.t} className="term-compare-item"><h5>{item.t}</h5><p>{item.d}</p></div>
@@ -340,8 +383,8 @@ export const TerminalView: React.FC<TerminalViewProps> = ({ onJoin, onLogin }) =
               <p>Aujourd'hui, à l'occasion de ses 20 ans, LinkYourArt entame une nouvelle étape avec le lancement d'une plateforme entièrement repensée, construite autour d'un standard objectif de certification créative.</p>
             </div>
             <div className="term-history-stats">
-              <div className="term-history-stat"><div className="y">2006</div><div className="l">FONDATION</div></div>
-              <div className="term-history-stat"><div className="y">2026</div><div className="l">RÉVOLUTION</div></div>
+              <div className="term-history-stat term-reveal"><div className="y">2006</div><div className="l">FONDATION</div></div>
+              <div className="term-history-stat term-reveal"><div className="y">2026</div><div className="l">RÉVOLUTION</div></div>
             </div>
           </div>
         </div>
@@ -384,7 +427,7 @@ export const TerminalView: React.FC<TerminalViewProps> = ({ onJoin, onLogin }) =
           <h2 style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>Parcourez des projets déjà certifiés</h2>
           <div className="term-reg-scroll">
             {registry.map((r, i) => (
-              <div key={r.title} className="term-reg-card" onClick={() => setSelected(i)} style={{ cursor: 'pointer' }}>
+              <div key={r.title} className="term-reg-card term-reveal" onClick={() => setSelected(i)} style={{ cursor: 'pointer' }}>
                 <div className="term-reg-art" style={{ background: `linear-gradient(150deg, ${r.catColor}, #0B0E14)` }}>
                   <div className="term-reg-tags">
                     <span className="term-reg-tag" style={{ background: r.catColor }}>{r.cat.toUpperCase()}</span>
@@ -449,10 +492,10 @@ export const TerminalView: React.FC<TerminalViewProps> = ({ onJoin, onLogin }) =
           <div className="term-eyebrow">Tarifs</div>
           <h2 style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>Certifier et mécéner restent gratuits.</h2>
           <div className="term-price-grid">
-            <div className="term-price lav"><div><div className="name">Free</div><div className="amount">0€</div><div className="desc">3 certifications, accès au registre</div></div></div>
-            <div className="term-price grey"><div><div className="name">Pro Starter</div><div className="amount">79€<span style={{ fontSize: 13 }}>/mois</span></div><div className="desc">Certifications illimitées, outils pro</div></div></div>
-            <div className="term-price dark"><div><div className="name">Pro Advanced</div><div className="amount">249€<span style={{ fontSize: 13 }}>/mois</span></div><div className="desc">Analytics, API, accompagnement dédié</div></div></div>
-            <div className="term-price lav"><div><div className="name">Enterprise</div><div className="amount">Sur mesure</div><div className="desc">Volumes élevés, contrat dédié</div></div></div>
+            <div className="term-price lav term-reveal"><div><div className="name">Free</div><div className="amount">0€</div><div className="desc">3 certifications, accès au registre</div></div></div>
+            <div className="term-price grey term-reveal"><div><div className="name">Pro Starter</div><div className="amount">79€<span style={{ fontSize: 13 }}>/mois</span></div><div className="desc">Certifications illimitées, outils pro</div></div></div>
+            <div className="term-price dark term-reveal"><div><div className="name">Pro Advanced</div><div className="amount">249€<span style={{ fontSize: 13 }}>/mois</span></div><div className="desc">Analytics, API, accompagnement dédié</div></div></div>
+            <div className="term-price lav term-reveal"><div><div className="name">Enterprise</div><div className="amount">Sur mesure</div><div className="desc">Volumes élevés, contrat dédié</div></div></div>
           </div>
         </div>
       </section>
