@@ -1,5 +1,6 @@
 import React from 'react';
 import { Logo } from '../components/ui/Logo';
+import { submitPreRegistration, type PreRegCategory } from '../utils/preRegistration';
 
 /**
  * TERMINAL — page de concept publique (esprit neobanque premium : Sora, encre/lavande,
@@ -82,6 +83,42 @@ export const TerminalView: React.FC<TerminalViewProps> = ({ onJoin, onLogin }) =
   const t = (fr: string, en: string) => (lang === 'fr' ? fr : en);
   const project = selected !== null ? registry[selected] : null;
   const rootRef = React.useRef<HTMLDivElement>(null);
+
+  // Pop-up legere de pre-inscription : meme logique/backend que LandingView
+  // (voir src/utils/preRegistration.ts), juste sans la page complete.
+  const [showJoin, setShowJoin] = React.useState(false);
+  const [joinCat, setJoinCat] = React.useState<PreRegCategory>('CREATOR');
+  const [joinName, setJoinName] = React.useState('');
+  const [joinEmail, setJoinEmail] = React.useState('');
+  const [joinSubmitting, setJoinSubmitting] = React.useState(false);
+  const [joinError, setJoinError] = React.useState<string | null>(null);
+  const [joinResult, setJoinResult] = React.useState<{ position: number; tier: string } | null>(null);
+
+  const handleJoinSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!joinName.trim() || !joinEmail.trim()) return;
+    setJoinSubmitting(true);
+    setJoinError(null);
+    try {
+      const result = await submitPreRegistration({
+        name: joinName, email: joinEmail, category: joinCat,
+        language: lang === 'fr' ? 'FR' : 'EN',
+      });
+      setJoinResult({ position: result.position, tier: result.tier });
+    } catch (err) {
+      setJoinError(err instanceof Error ? err.message : t('Une erreur est survenue.', 'Something went wrong.'));
+    } finally {
+      setJoinSubmitting(false);
+    }
+  };
+
+  const closeJoin = () => {
+    setShowJoin(false);
+    setJoinResult(null);
+    setJoinError(null);
+    setJoinName('');
+    setJoinEmail('');
+  };
 
   React.useEffect(() => {
     const root = rootRef.current;
@@ -238,6 +275,26 @@ export const TerminalView: React.FC<TerminalViewProps> = ({ onJoin, onLogin }) =
         .term-modal-cta button{ font-family:'Sora',sans-serif; font-weight:700; font-size:13px; padding:12px 20px; border-radius:100px; border:none; cursor:pointer; }
         .term-modal-cta .primary{ background:var(--term-ink); color:#fff; }
         .term-modal-cta .secondary{ background:none; border:1px solid var(--term-line); color:var(--term-ink); }
+        /* Pop-up de pre-inscription legere */
+        .term-join-card{ background:#fff; border-radius:22px; max-width:440px; width:100%; padding:36px 30px; position:relative; }
+        .term-join-close{ position:absolute; top:18px; right:18px; background:var(--term-grey); border:none; width:32px; height:32px; border-radius:50%; font-size:18px; cursor:pointer; color:var(--term-ink); }
+        .term-join-title{ font-family:'Sora',sans-serif; font-weight:800; font-size:22px; margin-bottom:8px; }
+        .term-join-sub{ font-size:13.5px; color:var(--term-ink-soft); margin-bottom:24px; line-height:1.5; }
+        .term-join-cats{ display:flex; gap:8px; margin-bottom:18px; }
+        .term-join-cats button{ flex:1; padding:10px 6px; border-radius:10px; border:1px solid var(--term-line); background:#fff; font-size:12px; font-weight:700; font-family:'Sora',sans-serif; cursor:pointer; color:var(--term-ink-soft); }
+        .term-join-cats button.active{ background:var(--term-ink); color:#fff; border-color:var(--term-ink); }
+        .term-join-field{ margin-bottom:14px; }
+        .term-join-field label{ display:block; font-size:11px; font-weight:700; color:var(--term-ink-soft); margin-bottom:6px; text-transform:uppercase; letter-spacing:0.02em; }
+        .term-join-field input{ width:100%; padding:12px 14px; border-radius:10px; border:1px solid var(--term-line); font-size:14px; font-family:'Inter',sans-serif; box-sizing:border-box; }
+        .term-join-field input:focus{ outline:none; border-color:#7E1CF1; }
+        .term-join-error{ background:#FBE4EF; color:#7A2062; font-size:12.5px; padding:10px 14px; border-radius:10px; margin-bottom:14px; }
+        .term-join-submit{ width:100%; background:var(--term-ink); color:#fff; border:none; padding:14px; border-radius:100px; font-family:'Sora',sans-serif; font-weight:700; font-size:14.5px; cursor:pointer; margin-top:6px; }
+        .term-join-submit:disabled{ opacity:0.6; cursor:default; }
+        .term-join-success .icon{ width:52px; height:52px; border-radius:50%; background:linear-gradient(135deg,#7E1CF1,#02C6FA); display:flex; align-items:center; justify-content:center; color:#fff; font-size:24px; font-weight:800; margin-bottom:18px; font-family:'Sora',sans-serif; }
+        .term-join-success .pos{ font-size:13px; color:var(--term-ink-soft); margin-bottom:4px; }
+        .term-join-steps{ margin-top:18px; padding-top:18px; border-top:1px solid var(--term-line); }
+        .term-join-steps .step{ display:flex; gap:10px; font-size:13px; color:var(--term-ink-soft); margin-bottom:10px; align-items:flex-start; }
+        .term-join-steps .step b{ color:var(--term-ink); }
         /* Animations : apparition au scroll + survol */
         .term-reveal{ opacity:0; transform:translateY(22px); transition:opacity 0.6s ease, transform 0.6s cubic-bezier(.2,.8,.2,1); }
         .term-reveal.visible{ opacity:1; transform:translateY(0); }
@@ -319,7 +376,7 @@ export const TerminalView: React.FC<TerminalViewProps> = ({ onJoin, onLogin }) =
             )}
           </p>
           <div style={{ display: 'flex', gap: 14, marginTop: 30, position: 'relative', zIndex: 1 }}>
-            <button className="term-btn-primary" onClick={onJoin}>{t('Rejoindre LYA →', 'Join LYA →')}</button>
+            <button className="term-btn-primary" onClick={() => setShowJoin(true)}>{t('Rejoindre LYA →', 'Join LYA →')}</button>
             <a href="#pillars" className="term-btn-ghost" style={{ textDecoration: 'none', display: 'inline-block' }}>{t('Comprendre le Score LYA', 'Understand the LYA Score')}</a>
           </div>
         </div>
@@ -343,7 +400,7 @@ export const TerminalView: React.FC<TerminalViewProps> = ({ onJoin, onLogin }) =
               </div>
             ))}
           </div>
-          <div className="term-section-cta"><button onClick={onJoin}>{t('Comprendre comment le Score est calculé →', 'Understand how the Score is calculated →')}</button></div>
+          <div className="term-section-cta"><button onClick={() => setShowJoin(true)}>{t('Comprendre comment le Score est calculé →', 'Understand how the Score is calculated →')}</button></div>
         </div>
       </section>
 
@@ -368,7 +425,7 @@ export const TerminalView: React.FC<TerminalViewProps> = ({ onJoin, onLogin }) =
               </div>
             ))}
           </div>
-          <div className="term-section-cta"><button onClick={onJoin}>{t('Rejoindre LYA et faire certifier mon projet →', 'Join LYA and get my project certified →')}</button></div>
+          <div className="term-section-cta"><button onClick={() => setShowJoin(true)}>{t('Rejoindre LYA et faire certifier mon projet →', 'Join LYA and get my project certified →')}</button></div>
         </div>
       </section>
 
@@ -391,7 +448,7 @@ export const TerminalView: React.FC<TerminalViewProps> = ({ onJoin, onLogin }) =
               ))}
             </div>
           </div>
-          <div className="term-section-cta"><button onClick={onJoin}>{t('Voir des exemples concrets →', 'See real examples →')}</button></div>
+          <div className="term-section-cta"><button onClick={() => setShowJoin(true)}>{t('Voir des exemples concrets →', 'See real examples →')}</button></div>
         </div>
       </section>
 
@@ -511,7 +568,7 @@ export const TerminalView: React.FC<TerminalViewProps> = ({ onJoin, onLogin }) =
                 ))}
               </div>
               <div className="term-modal-cta">
-                <button className="primary" onClick={onJoin}>{t('Devenir mécène de ce projet', 'Become a patron of this project')}</button>
+                <button className="primary" onClick={() => setShowJoin(true)}>{t('Devenir mécène de ce projet', 'Become a patron of this project')}</button>
                 <button className="secondary" onClick={() => setSelected(null)}>{t('Fermer', 'Close')}</button>
               </div>
             </div>
@@ -540,9 +597,55 @@ export const TerminalView: React.FC<TerminalViewProps> = ({ onJoin, onLogin }) =
             <h2>{t('Votre projet a une valeur.', 'Your project has value.')}</h2>
             <div style={{ fontSize: 13, color: '#6B4A5E', marginTop: 8 }}>{t('Accès sur pré-inscription, validé par notre équipe.', 'Access by pre-registration, validated by our team.')}</div>
           </div>
-          <button className="term-pill" style={{ background: '#0B0E14' }} onClick={onJoin}>{t('Rejoindre LYA →', 'Join LYA →')}</button>
+          <button className="term-pill" style={{ background: '#0B0E14' }} onClick={() => setShowJoin(true)}>{t('Rejoindre LYA →', 'Join LYA →')}</button>
         </div>
       </section>
+
+      {/* Pop-up de pre-inscription legere */}
+      {showJoin && (
+        <div className="term-modal-overlay" onClick={(e) => { if (e.target === e.currentTarget) closeJoin(); }}>
+          <div className="term-join-card">
+            <button className="term-join-close" onClick={closeJoin}>×</button>
+            {!joinResult ? (
+              <>
+                <div className="term-join-title">{t('Rejoindre LYA', 'Join LYA')}</div>
+                <p className="term-join-sub">{t("Un email de confirmation, une validation interne, et la découverte de LYA.", 'A confirmation email, an internal review, then you discover LYA.')}</p>
+                <form onSubmit={handleJoinSubmit}>
+                  <div className="term-join-cats">
+                    <button type="button" className={joinCat === 'CREATOR' ? 'active' : ''} onClick={() => setJoinCat('CREATOR')}>{t('CRÉATEUR', 'CREATOR')}</button>
+                    <button type="button" className={joinCat === 'PROFESSIONAL' ? 'active' : ''} onClick={() => setJoinCat('PROFESSIONAL')}>{t('PROFESSIONNEL', 'PROFESSIONAL')}</button>
+                    <button type="button" className={joinCat === 'PATRON' ? 'active' : ''} onClick={() => setJoinCat('PATRON')}>{t('MÉCÈNE', 'PATRON')}</button>
+                  </div>
+                  <div className="term-join-field">
+                    <label>{t('Nom', 'Name')}</label>
+                    <input type="text" value={joinName} onChange={(e) => setJoinName(e.target.value)} required />
+                  </div>
+                  <div className="term-join-field">
+                    <label>Email</label>
+                    <input type="email" value={joinEmail} onChange={(e) => setJoinEmail(e.target.value)} required />
+                  </div>
+                  {joinError && <div className="term-join-error">{joinError}</div>}
+                  <button type="submit" className="term-join-submit" disabled={joinSubmitting}>
+                    {joinSubmitting ? t('Envoi...', 'Sending...') : t('Pré-inscrire →', 'Pre-register →')}
+                  </button>
+                </form>
+              </>
+            ) : (
+              <div className="term-join-success">
+                <div className="icon">✓</div>
+                <div className="term-join-title">{t('Vous y êtes presque !', 'Almost there!')}</div>
+                <div className="pos">{t(`Position #${joinResult.position} sur la liste`, `Position #${joinResult.position} on the list`)}</div>
+                <div className="term-join-steps">
+                  <div className="step"><span>1.</span><span><b>{t('Email de confirmation', 'Confirmation email')}</b> — {t('vérifiez votre boîte de réception.', 'check your inbox.')}</span></div>
+                  <div className="step"><span>2.</span><span><b>{t('Validation interne', 'Internal review')}</b> — {t('notre équipe valide votre inscription.', 'our team reviews your registration.')}</span></div>
+                  <div className="step"><span>3.</span><span><b>{t('Découverte de LYA', 'Discover LYA')}</b> — {t('accès à la plateforme.', 'access to the platform.')}</span></div>
+                </div>
+                <button className="term-join-submit" onClick={closeJoin} style={{ marginTop: 20 }}>{t('Fermer', 'Close')}</button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Footer */}
       <footer className="term-footer">
