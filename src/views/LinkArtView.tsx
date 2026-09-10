@@ -93,7 +93,7 @@ export const LinkArtView: React.FC<{
         <motion.div 
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          className="w-24 h-24 bg-violet-500/10 rounded-full flex items-center justify-center mb-8 border border-violet-500/20 shadow-[0_0_30px_rgba(245,158,11,0.2)]"
+          className="w-24 h-24 bg-violet-500/10 rounded-full flex items-center justify-center mb-8 border border-violet-500/20 shadow-[0_0_30px_rgba(126,28,241,0.2)]"
         >
           <Lock size={48} className="text-violet-500" />
         </motion.div>
@@ -101,7 +101,7 @@ export const LinkArtView: React.FC<{
           {t('Free Limit Reached', 'Limite Gratuite Atteinte')}
         </h2>
         <p className="text-on-surface-variant max-w-lg mb-10 text-sm md:text-base leading-relaxed opacity-70">
-          {t(`You've reached the ${submissionLimit}-project limit on the free Creator plan. Add a single certification for €5, or upgrade to Professional for unlimited submissions.`, `Vous avez atteint la limite de ${submissionLimit} projets du forfait Créateur gratuit. Ajoutez une certification à l'unité pour 5€, ou passez au forfait Professionnel pour des soumissions illimitées.`)}
+          {t(`You've reached the ${submissionLimit}-project limit on the free Creator plan. Add a single certification for €5, or upgrade to Professional for up to 25 submissions/month.`, `Vous avez atteint la limite de ${submissionLimit} projets du forfait Créateur gratuit. Ajoutez une certification à l'unité pour 5€, ou passez au forfait Professionnel pour jusqu'à 25 soumissions/mois.`)}
         </p>
         <button 
           onClick={() => {
