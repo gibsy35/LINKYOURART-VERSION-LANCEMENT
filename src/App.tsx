@@ -67,12 +67,12 @@ export default function App() {
   const { t, language } = useTranslation();
   const { contracts: liveContracts } = useMarketData();
   const [currentView, setCurrentView] = useState<View>('LANDING');
-  // Verifie l'URL une seule fois au montage — pas a chaque re-render — pour que
-  // le clic sur un bouton du Terminal (qui change currentView) fasse bien sortir
-  // de l'apercu, meme si ?preview=terminal reste dans l'URL du navigateur.
-  const [showTerminalPreview, setShowTerminalPreview] = useState(() =>
-    typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('preview') === 'terminal'
-  );
+  // Sur cette branche (Refonte-vitrine) uniquement, le Terminal est l'ecran
+  // d'entree par defaut — plus besoin de ?preview=terminal dans l'URL, qui
+  // se perdait a chaque nouvelle URL de deploiement Vercel. Cliquer sur un
+  // bouton du Terminal fait sortir vers le vrai flux (LANDING / LOGIN).
+  // main n'est pas touchee par ce changement, il reste sur son propre code.
+  const [showTerminalPreview, setShowTerminalPreview] = useState(true);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [is404, setIs404] = useState(false);
   React.useEffect(() => {
@@ -572,10 +572,9 @@ export default function App() {
     );
   }
 
-  // Point d'accès temporaire et isolé pour prévisualiser le nouveau Terminal clair,
-  // sans toucher au comportement par défaut de l'app. Actif uniquement via
-  // ?preview=terminal dans l'URL — à retirer une fois la direction validée
-  // et le vrai routage mis en place.
+  // Ecran d'entree de cette branche (Refonte-vitrine) : le nouveau Terminal.
+  // Point d'acces temporaire et isole, sans toucher au comportement de main —
+  // a retirer une fois la direction validee et le vrai routage mis en place.
   if (showTerminalPreview) {
     return (
       <TerminalView
