@@ -104,6 +104,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
   const [joinError, setJoinError] = React.useState<string | null>(null);
   const [joinResult, setJoinResult] = React.useState<{ position: number; tier: string; accessKey: string | null } | null>(null);
   const [keyCopied, setKeyCopied] = React.useState(false);
+  const [footerTab, setFooterTab] = React.useState<'model' | 'legal' | null>(null);
 
   const handleJoinSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -422,7 +423,8 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-join-keybox span{ font-family:'Sora',sans-serif; font-weight:800; font-size:14px; letter-spacing:0.03em; }
         .term-join-keybox button{ flex-shrink:0; border:1px solid var(--term-line); background:#fff; color:var(--term-ink); font-family:'Sora',sans-serif; font-weight:700; font-size:12px; padding:8px 14px; border-radius:100px; cursor:pointer; }
         /* Animations : apparition au scroll + survol */
-        .term-reveal{ opacity:0; transform:translateY(22px); transition:opacity 0.6s ease, transform 0.6s cubic-bezier(.2,.8,.2,1); }
+        .term-reveal{ opacity:0; transform:translateY(26px) scale(0.97); filter:blur(6px); transition:opacity 0.7s cubic-bezier(.16,1,.3,1), transform 0.7s cubic-bezier(.16,1,.3,1), filter 0.7s cubic-bezier(.16,1,.3,1); }
+        .term-reveal.visible{ filter:blur(0); }
         .term-reveal.visible{ opacity:1; transform:translateY(0); }
         .term-pillar{ transition:transform 0.3s cubic-bezier(.2,.8,.2,1), box-shadow 0.3s ease, opacity 0.6s ease; }
         .term-pillar:hover{ transform:translateY(-6px); box-shadow:0 16px 32px rgba(0,0,0,0.14); }
@@ -458,6 +460,13 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-cta-inner{ display:flex; justify-content:space-between; align-items:center; gap:24px; flex-wrap:wrap; }
         .term-cta h2{ font-weight:800; font-size:clamp(24px,3vw,34px); max-width:22ch; color:var(--term-ink); }
         .term-footer{ background:var(--term-ink); color:#B9B7C7; padding-top:48px; }
+        .term-footer-tabs{ padding:32px 0 8px; }
+        .term-tabs-row{ display:flex; gap:10px; flex-wrap:wrap; }
+        .term-tab{ background:var(--term-grey); border:none; padding:11px 20px; border-radius:100px; font-family:'Sora',sans-serif; font-weight:700; font-size:13px; color:var(--term-ink-soft); cursor:pointer; transition:background 0.25s ease, color 0.25s ease; }
+        .term-tab:hover{ background:var(--term-lav); }
+        .term-tab.active{ background:var(--term-ink); color:#fff; }
+        .term-tab-panel{ margin-top:24px; animation:termTabIn 0.3s ease; }
+        @keyframes termTabIn{ from{ opacity:0; transform:translateY(-8px); } to{ opacity:1; transform:translateY(0); } }
         .term-model{ padding:72px 0; background:var(--term-grey); }
         .term-model-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:32px; }
         @media (max-width:800px){ .term-model-grid{ grid-template-columns:1fr; } }
@@ -527,7 +536,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       <section className="term-pillars" id="pillars" style={{ scrollMarginTop: 80 }}>
         <div className="term-wrap">
           <div className="term-eyebrow">{t('Le Score LYA', 'The LYA Score')}</div>
-          <h2 style={{ fontWeight: 700, fontSize: 'clamp(26px,3.2vw,38px)', marginBottom: 36 }}>
+          <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(26px,3.2vw,38px)', marginBottom: 36 }}>
             <span className="term-gradient-text">{t('Cinq critères.', 'Five criteria.')}</span> {t('Un standard commun à tout le secteur créatif.', 'One standard shared across the whole creative sector.')}
           </h2>
           <div className="term-pillars-grid">
@@ -642,7 +651,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       <section className="term-newera">
         <div className="term-wrap">
           <div className="term-eyebrow">Une nouvelle ère</div>
-          <h2 style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px) ' }}>Pour l'excellence créative.</h2>
+          <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px) ' }}>Pour l'excellence créative.</h2>
           <div className="term-newera-grid">
             {newEra.map(c => (
               <div key={c.n} className="term-newera-card term-reveal">
@@ -660,7 +669,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       <section className="term-compare">
         <div className="term-wrap">
           <div className="term-eyebrow">{t('Comparaison', 'Comparison')}</div>
-          <h2 style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t("Ce que LYA est — et n'est pas.", "What LYA is — and isn't.")}</h2>
+          <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t("Ce que LYA est — et n'est pas.", "What LYA is — and isn't.")}</h2>
           <div className="term-compare-grid">
             <div className="term-compare-col is term-reveal">
               <span className="term-compare-badge">{t('CE QUE LYA EST', 'WHAT LYA IS')}</span>
@@ -683,7 +692,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       <section className="term-history">
         <div className="term-wrap">
           <div className="term-eyebrow">{t('Notre histoire', 'Our history')}</div>
-          <h2 style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)', maxWidth: '20ch' }}>{t("Vingt ans avant d'avoir un nom pour ça.", 'Twenty years before it had a name.')}</h2>
+          <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)', maxWidth: '20ch' }}>{t("Vingt ans avant d'avoir un nom pour ça.", 'Twenty years before it had a name.')}</h2>
           <div className="term-history-grid">
             <div className="term-history-text">
               <p>{t(
@@ -711,7 +720,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       <section className="term-values">
         <div className="term-wrap">
           <div className="term-eyebrow">{t('Nos valeurs', 'Our values')}</div>
-          <h2 style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t('Ce qui ne bouge pas, même quand tout évolue.', "What doesn't move, even as everything evolves.")}</h2>
+          <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t('Ce qui ne bouge pas, même quand tout évolue.', "What doesn't move, even as everything evolves.")}</h2>
           <div className="term-values-grid">
             {values.map(v => (
               <div key={v.n}>
@@ -728,7 +737,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       <section className="term-why">
         <div className="term-wrap">
           <div className="term-eyebrow">{t('Pourquoi LYA', 'Why LYA')}</div>
-          <h2 style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t("Une reconnaissance qui se construit, pas qui s'achète.", 'Recognition that is built, not bought.')}</h2>
+          <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t("Une reconnaissance qui se construit, pas qui s'achète.", 'Recognition that is built, not bought.')}</h2>
           <div className="term-why-grid">
             <div className="term-why-item"><div className="n">01</div><h4>{t('Transparent', 'Transparent')}</h4><p>{t('Cinq critères clairs, expliqués, jamais une boîte noire.', 'Five clear, explained criteria — never a black box.')}</p></div>
             <div className="term-why-item"><div className="n">02</div><h4>{t('Communautaire', 'Community-driven')}</h4><p>{t('Artistes, mécènes et professionnels avancent ensemble.', 'Artists, patrons and professionals move forward together.')}</p></div>
@@ -741,7 +750,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       <section className="term-registry" id="registry" style={{ scrollMarginTop: 80 }}>
         <div className="term-wrap">
           <div className="term-eyebrow">{t('Le registre', 'The registry')}</div>
-          <h2 style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t('Parcourez des projets déjà certifiés', 'Browse already certified projects')}</h2>
+          <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t('Parcourez des projets déjà certifiés', 'Browse already certified projects')}</h2>
           <div className="term-reg-scroll">
             {registry.map((r, i) => (
               <div key={r.title} className="term-reg-card term-reveal" onClick={() => setSelected(i)} style={{ cursor: 'pointer' }}>
@@ -783,7 +792,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       <section className="term-network">
         <div className="term-wrap">
           <div className="term-eyebrow">{t('Le réseau LYA', 'The LYA network')}</div>
-          <h2 style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t('Trois rôles, un seul standard.', 'Three roles, one single standard.')}</h2>
+          <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t('Trois rôles, un seul standard.', 'Three roles, one single standard.')}</h2>
           <div className="term-network-grid">
             <div className="term-network-card term-reveal">
               <div className="n" style={{ color: '#3ADB76' }}>01</div>
@@ -811,7 +820,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       <section className="term-security">
         <div className="term-wrap">
           <div className="term-eyebrow">{t('Sécurité & confiance', 'Security & trust')}</div>
-          <h2 style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t('Bâti sur des fondations rigoureuses.', 'Built on rigorous foundations.')}</h2>
+          <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t('Bâti sur des fondations rigoureuses.', 'Built on rigorous foundations.')}</h2>
           <div className="term-security-grid">
             <div className="term-security-item term-reveal"><Shield size={18} /><span>{t('Conforme RGPD — protection des données de bout en bout', 'GDPR compliant — end-to-end data protection')}</span></div>
             <div className="term-security-item term-reveal"><Shield size={18} /><span>{t('Droits créatifs certifiés légalement à chaque étape', 'Legally certified creative rights at every step')}</span></div>
@@ -859,12 +868,12 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       <section className="term-pricing" id="pricing" style={{ scrollMarginTop: 80 }}>
         <div className="term-wrap">
           <div className="term-eyebrow">{t('Tarifs', 'Pricing')}</div>
-          <h2 style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t('3 certifications gratuites, mécéner toujours gratuit.', '3 free certifications, patronizing always free.')}</h2>
+          <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t('Commencez gratuitement. Grandissez à votre rythme.', 'Start for free. Grow at your own pace.')}</h2>
           <div className="term-price-grid">
-            <div className="term-price lav term-reveal"><div><div className="name">{t('Gratuit', 'Free')}</div><div className="amount">0€</div><div className="desc">{t('3 certifications offertes, puis 5€/certification', '3 free certifications, then €5/certification')}</div></div></div>
-            <div className="term-price grey term-reveal"><div><div className="name">Pro Starter</div><div className="amount">79€<span style={{ fontSize: 13 }}>{t('/mois', '/mo')}</span></div><div className="desc">{t('Certifications illimitées, traitement prioritaire', 'Unlimited certifications, priority processing')}</div></div></div>
-            <div className="term-price dark term-reveal"><div><div className="name">Pro Advanced</div><div className="amount">249€<span style={{ fontSize: 13 }}>{t('/mois', '/mo')}</span></div><div className="desc">{t('Certification la plus rapide, analytics, API', 'Fastest certification, analytics, API')}</div></div></div>
-            <div className="term-price lav term-reveal"><div><div className="name">{t('Entreprise', 'Enterprise')}</div><div className="amount">{t('Sur mesure', 'Custom')}</div><div className="desc">{t('Volumes élevés, contrat dédié', 'High volumes, dedicated contract')}</div></div></div>
+            <div className="term-price lav term-reveal"><div><div className="name">{t('Créateur', 'Creator')}</div><div className="amount">0€</div><div className="desc">{t('Jusqu\'à 3 projets, Score LYA gratuit, certifications suppl. à 5€', 'Up to 3 projects, free LYA Score, extra certifications at €5')}</div></div></div>
+            <div className="term-price grey term-reveal"><div><div className="name">Pro Starter</div><div className="amount">79€<span style={{ fontSize: 13 }}>{t('/mois', '/mo')}</span></div><div className="desc">{t('Soumissions illimitées, accès complet au registre, file prioritaire', 'Unlimited submissions, full registry access, priority queue')}</div></div></div>
+            <div className="term-price dark term-reveal"><div><div className="name">Pro Advanced</div><div className="amount">249€<span style={{ fontSize: 13 }}>{t('/mois', '/mo')}</span></div><div className="desc">{t('Tout Pro Starter + accès API + gestionnaire de compte dédié', 'Everything in Pro Starter + API access + dedicated account manager')}</div></div></div>
+            <div className="term-price lav term-reveal"><div><div className="name">{t('Entreprise institutionnelle', 'Institutional Enterprise')}</div><div className="amount">15 000€<span style={{ fontSize: 13 }}>{t('/mois', '/mo')}</span></div><div className="desc">{t('Certification de catalogue complet, studios/labels/éditeurs, support 24/7', 'Full catalog certification, for studios/labels/publishers, 24/7 support')}</div></div></div>
           </div>
         </div>
       </section>
@@ -974,53 +983,59 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         </div>
       )}
 
-      {/* Notre Modele : vrai contenu de la page "Our Model" de l'outil */}
-      <section className="term-model" id="model">
+      {/* Notre Modele + Mentions legales : onglet dedie en bas de page,
+          plus dans le flux principal du scroll comme demande. */}
+      <section className="term-footer-tabs" id="model">
         <div className="term-wrap">
-          <div className="term-eyebrow">{t('Notre modèle', 'Our model')}</div>
-          <h2 style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t('Un nouveau standard pour la création mondiale.', 'A new standard for global creation.')}</h2>
-          <div className="term-model-grid">
-            <div className="term-model-card term-reveal">
-              <div className="n">01</div>
-              <h4>{t('Simple & pour tous', 'Simple & for everyone')}</h4>
-              <p>{t("Le modèle LYA transforme l'évaluation créative complexe en un Score simple et objectif. Cela permet à n'importe qui — artiste, mécène ou simple passionné — de comprendre la qualité d'un projet et de soutenir sa réussite.", "The LYA model turns complex creative evaluation into a simple, objective Score. This allows anyone — artist, patron, or casual fan — to understand a project's quality and support its success.")}</p>
-            </div>
-            <div className="term-model-card term-reveal">
-              <div className="n">02</div>
-              <h4>{t('Un standard de certification, pas un produit financier', 'A certification standard, not a financial product')}</h4>
-              <p>{t('Les créateurs se font certifier, les mécènes soutiennent les projets auxquels ils croient et reçoivent en retour des contreparties de reconnaissance. Direct, simple, sans instrument financier.', 'Creators get certified, patrons support projects they believe in and receive recognition-based considerations in return. Direct, easy, no financial instrument.')}</p>
-            </div>
-            <div className="term-model-card term-reveal">
-              <div className="n">03</div>
-              <h4>{t('Un succès collaboratif', 'Collaborative success')}</h4>
-              <p>{t('LinkYourArt est un pont. Nous unissons les créateurs qui ont besoin de visibilité avec une communauté qui veut découvrir et défendre des œuvres nouvelles.', 'LinkYourArt is a bridge. We unite creators who need visibility with a community that wants to discover and champion new works.')}</p>
-            </div>
+          <div className="term-tabs-row">
+            <button className={`term-tab ${footerTab === 'model' ? 'active' : ''}`} onClick={() => setFooterTab(footerTab === 'model' ? null : 'model')}>{t('Notre modèle', 'Our model')}</button>
+            <button className={`term-tab ${footerTab === 'legal' ? 'active' : ''}`} onClick={() => setFooterTab(footerTab === 'legal' ? null : 'legal')} id="legal">{t('Informations légales', 'Legal information')}</button>
           </div>
-        </div>
-      </section>
 
-      {/* Informations legales, condensees — vrai contenu de la page Mentions Legales */}
-      <section className="term-legal" id="legal" style={{ scrollMarginTop: 80 }}>
-        <div className="term-wrap">
-          <div className="term-eyebrow">{t('Informations légales', 'Legal information')}</div>
-          <div className="term-legal-grid">
-            <div className="term-legal-item term-reveal">
-              <h5>{t('Identité', 'Identity')}</h5>
-              <p>{t('LINKYOURART SASU, société immatriculée en France, 122 rue Amelot, 75011 Paris. SIRET : 108 141 946 00013. Fondée par Jean-Baptiste Lequime.', 'LINKYOURART SASU, a company registered in France, 122 rue Amelot, 75011 Paris. SIRET: 108 141 946 00013. Founded by Jean-Baptiste Lequime.')}</p>
+          {footerTab === 'model' && (
+            <div className="term-tab-panel">
+              <div className="term-model-grid">
+                <div className="term-model-card">
+                  <div className="n">01</div>
+                  <h4>{t('Simple & pour tous', 'Simple & for everyone')}</h4>
+                  <p>{t("Le modèle LYA transforme l'évaluation créative complexe en un Score simple et objectif. Cela permet à n'importe qui — artiste, mécène ou simple passionné — de comprendre la qualité d'un projet et de soutenir sa réussite.", "The LYA model turns complex creative evaluation into a simple, objective Score. This allows anyone — artist, patron, or casual fan — to understand a project's quality and support its success.")}</p>
+                </div>
+                <div className="term-model-card">
+                  <div className="n">02</div>
+                  <h4>{t('Un standard de certification, pas un produit financier', 'A certification standard, not a financial product')}</h4>
+                  <p>{t('Les créateurs se font certifier, les mécènes soutiennent les projets auxquels ils croient et reçoivent en retour des contreparties de reconnaissance. Direct, simple, sans instrument financier.', 'Creators get certified, patrons support projects they believe in and receive recognition-based considerations in return. Direct, easy, no financial instrument.')}</p>
+                </div>
+                <div className="term-model-card">
+                  <div className="n">03</div>
+                  <h4>{t('Un succès collaboratif', 'Collaborative success')}</h4>
+                  <p>{t('LinkYourArt est un pont. Nous unissons les créateurs qui ont besoin de visibilité avec une communauté qui veut découvrir et défendre des œuvres nouvelles.', 'LinkYourArt is a bridge. We unite creators who need visibility with a community that wants to discover and champion new works.')}</p>
+                </div>
+              </div>
             </div>
-            <div className="term-legal-item term-reveal">
-              <h5>{t('Propriété intellectuelle', 'Intellectual property')}</h5>
-              <p>{t("Logo, nom, design et algorithme du Score LYA sont la propriété exclusive de LINKYOURART SASU. Les projets créatifs enregistrés restent la propriété exclusive de leurs créateurs.", 'Logo, name, design and the LYA Score algorithm are the exclusive property of LINKYOURART SASU. Registered creative projects remain the exclusive property of their creators.')}</p>
+          )}
+
+          {footerTab === 'legal' && (
+            <div className="term-tab-panel">
+              <div className="term-legal-grid">
+                <div className="term-legal-item">
+                  <h5>{t('Identité', 'Identity')}</h5>
+                  <p>{t('LINKYOURART SASU, société immatriculée en France, 122 rue Amelot, 75011 Paris. SIRET : 108 141 946 00013. Fondée par Jean-Baptiste Lequime.', 'LINKYOURART SASU, a company registered in France, 122 rue Amelot, 75011 Paris. SIRET: 108 141 946 00013. Founded by Jean-Baptiste Lequime.')}</p>
+                </div>
+                <div className="term-legal-item">
+                  <h5>{t('Propriété intellectuelle', 'Intellectual property')}</h5>
+                  <p>{t("Logo, nom, design et algorithme du Score LYA sont la propriété exclusive de LINKYOURART SASU. Les projets créatifs enregistrés restent la propriété exclusive de leurs créateurs.", 'Logo, name, design and the LYA Score algorithm are the exclusive property of LINKYOURART SASU. Registered creative projects remain the exclusive property of their creators.')}</p>
+                </div>
+                <div className="term-legal-item">
+                  <h5>{t('Données personnelles & RGPD', 'Personal data & GDPR')}</h5>
+                  <p>{t('Nom, email et rôle sont collectés uniquement pour le fonctionnement de la plateforme. Droit d\'accès, de rectification et de suppression. Vos données ne sont jamais vendues.', 'Name, email and role are collected solely to operate the platform. Right to access, rectify and delete. Your data is never sold.')}</p>
+                </div>
+                <div className="term-legal-item">
+                  <h5>{t('Hébergement', 'Hosting')}</h5>
+                  <p>{t("Hébergé par Vercel Inc. (San Francisco, USA), avec Firebase (Google LLC) pour les données. Stockage conforme au RGPD.", 'Hosted by Vercel Inc. (San Francisco, USA), with Firebase (Google LLC) for data. GDPR-compliant storage.')}</p>
+                </div>
+              </div>
             </div>
-            <div className="term-legal-item term-reveal">
-              <h5>{t('Données personnelles & RGPD', 'Personal data & GDPR')}</h5>
-              <p>{t('Nom, email et rôle sont collectés uniquement pour le fonctionnement de la plateforme. Droit d\'accès, de rectification et de suppression. Vos données ne sont jamais vendues.', 'Name, email and role are collected solely to operate the platform. Right to access, rectify and delete. Your data is never sold.')}</p>
-            </div>
-            <div className="term-legal-item term-reveal">
-              <h5>{t('Hébergement', 'Hosting')}</h5>
-              <p>{t("Hébergé par Vercel Inc. (San Francisco, USA), avec Firebase (Google LLC) pour les données. Stockage conforme au RGPD.", 'Hosted by Vercel Inc. (San Francisco, USA), with Firebase (Google LLC) for data. GDPR-compliant storage.')}</p>
-            </div>
-          </div>
+          )}
         </div>
       </section>
 
@@ -1050,8 +1065,8 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
             </div>
             <div>
               <h5>{t('LÉGAL', 'LEGAL')}</h5>
-              <a href="#legal">{t('Mentions légales', 'Legal notice')}</a>
-              <a href="#legal">{t('Confidentialité', 'Privacy')}</a>
+              <a href="#legal" onClick={(e) => { e.preventDefault(); setFooterTab('legal'); document.getElementById('legal')?.scrollIntoView({ behavior: 'smooth', block: 'center' }); }}>{t('Mentions légales', 'Legal notice')}</a>
+              <a href="#legal" onClick={(e) => { e.preventDefault(); setFooterTab('legal'); document.getElementById('legal')?.scrollIntoView({ behavior: 'smooth', block: 'center' }); }}>{t('Confidentialité', 'Privacy')}</a>
             </div>
           </div>
           <div className="term-foot-bottom">
