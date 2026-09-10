@@ -290,24 +290,33 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-network{ padding:72px 0; }
         .term-network-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:32px; }
         @media (max-width:800px){ .term-network-grid{ grid-template-columns:1fr; } }
-        .term-network-card{ background:var(--term-grey); border-radius:18px; padding:28px 24px; transition:transform 0.3s cubic-bezier(.2,.8,.2,1); }
+        .term-network-card{ background:var(--term-grey); border-radius:18px; padding:28px 24px; border-top:3px solid transparent; transition:transform 0.3s cubic-bezier(.2,.8,.2,1); }
+        .term-network-card:nth-child(1){ border-top-color:#3ADB76; }
+        .term-network-card:nth-child(2){ border-top-color:#7E1CF1; }
+        .term-network-card:nth-child(3){ border-top-color:#E61A97; }
         .term-network-card:hover{ transform:translateY(-6px) scale(1.02); box-shadow:0 16px 34px rgba(0,0,0,0.1); }
         .term-network-card .n{ font-family:'Sora',sans-serif; font-weight:800; font-size:26px; margin-bottom:14px; }
         .term-network-card h4{ font-size:16px; font-weight:700; margin-bottom:4px; }
         .term-network-card .who{ font-size:11px; font-weight:600; color:#8A87A8; text-transform:uppercase; letter-spacing:0.02em; margin-bottom:12px; }
         .term-network-card p{ font-size:13px; line-height:1.6; color:var(--term-ink-soft); }
-        .term-registry-intro{ max-width:64ch; margin:12px 0 28px; display:flex; flex-direction:column; gap:10px; }
+        .term-registry-intro{ max-width:64ch; margin:16px 0 32px; display:flex; flex-direction:column; gap:12px; padding:22px 26px; border-radius:16px; background:linear-gradient(135deg, rgba(126,28,241,0.06), rgba(230,26,151,0.04)); border-left:3px solid #7E1CF1; }
         .term-registry-intro p{ font-size:14px; line-height:1.65; color:var(--term-ink-soft); }
         .term-independence{ padding:56px 0; background:var(--term-grey); }
         .term-independence-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:28px; }
         @media (max-width:800px){ .term-independence-grid{ grid-template-columns:1fr; } }
-        .term-independence-card{ background:#fff; border-radius:16px; padding:26px 24px; transition:transform 0.3s cubic-bezier(.2,.8,.2,1); }
+        .term-independence-card{ background:#fff; border-radius:16px; padding:26px 24px; border-left:3px solid transparent; box-shadow:0 4px 16px rgba(0,0,0,0.04); transition:transform 0.3s cubic-bezier(.2,.8,.2,1); }
+        .term-independence-card:nth-child(1){ border-left-color:#7E1CF1; }
+        .term-independence-card:nth-child(2){ border-left-color:#E61A97; }
         .term-independence-card:hover{ transform:translateY(-5px); }
         .term-independence-card h4{ font-family:'Sora',sans-serif; font-weight:700; font-size:15px; margin-bottom:10px; }
         .term-independence-card p{ font-size:13px; line-height:1.6; color:var(--term-ink-soft); }
         .term-security{ padding:56px 0 72px; }
         .term-security-grid{ display:flex; flex-direction:column; gap:2px; margin-top:28px; border-radius:16px; overflow:hidden; }
         .term-security-item{ display:flex; align-items:center; gap:14px; background:var(--term-grey); padding:18px 22px; font-size:14px; font-weight:500; transition:background 0.25s ease, padding-left 0.25s ease; }
+        .term-sec-ico{ width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; color:#fff; }
+        .term-sec-ico.ico1{ background:#3ADB76; }
+        .term-sec-ico.ico2{ background:#7E1CF1; }
+        .term-sec-ico.ico3{ background:#02C6FA; }
         .term-security-item:hover{ background:#E4F9EC; padding-left:28px; }
         .term-security-item svg{ color:#3ADB76; flex-shrink:0; }
         .term-milestone{ padding:64px 0; background:var(--term-grey); }
@@ -347,7 +356,15 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-validation-sub{ font-size:14px; color:var(--term-ink-soft); max-width:56ch; margin:8px 0 32px; }
         .term-validation-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
         @media (max-width:800px){ .term-validation-grid{ grid-template-columns:1fr 1fr; } }
-        .term-validation-step{ background:var(--term-grey); border-radius:16px; padding:22px 20px; transition:transform 0.3s cubic-bezier(.2,.8,.2,1); }
+        .term-validation-step{ background:var(--term-grey); border-radius:16px; padding:22px 20px; border-top:3px solid transparent; transition:transform 0.3s cubic-bezier(.2,.8,.2,1), box-shadow 0.3s ease; }
+        .term-validation-step:nth-child(1){ border-top-color:#7E1CF1; }
+        .term-validation-step:nth-child(2){ border-top-color:#E61A97; }
+        .term-validation-step:nth-child(3){ border-top-color:#02C6FA; }
+        .term-validation-step:nth-child(4){ border-top-color:#3ADB76; }
+        .term-validation-step:nth-child(1) .num{ color:#7E1CF1; }
+        .term-validation-step:nth-child(2) .num{ color:#E61A97; }
+        .term-validation-step:nth-child(3) .num{ color:#02C6FA; }
+        .term-validation-step:nth-child(4) .num{ color:#3ADB76; }
         .term-validation-step:hover{ transform:translateY(-5px); }
         .term-validation-step .num{ font-family:'Sora',sans-serif; font-weight:800; font-size:13px; color:#7E1CF1; }
         .term-validation-step h5{ font-family:'Sora',sans-serif; font-weight:700; font-size:14.5px; margin:10px 0 6px; }
@@ -885,9 +902,9 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
           <div className="term-eyebrow">{t('Sécurité & confiance', 'Security & trust')}</div>
           <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t('Bâti sur des fondations rigoureuses.', 'Built on rigorous foundations.')}</h2>
           <div className="term-security-grid">
-            <div className="term-security-item term-reveal"><Shield size={18} /><span>{t('Conforme RGPD — protection des données de bout en bout', 'GDPR compliant — end-to-end data protection')}</span></div>
-            <div className="term-security-item term-reveal"><Shield size={18} /><span>{t('Droits créatifs certifiés légalement à chaque étape', 'Legally certified creative rights at every step')}</span></div>
-            <div className="term-security-item term-reveal"><Shield size={18} /><span>{t('Authentification multi-facteurs & infrastructure sécurisée', 'Multi-factor authentication & secure infrastructure')}</span></div>
+            <div className="term-security-item term-reveal"><span className="term-sec-ico ico1"><Shield size={16} /></span><span>{t('Conforme RGPD — protection des données de bout en bout', 'GDPR compliant — end-to-end data protection')}</span></div>
+            <div className="term-security-item term-reveal"><span className="term-sec-ico ico2"><Shield size={16} /></span><span>{t('Droits créatifs certifiés légalement à chaque étape', 'Legally certified creative rights at every step')}</span></div>
+            <div className="term-security-item term-reveal"><span className="term-sec-ico ico3"><Shield size={16} /></span><span>{t('Authentification multi-facteurs & infrastructure sécurisée', 'Multi-factor authentication & secure infrastructure')}</span></div>
           </div>
         </div>
       </section>
