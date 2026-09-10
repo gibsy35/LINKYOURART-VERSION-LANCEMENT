@@ -1347,7 +1347,7 @@ export const AdminView: React.FC<{
                       <p className="text-xs text-on-surface-variant/40 mt-1">{t('Validate or reject each project before publishing on the LYA Registry', 'Validez ou refusez chaque projet avant publication sur le Registre LYA')}</p>
                     </div>
                     <div className="flex gap-2">
-                      <span className="px-3 py-1 bg-amber-500/10 border border-amber-500/20 rounded-lg text-xs font-black text-amber-500">{pendingSubmissions.filter(s => s.status === 'PENDING_VALIDATION').length} {t('pending', 'en attente')}</span>
+                      <span className="px-3 py-1 bg-violet-500/10 border border-violet-500/20 rounded-lg text-xs font-black text-violet-500">{pendingSubmissions.filter(s => s.status === 'PENDING_VALIDATION').length} {t('pending', 'en attente')}</span>
                       <span className="px-3 py-1 bg-emerald-400/10 border border-emerald-400/20 rounded-lg text-xs font-black text-emerald-400">{pendingSubmissions.filter(s => s.status === 'PUBLISHED').length} {t('published', 'publiés')}</span>
                     </div>
                   </div>
@@ -1359,11 +1359,11 @@ export const AdminView: React.FC<{
                   ) : (
                     <div className="space-y-3">
                       {pendingSubmissions.map((sub) => (
-                        <div key={sub.id} className={`bg-surface-low border rounded-2xl p-5 transition-all ${sub.status === 'PUBLISHED' ? 'border-emerald-400/20' : sub.status === 'REJECTED' ? 'border-rose-400/20 opacity-60' : 'border-amber-500/25'}`}>
+                        <div key={sub.id} className={`bg-surface-low border rounded-2xl p-5 transition-all ${sub.status === 'PUBLISHED' ? 'border-emerald-400/20' : sub.status === 'REJECTED' ? 'border-rose-400/20 opacity-60' : 'border-violet-500/25'}`}>
                           <div className="flex items-start justify-between gap-4">
                             <div className="flex-1 min-w-0 space-y-2">
                               <div className="flex items-center gap-2 flex-wrap">
-                                <span className={`px-2 py-0.5 rounded text-[9px] font-black uppercase ${sub.status === 'PUBLISHED' ? 'bg-emerald-400/10 text-emerald-400 border border-emerald-400/20' : sub.status === 'REJECTED' ? 'bg-rose-400/10 text-rose-400 border border-rose-400/20' : 'bg-amber-500/10 text-amber-500 border border-amber-500/20'}`}>
+                                <span className={`px-2 py-0.5 rounded text-[9px] font-black uppercase ${sub.status === 'PUBLISHED' ? 'bg-emerald-400/10 text-emerald-400 border border-emerald-400/20' : sub.status === 'REJECTED' ? 'bg-rose-400/10 text-rose-400 border border-rose-400/20' : 'bg-violet-500/10 text-violet-500 border border-violet-500/20'}`}>
                                   {sub.status === 'PUBLISHED' ? '✓ ' + t('Published', 'Publié') : sub.status === 'REJECTED' ? '✗ ' + t('Rejected', 'Refusé') : '● ' + t('En attente', 'Pending')}
                                 </span>
                                 {sub.category && <span className="px-2 py-0.5 bg-white/5 border border-white/10 rounded text-[9px] font-black text-white/50">{sub.category}</span>}
@@ -1705,7 +1705,7 @@ export const AdminView: React.FC<{
               <div className={`relative flex items-center justify-center gap-2 px-4 py-3 rounded-xl border mb-6 ${
                 approvalSuccessModal.emailSent 
                   ? 'bg-emerald-500/10 border-emerald-500/25 text-emerald-400' 
-                  : 'bg-amber-500/10 border-amber-500/25 text-amber-400'
+                  : 'bg-violet-500/10 border-violet-500/25 text-violet-400'
               }`}>
                 {approvalSuccessModal.emailSent ? <Mail size={14} /> : <ShieldAlert size={14} />}
                 <span className="text-[11px] font-black uppercase tracking-widest">
