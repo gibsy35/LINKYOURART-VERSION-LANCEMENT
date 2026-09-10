@@ -62,7 +62,7 @@ import { useMarketData } from './hooks/useMarketData';
 import { auth, db, handleFirestoreError, OperationType, testConnection, logAuthDebugEvent } from './firebase';
 import { onAuthStateChanged, signOut, getRedirectResult } from 'firebase/auth';
 import { doc, onSnapshot, getDoc, updateDoc, setDoc, collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import { TerminalView } from './views/TerminalView';
+import { PublicHomeView } from './views/PublicHomeView';
 export default function App() {
   const { t, language } = useTranslation();
   const { contracts: liveContracts } = useMarketData();
@@ -72,7 +72,7 @@ export default function App() {
   // se perdait a chaque nouvelle URL de deploiement Vercel. Cliquer sur un
   // bouton du Terminal fait sortir vers le vrai flux (LANDING / LOGIN).
   // main n'est pas touchee par ce changement, il reste sur son propre code.
-  const [showTerminalPreview, setShowTerminalPreview] = useState(true);
+  const [showPublicHome, setShowPublicHome] = useState(true);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [is404, setIs404] = useState(false);
   React.useEffect(() => {
@@ -572,14 +572,14 @@ export default function App() {
     );
   }
 
-  // Ecran d'entree de cette branche (Refonte-vitrine) : le nouveau Terminal.
+  // Ecran d'entree de cette branche (Refonte-vitrine) : la nouvelle Home publique.
   // Point d'acces temporaire et isole, sans toucher au comportement de main —
   // a retirer une fois la direction validee et le vrai routage mis en place.
-  if (showTerminalPreview) {
+  if (showPublicHome) {
     return (
-      <TerminalView
-        onJoin={() => { setShowTerminalPreview(false); setCurrentView('LANDING'); }}
-        onLogin={() => { setShowTerminalPreview(false); setCurrentView('LOGIN'); }}
+      <PublicHomeView
+        onJoin={() => { setShowPublicHome(false); setCurrentView('LANDING'); }}
+        onLogin={() => { setShowPublicHome(false); setCurrentView('LOGIN'); }}
       />
     );
   }
