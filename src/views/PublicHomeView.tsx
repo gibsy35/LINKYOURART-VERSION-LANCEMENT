@@ -54,13 +54,13 @@ const newEra = [
 ];
 
 const registry = [
-  { title: 'Fragments Solaires', cat: 'Arts visuels', score: 842, fund: 68, catColor: '#E61A97', desc: "Une série de peintures monumentales explorant la lumière solaire comme matière brute. Le projet en est à son troisième cycle de production, avec une exposition itinérante prévue en 2027.", creator: 'Inès Vasseur', patrons: 34, status: 'En cours' },
-  { title: 'Chambre 7', cat: 'Musique', score: 778, fund: 81, catColor: '#7E1CF1', desc: "Album concept sur l'isolement urbain, entre électro minimale et field recordings. Neuf titres déjà masterisés, le dixième et dernier morceau est en cours de finalisation.", creator: 'Karim Djellal', patrons: 21, status: 'Finalisation' },
-  { title: 'Le Silence des Villes', cat: 'Écriture', score: 915, fund: 45, catColor: '#F0C55E', desc: "Roman choral suivant cinq personnages dans une capitale européenne fictive. Manuscrit complet, actuellement en lecture chez trois maisons d'édition partenaires de LYA.", creator: 'Salomé Ferrand', patrons: 58, status: 'Recherche éditeur' },
-  { title: 'Récits Suspendus', cat: 'Spectacle vivant', score: 701, fund: 29, catColor: '#3ADB76', desc: "Pièce de théâtre immersive mêlant danse contemporaine et texte improvisé. Premières lectures publiques prévues ce trimestre, création complète en développement.", creator: 'Compagnie Ombre Claire', patrons: 12, status: 'Développement' },
-  { title: 'Horizon Perdu', cat: 'Film', score: 867, fund: 74, catColor: '#FF7A45', desc: "Long-métrage indépendant sur une communauté côtière face au changement climatique. Tournage terminé, montage en cours avec une sortie festival visée pour 2027.", creator: 'Théo Marchand', patrons: 46, status: 'Post-production' },
-  { title: 'Fractures', cat: 'Série TV', score: 793, fund: 52, catColor: '#02C6FA', desc: "Série dramatique en 6 épisodes sur une famille recomposée. Pilote tourné et validé par le comité LYA, recherche de diffuseur en cours.", creator: 'Nadia Ouali', patrons: 29, status: 'Recherche diffuseur' },
-  { title: 'Néon Requiem', cat: 'Jeu vidéo', score: 888, fund: 90, catColor: '#B5308E', desc: "Jeu narratif en pixel art dans un futur urbain saturé de néons. Démo jouable disponible, campagne de mécénat ouverte pour financer le dernier acte.", creator: 'Studio Halcyon', patrons: 71, status: 'Mécénat ouvert' },
+  { title: 'Fragments Solaires', cat: 'Arts visuels', score: 842, fund: 68, catColor: '#E61A97', img: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?auto=format&fit=crop&q=80&w=800', desc: "Une série de peintures monumentales explorant la lumière solaire comme matière brute. Le projet en est à son troisième cycle de production, avec une exposition itinérante prévue en 2027.", creator: 'Inès Vasseur', patrons: 34, status: 'En cours' },
+  { title: 'Chambre 7', cat: 'Musique', score: 778, fund: 81, catColor: '#7E1CF1', img: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&q=80&w=800', desc: "Album concept sur l'isolement urbain, entre électro minimale et field recordings. Neuf titres déjà masterisés, le dixième et dernier morceau est en cours de finalisation.", creator: 'Karim Djellal', patrons: 21, status: 'Finalisation' },
+  { title: 'Le Silence des Villes', cat: 'Écriture', score: 915, fund: 45, catColor: '#F0C55E', img: 'https://images.unsplash.com/photo-1495446815901-a7297e633e8d?auto=format&fit=crop&q=80&w=800', desc: "Roman choral suivant cinq personnages dans une capitale européenne fictive. Manuscrit complet, actuellement en lecture chez trois maisons d'édition partenaires de LYA.", creator: 'Salomé Ferrand', patrons: 58, status: 'Recherche éditeur' },
+  { title: 'Récits Suspendus', cat: 'Spectacle vivant', score: 701, fund: 29, catColor: '#3ADB76', img: 'https://images.unsplash.com/photo-1503095396549-807759245b35?auto=format&fit=crop&q=80&w=800', desc: "Pièce de théâtre immersive mêlant danse contemporaine et texte improvisé. Premières lectures publiques prévues ce trimestre, création complète en développement.", creator: 'Compagnie Ombre Claire', patrons: 12, status: 'Développement' },
+  { title: 'Horizon Perdu', cat: 'Film', score: 867, fund: 74, catColor: '#FF7A45', img: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&q=80&w=800', desc: "Long-métrage indépendant sur une communauté côtière face au changement climatique. Tournage terminé, montage en cours avec une sortie festival visée pour 2027.", creator: 'Théo Marchand', patrons: 46, status: 'Post-production' },
+  { title: 'Fractures', cat: 'Série TV', score: 793, fund: 52, catColor: '#02C6FA', img: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&q=80&w=800', desc: "Série dramatique en 6 épisodes sur une famille recomposée. Pilote tourné et validé par le comité LYA, recherche de diffuseur en cours.", creator: 'Nadia Ouali', patrons: 29, status: 'Recherche diffuseur' },
+  { title: 'Néon Requiem', cat: 'Jeu vidéo', score: 888, fund: 90, catColor: '#B5308E', img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=800', desc: "Jeu narratif en pixel art dans un futur urbain saturé de néons. Démo jouable disponible, campagne de mécénat ouverte pour financer le dernier acte.", creator: 'Studio Halcyon', patrons: 71, status: 'Mécénat ouvert' },
 ];
 
 const pillarLabels = [
@@ -193,7 +193,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-hero-title{ color:#fff; font-weight:800; font-size:clamp(34px,5.2vw,58px); line-height:1.08; letter-spacing:-0.02em; max-width:19ch; position:relative; z-index:1; }
         .term-hero-sub{ color:#D6D4E2; font-size:17px; line-height:1.6; max-width:46ch; margin-top:26px; position:relative; z-index:1; }
         .term-btn-primary{ background:#fff; color:var(--term-ink); padding:14px 26px; border-radius:100px; font-weight:600; font-size:15px; border:none; cursor:pointer; }
-        .term-btn-primary:hover{ background:linear-gradient(90deg,#7E1CF1,#E61A97,#02C6FA); color:#fff; }
+        .term-btn-primary:hover{ background:var(--term-lav); }
         .term-btn-ghost{ color:#fff; background:none; border:none; padding:14px 10px; font-weight:600; font-size:15px; border-bottom:1px solid rgba(255,255,255,0.4); cursor:pointer; }
         .term-section-cta{ margin-top:32px; text-align:left; }
         .term-section-cta button{ background:none; border:none; font-family:'Sora',sans-serif; font-weight:700; font-size:14px; color:var(--term-ink); border-bottom:2px solid #7E1CF1; padding-bottom:2px; cursor:pointer; }
@@ -327,6 +327,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-join-error{ background:#FBE4EF; color:#7A2062; font-size:12.5px; padding:10px 14px; border-radius:10px; margin-bottom:14px; }
         .term-join-submit{ width:100%; background:var(--term-ink); color:#fff; border:none; padding:14px; border-radius:100px; font-family:'Sora',sans-serif; font-weight:700; font-size:14.5px; cursor:pointer; margin-top:6px; }
         .term-join-submit.secondary-close{ background:none; color:var(--term-ink-soft); }
+        .term-join-later-link{ display:block; margin:14px auto 0; background:none; border:none; color:var(--term-ink-soft); font-size:13px; text-decoration:underline; cursor:pointer; }
         .term-join-submit:disabled{ opacity:0.6; cursor:default; }
         .term-join-success .icon{ width:52px; height:52px; border-radius:50%; background:linear-gradient(135deg,#7E1CF1,#02C6FA); display:flex; align-items:center; justify-content:center; color:#fff; font-size:24px; font-weight:800; margin-bottom:18px; font-family:'Sora',sans-serif; }
         .term-join-success .pos{ font-size:13px; color:var(--term-ink-soft); margin-bottom:4px; }
@@ -335,7 +336,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-join-steps .step b{ color:var(--term-ink); }
         .term-join-keybox{ margin-top:16px; display:flex; align-items:center; justify-content:space-between; gap:10px; background:var(--term-grey); border:1px dashed var(--term-line); border-radius:12px; padding:12px 14px; }
         .term-join-keybox span{ font-family:'Sora',sans-serif; font-weight:800; font-size:14px; letter-spacing:0.03em; }
-        .term-join-keybox button{ flex-shrink:0; border:none; background:linear-gradient(90deg,#7E1CF1,#E61A97,#02C6FA); color:#fff; font-family:'Sora',sans-serif; font-weight:700; font-size:12px; padding:8px 14px; border-radius:100px; cursor:pointer; }
+        .term-join-keybox button{ flex-shrink:0; border:1px solid var(--term-line); background:#fff; color:var(--term-ink); font-family:'Sora',sans-serif; font-weight:700; font-size:12px; padding:8px 14px; border-radius:100px; cursor:pointer; }
         /* Animations : apparition au scroll + survol */
         .term-reveal{ opacity:0; transform:translateY(22px); transition:opacity 0.6s ease, transform 0.6s cubic-bezier(.2,.8,.2,1); }
         .term-reveal.visible{ opacity:1; transform:translateY(0); }
@@ -559,7 +560,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
           <div className="term-reg-scroll">
             {registry.map((r, i) => (
               <div key={r.title} className="term-reg-card term-reveal" onClick={() => setSelected(i)} style={{ cursor: 'pointer' }}>
-                <div className="term-reg-art" style={{ background: `linear-gradient(150deg, ${r.catColor}, #0B0E14)` }}>
+                <div className="term-reg-art" style={{ backgroundImage: `linear-gradient(to top, rgba(11,14,20,0.85) 0%, rgba(11,14,20,0.05) 55%), url(${r.img})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
                   <div className="term-reg-tags">
                     <span className="term-reg-tag" style={{ background: r.catColor }}>{r.cat.toUpperCase()}</span>
                     <span className="term-reg-tag status">CERTIFIED</span>
@@ -586,7 +587,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       {project && (
         <div className="term-modal-overlay" onClick={(e) => { if (e.target === e.currentTarget) setSelected(null); }}>
           <div className="term-modal-card">
-            <div className="term-modal-cover" style={{ background: `linear-gradient(150deg, ${project.catColor}, #0B0E14)` }}>
+            <div className="term-modal-cover" style={{ backgroundImage: `linear-gradient(to top, rgba(11,14,20,0.75) 0%, rgba(11,14,20,0.05) 55%), url(${project.img})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
               <button className="term-modal-close" onClick={() => setSelected(null)}>×</button>
               <div className="term-modal-score"><span className="val">{project.score}</span><span className="max">/1000</span></div>
             </div>
@@ -713,7 +714,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
                         <button
                           type="button"
                           className="term-join-submit"
-                          style={{ marginTop: 12, background: 'linear-gradient(90deg,#7E1CF1,#E61A97,#02C6FA)' }}
+                          style={{ marginTop: 12 }}
                           onClick={() => {
                             if (!joinResult.accessKey) return;
                             try {
@@ -723,13 +724,13 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
                             onSignup?.({ code: joinResult.accessKey, email: joinEmail });
                           }}
                         >
-                          {t('Activer ma clé et créer mon compte →', 'Activate my key and create my account →')}
+                          {t('Créer mon compte', 'Create my account')}
                         </button>
                       </>
                     )}
                   </>
                 )}
-                <button className="term-join-submit secondary-close" onClick={closeJoin} style={{ marginTop: 10 }}>{t('Plus tard', 'Later')}</button>
+                <button className="term-join-later-link" onClick={closeJoin}>{t('Plus tard', 'Later')}</button>
               </div>
             )}
           </div>
