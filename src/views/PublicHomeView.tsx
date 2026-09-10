@@ -17,6 +17,7 @@ import { submitPreRegistration, type PreRegCategory } from '../utils/preRegistra
 interface PublicHomeViewProps {
   onJoin?: () => void;
   onLogin?: () => void;
+  onSignup?: (prefill: { code: string; email: string }) => void;
 }
 
 const pillars = [
@@ -77,7 +78,7 @@ function splitScore(score: number): number[] {
   return vals;
 }
 
-export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin }) => {
+export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin, onSignup }) => {
   const [selected, setSelected] = React.useState<number | null>(null);
   const [lang, setLang] = React.useState<'fr' | 'en'>('fr');
   const t = (fr: string, en: string) => (lang === 'fr' ? fr : en);
@@ -92,7 +93,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin 
   const [joinEmail, setJoinEmail] = React.useState('');
   const [joinSubmitting, setJoinSubmitting] = React.useState(false);
   const [joinError, setJoinError] = React.useState<string | null>(null);
-  const [joinResult, setJoinResult] = React.useState<{ position: number; tier: string } | null>(null);
+  const [joinResult, setJoinResult] = React.useState<{ position: number; tier: string; accessKey: string | null } | null>(null);
 
   const handleJoinSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -104,7 +105,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin 
         name: joinName, email: joinEmail, category: joinCat,
         language: lang === 'fr' ? 'FR' : 'EN',
       });
-      setJoinResult({ position: result.position, tier: result.tier });
+      setJoinResult({ position: result.position, tier: result.tier, accessKey: result.accessKey });
     } catch (err) {
       setJoinError(err instanceof Error ? err.message : t('Une erreur est survenue.', 'Something went wrong.'));
     } finally {
@@ -691,6 +692,22 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin 
                       <div className="step"><span>2.</span><span><b>{t('Accès activé automatiquement', 'Access activated automatically')}</b> — {t("votre position vous donne un accès immédiat, sans validation manuelle.", 'your position gives you instant access, no manual review needed.')}</span></div>
                       <div className="step"><span>3.</span><span><b>{t('Découverte de LYA', 'Discover LYA')}</b> — {t('connectez-vous avec votre clé pour explorer la plateforme.', 'log in with your key to explore the platform.')}</span></div>
                     </div>
+                    {joinResult.accessKey && (
+                      <button
+                        className="term-join-submit"
+                        style={{ marginTop: 16, background: 'linear-gradient(90deg,#7E1CF1,#E61A97,#02C6FA)' }}
+                        onClick={() => {
+                          if (!joinResult.accessKey) return;
+                          try {
+                            sessionStorage.setItem('lya_prefilled_code', joinResult.accessKey);
+                            sessionStorage.setItem('lya_prefilled_email', joinEmail);
+                          } catch { /* noop */ }
+                          onSignup?.({ code: joinResult.accessKey, email: joinEmail });
+                        }}
+                      >
+                        {t('Créer mon compte avec cette clé →', 'Create my account with this key →')}
+                      </button>
+                    )}
                   </>
                 )}
                 <button className="term-join-submit" onClick={closeJoin} style={{ marginTop: 20 }}>{t('Fermer', 'Close')}</button>
