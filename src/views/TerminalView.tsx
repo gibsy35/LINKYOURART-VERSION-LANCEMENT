@@ -19,36 +19,36 @@ interface TerminalViewProps {
 }
 
 const pillars = [
-  { n: '01', title: 'Intégrité conceptuelle', desc: 'Cohérence et clarté de la vision créative : le projet tient-il sa promesse artistique de bout en bout ?', bg: 'dark' },
-  { n: '02', title: 'Maturité actuelle', desc: "État d'avancement réel du projet : ce qui est déjà produit, documenté et vérifiable aujourd'hui.", bg: 'lav' },
-  { n: '03', title: "Capacité d'évolution", desc: 'Marge de progression du projet : sa capacité à franchir de nouveaux jalons de certification.', bg: 'grey' },
-  { n: '04', title: 'Faisabilité réelle', desc: "Solidité du plan d'exécution : ressources, calendrier et moyens réunis pour aller au bout.", bg: 'dark' },
-  { n: '05', title: 'Incarnation du porteur', desc: 'Présence et crédibilité du créateur : son engagement direct et vérifiable dans le projet.', bg: 'lav' },
+  { n: '01', title: { fr: 'Intégrité conceptuelle', en: 'Conceptual integrity' }, desc: { fr: 'Cohérence et clarté de la vision créative : le projet tient-il sa promesse artistique de bout en bout ?', en: 'Coherence and clarity of the creative vision: does the project deliver on its artistic promise end to end?' }, bg: 'dark' },
+  { n: '02', title: { fr: 'Maturité actuelle', en: 'Current maturity' }, desc: { fr: "État d'avancement réel du projet : ce qui est déjà produit, documenté et vérifiable aujourd'hui.", en: "The project's real state of progress: what is already produced, documented and verifiable today." }, bg: 'lav' },
+  { n: '03', title: { fr: "Capacité d'évolution", en: 'Growth capacity' }, desc: { fr: 'Marge de progression du projet : sa capacité à franchir de nouveaux jalons de certification.', en: 'The project\'s room to grow: its capacity to reach new certification milestones.' }, bg: 'grey' },
+  { n: '04', title: { fr: 'Faisabilité réelle', en: 'Real feasibility' }, desc: { fr: "Solidité du plan d'exécution : ressources, calendrier et moyens réunis pour aller au bout.", en: 'Soundness of the execution plan: resources, timeline and means gathered to see it through.' }, bg: 'dark' },
+  { n: '05', title: { fr: 'Incarnation du porteur', en: 'Embodiment' }, desc: { fr: 'Présence et crédibilité du créateur : son engagement direct et vérifiable dans le projet.', en: "The creator's presence and credibility: their direct, verifiable commitment to the project." }, bg: 'lav' },
 ];
 
 const comparison = {
   is: [
-    { t: 'Certification objective', d: 'Le Score LYA est un indicateur vivant et transparent, qui évolue strictement selon des jalons vérifiés.' },
-    { t: 'Reconnaissance mécène certifiée', d: 'Chaque mécène obtient un badge de soutien public et traçable, inscrit sur le registre LYA.' },
+    { t: { fr: 'Certification objective', en: 'Objective certification' }, d: { fr: 'Le Score LYA est un indicateur vivant et transparent, qui évolue strictement selon des jalons vérifiés.', en: 'The LYA Score is a living, transparent indicator that only moves according to verified milestones.' } },
+    { t: { fr: 'Reconnaissance mécène certifiée', en: 'Certified patron recognition' }, d: { fr: 'Chaque mécène obtient un badge de soutien public et traçable, inscrit sur le registre LYA.', en: 'Every patron gets a public, traceable support badge, recorded on the LYA registry.' } },
   ],
   isNot: [
-    { t: 'Un intermédiaire traditionnel', d: "Pas de label, d'agent ou de studio décidant seul de la reconnaissance, sans standard transparent." },
-    { t: 'Un crowdfunding classique', d: "Pas de récompenses génériques déconnectées de l'avancement réellement certifié du projet." },
+    { t: { fr: 'Un intermédiaire traditionnel', en: 'A traditional intermediary' }, d: { fr: "Pas de label, d'agent ou de studio décidant seul de la reconnaissance, sans standard transparent.", en: 'No label, agent or studio deciding on recognition alone, without a transparent standard.' } },
+    { t: { fr: 'Un crowdfunding classique', en: 'Classic crowdfunding' }, d: { fr: "Pas de récompenses génériques déconnectées de l'avancement réellement certifié du projet.", en: "No generic rewards disconnected from the project's actually certified progress." } },
   ],
 };
 
 const values = [
-  { n: '01', title: 'Mission', desc: 'Transformer les idées créatives en projets vivants, évalués professionnellement et certifiés via le Score LYA.' },
-  { n: '02', title: 'Transparence', desc: 'Le Score LYA évalue chaque projet selon 5 critères objectifs et publics. Zéro opacité, données vérifiables.' },
-  { n: '03', title: 'Innovation', desc: 'Évaluation professionnelle, droits créatifs certifiés et réseau de reconnaissance des mécènes, réunis dans une même expérience.' },
-  { n: '04', title: 'International', desc: "LinkYourArt est multilingue et ouvert aux projets créatifs, mécènes et professionnels du monde entier. La création n'a pas de frontières." },
+  { n: '01', title: { fr: 'Mission', en: 'Mission' }, desc: { fr: 'Transformer les idées créatives en projets vivants, évalués professionnellement et certifiés via le Score LYA.', en: 'Turning creative ideas into living projects, professionally assessed and certified through the LYA Score.' } },
+  { n: '02', title: { fr: 'Transparence', en: 'Transparency' }, desc: { fr: 'Le Score LYA évalue chaque projet selon 5 critères objectifs et publics. Zéro opacité, données vérifiables.', en: 'The LYA Score evaluates every project against 5 objective, public criteria. Zero opacity, verifiable data.' } },
+  { n: '03', title: { fr: 'Innovation', en: 'Innovation' }, desc: { fr: 'Évaluation professionnelle, droits créatifs certifiés et réseau de reconnaissance des mécènes, réunis dans une même expérience.', en: 'Professional evaluation, certified creative rights and a patron recognition network, brought together in one experience.' } },
+  { n: '04', title: { fr: 'International', en: 'International' }, desc: { fr: "LinkYourArt est multilingue et ouvert aux projets créatifs, mécènes et professionnels du monde entier. La création n'a pas de frontières.", en: 'LinkYourArt is multilingual and open to creative projects, patrons and professionals worldwide. Creativity has no borders.' } },
 ];
 
 const newEra = [
-  { n: '01', title: 'Registre Certifié', desc: "Chaque œuvre est officiellement enregistrée et protégée. Vos droits sont documentés, vérifiés et accessibles à tout moment." },
-  { n: '02', title: 'Évaluation par des Experts', desc: 'Un réseau de professionnels certifiés évalue chaque création et lui attribue un Score LYA sur 1000 — transparent et objectif.' },
-  { n: '03', title: 'Mécénat Créatif', desc: "Soutenez des projets créatifs auxquels vous croyez et suivez leur avancement certifié." },
-  { n: '04', title: 'Protection Juridique', desc: "Chaque projet sur LYA bénéficie d'une protection juridique des droits reconnue sur 6 continents." },
+  { n: '01', title: { fr: 'Registre Certifié', en: 'Certified Registry' }, desc: { fr: "Chaque œuvre est officiellement enregistrée et protégée. Vos droits sont documentés, vérifiés et accessibles à tout moment.", en: 'Every work is officially registered and protected. Your rights are documented, verified and accessible at any time.' } },
+  { n: '02', title: { fr: 'Évaluation par des Experts', en: 'Expert Evaluation' }, desc: { fr: 'Un réseau de professionnels certifiés évalue chaque création et lui attribue un Score LYA sur 1000 — transparent et objectif.', en: 'A network of certified professionals evaluates every creation and gives it a LYA Score out of 1000 — transparent and objective.' } },
+  { n: '03', title: { fr: 'Mécénat Créatif', en: 'Creative Patronage' }, desc: { fr: "Soutenez des projets créatifs auxquels vous croyez et suivez leur avancement certifié.", en: 'Support creative projects you believe in and track their certified progress.' } },
+  { n: '04', title: { fr: 'Protection Juridique', en: 'Legal Protection' }, desc: { fr: "Chaque projet sur LYA bénéficie d'une protection juridique des droits reconnue sur 6 continents.", en: 'Every project on LYA benefits from legal rights protection recognized across 6 continents.' } },
 ];
 
 const registry = [
@@ -61,7 +61,13 @@ const registry = [
   { title: 'Néon Requiem', cat: 'Jeu vidéo', score: 888, fund: 90, catColor: '#B5308E', desc: "Jeu narratif en pixel art dans un futur urbain saturé de néons. Démo jouable disponible, campagne de mécénat ouverte pour financer le dernier acte.", creator: 'Studio Halcyon', patrons: 71, status: 'Mécénat ouvert' },
 ];
 
-const pillarLabels = ['Intégrité conceptuelle', 'Maturité actuelle', "Capacité d'évolution", 'Faisabilité réelle', 'Incarnation'];
+const pillarLabels = [
+  { fr: 'Intégrité conceptuelle', en: 'Conceptual integrity' },
+  { fr: 'Maturité actuelle', en: 'Current maturity' },
+  { fr: "Capacité d'évolution", en: 'Growth capacity' },
+  { fr: 'Faisabilité réelle', en: 'Real feasibility' },
+  { fr: 'Incarnation', en: 'Embodiment' },
+];
 
 function splitScore(score: number): number[] {
   const ratios = [0.212, 0.204, 0.198, 0.19];
@@ -72,6 +78,8 @@ function splitScore(score: number): number[] {
 
 export const TerminalView: React.FC<TerminalViewProps> = ({ onJoin, onLogin }) => {
   const [selected, setSelected] = React.useState<number | null>(null);
+  const [lang, setLang] = React.useState<'fr' | 'en'>('fr');
+  const t = (fr: string, en: string) => (lang === 'fr' ? fr : en);
   const project = selected !== null ? registry[selected] : null;
   const rootRef = React.useRef<HTMLDivElement>(null);
 
@@ -114,12 +122,15 @@ export const TerminalView: React.FC<TerminalViewProps> = ({ onJoin, onLogin }) =
         .term-nav a:hover{ color:#fff; }
         .term-pill{ color:#fff; background:var(--term-ink); border:1px solid rgba(255,255,255,0.2); padding:10px 20px; border-radius:100px; font-size:14px; font-weight:600; cursor:pointer; }
         .term-pill:hover{ background:#7E1CF1; border-color:transparent; }
+        .term-lang-toggle{ display:flex; background:rgba(255,255,255,0.08); border-radius:100px; padding:3px; gap:2px; }
+        .term-lang-toggle button{ border:none; background:none; color:#B9B7C7; font-size:12px; font-weight:700; padding:6px 12px; border-radius:100px; cursor:pointer; font-family:'Sora',sans-serif; }
+        .term-lang-toggle button.active{ background:#fff; color:var(--term-ink); }
         .term-hero{ background:var(--term-ink); position:relative; overflow:hidden; padding:64px 0 90px; }
         .term-hero-shape{ position:absolute; top:-10%; right:-10%; width:70%; height:130%;
           background:linear-gradient(135deg,#7E1CF1 0%,#7E1CF1 16%,#E61A97 42%,#E61A97 58%,#02C6FA 86%,#02C6FA 100%);
           clip-path:polygon(30% 0%,100% 0%,100% 100%,0% 100%);
         }
-        .term-hero-title{ color:#fff; font-weight:800; font-size:clamp(38px,6vw,68px); line-height:1.04; letter-spacing:-0.02em; max-width:11ch; position:relative; z-index:1; }
+        .term-hero-title{ color:#fff; font-weight:800; font-size:clamp(34px,5.2vw,58px); line-height:1.08; letter-spacing:-0.02em; max-width:19ch; position:relative; z-index:1; }
         .term-hero-sub{ color:#D6D4E2; font-size:17px; line-height:1.6; max-width:46ch; margin-top:26px; position:relative; z-index:1; }
         .term-btn-primary{ background:#fff; color:var(--term-ink); padding:14px 26px; border-radius:100px; font-weight:600; font-size:15px; border:none; cursor:pointer; }
         .term-btn-primary:hover{ background:var(--term-lav); }
@@ -167,7 +178,7 @@ export const TerminalView: React.FC<TerminalViewProps> = ({ onJoin, onLogin }) =
         .term-mission{ position:relative; overflow:hidden; padding:56px 0;
           background:linear-gradient(120deg, #0B0E14 0%, #0B0E14 28%, #7E1CF1 48%, #7E1CF1 58%, #E61A97 74%, #E61A97 84%, #02C6FA 100%);
         }
-        .term-mission p{ color:#fff; font-family:'Sora',sans-serif; font-style:italic; font-weight:800; font-size:clamp(24px,3.2vw,36px); max-width:18ch; }
+        .term-mission p{ color:#fff; font-family:'Sora',sans-serif; font-style:italic; font-weight:800; font-size:clamp(26px,3.6vw,42px); max-width:26ch; line-height:1.2; }
         .term-newera{ padding:72px 0; background:var(--term-grey); }
         .term-eyebrow{ font-family:'Sora',sans-serif; font-weight:700; font-size:12px; letter-spacing:0.04em; color:#7A2062; text-transform:uppercase; margin-bottom:14px; }
         .term-newera-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:18px; margin-top:36px; }
@@ -283,11 +294,15 @@ export const TerminalView: React.FC<TerminalViewProps> = ({ onJoin, onLogin }) =
           </div>
           <nav className="term-nav">
             <ul>
-              <li><a href="#pillars">Le Score</a></li>
-              <li><a href="#registry">Projets</a></li>
-              <li><a href="#pricing">Tarifs</a></li>
+              <li><a href="#pillars">{t('Le Score', 'The Score')}</a></li>
+              <li><a href="#registry">{t('Projets', 'Projects')}</a></li>
+              <li><a href="#pricing">{t('Tarifs', 'Pricing')}</a></li>
             </ul>
-            <button className="term-pill" onClick={onLogin}>Se connecter</button>
+            <div className="term-lang-toggle">
+              <button className={lang === 'fr' ? 'active' : ''} onClick={() => setLang('fr')}>FR</button>
+              <button className={lang === 'en' ? 'active' : ''} onClick={() => setLang('en')}>EN</button>
+            </div>
+            <button className="term-pill" onClick={onLogin}>{t('Se connecter', 'Log in')}</button>
           </nav>
         </div>
       </header>
@@ -296,14 +311,16 @@ export const TerminalView: React.FC<TerminalViewProps> = ({ onJoin, onLogin }) =
       <section className="term-hero">
         <div className="term-hero-shape" />
         <div className="term-wrap" style={{ position: 'relative' }}>
-          <h1 className="term-hero-title">Ce que vous créez aujourd'hui mérite d'être reconnu demain.</h1>
+          <h1 className="term-hero-title">{t("Ce que vous créez aujourd'hui mérite d'être reconnu demain.", 'What you create today deserves to be recognized tomorrow.')}</h1>
           <p className="term-hero-sub">
-            Les projets créatifs ont toujours eu de la valeur. LYA leur en donne une reconnue, partageable et vérifiable —
-            un registre certifié, une évaluation par des experts, un mécénat qui suit l'avancement réel du projet.
+            {t(
+              "Les projets créatifs ont toujours eu de la valeur. LYA leur en donne une reconnue, partageable et vérifiable — un registre certifié, une évaluation par des experts, un mécénat qui suit l'avancement réel du projet.",
+              'Creative projects have always had value. LYA gives them one that is recognized, shareable and verifiable — a certified registry, expert evaluation, and patronage that follows the real progress of the project.'
+            )}
           </p>
           <div style={{ display: 'flex', gap: 14, marginTop: 30, position: 'relative', zIndex: 1 }}>
-            <button className="term-btn-primary" onClick={onJoin}>Rejoindre LYA →</button>
-            <a href="#pillars" className="term-btn-ghost" style={{ textDecoration: 'none', display: 'inline-block' }}>Comprendre le Score LYA</a>
+            <button className="term-btn-primary" onClick={onJoin}>{t('Rejoindre LYA →', 'Join LYA →')}</button>
+            <a href="#pillars" className="term-btn-ghost" style={{ textDecoration: 'none', display: 'inline-block' }}>{t('Comprendre le Score LYA', 'Understand the LYA Score')}</a>
           </div>
         </div>
       </section>
@@ -311,29 +328,29 @@ export const TerminalView: React.FC<TerminalViewProps> = ({ onJoin, onLogin }) =
       {/* Pillars */}
       <section className="term-pillars" id="pillars">
         <div className="term-wrap">
-          <div className="term-eyebrow">Le Score LYA</div>
+          <div className="term-eyebrow">{t('Le Score LYA', 'The LYA Score')}</div>
           <h2 style={{ fontWeight: 700, fontSize: 'clamp(26px,3.2vw,38px)', marginBottom: 36 }}>
-            Cinq critères. Un standard commun à tout le secteur créatif.
+            {t('Cinq critères. Un standard commun à tout le secteur créatif.', 'Five criteria. One standard shared across the whole creative sector.')}
           </h2>
           <div className="term-pillars-grid">
             {pillars.map(p => (
               <div key={p.n} className={`term-pillar ${p.bg} term-reveal`}>
                 <div>
                   <div className="n">{p.n}</div>
-                  <div className="t">{p.title}</div>
+                  <div className="t">{t(p.title.fr, p.title.en)}</div>
                 </div>
-                <div className="d">{p.desc}</div>
+                <div className="d">{t(p.desc.fr, p.desc.en)}</div>
               </div>
             ))}
           </div>
-          <div className="term-section-cta"><button onClick={onJoin}>Comprendre comment le Score est calculé →</button></div>
+          <div className="term-section-cta"><button onClick={onJoin}>{t('Comprendre comment le Score est calculé →', 'Understand how the Score is calculated →')}</button></div>
         </div>
       </section>
 
       {/* Mission */}
       <div className="term-mission">
         <div className="term-wrap">
-          <p>« Votre créativité a de la valeur. Nous la certifions. Les mécènes la reconnaissent. »</p>
+          <p>{t('« Votre créativité a de la valeur. Nous la certifions. Les mécènes la reconnaissent. »', '« Your creativity has value. We certify it. Patrons recognize it. »')}</p>
         </div>
       </div>
 
@@ -346,52 +363,61 @@ export const TerminalView: React.FC<TerminalViewProps> = ({ onJoin, onLogin }) =
             {newEra.map(c => (
               <div key={c.n} className="term-newera-card term-reveal">
                 <div className="n">{c.n}</div>
-                <h4>{c.title}</h4>
-                <p>{c.desc}</p>
+                <h4>{t(c.title.fr, c.title.en)}</h4>
+                <p>{t(c.desc.fr, c.desc.en)}</p>
               </div>
             ))}
           </div>
-          <div className="term-section-cta"><button onClick={onJoin}>Rejoindre LYA et faire certifier mon projet →</button></div>
+          <div className="term-section-cta"><button onClick={onJoin}>{t('Rejoindre LYA et faire certifier mon projet →', 'Join LYA and get my project certified →')}</button></div>
         </div>
       </section>
 
       {/* Comparaison */}
       <section className="term-compare">
         <div className="term-wrap">
-          <div className="term-eyebrow">Comparaison</div>
-          <h2 style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>Ce que LYA est — et n'est pas.</h2>
+          <div className="term-eyebrow">{t('Comparaison', 'Comparison')}</div>
+          <h2 style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t("Ce que LYA est — et n'est pas.", "What LYA is — and isn't.")}</h2>
           <div className="term-compare-grid">
             <div className="term-compare-col is term-reveal">
-              <span className="term-compare-badge">CE QUE LYA EST</span>
+              <span className="term-compare-badge">{t('CE QUE LYA EST', 'WHAT LYA IS')}</span>
               {comparison.is.map(item => (
-                <div key={item.t} className="term-compare-item"><h5>{item.t}</h5><p>{item.d}</p></div>
+                <div key={item.t.fr} className="term-compare-item"><h5>{t(item.t.fr, item.t.en)}</h5><p>{t(item.d.fr, item.d.en)}</p></div>
               ))}
             </div>
             <div className="term-compare-col isnot term-reveal">
-              <span className="term-compare-badge">CE QUE LYA N'EST PAS</span>
+              <span className="term-compare-badge">{t("CE QUE LYA N'EST PAS", "WHAT LYA ISN'T")}</span>
               {comparison.isNot.map(item => (
-                <div key={item.t} className="term-compare-item"><h5>{item.t}</h5><p>{item.d}</p></div>
+                <div key={item.t.fr} className="term-compare-item"><h5>{t(item.t.fr, item.t.en)}</h5><p>{t(item.d.fr, item.d.en)}</p></div>
               ))}
             </div>
           </div>
-          <div className="term-section-cta"><button onClick={onJoin}>Voir des exemples concrets →</button></div>
+          <div className="term-section-cta"><button onClick={onJoin}>{t('Voir des exemples concrets →', 'See real examples →')}</button></div>
         </div>
       </section>
 
       {/* Histoire */}
       <section className="term-history">
         <div className="term-wrap">
-          <div className="term-eyebrow">Notre histoire</div>
-          <h2 style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)', maxWidth: '20ch' }}>Vingt ans avant d'avoir un nom pour ça.</h2>
+          <div className="term-eyebrow">{t('Notre histoire', 'Our history')}</div>
+          <h2 style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)', maxWidth: '20ch' }}>{t("Vingt ans avant d'avoir un nom pour ça.", 'Twenty years before it had a name.')}</h2>
           <div className="term-history-grid">
             <div className="term-history-text">
-              <p>En 2006, Jean-Baptiste Lequime fonde LinkYourArt avec une ambition claire : bâtir le premier pont international entre les créations et les industries qui en ont besoin. C'est LinkYourArt lui-même qui a forgé, au fil des années, son expérience en développement commercial dans les industries créatives, avec une spécialisation film et divertissement. Musique, cinéma, mode, jeux vidéo, design, architecture, arts de la scène — chaque création y trouve sa place, à une époque où aucune plateforme n'osait encore toutes les réunir.</p>
-              <p>Pendant près de deux décennies, LinkYourArt a façonné en silence les industries créatives — révélant des créations émergentes, tissant des collaborations, et offrant aux projets les plus ambitieux la visibilité qu'ils méritent.</p>
-              <p>Aujourd'hui, à l'occasion de ses 20 ans, LinkYourArt entame une nouvelle étape avec le lancement d'une plateforme entièrement repensée, construite autour d'un standard objectif de certification créative.</p>
+              <p>{t(
+                "En 2006, Jean-Baptiste Lequime fonde LinkYourArt avec une ambition claire : bâtir le premier pont international entre les créations et les industries qui en ont besoin. C'est LinkYourArt lui-même qui a forgé, au fil des années, son expérience en développement commercial dans les industries créatives, avec une spécialisation film et divertissement. Musique, cinéma, mode, jeux vidéo, design, architecture, arts de la scène — chaque création y trouve sa place, à une époque où aucune plateforme n'osait encore toutes les réunir.",
+                'In 2006, Jean-Baptiste Lequime founded LinkYourArt with a clear ambition: to build the first international bridge between creative works and the industries that need them. It was LinkYourArt itself that forged, over the years, his business development expertise within the creative industries, specializing in film and entertainment. Music, film, fashion, gaming, design, architecture, performing arts — every creation found a home here, at a time when no platform dared unite them all.'
+              )}</p>
+              <p>{t(
+                "Pendant près de deux décennies, LinkYourArt a façonné en silence les industries créatives — révélant des créations émergentes, tissant des collaborations, et offrant aux projets les plus ambitieux la visibilité qu'ils méritent.",
+                'For nearly two decades, LinkYourArt has quietly shaped the creative industries — revealing emerging works, forging collaborations, and giving the most ambitious projects the visibility they deserve.'
+              )}</p>
+              <p>{t(
+                "Aujourd'hui, à l'occasion de ses 20 ans, LinkYourArt entame une nouvelle étape avec le lancement d'une plateforme entièrement repensée, construite autour d'un standard objectif de certification créative.",
+                "Today, on its 20th anniversary, LinkYourArt is embarking on a new stage with the launch of an entirely redesigned platform, built around an objective standard for creative certification."
+              )}</p>
             </div>
             <div className="term-history-stats">
-              <div className="term-history-stat term-reveal"><div className="y">2006</div><div className="l">FONDATION</div></div>
-              <div className="term-history-stat term-reveal"><div className="y">2026</div><div className="l">RÉVOLUTION</div></div>
+              <div className="term-history-stat term-reveal"><div className="y">2006</div><div className="l">{t('FONDATION', 'FOUNDATION')}</div></div>
+              <div className="term-history-stat term-reveal"><div className="y">2026</div><div className="l">{t('RÉVOLUTION', 'REVOLUTION')}</div></div>
             </div>
           </div>
         </div>
@@ -400,14 +426,14 @@ export const TerminalView: React.FC<TerminalViewProps> = ({ onJoin, onLogin }) =
       {/* Valeurs */}
       <section className="term-values">
         <div className="term-wrap">
-          <div className="term-eyebrow">Nos valeurs</div>
-          <h2 style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>Ce qui ne bouge pas, même quand tout évolue.</h2>
+          <div className="term-eyebrow">{t('Nos valeurs', 'Our values')}</div>
+          <h2 style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t('Ce qui ne bouge pas, même quand tout évolue.', "What doesn't move, even as everything evolves.")}</h2>
           <div className="term-values-grid">
             {values.map(v => (
               <div key={v.n}>
                 <div className="n">{v.n}</div>
-                <h4>{v.title}</h4>
-                <p>{v.desc}</p>
+                <h4>{t(v.title.fr, v.title.en)}</h4>
+                <p>{t(v.desc.fr, v.desc.en)}</p>
               </div>
             ))}
           </div>
@@ -417,12 +443,12 @@ export const TerminalView: React.FC<TerminalViewProps> = ({ onJoin, onLogin }) =
       {/* Pourquoi LYA */}
       <section className="term-why">
         <div className="term-wrap">
-          <div className="term-eyebrow">Pourquoi LYA</div>
-          <h2 style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>Une reconnaissance qui se construit, pas qui s'achète.</h2>
+          <div className="term-eyebrow">{t('Pourquoi LYA', 'Why LYA')}</div>
+          <h2 style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t("Une reconnaissance qui se construit, pas qui s'achète.", 'Recognition that is built, not bought.')}</h2>
           <div className="term-why-grid">
-            <div className="term-why-item"><div className="n">01</div><h4>Transparent</h4><p>Cinq critères clairs, expliqués, jamais une boîte noire.</p></div>
-            <div className="term-why-item"><div className="n">02</div><h4>Communautaire</h4><p>Artistes, mécènes et professionnels avancent ensemble.</p></div>
-            <div className="term-why-item"><div className="n">03</div><h4>Indépendant</h4><p>5% de commission sur le mécénat, rien de caché derrière.</p></div>
+            <div className="term-why-item"><div className="n">01</div><h4>{t('Transparent', 'Transparent')}</h4><p>{t('Cinq critères clairs, expliqués, jamais une boîte noire.', 'Five clear, explained criteria — never a black box.')}</p></div>
+            <div className="term-why-item"><div className="n">02</div><h4>{t('Communautaire', 'Community-driven')}</h4><p>{t('Artistes, mécènes et professionnels avancent ensemble.', 'Artists, patrons and professionals move forward together.')}</p></div>
+            <div className="term-why-item"><div className="n">03</div><h4>{t('Indépendant', 'Independent')}</h4><p>{t('5% de commission sur le mécénat, rien de caché derrière.', '5% commission on patronage — nothing hidden behind it.')}</p></div>
           </div>
         </div>
       </section>
@@ -430,8 +456,8 @@ export const TerminalView: React.FC<TerminalViewProps> = ({ onJoin, onLogin }) =
       {/* Registre */}
       <section className="term-registry" id="registry">
         <div className="term-wrap">
-          <div className="term-eyebrow">Le registre</div>
-          <h2 style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>Parcourez des projets déjà certifiés</h2>
+          <div className="term-eyebrow">{t('Le registre', 'The registry')}</div>
+          <h2 style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t('Parcourez des projets déjà certifiés', 'Browse already certified projects')}</h2>
           <div className="term-reg-scroll">
             {registry.map((r, i) => (
               <div key={r.title} className="term-reg-card term-reveal" onClick={() => setSelected(i)} style={{ cursor: 'pointer' }}>
@@ -448,7 +474,7 @@ export const TerminalView: React.FC<TerminalViewProps> = ({ onJoin, onLogin }) =
                     <div className="term-reg-bar score"><div className="fill" style={{ width: `${Math.round(r.score / 10)}%` }} /></div>
                   </div>
                   <div className="term-reg-bar-row">
-                    <div className="lbl"><span>Financement</span><span>{r.fund}%</span></div>
+                    <div className="lbl"><span>{t('Financement', 'Funding')}</span><span>{r.fund}%</span></div>
                     <div className="term-reg-bar fund"><div className="fill" style={{ width: `${r.fund}%` }} /></div>
                   </div>
                 </div>
@@ -471,22 +497,22 @@ export const TerminalView: React.FC<TerminalViewProps> = ({ onJoin, onLogin }) =
               <div className="term-modal-title">{project.title}</div>
               <p className="term-modal-desc">{project.desc}</p>
               <div className="term-modal-meta">
-                <div><div className="l">Porteur</div><div className="v">{project.creator}</div></div>
-                <div><div className="l">Mécènes</div><div className="v">{project.patrons}</div></div>
-                <div><div className="l">Statut</div><div className="v">{project.status}</div></div>
+                <div><div className="l">{t('Porteur', 'Creator')}</div><div className="v">{project.creator}</div></div>
+                <div><div className="l">{t('Mécènes', 'Patrons')}</div><div className="v">{project.patrons}</div></div>
+                <div><div className="l">{t('Statut', 'Status')}</div><div className="v">{project.status}</div></div>
               </div>
               <div className="term-modal-fund">
-                <div className="row"><span>Financement</span><span>{project.fund}%</span></div>
+                <div className="row"><span>{t('Financement', 'Funding')}</span><span>{project.fund}%</span></div>
                 <div className="bar"><div className="fill" style={{ width: `${project.fund}%` }} /></div>
               </div>
               <div className="term-modal-pillars">
                 {splitScore(project.score).map((v, idx) => (
-                  <div key={idx} className="term-modal-pillar"><div className="v">{v}</div><div className="l">{pillarLabels[idx]}</div></div>
+                  <div key={idx} className="term-modal-pillar"><div className="v">{v}</div><div className="l">{t(pillarLabels[idx].fr, pillarLabels[idx].en)}</div></div>
                 ))}
               </div>
               <div className="term-modal-cta">
-                <button className="primary" onClick={onJoin}>Devenir mécène de ce projet</button>
-                <button className="secondary" onClick={() => setSelected(null)}>Fermer</button>
+                <button className="primary" onClick={onJoin}>{t('Devenir mécène de ce projet', 'Become a patron of this project')}</button>
+                <button className="secondary" onClick={() => setSelected(null)}>{t('Fermer', 'Close')}</button>
               </div>
             </div>
           </div>
@@ -496,13 +522,13 @@ export const TerminalView: React.FC<TerminalViewProps> = ({ onJoin, onLogin }) =
       {/* Tarifs */}
       <section className="term-pricing" id="pricing">
         <div className="term-wrap">
-          <div className="term-eyebrow">Tarifs</div>
-          <h2 style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>Certifier et mécéner restent gratuits.</h2>
+          <div className="term-eyebrow">{t('Tarifs', 'Pricing')}</div>
+          <h2 style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t('Certifier et mécéner restent gratuits.', 'Certifying and patronizing stay free.')}</h2>
           <div className="term-price-grid">
-            <div className="term-price lav term-reveal"><div><div className="name">Free</div><div className="amount">0€</div><div className="desc">3 certifications, accès au registre</div></div></div>
-            <div className="term-price grey term-reveal"><div><div className="name">Pro Starter</div><div className="amount">79€<span style={{ fontSize: 13 }}>/mois</span></div><div className="desc">Certifications illimitées, outils pro</div></div></div>
-            <div className="term-price dark term-reveal"><div><div className="name">Pro Advanced</div><div className="amount">249€<span style={{ fontSize: 13 }}>/mois</span></div><div className="desc">Analytics, API, accompagnement dédié</div></div></div>
-            <div className="term-price lav term-reveal"><div><div className="name">Enterprise</div><div className="amount">Sur mesure</div><div className="desc">Volumes élevés, contrat dédié</div></div></div>
+            <div className="term-price lav term-reveal"><div><div className="name">{t('Gratuit', 'Free')}</div><div className="amount">0€</div><div className="desc">{t('3 certifications, accès au registre', '3 certifications, access to the registry')}</div></div></div>
+            <div className="term-price grey term-reveal"><div><div className="name">Pro Starter</div><div className="amount">79€<span style={{ fontSize: 13 }}>{t('/mois', '/mo')}</span></div><div className="desc">{t('Certifications illimitées, outils pro', 'Unlimited certifications, pro tools')}</div></div></div>
+            <div className="term-price dark term-reveal"><div><div className="name">Pro Advanced</div><div className="amount">249€<span style={{ fontSize: 13 }}>{t('/mois', '/mo')}</span></div><div className="desc">{t('Analytics, API, accompagnement dédié', 'Analytics, API, dedicated support')}</div></div></div>
+            <div className="term-price lav term-reveal"><div><div className="name">{t('Entreprise', 'Enterprise')}</div><div className="amount">{t('Sur mesure', 'Custom')}</div><div className="desc">{t('Volumes élevés, contrat dédié', 'High volumes, dedicated contract')}</div></div></div>
           </div>
         </div>
       </section>
@@ -511,10 +537,10 @@ export const TerminalView: React.FC<TerminalViewProps> = ({ onJoin, onLogin }) =
       <section className="term-cta">
         <div className="term-wrap term-cta-inner">
           <div>
-            <h2>Votre projet a une valeur.</h2>
-            <div style={{ fontSize: 13, color: '#6B4A5E', marginTop: 8 }}>Accès sur pré-inscription, validé par notre équipe.</div>
+            <h2>{t('Votre projet a une valeur.', 'Your project has value.')}</h2>
+            <div style={{ fontSize: 13, color: '#6B4A5E', marginTop: 8 }}>{t('Accès sur pré-inscription, validé par notre équipe.', 'Access by pre-registration, validated by our team.')}</div>
           </div>
-          <button className="term-pill" style={{ background: '#0B0E14' }} onClick={onJoin}>Rejoindre LYA →</button>
+          <button className="term-pill" style={{ background: '#0B0E14' }} onClick={onJoin}>{t('Rejoindre LYA →', 'Join LYA →')}</button>
         </div>
       </section>
 
@@ -528,24 +554,24 @@ export const TerminalView: React.FC<TerminalViewProps> = ({ onJoin, onLogin }) =
           <div className="term-foot-grid">
             <div>
               <h5>NEWSLETTER</h5>
-              <div className="line" style={{ color: '#8A87A8', fontSize: 13.5, marginBottom: 14 }}>Suivez le lancement et les prochaines certifications.</div>
-              <a href="mailto:hello@linkyourart.com?subject=Newsletter">S'abonner →</a>
+              <div className="line" style={{ color: '#8A87A8', fontSize: 13.5, marginBottom: 14 }}>{t('Suivez le lancement et les prochaines certifications.', 'Follow the launch and upcoming certifications.')}</div>
+              <a href="mailto:hello@linkyourart.com?subject=Newsletter">{t("S'abonner →", 'Subscribe →')}</a>
             </div>
             <div>
-              <h5>NAVIGATION</h5>
-              <a href="#pillars">Le Score</a>
-              <a href="#registry">Projets</a>
-              <a href="#pricing">Tarifs</a>
+              <h5>{t('NAVIGATION', 'NAVIGATION')}</h5>
+              <a href="#pillars">{t('Le Score', 'The Score')}</a>
+              <a href="#registry">{t('Projets', 'Projects')}</a>
+              <a href="#pricing">{t('Tarifs', 'Pricing')}</a>
             </div>
             <div>
-              <h5>CONTACT</h5>
+              <h5>{t('CONTACT', 'CONTACT')}</h5>
               <div className="line">contact@linkyourart.com</div>
               <div className="line">Rennes / Paris</div>
             </div>
             <div>
-              <h5>LÉGAL</h5>
-              <a href="#">Mentions légales</a>
-              <a href="#">Confidentialité</a>
+              <h5>{t('LÉGAL', 'LEGAL')}</h5>
+              <a href="#">{t('Mentions légales', 'Legal notice')}</a>
+              <a href="#">{t('Confidentialité', 'Privacy')}</a>
             </div>
           </div>
           <div className="term-foot-bottom">
