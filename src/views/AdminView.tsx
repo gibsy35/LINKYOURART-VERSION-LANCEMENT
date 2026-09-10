@@ -777,7 +777,7 @@ export const AdminView: React.FC<{
               <div className="flex gap-4">
                  <button 
                   onClick={() => handleTogglePro(viewingUser.uid!, !!viewingUser.isPro)} 
-                  className="flex-1 py-4 bg-accent-gold text-surface-dim font-black uppercase text-xs rounded-xl shadow-[0_0_20px_rgba(255,193,7,0.2)] hover:scale-[1.02] transition-all active:scale-95"
+                  className="flex-1 py-4 bg-accent-gold text-surface-dim font-black uppercase text-xs rounded-xl shadow-[0_0_20px_rgba(126,28,241,0.2)] hover:scale-[1.02] transition-all active:scale-95"
                  >
                     {viewingUser.isPro ? t('REVOKE PRO ACCESS', 'RÉVOQUER ACCÈS PRO') : t('GRANT PRO ACCESS', 'ACCORDER ACCÈS PRO')}
                  </button>
