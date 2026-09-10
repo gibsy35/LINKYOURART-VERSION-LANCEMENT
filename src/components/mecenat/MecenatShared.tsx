@@ -67,7 +67,7 @@ export const CO_STATUTS = [
     multiplier: 1,
     bonusFR: "Une expérience réelle liée au projet (session studio, avant-première, visite d'atelier selon la discipline), et membre du Cercle des Mécènes Fondateurs LYA (événement annuel).",
     bonusEN: "A real experience tied to the project (studio session, premiere, atelier visit depending on the discipline), and membership in the LYA Founding Patrons Circle (annual event).",
-    color: "text-amber-400", border: "border-amber-500/25", bg: "bg-[#2a2210]",
+    color: "text-violet-400", border: "border-violet-500/25", bg: "bg-[#2a2210]",
     isPrestige: true,
   },
   {
@@ -92,7 +92,7 @@ export function getStatut(units: number) {
 
 export const RARITY_STYLE: Record<string, string> = {
   Exceptional:  "bg-purple-600/80 text-on-surface",
-  Signature:    "bg-amber-500/80 text-black",
+  Signature:    "bg-violet-500/80 text-black",
   Distinguished:"bg-[#00d4ff]/80 text-black",
   Standard:     "bg-gray-500/80 text-on-surface",
 };
@@ -490,7 +490,7 @@ export function DetailModal({ contract, onClose, onPay, units, onUnitsChange, la
                         <div className="mb-4">
                           <div className="flex items-center justify-between mb-2">
                             <p className="text-on-surface-variant/50 text-[10px] font-mono tracking-widest">✦ {T("LYA SCORE — 5 PILIERS (MAX 1000)", "LYA SCORE — 5 PILLARS (MAX 1000)")}</p>
-                            <span className="text-amber-400 font-black font-mono text-sm">{realTotal}<span className="text-on-surface-variant/30 font-normal text-[10px]">/1000</span></span>
+                            <span className="text-violet-400 font-black font-mono text-sm">{realTotal}<span className="text-on-surface-variant/30 font-normal text-[10px]">/1000</span></span>
                           </div>
                           <div className="grid grid-cols-5 gap-1.5 mb-2">
                             {pillars.slice(0,5).map((p, i) => (
@@ -690,9 +690,9 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
             boxShadow: "0 0 8px rgba(245,158,11,0.5), 0 1px 4px rgba(0,0,0,0.4)",
             border: "1px solid rgba(255,200,50,0.4)",
           }} className="rounded-md px-3 py-1 backdrop-blur-sm w-[80px]">
-            <p className="text-[7px] font-mono font-bold text-amber-900/70 tracking-widest leading-none mb-0.5">LYA SCORE</p>
+            <p className="text-[7px] font-mono font-bold text-violet-900/70 tracking-widest leading-none mb-0.5">LYA SCORE</p>
             <p className="text-white font-black font-mono text-xs leading-none">
-              {contract.totalScore}<span className="text-amber-200/50 font-normal text-[10px]">/1k</span>
+              {contract.totalScore}<span className="text-violet-200/50 font-normal text-[10px]">/1k</span>
             </p>
           </div>
 
@@ -747,7 +747,7 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
             <div className="flex-1 bg-surface-high rounded-full h-1.5 overflow-hidden">
               <div className="h-1.5 rounded-full" style={{ width: `${(contract.totalScore / 1000) * 100}%`, background: "linear-gradient(90deg,#f59e0b,#ef4444)" }} />
             </div>
-            <span className="text-amber-400 font-mono font-black text-sm shrink-0">{contract.totalScore}<span className="text-on-surface-variant/30 font-normal text-xs">/1k</span></span>
+            <span className="text-violet-400 font-mono font-black text-sm shrink-0">{contract.totalScore}<span className="text-on-surface-variant/30 font-normal text-xs">/1k</span></span>
           </div>
         </div>
         <div>
