@@ -291,7 +291,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-network-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:32px; }
         @media (max-width:800px){ .term-network-grid{ grid-template-columns:1fr; } }
         .term-network-card{ background:var(--term-grey); border-radius:18px; padding:28px 24px; transition:transform 0.3s cubic-bezier(.2,.8,.2,1); }
-        .term-network-card:hover{ transform:translateY(-6px); }
+        .term-network-card:hover{ transform:translateY(-6px) scale(1.02); box-shadow:0 16px 34px rgba(0,0,0,0.1); }
         .term-network-card .n{ font-family:'Sora',sans-serif; font-weight:800; font-size:26px; margin-bottom:14px; }
         .term-network-card h4{ font-size:16px; font-weight:700; margin-bottom:4px; }
         .term-network-card .who{ font-size:11px; font-weight:600; color:#8A87A8; text-transform:uppercase; letter-spacing:0.02em; margin-bottom:12px; }
@@ -333,7 +333,8 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         }
         .term-mission p{ color:#fff; font-family:'Sora',sans-serif; font-style:italic; font-weight:800; font-size:clamp(26px,3.6vw,42px); max-width:26ch; line-height:1.2; }
         .term-newera{ padding:72px 0; background:var(--term-grey); }
-        .term-eyebrow{ font-family:'Sora',sans-serif; font-weight:700; font-size:12px; letter-spacing:0.04em; color:#7A2062; text-transform:uppercase; margin-bottom:14px; }
+        .term-eyebrow{ font-family:'Sora',sans-serif; font-weight:700; font-size:12px; letter-spacing:0.04em; color:#7A2062; text-transform:uppercase; margin-bottom:14px; display:flex; align-items:center; gap:8px; }
+        .term-eyebrow::before{ content:''; width:7px; height:7px; border-radius:50%; background:linear-gradient(135deg,#7E1CF1,#E61A97,#02C6FA); flex-shrink:0; }
         .term-newera-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:18px; margin-top:36px; }
         @media (max-width:900px){ .term-newera-grid{ grid-template-columns:repeat(2,1fr); } }
         .term-newera-card{ background:#fff; border-radius:16px; padding:28px 22px; border-top:3px solid var(--term-line); }
@@ -357,7 +358,8 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-registry{ padding:20px 0 72px; }
         .term-reg-scroll{ display:flex; gap:16px; overflow-x:auto; margin-top:28px; }
         .term-reg-card{ flex:0 0 230px; background:var(--term-ink); border-radius:14px; overflow:hidden; color:#fff; }
-        .term-reg-art{ position:relative; aspect-ratio:16/11; }
+        .term-reg-art{ position:relative; aspect-ratio:16/11; overflow:hidden; transition:filter 0.4s ease; }
+        .term-reg-card:hover .term-reg-art{ filter:saturate(1.25) brightness(1.05); }
         .term-reg-tags{ position:absolute; top:8px; left:8px; display:flex; gap:5px; }
         .term-reg-tag{ font-size:9px; font-weight:700; padding:3px 7px; border-radius:5px; color:#fff; font-family:'Sora',sans-serif; text-transform:uppercase; }
         .term-reg-tag.status{ background:#02C6FA; color:#0B0E14; }
@@ -431,9 +433,9 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-reveal.visible{ filter:blur(0); }
         .term-reveal.visible{ opacity:1; transform:translateY(0); }
         .term-pillar{ transition:transform 0.3s cubic-bezier(.2,.8,.2,1), box-shadow 0.3s ease, opacity 0.6s ease; }
-        .term-pillar:hover{ transform:translateY(-6px); box-shadow:0 16px 32px rgba(0,0,0,0.14); }
+        .term-pillar:hover{ transform:translateY(-6px) scale(1.03); box-shadow:0 20px 40px rgba(0,0,0,0.16); }
         .term-newera-card{ transition:transform 0.3s cubic-bezier(.2,.8,.2,1), box-shadow 0.3s ease, border-color 0.3s ease, opacity 0.6s ease; }
-        .term-newera-card:hover{ transform:translateY(-8px); box-shadow:0 20px 40px rgba(0,0,0,0.1); border-top-color:#7E1CF1; }
+        .term-newera-card:hover{ transform:translateY(-8px) scale(1.03); box-shadow:0 22px 44px rgba(126,28,241,0.12); border-top-color:#7E1CF1; }
         .term-why-item{ transition:background 0.25s ease; }
         .term-why-item:hover{ background:var(--term-grey); }
         .term-compare-col{ transition:transform 0.3s cubic-bezier(.2,.8,.2,1), box-shadow 0.3s ease, opacity 0.6s ease; }
@@ -441,9 +443,9 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-history-stat{ transition:transform 0.3s cubic-bezier(.2,.8,.2,1); }
         .term-history-stat:hover{ transform:translateY(-6px); }
         .term-reg-card{ transition:transform 0.25s ease, box-shadow 0.25s ease; }
-        .term-reg-card:hover{ transform:translateY(-6px); box-shadow:0 16px 32px rgba(0,0,0,0.25); }
+        .term-reg-card:hover{ transform:translateY(-8px) scale(1.035); box-shadow:0 22px 44px rgba(0,0,0,0.3); }
         .term-price{ transition:transform 0.3s cubic-bezier(.2,.8,.2,1), box-shadow 0.3s ease, opacity 0.6s ease; }
-        .term-price:hover{ transform:translateY(-6px); box-shadow:0 16px 32px rgba(0,0,0,0.1); }
+        .term-price:hover{ transform:translateY(-8px) scale(1.03); box-shadow:0 20px 40px rgba(126,28,241,0.14); }
         .term-values-grid > div{ transition:transform 0.3s cubic-bezier(.2,.8,.2,1); }
         .term-values-grid > div:hover{ transform:translateY(-6px); }
         .term-btn-primary{ transition:background 0.25s ease, transform 0.2s ease; }
@@ -474,7 +476,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-model-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:32px; }
         @media (max-width:800px){ .term-model-grid{ grid-template-columns:1fr; } }
         .term-model-card{ background:#fff; border-radius:16px; padding:26px 22px; transition:transform 0.3s cubic-bezier(.2,.8,.2,1), box-shadow 0.3s ease; }
-        .term-model-card:hover{ transform:translateY(-6px); box-shadow:0 16px 32px rgba(0,0,0,0.08); }
+        .term-model-card:hover{ transform:translateY(-6px) scale(1.02); box-shadow:0 18px 36px rgba(126,28,241,0.1); }
         .term-model-card .n{ font-family:'Sora',sans-serif; font-weight:700; font-size:13px; color:#7E1CF1; margin-bottom:12px; }
         .term-model-card h4{ font-size:15px; font-weight:700; margin-bottom:8px; }
         .term-model-card p{ font-size:13px; line-height:1.6; color:var(--term-ink-soft); }
