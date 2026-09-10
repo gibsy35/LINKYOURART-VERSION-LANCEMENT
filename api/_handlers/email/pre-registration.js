@@ -33,8 +33,9 @@ function buildConfirmationEmail(name, email, role, lang, tier, position, accessK
       ? (isFR ? `Votre position (#${position}, ${tierLabel}) vous donne un accès immédiat, sans validation manuelle. Votre clé d'accès figure ci-dessous.` : `Your position (#${position}, ${tierLabel}) gives you instant access, no manual review needed. Your access key is below.`)
       : (isFR ? `Vous êtes en position #${position} sur la liste d'attente. Les 1000 premières places sont prises — vous serez prévenu(e) par email à la prochaine ouverture de cohorte.` : `You're at position #${position} on the waitlist. The first 1000 spots are taken — we'll notify you by email when the next cohort opens.`)
     }</p>
-    ${isInstantAccess && accessKey ? `<p style="margin:20px auto 0;font-size:16px;font-weight:900;color:#00D4E8;letter-spacing:0.05em;background:#0c191f;border:1px solid #0b2e36;border-radius:10px;padding:12px 20px;display:inline-block;">${accessKey}</p>
-    <p style="margin:18px auto 0;"><a href="https://www.linkyourart.com/?signup=1&code=${encodeURIComponent(accessKey)}&email=${encodeURIComponent(email)}" style="display:inline-block;background:#00D4E8;color:#0D1117;font-weight:900;font-size:13px;text-decoration:none;padding:14px 28px;border-radius:100px;">${isFR ? 'Créer mon compte avec cette clé →' : 'Create my account with this key →'}</a></p>` : ''}
+    ${isInstantAccess && accessKey ? `<p style="margin:20px auto 0;font-size:11px;color:#7B8291;letter-spacing:0.1em;text-transform:uppercase;">${isFR ? 'Votre clé d\'accès' : 'Your access key'}</p>
+    <p style="margin:6px auto 0;font-size:18px;font-weight:900;color:#00D4E8;letter-spacing:0.08em;background:#0c191f;border:1px dashed #0b2e36;border-radius:10px;padding:14px 22px;display:inline-block;user-select:all;">${accessKey}</p>
+    <p style="margin:10px auto 0;font-size:11.5px;color:#7B8291;max-width:360px;">${isFR ? 'Rendez-vous sur linkyourart.com, cliquez sur « J\'ai une clé d\'accès » et collez ce code pour créer votre compte.' : "Go to linkyourart.com, click “I have an access key” and paste this code to create your account."}</p>` : ''}
   </td></tr>
 
   <tr><td bgcolor="#7C3FBF" style="background:linear-gradient(90deg,#7C3FBF,#00D4E8,#E0326E);height:2px;"></td></tr>
