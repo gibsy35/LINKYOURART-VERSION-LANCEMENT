@@ -1,4 +1,5 @@
 import React from 'react';
+import { Shield } from 'lucide-react';
 import { Logo } from '../components/ui/Logo';
 import { submitPreRegistration, type PreRegCategory } from '../utils/preRegistration';
 
@@ -267,6 +268,31 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-example-card .bar .fill{ height:100%; border-radius:100px; }
         .term-example-card .val{ font-family:'Sora',sans-serif; font-weight:800; font-size:14px; white-space:nowrap; }
         .term-example-card .val .max{ font-size:10px; font-weight:500; color:var(--term-ink-soft); }
+        .term-score-hero{ padding:72px 0; background:var(--term-ink); }
+        .term-score-hero-inner{ display:flex; align-items:center; gap:48px; flex-wrap:wrap; }
+        .term-score-hero-num{ display:flex; align-items:baseline; flex-shrink:0; }
+        .term-score-hero-num .big{ font-family:'Sora',sans-serif; font-weight:800; font-size:clamp(72px,11vw,140px); line-height:1; background:linear-gradient(90deg,#7E1CF1,#E61A97,#02C6FA); -webkit-background-clip:text; background-clip:text; color:transparent; }
+        .term-score-hero-num .max{ font-family:'Sora',sans-serif; font-weight:700; font-size:clamp(20px,2.4vw,30px); color:#565B6B; margin-left:6px; }
+        .term-score-hero-text{ flex:1; min-width:260px; }
+        .term-score-hero-text .term-eyebrow{ color:#8A87A8; }
+        .term-score-hero-text h2{ color:#fff; font-family:'Sora',sans-serif; font-weight:700; font-size:clamp(22px,2.6vw,30px); margin:8px 0 12px; max-width:20ch; }
+        .term-score-hero-text p{ color:#B9B7C7; font-size:14px; line-height:1.6; max-width:44ch; }
+        .term-badges{ padding:32px 0; border-bottom:1px solid var(--term-line); }
+        .term-badges-row{ display:flex; gap:14px; flex-wrap:wrap; justify-content:center; }
+        .term-badge{ display:flex; align-items:center; gap:8px; background:var(--term-grey); border-radius:100px; padding:10px 18px; font-size:12.5px; font-weight:600; color:var(--term-ink-soft); }
+        .term-badge svg{ width:16px; height:16px; color:#7E1CF1; flex-shrink:0; }
+        .term-network{ padding:72px 0; }
+        .term-network-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:32px; }
+        @media (max-width:800px){ .term-network-grid{ grid-template-columns:1fr; } }
+        .term-network-card{ background:var(--term-grey); border-radius:18px; padding:28px 24px; transition:transform 0.3s cubic-bezier(.2,.8,.2,1); }
+        .term-network-card:hover{ transform:translateY(-6px); }
+        .term-network-card .n{ font-family:'Sora',sans-serif; font-weight:800; font-size:26px; margin-bottom:14px; }
+        .term-network-card h4{ font-size:16px; font-weight:700; margin-bottom:8px; }
+        .term-network-card p{ font-size:13px; line-height:1.6; color:var(--term-ink-soft); }
+        .term-security{ padding:56px 0 72px; }
+        .term-security-grid{ display:flex; flex-direction:column; gap:2px; margin-top:28px; border-radius:16px; overflow:hidden; }
+        .term-security-item{ display:flex; align-items:center; gap:14px; background:var(--term-grey); padding:18px 22px; font-size:14px; font-weight:500; }
+        .term-security-item svg{ color:#3ADB76; flex-shrink:0; }
         .term-mission{ position:relative; overflow:hidden; padding:56px 0;
           background:linear-gradient(120deg, #0B0E14 0%, #0B0E14 28%, #7E1CF1 48%, #7E1CF1 58%, #E61A97 74%, #E61A97 84%, #02C6FA 100%);
         }
@@ -624,6 +650,71 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Grand affichage du concept Score /1000 */}
+      <section className="term-score-hero">
+        <div className="term-wrap">
+          <div className="term-score-hero-inner">
+            <div className="term-score-hero-num">
+              <span className="big">247</span><span className="max">/1000</span>
+            </div>
+            <div className="term-score-hero-text">
+              <div className="term-eyebrow">{t('Le concept en un chiffre', 'The concept in one number')}</div>
+              <h2>{t('Chaque œuvre a un Score LYA — sur 1000, toujours.', 'Every work has a LYA Score — out of 1000, always.')}</h2>
+              <p>{t("Un seul standard, comparable d'une discipline à l'autre. 247, 580 ou 928 — le chiffre veut toujours dire la même chose.", 'One single standard, comparable across every discipline. 247, 580, or 928 — the number always means the same thing.')}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Badges certifies */}
+      <section className="term-badges">
+        <div className="term-wrap">
+          <div className="term-badges-row">
+            <div className="term-badge"><Shield /><span>{t('Conforme RGPD', 'GDPR compliant')}</span></div>
+            <div className="term-badge"><Shield /><span>{t('Droits créatifs certifiés', 'Certified creative rights')}</span></div>
+            <div className="term-badge"><Shield /><span>{t('Authentification multi-facteurs', 'Multi-factor authentication')}</span></div>
+          </div>
+        </div>
+      </section>
+
+      {/* Reseau : Createurs / Mecenes / Professionnels */}
+      <section className="term-network">
+        <div className="term-wrap">
+          <div className="term-eyebrow">{t('Le réseau LYA', 'The LYA network')}</div>
+          <h2 style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t('Trois rôles, un seul standard.', 'Three roles, one single standard.')}</h2>
+          <div className="term-network-grid">
+            <div className="term-network-card term-reveal">
+              <div className="n" style={{ color: '#3ADB76' }}>01</div>
+              <h4>{t('Créateurs', 'Creators')}</h4>
+              <p>{t('Faites certifier et valoriser officiellement votre œuvre. Conservez le contrôle artistique total, recevez le soutien de mécènes dès le lancement.', 'Get your work officially certified and showcased. Keep full artistic control, and receive patron support from day one.')}</p>
+            </div>
+            <div className="term-network-card term-reveal">
+              <div className="n" style={{ color: '#7E1CF1' }}>02</div>
+              <h4>{t('Mécènes', 'Patrons')}</h4>
+              <p>{t('Soutenez les œuvres dès 50€. Le Score LYA garantit la rigueur de sélection. Suivez vos œuvres soutenues en temps réel.', 'Support works from €50. The LYA Score guarantees selection rigor. Track your supported works in real time.')}</p>
+            </div>
+            <div className="term-network-card term-reveal">
+              <div className="n" style={{ color: '#E61A97' }}>03</div>
+              <h4>{t('Professionnels', 'Professionals')}</h4>
+              <p>{t("Rejoignez notre réseau d'experts en validation certifiés. Évaluez des œuvres dans votre domaine, réseau professionnel exclusif inter-secteurs.", 'Join our network of certified validation experts. Evaluate works in your field, exclusive cross-sector network.')}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Securite */}
+      <section className="term-security">
+        <div className="term-wrap">
+          <div className="term-eyebrow" style={{ color: '#3ADB76' }}>{t('Sécurité & confiance', 'Security & trust')}</div>
+          <h2 style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t('Bâti sur des fondations rigoureuses.', 'Built on rigorous foundations.')}</h2>
+          <div className="term-security-grid">
+            <div className="term-security-item"><Shield size={18} /><span>{t('Conforme RGPD — protection des données de bout en bout', 'GDPR compliant — end-to-end data protection')}</span></div>
+            <div className="term-security-item"><Shield size={18} /><span>{t('Droits créatifs certifiés légalement à chaque étape', 'Legally certified creative rights at every step')}</span></div>
+            <div className="term-security-item"><Shield size={18} /><span>{t('Authentification multi-facteurs & infrastructure sécurisée', 'Multi-factor authentication & secure infrastructure')}</span></div>
           </div>
         </div>
       </section>
