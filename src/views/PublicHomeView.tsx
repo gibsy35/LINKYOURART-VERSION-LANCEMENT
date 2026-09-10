@@ -94,6 +94,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
   const [joinSubmitting, setJoinSubmitting] = React.useState(false);
   const [joinError, setJoinError] = React.useState<string | null>(null);
   const [joinResult, setJoinResult] = React.useState<{ position: number; tier: string; accessKey: string | null } | null>(null);
+  const [keyCopied, setKeyCopied] = React.useState(false);
 
   const handleJoinSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -184,6 +185,8 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-lang-toggle{ display:flex; background:rgba(255,255,255,0.08); border-radius:100px; padding:3px; gap:2px; }
         .term-lang-toggle button{ border:none; background:none; color:#B9B7C7; font-size:12px; font-weight:700; padding:6px 12px; border-radius:100px; cursor:pointer; font-family:'Sora',sans-serif; }
         .term-lang-toggle button.active{ background:#fff; color:var(--term-ink); }
+        .term-key-btn{ background:linear-gradient(90deg,#7E1CF1,#E61A97,#02C6FA); color:#fff; border:none; padding:10px 18px; border-radius:100px; font-size:13.5px; font-weight:700; font-family:'Sora',sans-serif; cursor:pointer; }
+        .term-key-btn:hover{ filter:brightness(1.1); }
         .term-hero{ background:var(--term-ink); position:relative; overflow:hidden; padding:64px 0 90px; }
         .term-hero-shape{ position:absolute; top:-10%; right:-10%; width:70%; height:130%;
           background:linear-gradient(135deg,#7E1CF1 0%,#7E1CF1 16%,#E61A97 42%,#E61A97 58%,#02C6FA 86%,#02C6FA 100%);
@@ -331,6 +334,9 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-join-steps{ margin-top:18px; padding-top:18px; border-top:1px solid var(--term-line); }
         .term-join-steps .step{ display:flex; gap:10px; font-size:13px; color:var(--term-ink-soft); margin-bottom:10px; align-items:flex-start; }
         .term-join-steps .step b{ color:var(--term-ink); }
+        .term-join-keybox{ margin-top:16px; display:flex; align-items:center; justify-content:space-between; gap:10px; background:var(--term-grey); border:1px dashed var(--term-line); border-radius:12px; padding:12px 14px; }
+        .term-join-keybox span{ font-family:'Sora',sans-serif; font-weight:800; font-size:14px; letter-spacing:0.03em; }
+        .term-join-keybox button{ flex-shrink:0; border:none; background:linear-gradient(90deg,#7E1CF1,#E61A97,#02C6FA); color:#fff; font-family:'Sora',sans-serif; font-weight:700; font-size:12px; padding:8px 14px; border-radius:100px; cursor:pointer; }
         /* Animations : apparition au scroll + survol */
         .term-reveal{ opacity:0; transform:translateY(22px); transition:opacity 0.6s ease, transform 0.6s cubic-bezier(.2,.8,.2,1); }
         .term-reveal.visible{ opacity:1; transform:translateY(0); }
@@ -395,6 +401,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
               <button className={lang === 'fr' ? 'active' : ''} onClick={() => setLang('fr')}>FR</button>
               <button className={lang === 'en' ? 'active' : ''} onClick={() => setLang('en')}>EN</button>
             </div>
+            <button className="term-key-btn" onClick={() => onSignup?.({ code: '', email: '' })}>{t("J'ai une clé →", 'I have a key →')}</button>
             <button className="term-pill" onClick={onLogin}>{t('Se connecter', 'Log in')}</button>
           </nav>
         </div>
@@ -690,23 +697,21 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
                     <div className="term-join-steps">
                       <div className="step"><span>1.</span><span><b>{t('Email de confirmation', 'Confirmation email')}</b> — {t('vérifiez votre boîte de réception, votre clé d\'accès y est jointe.', "check your inbox — your access key is attached.")}</span></div>
                       <div className="step"><span>2.</span><span><b>{t('Accès activé automatiquement', 'Access activated automatically')}</b> — {t("votre position vous donne un accès immédiat, sans validation manuelle.", 'your position gives you instant access, no manual review needed.')}</span></div>
-                      <div className="step"><span>3.</span><span><b>{t('Découverte de LYA', 'Discover LYA')}</b> — {t('connectez-vous avec votre clé pour explorer la plateforme.', 'log in with your key to explore the platform.')}</span></div>
+                      <div className="step"><span>3.</span><span><b>{t('Découverte de LYA', 'Discover LYA')}</b> — {t("collez votre clé sur la page d'inscription pour créer votre compte.", 'paste your key on the signup page to create your account.')}</span></div>
                     </div>
                     {joinResult.accessKey && (
-                      <button
-                        className="term-join-submit"
-                        style={{ marginTop: 16, background: 'linear-gradient(90deg,#7E1CF1,#E61A97,#02C6FA)' }}
-                        onClick={() => {
-                          if (!joinResult.accessKey) return;
-                          try {
-                            sessionStorage.setItem('lya_prefilled_code', joinResult.accessKey);
-                            sessionStorage.setItem('lya_prefilled_email', joinEmail);
-                          } catch { /* noop */ }
-                          onSignup?.({ code: joinResult.accessKey, email: joinEmail });
-                        }}
-                      >
-                        {t('Créer mon compte avec cette clé →', 'Create my account with this key →')}
-                      </button>
+                      <div className="term-join-keybox">
+                        <span>{joinResult.accessKey}</span>
+                        <button
+                          type="button"
+                          onClick={async () => {
+                            if (!joinResult.accessKey) return;
+                            try { await navigator.clipboard.writeText(joinResult.accessKey); setKeyCopied(true); setTimeout(() => setKeyCopied(false), 2000); } catch { /* noop */ }
+                          }}
+                        >
+                          {keyCopied ? t('Copiée ✓', 'Copied ✓') : t('Copier', 'Copy')}
+                        </button>
+                      </div>
                     )}
                   </>
                 )}
