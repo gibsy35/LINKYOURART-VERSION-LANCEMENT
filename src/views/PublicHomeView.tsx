@@ -296,6 +296,15 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-network-card h4{ font-size:16px; font-weight:700; margin-bottom:4px; }
         .term-network-card .who{ font-size:11px; font-weight:600; color:#8A87A8; text-transform:uppercase; letter-spacing:0.02em; margin-bottom:12px; }
         .term-network-card p{ font-size:13px; line-height:1.6; color:var(--term-ink-soft); }
+        .term-registry-intro{ max-width:64ch; margin:12px 0 28px; display:flex; flex-direction:column; gap:10px; }
+        .term-registry-intro p{ font-size:14px; line-height:1.65; color:var(--term-ink-soft); }
+        .term-independence{ padding:56px 0; background:var(--term-grey); }
+        .term-independence-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:28px; }
+        @media (max-width:800px){ .term-independence-grid{ grid-template-columns:1fr; } }
+        .term-independence-card{ background:#fff; border-radius:16px; padding:26px 24px; transition:transform 0.3s cubic-bezier(.2,.8,.2,1); }
+        .term-independence-card:hover{ transform:translateY(-5px); }
+        .term-independence-card h4{ font-family:'Sora',sans-serif; font-weight:700; font-size:15px; margin-bottom:10px; }
+        .term-independence-card p{ font-size:13px; line-height:1.6; color:var(--term-ink-soft); }
         .term-security{ padding:56px 0 72px; }
         .term-security-grid{ display:flex; flex-direction:column; gap:2px; margin-top:28px; border-radius:16px; overflow:hidden; }
         .term-security-item{ display:flex; align-items:center; gap:14px; background:var(--term-grey); padding:18px 22px; font-size:14px; font-weight:500; transition:background 0.25s ease, padding-left 0.25s ease; }
@@ -437,7 +446,11 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-join-keybox span{ font-family:'Sora',sans-serif; font-weight:800; font-size:14px; letter-spacing:0.03em; }
         .term-join-keybox button{ flex-shrink:0; border:1px solid var(--term-line); background:#fff; color:var(--term-ink); font-family:'Sora',sans-serif; font-weight:700; font-size:12px; padding:8px 14px; border-radius:100px; cursor:pointer; }
         /* Animations : apparition au scroll + survol */
-        .term-reveal{ opacity:0; transform:translateY(38px) scale(0.95); filter:blur(8px); transition:opacity 0.85s cubic-bezier(.16,1,.3,1), transform 0.85s cubic-bezier(.16,1,.3,1), filter 0.85s cubic-bezier(.16,1,.3,1); }
+        .term-reveal{ opacity:0; transform:translateY(48px) scale(0.93); filter:blur(10px); transition:opacity 1s cubic-bezier(.16,1,.3,1), transform 1s cubic-bezier(.16,1,.3,1), filter 1s cubic-bezier(.16,1,.3,1); }
+        .term-reveal:nth-child(2){ transition-delay:0.08s; }
+        .term-reveal:nth-child(3){ transition-delay:0.16s; }
+        .term-reveal:nth-child(4){ transition-delay:0.24s; }
+        .term-reveal:nth-child(5){ transition-delay:0.32s; }
         .term-reveal.visible{ filter:blur(0); }
         .term-reveal.visible{ opacity:1; transform:translateY(0); }
         .term-pillar{ transition:transform 0.3s cubic-bezier(.2,.8,.2,1), box-shadow 0.3s ease, opacity 0.6s ease; }
@@ -779,6 +792,10 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         <div className="term-wrap">
           <div className="term-eyebrow">{t('Le registre', 'The registry')}</div>
           <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t('Parcourez des projets déjà certifiés', 'Browse already certified projects')}</h2>
+          <div className="term-registry-intro term-reveal">
+            <p>{t("Le Registre LYA n'est pas un livre de comptes financier, mais un registre de certification créative — il documente le Score LYA et l'historique des jalons de chaque projet certifié.", 'The LYA Registry is not a financial ledger, but a creative certification registry — it documents the LYA Score and milestone history of every certified project.')}</p>
+            <p>{t("La validation se fait par la communauté et des experts créatifs, combinée à une analyse assistée par IA et des audits humains spécialisés.", 'Validation is performed by the community and creative experts, combined with AI-assisted analysis and specialized human audits.')}</p>
+          </div>
           <div className="term-reg-scroll">
             {registry.map((r, i) => (
               <div key={r.title} className="term-reg-card term-reveal" onClick={() => setSelected(i)} style={{ cursor: 'pointer' }}>
@@ -845,6 +862,24 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       </section>
 
       {/* Securite */}
+      {/* Independance des certificateurs */}
+      <section className="term-independence">
+        <div className="term-wrap">
+          <div className="term-eyebrow">{t('Indépendance & confiance', 'Independence & trust')}</div>
+          <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t('Un score qui ne dépend de personne.', 'A score that depends on no one.')}</h2>
+          <div className="term-independence-grid">
+            <div className="term-independence-card term-reveal">
+              <h4>{t('Indépendance des certificateurs', 'Certifier independence')}</h4>
+              <p>{t("Les certificateurs LYA ne sont jamais rémunérés par le créateur ou le projet qu'ils évaluent. Leur évaluation n'est pas influencée par le succès du projet — c'est un engagement structurel, pas un argument marketing.", "LYA certifiers are never paid by the creator or project they evaluate. Their assessment is not influenced by the project's success — it's a structural commitment, not a marketing claim.")}</p>
+            </div>
+            <div className="term-independence-card term-reveal">
+              <h4>{t('Pourquoi le nombre de certificateurs compte', 'Why the number of certifiers matters')}</h4>
+              <p>{t("Un score porté par un seul évaluateur est une opinion. Un score porté par plusieurs certificateurs indépendants est un signal. Nous affichons le vrai nombre de certificateurs derrière chaque Score LYA.", 'A score backed by a single evaluator is an opinion. A score backed by several independent certifiers is a signal. We display the real number of certifiers behind every LYA Score.')}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="term-security">
         <div className="term-wrap">
           <div className="term-eyebrow">{t('Sécurité & confiance', 'Security & trust')}</div>
