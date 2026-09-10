@@ -150,7 +150,7 @@ export const TerminalView: React.FC<TerminalViewProps> = ({ onJoin, onLogin }) =
         .term-root h1, .term-root h2, .term-root h3, .term-root .sora{ font-family:'Sora',sans-serif; }
         .term-wrap{ max-width:1160px; margin:0 auto; padding:0 40px; }
         @media (max-width:700px){ .term-wrap{ padding:0 22px; } }
-        .term-header{ background:var(--term-ink); padding:26px 0; }
+        .term-header{ background:rgba(11,14,20,0.72); backdrop-filter:blur(14px) saturate(160%); -webkit-backdrop-filter:blur(14px) saturate(160%); padding:22px 0; position:sticky; top:0; z-index:100; border-bottom:1px solid rgba(255,255,255,0.08); }
         .term-head-inner{ display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:20px; }
         .term-word{ font-family:'Sora',sans-serif; font-weight:800; font-size:22px; color:#fff; }
         .term-nav{ display:flex; align-items:center; gap:28px; margin-left:auto; }
@@ -170,7 +170,7 @@ export const TerminalView: React.FC<TerminalViewProps> = ({ onJoin, onLogin }) =
         .term-hero-title{ color:#fff; font-weight:800; font-size:clamp(34px,5.2vw,58px); line-height:1.08; letter-spacing:-0.02em; max-width:19ch; position:relative; z-index:1; }
         .term-hero-sub{ color:#D6D4E2; font-size:17px; line-height:1.6; max-width:46ch; margin-top:26px; position:relative; z-index:1; }
         .term-btn-primary{ background:#fff; color:var(--term-ink); padding:14px 26px; border-radius:100px; font-weight:600; font-size:15px; border:none; cursor:pointer; }
-        .term-btn-primary:hover{ background:var(--term-lav); }
+        .term-btn-primary:hover{ background:linear-gradient(90deg,#7E1CF1,#E61A97,#02C6FA); color:#fff; }
         .term-btn-ghost{ color:#fff; background:none; border:none; padding:14px 10px; font-weight:600; font-size:15px; border-bottom:1px solid rgba(255,255,255,0.4); cursor:pointer; }
         .term-section-cta{ margin-top:32px; text-align:left; }
         .term-section-cta button{ background:none; border:none; font-family:'Sora',sans-serif; font-weight:700; font-size:14px; color:var(--term-ink); border-bottom:2px solid #7E1CF1; padding-bottom:2px; cursor:pointer; }
@@ -207,6 +207,14 @@ export const TerminalView: React.FC<TerminalViewProps> = ({ onJoin, onLogin }) =
         .term-history-stat:first-child .y{ color:#02C6FA; } .term-history-stat:last-child .y{ color:#7E1CF1; }
         .term-history-stat .l{ font-family:'Sora',sans-serif; font-weight:700; font-size:10px; letter-spacing:0.04em; color:var(--term-ink-soft); margin-top:4px; }
         .term-values{ padding:72px 0; }
+        .term-values-grid > div{ border-radius:18px; padding:24px 20px; transition:transform 0.3s cubic-bezier(.2,.8,.2,1); }
+        .term-values-grid > div:nth-child(1){ background:var(--term-ink); color:#fff; }
+        .term-values-grid > div:nth-child(2){ background:var(--term-lav); }
+        .term-values-grid > div:nth-child(3){ background:var(--term-grey); }
+        .term-values-grid > div:nth-child(4){ background:var(--term-ink); color:#fff; }
+        .term-values-grid > div:nth-child(1) .n{ color:#02C6FA; } .term-values-grid > div:nth-child(4) .n{ color:#E61A97; }
+        .term-values-grid > div:nth-child(2) .n, .term-values-grid > div:nth-child(3) .n{ color:#7E1CF1; }
+        .term-values-grid > div:nth-child(1) p, .term-values-grid > div:nth-child(4) p{ color:#B9B7C7; }
         .term-values-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:18px; margin-top:32px; }
         @media (max-width:800px){ .term-values-grid{ grid-template-columns:1fr 1fr; } }
         .term-values-grid .n{ font-family:'Sora',sans-serif; font-weight:700; font-size:13px; color:#7E1CF1; margin-bottom:12px; }
@@ -227,7 +235,13 @@ export const TerminalView: React.FC<TerminalViewProps> = ({ onJoin, onLogin }) =
         .term-why{ padding:72px 0; }
         .term-why-grid{ display:grid; grid-template-columns:repeat(3,1fr); border-top:1px solid var(--term-line); margin-top:36px; }
         @media (max-width:800px){ .term-why-grid{ grid-template-columns:1fr; } }
-        .term-why-item{ padding:28px 24px; border-right:1px solid var(--term-line); }
+        .term-why-item{ padding:28px 24px; border-right:1px solid var(--term-line); border-top:3px solid transparent; }
+        .term-why-item:nth-child(1){ border-top-color:#E61A97; }
+        .term-why-item:nth-child(2){ border-top-color:#7E1CF1; }
+        .term-why-item:nth-child(3){ border-top-color:#02C6FA; }
+        .term-why-item:nth-child(1) .n{ color:#E61A97; }
+        .term-why-item:nth-child(2) .n{ color:#7E1CF1; }
+        .term-why-item:nth-child(3) .n{ color:#02C6FA; }
         .term-why-item:last-child{ border-right:none; }
         .term-why-item .n{ font-family:'Sora',sans-serif; font-weight:700; font-size:13px; color:#7E1CF1; margin-bottom:12px; }
         .term-why-item h4{ font-size:15px; font-weight:700; margin-bottom:6px; }
@@ -594,7 +608,7 @@ export const TerminalView: React.FC<TerminalViewProps> = ({ onJoin, onLogin }) =
       <section className="term-cta">
         <div className="term-wrap term-cta-inner">
           <div>
-            <h2>{t('Votre projet a une valeur.', 'Your project has value.')}</h2>
+            <h2>{t('Prêt à faire certifier votre travail ?', 'Ready to get your work certified?')}</h2>
             <div style={{ fontSize: 13, color: '#6B4A5E', marginTop: 8 }}>{t('Accès sur pré-inscription, validé par notre équipe.', 'Access by pre-registration, validated by our team.')}</div>
           </div>
           <button className="term-pill" style={{ background: '#0B0E14' }} onClick={() => setShowJoin(true)}>{t('Rejoindre LYA →', 'Join LYA →')}</button>
@@ -692,4 +706,3 @@ export const TerminalView: React.FC<TerminalViewProps> = ({ onJoin, onLogin }) =
 };
 
 export default TerminalView;
-// build: force redeploy 1789033082
