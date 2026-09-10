@@ -326,6 +326,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-join-field input:focus{ outline:none; border-color:#7E1CF1; }
         .term-join-error{ background:#FBE4EF; color:#7A2062; font-size:12.5px; padding:10px 14px; border-radius:10px; margin-bottom:14px; }
         .term-join-submit{ width:100%; background:var(--term-ink); color:#fff; border:none; padding:14px; border-radius:100px; font-family:'Sora',sans-serif; font-weight:700; font-size:14.5px; cursor:pointer; margin-top:6px; }
+        .term-join-submit.secondary-close{ background:none; color:var(--term-ink-soft); }
         .term-join-submit:disabled{ opacity:0.6; cursor:default; }
         .term-join-success .icon{ width:52px; height:52px; border-radius:50%; background:linear-gradient(135deg,#7E1CF1,#02C6FA); display:flex; align-items:center; justify-content:center; color:#fff; font-size:24px; font-weight:800; margin-bottom:18px; font-family:'Sora',sans-serif; }
         .term-join-success .pos{ font-size:13px; color:var(--term-ink-soft); margin-bottom:4px; }
@@ -685,34 +686,50 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
                   </>
                 ) : (
                   <>
-                    <div className="term-join-title">{t('Accès immédiat débloqué !', 'Instant access unlocked!')}</div>
+                    <div className="term-join-title">{t('Vous en faites partie.', "You're in.")}</div>
                     <div className="pos">
-                      {t(`Position #${joinResult.position}`, `Position #${joinResult.position}`)}
-                      {' — '}
-                      {joinResult.tier === 'FOUNDING_PIONEER' ? t('Founding Pioneer', 'Founding Pioneer') : t('Original', 'Original')}
+                      {joinResult.tier === 'FOUNDING_PIONEER'
+                        ? t(`Founding Pioneer — l'une des 150 premières places`, `Founding Pioneer — one of the first 150 spots`)
+                        : t(`Membre Original — position #${joinResult.position} sur 1000`, `Original member — position #${joinResult.position} of 1000`)}
                     </div>
                     <div className="term-join-steps">
-                      <div className="step"><span>1.</span><span><b>{t('Email de confirmation', 'Confirmation email')}</b> — {t('vérifiez votre boîte de réception, votre clé d\'accès y est jointe.', "check your inbox — your access key is attached.")}</span></div>
-                      <div className="step"><span>2.</span><span><b>{t('Accès activé automatiquement', 'Access activated automatically')}</b> — {t("votre position vous donne un accès immédiat, sans validation manuelle.", 'your position gives you instant access, no manual review needed.')}</span></div>
-                      <div className="step"><span>3.</span><span><b>{t('Découverte de LYA', 'Discover LYA')}</b> — {t("collez votre clé sur la page d'inscription pour créer votre compte.", 'paste your key on the signup page to create your account.')}</span></div>
+                      <div className="step"><span>1.</span><span><b>{t('Accès activé, sans attente', 'Access activated, no wait')}</b> — {t('votre place vous donne un accès immédiat, aucune validation manuelle.', 'your spot gives you instant access, no manual review.')}</span></div>
+                      <div className="step"><span>2.</span><span><b>{t('Votre clé, votre laissez-passer', 'Your key, your pass')}</b> — {t("gardée ci-dessous et dans votre email, elle est unique et vous est réservée.", "kept below and in your email — it's unique and reserved for you.")}</span></div>
                     </div>
                     {joinResult.accessKey && (
-                      <div className="term-join-keybox">
-                        <span>{joinResult.accessKey}</span>
+                      <>
+                        <div className="term-join-keybox">
+                          <span>{joinResult.accessKey}</span>
+                          <button
+                            type="button"
+                            onClick={async () => {
+                              if (!joinResult.accessKey) return;
+                              try { await navigator.clipboard.writeText(joinResult.accessKey); setKeyCopied(true); setTimeout(() => setKeyCopied(false), 2000); } catch { /* noop */ }
+                            }}
+                          >
+                            {keyCopied ? t('Copiée ✓', 'Copied ✓') : t('Copier', 'Copy')}
+                          </button>
+                        </div>
                         <button
                           type="button"
-                          onClick={async () => {
+                          className="term-join-submit"
+                          style={{ marginTop: 12, background: 'linear-gradient(90deg,#7E1CF1,#E61A97,#02C6FA)' }}
+                          onClick={() => {
                             if (!joinResult.accessKey) return;
-                            try { await navigator.clipboard.writeText(joinResult.accessKey); setKeyCopied(true); setTimeout(() => setKeyCopied(false), 2000); } catch { /* noop */ }
+                            try {
+                              sessionStorage.setItem('lya_prefilled_code', joinResult.accessKey);
+                              sessionStorage.setItem('lya_prefilled_email', joinEmail);
+                            } catch { /* noop */ }
+                            onSignup?.({ code: joinResult.accessKey, email: joinEmail });
                           }}
                         >
-                          {keyCopied ? t('Copiée ✓', 'Copied ✓') : t('Copier', 'Copy')}
+                          {t('Activer ma clé et créer mon compte →', 'Activate my key and create my account →')}
                         </button>
-                      </div>
+                      </>
                     )}
                   </>
                 )}
-                <button className="term-join-submit" onClick={closeJoin} style={{ marginTop: 20 }}>{t('Fermer', 'Close')}</button>
+                <button className="term-join-submit secondary-close" onClick={closeJoin} style={{ marginTop: 10 }}>{t('Plus tard', 'Later')}</button>
               </div>
             )}
           </div>
