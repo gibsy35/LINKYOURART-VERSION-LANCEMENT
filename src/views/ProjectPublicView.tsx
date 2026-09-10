@@ -292,7 +292,7 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
               <div className="flex items-center gap-2 flex-wrap mb-1">
                 <p className="text-xs font-black text-[#a78bfa] uppercase tracking-widest">{T('LYA Score Global', 'Global LYA Score')}</p>
                 {certifierCount !== null && certifierCount > 0 && certifierCount < 3 && (
-                  <span className="px-2 py-0.5 bg-amber-400/10 border border-amber-400/25 rounded-full text-[9px] font-black text-amber-400 uppercase tracking-widest flex items-center gap-1">
+                  <span className="px-2 py-0.5 bg-violet-400/10 border border-violet-400/25 rounded-full text-[9px] font-black text-violet-400 uppercase tracking-widest flex items-center gap-1">
                     <AlertTriangle size={9} /> {T('Provisional Score', 'Score Provisoire')}
                   </span>
                 )}
@@ -303,7 +303,7 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
                   className="h-full bg-gradient-to-r from-[#a78bfa] to-primary-cyan rounded-full"/>
               </div>
               {certifierCount !== null && certifierCount > 0 && certifierCount < 3 && (
-                <p className="text-[10px] text-amber-400/70 mt-2 max-w-xs leading-relaxed">
+                <p className="text-[10px] text-violet-400/70 mt-2 max-w-xs leading-relaxed">
                   {T('Based on a limited sample of certifiers — treat this score as indicative until more independent reviews come in.', 'Basé sur un échantillon limité de certificateurs — à considérer comme indicatif tant que d\'autres avis indépendants ne sont pas venus le confirmer.')}
                 </p>
               )}
