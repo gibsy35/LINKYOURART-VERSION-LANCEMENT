@@ -6,7 +6,7 @@ import { useCurrency } from '../context/CurrencyContext';
 import { FeatureShowcaseModal } from '../components/Modals';
 
 import { PageHeader } from '../components/ui/PageHeader';
-import { PRO_STARTER_PRICE_EUR, PRO_ADVANCED_PRICE_EUR, EXPRESS_48H_PRICE_EUR, EXPRESS_24H_PRICE_EUR } from '../lib/permissions';
+import { PRO_STARTER_PRICE_EUR, PRO_ADVANCED_PRICE_EUR, PRO_STARTER_PROJECT_LIMIT, PRO_ADVANCED_PROJECT_LIMIT, EXPRESS_48H_PRICE_EUR, EXPRESS_24H_PRICE_EUR } from '../lib/permissions';
 
 interface PricingViewProps {
   onSelectPlan: (plan: { id: string, name: string, price: number, billingCycle: 'monthly' | 'yearly' }) => void;
@@ -135,7 +135,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
       monthlyPrice: PRO_STARTER_PRICE_EUR,
       description: t('For independent professionals sourcing and certifying work.', 'Pour les pros indépendants qui sourcent et certifient.'),
       features: [
-        t('Unlimited submissions', 'Soumissions illimitées'),
+        t(`Up to ${PRO_STARTER_PROJECT_LIMIT} submissions/mo`, `Jusqu'à ${PRO_STARTER_PROJECT_LIMIT} soumissions/mois`),
         t('Full Registry access', 'Accès complet au Registre'),
         t('Priority review queue', 'File de revue prioritaire'),
       ],
@@ -149,7 +149,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
       monthlyPrice: PRO_ADVANCED_PRICE_EUR,
       description: t('Everything in Starter, plus API and dedicated support.', 'Tout Starter, plus API et accompagnement dédié.'),
       features: [
-        t('Everything in Pro Starter', 'Tout Pro Starter'),
+        t(`Everything in Pro Starter, cap raised to ${PRO_ADVANCED_PROJECT_LIMIT}/mo`, `Tout Pro Starter, plafond porté à ${PRO_ADVANCED_PROJECT_LIMIT}/mois`),
         t('API access', 'Accès API'),
         t('Dedicated account manager', 'Gestionnaire de compte dédié'),
       ],
