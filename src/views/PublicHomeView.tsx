@@ -398,13 +398,17 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-modal-cta .primary{ background:var(--term-ink); color:#fff; }
         .term-modal-cta .secondary{ background:none; border:1px solid var(--term-line); color:var(--term-ink); }
         /* Pop-up de pre-inscription legere */
-        .term-join-card{ background:#fff; border-radius:22px; max-width:440px; width:100%; padding:36px 30px; position:relative; }
+        .term-join-card{ background:#fff; border-radius:22px; max-width:440px; width:100%; padding:36px 30px; position:relative; border-top:4px solid transparent; border-image:linear-gradient(90deg,#7E1CF1,#E61A97,#02C6FA) 1; }
+        .term-info-modal{ background:#fff; border-radius:22px; max-width:680px; width:100%; max-height:82vh; overflow-y:auto; padding:40px 36px; position:relative; animation:termModalIn 0.3s cubic-bezier(.2,.8,.2,1); }
+        .term-info-modal .term-join-title{ margin-bottom:20px; }
+        .term-info-modal .term-model-grid{ grid-template-columns:1fr; gap:14px; }
+        .term-info-modal .term-legal-grid{ grid-template-columns:1fr; gap:2px; }
         .term-join-close{ position:absolute; top:18px; right:18px; background:var(--term-grey); border:none; width:32px; height:32px; border-radius:50%; font-size:18px; cursor:pointer; color:var(--term-ink); }
         .term-join-title{ font-family:'Sora',sans-serif; font-weight:800; font-size:22px; margin-bottom:8px; }
         .term-join-sub{ font-size:13.5px; color:var(--term-ink-soft); margin-bottom:24px; line-height:1.5; }
         .term-join-cats{ display:flex; gap:8px; margin-bottom:18px; }
         .term-join-cats button{ flex:1; padding:10px 6px; border-radius:10px; border:1px solid var(--term-line); background:#fff; font-size:12px; font-weight:700; font-family:'Sora',sans-serif; cursor:pointer; color:var(--term-ink-soft); }
-        .term-join-cats button.active{ background:var(--term-ink); color:#fff; border-color:var(--term-ink); }
+        .term-join-cats button.active{ background:linear-gradient(90deg,#7E1CF1,#E61A97); color:#fff; border-color:transparent; }
         .term-join-field{ margin-bottom:14px; }
         .term-join-field label{ display:block; font-size:11px; font-weight:700; color:var(--term-ink-soft); margin-bottom:6px; text-transform:uppercase; letter-spacing:0.02em; }
         .term-join-field input{ width:100%; padding:12px 14px; border-radius:10px; border:1px solid var(--term-line); font-size:14px; font-family:'Inter',sans-serif; box-sizing:border-box; }
@@ -986,76 +990,78 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       {/* Notre Modele + Mentions legales : jamais visibles par defaut, uniquement
           ouvertes depuis les vrais liens de navigation du footer ci-dessous. */}
       {footerTab && (
-      <section className="term-footer-tabs" id="model">
-        <div className="term-wrap">
-          {footerTab === 'model' && (
-            <div className="term-tab-panel">
-              <button className="term-tab-close" onClick={() => setFooterTab(null)}>{t('Fermer ✕', 'Close ✕')}</button>
-              <div className="term-model-grid">
-                <div className="term-model-card">
-                  <div className="n">01</div>
-                  <h4>{t('Simple & pour tous', 'Simple & for everyone')}</h4>
-                  <p>{t("Le modèle LYA transforme l'évaluation créative complexe en un Score simple et objectif. Cela permet à n'importe qui — artiste, mécène ou simple passionné — de comprendre la qualité d'un projet et de soutenir sa réussite.", "The LYA model turns complex creative evaluation into a simple, objective Score. This allows anyone — artist, patron, or casual fan — to understand a project's quality and support its success.")}</p>
-                </div>
-                <div className="term-model-card">
-                  <div className="n">02</div>
-                  <h4>{t('Un standard de certification, pas un produit financier', 'A certification standard, not a financial product')}</h4>
-                  <p>{t('Les créateurs se font certifier, les mécènes soutiennent les projets auxquels ils croient et reçoivent en retour des contreparties de reconnaissance. Direct, simple, sans instrument financier.', 'Creators get certified, patrons support projects they believe in and receive recognition-based considerations in return. Direct, easy, no financial instrument.')}</p>
-                </div>
-                <div className="term-model-card">
-                  <div className="n">03</div>
-                  <h4>{t('Un succès collaboratif', 'Collaborative success')}</h4>
-                  <p>{t('LinkYourArt est un pont. Nous unissons les créateurs qui ont besoin de visibilité avec une communauté qui veut découvrir et défendre des œuvres nouvelles.', 'LinkYourArt is a bridge. We unite creators who need visibility with a community that wants to discover and champion new works.')}</p>
-                </div>
-              </div>
-            </div>
-          )}
+        <div className="term-modal-overlay" onClick={(e) => { if (e.target === e.currentTarget) setFooterTab(null); }}>
+          <div className="term-info-modal">
+            <button className="term-modal-close" onClick={() => setFooterTab(null)}>×</button>
 
-          {footerTab === 'legal' && (
-            <div className="term-tab-panel">
-              <button className="term-tab-close" onClick={() => setFooterTab(null)}>{t('Fermer ✕', 'Close ✕')}</button>
-              <div className="term-legal-grid">
-                <div className="term-legal-item">
-                  <h5>{t('Identité', 'Identity')}</h5>
-                  <p>{t('LINKYOURART SASU, société immatriculée en France, 122 rue Amelot, 75011 Paris. SIRET : 108 141 946 00013. Fondée par Jean-Baptiste Lequime.', 'LINKYOURART SASU, a company registered in France, 122 rue Amelot, 75011 Paris. SIRET: 108 141 946 00013. Founded by Jean-Baptiste Lequime.')}</p>
+            {footerTab === 'model' && (
+              <>
+                <div className="term-join-title">{t('Notre modèle', 'Our model')}</div>
+                <div className="term-model-grid">
+                  <div className="term-model-card">
+                    <div className="n">01</div>
+                    <h4>{t('Simple & pour tous', 'Simple & for everyone')}</h4>
+                    <p>{t("Le modèle LYA transforme l'évaluation créative complexe en un Score simple et objectif. Cela permet à n'importe qui — artiste, mécène ou simple passionné — de comprendre la qualité d'un projet et de soutenir sa réussite.", "The LYA model turns complex creative evaluation into a simple, objective Score. This allows anyone — artist, patron, or casual fan — to understand a project's quality and support its success.")}</p>
+                  </div>
+                  <div className="term-model-card">
+                    <div className="n">02</div>
+                    <h4>{t('Un standard de certification, pas un produit financier', 'A certification standard, not a financial product')}</h4>
+                    <p>{t('Les créateurs se font certifier, les mécènes soutiennent les projets auxquels ils croient et reçoivent en retour des contreparties de reconnaissance. Direct, simple, sans instrument financier.', 'Creators get certified, patrons support projects they believe in and receive recognition-based considerations in return. Direct, easy, no financial instrument.')}</p>
+                  </div>
+                  <div className="term-model-card">
+                    <div className="n">03</div>
+                    <h4>{t('Un succès collaboratif', 'Collaborative success')}</h4>
+                    <p>{t('LinkYourArt est un pont. Nous unissons les créateurs qui ont besoin de visibilité avec une communauté qui veut découvrir et défendre des œuvres nouvelles.', 'LinkYourArt is a bridge. We unite creators who need visibility with a community that wants to discover and champion new works.')}</p>
+                  </div>
                 </div>
-                <div className="term-legal-item">
-                  <h5>{t('Propriété intellectuelle', 'Intellectual property')}</h5>
-                  <p>{t("Logo, nom, design et algorithme du Score LYA sont la propriété exclusive de LINKYOURART SASU. Les projets créatifs enregistrés restent la propriété exclusive de leurs créateurs.", 'Logo, name, design and the LYA Score algorithm are the exclusive property of LINKYOURART SASU. Registered creative projects remain the exclusive property of their creators.')}</p>
-                </div>
-                <div className="term-legal-item">
-                  <h5>{t('Données personnelles & RGPD', 'Personal data & GDPR')}</h5>
-                  <p>{t('Nom, email et rôle sont collectés uniquement pour le fonctionnement de la plateforme. Droit d\'accès, de rectification et de suppression. Vos données ne sont jamais vendues.', 'Name, email and role are collected solely to operate the platform. Right to access, rectify and delete. Your data is never sold.')}</p>
-                </div>
-                <div className="term-legal-item">
-                  <h5>{t('Hébergement', 'Hosting')}</h5>
-                  <p>{t("Hébergé par Vercel Inc. (San Francisco, USA), avec Firebase (Google LLC) pour les données. Stockage conforme au RGPD.", 'Hosted by Vercel Inc. (San Francisco, USA), with Firebase (Google LLC) for data. GDPR-compliant storage.')}</p>
-                </div>
-              </div>
-            </div>
-          )}
+              </>
+            )}
 
-          {footerTab === 'cgu' && (
-            <div className="term-tab-panel">
-              <button className="term-tab-close" onClick={() => setFooterTab(null)}>{t('Fermer ✕', 'Close ✕')}</button>
-              <div className="term-legal-grid">
-                <div className="term-legal-item">
-                  <h5>{t('Philosophie & accessibilité', 'Philosophy & accessibility')}</h5>
-                  <p>{t("LinkYourArt est un écosystème inclusif ouvert aux créateurs, partenaires créatifs, professionnels et au grand public. Notre modèle repose sur la simplicité et l'équité.", 'LinkYourArt is an inclusive ecosystem open to creators, creative partners, professionals, and the general public. Our model is based on simplicity and fairness.')}</p>
+            {footerTab === 'legal' && (
+              <>
+                <div className="term-join-title">{t('Informations légales', 'Legal information')}</div>
+                <div className="term-legal-grid">
+                  <div className="term-legal-item">
+                    <h5>{t('Identité', 'Identity')}</h5>
+                    <p>{t('LINKYOURART SASU, société immatriculée en France, 122 rue Amelot, 75011 Paris. SIRET : 108 141 946 00013. Fondée par Jean-Baptiste Lequime.', 'LINKYOURART SASU, a company registered in France, 122 rue Amelot, 75011 Paris. SIRET: 108 141 946 00013. Founded by Jean-Baptiste Lequime.')}</p>
+                  </div>
+                  <div className="term-legal-item">
+                    <h5>{t('Propriété intellectuelle', 'Intellectual property')}</h5>
+                    <p>{t("Logo, nom, design et algorithme du Score LYA sont la propriété exclusive de LINKYOURART SASU. Les projets créatifs enregistrés restent la propriété exclusive de leurs créateurs.", 'Logo, name, design and the LYA Score algorithm are the exclusive property of LINKYOURART SASU. Registered creative projects remain the exclusive property of their creators.')}</p>
+                  </div>
+                  <div className="term-legal-item">
+                    <h5>{t('Données personnelles & RGPD', 'Personal data & GDPR')}</h5>
+                    <p>{t('Nom, email et rôle sont collectés uniquement pour le fonctionnement de la plateforme. Droit d\'accès, de rectification et de suppression. Vos données ne sont jamais vendues.', 'Name, email and role are collected solely to operate the platform. Right to access, rectify and delete. Your data is never sold.')}</p>
+                  </div>
+                  <div className="term-legal-item">
+                    <h5>{t('Hébergement', 'Hosting')}</h5>
+                    <p>{t("Hébergé par Vercel Inc. (San Francisco, USA), avec Firebase (Google LLC) pour les données. Stockage conforme au RGPD.", 'Hosted by Vercel Inc. (San Francisco, USA), with Firebase (Google LLC) for data. GDPR-compliant storage.')}</p>
+                  </div>
                 </div>
-                <div className="term-legal-item">
-                  <h5>{t('Le modèle de certification', 'The certification model')}</h5>
-                  <p>{t("Chaque projet est évalué par une combinaison d'analyse algorithmique et de revue par des professionnels certifiés. Le Score LYA est un standard de certification — ce n'est pas un instrument financier.", 'Each project is evaluated by algorithmic analysis and review by certified professionals. The LYA Score is a certification standard — it is not a financial instrument.')}</p>
+              </>
+            )}
+
+            {footerTab === 'cgu' && (
+              <>
+                <div className="term-join-title">{t('Conditions générales d\'utilisation', 'Terms of Service')}</div>
+                <div className="term-legal-grid">
+                  <div className="term-legal-item">
+                    <h5>{t('Philosophie & accessibilité', 'Philosophy & accessibility')}</h5>
+                    <p>{t("LinkYourArt est un écosystème inclusif ouvert aux créateurs, partenaires créatifs, professionnels et au grand public. Notre modèle repose sur la simplicité et l'équité.", 'LinkYourArt is an inclusive ecosystem open to creators, creative partners, professionals, and the general public. Our model is based on simplicity and fairness.')}</p>
+                  </div>
+                  <div className="term-legal-item">
+                    <h5>{t('Le modèle de certification', 'The certification model')}</h5>
+                    <p>{t("Chaque projet est évalué par une combinaison d'analyse algorithmique et de revue par des professionnels certifiés. Le Score LYA est un standard de certification — ce n'est pas un instrument financier.", 'Each project is evaluated by algorithmic analysis and review by certified professionals. The LYA Score is a certification standard — it is not a financial instrument.')}</p>
+                  </div>
+                  <div className="term-legal-item">
+                    <h5>{t('Transparence & sécurité', 'Transparency & security')}</h5>
+                    <p>{t('Chaque projet certifié et chaque jalon sont enregistrés dans notre registre immuable. Cela assure une transparence totale pour tous les participants.', 'Every certified project and every milestone is registered in our immutable registry. This ensures total transparency for all participants.')}</p>
+                  </div>
                 </div>
-                <div className="term-legal-item">
-                  <h5>{t('Transparence & sécurité', 'Transparency & security')}</h5>
-                  <p>{t('Chaque projet certifié et chaque jalon sont enregistrés dans notre registre immuable. Cela assure une transparence totale pour tous les participants.', 'Every certified project and every milestone is registered in our immutable registry. This ensures total transparency for all participants.')}</p>
-                </div>
-              </div>
-            </div>
-          )}
+              </>
+            )}
+          </div>
         </div>
-      </section>
       )}
 
       {/* Footer */}
@@ -1076,7 +1082,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
               <a href="#pillars">{t('Le Score', 'The Score')}</a>
               <a href="#registry">{t('Projets', 'Projects')}</a>
               <a href="#pricing">{t('Tarifs', 'Pricing')}</a>
-              <a href="#model" onClick={(e) => { e.preventDefault(); setFooterTab('model'); requestAnimationFrame(() => document.getElementById('model')?.scrollIntoView({ behavior: 'smooth', block: 'start' })); }}>{t('Notre modèle', 'Our model')}</a>
+              <a href="#" onClick={(e) => { e.preventDefault(); setFooterTab('model'); }}>{t('Notre modèle', 'Our model')}</a>
             </div>
             <div>
               <h5>{t('CONTACT', 'CONTACT')}</h5>
@@ -1085,9 +1091,9 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
             </div>
             <div>
               <h5>{t('LÉGAL', 'LEGAL')}</h5>
-              <a href="#model" onClick={(e) => { e.preventDefault(); setFooterTab('legal'); requestAnimationFrame(() => document.getElementById('model')?.scrollIntoView({ behavior: 'smooth', block: 'start' })); }}>{t('Mentions légales', 'Legal notice')}</a>
-              <a href="#model" onClick={(e) => { e.preventDefault(); setFooterTab('legal'); requestAnimationFrame(() => document.getElementById('model')?.scrollIntoView({ behavior: 'smooth', block: 'start' })); }}>{t('Confidentialité', 'Privacy')}</a>
-              <a href="#model" onClick={(e) => { e.preventDefault(); setFooterTab('cgu'); requestAnimationFrame(() => document.getElementById('model')?.scrollIntoView({ behavior: 'smooth', block: 'start' })); }}>{t('CGU', 'Terms of Service')}</a>
+              <a href="#" onClick={(e) => { e.preventDefault(); setFooterTab('legal'); }}>{t('Mentions légales', 'Legal notice')}</a>
+              <a href="#" onClick={(e) => { e.preventDefault(); setFooterTab('legal'); }}>{t('Confidentialité', 'Privacy')}</a>
+              <a href="#" onClick={(e) => { e.preventDefault(); setFooterTab('cgu'); }}>{t('CGU', 'Terms of Service')}</a>
             </div>
           </div>
           <div className="term-foot-bottom">
