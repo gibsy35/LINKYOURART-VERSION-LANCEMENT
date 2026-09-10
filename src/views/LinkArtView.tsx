@@ -93,9 +93,9 @@ export const LinkArtView: React.FC<{
         <motion.div 
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          className="w-24 h-24 bg-amber-500/10 rounded-full flex items-center justify-center mb-8 border border-amber-500/20 shadow-[0_0_30px_rgba(245,158,11,0.2)]"
+          className="w-24 h-24 bg-violet-500/10 rounded-full flex items-center justify-center mb-8 border border-violet-500/20 shadow-[0_0_30px_rgba(245,158,11,0.2)]"
         >
-          <Lock size={48} className="text-amber-500" />
+          <Lock size={48} className="text-violet-500" />
         </motion.div>
         <h2 className="text-3xl md:text-5xl font-black font-headline uppercase italic text-on-surface mb-6 tracking-tighter">
           {t('Free Limit Reached', 'Limite Gratuite Atteinte')}
@@ -870,7 +870,7 @@ export const LinkArtView: React.FC<{
                               <div className={`w-10 h-10 flex items-center justify-center ${
                                 milestone.status === 'COMPLETED' ? 'bg-emerald-500/10 text-emerald-400' :
                                 milestone.status === 'FAILED' ? 'bg-red-500/10 text-red-400' :
-                                milestone.status === 'IN_PROGRESS' ? 'bg-amber-500/10 text-amber-500' :
+                                milestone.status === 'IN_PROGRESS' ? 'bg-violet-500/10 text-violet-500' :
                                 'bg-primary-cyan/10 text-primary-cyan'
                               }`}>
                                 {milestone.status === 'COMPLETED' ? <CheckCircle2 size={20} /> : <Calendar size={20} />}
@@ -881,7 +881,7 @@ export const LinkArtView: React.FC<{
                                   <span className={`text-[10px] px-1.5 py-0.5 font-bold uppercase tracking-widest border ${
                                     milestone.status === 'COMPLETED' ? 'border-emerald-500/30 text-emerald-400 bg-emerald-500/5' :
                                     milestone.status === 'FAILED' ? 'border-red-500/30 text-red-400 bg-red-500/5' :
-                                    milestone.status === 'IN_PROGRESS' ? 'border-amber-500/30 text-amber-500 bg-amber-500/5' :
+                                    milestone.status === 'IN_PROGRESS' ? 'border-violet-500/30 text-violet-500 bg-violet-500/5' :
                                     'border-white/10 text-on-surface-variant'
                                   }`}>
                                     {t(milestone.status, milestone.status)}
