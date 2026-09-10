@@ -1038,7 +1038,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
                 
                 <motion.button 
                   onClick={() => setShowLegalPopup(true)}
-                  whileHover={{ scale: 1.03, backgroundColor: 'rgba(245, 158, 11, 0.12)', boxShadow: '0 0 30px rgba(245, 158, 11, 0.15)' }}
+                  whileHover={{ scale: 1.03, backgroundColor: 'rgba(126,28,241, 0.12)', boxShadow: '0 0 30px rgba(126,28,241, 0.15)' }}
                   className="px-6 py-3.5 bg-violet-500/[0.05] border border-violet-500/20 hover:border-violet-500 rounded-xl backdrop-blur-md flex items-center gap-2.5 transition-all group text-violet-500 font-black"
                 >
                   <Shield size={14} className="text-violet-500" />
