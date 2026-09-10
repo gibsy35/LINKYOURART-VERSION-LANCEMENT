@@ -22,11 +22,11 @@ interface PublicHomeViewProps {
 }
 
 const pillars = [
-  { n: '01', title: { fr: 'Intégrité conceptuelle', en: 'Conceptual integrity' }, desc: { fr: 'Cohérence et clarté de la vision créative : le projet tient-il sa promesse artistique de bout en bout ?', en: 'Coherence and clarity of the creative vision: does the project deliver on its artistic promise end to end?' }, bg: 'dark' },
-  { n: '02', title: { fr: 'Maturité actuelle', en: 'Current maturity' }, desc: { fr: "État d'avancement réel du projet : ce qui est déjà produit, documenté et vérifiable aujourd'hui.", en: "The project's real state of progress: what is already produced, documented and verifiable today." }, bg: 'lav' },
-  { n: '03', title: { fr: "Capacité d'évolution", en: 'Growth capacity' }, desc: { fr: 'Marge de progression du projet : sa capacité à franchir de nouveaux jalons de certification.', en: 'The project\'s room to grow: its capacity to reach new certification milestones.' }, bg: 'grey' },
-  { n: '04', title: { fr: 'Faisabilité réelle', en: 'Real feasibility' }, desc: { fr: "Solidité du plan d'exécution : ressources, calendrier et moyens réunis pour aller au bout.", en: 'Soundness of the execution plan: resources, timeline and means gathered to see it through.' }, bg: 'dark' },
-  { n: '05', title: { fr: 'Incarnation du porteur', en: 'Embodiment' }, desc: { fr: 'Présence et crédibilité du créateur : son engagement direct et vérifiable dans le projet.', en: "The creator's presence and credibility: their direct, verifiable commitment to the project." }, bg: 'lav' },
+  { n: '01', title: { fr: 'Qualité du Projet', en: 'Project Quality' }, desc: { fr: "La rigueur créative et technique de l'œuvre elle-même — exécution, cohérence artistique, niveau de finition.", en: 'The creative and technical rigor of the work itself — execution, artistic coherence, level of finish.' }, bg: 'dark' },
+  { n: '02', title: { fr: 'Potentiel de Marché', en: 'Marketability' }, desc: { fr: 'La capacité du projet à trouver un public et une audience réelle, au-delà de sa seule valeur artistique intrinsèque.', en: "The project's ability to find a real audience, beyond its intrinsic artistic value alone." }, bg: 'lav' },
+  { n: '03', title: { fr: 'Sécurité Juridique', en: 'Legal Security' }, desc: { fr: 'La clarté et la solidité des droits de propriété intellectuelle documentés — absence de litige, chaîne de titres claire.', en: 'The clarity and solidity of documented intellectual property rights — no disputes, clear chain of title.' }, bg: 'grey' },
+  { n: '04', title: { fr: 'Innovation Technique', en: 'Technical Innovation' }, desc: { fr: "L'originalité de l'approche ou de la technique employée, par rapport à l'état actuel de la discipline.", en: 'The originality of the approach or technique used, relative to the current state of the discipline.' }, bg: 'dark' },
+  { n: '05', title: { fr: 'Potentiel de Croissance', en: 'Growth Potential' }, desc: { fr: "La capacité du projet et de son porteur à se développer dans la durée, au-delà de l'œuvre présentée aujourd'hui.", en: "The project's and creator's ability to grow over time, beyond the work presented today." }, bg: 'lav' },
 ];
 
 const comparison = {
@@ -73,11 +73,11 @@ const registry = [
 ];
 
 const pillarLabels = [
-  { fr: 'Intégrité conceptuelle', en: 'Conceptual integrity' },
-  { fr: 'Maturité actuelle', en: 'Current maturity' },
-  { fr: "Capacité d'évolution", en: 'Growth capacity' },
-  { fr: 'Faisabilité réelle', en: 'Real feasibility' },
-  { fr: 'Incarnation', en: 'Embodiment' },
+  { fr: 'Qualité du Projet', en: 'Project Quality' },
+  { fr: 'Potentiel de Marché', en: 'Marketability' },
+  { fr: 'Sécurité Juridique', en: 'Legal Security' },
+  { fr: 'Innovation Technique', en: 'Technical Innovation' },
+  { fr: 'Potentiel de Croissance', en: 'Growth Potential' },
 ];
 
 function splitScore(score: number): number[] {
@@ -268,8 +268,8 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-example-card .bar .fill{ height:100%; border-radius:100px; }
         .term-example-card .val{ font-family:'Sora',sans-serif; font-weight:800; font-size:14px; white-space:nowrap; }
         .term-example-card .val .max{ font-size:10px; font-weight:500; color:var(--term-ink-soft); }
-        .term-score-hero{ padding:72px 0; background:var(--term-ink); }
-        .term-score-hero-inner{ display:flex; align-items:center; gap:48px; flex-wrap:wrap; }
+        .term-score-hero{ padding:8px 0 56px; }
+        .term-score-hero-inner{ background:var(--term-ink); border-radius:28px; padding:48px 44px; display:flex; align-items:center; gap:48px; flex-wrap:wrap; }
         .term-score-hero-num{ display:flex; align-items:baseline; flex-shrink:0; }
         .term-score-hero-num .big{ font-family:'Sora',sans-serif; font-weight:800; font-size:clamp(72px,11vw,140px); line-height:1; background:linear-gradient(90deg,#7E1CF1,#E61A97,#02C6FA); -webkit-background-clip:text; background-clip:text; color:transparent; }
         .term-score-hero-num .max{ font-family:'Sora',sans-serif; font-weight:700; font-size:clamp(20px,2.4vw,30px); color:#565B6B; margin-left:6px; }
@@ -443,6 +443,19 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-cta-inner{ display:flex; justify-content:space-between; align-items:center; gap:24px; flex-wrap:wrap; }
         .term-cta h2{ font-weight:800; font-size:clamp(24px,3vw,34px); max-width:22ch; color:var(--term-ink); }
         .term-footer{ background:var(--term-ink); color:#B9B7C7; padding-top:48px; }
+        .term-model{ padding:72px 0; background:var(--term-grey); }
+        .term-model-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:32px; }
+        @media (max-width:800px){ .term-model-grid{ grid-template-columns:1fr; } }
+        .term-model-card{ background:#fff; border-radius:16px; padding:26px 22px; }
+        .term-model-card .n{ font-family:'Sora',sans-serif; font-weight:700; font-size:13px; color:#7E1CF1; margin-bottom:12px; }
+        .term-model-card h4{ font-size:15px; font-weight:700; margin-bottom:8px; }
+        .term-model-card p{ font-size:13px; line-height:1.6; color:var(--term-ink-soft); }
+        .term-legal{ padding:56px 0; }
+        .term-legal-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:2px; margin-top:28px; border-radius:16px; overflow:hidden; }
+        @media (max-width:700px){ .term-legal-grid{ grid-template-columns:1fr; } }
+        .term-legal-item{ background:var(--term-grey); padding:20px 22px; }
+        .term-legal-item h5{ font-family:'Sora',sans-serif; font-weight:700; font-size:13px; margin-bottom:8px; }
+        .term-legal-item p{ font-size:12px; line-height:1.6; color:var(--term-ink-soft); }
         .term-foot-row{ display:flex; align-items:center; gap:20px; margin-bottom:40px; }
         .term-foot-big{ font-family:'Sora',sans-serif; font-weight:800; color:#fff; font-size:clamp(38px,6vw,80px); }
         .term-foot-grid{ display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:24px; padding-bottom:40px; border-top:1px solid #22242E; padding-top:32px; }
@@ -748,13 +761,13 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
             <div className="term-network-card term-reveal">
               <div className="n" style={{ color: '#3ADB76' }}>01</div>
               <h4>{t('Créateurs', 'Creators')}</h4>
-              <div className="who">{t('Artistes, producteurs indépendants, labels, talents', 'Artists, independent producers, labels, talent')}</div>
-              <p>{t('Faites certifier et valoriser officiellement votre œuvre. Conservez le contrôle artistique total, recevez le soutien de mécènes dès le lancement.', 'Get your work officially certified and showcased. Keep full artistic control, and receive patron support from day one.')}</p>
+              <div className="who">{t('Artistes, réalisateurs, auteurs — studios, sociétés de production et de divertissement, institutions culturelles (type CNC)', 'Artists, directors, authors — studios, production and entertainment companies, cultural institutions (e.g. CNC)')}</div>
+              <p>{t('Faites certifier et valoriser officiellement votre œuvre ou votre catalogue. Conservez le contrôle total, recevez le soutien de mécènes dès le lancement.', 'Get your work or catalog officially certified and showcased. Keep full control, and receive patron support from day one.')}</p>
             </div>
             <div className="term-network-card term-reveal">
               <div className="n" style={{ color: '#7E1CF1' }}>02</div>
               <h4>{t('Mécènes', 'Patrons')}</h4>
-              <div className="who">{t("Mécènes particuliers, fonds d'investissement, institutions culturelles", 'Individual patrons, investment funds, cultural institutions')}</div>
+              <div className="who">{t("Mécènes particuliers, fonds d'investissement, sponsors", 'Individual patrons, investment funds, sponsors')}</div>
               <p>{t('Soutenez les œuvres dès 50€. Le Score LYA garantit la rigueur de sélection. Suivez vos œuvres soutenues en temps réel.', 'Support works from €50. The LYA Score guarantees selection rigor. Track your supported works in real time.')}</p>
             </div>
             <div className="term-network-card term-reveal">
@@ -934,6 +947,56 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         </div>
       )}
 
+      {/* Notre Modele : vrai contenu de la page "Our Model" de l'outil */}
+      <section className="term-model" id="model">
+        <div className="term-wrap">
+          <div className="term-eyebrow">{t('Notre modèle', 'Our model')}</div>
+          <h2 style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t('Un nouveau standard pour la création mondiale.', 'A new standard for global creation.')}</h2>
+          <div className="term-model-grid">
+            <div className="term-model-card term-reveal">
+              <div className="n">01</div>
+              <h4>{t('Simple & pour tous', 'Simple & for everyone')}</h4>
+              <p>{t("Le modèle LYA transforme l'évaluation créative complexe en un Score simple et objectif. Cela permet à n'importe qui — artiste, mécène ou simple passionné — de comprendre la qualité d'un projet et de soutenir sa réussite.", "The LYA model turns complex creative evaluation into a simple, objective Score. This allows anyone — artist, patron, or casual fan — to understand a project's quality and support its success.")}</p>
+            </div>
+            <div className="term-model-card term-reveal">
+              <div className="n">02</div>
+              <h4>{t('Un standard de certification, pas un produit financier', 'A certification standard, not a financial product')}</h4>
+              <p>{t('Les créateurs se font certifier, les mécènes soutiennent les projets auxquels ils croient et reçoivent en retour des contreparties de reconnaissance. Direct, simple, sans instrument financier.', 'Creators get certified, patrons support projects they believe in and receive recognition-based considerations in return. Direct, easy, no financial instrument.')}</p>
+            </div>
+            <div className="term-model-card term-reveal">
+              <div className="n">03</div>
+              <h4>{t('Un succès collaboratif', 'Collaborative success')}</h4>
+              <p>{t('LinkYourArt est un pont. Nous unissons les créateurs qui ont besoin de visibilité avec une communauté qui veut découvrir et défendre des œuvres nouvelles.', 'LinkYourArt is a bridge. We unite creators who need visibility with a community that wants to discover and champion new works.')}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Informations legales, condensees — vrai contenu de la page Mentions Legales */}
+      <section className="term-legal" id="legal" style={{ scrollMarginTop: 80 }}>
+        <div className="term-wrap">
+          <div className="term-eyebrow">{t('Informations légales', 'Legal information')}</div>
+          <div className="term-legal-grid">
+            <div className="term-legal-item">
+              <h5>{t('Identité', 'Identity')}</h5>
+              <p>{t('LINKYOURART SASU, société immatriculée en France, 122 rue Amelot, 75011 Paris. SIRET : 108 141 946 00013. Fondée par Jean-Baptiste Lequime.', 'LINKYOURART SASU, a company registered in France, 122 rue Amelot, 75011 Paris. SIRET: 108 141 946 00013. Founded by Jean-Baptiste Lequime.')}</p>
+            </div>
+            <div className="term-legal-item">
+              <h5>{t('Propriété intellectuelle', 'Intellectual property')}</h5>
+              <p>{t("Logo, nom, design et algorithme du Score LYA sont la propriété exclusive de LINKYOURART SASU. Les projets créatifs enregistrés restent la propriété exclusive de leurs créateurs.", 'Logo, name, design and the LYA Score algorithm are the exclusive property of LINKYOURART SASU. Registered creative projects remain the exclusive property of their creators.')}</p>
+            </div>
+            <div className="term-legal-item">
+              <h5>{t('Données personnelles & RGPD', 'Personal data & GDPR')}</h5>
+              <p>{t('Nom, email et rôle sont collectés uniquement pour le fonctionnement de la plateforme. Droit d\'accès, de rectification et de suppression. Vos données ne sont jamais vendues.', 'Name, email and role are collected solely to operate the platform. Right to access, rectify and delete. Your data is never sold.')}</p>
+            </div>
+            <div className="term-legal-item">
+              <h5>{t('Hébergement', 'Hosting')}</h5>
+              <p>{t("Hébergé par Vercel Inc. (San Francisco, USA), avec Firebase (Google LLC) pour les données. Stockage conforme au RGPD.", 'Hosted by Vercel Inc. (San Francisco, USA), with Firebase (Google LLC) for data. GDPR-compliant storage.')}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer className="term-footer">
         <div className="term-wrap">
@@ -960,8 +1023,8 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
             </div>
             <div>
               <h5>{t('LÉGAL', 'LEGAL')}</h5>
-              <a href="#">{t('Mentions légales', 'Legal notice')}</a>
-              <a href="#">{t('Confidentialité', 'Privacy')}</a>
+              <a href="#legal">{t('Mentions légales', 'Legal notice')}</a>
+              <a href="#legal">{t('Confidentialité', 'Privacy')}</a>
             </div>
           </div>
           <div className="term-foot-bottom">
