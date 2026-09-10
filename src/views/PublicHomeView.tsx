@@ -462,10 +462,8 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-cta h2{ font-weight:800; font-size:clamp(24px,3vw,34px); max-width:22ch; color:var(--term-ink); }
         .term-footer{ background:var(--term-ink); color:#B9B7C7; padding-top:48px; }
         .term-footer-tabs{ padding:32px 0 8px; }
-        .term-tabs-row{ display:flex; gap:10px; flex-wrap:wrap; }
-        .term-tab{ background:var(--term-grey); border:none; padding:11px 20px; border-radius:100px; font-family:'Sora',sans-serif; font-weight:700; font-size:13px; color:var(--term-ink-soft); cursor:pointer; transition:background 0.25s ease, color 0.25s ease; }
-        .term-tab:hover{ background:var(--term-lav); }
-        .term-tab.active{ background:var(--term-ink); color:#fff; }
+        .term-tab-close{ background:var(--term-grey); border:none; padding:8px 16px; border-radius:100px; font-family:'Sora',sans-serif; font-weight:700; font-size:12px; color:var(--term-ink-soft); cursor:pointer; margin-bottom:20px; }
+        .term-tab-close:hover{ background:var(--term-lav); }
         .term-tab-panel{ margin-top:24px; animation:termTabIn 0.3s ease; }
         @keyframes termTabIn{ from{ opacity:0; transform:translateY(-8px); } to{ opacity:1; transform:translateY(0); } }
         .term-model{ padding:72px 0; background:var(--term-grey); }
@@ -985,17 +983,14 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         </div>
       )}
 
-      {/* Notre Modele + Mentions legales : onglet dedie en bas de page,
-          plus dans le flux principal du scroll comme demande. */}
+      {/* Notre Modele + Mentions legales : jamais visibles par defaut, uniquement
+          ouvertes depuis les vrais liens de navigation du footer ci-dessous. */}
+      {footerTab && (
       <section className="term-footer-tabs" id="model">
         <div className="term-wrap">
-          <div className="term-tabs-row">
-            <button className={`term-tab ${footerTab === 'model' ? 'active' : ''}`} onClick={() => setFooterTab(footerTab === 'model' ? null : 'model')}>{t('Notre modèle', 'Our model')}</button>
-            <button className={`term-tab ${footerTab === 'legal' ? 'active' : ''}`} onClick={() => setFooterTab(footerTab === 'legal' ? null : 'legal')} id="legal">{t('Informations légales', 'Legal information')}</button>
-          </div>
-
           {footerTab === 'model' && (
             <div className="term-tab-panel">
+              <button className="term-tab-close" onClick={() => setFooterTab(null)}>{t('Fermer ✕', 'Close ✕')}</button>
               <div className="term-model-grid">
                 <div className="term-model-card">
                   <div className="n">01</div>
@@ -1018,6 +1013,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
 
           {footerTab === 'legal' && (
             <div className="term-tab-panel">
+              <button className="term-tab-close" onClick={() => setFooterTab(null)}>{t('Fermer ✕', 'Close ✕')}</button>
               <div className="term-legal-grid">
                 <div className="term-legal-item">
                   <h5>{t('Identité', 'Identity')}</h5>
@@ -1040,6 +1036,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
           )}
         </div>
       </section>
+      )}
 
       {/* Footer */}
       <footer className="term-footer">
@@ -1059,6 +1056,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
               <a href="#pillars">{t('Le Score', 'The Score')}</a>
               <a href="#registry">{t('Projets', 'Projects')}</a>
               <a href="#pricing">{t('Tarifs', 'Pricing')}</a>
+              <a href="#model" onClick={(e) => { e.preventDefault(); setFooterTab('model'); requestAnimationFrame(() => document.getElementById('model')?.scrollIntoView({ behavior: 'smooth', block: 'start' })); }}>{t('Notre modèle', 'Our model')}</a>
             </div>
             <div>
               <h5>{t('CONTACT', 'CONTACT')}</h5>
@@ -1067,8 +1065,8 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
             </div>
             <div>
               <h5>{t('LÉGAL', 'LEGAL')}</h5>
-              <a href="#legal" onClick={(e) => { e.preventDefault(); setFooterTab('legal'); document.getElementById('legal')?.scrollIntoView({ behavior: 'smooth', block: 'center' }); }}>{t('Mentions légales', 'Legal notice')}</a>
-              <a href="#legal" onClick={(e) => { e.preventDefault(); setFooterTab('legal'); document.getElementById('legal')?.scrollIntoView({ behavior: 'smooth', block: 'center' }); }}>{t('Confidentialité', 'Privacy')}</a>
+              <a href="#model" onClick={(e) => { e.preventDefault(); setFooterTab('legal'); requestAnimationFrame(() => document.getElementById('model')?.scrollIntoView({ behavior: 'smooth', block: 'start' })); }}>{t('Mentions légales', 'Legal notice')}</a>
+              <a href="#model" onClick={(e) => { e.preventDefault(); setFooterTab('legal'); requestAnimationFrame(() => document.getElementById('model')?.scrollIntoView({ behavior: 'smooth', block: 'start' })); }}>{t('Confidentialité', 'Privacy')}</a>
             </div>
           </div>
           <div className="term-foot-bottom">
