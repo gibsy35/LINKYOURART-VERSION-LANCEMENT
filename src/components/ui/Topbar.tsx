@@ -222,7 +222,7 @@ export const Topbar: React.FC<TopbarProps> = ({
                 onClick={() => setCurrency(curr.id as any)}
                 className={`w-7 h-7 flex items-center justify-center text-[10px] font-black transition-all rounded-full ${
                   currency === curr.id 
-                    ? 'bg-accent-gold text-surface-dim shadow-[0_0_15px_rgba(212,175,55,0.6)]' 
+                    ? 'bg-accent-gold text-surface-dim shadow-[0_0_15px_rgba(126,28,241,0.6)]' 
                     : 'text-on-surface-variant/60 hover:text-white hover:bg-white/10'
                 }`}
                 title={curr.id}
