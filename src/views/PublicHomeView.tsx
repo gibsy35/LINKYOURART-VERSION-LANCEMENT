@@ -185,8 +185,6 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-lang-toggle{ display:flex; background:rgba(255,255,255,0.08); border-radius:100px; padding:3px; gap:2px; }
         .term-lang-toggle button{ border:none; background:none; color:#B9B7C7; font-size:12px; font-weight:700; padding:6px 12px; border-radius:100px; cursor:pointer; font-family:'Sora',sans-serif; }
         .term-lang-toggle button.active{ background:#fff; color:var(--term-ink); }
-        .term-key-btn{ background:linear-gradient(90deg,#7E1CF1,#E61A97,#02C6FA); color:#fff; border:none; padding:10px 18px; border-radius:100px; font-size:13.5px; font-weight:700; font-family:'Sora',sans-serif; cursor:pointer; }
-        .term-key-btn:hover{ filter:brightness(1.1); }
         .term-hero{ background:var(--term-ink); position:relative; overflow:hidden; padding:64px 0 90px; }
         .term-hero-shape{ position:absolute; top:-10%; right:-10%; width:70%; height:130%;
           background:linear-gradient(135deg,#7E1CF1 0%,#7E1CF1 16%,#E61A97 42%,#E61A97 58%,#02C6FA 86%,#02C6FA 100%);
@@ -401,7 +399,6 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
               <button className={lang === 'fr' ? 'active' : ''} onClick={() => setLang('fr')}>FR</button>
               <button className={lang === 'en' ? 'active' : ''} onClick={() => setLang('en')}>EN</button>
             </div>
-            <button className="term-key-btn" onClick={() => onSignup?.({ code: '', email: '' })}>{t("J'ai une clé →", 'I have a key →')}</button>
             <button className="term-pill" onClick={onLogin}>{t('Se connecter', 'Log in')}</button>
           </nav>
         </div>
