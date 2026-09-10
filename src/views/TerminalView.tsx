@@ -52,16 +52,27 @@ const newEra = [
 ];
 
 const registry = [
-  { title: 'Fragments Solaires', cat: 'Arts visuels', score: 842, fund: 68, catColor: '#E61A97' },
-  { title: 'Chambre 7', cat: 'Musique', score: 778, fund: 81, catColor: '#7E1CF1' },
-  { title: 'Le Silence des Villes', cat: 'Écriture', score: 915, fund: 45, catColor: '#F0C55E' },
-  { title: 'Récits Suspendus', cat: 'Spectacle vivant', score: 701, fund: 29, catColor: '#3ADB76' },
-  { title: 'Horizon Perdu', cat: 'Film', score: 867, fund: 74, catColor: '#FF7A45' },
-  { title: 'Fractures', cat: 'Série TV', score: 793, fund: 52, catColor: '#02C6FA' },
-  { title: 'Néon Requiem', cat: 'Jeu vidéo', score: 888, fund: 90, catColor: '#B5308E' },
+  { title: 'Fragments Solaires', cat: 'Arts visuels', score: 842, fund: 68, catColor: '#E61A97', desc: "Une série de peintures monumentales explorant la lumière solaire comme matière brute. Le projet en est à son troisième cycle de production, avec une exposition itinérante prévue en 2027.", creator: 'Inès Vasseur', patrons: 34, status: 'En cours' },
+  { title: 'Chambre 7', cat: 'Musique', score: 778, fund: 81, catColor: '#7E1CF1', desc: "Album concept sur l'isolement urbain, entre électro minimale et field recordings. Neuf titres déjà masterisés, le dixième et dernier morceau est en cours de finalisation.", creator: 'Karim Djellal', patrons: 21, status: 'Finalisation' },
+  { title: 'Le Silence des Villes', cat: 'Écriture', score: 915, fund: 45, catColor: '#F0C55E', desc: "Roman choral suivant cinq personnages dans une capitale européenne fictive. Manuscrit complet, actuellement en lecture chez trois maisons d'édition partenaires de LYA.", creator: 'Salomé Ferrand', patrons: 58, status: 'Recherche éditeur' },
+  { title: 'Récits Suspendus', cat: 'Spectacle vivant', score: 701, fund: 29, catColor: '#3ADB76', desc: "Pièce de théâtre immersive mêlant danse contemporaine et texte improvisé. Premières lectures publiques prévues ce trimestre, création complète en développement.", creator: 'Compagnie Ombre Claire', patrons: 12, status: 'Développement' },
+  { title: 'Horizon Perdu', cat: 'Film', score: 867, fund: 74, catColor: '#FF7A45', desc: "Long-métrage indépendant sur une communauté côtière face au changement climatique. Tournage terminé, montage en cours avec une sortie festival visée pour 2027.", creator: 'Théo Marchand', patrons: 46, status: 'Post-production' },
+  { title: 'Fractures', cat: 'Série TV', score: 793, fund: 52, catColor: '#02C6FA', desc: "Série dramatique en 6 épisodes sur une famille recomposée. Pilote tourné et validé par le comité LYA, recherche de diffuseur en cours.", creator: 'Nadia Ouali', patrons: 29, status: 'Recherche diffuseur' },
+  { title: 'Néon Requiem', cat: 'Jeu vidéo', score: 888, fund: 90, catColor: '#B5308E', desc: "Jeu narratif en pixel art dans un futur urbain saturé de néons. Démo jouable disponible, campagne de mécénat ouverte pour financer le dernier acte.", creator: 'Studio Halcyon', patrons: 71, status: 'Mécénat ouvert' },
 ];
 
+const pillarLabels = ['Intégrité conceptuelle', 'Maturité actuelle', "Capacité d'évolution", 'Faisabilité réelle', 'Incarnation'];
+
+function splitScore(score: number): number[] {
+  const ratios = [0.212, 0.204, 0.198, 0.19];
+  const vals = ratios.map(r => Math.round(score * r));
+  vals.push(score - vals.reduce((a, b) => a + b, 0));
+  return vals;
+}
+
 export const TerminalView: React.FC<TerminalViewProps> = ({ onJoin, onLogin }) => {
+  const [selected, setSelected] = React.useState<number | null>(null);
+  const project = selected !== null ? registry[selected] : null;
   return (
     <div className="term-root">
       <style>{`
@@ -166,6 +177,34 @@ export const TerminalView: React.FC<TerminalViewProps> = ({ onJoin, onLogin }) =
         .term-reg-bar .fill{ height:100%; border-radius:100px; }
         .term-reg-bar.score .fill{ background:linear-gradient(90deg,#F0C55E,#E61A97); }
         .term-reg-bar.fund .fill{ background:linear-gradient(90deg,#02C6FA,#3ADB76); }
+        .term-modal-overlay{ position:fixed; inset:0; background:rgba(11,14,20,0.72); backdrop-filter:blur(3px); z-index:200; display:flex; align-items:center; justify-content:center; padding:24px; }
+        .term-modal-card{ background:#fff; border-radius:22px; max-width:540px; width:100%; max-height:88vh; overflow-y:auto; position:relative; }
+        .term-modal-cover{ position:relative; aspect-ratio:16/8; }
+        .term-modal-cover::after{ content:''; position:absolute; inset:0; background:linear-gradient(to top, rgba(11,14,20,0.7) 0%, transparent 70%); }
+        .term-modal-close{ position:absolute; top:14px; right:14px; z-index:2; background:rgba(11,14,20,0.6); color:#fff; border:none; width:32px; height:32px; border-radius:50%; font-size:18px; cursor:pointer; }
+        .term-modal-score{ position:absolute; bottom:-26px; left:26px; z-index:2; background:var(--term-ink); color:#fff; border-radius:14px; padding:12px 16px; display:flex; align-items:baseline; gap:4px; box-shadow:0 8px 20px rgba(0,0,0,0.2); }
+        .term-modal-score .val{ font-family:'Sora',sans-serif; font-weight:800; font-size:24px; }
+        .term-modal-score .max{ font-size:11px; color:#B9B7C7; }
+        .term-modal-body{ padding:40px 26px 26px; }
+        .term-modal-cat{ font-family:'Sora',sans-serif; font-weight:700; font-size:11px; color:var(--term-ink-soft); text-transform:uppercase; }
+        .term-modal-title{ font-family:'Sora',sans-serif; font-weight:800; font-size:22px; margin:6px 0 14px; }
+        .term-modal-desc{ font-size:14px; line-height:1.6; color:var(--term-ink-soft); margin-bottom:20px; }
+        .term-modal-meta{ display:flex; gap:24px; padding:16px 0; border-top:1px solid var(--term-line); border-bottom:1px solid var(--term-line); margin-bottom:20px; }
+        .term-modal-meta .l{ font-size:10.5px; color:var(--term-ink-soft); margin-bottom:3px; }
+        .term-modal-meta .v{ font-family:'Sora',sans-serif; font-weight:700; font-size:14px; }
+        .term-modal-fund{ margin-bottom:20px; }
+        .term-modal-fund .row{ display:flex; justify-content:space-between; font-size:11px; color:var(--term-ink-soft); margin-bottom:5px; }
+        .term-modal-fund .bar{ height:7px; background:var(--term-grey); border-radius:100px; overflow:hidden; }
+        .term-modal-fund .fill{ height:100%; background:linear-gradient(90deg,#7E1CF1,#02C6FA); border-radius:100px; }
+        .term-modal-pillars{ display:grid; grid-template-columns:repeat(5,1fr); gap:7px; margin-bottom:20px; }
+        @media (max-width:480px){ .term-modal-pillars{ grid-template-columns:repeat(2,1fr); } }
+        .term-modal-pillar{ background:var(--term-grey); border-radius:10px; padding:10px 6px; text-align:center; }
+        .term-modal-pillar .v{ font-family:'Sora',sans-serif; font-weight:800; font-size:15px; }
+        .term-modal-pillar .l{ font-size:8.5px; color:var(--term-ink-soft); line-height:1.3; margin-top:3px; }
+        .term-modal-cta{ display:flex; gap:10px; flex-wrap:wrap; }
+        .term-modal-cta button{ font-family:'Sora',sans-serif; font-weight:700; font-size:13px; padding:12px 20px; border-radius:100px; border:none; cursor:pointer; }
+        .term-modal-cta .primary{ background:var(--term-ink); color:#fff; }
+        .term-modal-cta .secondary{ background:none; border:1px solid var(--term-line); color:var(--term-ink); }
         .term-pricing{ padding:20px 0 72px; }
         .term-price-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:32px; }
         @media (max-width:900px){ .term-price-grid{ grid-template-columns:repeat(2,1fr); } }
@@ -344,8 +383,8 @@ export const TerminalView: React.FC<TerminalViewProps> = ({ onJoin, onLogin }) =
           <div className="term-eyebrow">Le registre</div>
           <h2 style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>Parcourez des projets déjà certifiés</h2>
           <div className="term-reg-scroll">
-            {registry.map(r => (
-              <div key={r.title} className="term-reg-card">
+            {registry.map((r, i) => (
+              <div key={r.title} className="term-reg-card" onClick={() => setSelected(i)} style={{ cursor: 'pointer' }}>
                 <div className="term-reg-art" style={{ background: `linear-gradient(150deg, ${r.catColor}, #0B0E14)` }}>
                   <div className="term-reg-tags">
                     <span className="term-reg-tag" style={{ background: r.catColor }}>{r.cat.toUpperCase()}</span>
@@ -368,6 +407,41 @@ export const TerminalView: React.FC<TerminalViewProps> = ({ onJoin, onLogin }) =
           </div>
         </div>
       </section>
+
+      {/* Pop-up fiche projet */}
+      {project && (
+        <div className="term-modal-overlay" onClick={(e) => { if (e.target === e.currentTarget) setSelected(null); }}>
+          <div className="term-modal-card">
+            <div className="term-modal-cover" style={{ background: `linear-gradient(150deg, ${project.catColor}, #0B0E14)` }}>
+              <button className="term-modal-close" onClick={() => setSelected(null)}>×</button>
+              <div className="term-modal-score"><span className="val">{project.score}</span><span className="max">/1000</span></div>
+            </div>
+            <div className="term-modal-body">
+              <div className="term-modal-cat">{project.cat}</div>
+              <div className="term-modal-title">{project.title}</div>
+              <p className="term-modal-desc">{project.desc}</p>
+              <div className="term-modal-meta">
+                <div><div className="l">Porteur</div><div className="v">{project.creator}</div></div>
+                <div><div className="l">Mécènes</div><div className="v">{project.patrons}</div></div>
+                <div><div className="l">Statut</div><div className="v">{project.status}</div></div>
+              </div>
+              <div className="term-modal-fund">
+                <div className="row"><span>Financement</span><span>{project.fund}%</span></div>
+                <div className="bar"><div className="fill" style={{ width: `${project.fund}%` }} /></div>
+              </div>
+              <div className="term-modal-pillars">
+                {splitScore(project.score).map((v, idx) => (
+                  <div key={idx} className="term-modal-pillar"><div className="v">{v}</div><div className="l">{pillarLabels[idx]}</div></div>
+                ))}
+              </div>
+              <div className="term-modal-cta">
+                <button className="primary" onClick={onJoin}>Devenir mécène de ce projet</button>
+                <button className="secondary" onClick={() => setSelected(null)}>Fermer</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Tarifs */}
       <section className="term-pricing" id="pricing">
