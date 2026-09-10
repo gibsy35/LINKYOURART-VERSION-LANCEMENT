@@ -277,7 +277,7 @@ export const Topbar: React.FC<TopbarProps> = ({
                         notifications.map(notif => {
                           const typeStyles = {
                             SUCCESS: 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400',
-                            WARNING: 'bg-amber-500/10 border-amber-500/20 text-amber-400',
+                            WARNING: 'bg-violet-500/10 border-violet-500/20 text-violet-400',
                             ERROR: 'bg-rose-500/10 border-rose-500/20 text-rose-400',
                             INFO: 'bg-primary-cyan/10 border-primary-cyan/20 text-primary-cyan'
                           }[notif.type as 'SUCCESS' | 'WARNING' | 'ERROR' | 'INFO'] || 'bg-white/5 border-white/10 text-white';
