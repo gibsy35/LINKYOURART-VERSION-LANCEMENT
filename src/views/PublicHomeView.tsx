@@ -287,7 +287,8 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-network-card{ background:var(--term-grey); border-radius:18px; padding:28px 24px; transition:transform 0.3s cubic-bezier(.2,.8,.2,1); }
         .term-network-card:hover{ transform:translateY(-6px); }
         .term-network-card .n{ font-family:'Sora',sans-serif; font-weight:800; font-size:26px; margin-bottom:14px; }
-        .term-network-card h4{ font-size:16px; font-weight:700; margin-bottom:8px; }
+        .term-network-card h4{ font-size:16px; font-weight:700; margin-bottom:4px; }
+        .term-network-card .who{ font-size:11px; font-weight:600; color:#8A87A8; text-transform:uppercase; letter-spacing:0.02em; margin-bottom:12px; }
         .term-network-card p{ font-size:13px; line-height:1.6; color:var(--term-ink-soft); }
         .term-security{ padding:56px 0 72px; }
         .term-security-grid{ display:flex; flex-direction:column; gap:2px; margin-top:28px; border-radius:16px; overflow:hidden; }
@@ -299,7 +300,14 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-milestone-text h2{ font-family:'Sora',sans-serif; font-weight:700; font-size:clamp(22px,2.8vw,30px); margin:8px 0 14px; max-width:18ch; }
         .term-milestone-text p{ font-size:14px; line-height:1.65; color:var(--term-ink-soft); }
         .term-milestone-points{ display:flex; flex-direction:column; gap:10px; }
-        .term-milestone-point{ display:flex; align-items:center; gap:14px; background:#fff; border-radius:12px; padding:16px 18px; font-size:13.5px; font-weight:500; }
+        .term-milestone-point{ display:flex; align-items:flex-start; gap:14px; background:#fff; border-radius:12px; padding:16px 18px; }
+        .term-milestone-point .ex-title{ font-size:13.5px; font-weight:600; margin-bottom:4px; }
+        .term-milestone-point .ex-score{ font-size:12px; color:var(--term-ink-soft); font-family:'Sora',sans-serif; }
+        .term-milestone-point .ex-score b{ color:var(--term-ink); font-weight:800; }
+        .term-milestone-point .delta{ font-weight:700; margin-left:4px; }
+        .term-milestone-point .up-delta{ color:#1E8449; }
+        .term-milestone-point .down-delta{ color:#B33B3B; }
+        .term-milestone-point .neutral-delta{ color:#7A2062; }
         .term-milestone-point .ico{ font-family:'Sora',sans-serif; font-weight:800; font-size:16px; width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
         .term-milestone-point.up .ico{ background:#E4F9EC; color:#1E8449; }
         .term-milestone-point.down .ico{ background:#FBE4E4; color:#B33B3B; }
@@ -507,6 +515,22 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         </div>
       </section>
 
+      {/* Grand affichage du concept Score /1000 — juste apres les piliers, c'est LE concept */}
+      <section className="term-score-hero">
+        <div className="term-wrap">
+          <div className="term-score-hero-inner">
+            <div className="term-score-hero-num">
+              <span className="big">247</span><span className="max">/1000</span>
+            </div>
+            <div className="term-score-hero-text">
+              <div className="term-eyebrow">{t('Le concept en un chiffre', 'The concept in one number')}</div>
+              <h2>{t('Chaque œuvre a un Score LYA — sur 1000, toujours.', 'Every work has a LYA Score — out of 1000, always.')}</h2>
+              <p>{t("Un seul standard, comparable d'une discipline à l'autre. 247, 580 ou 928 — le chiffre veut toujours dire la même chose.", 'One single standard, comparable across every discipline. 247, 580, or 928 — the number always means the same thing.')}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Exemples concrets de score, sur 3 categories */}
       <section className="term-examples">
         <div className="term-wrap">
@@ -543,15 +567,24 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
             <div className="term-milestone-points">
               <div className="term-milestone-point up">
                 <span className="ico">↑</span>
-                <span>{t('Une exposition, un contrat signé, un prix remporté', 'An exhibition, a signed contract, an award')}</span>
+                <div>
+                  <div className="ex-title">{t('Un acteur reconnu rejoint le casting', 'A recognized actor joins the cast')}</div>
+                  <div className="ex-score">780 → <b>812</b> <span className="delta up-delta">+32</span></div>
+                </div>
               </div>
               <div className="term-milestone-point down">
                 <span className="ico">↓</span>
-                <span>{t('Un litige, un délai non tenu', 'A legal dispute, a missed deadline')}</span>
+                <div>
+                  <div className="ex-title">{t('Le distributeur repousse la sortie de six mois', 'The distributor delays the release by six months')}</div>
+                  <div className="ex-score">812 → <b>781</b> <span className="delta down-delta">-31</span></div>
+                </div>
               </div>
               <div className="term-milestone-point neutral">
                 <span className="ico">＝</span>
-                <span>{t('Tous les projets ne montent pas toujours — le score reste honnête.', "Not every project only goes up — the score stays honest.")}</span>
+                <div>
+                  <div className="ex-title">{t('Aucun jalon vérifié depuis 3 mois — le score reste stable', 'No verified milestone in 3 months — the score stays flat')}</div>
+                  <div className="ex-score">781 → <b>781</b> <span className="delta neutral-delta">±0</span></div>
+                </div>
               </div>
             </div>
           </div>
@@ -695,22 +728,6 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         </div>
       </section>
 
-      {/* Grand affichage du concept Score /1000 */}
-      <section className="term-score-hero">
-        <div className="term-wrap">
-          <div className="term-score-hero-inner">
-            <div className="term-score-hero-num">
-              <span className="big">247</span><span className="max">/1000</span>
-            </div>
-            <div className="term-score-hero-text">
-              <div className="term-eyebrow">{t('Le concept en un chiffre', 'The concept in one number')}</div>
-              <h2>{t('Chaque œuvre a un Score LYA — sur 1000, toujours.', 'Every work has a LYA Score — out of 1000, always.')}</h2>
-              <p>{t("Un seul standard, comparable d'une discipline à l'autre. 247, 580 ou 928 — le chiffre veut toujours dire la même chose.", 'One single standard, comparable across every discipline. 247, 580, or 928 — the number always means the same thing.')}</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Badges certifies */}
       <section className="term-badges">
         <div className="term-wrap">
@@ -731,16 +748,19 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
             <div className="term-network-card term-reveal">
               <div className="n" style={{ color: '#3ADB76' }}>01</div>
               <h4>{t('Créateurs', 'Creators')}</h4>
+              <div className="who">{t('Artistes, producteurs indépendants, labels, talents', 'Artists, independent producers, labels, talent')}</div>
               <p>{t('Faites certifier et valoriser officiellement votre œuvre. Conservez le contrôle artistique total, recevez le soutien de mécènes dès le lancement.', 'Get your work officially certified and showcased. Keep full artistic control, and receive patron support from day one.')}</p>
             </div>
             <div className="term-network-card term-reveal">
               <div className="n" style={{ color: '#7E1CF1' }}>02</div>
               <h4>{t('Mécènes', 'Patrons')}</h4>
+              <div className="who">{t("Mécènes particuliers, fonds d'investissement, institutions culturelles", 'Individual patrons, investment funds, cultural institutions')}</div>
               <p>{t('Soutenez les œuvres dès 50€. Le Score LYA garantit la rigueur de sélection. Suivez vos œuvres soutenues en temps réel.', 'Support works from €50. The LYA Score guarantees selection rigor. Track your supported works in real time.')}</p>
             </div>
             <div className="term-network-card term-reveal">
               <div className="n" style={{ color: '#E61A97' }}>03</div>
               <h4>{t('Professionnels', 'Professionals')}</h4>
+              <div className="who">{t('Curateurs, agents artistiques, conseillers, experts des industries créatives', 'Curators, artistic agents, advisors, creative industry experts')}</div>
               <p>{t("Rejoignez notre réseau d'experts en validation certifiés. Évaluez des œuvres dans votre domaine, réseau professionnel exclusif inter-secteurs.", 'Join our network of certified validation experts. Evaluate works in your field, exclusive cross-sector network.')}</p>
             </div>
           </div>
@@ -750,7 +770,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       {/* Securite */}
       <section className="term-security">
         <div className="term-wrap">
-          <div className="term-eyebrow" style={{ color: '#3ADB76' }}>{t('Sécurité & confiance', 'Security & trust')}</div>
+          <div className="term-eyebrow">{t('Sécurité & confiance', 'Security & trust')}</div>
           <h2 style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t('Bâti sur des fondations rigoureuses.', 'Built on rigorous foundations.')}</h2>
           <div className="term-security-grid">
             <div className="term-security-item"><Shield size={18} /><span>{t('Conforme RGPD — protection des données de bout en bout', 'GDPR compliant — end-to-end data protection')}</span></div>
