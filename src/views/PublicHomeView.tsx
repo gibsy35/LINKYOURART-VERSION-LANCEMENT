@@ -293,6 +293,17 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-security-grid{ display:flex; flex-direction:column; gap:2px; margin-top:28px; border-radius:16px; overflow:hidden; }
         .term-security-item{ display:flex; align-items:center; gap:14px; background:var(--term-grey); padding:18px 22px; font-size:14px; font-weight:500; }
         .term-security-item svg{ color:#3ADB76; flex-shrink:0; }
+        .term-milestone{ padding:64px 0; background:var(--term-grey); }
+        .term-milestone-grid{ display:grid; grid-template-columns:1.1fr 1fr; gap:44px; align-items:center; }
+        @media (max-width:800px){ .term-milestone-grid{ grid-template-columns:1fr; } }
+        .term-milestone-text h2{ font-family:'Sora',sans-serif; font-weight:700; font-size:clamp(22px,2.8vw,30px); margin:8px 0 14px; max-width:18ch; }
+        .term-milestone-text p{ font-size:14px; line-height:1.65; color:var(--term-ink-soft); }
+        .term-milestone-points{ display:flex; flex-direction:column; gap:10px; }
+        .term-milestone-point{ display:flex; align-items:center; gap:14px; background:#fff; border-radius:12px; padding:16px 18px; font-size:13.5px; font-weight:500; }
+        .term-milestone-point .ico{ font-family:'Sora',sans-serif; font-weight:800; font-size:16px; width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+        .term-milestone-point.up .ico{ background:#E4F9EC; color:#1E8449; }
+        .term-milestone-point.down .ico{ background:#FBE4E4; color:#B33B3B; }
+        .term-milestone-point.neutral .ico{ background:var(--term-lav); color:#7A2062; }
         .term-mission{ position:relative; overflow:hidden; padding:56px 0;
           background:linear-gradient(120deg, #0B0E14 0%, #0B0E14 28%, #7E1CF1 48%, #7E1CF1 58%, #E61A97 74%, #E61A97 84%, #02C6FA 100%);
         }
@@ -513,6 +524,36 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Jalon : comment le score evolue */}
+      <section className="term-milestone">
+        <div className="term-wrap">
+          <div className="term-milestone-grid">
+            <div className="term-milestone-text">
+              <div className="term-eyebrow">{t("C'est quoi un jalon ?", 'What is a milestone?')}</div>
+              <h2>{t('Le Score LYA bouge — et ce mouvement raconte une histoire.', 'The LYA Score moves — and that movement tells a story.')}</h2>
+              <p>{t(
+                "Un jalon, c'est un événement clé et vérifié dans la vie d'un projet. Certains sont des réussites — une exposition, un contrat signé, un prix remporté — et font avancer le LYA Score. D'autres sont des risques ou des retards — un litige, un délai non tenu — et le font reculer. Le LYA Score reflète toujours la réalité, en bien comme en mal.",
+                "A milestone is a key, verified event in a project's life. Some are achievements — an exhibition, a signed contract, an award — and push the LYA Score up. Others are risks or delays — a legal dispute, a missed deadline — and pull it down. The LYA Score always reflects reality, good or bad."
+              )}</p>
+            </div>
+            <div className="term-milestone-points">
+              <div className="term-milestone-point up">
+                <span className="ico">↑</span>
+                <span>{t('Une exposition, un contrat signé, un prix remporté', 'An exhibition, a signed contract, an award')}</span>
+              </div>
+              <div className="term-milestone-point down">
+                <span className="ico">↓</span>
+                <span>{t('Un litige, un délai non tenu', 'A legal dispute, a missed deadline')}</span>
+              </div>
+              <div className="term-milestone-point neutral">
+                <span className="ico">＝</span>
+                <span>{t('Tous les projets ne montent pas toujours — le score reste honnête.', "Not every project only goes up — the score stays honest.")}</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
