@@ -66,13 +66,21 @@ import { PublicHomeView } from './views/PublicHomeView';
 export default function App() {
   const { t, language } = useTranslation();
   const { contracts: liveContracts } = useMarketData();
-  const [currentView, setCurrentView] = useState<View>('LANDING');
+  const [currentView, setCurrentView] = useState<View>(() => {
+    if (typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('signup') === '1') return 'SIGNUP';
+    return 'LANDING';
+  });
   // Sur cette branche (Refonte-vitrine) uniquement, le Terminal est l'ecran
   // d'entree par defaut — plus besoin de ?preview=terminal dans l'URL, qui
   // se perdait a chaque nouvelle URL de deploiement Vercel. Cliquer sur un
   // bouton du Terminal fait sortir vers le vrai flux (LANDING / LOGIN).
   // main n'est pas touchee par ce changement, il reste sur son propre code.
-  const [showPublicHome, setShowPublicHome] = useState(true);
+  const [showPublicHome, setShowPublicHome] = useState(() => {
+    // Le lien "creer mon compte" de l'email de pre-inscription (?signup=1) doit
+    // ouvrir directement l'inscription, pas la Home publique.
+    if (typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('signup') === '1') return false;
+    return true;
+  });
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [is404, setIs404] = useState(false);
   React.useEffect(() => {
@@ -396,6 +404,11 @@ export default function App() {
     return () => clearTimeout(timer);
   }, [user, currentView, isAuthReady, isBooting]);
   const handleViewChange = (view: View) => {
+    // La page LANDING est remplacee par la Home publique + sa pop-up d'inscription.
+    // Toute navigation qui demande 'LANDING' (ex: bouton fermer de LoginView) est
+    // redirigee vers la Home a la place, pour qu'aucun chemin ne remontre plus
+    // l'ancienne page de pre-enregistrement.
+    if (view === 'LANDING') { setShowPublicHome(true); return; }
     if (view === currentView) return;
     setIsTransitioning(true);
     setTimeout(() => { setCurrentView(view); window.scrollTo(0, 0); setIsTransitioning(false); }, 350);
@@ -580,6 +593,14 @@ export default function App() {
       <PublicHomeView
         onJoin={() => { setShowPublicHome(false); setCurrentView('LANDING'); }}
         onLogin={() => { setShowPublicHome(false); setCurrentView('LOGIN'); }}
+        onSignup={({ code, email }) => {
+          try {
+            sessionStorage.setItem('lya_prefilled_code', code);
+            sessionStorage.setItem('lya_prefilled_email', email);
+          } catch { /* noop */ }
+          setShowPublicHome(false);
+          setCurrentView('SIGNUP');
+        }}
       />
     );
   }
