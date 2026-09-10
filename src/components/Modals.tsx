@@ -145,7 +145,7 @@ export const ContractDetailModal: React.FC<{
 
 // Visual identity per tier — used across the onboarding modal and status badges everywhere.
 const TIER_STYLES: Record<string, { grad: string; glow: string; border: string; text: string; icon: React.ReactNode; chipBg: string }> = {
-  bronze:   { grad: 'from-amber-700/30 to-amber-900/10',   glow: 'shadow-[0_0_25px_rgba(180,120,60,0.15)]',  border: 'border-amber-600/30',   text: 'text-amber-500',   icon: <Shield size={18} />, chipBg: 'bg-amber-600/10' },
+  bronze:   { grad: 'from-violet-700/30 to-violet-900/10',   glow: 'shadow-[0_0_25px_rgba(126,28,241,0.15)]',  border: 'border-violet-600/30',   text: 'text-violet-500',   icon: <Shield size={18} />, chipBg: 'bg-violet-600/10' },
   silver:   { grad: 'from-slate-300/20 to-slate-500/5',    glow: 'shadow-[0_0_25px_rgba(200,210,225,0.15)]', border: 'border-slate-300/30',   text: 'text-slate-200',   icon: <Sparkles size={18} />, chipBg: 'bg-slate-300/10' },
   gold:     { grad: 'from-accent-gold/30 to-accent-gold/5', glow: 'shadow-[0_0_30px_rgba(255,215,0,0.2)]',   border: 'border-accent-gold/40', text: 'text-accent-gold', icon: <Gem size={18} />, chipBg: 'bg-accent-gold/10' },
   platinum: { grad: 'from-primary-cyan/30 to-primary-cyan/5', glow: 'shadow-[0_0_35px_rgba(0,224,255,0.28)]', border: 'border-primary-cyan/50', text: 'text-primary-cyan', icon: <Crown size={18} />, chipBg: 'bg-primary-cyan/10' },
@@ -173,9 +173,9 @@ const SECTORS = [
   { id: 'Music', color: 'text-emerald-400', bg: 'bg-emerald-400/10', border: 'border-emerald-400/30' },
   { id: 'Architecture', color: 'text-primary-cyan', bg: 'bg-primary-cyan/10', border: 'border-primary-cyan/30' },
   { id: 'Fashion', color: 'text-pink-400', bg: 'bg-pink-400/10', border: 'border-pink-400/30' },
-  { id: 'Design', color: 'text-orange-400', bg: 'bg-orange-400/10', border: 'border-orange-400/30' },
+  { id: 'Design', color: 'text-violet-400', bg: 'bg-violet-400/10', border: 'border-violet-400/30' },
   { id: 'Photography', color: 'text-blue-400', bg: 'bg-blue-400/10', border: 'border-blue-400/30' },
-  { id: 'Literature', color: 'text-amber-400', bg: 'bg-amber-400/10', border: 'border-amber-400/30' },
+  { id: 'Literature', color: 'text-violet-400', bg: 'bg-violet-400/10', border: 'border-violet-400/30' },
 ];
 
 export const ProfessionalOnboardingModal: React.FC<{
