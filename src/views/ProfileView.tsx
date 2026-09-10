@@ -1727,8 +1727,8 @@ const renderMentorshipContent = () => (
                             <stop offset="95%" stopColor="#00E0FF" stopOpacity={0}/>
                           </linearGradient>
                           <linearGradient id="colorRoy" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="5%" stopColor="#FFD700" stopOpacity={0.1}/>
-                            <stop offset="95%" stopColor="#FFD700" stopOpacity={0}/>
+                            <stop offset="5%" stopColor="#7E1CF1" stopOpacity={0.1}/>
+                            <stop offset="95%" stopColor="#7E1CF1" stopOpacity={0}/>
                           </linearGradient>
                         </defs>
                         <CartesianGrid strokeDasharray="3 3" stroke="#ffffff05" vertical={false} />
@@ -1758,7 +1758,7 @@ const renderMentorshipContent = () => (
                           itemStyle={{ fontWeight: 'black', textTransform: 'uppercase' }}
                         />
                         <Area type="monotone" dataKey="revenue" stroke="#00E0FF" fillOpacity={1} fill="url(#colorRev)" strokeWidth={3} />
-                        <Area type="monotone" dataKey="royalties" stroke="#FFD700" fillOpacity={1} fill="url(#colorRoy)" strokeWidth={2} strokeDasharray="8 8" />
+                        <Area type="monotone" dataKey="royalties" stroke="#7E1CF1" fillOpacity={1} fill="url(#colorRoy)" strokeWidth={2} strokeDasharray="8 8" />
                       </AreaChart>
                     </ResponsiveContainer>
                   </div>
@@ -1834,7 +1834,7 @@ const renderMentorshipContent = () => (
                           stroke="none"
                         >
                           <Cell fill="#00E0FF" className="hover:opacity-80 transition-opacity cursor-pointer" />
-                          <Cell fill="#FFD700" className="hover:opacity-80 transition-opacity cursor-pointer" />
+                          <Cell fill="#7E1CF1" className="hover:opacity-80 transition-opacity cursor-pointer" />
                           <Cell fill="#FF00FF" className="hover:opacity-80 transition-opacity cursor-pointer" />
                         </Pie>
                         <Tooltip 
@@ -2133,7 +2133,7 @@ const renderMentorshipContent = () => (
                             stroke="none"
                           >
                             <Cell fill="#00E0FF" className="hover:opacity-80 transition-opacity cursor-pointer" />
-                            <Cell fill="#FFD700" className="hover:opacity-80 transition-opacity cursor-pointer" />
+                            <Cell fill="#7E1CF1" className="hover:opacity-80 transition-opacity cursor-pointer" />
                             <Cell fill="#FF00FF" className="hover:opacity-80 transition-opacity cursor-pointer" />
                             <Cell fill="#00FF00" className="hover:opacity-80 transition-opacity cursor-pointer" />
                           </Pie>
@@ -2483,7 +2483,7 @@ const renderMentorshipContent = () => (
                         />
                         <Bar dataKey="impact" fill="#00E0FF" radius={[2, 2, 0, 0]}>
                           {chartData.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={index % 2 === 0 ? '#00E0FF' : '#FFD700'} opacity={0.8} />
+                            <Cell key={`cell-${index}`} fill={index % 2 === 0 ? '#00E0FF' : '#7E1CF1'} opacity={0.8} />
                           ))}
                         </Bar>
                       </BarChart>
