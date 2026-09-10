@@ -685,11 +685,11 @@ const DiagnosticConsole: React.FC<{ lang: 'FR' | 'EN'; onNotify: (msg: string) =
                   <AreaChart data={chartData}>
                     <defs>
                       <linearGradient id="diagGrad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor={result.status === 'ELIGIBLE' ? '#10b981' : result.status === 'REVIEW' ? '#f59e0b' : '#f43f5e'} stopOpacity={0.3} />
-                        <stop offset="95%" stopColor={result.status === 'ELIGIBLE' ? '#10b981' : result.status === 'REVIEW' ? '#f59e0b' : '#f43f5e'} stopOpacity={0} />
+                        <stop offset="5%" stopColor={result.status === 'ELIGIBLE' ? '#10b981' : result.status === 'REVIEW' ? '#E61A97' : '#f43f5e'} stopOpacity={0.3} />
+                        <stop offset="95%" stopColor={result.status === 'ELIGIBLE' ? '#10b981' : result.status === 'REVIEW' ? '#E61A97' : '#f43f5e'} stopOpacity={0} />
                       </linearGradient>
                     </defs>
-                    <Area type="monotone" dataKey="value" stroke={result.status === 'ELIGIBLE' ? '#10b981' : result.status === 'REVIEW' ? '#f59e0b' : '#f43f5e'} strokeWidth={2} fill="url(#diagGrad)" dot={false} />
+                    <Area type="monotone" dataKey="value" stroke={result.status === 'ELIGIBLE' ? '#10b981' : result.status === 'REVIEW' ? '#E61A97' : '#f43f5e'} strokeWidth={2} fill="url(#diagGrad)" dot={false} />
                     <Tooltip contentStyle={{ background: '#0f121a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, fontSize: 11 }} formatter={(v: number) => [v, 'Score']} />
                   </AreaChart>
                 </ResponsiveContainer>
