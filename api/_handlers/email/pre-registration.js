@@ -1,15 +1,17 @@
 const { sendEmail } = require('../resend');
 
 // ─── EMAIL 1 : Confirmation pré-inscription ──────────────────────────────────
-function buildConfirmationEmail(name, email, role, lang) {
+function buildConfirmationEmail(name, email, role, lang, tier, position, accessKey) {
   const isFR = lang !== 'EN';
   const roleLabel = role === 'PATRON' ? (isFR ? 'Mécène' : 'Patron')
     : role === 'PROFESSIONAL' ? (isFR ? 'Professionnel' : 'Professional')
     : (isFR ? 'Créateur' : 'Creator');
+  const isInstantAccess = tier === 'FOUNDING_PIONEER' || tier === 'ORIGINAL';
+  const tierLabel = tier === 'FOUNDING_PIONEER' ? 'Founding Pioneer' : tier === 'ORIGINAL' ? 'Original' : (isFR ? "Liste d'attente" : 'Waitlist');
 
-  const subject = isFR
-    ? `[LYA Originals] ${name}, votre candidature est en cours d'examen`
-    : `[LYA Originals] ${name}, your application is under review`;
+  const subject = isInstantAccess
+    ? (isFR ? `[LYA Originals] ${name}, votre accès est activé` : `[LYA Originals] ${name}, your access is active`)
+    : (isFR ? `[LYA Originals] ${name}, votre place est réservée` : `[LYA Originals] ${name}, your spot is reserved`);
 
   const html = `<!DOCTYPE html>
 <html lang="${isFR ? 'fr' : 'en'}">
@@ -25,9 +27,13 @@ function buildConfirmationEmail(name, email, role, lang) {
 
   <tr><td bgcolor="#0F1621" style="background:linear-gradient(160deg,#0F1621 0%,#0D1117 60%,#12192A 100%);border-radius:20px 20px 0 0;padding:52px 40px 44px;text-align:center;border:1px solid #0b2830;border-bottom:none;">
     <img src="https://www.linkyourart.com/logo-brochure.png" width="72" height="72" alt="LinkYourArt" style="display:block;margin:0 auto 24px;width:72px;height:72px;" />
-    <p style="margin:0 0 6px;font-size:11px;font-weight:900;color:#93A0AC;letter-spacing:0.25em;text-transform:uppercase;">${isFR ? 'CANDIDATURE REÇUE' : 'APPLICATION RECEIVED'}</p>
-    <p style="margin:0 0 20px;font-size:30px;font-weight:900;color:#ffffff;line-height:1.15;">${name},<br><span style="color:#00D4E8;">${isFR ? 'votre dossier est entre nos mains.' : 'your application is in our hands.'}</span></p>
-    <p style="margin:0 auto;font-size:13px;color:#B4BAC6;line-height:1.7;max-width:400px;">${isFR ? "Votre position dans la liste vient d'être enregistrée. Selon votre rang, un accès peut être activé automatiquement, ou débloqué à la prochaine ouverture de cohorte — vous serez prévenu(e) par email dans tous les cas." : "Your position on the list has just been recorded. Depending on your rank, access may be activated automatically, or unlocked at the next cohort opening — either way, you'll be notified by email."}</p>
+    <p style="margin:0 0 6px;font-size:11px;font-weight:900;color:#93A0AC;letter-spacing:0.25em;text-transform:uppercase;">${isInstantAccess ? (isFR ? 'ACCÈS ACTIVÉ' : 'ACCESS ACTIVATED') : (isFR ? 'INSCRIPTION CONFIRMÉE' : 'REGISTRATION CONFIRMED')}</p>
+    <p style="margin:0 0 20px;font-size:30px;font-weight:900;color:#ffffff;line-height:1.15;">${name},<br><span style="color:#00D4E8;">${isInstantAccess ? (isFR ? 'votre accès est activé.' : 'your access is active.') : (isFR ? 'votre place est réservée.' : 'your spot is reserved.')}</span></p>
+    <p style="margin:0 auto;font-size:13px;color:#B4BAC6;line-height:1.7;max-width:400px;">${isInstantAccess
+      ? (isFR ? `Votre position (#${position}, ${tierLabel}) vous donne un accès immédiat, sans validation manuelle. Votre clé d'accès figure ci-dessous.` : `Your position (#${position}, ${tierLabel}) gives you instant access, no manual review needed. Your access key is below.`)
+      : (isFR ? `Vous êtes en position #${position} sur la liste d'attente. Les 1000 premières places sont prises — vous serez prévenu(e) par email à la prochaine ouverture de cohorte.` : `You're at position #${position} on the waitlist. The first 1000 spots are taken — we'll notify you by email when the next cohort opens.`)
+    }</p>
+    ${isInstantAccess && accessKey ? `<p style="margin:20px auto 0;font-size:16px;font-weight:900;color:#00D4E8;letter-spacing:0.05em;background:#0c191f;border:1px solid #0b2e36;border-radius:10px;padding:12px 20px;display:inline-block;">${accessKey}</p>` : ''}
   </td></tr>
 
   <tr><td bgcolor="#7C3FBF" style="background:linear-gradient(90deg,#7C3FBF,#00D4E8,#E0326E);height:2px;"></td></tr>
@@ -147,7 +153,7 @@ module.exports = async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const { to, name, email, role, lang = 'FR', type = 'confirmation', signupLink } = req.body || {};
+  const { to, name, email, role, lang = 'FR', type = 'confirmation', signupLink, tier, position, accessKey } = req.body || {};
   if (!to || !name) return res.status(400).json({ error: 'Missing required fields' });
 
   try {
@@ -158,7 +164,7 @@ module.exports = async (req, res) => {
       ({ subject, html } = buildApprovalEmail(name, email || to, signupLink || `https://linkyourart.com?signup=1`, lang));
     } else {
       // Email 1 — envoyé automatiquement à la pré-inscription
-      ({ subject, html } = buildConfirmationEmail(name, email || to, role || 'CREATOR', lang));
+      ({ subject, html } = buildConfirmationEmail(name, email || to, role || 'CREATOR', lang, tier, position, accessKey));
     }
 
     await sendEmail({ to, subject, html });
