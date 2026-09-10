@@ -104,7 +104,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
   const [joinError, setJoinError] = React.useState<string | null>(null);
   const [joinResult, setJoinResult] = React.useState<{ position: number; tier: string; accessKey: string | null } | null>(null);
   const [keyCopied, setKeyCopied] = React.useState(false);
-  const [footerTab, setFooterTab] = React.useState<'model' | 'legal' | null>(null);
+  const [footerTab, setFooterTab] = React.useState<'model' | 'legal' | 'cgu' | null>(null);
 
   const handleJoinSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -872,7 +872,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
             <div className="term-price lav term-reveal"><div><div className="name">{t('Créateur', 'Creator')}</div><div className="amount">0€</div><div className="desc">{t('Jusqu\'à 3 projets, Score LYA gratuit, certifications suppl. à 5€', 'Up to 3 projects, free LYA Score, extra certifications at €5')}</div></div></div>
             <div className="term-price grey term-reveal"><div><div className="name">Pro Starter</div><div className="amount">79€<span style={{ fontSize: 13 }}>{t('/mois', '/mo')}</span></div><div className="desc">{t('Soumissions illimitées, accès complet au registre, file prioritaire', 'Unlimited submissions, full registry access, priority queue')}</div></div></div>
             <div className="term-price dark term-reveal"><div><div className="name">Pro Advanced</div><div className="amount">249€<span style={{ fontSize: 13 }}>{t('/mois', '/mo')}</span></div><div className="desc">{t('Tout Pro Starter + accès API + gestionnaire de compte dédié', 'Everything in Pro Starter + API access + dedicated account manager')}</div></div></div>
-            <div className="term-price lav term-reveal"><div><div className="name">{t('Entreprise institutionnelle', 'Institutional Enterprise')}</div><div className="amount">15 000€<span style={{ fontSize: 13 }}>{t('/mois', '/mo')}</span></div><div className="desc">{t('Onboarding de catalogue global, acquisition IP externalisée, accès au registre maître', 'Global catalog onboarding, externalized IP acquisition, master registry access')}</div></div></div>
+            <div className="term-price lav term-reveal"><div><div className="name">{t('Entreprise institutionnelle', 'Institutional Enterprise')}</div><div className="amount">{t('Sur devis', 'On request')}</div><div className="desc">{t('Onboarding de catalogue global, acquisition IP externalisée, accès au registre maître', 'Global catalog onboarding, externalized IP acquisition, master registry access')}</div></div></div>
           </div>
           <p className="term-price-note">{t("Ce palier couvre la gestion de certification externalisée à l'échelle d'un catalogue entier — pas l'ajout d'un utilisateur de plus : vérification initiale automatisée, données de performance prédictives, suite d'accès institutionnel.", "This tier covers externalized certification management at the scale of an entire catalog — not one more user: automated initial vetting, predictive performance data, institutional access suite.")}</p>
         </div>
@@ -1034,6 +1034,26 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
               </div>
             </div>
           )}
+
+          {footerTab === 'cgu' && (
+            <div className="term-tab-panel">
+              <button className="term-tab-close" onClick={() => setFooterTab(null)}>{t('Fermer ✕', 'Close ✕')}</button>
+              <div className="term-legal-grid">
+                <div className="term-legal-item">
+                  <h5>{t('Philosophie & accessibilité', 'Philosophy & accessibility')}</h5>
+                  <p>{t("LinkYourArt est un écosystème inclusif ouvert aux créateurs, partenaires créatifs, professionnels et au grand public. Notre modèle repose sur la simplicité et l'équité.", 'LinkYourArt is an inclusive ecosystem open to creators, creative partners, professionals, and the general public. Our model is based on simplicity and fairness.')}</p>
+                </div>
+                <div className="term-legal-item">
+                  <h5>{t('Le modèle de certification', 'The certification model')}</h5>
+                  <p>{t("Chaque projet est évalué par une combinaison d'analyse algorithmique et de revue par des professionnels certifiés. Le Score LYA est un standard de certification — ce n'est pas un instrument financier.", 'Each project is evaluated by algorithmic analysis and review by certified professionals. The LYA Score is a certification standard — it is not a financial instrument.')}</p>
+                </div>
+                <div className="term-legal-item">
+                  <h5>{t('Transparence & sécurité', 'Transparency & security')}</h5>
+                  <p>{t('Chaque projet certifié et chaque jalon sont enregistrés dans notre registre immuable. Cela assure une transparence totale pour tous les participants.', 'Every certified project and every milestone is registered in our immutable registry. This ensures total transparency for all participants.')}</p>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </section>
       )}
@@ -1067,6 +1087,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
               <h5>{t('LÉGAL', 'LEGAL')}</h5>
               <a href="#model" onClick={(e) => { e.preventDefault(); setFooterTab('legal'); requestAnimationFrame(() => document.getElementById('model')?.scrollIntoView({ behavior: 'smooth', block: 'start' })); }}>{t('Mentions légales', 'Legal notice')}</a>
               <a href="#model" onClick={(e) => { e.preventDefault(); setFooterTab('legal'); requestAnimationFrame(() => document.getElementById('model')?.scrollIntoView({ behavior: 'smooth', block: 'start' })); }}>{t('Confidentialité', 'Privacy')}</a>
+              <a href="#model" onClick={(e) => { e.preventDefault(); setFooterTab('cgu'); requestAnimationFrame(() => document.getElementById('model')?.scrollIntoView({ behavior: 'smooth', block: 'start' })); }}>{t('CGU', 'Terms of Service')}</a>
             </div>
           </div>
           <div className="term-foot-bottom">
