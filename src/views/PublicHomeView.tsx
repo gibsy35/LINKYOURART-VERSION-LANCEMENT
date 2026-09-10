@@ -780,8 +780,8 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
             <div className="term-network-card term-reveal">
               <div className="n" style={{ color: '#3ADB76' }}>01</div>
               <h4>{t('Créateurs', 'Creators')}</h4>
-              <div className="who">{t('Artistes, réalisateurs, auteurs — studios, sociétés de production et de divertissement, institutions culturelles (type CNC)', 'Artists, directors, authors — studios, production and entertainment companies, cultural institutions (e.g. CNC)')}</div>
-              <p>{t('Faites certifier et valoriser officiellement votre œuvre ou votre catalogue. Conservez le contrôle total, recevez le soutien de mécènes dès le lancement.', 'Get your work or catalog officially certified and showcased. Keep full control, and receive patron support from day one.')}</p>
+              <div className="who">{t('Artistes, réalisateurs, scénaristes, auteurs', 'Artists, directors, screenwriters, authors')}</div>
+              <p>{t('Faites certifier et valoriser officiellement votre œuvre. Conservez le contrôle artistique total, recevez le soutien de mécènes dès le lancement.', 'Get your work officially certified and showcased. Keep full artistic control, and receive patron support from day one.')}</p>
             </div>
             <div className="term-network-card term-reveal">
               <div className="n" style={{ color: '#7E1CF1' }}>02</div>
@@ -792,7 +792,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
             <div className="term-network-card term-reveal">
               <div className="n" style={{ color: '#E61A97' }}>03</div>
               <h4>{t('Professionnels', 'Professionals')}</h4>
-              <div className="who">{t('Curateurs, agents artistiques, conseillers, experts des industries créatives', 'Curators, artistic agents, advisors, creative industry experts')}</div>
+              <div className="who">{t('Curateurs, agents artistiques, conseillers — studios, sociétés de production et de divertissement, institutions culturelles (type CNC)', 'Curators, artistic agents, advisors — studios, production and entertainment companies, cultural institutions (e.g. CNC)')}</div>
               <p>{t("Rejoignez notre réseau d'experts en validation certifiés. Évaluez des œuvres dans votre domaine, réseau professionnel exclusif inter-secteurs.", 'Join our network of certified validation experts. Evaluate works in your field, exclusive cross-sector network.')}</p>
             </div>
           </div>
