@@ -456,6 +456,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-price .name{ font-family:'Sora',sans-serif; font-weight:700; font-size:16px; }
         .term-price .amount{ font-family:'Sora',sans-serif; font-weight:800; font-size:28px; margin-top:6px; }
         .term-price .desc{ font-size:12.5px; margin-top:8px; opacity:0.75; }
+        .term-price-note{ font-size:12.5px; color:var(--term-ink-soft); line-height:1.6; margin-top:16px; max-width:60ch; }
         .term-cta{ background:var(--term-lav); padding:56px 0; }
         .term-cta-inner{ display:flex; justify-content:space-between; align-items:center; gap:24px; flex-wrap:wrap; }
         .term-cta h2{ font-weight:800; font-size:clamp(24px,3vw,34px); max-width:22ch; color:var(--term-ink); }
@@ -873,8 +874,9 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
             <div className="term-price lav term-reveal"><div><div className="name">{t('Créateur', 'Creator')}</div><div className="amount">0€</div><div className="desc">{t('Jusqu\'à 3 projets, Score LYA gratuit, certifications suppl. à 5€', 'Up to 3 projects, free LYA Score, extra certifications at €5')}</div></div></div>
             <div className="term-price grey term-reveal"><div><div className="name">Pro Starter</div><div className="amount">79€<span style={{ fontSize: 13 }}>{t('/mois', '/mo')}</span></div><div className="desc">{t('Soumissions illimitées, accès complet au registre, file prioritaire', 'Unlimited submissions, full registry access, priority queue')}</div></div></div>
             <div className="term-price dark term-reveal"><div><div className="name">Pro Advanced</div><div className="amount">249€<span style={{ fontSize: 13 }}>{t('/mois', '/mo')}</span></div><div className="desc">{t('Tout Pro Starter + accès API + gestionnaire de compte dédié', 'Everything in Pro Starter + API access + dedicated account manager')}</div></div></div>
-            <div className="term-price lav term-reveal"><div><div className="name">{t('Entreprise institutionnelle', 'Institutional Enterprise')}</div><div className="amount">15 000€<span style={{ fontSize: 13 }}>{t('/mois', '/mo')}</span></div><div className="desc">{t('Certification de catalogue complet, studios/labels/éditeurs, support 24/7', 'Full catalog certification, for studios/labels/publishers, 24/7 support')}</div></div></div>
+            <div className="term-price lav term-reveal"><div><div className="name">{t('Entreprise institutionnelle', 'Institutional Enterprise')}</div><div className="amount">15 000€<span style={{ fontSize: 13 }}>{t('/mois', '/mo')}</span></div><div className="desc">{t('Onboarding de catalogue global, acquisition IP externalisée, accès au registre maître', 'Global catalog onboarding, externalized IP acquisition, master registry access')}</div></div></div>
           </div>
+          <p className="term-price-note">{t("Ce palier couvre la gestion de certification externalisée à l'échelle d'un catalogue entier — pas l'ajout d'un utilisateur de plus : vérification initiale automatisée, données de performance prédictives, suite d'accès institutionnel.", "This tier covers externalized certification management at the scale of an entire catalog — not one more user: automated initial vetting, predictive performance data, institutional access suite.")}</p>
         </div>
       </section>
 
