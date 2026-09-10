@@ -37,7 +37,7 @@ const TEXT_TO_BG: Record<string, string> = {
   'text-cyan-400': 'bg-cyan-400',
   'text-red-400': 'bg-red-400',
   'text-indigo-400': 'bg-indigo-400',
-  'text-amber-400': 'bg-amber-400',
+  'text-violet-400': 'bg-violet-400',
 };
 const TEXT_TO_BORDER: Record<string, string> = {
   'text-primary-cyan': 'border-primary-cyan',
@@ -49,7 +49,7 @@ const TEXT_TO_BORDER: Record<string, string> = {
   'text-cyan-400': 'border-cyan-400',
   'text-red-400': 'border-red-400',
   'text-indigo-400': 'border-indigo-400',
-  'text-amber-400': 'border-amber-400',
+  'text-violet-400': 'border-violet-400',
 };
 
 const TUTORIAL_STEPS: (t: any) => Step[] = (t) => [
@@ -183,7 +183,7 @@ const TUTORIAL_STEPS: (t: any) => Step[] = (t) => [
     id: 10,
     title: t('REGISTRY & ECOSYSTEM', 'REGISTRE & ÉCOSYSTÈME'),
     description: t('The complete certification registry, tracking every certified project alongside a growing ecosystem — Press & Media, and soon Jobs.', 'Le registre de certification complet, suivant chaque projet certifié au sein d\'un écosystème grandissant — Presse & Médias, et bientôt Jobs.'),
-    color: 'text-amber-400',
+    color: 'text-violet-400',
     glowColor: 'rgba(251, 191, 36, 0.3)',
     icon: <TrendingUp size={48} />,
     points: [
@@ -930,12 +930,12 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
       return (
         <div className="relative w-full h-full flex flex-col items-center justify-center p-4">
           <div className="w-full max-w-full max-w-sm bg-[#03060B] border-2 border-white/10 rounded-[2rem] overflow-hidden shadow-2xl">
-            <div className="bg-amber-500/10 p-5 flex justify-between items-center border-b border-white/10 backdrop-blur-xl">
+            <div className="bg-violet-500/10 p-5 flex justify-between items-center border-b border-white/10 backdrop-blur-xl">
                <div className="flex items-center gap-3">
-                 <TrendingUp className="text-amber-400 w-6 h-6" />
+                 <TrendingUp className="text-violet-400 w-6 h-6" />
                  <span className="text-xs font-black text-white uppercase italic tracking-widest">{t('LYA Registry', 'Registre LYA')}</span>
                </div>
-               <div className="px-3 py-1 bg-black/60 rounded-full border border-white/10 text-xs font-black text-amber-400 italic">{t('128 Certified', '128 Certifiés')}</div>
+               <div className="px-3 py-1 bg-black/60 rounded-full border border-white/10 text-xs font-black text-violet-400 italic">{t('128 Certified', '128 Certifiés')}</div>
             </div>
 
             <div className="p-1">
@@ -962,9 +962,9 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
                     <motion.div 
                       animate={{ scale: [1, 1.1, 1] }}
                       transition={{ duration: 4, repeat: Infinity, delay: i * 0.3 }}
-                      className="w-8 h-8 md:w-12 md:h-12 rounded-lg md:rounded-2xl bg-white/5 border border-white/5 flex items-center justify-center group-hover:border-amber-500/30"
+                      className="w-8 h-8 md:w-12 md:h-12 rounded-lg md:rounded-2xl bg-white/5 border border-white/5 flex items-center justify-center group-hover:border-violet-500/30"
                     >
-                       <LineChartIcon className="text-white/20 group-hover:text-amber-400 w-4 h-4 md:w-6 md:h-6 transition-colors" />
+                       <LineChartIcon className="text-white/20 group-hover:text-violet-400 w-4 h-4 md:w-6 md:h-6 transition-colors" />
                     </motion.div>
                     <div className="min-w-0">
                       <div className="text-[10px] md:text-xs font-black text-white italic tracking-tighter uppercase truncate">{item.id}</div>
