@@ -67,6 +67,12 @@ export default function App() {
   const { t, language } = useTranslation();
   const { contracts: liveContracts } = useMarketData();
   const [currentView, setCurrentView] = useState<View>('LANDING');
+  // Verifie l'URL une seule fois au montage — pas a chaque re-render — pour que
+  // le clic sur un bouton du Terminal (qui change currentView) fasse bien sortir
+  // de l'apercu, meme si ?preview=terminal reste dans l'URL du navigateur.
+  const [showTerminalPreview, setShowTerminalPreview] = useState(() =>
+    typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('preview') === 'terminal'
+  );
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [is404, setIs404] = useState(false);
   React.useEffect(() => {
@@ -570,11 +576,11 @@ export default function App() {
   // sans toucher au comportement par défaut de l'app. Actif uniquement via
   // ?preview=terminal dans l'URL — à retirer une fois la direction validée
   // et le vrai routage mis en place.
-  if (typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('preview') === 'terminal') {
+  if (showTerminalPreview) {
     return (
       <TerminalView
-        onJoin={() => setCurrentView('LANDING')}
-        onLogin={() => setCurrentView('LOGIN')}
+        onJoin={() => { setShowTerminalPreview(false); setCurrentView('LANDING'); }}
+        onLogin={() => { setShowTerminalPreview(false); setCurrentView('LOGIN'); }}
       />
     );
   }
