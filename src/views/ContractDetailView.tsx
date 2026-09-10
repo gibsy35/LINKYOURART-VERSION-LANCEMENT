@@ -453,9 +453,9 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                            </p>
                          </div>
 
-                         <div className="p-5 bg-amber-500/5 border border-amber-500/20 rounded-2xl space-y-3 relative">
+                         <div className="p-5 bg-violet-500/5 border border-violet-500/20 rounded-2xl space-y-3 relative">
                            <div className="flex justify-between items-center">
-                             <span className="text-xs font-black text-accent-gold uppercase tracking-widest bg-amber-500/10 px-3.5 py-1 rounded-md">
+                             <span className="text-xs font-black text-accent-gold uppercase tracking-widest bg-violet-500/10 px-3.5 py-1 rounded-md">
                                {t('Milestone + (Pending)', '⏳ JALON EN COURS')}
                              </span>
                              <span className="text-[10px] font-mono font-black text-accent-gold">+60 PTS</span>
