@@ -474,7 +474,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
                         onClick={() => onViewChange('LANDING')}
                         className="w-full py-2.5 bg-[#a78bfa] text-surface-dim text-xs font-black uppercase tracking-widest rounded-xl hover:bg-white transition-all"
                       >
-                        {t('Rejoindre la liste LYA Originals →', 'Join the LYA Originals →')}
+                        {t('Join the LYA Originals →', 'Rejoindre la liste LYA Originals →')}
                       </button>
                     </div>
                   )}
