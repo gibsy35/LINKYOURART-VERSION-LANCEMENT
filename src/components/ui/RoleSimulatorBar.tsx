@@ -48,7 +48,7 @@ export const RoleSimulatorBar: React.FC<RoleSimulatorBarProps> = ({ simulatedRol
         {/* Main pill */}
         <button
           onClick={() => setOpen(o => !o)}
-          className="flex items-center gap-3 px-5 py-3 bg-[#0D1117]/95 border border-emerald-500/30 backdrop-blur-xl shadow-[0_0_30px_rgba(74,222,128,0.15)] hover:border-emerald-500/60 transition-all font-mono"
+          className="flex items-center gap-3 px-5 py-3 bg-[#0D1117]/95 border border-emerald-500/30 backdrop-blur-xl hover:border-emerald-500/60 transition-all font-mono"
         >
           <Zap size={12} className="text-emerald-400" />
           <span className="text-xs font-black uppercase tracking-[0.3em] text-emerald-400/70">ADMIN SIMULATOR</span>
