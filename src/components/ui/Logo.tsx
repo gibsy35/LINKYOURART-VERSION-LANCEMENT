@@ -21,7 +21,7 @@ export const Logo: React.FC<{
   // Colors as requested
   const colors = {
     inner: color === 'white' ? "text-white" : "text-[#FF007F]", // Vibrant Pink
-    middle: color === 'white' ? "text-white/60" : "text-[#00e0ff]", // Electric Cyan (couleur fixe, independante du theme)
+    middle: color === 'white' ? "text-white/60" : "text-primary-cyan", // Electric Cyan
     outer: color === 'white' ? "text-white/30" : "text-[#9D00FF]", // Darker Neon Purple
     center: "bg-white"       // White focal point
   };
@@ -32,7 +32,7 @@ export const Logo: React.FC<{
       className={`relative flex items-center justify-center group ${className}`}
     >
       {/* Central Nexus: Focal point */}
-      <div className={`w-[12%] h-[12%] rounded-full z-20 ${colors.center} shadow-[0_0_20px_rgba(255,255,255,1)] transition-transform duration-500 group-hover:scale-150 ring-2 ring-white/40`} />
+      <div className={`w-[12%] h-[12%] rounded-full z-20 ${colors.center} transition-transform duration-500 group-hover:scale-150 ring-2 ring-white/40`} />
 
       {/* Central Focal Blur */}
       <div className={`absolute w-[25%] h-[25%] rounded-full z-10 ${colors.center} blur-md opacity-20 shadow-[0_0_30px_#fff]`} />
