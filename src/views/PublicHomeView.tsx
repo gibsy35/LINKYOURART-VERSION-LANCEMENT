@@ -205,7 +205,8 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
           --term-lav-deep:#B5308E; --term-purple:#7E1CF1; --term-pink:#E61A97; --term-cyan:#02C6FA;
           background:var(--term-paper); color:var(--term-ink); font-family:'Inter',sans-serif;
         }
-        .term-root h1, .term-root h2, .term-root h3{ font-family:'Fraunces',Georgia,serif; font-weight:700; letter-spacing:-0.01em; }
+        .term-root h1, .term-root h2, .term-root h3{ font-family:'Fraunces',Georgia,serif; font-weight:700; letter-spacing:-0.01em; text-transform:lowercase; }
+        .term-root h1::first-letter, .term-root h2::first-letter, .term-root h3::first-letter{ text-transform:uppercase; }
         .term-root .sora{ font-family:'Sora',sans-serif; }
         .term-wrap{ max-width:1160px; margin:0 auto; padding:0 40px; }
         @media (max-width:700px){ .term-wrap{ padding:0 22px; } }
@@ -699,7 +700,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
             </div>
             <div className="term-score-hero-text">
               <div className="term-eyebrow">{t('Le concept en un chiffre', 'The concept in one number')}</div>
-              <h2>{t('Chaque œuvre a un Score LYA — sur 1000, toujours.', 'Every work has a LYA Score — out of 1000, always.')}</h2>
+              <h2>{t('Chaque œuvre a un Score ', 'Every work has a ')}<span style={{ textTransform: 'uppercase' }}>LYA</span>{t(' — sur 1000, toujours.', ' Score — out of 1000, always.')}</h2>
               <p>{t("Un seul standard, comparable d'une discipline à l'autre. 247, 580 ou 928 — le chiffre veut toujours dire la même chose.", 'One single standard, comparable across every discipline. 247, 580, or 928 — the number always means the same thing.')}</p>
             </div>
           </div>
@@ -820,7 +821,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       <section className="term-compare">
         <div className="term-wrap">
           <div className="term-eyebrow">{t('Comparaison', 'Comparison')}</div>
-          <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t("Ce que LYA est — et n'est pas.", "What LYA is — and isn't.")}</h2>
+          <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t('Ce que ', 'What ')}<span style={{ textTransform: 'uppercase' }}>LYA</span>{t(" est — et n'est pas.", " is — and isn't.")}</h2>
           <div className="term-compare-grid">
             <div className="term-compare-col is term-reveal">
               <span className="term-compare-badge">{t('CE QUE LYA EST', 'WHAT LYA IS')}</span>
