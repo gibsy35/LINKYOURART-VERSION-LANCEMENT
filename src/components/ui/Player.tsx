@@ -58,7 +58,7 @@ export const Player: React.FC<PlayerProps> = ({ titleWhite, titleAccent, subtitl
             </motion.div>
             <h1 className="text-5xl md:text-[5.5rem] font-black font-headline tracking-tighter uppercase italic leading-[0.85]">
               <span className="text-white drop-shadow-2xl">{titleWhite}</span> <br />
-              <span className="text-accent-gold drop-shadow-[0_0_30px_rgba(126,28,241,0.5)]">{titleAccent}</span>
+              <span className="text-accent-gold drop-">{titleAccent}</span>
             </h1>
             <p className="text-xs md:text-base font-black uppercase tracking-[0.5em] text-white/40 pl-8 border-l-2 border-accent-gold max-w-2xl italic leading-relaxed">
               {subtitle}
