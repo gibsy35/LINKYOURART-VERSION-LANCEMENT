@@ -60,10 +60,10 @@ export const CreatorProfileView: React.FC<Props> = ({ creatorId, onViewChange, o
     <div className="pb-20 space-y-5 max-w-3xl mx-auto">
 
       {/* ── HERO CRÉATEUR ─────────────────────────────────────────────────── */}
-      <div className="bg-gradient-to-br from-[#a78bfa]/10 via-surface-low/40 to-primary-cyan/5 border border-white/8 rounded-3xl p-6 sm:p-8 space-y-5">
+      <div className="bg-gradient-to-br from-[#a78bfa]/10 via-surface-low/40 to-primary-cyan/5 border border-white/8 rounded-lg p-6 sm:p-8 space-y-5">
         <div className="flex items-start gap-4 flex-wrap">
           {/* Avatar */}
-          <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#a78bfa]/30 to-primary-cyan/20 border-2 border-[#a78bfa]/40 flex items-center justify-center text-4xl shrink-0">
+          <div className="w-20 h-20 rounded-lg bg-gradient-to-br from-[#a78bfa]/30 to-primary-cyan/20 border-2 border-[#a78bfa]/40 flex items-center justify-center text-4xl shrink-0">
             {creator.avatar}
           </div>
 
@@ -140,7 +140,7 @@ export const CreatorProfileView: React.FC<Props> = ({ creatorId, onViewChange, o
             }));
             return (
               <motion.div key={proj.id} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}
-                className="bg-surface-low/40 border border-white/8 rounded-2xl overflow-hidden hover:border-white/15 transition-all"
+                className="bg-surface-low/40 border border-white/8 rounded-lg overflow-hidden hover:border-white/15 transition-all"
               >
                 <div className="flex items-start gap-3 p-4">
                   <img src={getSafeImageUrl(proj.image, proj.category)} alt={proj.name}
@@ -209,7 +209,7 @@ export const CreatorProfileView: React.FC<Props> = ({ creatorId, onViewChange, o
       {/* ── À PROPOS ─────────────────────────────────────────────────────── */}
       {activeTab === 'about' && (
         <div className="space-y-5">
-          <div className="bg-surface-low/40 border border-white/8 rounded-2xl p-5 space-y-4">
+          <div className="bg-surface-low/40 border border-white/8 rounded-lg p-5 space-y-4">
             <h3 className="text-sm font-black text-on-surface uppercase tracking-wider flex items-center gap-2"><Award size={13} className="text-[#a78bfa]"/> {T('Parcours & Réalisations','Journey & Achievements')}</h3>
             <p className="text-sm text-on-surface-variant/70 leading-relaxed">{T(creator.bio_fr, creator.bio_en)}</p>
             <div className="grid grid-cols-2 gap-3 pt-2">
@@ -228,7 +228,7 @@ export const CreatorProfileView: React.FC<Props> = ({ creatorId, onViewChange, o
           </div>
 
           {/* Score LYA du créateur */}
-          <div className="bg-gradient-to-r from-[#a78bfa]/10 to-primary-cyan/5 border border-[#a78bfa]/20 rounded-2xl p-5 space-y-3">
+          <div className="bg-gradient-to-r from-[#a78bfa]/10 to-primary-cyan/5 border border-[#a78bfa]/20 rounded-lg p-5 space-y-3">
             <p className="text-xs font-black text-[#a78bfa] uppercase tracking-widest">{T('LYA Score Global Créateur','Creator Global LYA Score')}</p>
             <div className="flex items-center justify-between">
               <p className="text-5xl font-black text-white font-mono">{creator.lyaScore}<span className="text-lg text-on-surface-variant/30">/1000</span></p>
@@ -246,7 +246,7 @@ export const CreatorProfileView: React.FC<Props> = ({ creatorId, onViewChange, o
       )}
 
       {/* ── CTA FINAL ────────────────────────────────────────────────────── */}
-      <div className="bg-gradient-to-br from-[#a78bfa]/10 to-primary-cyan/5 border border-[#a78bfa]/20 rounded-2xl p-6 text-center space-y-3">
+      <div className="bg-gradient-to-br from-[#a78bfa]/10 to-primary-cyan/5 border border-[#a78bfa]/20 rounded-lg p-6 text-center space-y-3">
         <p className="text-xs font-black text-[#a78bfa] uppercase tracking-widest">✦ LinkYourArt</p>
         <h3 className="text-xl font-black text-white">{T('Soutenez la créativité de demain','Support tomorrow\'s creativity')}</h3>
         <p className="text-sm text-on-surface-variant/60">{T('Rejoignez la plateforme de certification créative et suivez les projets qui vous inspirent.','Join the creative certification platform and follow the projects that inspire you.')}</p>
