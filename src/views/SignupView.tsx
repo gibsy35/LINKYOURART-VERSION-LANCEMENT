@@ -330,7 +330,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
           className="max-w-md w-full bg-surface-low/40 backdrop-blur-3xl border border-white/10 p-12 text-center space-y-8 rounded-[2.5rem]"
         >
           <div className="flex justify-center">
-            <div className="w-20 h-20 bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 rounded-3xl">
+            <div className="w-20 h-20 bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 rounded-lg">
               <ShieldCheck size={40} />
             </div>
           </div>
@@ -342,7 +342,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
           </div>
           <button 
             onClick={() => onViewChange('LOGIN')}
-            className="w-full py-4 bg-primary-cyan text-surface-dim font-black text-xs uppercase tracking-widest shadow-[0_20px_40px_rgba(0,224,255,0.2)] hover:bg-white transition-all rounded-2xl"
+            className="w-full py-4 bg-primary-cyan text-surface-dim font-black text-xs uppercase tracking-widest shadow-[0_20px_40px_rgba(0,224,255,0.2)] hover:bg-white transition-all rounded-lg"
           >
             {t('Proceed to Login', 'Procéder à la Connexion')}
           </button>
@@ -406,9 +406,9 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
                     <div 
                       key={r.id} 
                       onClick={() => setRole(r.id)}
-                      className={`flex gap-3 items-center group cursor-pointer p-4 mb-2.5 rounded-2xl transition-all border ${role === r.id ? 'bg-primary-cyan/10 border-primary-cyan scale-[1.01]' : 'bg-white/[0.03] border-white/10 hover:bg-white/5 hover:border-white/20'}`}
+                      className={`flex gap-3 items-center group cursor-pointer p-4 mb-2.5 rounded-lg transition-all border ${role === r.id ? 'bg-primary-cyan/10 border-primary-cyan scale-[1.01]' : 'bg-white/[0.03] border-white/10 hover:bg-white/5 hover:border-white/20'}`}
                     >
-                      <div className={`w-10 h-10 rounded-xl border flex items-center justify-center shrink-0 transition-all ${role === r.id ? 'bg-primary-cyan border-primary-cyan shadow-[0_0_15px_rgba(0,224,255,0.4)]' : 'bg-white/5 border-white/10 group-hover:border-primary-cyan/50'}`}>
+                      <div className={`w-10 h-10 rounded-xl border flex items-center justify-center shrink-0 transition-all ${role === r.id ? 'bg-primary-cyan border-primary-cyan' : 'bg-white/5 border-white/10 group-hover:border-primary-cyan/50'}`}>
                         <r.icon size={18} className={role === r.id ? 'text-surface-dim' : 'text-on-surface-variant group-hover:text-primary-cyan'} />
                       </div>
                       <div className="space-y-1">
@@ -427,7 +427,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
                     <button 
                       onClick={() => { if(role) setStep(2); }}
                       disabled={!role}
-                      className="w-full py-4 bg-primary-cyan text-surface-dim text-xs font-black uppercase italic tracking-[0.2em] group hover:bg-white transition-all flex items-center justify-center gap-3 disabled:opacity-30 disabled:cursor-not-allowed rounded-full shadow-[0_0_30px_rgba(0,224,255,0.2)]"
+                      className="w-full py-4 bg-primary-cyan text-surface-dim text-xs font-black uppercase italic tracking-[0.2em] group hover:bg-white transition-all flex items-center justify-center gap-3 disabled:opacity-30 disabled:cursor-not-allowed rounded-full"
                     >
                       {t('CONTINUE', 'CONTINUER')}
                       <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
@@ -544,7 +544,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
                   <button 
                     type="submit"
                     disabled={isLoading}
-                    className="w-full py-4 bg-primary-cyan text-surface-dim text-xs font-black uppercase italic tracking-[0.2em] hover:bg-white transition-all active:scale-95 shadow-[0_0_40px_rgba(0,224,255,0.2)] rounded-full flex items-center justify-center gap-3 group mt-2"
+                    className="w-full py-4 bg-primary-cyan text-surface-dim text-xs font-black uppercase italic tracking-[0.2em] hover:bg-white transition-all active:scale-95 rounded-full flex items-center justify-center gap-3 group mt-2"
                   >
                     {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : (
                       <>
