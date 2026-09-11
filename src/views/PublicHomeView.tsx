@@ -90,6 +90,38 @@ function splitScore(score: number): number[] {
   return vals;
 }
 
+// Petit effet de compteur qui monte au scroll — donne de la vie a un chiffre
+// sans effet "tech/IA" (technique classique presse/ONG, pas un gadget SaaS).
+const CountUp: React.FC<{ to: number; duration?: number; suffix?: string }> = ({ to, duration = 1400, suffix = '' }) => {
+  const ref = React.useRef<HTMLSpanElement>(null);
+  const [value, setValue] = React.useState(0);
+  React.useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const start = performance.now();
+            const tick = (now: number) => {
+              const progress = Math.min((now - start) / duration, 1);
+              const eased = 1 - Math.pow(1 - progress, 3);
+              setValue(Math.round(to * eased));
+              if (progress < 1) requestAnimationFrame(tick);
+            };
+            requestAnimationFrame(tick);
+            io.unobserve(el);
+          }
+        });
+      },
+      { threshold: 0.4 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [to, duration]);
+  return <span ref={ref}>{value}{suffix}</span>;
+};
+
 export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin, onSignup, onGuestBrowse }) => {
   const [selected, setSelected] = React.useState<number | null>(null);
   const [lang, setLang] = React.useState<'fr' | 'en'>('fr');
@@ -662,8 +694,8 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       <section className="term-stats">
         <div className="term-wrap">
           <div className="term-stats-grid three">
-            <div className="term-stat-card term-reveal"><div className="v">20+</div><div className="l">{t("Ans d'existence", 'Years of existence')}</div><div className="s">{t('Depuis 2006', 'Since 2006')}</div></div>
-            <div className="term-stat-card term-reveal"><div className="v">9+</div><div className="l">{t('Disciplines créatives', 'Creative disciplines')}</div><div className="s">{t('Musique, cinéma, mode, gaming…', 'Music, film, fashion, gaming…')}</div></div>
+            <div className="term-stat-card term-reveal"><div className="v"><CountUp to={20} suffix="+" /></div><div className="l">{t("Ans d'existence", 'Years of existence')}</div><div className="s">{t('Depuis 2006', 'Since 2006')}</div></div>
+            <div className="term-stat-card term-reveal"><div className="v"><CountUp to={9} suffix="+" /></div><div className="l">{t('Disciplines créatives', 'Creative disciplines')}</div><div className="s">{t('Musique, cinéma, mode, gaming…', 'Music, film, fashion, gaming…')}</div></div>
             <div className="term-stat-card founder term-reveal" onClick={() => setShowJoin(true)} style={{ cursor: 'pointer' }}>
               <div className="v" style={{ fontSize: 22 }}>{t('Devenez fondateur', 'Become a founder')}</div>
               <div className="l">{t('150 premières places', 'First 150 spots')}</div>
@@ -714,7 +746,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         <div className="term-wrap">
           <div className="term-score-hero-inner">
             <div className="term-score-hero-num">
-              <span className="big">247</span><span className="max">/1000</span>
+              <span className="big"><CountUp to={247} /></span><span className="max">/1000</span>
             </div>
             <div className="term-score-hero-text">
               <div className="term-eyebrow">{t('Le concept en un chiffre', 'The concept in one number')}</div>
