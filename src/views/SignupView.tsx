@@ -138,7 +138,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
         if (isQuota) {
           console.warn('Quota reached during profile creation. Proceeding with temporary local session.');
           setUser(newUser);
-          onViewChange('HOME');
+          onViewChange('MECENAT');
           return;
         } else {
           handleFirestoreError(err, OperationType.WRITE, `users/${firebaseUser.uid}`);
@@ -185,7 +185,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
       } catch (verifyErr) {
         console.error('Error sending verification email:', verifyErr);
         setUser(newUser);
-        onViewChange('HOME');
+        onViewChange('MECENAT');
       }
     } catch (err: any) {
       console.error('Signup Error:', err);
@@ -236,7 +236,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
     if (userDoc && userDoc.exists()) {
       const existingUser = userDoc.data() as UserProfile;
       setUser(existingUser);
-      onViewChange('HOME');
+      onViewChange('MECENAT');
     } else {
       const newUser: UserProfile = {
         uid: firebaseUser.uid,
@@ -263,7 +263,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
         console.warn('Could not save profile during Google signup (Quota?), using local fallback:', err);
       }
       setUser(newUser);
-      onViewChange('HOME');
+      onViewChange('MECENAT');
     }
   };
 
