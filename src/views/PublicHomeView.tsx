@@ -106,7 +106,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
   const [joinError, setJoinError] = React.useState<string | null>(null);
   const [joinResult, setJoinResult] = React.useState<{ position: number; tier: string; accessKey: string | null } | null>(null);
   const [keyCopied, setKeyCopied] = React.useState(false);
-  const [footerTab, setFooterTab] = React.useState<'model' | 'legal' | 'privacy' | 'cgu' | null>(null);
+  const [footerTab, setFooterTab] = React.useState<'model' | 'legal' | 'privacy' | 'cgu' | 'faq' | null>(null);
 
   // Compteur de validateurs certifies en temps reel + vitrine des
   // certificateurs ayant opte in publiquement — repris d'AboutView (page
@@ -551,6 +551,15 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-price .desc{ font-size:12.5px; margin-top:8px; opacity:0.75; }
         .term-registry-example-note{ font-size:12.5px; color:var(--term-ink-soft); margin-top:6px; margin-bottom:20px; }
         .term-price-note{ font-size:12.5px; color:var(--term-ink-soft); line-height:1.6; margin-top:16px; max-width:60ch; }
+        .term-pricing-intro{ font-size:14px; color:var(--term-ink-soft); max-width:64ch; margin:10px 0 28px; }
+        .term-price-features{ list-style:none; padding:0; margin:14px 0 0; display:flex; flex-direction:column; gap:6px; }
+        .term-price-features li{ font-size:12px; line-height:1.4; padding-left:14px; position:relative; opacity:0.85; }
+        .term-price-features li::before{ content:'—'; position:absolute; left:0; opacity:0.5; }
+        .term-validator-card{ margin-top:16px; background:var(--term-grey); border-radius:8px; padding:24px 26px; display:flex; flex-wrap:wrap; gap:24px; justify-content:space-between; align-items:flex-start; }
+        .term-validator-card .left{ flex:1; min-width:220px; }
+        .term-validator-card .name{ font-family:'Fraunces',serif; font-weight:700; font-size:17px; margin-bottom:6px; }
+        .term-validator-card .left p{ font-size:13px; color:var(--term-ink-soft); line-height:1.5; }
+        .term-validator-card .term-price-features{ margin:0; min-width:240px; }
         .term-cta{ background:var(--term-lav); padding:56px 0; }
         .term-cta-inner{ display:flex; justify-content:space-between; align-items:center; gap:24px; flex-wrap:wrap; }
         .term-cta h2{ font-weight:800; font-size:clamp(24px,3vw,34px); max-width:22ch; color:var(--term-ink); }
@@ -1030,13 +1039,66 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         <div className="term-wrap">
           <div className="term-eyebrow">{t('Tarifs', 'Pricing')}</div>
           <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t('Commencez gratuitement. Grandissez à votre rythme.', 'Start for free. Grow at your own pace.')}</h2>
+          <p className="term-pricing-intro">{t('La découverte et le mécénat sont gratuits pour tous. Les paliers professionnels débloquent les outils de certification pour sourcer et auditer à grande échelle.', 'Discovery and patronage are free for everyone. Professional tiers unlock certification tooling for sourcing and auditing work at scale.')}</p>
           <div className="term-price-grid">
-            <div className="term-price lav term-reveal" onClick={() => setShowJoin(true)} style={{ cursor: 'pointer' }}><div><div className="name">{t('Créateur', 'Creator')}</div><div className="amount">0€</div><div className="desc">{t('Jusqu\'à 3 projets, Score LYA gratuit, certifications suppl. à 5€', 'Up to 3 projects, free LYA Score, extra certifications at €5')}</div></div></div>
-            <div className="term-price grey term-reveal" onClick={() => setShowJoin(true)} style={{ cursor: 'pointer' }}><div><div className="name">Pro Starter</div><div className="amount">79€<span style={{ fontSize: 13 }}>{t('/mois', '/mo')}</span></div><div className="desc">{t('Jusqu\'à 25 soumissions/mois, registre complet, file prioritaire', 'Up to 25 submissions/month, full registry, priority queue')}</div></div></div>
-            <div className="term-price dark term-reveal" onClick={() => setShowJoin(true)} style={{ cursor: 'pointer' }}><div><div className="name">Pro Advanced</div><div className="amount">249€<span style={{ fontSize: 13 }}>{t('/mois', '/mo')}</span></div><div className="desc">{t('Jusqu\'à 100 soumissions/mois + API + gestionnaire de compte dédié', 'Up to 100 submissions/month + API access + dedicated account manager')}</div></div></div>
-            <a className="term-price lav term-reveal" href="mailto:contact@linkyourart.com?subject=Entreprise%20Institutionnelle" style={{ cursor: 'pointer', textDecoration: 'none', display: 'block' }}><div><div className="name">{t('Entreprise institutionnelle', 'Institutional Enterprise')}</div><div className="amount">{t('Sur devis', 'On request')}</div><div className="desc">{t('Onboarding de catalogue global, acquisition IP externalisée, accès au registre maître', 'Global catalog onboarding, externalized IP acquisition, master registry access')}</div></div></a>
+            <div className="term-price lav term-reveal" onClick={() => setShowJoin(true)} style={{ cursor: 'pointer' }}>
+              <div>
+                <div className="name">{t('Créateur', 'Creator')}</div>
+                <div className="amount">0€</div>
+                <ul className="term-price-features">
+                  <li>{t('Jusqu\'à 3 projets', 'Up to 3 projects')}</li>
+                  <li>{t('Score LYA gratuit', 'Free LYA Score')}</li>
+                  <li>{t('Certifications suppl. à 5€', 'Extra certifications at €5')}</li>
+                </ul>
+              </div>
+            </div>
+            <div className="term-price grey term-reveal" onClick={() => setShowJoin(true)} style={{ cursor: 'pointer' }}>
+              <div>
+                <div className="name">Pro Starter</div>
+                <div className="amount">79€<span style={{ fontSize: 13 }}>{t('/mois', '/mo')}</span></div>
+                <ul className="term-price-features">
+                  <li>{t('Jusqu\'à 25 soumissions/mois', 'Up to 25 submissions/mo')}</li>
+                  <li>{t('Accès complet au registre', 'Full registry access')}</li>
+                  <li>{t('File de revue prioritaire', 'Priority review queue')}</li>
+                </ul>
+              </div>
+            </div>
+            <div className="term-price dark term-reveal" onClick={() => setShowJoin(true)} style={{ cursor: 'pointer' }}>
+              <div>
+                <div className="name">Pro Advanced</div>
+                <div className="amount">249€<span style={{ fontSize: 13 }}>{t('/mois', '/mo')}</span></div>
+                <ul className="term-price-features">
+                  <li>{t('Tout Pro Starter, plafond à 100/mois', 'Everything in Starter, cap raised to 100/mo')}</li>
+                  <li>{t('Accès API', 'API access')}</li>
+                  <li>{t('Gestionnaire de compte dédié', 'Dedicated account manager')}</li>
+                </ul>
+              </div>
+            </div>
+            <a className="term-price lav term-reveal" href="mailto:contact@linkyourart.com?subject=Entreprise%20Institutionnelle" style={{ cursor: 'pointer', textDecoration: 'none', display: 'block' }}>
+              <div>
+                <div className="name">{t('Entreprise institutionnelle', 'Institutional Enterprise')}</div>
+                <div className="amount">{t('Sur devis', 'On request')}</div>
+                <ul className="term-price-features">
+                  <li>{t('Certification de catalogue complet', 'Full catalog certification')}</li>
+                  <li>{t('Processus personnalisé', 'Custom certification workflow')}</li>
+                  <li>{t('Support dédié 24/7', '24/7 dedicated support')}</li>
+                </ul>
+              </div>
+            </a>
           </div>
-          <p className="term-price-note">{t("Ce palier couvre la gestion de certification externalisée à l'échelle d'un catalogue entier — pas l'ajout d'un utilisateur de plus : vérification initiale automatisée, données de performance prédictives, suite d'accès institutionnel.", "This tier covers externalized certification management at the scale of an entire catalog — not one more user: automated initial vetting, predictive performance data, institutional access suite.")}</p>
+          <p className="term-price-note">{t("L'Entreprise couvre la gestion de certification externalisée à l'échelle d'un catalogue entier — pas l'ajout d'un utilisateur de plus : vérification initiale automatisée, données de performance prédictives, suite d'accès institutionnel.", "Enterprise covers externalized certification management at the scale of an entire catalog — not one more user: automated initial vetting, predictive performance data, institutional access suite.")}</p>
+
+          <div className="term-validator-card term-reveal">
+            <div className="left">
+              <div className="name">{t('Validateur Certifié', 'Certified Validator')}</div>
+              <p>{t('Une accréditation professionnelle, pas un forfait payant — vous êtes payé pour certifier.', 'A professional accreditation, not a paid plan — get paid to certify.')}</p>
+            </div>
+            <ul className="term-price-features">
+              <li>{t('Standard : toujours gratuit, toujours rémunéré', 'Standard: always free, always paid')}</li>
+              <li>{t('Express : priorité, rémunération plus élevée', 'Express: priority, higher payout')}</li>
+              <li>{t('4 paliers, rémunérés automatiquement', '4 tiers, paid automatically')}</li>
+            </ul>
+          </div>
         </div>
       </section>
 
@@ -1246,6 +1308,34 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
                 </div>
               </>
             )}
+
+            {footerTab === 'faq' && (
+              <>
+                <div className="term-join-title">FAQ</div>
+                <div className="term-legal-grid">
+                  <div className="term-legal-item">
+                    <h5>{t("Qu'est-ce que LinkYourArt (LYA) ?", 'What is LinkYourArt (LYA)?')}</h5>
+                    <p>{t("LYA est un écosystème de certification créative où n'importe qui peut découvrir, certifier et soutenir des projets artistiques. Une plateforme indépendante qui rend l'évaluation objective de la qualité créative accessible à tous.", 'LYA is a creative certification ecosystem where anyone can discover, certify and support artistic projects. An independent platform that makes objective creative quality assessment accessible to everyone.')}</p>
+                  </div>
+                  <div className="term-legal-item">
+                    <h5>{t('LYA est-elle une plateforme financière ?', 'Is LYA a financial platform?')}</h5>
+                    <p>{t("Non. Les mécènes qui soutiennent un projet le font via un mécénat de reconnaissance — ils n'acquièrent aucun instrument financier.", 'No. Patrons who support a project do so through recognition-based patronage — they acquire no financial instrument.')}</p>
+                  </div>
+                  <div className="term-legal-item">
+                    <h5>{t('Ai-je besoin d\'un compte pour naviguer ?', 'Do I need an account to browse?')}</h5>
+                    <p>{t("Non. Cette page et le Registre sont accessibles en lecture seule sans compte. Pour soutenir ou soumettre un projet, un compte gratuit est requis.", 'No. This page and the Registry are accessible read-only without an account. Supporting or submitting a project requires a free account.')}</p>
+                  </div>
+                  <div className="term-legal-item">
+                    <h5>{t('Comment devenir professionnel validé ?', 'How to become a validated professional?')}</h5>
+                    <p>{t("Soumettez une demande de Vérification Professionnelle avec vos accréditations, portfolio et références. Examinée sous 5 à 10 jours ouvrés par le comité LYA.", 'Submit a Professional Verification request with your credentials, portfolio and references. Reviewed within 5–10 business days by the LYA committee.')}</p>
+                  </div>
+                  <div className="term-legal-item">
+                    <h5>{t('Mon soutien est-il sécurisé ?', 'Is my support secure?')}</h5>
+                    <p>{t("Toutes les certifications et jalons sont enregistrés dans notre registre sécurisé et immuable.", 'All certifications and milestones are recorded in our secure, immutable registry.')}</p>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </div>
       )}
@@ -1280,6 +1370,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
               <a href="#" onClick={(e) => { e.preventDefault(); setFooterTab('legal'); }}>{t('Mentions légales', 'Legal notice')}</a>
               <a href="#" onClick={(e) => { e.preventDefault(); setFooterTab('privacy'); }}>{t('Confidentialité', 'Privacy')}</a>
               <a href="#" onClick={(e) => { e.preventDefault(); setFooterTab('cgu'); }}>{t('CGU', 'Terms of Service')}</a>
+              <a href="#" onClick={(e) => { e.preventDefault(); setFooterTab('faq'); }}>FAQ</a>
             </div>
           </div>
           <div className="term-foot-bottom">
