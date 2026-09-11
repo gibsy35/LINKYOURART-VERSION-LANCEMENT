@@ -195,7 +195,7 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange, onNotify }) 
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-32 items-center px-4 md:px-0">
           <div className="space-y-8">
             <div className="text-center space-y-4 mb-8">
-              <h2 className="text-3xl md:text-5xl font-black font-headline text-white tracking-tighter uppercase drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]">
+              <h2 className="text-3xl md:text-5xl font-black font-headline text-white tracking-tighter uppercase drop-">
                 {t('Our History', 'Notre Histoire')}
               </h2>
               <div className="w-24 h-1 bg-primary-cyan mx-auto rounded-full" />
@@ -222,11 +222,11 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange, onNotify }) 
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="p-6 bg-surface-low/30 border border-white/5 rounded-2xl">
+              <div className="p-6 bg-surface-low/30 border border-white/5 rounded-lg">
                 <p className="text-2xl font-black text-primary-cyan mb-1">2006</p>
                 <p className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest">{t('FOUNDATION', 'FONDATION')}</p>
               </div>
-              <div className="p-6 bg-surface-low/30 border border-white/5 rounded-2xl">
+              <div className="p-6 bg-surface-low/30 border border-white/5 rounded-lg">
                 <p className="text-2xl font-black text-accent-purple mb-1">2026</p>
                 <p className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest">{t('REVOLUTION', 'RÉVOLUTION')}</p>
               </div>
@@ -235,15 +235,15 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange, onNotify }) 
 
         <div className="relative">
           <div className="absolute -inset-4 bg-primary-cyan/10 blur-3xl rounded-full opacity-50" />
-          <div className="relative aspect-square rounded-2xl md:rounded-[3rem] overflow-hidden border border-white/10 shadow-2xl flex items-center justify-center bg-surface-low/20 group">
+          <div className="relative aspect-square rounded-lg md:rounded-[3rem] overflow-hidden border border-white/10 shadow-2xl flex items-center justify-center bg-surface-low/20 group">
             <Logo 
               size={320} 
               color="multi"
-              className="transition-all duration-1000 drop-shadow-[0_0_50px_rgba(0,224,255,0.3)]"
+              className="transition-all duration-1000 drop-"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-surface-dim via-transparent to-transparent opacity-60" />
             <div className="absolute bottom-10 left-10 right-10">
-              <div className="p-8 bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl">
+              <div className="p-8 bg-black/40 backdrop-blur-md border border-white/10 rounded-lg">
                 <p className="text-sm font-bold text-white leading-relaxed text-justify">
                   "{t(
                     "More than a platform, LINKYOURART stands today as a hybrid creative ecosystem.",
@@ -260,7 +260,7 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange, onNotify }) 
       <section className="px-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {stats.map((stat, i) => (
-            <div key={i} className="bg-surface-low/30 border border-white/5 p-10 rounded-3xl text-center group hover:border-primary-cyan/30 transition-all shadow-xl">
+            <div key={i} className="bg-surface-low/30 border border-white/5 p-10 rounded-lg text-center group hover:border-primary-cyan/30 transition-all shadow-xl">
               <h3 className="text-4xl md:text-5xl font-black text-white tracking-tighter mb-2 group-hover:text-primary-cyan transition-colors">
                 {stat.value}
               </h3>
@@ -303,7 +303,7 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange, onNotify }) 
       {/* Values Section */}
       <section className="px-8 space-y-12">
         <div className="text-center space-y-4">
-          <h2 className="text-3xl md:text-5xl font-black font-headline text-white tracking-tighter uppercase mb-6 drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]">
+          <h2 className="text-3xl md:text-5xl font-black font-headline text-white tracking-tighter uppercase mb-6 drop-">
             {t('Our Values', 'Nos Valeurs')}
           </h2>
           <div className="w-24 h-1 bg-primary-cyan mx-auto rounded-full" />
@@ -346,7 +346,7 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange, onNotify }) 
           ].map((value, i) => (
             <div key={i} className="bg-surface-low/30 border border-white/5 p-10 rounded-[2rem] space-y-6 hover:border-white/20 transition-all group">
               <div className="flex items-center gap-4">
-                <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:scale-110 transition-transform shadow-xl">
+                <div className="w-14 h-14 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center group-hover:scale-110 transition-transform shadow-xl">
                   {value.icon}
                 </div>
                 <h3 className="text-2xl font-black text-white uppercase tracking-tight">{value.title}</h3>
@@ -365,7 +365,7 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange, onNotify }) 
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10 pointer-events-none" />
           
           <div className="relative z-10 space-y-6">
-            <h2 className="text-3xl md:text-5xl font-black font-headline text-white tracking-tighter uppercase mb-6 drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]">
+            <h2 className="text-3xl md:text-5xl font-black font-headline text-white tracking-tighter uppercase mb-6 drop-">
               {t('Join the Creative Revolution', 'Rejoignez la révolution créative')}
             </h2>
             <p className="text-on-surface-variant max-w-2xl mx-auto text-lg font-medium opacity-80 text-justify">
