@@ -542,7 +542,7 @@ export const LinkArtView: React.FC<{
                     <label className="text-xs uppercase tracking-widest text-on-surface-variant font-bold">{t('Contract Name', 'Nom du Contrat')}</label>
                     <div className="relative">
                       <input 
-                        className="w-full bg-surface-dim border border-white/10 text-on-surface p-4 pr-12 focus:border-primary-cyan/50 focus:ring-0 transition-all text-sm uppercase tracking-widest" 
+                        className="w-full bg-surface-dim border border-white/10 text-on-surface p-4 pr-12 focus:border-primary-cyan/50 focus:ring-0 transition-all text-sm tracking-widest" 
                         placeholder={t('e.g. NEON VOID ARCHIVE', 'ex: ARCHIVE DU VIDE NÉON')} 
                         value={assetName}
                         onChange={(e) => setAssetName(e.target.value)}
@@ -567,7 +567,7 @@ export const LinkArtView: React.FC<{
                   <div className="space-y-2">
                     <label className="text-xs uppercase tracking-widest text-on-surface-variant font-bold">{t('Issuer / Creator', 'Émetteur / Créateur')}</label>
                     <input 
-                      className="w-full bg-surface-dim border border-white/10 text-on-surface p-4 focus:border-primary-cyan/50 focus:ring-0 transition-all text-sm uppercase tracking-widest" 
+                      className="w-full bg-surface-dim border border-white/10 text-on-surface p-4 focus:border-primary-cyan/50 focus:ring-0 transition-all text-sm tracking-widest" 
                       placeholder={t('e.g. ALPHA STUDIO', 'ex: STUDIO ALPHA')} 
                       value={issuerName}
                       onChange={(e) => setIssuerName(e.target.value)}
@@ -590,7 +590,7 @@ export const LinkArtView: React.FC<{
                     <div className="relative">
                       <textarea 
                         rows={5} 
-                        className="w-full bg-surface-dim border border-white/10 text-on-surface p-4 focus:border-primary-cyan/50 focus:ring-0 transition-all text-sm uppercase tracking-widest resize-none" 
+                        className="w-full bg-surface-dim border border-white/10 text-on-surface p-4 focus:border-primary-cyan/50 focus:ring-0 transition-all text-sm tracking-widest resize-none" 
                         placeholder={t('Describe your project: what it is, its creative process, and what makes it distinctive...', 'Décrivez votre projet : ce qu\'il est, son processus créatif, et ce qui le distingue...')} 
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
@@ -748,7 +748,7 @@ export const LinkArtView: React.FC<{
                     <div className="space-y-1">
                       <label className="text-[10px] uppercase font-black text-on-surface-variant tracking-widest">{t('Label', 'Libellé')}</label>
                       <input 
-                        className="w-full bg-surface-low border border-white/10 p-3 text-xs uppercase tracking-widest"
+                        className="w-full bg-surface-low border border-white/10 p-3 text-xs tracking-widest"
                         placeholder={t('e.g. Beta Launch', 'ex: Lancement Beta')}
                         value={newMilestone.label}
                         onChange={(e) => setNewMilestone({ ...newMilestone, label: e.target.value })}
@@ -758,7 +758,7 @@ export const LinkArtView: React.FC<{
                       <label className="text-[10px] uppercase font-black text-on-surface-variant tracking-widest">{t('Target Date', 'Date Cible')}</label>
                       <input 
                         type="month"
-                        className="w-full bg-surface-low border border-white/10 p-3 text-xs uppercase tracking-widest"
+                        className="w-full bg-surface-low border border-white/10 p-3 text-xs tracking-widest"
                         value={newMilestone.date}
                         onChange={(e) => setNewMilestone({ ...newMilestone, date: e.target.value })}
                       />
@@ -767,7 +767,7 @@ export const LinkArtView: React.FC<{
                       <label className="text-[10px] uppercase font-black text-on-surface-variant tracking-widest">{t('Impact (%)', 'Impact (%)')}</label>
                       <input 
                         type="number"
-                        className="w-full bg-surface-low border border-white/10 p-3 text-xs uppercase tracking-widest font-mono"
+                        className="w-full bg-surface-low border border-white/10 p-3 text-xs tracking-widest font-mono"
                         value={newMilestone.scoreImpact}
                         onChange={(e) => setNewMilestone({ ...newMilestone, scoreImpact: Number(e.target.value) })}
                       />
@@ -808,7 +808,7 @@ export const LinkArtView: React.FC<{
                           <div className="w-full space-y-4">
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                               <input 
-                                className="bg-surface-low border border-white/20 p-2 text-xs uppercase text-white"
+                                className="bg-surface-low border border-white/20 p-2 text-xs text-white"
                                 value={milestone.label}
                                 onChange={(e) => {
                                   const updated = [...milestones];
@@ -818,7 +818,7 @@ export const LinkArtView: React.FC<{
                               />
                               <input 
                                 type="month"
-                                className="bg-surface-low border border-white/20 p-2 text-xs uppercase text-white"
+                                className="bg-surface-low border border-white/20 p-2 text-xs text-white"
                                 value={milestone.date}
                                 onChange={(e) => {
                                   const updated = [...milestones];
