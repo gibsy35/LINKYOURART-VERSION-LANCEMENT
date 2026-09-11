@@ -53,6 +53,18 @@ service cloud.firestore {
       allow delete: if isAdmin();
     }
 
+    // ── TEAM INVITES (systeme de licence multi-utilisateurs / sieges) ───────
+    match /team_invites/{email} {
+      allow read: if isSignedIn();
+      // Seul le proprietaire du compte peut creer une invitation en son nom.
+      allow create: if isSignedIn() && request.resource.data.ownerId == request.auth.uid;
+      // Marquer l'invitation comme acceptee : reserve a la personne invitee
+      // elle-meme (son email doit correspondre a l'ID du document), ou a
+      // l'admin. Le proprietaire ne peut pas la modifier apres coup.
+      allow update: if isSignedIn() && (isAdmin() || request.auth.token.email == email);
+      allow delete: if isAdmin();
+    }
+
     // ── PRE-REGISTRATIONS ──────────────────────────────────────────────────
     match /pre_registrations/{docId} {
       allow create: if true; // anyone can pre-register
