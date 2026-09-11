@@ -41,6 +41,15 @@ export const PRO_STARTER_PROJECT_LIMIT = 15;
 export const PRO_ADVANCED_PRICE_EUR = 249;
 export const PRO_ADVANCED_PROJECT_LIMIT = 30;
 
+// Sieges inclus par palier — systeme de licence multi-utilisateurs (type
+// licence Windows solo/multi). Un compte "proprietaire" peut inviter des
+// membres jusqu'a cette limite ; les membres invites heritent des memes
+// droits de soumission que le compte proprietaire.
+export const SEAT_LIMIT_FREE_CREATOR = 1;
+export const SEAT_LIMIT_PRO_STARTER = 1;
+export const SEAT_LIMIT_PRO_ADVANCED = 3;
+export const SEAT_LIMIT_ENTERPRISE = 999; // sur-mesure, negocie au cas par cas
+
 /**
  * Validator compensation model.
  *
