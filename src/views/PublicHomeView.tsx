@@ -205,7 +205,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
           --term-lav-deep:#B5308E; --term-purple:#7E1CF1; --term-pink:#E61A97; --term-cyan:#02C6FA;
           background:var(--term-paper); color:var(--term-ink); font-family:'Inter',sans-serif;
         }
-        .term-root h1, .term-root h2, .term-root h3{ font-family:'Fraunces',Georgia,serif; font-weight:500; letter-spacing:-0.01em; }
+        .term-root h1, .term-root h2, .term-root h3{ font-family:'Fraunces',Georgia,serif; font-weight:700; letter-spacing:-0.01em; }
         .term-root .sora{ font-family:'Sora',sans-serif; }
         .term-wrap{ max-width:1160px; margin:0 auto; padding:0 40px; }
         @media (max-width:700px){ .term-wrap{ padding:0 22px; } }
@@ -224,11 +224,13 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-lang-toggle button.active{ background:#fff; color:var(--term-ink); }
         .term-hero{ background:var(--term-ink); position:relative; overflow:hidden; padding:64px 0 90px; }
         .term-hero-shape{ position:absolute; top:-10%; right:-10%; width:70%; height:130%;
-          background:linear-gradient(155deg,#3D1470 0%,#5B1C63 55%,#7A2062 100%);
+          background:linear-gradient(135deg,#7E1CF1 0%,#7E1CF1 16%,#E61A97 42%,#E61A97 58%,#02C6FA 86%,#02C6FA 100%);
+          background-size:140% 140%;
           clip-path:polygon(30% 0%,100% 0%,100% 100%,0% 100%);
+          animation:termBreathe 16s ease-in-out infinite;
         }
-        .term-hero-shape::after{ content:''; position:absolute; inset:0; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E"); mix-blend-mode:overlay; }
-        .term-hero-title{ color:#fff; font-weight:500; font-size:clamp(36px,5.8vw,66px); line-height:1.06; letter-spacing:-0.01em; max-width:15ch; position:relative; z-index:1; }
+        @keyframes termBreathe{ 0%,100%{ background-position:0% 50%; } 50%{ background-position:100% 50%; } }
+        .term-hero-title{ color:#fff; font-weight:700; font-size:clamp(36px,5.8vw,66px); line-height:1.06; letter-spacing:-0.01em; max-width:15ch; position:relative; z-index:1; }
         .term-hero-sub{ color:#D6D4E2; font-size:17px; line-height:1.6; max-width:46ch; margin-top:26px; position:relative; z-index:1; }
         .term-btn-primary{ background:#fff; color:var(--term-ink); padding:14px 26px; border-radius:100px; font-weight:600; font-size:15px; border:none; cursor:pointer; }
         .term-btn-primary:hover{ background:var(--term-lav); }
@@ -347,7 +349,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-security-item:hover{ background:#E4F9EC; padding-left:28px; }
         .term-security-item svg{ color:#3ADB76; flex-shrink:0; }
         .term-milestone{ padding:64px 0; background:var(--term-grey); }
-        .term-milestone-h2{ font-weight:500; font-size:clamp(24px,3vw,34px); margin:8px 0 14px; max-width:16ch; }
+        .term-milestone-h2{ font-weight:700; font-size:clamp(24px,3vw,34px); margin:8px 0 14px; max-width:16ch; }
         .term-milestone-intro{ font-size:14.5px; line-height:1.7; color:var(--term-ink-soft); max-width:64ch; margin-bottom:40px; }
         .term-timeline{ display:flex; align-items:flex-start; gap:8px; margin-bottom:36px; }
         @media (max-width:800px){ .term-timeline{ flex-direction:column; } }
