@@ -100,7 +100,7 @@ export function MecenatView() {
       <div className="py-8">
 
         {/* Hero encadré */}
-        <div className="relative bg-surface-low/60 border border-white/10 rounded-2xl p-6 md:p-10 overflow-hidden mb-8">
+        <div className="relative bg-surface-low/60 border border-white/10 rounded-lg p-6 md:p-10 overflow-hidden mb-8">
           <div className="absolute inset-0 z-0">
             <AnimatePresence mode="sync">
               {activeImageBatch.map((img, idx) => (
@@ -159,8 +159,8 @@ export function MecenatView() {
                 </div>
               </div>
               <div className="shrink-0 w-[180px]">
-                <div className="relative rounded-2xl p-px" style={{ background: 'linear-gradient(145deg, rgba(0,212,232,0.35) 0%, rgba(255,255,255,0.06) 60%)' }}>
-                  <div className="bg-surface-low/80 rounded-2xl p-5 text-center space-y-3">
+                <div className="relative rounded-lg p-px" style={{ background: 'linear-gradient(145deg, rgba(0,212,232,0.35) 0%, rgba(255,255,255,0.06) 60%)' }}>
+                  <div className="bg-surface-low/80 rounded-lg p-5 text-center space-y-3">
                     <p className="text-xs font-mono tracking-[0.22em] uppercase" style={{ color: 'rgba(0,212,232,0.6)' }}>
                       {T('SCORE LYA', 'LYA SCORE')}
                     </p>
