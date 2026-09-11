@@ -65,7 +65,7 @@ export const IssuerProfileView: React.FC<IssuerProfileProps> = ({ issuerId, onBa
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-12">
           <div className="flex-1">
             <div className="flex items-center gap-4 mb-8">
-               <div className="w-20 h-20 bg-surface-low border border-white/10 rounded-2xl flex items-center justify-center text-primary-cyan shadow-2xl relative group overflow-hidden">
+               <div className="w-20 h-20 bg-surface-low border border-white/10 rounded-lg flex items-center justify-center text-primary-cyan shadow-2xl relative group overflow-hidden">
                  <Building2 size={32} />
                  <div className="absolute inset-0 bg-primary-cyan/5 opacity-0 group-hover:opacity-100 transition-opacity" />
                </div>
@@ -84,11 +84,11 @@ export const IssuerProfileView: React.FC<IssuerProfileProps> = ({ issuerId, onBa
           </div>
 
           <div className="flex flex-wrap gap-4">
-             <div className="bg-surface-low/30 backdrop-blur-2xl border border-white/10 p-6 rounded-3xl min-w-[180px]">
+             <div className="bg-surface-low/30 backdrop-blur-2xl border border-white/10 p-6 rounded-lg min-w-[180px]">
                <p className="text-[10px] text-on-surface-variant uppercase tracking-widest font-black mb-1 opacity-50">{t('Certification Status', 'Statut de Certification')}</p>
                <p className="text-2xl font-black text-accent-gold tracking-tighter">{issuerData.rating}</p>
              </div>
-             <div className="bg-surface-low/30 backdrop-blur-2xl border border-white/10 p-6 rounded-3xl min-w-[180px]">
+             <div className="bg-surface-low/30 backdrop-blur-2xl border border-white/10 p-6 rounded-lg min-w-[180px]">
                <p className="text-[10px] text-on-surface-variant uppercase tracking-widest font-black mb-1 opacity-50">{t('Certified Volume', 'Volume Certifié')}</p>
                <p className="text-2xl font-black text-white tracking-tighter">{issuerData.totalVolume}</p>
              </div>
@@ -105,7 +105,7 @@ export const IssuerProfileView: React.FC<IssuerProfileProps> = ({ issuerId, onBa
               
               <div className="space-y-6">
                 {issuerData.stats.map((stat, i) => (
-                  <div key={i} className="flex justify-between items-end p-5 bg-white/5 border border-white/10 rounded-2xl">
+                  <div key={i} className="flex justify-between items-end p-5 bg-white/5 border border-white/10 rounded-lg">
                     <div>
                       <p className="text-[10px] text-on-surface-variant uppercase tracking-widest font-bold opacity-40 mb-1">{stat.label}</p>
                       <p className="text-xl font-black text-white leading-none">{stat.value}</p>
@@ -162,7 +162,7 @@ export const IssuerProfileView: React.FC<IssuerProfileProps> = ({ issuerId, onBa
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                  {/* Simplified Contract Previews */}
                  {[1, 2, 3, 4].map((i) => (
-                   <div key={i} className="bg-surface-low border border-white/10 rounded-2xl p-6 hover:bg-white/5 transition-all group cursor-pointer relative overflow-hidden">
+                   <div key={i} className="bg-surface-low border border-white/10 rounded-lg p-6 hover:bg-white/5 transition-all group cursor-pointer relative overflow-hidden">
                       <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-15 transition-opacity">
                         <TrendingUp size={60} />
                       </div>
@@ -184,7 +184,7 @@ export const IssuerProfileView: React.FC<IssuerProfileProps> = ({ issuerId, onBa
                  ))}
               </div>
               
-              <button className="w-full mt-8 py-5 border border-white/10 text-[10px] font-black uppercase tracking-[0.4em] text-on-surface-variant hover:text-white hover:bg-white/5 transition-all flex items-center justify-center gap-3 rounded-2xl">
+              <button className="w-full mt-8 py-5 border border-white/10 text-[10px] font-black uppercase tracking-[0.4em] text-on-surface-variant hover:text-white hover:bg-white/5 transition-all flex items-center justify-center gap-3 rounded-lg">
                  {t('View Full Issuer Registry', 'Voir le Registre Complet')} <ExternalLink size={14} />
               </button>
            </section>
