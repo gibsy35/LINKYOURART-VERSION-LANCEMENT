@@ -123,7 +123,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: 'SOCIAL_FEED', icon: Users, label: t('COMMUNITY', 'COMMUNAUTÉ'), category: t('COMMUNITY', 'COMMUNAUTÉ') },
     { id: 'LOUNGE', icon: Coffee, label: t('THE LOUNGE', 'LE SALON'), category: t('COMMUNITY', 'COMMUNAUTÉ') },
     { id: 'ACADEMY', icon: Award, label: t('ACADEMY', 'ACADÉMIE'), category: t('RESOURCES', 'RESSOURCES') },
-    { id: 'OUR_MODEL', icon: Fingerprint, label: t('OUR MODEL', 'NOTRE MODÈLE'), category: t('SYSTEM', 'SYSTÈME') },
+    // 'OUR_MODEL' retiree : contenu (5 piliers /200pts, philosophie, processus
+    // de validation, independance des certificateurs) tout deplace sur la Home.
     { id: 'FAQ', icon: MessageSquare, label: t('FAQ', 'FAQ'), category: t('RESOURCES', 'RESSOURCES') },
     { id: 'LEGAL_MENTIONS', icon: FileText, label: t('LEGAL MENTIONS', 'MENTIONS LÉGALES'), category: t('RESOURCES', 'RESSOURCES') },
   ];
