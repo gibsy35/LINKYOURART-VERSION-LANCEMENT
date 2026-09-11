@@ -266,7 +266,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
           animation:termBreathe 16s ease-in-out infinite;
         }
         @keyframes termBreathe{ 0%,100%{ background-position:0% 50%; } 50%{ background-position:100% 50%; } }
-        .term-hero-title{ color:#fff; font-weight:700; font-size:clamp(36px,5.8vw,66px); line-height:1.06; letter-spacing:-0.01em; max-width:15ch; position:relative; z-index:1; }
+        .term-hero-title{ color:#fff; font-weight:700; font-size:clamp(40px,7.4vw,88px); line-height:1.02; letter-spacing:-0.015em; max-width:21ch; position:relative; z-index:1; }
         .term-hero-sub{ color:#D6D4E2; font-size:17px; line-height:1.6; max-width:46ch; margin-top:26px; position:relative; z-index:1; }
         .term-btn-primary{ background:#fff; color:var(--term-ink); padding:14px 26px; border-radius:100px; font-weight:600; font-size:15px; border:none; cursor:pointer; }
         .term-btn-primary:hover{ background:var(--term-lav); }
@@ -1156,7 +1156,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
                 <div className="name">Pro Starter</div>
                 <div className="amount">79€<span style={{ fontSize: 13 }}>{t('/mois', '/mo')}</span></div>
                 <ul className="term-price-features">
-                  <li>{t('Jusqu\'à 25 soumissions/mois', 'Up to 25 submissions/mo')}</li>
+                  <li>{t('Jusqu\'à 15 soumissions/mois', 'Up to 15 submissions/mo')}</li>
                   <li>{t('Accès complet au registre', 'Full registry access')}</li>
                   <li>{t('File de revue prioritaire', 'Priority review queue')}</li>
                 </ul>
@@ -1167,7 +1167,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
                 <div className="name">Pro Advanced</div>
                 <div className="amount">249€<span style={{ fontSize: 13 }}>{t('/mois', '/mo')}</span></div>
                 <ul className="term-price-features">
-                  <li>{t('Tout Pro Starter, plafond à 100/mois', 'Everything in Starter, cap raised to 100/mo')}</li>
+                  <li>{t('Tout Pro Starter, plafond à 30/mois', 'Everything in Starter, cap raised to 30/mo')}</li>
                   <li>{t('Accès API', 'API access')}</li>
                   <li>{t('Gestionnaire de compte dédié', 'Dedicated account manager')}</li>
                 </ul>
