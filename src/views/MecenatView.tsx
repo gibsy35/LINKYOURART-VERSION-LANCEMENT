@@ -30,7 +30,7 @@ const HERO_IMAGES = [
 
 // ─── COMPOSANT PRINCIPAL ──────────────────────────────────────────────────────
 
-export function MecenatView({ isGuest, onBackToHome }: { isGuest?: boolean; onBackToHome?: () => void }) {
+export function MecenatView({ isGuest, onRequireAuth }: { isGuest?: boolean; onRequireAuth?: () => void }) {
   const { language } = useTranslation();
   const lang: "FR" | "EN" = language === "FR" ? "FR" : "EN";
   const T = (fr: React.ReactNode, en: React.ReactNode) => lang === "FR" ? fr : en;
@@ -96,14 +96,6 @@ export function MecenatView({ isGuest, onBackToHome }: { isGuest?: boolean; onBa
 
   return (
     <section className="bg-surface-dim min-h-screen">
-      {isGuest && onBackToHome && (
-        <button
-          onClick={onBackToHome}
-          className="fixed top-20 right-4 z-[95] flex items-center gap-1.5 bg-white/90 text-surface-dim px-3 py-1.5 rounded-full text-[10px] font-bold shadow-md hover:bg-primary-cyan transition-colors backdrop-blur-sm"
-        >
-          ← {T('Retour', 'Back')}
-        </button>
-      )}
       {/* ── Header ── */}
       <div className="py-8">
 
@@ -307,7 +299,7 @@ export function MecenatView({ isGuest, onBackToHome }: { isGuest?: boolean; onBa
                   onViewProject={(c, u) => { setShowPayment(false); setDetail({ contract: c, units: u }); }}
                   onSupport={(c, u) => { setShowPayment(true); setDetail({ contract: c, units: u }); }}
                   requireAuthForLike={isGuest}
-                  onRequireAuth={onBackToHome}
+                  onRequireAuth={onRequireAuth}
                 />
               ))}
             </div>
