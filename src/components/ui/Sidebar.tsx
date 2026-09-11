@@ -129,17 +129,21 @@ export const Sidebar: React.FC<SidebarProps> = ({
     // (pop-up en bas de page, meme systeme que CGU/Modele/Confidentialite).
   ];
 
+  // Visiteur sans compte : seul Patronage a un sens a montrer, le reste
+  // (tableau de bord, portefeuille, reglages...) suppose un compte.
+  const visibleMenuItems = user ? menuItems : menuItems.filter((item) => item.id === 'MECENAT');
+
   if (user?.role === UserRole.ADMIN) {
     menuItems.push({ id: 'ADMIN_PANEL', icon: Shield, label: t('ADMIN HUB', 'ESPACE ADMIN'), category: t('SYSTEM', 'SYSTÈME') });
   }
 
-  const secondaryItems = [
+  const secondaryItems = user ? [
     { id: 'SETTINGS', icon: Settings, label: t('SETTINGS', 'RÉGLAGES') },
     { id: 'PRICING', icon: CreditCard, label: t('PRICING', 'TARIFICATION') },
     { id: 'API', icon: Database, label: t('API', 'API') },
-  ];
+  ] : [];
 
-  const categories = Array.from(new Set(menuItems.map(item => item.category)));
+  const categories = Array.from(new Set(visibleMenuItems.map(item => item.category)));
 
   const SidebarContent = (
     <div className="h-full flex flex-col bg-[#0D1117] border-r border-white/10 font-mono relative overflow-hidden">
@@ -188,7 +192,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               </div>
             )}
             <div className="space-y-1">
-              {menuItems
+              {visibleMenuItems
                 .filter(item => item.category === category)
                 .map(item => (
                   <button
@@ -336,7 +340,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                       {category}
                     </div>
                     <div className="space-y-1.5">
-                      {menuItems
+                      {visibleMenuItems
                         .filter(item => item.category === category)
                         .map(item => (
                           <button
