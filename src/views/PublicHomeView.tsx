@@ -605,7 +605,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       {/* Header */}
       <header className="term-header">
         <div className="term-wrap term-head-inner">
-          <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14, cursor: 'pointer' }} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
             <Logo size={52} color="multi" showBeta />
             <div className="term-word">LINKYOURART</div>
           </div>
@@ -1356,7 +1356,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       {/* Footer */}
       <footer className="term-footer">
         <div className="term-wrap">
-          <div className="term-foot-row">
+          <div className="term-foot-row" style={{ cursor: 'pointer' }} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
             <Logo size={80} color="multi" showBeta />
             <div className="term-foot-big">LINKYOURART</div>
           </div>
