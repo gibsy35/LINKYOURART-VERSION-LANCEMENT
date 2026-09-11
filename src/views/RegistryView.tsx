@@ -270,7 +270,7 @@ export const RegistryView: React.FC<{
                   placeholder={t('Search address, ID or name...', 'Recherche adresse, ID ou nom...')}
                   value={registrySearchTerm}
                   onChange={(e) => setRegistrySearchTerm(e.target.value)}
-                  className="w-full bg-surface-dim border border-white/5 text-[11px] font-bold uppercase tracking-widest py-3.5 pl-11 pr-4 outline-none focus:border-accent-gold transition-all"
+                  className="w-full bg-surface-dim border border-white/5 text-[11px] font-bold  tracking-widest py-3.5 pl-11 pr-4 outline-none focus:border-accent-gold transition-all"
                 />
               </div>
 
