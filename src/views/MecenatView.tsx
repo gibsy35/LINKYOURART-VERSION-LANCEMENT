@@ -99,9 +99,9 @@ export function MecenatView({ isGuest, onBackToHome }: { isGuest?: boolean; onBa
       {isGuest && onBackToHome && (
         <button
           onClick={onBackToHome}
-          className="fixed top-20 right-4 z-[95] flex items-center gap-2 bg-white text-surface-dim px-4 py-2.5 rounded-full text-xs font-bold shadow-lg hover:bg-primary-cyan transition-colors"
+          className="fixed top-20 right-4 z-[95] flex items-center gap-1.5 bg-white/90 text-surface-dim px-3 py-1.5 rounded-full text-[10px] font-bold shadow-md hover:bg-primary-cyan transition-colors backdrop-blur-sm"
         >
-          ← {T('Retour à la Home', 'Back to Home')}
+          ← {T('Retour', 'Back')}
         </button>
       )}
       {/* ── Header ── */}
