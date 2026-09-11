@@ -57,7 +57,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
           initial={{ opacity: 0, scale: 0.95, y: -20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: -20 }}
-          className="w-full max-w-2xl bg-surface-dim border border-white/10 shadow-[0_0_100px_rgba(0,0,0,0.5)] overflow-hidden font-mono"
+          className="w-full max-w-2xl bg-surface-dim border border-white/10 overflow-hidden font-mono"
           onClick={e => e.stopPropagation()}
         >
           <div className="flex items-center gap-4 p-6 border-b border-white/5">
