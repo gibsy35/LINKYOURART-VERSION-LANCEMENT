@@ -101,7 +101,7 @@ export const LinkArtView: React.FC<{
           {t('Free Limit Reached', 'Limite Gratuite Atteinte')}
         </h2>
         <p className="text-on-surface-variant max-w-lg mb-10 text-sm md:text-base leading-relaxed opacity-70">
-          {t(`You've reached the ${submissionLimit}-project limit on the free Creator plan. Add a single certification for €5, or upgrade to Professional for up to 25 submissions/month.`, `Vous avez atteint la limite de ${submissionLimit} projets du forfait Créateur gratuit. Ajoutez une certification à l'unité pour 5€, ou passez au forfait Professionnel pour jusqu'à 25 soumissions/mois.`)}
+          {t(`You've reached the ${submissionLimit}-project limit on the free Creator plan. Add a single certification for €5, or upgrade to Professional for up to 15 submissions/month.`, `Vous avez atteint la limite de ${submissionLimit} projets du forfait Créateur gratuit. Ajoutez une certification à l'unité pour 5€, ou passez au forfait Professionnel pour jusqu'à 15 soumissions/mois.`)}
         </p>
         <button 
           onClick={() => {
