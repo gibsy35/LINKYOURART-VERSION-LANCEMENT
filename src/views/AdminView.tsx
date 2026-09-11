@@ -655,7 +655,7 @@ export const AdminView: React.FC<{
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                <div className="p-5 bg-white/5 border border-white/5 rounded-2xl flex flex-col justify-between">
+                <div className="p-5 bg-white/5 border border-white/5 rounded-lg flex flex-col justify-between">
                   <div>
                     <div className="text-[10px] opacity-40 uppercase font-black mb-3 tracking-widest flex items-center gap-2">
                       <Mail size={12} /> Contact Information
@@ -668,7 +668,7 @@ export const AdminView: React.FC<{
                     <span className="text-xs font-mono font-bold text-primary-cyan uppercase">0x{viewingUser.uid ? viewingUser.uid.substring(0, 10).toUpperCase() : 'E84D2'}...A3F0</span>
                   </div>
                 </div>
-                <div className="p-5 bg-white/5 border border-white/5 rounded-2xl flex flex-col justify-between">
+                <div className="p-5 bg-white/5 border border-white/5 rounded-lg flex flex-col justify-between">
                   <div>
                     <div className="text-[10px] opacity-40 uppercase font-black mb-3 tracking-widest flex items-center gap-2">
                       <Shield size={12} /> Access Control
@@ -685,7 +685,7 @@ export const AdminView: React.FC<{
                 </div>
               </div>
 
-              <div className="space-y-6 mb-8 p-6 bg-surface-dim border border-white/5 rounded-2xl">
+              <div className="space-y-6 mb-8 p-6 bg-surface-dim border border-white/5 rounded-lg">
                 <div className="text-[10px] opacity-40 uppercase font-black tracking-widest mb-4">Platform Usage Metrics</div>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   <div>
@@ -715,7 +715,7 @@ export const AdminView: React.FC<{
 
               {/* Professional Dossier if exists */}
               {verificationRequests.find(r => r.userId === viewingUser.uid) && (
-                <div className="mb-8 p-6 bg-primary-cyan/5 border border-primary-cyan/10 rounded-2xl">
+                <div className="mb-8 p-6 bg-primary-cyan/5 border border-primary-cyan/10 rounded-lg">
                   <div className="text-[10px] text-primary-cyan uppercase font-black tracking-widest mb-4 flex items-center gap-2">
                     <FileCheck size={14} /> Professional Dossier Details
                   </div>
@@ -777,7 +777,7 @@ export const AdminView: React.FC<{
               <div className="flex gap-4">
                  <button 
                   onClick={() => handleTogglePro(viewingUser.uid!, !!viewingUser.isPro)} 
-                  className="flex-1 py-4 bg-accent-gold text-surface-dim font-black uppercase text-xs rounded-xl shadow-[0_0_20px_rgba(126,28,241,0.2)] hover:scale-[1.02] transition-all active:scale-95"
+                  className="flex-1 py-4 bg-accent-gold text-surface-dim font-black uppercase text-xs rounded-xl hover:scale-[1.02] transition-all active:scale-95"
                  >
                     {viewingUser.isPro ? t('REVOKE PRO ACCESS', 'RÉVOQUER ACCÈS PRO') : t('GRANT PRO ACCESS', 'ACCORDER ACCÈS PRO')}
                  </button>
@@ -849,7 +849,7 @@ export const AdminView: React.FC<{
         </div>
       </div>
 
-      <div className="bg-surface-low border border-white/5 rounded-3xl overflow-hidden shadow-2xl">
+      <div className="bg-surface-low border border-white/5 rounded-lg overflow-hidden shadow-2xl">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
             <thead className="bg-surface-dim uppercase font-black text-on-surface-variant/60">
@@ -962,7 +962,7 @@ export const AdminView: React.FC<{
         <div key={p.id} className="bg-surface-low border border-white/5 p-6 rounded-[2rem] hover:border-accent-gold/40 transition-all group relative overflow-hidden shadow-xl">
           <div className="absolute top-0 right-0 w-32 h-32 bg-accent-gold/5 rounded-full -mr-16 -mt-16 blur-2xl group-hover:bg-accent-gold/10 transition-all" />
           
-          <img src={getSafeImageUrl(p.image, p.category)} onError={handleImageError(p.category)} className="w-full h-40 object-cover rounded-2xl mb-6 group-hover:scale-[1.02] transition-transform shadow-lg" />
+          <img src={getSafeImageUrl(p.image, p.category)} onError={handleImageError(p.category)} className="w-full h-40 object-cover rounded-lg mb-6 group-hover:scale-[1.02] transition-transform shadow-lg" />
           
           <div className="flex justify-between items-start mb-4">
             <div>
@@ -1012,7 +1012,7 @@ export const AdminView: React.FC<{
 
   const renderValidationTab = () => (
     <div className="space-y-6">
-      <div className="bg-surface-low border border-white/5 rounded-3xl overflow-hidden shadow-2xl">
+      <div className="bg-surface-low border border-white/5 rounded-lg overflow-hidden shadow-2xl">
         <div className="p-6 border-b border-white/5 flex justify-between items-center">
           <h3 className="text-lg font-black text-white uppercase tracking-tighter flex items-center gap-3">
              <Shield className="text-primary-cyan" /> {t('Verification Requests', 'Demandes de VÉRIFICATION')}
@@ -1099,7 +1099,7 @@ export const AdminView: React.FC<{
                           onClick={() => setExpandedVerifId(expandedVerifId === req.id ? null : req.id)}
                           className={`px-3 py-1.5 border rounded font-black uppercase text-xs tracking-wider transition-all flex items-center gap-1.5 ${
                             expandedVerifId === req.id 
-                              ? 'bg-primary-cyan/20 text-primary-cyan border-primary-cyan/40 shadow-[0_0_15px_rgba(0,224,255,0.1)]' 
+                              ? 'bg-primary-cyan/20 text-primary-cyan border-primary-cyan/40' 
                               : 'bg-white/5 border-white/10 text-on-surface-variant hover:text-white hover:border-primary-cyan/30'
                           }`}
                         >
@@ -1113,7 +1113,7 @@ export const AdminView: React.FC<{
                   {expandedVerifId === req.id && (
                     <tr className="bg-white/[0.01] border-l-2 border-primary-cyan animate-in fade-in slide-in-from-top-1 duration-300">
                       <td colSpan={4} className="p-8">
-                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 text-left bg-surface-low border border-white/5 p-8 rounded-2xl">
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 text-left bg-surface-low border border-white/5 p-8 rounded-lg">
                           
                           {/* Col 1: Identity and Affiliation */}
                           <div className="space-y-4">
@@ -1226,7 +1226,7 @@ export const AdminView: React.FC<{
     <div className="space-y-8">
 
       {/* Pre-Registrations */}
-      <div className="bg-surface-low border border-white/5 rounded-3xl overflow-hidden">
+      <div className="bg-surface-low border border-white/5 rounded-lg overflow-hidden">
         <div className="p-6 border-b border-white/5 bg-white/[0.02]">
           <h3 className="text-lg font-black text-white uppercase tracking-tighter flex items-center gap-3">
             <Zap className="text-primary-cyan" /> {t('PRE-REGISTRATION PIPELINE', 'PIPELINE PRÉ-INSCRIPTIONS')}
@@ -1353,13 +1353,13 @@ export const AdminView: React.FC<{
                   </div>
 
                   {pendingSubmissions.length === 0 ? (
-                    <div className="bg-surface-low border border-white/8 rounded-2xl p-12 text-center">
+                    <div className="bg-surface-low border border-white/8 rounded-lg p-12 text-center">
                       <p className="text-on-surface-variant/40 text-sm">{t('No submissions yet', 'Aucune soumission pour le moment')}</p>
                     </div>
                   ) : (
                     <div className="space-y-3">
                       {pendingSubmissions.map((sub) => (
-                        <div key={sub.id} className={`bg-surface-low border rounded-2xl p-5 transition-all ${sub.status === 'PUBLISHED' ? 'border-emerald-400/20' : sub.status === 'REJECTED' ? 'border-rose-400/20 opacity-60' : 'border-violet-500/25'}`}>
+                        <div key={sub.id} className={`bg-surface-low border rounded-lg p-5 transition-all ${sub.status === 'PUBLISHED' ? 'border-emerald-400/20' : sub.status === 'REJECTED' ? 'border-rose-400/20 opacity-60' : 'border-violet-500/25'}`}>
                           <div className="flex items-start justify-between gap-4">
                             <div className="flex-1 min-w-0 space-y-2">
                               <div className="flex items-center gap-2 flex-wrap">
@@ -1400,7 +1400,7 @@ export const AdminView: React.FC<{
                 {/* Modal de publication */}
                 {publishModal && (
                   <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-xl">
-                    <div className="bg-surface-low border border-primary-cyan/30 rounded-3xl p-6 max-w-md w-full space-y-5">
+                    <div className="bg-surface-low border border-primary-cyan/30 rounded-lg p-6 max-w-md w-full space-y-5">
                       <div>
                         <p className="text-[10px] font-black text-primary-cyan uppercase tracking-widest mb-1">{t('Validation & Publication', 'Validation & Publication')}</p>
                         <h3 className="text-sm font-black text-white">{publishModal.name}</h3>
@@ -1529,7 +1529,7 @@ export const AdminView: React.FC<{
                 </div>
 
                 {/* Section 2: Market Performance & Pricing Math */}
-                <div className="p-5 bg-primary-cyan/5 border border-primary-cyan/25 rounded-2xl space-y-3">
+                <div className="p-5 bg-primary-cyan/5 border border-primary-cyan/25 rounded-lg space-y-3">
                    <div className="flex justify-between items-center">
                      <span className="text-[10px] font-black text-primary-cyan uppercase tracking-wider">{t('MARKET_PERF_PRICING', 'CRITÈRE DE COTATION ET VALEUR DU UNIT')}</span>
                      <span className="text-[10px] font-bold text-accent-gold uppercase tracking-widest">Base: €50.00 Price-Fix</span>
@@ -1622,7 +1622,7 @@ export const AdminView: React.FC<{
                     </select>
                   </div>
 
-                  <div className="p-4 bg-white/5 border border-white/5 rounded-2xl flex items-center justify-between">
+                  <div className="p-4 bg-white/5 border border-white/5 rounded-lg flex items-center justify-between">
                     <div>
                       <span className="text-xs text-white/40 uppercase font-black block leading-none mb-1">Status Preview</span>
                       <span className={`text-[10px] font-black uppercase tracking-widest ${editingProject.status === 'LIVE' ? 'text-emerald-400' : 'text-rose-500 animate-pulse'}`}>
@@ -1676,7 +1676,7 @@ export const AdminView: React.FC<{
               exit={{ opacity: 0, scale: 0.9 }}
               transition={{ type: 'spring', damping: 20, stiffness: 300 }}
               onClick={(e) => e.stopPropagation()}
-              className="relative max-w-md w-full bg-surface-low border border-emerald-500/30 rounded-3xl p-10 text-center shadow-[0_0_80px_rgba(16,185,129,0.25)] overflow-hidden"
+              className="relative max-w-md w-full bg-surface-low border border-emerald-500/30 rounded-lg p-10 text-center overflow-hidden"
             >
               <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-transparent to-primary-cyan/10 pointer-events-none" />
 
