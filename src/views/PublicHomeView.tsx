@@ -246,6 +246,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-pillar.dark .n{ color:#E61A97; } .term-pillar.lav .n, .term-pillar.grey .n{ color:#7E1CF1; }
         .term-pillar .t{ font-family:'Sora',sans-serif; font-weight:700; font-size:15px; margin-top:20px; }
         .term-pillar .d{ font-size:12.5px; line-height:1.5; margin-top:8px; opacity:0.8; }
+        .term-pillar .pts{ font-family:'Sora',sans-serif; font-weight:700; font-size:10.5px; letter-spacing:0.04em; opacity:0.5; margin-top:10px; }
         .term-compare{ padding:20px 0 72px; }
         .term-compare-grid{ display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:32px; }
         @media (max-width:800px){ .term-compare-grid{ grid-template-columns:1fr; } }
@@ -664,7 +665,10 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
                   <div className="n">{p.n}</div>
                   <div className="t">{t(p.title.fr, p.title.en)}</div>
                 </div>
-                <div className="d">{t(p.desc.fr, p.desc.en)}</div>
+                <div>
+                  <div className="d">{t(p.desc.fr, p.desc.en)}</div>
+                  <div className="pts">/ 200 {t('POINTS', 'POINTS')}</div>
+                </div>
               </div>
             ))}
           </div>
