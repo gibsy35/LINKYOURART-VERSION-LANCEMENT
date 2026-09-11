@@ -66,7 +66,7 @@ export const OnboardingWizard: React.FC<Props> = ({ onComplete, onSkip }) => {
   const steps = [
     // Étape 0 : Bienvenue
     <motion.div key="welcome" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -16 }} className="text-center space-y-6">
-      <div className="w-16 h-16 bg-primary-cyan/15 border border-primary-cyan/30 rounded-2xl flex items-center justify-center mx-auto">
+      <div className="w-16 h-16 bg-primary-cyan/15 border border-primary-cyan/30 rounded-lg flex items-center justify-center mx-auto">
         <span className="text-primary-cyan font-black text-xl">LYA</span>
       </div>
       <div>
@@ -83,7 +83,7 @@ export const OnboardingWizard: React.FC<Props> = ({ onComplete, onSkip }) => {
       <p className="text-sm italic text-primary-cyan/70 font-medium">
         "{T('Votre travail a une valeur. Nous la certifions. Des mécènes la reconnaissent.', 'Your work has value. We certify it. Patrons recognize it.')}"
       </p>
-      <button onClick={() => setStep(1)} className="w-full py-4 bg-primary-cyan text-surface-dim font-black text-sm uppercase tracking-widest rounded-xl hover:bg-white transition-all shadow-[0_0_20px_rgba(0,212,255,0.2)] flex items-center justify-center gap-2">
+      <button onClick={() => setStep(1)} className="w-full py-4 bg-primary-cyan text-surface-dim font-black text-sm uppercase tracking-widest rounded-xl hover:bg-white transition-all flex items-center justify-center gap-2">
         {T('Commencer →', 'Get started →')}
       </button>
     </motion.div>,
@@ -97,7 +97,7 @@ export const OnboardingWizard: React.FC<Props> = ({ onComplete, onSkip }) => {
       <div className="space-y-3">
         {roles.map((r) => (
           <button key={r.role} onClick={() => setSelectedRole(r.role)}
-            className={`w-full p-4 border rounded-2xl text-left transition-all ${selectedRole === r.role ? r.activeColor : r.color}`}
+            className={`w-full p-4 border rounded-lg text-left transition-all ${selectedRole === r.role ? r.activeColor : r.color}`}
           >
             <div className="flex items-start gap-3">
               <div className="shrink-0 mt-0.5">{r.icon}</div>
@@ -136,7 +136,7 @@ export const OnboardingWizard: React.FC<Props> = ({ onComplete, onSkip }) => {
 
       {/* Card */}
       <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
-        className="relative bg-surface-low border border-white/10 rounded-3xl p-7 max-w-md w-full shadow-2xl z-10 space-y-5 mx-3"
+        className="relative bg-surface-low border border-white/10 rounded-lg p-7 max-w-md w-full shadow-2xl z-10 space-y-5 mx-3"
       >
         {/* Bouton fermer */}
         <button onClick={onSkip} className="absolute top-4 right-4 p-2 text-on-surface-variant/40 hover:text-on-surface transition-colors rounded-lg hover:bg-white/5">
