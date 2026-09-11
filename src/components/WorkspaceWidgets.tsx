@@ -409,7 +409,7 @@ export const WorkspaceWidgets: React.FC = () => {
             exit={{ opacity: 0, height: 0 }}
             className="overflow-hidden"
           >
-            <div className="bg-surface-low/40 border border-white/10 rounded-2xl p-6">
+            <div className="bg-surface-low/40 border border-white/10 rounded-lg p-6">
               <p className="text-[11px] font-black uppercase tracking-[0.3em] text-on-surface-variant/50 mb-4">
                 {T('MODULES DISPONIBLES', 'AVAILABLE MODULES')} — {activeWidgets.length}/6 {T('actifs', 'active')}
               </p>
@@ -462,7 +462,7 @@ export const WorkspaceWidgets: React.FC = () => {
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
-                className="bg-surface-low/40 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden hover:border-white/20 transition-all"
+                className="bg-surface-low/40 backdrop-blur-xl border border-white/10 rounded-lg overflow-hidden hover:border-white/20 transition-all"
               >
                 {/* Header de la carte widget */}
                 <div className="flex items-center gap-3 px-5 py-4 border-b border-white/8">
