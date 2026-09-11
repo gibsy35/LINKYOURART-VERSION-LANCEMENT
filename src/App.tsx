@@ -242,9 +242,10 @@ export default function App() {
 
   // Le loader "INITIALIZING" existait deja (avec son animation complete) mais
   // isBooting demarrait a false et rien ne le passait a true — code mort.
-  // On l'affiche vraiment au demarrage, le temps de l'animation prevue.
+  // On l'affiche vraiment au demarrage, le temps de l'animation prevue
+  // (barre de progression = 2s + petite marge pour ne pas la couper).
   useEffect(() => {
-    const timer = setTimeout(() => setIsBooting(false), 1900);
+    const timer = setTimeout(() => setIsBooting(false), 2400);
     return () => clearTimeout(timer);
   }, []);
 
@@ -580,7 +581,7 @@ export default function App() {
         <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1, ease: "easeOut" }} className="flex flex-col items-center gap-12">
           <div className="relative">
             <motion.div animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.6, 0.3] }} transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }} className="absolute inset-0 bg-primary-cyan/20 blur-[80px] rounded-full" />
-            <Logo size={160} color="multi" showBeta={true} />
+            <Logo size={200} color="multi" showBeta={true} />
           </div>
           <div className="space-y-4 w-64">
             <div className="h-0.5 w-full bg-white/5 overflow-hidden rounded-full">
