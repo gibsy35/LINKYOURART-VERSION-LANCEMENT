@@ -310,7 +310,7 @@ export function PaymentModal({ contract, units: initialUnits, onClose, lang }: P
 
   return (
     <div className="fixed inset-0 z-[200] bg-black/85 backdrop-blur-sm flex items-center justify-center p-4" onClick={onClose}>
-      <div className="bg-surface-low border border-white/10 rounded-2xl w-full max-w-md shadow-2xl" onClick={e => e.stopPropagation()}>
+      <div className="bg-surface-low border border-white/10 rounded-lg w-full max-w-md shadow-2xl" onClick={e => e.stopPropagation()}>
         <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
           <div className="flex items-center gap-2">
             <span className="text-[#00ff88]">🔒</span>
@@ -352,7 +352,7 @@ export function DetailModal({ contract, onClose, onPay, units, onUnitsChange, la
 
   return (
     <div className="fixed inset-0 z-[100] bg-black/85 backdrop-blur-sm flex items-center justify-center p-4" onClick={onClose}>
-      <div className="bg-surface-low border border-white/10 rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-2xl" onClick={e => e.stopPropagation()}>
+      <div className="bg-surface-low border border-white/10 rounded-lg w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-2xl" onClick={e => e.stopPropagation()}>
         <div className="grid grid-cols-1 lg:grid-cols-2">
           {/* Gauche */}
           <div className="p-6 border-b lg:border-b-0 lg:border-r border-white/10">
@@ -612,7 +612,7 @@ export function WhatIsLyaScore({ lang }: { lang: "FR" | "EN" }) {
     { num: "03", color: "#00ff88", titleFR: "VALEUR STRUCTURELLE", titleEN: "STRUCTURED STATE", textFR: "C'est un standard structuré qui représente l'état réel, la solidité et la trajectoire d'une création.", textEN: "It is a structured standard representing the real state, solidity and trajectory of a creation." },
   ];
   return (
-    <div className="bg-surface-low/60 border border-white/10 rounded-2xl p-6 md:p-10 mb-8">
+    <div className="bg-surface-low/60 border border-white/10 rounded-lg p-6 md:p-10 mb-8">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-10">
         <div>
           <p className="text-on-surface-variant/50 text-[10px] font-mono tracking-widest mb-3">{T("DÉFINITION OFFICIELLE", "OFFICIAL DEFINITION")}</p>
@@ -671,7 +671,7 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
   };
 
   return (
-    <div className="bg-surface-low border-2 border-white/10 rounded-2xl overflow-hidden flex flex-col hover:border-primary-cyan/40 transition-colors h-full shadow-xl shadow-black/40">
+    <div className="bg-surface-low border-2 border-white/10 rounded-lg overflow-hidden flex flex-col hover:border-primary-cyan/40 transition-colors h-full shadow-xl shadow-black/40">
       {/* Image — ratio fixe 16/9, pas d'étirement */}
       <div
         className="relative cursor-pointer overflow-hidden flex-shrink-0 w-full group"
