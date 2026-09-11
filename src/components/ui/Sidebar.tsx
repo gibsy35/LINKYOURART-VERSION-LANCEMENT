@@ -118,7 +118,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: 'VALIDATION', icon: ShieldCheck, label: t('Administrative Services', 'Services Administratifs'), category: t('LYA SYSTEM', 'LYA SYSTEME') },
     { id: 'WALLET', icon: CreditCard, label: t('MY WALLET', 'MON PORTEFEUILLE'), category: t('VAULT', 'COFFRE') },
     { id: 'LINK_ART', icon: Link2, label: t('LYA SUBMIT', 'LYA SUBMIT'), category: t('SYSTEM', 'SYSTÈME') },
-    { id: 'ABOUT', icon: Globe, label: t('DISCOVER LYA', 'DÉCOUVRIR LYA'), category: t('SYSTEM', 'SYSTÈME') },
+    // 'ABOUT' retiree : contenu deplace sur la Home publique (galerie/stats/histoire),
+    // cette page fait desormais doublon avec la vitrine.
     { id: 'SOCIAL_FEED', icon: Users, label: t('COMMUNITY', 'COMMUNAUTÉ'), category: t('COMMUNITY', 'COMMUNAUTÉ') },
     { id: 'LOUNGE', icon: Coffee, label: t('THE LOUNGE', 'LE SALON'), category: t('COMMUNITY', 'COMMUNAUTÉ') },
     { id: 'ACADEMY', icon: Award, label: t('ACADEMY', 'ACADÉMIE'), category: t('RESOURCES', 'RESSOURCES') },
