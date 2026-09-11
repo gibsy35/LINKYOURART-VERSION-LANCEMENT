@@ -117,7 +117,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: 'WATCHLIST', icon: CheckCircle, label: t('WATCHLIST', 'MA VEILLE'), category: t('INDEX', 'INDEX'), count: watchlist.length },
     { id: 'VALIDATION', icon: ShieldCheck, label: t('Administrative Services', 'Services Administratifs'), category: t('LYA SYSTEM', 'LYA SYSTEME') },
     { id: 'WALLET', icon: CreditCard, label: t('MY WALLET', 'MON PORTEFEUILLE'), category: t('VAULT', 'COFFRE') },
-    { id: 'LINK_ART', icon: Link2, label: t('LYA SUBMIT', 'LYA SUBMIT'), category: t('SYSTEM', 'SYSTÈME') },
+    { id: 'LINK_ART', icon: Link2, label: t('LYA SUBMIT', 'SOUMETTRE UN PROJET'), category: t('SYSTEM', 'SYSTÈME') },
     // 'ABOUT' retiree : contenu deplace sur la Home publique (galerie/stats/histoire),
     // cette page fait desormais doublon avec la vitrine.
     { id: 'SOCIAL_FEED', icon: Users, label: t('COMMUNITY', 'COMMUNAUTÉ'), category: t('COMMUNITY', 'COMMUNAUTÉ') },
@@ -125,12 +125,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: 'ACADEMY', icon: Award, label: t('ACADEMY', 'ACADÉMIE'), category: t('RESOURCES', 'RESSOURCES') },
     // 'OUR_MODEL' retiree : contenu (5 piliers /200pts, philosophie, processus
     // de validation, independance des certificateurs) tout deplace sur la Home.
-    { id: 'FAQ', icon: MessageSquare, label: t('FAQ', 'FAQ'), category: t('RESOURCES', 'RESSOURCES') },
-    { id: 'LEGAL_MENTIONS', icon: FileText, label: t('LEGAL MENTIONS', 'MENTIONS LÉGALES'), category: t('RESOURCES', 'RESSOURCES') },
+    // 'FAQ' et 'LEGAL_MENTIONS' retirees : contenu deplace sur la Home publique
+    // (pop-up en bas de page, meme systeme que CGU/Modele/Confidentialite).
   ];
 
   if (user?.role === UserRole.ADMIN) {
-    menuItems.push({ id: 'ADMIN_PANEL', icon: Shield, label: t('ADMIN HUB', 'HUB ADMIN'), category: t('SYSTEM', 'SYSTÈME') });
+    menuItems.push({ id: 'ADMIN_PANEL', icon: Shield, label: t('ADMIN HUB', 'ESPACE ADMIN'), category: t('SYSTEM', 'SYSTÈME') });
   }
 
   const secondaryItems = [
