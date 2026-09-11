@@ -245,7 +245,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-pillar.dark{ background:var(--term-ink); color:#fff; }
         .term-pillar.lav{ background:var(--term-lav); }
         .term-pillar.grey{ background:var(--term-grey); }
-        .term-pillar .n{ font-family:'Sora',sans-serif; font-weight:800; font-size:30px; }
+        .term-pillar .n{ font-family:'Fraunces',serif; font-style:italic; font-weight:500; font-size:30px; }
         .term-pillar.dark .n{ color:#E61A97; } .term-pillar.lav .n, .term-pillar.grey .n{ color:#7E1CF1; }
         .term-pillar .t{ font-family:'Sora',sans-serif; font-weight:700; font-size:15px; margin-top:20px; }
         .term-pillar .d{ font-size:12.5px; line-height:1.5; margin-top:8px; opacity:0.8; }
@@ -282,7 +282,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-values-grid > div:nth-child(1) p, .term-values-grid > div:nth-child(4) p{ color:#B9B7C7; }
         .term-values-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:18px; margin-top:32px; }
         @media (max-width:800px){ .term-values-grid{ grid-template-columns:1fr 1fr; } }
-        .term-values-grid .n{ font-family:'Sora',sans-serif; font-weight:700; font-size:13px; color:#7E1CF1; margin-bottom:12px; }
+        .term-values-grid .n{ font-family:'Fraunces',serif; font-style:italic; font-weight:500; font-size:16px; color:#7E1CF1; margin-bottom:12px; }
         .term-values-grid h4{ font-size:15px; font-weight:700; margin-bottom:6px; }
         .term-values-grid p{ font-size:13px; color:var(--term-ink-soft); line-height:1.55; }
         .term-examples{ padding:0 0 56px; }
@@ -317,14 +317,18 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-badge:hover{ transform:translateY(-3px); background:#fff; box-shadow:0 8px 20px rgba(0,0,0,0.08); }
         .term-badge svg{ width:16px; height:16px; color:#7E1CF1; flex-shrink:0; }
         .term-network{ padding:72px 0; }
-        .term-network-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:32px; }
-        @media (max-width:800px){ .term-network-grid{ grid-template-columns:1fr; } }
+        .term-network-split{ display:grid; grid-template-columns:0.75fr 1.6fr; gap:40px; align-items:start; }
+        @media (max-width:900px){ .term-network-split{ grid-template-columns:1fr; } }
+        .term-network-heading{ position:sticky; top:100px; }
+        .term-network-heading h2{ max-width:11ch; }
+        .term-network-grid{ display:grid; grid-template-columns:1fr; gap:14px; }
+        @media (min-width:901px){ .term-network-grid{ margin-top:0; } }
         .term-network-card{ background:var(--term-grey); border-radius:8px; padding:28px 24px; border-top:3px solid transparent; transition:transform 0.3s cubic-bezier(.2,.8,.2,1); }
         .term-network-card:nth-child(1){ border-top-color:#3ADB76; }
         .term-network-card:nth-child(2){ border-top-color:#7E1CF1; }
         .term-network-card:nth-child(3){ border-top-color:#E61A97; }
         .term-network-card:hover{ transform:translateY(-6px) scale(1.02); box-shadow:0 16px 34px rgba(0,0,0,0.1); }
-        .term-network-card .n{ font-family:'Sora',sans-serif; font-weight:800; font-size:26px; margin-bottom:14px; }
+        .term-network-card .n{ font-family:'Fraunces',serif; font-style:italic; font-weight:500; font-size:28px; margin-bottom:14px; }
         .term-network-card h4{ font-size:16px; font-weight:700; margin-bottom:4px; }
         .term-network-card .who{ font-size:11px; font-weight:600; color:#8A87A8; text-transform:uppercase; letter-spacing:0.02em; margin-bottom:12px; }
         .term-network-card p{ font-size:13px; line-height:1.6; color:var(--term-ink-soft); }
@@ -400,7 +404,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         }
         .term-mission p{ color:#fff; font-family:'Sora',sans-serif; font-style:italic; font-weight:800; font-size:clamp(26px,3.6vw,42px); max-width:26ch; line-height:1.2; }
         .term-newera{ padding:72px 0; background:var(--term-grey); }
-        .term-eyebrow{ font-family:'Sora',sans-serif; font-weight:700; font-size:12px; letter-spacing:0.04em; color:#7A2062; text-transform:uppercase; margin-bottom:14px; }
+        .term-eyebrow{ font-family:'Fraunces',serif; font-style:italic; font-weight:500; font-size:15px; letter-spacing:0.01em; color:#7A2062; text-transform:none; margin-bottom:10px; }
         .term-validation{ padding:56px 0 72px; }
         .term-validation-sub{ font-size:14px; color:var(--term-ink-soft); max-width:56ch; margin:8px 0 32px; }
         .term-validation-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
@@ -415,7 +419,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-validation-step:nth-child(3) .num{ color:#02C6FA; }
         .term-validation-step:nth-child(4) .num{ color:#3ADB76; }
         .term-validation-step:hover{ transform:translateY(-5px); }
-        .term-validation-step .num{ font-family:'Sora',sans-serif; font-weight:800; font-size:13px; color:#7E1CF1; }
+        .term-validation-step .num{ font-family:'Fraunces',serif; font-style:italic; font-weight:500; font-size:17px; color:#7E1CF1; }
         .term-validation-step h5{ font-family:'Sora',sans-serif; font-weight:700; font-size:14.5px; margin:10px 0 6px; }
         .term-validation-step p{ font-size:12.5px; color:var(--term-ink-soft); line-height:1.5; }
         .term-newera-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:18px; margin-top:36px; }
@@ -435,7 +439,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-why-item:nth-child(2) .n{ color:#7E1CF1; }
         .term-why-item:nth-child(3) .n{ color:#02C6FA; }
         .term-why-item:last-child{ border-right:none; }
-        .term-why-item .n{ font-family:'Sora',sans-serif; font-weight:700; font-size:13px; color:#7E1CF1; margin-bottom:12px; }
+        .term-why-item .n{ font-family:'Fraunces',serif; font-style:italic; font-weight:500; font-size:16px; color:#7E1CF1; margin-bottom:12px; }
         .term-why-item h4{ font-size:15px; font-weight:700; margin-bottom:6px; }
         .term-why-item p{ font-size:13px; color:var(--term-ink-soft); line-height:1.55; }
         .term-registry{ padding:20px 0 72px; }
@@ -574,7 +578,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         @media (max-width:800px){ .term-model-grid{ grid-template-columns:1fr; } }
         .term-model-card{ background:#fff; border-radius:8px; padding:26px 22px; transition:transform 0.3s cubic-bezier(.2,.8,.2,1), box-shadow 0.3s ease; }
         .term-model-card:hover{ transform:translateY(-6px) scale(1.02); box-shadow:0 18px 36px rgba(126,28,241,0.1); }
-        .term-model-card .n{ font-family:'Sora',sans-serif; font-weight:700; font-size:13px; color:#7E1CF1; margin-bottom:12px; }
+        .term-model-card .n{ font-family:'Fraunces',serif; font-style:italic; font-weight:500; font-size:16px; color:#7E1CF1; margin-bottom:12px; }
         .term-model-card h4{ font-size:15px; font-weight:700; margin-bottom:8px; }
         .term-model-card p{ font-size:13px; line-height:1.6; color:var(--term-ink-soft); }
         .term-legal{ padding:56px 0; }
@@ -943,26 +947,30 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       {/* Reseau : Createurs / Mecenes / Professionnels */}
       <section className="term-network">
         <div className="term-wrap">
-          <div className="term-eyebrow">{t('Le réseau LYA', 'The LYA network')}</div>
-          <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t('Trois rôles, un seul standard.', 'Three roles, one single standard.')}</h2>
-          <div className="term-network-grid">
-            <div className="term-network-card term-reveal">
-              <div className="n" style={{ color: '#3ADB76' }}>01</div>
-              <h4>{t('Créateurs', 'Creators')}</h4>
-              <div className="who">{t('Artistes, réalisateurs, scénaristes, auteurs', 'Artists, directors, screenwriters, authors')}</div>
-              <p>{t('Faites certifier et valoriser officiellement votre œuvre. Conservez le contrôle artistique total, recevez le soutien de mécènes dès le lancement.', 'Get your work officially certified and showcased. Keep full artistic control, and receive patron support from day one.')}</p>
+          <div className="term-network-split">
+            <div className="term-network-heading term-reveal">
+              <div className="term-eyebrow">{t('Le réseau LYA', 'The LYA network')}</div>
+              <h2 style={{ fontWeight: 700, fontSize: 'clamp(26px,3.4vw,40px)' }}>{t('Trois rôles, un seul standard.', 'Three roles, one single standard.')}</h2>
             </div>
-            <div className="term-network-card term-reveal">
-              <div className="n" style={{ color: '#7E1CF1' }}>02</div>
-              <h4>{t('Mécènes', 'Patrons')}</h4>
-              <div className="who">{t("Mécènes particuliers, fonds d'investissement, sponsors", 'Individual patrons, investment funds, sponsors')}</div>
-              <p>{t('Soutenez les œuvres dès 50€. Le Score LYA garantit la rigueur de sélection. Suivez vos œuvres soutenues en temps réel.', 'Support works from €50. The LYA Score guarantees selection rigor. Track your supported works in real time.')}</p>
-            </div>
-            <div className="term-network-card term-reveal">
-              <div className="n" style={{ color: '#E61A97' }}>03</div>
-              <h4>{t('Professionnels', 'Professionals')}</h4>
-              <div className="who">{t('Curateurs, agents artistiques, conseillers — studios, sociétés de production et de divertissement, institutions culturelles (type CNC)', 'Curators, artistic agents, advisors — studios, production and entertainment companies, cultural institutions (e.g. CNC)')}</div>
-              <p>{t("Rejoignez notre réseau d'experts en validation certifiés. Évaluez des œuvres dans votre domaine, réseau professionnel exclusif inter-secteurs.", 'Join our network of certified validation experts. Evaluate works in your field, exclusive cross-sector network.')}</p>
+            <div className="term-network-grid">
+              <div className="term-network-card term-reveal">
+                <div className="n" style={{ color: '#3ADB76' }}>01</div>
+                <h4>{t('Créateurs', 'Creators')}</h4>
+                <div className="who">{t('Artistes, réalisateurs, scénaristes, auteurs', 'Artists, directors, screenwriters, authors')}</div>
+                <p>{t('Faites certifier et valoriser officiellement votre œuvre. Conservez le contrôle artistique total, recevez le soutien de mécènes dès le lancement.', 'Get your work officially certified and showcased. Keep full artistic control, and receive patron support from day one.')}</p>
+              </div>
+              <div className="term-network-card term-reveal">
+                <div className="n" style={{ color: '#7E1CF1' }}>02</div>
+                <h4>{t('Mécènes', 'Patrons')}</h4>
+                <div className="who">{t("Mécènes particuliers, fonds d'investissement, sponsors", 'Individual patrons, investment funds, sponsors')}</div>
+                <p>{t('Soutenez les œuvres dès 50€. Le Score LYA garantit la rigueur de sélection. Suivez vos œuvres soutenues en temps réel.', 'Support works from €50. The LYA Score guarantees selection rigor. Track your supported works in real time.')}</p>
+              </div>
+              <div className="term-network-card term-reveal">
+                <div className="n" style={{ color: '#E61A97' }}>03</div>
+                <h4>{t('Professionnels', 'Professionals')}</h4>
+                <div className="who">{t('Curateurs, agents artistiques, conseillers — studios, sociétés de production et de divertissement, institutions culturelles (type CNC)', 'Curators, artistic agents, advisors — studios, production and entertainment companies, cultural institutions (e.g. CNC)')}</div>
+                <p>{t("Rejoignez notre réseau d'experts en validation certifiés. Évaluez des œuvres dans votre domaine, réseau professionnel exclusif inter-secteurs.", 'Join our network of certified validation experts. Evaluate works in your field, exclusive cross-sector network.')}</p>
+              </div>
             </div>
           </div>
         </div>
