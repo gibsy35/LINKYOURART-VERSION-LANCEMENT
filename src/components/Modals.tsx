@@ -473,8 +473,8 @@ export const FeatureShowcaseModal: React.FC<{
           title: t('PRO STARTER ACCESS', 'ACCÈS PRO STARTER'),
           badge: t('VALIDATORS, SOURCERS & INDEPENDENT AGENTS', 'VALIDATEURS, SOURCEURS & AGENTS INDÉPENDANTS'),
           description: t(
-            'Certification workspace for independent professionals sourcing and auditing creative work: full Registry access, up to 25 submissions/month for your own catalogue, and priority review.',
-            'Espace de travail de certification pour les professionnels indépendants qui sourcent et auditent des créations : accès complet au Registre, jusqu\'à 25 soumissions/mois pour votre propre catalogue, et revue prioritaire.'
+            'Certification workspace for independent professionals sourcing and auditing creative work: full Registry access, up to 15 submissions/month for your own catalogue, and priority review.',
+            'Espace de travail de certification pour les professionnels indépendants qui sourcent et auditent des créations : accès complet au Registre, jusqu\'à 15 soumissions/mois pour votre propre catalogue, et revue prioritaire.'
           ),
           feature1: t('Registry Access', 'Accès Registre'),
           feature1Value: t('FULL', 'COMPLET'),
