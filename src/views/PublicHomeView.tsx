@@ -220,8 +220,8 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-nav a.active{ color:#fff; border-bottom-color:#E61A97; }
         .term-nav a:hover{ color:#fff; }
         .term-pill{ color:#fff; background:var(--term-ink); border:1px solid rgba(255,255,255,0.2); padding:10px 20px; border-radius:100px; font-size:14px; font-weight:600; cursor:pointer; }
-        .term-pill.ghost{ background:none; border:none; color:#B9B7C7; padding:10px 4px; text-decoration:underline; text-underline-offset:3px; }
-        .term-pill.ghost:hover{ color:#fff; }
+        .term-pill.ghost{ background:none; border:1.5px solid rgba(255,255,255,0.45); color:#fff; padding:9px 18px; font-weight:700; }
+        .term-pill.ghost:hover{ background:rgba(255,255,255,0.1); border-color:#fff; }
         .term-pill:hover{ background:#7E1CF1; border-color:transparent; }
         .term-lang-toggle{ display:flex; background:rgba(255,255,255,0.08); border-radius:100px; padding:3px; gap:2px; }
         .term-lang-toggle button{ border:none; background:none; color:#B9B7C7; font-size:12px; font-weight:700; padding:6px 12px; border-radius:100px; cursor:pointer; font-family:'Sora',sans-serif; }
@@ -1357,7 +1357,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       <footer className="term-footer">
         <div className="term-wrap">
           <div className="term-foot-row">
-            <Logo size={80} color="multi" />
+            <Logo size={80} color="multi" showBeta />
             <div className="term-foot-big">LINKYOURART</div>
           </div>
           <div className="term-foot-grid">
