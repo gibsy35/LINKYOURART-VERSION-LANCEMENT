@@ -325,7 +325,7 @@ const LoginView: React.FC<LoginViewProps> = ({ onViewChange, setUser }) => {
                         required
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 text-sm font-bold text-white focus:border-primary-cyan focus:bg-white/[0.08] outline-none transition-all placeholder:text-on-surface-variant/30 uppercase tracking-widest"
+                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 text-sm font-bold text-white focus:border-primary-cyan focus:bg-white/[0.08] outline-none transition-all placeholder:text-on-surface-variant/30  tracking-widest"
                         placeholder={t('EMAIL ADDRESS', 'ADRESSE E-MAIL')}
                       />
                     </div>
@@ -336,7 +336,7 @@ const LoginView: React.FC<LoginViewProps> = ({ onViewChange, setUser }) => {
                         required
                         value={formData.password}
                         onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 pr-12 text-sm font-bold text-white focus:border-primary-cyan focus:bg-white/[0.08] outline-none transition-all placeholder:text-on-surface-variant/30 uppercase tracking-widest"
+                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 pr-12 text-sm font-bold text-white focus:border-primary-cyan focus:bg-white/[0.08] outline-none transition-all placeholder:text-on-surface-variant/30  tracking-widest"
                         placeholder={t('PASSWORD', 'MOT DE PASSE')}
                       />
                       <button
@@ -444,7 +444,7 @@ const LoginView: React.FC<LoginViewProps> = ({ onViewChange, setUser }) => {
                       required
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full bg-white/[0.03] border border-white/10 rounded-2xl p-5 pl-14 text-sm font-bold text-white focus:border-primary-cyan outline-none transition-all placeholder:text-on-surface-variant/30 uppercase tracking-widest"
+                      className="w-full bg-white/[0.03] border border-white/10 rounded-2xl p-5 pl-14 text-sm font-bold text-white focus:border-primary-cyan outline-none transition-all placeholder:text-on-surface-variant/30  tracking-widest"
                       placeholder={t('EMAIL ADDRESS', 'ADRESSE E-MAIL')}
                     />
                   </div>
