@@ -56,7 +56,7 @@ export const LinkArtView: React.FC<{
         <motion.div 
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          className="w-24 h-24 bg-red-500/10 rounded-full flex items-center justify-center mb-8 border border-red-500/20 shadow-[0_0_30px_rgba(239,68,68,0.2)]"
+          className="w-24 h-24 bg-red-500/10 rounded-full flex items-center justify-center mb-8 border border-red-500/20"
         >
           <Lock size={48} className="text-red-500" />
         </motion.div>
@@ -72,7 +72,7 @@ export const LinkArtView: React.FC<{
               onNotify(t('Redirecting to membership plans...', 'Redirection vers les plans d\'adhésion...'));
               onViewChange('PRICING');
             }}
-            className="px-10 py-4 bg-primary-cyan text-surface-dim font-black uppercase tracking-[0.2em] hover:bg-white transition-all shadow-[0_0_20px_rgba(0,224,255,0.3)]"
+            className="px-10 py-4 bg-primary-cyan text-surface-dim font-black uppercase tracking-[0.2em] hover:bg-white transition-all"
           >
             {t('View Plans', 'Voir les Forfaits')}
           </button>
@@ -93,7 +93,7 @@ export const LinkArtView: React.FC<{
         <motion.div 
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          className="w-24 h-24 bg-violet-500/10 rounded-full flex items-center justify-center mb-8 border border-violet-500/20 shadow-[0_0_30px_rgba(126,28,241,0.2)]"
+          className="w-24 h-24 bg-violet-500/10 rounded-full flex items-center justify-center mb-8 border border-violet-500/20"
         >
           <Lock size={48} className="text-violet-500" />
         </motion.div>
@@ -108,7 +108,7 @@ export const LinkArtView: React.FC<{
             onNotify(t('Redirecting to membership plans...', 'Redirection vers les plans d\'adhésion...'));
             onViewChange('PRICING');
           }}
-          className="px-10 py-4 bg-primary-cyan text-surface-dim font-black uppercase tracking-[0.2em] hover:bg-white transition-all shadow-[0_0_20px_rgba(0,224,255,0.3)]"
+          className="px-10 py-4 bg-primary-cyan text-surface-dim font-black uppercase tracking-[0.2em] hover:bg-white transition-all"
         >
           {t('View Options', 'Voir les Options')}
         </button>
@@ -474,7 +474,7 @@ export const LinkArtView: React.FC<{
         <div className="pt-8">
           <button 
             onClick={() => onViewChange('DASHBOARD')}
-            className="px-12 py-4 bg-primary-cyan text-surface-dim font-black text-xs uppercase tracking-[0.2em] shadow-[0_0_20px_rgba(0,255,255,0.4)] hover:bg-white transition-all"
+            className="px-12 py-4 bg-primary-cyan text-surface-dim font-black text-xs uppercase tracking-[0.2em] hover:bg-white transition-all"
           >
             {t('Return to Dashboard', 'Retour au Tableau de Bord')}
           </button>
@@ -504,7 +504,7 @@ export const LinkArtView: React.FC<{
         {STEPS.map((step) => (
           <div key={step.id} className="relative z-10 flex flex-col items-center gap-4 w-1/4">
             <div className={`w-8 h-8 flex items-center justify-center border-2 transition-all duration-500 ${
-              currentStep >= step.id ? 'bg-primary-cyan border-primary-cyan text-surface-dim shadow-[0_0_15px_rgba(0,255,255,0.4)]' : 'bg-surface-dim border-white/10 text-on-surface-variant'
+              currentStep >= step.id ? 'bg-primary-cyan border-primary-cyan text-surface-dim' : 'bg-surface-dim border-white/10 text-on-surface-variant'
             }`}>
               {currentStep > step.id ? <CheckCircle2 size={16} /> : <span className="text-xs font-bold">{step.id}</span>}
             </div>
@@ -552,7 +552,7 @@ export const LinkArtView: React.FC<{
                         onClick={() => toggleDictation('name')}
                         className={`absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-sm border transition-all ${
                           isListeningName 
-                            ? 'bg-red-500/20 border-red-500/40 text-red-400 animate-pulse shadow-[0_0_15px_rgba(239,68,68,0.3)]' 
+                            ? 'bg-red-500/20 border-red-500/40 text-red-400 animate-pulse' 
                             : 'bg-white/5 border-white/10 text-on-surface-variant hover:bg-white/10 hover:text-white'
                         } group/mic`}
                         title={t('Voice Dictation', 'Dictée Vocale')}
@@ -601,7 +601,7 @@ export const LinkArtView: React.FC<{
                           onClick={() => toggleDictation('desc')}
                           className={`p-2 rounded-sm border transition-all ${
                             isListeningDesc 
-                              ? 'bg-red-500/20 border-red-500/40 text-red-400 animate-pulse shadow-[0_0_15px_rgba(239,68,68,0.3)]' 
+                              ? 'bg-red-500/20 border-red-500/40 text-red-400 animate-pulse' 
                               : 'bg-white/5 border-white/10 text-on-surface-variant hover:bg-white/10 hover:text-white'
                           } group/mic-desc`}
                           title={t('Voice Dictation', 'Dictée Vocale')}
@@ -696,7 +696,7 @@ export const LinkArtView: React.FC<{
                             key={i}
                             onClick={() => setGeneratedImage(opt)}
                             className={`aspect-square border-2 transition-all p-1 bg-surface-low ${
-                              generatedImage === opt ? 'border-primary-cyan shadow-[0_0_10px_rgba(0,224,255,0.4)]' : 'border-white/5 hover:border-white/20'
+                              generatedImage === opt ? 'border-primary-cyan' : 'border-white/5 hover:border-white/20'
                             }`}
                           >
                             <img 
@@ -1164,7 +1164,7 @@ export const LinkArtView: React.FC<{
         <button 
           onClick={handleNext}
           disabled={isSubmitting}
-          className="flex items-center gap-2 px-12 py-4 bg-primary-cyan text-surface-dim font-black text-xs uppercase tracking-[0.2em] shadow-[0_0_20px_rgba(0,255,255,0.4)] hover:bg-white transition-all active:scale-95 disabled:opacity-50"
+          className="flex items-center gap-2 px-12 py-4 bg-primary-cyan text-surface-dim font-black text-xs uppercase tracking-[0.2em] hover:bg-white transition-all active:scale-95 disabled:opacity-50"
         >
           {isSubmitting ? (
             <>
