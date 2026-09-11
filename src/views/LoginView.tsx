@@ -76,7 +76,7 @@ const LoginView: React.FC<LoginViewProps> = ({ onViewChange, setUser }) => {
         console.warn('Profile healing failed:', profileErr);
       }
 
-      onViewChange('HOME');
+      onViewChange('MECENAT');
       setUser({
         uid: firebaseUser.uid,
         email: firebaseUser.email || '',
@@ -184,7 +184,7 @@ const LoginView: React.FC<LoginViewProps> = ({ onViewChange, setUser }) => {
       const existingUser = { uid: firebaseUser.uid, ...userDoc.data() } as UserProfile;
       localStorage.setItem(`lya_user_${firebaseUser.uid}`, JSON.stringify(existingUser));
       setUser(existingUser);
-      onViewChange('HOME');
+      onViewChange('MECENAT');
     } else {
       // Auto-signup with default role if first time Google Login or if Firestore failed
       const emailLower = firebaseUser.email?.toLowerCase() || '';
@@ -210,7 +210,7 @@ const LoginView: React.FC<LoginViewProps> = ({ onViewChange, setUser }) => {
         console.warn('Profile creation failed (Quota?), using local fallback session.', saveErr);
       }
       setUser(newProfile);
-      onViewChange('HOME');
+      onViewChange('MECENAT');
     }
   };
 
