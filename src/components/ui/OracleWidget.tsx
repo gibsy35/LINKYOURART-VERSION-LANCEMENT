@@ -26,7 +26,7 @@ export const OracleWidget: React.FC<{ onAction?: () => void }> = ({ onAction }) 
   }, []);
 
   return (
-    <div className="bg-surface-high/40 backdrop-blur-xl border border-white/5 p-6 rounded-2xl shadow-2xl relative overflow-hidden group hover:border-primary-cyan/30 transition-all duration-700">
+    <div className="bg-surface-high/40 backdrop-blur-xl border border-white/5 p-6 rounded-lg shadow-2xl relative overflow-hidden group hover:border-primary-cyan/30 transition-all duration-700">
       <div className="absolute top-0 right-0 w-32 h-32 bg-primary-cyan/5 rounded-full -mr-16 -mt-16 blur-3xl group-hover:bg-primary-cyan/10 transition-all" />
       
       <div className="flex items-center justify-between mb-6">
@@ -74,7 +74,7 @@ export const OracleWidget: React.FC<{ onAction?: () => void }> = ({ onAction }) 
             initial={{ width: 0 }}
             animate={{ width: '99.99%' }}
             transition={{ duration: 2 }}
-            className="h-full bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.5)]"
+            className="h-full bg-emerald-400"
           />
         </div>
       </div>
