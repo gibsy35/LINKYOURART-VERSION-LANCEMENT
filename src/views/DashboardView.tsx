@@ -360,7 +360,7 @@ export const DashboardView: React.FC<{
 
           <div className="space-y-1 sm:space-y-2 text-right">
             <div className="flex items-center justify-end gap-2 sm:gap-3">
-              <div className={`w-1.5 h-1.5 sm:w-2 h-2 ${userContracts ? 'bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.5)]' : 'bg-red-400 shadow-[0_0_10px_rgba(248,113,113,0.5)]'} rounded-full animate-pulse`} />
+              <div className={`w-1.5 h-1.5 sm:w-2 h-2 ${userContracts ? 'bg-emerald-400' : 'bg-red-400'} rounded-full animate-pulse`} />
               <span className="text-xs sm:text-[10px] font-black text-on-surface uppercase tracking-[0.2em] sm:tracking-[0.3em]">
                 {t('Terminal: LYA-MAIN-01', 'Terminal : LYA-MAIN-01')} | <span className="text-primary-cyan">{t('CORE: SYNCED', 'CORE : SYNCHRONISÉ')}</span>
               </span>
@@ -380,7 +380,7 @@ export const DashboardView: React.FC<{
             >
               <span className="relative z-10">{t('General View', 'Vue d\'Ensemble')}</span>
               {activeTab === 'overview' && (
-                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-cyan shadow-[0_0_10px_rgba(0,224,255,0.5)] transition-all duration-300" />
+                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-cyan transition-all duration-300" />
               )}
               <div className="absolute inset-0 bg-primary-cyan/0 group-hover:bg-primary-cyan/5 transition-all duration-300 -mb-0.5" />
             </button>
@@ -391,7 +391,7 @@ export const DashboardView: React.FC<{
               <Zap size={14} className={activeTab === 'predictive' ? 'text-primary-cyan' : 'text-on-surface-variant opacity-40'} />
               <span className="relative z-10">{t('Project Analytics', 'Analyses de Projets')}</span>
               {activeTab === 'predictive' && (
-                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-cyan shadow-[0_0_10px_rgba(0,224,255,0.5)] transition-all duration-300" />
+                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-cyan transition-all duration-300" />
               )}
               <div className="absolute inset-0 bg-primary-cyan/0 group-hover:bg-primary-cyan/5 transition-all duration-300 -mb-0.5" />
             </button>
@@ -402,7 +402,7 @@ export const DashboardView: React.FC<{
               <ActivityIcon size={14} className={activeTab === 'accessibilité' ? 'text-primary-cyan' : 'text-on-surface-variant opacity-40'} />
               <span className="relative z-10">{t('Registry Activity', 'Activité du Registre')}</span>
               {activeTab === 'accessibilité' && (
-                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-cyan shadow-[0_0_10px_rgba(0,224,255,0.5)] transition-all duration-300" />
+                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-cyan transition-all duration-300" />
               )}
               <div className="absolute inset-0 bg-primary-cyan/0 group-hover:bg-primary-cyan/5 transition-all duration-300 -mb-0.5" />
             </button>
@@ -414,7 +414,7 @@ export const DashboardView: React.FC<{
               <LayoutGrid size={14} className={activeTab === 'workspace' ? 'text-primary-cyan' : 'text-on-surface-variant opacity-40'} />
               <span className="relative z-10">{t('My Workspace', 'Mon Espace')}</span>
               {activeTab === 'workspace' && (
-                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-cyan shadow-[0_0_10px_rgba(0,224,255,0.5)] transition-all duration-300" />
+                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-cyan transition-all duration-300" />
               )}
               <div className="absolute inset-0 bg-primary-cyan/0 group-hover:bg-primary-cyan/5 transition-all duration-300 -mb-0.5" />
             </button>
@@ -427,7 +427,7 @@ export const DashboardView: React.FC<{
                 <Shield size={14} className={activeTab === 'management' ? 'text-primary-cyan' : 'text-on-surface-variant opacity-40'} />
                 <span className="relative z-10">{t('ACCESS CONTROL', 'CONTRÔLE D\'ACCÈS')}</span>
                 {activeTab === 'management' && (
-                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-cyan shadow-[0_0_10px_rgba(0,224,255,0.5)] transition-all duration-300" />
+                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-cyan transition-all duration-300" />
                 )}
                 <div className="absolute inset-0 bg-primary-cyan/0 group-hover:bg-primary-cyan/5 transition-all duration-300 -mb-0.5" />
               </button>
@@ -498,7 +498,7 @@ export const DashboardView: React.FC<{
                         onClick={() => setActiveRange(time)}
                         className={`flex-1 sm:flex-none px-3 sm:px-5 py-2 sm:py-2.5 text-[11px] sm:text-[10px] font-black uppercase tracking-[0.1em] sm:tracking-[0.2em] transition-all active:scale-95 whitespace-nowrap ${
                           activeRange === time 
-                            ? 'bg-primary-cyan text-surface-dim shadow-[0_0_15px_rgba(0,224,255,0.3)]' 
+                            ? 'bg-primary-cyan text-surface-dim' 
                             : 'text-on-surface-variant hover:text-on-surface hover:bg-white/5'
                         }`}
                       >
@@ -747,7 +747,7 @@ export const DashboardView: React.FC<{
                         <motion.div 
                           initial={{ width: 0 }}
                           animate={{ width: `${Math.min(100, sector.weight * 2)}%` }}
-                          className={`h-full ${sector.bg.replace('/10', '')} shadow-[0_0_10px_rgba(0,224,255,0.2)]`}
+                          className={`h-full ${sector.bg.replace('/10', '')}`}
                         />
                       </div>
                     </div>
@@ -906,7 +906,7 @@ export const DashboardView: React.FC<{
               </div>
               <div className="mt-10 flex justify-between items-center bg-surface-dim/30 p-6 rounded-sm border border-white/5 shadow-inner">
                 <div className="flex items-center gap-4">
-                  <div className="w-3 h-3 bg-primary-cyan rounded-full shadow-[0_0_15px_rgba(0,224,255,0.6)]"></div>
+                  <div className="w-3 h-3 bg-primary-cyan rounded-full"></div>
                   <span className="text-[11px] uppercase tracking-[0.3em] text-on-surface-variant font-black opacity-60">
                     {marketStats.categoryBreakdown?.[0]
                       ? `${t('Leading Discipline:', 'Discipline Principale :')} ${CATEGORY_LABELS[marketStats.categoryBreakdown[0].category] || marketStats.categoryBreakdown[0].category}`
@@ -919,7 +919,7 @@ export const DashboardView: React.FC<{
           </div>
         </>
       ) : activeTab === 'predictive' ? (
-        <div className="bg-surface-low/30 backdrop-blur-2xl border border-white/10 rounded-2xl overflow-hidden shadow-2xl p-8">
+        <div className="bg-surface-low/30 backdrop-blur-2xl border border-white/10 rounded-lg overflow-hidden shadow-2xl p-8">
           <LYAAlgorithm />
         </div>
       ) : activeTab === 'workspace' ? (
@@ -927,7 +927,7 @@ export const DashboardView: React.FC<{
       ) : activeTab === 'management' ? (
         <AdminKeysManagement />
       ) : (
-        <div className="bg-surface-low/30 backdrop-blur-2xl border border-white/10 rounded-2xl overflow-hidden shadow-2xl p-8 space-y-6">
+        <div className="bg-surface-low/30 backdrop-blur-2xl border border-white/10 rounded-lg overflow-hidden shadow-2xl p-8 space-y-6">
           <h3 className="text-sm font-black text-white uppercase tracking-widest">{t('Registry Activity', 'Activité du Registre')}</h3>
           <p className="text-xs text-on-surface-variant/60 leading-relaxed max-w-lg">
             {t('Recent certification milestones and LYA Score movements across the registry.', 'Derniers jalons de certification et évolutions du Score LYA sur le registre.')}
@@ -952,7 +952,7 @@ export const DashboardView: React.FC<{
       {/* Creative Feed, Network Activity & Trending Sectors */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-12">
         {/* Creative Feed */}
-        <div className="lg:col-span-2 bg-surface-low/30 backdrop-blur-2xl border border-white/10 rounded-3xl p-8 space-y-6">
+        <div className="lg:col-span-2 bg-surface-low/30 backdrop-blur-2xl border border-white/10 rounded-lg p-8 space-y-6">
           <div className="flex justify-between items-center">
             <h3 className="text-xs font-black uppercase tracking-[0.3em] text-primary-cyan flex items-center gap-2">
               <Zap size={14} />
@@ -1027,7 +1027,7 @@ export const DashboardView: React.FC<{
         {/* Sidebar: Network & Trending */}
         <div className="space-y-8">
           {/* Live Network Activity */}
-          <div className="bg-surface-low/30 backdrop-blur-2xl border border-white/10 rounded-3xl p-8 space-y-6">
+          <div className="bg-surface-low/30 backdrop-blur-2xl border border-white/10 rounded-lg p-8 space-y-6">
             <h3 className="text-xs font-black uppercase tracking-[0.3em] text-primary-cyan flex items-center gap-2">
               <Globe size={14} />
               {t('Live Network Activity', 'Activité Réseau en Direct')}
@@ -1054,7 +1054,7 @@ export const DashboardView: React.FC<{
           </div>
 
           {/* Trending Sectors Sidebar */}
-          <div className="bg-surface-low/30 backdrop-blur-2xl border border-white/10 rounded-3xl p-8 space-y-6">
+          <div className="bg-surface-low/30 backdrop-blur-2xl border border-white/10 rounded-lg p-8 space-y-6">
             <h3 className="text-xs font-black uppercase tracking-[0.3em] text-accent-gold flex items-center gap-2">
               <TrendingUp size={14} />
               {t('Trending Sectors', 'Secteurs Tendances')}
