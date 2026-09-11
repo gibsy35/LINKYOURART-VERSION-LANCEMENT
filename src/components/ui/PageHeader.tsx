@@ -32,7 +32,7 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
             style={{ fontFamily: "'Fraunces', Georgia, serif" }}
             className={`font-medium leading-[1.08] flex flex-wrap items-baseline gap-x-3 transition-all ${compact ? 'text-lg md:text-xl lg:text-2xl' : 'text-2xl md:text-4xl lg:text-5xl'}`}
           >
-            <span className="text-white">{titleWhite}</span>
+            <span style={{ textTransform: 'lowercase' }} className="text-white [&::first-letter]:uppercase">{titleWhite}</span>
             <span className={`${accentColor} italic`}>
               {titleAccent}
             </span>
