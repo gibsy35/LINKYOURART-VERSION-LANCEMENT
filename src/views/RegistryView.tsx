@@ -254,7 +254,7 @@ export const RegistryView: React.FC<{
     <>
       <div className="space-y-8 pb-12">
         <PageHeader 
-          titleWhite={t('LYA', 'Registre')}
+          titleWhite={language === 'FR' ? 'Registre' : <span style={{ textTransform: 'uppercase' }}>LYA</span>}
           titleAccent={t('Registry', 'LYA')}
           description={t('THE DEFINITIVE SOURCE OF TRUTH FOR CREATIVE ECONOMY CONTRACTS. VERIFIED, IMMUTABLE, AND GLOBALLY ACCESSIBLE FOR PROFESSIONAL HUBS.', 'LA SOURCE DE VÉRITÉ DÉFINITIVE POUR LES CONTRATS DE L\'ÉCONOMIE CRÉATIVE. VÉRIFIÉE, IMMUABLE ET ACCESSIBLE MONDIALEMENT POUR LES CENTRES PROFESSIONNELS.')}
           accentColor="text-accent-gold"
