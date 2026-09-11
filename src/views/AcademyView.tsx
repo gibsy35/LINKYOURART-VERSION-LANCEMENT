@@ -40,7 +40,7 @@ interface AcademyViewProps {
 }
 
 export const AcademyView: React.FC<AcademyViewProps> = ({ user, onNotify, onViewChange }) => {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
 
   const [enrolledCourses, setEnrolledCourses] = React.useState<Set<string>>(new Set());
   const [filter, setFilter] = React.useState<string>('ALL');
@@ -101,7 +101,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({ user, onNotify, onView
   return (
     <div className="pb-12 relative overflow-hidden">
       <PageHeader 
-        titleWhite={t('LYA', 'Académie')}
+        titleWhite={language === 'FR' ? 'Académie' : <span style={{ textTransform: 'uppercase' }}>LYA</span>}
         titleAccent={t('Academy', 'LYA')}
         description={t('MASTER THE CREATIVE RIGHTS ECONOMY THROUGH HIGH-LEVEL EXPERT EDUCATION.', 'MAÎTRISEZ L\'ÉCONOMIE DE LA VALEUR CRÉATIVE GRÂCE À UNE ÉDUCATION D\'EXPERT DE HAUT NIVEAU.')}
         accentColor="text-accent-gold"
