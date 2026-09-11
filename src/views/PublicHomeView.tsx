@@ -373,7 +373,13 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-milestone-point.down .ico{ background:#FBE4E4; color:#B33B3B; }
         .term-stats{ padding:48px 0 32px; }
         .term-stats-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
-        @media (max-width:800px){ .term-stats-grid{ grid-template-columns:1fr 1fr; } }
+        .term-stats-grid.three{ grid-template-columns:repeat(3,1fr); }
+        @media (max-width:800px){ .term-stats-grid{ grid-template-columns:1fr 1fr; } .term-stats-grid.three{ grid-template-columns:1fr; } }
+        .term-stat-card.founder{ background:linear-gradient(135deg,#7E1CF1,#E61A97); }
+        .term-stat-card.founder .v{ background:none; -webkit-text-fill-color:initial; color:#fff; -webkit-background-clip:initial; background-clip:initial; }
+        .term-stat-card.founder .l{ color:rgba(255,255,255,0.85); }
+        .term-stat-card.founder .s{ color:rgba(255,255,255,0.7); }
+        .term-stat-card.founder:hover{ border-color:transparent; filter:brightness(1.08); }
         .term-stat-card{ background:var(--term-grey); border-radius:16px; padding:24px 20px; text-align:center; transition:transform 0.3s cubic-bezier(.2,.8,.2,1), border-color 0.3s ease; border:1px solid transparent; }
         .term-stat-card:hover{ transform:translateY(-5px); border-color:#7E1CF1; }
         .term-stat-card .v{ font-family:'Sora',sans-serif; font-weight:800; font-size:clamp(28px,3.6vw,38px); background:linear-gradient(90deg,#7E1CF1,#E61A97); -webkit-background-clip:text; background-clip:text; color:transparent; }
@@ -618,11 +624,14 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       {/* Stats live + bandeau certificateurs — repris d'AboutView */}
       <section className="term-stats">
         <div className="term-wrap">
-          <div className="term-stats-grid">
+          <div className="term-stats-grid three">
             <div className="term-stat-card term-reveal"><div className="v">20+</div><div className="l">{t("Ans d'existence", 'Years of existence')}</div><div className="s">{t('Depuis 2006', 'Since 2006')}</div></div>
             <div className="term-stat-card term-reveal"><div className="v">9+</div><div className="l">{t('Disciplines créatives', 'Creative disciplines')}</div><div className="s">{t('Musique, cinéma, mode, gaming…', 'Music, film, fashion, gaming…')}</div></div>
-            <div className="term-stat-card term-reveal"><div className="v">{registry.length}</div><div className="l">{t('Projets certifiés', 'Certified projects')}</div><div className="s">{t('En direct sur le registre', 'Live on the registry')}</div></div>
-            <div className="term-stat-card term-reveal"><div className="v">{realValidatorCount === null ? '—' : realValidatorCount}</div><div className="l">{t('Validateurs certifiés', 'Certified validators')}</div><div className="s">{t('Réseau professionnel actif', 'Active professional network')}</div></div>
+            <div className="term-stat-card founder term-reveal" onClick={() => setShowJoin(true)} style={{ cursor: 'pointer' }}>
+              <div className="v" style={{ fontSize: 22 }}>{t('Devenez fondateur', 'Become a founder')}</div>
+              <div className="l">{t('150 premières places', 'First 150 spots')}</div>
+              <div className="s">{t('Accès immédiat, sans attente →', 'Instant access, no waiting →')}</div>
+            </div>
           </div>
         </div>
 
