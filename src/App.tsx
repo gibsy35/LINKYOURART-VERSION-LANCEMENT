@@ -543,6 +543,26 @@ export default function App() {
   const handleEnterDemo = () => { localStorage.setItem('lya_demo_access', 'true'); setCurrentView('HOME'); addNotification('DEMO ACCESS GRANTED', t('Welcome to the LYA Demo environment.', 'Bienvenue dans l\'environnement de démonstration LYA.'), 'SUCCESS'); };
   const isAuthView = currentView === 'LOGIN' || currentView === 'SIGNUP' || currentView === 'RESET_PASSWORD';
   const isLandingView = currentView === 'LANDING';
+
+  // Filet de securite : quel que soit le chemin qui a mene ici (etat initial,
+  // appel direct a setCurrentView('LANDING') via onJoin, etc.), on ne doit
+  // plus jamais afficher l'ancienne LandingView — elle menait encore vers
+  // le vieux Terminal via son bouton "Entrer en demo".
+  React.useEffect(() => {
+    if (currentView === 'LANDING' && !showPublicHome) {
+      setShowPublicHome(true);
+    }
+  }, [currentView, showPublicHome]);
+
+  // Meme filet pour 'HOME' (l'ancien Terminal) : plusieurs anciens chemins
+  // (demo, deconnexion, retour Google...) y renvoient encore en dur. Tant
+  // que personne n'est connecte, HOME doit rediriger vers la vraie Home
+  // publique, jamais vers l'ancien Terminal.
+  React.useEffect(() => {
+    if (currentView === 'HOME' && !user && !showPublicHome) {
+      setShowPublicHome(true);
+    }
+  }, [currentView, user, showPublicHome]);
   const isBrochureView = currentView === 'BROCHURE';
 
   if (isBooting) {
@@ -636,7 +656,8 @@ export default function App() {
             <ErrorBoundary name="View Carrier" resetKey={currentView}>
               <AnimatePresence mode="wait">
                 <motion.div key={currentView} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.3, ease: "easeOut" }} className="flex-1 flex flex-col">
-              {currentView === 'LANDING' && <LandingView onEnterDemo={handleEnterDemo} onViewChange={handleViewChange} />}
+              {/* LandingView retiree du rendu : plus jamais affichee, voir le
+                  filet de securite plus haut qui redirige vers la Home. */}
               {currentView === 'HOME' && <HomeView user={effectiveUser} onViewChange={handleViewChange} liveContracts={liveContracts} />}
               {currentView === 'SIGNUP' && <SignupView onViewChange={handleViewChange} setUser={(u) => { setUser(u); addNotification('ACCOUNT CREATED', 'Your professional account has been successfully initialized.', 'SUCCESS'); }} />}
               {currentView === 'LOGIN' && <LoginView onViewChange={handleViewChange} setUser={(u) => { setUser(u); addNotification('LOGIN SUCCESSFUL', `Welcome back to the LYA terminal, ${u.displayName}.`, 'SUCCESS'); }} />}
