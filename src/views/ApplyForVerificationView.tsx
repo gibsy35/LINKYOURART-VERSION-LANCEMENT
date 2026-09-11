@@ -120,8 +120,8 @@ export const ApplyForVerificationView: React.FC<{ onNotify: (msg: string) => voi
       </div>
 
       <PageHeader 
-        titleWhite={t('LYA', 'LYA')}
-        titleAccent={t('VALIDATOR APPLICATION', 'CANDIDATURE VALIDATEUR')}
+        titleWhite={<span style={{ textTransform: 'uppercase' }}>LYA</span>}
+        titleAccent={t('Validator Application', 'Candidature Validateur')}
         description={t('Join the network of accredited creative certification experts. Standard certification is always free for creators — validators are compensated for every review, funded by the Validator Remuneration Fund.', 'Rejoignez le réseau d\'experts accrédités en certification créative. La certification standard reste toujours gratuite pour les créateurs — les validateurs sont rémunérés pour chaque revue, financée par le Fonds de Rémunération des Validateurs.')}
         accentColor="text-primary-cyan"
       />
