@@ -364,7 +364,7 @@ const LoginView: React.FC<LoginViewProps> = ({ onViewChange, setUser }) => {
                   <button 
                     type="submit"
                     disabled={isLoading}
-                    className="w-full py-4 bg-primary-cyan text-surface-dim text-xs font-black uppercase italic tracking-[0.2em] hover:bg-white transition-all active:scale-95 shadow-[0_0_40px_rgba(0,224,255,0.2)] rounded-full flex items-center justify-center gap-3 group"
+                    className="w-full py-4 bg-primary-cyan text-surface-dim text-xs font-black uppercase italic tracking-[0.2em] hover:bg-white transition-all active:scale-95 rounded-full flex items-center justify-center gap-3 group"
                   >
                     {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : (
                       <>
@@ -444,7 +444,7 @@ const LoginView: React.FC<LoginViewProps> = ({ onViewChange, setUser }) => {
                       required
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full bg-white/[0.03] border border-white/10 rounded-2xl p-5 pl-14 text-sm font-bold text-white focus:border-primary-cyan outline-none transition-all placeholder:text-on-surface-variant/30  tracking-widest"
+                      className="w-full bg-white/[0.03] border border-white/10 rounded-lg p-5 pl-14 text-sm font-bold text-white focus:border-primary-cyan outline-none transition-all placeholder:text-on-surface-variant/30  tracking-widest"
                       placeholder={t('EMAIL ADDRESS', 'ADRESSE E-MAIL')}
                     />
                   </div>
@@ -452,7 +452,7 @@ const LoginView: React.FC<LoginViewProps> = ({ onViewChange, setUser }) => {
                   <button 
                     type="submit"
                     disabled={isLoading}
-                    className="w-full py-5 bg-primary-cyan text-surface-dim text-sm font-black uppercase italic tracking-[0.2em] hover:bg-white transition-all active:scale-95 shadow-[0_0_30px_rgba(0,224,255,0.2)] rounded-full flex items-center justify-center gap-3 group"
+                    className="w-full py-5 bg-primary-cyan text-surface-dim text-sm font-black uppercase italic tracking-[0.2em] hover:bg-white transition-all active:scale-95 rounded-full flex items-center justify-center gap-3 group"
                   >
                     {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : (
                       <>
