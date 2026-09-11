@@ -224,13 +224,11 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-lang-toggle button.active{ background:#fff; color:var(--term-ink); }
         .term-hero{ background:var(--term-ink); position:relative; overflow:hidden; padding:64px 0 90px; }
         .term-hero-shape{ position:absolute; top:-10%; right:-10%; width:70%; height:130%;
-          background:linear-gradient(135deg,#7E1CF1 0%,#7E1CF1 16%,#E61A97 42%,#E61A97 58%,#02C6FA 86%,#02C6FA 100%);
-          background-size:140% 140%;
+          background:linear-gradient(155deg,#3D1470 0%,#5B1C63 55%,#7A2062 100%);
           clip-path:polygon(30% 0%,100% 0%,100% 100%,0% 100%);
-          animation:termBreathe 16s ease-in-out infinite;
         }
-        @keyframes termBreathe{ 0%,100%{ background-position:0% 50%; } 50%{ background-position:100% 50%; } }
-        .term-hero-title{ color:#fff; font-weight:800; font-size:clamp(34px,5.2vw,58px); line-height:1.08; letter-spacing:-0.02em; max-width:19ch; position:relative; z-index:1; }
+        .term-hero-shape::after{ content:''; position:absolute; inset:0; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E"); mix-blend-mode:overlay; }
+        .term-hero-title{ color:#fff; font-weight:500; font-size:clamp(36px,5.8vw,66px); line-height:1.06; letter-spacing:-0.01em; max-width:15ch; position:relative; z-index:1; }
         .term-hero-sub{ color:#D6D4E2; font-size:17px; line-height:1.6; max-width:46ch; margin-top:26px; position:relative; z-index:1; }
         .term-btn-primary{ background:#fff; color:var(--term-ink); padding:14px 26px; border-radius:100px; font-weight:600; font-size:15px; border:none; cursor:pointer; }
         .term-btn-primary:hover{ background:var(--term-lav); }
@@ -357,7 +355,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-timeline-arrow{ display:flex; align-items:center; justify-content:center; color:#B9B7C7; font-size:20px; padding-top:20px; }
         @media (max-width:800px){ .term-timeline-arrow{ transform:rotate(90deg); padding:0; align-self:center; } }
         .term-timeline-step .dot{ width:14px; height:14px; border-radius:50%; margin-bottom:14px; }
-        .term-timeline-step .dot.green{ background:#3ADB76; box-shadow:0 0 0 5px rgba(58,219,118,0.15); animation:termPulse 2.4s ease-in-out infinite; }
+        .term-timeline-step .dot.green{ background:#3ADB76; box-shadow:0 0 0 5px rgba(58,219,118,0.15); }
         @keyframes termPulse{ 0%,100%{ box-shadow:0 0 0 5px rgba(58,219,118,0.15); } 50%{ box-shadow:0 0 0 9px rgba(58,219,118,0.06); } }
         .term-timeline-step .dot.amber{ background:#F0C55E; box-shadow:0 0 0 5px rgba(240,197,94,0.18); }
         .term-timeline-step .dot.grey{ background:#8A87A8; box-shadow:0 0 0 5px rgba(138,135,168,0.15); }
