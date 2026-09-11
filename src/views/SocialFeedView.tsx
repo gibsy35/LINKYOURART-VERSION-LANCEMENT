@@ -171,7 +171,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
   return (
     <div className="space-y-8 pb-12 w-full overflow-hidden block">
       {/* Immersive News Player Section - NOW FIRST */}
-      <section className="relative h-[450px] md:h-[600px] lg:h-[650px] w-full group overflow-hidden bg-surface-dim border border-white/5 shadow-2xl rounded-3xl mt-2">
+      <section className="relative h-[450px] md:h-[600px] lg:h-[650px] w-full group overflow-hidden bg-surface-dim border border-white/5 shadow-2xl rounded-lg mt-2">
         <div className="absolute inset-0 z-0 overflow-hidden">
           <AnimatePresence mode="wait">
             <motion.div
@@ -225,7 +225,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
               transition={{ duration: 0.3 }}
               className="flex items-center gap-2 md:gap-4 shrink-0 transition-all"
             >
-              <span className="px-3 py-1 bg-primary-cyan text-surface-dim text-[8px] md:text-[10px] font-black uppercase tracking-[0.3em] rounded-sm shadow-[0_0_20px_rgba(0,224,255,0.4)] whitespace-nowrap">
+              <span className="px-3 py-1 bg-primary-cyan text-surface-dim text-[8px] md:text-[10px] font-black uppercase tracking-[0.3em] rounded-sm whitespace-nowrap">
                 {activeNewsIndex === 0 ? t('Breaking News', 'Flash Info') : t('Featured Story', 'À la Une')}
               </span>
               <div className="flex items-center gap-2 md:gap-3 bg-black/40 backdrop-blur-md border border-white/10 px-3 py-1 md:px-4 md:py-1.5 rounded-sm overflow-hidden truncate">
@@ -551,7 +551,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
                   <motion.div 
                     initial={{ width: 0 }}
                     animate={{ width: '88%' }}
-                    className="h-full bg-primary-cyan shadow-[0_0_10px_rgba(0,255,255,0.5)]"
+                    className="h-full bg-primary-cyan"
                   />
                 </div>
               </div>
@@ -565,7 +565,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
                   <motion.div 
                     initial={{ width: 0 }}
                     animate={{ width: '72%' }}
-                    className="h-full bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.5)]"
+                    className="h-full bg-emerald-400"
                   />
                 </div>
               </div>
@@ -579,7 +579,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
                   <motion.div 
                     initial={{ width: 0 }}
                     animate={{ width: '64%' }}
-                    className="h-full bg-primary-cyan shadow-[0_0_10px_rgba(0,224,255,0.5)]"
+                    className="h-full bg-primary-cyan"
                   />
                 </div>
               </div>
@@ -663,7 +663,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
               initial={{ scale: 0.9, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 20 }}
-              className="relative w-full max-w-5xl bg-surface-low border border-white/10 rounded-3xl overflow-hidden shadow-[0_50px_100px_rgba(0,0,0,0.8)] max-h-[90vh] overflow-y-auto custom-scrollbar"
+              className="relative w-full max-w-5xl bg-surface-low border border-white/10 rounded-lg overflow-hidden shadow-[0_50px_100px_rgba(0,0,0,0.8)] max-h-[90vh] overflow-y-auto custom-scrollbar"
             >
               <button 
                 onClick={() => setSelectedNews(null)}
@@ -723,7 +723,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
                   </div>
 
                   <div className="space-y-6">
-                    <div className="p-6 bg-white/5 border border-white/5 rounded-2xl">
+                    <div className="p-6 bg-white/5 border border-white/5 rounded-lg">
                       <h4 className="text-[10px] font-black text-primary-cyan uppercase tracking-widest mb-4">{t('LYA PLATFORM RELEVANCE', 'PERTINENCE POUR LA PLATEFORME LYA')}</h4>
                       {selectedNews.relatedProjects ? (
                         <>
