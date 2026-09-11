@@ -272,7 +272,7 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
               <motion.div 
                 animate={{ rotate: 360 }}
                 transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                className="absolute -inset-6 sm:-inset-10 md:-inset-16 border border-primary-cyan/30 rounded-full border-t-primary-cyan border-l-transparent border-r-transparent border-b-transparent shadow-[0_0_20px_rgba(0,224,255,0.2)]"
+                className="absolute -inset-6 sm:-inset-10 md:-inset-16 border border-primary-cyan/30 rounded-full border-t-primary-cyan border-l-transparent border-r-transparent border-b-transparent"
               />
 
               <motion.div 
@@ -291,7 +291,7 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
                   animate={{ scale: [1, 1.1, 1], rotate: [0, 5, 0] }}
                   transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
                 >
-                  <Globe className="text-white w-6 h-6 sm:w-8 sm:h-8 md:w-14 md:h-14 drop-shadow-[0_0_20px_rgba(255,255,255,0.4)] z-20" />
+                  <Globe className="text-white w-6 h-6 sm:w-8 sm:h-8 md:w-14 md:h-14 drop- z-20" />
                 </motion.div>
                 
                 {/* Internal Scan lines - More Dynamic */}
@@ -376,7 +376,7 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
       return (
         <div className="relative w-full h-full flex flex-col items-center justify-center gap-1 md:gap-2 p-2 overflow-hidden">
           <div className="relative w-24 h-24 md:w-32 md:h-32 shrink-0">
-            <svg className="w-full h-full transform -rotate-90 drop-shadow-[0_0_15px_rgba(192,132,252,0.3)]" viewBox="0 0 100 100">
+            <svg className="w-full h-full transform -rotate-90 drop-" viewBox="0 0 100 100">
               <circle
                 cx="50" cy="50" r="45"
                 className="stroke-white/5 fill-none"
@@ -461,7 +461,7 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
       const finalScore = CHECKPOINTS[3].score;
       return (
         <div className="relative w-full h-full flex flex-col items-center justify-center p-4 md:p-6">
-          <div className="w-full max-w-sm bg-[#0A0F1A] border border-white/10 rounded-2xl md:rounded-[2rem] p-5 md:p-8 shadow-2xl">
+          <div className="w-full max-w-sm bg-[#0A0F1A] border border-white/10 rounded-lg md:rounded-[2rem] p-5 md:p-8 shadow-2xl">
 
             <div className="flex items-center justify-between mb-6 md:mb-10">
               <span className="text-[9px] md:text-[10px] font-black text-white/40 uppercase tracking-widest">{t('Project journey', 'Parcours du projet')}</span>
@@ -539,7 +539,7 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="w-full max-w-[240px] md:max-w-[280px] bg-[#0A0F1A] border-2 border-emerald-500/30 rounded-2xl overflow-hidden shadow-2xl"
+            className="w-full max-w-[240px] md:max-w-[280px] bg-[#0A0F1A] border-2 border-emerald-500/30 rounded-lg overflow-hidden shadow-2xl"
           >
             {/* Vraie image projet */}
             <div className="relative h-24 md:h-28 overflow-hidden">
@@ -666,7 +666,7 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
             <motion.div 
               animate={{ scale: [1, 1.05, 1] }}
               transition={{ duration: 4, repeat: Infinity }}
-              className="absolute inset-0 flex items-center justify-center shadow-[0_0_100px_rgba(244,114,182,0.15)]"
+              className="absolute inset-0 flex items-center justify-center"
             >
               <div className="w-24 h-24 md:w-40 md:h-40 bg-pink-500/10 rounded-full blur-2xl md:blur-3xl" />
             </motion.div>
@@ -764,7 +764,7 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
                        <motion.div 
                         animate={{ opacity: [0.6, 1, 0.6] }}
                         transition={{ duration: 2, repeat: Infinity }}
-                        className="text-primary-cyan text-[10px] md:text-xs font-black underline drop-shadow-[0_0_10px_rgba(0,224,255,0.4)]"
+                        className="text-primary-cyan text-[10px] md:text-xs font-black underline drop-"
                       >
                         884 Index
                       </motion.div>
@@ -790,7 +790,7 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
             <div className="flex items-center gap-1.5 px-3 md:px-4 py-1 md:py-1.5 bg-rose-500/10 border border-rose-500/20 rounded-full text-rose-400 font-black uppercase text-[7px] md:text-[10px] tracking-widest active:scale-95 transition-transform cursor-pointer">
               <span className="text-[10px] md:text-xs opacity-50">✕</span> DISCARD
             </div>
-            <div className="flex items-center gap-1.5 px-3 md:px-4 py-1 md:py-1.5 bg-emerald-500/10 border border-emerald-500/20 rounded-full text-emerald-400 font-black uppercase text-[7px] md:text-[10px] tracking-widest active:scale-95 transition-transform cursor-pointer shadow-[0_0_20px_rgba(16,185,129,0.2)]">
+            <div className="flex items-center gap-1.5 px-3 md:px-4 py-1 md:py-1.5 bg-emerald-500/10 border border-emerald-500/20 rounded-full text-emerald-400 font-black uppercase text-[7px] md:text-[10px] tracking-widest active:scale-95 transition-transform cursor-pointer">
               INVEST <span className="text-[10px] md:text-xs">♥</span>
             </div>
           </div>
@@ -803,7 +803,7 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
           <div className="w-full max-w-[340px] bg-[#0A0F1A] border-2 border-white/10 rounded-[2rem] overflow-hidden shadow-2xl">
             <div className="bg-red-500/10 p-5 flex justify-between items-center border-b border-white/10 backdrop-blur-md">
               <div className="flex items-center gap-3">
-                <div className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse shadow-[0_0_10px_rgba(239,68,68,0.8)]" />
+                <div className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse" />
                 <span className="text-[10px] font-black text-white uppercase tracking-[0.2em]">Real-Time Alerts</span>
               </div>
               <div className="text-[10px] text-white/40 uppercase font-black tracking-widest">Active Feed</div>
@@ -819,7 +819,7 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
                   initial={{ x: -20, opacity: 0 }}
                   animate={{ x: 0, opacity: 1 }}
                   transition={{ delay: i * 0.2 + 0.5 }}
-                  className="flex flex-col gap-2 p-4 bg-white/5 border border-white/5 rounded-2xl group hover:border-white/20 transition-colors"
+                  className="flex flex-col gap-2 p-4 bg-white/5 border border-white/5 rounded-lg group hover:border-white/20 transition-colors"
                 >
                   <div className="flex justify-between items-start">
                     <div className="space-y-1 min-w-0">
@@ -875,7 +875,7 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
                     delay: i * 0.15,
                     y: { duration: 4, repeat: Infinity, ease: "easeInOut", delay: i * 1.5 }
                   }}
-                  className="bg-[#0A0F1A] border border-white/10 p-3 md:p-4 rounded-xl md:rounded-2xl space-y-2 shadow-2xl relative"
+                  className="bg-[#0A0F1A] border border-white/10 p-3 md:p-4 rounded-xl md:rounded-lg space-y-2 shadow-2xl relative"
                 >
                    <div className="flex justify-between items-center">
                      <div className={`w-8 h-8 rounded-lg ${p.bg} flex items-center justify-center ${p.color}`}>
@@ -892,7 +892,7 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
               ))}
             </div>
 
-            <div className="bg-[#0A0F1A] border border-white/10 p-4 md:p-5 rounded-2xl md:rounded-[2rem] space-y-4 shadow-2xl relative overflow-hidden">
+            <div className="bg-[#0A0F1A] border border-white/10 p-4 md:p-5 rounded-lg md:rounded-[2rem] space-y-4 shadow-2xl relative overflow-hidden">
               <div className="flex justify-between items-end h-20 md:h-24 gap-2 relative z-10">
                 {[60, 45, 85, 30, 95, 70, 55, 80].map((h, i) => (
                   <motion.div
@@ -962,7 +962,7 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
                     <motion.div 
                       animate={{ scale: [1, 1.1, 1] }}
                       transition={{ duration: 4, repeat: Infinity, delay: i * 0.3 }}
-                      className="w-8 h-8 md:w-12 md:h-12 rounded-lg md:rounded-2xl bg-white/5 border border-white/5 flex items-center justify-center group-hover:border-violet-500/30"
+                      className="w-8 h-8 md:w-12 md:h-12 rounded-lg md:rounded-lg bg-white/5 border border-white/5 flex items-center justify-center group-hover:border-violet-500/30"
                     >
                        <LineChartIcon className="text-white/20 group-hover:text-violet-400 w-4 h-4 md:w-6 md:h-6 transition-colors" />
                     </motion.div>
@@ -1060,7 +1060,7 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
                     rotate: [0, 5, 0, -5, 0]
                   }}
                   transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                  className="relative w-20 h-20 md:w-32 md:h-32 bg-[#050505] border-4 border-emerald-500/40 rounded-[2.5rem] md:rounded-[3.5rem] flex flex-col items-center justify-center shadow-[0_0_80px_rgba(16,185,129,0.4)] overflow-hidden"
+                  className="relative w-20 h-20 md:w-32 md:h-32 bg-[#050505] border-4 border-emerald-500/40 rounded-[2.5rem] md:rounded-[3.5rem] flex flex-col items-center justify-center overflow-hidden"
                 >
                   <motion.div 
                     animate={{ rotate: 360 }}
@@ -1070,7 +1070,7 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
                     <div className="absolute top-0 left-0 w-full h-full bg-[conic-gradient(from_0deg,transparent,rgba(16,185,129,0.4),transparent)]" />
                   </motion.div>
                   
-                  <Shield className="text-emerald-400 w-8 h-8 md:w-16 md:h-16 drop-shadow-[0_0_15px_rgba(16,185,129,0.6)] mb-2 relative z-10" />
+                  <Shield className="text-emerald-400 w-8 h-8 md:w-16 md:h-16 drop- mb-2 relative z-10" />
                   <div className="text-emerald-400 font-black italic tracking-tighter uppercase text-[6px] md:text-[10px] bg-emerald-500/20 px-3 py-1 rounded-full border border-emerald-500/30 relative z-10">
                      {t('VAULT_CORE', 'COEUR_COFFRE')}
                   </div>
@@ -1124,7 +1124,7 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
                     ease: "easeInOut",
                     delay: i * 0.7
                   }}
-                  className="bg-black/95 backdrop-blur-3xl border-2 border-emerald-500/60 px-4 py-2 md:px-6 md:py-3 rounded-2xl flex items-center gap-3 shadow-2xl relative group cursor-help"
+                  className="bg-black/95 backdrop-blur-3xl border-2 border-emerald-500/60 px-4 py-2 md:px-6 md:py-3 rounded-lg flex items-center gap-3 shadow-2xl relative group cursor-help"
                 >
                   <div className="w-6 h-6 md:w-9 md:h-9 bg-emerald-500/20 rounded-xl flex items-center justify-center border border-emerald-500/30 group-hover:bg-emerald-500/40 transition-colors">
                     <item.icon className="w-3.5 h-3.5 md:w-5 md:h-5 text-emerald-400" />
@@ -1194,13 +1194,13 @@ export const ConceptTutorial: React.FC<Props> = ({ isOpen, onClose }) => {
         exit={{ opacity: 0 }}
         className="fixed inset-0 z-[9999] flex items-center justify-center p-3 md:p-6 bg-black/98 backdrop-blur-2xl"
       >
-        <div className="relative w-full max-w-6xl bg-[#020408]/95 backdrop-blur-3xl border border-white/5 rounded-[2.5rem] shadow-[0_0_120px_rgba(0,0,0,1)] overflow-hidden flex flex-col max-h-[98vh] md:max-h-[90vh]">
+        <div className="relative w-full max-w-6xl bg-[#020408]/95 backdrop-blur-3xl border border-white/5 rounded-[2.5rem] overflow-hidden flex flex-col max-h-[98vh] md:max-h-[90vh]">
           
           {/* Top Progress Bar */}
           <div className="absolute top-0 left-0 w-full h-1 bg-white/5 overflow-hidden z-20">
             <motion.div 
                animate={{ width: `${((currentStep + 1) / steps.length) * 100}%` }}
-               className={`h-full ${TEXT_TO_BG[step.color] || 'bg-primary-cyan'} transition-all duration-700 shadow-[0_0_10px_rgba(0,224,255,0.4)]`}
+               className={`h-full ${TEXT_TO_BG[step.color] || 'bg-primary-cyan'} transition-all duration-700`}
             />
           </div>
 
@@ -1330,7 +1330,7 @@ export const ConceptTutorial: React.FC<Props> = ({ isOpen, onClose }) => {
 
                 <button 
                   onClick={handleNext}
-                  className={`flex items-center justify-center gap-1.5 md:gap-3 px-3 md:px-5 py-1 md:py-1.5 rounded-lg font-black uppercase text-[10px] md:text-[11px] tracking-[0.05em] md:tracking-[0.1em] transition-all active:scale-95 shadow-[0_0_10px_rgba(0,224,255,0.1)] relative group overflow-hidden ${TEXT_TO_BG[step.color] || 'bg-primary-cyan'} text-black min-w-[80px] md:min-w-[140px] border border-white/5`}
+                  className={`flex items-center justify-center gap-1.5 md:gap-3 px-3 md:px-5 py-1 md:py-1.5 rounded-lg font-black uppercase text-[10px] md:text-[11px] tracking-[0.05em] md:tracking-[0.1em] transition-all active:scale-95 relative group overflow-hidden ${TEXT_TO_BG[step.color] || 'bg-primary-cyan'} text-black min-w-[80px] md:min-w-[140px] border border-white/5`}
                 >
                   <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
                   <div className="relative z-10 flex items-center gap-1 text-black font-black">
