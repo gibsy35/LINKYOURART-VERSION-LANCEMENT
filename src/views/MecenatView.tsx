@@ -30,7 +30,7 @@ const HERO_IMAGES = [
 
 // ─── COMPOSANT PRINCIPAL ──────────────────────────────────────────────────────
 
-export function MecenatView() {
+export function MecenatView({ isGuest, onBackToHome }: { isGuest?: boolean; onBackToHome?: () => void }) {
   const { language } = useTranslation();
   const lang: "FR" | "EN" = language === "FR" ? "FR" : "EN";
   const T = (fr: React.ReactNode, en: React.ReactNode) => lang === "FR" ? fr : en;
@@ -96,6 +96,14 @@ export function MecenatView() {
 
   return (
     <section className="bg-surface-dim min-h-screen">
+      {isGuest && onBackToHome && (
+        <button
+          onClick={onBackToHome}
+          className="fixed top-4 left-4 z-50 flex items-center gap-2 bg-white text-surface-dim px-4 py-2.5 rounded-full text-xs font-bold shadow-lg hover:bg-primary-cyan transition-colors"
+        >
+          ← {T('Retour à la Home', 'Back to Home')}
+        </button>
+      )}
       {/* ── Header ── */}
       <div className="py-8">
 
