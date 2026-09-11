@@ -251,7 +251,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-compare{ padding:20px 0 72px; }
         .term-compare-grid{ display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:32px; }
         @media (max-width:800px){ .term-compare-grid{ grid-template-columns:1fr; } }
-        .term-compare-col{ border-radius:18px; padding:30px 26px; background:var(--term-grey); border:1px solid var(--term-line); }
+        .term-compare-col{ border-radius:8px; padding:30px 26px; background:var(--term-grey); border:1px solid var(--term-line); }
         .term-compare-col.is{ border-top:3px solid #7E1CF1; }
         .term-compare-badge{ display:inline-block; font-family:'Sora',sans-serif; font-weight:700; font-size:11px; letter-spacing:0.03em; padding:5px 12px; border-radius:100px; margin-bottom:18px; }
         .term-compare-col.is .term-compare-badge{ background:var(--term-lav); color:#7A2062; }
@@ -265,12 +265,12 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         @media (max-width:800px){ .term-history-grid{ grid-template-columns:1fr; } }
         .term-history-text p{ font-size:14px; line-height:1.7; color:var(--term-ink-soft); margin-bottom:16px; }
         .term-history-stats{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-        .term-history-stat{ background:#fff; border-radius:14px; padding:22px; }
+        .term-history-stat{ background:#fff; border-radius:6px; padding:22px; }
         .term-history-stat .y{ font-family:'Sora',sans-serif; font-weight:800; font-size:32px; }
         .term-history-stat:first-child .y{ color:#02C6FA; } .term-history-stat:last-child .y{ color:#7E1CF1; }
         .term-history-stat .l{ font-family:'Sora',sans-serif; font-weight:700; font-size:10px; letter-spacing:0.04em; color:var(--term-ink-soft); margin-top:4px; }
         .term-values{ padding:72px 0; }
-        .term-values-grid > div{ border-radius:18px; padding:24px 20px; transition:transform 0.3s cubic-bezier(.2,.8,.2,1); }
+        .term-values-grid > div{ border-radius:8px; padding:24px 20px; transition:transform 0.3s cubic-bezier(.2,.8,.2,1); }
         .term-values-grid > div:nth-child(1){ background:var(--term-ink); color:#fff; }
         .term-values-grid > div:nth-child(2){ background:var(--term-lav); }
         .term-values-grid > div:nth-child(3){ background:var(--term-grey); }
@@ -286,7 +286,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-examples{ padding:0 0 56px; }
         .term-examples-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
         @media (max-width:800px){ .term-examples-grid{ grid-template-columns:1fr; } }
-        .term-example-card{ background:var(--term-grey); border-radius:16px; padding:18px 20px; }
+        .term-example-card{ background:var(--term-grey); border-radius:8px; padding:18px 20px; }
         .term-example-top{ display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
         .term-example-top .cat{ font-family:'Sora',sans-serif; font-weight:700; font-size:11px; letter-spacing:0.04em; text-transform:uppercase; color:var(--term-ink-soft); }
         .term-example-top .status{ font-size:10px; font-weight:700; padding:3px 9px; border-radius:100px; text-transform:uppercase; letter-spacing:0.02em; }
@@ -300,7 +300,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-example-card .val{ font-family:'Sora',sans-serif; font-weight:800; font-size:14px; white-space:nowrap; }
         .term-example-card .val .max{ font-size:10px; font-weight:500; color:var(--term-ink-soft); }
         .term-score-hero{ padding:8px 0 56px; }
-        .term-score-hero-inner{ background:var(--term-ink); border-radius:28px; padding:48px 44px; display:flex; align-items:center; gap:48px; flex-wrap:wrap; }
+        .term-score-hero-inner{ background:var(--term-ink); border-radius:10px; padding:48px 44px; display:flex; align-items:center; gap:48px; flex-wrap:wrap; }
         .term-score-hero-num{ display:flex; align-items:baseline; flex-shrink:0; }
         .term-score-hero-num .big{ font-family:'Fraunces',serif; font-weight:600; font-size:clamp(72px,11vw,140px); line-height:1; color:#fff; }
         .term-score-hero-num .max{ font-family:'Sora',sans-serif; font-weight:700; font-size:clamp(20px,2.4vw,30px); color:#565B6B; margin-left:6px; }
@@ -317,7 +317,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-network{ padding:72px 0; }
         .term-network-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:32px; }
         @media (max-width:800px){ .term-network-grid{ grid-template-columns:1fr; } }
-        .term-network-card{ background:var(--term-grey); border-radius:18px; padding:28px 24px; border-top:3px solid transparent; transition:transform 0.3s cubic-bezier(.2,.8,.2,1); }
+        .term-network-card{ background:var(--term-grey); border-radius:8px; padding:28px 24px; border-top:3px solid transparent; transition:transform 0.3s cubic-bezier(.2,.8,.2,1); }
         .term-network-card:nth-child(1){ border-top-color:#3ADB76; }
         .term-network-card:nth-child(2){ border-top-color:#7E1CF1; }
         .term-network-card:nth-child(3){ border-top-color:#E61A97; }
@@ -326,19 +326,19 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-network-card h4{ font-size:16px; font-weight:700; margin-bottom:4px; }
         .term-network-card .who{ font-size:11px; font-weight:600; color:#8A87A8; text-transform:uppercase; letter-spacing:0.02em; margin-bottom:12px; }
         .term-network-card p{ font-size:13px; line-height:1.6; color:var(--term-ink-soft); }
-        .term-registry-intro{ max-width:64ch; margin:16px 0 32px; display:flex; flex-direction:column; gap:12px; padding:22px 26px; border-radius:16px; background:linear-gradient(135deg, rgba(126,28,241,0.06), rgba(230,26,151,0.04)); border-left:3px solid #7E1CF1; }
+        .term-registry-intro{ max-width:64ch; margin:16px 0 32px; display:flex; flex-direction:column; gap:12px; padding:22px 26px; border-radius:8px; background:linear-gradient(135deg, rgba(126,28,241,0.06), rgba(230,26,151,0.04)); border-left:3px solid #7E1CF1; }
         .term-registry-intro p{ font-size:14px; line-height:1.65; color:var(--term-ink-soft); }
         .term-independence{ padding:56px 0; background:var(--term-grey); }
         .term-independence-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:28px; }
         @media (max-width:800px){ .term-independence-grid{ grid-template-columns:1fr; } }
-        .term-independence-card{ background:#fff; border-radius:16px; padding:26px 24px; border-left:3px solid transparent; box-shadow:0 4px 16px rgba(0,0,0,0.04); transition:transform 0.3s cubic-bezier(.2,.8,.2,1); }
+        .term-independence-card{ background:#fff; border-radius:8px; padding:26px 24px; border-left:3px solid transparent; box-shadow:0 4px 16px rgba(0,0,0,0.04); transition:transform 0.3s cubic-bezier(.2,.8,.2,1); }
         .term-independence-card:nth-child(1){ border-left-color:#7E1CF1; }
         .term-independence-card:nth-child(2){ border-left-color:#E61A97; }
         .term-independence-card:hover{ transform:translateY(-5px); }
         .term-independence-card h4{ font-family:'Sora',sans-serif; font-weight:700; font-size:15px; margin-bottom:10px; }
         .term-independence-card p{ font-size:13px; line-height:1.6; color:var(--term-ink-soft); }
         .term-security{ padding:56px 0 72px; }
-        .term-security-grid{ display:flex; flex-direction:column; gap:2px; margin-top:28px; border-radius:16px; overflow:hidden; }
+        .term-security-grid{ display:flex; flex-direction:column; gap:2px; margin-top:28px; border-radius:8px; overflow:hidden; }
         .term-security-item{ display:flex; align-items:center; gap:14px; background:var(--term-grey); padding:18px 22px; font-size:14px; font-weight:500; transition:background 0.25s ease, padding-left 0.25s ease; }
         .term-sec-ico{ width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; color:#fff; }
         .term-sec-ico.ico1{ background:#3ADB76; }
@@ -351,7 +351,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-milestone-intro{ font-size:14.5px; line-height:1.7; color:var(--term-ink-soft); max-width:64ch; margin-bottom:40px; }
         .term-timeline{ display:flex; align-items:flex-start; gap:8px; margin-bottom:36px; }
         @media (max-width:800px){ .term-timeline{ flex-direction:column; } }
-        .term-timeline-step{ flex:1; background:#fff; border-radius:16px; padding:22px 20px; }
+        .term-timeline-step{ flex:1; background:#fff; border-radius:8px; padding:22px 20px; }
         .term-timeline-arrow{ display:flex; align-items:center; justify-content:center; color:#B9B7C7; font-size:20px; padding-top:20px; }
         @media (max-width:800px){ .term-timeline-arrow{ transform:rotate(90deg); padding:0; align-self:center; } }
         .term-timeline-step .dot{ width:14px; height:14px; border-radius:50%; margin-bottom:14px; }
@@ -363,7 +363,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-timeline-step .tl-desc{ font-size:12.5px; line-height:1.55; color:var(--term-ink-soft); }
         .term-milestone-examples{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
         @media (max-width:700px){ .term-milestone-examples{ grid-template-columns:1fr; } }
-        .term-milestone-point{ display:flex; align-items:flex-start; gap:14px; background:#fff; border-radius:12px; padding:16px 18px; }
+        .term-milestone-point{ display:flex; align-items:flex-start; gap:14px; background:#fff; border-radius:6px; padding:16px 18px; }
         .term-milestone-point .ex-title{ font-size:13.5px; font-weight:600; margin-bottom:4px; }
         .term-milestone-point .ex-score{ font-size:12px; color:var(--term-ink-soft); font-family:'Sora',sans-serif; }
         .term-milestone-point .ex-score b{ color:var(--term-ink); font-weight:800; }
@@ -382,7 +382,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-stat-card.founder .l{ color:rgba(255,255,255,0.85); }
         .term-stat-card.founder .s{ color:rgba(255,255,255,0.7); }
         .term-stat-card.founder:hover{ border-color:transparent; filter:brightness(1.08); }
-        .term-stat-card{ background:var(--term-grey); border-radius:16px; padding:24px 20px; text-align:center; transition:transform 0.3s cubic-bezier(.2,.8,.2,1), border-color 0.3s ease; border:1px solid transparent; }
+        .term-stat-card{ background:var(--term-grey); border-radius:8px; padding:24px 20px; text-align:center; transition:transform 0.3s cubic-bezier(.2,.8,.2,1), border-color 0.3s ease; border:1px solid transparent; }
         .term-stat-card:hover{ transform:translateY(-5px); border-color:#7E1CF1; }
         .term-stat-card .v{ font-family:'Fraunces',serif; font-weight:600; font-size:clamp(28px,3.6vw,38px); color:#7E1CF1; }
         .term-stat-card .l{ font-family:'Sora',sans-serif; font-weight:700; font-size:11px; text-transform:uppercase; letter-spacing:0.03em; margin-top:6px; }
@@ -403,7 +403,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-validation-sub{ font-size:14px; color:var(--term-ink-soft); max-width:56ch; margin:8px 0 32px; }
         .term-validation-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
         @media (max-width:800px){ .term-validation-grid{ grid-template-columns:1fr 1fr; } }
-        .term-validation-step{ background:var(--term-grey); border-radius:16px; padding:22px 20px; border-top:3px solid transparent; transition:transform 0.3s cubic-bezier(.2,.8,.2,1), box-shadow 0.3s ease; }
+        .term-validation-step{ background:var(--term-grey); border-radius:8px; padding:22px 20px; border-top:3px solid transparent; transition:transform 0.3s cubic-bezier(.2,.8,.2,1), box-shadow 0.3s ease; }
         .term-validation-step:nth-child(1){ border-top-color:#7E1CF1; }
         .term-validation-step:nth-child(2){ border-top-color:#E61A97; }
         .term-validation-step:nth-child(3){ border-top-color:#02C6FA; }
@@ -418,7 +418,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-validation-step p{ font-size:12.5px; color:var(--term-ink-soft); line-height:1.5; }
         .term-newera-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:18px; margin-top:36px; }
         @media (max-width:900px){ .term-newera-grid{ grid-template-columns:repeat(2,1fr); } }
-        .term-newera-card{ background:#fff; border-radius:16px; padding:28px 22px; border-top:3px solid var(--term-line); }
+        .term-newera-card{ background:#fff; border-radius:8px; padding:28px 22px; border-top:3px solid var(--term-line); }
         .term-newera-card .n{ font-family:'Sora',sans-serif; font-weight:700; font-size:13px; color:var(--term-ink-soft); margin-bottom:16px; }
         .term-newera-card h4{ font-size:16px; font-weight:700; margin-bottom:8px; }
         .term-newera-card p{ font-size:13px; line-height:1.55; color:var(--term-ink-soft); }
@@ -438,7 +438,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-why-item p{ font-size:13px; color:var(--term-ink-soft); line-height:1.55; }
         .term-registry{ padding:20px 0 72px; }
         .term-reg-scroll{ display:flex; gap:16px; overflow-x:auto; margin-top:28px; }
-        .term-reg-card{ flex:0 0 230px; background:var(--term-ink); border-radius:14px; overflow:hidden; color:#fff; }
+        .term-reg-card{ flex:0 0 230px; background:var(--term-ink); border-radius:6px; overflow:hidden; color:#fff; }
         .term-reg-art{ position:relative; aspect-ratio:16/11; overflow:hidden; transition:filter 0.4s ease; }
         .term-reg-card:hover .term-reg-art{ filter:saturate(1.25) brightness(1.05); }
         .term-reg-tags{ position:absolute; top:8px; left:8px; display:flex; gap:5px; }
@@ -453,11 +453,11 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-reg-bar.score .fill{ background:linear-gradient(90deg,#F0C55E,#E61A97); }
         .term-reg-bar.fund .fill{ background:linear-gradient(90deg,#02C6FA,#3ADB76); }
         .term-modal-overlay{ position:fixed; inset:0; background:rgba(11,14,20,0.72); backdrop-filter:blur(3px); z-index:200; display:flex; align-items:center; justify-content:center; padding:24px; }
-        .term-modal-card{ background:#fff; border-radius:22px; max-width:540px; width:100%; max-height:88vh; overflow-y:auto; position:relative; }
+        .term-modal-card{ background:#fff; border-radius:8px; max-width:540px; width:100%; max-height:88vh; overflow-y:auto; position:relative; }
         .term-modal-cover{ position:relative; aspect-ratio:16/8; }
         .term-modal-cover::after{ content:''; position:absolute; inset:0; background:linear-gradient(to top, rgba(11,14,20,0.7) 0%, transparent 70%); }
         .term-modal-close{ position:absolute; top:14px; right:14px; z-index:2; background:rgba(11,14,20,0.6); color:#fff; border:none; width:32px; height:32px; border-radius:50%; font-size:18px; cursor:pointer; }
-        .term-modal-score{ position:absolute; bottom:-26px; left:26px; z-index:2; background:var(--term-ink); color:#fff; border-radius:14px; padding:12px 16px; display:flex; align-items:baseline; gap:4px; box-shadow:0 8px 20px rgba(0,0,0,0.2); }
+        .term-modal-score{ position:absolute; bottom:-26px; left:26px; z-index:2; background:var(--term-ink); color:#fff; border-radius:6px; padding:12px 16px; display:flex; align-items:baseline; gap:4px; box-shadow:0 8px 20px rgba(0,0,0,0.2); }
         .term-modal-score .val{ font-family:'Sora',sans-serif; font-weight:800; font-size:24px; }
         .term-modal-score .max{ font-size:11px; color:#B9B7C7; }
         .term-modal-body{ padding:40px 26px 26px; }
@@ -481,8 +481,8 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-modal-cta .primary{ background:var(--term-ink); color:#fff; }
         .term-modal-cta .secondary{ background:none; border:1px solid var(--term-line); color:var(--term-ink); }
         /* Pop-up de pre-inscription legere */
-        .term-join-card{ background:#fff; border-radius:22px; max-width:440px; width:100%; padding:36px 30px; position:relative; border-top:4px solid transparent; border-image:linear-gradient(90deg,#7E1CF1,#E61A97,#02C6FA) 1; }
-        .term-info-modal{ background:#fff; border-radius:22px; max-width:680px; width:100%; max-height:82vh; overflow-y:auto; padding:40px 36px; position:relative; animation:termModalIn 0.3s cubic-bezier(.2,.8,.2,1); }
+        .term-join-card{ background:#fff; border-radius:8px; max-width:440px; width:100%; padding:36px 30px; position:relative; border-top:4px solid transparent; border-image:linear-gradient(90deg,#7E1CF1,#E61A97,#02C6FA) 1; }
+        .term-info-modal{ background:#fff; border-radius:8px; max-width:680px; width:100%; max-height:82vh; overflow-y:auto; padding:40px 36px; position:relative; animation:termModalIn 0.3s cubic-bezier(.2,.8,.2,1); }
         .term-info-modal .term-join-title{ margin-bottom:20px; }
         .term-info-modal .term-model-grid{ grid-template-columns:1fr; gap:14px; }
         .term-info-modal .term-legal-grid{ grid-template-columns:1fr; gap:2px; }
@@ -506,7 +506,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-join-steps{ margin-top:18px; padding-top:18px; border-top:1px solid var(--term-line); }
         .term-join-steps .step{ display:flex; gap:10px; font-size:13px; color:var(--term-ink-soft); margin-bottom:10px; align-items:flex-start; }
         .term-join-steps .step b{ color:var(--term-ink); }
-        .term-join-keybox{ margin-top:16px; display:flex; align-items:center; justify-content:space-between; gap:10px; background:var(--term-grey); border:1px dashed var(--term-line); border-radius:12px; padding:12px 14px; }
+        .term-join-keybox{ margin-top:16px; display:flex; align-items:center; justify-content:space-between; gap:10px; background:var(--term-grey); border:1px dashed var(--term-line); border-radius:6px; padding:12px 14px; }
         .term-join-keybox span{ font-family:'Sora',sans-serif; font-weight:800; font-size:14px; letter-spacing:0.03em; }
         .term-join-keybox button{ flex-shrink:0; border:1px solid var(--term-line); background:#fff; color:var(--term-ink); font-family:'Sora',sans-serif; font-weight:700; font-size:12px; padding:8px 14px; border-radius:100px; cursor:pointer; }
         /* Animations : apparition au scroll + survol */
@@ -561,13 +561,13 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-model{ padding:72px 0; background:var(--term-grey); }
         .term-model-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:32px; }
         @media (max-width:800px){ .term-model-grid{ grid-template-columns:1fr; } }
-        .term-model-card{ background:#fff; border-radius:16px; padding:26px 22px; transition:transform 0.3s cubic-bezier(.2,.8,.2,1), box-shadow 0.3s ease; }
+        .term-model-card{ background:#fff; border-radius:8px; padding:26px 22px; transition:transform 0.3s cubic-bezier(.2,.8,.2,1), box-shadow 0.3s ease; }
         .term-model-card:hover{ transform:translateY(-6px) scale(1.02); box-shadow:0 18px 36px rgba(126,28,241,0.1); }
         .term-model-card .n{ font-family:'Sora',sans-serif; font-weight:700; font-size:13px; color:#7E1CF1; margin-bottom:12px; }
         .term-model-card h4{ font-size:15px; font-weight:700; margin-bottom:8px; }
         .term-model-card p{ font-size:13px; line-height:1.6; color:var(--term-ink-soft); }
         .term-legal{ padding:56px 0; }
-        .term-legal-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:2px; margin-top:28px; border-radius:16px; overflow:hidden; }
+        .term-legal-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:2px; margin-top:28px; border-radius:8px; overflow:hidden; }
         @media (max-width:700px){ .term-legal-grid{ grid-template-columns:1fr; } }
         .term-legal-item{ background:var(--term-grey); padding:20px 22px; transition:background 0.25s ease; }
         .term-legal-item:hover{ background:var(--term-lav); }
