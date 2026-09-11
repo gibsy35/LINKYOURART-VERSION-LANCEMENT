@@ -3,7 +3,7 @@ import React from 'react';
 import { motion } from 'motion/react';
 
 interface PageHeaderProps {
-  titleWhite: string;
+  titleWhite: React.ReactNode;
   titleAccent: string;
   subtitle?: string;
   description?: string;
