@@ -167,7 +167,7 @@ export const InvitationCard: React.FC<InvitationCardProps> = ({ user, onSent, on
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
-      className="bg-surface-low/40 border border-white/8 rounded-2xl p-4 md:p-5"
+      className="bg-surface-low/40 border border-white/8 rounded-lg p-4 md:p-5"
     >
       <div className="flex flex-col md:flex-row md:items-center gap-4">
         {/* Badge + libellé — même gabarit que le reste des éléments de la page */}
