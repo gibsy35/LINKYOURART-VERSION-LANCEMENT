@@ -90,6 +90,23 @@ export function getStatut(units: number) {
 
 // ─── RARETÉ ───────────────────────────────────────────────────────────────────
 
+export const CATEGORY_COLOR: Record<string, string> = {
+  'Fine Art': '#E61A97',
+  'Film': '#7E1CF1',
+  'TV Series': '#02C6FA',
+  'Music': '#3ADB76',
+  'Digital Art': '#B5308E',
+  'Gaming': '#6366F1',
+  'Literature': '#0EA5E9',
+  'Fashion': '#EC4899',
+  'Architecture': '#14B8A6',
+  'Design': '#8B5CF6',
+  'Photography': '#06B6D4',
+  'Podcast': '#A855F7',
+  'Performing Arts': '#10B981',
+  'Gastronomy': '#DB2777',
+};
+
 export const RARITY_STYLE: Record<string, string> = {
   Exceptional:  "bg-purple-600/80 text-on-surface",
   Signature:    "bg-violet-500/80 text-black",
@@ -676,7 +693,10 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
         <div className="absolute top-3 left-3 flex flex-col gap-2">
           {/* Catégorie + Rareté */}
           <div className="flex gap-1.5 items-center">
-            <span className="bg-surface-dim/80 text-primary-cyan text-xs px-3 py-0.5 rounded font-mono font-bold backdrop-blur-sm">
+            <span
+              style={{ background: `${CATEGORY_COLOR[contract.category] || '#565B6B'}CC`, color: '#fff' }}
+              className="text-xs px-3 py-0.5 rounded font-mono font-bold backdrop-blur-sm"
+            >
               {contract.category.toUpperCase()}
             </span>
             <span className={`text-xs px-3 py-0.5 rounded font-mono font-bold ${RARITY_STYLE[contract.rarity] || "bg-gray-500/80 text-on-surface"}`}>
@@ -684,15 +704,15 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
             </span>
           </div>
 
-          {/* Badge LYA SCORE — premium compact */}
+          {/* Badge LYA SCORE — premium compact, dore pour ressortir comme l'indice cle */}
           <div style={{
-            background: "linear-gradient(135deg, rgba(126,28,241,0.9) 0%, rgba(126,28,241,0.9) 100%)",
-            boxShadow: "0 0 8px rgba(126,28,241,0.5), 0 1px 4px rgba(0,0,0,0.4)",
-            border: "1px solid rgba(255,200,50,0.4)",
+            background: "linear-gradient(135deg, #B8860B 0%, #E8B84D 55%, #B8860B 100%)",
+            boxShadow: "0 0 8px rgba(212,175,55,0.5), 0 1px 4px rgba(0,0,0,0.4)",
+            border: "1px solid rgba(255,225,150,0.5)",
           }} className="rounded-md px-3 py-1 backdrop-blur-sm w-[80px]">
-            <p className="text-[7px] font-mono font-bold text-violet-900/70 tracking-widest leading-none mb-0.5">LYA SCORE</p>
-            <p className="text-white font-black font-mono text-xs leading-none">
-              {contract.totalScore}<span className="text-violet-200/50 font-normal text-[10px]">/1k</span>
+            <p className="text-[7px] font-mono font-bold text-black/60 tracking-widest leading-none mb-0.5">LYA SCORE</p>
+            <p className="text-black font-black font-mono text-xs leading-none">
+              {contract.totalScore}<span className="text-black/50 font-normal text-[10px]">/1k</span>
             </p>
           </div>
 
