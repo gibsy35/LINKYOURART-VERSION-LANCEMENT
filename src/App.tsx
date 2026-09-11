@@ -577,17 +577,20 @@ export default function App() {
 
   if (isBooting) {
     return (
-      <div className="fixed inset-0 z-[1000] bg-surface-dim flex flex-col items-center justify-center">
-        <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1, ease: "easeOut" }} className="flex flex-col items-center gap-12">
+      <div className="fixed inset-0 z-[1000] bg-black flex flex-col items-center justify-center">
+        <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8, ease: "easeOut" }} className="flex flex-col items-center gap-10">
           <div className="relative">
             <motion.div animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.6, 0.3] }} transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }} className="absolute inset-0 bg-primary-cyan/20 blur-[80px] rounded-full" />
-            <Logo size={200} color="multi" showBeta={true} />
+            <Logo size={140} color="multi" showBeta={true} />
           </div>
-          <div className="space-y-4 w-64">
-            <div className="h-0.5 w-full bg-white/5 overflow-hidden rounded-full">
-              <motion.div initial={{ x: '-100%' }} animate={{ x: '0%' }} transition={{ duration: 2, ease: "easeInOut" }} className="h-full bg-gradient-to-r from-primary-cyan via-purple-500 to-rose-500" />
+          <div className="flex flex-col items-center gap-2">
+            <div className="flex items-baseline gap-3">
+              <span className="text-white/40 text-sm tracking-[0.35em] uppercase font-light">{t('INITIATING', 'INITIALISATION')}</span>
+              <span className="text-white text-sm tracking-[0.35em] uppercase font-bold">LINKYOURART</span>
             </div>
-            <div className="flex justify-between items-center text-[10px] font-black tracking-[0.3em] text-white/20 uppercase font-mono"><span>INITIALIZING</span><span>v4.2.0</span></div>
+            <div className="h-px w-56 bg-white/10 overflow-hidden relative">
+              <motion.div initial={{ x: '-100%' }} animate={{ x: '250%' }} transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }} className="absolute inset-y-0 w-1/3 bg-white" />
+            </div>
           </div>
         </motion.div>
       </div>
