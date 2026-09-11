@@ -285,7 +285,7 @@ export const AdminKeysManagement: React.FC = () => {
                   placeholder={t('Assignee Name', 'Nom du Destinataire')}
                   value={newKeyName}
                   onChange={(e) => setNewKeyName(e.target.value)}
-                  className="w-full bg-surface-dim border border-white/10 rounded-xl px-4 py-3.5 text-xs text-white uppercase tracking-wider font-bold focus:outline-none focus:border-primary-cyan/50 focus:bg-surface-dim/80 transition-all placeholder:opacity-30"
+                  className="w-full bg-surface-dim border border-white/10 rounded-xl px-4 py-3.5 text-xs text-white  tracking-wider font-bold focus:outline-none focus:border-primary-cyan/50 focus:bg-surface-dim/80 transition-all placeholder:opacity-30"
                 />
               </div>
 
