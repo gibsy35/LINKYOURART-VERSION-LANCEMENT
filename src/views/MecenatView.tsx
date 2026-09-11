@@ -1,7 +1,10 @@
 import { useState, useMemo, useEffect } from "react";
+import { motion, AnimatePresence } from "motion/react";
 import { Search, SlidersHorizontal, X } from "lucide-react";
 import { CONTRACTS } from "../types";
 import { useTranslation } from "../context/LanguageContext";
+import { db } from "../firebase";
+import { collection, query, where, onSnapshot } from "firebase/firestore";
 import {
   MECENAT_THEMES,
   WhatIsLyaScore,
@@ -10,6 +13,20 @@ import {
   PaymentModal,
 } from "../components/mecenat/MecenatShared";
 import type { Contract } from "../types";
+
+// Galerie tournante reprise d'AboutView (page retiree, contenu duplique
+// avec la Home publique) — garde le dynamisme visuel sur l'ecran d'accueil
+// reel de l'outil, qui est desormais Patronage.
+const HERO_IMAGES = [
+  'https://images.unsplash.com/photo-1515405295579-ba7b45403062?auto=format&fit=crop&q=80&w=1600',
+  'https://images.unsplash.com/photo-1760868718218-ff73db4518fd?auto=format&fit=crop&q=80&w=1600',
+  'https://images.unsplash.com/photo-1755085381840-572a27fb0735?auto=format&fit=crop&q=80&w=1600',
+  'https://images.unsplash.com/photo-1554882195-8cf792f9a571?auto=format&fit=crop&q=80&w=1600',
+  'https://images.unsplash.com/photo-1774893582522-c8e9c0aeaec9?auto=format&fit=crop&q=80&w=1600',
+  'https://images.unsplash.com/photo-1760966362386-e1012dbc3657?auto=format&fit=crop&q=80&w=1600',
+  'https://images.unsplash.com/photo-1757495022684-176ae0391ad8?auto=format&fit=crop&q=80&w=1600',
+  'https://images.unsplash.com/photo-1744035783523-203d2bfc75d0?auto=format&fit=crop&q=80&w=1600',
+];
 
 // ─── COMPOSANT PRINCIPAL ──────────────────────────────────────────────────────
 
@@ -27,6 +44,25 @@ export function MecenatView() {
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
   const [minScore, setMinScore] = useState(0);
   const [sortBy, setSortBy] = useState<"score_desc" | "score_asc" | "name_asc" | "recent">("score_desc");
+
+  // Compteur de validateurs certifies en temps reel (meme source qu'AboutView)
+  const [realValidatorCount, setRealValidatorCount] = useState<number | null>(null);
+  useEffect(() => {
+    const q = query(collection(db, 'users'), where('isVerifiedValidator', '==', true));
+    const unsub = onSnapshot(q, (snap) => setRealValidatorCount(snap.size), () => setRealValidatorCount(null));
+    return () => unsub();
+  }, []);
+
+  // Galerie d'images tournante en arriere-plan du bandeau
+  const [activeImageBatch, setActiveImageBatch] = useState<string[]>([]);
+  useEffect(() => {
+    const getRandomBatch = () => [...HERO_IMAGES].sort(() => 0.5 - Math.random()).slice(0, 2);
+    setActiveImageBatch(getRandomBatch());
+    const interval = setInterval(() => setActiveImageBatch(getRandomBatch()), 7000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const liveProjectCount = useMemo(() => CONTRACTS.filter(c => c.status === "LIVE").length, []);
 
   useEffect(() => { setVisibleCount(12); }, [activeTheme, searchQuery, categoryFilter, minScore, sortBy]);
 
@@ -65,6 +101,23 @@ export function MecenatView() {
 
         {/* Hero encadré */}
         <div className="relative bg-surface-low/60 border border-white/10 rounded-2xl p-6 md:p-10 overflow-hidden mb-8">
+          <div className="absolute inset-0 z-0">
+            <AnimatePresence mode="sync">
+              {activeImageBatch.map((img, idx) => (
+                <motion.div
+                  key={`${img}-${idx}`}
+                  initial={{ opacity: 0, scale: 1.15 }}
+                  animate={{ opacity: idx === 0 ? 0.22 : 0.12, scale: 1, x: idx === 1 ? 60 : 0 }}
+                  exit={{ opacity: 0, scale: 1.05 }}
+                  transition={{ duration: 2.5, ease: "easeInOut" }}
+                  className="absolute inset-0"
+                  style={{ filter: 'blur(2px) grayscale(0.3)' }}
+                >
+                  <img src={img} alt="" className="w-full h-full object-cover" />
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </div>
           <div className="absolute inset-0 bg-gradient-to-br from-primary-cyan/5 to-transparent pointer-events-none" />
           <div className="relative z-10 space-y-6">
             <div className="flex justify-start items-center">
@@ -90,6 +143,20 @@ export function MecenatView() {
                     "Welcome to our simplified discovery space. No financial charts or intimidating order books. Just sublime art, raw talent, and a simple interactive way to support your favourite creations and follow their certification."
                   )}
                 </p>
+                <div className="flex flex-wrap gap-6 mt-6">
+                  <div className="flex items-center gap-2">
+                    <span className="h-1.5 w-1.5 rounded-full bg-primary-cyan animate-pulse" />
+                    <span className="text-xs font-mono text-on-surface-variant/70">
+                      {realValidatorCount === null ? '—' : realValidatorCount} {T('validateurs certifiés actifs', 'active certified validators')}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="h-1.5 w-1.5 rounded-full bg-accent-purple animate-pulse" />
+                    <span className="text-xs font-mono text-on-surface-variant/70">
+                      {liveProjectCount} {T('projets certifiés en direct', 'live certified projects')}
+                    </span>
+                  </div>
+                </div>
               </div>
               <div className="shrink-0 w-[180px]">
                 <div className="relative rounded-2xl p-px" style={{ background: 'linear-gradient(145deg, rgba(0,212,232,0.35) 0%, rgba(255,255,255,0.06) 60%)' }}>
