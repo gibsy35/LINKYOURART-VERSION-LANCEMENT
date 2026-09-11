@@ -130,7 +130,7 @@ export const SecureMail: React.FC<SecureMailProps> = ({ isOpen, onClose, recipie
                     placeholder={t('SUBJECT_LINE...', 'OBJET...')}
                     value={subject}
                     onChange={(e) => setSubject(e.target.value)}
-                    className="w-full bg-white/5 border-b border-white/10 p-4 text-[11px] text-white uppercase font-black focus:outline-none focus:border-primary-cyan transition-colors"
+                    className="w-full bg-white/5 border-b border-white/10 p-4 text-[11px] text-white  font-black focus:outline-none focus:border-primary-cyan transition-colors"
                   />
                 </div>
                 <div className="relative">
