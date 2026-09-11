@@ -209,8 +209,8 @@ export const Topbar: React.FC<TopbarProps> = ({
             <Globe size={20} className="group-hover:scale-110 transition-transform" />
           </button>
 
-          {/* Currency Switcher */}
-          <div className="flex items-center gap-1 bg-white/5 p-0.5 rounded-full border border-white/10">
+          {/* Currency Switcher — masque sur mobile (trop d'elements pour la largeur), reste accessible via Reglages */}
+          <div className="hidden lg:flex items-center gap-1 bg-white/5 p-0.5 rounded-full border border-white/10">
             {[
               { id: 'EUR', symbol: '€' },
               { id: 'USD', symbol: '$' },
