@@ -8,13 +8,17 @@ import {
   Globe, 
   Bell, 
   Shield, 
-  Monitor
+  Monitor,
+  Users,
+  UserPlus,
+  X as XIcon,
 } from 'lucide-react';
 import { useTranslation } from '../context/LanguageContext';
 import { useCurrency } from '../context/CurrencyContext';
-import { UserProfile } from '../types';
+import { UserProfile, UserRole } from '../types';
 import { db } from '../firebase';
 import { doc, updateDoc } from 'firebase/firestore';
+import { inviteTeamMember, removeTeamMember, getSeatLimitForUser } from '../utils/teamInvites';
 
 interface SettingsViewProps {
   user: UserProfile | null;
@@ -57,6 +61,38 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ user, onUserUpdate, 
     setHighPerformance(next);
     document.body.setAttribute('data-performance', next ? 'high' : 'standard');
     savePreference('highPerformanceMode', next);
+  };
+
+  // Systeme de licence multi-utilisateurs (sieges) — visible uniquement
+  // pour les comptes Pro (STARTER/ADVANCED) ou Entreprise.
+  const [inviteEmail, setInviteEmail] = useState('');
+  const [isInviting, setIsInviting] = useState(false);
+  const seatLimit = getSeatLimitForUser(user);
+  const teamMembers = user?.teamMembers || [];
+  const seatsUsed = teamMembers.length + 1; // +1 pour le proprietaire lui-meme
+
+  const handleInvite = async () => {
+    if (!user || !inviteEmail.trim()) return;
+    setIsInviting(true);
+    const result = await inviteTeamMember(user.uid, user, inviteEmail);
+    setIsInviting(false);
+    if (result.ok) {
+      onUserUpdate({ ...user, teamMembers: [...teamMembers, inviteEmail.trim().toLowerCase()] });
+      setInviteEmail('');
+      onNotify(t('INVITATION SENT', 'INVITATION ENVOYÉE'));
+    } else if (result.reason === 'LIMIT_REACHED') {
+      onNotify(t('SEAT LIMIT REACHED FOR YOUR PLAN', 'LIMITE DE SIÈGES ATTEINTE POUR VOTRE FORFAIT'));
+    } else if (result.reason === 'ALREADY_INVITED') {
+      onNotify(t('ALREADY INVITED', 'DÉJÀ INVITÉ'));
+    } else {
+      onNotify(t('ERROR SENDING INVITATION', 'ERREUR LORS DE L\'INVITATION'));
+    }
+  };
+
+  const handleRemoveMember = async (email: string) => {
+    if (!user) return;
+    await removeTeamMember(user.uid, email);
+    onUserUpdate({ ...user, teamMembers: teamMembers.filter(m => m !== email) });
   };
 
   const SettingSection = ({ title, children, icon: Icon }: { title: string, children: React.ReactNode, icon: any }) => (
@@ -211,6 +247,53 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ user, onUserUpdate, 
             </SettingItem>
           )}
         </SettingSection>
+
+        {(user?.role === UserRole.PROFESSIONAL) && (
+          <SettingSection title={t('Team & Seats', 'Équipe et Sièges')} icon={Users}>
+            <div className="flex items-center justify-between mb-2">
+              <p className="text-[10px] text-on-surface-variant uppercase tracking-widest opacity-60">
+                {t('Seats used', 'Sièges utilisés')}
+              </p>
+              <p className="text-xs font-black text-primary-cyan">{seatsUsed} / {seatLimit}</p>
+            </div>
+
+            {teamMembers.length > 0 && (
+              <div className="space-y-2 mb-4">
+                {teamMembers.map((email) => (
+                  <div key={email} className="flex items-center justify-between bg-white/[0.03] border border-white/5 rounded-lg px-4 py-2.5">
+                    <span className="text-xs text-on-surface-variant">{email}</span>
+                    <button onClick={() => handleRemoveMember(email)} className="text-on-surface-variant/40 hover:text-red-400 transition-colors">
+                      <XIcon size={14} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {seatsUsed < seatLimit ? (
+              <div className="flex gap-2">
+                <input
+                  type="email"
+                  value={inviteEmail}
+                  onChange={(e) => setInviteEmail(e.target.value)}
+                  placeholder={t('teammate@email.com', 'coequipier@email.com')}
+                  className="flex-1 bg-white/[0.04] border border-white/10 rounded-lg px-4 py-2.5 text-xs text-white outline-none focus:border-primary-cyan transition-all"
+                />
+                <button
+                  onClick={handleInvite}
+                  disabled={isInviting || !inviteEmail.trim()}
+                  className="flex items-center gap-2 bg-primary-cyan/10 border border-primary-cyan/30 text-primary-cyan px-4 py-2.5 rounded-lg text-xs font-bold hover:bg-primary-cyan/20 transition-all disabled:opacity-40"
+                >
+                  <UserPlus size={14} /> {t('Invite', 'Inviter')}
+                </button>
+              </div>
+            ) : (
+              <p className="text-[10px] text-on-surface-variant/50 uppercase tracking-widest">
+                {t('Seat limit reached for your plan — upgrade to add more.', 'Limite de sièges atteinte pour votre forfait — passez à un palier supérieur pour en ajouter.')}
+              </p>
+            )}
+          </SettingSection>
+        )}
 
         <SettingSection title={t('Notifications', 'Notifications')} icon={Bell}>
           <SettingItem 

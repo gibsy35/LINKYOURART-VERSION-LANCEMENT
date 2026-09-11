@@ -8,6 +8,7 @@ import { auth, db, handleFirestoreError, OperationType, logAuthDebugEvent } from
 import { createUserWithEmailAndPassword, updateProfile, GoogleAuthProvider, signInWithPopup, signInWithRedirect, sendEmailVerification, type User as FirebaseUser } from 'firebase/auth';
 import { doc, setDoc, getDoc, collection, query, where, getDocs, limit } from 'firebase/firestore';
 import { Logo } from '../components/ui/Logo';
+import { resolveTeamInviteForSignup } from '../utils/teamInvites';
 import { OracleWidget } from '../components/ui/OracleWidget';
 
 interface SignupViewProps {
@@ -110,11 +111,16 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
 
       await updateProfile(firebaseUser, { displayName: formData.name });
 
+      // Verifie si cet email correspond a une invitation d'equipe en
+      // attente (systeme de sieges) — si oui, herite du palier du
+      // proprietaire du compte au lieu du palier gratuit par defaut.
+      const teamInvite = await resolveTeamInviteForSignup(formData.email);
+
       const newUser: UserProfile = {
         uid: firebaseUser.uid,
         displayName: formData.name,
         email: formData.email,
-        role: role,
+        role: (teamInvite?.role as UserRole) || role,
         status: 'APPROVED',
         createdAt: new Date().toISOString(),
         twitter: '@' + formData.name.toLowerCase().replace(/\s+/g, '_'),
@@ -126,7 +132,12 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
           compare: 0,
           scan: 0,
           talent: 0
-        }
+        },
+        ...(teamInvite ? {
+          linkedAccountOwnerId: teamInvite.linkedAccountOwnerId,
+          proTier: teamInvite.proTier as 'STARTER' | 'ADVANCED' | undefined,
+          isEnterprise: teamInvite.isEnterprise,
+        } : {}),
       };
 
       try {
@@ -238,11 +249,12 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
       setUser(existingUser);
       onViewChange('MECENAT');
     } else {
+      const teamInvite = firebaseUser.email ? await resolveTeamInviteForSignup(firebaseUser.email) : null;
       const newUser: UserProfile = {
         uid: firebaseUser.uid,
         displayName: firebaseUser.displayName || 'User',
         email: firebaseUser.email || '',
-        role: selectedRole,
+        role: (teamInvite?.role as UserRole) || selectedRole,
         status: 'PENDING_APPROVAL',
         createdAt: new Date().toISOString(),
         twitter: '@' + (firebaseUser.displayName || 'user').toLowerCase().replace(/\s+/g, '_'),
@@ -254,7 +266,12 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
           compare: 0,
           scan: 0,
           talent: 0
-        }
+        },
+        ...(teamInvite ? {
+          linkedAccountOwnerId: teamInvite.linkedAccountOwnerId,
+          proTier: teamInvite.proTier as 'STARTER' | 'ADVANCED' | undefined,
+          isEnterprise: teamInvite.isEnterprise,
+        } : {}),
       };
 
       try {
