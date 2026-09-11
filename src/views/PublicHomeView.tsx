@@ -383,10 +383,10 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-security{ padding:56px 0 72px; }
         .term-security-grid{ display:flex; flex-direction:column; gap:2px; margin-top:28px; border-radius:8px; overflow:hidden; }
         .term-security-item{ display:flex; align-items:center; gap:14px; background:var(--term-grey); padding:18px 22px; font-size:14px; font-weight:500; transition:background 0.25s ease, padding-left 0.25s ease; }
-        .term-sec-ico{ width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; color:#fff; }
-        .term-sec-ico.ico1{ background:#3ADB76; }
+        .term-sec-ico{ width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; color:#fff; }
+        .term-sec-ico.ico1{ background:#1E9950; }
         .term-sec-ico.ico2{ background:#7E1CF1; }
-        .term-sec-ico.ico3{ background:#02C6FA; }
+        .term-sec-ico.ico3{ background:#0296C9; }
         .term-security-item:hover{ background:#E4F9EC; padding-left:28px; }
         .term-security-item svg{ color:#3ADB76; flex-shrink:0; }
         .term-milestone{ padding:64px 0; background:var(--term-grey); }
@@ -1051,9 +1051,9 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
           <div className="term-eyebrow">{t('Sécurité & confiance', 'Security & trust')}</div>
           <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t('Bâti sur des fondations rigoureuses.', 'Built on rigorous foundations.')}</h2>
           <div className="term-security-grid">
-            <div className="term-security-item term-reveal"><span className="term-sec-ico ico1"><Shield size={16} /></span><span>{t('Conforme RGPD — protection des données de bout en bout', 'GDPR compliant — end-to-end data protection')}</span></div>
-            <div className="term-security-item term-reveal"><span className="term-sec-ico ico2"><Shield size={16} /></span><span>{t('Droits créatifs certifiés légalement à chaque étape', 'Legally certified creative rights at every step')}</span></div>
-            <div className="term-security-item term-reveal"><span className="term-sec-ico ico3"><Shield size={16} /></span><span>{t('Authentification multi-facteurs & infrastructure sécurisée', 'Multi-factor authentication & secure infrastructure')}</span></div>
+            <div className="term-security-item term-reveal"><span className="term-sec-ico ico1"><Shield size={18} strokeWidth={2.5} /></span><span>{t('Conforme RGPD — protection des données de bout en bout', 'GDPR compliant — end-to-end data protection')}</span></div>
+            <div className="term-security-item term-reveal"><span className="term-sec-ico ico2"><Shield size={18} strokeWidth={2.5} /></span><span>{t('Droits créatifs certifiés légalement à chaque étape', 'Legally certified creative rights at every step')}</span></div>
+            <div className="term-security-item term-reveal"><span className="term-sec-ico ico3"><Shield size={18} strokeWidth={2.5} /></span><span>{t('Authentification multi-facteurs & infrastructure sécurisée', 'Multi-factor authentication & secure infrastructure')}</span></div>
           </div>
         </div>
       </section>
