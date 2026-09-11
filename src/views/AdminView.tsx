@@ -805,7 +805,7 @@ export const AdminView: React.FC<{
             placeholder={t('Search by name, email or UID...', 'Recherche par nom, email ou UID...')}
             value={searchTerm}
             onChange={(e) => { setSearchTerm(e.target.value); setUsersPage(1); }}
-            className="w-full bg-surface-low border border-white/10 p-4 pl-12 text-xs font-mono uppercase outline-none focus:border-accent-gold rounded-xl transition-all"
+            className="w-full bg-surface-low border border-white/10 p-4 pl-12 text-xs font-mono  outline-none focus:border-accent-gold rounded-xl transition-all"
           />
         </div>
         <div className="flex gap-2">
@@ -1508,7 +1508,7 @@ export const AdminView: React.FC<{
                   <div className="space-y-1.5">
                     <label className="text-[10px] font-black uppercase text-white/45 tracking-widest block">{t('PROJECT_NAME', 'NOM DE L\'ACTIF')}</label>
                     <input 
-                      className="w-full bg-black/40 border border-white/5 rounded-xl p-4 text-xs font-mono uppercase text-white focus:outline-none focus:border-primary-cyan transition-colors" 
+                      className="w-full bg-black/40 border border-white/5 rounded-xl p-4 text-xs font-mono text-white focus:outline-none focus:border-primary-cyan transition-colors" 
                       value={editingProject.name} 
                       onChange={e => setEditingProject({...editingProject, name: e.target.value})} 
                     />
