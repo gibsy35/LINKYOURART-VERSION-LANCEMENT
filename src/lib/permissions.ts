@@ -37,9 +37,9 @@ import { UserProfile, UserRole } from '../types';
 export const FREE_CREATOR_PROJECT_LIMIT = 3;
 export const EXTRA_CERTIFICATION_PRICE_EUR = 5;
 export const PRO_STARTER_PRICE_EUR = 79;
-export const PRO_STARTER_PROJECT_LIMIT = 25;
+export const PRO_STARTER_PROJECT_LIMIT = 15;
 export const PRO_ADVANCED_PRICE_EUR = 249;
-export const PRO_ADVANCED_PROJECT_LIMIT = 100;
+export const PRO_ADVANCED_PROJECT_LIMIT = 30;
 
 /**
  * Validator compensation model.
