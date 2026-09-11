@@ -198,13 +198,15 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
   return (
     <div className="term-root" ref={rootRef}>
       <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Sora:wght@500;600;700;800&display=swap');
         .term-root{
           --term-ink:#0B0E14; --term-ink-soft:#565B6B; --term-paper:#FFFFFF;
           --term-grey:#F3F2F8; --term-line:#E6E4EF; --term-lav:#E8B8D8;
           --term-lav-deep:#B5308E; --term-purple:#7E1CF1; --term-pink:#E61A97; --term-cyan:#02C6FA;
           background:var(--term-paper); color:var(--term-ink); font-family:'Inter',sans-serif;
         }
-        .term-root h1, .term-root h2, .term-root h3, .term-root .sora{ font-family:'Sora',sans-serif; }
+        .term-root h1, .term-root h2, .term-root h3{ font-family:'Fraunces',Georgia,serif; font-weight:500; letter-spacing:-0.01em; }
+        .term-root .sora{ font-family:'Sora',sans-serif; }
         .term-wrap{ max-width:1160px; margin:0 auto; padding:0 40px; }
         @media (max-width:700px){ .term-wrap{ padding:0 22px; } }
         .term-header{ background:var(--term-ink); padding:22px 0; position:sticky; top:0; z-index:100; border-bottom:1px solid rgba(255,255,255,0.08); }
@@ -236,6 +238,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-section-cta{ margin-top:32px; text-align:left; }
         .term-section-cta button{ background:none; border:none; font-family:'Sora',sans-serif; font-weight:700; font-size:14px; color:var(--term-ink); border-bottom:2px solid #7E1CF1; padding-bottom:2px; cursor:pointer; }
         .term-pillars{ padding:72px 0; }
+        .term-pillars-note{ font-size:13px; color:var(--term-ink-soft); margin-bottom:32px; }
         .term-pillars-grid{ display:grid; grid-template-columns:repeat(5,1fr); gap:14px; }
         @media (max-width:900px){ .term-pillars-grid{ grid-template-columns:repeat(2,1fr); } }
         .term-pillar{ border-radius:20px; padding:26px 20px; min-height:200px; display:flex; flex-direction:column; justify-content:space-between; }
@@ -301,10 +304,10 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-score-hero{ padding:8px 0 56px; }
         .term-score-hero-inner{ background:var(--term-ink); border-radius:28px; padding:48px 44px; display:flex; align-items:center; gap:48px; flex-wrap:wrap; }
         .term-score-hero-num{ display:flex; align-items:baseline; flex-shrink:0; }
-        .term-score-hero-num .big{ font-family:'Sora',sans-serif; font-weight:800; font-size:clamp(72px,11vw,140px); line-height:1; background:linear-gradient(90deg,#7E1CF1,#E61A97,#02C6FA); -webkit-background-clip:text; background-clip:text; color:transparent; }
+        .term-score-hero-num .big{ font-family:'Fraunces',serif; font-weight:600; font-size:clamp(72px,11vw,140px); line-height:1; color:#fff; }
         .term-score-hero-num .max{ font-family:'Sora',sans-serif; font-weight:700; font-size:clamp(20px,2.4vw,30px); color:#565B6B; margin-left:6px; }
         .term-score-hero-text{ flex:1; min-width:260px; }
-        .term-gradient-text{ background:linear-gradient(90deg,#7E1CF1,#E61A97,#02C6FA); -webkit-background-clip:text; background-clip:text; color:transparent; }
+        .term-gradient-text{ color:#7E1CF1; }
         .term-score-hero-text .term-eyebrow{ color:#8A87A8; }
         .term-score-hero-text h2{ color:#fff; font-family:'Sora',sans-serif; font-weight:700; font-size:clamp(22px,2.6vw,30px); margin:8px 0 12px; max-width:20ch; }
         .term-score-hero-text p{ color:#B9B7C7; font-size:14px; line-height:1.6; max-width:44ch; }
@@ -383,7 +386,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-stat-card.founder:hover{ border-color:transparent; filter:brightness(1.08); }
         .term-stat-card{ background:var(--term-grey); border-radius:16px; padding:24px 20px; text-align:center; transition:transform 0.3s cubic-bezier(.2,.8,.2,1), border-color 0.3s ease; border:1px solid transparent; }
         .term-stat-card:hover{ transform:translateY(-5px); border-color:#7E1CF1; }
-        .term-stat-card .v{ font-family:'Sora',sans-serif; font-weight:800; font-size:clamp(28px,3.6vw,38px); background:linear-gradient(90deg,#7E1CF1,#E61A97); -webkit-background-clip:text; background-clip:text; color:transparent; }
+        .term-stat-card .v{ font-family:'Fraunces',serif; font-weight:600; font-size:clamp(28px,3.6vw,38px); color:#7E1CF1; }
         .term-stat-card .l{ font-family:'Sora',sans-serif; font-weight:700; font-size:11px; text-transform:uppercase; letter-spacing:0.03em; margin-top:6px; }
         .term-stat-card .s{ font-size:11px; color:var(--term-ink-soft); margin-top:3px; }
         .term-cert-ticker{ margin-top:40px; overflow:hidden; }
@@ -509,7 +512,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-join-keybox span{ font-family:'Sora',sans-serif; font-weight:800; font-size:14px; letter-spacing:0.03em; }
         .term-join-keybox button{ flex-shrink:0; border:1px solid var(--term-line); background:#fff; color:var(--term-ink); font-family:'Sora',sans-serif; font-weight:700; font-size:12px; padding:8px 14px; border-radius:100px; cursor:pointer; }
         /* Animations : apparition au scroll + survol */
-        .term-reveal{ opacity:0; transform:translateY(48px) scale(0.93); filter:blur(10px); transition:opacity 1s cubic-bezier(.16,1,.3,1), transform 1s cubic-bezier(.16,1,.3,1), filter 1s cubic-bezier(.16,1,.3,1); }
+        .term-reveal{ opacity:0; transform:translateY(22px); transition:opacity 0.7s ease, transform 0.7s cubic-bezier(.2,.7,.3,1); }
         .term-reveal:nth-child(2){ transition-delay:0.08s; }
         .term-reveal:nth-child(3){ transition-delay:0.16s; }
         .term-reveal:nth-child(4){ transition-delay:0.24s; }
@@ -655,9 +658,10 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       <section className="term-pillars" id="pillars" style={{ scrollMarginTop: 80 }}>
         <div className="term-wrap">
           <div className="term-eyebrow">{t('Le Score LYA', 'The LYA Score')}</div>
-          <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(26px,3.2vw,38px)', marginBottom: 36 }}>
-            <span className="term-gradient-text">{t('Cinq critères.', 'Five criteria.')}</span> {t('Un standard commun à tout le secteur créatif.', 'One standard shared across the whole creative sector.')}
+          <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(26px,3.2vw,38px)', marginBottom: 12 }}>
+            {t('Cinq critères.', 'Five criteria.')} {t('Un standard commun à tout le secteur créatif.', 'One standard shared across the whole creative sector.')}
           </h2>
+          <p className="term-pillars-note">{t('Chaque critère est noté sur 200 points, pour un Score LYA total sur 1000.', 'Each criterion is scored out of 200 points, for a total LYA Score out of 1000.')}</p>
           <div className="term-pillars-grid">
             {pillars.map(p => (
               <div key={p.n} className={`term-pillar ${p.bg} term-reveal`}>
@@ -665,10 +669,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
                   <div className="n">{p.n}</div>
                   <div className="t">{t(p.title.fr, p.title.en)}</div>
                 </div>
-                <div>
-                  <div className="d">{t(p.desc.fr, p.desc.en)}</div>
-                  <div className="pts">/ 200 {t('POINTS', 'POINTS')}</div>
-                </div>
+                <div className="d">{t(p.desc.fr, p.desc.en)}</div>
               </div>
             ))}
           </div>
