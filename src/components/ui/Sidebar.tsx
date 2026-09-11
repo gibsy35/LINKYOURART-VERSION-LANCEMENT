@@ -205,16 +205,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     title={item.label}
                   >
                     {currentView === item.id && (
-                      <div className="absolute inset-0 bg-primary-cyan/5 rounded-2xl" />
+                      <div className="absolute inset-0 bg-primary-cyan/5 rounded-lg" />
                     )}
-                    <item.icon size={24} className={`transition-all duration-300 ${currentView === item.id ? 'text-primary-cyan scale-110 drop-shadow-[0_0_10px_rgba(0,224,255,0.6)]' : 'text-on-surface-variant/40 group-hover:text-primary-cyan group-hover:scale-110'}`} />
+                    <item.icon size={24} className={`transition-all duration-300 ${currentView === item.id ? 'text-primary-cyan scale-110 drop-' : 'text-on-surface-variant/40 group-hover:text-primary-cyan group-hover:scale-110'}`} />
                     {!isCollapsed && (
                       <span className={`text-[12px] font-bold uppercase tracking-widest flex-1 text-left transition-all duration-300 ${currentView === item.id ? 'text-white translate-x-1' : 'text-on-surface-variant/60 group-hover:text-white group-hover:translate-x-1'}`}>
                         {item.label}
                       </span>
                     )}
                     {!isCollapsed && item.count !== undefined && item.count > 0 && (
-                      <span className="text-[10px] bg-primary-cyan text-surface-dim px-3 py-0.5 rounded-full font-black shadow-[0_0_10px_rgba(0,224,255,0.5)]">
+                      <span className="text-[10px] bg-primary-cyan text-surface-dim px-3 py-0.5 rounded-full font-black">
                         {item.count}
                       </span>
                     )}
@@ -266,7 +266,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         >
           <div className="flex items-center gap-4">
             <div className="relative">
-              <div className="absolute -inset-1 bg-gradient-to-br from-primary-cyan to-indigo-500 rounded-full blur-md opacity-30 group-hover/user:opacity-100 transition-opacity duration-500 shadow-[0_0_20px_rgba(0,224,255,0.3)]" />
+              <div className="absolute -inset-1 bg-gradient-to-br from-primary-cyan to-indigo-500 rounded-full blur-md opacity-30 group-hover/user:opacity-100 transition-opacity duration-500" />
               <div className="w-12 h-12 rounded-full border border-white/20 p-0.5 relative z-10 overflow-hidden bg-surface-dim">
                 <div className="w-full h-full rounded-full overflow-hidden">
                   {user.avatarUrl ? (
@@ -298,7 +298,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[1000] lg:hidden shadow-[0_0_100px_rgba(0,0,0,1)]"
+            className="fixed inset-0 z-[1000] lg:hidden"
           >
             {/* Background with blur and noise for high-end look */}
             <div className="absolute inset-0 bg-surface-dim/95 backdrop-blur-xl" onClick={onClose} />
@@ -345,9 +345,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
                               onViewChange(item.id as View);
                               onClose();
                             }}
-                            className={`w-full flex items-center gap-5 px-5 py-4 rounded-2xl transition-all relative overflow-hidden group ${
+                            className={`w-full flex items-center gap-5 px-5 py-4 rounded-lg transition-all relative overflow-hidden group ${
                               currentView === item.id 
-                                ? 'text-primary-cyan bg-primary-cyan/10 border border-primary-cyan/20 shadow-[0_0_20px_rgba(0,224,255,0.1)]' 
+                                ? 'text-primary-cyan bg-primary-cyan/10 border border-primary-cyan/20' 
                                 : 'text-on-surface-variant/70 hover:text-white hover:bg-white/5 border border-transparent'
                             }`}
                           >
@@ -399,7 +399,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   onClick={() => { onViewChange((user?.role === 'PROFESSIONAL' ? 'PROFESSIONAL_DASHBOARD' : user?.role === 'CREATOR' ? 'CREATOR_DASHBOARD' : user?.role === 'PATRON' ? 'PATRON_DASHBOARD' : 'PROFILE')); onClose(); }}
                   className="p-8 bg-gradient-to-tr from-white/[0.03] to-white/[0.01] border-t border-white/10 flex items-center gap-5 shadow-2xl"
                 >
-                  <div className="w-12 h-12 rounded-full border-2 border-primary-cyan/40 p-0.5 overflow-hidden shrink-0 shadow-[0_0_15px_rgba(0,224,255,0.2)]">
+                  <div className="w-12 h-12 rounded-full border-2 border-primary-cyan/40 p-0.5 overflow-hidden shrink-0">
                     <div className="w-full h-full rounded-full overflow-hidden">
                       {user.avatarUrl ? (
                         <img src={user.avatarUrl} alt={user.displayName} className="w-full h-full object-cover" />
@@ -420,7 +420,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 <div className="p-6 bg-white/[0.02] border-t border-white/5">
                   <button 
                     onClick={() => { onViewChange('LOGIN'); onClose(); }}
-                    className="w-full py-5 bg-primary-cyan text-surface-dim text-xs font-black uppercase tracking-[0.3em] rounded-full shadow-[0_0_30px_rgba(0,224,255,0.3)] hover:scale-[1.02] active:scale-95 transition-all"
+                    className="w-full py-5 bg-primary-cyan text-surface-dim text-xs font-black uppercase tracking-[0.3em] rounded-full hover:scale-[1.02] active:scale-95 transition-all"
                   >
                     {t('SIGN IN', 'CONNEXION')}
                   </button>
