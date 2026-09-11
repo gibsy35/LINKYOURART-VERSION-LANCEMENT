@@ -289,7 +289,7 @@ export const ApplyForVerificationView: React.FC<{ onNotify: (msg: string) => voi
                         value={formData.name}
                         onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
                         placeholder="E.G. ALEXANDER VANCE"
-                        className="w-full bg-white/[0.02] border border-white/10 px-8 py-5 text-base font-black uppercase tracking-widest text-white focus:outline-none focus:border-primary-cyan/40 focus:bg-white/[0.05] transition-all rounded-2xl shadow-inner placeholder:opacity-20"
+                        className="w-full bg-white/[0.02] border border-white/10 px-8 py-5 text-base font-black  tracking-widest text-white focus:outline-none focus:border-primary-cyan/40 focus:bg-white/[0.05] transition-all rounded-2xl shadow-inner placeholder:opacity-20"
                       />
                     </div>
 
@@ -303,7 +303,7 @@ export const ApplyForVerificationView: React.FC<{ onNotify: (msg: string) => voi
                           value={formData.organization}
                           onChange={(e) => setFormData(prev => ({ ...prev, organization: e.target.value }))}
                           placeholder="ALPHA FUND"
-                          className="w-full bg-white/[0.02] border border-white/10 px-8 py-5 text-base font-black uppercase tracking-widest text-white focus:outline-none focus:border-accent-gold/40 focus:bg-white/[0.05] transition-all rounded-2xl shadow-inner placeholder:opacity-20"
+                          className="w-full bg-white/[0.02] border border-white/10 px-8 py-5 text-base font-black  tracking-widest text-white focus:outline-none focus:border-accent-gold/40 focus:bg-white/[0.05] transition-all rounded-2xl shadow-inner placeholder:opacity-20"
                         />
                       </div>
                       <div className="group relative">
@@ -315,7 +315,7 @@ export const ApplyForVerificationView: React.FC<{ onNotify: (msg: string) => voi
                           value={formData.role}
                           onChange={(e) => setFormData(prev => ({ ...prev, role: e.target.value }))}
                           placeholder="CHIEF STRATEGIST"
-                          className="w-full bg-white/[0.02] border border-white/10 px-8 py-5 text-base font-black uppercase tracking-widest text-white focus:outline-none focus:border-accent-magenta/40 focus:bg-white/[0.05] transition-all rounded-2xl shadow-inner placeholder:opacity-20"
+                          className="w-full bg-white/[0.02] border border-white/10 px-8 py-5 text-base font-black  tracking-widest text-white focus:outline-none focus:border-accent-magenta/40 focus:bg-white/[0.05] transition-all rounded-2xl shadow-inner placeholder:opacity-20"
                         />
                       </div>
                     </div>
@@ -330,7 +330,7 @@ export const ApplyForVerificationView: React.FC<{ onNotify: (msg: string) => voi
                           value={formData.email}
                           onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
                           placeholder="VANCE@NET.ALPHA"
-                          className="w-full bg-white/[0.02] border border-white/10 px-8 py-5 text-base font-black uppercase tracking-widest text-white focus:outline-none focus:border-primary-cyan/40 focus:bg-white/[0.05] transition-all rounded-2xl shadow-inner placeholder:opacity-20 pr-14"
+                          className="w-full bg-white/[0.02] border border-white/10 px-8 py-5 text-base font-black  tracking-widest text-white focus:outline-none focus:border-primary-cyan/40 focus:bg-white/[0.05] transition-all rounded-2xl shadow-inner placeholder:opacity-20 pr-14"
                         />
                         <Mail className="absolute right-6 top-1/2 -translate-y-1/2 text-white/10 group-focus-within:text-primary-cyan/30 transition-colors" size={20} />
                       </div>
