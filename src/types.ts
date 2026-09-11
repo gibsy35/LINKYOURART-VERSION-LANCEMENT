@@ -51,6 +51,12 @@ export interface UserProfile {
   // access, white-label reporting and a dedicated account manager. See
   // src/lib/permissions.ts.
   proTier?: 'STARTER' | 'ADVANCED';
+  // Systeme de licence multi-utilisateurs (sieges), voir src/utils/teamInvites.ts.
+  // teamMembers : emails invites par ce compte (s'il est proprietaire).
+  // linkedAccountOwnerId : si ce compte est un membre invite, pointe vers
+  // le proprietaire dont il herite le palier/role.
+  teamMembers?: string[];
+  linkedAccountOwnerId?: string;
   // Elite Invitation (profil) — chaque membre dispose d'une invitation
   // exclusive. Voir src/components/InvitationCard.tsx.
   invitationSentAt?: string;
