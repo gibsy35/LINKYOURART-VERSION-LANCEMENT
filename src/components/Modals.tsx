@@ -61,7 +61,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             className="fixed inset-0 flex items-center justify-center pointer-events-none z-[201] p-0 sm:p-6"
           >
-            <div className="bg-surface-dim border border-white/10 w-full max-w-2xl pointer-events-auto relative shadow-2xl h-full sm:h-auto max-h-screen sm:max-h-[85vh] md:max-h-[92vh] font-mono custom-scrollbar flex flex-col sm:rounded-2xl overflow-hidden">
+            <div className="bg-surface-dim border border-white/10 w-full max-w-2xl pointer-events-auto relative shadow-2xl h-full sm:h-auto max-h-screen sm:max-h-[85vh] md:max-h-[92vh] font-mono custom-scrollbar flex flex-col sm:rounded-lg overflow-hidden">
               <div className="p-4 border-b border-white/10 flex items-center justify-between bg-white/5 sticky top-0 z-20 backdrop-blur-xl shrink-0">
                 <span className="text-[10px] font-black text-white uppercase tracking-widest">{title}</span>
                 <button onClick={onClose} className="text-on-surface-variant hover:text-white transition-colors">
@@ -93,7 +93,7 @@ export const ContractDetailModal: React.FC<{
   return (
     <Modal isOpen={isOpen} onClose={onClose} title={`REGISTRY_INTEL: ${contract.registryIndex}`}>
        <div className="space-y-6">
-          <div className="aspect-[16/9] w-full relative rounded-2xl overflow-hidden border border-white/10 mb-4 shadow-xl">
+          <div className="aspect-[16/9] w-full relative rounded-lg overflow-hidden border border-white/10 mb-4 shadow-xl">
              <img 
                src={getSafeImageUrl(contract.image, contract.category)} 
                className="w-full h-full object-cover" 
@@ -112,11 +112,11 @@ export const ContractDetailModal: React.FC<{
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-             <div className="p-5 bg-white/[0.02] border border-white/5 rounded-2xl">
+             <div className="p-5 bg-white/[0.02] border border-white/5 rounded-lg">
                 <div className="text-xs text-white/40 uppercase tracking-widest font-black mb-1">CONSOLIDATED SCORE</div>
                 <div className="text-xl font-black text-primary-cyan">{contract.totalScore || 750}/1000</div>
              </div>
-             <div className="p-5 bg-white/[0.02] border border-white/5 rounded-2xl">
+             <div className="p-5 bg-white/[0.02] border border-white/5 rounded-lg">
                 <div className="text-xs text-white/40 uppercase tracking-widest font-black mb-1">STATUS</div>
                 <div className="text-xl font-black text-emerald-400">{contract.status}</div>
              </div>
@@ -145,10 +145,10 @@ export const ContractDetailModal: React.FC<{
 
 // Visual identity per tier — used across the onboarding modal and status badges everywhere.
 const TIER_STYLES: Record<string, { grad: string; glow: string; border: string; text: string; icon: React.ReactNode; chipBg: string }> = {
-  bronze:   { grad: 'from-violet-700/30 to-violet-900/10',   glow: 'shadow-[0_0_25px_rgba(126,28,241,0.15)]',  border: 'border-violet-600/30',   text: 'text-violet-500',   icon: <Shield size={18} />, chipBg: 'bg-violet-600/10' },
-  silver:   { grad: 'from-slate-300/20 to-slate-500/5',    glow: 'shadow-[0_0_25px_rgba(200,210,225,0.15)]', border: 'border-slate-300/30',   text: 'text-slate-200',   icon: <Sparkles size={18} />, chipBg: 'bg-slate-300/10' },
-  gold:     { grad: 'from-accent-gold/30 to-accent-gold/5', glow: 'shadow-[0_0_30px_rgba(255,215,0,0.2)]',   border: 'border-accent-gold/40', text: 'text-accent-gold', icon: <Gem size={18} />, chipBg: 'bg-accent-gold/10' },
-  platinum: { grad: 'from-primary-cyan/30 to-primary-cyan/5', glow: 'shadow-[0_0_35px_rgba(0,224,255,0.28)]', border: 'border-primary-cyan/50', text: 'text-primary-cyan', icon: <Crown size={18} />, chipBg: 'bg-primary-cyan/10' },
+  bronze:   { grad: 'from-violet-700/30 to-violet-900/10',   glow: '',  border: 'border-violet-600/30',   text: 'text-violet-500',   icon: <Shield size={18} />, chipBg: 'bg-violet-600/10' },
+  silver:   { grad: 'from-slate-300/20 to-slate-500/5',    glow: '', border: 'border-slate-300/30',   text: 'text-slate-200',   icon: <Sparkles size={18} />, chipBg: 'bg-slate-300/10' },
+  gold:     { grad: 'from-accent-gold/30 to-accent-gold/5', glow: '',   border: 'border-accent-gold/40', text: 'text-accent-gold', icon: <Gem size={18} />, chipBg: 'bg-accent-gold/10' },
+  platinum: { grad: 'from-primary-cyan/30 to-primary-cyan/5', glow: '', border: 'border-primary-cyan/50', text: 'text-primary-cyan', icon: <Crown size={18} />, chipBg: 'bg-primary-cyan/10' },
 };
 
 const JURISDICTIONS = [
@@ -221,7 +221,7 @@ export const ProfessionalOnboardingModal: React.FC<{
                <div className="flex flex-col items-center gap-1.5 flex-1">
                  <div className={`w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-black transition-all ${
                    step > i ? 'bg-primary-cyan text-surface-dim' :
-                   step === i ? 'bg-primary-cyan text-surface-dim shadow-[0_0_16px_rgba(0,224,255,0.5)]' :
+                   step === i ? 'bg-primary-cyan text-surface-dim' :
                    'bg-white/5 text-white/35 border border-white/10'
                  }`}>
                    {step > i ? <CheckCircle2 size={13} /> : i}
@@ -244,13 +244,13 @@ export const ProfessionalOnboardingModal: React.FC<{
               <div className="space-y-3 pt-2">
                 <input 
                   placeholder={t('ENTITY / INSTITUTION NAME', 'NOM DE L\'ENTITÉ / INSTITUTION')}
-                  className="w-full bg-black/40 border border-white/10 p-4 rounded-xl text-white text-xs placeholder:text-white/20 focus:outline-none focus:border-primary-cyan focus:shadow-[0_0_20px_rgba(0,224,255,0.12)] transition-all"
+                  className="w-full bg-black/40 border border-white/10 p-4 rounded-xl text-white text-xs placeholder:text-white/20 focus:outline-none focus:border-primary-cyan focus: transition-all"
                   value={formData.entityName}
                   onChange={e => setFormData({...formData, entityName: e.target.value})}
                 />
                 <input 
                   placeholder={t('REGISTRATION OR SIRET NUMBER', 'NUMÉRO D\'ENREGISTREMENT OU SIRET')}
-                  className="w-full bg-black/40 border border-white/10 p-4 rounded-xl text-white text-xs placeholder:text-white/20 focus:outline-none focus:border-primary-cyan focus:shadow-[0_0_20px_rgba(0,224,255,0.12)] transition-all"
+                  className="w-full bg-black/40 border border-white/10 p-4 rounded-xl text-white text-xs placeholder:text-white/20 focus:outline-none focus:border-primary-cyan focus: transition-all"
                   value={formData.registrationNumber}
                   onChange={e => setFormData({...formData, registrationNumber: e.target.value})}
                 />
@@ -309,7 +309,7 @@ export const ProfessionalOnboardingModal: React.FC<{
                       type="button"
                       onClick={() => setFormData({...formData, sector: s.id})}
                       className={`px-3.5 py-2 rounded-full text-[10px] font-black uppercase tracking-wider border transition-all ${
-                        formData.sector === s.id ? `${s.bg} ${s.color} ${s.border} shadow-[0_0_16px_rgba(255,255,255,0.08)]` : 'bg-white/[0.02] text-white/35 border-white/10 hover:border-white/25'
+                        formData.sector === s.id ? `${s.bg} ${s.color} ${s.border}` : 'bg-white/[0.02] text-white/35 border-white/10 hover:border-white/25'
                       }`}
                     >
                       {s.id}
@@ -335,7 +335,7 @@ export const ProfessionalOnboardingModal: React.FC<{
                     return (
                       <div
                         key={tier.id}
-                        className={`relative rounded-2xl border ${style.border} bg-gradient-to-br ${style.grad} ${style.glow} p-4`}
+                        className={`relative rounded-lg border ${style.border} bg-gradient-to-br ${style.grad} ${style.glow} p-4`}
                       >
                         <div className={`flex items-center gap-1.5 mb-2 ${style.text}`}>
                           {style.icon}
@@ -374,7 +374,7 @@ export const ProfessionalOnboardingModal: React.FC<{
            <div className="space-y-4">
               <h3 className="text-sm font-black text-white uppercase tracking-widest">{t('CERTIFICATION REVIEW SCOPE', 'PÉRIMÈTRE DE REVUE DE CERTIFICATION')}</h3>
               <p className="text-[11px] text-white/50 leading-relaxed">{t('What you\'ll be reviewing on every submission in your sector.', 'Ce que vous évaluerez sur chaque dossier de votre secteur.')}</p>
-              <div className="p-5 bg-white/[0.02] border border-white/10 rounded-2xl space-y-1 divide-y divide-white/5">
+              <div className="p-5 bg-white/[0.02] border border-white/10 rounded-lg space-y-1 divide-y divide-white/5">
                  {[
                    { icon: <Target size={14} />, label: t('LYA Score Methodology Review', 'Revue de la méthodologie du Score LYA') },
                    { icon: <Star size={14} />, label: t('Creative Work Quality Oversight', 'Contrôle qualité de l\'œuvre créative') },
@@ -389,7 +389,7 @@ export const ProfessionalOnboardingModal: React.FC<{
                  ))}
               </div>
               <div 
-                className={`border border-dashed p-6 flex flex-col items-center justify-center gap-3 rounded-2xl cursor-pointer transition-all ${formData.uploadedDocs ? 'border-primary-cyan/40 bg-primary-cyan/[0.04]' : 'border-white/10 bg-black/30 hover:border-white/25'}`}
+                className={`border border-dashed p-6 flex flex-col items-center justify-center gap-3 rounded-lg cursor-pointer transition-all ${formData.uploadedDocs ? 'border-primary-cyan/40 bg-primary-cyan/[0.04]' : 'border-white/10 bg-black/30 hover:border-white/25'}`}
                 onClick={() => setFormData({...formData, uploadedDocs: true})}
               >
                  <Upload size={22} className={formData.uploadedDocs ? 'text-primary-cyan' : 'text-white/35'} />
@@ -403,7 +403,7 @@ export const ProfessionalOnboardingModal: React.FC<{
          {/* STEP 4 — Code of conduct */}
          {step === 4 && (
            <div className="space-y-4 text-center">
-              <div className={`w-16 h-16 mx-auto rounded-2xl flex items-center justify-center bg-accent-gold/10 border border-accent-gold/25 ${TIER_STYLES.gold.glow}`}>
+              <div className={`w-16 h-16 mx-auto rounded-lg flex items-center justify-center bg-accent-gold/10 border border-accent-gold/25 ${TIER_STYLES.gold.glow}`}>
                 <Award size={30} className="text-accent-gold" />
               </div>
               <h3 className="text-sm font-black text-white uppercase tracking-widest">{t('PROFESSIONAL ACCREDITATION', 'ACCRÉDITATION PROFESSIONNELLE')}</h3>
@@ -424,7 +424,7 @@ export const ProfessionalOnboardingModal: React.FC<{
          <button 
            onClick={handleNext}
            disabled={(step === 1 && (!formData.entityName || !formData.registrationNumber || !formData.authority)) || (step === 2 && !formData.sector)}
-           className="w-full py-4.5 bg-primary-cyan text-surface-dim font-black uppercase text-[10px] tracking-widest hover:bg-white transition-all rounded-xl disabled:opacity-45 disabled:pointer-events-none shadow-[0_0_25px_rgba(0,224,255,0.25)]"
+           className="w-full py-4.5 bg-primary-cyan text-surface-dim font-black uppercase text-[10px] tracking-widest hover:bg-white transition-all rounded-xl disabled:opacity-45 disabled:pointer-events-none"
          >
            {step === 4 ? t('CONFIRM & APPLY LICENSE', 'VALIDER ET ACTIVER LA LICENCE') : t('CONTINUE', 'CONTINUER')}
          </button>
@@ -530,8 +530,8 @@ export const FeatureShowcaseModal: React.FC<{
   return (
     <Modal isOpen={isOpen} onClose={onClose} title={`FEATURE_HIGHLIGHT: ${featureName.toUpperCase()}`}>
       <div className="space-y-6">
-        <div className="p-6 bg-white/[0.02] border border-white/5 rounded-2xl flex items-center gap-4">
-          <div className="p-4 bg-primary-cyan/20 rounded-2xl text-primary-cyan">
+        <div className="p-6 bg-white/[0.02] border border-white/5 rounded-lg flex items-center gap-4">
+          <div className="p-4 bg-primary-cyan/20 rounded-lg text-primary-cyan">
              <Zap size={24} className="animate-pulse" />
           </div>
           <div>
@@ -547,11 +547,11 @@ export const FeatureShowcaseModal: React.FC<{
         </p>
 
         <div className="space-y-3">
-          <div className="p-4 bg-white/[0.01] border border-white/5 rounded-2xl flex items-center justify-between text-[10px]">
+          <div className="p-4 bg-white/[0.01] border border-white/5 rounded-lg flex items-center justify-between text-[10px]">
              <span className="text-white/70 uppercase tracking-widest font-black">{details.feature1}</span>
              <span className="text-emerald-400 font-bold uppercase font-mono font-black">{details.feature1Value}</span>
           </div>
-          <div className="p-4 bg-white/[0.01] border border-white/5 rounded-2xl flex items-center justify-between text-[10px]">
+          <div className="p-4 bg-white/[0.01] border border-white/5 rounded-lg flex items-center justify-between text-[10px]">
              <span className="text-white/70 uppercase tracking-widest font-black">{details.feature2}</span>
              <span className="text-emerald-400 font-bold uppercase font-mono font-black">{details.feature2Value}</span>
           </div>
@@ -580,8 +580,8 @@ export const ComplianceCertificateModal: React.FC<{
   return (
     <Modal isOpen={isOpen} onClose={onClose} title={`LYA_CERTIFICATE: ${currentContract.registryIndex}`}>
       <div className="space-y-6">
-        <div className="p-6 bg-emerald-500/5 border border-emerald-500/20 rounded-2xl flex items-center gap-4">
-          <div className="p-4 bg-emerald-500/20 text-emerald-400 rounded-2xl">
+        <div className="p-6 bg-emerald-500/5 border border-emerald-500/20 rounded-lg flex items-center gap-4">
+          <div className="p-4 bg-emerald-500/20 text-emerald-400 rounded-lg">
              <FileCheck2 size={24} />
           </div>
           <div>
@@ -592,7 +592,7 @@ export const ComplianceCertificateModal: React.FC<{
           </div>
         </div>
 
-        <div className="p-5 bg-black/40 border border-white/5 rounded-2xl space-y-3 font-mono text-[10px]">
+        <div className="p-5 bg-black/40 border border-white/5 rounded-lg space-y-3 font-mono text-[10px]">
           <div className="flex justify-between border-b border-white/5 pb-2">
             <span className="text-white/40">REG INDEX:</span>
             <span className="text-white font-bold">{currentContract.registryIndex}</span>
