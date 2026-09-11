@@ -230,7 +230,7 @@ export const PendingApprovalView: React.FC<PendingApprovalViewProps> = ({ user, 
                   value={accessKey}
                   onChange={(e) => setAccessKey(e.target.value)}
                   placeholder="e.g. LYA-DEMO-2026 / LYA2026"
-                  className="w-full bg-black/80 border-2 border-[#FF007F]/65 focus:border-[#FF007F] rounded-xl px-5 py-4 text-sm font-mono text-center tracking-[0.25em] font-black uppercase text-white focus:outline-none focus:ring-2 focus:ring-[#FF007F]/30 transition-all placeholder:text-white/30 shadow-[inset_0_2px_10px_rgba(0,0,0,0.8)]"
+                  className="w-full bg-black/80 border-2 border-[#FF007F]/65 focus:border-[#FF007F] rounded-xl px-5 py-4 text-sm font-mono text-center tracking-[0.25em] font-black  text-white focus:outline-none focus:ring-2 focus:ring-[#FF007F]/30 transition-all placeholder:text-white/30 shadow-[inset_0_2px_10px_rgba(0,0,0,0.8)]"
                 />
 
                 {keyError && (
