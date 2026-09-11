@@ -140,7 +140,7 @@ export const JobsSection: React.FC<Props> = ({ t, language, onNotify }) => {
     <div className="space-y-8">
 
       {/* HERO */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-accent-gold/10 via-surface-low to-primary-cyan/5 border border-accent-gold/20 rounded-3xl p-8">
+      <div className="relative overflow-hidden bg-gradient-to-br from-accent-gold/10 via-surface-low to-primary-cyan/5 border border-accent-gold/20 rounded-lg p-8">
         <div className="absolute top-0 right-0 w-64 h-64 bg-accent-gold/5 rounded-full blur-3xl pointer-events-none"/>
         <div className="relative z-10 grid md:grid-cols-2 gap-8 items-center">
           <div className="space-y-4">
@@ -156,14 +156,14 @@ export const JobsSection: React.FC<Props> = ({ t, language, onNotify }) => {
               {t('The LYA creative jobs marketplace. Open to all — certified profiles are prioritised. Post a listing, or apply with your LYA Score as an edge.', 'La place de marché de l\'emploi créatif LYA. Ouverte à tous — les profils certifiés sont mis en avant. Publiez une offre, ou postulez avec votre Score LYA en avantage.')}
             </p>
             <button onClick={() => setPostModal(true)}
-              className="px-6 py-3 bg-accent-gold text-surface-dim text-xs font-black uppercase tracking-widest rounded-xl hover:bg-white transition-all shadow-[0_0_20px_rgba(232,196,104,0.2)]">
+              className="px-6 py-3 bg-accent-gold text-surface-dim text-xs font-black uppercase tracking-widest rounded-xl hover:bg-white transition-all">
               {postSubmitted ? t('✓ Request sent', '✓ Demande envoyée') : t('Post a listing', 'Publier une offre')}
             </button>
           </div>
           {/* Stats */}
           <div className="grid grid-cols-2 gap-3">
             {STATS.map((s, i) => (
-              <div key={i} className="bg-black/20 border border-white/8 rounded-2xl p-4 text-center">
+              <div key={i} className="bg-black/20 border border-white/8 rounded-lg p-4 text-center">
                 <p className={`text-2xl font-black ${s.color}`}>{s.value}</p>
                 <p className="text-[9px] text-on-surface-variant/40 font-black uppercase tracking-widest mt-1">{isFR ? s.label_fr : s.label_en}</p>
               </div>
@@ -193,7 +193,7 @@ export const JobsSection: React.FC<Props> = ({ t, language, onNotify }) => {
           <AnimatePresence>
             {filtered.map((item, i) => (
               <motion.div key={item.code} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06 }}
-                className={`bg-surface-low border rounded-2xl transition-all ${item.color}`}>
+                className={`bg-surface-low border rounded-lg transition-all ${item.color}`}>
 
                 <div className="p-5 cursor-pointer" onClick={() => setExpandedCard(expandedCard === item.code ? null : item.code)}>
                   <div className="flex items-start justify-between gap-4">
@@ -265,11 +265,11 @@ export const JobsSection: React.FC<Props> = ({ t, language, onNotify }) => {
       </div>
 
       {/* PRIORITÉ CERTIFICATION */}
-      <div className="relative overflow-hidden bg-gradient-to-r from-primary-cyan/8 to-surface-low border border-primary-cyan/25 rounded-3xl p-8">
+      <div className="relative overflow-hidden bg-gradient-to-r from-primary-cyan/8 to-surface-low border border-primary-cyan/25 rounded-lg p-8">
         <div className="absolute top-0 right-0 w-48 h-48 bg-primary-cyan/5 rounded-full blur-3xl pointer-events-none"/>
         <div className="relative z-10 grid md:grid-cols-3 gap-6 items-center">
           <div className="text-center space-y-2">
-            <div className="w-16 h-16 bg-primary-cyan/15 border-2 border-primary-cyan/30 rounded-2xl flex items-center justify-center mx-auto">
+            <div className="w-16 h-16 bg-primary-cyan/15 border-2 border-primary-cyan/30 rounded-lg flex items-center justify-center mx-auto">
               <ShieldCheck size={28} className="text-primary-cyan"/>
             </div>
             <p className="text-xs font-black text-primary-cyan uppercase tracking-widest">{t('Certification = Priority', 'Certification = Priorité')}</p>
@@ -306,7 +306,7 @@ export const JobsSection: React.FC<Props> = ({ t, language, onNotify }) => {
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-xl">
             <motion.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
-              className="bg-surface-low border border-accent-gold/30 rounded-3xl p-6 max-w-md w-full space-y-5">
+              className="bg-surface-low border border-accent-gold/30 rounded-lg p-6 max-w-md w-full space-y-5">
               <div>
                 <p className="text-[10px] font-black text-accent-gold uppercase tracking-widest mb-1">#{applyModal.code}</p>
                 <h3 className="text-sm font-black text-white">{isFR ? applyModal.title_fr : applyModal.title_en}</h3>
@@ -353,7 +353,7 @@ export const JobsSection: React.FC<Props> = ({ t, language, onNotify }) => {
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-xl">
             <motion.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
-              className="bg-surface-low border border-primary-cyan/30 rounded-3xl p-6 max-w-md w-full space-y-5">
+              className="bg-surface-low border border-primary-cyan/30 rounded-lg p-6 max-w-md w-full space-y-5">
               <div className="text-center space-y-2">
                 <Briefcase size={32} className="text-primary-cyan mx-auto"/>
                 <h3 className="text-sm font-black text-white">{t('Post a listing', 'Publier une offre')}</h3>
