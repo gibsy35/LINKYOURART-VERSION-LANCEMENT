@@ -601,6 +601,14 @@ export default function App() {
           setShowPublicHome(false);
           setCurrentView('SIGNUP');
         }}
+        onGuestBrowse={() => {
+          // Vrai acces invite : le routage autorisait deja MECENAT/REGISTRY
+          // sans compte (previewViews plus bas), mais rien n'y menait — voici
+          // le bouton qui manquait.
+          try { sessionStorage.setItem('lya_visitor_mode', 'true'); } catch { /* noop */ }
+          setShowPublicHome(false);
+          setCurrentView('MECENAT');
+        }}
       />
     );
   }
