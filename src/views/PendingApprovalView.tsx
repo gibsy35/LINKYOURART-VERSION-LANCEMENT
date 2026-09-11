@@ -124,7 +124,7 @@ export const PendingApprovalView: React.FC<PendingApprovalViewProps> = ({ user, 
               </div>
 
               <div className="space-y-3">
-                <div className="inline-flex items-center gap-2 px-3 py-1 bg-amber-500/10 border border-amber-500/20 text-amber-500 text-[10px] font-black uppercase tracking-[0.2em] rounded-full">
+                <div className="inline-flex items-center gap-2 px-3 py-1 bg-violet-500/10 border border-violet-500/20 text-violet-500 text-[10px] font-black uppercase tracking-[0.2em] rounded-full">
                   <Clock size={10} className="animate-pulse" />
                   {t('MEMBER REVIEW PENDING', 'DÉMARCHE DE CO-OPTATION EN COURS')}
                 </div>
@@ -141,7 +141,7 @@ export const PendingApprovalView: React.FC<PendingApprovalViewProps> = ({ user, 
               </div>
 
               {/* Profile Details */}
-              <div className="p-4 bg-white/[0.02] border border-white/5 rounded-2xl space-y-1">
+              <div className="p-4 bg-white/[0.02] border border-white/5 rounded-lg space-y-1">
                 <div className="text-[7px] font-black text-white/30 uppercase tracking-[0.3em]">{t('ASSIGNED PROFESSIONAL PROFILE', 'PROFIL DE PRÉ-INSCRIPTION')}</div>
                 <div className="text-xs font-black text-white uppercase tracking-widest flex items-center gap-2">
                   <Award size={12} className="text-primary-cyan" />
@@ -174,7 +174,7 @@ export const PendingApprovalView: React.FC<PendingApprovalViewProps> = ({ user, 
               <div className="space-y-6 relative pl-3 border-l border-white/5">
                 {/* Step 1 */}
                 <div className="relative">
-                  <div className="absolute -left-[19px] top-0 w-3 h-3 rounded-full bg-emerald-500 border-2 border-black flex items-center justify-center shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
+                  <div className="absolute -left-[19px] top-0 w-3 h-3 rounded-full bg-emerald-500 border-2 border-black flex items-center justify-center" />
                   <div className="space-y-0.5">
                     <div className="text-xs font-black text-emerald-400 uppercase tracking-wider">{t('STEP 1: PROFILE APPLICATON', '1. DEMANDE DE CO-OPTATION')}</div>
                     <p className="text-[10px] text-white/50 lowercase italic leading-none">{t('profile request submitted', 'demande soumise et enregistrée')}</p>
@@ -183,9 +183,9 @@ export const PendingApprovalView: React.FC<PendingApprovalViewProps> = ({ user, 
 
                 {/* Step 2 */}
                 <div className="relative">
-                  <div className="absolute -left-[19px] top-0 w-3 h-3 rounded-full bg-amber-500 border-2 border-black flex items-center justify-center animate-pulse" />
+                  <div className="absolute -left-[19px] top-0 w-3 h-3 rounded-full bg-violet-500 border-2 border-black flex items-center justify-center animate-pulse" />
                   <div className="space-y-0.5">
-                    <div className="text-xs font-black text-amber-500 uppercase tracking-wider">{t('STEP 2: COMMITEE OVERVIEW', '2. REVUE DU PORTFOLIO')}</div>
+                    <div className="text-xs font-black text-violet-500 uppercase tracking-wider">{t('STEP 2: COMMITEE OVERVIEW', '2. REVUE DU PORTFOLIO')}</div>
                     <p className="text-[10px] text-white/50 lowercase italic leading-none">{t('validation of creative or professional alignment', 'relecture de l\'alignement professionnel sous 24h')}</p>
                   </div>
                 </div>
@@ -202,14 +202,14 @@ export const PendingApprovalView: React.FC<PendingApprovalViewProps> = ({ user, 
             </div>
 
             {/* ACCESS KEY ENTRY BOX - ENHANCED VISIBILITY */}
-            <div className="p-8 bg-[#150a12]/90 border-2 border-[#FF007F] rounded-[2rem] space-y-5 relative overflow-hidden shadow-[0_0_40px_rgba(255,0,127,0.35)] animate-pulse hover:animate-none transition-all duration-300">
+            <div className="p-8 bg-[#150a12]/90 border-2 border-[#FF007F] rounded-[2rem] space-y-5 relative overflow-hidden animate-pulse hover:animate-none transition-all duration-300">
               <div className="absolute top-0 right-0 w-40 h-40 bg-[#FF007F]/10 blur-3xl rounded-full pointer-events-none" />
               <div className="absolute -bottom-8 -left-8 w-24 h-24 bg-primary-cyan/10 blur-2xl rounded-full pointer-events-none" />
               
               <div className="space-y-2.5 relative z-10">
                 <div className="flex items-center gap-2.5">
                   <div className="w-2.5 h-2.5 rounded-full bg-[#FF007F] animate-ping" />
-                  <span className="text-[10px] font-black text-[#FF007F] uppercase tracking-[0.25em] drop-shadow-[0_0_8px_rgba(255,0,127,0.6)]">
+                  <span className="text-[10px] font-black text-[#FF007F] uppercase tracking-[0.25em] drop-">
                     {t('SECURED ACCESS KEY GATEWAY', 'SAISIE SÉCURISÉE DE LA CLÉ D\'ACCÈS')}
                   </span>
                 </div>
@@ -230,7 +230,7 @@ export const PendingApprovalView: React.FC<PendingApprovalViewProps> = ({ user, 
                   value={accessKey}
                   onChange={(e) => setAccessKey(e.target.value)}
                   placeholder="e.g. LYA-DEMO-2026 / LYA2026"
-                  className="w-full bg-black/80 border-2 border-[#FF007F]/65 focus:border-[#FF007F] rounded-xl px-5 py-4 text-sm font-mono text-center tracking-[0.25em] font-black uppercase text-white focus:outline-none focus:ring-2 focus:ring-[#FF007F]/30 transition-all placeholder:text-white/30 shadow-[inset_0_2px_10px_rgba(0,0,0,0.8)]"
+                  className="w-full bg-black/80 border-2 border-[#FF007F]/65 focus:border-[#FF007F] rounded-xl px-5 py-4 text-sm font-mono text-center tracking-[0.25em] font-black  text-white focus:outline-none focus:ring-2 focus:ring-[#FF007F]/30 transition-all placeholder:text-white/30 shadow-[inset_0_2px_10px_rgba(0,0,0,0.8)]"
                 />
 
                 {keyError && (
@@ -248,7 +248,7 @@ export const PendingApprovalView: React.FC<PendingApprovalViewProps> = ({ user, 
                 <button 
                   type="submit"
                   disabled={isValidating || !accessKey.trim()}
-                  className="w-full py-4.5 bg-gradient-to-r from-[#FF007F] to-[#9D00FF] text-white hover:from-white hover:to-white hover:text-black font-black uppercase tracking-[0.2em] rounded-2xl flex items-center justify-center gap-3 transition-all duration-300 active:scale-[0.98] disabled:opacity-40 shadow-[0_10px_25px_rgba(255,0,127,0.3)] hover:shadow-[0_15px_30px_rgba(255,255,255,0.4)]"
+                  className="w-full py-4.5 bg-gradient-to-r from-[#FF007F] to-[#9D00FF] text-white hover:from-white hover:to-white hover:text-black font-black uppercase tracking-[0.2em] rounded-lg flex items-center justify-center gap-3 transition-all duration-300 active:scale-[0.98] disabled:opacity-40 shadow-[0_10px_25px_rgba(255,0,127,0.3)] hover:shadow-[0_15px_30px_rgba(255,255,255,0.4)]"
                 >
                   {isValidating ? (
                     <RefreshCw size={14} className="animate-spin text-white" />

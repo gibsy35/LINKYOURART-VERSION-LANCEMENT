@@ -285,7 +285,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
 
       <div className="relative z-20 mb-12 flex flex-col lg:flex-row lg:items-end justify-end gap-6 md:gap-8">
         <div className="flex flex-wrap gap-2 md:gap-4 items-end">
-          <div className="px-4 md:px-6 py-2 md:py-3 bg-primary-cyan/10 border border-primary-cyan/20 rounded-sm flex items-center gap-2 md:gap-3 shadow-[0_0_20px_rgba(0,224,255,0.1)] transition-all relative overflow-hidden group">
+          <div className="px-4 md:px-6 py-2 md:py-3 bg-primary-cyan/10 border border-primary-cyan/20 rounded-sm flex items-center gap-2 md:gap-3 transition-all relative overflow-hidden group">
             <div className="absolute left-0 top-0 w-1 h-full bg-primary-cyan animate-pulse" />
             <Zap size={16} className="text-primary-cyan animate-pulse" />
             <div>
@@ -296,7 +296,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
           
           <button 
             onClick={handleCompareTrigger}
-            className="px-4 md:px-6 py-2 md:py-3 bg-accent-gold/10 border border-accent-gold/20 rounded-sm flex items-center gap-2 md:gap-3 hover:bg-accent-gold/20 transition-all group shadow-[0_0_20px_rgba(251,191,36,0.1)] relative overflow-hidden"
+            className="px-4 md:px-6 py-2 md:py-3 bg-accent-gold/10 border border-accent-gold/20 rounded-sm flex items-center gap-2 md:gap-3 hover:bg-accent-gold/20 transition-all group relative overflow-hidden"
           >
             <div className="absolute left-0 top-0 w-1 h-full bg-accent-gold group-hover:h-full transition-all" />
             <div className="text-left">
@@ -372,7 +372,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
 
       {/* ── SECTION PROJETS LIKÉS ── */}
       {showLiked && likedProjects.length > 0 && (
-        <div className="bg-surface-low/40 border border-emerald-400/20 rounded-2xl p-5 space-y-4">
+        <div className="bg-surface-low/40 border border-emerald-400/20 rounded-lg p-5 space-y-4">
           <div className="flex items-center gap-2">
             <Heart size={14} className="text-emerald-400" fill="currentColor"/>
             <p className="text-sm font-black text-on-surface uppercase tracking-wider">{t('Liked projects','Projets aimés')} — {likedProjects.length}</p>
@@ -420,7 +420,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
       )}
 
       {showLiked && likedProjects.length === 0 && (
-        <div className="bg-surface-low/40 border border-white/8 rounded-2xl p-8 text-center">
+        <div className="bg-surface-low/40 border border-white/8 rounded-lg p-8 text-center">
           <Heart size={32} className="text-on-surface-variant/20 mx-auto mb-3"/>
           <p className="text-sm text-on-surface-variant/40">{t('No liked projects yet. Start swiping!','Aucun projet aimé pour le moment. Swipez !')}</p>
         </div>
@@ -430,7 +430,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
       <div className="grid lg:grid-cols-12 gap-12 items-start">
         {/* Left Sidebar - Stats & Tips */}
         <div className="lg:col-span-3 space-y-8 hidden lg:block">
-          <div className="p-6 bg-surface-low/50 border border-white/5 rounded-2xl backdrop-blur-xl">
+          <div className="p-6 bg-surface-low/50 border border-white/5 rounded-lg backdrop-blur-xl">
             <h3 className="text-xs font-black text-white uppercase tracking-[0.2em] mb-6 flex items-center gap-2">
               <Zap size={14} className="text-primary-cyan" />
               {t('Discovery Stats', 'Stats Découverte')}
@@ -442,7 +442,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
                   <span className="text-primary-cyan">68%</span>
                 </div>
                 <div className="h-1 bg-white/5 rounded-full overflow-hidden">
-                  <div className="h-full bg-primary-cyan w-[68%] shadow-[0_0_10px_rgba(0,224,255,0.3)]" />
+                  <div className="h-full bg-primary-cyan w-[68%]" />
                 </div>
               </div>
               <div>
@@ -451,13 +451,13 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
                   <span className="text-accent-gold">42%</span>
                 </div>
                 <div className="h-1 bg-white/5 rounded-full overflow-hidden">
-                  <div className="h-full bg-accent-gold w-[42%] shadow-[0_0_10px_rgba(245,158,11,0.3)]" />
+                  <div className="h-full bg-accent-gold w-[42%]" />
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="p-6 bg-primary-cyan/5 border border-primary-cyan/10 rounded-2xl">
+          <div className="p-6 bg-primary-cyan/5 border border-primary-cyan/10 rounded-lg">
             <h4 className="text-[10px] font-black text-primary-cyan uppercase tracking-widest mb-3">{t('Expert Tip', 'Conseil Expert')}</h4>
             <p className="text-[11px] text-on-surface-variant leading-relaxed italic">
               {t('Projects with a LYA Score above 850 represent the top 5% of certified creative works in terms of professional validation and recognition.', 'Les projets avec un score LYA supérieur à 850 représentent le top 5% des œuvres créatives certifiées en termes de validation professionnelle et de reconnaissance.')}
@@ -468,7 +468,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
         {/* Center - Swipe Card */}
         <div className="lg:col-span-6">
           {!currentContract ? (
-            <div className="aspect-[4/5] w-full max-w-sm mx-auto flex flex-col items-center justify-center text-center bg-surface-low/30 border border-white/10 rounded-3xl p-8">
+            <div className="aspect-[4/5] w-full max-w-sm mx-auto flex flex-col items-center justify-center text-center bg-surface-low/30 border border-white/10 rounded-lg p-8">
               <Search size={28} className="text-on-surface-variant/30 mb-4" />
               <p className="text-sm font-black text-on-surface mb-1">{t('No project matches', 'Aucun projet ne correspond')}</p>
               <p className="text-xs text-on-surface-variant/50">{t('Try adjusting your search or filters.', 'Essayez d\'ajuster votre recherche ou vos filtres.')}</p>
@@ -500,14 +500,14 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
                   transition: { duration: 0.2 }
                 }}
                 transition={{ type: 'spring', damping: 25, stiffness: 120 }}
-                className="absolute inset-0 bg-surface-high border border-white/10 rounded-2xl overflow-hidden shadow-2xl flex flex-col cursor-grab active:cursor-grabbing will-change-transform"
+                className="absolute inset-0 bg-surface-high border border-white/10 rounded-lg overflow-hidden shadow-2xl flex flex-col cursor-grab active:cursor-grabbing will-change-transform"
               >
                 {/* Animated Overlays */}
                 <motion.div 
                   style={{ opacity: heartOpacity }}
                   className="absolute inset-0 z-30 pointer-events-none flex items-center justify-center bg-emerald-500/20"
                 >
-                  <div className="bg-white p-6 rounded-full shadow-[0_0_50px_rgba(16,185,129,0.5)]">
+                  <div className="bg-white p-6 rounded-full">
                     <Heart size={80} className="text-emerald-500" fill="currentColor" />
                   </div>
                 </motion.div>
@@ -516,7 +516,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
                   style={{ opacity: crossOpacity }}
                   className="absolute inset-0 z-30 pointer-events-none flex items-center justify-center bg-red-500/5"
                 >
-                  <div className="bg-white/90 p-6 rounded-full shadow-[0_0_50px_rgba(239,68,68,0.2)]">
+                  <div className="bg-white/90 p-6 rounded-full">
                     <X size={80} className="text-red-400" />
                   </div>
                 </motion.div>
@@ -650,7 +650,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
 
         {/* Right Sidebar - Trending */}
         <div className="lg:col-span-3 space-y-8 hidden lg:block">
-          <div className="p-6 bg-surface-low/50 border border-white/5 rounded-2xl backdrop-blur-xl">
+          <div className="p-6 bg-surface-low/50 border border-white/5 rounded-lg backdrop-blur-xl">
             <h3 className="text-xs font-black text-white uppercase tracking-[0.2em] mb-6 flex items-center gap-2">
               <Star size={14} className="text-accent-gold" />
               {t('Trending Now', 'Tendances')}
@@ -673,7 +673,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
             </div>
           </div>
 
-          <div className="p-6 bg-surface-low/50 border border-white/5 rounded-2xl backdrop-blur-xl">
+          <div className="p-6 bg-surface-low/50 border border-white/5 rounded-lg backdrop-blur-xl">
             <h3 className="text-xs font-black text-white uppercase tracking-[0.2em] mb-4">{t('Market Sentiment', 'Sentiment du Marché')}</h3>
             <div className="flex items-center gap-2 mb-2">
               <div className="flex-1 h-2 bg-emerald-500/20 rounded-full overflow-hidden">
@@ -685,7 +685,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
           </div>
 
           {/* New: Live Activity Feed */}
-          <div className="p-6 bg-surface-low/30 border border-white/5 rounded-2xl backdrop-blur-xl">
+          <div className="p-6 bg-surface-low/30 border border-white/5 rounded-lg backdrop-blur-xl">
             <h3 className="text-[10px] font-black text-on-surface-variant uppercase tracking-[0.2em] mb-4 flex items-center gap-2">
               <Activity size={12} className="text-primary-cyan" />
               {t('Live Activity', 'Activité en Direct')}
@@ -729,9 +729,9 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               onClick={() => toggleRevealed(contract.id)}
-              className="glass-panel p-6 rounded-3xl group relative overflow-hidden flex flex-col h-full cursor-pointer"
+              className="glass-panel p-6 rounded-lg group relative overflow-hidden flex flex-col h-full cursor-pointer"
             >
-              <div className="aspect-video rounded-2xl overflow-hidden mb-6 relative">
+              <div className="aspect-video rounded-lg overflow-hidden mb-6 relative">
                 <img src={getSafeImageUrl(contract.image, contract.category)} onError={handleImageError(contract.category)} alt={contract.name} className={`w-full h-full object-cover transition-all duration-700 group-hover:grayscale-0 group-hover:blur-0 group-hover:scale-110 group-hover:opacity-100 ${revealedCards.has(contract.id) ? 'grayscale-0 blur-0 scale-110 opacity-100' : 'grayscale blur-sm scale-105 opacity-60'}`} referrerPolicy="no-referrer" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
                 <div className="absolute bottom-4 left-4">
@@ -765,7 +765,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
                   onClick={() => onToggleWatchlist({ stopPropagation: () => {} } as any, contract.id)}
                   className={`flex-1 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
                     watchlist.includes(contract.id)
-                      ? 'bg-accent-gold text-surface-dim shadow-[0_0_20px_rgba(245,158,11,0.3)]'
+                      ? 'bg-accent-gold text-surface-dim'
                       : 'bg-white/5 text-white hover:bg-white/10'
                   }`}
                 >
@@ -778,7 +778,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
                   onClick={() => onToggleComparison(contract.id)}
                   className={`p-3 rounded-xl transition-all ${
                     comparisonList.includes(contract.id)
-                      ? 'bg-primary-cyan text-surface-dim shadow-[0_0_20px_rgba(0,224,255,0.3)]'
+                      ? 'bg-primary-cyan text-surface-dim'
                       : 'bg-white/5 text-white hover:bg-white/10'
                   }`}
                 >
@@ -807,7 +807,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
 
       {/* Decorative Section */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-12 border-t border-white/5">
-        <div className="p-8 bg-surface-low/20 border border-white/5 rounded-2xl flex flex-col items-center text-center group hover:bg-primary-cyan/5 transition-all">
+        <div className="p-8 bg-surface-low/20 border border-white/5 rounded-lg flex flex-col items-center text-center group hover:bg-primary-cyan/5 transition-all">
           <div className="w-12 h-12 rounded-full bg-primary-cyan/10 flex items-center justify-center text-primary-cyan mb-4 group-hover:scale-110 transition-transform">
             <Zap size={24} />
           </div>
@@ -816,7 +816,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
             {t('Our discovery engine analyzes 10,000+ data points per second to find your perfect creative asset match.', 'Notre moteur de découverte analyse plus de 10 000 points de données par seconde pour trouver votre actif créatif idéal.')}
           </p>
         </div>
-        <div className="p-8 bg-surface-low/20 border border-white/5 rounded-2xl flex flex-col items-center text-center group hover:bg-accent-gold/5 transition-all">
+        <div className="p-8 bg-surface-low/20 border border-white/5 rounded-lg flex flex-col items-center text-center group hover:bg-accent-gold/5 transition-all">
           <div className="w-12 h-12 rounded-full bg-accent-gold/10 flex items-center justify-center text-accent-gold mb-4 group-hover:scale-110 transition-transform">
             <Star size={24} />
           </div>
@@ -825,7 +825,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
             {t('Every contract in the discovery engine has passed our rigorous 4-stage professional validation process.', 'Chaque contrat dans le moteur de découverte a passé notre processus rigoureux de validation professionnelle en 4 étapes.')}
           </p>
         </div>
-        <div className="p-8 bg-surface-low/20 border border-white/5 rounded-2xl flex flex-col items-center text-center group hover:bg-emerald-500/5 transition-all">
+        <div className="p-8 bg-surface-low/20 border border-white/5 rounded-lg flex flex-col items-center text-center group hover:bg-emerald-500/5 transition-all">
           <div className="w-12 h-12 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-500 mb-4 group-hover:scale-110 transition-transform">
             <Heart size={24} />
           </div>

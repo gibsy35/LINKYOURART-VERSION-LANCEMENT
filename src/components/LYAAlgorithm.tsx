@@ -72,7 +72,7 @@ export const LYAAlgorithm: React.FC = () => {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.1 }}
-            className="bg-surface-high/30 border border-white/8 rounded-2xl p-5 space-y-3 hover:border-white/20 transition-all"
+            className="bg-surface-high/30 border border-white/8 rounded-lg p-5 space-y-3 hover:border-white/20 transition-all"
           >
             <div className="flex items-center gap-2">
               {ins.icon}
@@ -88,7 +88,7 @@ export const LYAAlgorithm: React.FC = () => {
       </div>
 
       {/* Top projets */}
-      <div className="bg-surface-high/20 border border-white/8 rounded-2xl p-6 space-y-4">
+      <div className="bg-surface-high/20 border border-white/8 rounded-lg p-6 space-y-4">
         <div className="flex items-center gap-2 mb-5">
           <Shield size={14} className="text-primary-cyan" />
           <h3 className="text-xs font-black uppercase tracking-widest text-on-surface">

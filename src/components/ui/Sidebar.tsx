@@ -89,6 +89,7 @@ interface SidebarProps {
   onClose: () => void;
   isCollapsed: boolean;
   onToggleCollapse: () => void;
+  onBackToHome?: () => void;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
@@ -101,44 +102,57 @@ export const Sidebar: React.FC<SidebarProps> = ({
   isOpen,
   onClose,
   isCollapsed,
-  onToggleCollapse
+  onToggleCollapse,
+  onBackToHome
 }) => {
   const { t } = useTranslation();
 
+  // Sans compte : le logo ramene vers la vraie Home publique (plus besoin
+  // d'un bouton "Retour" separe). Avec compte : comportement habituel.
+  const handleLogoClick = () => {
+    if (!user && onBackToHome) onBackToHome();
+    else onViewChange('MECENAT');
+  };
+
   const menuItems = [
-    { id: 'HOME', icon: Home, label: t('TERMINAL', 'TERMINAL'), category: t('SYSTEM', 'SYSTÈME') },
+    { id: 'MECENAT', icon: Star, label: t('PATRONAGE HUB', 'ESPACE MÉCÉNAT'), category: t('SYSTEM', 'SYSTÈME') },
     { id: 'DASHBOARD', icon: LayoutDashboard, label: t('DASHBOARD', 'TABLEAU DE BORD'), category: t('INDEX', 'INDEX') },
     ...(user?.role === 'CREATOR' ? [{ id: 'CREATOR_DASHBOARD' as const, icon: Sparkles, label: t('MY CREATIONS', 'MES CRÉATIONS'), category: t('CREATOR', 'CRÉATEUR') }] : []),
     ...(user?.role === 'PATRON' ? [{ id: 'PATRON_DASHBOARD' as const, icon: TrendingUp, label: t('MY PATRONAGE', 'MES SOUTIENS'), category: t('PATRON', 'MÉCÈNE') }] : []),
     ...(user?.role === 'PROFESSIONAL' || user?.isPro ? [{ id: 'PROFESSIONAL_DASHBOARD' as const, icon: Briefcase, label: t('PRO SPACE', 'ESPACE PRO'), category: t('PROFESSIONAL', 'PROFESSIONNEL') }] : []),
     { id: 'SWIPE', icon: Target, label: t('DISCOVER PROJECTS', 'DÉCOUVRIR DES PROJETS'), category: t('DEVELOPMENT', 'DÉVELOPPEMENT') },
     { id: 'REGISTRY', icon: BookOpen, label: t('LYA REGISTRY', 'REGISTRE LYA'), category: t('DEVELOPMENT', 'DÉVELOPPEMENT') },
-    { id: 'MECENAT', icon: Star, label: t('PATRONAGE HUB', 'ESPACE MÉCÉNAT'), category: t('DEVELOPMENT', 'DÉVELOPPEMENT') },
     { id: 'COMPARE', icon: Calculator, label: t('COMPARATOR', 'COMPARATEUR'), category: t('INDEX', 'INDEX') },
     { id: 'WATCHLIST', icon: CheckCircle, label: t('WATCHLIST', 'MA VEILLE'), category: t('INDEX', 'INDEX'), count: watchlist.length },
     { id: 'VALIDATION', icon: ShieldCheck, label: t('Administrative Services', 'Services Administratifs'), category: t('LYA SYSTEM', 'LYA SYSTEME') },
     { id: 'WALLET', icon: CreditCard, label: t('MY WALLET', 'MON PORTEFEUILLE'), category: t('VAULT', 'COFFRE') },
-    { id: 'LINK_ART', icon: Link2, label: t('LYA SUBMIT', 'LYA SUBMIT'), category: t('SYSTEM', 'SYSTÈME') },
-    { id: 'ABOUT', icon: Globe, label: t('DISCOVER LYA', 'DÉCOUVRIR LYA'), category: t('SYSTEM', 'SYSTÈME') },
+    { id: 'LINK_ART', icon: Link2, label: t('LYA SUBMIT', 'SOUMETTRE UN PROJET'), category: t('SYSTEM', 'SYSTÈME') },
+    // 'ABOUT' retiree : contenu deplace sur la Home publique (galerie/stats/histoire),
+    // cette page fait desormais doublon avec la vitrine.
     { id: 'SOCIAL_FEED', icon: Users, label: t('COMMUNITY', 'COMMUNAUTÉ'), category: t('COMMUNITY', 'COMMUNAUTÉ') },
     { id: 'LOUNGE', icon: Coffee, label: t('THE LOUNGE', 'LE SALON'), category: t('COMMUNITY', 'COMMUNAUTÉ') },
     { id: 'ACADEMY', icon: Award, label: t('ACADEMY', 'ACADÉMIE'), category: t('RESOURCES', 'RESSOURCES') },
-    { id: 'OUR_MODEL', icon: Fingerprint, label: t('OUR MODEL', 'NOTRE MODÈLE'), category: t('SYSTEM', 'SYSTÈME') },
-    { id: 'FAQ', icon: MessageSquare, label: t('FAQ', 'FAQ'), category: t('RESOURCES', 'RESSOURCES') },
-    { id: 'LEGAL_MENTIONS', icon: FileText, label: t('LEGAL MENTIONS', 'MENTIONS LÉGALES'), category: t('RESOURCES', 'RESSOURCES') },
+    // 'OUR_MODEL' retiree : contenu (5 piliers /200pts, philosophie, processus
+    // de validation, independance des certificateurs) tout deplace sur la Home.
+    // 'FAQ' et 'LEGAL_MENTIONS' retirees : contenu deplace sur la Home publique
+    // (pop-up en bas de page, meme systeme que CGU/Modele/Confidentialite).
   ];
 
+  // Visiteur sans compte : seul Patronage a un sens a montrer, le reste
+  // (tableau de bord, portefeuille, reglages...) suppose un compte.
+  const visibleMenuItems = user ? menuItems : menuItems.filter((item) => item.id === 'MECENAT');
+
   if (user?.role === UserRole.ADMIN) {
-    menuItems.push({ id: 'ADMIN_PANEL', icon: Shield, label: t('ADMIN HUB', 'HUB ADMIN'), category: t('SYSTEM', 'SYSTÈME') });
+    menuItems.push({ id: 'ADMIN_PANEL', icon: Shield, label: t('ADMIN HUB', 'ESPACE ADMIN'), category: t('SYSTEM', 'SYSTÈME') });
   }
 
-  const secondaryItems = [
+  const secondaryItems = user ? [
     { id: 'SETTINGS', icon: Settings, label: t('SETTINGS', 'RÉGLAGES') },
     { id: 'PRICING', icon: CreditCard, label: t('PRICING', 'TARIFICATION') },
     { id: 'API', icon: Database, label: t('API', 'API') },
-  ];
+  ] : [];
 
-  const categories = Array.from(new Set(menuItems.map(item => item.category)));
+  const categories = Array.from(new Set(visibleMenuItems.map(item => item.category)));
 
   const SidebarContent = (
     <div className="h-full flex flex-col bg-[#0D1117] border-r border-white/10 font-mono relative overflow-hidden">
@@ -154,7 +168,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             className="flex items-center gap-4 w-full group cursor-pointer"
-            onClick={() => onViewChange('HOME')}
+            onClick={handleLogoClick}
           >
             <div className="flex-shrink-0 relative">
               <div className="absolute inset-0 bg-primary-cyan/30 blur-2xl rounded-full scale-150 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
@@ -169,7 +183,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           </motion.div>
         )}
         {isCollapsed && (
-          <div className="group cursor-pointer relative" onClick={() => onViewChange('HOME')}>
+          <div className="group cursor-pointer relative" onClick={handleLogoClick}>
             <div className="absolute inset-0 bg-primary-cyan/30 blur-xl rounded-full scale-150 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
             <Logo size={44} color="multi" showBeta className="relative z-10" />
           </div>
@@ -187,7 +201,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               </div>
             )}
             <div className="space-y-1">
-              {menuItems
+              {visibleMenuItems
                 .filter(item => item.category === category)
                 .map(item => (
                   <button
@@ -204,16 +218,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     title={item.label}
                   >
                     {currentView === item.id && (
-                      <div className="absolute inset-0 bg-primary-cyan/5 rounded-2xl" />
+                      <div className="absolute inset-0 bg-primary-cyan/5 rounded-lg" />
                     )}
-                    <item.icon size={24} className={`transition-all duration-300 ${currentView === item.id ? 'text-primary-cyan scale-110 drop-shadow-[0_0_10px_rgba(0,224,255,0.6)]' : 'text-on-surface-variant/40 group-hover:text-primary-cyan group-hover:scale-110'}`} />
+                    <item.icon size={24} className={`transition-all duration-300 ${currentView === item.id ? 'text-primary-cyan scale-110 drop-' : 'text-on-surface-variant/40 group-hover:text-primary-cyan group-hover:scale-110'}`} />
                     {!isCollapsed && (
                       <span className={`text-[12px] font-bold uppercase tracking-widest flex-1 text-left transition-all duration-300 ${currentView === item.id ? 'text-white translate-x-1' : 'text-on-surface-variant/60 group-hover:text-white group-hover:translate-x-1'}`}>
                         {item.label}
                       </span>
                     )}
                     {!isCollapsed && item.count !== undefined && item.count > 0 && (
-                      <span className="text-[10px] bg-primary-cyan text-surface-dim px-3 py-0.5 rounded-full font-black shadow-[0_0_10px_rgba(0,224,255,0.5)]">
+                      <span className="text-[10px] bg-primary-cyan text-surface-dim px-3 py-0.5 rounded-full font-black">
                         {item.count}
                       </span>
                     )}
@@ -265,7 +279,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         >
           <div className="flex items-center gap-4">
             <div className="relative">
-              <div className="absolute -inset-1 bg-gradient-to-br from-primary-cyan to-indigo-500 rounded-full blur-md opacity-30 group-hover/user:opacity-100 transition-opacity duration-500 shadow-[0_0_20px_rgba(0,224,255,0.3)]" />
+              <div className="absolute -inset-1 bg-gradient-to-br from-primary-cyan to-indigo-500 rounded-full blur-md opacity-30 group-hover/user:opacity-100 transition-opacity duration-500" />
               <div className="w-12 h-12 rounded-full border border-white/20 p-0.5 relative z-10 overflow-hidden bg-surface-dim">
                 <div className="w-full h-full rounded-full overflow-hidden">
                   {user.avatarUrl ? (
@@ -297,7 +311,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[1000] lg:hidden shadow-[0_0_100px_rgba(0,0,0,1)]"
+            className="fixed inset-0 z-[1000] lg:hidden"
           >
             {/* Background with blur and noise for high-end look */}
             <div className="absolute inset-0 bg-surface-dim/95 backdrop-blur-xl" onClick={onClose} />
@@ -313,7 +327,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             >
               {/* Header */}
               <div className="p-6 pb-8 flex items-center justify-between">
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 cursor-pointer" onClick={handleLogoClick}>
                   <Logo size={32} color="multi" showBeta />
                   <div className="flex flex-col">
                     <span className="text-white font-black tracking-tighter text-sm leading-tight uppercase">{t('LINKYOURART', 'LINKYOURART')}</span>
@@ -335,7 +349,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                       {category}
                     </div>
                     <div className="space-y-1.5">
-                      {menuItems
+                      {visibleMenuItems
                         .filter(item => item.category === category)
                         .map(item => (
                           <button
@@ -344,9 +358,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
                               onViewChange(item.id as View);
                               onClose();
                             }}
-                            className={`w-full flex items-center gap-5 px-5 py-4 rounded-2xl transition-all relative overflow-hidden group ${
+                            className={`w-full flex items-center gap-5 px-5 py-4 rounded-lg transition-all relative overflow-hidden group ${
                               currentView === item.id 
-                                ? 'text-primary-cyan bg-primary-cyan/10 border border-primary-cyan/20 shadow-[0_0_20px_rgba(0,224,255,0.1)]' 
+                                ? 'text-primary-cyan bg-primary-cyan/10 border border-primary-cyan/20' 
                                 : 'text-on-surface-variant/70 hover:text-white hover:bg-white/5 border border-transparent'
                             }`}
                           >
@@ -398,7 +412,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   onClick={() => { onViewChange((user?.role === 'PROFESSIONAL' ? 'PROFESSIONAL_DASHBOARD' : user?.role === 'CREATOR' ? 'CREATOR_DASHBOARD' : user?.role === 'PATRON' ? 'PATRON_DASHBOARD' : 'PROFILE')); onClose(); }}
                   className="p-8 bg-gradient-to-tr from-white/[0.03] to-white/[0.01] border-t border-white/10 flex items-center gap-5 shadow-2xl"
                 >
-                  <div className="w-12 h-12 rounded-full border-2 border-primary-cyan/40 p-0.5 overflow-hidden shrink-0 shadow-[0_0_15px_rgba(0,224,255,0.2)]">
+                  <div className="w-12 h-12 rounded-full border-2 border-primary-cyan/40 p-0.5 overflow-hidden shrink-0">
                     <div className="w-full h-full rounded-full overflow-hidden">
                       {user.avatarUrl ? (
                         <img src={user.avatarUrl} alt={user.displayName} className="w-full h-full object-cover" />
@@ -419,7 +433,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 <div className="p-6 bg-white/[0.02] border-t border-white/5">
                   <button 
                     onClick={() => { onViewChange('LOGIN'); onClose(); }}
-                    className="w-full py-5 bg-primary-cyan text-surface-dim text-xs font-black uppercase tracking-[0.3em] rounded-full shadow-[0_0_30px_rgba(0,224,255,0.3)] hover:scale-[1.02] active:scale-95 transition-all"
+                    className="w-full py-5 bg-primary-cyan text-surface-dim text-xs font-black uppercase tracking-[0.3em] rounded-full hover:scale-[1.02] active:scale-95 transition-all"
                   >
                     {t('SIGN IN', 'CONNEXION')}
                   </button>

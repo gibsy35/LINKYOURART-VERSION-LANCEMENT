@@ -150,7 +150,7 @@ const LYASimulator: React.FC<{ lang: 'FR' | 'EN'; formatPrice: (n: number) => st
           </motion.div>
         ) : (
           <motion.div key="result" initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} className="space-y-4">
-            <div className={`rounded-2xl p-5 text-center border ${eligBg}`}>
+            <div className={`rounded-lg p-5 text-center border ${eligBg}`}>
               <p className="text-xs text-on-surface-variant/50 uppercase tracking-widest mb-2">{T('Score LYA Estimé','Estimated LYA Score')}</p>
               <p className={`text-5xl font-black font-mono ${eligColor}`}>{totalPts}<span className="text-xl text-on-surface-variant/30">/1000</span></p>
               <p className={`mt-2 text-sm font-black uppercase tracking-widest ${eligColor}`}>{totalPts >= 700 ? T('✦ Éligible à la certification LYA','✦ Eligible for LYA certification') : totalPts >= 400 ? T('⚡ Quelques améliorations nécessaires','⚡ Some improvements needed') : T('↑ En développement','↑ Developing')}</p>
@@ -171,7 +171,7 @@ const LYASimulator: React.FC<{ lang: 'FR' | 'EN'; formatPrice: (n: number) => st
             </div>
             <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">{steps.map((st,i) => { const pts = answers[i]?.reduce((a,b)=>a+b,0)||0; return <div key={i} className="bg-surface-high/30 border border-white/6 rounded-xl p-2.5 text-center"><p className="text-[9px] text-on-surface-variant/40 uppercase mb-1">{T(st.labelFR,st.labelEN).split(' ')[0]}</p><p className="text-sm font-black text-primary-cyan">{pts}<span className="text-[9px] text-on-surface-variant/30">/{st.maxPts}</span></p></div>; })}</div>
             {totalPts >= 400 && (
-              <div className="bg-primary-cyan/5 border border-primary-cyan/20 rounded-2xl p-5 text-center space-y-3">
+              <div className="bg-primary-cyan/5 border border-primary-cyan/20 rounded-lg p-5 text-center space-y-3">
                 <p className="text-3xl">🎉</p>
                 <p className="text-sm font-black text-primary-cyan uppercase tracking-widest">
                   {T('Bravo ! Votre Score LYA Index est calculé.', 'Congratulations! Your LYA Index Score is calculated.')}
@@ -184,7 +184,7 @@ const LYASimulator: React.FC<{ lang: 'FR' | 'EN'; formatPrice: (n: number) => st
                 </p>
                 <button
                   onClick={() => onViewChange('LINK_ART')}
-                  className="w-full py-4 bg-primary-cyan text-surface-dim font-black text-sm uppercase tracking-widest rounded-xl hover:bg-white transition-all shadow-[0_0_20px_rgba(0,212,255,0.3)]"
+                  className="w-full py-4 bg-primary-cyan text-surface-dim font-black text-sm uppercase tracking-widest rounded-xl hover:bg-white transition-all"
                 >
                   {T('✦ Créer mon projet maintenant →', '✦ Create my project now →')}
                 </button>
@@ -343,7 +343,7 @@ export const CreatorDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg
 
       {/* Alerte projets en difficulté */}
       {riskProjects.length > 0 && (
-        <div className="bg-rose-500/8 border border-rose-500/20 rounded-2xl p-4 flex items-start gap-3">
+        <div className="bg-rose-500/8 border border-rose-500/20 rounded-lg p-4 flex items-start gap-3">
           <AlertTriangle size={16} className="text-rose-400 shrink-0 mt-0.5"/>
           <div>
             <p className="text-sm font-black text-rose-400">{T(`${riskProjects.length} projet(s) nécessitent votre attention`,`${riskProjects.length} project(s) need your attention`)}</p>
@@ -378,7 +378,7 @@ export const CreatorDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg
                   {icon:<Sparkles size={18} className="text-emerald-400"/>, label:T('Projets LIVE','LIVE Projects'), value:String(liveCount), sub:`${riskCount} ${T('en risque','at risk')}`, up:false, color:'bg-emerald-400/10'},
                   {icon:<Target size={18} className="text-accent-gold"/>, label:T('Statut Certification','Certification Status'), value:T('Certifié','Certified'), sub:`${avgGrowth>=0?'+':''}${avgGrowth.toFixed(1)}%`, up:avgGrowth>=0, color:'bg-accent-gold/10'},
                 ].map((k,i) => (
-                  <div key={i} className="bg-surface-low/40 border border-white/8 rounded-2xl p-4 space-y-2 hover:border-white/15 transition-all">
+                  <div key={i} className="bg-surface-low/40 border border-white/8 rounded-lg p-4 space-y-2 hover:border-white/15 transition-all">
                     <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${k.color}`}>{k.icon}</div>
                     <p className="text-xs text-on-surface-variant/60 font-medium">{k.label}</p>
                     <p className="text-xl font-black text-on-surface tracking-tight">{k.value}</p>
@@ -390,7 +390,7 @@ export const CreatorDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg
               </div>
 
               {/* Score LYA encadré */}
-              <div className="bg-gradient-to-r from-accent-gold/8 to-[#a78bfa]/5 border border-accent-gold/20 rounded-2xl p-5 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+              <div className="bg-gradient-to-r from-accent-gold/8 to-[#a78bfa]/5 border border-accent-gold/20 rounded-lg p-5 flex flex-col sm:flex-row items-start sm:items-center gap-4">
                 <div className="w-12 h-12 bg-accent-gold/15 border border-accent-gold/25 rounded-xl flex items-center justify-center shrink-0">
                   <span className="text-accent-gold font-black text-xs">LYA</span>
                 </div>
@@ -407,7 +407,7 @@ export const CreatorDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg
 
               {/* Projets principaux */}
               {projectsLoaded && myProjects.length === 0 && (
-                <div className="bg-surface-low/40 border border-dashed border-white/10 rounded-2xl p-8 text-center space-y-3">
+                <div className="bg-surface-low/40 border border-dashed border-white/10 rounded-lg p-8 text-center space-y-3">
                   <Sparkles size={28} className="mx-auto text-[#a78bfa]/50"/>
                   <p className="text-sm font-black text-on-surface">{T('Aucune création pour le moment', 'No creations yet')}</p>
                   <p className="text-xs text-on-surface-variant/60 max-w-sm mx-auto">{T('Soumettez votre premier projet pour le certifier et commencer à publier des jalons.', 'Submit your first project to certify it and start publishing milestones.')}</p>
@@ -420,7 +420,7 @@ export const CreatorDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg
                 const chartData = genChartData(20, proj.totalScore, proj.growth);
                 const up = proj.growth >= 0;
                 return (
-                  <div key={proj.id} className="bg-surface-low/40 border border-white/8 rounded-2xl overflow-hidden hover:border-white/15 transition-all">
+                  <div key={proj.id} className="bg-surface-low/40 border border-white/8 rounded-lg overflow-hidden hover:border-white/15 transition-all">
                     <div className="flex items-center gap-3 p-4 border-b border-white/6">
                       <img onClick={() => toggleRevealed(proj.id)} src={getSafeImageUrl(proj.image, proj.category)} alt={proj.name} className={`w-14 h-14 rounded-xl object-cover border border-white/10 shrink-0 cursor-pointer transition-all duration-500 ${revealedCards.has(proj.id) ? '' : 'grayscale blur-[2px] opacity-70'}`} referrerPolicy="no-referrer"/>
                       <div className="flex-1 min-w-0">
@@ -494,7 +494,7 @@ export const CreatorDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg
               {allProjects.slice(0, projectsShown).map((proj,i) => {
                 const up = proj.growth >= 0;
                 return (
-                  <div key={proj.id} className={`flex items-center gap-3 p-4 border rounded-2xl hover:border-white/20 transition-all ${proj.status==='RISK'?'border-rose-500/20 bg-rose-500/3':proj.status==='SUSPENDED'?'border-accent-gold/20 bg-accent-gold/3':'border-white/8 bg-surface-low/40'}`}>
+                  <div key={proj.id} className={`flex items-center gap-3 p-4 border rounded-lg hover:border-white/20 transition-all ${proj.status==='RISK'?'border-rose-500/20 bg-rose-500/3':proj.status==='SUSPENDED'?'border-accent-gold/20 bg-accent-gold/3':'border-white/8 bg-surface-low/40'}`}>
                     <img onClick={() => toggleRevealed(proj.id)} src={getSafeImageUrl(proj.image,proj.category)} alt={proj.name} className={`w-12 h-12 rounded-xl object-cover border border-white/10 shrink-0 cursor-pointer transition-all duration-500 ${revealedCards.has(proj.id) ? '' : 'grayscale blur-[2px] opacity-70'}`} referrerPolicy="no-referrer"/>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap mb-0.5">
@@ -540,10 +540,10 @@ export const CreatorDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg
             <div className="space-y-5">
               <div className="grid grid-cols-3 gap-4">
                 {[{l:T('Public','Public'),v:1,c:'text-primary-cyan'},{l:T('Mécènes','Patrons'),v:1+uploadedFiles.filter(f=>f.access==='PATRONS').length,c:'text-[#a78bfa]'},{l:T('Professionnels','Professionals'),v:uploadedFiles.filter(f=>f.access==='PROS').length,c:'text-emerald-400'}].map((s,i)=>(
-                  <div key={i} className="bg-surface-low/40 border border-white/8 rounded-2xl p-4"><p className="text-xs text-on-surface-variant/60">{s.l}</p><p className={`text-3xl font-black ${s.c} mt-1`}>{s.v}</p></div>
+                  <div key={i} className="bg-surface-low/40 border border-white/8 rounded-lg p-4"><p className="text-xs text-on-surface-variant/60">{s.l}</p><p className={`text-3xl font-black ${s.c} mt-1`}>{s.v}</p></div>
                 ))}
               </div>
-              <div className="bg-surface-low/40 border border-white/8 rounded-2xl p-5 space-y-4">
+              <div className="bg-surface-low/40 border border-white/8 rounded-lg p-5 space-y-4">
                 <div className="flex items-center justify-between flex-wrap gap-3">
                   <div><h3 className="text-sm font-black text-on-surface uppercase tracking-wider">{T('Documents & Médias','Documents & Media')}</h3><p className="text-xs text-on-surface-variant/50 mt-0.5">{T('Accès différencié par profil','Differentiated access by profile')}</p></div>
                   <button onClick={()=>setShowUpload(true)} className="flex items-center gap-2 px-4 py-2.5 bg-[#a78bfa] text-surface-dim text-sm font-black rounded-xl hover:bg-white transition-all"><Upload size={13}/> {T('Uploader','Upload')}</button>
@@ -576,7 +576,7 @@ export const CreatorDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg
           {activeSection === 'milestones' && (
             <div className="space-y-4">
               {myProjects.map(proj => (
-                <div key={proj.id} className="bg-surface-low/40 border border-white/8 rounded-2xl p-5 space-y-4">
+                <div key={proj.id} className="bg-surface-low/40 border border-white/8 rounded-lg p-5 space-y-4">
                   <div className="flex items-center justify-between flex-wrap gap-3">
                     <div><p className="text-xs text-on-surface-variant/40 font-mono">{proj.registryIndex}</p><h3 className="text-sm font-black text-on-surface">{proj.name}</h3></div>
                     <button onClick={()=>{setMilestoneProject(proj.name);setMilestoneProjectId(proj.id);setShowMilestone(true);}} className="flex items-center gap-1.5 px-3 py-2 bg-[#a78bfa]/10 border border-[#a78bfa]/20 text-[#a78bfa] text-xs font-black rounded-xl hover:bg-[#a78bfa]/20 transition-all">
@@ -604,7 +604,7 @@ export const CreatorDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg
 
           {/* ── SIMULATEUR ─────────────────────────────────────────────────── */}
           {activeSection === 'simulator' && (
-            <div className="max-w-xl mx-auto bg-surface-low/40 border border-white/8 rounded-2xl p-5 space-y-5">
+            <div className="max-w-xl mx-auto bg-surface-low/40 border border-white/8 rounded-lg p-5 space-y-5">
               <div className="text-center space-y-1">
                 <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-primary-cyan/10 border border-primary-cyan/20 rounded-full text-[10px] font-black text-primary-cyan uppercase tracking-widest"><Target size={11}/> {T('Outil Créateur','Creator Tool')}</div>
                 <h2 className="font-headline font-black text-on-surface text-2xl tracking-tight">{T('Simulateur','Simulator')} <span className="text-primary-cyan">LYA</span></h2>
@@ -632,7 +632,7 @@ export const CreatorDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg
                   {l:T('Certifications obtenues','Certifications earned'),v:String(liveCount),sub:T('projets actifs','active projects'),c:'text-emerald-400'},
                   {l:T('Projets en risque','At-risk projects'),v:String(riskCount),sub:T('nécessitent attention','need attention'),c:'text-rose-400'},
                 ].map((k,i)=>(
-                  <div key={i} className="bg-surface-low/40 border border-white/8 rounded-2xl p-4 space-y-1">
+                  <div key={i} className="bg-surface-low/40 border border-white/8 rounded-lg p-4 space-y-1">
                     <p className="text-xs text-on-surface-variant/50">{k.l}</p>
                     <p className={`text-xl font-black ${k.c}`}>{k.v}</p>
                     <p className="text-xs text-on-surface-variant/40">{k.sub}</p>
@@ -640,17 +640,17 @@ export const CreatorDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg
                 ))}
               </div>
               {/* Score LYA live */}
-              <div className="bg-surface-low/40 border border-white/8 rounded-2xl p-5 space-y-3">
+              <div className="bg-surface-low/40 border border-white/8 rounded-lg p-5 space-y-3">
                 <p className="text-sm font-black text-on-surface uppercase tracking-wider">{T('Score LYA Temps Réel','Real-time LYA Score')}</p>
                 <RealtimeChart color="#a78bfa" base={820} lang={lang} formatPrice={formatPrice} labelFR="Score" labelEN="Score" showPrice={false}/>
               </div>
               {/* Carte de chaleur */}
-              <div className="bg-surface-low/40 border border-white/8 rounded-2xl p-5 space-y-3">
+              <div className="bg-surface-low/40 border border-white/8 rounded-lg p-5 space-y-3">
                 <p className="text-sm font-black text-on-surface uppercase tracking-wider">{T('Carte de Chaleur d\'Engagement','Engagement Heat Map')}</p>
                 <HeatmapCard lang={lang}/>
               </div>
               {/* Score par projet */}
-              <div className="bg-surface-low/40 border border-white/8 rounded-2xl p-5 space-y-4">
+              <div className="bg-surface-low/40 border border-white/8 rounded-lg p-5 space-y-4">
                 <p className="text-sm font-black text-on-surface uppercase tracking-wider">{T('Score LYA par projet','LYA Score per project')}</p>
                 <div className="h-40">
                   <ResponsiveContainer width="100%" height="100%">
@@ -664,7 +664,7 @@ export const CreatorDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg
                 <p className="text-xs text-on-surface-variant/40">{T('Vert = en hausse · Rouge = en baisse','Green = rising · Red = falling')}</p>
               </div>
               {/* Réalisations */}
-              <div className="bg-surface-low/40 border border-white/8 rounded-2xl p-5 space-y-3">
+              <div className="bg-surface-low/40 border border-white/8 rounded-lg p-5 space-y-3">
                 <p className="text-sm font-black text-on-surface uppercase tracking-wider">{T('Jalons & Réalisations','Milestones & Achievements')}</p>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                   {[

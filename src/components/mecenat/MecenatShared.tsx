@@ -67,7 +67,7 @@ export const CO_STATUTS = [
     multiplier: 1,
     bonusFR: "Une expérience réelle liée au projet (session studio, avant-première, visite d'atelier selon la discipline), et membre du Cercle des Mécènes Fondateurs LYA (événement annuel).",
     bonusEN: "A real experience tied to the project (studio session, premiere, atelier visit depending on the discipline), and membership in the LYA Founding Patrons Circle (annual event).",
-    color: "text-amber-400", border: "border-amber-500/25", bg: "bg-[#2a2210]",
+    color: "text-violet-400", border: "border-violet-500/25", bg: "bg-[#2a2210]",
     isPrestige: true,
   },
   {
@@ -90,9 +90,26 @@ export function getStatut(units: number) {
 
 // ─── RARETÉ ───────────────────────────────────────────────────────────────────
 
+export const CATEGORY_COLOR: Record<string, string> = {
+  'Fine Art': '#E61A97',
+  'Film': '#7E1CF1',
+  'TV Series': '#02C6FA',
+  'Music': '#3ADB76',
+  'Digital Art': '#B5308E',
+  'Gaming': '#6366F1',
+  'Literature': '#0EA5E9',
+  'Fashion': '#EC4899',
+  'Architecture': '#14B8A6',
+  'Design': '#8B5CF6',
+  'Photography': '#06B6D4',
+  'Podcast': '#A855F7',
+  'Performing Arts': '#10B981',
+  'Gastronomy': '#DB2777',
+};
+
 export const RARITY_STYLE: Record<string, string> = {
   Exceptional:  "bg-purple-600/80 text-on-surface",
-  Signature:    "bg-amber-500/80 text-black",
+  Signature:    "bg-violet-500/80 text-black",
   Distinguished:"bg-[#00d4ff]/80 text-black",
   Standard:     "bg-gray-500/80 text-on-surface",
 };
@@ -293,7 +310,7 @@ export function PaymentModal({ contract, units: initialUnits, onClose, lang }: P
 
   return (
     <div className="fixed inset-0 z-[200] bg-black/85 backdrop-blur-sm flex items-center justify-center p-4" onClick={onClose}>
-      <div className="bg-surface-low border border-white/10 rounded-2xl w-full max-w-md shadow-2xl" onClick={e => e.stopPropagation()}>
+      <div className="bg-surface-low border border-white/10 rounded-lg w-full max-w-md shadow-2xl" onClick={e => e.stopPropagation()}>
         <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
           <div className="flex items-center gap-2">
             <span className="text-[#00ff88]">🔒</span>
@@ -335,7 +352,7 @@ export function DetailModal({ contract, onClose, onPay, units, onUnitsChange, la
 
   return (
     <div className="fixed inset-0 z-[100] bg-black/85 backdrop-blur-sm flex items-center justify-center p-4" onClick={onClose}>
-      <div className="bg-surface-low border border-white/10 rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-2xl" onClick={e => e.stopPropagation()}>
+      <div className="bg-surface-low border border-white/10 rounded-lg w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-2xl" onClick={e => e.stopPropagation()}>
         <div className="grid grid-cols-1 lg:grid-cols-2">
           {/* Gauche */}
           <div className="p-6 border-b lg:border-b-0 lg:border-r border-white/10">
@@ -441,14 +458,14 @@ export function DetailModal({ contract, onClose, onPay, units, onUnitsChange, la
                 { labelFR: "Intégrité conceptuelle", labelEN: "Conceptual Integrity", pts: Math.round(score * 0.22), color: "#00d4ff" },
                 { labelFR: "Maturité actuelle",      labelEN: "Current Maturity",      pts: Math.round(score * 0.20), color: "#a78bfa" },
                 { labelFR: "Capacité d'évolution",   labelEN: "Growth Capacity",       pts: Math.round(score * 0.20), color: "#00ff88" },
-                { labelFR: "Faisabilité",             labelEN: "Feasibility",           pts: Math.round(score * 0.19), color: "#f59e0b" },
+                { labelFR: "Faisabilité",             labelEN: "Feasibility",           pts: Math.round(score * 0.19), color: "#E61A97" },
                 { labelFR: "Incarnation réelle",      labelEN: "Real Embodiment",       pts: Math.round(score * 0.19), color: "#ff6b6b" },
               ];
               const evalItems = [
                 { labelFR: "Qualité Artistique",   labelEN: "Artistic Quality",   note: Math.round(score / 111), descFR: "Vision créative exceptionnelle",  descEN: "Exceptional creative vision",    color: "#ec4899" },
                 { labelFR: "Viabilité Économique", labelEN: "Economic Viability", note: Math.round(score / 125), descFR: "Modèle financier solide",          descEN: "Solid financial model",          color: "#00ff88" },
                 { labelFR: "Équipe",               labelEN: "Team",               note: Math.round(score / 111), descFR: "Réalisateurs primés",             descEN: "Award-winning directors",        color: "#3b82f6" },
-                { labelFR: "Budget",               labelEN: "Budget",             note: Math.round(score / 125), descFR: "Réaliste et justifié",            descEN: "Realistic and justified",        color: "#f59e0b" },
+                { labelFR: "Budget",               labelEN: "Budget",             note: Math.round(score / 125), descFR: "Réaliste et justifié",            descEN: "Realistic and justified",        color: "#E61A97" },
                 { labelFR: "Calendrier",           labelEN: "Timeline",           note: Math.round(score / 125), descFR: "Planification détaillée",         descEN: "Detailed planning",              color: "#8b5cf6" },
                 { labelFR: "Potentiel Impact",     labelEN: "Impact Potential",   note: Math.round(score / 111), descFR: "Large audience potentielle",      descEN: "Large potential audience",       color: "#06b6d4" },
               ];
@@ -469,7 +486,7 @@ export function DetailModal({ contract, onClose, onPay, units, onUnitsChange, la
 
                   {/* 5 Piliers LYA SCORE — source de vérité directe depuis contract.pillars */}
                   {(() => {
-                    const PILLAR_COLORS = ["#00d4ff","#a78bfa","#00ff88","#f59e0b","#ff6b6b"];
+                    const PILLAR_COLORS = ["#00d4ff","#a78bfa","#00ff88","#E61A97","#ff6b6b"];
                     const PILLAR_LABELS_FR = ["Intégrité conceptuelle","Maturité actuelle","Capacité d'évolution","Faisabilité","Incarnation réelle"];
                     const PILLAR_LABELS_EN = ["Conceptual Integrity","Current Maturity","Growth Capacity","Feasibility","Real Embodiment"];
                     // Sous-critères : chaque pilier = 2 sous-critères sur 10, leur moyenne × 20 = score pilier /200
@@ -481,7 +498,7 @@ export function DetailModal({ contract, onClose, onPay, units, onUnitsChange, la
                       { pillarIdx: 0, labelFR: "Vision artistique",      labelEN: "Artistic Vision",       color: "#00d4ff" },
                       { pillarIdx: 1, labelFR: "Traction actuelle",       labelEN: "Current Traction",      color: "#a78bfa" },
                       { pillarIdx: 2, labelFR: "Potentiel de croissance", labelEN: "Growth Potential",      color: "#00ff88" },
-                      { pillarIdx: 3, labelFR: "Solidité du projet",      labelEN: "Project Solidity",      color: "#f59e0b" },
+                      { pillarIdx: 3, labelFR: "Solidité du projet",      labelEN: "Project Solidity",      color: "#E61A97" },
                       { pillarIdx: 4, labelFR: "Impact réel",             labelEN: "Real Impact",           color: "#ff6b6b" },
                       { pillarIdx: -1, labelFR: "Score global LYA",       labelEN: "Overall LYA Score",     color: "#ffffff" },
                     ];
@@ -490,7 +507,7 @@ export function DetailModal({ contract, onClose, onPay, units, onUnitsChange, la
                         <div className="mb-4">
                           <div className="flex items-center justify-between mb-2">
                             <p className="text-on-surface-variant/50 text-[10px] font-mono tracking-widest">✦ {T("LYA SCORE — 5 PILIERS (MAX 1000)", "LYA SCORE — 5 PILLARS (MAX 1000)")}</p>
-                            <span className="text-amber-400 font-black font-mono text-sm">{realTotal}<span className="text-on-surface-variant/30 font-normal text-[10px]">/1000</span></span>
+                            <span className="text-violet-400 font-black font-mono text-sm">{realTotal}<span className="text-on-surface-variant/30 font-normal text-[10px]">/1000</span></span>
                           </div>
                           <div className="grid grid-cols-5 gap-1.5 mb-2">
                             {pillars.slice(0,5).map((p, i) => (
@@ -595,7 +612,7 @@ export function WhatIsLyaScore({ lang }: { lang: "FR" | "EN" }) {
     { num: "03", color: "#00ff88", titleFR: "VALEUR STRUCTURELLE", titleEN: "STRUCTURED STATE", textFR: "C'est un standard structuré qui représente l'état réel, la solidité et la trajectoire d'une création.", textEN: "It is a structured standard representing the real state, solidity and trajectory of a creation." },
   ];
   return (
-    <div className="bg-surface-low/60 border border-white/10 rounded-2xl p-6 md:p-10 mb-8">
+    <div className="bg-surface-low/60 border border-white/10 rounded-lg p-6 md:p-10 mb-8">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-10">
         <div>
           <p className="text-on-surface-variant/50 text-[10px] font-mono tracking-widest mb-3">{T("DÉFINITION OFFICIELLE", "OFFICIAL DEFINITION")}</p>
@@ -626,8 +643,10 @@ export interface ProjectCardProps {
   onSupport: (c: Contract, units: number) => void;
   isWatchlisted?: boolean;
   onToggleWatchlist?: (e: React.MouseEvent, id: string) => void;
+  requireAuthForLike?: boolean;
+  onRequireAuth?: () => void;
 }
-export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchlisted, onToggleWatchlist }: ProjectCardProps) {
+export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchlisted, onToggleWatchlist, requireAuthForLike, onRequireAuth }: ProjectCardProps) {
   const { formatPrice } = useCurrency();
   const [units, setUnits] = useState(5);
   const [liked, setLiked] = useState(!!isWatchlisted);
@@ -649,12 +668,13 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
 
   const handleLike = (e: React.MouseEvent) => {
     e.stopPropagation();
+    if (requireAuthForLike) { onRequireAuth?.(); return; }
     setLiked(!liked);
     if (onToggleWatchlist) onToggleWatchlist(e, contract.id);
   };
 
   return (
-    <div className="bg-surface-low border-2 border-white/10 rounded-2xl overflow-hidden flex flex-col hover:border-primary-cyan/40 transition-colors h-full shadow-xl shadow-black/40">
+    <div className="bg-surface-low border-2 border-white/10 rounded-lg overflow-hidden flex flex-col hover:border-primary-cyan/40 transition-colors h-full shadow-xl shadow-black/40">
       {/* Image — ratio fixe 16/9, pas d'étirement */}
       <div
         className="relative cursor-pointer overflow-hidden flex-shrink-0 w-full group"
@@ -676,7 +696,10 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
         <div className="absolute top-3 left-3 flex flex-col gap-2">
           {/* Catégorie + Rareté */}
           <div className="flex gap-1.5 items-center">
-            <span className="bg-surface-dim/80 text-primary-cyan text-xs px-3 py-0.5 rounded font-mono font-bold backdrop-blur-sm">
+            <span
+              style={{ background: `${CATEGORY_COLOR[contract.category] || '#565B6B'}CC`, color: '#fff' }}
+              className="text-xs px-3 py-0.5 rounded font-mono font-bold backdrop-blur-sm"
+            >
               {contract.category.toUpperCase()}
             </span>
             <span className={`text-xs px-3 py-0.5 rounded font-mono font-bold ${RARITY_STYLE[contract.rarity] || "bg-gray-500/80 text-on-surface"}`}>
@@ -684,15 +707,15 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
             </span>
           </div>
 
-          {/* Badge LYA SCORE — premium compact */}
+          {/* Badge LYA SCORE — premium compact, dore pour ressortir comme l'indice cle */}
           <div style={{
-            background: "linear-gradient(135deg, rgba(245,158,11,0.9) 0%, rgba(234,88,12,0.9) 100%)",
-            boxShadow: "0 0 8px rgba(245,158,11,0.5), 0 1px 4px rgba(0,0,0,0.4)",
-            border: "1px solid rgba(255,200,50,0.4)",
+            background: "linear-gradient(135deg, #B8860B 0%, #E8B84D 55%, #B8860B 100%)",
+            boxShadow: "0 0 8px rgba(212,175,55,0.5), 0 1px 4px rgba(0,0,0,0.4)",
+            border: "1px solid rgba(255,225,150,0.5)",
           }} className="rounded-md px-3 py-1 backdrop-blur-sm w-[80px]">
-            <p className="text-[7px] font-mono font-bold text-amber-900/70 tracking-widest leading-none mb-0.5">LYA SCORE</p>
-            <p className="text-white font-black font-mono text-xs leading-none">
-              {contract.totalScore}<span className="text-amber-200/50 font-normal text-[10px]">/1k</span>
+            <p className="text-[7px] font-mono font-bold text-black/60 tracking-widest leading-none mb-0.5">LYA SCORE</p>
+            <p className="text-black font-black font-mono text-xs leading-none">
+              {contract.totalScore}<span className="text-black/50 font-normal text-[10px]">/1k</span>
             </p>
           </div>
 
@@ -741,13 +764,13 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
         {/* LYA SCORE premium row */}
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-1.5">
-            <span className="text-xs font-mono font-bold tracking-widest" style={{ color: "#f59e0b" }}>★ LYA SCORE</span>
+            <span className="text-xs font-mono font-bold tracking-widest" style={{ color: "#E61A97" }}>★ LYA SCORE</span>
           </div>
           <div className="flex items-center gap-1.5 flex-1 min-w-0">
             <div className="flex-1 bg-surface-high rounded-full h-1.5 overflow-hidden">
-              <div className="h-1.5 rounded-full" style={{ width: `${(contract.totalScore / 1000) * 100}%`, background: "linear-gradient(90deg,#f59e0b,#ef4444)" }} />
+              <div className="h-1.5 rounded-full" style={{ width: `${(contract.totalScore / 1000) * 100}%`, background: "linear-gradient(90deg,#E61A97,#ef4444)" }} />
             </div>
-            <span className="text-amber-400 font-mono font-black text-sm shrink-0">{contract.totalScore}<span className="text-on-surface-variant/30 font-normal text-xs">/1k</span></span>
+            <span className="text-violet-400 font-mono font-black text-sm shrink-0">{contract.totalScore}<span className="text-on-surface-variant/30 font-normal text-xs">/1k</span></span>
           </div>
         </div>
         <div>

@@ -33,8 +33,8 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({
       >
         {/* Icône */}
         <div className="relative mx-auto w-20 h-20">
-          <div className="absolute inset-0 bg-primary-cyan/10 rounded-2xl blur-xl" />
-          <div className="relative w-20 h-20 bg-surface-low border border-primary-cyan/20 rounded-2xl flex items-center justify-center">
+          <div className="absolute inset-0 bg-primary-cyan/10 rounded-lg blur-xl" />
+          <div className="relative w-20 h-20 bg-surface-low border border-primary-cyan/20 rounded-lg flex items-center justify-center">
             <Lock size={32} className="text-primary-cyan" />
           </div>
         </div>

@@ -57,7 +57,7 @@ export const RegistryView: React.FC<{
         <motion.div 
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          className="w-24 h-24 bg-red-500/10 rounded-full flex items-center justify-center mb-8 border border-red-500/20 shadow-[0_0_30px_rgba(239,68,68,0.2)]"
+          className="w-24 h-24 bg-red-500/10 rounded-full flex items-center justify-center mb-8 border border-red-500/20"
         >
           <Lock size={48} className="text-red-500" />
         </motion.div>
@@ -70,7 +70,7 @@ export const RegistryView: React.FC<{
         <div className="flex flex-col sm:flex-row gap-4">
           <button 
             onClick={() => onViewChange?.('PRICING')}
-            className="px-10 py-4 bg-primary-cyan text-surface-dim font-black uppercase tracking-[0.2em] hover:bg-white transition-all shadow-[0_0_20px_rgba(0,224,255,0.3)]"
+            className="px-10 py-4 bg-primary-cyan text-surface-dim font-black uppercase tracking-[0.2em] hover:bg-white transition-all"
           >
             {t('Upgrade to Pro', 'Passer à Pro')}
           </button>
@@ -254,7 +254,7 @@ export const RegistryView: React.FC<{
     <>
       <div className="space-y-8 pb-12">
         <PageHeader 
-          titleWhite={t('LYA', 'Registre')}
+          titleWhite={language === 'FR' ? 'Registre' : <span style={{ textTransform: 'uppercase' }}>LYA</span>}
           titleAccent={t('Registry', 'LYA')}
           description={t('THE DEFINITIVE SOURCE OF TRUTH FOR CREATIVE ECONOMY CONTRACTS. VERIFIED, IMMUTABLE, AND GLOBALLY ACCESSIBLE FOR PROFESSIONAL HUBS.', 'LA SOURCE DE VÉRITÉ DÉFINITIVE POUR LES CONTRATS DE L\'ÉCONOMIE CRÉATIVE. VÉRIFIÉE, IMMUABLE ET ACCESSIBLE MONDIALEMENT POUR LES CENTRES PROFESSIONNELS.')}
           accentColor="text-accent-gold"
@@ -270,7 +270,7 @@ export const RegistryView: React.FC<{
                   placeholder={t('Search address, ID or name...', 'Recherche adresse, ID ou nom...')}
                   value={registrySearchTerm}
                   onChange={(e) => setRegistrySearchTerm(e.target.value)}
-                  className="w-full bg-surface-dim border border-white/5 text-[11px] font-bold uppercase tracking-widest py-3.5 pl-11 pr-4 outline-none focus:border-accent-gold transition-all"
+                  className="w-full bg-surface-dim border border-white/5 text-[11px] font-bold  tracking-widest py-3.5 pl-11 pr-4 outline-none focus:border-accent-gold transition-all"
                 />
               </div>
 
@@ -397,7 +397,7 @@ export const RegistryView: React.FC<{
                     >
                       {selectedIds.includes(item.id) && <Check size={10} className="text-surface-dim" />}
                     </div>
-                    <div className="p-2 bg-surface-dim border border-white/5 text-primary-cyan shadow-[0_0_15px_rgba(0,224,255,0.1)] group-hover:shadow-[0_0_20px_rgba(0,224,255,0.2)] transition-all">
+                    <div className="p-2 bg-surface-dim border border-white/5 text-primary-cyan group-hover: transition-all">
                       <FileCheck size={20} />
                     </div>
                     <div>
@@ -629,7 +629,7 @@ export const RegistryView: React.FC<{
                     onClick={() => setCurrentPage(pageNum)}
                     className={`w-8 h-8 text-xs font-black transition-all border rounded-lg ${
                       currentPage === pageNum
-                        ? 'bg-primary-cyan border-primary-cyan text-surface-dim shadow-[0_0_15px_rgba(0,224,255,0.4)]'
+                        ? 'bg-primary-cyan border-primary-cyan text-surface-dim'
                         : 'border-white/5 text-on-surface-variant hover:border-white/20 hover:text-white'
                     }`}
                   >

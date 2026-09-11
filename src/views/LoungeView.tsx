@@ -799,7 +799,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
         {/* Left Side: Avatar and Elite Member Passport */}
         <div className="flex flex-col md:flex-row items-center gap-6 relative z-10 w-full lg:w-auto">
           <div className="relative">
-            <div className="w-20 h-20 bg-gradient-to-tr from-accent-gold via-yellow-400 to-yellow-600 rounded-2xl flex items-center justify-center p-[2px] shadow-[0_0_30px_rgba(255,215,0,0.2)] group-hover:scale-105 transition-transform duration-500">
+            <div className="w-20 h-20 bg-gradient-to-tr from-accent-gold via-yellow-400 to-yellow-600 rounded-lg flex items-center justify-center p-[2px] group-hover:scale-105 transition-transform duration-500">
               <div className="w-full h-full bg-surface-dim rounded-[14px] flex items-center justify-center overflow-hidden">
                 <Crown className="text-accent-gold text-3xl animate-pulse" size={28} />
               </div>
@@ -873,7 +873,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
                 {tab.icon}
                 {tab.label}
                 {activeTab === tab.id && (
-                  <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-primary-cyan shadow-[0_0_10px_rgba(0,224,255,0.5)]" />
+                  <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-primary-cyan" />
                 )}
               </button>
             ))}
@@ -934,7 +934,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
                 <div className="glass-panel p-8 md:p-10 rounded-[2rem] border-white/10 group focus-within:border-primary-cyan/30 transition-all shadow-2xl">
               <div className="flex items-center justify-between mb-8">
                 <div className="flex items-center gap-3">
-                  <div className="w-14 h-14 rounded-2xl bg-accent-gold/10 border border-accent-gold/20 flex items-center justify-center shadow-inner group-hover:border-accent-gold transition-all duration-500">
+                  <div className="w-14 h-14 rounded-lg bg-accent-gold/10 border border-accent-gold/20 flex items-center justify-center shadow-inner group-hover:border-accent-gold transition-all duration-500">
                     <ShieldCheck className="text-accent-gold" size={28} />
                   </div>
                   <div>
@@ -946,7 +946,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
                 </div>
                 <div className="hidden md:flex items-center gap-4">
                   <div className="flex items-center gap-3 bg-black/40 px-5 py-2.5 rounded-xl border border-emerald-500/20 backdrop-blur-md">
-                    <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.6)]" />
+                    <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                     <span className="text-[10px] font-black text-emerald-400 uppercase tracking-widest">{t('NODE ACTIVE', 'NŒUD ACTIF')}</span>
                   </div>
                   <button
@@ -972,7 +972,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
                       value={postContent}
                       onChange={(e) => setPostContent(e.target.value)}
                       placeholder={t('Share an elite insight or professional intelligence...', 'Partagez un insight d\'élite ou une intelligence professionnelle...')}
-                      className="w-full bg-black/20 border border-white/10 rounded-2xl p-8 text-base font-medium focus:border-primary-cyan/50 outline-none transition-all min-h-[160px] resize-none placeholder:text-on-surface-variant/20 italic"
+                      className="w-full bg-black/20 border border-white/10 rounded-lg p-8 text-base font-medium focus:border-primary-cyan/50 outline-none transition-all min-h-[160px] resize-none placeholder:text-on-surface-variant/20 italic"
                     />
                     <div className="flex items-center justify-between mt-6">
                       <div className="flex items-center gap-6 pl-2">
@@ -1033,7 +1033,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
                             onClick={() => handleLike(post.id)}
                             className={`flex items-center gap-3 transition-all active:scale-90 ${likedPosts.has(post.id) ? 'text-primary-cyan' : 'text-on-surface-variant hover:text-white'}`}
                           >
-                            <div className={`p-2.5 rounded-xl transition-all ${likedPosts.has(post.id) ? 'bg-primary-cyan/10 shadow-[0_0_20px_rgba(0,224,255,0.2)]' : 'bg-white/5'}`}>
+                            <div className={`p-2.5 rounded-xl transition-all ${likedPosts.has(post.id) ? 'bg-primary-cyan/10' : 'bg-white/5'}`}>
                               <Star size={20} className={likedPosts.has(post.id) ? 'fill-primary-cyan' : ''} />
                             </div>
                             <span className="text-xs font-black italic">{post.likes}</span>
@@ -1094,9 +1094,9 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
                   <>
                     <div className="grid grid-cols-1 gap-4">
                       {members.slice(0, visibleMembers).map((member) => (
-                        <div key={member.id} className="bg-surface-low/30 backdrop-blur-2xl border border-white/5 rounded-3xl p-4 md:p-6 flex flex-col md:flex-row items-center justify-between gap-6 hover:bg-surface-low/50 transition-all group relative overflow-hidden">
+                        <div key={member.id} className="bg-surface-low/30 backdrop-blur-2xl border border-white/5 rounded-lg p-4 md:p-6 flex flex-col md:flex-row items-center justify-between gap-6 hover:bg-surface-low/50 transition-all group relative overflow-hidden">
                           <div className="flex items-center gap-6 flex-1 w-full sm:w-auto">
-                            <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-surface-low border border-white/10 flex items-center justify-center relative shrink-0 shadow-xl overflow-hidden group-hover:border-primary-cyan/50 transition-all duration-500">
+                            <div className="w-16 h-16 md:w-20 md:h-20 rounded-lg bg-surface-low border border-white/10 flex items-center justify-center relative shrink-0 shadow-xl overflow-hidden group-hover:border-primary-cyan/50 transition-all duration-500">
                               <span className="text-xl font-black text-white/60 uppercase">{member.name.slice(0, 2)}</span>
                               <div className={`absolute -bottom-1 -right-1 w-4 h-4 rounded-full border-2 border-surface-dim ${member.statusColor}`} />
                             </div>
@@ -1197,7 +1197,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
               <ShieldCheck size={120} className="text-primary-cyan" />
             </div>
             <div className="flex items-center gap-4 mb-10">
-              <div className="w-12 h-12 rounded-2xl bg-primary-cyan/10 flex items-center justify-center text-primary-cyan">
+              <div className="w-12 h-12 rounded-lg bg-primary-cyan/10 flex items-center justify-center text-primary-cyan">
                 <EyeOff size={24} />
               </div>
               <h4 className="text-base font-black text-white uppercase tracking-[0.3em] italic">{t('SECURE PRIVACY LAYER', 'COUCHE DE CONFIDENTIALITÉ SÉCURISÉE')}</h4>
@@ -1205,8 +1205,8 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
             <p className="text-sm text-on-surface-variant leading-relaxed mb-10 font-medium italic opacity-70 text-justify">
               {t('Your creation identity is currently shielded to prioritize projects over creators. Only verified Elite Mentors can initiate direct project deep-dives.', 'Votre identité de création est actuellement protégée pour privilégier les projets par rapport aux créateurs. Seuls les mentors élites vérifiés peuvent initier des analyses approfondies directes du projet.')}
             </p>
-            <div className="flex items-center gap-4 px-6 py-4 bg-primary-cyan/10 border border-primary-cyan/20 rounded-2xl">
-              <div className="w-2.5 h-2.5 rounded-full bg-primary-cyan animate-pulse shadow-[0_0_15px_rgba(0,224,255,0.5)]" />
+            <div className="flex items-center gap-4 px-6 py-4 bg-primary-cyan/10 border border-primary-cyan/20 rounded-lg">
+              <div className="w-2.5 h-2.5 rounded-full bg-primary-cyan animate-pulse" />
               <span className="text-[10px] font-black text-primary-cyan uppercase tracking-widest">{t('ENTITY SHIELD ACTIVE', 'BOUCLIER D\'ENTITÉ ACTIF')}</span>
             </div>
           </div>
@@ -1224,7 +1224,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
                 onNotify(t('OPENING MENTORSHIP APPLICATION PORTAL...', 'OUVERTURE DU PORTAIL DE DEMANDE DE MENTORAT...'));
                 if (onViewChange) onViewChange('APPLY_VERIFICATION');
               }}
-              className="w-full py-5 bg-primary-cyan text-surface-dim font-black uppercase italic tracking-[0.3em] text-[11px] rounded-2xl hover:bg-white transition-all shadow-[0_15px_30px_rgba(0,224,255,0.2)]"
+              className="w-full py-5 bg-primary-cyan text-surface-dim font-black uppercase italic tracking-[0.3em] text-[11px] rounded-lg hover:bg-white transition-all shadow-[0_15px_30px_rgba(0,224,255,0.2)]"
             >
               {t('APPLY FOR VERIFICATION', 'DEMANDER VÉRIFICATION')}
             </button>

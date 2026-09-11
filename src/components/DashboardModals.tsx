@@ -17,7 +17,7 @@ export const Modal: React.FC<{
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
           className="absolute inset-0 bg-surface-dim/80 backdrop-blur-xl" onClick={onClose} />
         <motion.div initial={{ scale: 0.92, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.92, opacity: 0 }}
-          className="relative bg-surface-low border border-white/10 rounded-3xl p-5 sm:p-7 max-w-md w-full mx-3 sm:mx-0 shadow-2xl z-10 space-y-5"
+          className="relative bg-surface-low border border-white/10 rounded-lg p-5 sm:p-7 max-w-md w-full mx-3 sm:mx-0 shadow-2xl z-10 space-y-5"
         >
           <div className="flex items-center justify-between">
             <h3 className="text-base font-black text-on-surface uppercase tracking-wider">{title}</h3>

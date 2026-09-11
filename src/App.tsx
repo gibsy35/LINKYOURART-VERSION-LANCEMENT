@@ -62,10 +62,25 @@ import { useMarketData } from './hooks/useMarketData';
 import { auth, db, handleFirestoreError, OperationType, testConnection, logAuthDebugEvent } from './firebase';
 import { onAuthStateChanged, signOut, getRedirectResult } from 'firebase/auth';
 import { doc, onSnapshot, getDoc, updateDoc, setDoc, collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { PublicHomeView } from './views/PublicHomeView';
 export default function App() {
   const { t, language } = useTranslation();
   const { contracts: liveContracts } = useMarketData();
-  const [currentView, setCurrentView] = useState<View>('LANDING');
+  const [currentView, setCurrentView] = useState<View>(() => {
+    if (typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('signup') === '1') return 'SIGNUP';
+    return 'LANDING';
+  });
+  // Sur cette branche (Refonte-vitrine) uniquement, le Terminal est l'ecran
+  // d'entree par defaut — plus besoin de ?preview=terminal dans l'URL, qui
+  // se perdait a chaque nouvelle URL de deploiement Vercel. Cliquer sur un
+  // bouton du Terminal fait sortir vers le vrai flux (LANDING / LOGIN).
+  // main n'est pas touchee par ce changement, il reste sur son propre code.
+  const [showPublicHome, setShowPublicHome] = useState(() => {
+    // Le lien "creer mon compte" de l'email de pre-inscription (?signup=1) doit
+    // ouvrir directement l'inscription, pas la Home publique.
+    if (typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('signup') === '1') return false;
+    return true;
+  });
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [is404, setIs404] = useState(false);
   React.useEffect(() => {
@@ -389,6 +404,11 @@ export default function App() {
     return () => clearTimeout(timer);
   }, [user, currentView, isAuthReady, isBooting]);
   const handleViewChange = (view: View) => {
+    // La page LANDING est remplacee par la Home publique + sa pop-up d'inscription.
+    // Toute navigation qui demande 'LANDING' (ex: bouton fermer de LoginView) est
+    // redirigee vers la Home a la place, pour qu'aucun chemin ne remontre plus
+    // l'ancienne page de pre-enregistrement.
+    if (view === 'LANDING') { setShowPublicHome(true); return; }
     if (view === currentView) return;
     setIsTransitioning(true);
     setTimeout(() => { setCurrentView(view); window.scrollTo(0, 0); setIsTransitioning(false); }, 350);
@@ -523,6 +543,26 @@ export default function App() {
   const handleEnterDemo = () => { localStorage.setItem('lya_demo_access', 'true'); setCurrentView('HOME'); addNotification('DEMO ACCESS GRANTED', t('Welcome to the LYA Demo environment.', 'Bienvenue dans l\'environnement de démonstration LYA.'), 'SUCCESS'); };
   const isAuthView = currentView === 'LOGIN' || currentView === 'SIGNUP' || currentView === 'RESET_PASSWORD';
   const isLandingView = currentView === 'LANDING';
+
+  // Filet de securite : quel que soit le chemin qui a mene ici (etat initial,
+  // appel direct a setCurrentView('LANDING') via onJoin, etc.), on ne doit
+  // plus jamais afficher l'ancienne LandingView — elle menait encore vers
+  // le vieux Terminal via son bouton "Entrer en demo".
+  React.useEffect(() => {
+    if (currentView === 'LANDING' && !showPublicHome) {
+      setShowPublicHome(true);
+    }
+  }, [currentView, showPublicHome]);
+
+  // Meme filet pour 'HOME' (l'ancien Terminal) : plusieurs anciens chemins
+  // (demo, deconnexion, retour Google...) y renvoient encore en dur. Tant
+  // que personne n'est connecte, HOME doit rediriger vers la vraie Home
+  // publique, jamais vers l'ancien Terminal.
+  React.useEffect(() => {
+    if (currentView === 'HOME' && !user && !showPublicHome) {
+      setShowPublicHome(true);
+    }
+  }, [currentView, user, showPublicHome]);
   const isBrochureView = currentView === 'BROCHURE';
 
   if (isBooting) {
@@ -565,6 +605,34 @@ export default function App() {
     );
   }
 
+  // Ecran d'entree de cette branche (Refonte-vitrine) : la nouvelle Home publique.
+  // Point d'acces temporaire et isole, sans toucher au comportement de main —
+  // a retirer une fois la direction validee et le vrai routage mis en place.
+  if (showPublicHome) {
+    return (
+      <PublicHomeView
+        onJoin={() => { setShowPublicHome(false); setCurrentView('LANDING'); }}
+        onLogin={() => { setShowPublicHome(false); setCurrentView('LOGIN'); }}
+        onSignup={({ code, email }) => {
+          try {
+            sessionStorage.setItem('lya_prefilled_code', code);
+            sessionStorage.setItem('lya_prefilled_email', email);
+          } catch { /* noop */ }
+          setShowPublicHome(false);
+          setCurrentView('SIGNUP');
+        }}
+        onGuestBrowse={() => {
+          // Vrai acces invite : le routage autorisait deja MECENAT/REGISTRY
+          // sans compte (previewViews plus bas), mais rien n'y menait — voici
+          // le bouton qui manquait.
+          try { sessionStorage.setItem('lya_visitor_mode', 'true'); } catch { /* noop */ }
+          setShowPublicHome(false);
+          setCurrentView('MECENAT');
+        }}
+      />
+    );
+  }
+
   return (
     <div className="min-h-screen bg-surface-dim text-on-surface font-body selection:bg-primary-cyan/30 relative shadow-2xl overflow-x-hidden">
         <Notification message={notification} />
@@ -579,7 +647,7 @@ export default function App() {
         )}
         {!isAuthView && !isLandingView && currentView !== 'CONTRACT_DETAIL' && (
           <>
-            <Sidebar user={effectiveUser} watchlist={watchlist} comparisonList={comparisonList} onNotify={notify} currentView={currentView} onViewChange={handleViewChange} isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} isCollapsed={isSidebarCollapsed} onToggleCollapse={() => setIsSidebarCollapsed(!isSidebarCollapsed)} />
+            <Sidebar user={effectiveUser} watchlist={watchlist} comparisonList={comparisonList} onNotify={notify} currentView={currentView} onViewChange={handleViewChange} isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} isCollapsed={isSidebarCollapsed} onToggleCollapse={() => setIsSidebarCollapsed(!isSidebarCollapsed)} onBackToHome={() => setShowPublicHome(true)} />
             <Topbar user={effectiveUser} onNotify={notify} onToggleMobileMenu={() => setIsMobileMenuOpen(!isMobileMenuOpen)} currentView={currentView} onViewChange={(view) => { if ((view === 'LOGIN' || view === 'PROFILE') && !effectiveUser) { setCurrentView('LOGIN'); } else { setCurrentView(view); } }} onSelectContract={(c) => { setViewingContract(c); setCurrentView('CONTRACT_DETAIL'); }} isSidebarCollapsed={isSidebarCollapsed} setUser={(u) => { const userEmail = u?.email?.toLowerCase(); if (u && (userEmail === 'linkyourart@gmail.com' || userEmail === 'lequimejeanbaptiste@gmail.com')) { u.role = UserRole.ADMIN; u.isPro = true; } setUser(u); if (u) { addNotification('AUTHENTICATION SUCCESSFUL', `Welcome back, ${u.displayName}.`, 'SUCCESS'); } }} notifications={notifications} setNotifications={setNotifications} />
           </>
         )}
@@ -588,7 +656,8 @@ export default function App() {
             <ErrorBoundary name="View Carrier" resetKey={currentView}>
               <AnimatePresence mode="wait">
                 <motion.div key={currentView} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.3, ease: "easeOut" }} className="flex-1 flex flex-col">
-              {currentView === 'LANDING' && <LandingView onEnterDemo={handleEnterDemo} onViewChange={handleViewChange} />}
+              {/* LandingView retiree du rendu : plus jamais affichee, voir le
+                  filet de securite plus haut qui redirige vers la Home. */}
               {currentView === 'HOME' && <HomeView user={effectiveUser} onViewChange={handleViewChange} liveContracts={liveContracts} />}
               {currentView === 'SIGNUP' && <SignupView onViewChange={handleViewChange} setUser={(u) => { setUser(u); addNotification('ACCOUNT CREATED', 'Your professional account has been successfully initialized.', 'SUCCESS'); }} />}
               {currentView === 'LOGIN' && <LoginView onViewChange={handleViewChange} setUser={(u) => { setUser(u); addNotification('LOGIN SUCCESSFUL', `Welcome back to the LYA terminal, ${u.displayName}.`, 'SUCCESS'); }} />}
@@ -612,7 +681,7 @@ export default function App() {
               {currentView === 'LOUNGE' && (<LoungeView user={effectiveUser} onNotify={notify} onViewChange={setCurrentView} onProfessionalChatToggle={setIsProfessionalChatActive} />)}
               {currentView === 'PRICING' && (<PricingView onSelectPlan={handleSelectPlan} onNotify={notify} onBecomeValidator={() => { if (!effectiveUser) { notify(t('Please sign in to apply', 'Veuillez vous connecter pour candidater')); setIsAuthModalOpen(true); return; } setIsVerificationModalOpen(true); }} />)}
               {currentView === 'SWIPE' && (<SwipeView user={effectiveUser} usageStats={usageStats} onUsageUpdate={handleUsageUpdate} onNotify={notify} watchlist={watchlist} allContracts={CONTRACTS} onToggleWatchlist={handleToggleWatchlist} comparisonList={comparisonList} onToggleComparison={handleToggleComparison} onViewChange={setCurrentView} checkUsageLimit={checkUsageLimit} />)}
-              {currentView === 'MECENAT' && (<MecenatView />)}
+              {currentView === 'MECENAT' && (<MecenatView isGuest={!user} onRequireAuth={() => setShowPublicHome(true)} />)}
               {currentView === 'COMPARE' && (<CompareView comparisonList={comparisonList} allContracts={CONTRACTS} onRemoveFromComparison={handleToggleComparison} onNotify={notify} onViewChange={setCurrentView} onViewDetail={(c) => { setViewingContract(c); setCurrentView('CONTRACT_DETAIL'); }} isPro={true /* discovery/comparison is free & unlimited for everyone, see src/lib/permissions.ts */} />)}
               {currentView === 'WATCHLIST' && (<WatchlistView onNotify={notify} watchlist={watchlist} allContracts={CONTRACTS} onToggleWatchlist={handleToggleWatchlist} onSelectContract={(c) => { setViewingContract(c); setCurrentView('CONTRACT_DETAIL'); }} isPro={true /* discovery/watchlist is free & unlimited for everyone, see src/lib/permissions.ts */} />)}
               {currentView === 'SOCIAL_FEED' && <SocialFeedView onNotify={notify} />}
@@ -627,7 +696,7 @@ export default function App() {
               {currentView === 'FAQ' && <LegalView type="FAQ" onNotify={notify} />}
               {currentView === 'LEGAL_MENTIONS' && <LegalView type="MENTIONS" onNotify={notify} />}
               {currentView === 'SETTINGS' && <SettingsView user={effectiveUser} onUserUpdate={setUser} onNotify={notify} />}
-              {(!currentView || (['CONTRACT_DETAIL', 'PAYMENT', 'ISSUER_PROFILE'].includes(currentView) && ((currentView === 'CONTRACT_DETAIL' && !viewingContract) || (currentView === 'PAYMENT' && !checkoutData) || (currentView === 'ISSUER_PROFILE' && !activeIssuerId)))) && (<div className="flex-1 flex flex-col items-center justify-center p-12 text-center"><div className="w-20 h-20 bg-primary-cyan/10 rounded-full flex items-center justify-center mb-6 border border-primary-cyan/20"><RefreshCw size={32} className="text-primary-cyan animate-spin-slow" /></div><h2 className="text-2xl font-black text-white uppercase tracking-tighter mb-4">{t('RESTORING SESSION', 'RESTAURATION DE LA SESSION')}</h2><p className="text-on-surface-variant max-w-xs mx-auto text-sm mb-8 opacity-70">{t('We couldn\'t find the active data for this view. Redirecting you to the terminal...', 'Nous n\'avons pas trouvé les données actives pour cette vue. Redirection vers le terminal...')}</p><button onClick={() => setCurrentView('HOME')} className="px-8 py-3 bg-primary-cyan text-surface-dim font-black uppercase tracking-widest text-[10px] hover:bg-white transition-all shadow-[0_0_20px_rgba(0,224,255,0.3)]">{t('BACK TO TERMINAL', 'RETOUR AU TERMINAL')}</button></div>)}
+              {(!currentView || (['CONTRACT_DETAIL', 'PAYMENT', 'ISSUER_PROFILE'].includes(currentView) && ((currentView === 'CONTRACT_DETAIL' && !viewingContract) || (currentView === 'PAYMENT' && !checkoutData) || (currentView === 'ISSUER_PROFILE' && !activeIssuerId)))) && (<div className="flex-1 flex flex-col items-center justify-center p-12 text-center"><div className="w-20 h-20 bg-primary-cyan/10 rounded-full flex items-center justify-center mb-6 border border-primary-cyan/20"><RefreshCw size={32} className="text-primary-cyan animate-spin-slow" /></div><h2 className="text-2xl font-black text-white uppercase tracking-tighter mb-4">{t('RESTORING SESSION', 'RESTAURATION DE LA SESSION')}</h2><p className="text-on-surface-variant max-w-xs mx-auto text-sm mb-8 opacity-70">{t('We couldn\'t find the active data for this view. Redirecting you to the terminal...', 'Nous n\'avons pas trouvé les données actives pour cette vue. Redirection vers le terminal...')}</p><button onClick={() => setCurrentView('HOME')} className="px-8 py-3 bg-primary-cyan text-surface-dim font-black uppercase tracking-widest text-[10px] hover:bg-white transition-all">{t('BACK TO TERMINAL', 'RETOUR AU TERMINAL')}</button></div>)}
             </motion.div>
           </AnimatePresence>
         </ErrorBoundary>
@@ -652,7 +721,7 @@ export default function App() {
             </div>
             <div className="flex gap-4 items-center relative">
               <div className="flex flex-col items-end z-10"><span className="text-[10px] font-mono text-primary-cyan font-bold">LYA_JOURNEY: ACTIVE</span><span className="text-[10px] font-mono text-on-surface-variant opacity-60">HUB_CONNECTION: SECURE</span></div>
-              <div className="w-12 h-12 flex items-center justify-center relative z-20"><div className="w-4 h-4 bg-primary-cyan rounded-full animate-pulse shadow-[0_0_20px_rgba(0,255,255,1)]" /></div>
+              <div className="w-12 h-12 flex items-center justify-center relative z-20"><div className="w-4 h-4 bg-primary-cyan rounded-full animate-pulse" /></div>
             </div>
           </footer>
         )}

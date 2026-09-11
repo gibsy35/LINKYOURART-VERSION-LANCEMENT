@@ -110,7 +110,7 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
     <div className="pb-20 space-y-0 max-w-3xl mx-auto">
 
       {/* ── SECTION 1 : ACCROCHE ─────────────────────────────────────────── */}
-      <div className="relative rounded-3xl overflow-hidden mb-5">
+      <div className="relative rounded-lg overflow-hidden mb-5">
         {/* Image de fond */}
         <div className="relative h-56 sm:h-72">
           <img src={getSafeImageUrl(project.image, project.category)} alt={project.name}
@@ -140,7 +140,7 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
       </div>
 
       {/* ── SECTION 2 : SCORE LYA EN GROS ───────────────────────────────── */}
-      <div className={`rounded-2xl p-5 mb-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border ${up ? 'bg-emerald-400/5 border-emerald-400/20' : 'bg-rose-400/5 border-rose-400/20'}`}>
+      <div className={`rounded-lg p-5 mb-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border ${up ? 'bg-emerald-400/5 border-emerald-400/20' : 'bg-rose-400/5 border-rose-400/20'}`}>
         <div>
           <p className="text-xs font-black text-on-surface-variant/50 uppercase tracking-widest mb-1">
             {T('Score LYA actuel', 'Current LYA Score')}
@@ -168,7 +168,7 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
           { icon: <Target size={15}/>, label: T('Potentiel', 'Potential'), value: project.growth >= 20 ? T('Élevé', 'High') : project.growth >= 0 ? T('Stable', 'Stable') : T('En Révision', 'Under Review'), color: up ? 'text-accent-gold' : 'text-rose-400', bg: up ? 'bg-accent-gold/10 border-accent-gold/20' : 'bg-rose-400/10 border-rose-400/20' },
         ].map((s, i) => (
           <motion.div key={i} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.07 }}
-            className={`border rounded-2xl p-4 space-y-2 ${s.bg}`}>
+            className={`border rounded-lg p-4 space-y-2 ${s.bg}`}>
             <div className={s.color}>{s.icon}</div>
             <p className="text-[10px] text-on-surface-variant/50 uppercase tracking-widest leading-tight">{s.label}</p>
             <p className={`text-xl font-black ${s.color}`}>{s.value}</p>
@@ -209,13 +209,13 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
       {activeTab === 'story' && (
         <motion.div key="story" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.2 }} className="space-y-5">
           {/* Description */}
-          <div className="bg-surface-low/40 border border-white/8 rounded-2xl p-5">
+          <div className="bg-surface-low/40 border border-white/8 rounded-lg p-5">
             <h2 className="text-sm font-black text-on-surface uppercase tracking-wider mb-3">{T('À propos', 'About')}</h2>
             <p className="text-sm text-on-surface-variant/70 leading-relaxed">{getContractDescription(project, language)}</p>
           </div>
 
           {/* Graphe Score LYA */}
-          <div className="bg-surface-low/40 border border-white/8 rounded-2xl p-5 space-y-4">
+          <div className="bg-surface-low/40 border border-white/8 rounded-lg p-5 space-y-4">
             <div className="flex items-center justify-between flex-wrap gap-3">
               <div>
                 <h2 className="text-sm font-black text-on-surface uppercase tracking-wider">{T('Évolution du Score LYA', 'LYA Score Evolution')}</h2>
@@ -250,7 +250,7 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
           </div>
 
           {/* Jalons */}
-          <div className="bg-surface-low/40 border border-white/8 rounded-2xl p-5 space-y-4">
+          <div className="bg-surface-low/40 border border-white/8 rounded-lg p-5 space-y-4">
             <h2 className="text-sm font-black text-on-surface uppercase tracking-wider">{T('Jalons du projet', 'Project milestones')}</h2>
             {project.milestones.length === 0 ? (
               <p className="text-sm text-on-surface-variant/40 text-center py-6">{T('Aucun jalon publié', 'No milestones yet')}</p>
@@ -287,12 +287,12 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
       {activeTab === 'data' && (
         <motion.div key="data" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.2 }} className="space-y-5">
           {/* Score global */}
-          <div className="bg-gradient-to-r from-[#a78bfa]/10 to-primary-cyan/5 border border-[#a78bfa]/20 rounded-2xl p-6 flex items-center justify-between gap-4 flex-wrap">
+          <div className="bg-gradient-to-r from-[#a78bfa]/10 to-primary-cyan/5 border border-[#a78bfa]/20 rounded-lg p-6 flex items-center justify-between gap-4 flex-wrap">
             <div>
               <div className="flex items-center gap-2 flex-wrap mb-1">
                 <p className="text-xs font-black text-[#a78bfa] uppercase tracking-widest">{T('LYA Score Global', 'Global LYA Score')}</p>
                 {certifierCount !== null && certifierCount > 0 && certifierCount < 3 && (
-                  <span className="px-2 py-0.5 bg-amber-400/10 border border-amber-400/25 rounded-full text-[9px] font-black text-amber-400 uppercase tracking-widest flex items-center gap-1">
+                  <span className="px-2 py-0.5 bg-violet-400/10 border border-violet-400/25 rounded-full text-[9px] font-black text-violet-400 uppercase tracking-widest flex items-center gap-1">
                     <AlertTriangle size={9} /> {T('Provisional Score', 'Score Provisoire')}
                   </span>
                 )}
@@ -303,7 +303,7 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
                   className="h-full bg-gradient-to-r from-[#a78bfa] to-primary-cyan rounded-full"/>
               </div>
               {certifierCount !== null && certifierCount > 0 && certifierCount < 3 && (
-                <p className="text-[10px] text-amber-400/70 mt-2 max-w-xs leading-relaxed">
+                <p className="text-[10px] text-violet-400/70 mt-2 max-w-xs leading-relaxed">
                   {T('Based on a limited sample of certifiers — treat this score as indicative until more independent reviews come in.', 'Basé sur un échantillon limité de certificateurs — à considérer comme indicatif tant que d\'autres avis indépendants ne sont pas venus le confirmer.')}
                 </p>
               )}
@@ -321,11 +321,11 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
           </div>
 
           {/* 5 piliers */}
-          <div className="bg-surface-low/40 border border-white/8 rounded-2xl p-5 space-y-4">
+          <div className="bg-surface-low/40 border border-white/8 rounded-lg p-5 space-y-4">
             <h3 className="text-sm font-black text-on-surface uppercase tracking-wider">{T('Les 5 Piliers d\'évaluation', 'The 5 Evaluation Pillars')}</h3>
             {project.pillars.map((p, i) => {
               const pct = (p.score / 200) * 100;
-              const colors = ['#a78bfa','#00d4ff','#10b981','#f59e0b','#f43f5e'];
+              const colors = ['#a78bfa','#00d4ff','#10b981','#E61A97','#f43f5e'];
               return (
                 <div key={i} className="space-y-2">
                   <div className="flex justify-between items-center">
@@ -342,7 +342,7 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
           </div>
 
           {/* Infos registre */}
-          <div className="bg-surface-low/40 border border-white/8 rounded-2xl p-5 space-y-3">
+          <div className="bg-surface-low/40 border border-white/8 rounded-lg p-5 space-y-3">
             <h3 className="text-sm font-black text-on-surface uppercase tracking-wider flex items-center gap-2"><Shield size={13} className="text-primary-cyan"/> {T('Registre & Droits', 'Registry & Rights')}</h3>
             {[
               { l: T('Identifiant registre', 'Registry ID'), v: project.registryIndex },
@@ -363,7 +363,7 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
       {activeTab === 'support' && (
         <motion.div key="support" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.2 }} className="space-y-5">
           {/* Explication Score LYA */}
-          <div className="bg-accent-gold/5 border border-accent-gold/20 rounded-2xl p-5 space-y-3">
+          <div className="bg-accent-gold/5 border border-accent-gold/20 rounded-lg p-5 space-y-3">
             <p className="text-xs font-black text-accent-gold uppercase tracking-widest">✦ {T('Comment fonctionne le Score LYA ?', 'How does the LYA Score work?')}</p>
             <p className="text-sm text-on-surface-variant/70 leading-relaxed">
               {T(
@@ -387,7 +387,7 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
 
           {/* Alerte si pas LIVE */}
           {project.status !== 'LIVE' && (
-            <div className="bg-rose-500/8 border border-rose-500/20 rounded-2xl p-4 flex items-center gap-3">
+            <div className="bg-rose-500/8 border border-rose-500/20 rounded-lg p-4 flex items-center gap-3">
               <AlertTriangle size={16} className="text-rose-400 shrink-0"/>
               <p className="text-sm text-rose-400 font-black">{T('Ce projet n\'accepte pas de nouveaux soutiens actuellement.','This project is not accepting new pledges right now.')}</p>
             </div>
@@ -396,13 +396,13 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
           {/* CTA */}
           {user ? (
             <button onClick={() => project.status === 'LIVE' ? setShowPayment(true) : null}
-              className={`w-full py-5 text-base font-black uppercase tracking-widest rounded-2xl transition-all flex items-center justify-center gap-3 ${project.status === 'LIVE' ? 'bg-primary-cyan text-surface-dim hover:bg-white shadow-[0_0_30px_rgba(0,212,255,0.25)]' : 'bg-white/5 text-on-surface-variant cursor-not-allowed'}`}>
+              className={`w-full py-5 text-base font-black uppercase tracking-widest rounded-lg transition-all flex items-center justify-center gap-3 ${project.status === 'LIVE' ? 'bg-primary-cyan text-surface-dim hover:bg-white' : 'bg-white/5 text-on-surface-variant cursor-not-allowed'}`}>
               ✦
               {project.status === 'LIVE' ? T('Soutenir ce projet', 'Support this project') : T('Non disponible actuellement', 'Currently unavailable')}
             </button>
           ) : (
             <div className="space-y-3">
-              <div className="bg-surface-low/40 border border-white/10 rounded-2xl p-5 space-y-4">
+              <div className="bg-surface-low/40 border border-white/10 rounded-lg p-5 space-y-4">
                 <div className="flex items-start gap-3">
                   <Lock size={16} className="text-accent-gold shrink-0 mt-0.5"/>
                   <div>
@@ -411,10 +411,10 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
                   </div>
                 </div>
               </div>
-              <button onClick={() => onViewChange('SIGNUP')} className="w-full py-4 bg-primary-cyan text-surface-dim text-sm font-black uppercase tracking-widest rounded-2xl hover:bg-white transition-all shadow-[0_0_20px_rgba(0,212,255,0.2)] flex items-center justify-center gap-2">
+              <button onClick={() => onViewChange('SIGNUP')} className="w-full py-4 bg-primary-cyan text-surface-dim text-sm font-black uppercase tracking-widest rounded-lg hover:bg-white transition-all flex items-center justify-center gap-2">
                 <Zap size={16}/> {T('Créer un compte gratuit', 'Create a free account')}
               </button>
-              <button onClick={() => onViewChange('LOGIN')} className="w-full py-3 bg-white/5 border border-white/10 text-sm font-black uppercase tracking-wider rounded-2xl hover:bg-white/10 transition-all">
+              <button onClick={() => onViewChange('LOGIN')} className="w-full py-3 bg-white/5 border border-white/10 text-sm font-black uppercase tracking-wider rounded-lg hover:bg-white/10 transition-all">
                 {T('Déjà membre ? Se connecter', 'Already a member? Sign in')}
               </button>
             </div>
@@ -452,7 +452,7 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
                     }
                     window.dispatchEvent(new CustomEvent('lya-view-project', { detail: s.id }));
                   }}
-                  className="bg-surface-low/40 border border-white/8 rounded-2xl overflow-hidden hover:border-white/20 transition-all text-left group">
+                  className="bg-surface-low/40 border border-white/8 rounded-lg overflow-hidden hover:border-white/20 transition-all text-left group">
                   <div className="relative h-24 overflow-hidden">
                     <img src={getSafeImageUrl(s.image, s.category)} onError={handleImageError(s.category)} alt={s.name} className={`w-full h-full object-cover transition-all duration-700 group-hover:grayscale-0 group-hover:blur-0 group-hover:scale-105 group-hover:opacity-100 ${revealedCards.has(s.id) ? 'grayscale-0 blur-0 scale-105 opacity-100' : 'grayscale blur-sm scale-105 opacity-60'}`} referrerPolicy="no-referrer"/>
                     <div className="absolute inset-0 bg-gradient-to-t from-surface-dim/80 to-transparent"/>
@@ -474,15 +474,15 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
       )}
 
       {/* ── CTA FINAL ────────────────────────────────────────────────────── */}
-      <div className="mt-10 bg-gradient-to-br from-primary-cyan/10 to-[#a78bfa]/8 border border-primary-cyan/20 rounded-2xl p-7 text-center space-y-4">
-        <div className="w-12 h-12 bg-primary-cyan/15 border border-primary-cyan/25 rounded-2xl flex items-center justify-center mx-auto">
+      <div className="mt-10 bg-gradient-to-br from-primary-cyan/10 to-[#a78bfa]/8 border border-primary-cyan/20 rounded-lg p-7 text-center space-y-4">
+        <div className="w-12 h-12 bg-primary-cyan/15 border border-primary-cyan/25 rounded-lg flex items-center justify-center mx-auto">
           <span className="text-primary-cyan font-black text-sm">LYA</span>
         </div>
         <h3 className="text-xl font-black text-white tracking-tight uppercase">{T('L\'ART COMME STANDARD RECONNU', 'ART AS A RECOGNISED STANDARD')}</h3>
         <p className="text-sm text-on-surface-variant/60 max-w-sm mx-auto leading-relaxed">
           {T('LinkYourArt transforme les projets créatifs en standards certifiés. Rejoignez des milliers de mécènes et créateurs.', 'LinkYourArt transforms creative projects into certified standards. Join thousands of patrons and creators.')}
         </p>
-        <button onClick={() => onViewChange(user ? 'REGISTRY' : 'SIGNUP')} className="px-8 py-3 bg-primary-cyan text-surface-dim font-black text-sm uppercase tracking-widest rounded-xl hover:bg-white transition-all shadow-[0_0_20px_rgba(0,212,255,0.2)]">
+        <button onClick={() => onViewChange(user ? 'REGISTRY' : 'SIGNUP')} className="px-8 py-3 bg-primary-cyan text-surface-dim font-black text-sm uppercase tracking-widest rounded-xl hover:bg-white transition-all">
           {user ? T('Découvrir tous les projets', 'Discover all projects') : T('Rejoindre LinkYourArt — Gratuit', 'Join LinkYourArt — Free')}
         </button>
       </div>

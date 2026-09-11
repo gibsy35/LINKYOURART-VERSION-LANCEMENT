@@ -85,7 +85,7 @@ const BrushSeparator = () => (
       className="h-[1px] w-full bg-gradient-to-r from-transparent via-primary-cyan to-transparent relative origin-center"
     >
       <div className="absolute inset-0 bg-primary-cyan blur-[2px] opacity-50" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-primary-cyan rounded-full shadow-[0_0_15px_rgba(0,224,255,1)]" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-primary-cyan rounded-full" />
     </motion.div>
   </div>
 );
@@ -259,7 +259,7 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
 
   const activeJalons = CASE_JALONS[selectedCaseIdx];
   const activeMeta = CASE_META[selectedCaseIdx];
-  const activeColor = selectedCaseIdx === 0 ? '#00E0FF' : selectedCaseIdx === 1 ? '#FFD700' : '#FF007F';
+  const activeColor = selectedCaseIdx === 0 ? '#00E0FF' : selectedCaseIdx === 1 ? '#7E1CF1' : '#FF007F';
 
   // ── SINGLE SOURCE OF TRUTH pour la progression du Score ───────────────────
   // Calcule le score final et les etapes intermediaires pour toutes les etudes
@@ -291,7 +291,7 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
               {t('Live LYA Simulation', 'Simulation LYA En Direct')}
             </span>
           </div>
-          <h2 className="text-3xl md:text-5xl font-black font-headline text-white tracking-tighter uppercase mb-6 drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]">
+          <h2 className="text-3xl md:text-5xl font-black font-headline text-white tracking-tighter uppercase mb-6 drop-">
             {t('LYA Score &', 'Score LYA &')} <span className="text-primary-cyan">{t('Certification Impact', 'Impact Certification')}</span>
           </h2>
           <p className="text-white/50 text-base max-w-2xl mx-auto leading-relaxed font-medium">
@@ -303,7 +303,7 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
         </div>
 
         {/* ── C'EST QUOI UN JALON ? — Playful explainer ──────────────── */}
-        <div className="max-w-2xl mx-auto mb-10 md:mb-16 flex items-start gap-4 p-5 md:p-6 border border-emerald-500/20 bg-emerald-500/5 rounded-2xl">
+        <div className="max-w-2xl mx-auto mb-10 md:mb-16 flex items-start gap-4 p-5 md:p-6 border border-emerald-500/20 bg-emerald-500/5 rounded-lg">
           <div className="w-10 h-10 md:w-12 md:h-12 shrink-0 rounded-full bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
             <Flag size={20} />
           </div>
@@ -350,7 +350,7 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
                 whileTap={{ scale: 0.98 }}
                 className={`relative p-6 text-left border transition-all duration-300 ${
                   isActive
-                    ? 'border-primary-cyan bg-primary-cyan/5 shadow-[0_0_30px_rgba(0,224,255,0.1)]'
+                    ? 'border-primary-cyan bg-primary-cyan/5'
                     : 'border-white/10 bg-white/[0.02] hover:border-white/20'
                 }`}
               >
@@ -578,7 +578,7 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
                  initial={{ scale: 0.93, y: 15 }}
                  animate={{ scale: 1, y: 0 }}
                  exit={{ scale: 0.93, y: 15 }}
-                 className="bg-[#0a0f18] border border-primary-cyan/20 max-w-5xl w-full relative shadow-[0_0_80px_rgba(0,224,255,0.15)] rounded-2xl flex flex-col text-left"
+                 className="bg-[#0a0f18] border border-primary-cyan/20 max-w-5xl w-full relative rounded-lg flex flex-col text-left"
                  style={{ maxHeight: 'calc(100vh - 24px)', zIndex: 10000 }}
                  onClick={(e) => e.stopPropagation()}
                >
@@ -922,7 +922,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
               initial={{ scale: 0.9, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 20 }}
-              className="bg-surface-high border border-red-500/30 max-w-2xl w-full p-8 md:p-5 sm:p-8 lg:p-12 relative shadow-[0_0_100px_rgba(239,68,68,0.2)]"
+              className="bg-surface-high border border-red-500/30 max-w-2xl w-full p-8 md:p-5 sm:p-8 lg:p-12 relative"
             >
               <button 
                 onClick={() => setShowLegalPopup(false)}
@@ -994,9 +994,9 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
               className="text-left z-20 relative pt-2 md:pt-4 lg:pt-6 max-w-[45vw] sm:max-w-[42vw] lg:max-w-full"
             >
               <div className="relative mb-4 sm:mb-8 lg:mb-12">
-                <h1 style={{ fontSize: 'clamp(1.6rem, 6.5vw, 9rem)' }} className="font-black tracking-tighter leading-[0.88] uppercase text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.2)]">
+                <h1 style={{ fontSize: 'clamp(1.6rem, 6.5vw, 9rem)' }} className="font-black tracking-tighter leading-[0.88] uppercase text-white drop-">
                   {t('ART NEED A', 'L\'ART A BESOIN D\'UN')}<br/>
-                  <span className="text-primary-cyan drop-shadow-[0_0_80px_rgba(0,224,255,0.6)] font-black">{t('STANDARD.', 'STANDARD.')}</span>
+                  <span className="text-primary-cyan drop- font-black">{t('STANDARD.', 'STANDARD.')}</span>
                 </h1>
               </div>
               
@@ -1011,7 +1011,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
               <div className="flex flex-col sm:flex-row items-start gap-4 mb-4 sm:mb-8 lg:mb-12 w-full sm:w-auto">
                 <button
                   onClick={() => onViewChange('MECENAT')}
-                  className="w-full sm:w-auto px-5 sm:px-8 py-3 sm:py-4 bg-primary-cyan text-surface-dim font-black uppercase tracking-[0.25em] text-[11px] rounded-xl flex items-center justify-center gap-2.5 shadow-[0_0_40px_rgba(0,224,255,0.35)] hover:shadow-[0_0_60px_rgba(0,224,255,0.55)] hover:scale-105 transition-all active:scale-95"
+                  className="w-full sm:w-auto px-5 sm:px-8 py-3 sm:py-4 bg-primary-cyan text-surface-dim font-black uppercase tracking-[0.25em] text-[11px] rounded-xl flex items-center justify-center gap-2.5 hover: hover:scale-105 transition-all active:scale-95"
                 >
                   <span>🏛</span>
                   {t('POPULAR PATRONAGE (SIMPLE)', 'MÉCÉNAT POPULAIRE (SIMPLE)')}
@@ -1038,10 +1038,10 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
                 
                 <motion.button 
                   onClick={() => setShowLegalPopup(true)}
-                  whileHover={{ scale: 1.03, backgroundColor: 'rgba(245, 158, 11, 0.12)', boxShadow: '0 0 30px rgba(245, 158, 11, 0.15)' }}
-                  className="px-6 py-3.5 bg-amber-500/[0.05] border border-amber-500/20 hover:border-amber-500 rounded-xl backdrop-blur-md flex items-center gap-2.5 transition-all group text-amber-500 font-black"
+                  whileHover={{ scale: 1.03, backgroundColor: 'rgba(126,28,241, 0.12)', boxShadow: '0 0 30px rgba(126,28,241, 0.15)' }}
+                  className="px-6 py-3.5 bg-violet-500/[0.05] border border-violet-500/20 hover:border-violet-500 rounded-xl backdrop-blur-md flex items-center gap-2.5 transition-all group text-violet-500 font-black"
                 >
-                  <Shield size={14} className="text-amber-500" />
+                  <Shield size={14} className="text-violet-500" />
                   <span className="text-[10px] font-black uppercase tracking-[0.2em]">{t('Legal Advisory', 'Conseil Légal')}</span>
                 </motion.button>
               </div>
@@ -1079,7 +1079,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
             >
               <div className="absolute -left-10 top-0 w-1 h-24 bg-primary-cyan hidden lg:block" />
               <div className="text-xs font-mono text-accent-gold uppercase tracking-[0.5em] mb-4 font-black">{t('The Vision', 'La Vision')}</div>
-              <h2 className="text-3xl md:text-5xl font-black font-headline text-white tracking-tighter uppercase mb-8 leading-none drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]">
+              <h2 className="text-3xl md:text-5xl font-black font-headline text-white tracking-tighter uppercase mb-8 leading-none drop-">
                 {t('A NEW ERA', 'UNE NOUVELLE ÈRE')} <br />
                 <span className="text-primary-cyan">{t('FOR CREATIVE', 'POUR LA CRÉATION')}</span> <br />
                 {t('EXCELLENCE.', 'ARTISTIQUE.')}
@@ -1156,7 +1156,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
       <section className="relative z-10 py-32 px-6 bg-surface-low/50 border-y border-white/5">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-10 lg:mb-16">
-            <h2 className="text-3xl md:text-5xl font-black font-headline text-white tracking-tighter uppercase mb-6 drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]">
+            <h2 className="text-3xl md:text-5xl font-black font-headline text-white tracking-tighter uppercase mb-6 drop-">
               {t('home.not_lya.title', 'What LinkYourArt')} <span className="text-primary-cyan">{t('home.not_lya.title_cyan', 'is and is NOT')}</span>
             </h2>
             <p className="text-on-surface-variant text-base max-w-2xl mx-auto opacity-75">
@@ -1245,7 +1245,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
 
           {/* Simple Grid fallback for Mobile/Tablet */}
           <div className="grid md:grid-cols-2 lg:hidden gap-8">
-            <div className="p-8 rounded-3xl border border-primary-cyan/20 bg-primary-cyan/[0.02]/30 space-y-4">
+            <div className="p-8 rounded-lg border border-primary-cyan/20 bg-primary-cyan/[0.02]/30 space-y-4">
               <span className="text-[10px] font-black text-primary-cyan uppercase tracking-widest block bg-primary-cyan/10 w-fit px-3 py-1 rounded-full">{t('WHAT WE ARE', 'CE QUE LINKYOURART EST')}</span>
               <ul className="space-y-4 text-xs text-left">
                 <li>
@@ -1259,7 +1259,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
               </ul>
             </div>
 
-            <div className="p-8 rounded-3xl border border-rose-500/10 bg-surface-dim space-y-4">
+            <div className="p-8 rounded-lg border border-rose-500/10 bg-surface-dim space-y-4">
               <span className="text-[10px] font-black text-rose-400 uppercase tracking-widest block bg-rose-500/10 w-fit px-3 py-1 rounded-full">{t('WHAT WE ARE NOT (COMPETITION)', 'CE QUE NE SONT PAS LES AUTRES')}</span>
               <ul className="space-y-4 text-xs text-left">
                 <li>
@@ -1282,7 +1282,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
       {/* The Ecosystem Section */}
       <section className="relative z-10 py-10 md:py-24 lg:py-10 md:py-24 lg:py-40 max-w-full max-w-7xl mx-auto px-6">
         <div className="text-center mb-6 md:mb-14 lg:mb-8 md:mb-16 lg:mb-24">
-          <h2 className="text-3xl md:text-5xl font-black font-headline text-white tracking-tighter uppercase mb-6 drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]">
+          <h2 className="text-3xl md:text-5xl font-black font-headline text-white tracking-tighter uppercase mb-6 drop-">
             {t('THE', 'LES')} <span className="text-primary-cyan">{t('FOUR SPHERES', 'QUATRE SPHÈRES')}</span>
           </h2>
           <p className="text-on-surface-variant text-lg opacity-80 max-w-2xl mx-auto text-justify">
@@ -1355,7 +1355,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div className="order-2 lg:order-1">
               <div className="text-xs font-mono text-accent-gold uppercase tracking-[0.5em] mb-4 font-bold">{t('Certification Model', 'Modèle de Certification')}</div>
-                  <h2 className="text-3xl md:text-5xl font-black font-headline text-white tracking-tighter uppercase mb-8 drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]">
+                  <h2 className="text-3xl md:text-5xl font-black font-headline text-white tracking-tighter uppercase mb-8 drop-">
                 {t('home.formula.title', 'The')} <span className="text-primary-cyan">{t('home.formula.title_cyan', 'Score Formula')}</span>
               </h2>
               <div className="space-y-6">
@@ -1422,7 +1422,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
         <div className="mb-16 md:mb-32">
           <div className="text-center mb-8 md:mb-14 px-4">
             <h3 className="text-xs font-mono text-accent-gold uppercase tracking-[0.5em] mb-4 font-bold">{t('PROFESSIONAL ECOSYSTEM', 'ÉCOSYSTÈME PROFESSIONNEL')}</h3>
-            <h2 className="text-3xl md:text-5xl font-black font-headline text-white tracking-tighter uppercase mb-6 drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]">
+            <h2 className="text-3xl md:text-5xl font-black font-headline text-white tracking-tighter uppercase mb-6 drop-">
               {t('A Network Built', 'Un réseau construit')} <span className="text-primary-cyan">{t('Over 20 Years', 'en 20 ans')}</span>
             </h2>
             <p className="text-sm md:text-base text-on-surface-variant/70 max-w-2xl mx-auto leading-relaxed">
@@ -1442,7 +1442,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
               { value: '6', labelFR: 'continents\nreprésentés', labelEN: 'continents\nrepresented', color: 'text-emerald-400' },
             ].map((s, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}
-                className="bg-surface-low/30 border border-white/8 rounded-2xl p-5 text-center"
+                className="bg-surface-low/30 border border-white/8 rounded-lg p-5 text-center"
               >
                 <p className={`text-3xl md:text-4xl font-black font-mono ${s.color}`}>{s.value}</p>
                 <p className="text-xs text-on-surface-variant/50 font-medium mt-2 uppercase tracking-wider leading-tight whitespace-pre-line">
@@ -1463,7 +1463,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
               { icon: '🎨', labelFR: 'Arts Visuels & Scène', labelEN: 'Visual Arts & Stage', descFR: 'Galeries, artistes, arts performatifs, photographie et installations', descEN: 'Galleries, artists, performing arts, photography and installations', stat: 'Exposition & patrimoine mondial', statEN: 'Exhibition & world heritage', color: 'border-white/15 hover:border-white/30', dot: 'bg-white/60' },
             ].map((disc, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.06 }}
-                className={`group relative bg-surface-low/25 border ${disc.color} rounded-2xl p-5 sm:p-6 transition-all hover:bg-surface-low/40`}
+                className={`group relative bg-surface-low/25 border ${disc.color} rounded-lg p-5 sm:p-6 transition-all hover:bg-surface-low/40`}
               >
                 <div className="flex items-start gap-4">
                   <div className="text-2xl shrink-0">{disc.icon}</div>
@@ -1484,7 +1484,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
           </div>
 
           {/* Bas de section — texte institutionnel */}
-          <div className="mt-10 md:mt-14 bg-accent-gold/5 border border-accent-gold/15 rounded-2xl p-5 sm:p-8 text-center max-w-3xl mx-auto">
+          <div className="mt-10 md:mt-14 bg-accent-gold/5 border border-accent-gold/15 rounded-lg p-5 sm:p-8 text-center max-w-3xl mx-auto">
             <p className="text-xs font-black text-accent-gold uppercase tracking-[0.3em] mb-3">✦ {t('COMMITTEE CONFIDENTIALITY', 'CONFIDENTIALITÉ DU COMITÉ')}</p>
             <p className="text-sm md:text-base text-on-surface-variant/70 leading-relaxed">
               {t(
@@ -1499,7 +1499,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
           <div className="absolute top-0 right-0 w-96 h-96 bg-primary-cyan/10 rounded-full -mr-48 -mt-48 blur-3xl opacity-50" />
           <div className="flex flex-col md:flex-row items-center gap-5 sm:p-8 lg:p-12 relative z-10">
             <div className="shrink-0">
-              <div className="w-32 h-32 bg-primary-cyan/20 flex items-center justify-center text-primary-cyan border border-primary-cyan/30 rounded-full shadow-[0_0_30px_rgba(0,224,255,0.2)]">
+              <div className="w-32 h-32 bg-primary-cyan/20 flex items-center justify-center text-primary-cyan border border-primary-cyan/30 rounded-full">
                 <span className="text-4xl font-black">LYA</span>
               </div>
             </div>
@@ -1517,7 +1517,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
 
       <section className="relative z-10 py-10 md:py-24 lg:py-10 md:py-24 lg:py-40 max-w-full max-w-7xl mx-auto px-6">
         <div className="text-center mb-6 md:mb-14 lg:mb-8 md:mb-16 lg:mb-24">
-          <h2 className="text-3xl md:text-5xl font-black font-headline text-white tracking-tighter uppercase mb-6 drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]">
+          <h2 className="text-3xl md:text-5xl font-black font-headline text-white tracking-tighter uppercase mb-6 drop-">
             {t('home.scoring.title', 'LE SYSTÈME')} <span className="text-primary-cyan">{t('home.scoring.title_cyan', "D'ÉVALUATION LYA")}</span>
           </h2>
           <p className="text-on-surface-variant text-lg opacity-80 max-w-2xl mx-auto text-justify">
@@ -1575,8 +1575,8 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
           viewport={{ once: true }}
           className="max-w-4xl mx-auto p-20 border border-primary-cyan/20 bg-primary-cyan/5 backdrop-blur-xl relative overflow-hidden"
         >
-          <div className="absolute top-0 left-0 w-full h-1 bg-primary-cyan shadow-[0_0_20px_rgba(0,255,255,0.5)]" />
-          <h2 className="text-3xl md:text-5xl font-black font-headline text-white tracking-tighter uppercase mb-8 leading-none drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]">
+          <div className="absolute top-0 left-0 w-full h-1 bg-primary-cyan" />
+          <h2 className="text-3xl md:text-5xl font-black font-headline text-white tracking-tighter uppercase mb-8 leading-none drop-">
             {t('home.cta.title', 'Start')} <br/>
             <span className="text-primary-cyan">{t('home.cta.title_cyan', 'Engagement')}</span>
           </h2>

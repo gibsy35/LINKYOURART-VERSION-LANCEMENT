@@ -129,7 +129,7 @@ export const GovernanceView: React.FC<GovernanceViewProps> = ({ user, onNotify, 
         <motion.div 
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          className="w-24 h-24 bg-red-500/10 rounded-full flex items-center justify-center mb-8 border border-red-500/20 shadow-[0_0_30px_rgba(239,68,68,0.2)]"
+          className="w-24 h-24 bg-red-500/10 rounded-full flex items-center justify-center mb-8 border border-red-500/20"
         >
           <Lock size={48} className="text-red-500" />
         </motion.div>
@@ -153,7 +153,7 @@ export const GovernanceView: React.FC<GovernanceViewProps> = ({ user, onNotify, 
     <div className="space-y-12 pb-24 relative min-h-screen">
       {/* Immersive Background */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_20%_30%,rgba(0,224,255,0.05),transparent_50%),radial-gradient(circle_at_80%_70%,rgba(238,192,94,0.03),transparent_50%)]" />
+        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_20%_30%,rgba(0,224,255,0.05),transparent_50%),radial-gradient(circle_at_80%_70%,rgba(126,28,241,0.03),transparent_50%)]" />
         <div className="absolute inset-0 opacity-[0.02] bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]" />
       </div>
 
@@ -162,7 +162,7 @@ export const GovernanceView: React.FC<GovernanceViewProps> = ({ user, onNotify, 
           <div className="flex-1">
             <h1 className="text-3xl md:text-5xl font-black font-headline tracking-tighter text-white leading-[0.9] uppercase italic mb-10 flex items-center gap-4">
               <div className="h-[2px] w-12 bg-accent-gold"></div>
-              <span>{t('System', 'GOUVERNANCE')} <span className="text-primary-cyan drop-shadow-[0_0_20px_rgba(0,224,255,0.4)]">{t('Governance', 'DU SYSTÈME')}</span></span>
+              <span>{t('System', 'GOUVERNANCE')} <span className="text-primary-cyan drop-">{t('Governance', 'DU SYSTÈME')}</span></span>
             </h1>
             <p className="border-l-2 border-primary-cyan pl-6 text-on-surface-variant max-w-xl text-[11px] md:text-sm leading-relaxed opacity-70 uppercase tracking-[0.3em] font-black italic mb-10">
               {t('PARTICIPATE IN THE EVOLUTION OF THE LINKYOURART LYA SYSTEM. PROPOSE CHANGES, VOTE ON UPGRADES, AND MONITOR THE ECOSYSTEM HEALTH.', 'PARTICIPEZ À L\'ÉVOLUTION DU LYA SYSTEME LINKYOURART. PROPOSEZ DES CHANGEMENTS, VOTEZ SUR LES MISES À NIVEAU ET SURVEILLEZ LA SANTÉ DE L\'ÉCOSYSTÈME.')}
@@ -170,12 +170,12 @@ export const GovernanceView: React.FC<GovernanceViewProps> = ({ user, onNotify, 
           </div>
 
           <div className="flex flex-wrap gap-4">
-            <div className="px-8 py-5 bg-surface-low border border-white/5 rounded-2xl backdrop-blur-3xl shadow-2xl relative overflow-hidden group">
+            <div className="px-8 py-5 bg-surface-low border border-white/5 rounded-lg backdrop-blur-3xl shadow-2xl relative overflow-hidden group">
               <div className="absolute inset-0 bg-primary-cyan/5 opacity-0 group-hover:opacity-100 transition-opacity" />
               <div className="text-[10px] text-primary-cyan uppercase tracking-widest font-black mb-1 opacity-70">{t('Voting Power', 'Pouvoir de Vote')}</div>
               <div className="text-3xl font-black text-white italic tracking-tighter uppercase">{t('Expert', 'EXPERT')}</div>
             </div>
-            <div className="px-8 py-5 bg-surface-low border border-white/5 rounded-2xl backdrop-blur-3xl shadow-2xl relative overflow-hidden group">
+            <div className="px-8 py-5 bg-surface-low border border-white/5 rounded-lg backdrop-blur-3xl shadow-2xl relative overflow-hidden group">
               <div className="absolute inset-0 bg-accent-gold/5 opacity-0 group-hover:opacity-100 transition-opacity" />
               <div className="text-[10px] text-accent-gold uppercase tracking-widest font-black mb-1 opacity-70">{t('Hub Status', 'Statut du Hub')}</div>
               <div className="text-3xl font-black text-white italic tracking-tighter uppercase">{t('Syncing', 'SYNCHRONISÉ')}</div>
@@ -223,7 +223,7 @@ export const GovernanceView: React.FC<GovernanceViewProps> = ({ user, onNotify, 
           </div>
 
           {proposals.map((proposal) => (
-            <div key={proposal.id} className="bg-surface-low/30 border border-white/5 rounded-2xl p-8 hover:border-primary-cyan/30 transition-all group">
+            <div key={proposal.id} className="bg-surface-low/30 border border-white/5 rounded-lg p-8 hover:border-primary-cyan/30 transition-all group">
               <div className="flex justify-between items-start mb-6">
                 <div>
                   <div className="flex items-center gap-3 mb-2">
@@ -253,11 +253,11 @@ export const GovernanceView: React.FC<GovernanceViewProps> = ({ user, onNotify, 
                 </div>
                 <div className="h-2 bg-white/5 rounded-full overflow-hidden flex">
                   <div 
-                    className="h-full bg-emerald-400 shadow-[0_0_15px_rgba(52,211,153,0.5)]" 
+                    className="h-full bg-emerald-400" 
                     style={{ width: `${(proposal.votesFor / (proposal.votesFor + proposal.votesAgainst)) * 100}%` }} 
                   />
                   <div 
-                    className="h-full bg-accent-pink shadow-[0_0_15px_rgba(255,105,180,0.5)]" 
+                    className="h-full bg-accent-pink" 
                     style={{ width: `${(proposal.votesAgainst / (proposal.votesFor + proposal.votesAgainst)) * 100}%` }} 
                   />
                 </div>
@@ -293,7 +293,7 @@ export const GovernanceView: React.FC<GovernanceViewProps> = ({ user, onNotify, 
           ))}
 
           {/* Voting History */}
-          <div className="bg-surface-low/30 border border-white/5 rounded-2xl p-8">
+          <div className="bg-surface-low/30 border border-white/5 rounded-lg p-8">
             <h2 className="text-xl font-black text-white uppercase italic tracking-tight flex items-center gap-3 mb-8">
               <Activity className="text-primary-cyan" size={24} />
               VOTING HISTORY & ARCHIVES
@@ -342,7 +342,7 @@ export const GovernanceView: React.FC<GovernanceViewProps> = ({ user, onNotify, 
         {/* Sidebar Controls */}
         <div className="lg:col-span-4 space-y-8">
           {/* Voting Power Card */}
-          <div className="bg-gradient-to-br from-surface-low/50 to-primary-cyan/10 border border-white/5 rounded-2xl p-8 relative overflow-hidden group">
+          <div className="bg-gradient-to-br from-surface-low/50 to-primary-cyan/10 border border-white/5 rounded-lg p-8 relative overflow-hidden group">
             <div className="absolute top-0 right-0 p-4 opacity-20 group-hover:scale-110 transition-transform">
               <Vote size={60} className="text-primary-cyan" />
             </div>
@@ -377,7 +377,7 @@ export const GovernanceView: React.FC<GovernanceViewProps> = ({ user, onNotify, 
           </div>
 
           {/* System Health Card */}
-          <div className="bg-surface-low/30 border border-white/5 rounded-2xl p-8">
+          <div className="bg-surface-low/30 border border-white/5 rounded-lg p-8">
             <h4 className="text-sm font-black text-white uppercase tracking-widest mb-6 flex items-center gap-3">
               <Activity className="text-emerald-400" size={18} />
               DECENTRALIZED NETWORK HUBS
@@ -411,7 +411,7 @@ export const GovernanceView: React.FC<GovernanceViewProps> = ({ user, onNotify, 
           </div>
 
           {/* Governance Resources */}
-          <div className="bg-surface-low/30 border border-white/5 rounded-2xl p-8">
+          <div className="bg-surface-low/30 border border-white/5 rounded-lg p-8">
             <h4 className="text-sm font-black text-white uppercase tracking-widest mb-6">RESOURCES</h4>
             <div className="space-y-3">
               {[

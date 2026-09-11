@@ -117,14 +117,14 @@ export const WalletView: React.FC<WalletViewProps> = ({ user, onNotify, onViewCh
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <button 
                 onClick={() => onViewChange('REGISTRY')}
-                className="flex flex-col items-center justify-center gap-2 p-4 sm:p-6 bg-primary-cyan text-surface-dim rounded-3xl hover:bg-white transition-all shadow-xl active:scale-95 group"
+                className="flex flex-col items-center justify-center gap-2 p-4 sm:p-6 bg-primary-cyan text-surface-dim rounded-lg hover:bg-white transition-all shadow-xl active:scale-95 group"
               >
                 <ArrowDownLeft size={24} />
                 <span className="text-[10px] font-black uppercase tracking-widest">{t('DISCOVER PROJECTS', 'DÉCOUVRIR DES PROJETS')}</span>
               </button>
               <button 
                 onClick={handleDownloadStatement}
-                className="flex flex-col items-center justify-center gap-2 p-4 sm:p-6 bg-white/5 border border-white/10 text-white rounded-3xl hover:bg-white hover:text-surface-dim transition-all active:scale-95"
+                className="flex flex-col items-center justify-center gap-2 p-4 sm:p-6 bg-white/5 border border-white/10 text-white rounded-lg hover:bg-white hover:text-surface-dim transition-all active:scale-95"
               >
                 <Download size={24} />
                 <span className="text-[10px] font-black uppercase tracking-widest">{t('STATEMENT', 'RELEVÉ')}</span>
@@ -145,7 +145,7 @@ export const WalletView: React.FC<WalletViewProps> = ({ user, onNotify, onViewCh
             </p>
             <button 
               onClick={() => onViewChange('REGISTRY')}
-              className="w-full py-4 border border-accent-gold/30 text-accent-gold text-[10px] font-black uppercase tracking-widest rounded-2xl hover:bg-accent-gold hover:text-surface-dim transition-all"
+              className="w-full py-4 border border-accent-gold/30 text-accent-gold text-[10px] font-black uppercase tracking-widest rounded-lg hover:bg-accent-gold hover:text-surface-dim transition-all"
             >
               {t('SUPPORT ANOTHER PROJECT', 'SOUTENIR UN AUTRE PROJET')}
             </button>
@@ -171,7 +171,7 @@ export const WalletView: React.FC<WalletViewProps> = ({ user, onNotify, onViewCh
       </div>
 
       {activeTab === 'overview' && (
-        <div className="bg-surface-low border border-white/5 rounded-3xl overflow-hidden shadow-2xl">
+        <div className="bg-surface-low border border-white/5 rounded-lg overflow-hidden shadow-2xl">
           <div className="p-0 overflow-x-auto">
             <table className="w-full text-left font-mono text-xs">
               <thead>
@@ -249,7 +249,7 @@ export const WalletView: React.FC<WalletViewProps> = ({ user, onNotify, onViewCh
 
       <div className="bg-surface-low border border-white/5 p-10 rounded-[2.5rem] relative overflow-hidden">
         <div className="flex flex-col md:flex-row items-center gap-8">
-          <div className="w-20 h-20 bg-indigo-500/10 border border-indigo-500/20 rounded-3xl flex items-center justify-center text-indigo-400 shrink-0">
+          <div className="w-20 h-20 bg-indigo-500/10 border border-indigo-500/20 rounded-lg flex items-center justify-center text-indigo-400 shrink-0">
             <ShieldCheck size={40} />
           </div>
           <div className="space-y-2 text-center md:text-left">
@@ -261,7 +261,7 @@ export const WalletView: React.FC<WalletViewProps> = ({ user, onNotify, onViewCh
           <div className="md:ml-auto">
             <button 
               onClick={() => onViewChange('LEGAL_MENTIONS')}
-              className="px-8 py-4 bg-white/5 border border-white/10 text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-2xl hover:bg-white hover:text-surface-dim transition-all whitespace-nowrap"
+              className="px-8 py-4 bg-white/5 border border-white/10 text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-lg hover:bg-white hover:text-surface-dim transition-all whitespace-nowrap"
             >
               {t('VIEW COMPLIANCE', 'VOIR LA CONFORMITÉ')}
             </button>

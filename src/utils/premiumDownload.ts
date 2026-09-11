@@ -5,7 +5,7 @@
 
 const LYA_STYLES = `
   @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700;800&family=Space+Mono:wght@400;700&display=swap');
-  :root { --cyan:#00E0FF; --gold:#FFD700; --bg:#0D1117; --surface:#161B22; --surface2:#1C2128; --border:rgba(255,255,255,0.07); --text:#FFFFFF; --muted:rgba(255,255,255,0.45); }
+  :root { --cyan:#00E0FF; --gold:#7E1CF1; --bg:#0D1117; --surface:#161B22; --surface2:#1C2128; --border:rgba(255,255,255,0.07); --text:#FFFFFF; --muted:rgba(255,255,255,0.45); }
   *{margin:0;padding:0;box-sizing:border-box}
   body{background:var(--bg);color:var(--text);font-family:'Space Grotesk',sans-serif;font-size:14px;line-height:1.6;-webkit-print-color-adjust:exact;print-color-adjust:exact}
   .page{max-width:860px;margin:0 auto;padding:60px;position:relative;padding-bottom:100px}

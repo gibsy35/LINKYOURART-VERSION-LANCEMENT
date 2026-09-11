@@ -40,7 +40,7 @@ interface AcademyViewProps {
 }
 
 export const AcademyView: React.FC<AcademyViewProps> = ({ user, onNotify, onViewChange }) => {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
 
   const [enrolledCourses, setEnrolledCourses] = React.useState<Set<string>>(new Set());
   const [filter, setFilter] = React.useState<string>('ALL');
@@ -101,7 +101,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({ user, onNotify, onView
   return (
     <div className="pb-12 relative overflow-hidden">
       <PageHeader 
-        titleWhite={t('LYA', 'Académie')}
+        titleWhite={language === 'FR' ? 'Académie' : <span style={{ textTransform: 'uppercase' }}>LYA</span>}
         titleAccent={t('Academy', 'LYA')}
         description={t('MASTER THE CREATIVE RIGHTS ECONOMY THROUGH HIGH-LEVEL EXPERT EDUCATION.', 'MAÎTRISEZ L\'ÉCONOMIE DE LA VALEUR CRÉATIVE GRÂCE À UNE ÉDUCATION D\'EXPERT DE HAUT NIVEAU.')}
         accentColor="text-accent-gold"
@@ -109,7 +109,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({ user, onNotify, onView
 
       <div className="relative z-20 -mt-20 mb-8">
         <div className="flex flex-col lg:flex-row lg:items-center justify-end gap-8">
-          <div className="px-5 py-3 bg-accent-gold/10 border border-accent-gold/25 rounded-2xl backdrop-blur-3xl shadow-2xl">
+          <div className="px-5 py-3 bg-accent-gold/10 border border-accent-gold/25 rounded-lg backdrop-blur-3xl shadow-2xl">
             <p className="text-[10px] font-black uppercase tracking-widest text-accent-gold">
               {t('Programs launching progressively — validator verification is live now', 'Programmes lancés progressivement — la vérification validateur est disponible dès maintenant')}
             </p>
@@ -153,7 +153,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({ user, onNotify, onView
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredCourses.map((course) => (
-            <div key={course.id} className="bg-surface-low/30 border border-white/5 rounded-2xl overflow-hidden group hover:border-primary-cyan/30 transition-all shadow-2xl">
+            <div key={course.id} className="bg-surface-low/30 border border-white/5 rounded-lg overflow-hidden group hover:border-primary-cyan/30 transition-all shadow-2xl">
               <div className="relative h-48 overflow-hidden">
                 <img 
                   src={course.image} 
@@ -224,7 +224,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({ user, onNotify, onView
         </div>
       </section>
       <section className="px-6 grid grid-cols-1 lg:grid-cols-2 gap-8 mt-16 sm:mt-24">
-        <div className="bg-gradient-to-br from-surface-low/50 to-primary-cyan/10 border border-white/5 rounded-2xl p-8 relative overflow-hidden group">
+        <div className="bg-gradient-to-br from-surface-low/50 to-primary-cyan/10 border border-white/5 rounded-lg p-8 relative overflow-hidden group">
           <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 transition-transform">
             <Award size={100} className="text-primary-cyan" />
           </div>
@@ -255,7 +255,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({ user, onNotify, onView
           </button>
         </div>
 
-        <div className="bg-gradient-to-br from-surface-low/50 to-accent-purple/10 border border-white/5 rounded-2xl p-8 relative overflow-hidden group opacity-40 grayscale pointer-events-none">
+        <div className="bg-gradient-to-br from-surface-low/50 to-accent-purple/10 border border-white/5 rounded-lg p-8 relative overflow-hidden group opacity-40 grayscale pointer-events-none">
           <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 transition-transform">
             <Users size={100} className="text-accent-purple" />
           </div>
@@ -292,7 +292,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({ user, onNotify, onView
 
       {/* Resource Library */}
       <section className="px-6 mt-16 sm:mt-24 mb-16">
-        <div className="bg-surface-low/30 border border-white/5 rounded-2xl p-8 opacity-40 grayscale pointer-events-none">
+        <div className="bg-surface-low/30 border border-white/5 rounded-lg p-8 opacity-40 grayscale pointer-events-none">
           <div className="flex items-center justify-between mb-8 flex-wrap gap-3">
             <h2 className="text-xl font-black text-white uppercase tracking-tight flex items-center gap-3">
               <BookOpen className="text-primary-cyan" size={24} />

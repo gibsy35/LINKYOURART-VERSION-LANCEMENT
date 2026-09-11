@@ -160,7 +160,7 @@ export const PressMediaSection: React.FC<Props> = ({ t, language, onNotify }) =>
     <div className="space-y-8">
 
       {/* HERO */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-[#a78bfa]/10 via-surface-low to-primary-cyan/5 border border-[#a78bfa]/20 rounded-3xl p-8">
+      <div className="relative overflow-hidden bg-gradient-to-br from-[#a78bfa]/10 via-surface-low to-primary-cyan/5 border border-[#a78bfa]/20 rounded-lg p-8">
         <div className="absolute top-0 right-0 w-64 h-64 bg-[#a78bfa]/5 rounded-full blur-3xl pointer-events-none"/>
         <div className="relative z-10 grid md:grid-cols-2 gap-8 items-center">
           <div className="space-y-4">
@@ -176,14 +176,14 @@ export const PressMediaSection: React.FC<Props> = ({ t, language, onNotify }) =>
               {t('A space reserved for journalists, influencers and creative writers. Protected identities, valued creations. Full access reserved for verified Pro members.', 'Un espace réservé aux journalistes, influenceurs et rédacteurs créatifs. Identités protégées, créations valorisées. Accès complet réservé aux membres Pro vérifiés.')}
             </p>
             <button onClick={() => setAccredModal(true)}
-              className="px-6 py-3 bg-[#a78bfa] text-surface-dim text-xs font-black uppercase tracking-widest rounded-xl hover:bg-white transition-all shadow-[0_0_20px_rgba(167,139,250,0.2)]">
+              className="px-6 py-3 bg-[#a78bfa] text-surface-dim text-xs font-black uppercase tracking-widest rounded-xl hover:bg-white transition-all">
               {accredSubmitted ? t('✓ Request sent', '✓ Demande envoyée') : t('Get the LYA Press badge', 'Obtenir le badge LYA Press')}
             </button>
           </div>
           {/* Stats */}
           <div className="grid grid-cols-2 gap-3">
             {STATS.map((s, i) => (
-              <div key={i} className="bg-black/20 border border-white/8 rounded-2xl p-4 text-center">
+              <div key={i} className="bg-black/20 border border-white/8 rounded-lg p-4 text-center">
                 <p className={`text-2xl font-black ${s.color}`}>{s.value}</p>
                 <p className="text-[9px] text-on-surface-variant/40 font-black uppercase tracking-widest mt-1">{isFR ? s.label_fr : s.label_en}</p>
               </div>
@@ -214,7 +214,7 @@ export const PressMediaSection: React.FC<Props> = ({ t, language, onNotify }) =>
           <AnimatePresence>
             {filtered.map((item, i) => (
               <motion.div key={item.code} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06 }}
-                className={`bg-surface-low border rounded-2xl transition-all ${item.color}`}>
+                className={`bg-surface-low border rounded-lg transition-all ${item.color}`}>
 
                 {/* Header de la card */}
                 <div className="p-5 cursor-pointer" onClick={() => setExpandedCard(expandedCard === item.code ? null : item.code)}>
@@ -280,7 +280,7 @@ export const PressMediaSection: React.FC<Props> = ({ t, language, onNotify }) =>
         <div className="grid sm:grid-cols-2 gap-3">
           {PUBLICATIONS.map((pub, i) => (
             <motion.div key={pub.code} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }}
-              className="bg-surface-low border border-white/8 rounded-2xl p-4 hover:border-primary-cyan/25 transition-all group">
+              className="bg-surface-low border border-white/8 rounded-lg p-4 hover:border-primary-cyan/25 transition-all group">
               <div className="flex items-start justify-between gap-3">
                 <div className="flex-1 min-w-0 space-y-2">
                   <p className="text-xs font-black text-white leading-snug group-hover:text-primary-cyan transition-colors">
@@ -307,11 +307,11 @@ export const PressMediaSection: React.FC<Props> = ({ t, language, onNotify }) =>
       </div>
 
       {/* BADGE LYA PRESS */}
-      <div className="relative overflow-hidden bg-gradient-to-r from-accent-gold/8 to-surface-low border border-accent-gold/25 rounded-3xl p-8">
+      <div className="relative overflow-hidden bg-gradient-to-r from-accent-gold/8 to-surface-low border border-accent-gold/25 rounded-lg p-8">
         <div className="absolute top-0 right-0 w-48 h-48 bg-accent-gold/5 rounded-full blur-3xl pointer-events-none"/>
         <div className="relative z-10 grid md:grid-cols-3 gap-6 items-center">
           <div className="text-center space-y-2">
-            <div className="w-16 h-16 bg-accent-gold/15 border-2 border-accent-gold/30 rounded-2xl flex items-center justify-center mx-auto">
+            <div className="w-16 h-16 bg-accent-gold/15 border-2 border-accent-gold/30 rounded-lg flex items-center justify-center mx-auto">
               <Star size={28} className="text-accent-gold" fill="currentColor"/>
             </div>
             <p className="text-xs font-black text-accent-gold uppercase tracking-widest">Badge LYA Press</p>
@@ -348,7 +348,7 @@ export const PressMediaSection: React.FC<Props> = ({ t, language, onNotify }) =>
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-xl">
             <motion.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
-              className="bg-surface-low border border-[#a78bfa]/30 rounded-3xl p-6 max-w-md w-full space-y-5">
+              className="bg-surface-low border border-[#a78bfa]/30 rounded-lg p-6 max-w-md w-full space-y-5">
               <div>
                 <p className="text-[10px] font-black text-[#a78bfa] uppercase tracking-widest mb-1">#{applyModal.code}</p>
                 <h3 className="text-sm font-black text-white">{isFR ? applyModal.subject_fr : applyModal.subject_en}</h3>
@@ -396,7 +396,7 @@ export const PressMediaSection: React.FC<Props> = ({ t, language, onNotify }) =>
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-xl">
             <motion.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
-              className="bg-surface-low border border-accent-gold/30 rounded-3xl p-6 max-w-md w-full space-y-5">
+              className="bg-surface-low border border-accent-gold/30 rounded-lg p-6 max-w-md w-full space-y-5">
               <div className="text-center space-y-2">
                 <Star size={32} className="text-accent-gold mx-auto" fill="currentColor"/>
                 <h3 className="text-sm font-black text-white">{t('LYA Press badge request', 'Demande de badge LYA Press')}</h3>

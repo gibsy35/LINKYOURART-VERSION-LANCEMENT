@@ -25,7 +25,7 @@ export const LockedOverlay: React.FC<LockedOverlayProps> = ({
         <motion.div 
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          className="w-20 h-20 bg-primary-cyan/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-primary-cyan/20 shadow-[0_0_30px_rgba(0,224,255,0.2)]"
+          className="w-20 h-20 bg-primary-cyan/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-primary-cyan/20"
         >
           <Lock size={32} className="text-primary-cyan" />
         </motion.div>
@@ -40,7 +40,7 @@ export const LockedOverlay: React.FC<LockedOverlayProps> = ({
 
         <button 
           onClick={onAction}
-          className="w-full py-4 bg-primary-cyan text-surface-dim text-[10px] font-black uppercase tracking-[0.3em] flex items-center justify-center gap-3 hover:bg-white transition-all shadow-[0_0_20px_rgba(0,224,255,0.3)] active:scale-95"
+          className="w-full py-4 bg-primary-cyan text-surface-dim text-[10px] font-black uppercase tracking-[0.3em] flex items-center justify-center gap-3 hover:bg-white transition-all active:scale-95"
         >
           {actionLabel || t('UPGRADE_TO_PRO', 'PASSER_À_PRO')}
           <ArrowRight size={14} />

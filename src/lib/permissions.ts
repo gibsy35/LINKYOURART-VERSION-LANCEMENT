@@ -23,11 +23,11 @@ import { UserProfile, UserRole } from '../types';
  *                    extendable per-unit at €5/extra certification).
  *   - PROFESSIONAL: certification tooling for sourcing/auditing others'
  *                    work, split into two sub-tiers (see proTier):
- *                      STARTER  — Registry access, unlimited own-catalogue
- *                                 submissions, priority review queue.
- *                      ADVANCED — everything Starter has, plus API access,
- *                                 white-label reporting, dedicated account
- *                                 manager.
+ *                      STARTER  — Registry access, up to 25 own-catalogue
+ *                                 submissions/mo, priority review queue.
+ *                      ADVANCED — everything Starter has (cap raised to
+ *                                 100/mo), plus API access, white-label
+ *                                 reporting, dedicated account manager.
  *   - Lounge & Governance are gated by `isVerifiedValidator` (a manual
  *     vetting step — the existing "Become a Validator" flow), not by
  *     subscription tier alone. Enterprise/Admin get it automatically as
@@ -37,7 +37,9 @@ import { UserProfile, UserRole } from '../types';
 export const FREE_CREATOR_PROJECT_LIMIT = 3;
 export const EXTRA_CERTIFICATION_PRICE_EUR = 5;
 export const PRO_STARTER_PRICE_EUR = 79;
+export const PRO_STARTER_PROJECT_LIMIT = 25;
 export const PRO_ADVANCED_PRICE_EUR = 249;
+export const PRO_ADVANCED_PROJECT_LIMIT = 100;
 
 /**
  * Validator compensation model.
@@ -146,7 +148,7 @@ export function getPermissions(user: UserProfile | null | undefined): Permission
     return {
       isPaidTier: true,
       canSubmitProjects: true,
-      projectSubmissionLimit: UNLIMITED,
+      projectSubmissionLimit: isEnterprise ? UNLIMITED : isAdvanced ? PRO_ADVANCED_PROJECT_LIMIT : PRO_STARTER_PROJECT_LIMIT,
       canAccessRegistryCertificationTools: true,
       canAccessAPI: isEnterprise || isAdvanced,
       canAccessGovernance: isEnterprise || !!user.isVerifiedValidator,

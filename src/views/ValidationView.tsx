@@ -275,7 +275,7 @@ const ValidationQueue: React.FC<{
           { label: T('Approuvés', 'Approved'), value: approved, color: 'text-emerald-400', bg: 'bg-emerald-400/8 border-emerald-400/20' },
           { label: T('Rejetés', 'Rejected'), value: rejected, color: 'text-rose-400', bg: 'bg-rose-400/8 border-rose-400/20' },
         ].map((k, i) => (
-          <div key={i} className={`${k.bg} border rounded-2xl p-4 text-center`}>
+          <div key={i} className={`${k.bg} border rounded-lg p-4 text-center`}>
             <p className={`text-3xl font-black font-mono ${k.color}`}>{k.value}</p>
             <p className="text-xs text-on-surface-variant/60 font-bold uppercase tracking-widest mt-1">{k.label}</p>
           </div>
@@ -319,7 +319,7 @@ const ValidationQueue: React.FC<{
               onNotify(T(`${real.length} demande(s) en attente`, `${real.length} pending request(s)`));
             } catch(e) { handleFirestoreError(e, OperationType.GET, 'contracts'); }
           }}
-          className="flex items-center gap-2 bg-primary-cyan text-surface-dim hover:bg-white px-5 py-2.5 text-sm font-black uppercase tracking-wide rounded-xl transition-all shadow-[0_0_16px_rgba(0,224,255,0.2)]"
+          className="flex items-center gap-2 bg-primary-cyan text-surface-dim hover:bg-white px-5 py-2.5 text-sm font-black uppercase tracking-wide rounded-xl transition-all"
         >
           <RefreshCw size={14} />
           {T('Actualiser', 'Refresh')}
@@ -333,7 +333,7 @@ const ValidationQueue: React.FC<{
         </div>
       )}
       {!isLoadingQueue && requests.length === 0 && (
-        <div className="py-16 text-center border border-dashed border-white/10 rounded-2xl">
+        <div className="py-16 text-center border border-dashed border-white/10 rounded-lg">
           <CheckCircle size={28} className="text-emerald-400/40 mx-auto mb-3" />
           <p className="text-sm text-on-surface-variant/50 uppercase tracking-widest">{T('Aucun projet en attente de validation.', 'No projects pending validation.')}</p>
         </div>
@@ -351,7 +351,7 @@ const ValidationQueue: React.FC<{
                 key={req.id} layout
                 initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, x: 20 }} transition={{ delay: idx * 0.03 }}
-                className="bg-surface-low/40 backdrop-blur-xl border border-white/8 rounded-2xl overflow-hidden hover:border-white/18 transition-all"
+                className="bg-surface-low/40 backdrop-blur-xl border border-white/8 rounded-lg overflow-hidden hover:border-white/18 transition-all"
               >
                 {/* Header projet */}
                 <div className="flex items-start gap-3 px-4 py-4 border-b border-white/6 flex-nowrap">
@@ -428,7 +428,7 @@ const ValidationQueue: React.FC<{
                           onClick={() => approve(req.id)}
                           disabled={!allDone || isOwnProject}
                           title={isOwnProject ? T('Conflit d\'intérêt — vous êtes le porteur de ce projet', 'Conflict of interest — you are this project\'s owner') : undefined}
-                          className={`px-6 py-2 text-sm font-black uppercase tracking-wide rounded-xl transition-all ${allDone && !isOwnProject ? 'bg-primary-cyan text-surface-dim hover:bg-white shadow-[0_0_16px_rgba(0,224,255,0.2)]' : 'bg-white/5 text-on-surface-variant/30 cursor-not-allowed border border-white/8'}`}
+                          className={`px-6 py-2 text-sm font-black uppercase tracking-wide rounded-xl transition-all ${allDone && !isOwnProject ? 'bg-primary-cyan text-surface-dim hover:bg-white' : 'bg-white/5 text-on-surface-variant/30 cursor-not-allowed border border-white/8'}`}
                         >
                           {isOwnProject ? T('Conflit d\'intérêt', 'Conflict of interest') : T('Approuver', 'Approve')}
                         </button>
@@ -457,7 +457,7 @@ const ValidationQueue: React.FC<{
           <div className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-surface-dim/90 backdrop-blur-xl">
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-surface-low border border-white/10 p-8 rounded-3xl max-w-md w-full shadow-2xl space-y-5"
+              className="bg-surface-low border border-white/10 p-8 rounded-lg max-w-md w-full shadow-2xl space-y-5"
             >
               <div className="flex items-center justify-between">
                 <h3 className="text-base font-black text-on-surface uppercase tracking-wider">{T('Motif du rejet', 'Rejection reason')}</h3>
@@ -554,7 +554,7 @@ const DiagnosticConsole: React.FC<{ lang: 'FR' | 'EN'; onNotify: (msg: string) =
     <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
       {/* Panneau gauche — paramètres */}
       <div className="lg:col-span-2 space-y-5">
-        <div className="bg-surface-low/40 border border-white/10 rounded-2xl p-5 space-y-5">
+        <div className="bg-surface-low/40 border border-white/10 rounded-lg p-5 space-y-5">
           <div className="flex items-center gap-2">
             <Activity size={14} className="text-primary-cyan" />
             <h3 className="text-sm font-black text-on-surface uppercase tracking-wider">{T('Paramètres de diagnostic', 'Diagnostic parameters')}</h3>
@@ -596,7 +596,7 @@ const DiagnosticConsole: React.FC<{ lang: 'FR' | 'EN'; onNotify: (msg: string) =
           <button
             onClick={runDiagnostic}
             disabled={running}
-            className="w-full py-3.5 bg-primary-cyan text-surface-dim text-sm font-black uppercase tracking-widest hover:bg-white transition-all rounded-xl shadow-[0_0_16px_rgba(0,224,255,0.2)] flex items-center justify-center gap-2 disabled:opacity-60"
+            className="w-full py-3.5 bg-primary-cyan text-surface-dim text-sm font-black uppercase tracking-widest hover:bg-white transition-all rounded-xl flex items-center justify-center gap-2 disabled:opacity-60"
           >
             {running ? <><RefreshCw size={14} className="animate-spin" /> {T('Analyse en cours...', 'Analysing...')}</> : <><Play size={14} /> {T('Lancer le diagnostic', 'Run diagnostic')}</>}
           </button>
@@ -604,7 +604,7 @@ const DiagnosticConsole: React.FC<{ lang: 'FR' | 'EN'; onNotify: (msg: string) =
 
         {/* Aperçu projet sélectionné */}
         {selected && (
-          <div className="bg-surface-low/40 border border-white/10 rounded-2xl p-5 space-y-3">
+          <div className="bg-surface-low/40 border border-white/10 rounded-lg p-5 space-y-3">
             <div className="w-full rounded-xl overflow-hidden" style={{ aspectRatio: '16/9' }}>
               <img src={getSafeImageUrl(selected.image, selected.category)} alt={selected.name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
             </div>
@@ -619,7 +619,7 @@ const DiagnosticConsole: React.FC<{ lang: 'FR' | 'EN'; onNotify: (msg: string) =
 
       {/* Panneau droit — résultat */}
       <div className="lg:col-span-3 space-y-5">
-        <div className="bg-surface-low/40 border border-white/10 rounded-2xl p-5 min-h-[400px] flex flex-col justify-between">
+        <div className="bg-surface-low/40 border border-white/10 rounded-lg p-5 min-h-[400px] flex flex-col justify-between">
           <div className="flex items-center gap-2 mb-4">
             <BarChart2 size={14} className="text-primary-cyan" />
             <h3 className="text-sm font-black text-on-surface uppercase tracking-wider">{T('Résultat du diagnostic', 'Diagnostic result')}</h3>
@@ -658,7 +658,7 @@ const DiagnosticConsole: React.FC<{ lang: 'FR' | 'EN'; onNotify: (msg: string) =
           {result && (
             <div className="space-y-5">
               {/* Score global */}
-              <div className={`rounded-2xl p-5 border text-center ${
+              <div className={`rounded-lg p-5 border text-center ${
                 result.status === 'ELIGIBLE' ? 'bg-emerald-400/8 border-emerald-400/25' :
                 result.status === 'REVIEW'   ? 'bg-accent-gold/8 border-accent-gold/25' :
                                                'bg-rose-400/8 border-rose-400/25'
@@ -685,11 +685,11 @@ const DiagnosticConsole: React.FC<{ lang: 'FR' | 'EN'; onNotify: (msg: string) =
                   <AreaChart data={chartData}>
                     <defs>
                       <linearGradient id="diagGrad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor={result.status === 'ELIGIBLE' ? '#10b981' : result.status === 'REVIEW' ? '#f59e0b' : '#f43f5e'} stopOpacity={0.3} />
-                        <stop offset="95%" stopColor={result.status === 'ELIGIBLE' ? '#10b981' : result.status === 'REVIEW' ? '#f59e0b' : '#f43f5e'} stopOpacity={0} />
+                        <stop offset="5%" stopColor={result.status === 'ELIGIBLE' ? '#10b981' : result.status === 'REVIEW' ? '#E61A97' : '#f43f5e'} stopOpacity={0.3} />
+                        <stop offset="95%" stopColor={result.status === 'ELIGIBLE' ? '#10b981' : result.status === 'REVIEW' ? '#E61A97' : '#f43f5e'} stopOpacity={0} />
                       </linearGradient>
                     </defs>
-                    <Area type="monotone" dataKey="value" stroke={result.status === 'ELIGIBLE' ? '#10b981' : result.status === 'REVIEW' ? '#f59e0b' : '#f43f5e'} strokeWidth={2} fill="url(#diagGrad)" dot={false} />
+                    <Area type="monotone" dataKey="value" stroke={result.status === 'ELIGIBLE' ? '#10b981' : result.status === 'REVIEW' ? '#E61A97' : '#f43f5e'} strokeWidth={2} fill="url(#diagGrad)" dot={false} />
                     <Tooltip contentStyle={{ background: '#0f121a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, fontSize: 11 }} formatter={(v: number) => [v, 'Score']} />
                   </AreaChart>
                 </ResponsiveContainer>
@@ -759,7 +759,7 @@ const QualityDashboard: React.FC<{ lang: 'FR' | 'EN' }> = ({ lang }) => {
           { label: T('Catégories actives', 'Active categories'), value: Object.keys(categories).length, color: 'text-[#a78bfa]', sub: T('disciplines créatives', 'creative disciplines') },
           { label: T('Taux de validation', 'Validation rate'), value: '78%', color: 'text-emerald-400', sub: T('cette semaine', 'this week') },
         ].map((k, i) => (
-          <div key={i} className="bg-surface-low/40 border border-white/10 rounded-2xl p-5 space-y-1">
+          <div key={i} className="bg-surface-low/40 border border-white/10 rounded-lg p-5 space-y-1">
             <p className="text-xs text-on-surface-variant/50 font-bold uppercase tracking-widest">{k.label}</p>
             <p className={`text-3xl font-black font-mono ${k.color}`}>{k.value}</p>
             <p className="text-xs text-on-surface-variant/30">{k.sub}</p>
@@ -769,7 +769,7 @@ const QualityDashboard: React.FC<{ lang: 'FR' | 'EN' }> = ({ lang }) => {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Activité de la semaine */}
-        <div className="bg-surface-low/40 border border-white/10 rounded-2xl p-5 space-y-4">
+        <div className="bg-surface-low/40 border border-white/10 rounded-lg p-5 space-y-4">
           <h3 className="text-sm font-black text-on-surface uppercase tracking-wider">{T('Activité de validation — 7 derniers jours', 'Validation activity — last 7 days')}</h3>
           <div className="flex items-end gap-2 h-32">
             {weeklyData.map((d, i) => (
@@ -789,7 +789,7 @@ const QualityDashboard: React.FC<{ lang: 'FR' | 'EN' }> = ({ lang }) => {
         </div>
 
         {/* Score moyen par catégorie */}
-        <div className="bg-surface-low/40 border border-white/10 rounded-2xl p-5 space-y-4">
+        <div className="bg-surface-low/40 border border-white/10 rounded-lg p-5 space-y-4">
           <h3 className="text-sm font-black text-on-surface uppercase tracking-wider">{T('Score LYA moyen par discipline', 'Average LYA Score by discipline')}</h3>
           <div className="space-y-3">
             {catStats.map(c => (
@@ -807,7 +807,7 @@ const QualityDashboard: React.FC<{ lang: 'FR' | 'EN' }> = ({ lang }) => {
       </div>
 
       {/* Top créateurs */}
-      <div className="bg-surface-low/40 border border-white/10 rounded-2xl p-5 space-y-4">
+      <div className="bg-surface-low/40 border border-white/10 rounded-lg p-5 space-y-4">
         <h3 className="text-sm font-black text-on-surface uppercase tracking-wider">{T('Projets les mieux notés — Plateforme LYA', 'Top rated projects — LYA Platform')}</h3>
         <div className="space-y-3">
           {topCreators.map((c, i) => (
@@ -893,7 +893,7 @@ export const ValidationView: React.FC<{
             {tab.icon}
             {T(tab.labelFR, tab.labelEN)}
             {activeTab === tab.key && (
-              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-cyan shadow-[0_0_10px_rgba(0,224,255,0.4)] transition-all duration-300" />
+              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-cyan transition-all duration-300" />
             )}
           </button>
         ))}

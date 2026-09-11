@@ -274,12 +274,12 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify, onViewChan
 
         <div className="flex flex-col lg:flex-row lg:items-center justify-end gap-8 -mt-32 mb-12 relative z-20">
           <div className="flex flex-wrap gap-4">
-            <div className="px-4 sm:px-8 py-4 sm:py-5 bg-surface-dim/80 border border-white/10 rounded-2xl backdrop-blur-3xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] relative overflow-hidden group">
+            <div className="px-4 sm:px-8 py-4 sm:py-5 bg-surface-dim/80 border border-white/10 rounded-lg backdrop-blur-3xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] relative overflow-hidden group">
               <div className="absolute inset-0 bg-primary-cyan/5 opacity-0 group-hover:opacity-100 transition-opacity" />
               <div className="text-[10px] text-primary-cyan uppercase tracking-[0.2em] font-black mb-1 opacity-70">{t('Ecosystem Status', 'Statut de l\'Écosystème')}</div>
               <div className="text-3xl font-black text-white tracking-tighter uppercase">{t('Active & Secure', 'ACTIF & SÉCURISÉ')}</div>
             </div>
-            <div className="px-4 sm:px-8 py-4 sm:py-5 bg-surface-dim/80 border border-white/10 rounded-2xl backdrop-blur-3xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] relative overflow-hidden group">
+            <div className="px-4 sm:px-8 py-4 sm:py-5 bg-surface-dim/80 border border-white/10 rounded-lg backdrop-blur-3xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] relative overflow-hidden group">
               <div className="absolute inset-0 bg-accent-gold/5 opacity-0 group-hover:opacity-100 transition-opacity" />
               <div className="text-[10px] text-accent-gold uppercase tracking-[0.2em] font-black mb-1 opacity-70">{t('Protocol Version', 'Version du Protocole')}</div>
               <div className="text-3xl font-black text-white tracking-tighter uppercase">V4.2.0</div>
@@ -289,7 +289,7 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify, onViewChan
 
         {type === 'FAQ' && (
           <div className="mb-12">
-            <div className="flex flex-wrap gap-2 mb-8 md:mb-16 p-2 bg-white/5 rounded-2xl border border-white/10 backdrop-blur-md">
+            <div className="flex flex-wrap gap-2 mb-8 md:mb-16 p-2 bg-white/5 rounded-lg border border-white/10 backdrop-blur-md">
               {faqThemes.map((theme) => (
                 <button
                   key={theme.id}
@@ -301,7 +301,7 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify, onViewChan
                   }`}
                 >
                   {activeFaqTab === theme.id && (
-                    <div className="absolute inset-0 bg-primary-cyan shadow-[0_0_40px_rgba(0,224,255,0.4)]" />
+                    <div className="absolute inset-0 bg-primary-cyan" />
                   )}
                   <span className="relative z-10">{theme.label}</span>
                 </button>
@@ -331,8 +331,8 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify, onViewChan
                       
                       <div className="relative glass-panel p-10 rounded-[2.5rem] border-white/10 bg-surface-dim/40 hover:bg-surface-dim/60 hover:border-primary-cyan/30 transition-all duration-500 shadow-2xl h-full flex flex-col gap-6">
                         <div className="flex gap-6 items-start">
-                          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary-cyan/20 to-primary-cyan/5 border border-primary-cyan/20 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-500">
-                            <HelpCircle size={24} className="text-primary-cyan shadow-[0_0_15px_rgba(0,224,255,0.5)]" />
+                          <div className="w-14 h-14 rounded-lg bg-gradient-to-br from-primary-cyan/20 to-primary-cyan/5 border border-primary-cyan/20 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-500">
+                            <HelpCircle size={24} className="text-primary-cyan" />
                           </div>
                           <h3 className="text-xl font-black text-white tracking-tighter uppercase leading-tight group-hover:text-primary-cyan transition-colors duration-500 pt-1">
                             {item.q}
@@ -377,8 +377,8 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify, onViewChan
                   </div>
 
                   <div className="flex items-center gap-6 mb-8 relative z-10">
-                    <div className="w-12 h-12 rounded-2xl bg-primary-cyan/10 border border-primary-cyan/20 flex items-center justify-center text-primary-cyan group-hover:shadow-[0_0_20px_rgba(0,224,255,0.3)] transition-shadow">
-                      <div className="w-3 h-3 rounded-full bg-primary-cyan animate-pulse shadow-[0_0_10px_rgba(0,224,255,0.8)]" />
+                    <div className="w-12 h-12 rounded-lg bg-primary-cyan/10 border border-primary-cyan/20 flex items-center justify-center text-primary-cyan group-hover: transition-shadow">
+                      <div className="w-3 h-3 rounded-full bg-primary-cyan animate-pulse" />
                     </div>
                     <h2 className="text-2xl font-black text-white tracking-tighter uppercase leading-none group-hover:text-primary-cyan transition-colors">
                       {section.title}
@@ -457,7 +457,7 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify, onViewChan
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5">
                       {SCORE_PILLARS.map((p, i) => (
-                        <div key={p.key} className="glass-panel p-6 rounded-2xl border-white/10 bg-surface-dim/60 hover:border-[#a78bfa]/30 transition-all">
+                        <div key={p.key} className="glass-panel p-6 rounded-lg border-white/10 bg-surface-dim/60 hover:border-[#a78bfa]/30 transition-all">
                           <div className="w-11 h-11 rounded-xl bg-[#a78bfa]/10 border border-[#a78bfa]/20 flex items-center justify-center mb-4">
                             <p.icon size={20} className="text-[#a78bfa]" />
                           </div>
@@ -483,7 +483,7 @@ export const LegalView: React.FC<LegalViewProps> = ({ type, onNotify, onViewChan
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
                       {VALIDATION_PROCESS.map((s, i) => (
-                        <div key={i} className="glass-panel p-6 rounded-2xl border-white/10 bg-surface-dim/60 h-full hover:border-accent-gold/30 transition-all">
+                        <div key={i} className="glass-panel p-6 rounded-lg border-white/10 bg-surface-dim/60 h-full hover:border-accent-gold/30 transition-all">
                           <div className="flex items-center gap-3 mb-3">
                             <span className="text-[10px] font-mono text-accent-gold font-black">0{i + 1}</span>
                             <s.icon size={18} className="text-accent-gold" />

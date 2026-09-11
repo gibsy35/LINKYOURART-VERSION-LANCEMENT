@@ -1,15 +1,17 @@
 const { sendEmail } = require('../resend');
 
 // ─── EMAIL 1 : Confirmation pré-inscription ──────────────────────────────────
-function buildConfirmationEmail(name, email, role, lang) {
+function buildConfirmationEmail(name, email, role, lang, tier, position, accessKey) {
   const isFR = lang !== 'EN';
   const roleLabel = role === 'PATRON' ? (isFR ? 'Mécène' : 'Patron')
     : role === 'PROFESSIONAL' ? (isFR ? 'Professionnel' : 'Professional')
     : (isFR ? 'Créateur' : 'Creator');
+  const isInstantAccess = tier === 'FOUNDING_PIONEER' || tier === 'ORIGINAL';
+  const tierLabel = tier === 'FOUNDING_PIONEER' ? 'Founding Pioneer' : tier === 'ORIGINAL' ? 'Original' : (isFR ? "Liste d'attente" : 'Waitlist');
 
-  const subject = isFR
-    ? `[LYA Originals] ${name}, votre candidature est en cours d'examen`
-    : `[LYA Originals] ${name}, your application is under review`;
+  const subject = isInstantAccess
+    ? (isFR ? `[LYA Originals] ${name}, votre accès est activé` : `[LYA Originals] ${name}, your access is active`)
+    : (isFR ? `[LYA Originals] ${name}, votre place est réservée` : `[LYA Originals] ${name}, your spot is reserved`);
 
   const html = `<!DOCTYPE html>
 <html lang="${isFR ? 'fr' : 'en'}">
@@ -25,9 +27,15 @@ function buildConfirmationEmail(name, email, role, lang) {
 
   <tr><td bgcolor="#0F1621" style="background:linear-gradient(160deg,#0F1621 0%,#0D1117 60%,#12192A 100%);border-radius:20px 20px 0 0;padding:52px 40px 44px;text-align:center;border:1px solid #0b2830;border-bottom:none;">
     <img src="https://www.linkyourart.com/logo-brochure.png" width="72" height="72" alt="LinkYourArt" style="display:block;margin:0 auto 24px;width:72px;height:72px;" />
-    <p style="margin:0 0 6px;font-size:11px;font-weight:900;color:#93A0AC;letter-spacing:0.25em;text-transform:uppercase;">${isFR ? 'CANDIDATURE REÇUE' : 'APPLICATION RECEIVED'}</p>
-    <p style="margin:0 0 20px;font-size:30px;font-weight:900;color:#ffffff;line-height:1.15;">${name},<br><span style="color:#00D4E8;">${isFR ? 'votre dossier est entre nos mains.' : 'your application is in our hands.'}</span></p>
-    <p style="margin:0 auto;font-size:13px;color:#B4BAC6;line-height:1.7;max-width:400px;">${isFR ? "L'équipe LYA examine chaque profil avec le plus grand soin. Nous voulons nous assurer que chaque membre partage notre vision de la certification créative." : "The LYA team reviews every profile with great care. We want to make sure every member shares our vision of creative certification."}</p>
+    <p style="margin:0 0 6px;font-size:11px;font-weight:900;color:#93A0AC;letter-spacing:0.25em;text-transform:uppercase;">${isInstantAccess ? (isFR ? 'VOUS EN FAITES PARTIE' : "YOU'RE IN") : (isFR ? 'INSCRIPTION CONFIRMÉE' : 'REGISTRATION CONFIRMED')}</p>
+    <p style="margin:0 0 20px;font-size:30px;font-weight:900;color:#ffffff;line-height:1.15;">${name},<br><span style="color:#00D4E8;">${isInstantAccess ? (isFR ? 'votre place est activée.' : 'your spot is activated.') : (isFR ? 'votre place est réservée.' : 'your spot is reserved.')}</span></p>
+    <p style="margin:0 auto;font-size:13px;color:#B4BAC6;line-height:1.7;max-width:400px;">${isInstantAccess
+      ? (isFR ? `${tierLabel} — l'une des places les plus recherchées de LYA. Aucune validation manuelle : votre clé ci-dessous vous donne un accès immédiat.` : `${tierLabel} — one of LYA's most sought-after spots. No manual review: your key below gives you instant access.`)
+      : (isFR ? `Vous êtes en position #${position} sur la liste d'attente. Les 1000 premières places sont prises — vous serez prévenu(e) par email à la prochaine ouverture de cohorte.` : `You're at position #${position} on the waitlist. The first 1000 spots are taken — we'll notify you by email when the next cohort opens.`)
+    }</p>
+    ${isInstantAccess && accessKey ? `<p style="margin:20px auto 0;font-size:11px;color:#7B8291;letter-spacing:0.1em;text-transform:uppercase;">${isFR ? 'Votre clé — unique, réservée à vous' : 'Your key — unique, reserved for you'}</p>
+    <p style="margin:6px auto 0;font-size:18px;font-weight:900;color:#00D4E8;letter-spacing:0.08em;background:#0c191f;border:1px dashed #0b2e36;border-radius:10px;padding:14px 22px;display:inline-block;user-select:all;">${accessKey}</p>
+    <p style="margin:18px auto 0;"><a href="https://www.linkyourart.com/?signup=1&code=${encodeURIComponent(accessKey)}&email=${encodeURIComponent(email)}" style="display:inline-block;background:linear-gradient(90deg,#7C3FBF,#00D4E8);color:#0D1117;font-weight:900;font-size:13px;text-decoration:none;padding:14px 28px;border-radius:100px;">${isFR ? 'Activer ma clé et créer mon compte →' : 'Activate my key and create my account →'}</a></p>` : ''}
   </td></tr>
 
   <tr><td bgcolor="#7C3FBF" style="background:linear-gradient(90deg,#7C3FBF,#00D4E8,#E0326E);height:2px;"></td></tr>
@@ -147,7 +155,7 @@ module.exports = async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const { to, name, email, role, lang = 'FR', type = 'confirmation', signupLink } = req.body || {};
+  const { to, name, email, role, lang = 'FR', type = 'confirmation', signupLink, tier, position, accessKey } = req.body || {};
   if (!to || !name) return res.status(400).json({ error: 'Missing required fields' });
 
   try {
@@ -158,7 +166,7 @@ module.exports = async (req, res) => {
       ({ subject, html } = buildApprovalEmail(name, email || to, signupLink || `https://linkyourart.com?signup=1`, lang));
     } else {
       // Email 1 — envoyé automatiquement à la pré-inscription
-      ({ subject, html } = buildConfirmationEmail(name, email || to, role || 'CREATOR', lang));
+      ({ subject, html } = buildConfirmationEmail(name, email || to, role || 'CREATOR', lang, tier, position, accessKey));
     }
 
     await sendEmail({ to, subject, html });

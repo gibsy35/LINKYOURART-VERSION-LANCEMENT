@@ -261,7 +261,7 @@ export const CompareView: React.FC<CompareViewProps> = ({
                       
                       return (
                         <td key={`${contract.id}-${idx}`} className="p-8 border-r border-white/5 last:border-r-0">
-                          <div className={`text-base md:text-xl font-mono font-black tracking-tighter ${textColor} ${(row as any).highlight ? 'text-2xl md:text-3xl text-white drop-shadow-[0_0_20px_rgba(0,224,255,0.4)]' : ''}`}>
+                          <div className={`text-base md:text-xl font-mono font-black tracking-tighter ${textColor} ${(row as any).highlight ? 'text-2xl md:text-3xl text-white drop-' : ''}`}>
                              {isNumeric && ((row as any).isTicker || (row as any).highlight || row.label.includes('SCORE')) ? (
                                <div className="flex items-baseline gap-0.5">
                                  {(row as any).prefix}
@@ -295,7 +295,7 @@ export const CompareView: React.FC<CompareViewProps> = ({
           <div className="p-10 bg-surface-dim border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-12 relative overflow-hidden mt-20">
              <div className="absolute top-0 left-0 w-2 h-full bg-primary-cyan/40" />
              <div className="flex items-center gap-8 relative z-10">
-                <div className="w-16 h-16 bg-primary-cyan/5 border border-primary-cyan/20 flex items-center justify-center text-primary-cyan rotate-45 group-hover:rotate-90 transition-all duration-1000 shadow-[0_0_30px_rgba(0,224,255,0.1)]">
+                <div className="w-16 h-16 bg-primary-cyan/5 border border-primary-cyan/20 flex items-center justify-center text-primary-cyan rotate-45 group-hover:rotate-90 transition-all duration-1000">
                   <Zap size={28} className="-rotate-45" />
                 </div>
                 <div>

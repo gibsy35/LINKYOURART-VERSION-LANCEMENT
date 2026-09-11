@@ -6,7 +6,7 @@ import { useCurrency } from '../context/CurrencyContext';
 import { FeatureShowcaseModal } from '../components/Modals';
 
 import { PageHeader } from '../components/ui/PageHeader';
-import { PRO_STARTER_PRICE_EUR, PRO_ADVANCED_PRICE_EUR, EXPRESS_48H_PRICE_EUR, EXPRESS_24H_PRICE_EUR } from '../lib/permissions';
+import { PRO_STARTER_PRICE_EUR, PRO_ADVANCED_PRICE_EUR, PRO_STARTER_PROJECT_LIMIT, PRO_ADVANCED_PROJECT_LIMIT, EXPRESS_48H_PRICE_EUR, EXPRESS_24H_PRICE_EUR } from '../lib/permissions';
 
 interface PricingViewProps {
   onSelectPlan: (plan: { id: string, name: string, price: number, billingCycle: 'monthly' | 'yearly' }) => void;
@@ -135,7 +135,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
       monthlyPrice: PRO_STARTER_PRICE_EUR,
       description: t('For independent professionals sourcing and certifying work.', 'Pour les pros indépendants qui sourcent et certifient.'),
       features: [
-        t('Unlimited submissions', 'Soumissions illimitées'),
+        t(`Up to ${PRO_STARTER_PROJECT_LIMIT} submissions/mo`, `Jusqu'à ${PRO_STARTER_PROJECT_LIMIT} soumissions/mois`),
         t('Full Registry access', 'Accès complet au Registre'),
         t('Priority review queue', 'File de revue prioritaire'),
       ],
@@ -149,7 +149,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
       monthlyPrice: PRO_ADVANCED_PRICE_EUR,
       description: t('Everything in Starter, plus API and dedicated support.', 'Tout Starter, plus API et accompagnement dédié.'),
       features: [
-        t('Everything in Pro Starter', 'Tout Pro Starter'),
+        t(`Everything in Pro Starter, cap raised to ${PRO_ADVANCED_PROJECT_LIMIT}/mo`, `Tout Pro Starter, plafond porté à ${PRO_ADVANCED_PROJECT_LIMIT}/mois`),
         t('API access', 'Accès API'),
         t('Dedicated account manager', 'Gestionnaire de compte dédié'),
       ],
@@ -259,11 +259,11 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.1 }}
                 className={`relative bg-surface-high/40 border ${
-                  plan.popular ? 'border-accent-gold shadow-[0_0_30px_rgba(212,175,55,0.1)]' :
+                  plan.popular ? 'border-accent-gold' :
                   plan.color === 'accent-purple' ? 'border-accent-purple/30' :
                   plan.color === 'accent-pink' ? 'border-accent-pink/30' :
                   plan.color === 'primary-cyan' ? 'border-primary-cyan/25' :
-                  plan.color === 'emerald-400' ? 'border-emerald-400/30 shadow-[0_0_30px_rgba(52,211,153,0.08)]' :
+                  plan.color === 'emerald-400' ? 'border-emerald-400/30' :
                   'border-white/10'
                 } p-5 sm:p-6 backdrop-blur-xl flex flex-col`}
               >
@@ -297,13 +297,13 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
                 <div className="flex flex-col justify-end mb-4 min-h-[76px]">
                   {plan.id === 'PRO_ENTERPRISE' ? (
                     <div>
-                      <span className="text-2xl font-black text-white tracking-widest block uppercase leading-none drop-shadow-[0_0_18px_rgba(255,255,255,0.45)]">{t('Custom Quote', 'Sur Devis')}</span>
+                      <span className="text-2xl font-black text-white tracking-widest block uppercase leading-none drop-">{t('Custom Quote', 'Sur Devis')}</span>
                       <span className="text-[10px] text-on-surface-variant/75 uppercase tracking-[0.2em] font-black block mt-2">{t('Enterprise Private Node / Dedicated Node', 'Nœud d\'infrastructure Élite / Nœud Dédié')}</span>
                     </div>
                   ) : plan.id === 'VALIDATOR_PRO' ? (
                     <div className="space-y-2">
                       <div className="flex items-baseline gap-2">
-                        <span className="text-2xl font-black text-white tracking-tighter uppercase leading-none drop-shadow-[0_0_18px_rgba(255,255,255,0.45)]">{t('Free', 'Gratuit')}</span>
+                        <span className="text-2xl font-black text-white tracking-tighter uppercase leading-none drop-">{t('Free', 'Gratuit')}</span>
                         <span className="text-[9px] text-on-surface-variant/60 uppercase font-bold tracking-widest">{t('Standard review', 'Revue standard')}</span>
                       </div>
                       <div className="flex items-baseline gap-2">
@@ -313,7 +313,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
                     </div>
                   ) : (
                     <div className="flex items-baseline gap-1 flex-wrap">
-                      <span className="text-3xl font-black text-white tracking-tight drop-shadow-[0_0_18px_rgba(255,255,255,0.45)]">{formatPrice(currentPrice)}</span>
+                      <span className="text-3xl font-black text-white tracking-tight drop-">{formatPrice(currentPrice)}</span>
                       <span className="text-on-surface-variant text-[10px] uppercase font-bold tracking-widest">/ {billingCycle === 'yearly' ? t('year', 'an') : t('month', 'mois')}</span>
                     </div>
                   )}
@@ -436,7 +436,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
                       onClick={() => setCreativeField(field.id)}
                       className={`px-3 py-2.5 text-[10px] md:text-xs font-black uppercase tracking-wider text-left border transition-all ${
                         creativeField === field.id
-                          ? 'bg-primary-cyan text-surface-dim border-primary-cyan shadow-[0_0_10px_rgba(0,224,255,0.2)]'
+                          ? 'bg-primary-cyan text-surface-dim border-primary-cyan'
                           : 'bg-white/5 border-white/10 text-on-surface-variant hover:text-white hover:border-white/20'
                       }`}
                     >
@@ -497,7 +497,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
                 className={`w-full py-4 text-xs font-black uppercase tracking-widest flex items-center justify-center gap-2 transition-all rounded-none ${
                   isAnalyzing
                     ? 'bg-white/10 border border-white/20 text-on-surface-variant cursor-wait'
-                    : 'bg-primary-cyan text-surface-dim hover:bg-white hover:shadow-[0_0_25px_rgba(0,224,255,0.4)] active:scale-95'
+                    : 'bg-primary-cyan text-surface-dim hover:bg-white hover: active:scale-95'
                 }`}
               >
                 {isAnalyzing ? (
@@ -812,10 +812,10 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
             ].map((step, i) => (
               <div key={i} className="relative z-10 flex flex-col items-center text-center group">
                 <div className={`w-16 h-16 rounded-full bg-surface-dim border-2 flex items-center justify-center mb-4 transition-all duration-500 group-hover:scale-110 ${
-                  step.color === 'primary-cyan' ? 'border-primary-cyan text-primary-cyan shadow-[0_0_20px_rgba(0,224,255,0.3)]' :
-                  step.color === 'accent-gold' ? 'border-accent-gold text-accent-gold shadow-[0_0_20px_rgba(212,175,55,0.3)]' :
-                  step.color === 'accent-purple' ? 'border-accent-purple text-accent-purple shadow-[0_0_20px_rgba(168,85,247,0.3)]' :
-                  'border-white text-white shadow-[0_0_20px_rgba(255,255,255,0.2)]'
+                  step.color === 'primary-cyan' ? 'border-primary-cyan text-primary-cyan' :
+                  step.color === 'accent-gold' ? 'border-accent-gold text-accent-gold' :
+                  step.color === 'accent-purple' ? 'border-accent-purple text-accent-purple' :
+                  'border-white text-white'
                 }`}>
                   <step.icon size={24} />
                 </div>

@@ -17,7 +17,7 @@ import {
 } from 'lucide-react';
 
 const KpiCard: React.FC<{icon:React.ReactNode;label:string;value:string;sub?:string;subColor?:string;color:string}> = ({icon,label,value,sub,subColor='text-emerald-400',color}) => (
-  <div className="bg-surface-low/40 border border-white/8 rounded-2xl p-4 space-y-2 hover:border-white/15 transition-all">
+  <div className="bg-surface-low/40 border border-white/8 rounded-lg p-4 space-y-2 hover:border-white/15 transition-all">
     <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${color}`}>{icon}</div>
     <p className="text-xs text-on-surface-variant/60 font-medium">{label}</p>
     <p className="text-xl font-black text-on-surface tracking-tight">{value}</p>
@@ -173,7 +173,7 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
 
       {/* Actions rapides */}
       <div className="flex flex-wrap items-center gap-3">
-        <button onClick={()=>setActiveSection('dealfinder')} className="flex items-center gap-2 px-4 py-2.5 bg-primary-cyan text-surface-dim text-xs font-black rounded-xl hover:bg-white transition-all uppercase tracking-wider shadow-[0_0_20px_rgba(0,212,255,0.15)]"><Search size={13}/> {T('Trouver un projet','Find a project')}</button>
+        <button onClick={()=>setActiveSection('dealfinder')} className="flex items-center gap-2 px-4 py-2.5 bg-primary-cyan text-surface-dim text-xs font-black rounded-xl hover:bg-white transition-all uppercase tracking-wider"><Search size={13}/> {T('Trouver un projet','Find a project')}</button>
         <button onClick={()=>setActiveSection('messages')} className="flex items-center gap-2 px-4 py-2.5 bg-surface-high/40 border border-white/10 text-xs font-black rounded-xl hover:border-white/25 transition-all uppercase tracking-wider relative">
           <MessageSquare size={13}/> {T('Messages','Messages')}
           {messages.filter(m=>!m.read).length > 0 && <span className="absolute -top-1 -right-1 w-4 h-4 bg-rose-400 rounded-full text-[9px] font-black text-white flex items-center justify-center">{messages.filter(m=>!m.read).length}</span>}
@@ -184,7 +184,7 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
 
       {/* Alerte projets risque */}
       {riskProjects.length > 0 && (
-        <div className="bg-rose-500/8 border border-rose-500/20 rounded-2xl p-3 flex items-center gap-3">
+        <div className="bg-rose-500/8 border border-rose-500/20 rounded-lg p-3 flex items-center gap-3">
           <AlertTriangle size={14} className="text-rose-400 shrink-0"/>
           <p className="text-xs font-black text-rose-400">{riskProjects.length} {T('projets en statut RISQUE nécessitent une validation prioritaire','RISK-status projects need priority validation')}</p>
         </div>
@@ -214,7 +214,7 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
               </div>
 
               {/* Rappel de positionnement — certification, pas instrument financier */}
-              <div className="bg-gradient-to-r from-primary-cyan/8 to-[#a78bfa]/5 border border-primary-cyan/20 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+              <div className="bg-gradient-to-r from-primary-cyan/8 to-[#a78bfa]/5 border border-primary-cyan/20 rounded-lg p-4 flex flex-col sm:flex-row items-start sm:items-center gap-4">
                 <div className="w-10 h-10 bg-primary-cyan/15 border border-primary-cyan/25 rounded-xl flex items-center justify-center shrink-0"><span className="text-primary-cyan font-black text-xs">LYA</span></div>
                 <div className="flex-1">
                   <p className="text-xs font-black text-primary-cyan uppercase tracking-widest mb-0.5">{T('Score LYA — Standard de certification', 'LYA Score — Certification standard')}</p>
@@ -223,7 +223,7 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
               </div>
 
               {/* Projets reçus */}
-              <div className="bg-surface-low/40 border border-white/8 rounded-2xl p-5 space-y-4">
+              <div className="bg-surface-low/40 border border-white/8 rounded-lg p-5 space-y-4">
                 <div className="flex items-center justify-between flex-wrap gap-3">
                   <div className="flex items-center gap-2"><Briefcase size={14} className="text-primary-cyan"/><p className="text-sm font-black text-on-surface uppercase tracking-wider">{T('Projets reçus','Received Projects')}</p></div>
                   <span className="px-3 py-1 bg-emerald-400/10 border border-emerald-400/20 rounded-full text-xs font-black text-emerald-400">2 {T('nouveaux','new')}</span>
@@ -253,7 +253,7 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
               </div>
 
               {/* Missions actives rapides */}
-              <div className="bg-surface-low/40 border border-white/8 rounded-2xl p-5 space-y-3">
+              <div className="bg-surface-low/40 border border-white/8 rounded-lg p-5 space-y-3">
                 <div className="flex items-center justify-between">
                   <p className="text-sm font-black text-on-surface uppercase tracking-wider">{T('Missions en cours','Active Missions')}</p>
                   <button onClick={()=>setActiveSection('missions')} className="text-xs font-black text-primary-cyan hover:text-white transition-colors uppercase tracking-widest">{T('Voir tout →','See all →')}</button>
@@ -280,7 +280,7 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
                 <h2 className="font-headline font-black text-on-surface text-2xl tracking-tight">{T('Recherche de','Project')} <span className="text-primary-cyan">{T('Projets','Finder')}</span></h2>
                 <p className="text-xs text-on-surface-variant/50">{T('Trouvez les projets à fort potentiel · Score LYA ≥','Find high-potential projects · LYA Score ≥')} {minScore}</p>
               </div>
-              <div className="bg-surface-low/40 border border-white/8 rounded-2xl p-5 space-y-4 max-w-2xl mx-auto">
+              <div className="bg-surface-low/40 border border-white/8 rounded-lg p-5 space-y-4 max-w-2xl mx-auto">
                 <div className="grid grid-cols-2 gap-3">
                   <div className="space-y-1"><label className="text-[10px] font-black text-on-surface-variant/50 uppercase tracking-widest">{T('Catégorie *','Category *')}</label>
                     <div className="relative"><select value={searchCat} onChange={e=>setSearchCat(e.target.value)} className="w-full bg-surface-high/40 border border-white/10 text-sm px-3 py-2.5 rounded-xl appearance-none focus:outline-none focus:border-primary-cyan transition-colors"><option value="">{T('Sélectionner','Select')}</option>{categories.map(c=><option key={c} value={c}>{c}</option>)}</select><ChevronDown size={11} className="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none"/></div>
@@ -301,7 +301,7 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
                 <div className="space-y-3">
                   <p className="text-sm font-black text-on-surface">{searchResults.length} {T('projets trouvés','projects found')} · <span className="text-primary-cyan">{searchCat}</span> · Score ≥ {minScore}</p>
                   {searchResults.map((proj,i)=>(
-                    <div key={proj.id} className="flex items-center gap-3 p-4 bg-surface-low/40 border border-white/8 rounded-2xl hover:border-white/15 transition-all">
+                    <div key={proj.id} className="flex items-center gap-3 p-4 bg-surface-low/40 border border-white/8 rounded-lg hover:border-white/15 transition-all">
                       <img onClick={() => toggleRevealed(proj.id)} src={getSafeImageUrl(proj.image,proj.category)} alt={proj.name} className={`w-12 h-12 rounded-xl object-cover border border-white/10 shrink-0 cursor-pointer transition-all duration-500 ${revealedCards.has(proj.id) ? '' : 'grayscale blur-[2px] opacity-70'}`} referrerPolicy="no-referrer"/>
                       <div className="flex-1 min-w-0"><p className="text-sm font-black text-on-surface">{proj.name}</p><p className="text-xs text-on-surface-variant/50">{proj.category} · {proj.registryIndex}</p></div>
                       <div className="text-right shrink-0">
@@ -336,7 +336,7 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
                 <>
                   <p className="text-sm text-on-surface-variant/60">{missions.length} {T('missions envoyées','missions sent')}</p>
                   {missions.slice(0,missionsShown).map((m)=>(
-                    <div key={m.id} className="bg-surface-low/40 border border-white/8 rounded-2xl p-5 flex items-start justify-between flex-wrap gap-3 hover:border-white/15 transition-all">
+                    <div key={m.id} className="bg-surface-low/40 border border-white/8 rounded-lg p-5 flex items-start justify-between flex-wrap gap-3 hover:border-white/15 transition-all">
                       <div><p className="text-base font-black text-on-surface">{m.projectName}</p><p className="text-xs text-on-surface-variant/60 mt-0.5">{m.date}</p></div>
                       <span className="px-2 py-0.5 border rounded-full text-[9px] font-black uppercase bg-accent-gold/10 text-accent-gold border-accent-gold/20">{m.status}</span>
                     </div>
@@ -363,7 +363,7 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
                   {l:T('Créateurs','Creators'),v:String(mentoredCreators.length),c:'text-primary-cyan'},
                   {l:T('Sessions actives','Active sessions'),v:String(mentoredCreators.filter(c=>c.status!=='COMPLETED').length),c:'text-[#a78bfa]'}
                 ].map((s,i)=>(
-                  <div key={i} className="bg-surface-low/40 border border-white/8 rounded-2xl p-4 text-center"><p className="text-xs text-on-surface-variant/60 mb-1">{s.l}</p><p className={`text-2xl font-black ${s.c}`}>{s.v}</p></div>
+                  <div key={i} className="bg-surface-low/40 border border-white/8 rounded-lg p-4 text-center"><p className="text-xs text-on-surface-variant/60 mb-1">{s.l}</p><p className={`text-2xl font-black ${s.c}`}>{s.v}</p></div>
                 ))}
               </div>
               {mentoredCreators.length === 0 ? (
@@ -374,7 +374,7 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
                 </div>
               ) : (
                 mentoredCreators.map((c)=>(
-                  <div key={c.id} className={`bg-surface-low/40 border rounded-2xl p-5 flex items-center justify-between flex-wrap gap-3 ${c.status==='COMPLETED'?'border-emerald-400/20':'border-white/8 hover:border-white/15'} transition-all`}>
+                  <div key={c.id} className={`bg-surface-low/40 border rounded-lg p-5 flex items-center justify-between flex-wrap gap-3 ${c.status==='COMPLETED'?'border-emerald-400/20':'border-white/8 hover:border-white/15'} transition-all`}>
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 bg-[#a78bfa]/20 border border-[#a78bfa]/30 rounded-xl flex items-center justify-center text-lg shrink-0">👤</div>
                       <div><p className="text-sm font-black text-on-surface">{c.name}</p><p className={`text-xs font-bold mt-0.5 ${c.status==='COMPLETED'?'text-emerald-400':'text-primary-cyan'}`}>{c.status==='COMPLETED'?T('✓ Terminé','✓ Completed'):T('● En attente','● Pending')}</p></div>
@@ -398,7 +398,7 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
           {/* ── MESSAGES ─────────────────────────────────────────────────── */}
           {activeSection==='messages' && (
             <div className="space-y-4 max-w-2xl">
-              <div className="bg-surface-low/40 border border-white/8 rounded-2xl overflow-hidden">
+              <div className="bg-surface-low/40 border border-white/8 rounded-lg overflow-hidden">
                 <div className="divide-y divide-white/5">
                   {messages.map((msg,i)=>(
                     <div key={i} onClick={()=>setMessages(prev=>prev.map((m,mi)=>mi===i?{...m,read:true}:m))} className={`flex items-start gap-3 p-4 cursor-pointer transition-all hover:bg-white/3 ${!msg.read?'bg-primary-cyan/3':''}`}>
@@ -417,7 +417,7 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
                   ))}
                 </div>
               </div>
-              <div className="bg-surface-low/40 border border-white/8 rounded-2xl p-4 space-y-3">
+              <div className="bg-surface-low/40 border border-white/8 rounded-lg p-4 space-y-3">
                 <p className="text-xs font-black text-on-surface uppercase tracking-wider">{T('Nouveau message','New message')}</p>
                 <textarea value={messageText} onChange={e=>setMessageText(e.target.value)} rows={3} placeholder={T('Écrivez votre message...','Write your message...')} className="w-full bg-surface-high/40 border border-white/10 text-sm px-4 py-3 rounded-xl focus:outline-none focus:border-primary-cyan transition-colors resize-none"/>
                 <button onClick={async()=>{if(messageText.trim()){
@@ -444,12 +444,12 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
                   {l:T('Heures de formation','Training hours'),v:`${completedHours}h/${totalHours}h`,c:'text-[#a78bfa]'},
                   {l:T('Certification','Certification'),v:`${certificationPct}%`,c:'text-accent-gold'}
                 ].map((s,i)=>(
-                  <div key={i} className="bg-surface-low/40 border border-white/8 rounded-2xl p-4 text-center"><p className="text-xs text-on-surface-variant/60 mb-1">{s.l}</p><p className={`text-xl font-black ${s.c}`}>{s.v}</p></div>
+                  <div key={i} className="bg-surface-low/40 border border-white/8 rounded-lg p-4 text-center"><p className="text-xs text-on-surface-variant/60 mb-1">{s.l}</p><p className={`text-xl font-black ${s.c}`}>{s.v}</p></div>
                 ))}
               </div>
               <div className="space-y-3">
                 {academyModulesWithStatus.map((mod,i)=>(
-                  <div key={mod.id} className={`bg-surface-low/40 border rounded-2xl p-4 ${mod.done?'border-emerald-400/20':mod.locked?'border-white/5 opacity-60':'border-white/8 hover:border-white/20'} transition-all`}>
+                  <div key={mod.id} className={`bg-surface-low/40 border rounded-lg p-4 ${mod.done?'border-emerald-400/20':mod.locked?'border-white/5 opacity-60':'border-white/8 hover:border-white/20'} transition-all`}>
                     <div className="flex items-start gap-3">
                       <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 border ${mod.color}`}>
                         {mod.locked?<Lock size={14} className="text-on-surface-variant/40"/>:mod.done?<CheckCircle size={14} className="text-emerald-400"/>:<Play size={14} className="text-primary-cyan"/>}

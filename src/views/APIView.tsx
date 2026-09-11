@@ -18,6 +18,8 @@ import {
 } from 'lucide-react';
 import { useTranslation } from '../context/LanguageContext';
 import { UserProfile, UserRole } from '../types';
+import { db } from '../firebase';
+import { collection, query, where, onSnapshot, addDoc, updateDoc, doc, serverTimestamp } from 'firebase/firestore';
 import { getPermissions } from '../lib/permissions';
 
 import { PageHeader } from '../components/ui/PageHeader';
@@ -41,41 +43,49 @@ export const APIView: React.FC<APIViewProps> = ({ user, onNotify, onViewChange }
   const { t } = useTranslation();
   const [showKey, setShowKey] = useState<string | null>(null);
   const [sdkTab, setSdkTab] = useState<'JS' | 'PYTHON' | 'CURL'>('JS');
-  const [keys, setKeys] = useState<APIKey[]>([
-    {
-      id: '1',
-      name: 'Production Terminal',
-      key: 'lya_live_8f2k9s1m0p5r4t3v6w7x8y9z',
-      created: '2026-01-15',
-      lastUsed: '2 minutes ago',
-      status: 'ACTIVE'
-    },
-    {
-      id: '2',
-      name: 'Development Sandbox',
-      key: 'lya_test_1a2b3c4d5e6f7g8h9i0j1k2l',
-      created: '2026-03-10',
-      lastUsed: '1 day ago',
-      status: 'ACTIVE'
-    }
-  ]);
+  const [keys, setKeys] = useState<APIKey[]>([]);
+
+  // Cles reellement persistees en Firestore (au lieu de donnees fictives en
+  // memoire qui disparaissaient au rechargement) — vendu dans l'offre Pro
+  // Advanced/Enterprise, ca doit au moins sauvegarder pour de vrai.
+  React.useEffect(() => {
+    if (!user?.uid) return;
+    const q = query(collection(db, 'api_keys'), where('ownerId', '==', user.uid));
+    const unsub = onSnapshot(q, (snap) => {
+      setKeys(snap.docs.map((d) => {
+        const data = d.data();
+        return {
+          id: d.id,
+          name: data.name,
+          key: data.key,
+          created: data.createdAt?.toDate ? data.createdAt.toDate().toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
+          lastUsed: data.lastUsed || 'Never',
+          status: data.status,
+        };
+      }));
+    }, () => setKeys([]));
+    return () => unsub();
+  }, [user?.uid]);
 
   const handleGenerateKey = () => {
-    const newKey: APIKey = {
-      id: Date.now().toString(),
+    if (!user?.uid) return;
+    const newKeyValue = `lya_${Math.random().toString(36).substring(2, 15)}_${Math.random().toString(36).substring(2, 15)}`;
+    addDoc(collection(db, 'api_keys'), {
+      ownerId: user.uid,
       name: `New API Key ${keys.length + 1}`,
-      key: `lya_${Math.random().toString(36).substring(2, 15)}_${Math.random().toString(36).substring(2, 15)}`,
-      created: new Date().toISOString().split('T')[0],
+      key: newKeyValue,
+      status: 'ACTIVE',
+      createdAt: serverTimestamp(),
       lastUsed: 'Never',
-      status: 'ACTIVE'
-    };
-    setKeys([...keys, newKey]);
-    onNotify('NEW API KEY GENERATED SUCCESSFULLY');
+    }).then(() => {
+      onNotify('NEW API KEY GENERATED SUCCESSFULLY');
+    }).catch(() => onNotify('ERROR GENERATING KEY'));
   };
 
   const handleRevokeKey = (id: string) => {
-    setKeys(keys.map(k => k.id === id ? { ...k, status: 'REVOKED' as const } : k));
-    onNotify('API KEY REVOKED. ACCESS TERMINATED.');
+    updateDoc(doc(db, 'api_keys', id), { status: 'REVOKED' })
+      .then(() => onNotify('API KEY REVOKED. ACCESS TERMINATED.'))
+      .catch(() => onNotify('ERROR REVOKING KEY'));
   };
 
   const codeSnippets = {
@@ -92,7 +102,7 @@ export const APIView: React.FC<APIViewProps> = ({ user, onNotify, onViewChange }
         <motion.div 
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          className="w-24 h-24 bg-primary-cyan/10 rounded-full flex items-center justify-center mb-8 border border-primary-cyan/20 shadow-[0_0_30px_rgba(0,224,255,0.2)]"
+          className="w-24 h-24 bg-primary-cyan/10 rounded-full flex items-center justify-center mb-8 border border-primary-cyan/20"
         >
           <Code2 size={48} className="text-primary-cyan" />
         </motion.div>
@@ -116,7 +126,7 @@ export const APIView: React.FC<APIViewProps> = ({ user, onNotify, onViewChange }
     <div className="max-w-full max-w-7xl mx-auto space-y-8 pb-12 relative min-h-screen">
       {/* Immersive Background */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_20%_30%,rgba(0,224,255,0.05),transparent_50%),radial-gradient(circle_at_80%_70%,rgba(238,192,94,0.03),transparent_50%)]" />
+        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_20%_30%,rgba(0,224,255,0.05),transparent_50%),radial-gradient(circle_at_80%_70%,rgba(126,28,241,0.03),transparent_50%)]" />
         <div className="absolute inset-0 opacity-[0.02] bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]" />
       </div>
 
@@ -129,12 +139,12 @@ export const APIView: React.FC<APIViewProps> = ({ user, onNotify, onViewChange }
 
       <div className="flex flex-col lg:flex-row lg:items-center justify-end gap-8 -mt-16 md:-mt-24 mb-12 relative z-20">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="px-8 py-5 bg-surface-low border border-white/5 rounded-2xl backdrop-blur-3xl shadow-2xl relative overflow-hidden group">
+          <div className="px-8 py-5 bg-surface-low border border-white/5 rounded-lg backdrop-blur-3xl shadow-2xl relative overflow-hidden group">
             <div className="absolute inset-0 bg-primary-cyan/5 opacity-0 group-hover:opacity-100 transition-opacity" />
             <div className="text-[10px] text-primary-cyan uppercase tracking-widest font-black mb-1 opacity-70">{t('API Status', 'Statut API')}</div>
-            <div className="text-3xl font-black text-white italic tracking-tighter uppercase">{t('Operational', 'OPÉRATIONNEL')}</div>
+            <div className="text-3xl font-black text-white italic tracking-tighter uppercase">{t('Beta', 'BÊTA')}</div>
           </div>
-          <div className="px-8 py-5 bg-surface-low border border-white/5 rounded-2xl backdrop-blur-3xl shadow-2xl relative overflow-hidden group">
+          <div className="px-8 py-5 bg-surface-low border border-white/5 rounded-lg backdrop-blur-3xl shadow-2xl relative overflow-hidden group">
             <div className="absolute inset-0 bg-accent-gold/5 opacity-0 group-hover:opacity-100 transition-opacity" />
             <div className="text-[10px] text-accent-gold uppercase tracking-widest font-black mb-1 opacity-70">{t('Latence', 'Latence')}</div>
             <div className="text-3xl font-black text-white italic tracking-tighter uppercase">12ms</div>
@@ -145,7 +155,7 @@ export const APIView: React.FC<APIViewProps> = ({ user, onNotify, onViewChange }
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* API Keys Management */}
         <div className="lg:col-span-8 space-y-8">
-          <section className="bg-surface-low/30 border border-white/5 rounded-2xl p-8">
+          <section className="bg-surface-low/30 border border-white/5 rounded-lg p-8">
             <div className="flex items-center justify-between mb-8">
               <h2 className="text-xl font-black text-white uppercase italic tracking-tight flex items-center gap-3">
                 <Key className="text-primary-cyan" size={24} />
@@ -211,7 +221,7 @@ export const APIView: React.FC<APIViewProps> = ({ user, onNotify, onViewChange }
           </section>
 
           {/* Documentation Snippet */}
-          <section className="bg-surface-low/30 border border-white/5 rounded-2xl p-8">
+          <section className="bg-surface-low/30 border border-white/5 rounded-lg p-8">
             <div className="flex items-center justify-between mb-8">
               <h2 className="text-xl font-black text-white uppercase italic tracking-tight flex items-center gap-3">
                 <Terminal className="text-primary-cyan" size={24} />
@@ -258,7 +268,7 @@ export const APIView: React.FC<APIViewProps> = ({ user, onNotify, onViewChange }
         {/* Sidebar Info */}
         <div className="lg:col-span-4 space-y-8">
           {/* API Status Card */}
-          <div className="bg-surface-low/30 border border-white/5 rounded-2xl p-8">
+          <div className="bg-surface-low/30 border border-white/5 rounded-lg p-8">
             <h4 className="text-sm font-black text-white uppercase tracking-widest mb-6 flex items-center gap-3">
               <Activity className="text-emerald-400" size={18} />
               API STATUS
@@ -289,7 +299,7 @@ export const APIView: React.FC<APIViewProps> = ({ user, onNotify, onViewChange }
           </div>
 
           {/* Webhooks Card */}
-          <div className="bg-surface-low/30 border border-white/5 rounded-2xl p-8">
+          <div className="bg-surface-low/30 border border-white/5 rounded-lg p-8">
             <h4 className="text-sm font-black text-white uppercase tracking-widest mb-6 flex items-center gap-3">
               <Webhook className="text-accent-purple" size={18} />
               WEBHOOKS
@@ -306,7 +316,7 @@ export const APIView: React.FC<APIViewProps> = ({ user, onNotify, onViewChange }
           </div>
 
           {/* Documentation Links */}
-          <div className="bg-surface-low/30 border border-white/5 rounded-2xl p-8">
+          <div className="bg-surface-low/30 border border-white/5 rounded-lg p-8">
             <h4 className="text-sm font-black text-white uppercase tracking-widest mb-6">DOCUMENTATION</h4>
             <div className="space-y-3">
               {[

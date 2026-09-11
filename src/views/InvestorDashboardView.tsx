@@ -135,7 +135,7 @@ export const InvestorDashboardView: React.FC<{user:UserProfile|null;onNotify:(ms
       <InvitationCard user={user} onNotify={onNotify} />
 
       {attentionProjects.length > 0 && (
-        <div className="bg-accent-gold/8 border border-accent-gold/20 rounded-2xl p-4 flex items-start gap-3">
+        <div className="bg-accent-gold/8 border border-accent-gold/20 rounded-lg p-4 flex items-start gap-3">
           <AlertTriangle size={15} className="text-accent-gold shrink-0 mt-0.5"/>
           <div className="flex-1">
             <p className="text-sm font-black text-accent-gold">{T(`${needsAttention} projet(s) à surveiller`,`${needsAttention} project(s) to watch`)}</p>
@@ -176,7 +176,7 @@ export const InvestorDashboardView: React.FC<{user:UserProfile|null;onNotify:(ms
                   {icon:<TrendingUp size={18} className="text-emerald-400"/>,label:T('Score moyen suivi','Average score followed'),value:`${avgScoreNow.toFixed(0)}/1000`,sub:T('des projets soutenus','of supported projects'),up:true,color:'bg-emerald-400/10'},
                   {icon:<Star size={18} className="text-accent-gold"/>,label:T('En progression / à surveiller','Progressing / to watch'),value:`${progressing}/${needsAttention}`,sub:T(`${totalMilestones} jalons franchis au total`,`${totalMilestones} milestones reached total`),up:progressing>=needsAttention,color:'bg-accent-gold/10'},
                 ].map((k,i)=>(
-                  <div key={i} className="bg-surface-low/40 border border-white/8 rounded-2xl p-4 space-y-2 hover:border-white/15 transition-all">
+                  <div key={i} className="bg-surface-low/40 border border-white/8 rounded-lg p-4 space-y-2 hover:border-white/15 transition-all">
                     <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${k.color}`}>{k.icon}</div>
                     <p className="text-xs text-on-surface-variant/60">{k.label}</p>
                     <p className="text-lg font-black text-on-surface">{k.value}</p>
@@ -185,7 +185,7 @@ export const InvestorDashboardView: React.FC<{user:UserProfile|null;onNotify:(ms
                 ))}
               </div>
 
-              <div className="bg-gradient-to-r from-accent-gold/8 to-primary-cyan/5 border border-accent-gold/20 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+              <div className="bg-gradient-to-r from-accent-gold/8 to-primary-cyan/5 border border-accent-gold/20 rounded-lg p-4 flex flex-col sm:flex-row items-start sm:items-center gap-4">
                 <div className="w-10 h-10 bg-accent-gold/15 border border-accent-gold/25 rounded-xl flex items-center justify-center shrink-0"><span className="text-accent-gold font-black text-xs">LYA</span></div>
                 <div className="flex-1">
                   <p className="text-xs font-black text-accent-gold uppercase tracking-widest mb-0.5">{T('Score LYA — Standard de certification','LYA Score — Certification standard')}</p>
@@ -198,7 +198,7 @@ export const InvestorDashboardView: React.FC<{user:UserProfile|null;onNotify:(ms
               </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
-                <div className="lg:col-span-2 bg-surface-low/40 border border-white/8 rounded-2xl p-5 space-y-3">
+                <div className="lg:col-span-2 bg-surface-low/40 border border-white/8 rounded-lg p-5 space-y-3">
                   <div className="flex items-center justify-between flex-wrap gap-2">
                     <p className="text-sm font-black text-on-surface uppercase tracking-wider">{T('Évolution du Score suivi','Followed Score Trend')}</p>
                     <div className="flex items-center gap-1">
@@ -208,7 +208,7 @@ export const InvestorDashboardView: React.FC<{user:UserProfile|null;onNotify:(ms
                   <RealtimeChart color="#10b981" base={avgScoreNow} lang={lang} formatPrice={formatPrice} labelFR="Score" labelEN="Score" showPrice={false}/>
                 </div>
                 <div className="space-y-4">
-                  <div className="bg-surface-low/40 border border-white/8 rounded-2xl p-4 space-y-3">
+                  <div className="bg-surface-low/40 border border-white/8 rounded-lg p-4 space-y-3">
                     <div className="flex items-center justify-between">
                       <p className="text-sm font-black text-on-surface uppercase tracking-wider flex items-center gap-2"><Bell size={13}/> {T('Alertes','Alerts')}</p>
                       <span className="w-5 h-5 bg-accent-gold rounded-full text-[10px] font-black text-surface-dim flex items-center justify-center">{alerts.length}</span>
@@ -220,7 +220,7 @@ export const InvestorDashboardView: React.FC<{user:UserProfile|null;onNotify:(ms
                       </div>
                     ))}
                   </div>
-                  <div className="bg-surface-low/40 border border-white/8 rounded-2xl p-4 space-y-2">
+                  <div className="bg-surface-low/40 border border-white/8 rounded-lg p-4 space-y-2">
                     <p className="text-sm font-black text-on-surface uppercase tracking-wider flex items-center gap-2"><Star size={13} className="text-accent-gold"/>{T('Stats','Stats')}</p>
                     {[
                       {l:T('Meilleure progression','Best progress'),v:`+${Math.max(...mySupports.map(x=>x.proj.totalScore-x.scoreAtSupport))} pts`,c:'text-emerald-400'},
@@ -261,7 +261,7 @@ export const InvestorDashboardView: React.FC<{user:UserProfile|null;onNotify:(ms
                 const scoreDelta = inv.proj.totalScore - inv.scoreAtSupport;
                 const up = scoreDelta >= 0;
                 return (
-                  <div key={i} className={`bg-surface-low/40 border rounded-2xl overflow-hidden transition-all ${inv.proj.status==='RISK'?'border-accent-gold/25 hover:border-accent-gold/40':'border-white/8 hover:border-white/20'}`}>
+                  <div key={i} className={`bg-surface-low/40 border rounded-lg overflow-hidden transition-all ${inv.proj.status==='RISK'?'border-accent-gold/25 hover:border-accent-gold/40':'border-white/8 hover:border-white/20'}`}>
                     <div className="flex items-center gap-3 p-4">
                       <img onClick={() => toggleRevealed(inv.proj.id)} src={getSafeImageUrl(inv.proj.image,inv.proj.category)} alt={inv.proj.name} className={`w-14 h-14 rounded-xl object-cover border border-white/10 shrink-0 cursor-pointer transition-all duration-500 ${revealedCards.has(inv.proj.id) ? '' : 'grayscale blur-[2px] opacity-70'}`} referrerPolicy="no-referrer"/>
                       <div className="flex-1 min-w-0">
@@ -329,7 +329,7 @@ export const InvestorDashboardView: React.FC<{user:UserProfile|null;onNotify:(ms
               </div>
 
               {showFilters && (
-                <div className="bg-surface-low border border-white/10 rounded-2xl p-4 space-y-3">
+                <div className="bg-surface-low border border-white/10 rounded-lg p-4 space-y-3">
                   <p className="text-sm font-black text-on-surface uppercase tracking-wider">{T('Filtres avancés','Advanced filters')}</p>
                   <div className="flex flex-wrap gap-2">
                     {[T('Meilleure Progression','Top Progress'),T('À Surveiller','To Watch'),T('Musique','Music'),T('Art Digital','Digital Art')].map(f=>(
@@ -346,7 +346,7 @@ export const InvestorDashboardView: React.FC<{user:UserProfile|null;onNotify:(ms
                   {l:T('Projets en progression','Progressing projects'),v:`${progressing}/${mySupports.length}`,sub:`${needsAttention} ${T('à surveiller','to watch')}`,c:'text-[#a78bfa]'},
                   {l:T('Jalons franchis total','Total milestones reached'),v:`${totalMilestones}`,sub:T('tous projets confondus','across all projects'),c:'text-accent-gold'},
                 ].map((k,i)=>(
-                  <div key={i} className="bg-surface-low/40 border border-white/8 rounded-2xl p-4">
+                  <div key={i} className="bg-surface-low/40 border border-white/8 rounded-lg p-4">
                     <p className="text-xs text-on-surface-variant/50">{k.l}</p>
                     <p className={`text-xl font-black ${k.c} mt-1`}>{k.v}</p>
                     <p className="text-xs text-on-surface-variant/40">{k.sub}</p>
@@ -354,12 +354,12 @@ export const InvestorDashboardView: React.FC<{user:UserProfile|null;onNotify:(ms
                 ))}
               </div>
 
-              <div className="bg-surface-low/40 border border-white/8 rounded-2xl p-5 space-y-3">
+              <div className="bg-surface-low/40 border border-white/8 rounded-lg p-5 space-y-3">
                 <p className="text-sm font-black text-on-surface uppercase tracking-wider">{T('Score Moyen en Temps Réel','Real-time Average Score')}</p>
                 <RealtimeChart color="#10b981" base={avgScoreNow} lang={lang} formatPrice={formatPrice} labelFR="Score" labelEN="Score" showPrice={false}/>
               </div>
 
-              <div className="bg-surface-low/40 border border-white/8 rounded-2xl p-5 space-y-4">
+              <div className="bg-surface-low/40 border border-white/8 rounded-lg p-5 space-y-4">
                 <div className="flex items-center justify-between flex-wrap gap-3">
                   <p className="text-sm font-black text-on-surface uppercase tracking-wider">{T('Score LYA par soutien','LYA Score per pledge')}</p>
                   <div className="flex gap-1">
@@ -386,7 +386,7 @@ export const InvestorDashboardView: React.FC<{user:UserProfile|null;onNotify:(ms
                 <p className="text-xs text-on-surface-variant/40">{T('Vert = Score en progression depuis votre soutien · Jaune = à surveiller','Green = Score progressing since your pledge · Yellow = to watch')}</p>
               </div>
 
-              <div className="bg-surface-low/40 border border-white/8 rounded-2xl p-5 space-y-4">
+              <div className="bg-surface-low/40 border border-white/8 rounded-lg p-5 space-y-4">
                 <div className="flex items-center justify-between flex-wrap gap-3">
                   <div className="flex items-center gap-2"><Sparkles size={14} className="text-[#a78bfa]"/><p className="text-sm font-black text-on-surface uppercase tracking-wider">{T('Simulateur de Score','Score Simulator')}</p></div>
                   <div className="text-right"><p className="text-[10px] text-on-surface-variant/40 uppercase">{T('Basé sur','Based on')}</p><p className="text-base font-black text-emerald-400">{T('Rythme de Jalons','Milestone Pace')}</p></div>
@@ -406,7 +406,7 @@ export const InvestorDashboardView: React.FC<{user:UserProfile|null;onNotify:(ms
                 </div>
               </div>
 
-              <div className="bg-surface-low/40 border border-white/8 rounded-2xl p-5 space-y-3">
+              <div className="bg-surface-low/40 border border-white/8 rounded-lg p-5 space-y-3">
                 <p className="text-sm font-black text-on-surface uppercase tracking-wider">{T('Score moyen par catégorie','Average score by category')}</p>
                 <div className="grid grid-cols-2 gap-3">
                   {[{cat:T('Musique','Music'),score:842,p:5},{cat:T('Art Visuel','Visual Art'),score:781,p:4},{cat:T('Cinéma','Cinema'),score:695,p:2},{cat:T('Mode','Fashion'),score:610,p:1}].map((r,i)=>{
@@ -420,7 +420,7 @@ export const InvestorDashboardView: React.FC<{user:UserProfile|null;onNotify:(ms
 
           {activeSection === 'social' && (
             <div className="space-y-4 max-w-2xl">
-              <div className="bg-surface-low/40 border border-white/8 rounded-2xl p-5 space-y-4">
+              <div className="bg-surface-low/40 border border-white/8 rounded-lg p-5 space-y-4">
                 <div className="flex items-center justify-between"><p className="text-sm font-black text-on-surface flex items-center gap-2"><Users size={13} className="text-primary-cyan"/> {T('Hub Social','Social Hub')}</p><div className="flex items-center gap-1.5"><div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"/><span className="text-[10px] font-black text-emerald-400 uppercase">LIVE</span></div></div>
                 <div className="space-y-3">
                   {socialPosts.map((post,i)=>(

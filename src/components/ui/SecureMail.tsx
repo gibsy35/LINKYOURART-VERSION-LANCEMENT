@@ -83,12 +83,12 @@ export const SecureMail: React.FC<SecureMailProps> = ({ isOpen, onClose, recipie
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="relative w-full max-w-2xl bg-surface-dim border border-white/10 shadow-[0_0_100px_rgba(0,0,0,0.8)] overflow-hidden font-mono"
+            className="relative w-full max-w-2xl bg-surface-dim border border-white/10 overflow-hidden font-mono"
           >
             {/* Security Header */}
             <div className="bg-primary-cyan/5 p-6 border-b border-white/10 flex items-center justify-between">
               <div className="flex items-center gap-4">
-                <div className="w-10 h-10 border border-primary-cyan flex items-center justify-center text-primary-cyan shadow-[0_0_15px_rgba(0,224,255,0.2)]">
+                <div className="w-10 h-10 border border-primary-cyan flex items-center justify-center text-primary-cyan">
                   <Shield size={20} />
                 </div>
                 <div>
@@ -130,7 +130,7 @@ export const SecureMail: React.FC<SecureMailProps> = ({ isOpen, onClose, recipie
                     placeholder={t('SUBJECT_LINE...', 'OBJET...')}
                     value={subject}
                     onChange={(e) => setSubject(e.target.value)}
-                    className="w-full bg-white/5 border-b border-white/10 p-4 text-[11px] text-white uppercase font-black focus:outline-none focus:border-primary-cyan transition-colors"
+                    className="w-full bg-white/5 border-b border-white/10 p-4 text-[11px] text-white  font-black focus:outline-none focus:border-primary-cyan transition-colors"
                   />
                 </div>
                 <div className="relative">

@@ -488,22 +488,22 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                 <div className="hidden xl:flex items-center gap-12 text-[15px] font-black tracking-[0.25em] uppercase">
                   <motion.button onClick={() => setActiveInfo('HOW')} whileHover={{ scale: 1.05, x: 5 }} whileTap={{ scale: 0.95 }} className="text-white/40 transition-colors hover:text-primary-cyan group flex items-center gap-2">
                     {t('How It Works', 'Comment Ça Marche')}
-                    <div className="w-1.5 h-1.5 rounded-full bg-primary-cyan opacity-80 shadow-[0_0_8px_rgba(0,224,255,1)]" />
+                    <div className="w-1.5 h-1.5 rounded-full bg-primary-cyan opacity-80" />
                   </motion.button>
                   <motion.button onClick={() => setActiveInfo('SCORE')} whileHover={{ scale: 1.05, x: 5 }} whileTap={{ scale: 0.95 }} className="text-white/40 transition-colors hover:text-[#FF007F] group flex items-center gap-2">
                     {t('LYA Score', 'Score LYA')}
-                    <div className="w-1.5 h-1.5 rounded-full bg-[#FF007F] opacity-80 shadow-[0_0_8px_rgba(255,0,127,1)]" />
+                    <div className="w-1.5 h-1.5 rounded-full bg-[#FF007F] opacity-80" />
                   </motion.button>
                   <motion.button onClick={() => setActiveInfo('SECURITY')} whileHover={{ scale: 1.05, x: 5 }} whileTap={{ scale: 0.95 }} className="text-white/40 transition-colors hover:text-[#9D00FF] group flex items-center gap-2">
                     {t('Security', 'Sécurité')}
-                    <div className="w-1.5 h-1.5 rounded-full bg-[#9D00FF] opacity-80 shadow-[0_0_8px_rgba(157,0,255,1)]" />
+                    <div className="w-1.5 h-1.5 rounded-full bg-[#9D00FF] opacity-80" />
                   </motion.button>
                 </div>
                 <div className="flex items-center gap-2 p-1 bg-white/5 rounded-full border border-white/10">
                   <button onClick={() => setLanguage('FR')} className={`px-3 py-1.5 rounded-full text-xs font-black uppercase tracking-widest transition-all ${language === 'FR' ? 'bg-white text-black' : 'text-white/40 hover:text-white'}`}>FR</button>
                   <button onClick={() => setLanguage('EN')} className={`px-3 py-1.5 rounded-full text-xs font-black uppercase tracking-widest transition-all ${language === 'EN' ? 'bg-white text-black' : 'text-white/40 hover:text-white'}`}>EN</button>
                 </div>
-                <button onClick={() => onViewChange?.('LOGIN')} className="flex items-center gap-2 px-5 py-2.5 rounded-full text-[11px] font-black uppercase tracking-widest text-white border border-primary-cyan/40 bg-primary-cyan/10 hover:bg-primary-cyan hover:text-black hover:border-primary-cyan transition-all shadow-[0_0_20px_rgba(0,212,232,0.15)]">
+                <button onClick={() => onViewChange?.('LOGIN')} className="flex items-center gap-2 px-5 py-2.5 rounded-full text-[11px] font-black uppercase tracking-widest text-white border border-primary-cyan/40 bg-primary-cyan/10 hover:bg-primary-cyan hover:text-black hover:border-primary-cyan transition-all">
                   <User size={14} />
                   {t('LOGIN', 'CONNEXION')}
                 </button>
@@ -549,7 +549,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                       </div>
 
                       {totalRegistrations !== null && totalRegistrations > 0 && (
-                        <div className="flex items-center gap-2 px-4 py-2.5 bg-primary-cyan/5 border border-primary-cyan/20 rounded-2xl">
+                        <div className="flex items-center gap-2 px-4 py-2.5 bg-primary-cyan/5 border border-primary-cyan/20 rounded-lg">
                           <Users2 size={14} className="text-primary-cyan shrink-0" />
                           <p className="text-primary-cyan text-[10px] font-black uppercase tracking-widest">
                             {t(`${totalRegistrations.toLocaleString('en-US')} people already on the waitlist`, `${totalRegistrations.toLocaleString('fr-FR')} personnes déjà sur la liste d'attente`)}
@@ -558,7 +558,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                       )}
 
                       <form onSubmit={handlePreRegister} className="space-y-6">
-                        <div className="p-1 bg-white/5 rounded-2xl border border-white/10 flex gap-1">
+                        <div className="p-1 bg-white/5 rounded-lg border border-white/10 flex gap-1">
                           {['CREATOR', 'PROFESSIONAL', 'PATRON'].map((cat) => (
                             <button key={cat} type="button" onClick={() => setCategory(cat as any)}
                               className={`flex-1 py-3 rounded-xl text-xs font-black tracking-widest transition-all uppercase ${category === cat ? 'bg-primary-cyan text-black shadow-lg shadow-primary-cyan/20' : 'text-white/40 hover:text-white'}`}
@@ -575,19 +575,19 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                           <div className="relative group">
                             <User className="absolute left-6 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-primary-cyan transition-colors" size={18} />
                             <input type="text" placeholder={t('Identity Name', 'Identité Nom')} required value={name} onChange={(e) => setName(e.target.value)}
-                              className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 pl-16 pr-8 focus:outline-none focus:border-primary-cyan/50 focus:bg-white/10 transition-all font-bold text-sm tracking-tight"
+                              className="w-full bg-white/5 border border-white/10 rounded-lg py-5 pl-16 pr-8 focus:outline-none focus:border-primary-cyan/50 focus:bg-white/10 transition-all font-bold text-sm tracking-tight"
                             />
                           </div>
                           <div className="relative group">
                             <Mail className="absolute left-6 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-primary-cyan transition-colors" size={18} />
                             <input type="email" placeholder={t('Contact Email', 'Email Contact')} required value={email} onChange={(e) => setEmail(e.target.value)}
-                              className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 pl-16 pr-8 focus:outline-none focus:border-primary-cyan/50 focus:bg-white/10 transition-all font-bold text-sm tracking-tight"
+                              className="w-full bg-white/5 border border-white/10 rounded-lg py-5 pl-16 pr-8 focus:outline-none focus:border-primary-cyan/50 focus:bg-white/10 transition-all font-bold text-sm tracking-tight"
                             />
                           </div>
                         </div>
 
                         <button type="submit" disabled={isSubmitting}
-                          className="w-full py-6 bg-white text-black font-black uppercase tracking-[0.3em] rounded-2xl hover:bg-primary-cyan transition-all active:scale-95 text-xs flex items-center justify-center gap-3 group shadow-xl"
+                          className="w-full py-6 bg-white text-black font-black uppercase tracking-[0.3em] rounded-lg hover:bg-primary-cyan transition-all active:scale-95 text-xs flex items-center justify-center gap-3 group shadow-xl"
                         >
                           {isSubmitting ? (
                             <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin" />
@@ -620,7 +620,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                         </p>
                       </div>
 
-                      <div className="bg-white/[0.03] border border-primary-cyan/15 rounded-2xl p-5">
+                      <div className="bg-white/[0.03] border border-primary-cyan/15 rounded-lg p-5">
                         <p className="text-[10px] font-black tracking-widest text-white/25 uppercase mb-1">{t('EMAIL SENT TO', 'EMAIL ENVOYÉ À')}</p>
                         <p className="font-mono text-primary-cyan font-bold text-sm">{email}</p>
                       </div>
@@ -676,7 +676,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
 
                 {/* Compteur pré-inscrits + Bouton offre gratuite — côte à côte */}
                 <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3">
-                  <div className="flex items-center gap-3 p-4 bg-white/[0.04] border border-white/10 rounded-2xl backdrop-blur-sm w-fit">
+                  <div className="flex items-center gap-3 p-4 bg-white/[0.04] border border-white/10 rounded-lg backdrop-blur-sm w-fit">
                     <div className="flex items-center gap-2">
                       <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse shrink-0"/>
                       <span className="text-xs font-black text-emerald-400 uppercase tracking-widest">{t('Open', 'Ouvert')}</span>
@@ -692,7 +692,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                     onClick={() => setShowFreeOffer(true)}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="relative overflow-hidden flex items-center gap-3 px-6 py-4 rounded-2xl bg-gradient-to-r from-accent-gold to-[#f0c56f] text-black font-black text-sm md:text-base uppercase tracking-wide shadow-[0_8px_30px_rgba(240,197,111,0.35)] w-fit"
+                    className="relative overflow-hidden flex items-center gap-3 px-6 py-4 rounded-lg bg-gradient-to-r from-accent-gold to-[#f0c56f] text-black font-black text-sm md:text-base uppercase tracking-wide shadow-[0_8px_30px_rgba(240,197,111,0.35)] w-fit"
                   >
                     <span className="relative flex h-2.5 w-2.5 shrink-0">
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-black/40"></span>
@@ -711,7 +711,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                     { value: "1", label: t("unique value standard", "valeur unique au monde"), sub: t("The LYA Score — an objective certification standard", "Le Score LYA — un standard de certification objectif"), color: "#00ff88" }
                   ].map((stat, i) => (
                     <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8 + (i * 0.15) }}
-                      className="bg-white/[0.03] border border-white/10 rounded-2xl p-4 hover:border-white/20 transition-all">
+                      className="bg-white/[0.03] border border-white/10 rounded-lg p-4 hover:border-white/20 transition-all">
                       <div className="font-black font-mono text-2xl md:text-3xl mb-1" style={{ color: stat.color }}>{stat.value}</div>
                       <div className="text-white text-xs font-bold mb-1">{stat.label}</div>
                       <div className="text-white/30 text-xs leading-tight">{stat.sub}</div>
@@ -838,7 +838,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
 
                 <div className="relative z-10 grid grid-cols-3 gap-3 mb-8">
                   {[1, 2, 3].map((n) => (
-                    <div key={n} className="flex flex-col items-center text-center gap-2 bg-white/[0.04] border border-accent-gold/20 rounded-2xl px-3 py-4 backdrop-blur-sm">
+                    <div key={n} className="flex flex-col items-center text-center gap-2 bg-white/[0.04] border border-accent-gold/20 rounded-lg px-3 py-4 backdrop-blur-sm">
                       <div className="w-9 h-9 rounded-full bg-accent-gold/15 border border-accent-gold/30 flex items-center justify-center font-black text-accent-gold text-sm shrink-0">{n}</div>
                       <div>
                         <div className="text-white font-black text-xs md:text-sm whitespace-nowrap">{t('Project', 'Projet')} #{n}</div>
@@ -852,7 +852,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                   <p className="text-white/40 text-xs md:text-sm font-medium">
                     {t('Applies automatically to every account, from the very first submission.', "S'applique automatiquement à chaque compte, dès la toute première soumission.")}
                   </p>
-                  <button onClick={() => setShowFreeOffer(false)} className="mt-2 px-6 py-3.5 rounded-2xl bg-gradient-to-r from-accent-gold to-[#f0c56f] text-black font-black text-sm uppercase tracking-wide shadow-[0_8px_30px_rgba(240,197,111,0.35)]">
+                  <button onClick={() => setShowFreeOffer(false)} className="mt-2 px-6 py-3.5 rounded-lg bg-gradient-to-r from-accent-gold to-[#f0c56f] text-black font-black text-sm uppercase tracking-wide shadow-[0_8px_30px_rgba(240,197,111,0.35)]">
                     {t('Pre-register to secure your spot', 'Pré-inscrivez-vous pour garantir votre place')}
                   </button>
                 </div>
@@ -891,7 +891,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
                           { n: '02', tFR: 'Certification', tEN: 'Certification', dFR: 'Analyse algorithmique et revue par un comité de professionnels produisent le Score LYA sur 1000.', dEN: 'Algorithmic analysis and professional committee review produce the LYA Score out of 1000.' },
                           { n: '03', tFR: 'Mécénat', tEN: 'Patronage', dFR: 'Les mécènes découvrent les projets certifiés et les soutiennent en échange de contreparties de reconnaissance.', dEN: 'Patrons discover certified projects and support them in exchange for recognition-based rewards.' },
                         ].map(s => (
-                          <div key={s.n} className="bg-white/[0.03] border border-white/10 rounded-2xl p-5">
+                          <div key={s.n} className="bg-white/[0.03] border border-white/10 rounded-lg p-5">
                             <p className="text-primary-cyan font-black font-mono text-xl mb-2">{s.n}</p>
                             <p className="text-white font-black uppercase text-sm mb-1">{t(s.tEN, s.tFR)}</p>
                             <p className="text-white/50 text-sm leading-relaxed">{t(s.dEN, s.dFR)}</p>
@@ -943,7 +943,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
       {/* Easter Egg Admin Login */}
       {showLoginEaster && (
         <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/80 backdrop-blur-xl px-6">
-          <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="w-full max-w-sm bg-[#0D1117] border border-white/10 rounded-3xl p-8 relative">
+          <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="w-full max-w-sm bg-[#0D1117] border border-white/10 rounded-lg p-8 relative">
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary-cyan via-[#FF007F] to-[#9D00FF] rounded-t-3xl" />
             <div className="text-center mb-8">
               <Logo size={48} color="multi" showBeta={false} className="mx-auto mb-4" />

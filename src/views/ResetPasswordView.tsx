@@ -73,7 +73,7 @@ const ResetPasswordView: React.FC<ResetPasswordViewProps> = ({ onViewChange }) =
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="w-full max-w-md">
         <div className="flex justify-center mb-8"><Logo size={48} color="multi" showBeta={false} /></div>
 
-        <div className="bg-surface-low/40 border border-white/8 rounded-3xl p-8">
+        <div className="bg-surface-low/40 border border-white/8 rounded-lg p-8">
           {status === 'verifying' && (
             <div className="text-center py-8">
               <Loader2 className="w-8 h-8 animate-spin text-primary-cyan mx-auto mb-4" />
@@ -114,16 +114,20 @@ const ResetPasswordView: React.FC<ResetPasswordViewProps> = ({ onViewChange }) =
                   <input
                     type={showPassword ? 'text' : 'password'}
                     required
-                    minLength={6}
+                    minLength={8}
+                    pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder={t('NEW PASSWORD', 'NOUVEAU MOT DE PASSE')}
-                    className="w-full bg-white/[0.03] border border-white/10 rounded-2xl p-4 pl-14 pr-14 text-sm font-bold text-white focus:border-primary-cyan outline-none transition-all placeholder:text-on-surface-variant/30 uppercase tracking-widest"
+                    className="w-full bg-white/[0.03] border border-white/10 rounded-lg p-4 pl-14 pr-14 text-sm font-bold text-white focus:border-primary-cyan outline-none transition-all placeholder:text-on-surface-variant/30 tracking-widest"
                   />
                   <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-5 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-white">
                     {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                   </button>
                 </div>
+                <p className="text-[10px] text-on-surface-variant/50 -mt-2 px-1 leading-relaxed">
+                  {t('At least 8 characters, with an uppercase letter, a lowercase letter and a number.', 'Au moins 8 caractères, avec une majuscule, une minuscule et un chiffre.')}
+                </p>
                 <div className="relative group">
                   <Lock className="absolute left-5 top-1/2 -translate-y-1/2 text-on-surface-variant" size={18} />
                   <input
@@ -133,7 +137,7 @@ const ResetPasswordView: React.FC<ResetPasswordViewProps> = ({ onViewChange }) =
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     placeholder={t('CONFIRM PASSWORD', 'CONFIRMER LE MOT DE PASSE')}
-                    className="w-full bg-white/[0.03] border border-white/10 rounded-2xl p-4 pl-14 text-sm font-bold text-white focus:border-primary-cyan outline-none transition-all placeholder:text-on-surface-variant/30 uppercase tracking-widest"
+                    className="w-full bg-white/[0.03] border border-white/10 rounded-lg p-4 pl-14 text-sm font-bold text-white focus:border-primary-cyan outline-none transition-all placeholder:text-on-surface-variant/30  tracking-widest"
                   />
                 </div>
                 <button

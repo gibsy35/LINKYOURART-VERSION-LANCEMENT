@@ -60,7 +60,7 @@ export const WatchlistView: React.FC<WatchlistViewProps> = ({
       />
 
       <div className="relative z-20 flex flex-col lg:flex-row lg:items-center justify-between gap-8 mb-16 mt-10">
-        <div className="flex items-center gap-6 bg-surface-low/80 backdrop-blur-3xl border border-white/10 p-5 rounded-2xl shadow-2xl relative overflow-hidden group">
+        <div className="flex items-center gap-6 bg-surface-low/80 backdrop-blur-3xl border border-white/10 p-5 rounded-lg shadow-2xl relative overflow-hidden group">
           <div className="absolute top-0 left-0 w-1 h-full bg-accent-gold" />
           <div className="flex flex-col">
             <span className="text-xs text-accent-gold font-bold uppercase tracking-widest mb-1 opacity-80">{t('TOTAL_MONITORED', 'TOTAL_SURVEILLÉ')}</span>
@@ -73,7 +73,7 @@ export const WatchlistView: React.FC<WatchlistViewProps> = ({
           </div>
           <div className="h-8 w-[1px] bg-white/10" />
           <div className="flex items-center gap-3">
-             <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse shadow-[0_0_10px_rgba(52,211,153,0.5)]" />
+             <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
              <div>
                <span className="block text-[10px] font-bold text-white uppercase tracking-widest leading-none mb-0.5">{t('SYNC_ACTIVE', 'SYNC_ACTIF')}</span>
                <span className="block text-[7px] font-mono text-on-surface-variant/40 uppercase tracking-widest leading-none">LYA-04</span>
@@ -121,7 +121,7 @@ export const WatchlistView: React.FC<WatchlistViewProps> = ({
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.05 }}
-                  className="group bg-surface-low/30 backdrop-blur-2xl border border-white/10 overflow-hidden hover:border-accent-gold/50 transition-all hover:shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex flex-col rounded-3xl relative"
+                  className="group bg-surface-low/30 backdrop-blur-2xl border border-white/10 overflow-hidden hover:border-accent-gold/50 transition-all hover:shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex flex-col rounded-lg relative"
                 >
                   <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-accent-gold/30 to-transparent z-20" />
                   

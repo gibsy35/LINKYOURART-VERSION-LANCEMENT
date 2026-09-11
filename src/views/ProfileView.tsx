@@ -172,7 +172,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
     const tier = score > 900 ? 'ELITE' : score > 750 ? 'PRO' : 'STANDARD';
 
     return (
-      <section className="bg-surface-low/30 border border-primary-cyan/20 p-6 md:p-10 backdrop-blur-2xl relative overflow-hidden group rounded-2xl shadow-2xl">
+      <section className="bg-surface-low/30 border border-primary-cyan/20 p-6 md:p-10 backdrop-blur-2xl relative overflow-hidden group rounded-lg shadow-2xl">
         <div className="absolute top-0 right-0 p-8 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity duration-700">
           <Award size={120} className="text-primary-cyan" />
         </div>
@@ -226,7 +226,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
         <div className="mt-4 h-1 w-full bg-white/5 overflow-hidden rounded-full">
           <motion.div 
             animate={{ width: `${(score / 1000) * 100}%` }}
-            className="h-full bg-primary-cyan shadow-[0_0_10px_rgba(0,255,255,0.5)]"
+            className="h-full bg-primary-cyan"
           />
         </div>
 
@@ -359,7 +359,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
                           onClick={() => {
                             onNotify?.(t('LINK REQUEST DISPATCHED', 'DEMANDE DE LIEN ENVOYÉE'));
                           }}
-                          className="px-10 py-4 bg-white/5 border border-white/10 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-black rounded-2xl transition-all shadow-xl"
+                          className="px-10 py-4 bg-white/5 border border-white/10 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-black rounded-lg transition-all shadow-xl"
                         >
                            {t('REQUEST LINK', 'DEMANDER LIEN')}
                         </button>
@@ -880,7 +880,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
   const badge = getBadge();
 
   const renderAcademyContent = () => (
-    <div className="mt-6 md:mt-10 bg-surface-low/30 border border-white/10 p-5 md:p-8 backdrop-blur-2xl relative overflow-hidden group rounded-2xl shadow-2xl">
+    <div className="mt-6 md:mt-10 bg-surface-low/30 border border-white/10 p-5 md:p-8 backdrop-blur-2xl relative overflow-hidden group rounded-lg shadow-2xl">
       <div className="absolute top-0 right-0 p-3 md:p-4">
         <div className="px-2 md:px-3 py-0.5 md:py-1 bg-accent-gold/20 border border-accent-gold/40 text-accent-gold text-[7px] md:text-[10px] font-mono uppercase tracking-widest">
           {t('Premium Access Required', 'Accès Premium Requis')}
@@ -946,7 +946,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
       animate={{ opacity: 1, y: 0 }}
       className="space-y-6"
     >
-      <div className="bg-surface-low/30 border border-white/10 rounded-2xl overflow-hidden backdrop-blur-2xl shadow-2xl">
+      <div className="bg-surface-low/30 border border-white/10 rounded-lg overflow-hidden backdrop-blur-2xl shadow-2xl">
         <div className="p-8 border-b border-white/5 bg-white/5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
             <h3 className="text-lg font-black uppercase tracking-widest text-white flex items-center gap-3 mb-2">
@@ -982,7 +982,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
                 }}
               >
                 <div className="relative shrink-0">
-                  <div className="w-16 h-16 rounded-2xl bg-surface-high border-2 border-white/10 overflow-hidden shadow-xl">
+                  <div className="w-16 h-16 rounded-lg bg-surface-high border-2 border-white/10 overflow-hidden shadow-xl">
                     <img 
                       src={`https://i.pravatar.cc/150?u=${msg.avatar}`} 
                       alt="" 
@@ -991,7 +991,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
                     />
                   </div>
                   {!msg.read && (
-                    <div className="absolute -top-1 -right-1 w-4 h-4 bg-primary-cyan rounded-full border-2 border-surface-dim shadow-[0_0_15px_rgba(0,224,255,0.8)]" />
+                    <div className="absolute -top-1 -right-1 w-4 h-4 bg-primary-cyan rounded-full border-2 border-surface-dim" />
                   )}
                 </div>
                 
@@ -1092,8 +1092,8 @@ const renderMentorshipContent = () => (
                 </h3>
                 <p className="text-[10px] text-on-surface-variant font-black uppercase tracking-[0.3em] opacity-40">{t('Providing career guidance for high-potential creative talent', 'Accompagnement de carrière pour les talents créatifs à haut potentiel')}</p>
               </div>
-              <div className="px-6 py-3 bg-accent-gold/10 border border-accent-gold/30 rounded-2xl flex items-center gap-3">
-                <div className="w-2 h-2 rounded-full bg-accent-gold animate-pulse shadow-[0_0_10px_rgba(255,215,0,0.5)]" />
+              <div className="px-6 py-3 bg-accent-gold/10 border border-accent-gold/30 rounded-lg flex items-center gap-3">
+                <div className="w-2 h-2 rounded-full bg-accent-gold animate-pulse" />
                 <span className="text-[10px] font-black text-accent-gold uppercase tracking-[0.2em]">{mentorshipMissions.length} {t('ACTIVE MISSIONS', 'MISSIONS ACTIVES')}</span>
               </div>
             </div>
@@ -1129,7 +1129,7 @@ const renderMentorshipContent = () => (
                           initial={{ width: 0 }}
                           animate={{ width: `${m.progress}%` }}
                           transition={{ duration: 1 }}
-                          className={`h-full ${m.bg.replace('/10', '')} shadow-[0_0_10px_rgba(0,224,255,0.3)]`} 
+                          className={`h-full ${m.bg.replace('/10', '')}`} 
                         />
                       </div>
                     </div>
@@ -1144,7 +1144,7 @@ const renderMentorshipContent = () => (
               <div className="flex justify-center pt-8">
                 <button 
                   onClick={loadMoreMentorship}
-                  className="px-10 py-5 bg-white/5 border border-white/10 rounded-2xl text-[10px] font-black text-white uppercase tracking-[0.4em] hover:bg-primary-cyan hover:text-surface-dim hover:border-primary-cyan transition-all active:scale-95 group flex items-center gap-4"
+                  className="px-10 py-5 bg-white/5 border border-white/10 rounded-lg text-[10px] font-black text-white uppercase tracking-[0.4em] hover:bg-primary-cyan hover:text-surface-dim hover:border-primary-cyan transition-all active:scale-95 group flex items-center gap-4"
                 >
                   <Plus size={16} className="group-hover:rotate-90 transition-transform duration-500" />
                   {t('LOAD MORE ELITE MISSIONS', 'CHARGER PLUS DE MISSIONS D\'ÉLITE')}
@@ -1213,7 +1213,7 @@ const renderMentorshipContent = () => (
 
              <div className="flex-1 p-10 overflow-y-auto space-y-8 flex flex-col justify-end min-h-[400px]">
                <div className="flex justify-start">
-                 <div className="max-w-[70%] bg-white/5 border border-white/10 p-6 rounded-2xl rounded-tl-none shadow-xl">
+                 <div className="max-w-[70%] bg-white/5 border border-white/10 p-6 rounded-lg rounded-tl-none shadow-xl">
                    <p className="text-sm text-on-surface leading-relaxed opacity-80">
                      <ScrambleText text="The certification requirements for the AI-generated works are complex. I need guidance on the attribution clause before we move to Phase 2." />
                    </p>
@@ -1222,7 +1222,7 @@ const renderMentorshipContent = () => (
                </div>
                
                <div className="flex justify-end">
-                 <div className="max-w-[70%] bg-primary-cyan/10 border border-primary-cyan/20 p-6 rounded-2xl rounded-tr-none shadow-xl relative overflow-hidden">
+                 <div className="max-w-[70%] bg-primary-cyan/10 border border-primary-cyan/20 p-6 rounded-lg rounded-tr-none shadow-xl relative overflow-hidden">
                    <div className="absolute top-0 right-0 w-24 h-24 bg-primary-cyan/5 rounded-full -translate-y-12 translate-x-12" />
                    <p className="text-sm text-white leading-relaxed relative z-10">
                      <ScrambleText text="Review the Sector 0x4 standard. We focus on cumulative participation rather than direct buyouts. It protects the legacy value of the initial unit." />
@@ -1237,7 +1237,7 @@ const renderMentorshipContent = () => (
                    <input 
                     type="text" 
                     placeholder={t('Type secure message dispatch...', 'Écrire un message sécurisé...')}
-                    className="w-full bg-surface-dim border border-white/10 p-6 pr-16 text-sm font-bold text-white rounded-2xl focus:border-primary-cyan/50 focus:bg-surface-dim transition-all outline-none placeholder:text-white/20"
+                    className="w-full bg-surface-dim border border-white/10 p-6 pr-16 text-sm font-bold text-white rounded-lg focus:border-primary-cyan/50 focus:bg-surface-dim transition-all outline-none placeholder:text-white/20"
                   />
                   <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-2">
                     <button className="p-3 text-white/20 hover:text-white transition-colors hover:bg-white/5 rounded-xl"><Paperclip size={18} /></button>
@@ -1260,7 +1260,7 @@ const renderMentorshipContent = () => (
   const renderDirectoryContent = () => (
     <div className="space-y-8">
       {renderUserModal()}
-      <div className="flex justify-between items-center bg-white/5 p-8 rounded-3xl border border-white/10">
+      <div className="flex justify-between items-center bg-white/5 p-8 rounded-lg border border-white/10">
         <div>
           <h3 className="text-2xl font-black uppercase tracking-widest text-white flex items-center gap-4 mb-2">
             <Globe className="text-primary-cyan" size={32} /> {t('LinkYourArt Hub Registry', 'Registre Hub LinkYourArt')}
@@ -1290,7 +1290,7 @@ const renderMentorshipContent = () => (
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: (i % 20) * 0.05 }}
-              className="bg-surface-low/30 border border-white/10 p-6 rounded-2xl hover:border-primary-cyan/40 transition-all group cursor-pointer"
+              className="bg-surface-low/30 border border-white/10 p-6 rounded-lg hover:border-primary-cyan/40 transition-all group cursor-pointer"
               onClick={() => setViewingUser(u)}
             >
               <div className="flex items-center gap-4 mb-6">
@@ -1331,7 +1331,7 @@ const renderMentorshipContent = () => (
         
         <div className="relative z-10">
           <div className="flex items-center gap-6 mb-12">
-            <div className="w-16 h-16 bg-accent-gold/10 rounded-2xl flex items-center justify-center text-accent-gold border border-accent-gold/30">
+            <div className="w-16 h-16 bg-accent-gold/10 rounded-lg flex items-center justify-center text-accent-gold border border-accent-gold/30">
               <Shield size={32} />
             </div>
             <div>
@@ -1341,7 +1341,7 @@ const renderMentorshipContent = () => (
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-12">
-            <div className="bg-white/5 border border-white/10 p-10 rounded-3xl space-y-6">
+            <div className="bg-white/5 border border-white/10 p-10 rounded-lg space-y-6">
               <h4 className="text-lg font-black text-white uppercase tracking-widest flex items-center gap-3">
                 <Database className="text-primary-cyan" size={20} /> {t('Data Management', 'Gestion des Données')}
               </h4>
@@ -1366,16 +1366,16 @@ const renderMentorshipContent = () => (
               </div>
             </div>
 
-            <div className="bg-white/5 border border-white/10 p-10 rounded-3xl space-y-6">
+            <div className="bg-white/5 border border-white/10 p-10 rounded-lg space-y-6">
                <h4 className="text-lg font-black text-white uppercase tracking-widest flex items-center gap-3">
                 <Activity className="text-accent-gold" size={20} /> {t('Global Metrics', 'Métriques Globales')}
               </h4>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div className="p-4 bg-white/5 rounded-2xl border border-white/10">
+                <div className="p-4 bg-white/5 rounded-lg border border-white/10">
                   <p className="text-[10px] font-black text-white/40 uppercase tracking-widest mb-1">{t('REGISTERED USERS', 'UTILISATEURS ENREG.')}</p>
                   <p className="text-2xl font-black text-primary-cyan">{allUsers.length}</p>
                 </div>
-                <div className="p-4 bg-white/5 rounded-2xl border border-white/10">
+                <div className="p-4 bg-white/5 rounded-lg border border-white/10">
                   <p className="text-[10px] font-black text-white/40 uppercase tracking-widest mb-1">{t('ACTIVE CONTRACTS', 'CONTRATS ACTIFS')}</p>
                   <p className="text-2xl font-black text-accent-magenta">{projects.length}</p>
                 </div>
@@ -1416,7 +1416,7 @@ const renderMentorshipContent = () => (
                     </span>
                   )}
                   {activeTab === tab.id && (
-                    <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-primary-cyan shadow-[0_0_10px_rgba(0,224,255,0.5)]" />
+                    <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-primary-cyan" />
                   )}
                 </button>
               ))}
@@ -1443,7 +1443,7 @@ const renderMentorshipContent = () => (
                     
                     <div className="relative z-10">
                       <div className="flex items-center gap-6 mb-8">
-                        <div className="w-12 h-12 md:w-16 md:h-16 bg-accent-gold/10 rounded-2xl flex items-center justify-center text-accent-gold border border-accent-gold/30">
+                        <div className="w-12 h-12 md:w-16 md:h-16 bg-accent-gold/10 rounded-lg flex items-center justify-center text-accent-gold border border-accent-gold/30">
                           <Shield size={28} />
                         </div>
                         <div>
@@ -1453,7 +1453,7 @@ const renderMentorshipContent = () => (
                       </div>
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div className="bg-white/5 border border-white/10 p-8 rounded-3xl space-y-6">
+                        <div className="bg-white/5 border border-white/10 p-8 rounded-lg space-y-6">
                           <div className="flex items-center gap-4">
                             <Database className="text-primary-cyan" size={24} />
                             <h4 className="text-sm md:text-lg font-black text-white uppercase tracking-widest">{t('DEMO INITIALIZATION', 'INITIALISATION DÉMO')}</h4>
@@ -1479,23 +1479,23 @@ const renderMentorshipContent = () => (
                           </div>
                         </div>
 
-                        <div className="bg-white/5 border border-white/10 p-8 rounded-3xl space-y-6">
+                        <div className="bg-white/5 border border-white/10 p-8 rounded-lg space-y-6">
                           <div className="flex items-center gap-4">
                             <Activity className="text-accent-gold" size={24} />
                             <h4 className="text-sm md:text-lg font-black text-white uppercase tracking-widest">{t('LIVE NETWORK STATUS', 'STATUT DU RÉSEAU LIVE')}</h4>
                           </div>
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div className="p-4 bg-white/5 rounded-2xl border border-white/10">
+                            <div className="p-4 bg-white/5 rounded-lg border border-white/10">
                               <p className="text-[10px] font-black text-white/40 uppercase tracking-widest mb-1">{t('MAPPED IDENTITIES', 'IDENTITÉS CARTOGRAPH.')}</p>
                               <p className="text-xl md:text-2xl font-black text-primary-cyan">{allUsers.length}</p>
                             </div>
-                            <div className="p-4 bg-white/5 rounded-2xl border border-white/10">
+                            <div className="p-4 bg-white/5 rounded-lg border border-white/10">
                               <p className="text-[10px] font-black text-white/40 uppercase tracking-widest mb-1">{t('INDEXED ASSETS', 'ACTIFS INDEXÉS')}</p>
                               <p className="text-xl md:text-2xl font-black text-accent-magenta">{projects.length}</p>
                             </div>
                           </div>
                           <div className="flex items-center gap-2 text-emerald-400">
-                             <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_10px_rgba(52,211,153,0.5)]" />
+                             <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                              <span className="text-[10px] font-black uppercase tracking-[0.2em]">All Systems Nominal | Sync Active</span>
                           </div>
                         </div>
@@ -1505,7 +1505,7 @@ const renderMentorshipContent = () => (
                 )}
 
                 {/* LYA Simulator CTA */}
-            <section className="relative overflow-hidden rounded-3xl group">
+            <section className="relative overflow-hidden rounded-lg group">
               <div className="absolute inset-0 bg-gradient-to-r from-primary-cyan/20 via-accent-purple/20 to-accent-magenta/20 opacity-50 group-hover:opacity-80 transition-opacity duration-700" />
               <div className="relative bg-surface-low/40 backdrop-blur-3xl border border-white/10 p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8">
                 <div className="flex-1">
@@ -1542,7 +1542,7 @@ const renderMentorshipContent = () => (
                   <div className="absolute inset-0 bg-primary-cyan/10 rounded-full blur-3xl animate-pulse" />
                   <div className="relative w-48 h-48 md:w-64 md:h-64 border-2 border-primary-cyan/30 rounded-full flex items-center justify-center">
                     <div className="w-32 h-32 md:w-40 md:h-40 border border-primary-cyan/50 rounded-full flex items-center justify-center animate-spin-slow">
-                      <div className="w-4 h-4 bg-primary-cyan rounded-full shadow-[0_0_20px_rgba(0,224,255,1)]" />
+                      <div className="w-4 h-4 bg-primary-cyan rounded-full" />
                     </div>
                     <div className="absolute inset-0 flex items-center justify-center">
                       <span className="text-3xl md:text-5xl font-black font-headline text-primary-cyan">LYA</span>
@@ -1609,7 +1609,7 @@ const renderMentorshipContent = () => (
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
                     {projects.map((project, i) => (
-                      <div key={i} className="bg-surface-low/30 backdrop-blur-2xl border border-white/10 overflow-hidden group hover:border-primary-cyan/40 transition-all duration-700 flex flex-col h-full relative shadow-2xl rounded-2xl">
+                      <div key={i} className="bg-surface-low/30 backdrop-blur-2xl border border-white/10 overflow-hidden group hover:border-primary-cyan/40 transition-all duration-700 flex flex-col h-full relative shadow-2xl rounded-lg">
                         <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent pointer-events-none" />
                         <div className="h-48 md:h-64 relative overflow-hidden">
                           <img 
@@ -1693,7 +1693,7 @@ const renderMentorshipContent = () => (
                 </section>
 
                 {/* Revenue Analytics - Premium Chart */}
-                <section className="bg-surface-low/30 border border-white/10 p-6 md:p-12 backdrop-blur-2xl relative overflow-hidden rounded-2xl shadow-2xl">
+                <section className="bg-surface-low/30 border border-white/10 p-6 md:p-12 backdrop-blur-2xl relative overflow-hidden rounded-lg shadow-2xl">
                   <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary-cyan/20 to-transparent" />
                   <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 md:mb-12 gap-6">
                     <div>
@@ -1727,8 +1727,8 @@ const renderMentorshipContent = () => (
                             <stop offset="95%" stopColor="#00E0FF" stopOpacity={0}/>
                           </linearGradient>
                           <linearGradient id="colorRoy" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="5%" stopColor="#FFD700" stopOpacity={0.1}/>
-                            <stop offset="95%" stopColor="#FFD700" stopOpacity={0}/>
+                            <stop offset="5%" stopColor="#7E1CF1" stopOpacity={0.1}/>
+                            <stop offset="95%" stopColor="#7E1CF1" stopOpacity={0}/>
                           </linearGradient>
                         </defs>
                         <CartesianGrid strokeDasharray="3 3" stroke="#ffffff05" vertical={false} />
@@ -1758,7 +1758,7 @@ const renderMentorshipContent = () => (
                           itemStyle={{ fontWeight: 'black', textTransform: 'uppercase' }}
                         />
                         <Area type="monotone" dataKey="revenue" stroke="#00E0FF" fillOpacity={1} fill="url(#colorRev)" strokeWidth={3} />
-                        <Area type="monotone" dataKey="royalties" stroke="#FFD700" fillOpacity={1} fill="url(#colorRoy)" strokeWidth={2} strokeDasharray="8 8" />
+                        <Area type="monotone" dataKey="royalties" stroke="#7E1CF1" fillOpacity={1} fill="url(#colorRoy)" strokeWidth={2} strokeDasharray="8 8" />
                       </AreaChart>
                     </ResponsiveContainer>
                   </div>
@@ -1780,7 +1780,7 @@ const renderMentorshipContent = () => (
 
               <div className="lg:col-span-4 space-y-16">
                 {/* Creative Identity - Premium Card */}
-                <section className="bg-surface-low/30 border border-white/10 p-6 md:p-10 backdrop-blur-2xl relative overflow-hidden rounded-2xl shadow-2xl">
+                <section className="bg-surface-low/30 border border-white/10 p-6 md:p-10 backdrop-blur-2xl relative overflow-hidden rounded-lg shadow-2xl">
                   <div className="absolute top-0 right-0 p-4 md:p-8 opacity-[0.03]">
                     <Award size={100} className="text-primary-cyan" />
                   </div>
@@ -1806,7 +1806,7 @@ const renderMentorshipContent = () => (
                 </section>
 
                 {/* Asset Allocation - Premium Pie */}
-                <section className="bg-surface-low/30 border border-white/10 p-6 md:p-10 backdrop-blur-2xl rounded-2xl shadow-2xl">
+                <section className="bg-surface-low/30 border border-white/10 p-6 md:p-10 backdrop-blur-2xl rounded-lg shadow-2xl">
                   <h3 className="text-xl md:text-2xl font-black uppercase mb-6 md:mb-10 flex items-center gap-3 md:gap-4">
                     <PieChartIcon className="text-primary-cyan" size={24} /> {t('Catalog Breakdown', 'Répartition du Catalogue')}
                   </h3>
@@ -1834,7 +1834,7 @@ const renderMentorshipContent = () => (
                           stroke="none"
                         >
                           <Cell fill="#00E0FF" className="hover:opacity-80 transition-opacity cursor-pointer" />
-                          <Cell fill="#FFD700" className="hover:opacity-80 transition-opacity cursor-pointer" />
+                          <Cell fill="#7E1CF1" className="hover:opacity-80 transition-opacity cursor-pointer" />
                           <Cell fill="#FF00FF" className="hover:opacity-80 transition-opacity cursor-pointer" />
                         </Pie>
                         <Tooltip 
@@ -1851,7 +1851,7 @@ const renderMentorshipContent = () => (
                     ].map((item, i) => (
                       <div key={i} className="flex flex-wrap items-center justify-between gap-3 p-3 md:p-4 bg-white/5 border border-white/5 hover:border-white/10 transition-all">
                         <div className="flex items-center gap-3 md:gap-4">
-                          <div className={`w-2.5 h-2.5 rounded-full ${item.color} shadow-[0_0_10px_rgba(255,255,255,0.1)]`} />
+                          <div className={`w-2.5 h-2.5 rounded-full ${item.color}`} />
                           <div>
                             <span className="text-xs md:text-[10px] font-black uppercase tracking-widest text-white block">{item.label}</span>
                             <span className="text-[7px] md:text-[10px] text-on-surface-variant uppercase tracking-widest font-bold opacity-40">{item.desc}</span>
@@ -1864,7 +1864,7 @@ const renderMentorshipContent = () => (
                 </section>
 
                 {/* Technical Documents - Premium List */}
-                <section className="bg-surface-low/30 border border-white/10 p-10 backdrop-blur-2xl rounded-2xl shadow-2xl">
+                <section className="bg-surface-low/30 border border-white/10 p-10 backdrop-blur-2xl rounded-lg shadow-2xl">
                   <div className="flex justify-between items-center mb-10">
                     <h3 className="text-2xl font-black uppercase flex items-center gap-4">
                       <FileCode className="text-primary-cyan" size={28} /> {t('IP Documents', 'Documents PI')}
@@ -1935,7 +1935,7 @@ const renderMentorshipContent = () => (
                     </span>
                   )}
                   {activeTab === tab.id && (
-                    <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-primary-cyan shadow-[0_0_10px_rgba(0,224,255,0.5)]" />
+                    <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-primary-cyan" />
                   )}
                 </button>
               ))}
@@ -1952,7 +1952,7 @@ const renderMentorshipContent = () => (
                 />
 
                 {/* Scan Opportunity CTA */}
-            <section className="relative overflow-hidden rounded-3xl group">
+            <section className="relative overflow-hidden rounded-lg group">
               <div className="absolute inset-0 bg-gradient-to-r from-accent-magenta/20 via-accent-purple/20 to-primary-cyan/20 opacity-50 group-hover:opacity-80 transition-opacity duration-700" />
               <div className="relative bg-surface-low/40 backdrop-blur-3xl border border-white/10 p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8">
                 <div className="flex-1">
@@ -2133,7 +2133,7 @@ const renderMentorshipContent = () => (
                             stroke="none"
                           >
                             <Cell fill="#00E0FF" className="hover:opacity-80 transition-opacity cursor-pointer" />
-                            <Cell fill="#FFD700" className="hover:opacity-80 transition-opacity cursor-pointer" />
+                            <Cell fill="#7E1CF1" className="hover:opacity-80 transition-opacity cursor-pointer" />
                             <Cell fill="#FF00FF" className="hover:opacity-80 transition-opacity cursor-pointer" />
                             <Cell fill="#00FF00" className="hover:opacity-80 transition-opacity cursor-pointer" />
                           </Pie>
@@ -2150,7 +2150,7 @@ const renderMentorshipContent = () => (
                       ].map((item, i) => (
                         <div key={i} className="flex flex-wrap items-center justify-between gap-3 p-3 md:p-4 bg-white/5 border border-white/5 hover:border-white/10 transition-all">
                           <div className="flex items-center gap-3 md:gap-4">
-                            <div className={`w-2.5 h-2.5 rounded-full ${item.color} shadow-[0_0_10px_rgba(255,255,255,0.1)]`} />
+                            <div className={`w-2.5 h-2.5 rounded-full ${item.color}`} />
                             <span className="text-xs md:text-[10px] font-black uppercase tracking-widest text-white">{item.label}</span>
                           </div>
                           <span className="text-xs md:text-sm font-black italic text-white">{item.value}</span>
@@ -2171,7 +2171,7 @@ const renderMentorshipContent = () => (
                         { id: 'ORD-9915', project: 'VIRTUAL_VOGUE', type: 'BUY', amount: '2,800 LYA', status: 'PENDING', date: '2026-04-02' },
                         { id: 'ORD-9912', project: 'DIGITAL_HORIZON', type: 'BUY', amount: '5,000 LYA', status: 'COMPLETED', date: '2026-04-01' },
                       ].map((order, i) => (
-                        <div key={i} className="flex flex-wrap items-center justify-between gap-3 p-4 md:p-5 bg-surface-low/30 backdrop-blur-2xl border border-white/10 hover:border-primary-cyan/40 transition-all group relative overflow-hidden rounded-2xl shadow-xl">
+                        <div key={i} className="flex flex-wrap items-center justify-between gap-3 p-4 md:p-5 bg-surface-low/30 backdrop-blur-2xl border border-white/10 hover:border-primary-cyan/40 transition-all group relative overflow-hidden rounded-lg shadow-xl">
                           <div className="absolute top-0 left-0 w-[2px] h-full bg-primary-cyan opacity-0 group-hover:opacity-100 transition-opacity" />
                           <div className="flex items-center gap-3 md:gap-5">
                             <div className={`w-10 h-10 md:w-12 md:h-12 flex items-center justify-center font-black text-[10px] md:text-[10px] rounded-lg ${order.type === 'BUY' ? 'bg-emerald-400/10 text-emerald-400 border border-emerald-400/20' : 'bg-rose-400/10 text-rose-400 border border-rose-400/20'}`}>
@@ -2201,7 +2201,7 @@ const renderMentorshipContent = () => (
 
               <div className="lg:col-span-4 space-y-8 md:space-y-16">
                 {/* Scan Opportunity CTA */}
-                <section className="bg-gradient-to-br from-primary-cyan/20 to-accent-gold/20 border border-primary-cyan/30 p-8 rounded-2xl relative overflow-hidden group shadow-2xl">
+                <section className="bg-gradient-to-br from-primary-cyan/20 to-accent-gold/20 border border-primary-cyan/30 p-8 rounded-lg relative overflow-hidden group shadow-2xl">
                   <div className="absolute -right-10 -top-10 opacity-10 group-hover:scale-110 transition-transform duration-1000">
                     <Zap size={200} className="text-primary-cyan" />
                   </div>
@@ -2251,7 +2251,7 @@ const renderMentorshipContent = () => (
                 </section>
 
                 {/* Investor Profile Summary - Premium Card */}
-                <section className="bg-surface-low/30 border border-white/10 p-6 md:p-10 backdrop-blur-2xl relative overflow-hidden rounded-2xl shadow-2xl">
+                <section className="bg-surface-low/30 border border-white/10 p-6 md:p-10 backdrop-blur-2xl relative overflow-hidden rounded-lg shadow-2xl">
                   <div className="absolute top-0 right-0 p-6 md:p-8 opacity-[0.03]">
                     <Activity size={120} className="text-primary-cyan" />
                   </div>
@@ -2314,7 +2314,7 @@ const renderMentorshipContent = () => (
                           initial={{ width: 0 }}
                           animate={{ width: '84%' }}
                           transition={{ duration: 1.5, ease: "easeOut" }}
-                          className="h-full bg-primary-cyan shadow-[0_0_10px_rgba(0,224,255,0.5)]" 
+                          className="h-full bg-primary-cyan" 
                         />
                       </div>
                     </div>
@@ -2331,7 +2331,7 @@ const renderMentorshipContent = () => (
                           initial={{ width: 0 }}
                           animate={{ width: '92%' }}
                           transition={{ duration: 1.5, ease: "easeOut", delay: 0.2 }}
-                          className="h-full bg-accent-gold shadow-[0_0_10px_rgba(255,215,0,0.5)]" 
+                          className="h-full bg-accent-gold" 
                         />
                       </div>
                     </div>
@@ -2380,7 +2380,7 @@ const renderMentorshipContent = () => (
               <tab.icon size={16} />
               <span className="whitespace-nowrap">{tab.label}</span>
               {activeTab === tab.id && (
-                <div className="absolute bottom-0 left-0 right-0 h-1 bg-primary-cyan shadow-[0_0_15px_rgba(0,224,255,0.5)]" />
+                <div className="absolute bottom-0 left-0 right-0 h-1 bg-primary-cyan" />
               )}
             </button>
           ))}
@@ -2398,7 +2398,7 @@ const renderMentorshipContent = () => (
                 onNotify={onNotify}
               />
 
-              <section className="relative h-60 md:h-80 rounded-3xl overflow-hidden mb-12 group">
+              <section className="relative h-60 md:h-80 rounded-lg overflow-hidden mb-12 group">
                 <div className="absolute inset-0">
                 <img 
                   src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=2000" 
@@ -2436,7 +2436,7 @@ const renderMentorshipContent = () => (
                 { label: t('Avg. Yield', 'Rendement Moy.'), value: '12.4%', icon: Activity, color: 'text-emerald-400', trend: 'Optimized Performance' },
                 { label: t('Validation Accuracy', 'Précision de Validation'), value: '99.8%', icon: ShieldCheck, color: 'text-accent-magenta', trend: 'Registry Verified' },
               ].map((stat, i) => (
-                <div key={i} className="bg-surface-low/30 border border-white/10 p-5 md:p-6 backdrop-blur-2xl relative overflow-hidden group hover:border-primary-cyan/30 transition-all duration-500 rounded-2xl shadow-2xl">
+                <div key={i} className="bg-surface-low/30 border border-white/10 p-5 md:p-6 backdrop-blur-2xl relative overflow-hidden group hover:border-primary-cyan/30 transition-all duration-500 rounded-lg shadow-2xl">
                   <div className="absolute top-0 right-0 p-4 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity duration-700 group-hover:scale-110 transform">
                     <stat.icon size={60} />
                   </div>
@@ -2455,7 +2455,7 @@ const renderMentorshipContent = () => (
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12">
               <div className="lg:col-span-8 space-y-8 md:space-y-12">
                 {/* Graphical Statistics - New for Professional */}
-                <section className="bg-surface-low/30 border border-white/10 p-6 md:p-10 backdrop-blur-2xl relative overflow-hidden rounded-2xl shadow-2xl">
+                <section className="bg-surface-low/30 border border-white/10 p-6 md:p-10 backdrop-blur-2xl relative overflow-hidden rounded-lg shadow-2xl">
                   <div className="flex justify-between items-center mb-8">
                     <div>
                       <h3 className="text-lg md:text-xl font-black uppercase italic tracking-tight flex items-center gap-3 mb-1">
@@ -2483,7 +2483,7 @@ const renderMentorshipContent = () => (
                         />
                         <Bar dataKey="impact" fill="#00E0FF" radius={[2, 2, 0, 0]}>
                           {chartData.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={index % 2 === 0 ? '#00E0FF' : '#FFD700'} opacity={0.8} />
+                            <Cell key={`cell-${index}`} fill={index % 2 === 0 ? '#00E0FF' : '#7E1CF1'} opacity={0.8} />
                           ))}
                         </Bar>
                       </BarChart>
@@ -2500,14 +2500,14 @@ const renderMentorshipContent = () => (
                       </h3>
                       <p className="text-xs md:text-xs text-on-surface-variant uppercase tracking-widest font-bold opacity-40">{t('Real-time institutional certification tracking', 'Suivi institutionnel de la certification en temps réel')}</p>
                     </div>
-                    <div className="px-3 md:px-6 py-1.5 md:py-3 bg-primary-cyan/10 border border-primary-cyan/30 text-primary-cyan text-[10px] md:text-[10px] font-black uppercase tracking-[0.15em] md:tracking-[0.3em] animate-pulse shadow-[0_0_20px_rgba(0,224,255,0.1)]">
+                    <div className="px-3 md:px-6 py-1.5 md:py-3 bg-primary-cyan/10 border border-primary-cyan/30 text-primary-cyan text-[10px] md:text-[10px] font-black uppercase tracking-[0.15em] md:tracking-[0.3em] animate-pulse">
                       {t('LIVE TERMINAL DATA', 'DONNÉES TERMINAL EN DIRECT')}
                     </div>
                   </div>
                   
                   <div className="space-y-4 md:space-y-6 relative z-10">
                     {CONTRACTS.slice(0, 4).map((project, i) => (
-                      <div key={i} className="p-4 md:p-6 lg:p-8 bg-surface-low/30 backdrop-blur-2xl border border-white/10 flex flex-col sm:flex-row items-center justify-between hover:border-primary-cyan/40 transition-all group/item relative overflow-hidden gap-4 md:gap-6 shadow-2xl rounded-2xl">
+                      <div key={i} className="p-4 md:p-6 lg:p-8 bg-surface-low/30 backdrop-blur-2xl border border-white/10 flex flex-col sm:flex-row items-center justify-between hover:border-primary-cyan/40 transition-all group/item relative overflow-hidden gap-4 md:gap-6 shadow-2xl rounded-lg">
                         <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent pointer-events-none" />
                         <div className="absolute top-0 left-0 w-[2px] h-full bg-primary-cyan opacity-0 group-hover/item:opacity-100 transition-opacity" />
                         <div className="flex flex-col sm:flex-row items-center gap-4 md:gap-10 w-full sm:w-auto">
@@ -2544,7 +2544,7 @@ const renderMentorshipContent = () => (
                 </section>
 
                 {/* Certification Tracking & Milestone Alerts - Premium Interactive */}
-                <section className="bg-surface-low/30 border border-emerald-400/10 p-5 md:p-8 lg:p-12 backdrop-blur-2xl relative overflow-hidden group shadow-2xl rounded-2xl">
+                <section className="bg-surface-low/30 border border-emerald-400/10 p-5 md:p-8 lg:p-12 backdrop-blur-2xl relative overflow-hidden group shadow-2xl rounded-lg">
                   <div className="absolute inset-0 bg-gradient-to-br from-emerald-400/[0.02] to-transparent pointer-events-none" />
                   <div className="absolute top-0 right-0 p-6 md:p-12 opacity-[0.02] group-hover:opacity-[0.05] transition-opacity duration-700">
                     <Zap size={100} className="text-emerald-400" />
@@ -2593,7 +2593,7 @@ const renderMentorshipContent = () => (
                 </section>
 
                 {/* Validation Queue - Premium Locked State */}
-                <section className="bg-surface-low/30 border border-white/10 p-5 md:p-8 lg:p-12 backdrop-blur-2xl relative overflow-hidden group min-h-[300px] md:min-h-[400px] rounded-2xl shadow-2xl">
+                <section className="bg-surface-low/30 border border-white/10 p-5 md:p-8 lg:p-12 backdrop-blur-2xl relative overflow-hidden group min-h-[300px] md:min-h-[400px] rounded-lg shadow-2xl">
                   <div className="flex justify-between items-center mb-6 md:mb-10 lg:mb-12">
                     <div>
                       <div className="flex items-center gap-2 mb-4">
@@ -2614,7 +2614,7 @@ const renderMentorshipContent = () => (
                       { name: 'CYBER_PUNK_IP', type: 'LEGAL', deadline: '48h', fee: '800 LYA', date: '2026-04-04' },
                       { name: 'METAVERSE_ESTATE', type: 'VALUATION', deadline: '12h', fee: '1,200 LYA', date: '2026-04-03' }
                     ].map((audit, i) => (
-                      <div key={i} className="p-6 md:p-8 lg:p-10 bg-surface-low/30 backdrop-blur-2xl border border-white/10 flex flex-col sm:flex-row justify-between items-center group/audit hover:bg-white/10 transition-all gap-6 rounded-2xl shadow-2xl">
+                      <div key={i} className="p-6 md:p-8 lg:p-10 bg-surface-low/30 backdrop-blur-2xl border border-white/10 flex flex-col sm:flex-row justify-between items-center group/audit hover:bg-white/10 transition-all gap-6 rounded-lg shadow-2xl">
                         <div className="text-center sm:text-left">
                           <div className="text-xl md:text-2xl lg:text-3xl font-black uppercase italic tracking-tight mb-2 md:mb-3">{audit.name}</div>
                           <div className="flex justify-center sm:justify-start gap-3 md:gap-5 text-xs md:text-[11px] font-bold text-on-surface-variant uppercase tracking-widest opacity-70">
@@ -2637,7 +2637,7 @@ const renderMentorshipContent = () => (
 
               <div className="lg:col-span-4 space-y-8 md:space-y-12 lg:space-y-16">
                 {/* Find Talent CTA */}
-                <section className="bg-surface-dim border border-white/10 p-8 rounded-2xl relative overflow-hidden group shadow-2xl mb-12">
+                <section className="bg-surface-dim border border-white/10 p-8 rounded-lg relative overflow-hidden group shadow-2xl mb-12">
                   <div className="absolute inset-0 opacity-20 pointer-events-none">
                     <img 
                       src="https://picsum.photos/seed/institutional-banner/1200/400?blur=2" 
@@ -2722,7 +2722,7 @@ const renderMentorshipContent = () => (
                 </section>
 
                 {/* Pro Community - Premium Network */}
-                <section className="bg-gradient-to-br from-primary-cyan/10 to-accent-gold/10 border border-white/10 p-5 md:p-8 lg:p-10 backdrop-blur-2xl relative overflow-hidden group rounded-2xl shadow-2xl">
+                <section className="bg-gradient-to-br from-primary-cyan/10 to-accent-gold/10 border border-white/10 p-5 md:p-8 lg:p-10 backdrop-blur-2xl relative overflow-hidden group rounded-lg shadow-2xl">
                   <div className="absolute top-0 right-0 p-6 md:p-8 opacity-[0.05] group-hover:opacity-[0.1] transition-opacity duration-700">
                     <Globe size={100} className="text-primary-cyan" />
                   </div>
@@ -2745,7 +2745,7 @@ const renderMentorshipContent = () => (
                   </div>
                   <div className="p-4 md:p-8 bg-black/40 border border-white/5 relative z-10 mb-6 md:mb-10 group/chat">
                     <div className="flex items-center gap-2 md:gap-3 mb-2 md:mb-4">
-                      <div className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_10px_rgba(52,211,153,0.5)]" />
+                      <div className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-emerald-400 animate-pulse" />
                       <span className="text-[10px] md:text-[11px] font-black uppercase tracking-widest text-emerald-400">{t('Live Global Discussion', 'Discussion Globale en Direct')}</span>
                     </div>
                     <p className="text-[10px] md:text-sm italic text-on-surface-variant leading-relaxed opacity-80 mb-4">
@@ -2764,7 +2764,7 @@ const renderMentorshipContent = () => (
                 </section>
 
                 {/* Impact Metrics - Premium Stats */}
-                <section className="bg-surface-low/30 border border-white/10 p-5 md:p-8 lg:p-10 backdrop-blur-2xl rounded-2xl shadow-2xl">
+                <section className="bg-surface-low/30 border border-white/10 p-5 md:p-8 lg:p-10 backdrop-blur-2xl rounded-lg shadow-2xl">
                   <h3 className="text-lg md:text-xl lg:text-2xl font-black uppercase italic mb-6 md:mb-10 flex items-center gap-3 md:gap-4">
                     <Activity className="text-primary-cyan" size={28} /> {t('Impact Metrics', 'Métriques d\'Impact')}
                   </h3>
@@ -2772,7 +2772,7 @@ const renderMentorshipContent = () => (
                     <div className="p-4 md:p-8 bg-primary-cyan/5 border border-primary-cyan/20 relative overflow-hidden group hover:border-primary-cyan/40 transition-all duration-500">
                       <div className="flex flex-wrap items-center justify-between gap-3 mb-2 md:mb-4">
                         <p className="text-xs md:text-[11px] font-black uppercase tracking-[0.15em] md:tracking-[0.2em] text-primary-cyan">{t('B2B Registry Status', 'Statut du Registre B2B')}</p>
-                        <span className="flex h-2 w-2 md:h-3 md:w-3 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_15px_rgba(52,211,153,0.6)]" />
+                        <span className="flex h-2 w-2 md:h-3 md:w-3 rounded-full bg-emerald-400 animate-pulse" />
                       </div>
                       <p className="text-lg md:text-2xl font-black italic uppercase tracking-tight text-white">{t('Active & Synchronized', 'Actif et Synchronisé')}</p>
                     </div>
@@ -2798,7 +2798,7 @@ const renderMentorshipContent = () => (
   return (
     <div className="max-w-7xl mx-auto space-y-8 pb-12 pt-10">
       {/* Premium Profile Header */}
-      <header className="relative bg-surface-low/30 backdrop-blur-2xl border border-white/10 rounded-2xl overflow-hidden shadow-2xl">
+      <header className="relative bg-surface-low/30 backdrop-blur-2xl border border-white/10 rounded-lg overflow-hidden shadow-2xl">
         <div className="h-48 md:h-80 relative overflow-hidden">
           <img 
             src={user.coverUrl || `https://picsum.photos/seed/${user.uid}_cover/1920/1080?blur=2`} 
@@ -2813,8 +2813,8 @@ const renderMentorshipContent = () => (
         <div className="pb-10 -mt-20 md:-mt-28 relative z-10">
           <div className="flex flex-col md:flex-row items-end gap-8">
             <div className="relative group/avatar">
-              <div className="absolute -inset-1 bg-gradient-to-r from-primary-cyan via-accent-purple to-accent-gold rounded-2xl blur opacity-40 group-hover/avatar:opacity-100 transition duration-500" />
-              <div className="relative w-32 h-32 md:w-48 md:h-48 rounded-2xl overflow-hidden border-4 border-surface-dim shadow-2xl bg-surface-dim">
+              <div className="absolute -inset-1 bg-gradient-to-r from-primary-cyan via-accent-purple to-accent-gold rounded-lg blur opacity-40 group-hover/avatar:opacity-100 transition duration-500" />
+              <div className="relative w-32 h-32 md:w-48 md:h-48 rounded-lg overflow-hidden border-4 border-surface-dim shadow-2xl bg-surface-dim">
                 <img 
                   src={user.avatarUrl || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.displayName}`} 
                   alt={user.displayName} 
@@ -2887,7 +2887,7 @@ const renderMentorshipContent = () => (
                           initial={{ opacity: 0, y: 10, scale: 0.95 }}
                           animate={{ opacity: 1, y: 0, scale: 1 }}
                           exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                          className="absolute right-0 mt-4 w-80 bg-surface-low/95 backdrop-blur-2xl border border-white/10 rounded-2xl shadow-2xl z-[100] overflow-hidden"
+                          className="absolute right-0 mt-4 w-80 bg-surface-low/95 backdrop-blur-2xl border border-white/10 rounded-lg shadow-2xl z-[100] overflow-hidden"
                         >
                           <div className="p-4 border-b border-white/10 flex justify-between items-center">
                             <h4 className="text-[10px] font-black uppercase tracking-widest text-white">{t('Notifications', 'Notifications')}</h4>
@@ -2921,7 +2921,7 @@ const renderMentorshipContent = () => (
                       </button>
                       <button 
                         onClick={handleSave}
-                        className="px-8 py-3 bg-primary-cyan text-surface-dim text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all shadow-[0_0_20px_rgba(0,224,255,0.3)] rounded-xl flex items-center gap-2"
+                        className="px-8 py-3 bg-primary-cyan text-surface-dim text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all rounded-xl flex items-center gap-2"
                       >
                         <Save size={16} /> {t('Save Changes', 'Enregistrer')}
                       </button>
@@ -2931,7 +2931,7 @@ const renderMentorshipContent = () => (
                       {user.isPro && (
                         <button 
                           onClick={handleManageSubscription}
-                          className="px-8 py-3 bg-accent-gold text-surface-dim text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all shadow-[0_0_20px_rgba(255,215,0,0.3)] rounded-xl flex items-center gap-2"
+                          className="px-8 py-3 bg-accent-gold text-surface-dim text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all rounded-xl flex items-center gap-2"
                         >
                           <CreditCard size={16} /> {t('Manage Subscription', 'Gérer l\'Abonnement')}
                         </button>
@@ -2962,7 +2962,7 @@ const renderMentorshipContent = () => (
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="bg-surface-low/30 backdrop-blur-2xl border border-white/10 p-8 md:p-12 rounded-2xl shadow-2xl mb-12 relative overflow-hidden"
+            className="bg-surface-low/30 backdrop-blur-2xl border border-white/10 p-8 md:p-12 rounded-lg shadow-2xl mb-12 relative overflow-hidden"
           >
             <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary-cyan/50 to-transparent" />
             <h2 className="text-2xl font-black font-headline uppercase tracking-tight mb-10 flex items-center gap-4">
@@ -3086,7 +3086,7 @@ const renderMentorshipContent = () => (
               initial={{ scale: 0.95, y: 30, opacity: 0 }}
               animate={{ scale: 1, y: 0, opacity: 1 }}
               exit={{ scale: 0.95, y: 30, opacity: 0 }}
-              className="w-full max-w-4xl bg-surface-low border border-white/10 relative flex flex-col lg:flex-row rounded-3xl shadow-2xl max-h-[90vh] sm:max-h-[95vh] overflow-hidden"
+              className="w-full max-w-4xl bg-surface-low border border-white/10 relative flex flex-col lg:flex-row rounded-lg shadow-2xl max-h-[90vh] sm:max-h-[95vh] overflow-hidden"
             >
               <button 
                 onClick={closeProjectModal}
@@ -3370,7 +3370,7 @@ const renderMentorshipContent = () => (
               initial={{ scale: 0.95, y: 30, opacity: 0 }}
               animate={{ scale: 1, y: 0, opacity: 1 }}
               exit={{ scale: 0.95, y: 30, opacity: 0 }}
-              className="w-full max-w-4xl bg-surface-low border border-white/10 relative flex flex-col lg:flex-row rounded-3xl shadow-2xl max-h-[90vh] sm:max-h-[95vh] overflow-hidden"
+              className="w-full max-w-4xl bg-surface-low border border-white/10 relative flex flex-col lg:flex-row rounded-lg shadow-2xl max-h-[90vh] sm:max-h-[95vh] overflow-hidden"
             >
               <button 
                 onClick={resetSimulator}
@@ -3401,7 +3401,7 @@ const renderMentorshipContent = () => (
                   </p>
 
                   {/* Real-time score in left panel */}
-                  <div className="p-4 bg-primary-cyan/20 border border-primary-cyan/40 rounded-xl mb-4 sm:mb-8 shadow-[0_0_20px_rgba(34,211,238,0.1)]">
+                  <div className="p-4 bg-primary-cyan/20 border border-primary-cyan/40 rounded-xl mb-4 sm:mb-8">
                     <p className="text-[10px] font-black text-primary-cyan uppercase tracking-widest mb-1">{t('CURRENT ESTIMATE', 'ESTIMATION ACTUELLE')}</p>
                     <div className="flex items-baseline gap-2">
                       <span className="text-3xl font-black text-white tracking-tighter">{currentSimulatorScore}</span>
@@ -3534,7 +3534,7 @@ const renderMentorshipContent = () => (
                   >
                     <div className="relative">
                       <div className="absolute -inset-10 bg-primary-cyan/20 blur-xl rounded-full animate-pulse" />
-                      <div className="relative w-32 h-32 md:w-48 md:h-48 rounded-full border-4 border-primary-cyan/30 flex flex-col items-center justify-center bg-surface-low/50 backdrop-blur-xl shadow-[0_0_50px_rgba(0,224,255,0.2)]">
+                      <div className="relative w-32 h-32 md:w-48 md:h-48 rounded-full border-4 border-primary-cyan/30 flex flex-col items-center justify-center bg-surface-low/50 backdrop-blur-xl">
                         <div className="w-12 h-12 bg-primary-cyan/20 rounded-full flex items-center justify-center mb-2">
                           <Award className="text-primary-cyan" size={24} />
                         </div>
@@ -3591,7 +3591,7 @@ const renderMentorshipContent = () => (
               exit={{ scale: 0.9, y: 20 }}
               className="bg-surface-low border border-white/10 w-full max-w-2xl overflow-hidden relative"
             >
-              <div className="absolute top-0 left-0 w-full h-1 bg-accent-gold shadow-[0_0_20px_rgba(255,215,0,0.5)]" />
+              <div className="absolute top-0 left-0 w-full h-1 bg-accent-gold" />
               <button 
                 onClick={() => setPremiumFeature(null)}
                 className="absolute top-6 right-6 p-2 bg-white/5 text-white/40 hover:text-white rounded-full transition-colors z-10"

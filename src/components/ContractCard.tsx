@@ -59,9 +59,9 @@ export const ContractCard = React.memo<ContractCardProps>(({
     'Film': 'text-rose-400 bg-rose-400/10 border-rose-400/20',
     'TV Series': 'text-indigo-400 bg-indigo-400/10 border-indigo-400/20',
     'Music': 'text-emerald-400 bg-emerald-400/10 border-emerald-400/20',
-    'Literature': 'text-amber-400 bg-amber-400/10 border-amber-400/20',
+    'Literature': 'text-violet-400 bg-violet-400/10 border-violet-400/20',
     'Fashion': 'text-pink-400 bg-pink-400/10 border-pink-400/20',
-    'Design': 'text-orange-400 bg-orange-400/20 border-orange-400/40',
+    'Design': 'text-violet-400 bg-violet-400/20 border-violet-400/40',
     'Photography': 'text-blue-400 bg-blue-400/20 border-blue-400/40',
     'Performing Arts': 'text-fuchsia-400 bg-fuchsia-400/20 border-fuchsia-400/40',
     'Gastronomy': 'text-lime-400 bg-lime-400/20 border-lime-400/40',
@@ -97,7 +97,7 @@ export const ContractCard = React.memo<ContractCardProps>(({
         {/* Badges Overlay */}
         <div className="absolute inset-0 p-8 flex flex-col justify-between">
           <div className="flex justify-between items-start">
-             <div className="px-5 py-2.5 bg-black/40 backdrop-blur-3xl border border-white/10 rounded-2xl flex items-center gap-3">
+             <div className="px-5 py-2.5 bg-black/40 backdrop-blur-3xl border border-white/10 rounded-lg flex items-center gap-3">
                 <div className={`w-2.5 h-2.5 rounded-full ${contract.status === 'RISK' ? 'bg-rose-500 animate-pulse shadow-[0_0_10px_#F43F5E]' : 'bg-emerald-500 shadow-[0_0_10px_#10B981]'}`} />
                 <span className="text-[10px] font-black uppercase tracking-[0.25em] text-white/80">{contract.status}</span>
              </div>
@@ -107,7 +107,7 @@ export const ContractCard = React.memo<ContractCardProps>(({
                    e.stopPropagation();
                    onToggleWatchlist?.(e, contract.id);
                 }}
-                className={`w-12 h-12 rounded-2xl flex items-center justify-center backdrop-blur-2xl transition-all shadow-2xl border ${isWatchlisted ? 'bg-primary-cyan text-surface-dim border-primary-cyan' : 'bg-black/20 border-white/10 text-white hover:bg-white hover:text-black'}`}
+                className={`w-12 h-12 rounded-lg flex items-center justify-center backdrop-blur-2xl transition-all shadow-2xl border ${isWatchlisted ? 'bg-primary-cyan text-surface-dim border-primary-cyan' : 'bg-black/20 border-white/10 text-white hover:bg-white hover:text-black'}`}
              >
                 <Plus size={20} className={isWatchlisted ? 'rotate-45' : ''} />
              </button>
@@ -128,15 +128,15 @@ export const ContractCard = React.memo<ContractCardProps>(({
       {/* Stats Table Section */}
       <div className="p-8 flex-1 flex flex-col gap-8">
          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            <div className="p-4 bg-accent-pink/10 border border-accent-pink/20 rounded-2xl flex flex-col items-center justify-center group-hover:scale-105 transition-transform">
+            <div className="p-4 bg-accent-pink/10 border border-accent-pink/20 rounded-lg flex flex-col items-center justify-center group-hover:scale-105 transition-transform">
                <span className="text-[10px] font-black text-accent-pink uppercase tracking-widest mb-1.5 leading-none">ALGO</span>
                <span className="text-xl font-black font-headline text-white leading-none">{scoreAlgoValue}</span>
             </div>
-            <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl flex flex-col items-center justify-center group-hover:scale-105 transition-transform">
+            <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-lg flex flex-col items-center justify-center group-hover:scale-105 transition-transform">
                <span className="text-[10px] font-black text-emerald-400 uppercase tracking-widest mb-1.5 leading-none">EXPERT</span>
                <span className="text-xl font-black font-headline text-white leading-none">{scoreProValue}</span>
             </div>
-            <div className="p-4 bg-primary-cyan/20 border border-primary-cyan/30 rounded-2xl flex flex-col items-center justify-center shadow-[0_0_30px_rgba(0,224,255,0.2)] group-hover:scale-110 transition-transform">
+            <div className="p-4 bg-primary-cyan/20 border border-primary-cyan/30 rounded-lg flex flex-col items-center justify-center group-hover:scale-110 transition-transform">
                <span className="text-[10px] font-black text-primary-cyan uppercase tracking-widest mb-1.5 leading-none">LYA</span>
                <span className="text-xl font-black font-headline text-white leading-none">{scoreFinalValue}</span>
             </div>

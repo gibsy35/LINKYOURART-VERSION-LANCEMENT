@@ -215,7 +215,7 @@ export const AdminKeysManagement: React.FC = () => {
       
       {/* Node Metrics Panel Header Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="p-6 bg-surface-low border border-white/5 rounded-3xl relative overflow-hidden group hover:border-primary-cyan/30 transition-all">
+        <div className="p-6 bg-surface-low border border-white/5 rounded-lg relative overflow-hidden group hover:border-primary-cyan/30 transition-all">
           <div className="absolute top-0 right-0 w-24 h-24 bg-primary-cyan/5 rounded-full -mr-12 -mt-12 blur-xl" />
           <div className="flex justify-between items-start mb-4">
             <Globe className="text-primary-cyan" size={18} />
@@ -225,7 +225,7 @@ export const AdminKeysManagement: React.FC = () => {
           <p className="text-xs text-white/40 uppercase tracking-widest mt-1">{t('Connected creative centres', 'Centres créatifs connectés')}</p>
         </div>
 
-        <div className="p-6 bg-surface-low border border-white/5 rounded-3xl relative overflow-hidden group hover:border-accent-gold/30 transition-all">
+        <div className="p-6 bg-surface-low border border-white/5 rounded-lg relative overflow-hidden group hover:border-accent-gold/30 transition-all">
           <div className="absolute top-0 right-0 w-24 h-24 bg-accent-gold/5 rounded-full -mr-12 -mt-12 blur-xl" />
           <div className="flex justify-between items-start mb-4">
             <Lock className="text-accent-gold" size={18} />
@@ -235,7 +235,7 @@ export const AdminKeysManagement: React.FC = () => {
           <p className="text-xs text-white/40 uppercase tracking-widest mt-1">{t('Enhanced encryption', 'Chiffrement renforcé')}</p>
         </div>
 
-        <div className="p-6 bg-surface-low border border-white/5 rounded-3xl relative overflow-hidden group hover:border-accent-magenta/30 transition-all">
+        <div className="p-6 bg-surface-low border border-white/5 rounded-lg relative overflow-hidden group hover:border-accent-magenta/30 transition-all">
           <div className="absolute top-0 right-0 w-24 h-24 bg-accent-magenta/5 rounded-full -mr-12 -mt-12 blur-xl" />
           <div className="flex justify-between items-start mb-4">
             <Activity className="text-accent-magenta" size={18} />
@@ -245,7 +245,7 @@ export const AdminKeysManagement: React.FC = () => {
           <p className="text-xs text-white/40 uppercase tracking-widest mt-1">{t('Ongoing access', 'Accès en cours')}</p>
         </div>
 
-        <div className="p-6 bg-surface-low border border-white/5 rounded-3xl relative overflow-hidden group hover:border-primary-cyan/30 transition-all">
+        <div className="p-6 bg-surface-low border border-white/5 rounded-lg relative overflow-hidden group hover:border-primary-cyan/30 transition-all">
           <div className="absolute top-0 right-0 w-24 h-24 bg-primary-cyan/5 rounded-full -mr-12 -mt-12 blur-xl" />
           <div className="flex justify-between items-start mb-4">
             <Database className="text-primary-cyan" size={18} />
@@ -260,7 +260,7 @@ export const AdminKeysManagement: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         
         {/* Key Form and Table Box - Spans 8 Columns */}
-        <div className="lg:col-span-8 bg-surface-low/30 backdrop-blur-2xl border border-white/10 rounded-3xl overflow-hidden shadow-2xl">
+        <div className="lg:col-span-8 bg-surface-low/30 backdrop-blur-2xl border border-white/10 rounded-lg overflow-hidden shadow-2xl">
           <div className="bg-white/[0.02] px-8 py-6 border-b border-white/5 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
             <div>
               <h2 className="text-lg font-black font-headline uppercase tracking-[0.3em] flex items-center gap-4 text-primary-cyan">
@@ -275,7 +275,7 @@ export const AdminKeysManagement: React.FC = () => {
 
           <div className="p-8">
             {/* Immersive Controls for Key registration */}
-            <form onSubmit={generateKey} className="grid grid-cols-1 md:grid-cols-12 gap-4 bg-black/30 p-6 rounded-2xl border border-white/5 mb-8">
+            <form onSubmit={generateKey} className="grid grid-cols-1 md:grid-cols-12 gap-4 bg-black/30 p-6 rounded-lg border border-white/5 mb-8">
               
               <div className="md:col-span-4 space-y-1.5">
                 <label className="text-xs font-black tracking-widest text-white/40 uppercase block">{t('PARTNER IDENTITY', 'IDENTITÉ CRÉDENTIELLE')}</label>
@@ -285,7 +285,7 @@ export const AdminKeysManagement: React.FC = () => {
                   placeholder={t('Assignee Name', 'Nom du Destinataire')}
                   value={newKeyName}
                   onChange={(e) => setNewKeyName(e.target.value)}
-                  className="w-full bg-surface-dim border border-white/10 rounded-xl px-4 py-3.5 text-xs text-white uppercase tracking-wider font-bold focus:outline-none focus:border-primary-cyan/50 focus:bg-surface-dim/80 transition-all placeholder:opacity-30"
+                  className="w-full bg-surface-dim border border-white/10 rounded-xl px-4 py-3.5 text-xs text-white  tracking-wider font-bold focus:outline-none focus:border-primary-cyan/50 focus:bg-surface-dim/80 transition-all placeholder:opacity-30"
                 />
               </div>
 
@@ -321,7 +321,7 @@ export const AdminKeysManagement: React.FC = () => {
                 <span className="text-[10px] font-black uppercase tracking-[0.5em]">Syncing registry layers...</span>
               </div>
             ) : keys.length === 0 ? (
-              <div className="text-center py-16 border border-dashed border-white/5 rounded-2xl bg-white/[0.01]">
+              <div className="text-center py-16 border border-dashed border-white/5 rounded-lg bg-white/[0.01]">
                 <div className="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-4 opacity-20">
                   <Key size={24} />
                 </div>
@@ -412,7 +412,7 @@ export const AdminKeysManagement: React.FC = () => {
         </div>
 
         {/* Live Security Monitor Event Stream Console - Spans 4 Columns */}
-        <div className="lg:col-span-4 flex flex-col bg-slate-950 border border-white/10 rounded-3xl overflow-hidden shadow-2xl relative">
+        <div className="lg:col-span-4 flex flex-col bg-slate-950 border border-white/10 rounded-lg overflow-hidden shadow-2xl relative">
           
           <div className="absolute inset-0 bg-radial-gradient from-emerald-500/5 via-transparent to-transparent opacity-40 pointer-events-none" />
           

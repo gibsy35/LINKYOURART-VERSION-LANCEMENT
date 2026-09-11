@@ -115,18 +115,11 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ user, onUserUpdate, 
         <SettingSection title={t('Display & Theme', 'Affichage et Thème')} icon={Monitor}>
           <SettingItem 
             label={t('Visual Mode', 'Mode Visuel')} 
-            description={t('Switch between light and dark professional themes.', 'Basculez entre les thèmes professionnels clair et sombre.')}
+            description={t('Professional dark theme, optimized for extended use.', 'Thème sombre professionnel, optimisé pour un usage prolongé.')}
           >
             <div className="flex bg-white/5 p-1 rounded-sm border border-white/10">
               <button 
-                onClick={() => handleVisualModeToggle('light')}
-                className={`px-4 py-2 flex items-center gap-2 text-[10px] font-black uppercase tracking-widest transition-all ${theme === 'light' ? 'bg-white text-black' : 'text-on-surface-variant hover:text-white'}`}
-              >
-                <Sun size={12} /> {t('Light', 'Clair')}
-              </button>
-              <button 
-                onClick={() => handleVisualModeToggle('dark')}
-                className={`px-4 py-2 flex items-center gap-2 text-[10px] font-black uppercase tracking-widest transition-all ${theme === 'dark' ? 'bg-primary-cyan text-surface-dim' : 'text-on-surface-variant hover:text-white'}`}
+                className="px-4 py-2 flex items-center gap-2 text-[10px] font-black uppercase tracking-widest bg-primary-cyan text-surface-dim"
               >
                 <Moon size={12} /> {t('Dark', 'Sombre')}
               </button>

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&family=Fraunces:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap');
 @import "tailwindcss";
 
 :root {
@@ -7,7 +7,7 @@
   --color-surface-high: #242b3d;
   --color-surface-highest: #2f384f;
   --color-primary-cyan: #00e0ff;
-  --color-accent-gold: #ffd700;
+  --color-accent-gold: #7E1CF1;
   --color-accent-pink: #ff3366;
   --color-accent-yellow: #ffff00;
   --color-accent-green: #00ff00;

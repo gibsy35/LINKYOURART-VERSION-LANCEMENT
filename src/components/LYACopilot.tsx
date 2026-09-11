@@ -81,7 +81,7 @@ export const LYACopilot: React.FC = () => {
     <>
       <button 
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 w-14 h-14 bg-primary-cyan text-surface-dim rounded-2xl flex items-center justify-center shadow-[0_0_30px_rgba(0,224,255,0.4)] hover:scale-105 active:scale-95 transition-all z-[999] group overflow-hidden border border-white/20"
+        className="fixed bottom-6 right-6 w-14 h-14 bg-primary-cyan text-surface-dim rounded-lg flex items-center justify-center hover:scale-105 active:scale-95 transition-all z-[999] group overflow-hidden border border-white/20"
       >
         <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
         <div className="relative z-10 flex flex-col items-center">
@@ -97,12 +97,12 @@ export const LYACopilot: React.FC = () => {
             initial={{ opacity: 0, y: 40, scale: 0.95, filter: 'blur(10px)' }}
             animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
             exit={{ opacity: 0, y: 40, scale: 0.95, filter: 'blur(10px)' }}
-            className="fixed bottom-[5.5rem] right-4 sm:right-6 md:bottom-24 md:right-6 w-[calc(100vw-2rem)] sm:w-[calc(100vw-3rem)] md:w-full max-w-md bg-surface-dim/95 backdrop-blur-3xl border border-primary-cyan/20 shadow-[0_0_100px_rgba(0,0,0,0.8)] z-[1000] font-mono flex flex-col overflow-hidden h-[500px] sm:h-[600px] max-h-[75vh] sm:max-h-[80vh] rounded-3xl md:rounded-[2.5rem]"
+            className="fixed bottom-[5.5rem] right-4 sm:right-6 md:bottom-24 md:right-6 w-[calc(100vw-2rem)] sm:w-[calc(100vw-3rem)] md:w-full max-w-md bg-surface-dim/95 backdrop-blur-3xl border border-primary-cyan/20 z-[1000] font-mono flex flex-col overflow-hidden h-[500px] sm:h-[600px] max-h-[75vh] sm:max-h-[80vh] rounded-lg md:rounded-[2.5rem]"
           >
             {/* Header */}
             <div className="p-6 border-b border-white/5 flex items-center justify-between bg-primary-cyan/5">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-primary-cyan/10 border border-primary-cyan/20 flex items-center justify-center text-primary-cyan shadow-[0_0_20px_rgba(0,224,255,0.2)]">
+                <div className="w-12 h-12 rounded-xl bg-primary-cyan/10 border border-primary-cyan/20 flex items-center justify-center text-primary-cyan">
                   <Bot size={24} />
                 </div>
                 <div>
@@ -145,7 +145,7 @@ export const LYACopilot: React.FC = () => {
                     {m.role === 'AI' && (
                       <div className="absolute -left-2 top-0 bottom-0 w-[1px] bg-gradient-to-b from-primary-cyan to-transparent opacity-40" />
                     )}
-                    <div className={`p-4 rounded-2xl text-[11px] font-bold leading-relaxed shadow-2xl ${
+                    <div className={`p-4 rounded-lg text-[11px] font-bold leading-relaxed shadow-2xl ${
                       m.role === 'USER' 
                         ? 'bg-primary-cyan text-surface-dim rounded-tr-none shadow-[0_10px_30px_rgba(0,224,255,0.2)]' 
                         : 'bg-white/5 text-white border border-white/5 rounded-tl-none backdrop-blur-xl'
@@ -162,7 +162,7 @@ export const LYACopilot: React.FC = () => {
 
               {isTyping && (
                 <div className="flex justify-start">
-                  <div className="bg-white/5 border border-white/5 p-4 rounded-2xl rounded-tl-none flex flex-col gap-4 w-48">
+                  <div className="bg-white/5 border border-white/5 p-4 rounded-lg rounded-tl-none flex flex-col gap-4 w-48">
                     <div className="flex items-center gap-3">
                       <div className="flex gap-1">
                         <motion.div animate={{ opacity: [0.2, 1, 0.2] }} transition={{ repeat: Infinity, duration: 1 }} className="w-1.5 h-1.5 bg-primary-cyan rounded-full" />
@@ -201,12 +201,12 @@ export const LYACopilot: React.FC = () => {
                   onKeyDown={(e) => e.key === 'Enter' && handleSend()}
                   placeholder={isFR ? 'Posez votre question...' : 'Ask your question...'}
                   disabled={isTyping}
-                  className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 pr-14 text-xs text-white focus:outline-none focus:border-primary-cyan/50 focus:bg-white/[0.08] transition-all font-mono font-bold placeholder:text-white/20 disabled:opacity-50"
+                  className="w-full bg-white/5 border border-white/10 rounded-lg p-4 pr-14 text-xs text-white focus:outline-none focus:border-primary-cyan/50 focus:bg-white/[0.08] transition-all font-mono font-bold placeholder:text-white/20 disabled:opacity-50"
                 />
                 <button 
                   onClick={() => handleSend()} 
                   disabled={isTyping || !input.trim()}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-xl bg-primary-cyan text-surface-dim flex items-center justify-center hover:scale-105 active:scale-95 transition-all shadow-[0_0_15px_rgba(0,224,255,0.3)] disabled:opacity-30 disabled:hover:scale-100"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-xl bg-primary-cyan text-surface-dim flex items-center justify-center hover:scale-105 active:scale-95 transition-all disabled:opacity-30 disabled:hover:scale-100"
                 >
                   <Send size={18} />
                 </button>

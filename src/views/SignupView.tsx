@@ -35,6 +35,9 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
     if (!prefillEmail && typeof window !== 'undefined') {
       prefillEmail = new URLSearchParams(window.location.search).get('email') || '';
     }
+    if (!prefillCode && typeof window !== 'undefined') {
+      prefillCode = new URLSearchParams(window.location.search).get('code') || '';
+    }
     return {
       name: '',
       email: prefillEmail.trim().toLowerCase(),
@@ -135,7 +138,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
         if (isQuota) {
           console.warn('Quota reached during profile creation. Proceeding with temporary local session.');
           setUser(newUser);
-          onViewChange('HOME');
+          onViewChange('MECENAT');
           return;
         } else {
           handleFirestoreError(err, OperationType.WRITE, `users/${firebaseUser.uid}`);
@@ -182,7 +185,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
       } catch (verifyErr) {
         console.error('Error sending verification email:', verifyErr);
         setUser(newUser);
-        onViewChange('HOME');
+        onViewChange('MECENAT');
       }
     } catch (err: any) {
       console.error('Signup Error:', err);
@@ -233,7 +236,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
     if (userDoc && userDoc.exists()) {
       const existingUser = userDoc.data() as UserProfile;
       setUser(existingUser);
-      onViewChange('HOME');
+      onViewChange('MECENAT');
     } else {
       const newUser: UserProfile = {
         uid: firebaseUser.uid,
@@ -260,7 +263,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
         console.warn('Could not save profile during Google signup (Quota?), using local fallback:', err);
       }
       setUser(newUser);
-      onViewChange('HOME');
+      onViewChange('MECENAT');
     }
   };
 
@@ -296,22 +299,22 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
   const roles = [
     {
       id: UserRole.CREATOR,
-      title: t('Creator, Independent Producer & Talent', 'Créateur, Label & Talent Indépendant'),
-      description: t('Showcase your catalog of creative works, protect your rights and co-develop digital projects.', 'Exposez votre catalogue d\'œuvres, valorisez vos droits et co-développez vos projets créatifs.'),
+      title: t('Creator', 'Créateur'),
+      description: t('Showcase and protect your work.', 'Exposez et protégez vos œuvres.'),
       icon: User,
       color: 'primary-cyan'
     },
     {
       id: UserRole.PATRON,
-      title: t('Art Patrons, VCs & Cultural Backers', 'Mécène, Fonds d\'Accompagnement & VC'),
-      description: t('Discover emerging projects, participate in co-productions, and support global modern creation.', 'Découvrez les projets émergents, participez à la coproduction et soutenez la création moderne.'),
+      title: t('Patron', 'Mécène'),
+      description: t('Discover and support projects.', 'Découvrez et soutenez des projets.'),
       icon: TrendingUp,
       color: 'accent-gold'
     },
     {
       id: UserRole.PROFESSIONAL,
-      title: t('Arts Curator, Agent & Cultural Advisor', 'Curateur, Agent Artistique & Conseiller'),
-      description: t('Evaluate artistic catalogs, advise creators, and structure distribution agreements.', 'Évaluez les catalogues artistiques, conseillez les créateurs et structurez les accords de diffusion.'),
+      title: t('Professional', 'Professionnel'),
+      description: t('Evaluate and advise creators.', 'Évaluez et conseillez les créateurs.'),
       icon: Briefcase,
       color: 'accent-purple'
     }
@@ -327,7 +330,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
           className="max-w-md w-full bg-surface-low/40 backdrop-blur-3xl border border-white/10 p-12 text-center space-y-8 rounded-[2.5rem]"
         >
           <div className="flex justify-center">
-            <div className="w-20 h-20 bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 rounded-3xl">
+            <div className="w-20 h-20 bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 rounded-lg">
               <ShieldCheck size={40} />
             </div>
           </div>
@@ -339,7 +342,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
           </div>
           <button 
             onClick={() => onViewChange('LOGIN')}
-            className="w-full py-4 bg-primary-cyan text-surface-dim font-black text-xs uppercase tracking-widest shadow-[0_20px_40px_rgba(0,224,255,0.2)] hover:bg-white transition-all rounded-2xl"
+            className="w-full py-4 bg-primary-cyan text-surface-dim font-black text-xs uppercase tracking-widest shadow-[0_20px_40px_rgba(0,224,255,0.2)] hover:bg-white transition-all rounded-lg"
           >
             {t('Proceed to Login', 'Procéder à la Connexion')}
           </button>
@@ -403,14 +406,14 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
                     <div 
                       key={r.id} 
                       onClick={() => setRole(r.id)}
-                      className={`flex gap-3 group cursor-pointer p-3 rounded-2xl transition-all border ${role === r.id ? 'bg-primary-cyan/10 border-primary-cyan scale-[1.01]' : 'bg-white/[0.03] border-white/10 hover:bg-white/5 hover:border-white/20'}`}
+                      className={`flex gap-3 items-center group cursor-pointer p-4 mb-2.5 rounded-lg transition-all border ${role === r.id ? 'bg-primary-cyan/10 border-primary-cyan scale-[1.01]' : 'bg-white/[0.03] border-white/10 hover:bg-white/5 hover:border-white/20'}`}
                     >
-                      <div className={`w-10 h-10 rounded-xl border flex items-center justify-center shrink-0 transition-all ${role === r.id ? 'bg-primary-cyan border-primary-cyan shadow-[0_0_15px_rgba(0,224,255,0.4)]' : 'bg-white/5 border-white/10 group-hover:border-primary-cyan/50'}`}>
+                      <div className={`w-10 h-10 rounded-xl border flex items-center justify-center shrink-0 transition-all ${role === r.id ? 'bg-primary-cyan border-primary-cyan' : 'bg-white/5 border-white/10 group-hover:border-primary-cyan/50'}`}>
                         <r.icon size={18} className={role === r.id ? 'text-surface-dim' : 'text-on-surface-variant group-hover:text-primary-cyan'} />
                       </div>
-                      <div className="space-y-0.5">
-                        <h3 className={`text-[10px] font-black uppercase tracking-widest transition-colors ${role === r.id ? 'text-primary-cyan' : 'text-white'}`}>{r.title}</h3>
-                        <p className="text-[10px] text-on-surface-variant/70 leading-relaxed uppercase font-bold tracking-tight line-clamp-2">{r.description}</p>
+                      <div className="space-y-1">
+                        <h3 className={`text-xs font-black uppercase tracking-widest transition-colors ${role === r.id ? 'text-primary-cyan' : 'text-white'}`}>{r.title}</h3>
+                        <p className="text-[11px] text-on-surface-variant/70 leading-snug">{r.description}</p>
                       </div>
                     </div>
                   ))}
@@ -424,7 +427,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
                     <button 
                       onClick={() => { if(role) setStep(2); }}
                       disabled={!role}
-                      className="w-full py-4 bg-primary-cyan text-surface-dim text-xs font-black uppercase italic tracking-[0.2em] group hover:bg-white transition-all flex items-center justify-center gap-3 disabled:opacity-30 disabled:cursor-not-allowed rounded-full shadow-[0_0_30px_rgba(0,224,255,0.2)]"
+                      className="w-full py-4 bg-primary-cyan text-surface-dim text-xs font-black uppercase italic tracking-[0.2em] group hover:bg-white transition-all flex items-center justify-center gap-3 disabled:opacity-30 disabled:cursor-not-allowed rounded-full"
                     >
                       {t('CONTINUE', 'CONTINUER')}
                       <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
@@ -471,7 +474,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
                         onClick={() => onViewChange('LANDING')}
                         className="w-full py-2.5 bg-[#a78bfa] text-surface-dim text-xs font-black uppercase tracking-widest rounded-xl hover:bg-white transition-all"
                       >
-                        {t('Rejoindre la liste LYA Originals →', 'Join the LYA Originals →')}
+                        {t('Join the LYA Originals →', 'Rejoindre la liste LYA Originals →')}
                       </button>
                     </div>
                   )}
@@ -482,7 +485,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
                       <input 
                                                 value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 text-sm font-bold text-white focus:border-primary-cyan outline-none transition-all placeholder:text-on-surface-variant/30 uppercase tracking-widest"
+                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 text-sm font-bold text-white focus:border-primary-cyan outline-none transition-all placeholder:text-on-surface-variant/30  tracking-widest"
                         placeholder={t('FULL NAME', 'NOM COMPLET')}
                       />
                     </div>
@@ -493,7 +496,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
                         required
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 text-sm font-bold text-white focus:border-primary-cyan outline-none transition-all placeholder:text-on-surface-variant/30 uppercase tracking-widest"
+                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 text-sm font-bold text-white focus:border-primary-cyan outline-none transition-all placeholder:text-on-surface-variant/30  tracking-widest"
                         placeholder={t('EMAIL ADDRESS', 'ADRESSE E-MAIL')}
                       />
                     </div>
@@ -502,9 +505,11 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
                       <input 
                         type={showPassword ? 'text' : 'password'}
                         required
+                        minLength={8}
+                        pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}"
                         value={formData.password}
                         onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 pr-12 text-sm font-bold text-white focus:border-primary-cyan outline-none transition-all placeholder:text-on-surface-variant/30 uppercase tracking-widest"
+                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 pr-12 text-sm font-bold text-white focus:border-primary-cyan outline-none transition-all placeholder:text-on-surface-variant/30 tracking-widest"
                         placeholder={t('PASSWORD', 'MOT DE PASSE')}
                       />
                       <button
@@ -517,6 +522,9 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
                         {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                       </button>
                     </div>
+                    <p className="text-[10px] text-on-surface-variant/50 -mt-2 px-1 leading-relaxed">
+                      {t('At least 8 characters, with an uppercase letter, a lowercase letter and a number.', 'Au moins 8 caractères, avec une majuscule, une minuscule et un chiffre.')}
+                    </p>
                     <div className="relative group">
                       <ShieldCheck className="absolute left-5 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary-cyan transition-colors" size={18} />
                       <input
@@ -524,7 +532,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
                         required
                         value={formData.accessCode}
                         onChange={(e) => setFormData({ ...formData, accessCode: e.target.value.toUpperCase() })}
-                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 text-sm font-bold text-white focus:border-primary-cyan outline-none transition-all placeholder:text-on-surface-variant/30 uppercase tracking-widest"
+                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 text-sm font-bold text-white focus:border-primary-cyan outline-none transition-all placeholder:text-on-surface-variant/30  tracking-widest"
                         placeholder={t('ACCESS CODE', 'CODE D\'ACCÈS')}
                       />
                     </div>
@@ -536,7 +544,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
                   <button 
                     type="submit"
                     disabled={isLoading}
-                    className="w-full py-4 bg-primary-cyan text-surface-dim text-xs font-black uppercase italic tracking-[0.2em] hover:bg-white transition-all active:scale-95 shadow-[0_0_40px_rgba(0,224,255,0.2)] rounded-full flex items-center justify-center gap-3 group mt-2"
+                    className="w-full py-4 bg-primary-cyan text-surface-dim text-xs font-black uppercase italic tracking-[0.2em] hover:bg-white transition-all active:scale-95 rounded-full flex items-center justify-center gap-3 group mt-2"
                   >
                     {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : (
                       <>

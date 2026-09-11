@@ -97,7 +97,7 @@ export const LYAProtocolBadge: React.FC = () => {
           
           <h2 className="text-4xl md:text-7xl font-black font-headline text-white uppercase tracking-tighter leading-[0.9] mb-8">
             {t('CREATIVE RIGHTS,', 'DROITS CRÉATIFS,')} <br/>
-            <span className="text-primary-cyan drop-shadow-[0_0_30px_rgba(0,224,255,0.4)]">{t('CERTIFIED & SHARED.', 'CERTIFIÉS & PARTAGÉS.')}</span>
+            <span className="text-primary-cyan drop-">{t('CERTIFIED & SHARED.', 'CERTIFIÉS & PARTAGÉS.')}</span>
           </h2>
           
           <p className="max-w-2xl mx-auto text-on-surface-variant/60 font-black uppercase tracking-[0.2em] text-xs md:text-sm leading-relaxed">
@@ -112,7 +112,7 @@ export const LYAProtocolBadge: React.FC = () => {
               initial={{ y: 20, opacity: 0 }}
               whileInView={{ y: 0, opacity: 1 }}
               transition={{ delay: i * 0.1 }}
-              className="bg-surface-low border border-white/5 p-10 rounded-2xl group hover:border-primary-cyan/30 transition-all duration-700 relative overflow-hidden"
+              className="bg-surface-low border border-white/5 p-10 rounded-lg group hover:border-primary-cyan/30 transition-all duration-700 relative overflow-hidden"
             >
               <div className="absolute top-0 right-0 w-32 h-32 bg-primary-cyan/5 rounded-full -mr-16 -mt-16 blur-2xl group-hover:bg-primary-cyan/10 transition-all" />
               
@@ -143,7 +143,7 @@ export const LYAProtocolBadge: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12">
           
           {/* Upload de document */}
-          <div className="bg-surface-low border border-white/8 rounded-2xl p-6 space-y-4">
+          <div className="bg-surface-low border border-white/8 rounded-lg p-6 space-y-4">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-primary-cyan/10 border border-primary-cyan/20 rounded-xl flex items-center justify-center">
                 <Upload size={18} className="text-primary-cyan"/>
@@ -177,7 +177,7 @@ export const LYAProtocolBadge: React.FC = () => {
           </div>
 
           {/* Génération visuel IA */}
-          <div className="bg-surface-low border border-white/8 rounded-2xl p-6 space-y-4">
+          <div className="bg-surface-low border border-white/8 rounded-lg p-6 space-y-4">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-[#a78bfa]/10 border border-[#a78bfa]/20 rounded-xl flex items-center justify-center">
                 <Sparkles size={18} className="text-[#a78bfa]"/>
