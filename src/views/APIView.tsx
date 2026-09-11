@@ -102,7 +102,7 @@ export const APIView: React.FC<APIViewProps> = ({ user, onNotify, onViewChange }
         <motion.div 
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          className="w-24 h-24 bg-primary-cyan/10 rounded-full flex items-center justify-center mb-8 border border-primary-cyan/20 shadow-[0_0_30px_rgba(0,224,255,0.2)]"
+          className="w-24 h-24 bg-primary-cyan/10 rounded-full flex items-center justify-center mb-8 border border-primary-cyan/20"
         >
           <Code2 size={48} className="text-primary-cyan" />
         </motion.div>
@@ -139,12 +139,12 @@ export const APIView: React.FC<APIViewProps> = ({ user, onNotify, onViewChange }
 
       <div className="flex flex-col lg:flex-row lg:items-center justify-end gap-8 -mt-16 md:-mt-24 mb-12 relative z-20">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="px-8 py-5 bg-surface-low border border-white/5 rounded-2xl backdrop-blur-3xl shadow-2xl relative overflow-hidden group">
+          <div className="px-8 py-5 bg-surface-low border border-white/5 rounded-lg backdrop-blur-3xl shadow-2xl relative overflow-hidden group">
             <div className="absolute inset-0 bg-primary-cyan/5 opacity-0 group-hover:opacity-100 transition-opacity" />
             <div className="text-[10px] text-primary-cyan uppercase tracking-widest font-black mb-1 opacity-70">{t('API Status', 'Statut API')}</div>
             <div className="text-3xl font-black text-white italic tracking-tighter uppercase">{t('Beta', 'BÊTA')}</div>
           </div>
-          <div className="px-8 py-5 bg-surface-low border border-white/5 rounded-2xl backdrop-blur-3xl shadow-2xl relative overflow-hidden group">
+          <div className="px-8 py-5 bg-surface-low border border-white/5 rounded-lg backdrop-blur-3xl shadow-2xl relative overflow-hidden group">
             <div className="absolute inset-0 bg-accent-gold/5 opacity-0 group-hover:opacity-100 transition-opacity" />
             <div className="text-[10px] text-accent-gold uppercase tracking-widest font-black mb-1 opacity-70">{t('Latence', 'Latence')}</div>
             <div className="text-3xl font-black text-white italic tracking-tighter uppercase">12ms</div>
@@ -155,7 +155,7 @@ export const APIView: React.FC<APIViewProps> = ({ user, onNotify, onViewChange }
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* API Keys Management */}
         <div className="lg:col-span-8 space-y-8">
-          <section className="bg-surface-low/30 border border-white/5 rounded-2xl p-8">
+          <section className="bg-surface-low/30 border border-white/5 rounded-lg p-8">
             <div className="flex items-center justify-between mb-8">
               <h2 className="text-xl font-black text-white uppercase italic tracking-tight flex items-center gap-3">
                 <Key className="text-primary-cyan" size={24} />
@@ -221,7 +221,7 @@ export const APIView: React.FC<APIViewProps> = ({ user, onNotify, onViewChange }
           </section>
 
           {/* Documentation Snippet */}
-          <section className="bg-surface-low/30 border border-white/5 rounded-2xl p-8">
+          <section className="bg-surface-low/30 border border-white/5 rounded-lg p-8">
             <div className="flex items-center justify-between mb-8">
               <h2 className="text-xl font-black text-white uppercase italic tracking-tight flex items-center gap-3">
                 <Terminal className="text-primary-cyan" size={24} />
@@ -268,7 +268,7 @@ export const APIView: React.FC<APIViewProps> = ({ user, onNotify, onViewChange }
         {/* Sidebar Info */}
         <div className="lg:col-span-4 space-y-8">
           {/* API Status Card */}
-          <div className="bg-surface-low/30 border border-white/5 rounded-2xl p-8">
+          <div className="bg-surface-low/30 border border-white/5 rounded-lg p-8">
             <h4 className="text-sm font-black text-white uppercase tracking-widest mb-6 flex items-center gap-3">
               <Activity className="text-emerald-400" size={18} />
               API STATUS
@@ -299,7 +299,7 @@ export const APIView: React.FC<APIViewProps> = ({ user, onNotify, onViewChange }
           </div>
 
           {/* Webhooks Card */}
-          <div className="bg-surface-low/30 border border-white/5 rounded-2xl p-8">
+          <div className="bg-surface-low/30 border border-white/5 rounded-lg p-8">
             <h4 className="text-sm font-black text-white uppercase tracking-widest mb-6 flex items-center gap-3">
               <Webhook className="text-accent-purple" size={18} />
               WEBHOOKS
@@ -316,7 +316,7 @@ export const APIView: React.FC<APIViewProps> = ({ user, onNotify, onViewChange }
           </div>
 
           {/* Documentation Links */}
-          <div className="bg-surface-low/30 border border-white/5 rounded-2xl p-8">
+          <div className="bg-surface-low/30 border border-white/5 rounded-lg p-8">
             <h4 className="text-sm font-black text-white uppercase tracking-widest mb-6">DOCUMENTATION</h4>
             <div className="space-y-3">
               {[
