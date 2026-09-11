@@ -229,7 +229,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
              <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
                 <div className="flex flex-col gap-3">
                   <div className="flex items-center gap-4">
-                     <div className="p-3 bg-primary-cyan/20 rounded-2xl flex items-center justify-center text-primary-cyan shrink-0">
+                     <div className="p-3 bg-primary-cyan/20 rounded-lg flex items-center justify-center text-primary-cyan shrink-0">
                         <Sparkles size={24} />
                      </div>
                      <h3 className="text-xl font-black uppercase tracking-[0.4em] text-white">{t('AI EXECUTIVE SUMMARY', 'RÉSUMÉ EXÉCUTIF IA')}</h3>
@@ -240,7 +240,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                 <button 
                   onClick={handleAIAnalysis}
                   disabled={isAnalyzing}
-                  className="w-full md:w-auto px-10 py-5 bg-gradient-to-r from-primary-cyan to-accent-gold text-surface-dim text-[11px] font-black uppercase tracking-[0.4em] rounded-[1.5rem] hover:scale-105 hover:shadow-[0_0_40px_rgba(0,224,255,0.4)] transition-all flex items-center justify-center gap-3 active:scale-95 shrink-0 disabled:opacity-50"
+                  className="w-full md:w-auto px-10 py-5 bg-gradient-to-r from-primary-cyan to-accent-gold text-surface-dim text-[11px] font-black uppercase tracking-[0.4em] rounded-[1.5rem] hover:scale-105 hover: transition-all flex items-center justify-center gap-3 active:scale-95 shrink-0 disabled:opacity-50"
                 >
                   {isAnalyzing ? <Activity className="animate-spin" size={20} /> : <Zap size={20} />}
                   {isAnalyzing ? t('ANALYZING...', 'ANALYSE...') : t('GENERATE SYNOPSIS', 'GÉNÉRER LA SYNTHÈSE')}
@@ -267,7 +267,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
             
             <div className="absolute inset-0 p-8 lg:p-12 flex flex-col justify-between">
               <div className="flex justify-between items-start">
-                <div className="px-6 py-3 bg-black/60 backdrop-blur-2xl border border-white/10 rounded-2xl flex items-center gap-4">
+                <div className="px-6 py-3 bg-black/60 backdrop-blur-2xl border border-white/10 rounded-lg flex items-center gap-4">
                   <Activity className="text-primary-cyan animate-pulse" size={18} />
                   <div>
                     <div className="text-[10px] font-black text-white/40 uppercase tracking-widest mb-0.5">{t('REGISTRY STATUS', 'STATUT REGISTRE')}</div>
@@ -279,10 +279,10 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                    <button
                      onClick={() => generateCertificate(contract, language)}
                      title={t('View certification document', 'Voir le document de certification')}
-                     className="w-12 h-12 rounded-2xl bg-black/40 backdrop-blur-xl border border-white/10 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all">
+                     className="w-12 h-12 rounded-lg bg-black/40 backdrop-blur-xl border border-white/10 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all">
                       <Download size={18} />
                    </button>
-                   <button onClick={() => { window.dispatchEvent(new CustomEvent('lya-navigate', { detail: 'PROJECT_PUBLIC' })); }} title={t('Public project page', 'Page publique du projet')} className="w-12 h-12 rounded-2xl bg-primary-cyan/20 backdrop-blur-xl border border-primary-cyan/30 flex items-center justify-center text-primary-cyan hover:bg-primary-cyan hover:text-surface-dim transition-all">
+                   <button onClick={() => { window.dispatchEvent(new CustomEvent('lya-navigate', { detail: 'PROJECT_PUBLIC' })); }} title={t('Public project page', 'Page publique du projet')} className="w-12 h-12 rounded-lg bg-primary-cyan/20 backdrop-blur-xl border border-primary-cyan/30 flex items-center justify-center text-primary-cyan hover:bg-primary-cyan hover:text-surface-dim transition-all">
                       <ExternalLink size={18} />
                    </button>
                 </div>
@@ -377,7 +377,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                            </h4>
                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                               {contract.rights?.map((right, i) => (
-                                <div key={i} className="p-4 bg-white/5 border border-white/5 rounded-2xl flex items-center gap-4 group hover:bg-white/10 transition-all">
+                                <div key={i} className="p-4 bg-white/5 border border-white/5 rounded-lg flex items-center gap-4 group hover:bg-white/10 transition-all">
                                    <div className="w-2 h-2 rounded-full bg-accent-gold shadow-[0_0_8px_#7E1CF1]" />
                                    <span className="text-[10px] font-black text-white/70 uppercase tracking-wide">{right}</span>
                                 </div>
@@ -440,7 +440,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                        </p>
 
                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
-                         <div className="p-5 bg-emerald-500/5 border border-emerald-500/20 rounded-2xl space-y-3 relative">
+                         <div className="p-5 bg-emerald-500/5 border border-emerald-500/20 rounded-lg space-y-3 relative">
                            <div className="flex justify-between items-center">
                              <span className="text-xs font-black text-emerald-400 uppercase tracking-widest bg-emerald-500/10 px-3.5 py-1 rounded-md">
                                {t('Milestone + (Secured)', '✅ JALON + SÉCURISÉ')}
@@ -453,7 +453,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                            </p>
                          </div>
 
-                         <div className="p-5 bg-violet-500/5 border border-violet-500/20 rounded-2xl space-y-3 relative">
+                         <div className="p-5 bg-violet-500/5 border border-violet-500/20 rounded-lg space-y-3 relative">
                            <div className="flex justify-between items-center">
                              <span className="text-xs font-black text-accent-gold uppercase tracking-widest bg-violet-500/10 px-3.5 py-1 rounded-md">
                                {t('Milestone + (Pending)', '⏳ JALON EN COURS')}
@@ -466,7 +466,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                            </p>
                          </div>
 
-                         <div className="p-5 bg-rose-500/5 border border-rose-500/20 rounded-2xl space-y-3 relative">
+                         <div className="p-5 bg-rose-500/5 border border-rose-500/20 rounded-lg space-y-3 relative">
                            <div className="flex justify-between items-center">
                              <span className="text-xs font-black text-rose-400 uppercase tracking-widest bg-rose-500/10 px-3.5 py-1 rounded-md">
                                {t('Milestone - (Risk factor)', '⚠️ RETARD IMPACT JALON')}
@@ -581,7 +581,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                          { l: 'Curation', v: 'Co-Optation Verified', i: <Lock size={16} /> },
                          { l: 'Audit', v: 'LYA Committee Review', i: <ShieldCheck size={16} /> }
                        ].map((item, i) => (
-                         <div key={i} className="flex items-center justify-between p-6 bg-white/5 border border-white/5 rounded-2xl group hover:border-accent-gold/40 transition-all">
+                         <div key={i} className="flex items-center justify-between p-6 bg-white/5 border border-white/5 rounded-lg group hover:border-accent-gold/40 transition-all">
                             <div className="flex items-center gap-4 text-accent-gold">
                                {item.i}
                                <span className="text-[10px] font-black uppercase tracking-widest text-white/40">{item.l}</span>
@@ -645,8 +645,8 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                     <div className="absolute left-[31px] top-0 bottom-0 w-1 bg-gradient-to-b from-primary-cyan to-white/5 rounded-full" />
                     {contract.milestones?.map((m, i) => (
                        <div key={i} className="relative group">
-                          <div className={`absolute -left-[54px] w-12 h-12 rounded-2xl border-4 border-surface-dim flex items-center justify-center transition-all z-20 ${
-                             m.status === 'COMPLETED' ? 'bg-emerald-500 text-surface-dim shadow-[0_0_20px_rgba(16,185,129,0.4)]' : 
+                          <div className={`absolute -left-[54px] w-12 h-12 rounded-lg border-4 border-surface-dim flex items-center justify-center transition-all z-20 ${
+                             m.status === 'COMPLETED' ? 'bg-emerald-500 text-surface-dim' : 
                              m.status === 'IN_PROGRESS' ? 'bg-accent-gold text-surface-dim pulse' : 'bg-surface-low text-white/20'
                           }`}>
                             {m.status === 'COMPLETED' ? <Zap size={20} /> : <Clock size={20} />}
@@ -712,7 +712,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
 
                 <div className="bg-primary-cyan/10 border border-primary-cyan/20 p-8 rounded-[2rem] text-center space-y-4">
                    <div className="text-[10px] font-black text-primary-cyan uppercase tracking-[0.4em]">{t('LYA CONSOLIDATED', 'INDICE CONSOLIDÉ')}</div>
-                   <div className="text-6xl font-black font-headline text-white drop-shadow-[0_0_30px_rgba(0,224,255,0.4)]">{scoreFinalValue}</div>
+                   <div className="text-6xl font-black font-headline text-white drop-">{scoreFinalValue}</div>
                    <div className="text-[10px] font-black text-white/30 uppercase tracking-widest">{t('Verified by LinkYourArt Committee', 'Vérifié par le Comité d\'Experts LYA')}</div>
                 </div>
              </div>
@@ -737,11 +737,11 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                 </div>
              </div>
              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="p-5 bg-white/5 rounded-2xl text-center">
+                <div className="p-5 bg-white/5 rounded-lg text-center">
                    <div className="text-[10px] font-black text-white/20 uppercase tracking-widest mb-1">{t('LYA SCORE', 'SCORE LYA')}</div>
                    <div className="text-lg font-black font-headline text-white">{scoreFinalValue}/1000</div>
                 </div>
-                <div className="p-5 bg-white/5 rounded-2xl text-center">
+                <div className="p-5 bg-white/5 rounded-lg text-center">
                    <div className="text-[10px] font-black text-white/20 uppercase tracking-widest mb-1">{t('STATUS', 'STATUT')}</div>
                    <div className="text-lg font-black font-headline text-emerald-400">{contract.status === 'LIVE' ? t('Certified', 'Certifié') : contract.status}</div>
                 </div>
@@ -774,7 +774,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                     URL.revokeObjectURL(url);
                     onNotify(t('✦ Certification data exported', '✦ Données de certification exportées'));
                   }}
-                  className="w-full py-5 bg-white/5 hover:bg-white hover:text-black rounded-2xl border border-white/10 text-xs font-black uppercase tracking-[0.3em] transition-all flex items-center justify-center gap-4"
+                  className="w-full py-5 bg-white/5 hover:bg-white hover:text-black rounded-lg border border-white/10 text-xs font-black uppercase tracking-[0.3em] transition-all flex items-center justify-center gap-4"
                 >
                    <FileText size={16} />
                    {t('EXPORT CERTIFICATION DATA (JSON)', 'EXPORTER LES DONNÉES DE CERTIFICATION (JSON)')}
