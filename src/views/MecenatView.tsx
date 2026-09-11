@@ -99,7 +99,7 @@ export function MecenatView({ isGuest, onBackToHome }: { isGuest?: boolean; onBa
       {isGuest && onBackToHome && (
         <button
           onClick={onBackToHome}
-          className="fixed top-4 left-4 z-50 flex items-center gap-2 bg-white text-surface-dim px-4 py-2.5 rounded-full text-xs font-bold shadow-lg hover:bg-primary-cyan transition-colors"
+          className="fixed top-20 right-4 z-[95] flex items-center gap-2 bg-white text-surface-dim px-4 py-2.5 rounded-full text-xs font-bold shadow-lg hover:bg-primary-cyan transition-colors"
         >
           ← {T('Retour à la Home', 'Back to Home')}
         </button>
@@ -306,6 +306,8 @@ export function MecenatView({ isGuest, onBackToHome }: { isGuest?: boolean; onBa
                   lang={lang}
                   onViewProject={(c, u) => { setShowPayment(false); setDetail({ contract: c, units: u }); }}
                   onSupport={(c, u) => { setShowPayment(true); setDetail({ contract: c, units: u }); }}
+                  requireAuthForLike={isGuest}
+                  onRequireAuth={onBackToHome}
                 />
               ))}
             </div>
