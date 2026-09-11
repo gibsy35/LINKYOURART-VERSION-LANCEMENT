@@ -230,7 +230,7 @@ export default function App() {
   const [isVerificationModalOpen, setIsVerificationModalOpen] = useState(false);
   const [verificationLevel, setVerificationLevel] = useState<'Standard' | 'Expert'>('Standard');
   const [isVerifying, setIsVerifying] = useState(false);
-  const [isBooting, setIsBooting] = useState(false);
+  const [isBooting, setIsBooting] = useState(true);
   const [notification, setNotification] = useState<string | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [notifications, setNotifications] = useState<{ id: string, title: string, message: string, timestamp: string, read: boolean, type: 'INFO' | 'SUCCESS' | 'WARNING' }[]>([{ id: '1', title: 'SYSTEM INITIALIZED', message: 'LYA Registry v2.5.0 is now active.', timestamp: new Date().toISOString(), read: false, type: 'INFO' }]);
@@ -239,6 +239,15 @@ export default function App() {
   const [showConceptTutorial, setShowConceptTutorial] = useState(false);
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [isProfessionalChatActive, setIsProfessionalChatActive] = useState(false);
+
+  // Le loader "INITIALIZING" existait deja (avec son animation complete) mais
+  // isBooting demarrait a false et rien ne le passait a true — code mort.
+  // On l'affiche vraiment au demarrage, le temps de l'animation prevue.
+  useEffect(() => {
+    const timer = setTimeout(() => setIsBooting(false), 1900);
+    return () => clearTimeout(timer);
+  }, []);
+
   useEffect(() => {
     if (isBooting) return;
     const buildEvents = () => {
