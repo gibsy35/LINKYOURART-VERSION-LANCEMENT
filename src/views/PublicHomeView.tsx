@@ -547,7 +547,19 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-btn-primary:active{ transform:scale(0.97); }
         .term-modal-card{ animation:termModalIn 0.3s cubic-bezier(.2,.8,.2,1); }
         @keyframes termModalIn{ from{ opacity:0; transform:translateY(20px) scale(0.98); } to{ opacity:1; transform:translateY(0) scale(1); } }
-        .term-pricing{ padding:20px 0 72px; }
+        .term-free-banner{ padding:56px 0 0; }
+        .term-free-card{ background:var(--term-ink); border-radius:8px; padding:44px 40px; }
+        .term-free-tag{ display:inline-block; font-family:'Sora',sans-serif; font-weight:700; font-size:11px; letter-spacing:0.05em; text-transform:uppercase; color:#02C6FA; background:rgba(2,198,250,0.12); padding:6px 14px; border-radius:100px; margin-bottom:18px; }
+        .term-free-card h2{ color:#fff; font-size:clamp(24px,3.2vw,36px); max-width:20ch; margin-bottom:14px; }
+        .term-free-card p{ color:#B9B7C7; font-size:14px; line-height:1.65; max-width:64ch; margin-bottom:28px; }
+        .term-free-slots{ display:flex; gap:14px; flex-wrap:wrap; margin-bottom:28px; }
+        .term-free-slot{ flex:1; min-width:140px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:20px; display:flex; flex-direction:column; align-items:flex-start; gap:8px; }
+        .term-free-slot .num{ width:28px; height:28px; border-radius:50%; background:#7E1CF1; color:#fff; display:flex; align-items:center; justify-content:center; font-family:'Fraunces',serif; font-style:italic; font-weight:500; font-size:14px; }
+        .term-free-slot .lbl{ color:#fff; font-weight:600; font-size:14px; }
+        .term-free-slot .free{ color:#3ADB76; font-size:11.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.03em; }
+        .term-free-cta{ background:#fff; color:var(--term-ink); border:none; padding:14px 26px; border-radius:100px; font-family:'Sora',sans-serif; font-weight:700; font-size:14px; cursor:pointer; }
+        .term-free-cta:hover{ background:#02C6FA; }
+        .term-pricing{ padding:56px 0 72px; }
         .term-price-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:32px; }
         @media (max-width:900px){ .term-price-grid{ grid-template-columns:repeat(2,1fr); } }
         .term-price{ border-radius:20px; padding:26px 20px; min-height:200px; display:flex; flex-direction:column; justify-content:space-between; }
@@ -1048,6 +1060,23 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       )}
 
       {/* Tarifs */}
+      {/* 3 premiers projets gratuits — mis en avant, comme sur l'ancienne page */}
+      <section className="term-free-banner">
+        <div className="term-wrap">
+          <div className="term-free-card term-reveal">
+            <div className="term-free-tag">{t('Toujours actif — tous les créateurs', 'Always active — all creators')}</div>
+            <h2>{t('Vos 3 premiers projets, certifiés à 100% gratuitement.', 'Your first 3 projects, certified 100% free.')}</h2>
+            <p>{t("Chaque créateur sur LinkYourArt voit ses 3 premiers projets certifiés sans aucun frais — toujours, pour tout le monde, sans limite de temps. Pas de coût de certification standard, aucune contrepartie cachée.", 'Every creator on LinkYourArt gets their first 3 projects certified at no cost — always, for everyone, with no time limit. No standard certification fee, no hidden terms.')}</p>
+            <div className="term-free-slots">
+              <div className="term-free-slot"><span className="num">1</span><span className="lbl">{t('Projet #1', 'Project #1')}</span><span className="free">{t('Gratuit', 'Free')}</span></div>
+              <div className="term-free-slot"><span className="num">2</span><span className="lbl">{t('Projet #2', 'Project #2')}</span><span className="free">{t('Gratuit', 'Free')}</span></div>
+              <div className="term-free-slot"><span className="num">3</span><span className="lbl">{t('Projet #3', 'Project #3')}</span><span className="free">{t('Gratuit', 'Free')}</span></div>
+            </div>
+            <button className="term-free-cta" onClick={() => setShowJoin(true)}>{t('Pré-inscrivez-vous pour garantir votre place →', 'Pre-register to secure your spot →')}</button>
+          </div>
+        </div>
+      </section>
+
       <section className="term-pricing" id="pricing" style={{ scrollMarginTop: 80 }}>
         <div className="term-wrap">
           <div className="term-eyebrow">{t('Tarifs', 'Pricing')}</div>
