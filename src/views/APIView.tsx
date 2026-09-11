@@ -18,6 +18,8 @@ import {
 } from 'lucide-react';
 import { useTranslation } from '../context/LanguageContext';
 import { UserProfile, UserRole } from '../types';
+import { db } from '../firebase';
+import { collection, query, where, onSnapshot, addDoc, updateDoc, doc, serverTimestamp } from 'firebase/firestore';
 import { getPermissions } from '../lib/permissions';
 
 import { PageHeader } from '../components/ui/PageHeader';
@@ -41,41 +43,49 @@ export const APIView: React.FC<APIViewProps> = ({ user, onNotify, onViewChange }
   const { t } = useTranslation();
   const [showKey, setShowKey] = useState<string | null>(null);
   const [sdkTab, setSdkTab] = useState<'JS' | 'PYTHON' | 'CURL'>('JS');
-  const [keys, setKeys] = useState<APIKey[]>([
-    {
-      id: '1',
-      name: 'Production Terminal',
-      key: 'lya_live_8f2k9s1m0p5r4t3v6w7x8y9z',
-      created: '2026-01-15',
-      lastUsed: '2 minutes ago',
-      status: 'ACTIVE'
-    },
-    {
-      id: '2',
-      name: 'Development Sandbox',
-      key: 'lya_test_1a2b3c4d5e6f7g8h9i0j1k2l',
-      created: '2026-03-10',
-      lastUsed: '1 day ago',
-      status: 'ACTIVE'
-    }
-  ]);
+  const [keys, setKeys] = useState<APIKey[]>([]);
+
+  // Cles reellement persistees en Firestore (au lieu de donnees fictives en
+  // memoire qui disparaissaient au rechargement) — vendu dans l'offre Pro
+  // Advanced/Enterprise, ca doit au moins sauvegarder pour de vrai.
+  React.useEffect(() => {
+    if (!user?.uid) return;
+    const q = query(collection(db, 'api_keys'), where('ownerId', '==', user.uid));
+    const unsub = onSnapshot(q, (snap) => {
+      setKeys(snap.docs.map((d) => {
+        const data = d.data();
+        return {
+          id: d.id,
+          name: data.name,
+          key: data.key,
+          created: data.createdAt?.toDate ? data.createdAt.toDate().toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
+          lastUsed: data.lastUsed || 'Never',
+          status: data.status,
+        };
+      }));
+    }, () => setKeys([]));
+    return () => unsub();
+  }, [user?.uid]);
 
   const handleGenerateKey = () => {
-    const newKey: APIKey = {
-      id: Date.now().toString(),
+    if (!user?.uid) return;
+    const newKeyValue = `lya_${Math.random().toString(36).substring(2, 15)}_${Math.random().toString(36).substring(2, 15)}`;
+    addDoc(collection(db, 'api_keys'), {
+      ownerId: user.uid,
       name: `New API Key ${keys.length + 1}`,
-      key: `lya_${Math.random().toString(36).substring(2, 15)}_${Math.random().toString(36).substring(2, 15)}`,
-      created: new Date().toISOString().split('T')[0],
+      key: newKeyValue,
+      status: 'ACTIVE',
+      createdAt: serverTimestamp(),
       lastUsed: 'Never',
-      status: 'ACTIVE'
-    };
-    setKeys([...keys, newKey]);
-    onNotify('NEW API KEY GENERATED SUCCESSFULLY');
+    }).then(() => {
+      onNotify('NEW API KEY GENERATED SUCCESSFULLY');
+    }).catch(() => onNotify('ERROR GENERATING KEY'));
   };
 
   const handleRevokeKey = (id: string) => {
-    setKeys(keys.map(k => k.id === id ? { ...k, status: 'REVOKED' as const } : k));
-    onNotify('API KEY REVOKED. ACCESS TERMINATED.');
+    updateDoc(doc(db, 'api_keys', id), { status: 'REVOKED' })
+      .then(() => onNotify('API KEY REVOKED. ACCESS TERMINATED.'))
+      .catch(() => onNotify('ERROR REVOKING KEY'));
   };
 
   const codeSnippets = {
@@ -132,7 +142,7 @@ export const APIView: React.FC<APIViewProps> = ({ user, onNotify, onViewChange }
           <div className="px-8 py-5 bg-surface-low border border-white/5 rounded-2xl backdrop-blur-3xl shadow-2xl relative overflow-hidden group">
             <div className="absolute inset-0 bg-primary-cyan/5 opacity-0 group-hover:opacity-100 transition-opacity" />
             <div className="text-[10px] text-primary-cyan uppercase tracking-widest font-black mb-1 opacity-70">{t('API Status', 'Statut API')}</div>
-            <div className="text-3xl font-black text-white italic tracking-tighter uppercase">{t('Operational', 'OPÉRATIONNEL')}</div>
+            <div className="text-3xl font-black text-white italic tracking-tighter uppercase">{t('Beta', 'BÊTA')}</div>
           </div>
           <div className="px-8 py-5 bg-surface-low border border-white/5 rounded-2xl backdrop-blur-3xl shadow-2xl relative overflow-hidden group">
             <div className="absolute inset-0 bg-accent-gold/5 opacity-0 group-hover:opacity-100 transition-opacity" />
