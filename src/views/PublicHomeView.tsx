@@ -389,16 +389,24 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-sec-ico.ico3{ background:#0296C9; }
         .term-security-item:hover{ background:#E4F9EC; padding-left:28px; }
         .term-security-item svg{ color:#3ADB76; flex-shrink:0; }
-        .term-milestone{ padding:64px 0; background:var(--term-grey); }
+        .term-milestone{ padding:64px 0; background:var(--term-grey); position:relative; overflow:hidden; }
+        .term-milestone::before{ content:''; position:absolute; bottom:-120px; left:-80px; width:320px; height:320px; border-radius:50%; background:radial-gradient(circle,rgba(2,198,250,0.07),transparent 70%); pointer-events:none; }
         .term-milestone-h2{ font-weight:700; font-size:clamp(24px,3vw,34px); margin:8px 0 14px; max-width:16ch; }
         .term-milestone-intro{ font-size:14.5px; line-height:1.7; color:var(--term-ink-soft); max-width:64ch; margin-bottom:40px; }
-        .term-timeline{ display:flex; align-items:flex-start; gap:8px; margin-bottom:36px; }
+        .term-timeline{ display:flex; align-items:flex-start; gap:8px; margin-bottom:36px; position:relative; }
         @media (max-width:800px){ .term-timeline{ flex-direction:column; } }
-        .term-timeline-step{ flex:1; background:#fff; border-radius:8px; padding:22px 20px; }
+        .term-timeline-line{ position:absolute; top:33px; left:8%; right:8%; height:2px; background:linear-gradient(90deg,#3ADB76,#F0C55E,#8A87A8); opacity:0.35; transform-origin:left; transform:scaleX(0); transition:transform 1.1s cubic-bezier(.2,.8,.2,1); z-index:0; }
+        .term-timeline.visible .term-timeline-line{ transform:scaleX(1); }
+        @media (max-width:800px){ .term-timeline-line{ display:none; } }
+        .term-timeline-step{ flex:1; background:#fff; border-radius:8px; padding:22px 20px; position:relative; z-index:1; border-top:3px solid transparent; transition:transform 0.3s cubic-bezier(.2,.8,.2,1), box-shadow 0.3s ease; }
+        .term-timeline-step:hover{ transform:translateY(-6px); box-shadow:0 16px 32px rgba(0,0,0,0.08); }
+        .term-timeline-step:nth-child(2){ border-top-color:#3ADB76; }
+        .term-timeline-step:nth-child(4){ border-top-color:#F0C55E; }
+        .term-timeline-step:nth-child(6){ border-top-color:#8A87A8; }
         .term-timeline-arrow{ display:flex; align-items:center; justify-content:center; color:#7E1CF1; font-size:22px; font-weight:700; padding-top:20px; }
         @media (max-width:800px){ .term-timeline-arrow{ transform:rotate(90deg); padding:0; align-self:center; } }
         .term-timeline-step .dot{ width:14px; height:14px; border-radius:50%; margin-bottom:14px; }
-        .term-timeline-step .dot.green{ background:#3ADB76; box-shadow:0 0 0 5px rgba(58,219,118,0.15); }
+        .term-timeline-step .dot.green{ background:#3ADB76; box-shadow:0 0 0 5px rgba(58,219,118,0.15); animation:termPulse 2.6s ease-in-out infinite; }
         @keyframes termPulse{ 0%,100%{ box-shadow:0 0 0 5px rgba(58,219,118,0.15); } 50%{ box-shadow:0 0 0 9px rgba(58,219,118,0.06); } }
         .term-timeline-step .dot.amber{ background:#F0C55E; box-shadow:0 0 0 5px rgba(240,197,94,0.18); }
         .term-timeline-step .dot.grey{ background:#8A87A8; box-shadow:0 0 0 5px rgba(138,135,168,0.15); }
@@ -406,7 +414,8 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-timeline-step .tl-desc{ font-size:12.5px; line-height:1.55; color:var(--term-ink-soft); }
         .term-milestone-examples{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
         @media (max-width:700px){ .term-milestone-examples{ grid-template-columns:1fr; } }
-        .term-milestone-point{ display:flex; align-items:flex-start; gap:14px; background:#fff; border-radius:6px; padding:16px 18px; }
+        .term-milestone-point{ display:flex; align-items:flex-start; gap:14px; background:#fff; border-radius:6px; padding:16px 18px; transition:transform 0.25s ease, box-shadow 0.25s ease; }
+        .term-milestone-point:hover{ transform:translateY(-4px); box-shadow:0 12px 24px rgba(0,0,0,0.07); }
         .term-milestone-point .ex-title{ font-size:13.5px; font-weight:600; margin-bottom:4px; }
         .term-milestone-point .ex-score{ font-size:12px; color:var(--term-ink-soft); font-family:'Sora',sans-serif; }
         .term-milestone-point .ex-score b{ color:var(--term-ink); font-weight:800; }
@@ -788,7 +797,8 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
             "A milestone is a key, verified event in a project's life: an exhibition, a signed contract, an actor joining the cast push the LYA Score up. A dispute or a delay pull it down. But a project that stops moving isn't neutral — it's a problem. LYA exists to surface tomorrow's creators, not to host stalled projects."
           )}</p>
 
-          <div className="term-timeline">
+          <div className="term-timeline term-reveal">
+            <div className="term-timeline-line" />
             <div className="term-timeline-step term-reveal">
               <div className="dot green" />
               <div className="tl-label">{t('Jalon vérifié', 'Verified milestone')}</div>
