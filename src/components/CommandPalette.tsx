@@ -67,7 +67,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
               value={query}
               onChange={e => setQuery(e.target.value)}
               placeholder={t('TERMINAL_COMMAND...', 'COMMANDE_TERMINAL...')}
-              className="flex-1 bg-transparent border-none text-xl text-white focus:ring-0 uppercase font-black placeholder:text-white/10"
+              className="flex-1 bg-transparent border-none text-xl text-white focus:ring-0  font-black placeholder:text-white/10"
             />
             <div className="px-3 py-1 bg-white/5 border border-white/10 rounded text-[10px] text-on-surface-variant font-bold uppercase">ESC</div>
           </div>
