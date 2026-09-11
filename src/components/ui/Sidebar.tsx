@@ -89,6 +89,7 @@ interface SidebarProps {
   onClose: () => void;
   isCollapsed: boolean;
   onToggleCollapse: () => void;
+  onBackToHome?: () => void;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
@@ -101,9 +102,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
   isOpen,
   onClose,
   isCollapsed,
-  onToggleCollapse
+  onToggleCollapse,
+  onBackToHome
 }) => {
   const { t } = useTranslation();
+
+  // Sans compte : le logo ramene vers la vraie Home publique (plus besoin
+  // d'un bouton "Retour" separe). Avec compte : comportement habituel.
+  const handleLogoClick = () => {
+    if (!user && onBackToHome) onBackToHome();
+    else onViewChange('MECENAT');
+  };
 
   const menuItems = [
     { id: 'MECENAT', icon: Star, label: t('PATRONAGE HUB', 'ESPACE MÉCÉNAT'), category: t('SYSTEM', 'SYSTÈME') },
@@ -159,7 +168,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             className="flex items-center gap-4 w-full group cursor-pointer"
-            onClick={() => onViewChange('MECENAT')}
+            onClick={handleLogoClick}
           >
             <div className="flex-shrink-0 relative">
               <div className="absolute inset-0 bg-primary-cyan/30 blur-2xl rounded-full scale-150 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
@@ -174,7 +183,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           </motion.div>
         )}
         {isCollapsed && (
-          <div className="group cursor-pointer relative" onClick={() => onViewChange('MECENAT')}>
+          <div className="group cursor-pointer relative" onClick={handleLogoClick}>
             <div className="absolute inset-0 bg-primary-cyan/30 blur-xl rounded-full scale-150 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
             <Logo size={44} color="multi" showBeta className="relative z-10" />
           </div>
@@ -318,7 +327,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             >
               {/* Header */}
               <div className="p-6 pb-8 flex items-center justify-between">
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 cursor-pointer" onClick={handleLogoClick}>
                   <Logo size={32} color="multi" showBeta />
                   <div className="flex flex-col">
                     <span className="text-white font-black tracking-tighter text-sm leading-tight uppercase">{t('LINKYOURART', 'LINKYOURART')}</span>
