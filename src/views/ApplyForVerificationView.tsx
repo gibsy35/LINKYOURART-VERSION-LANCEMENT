@@ -154,7 +154,7 @@ export const ApplyForVerificationView: React.FC<{ onNotify: (msg: string) => voi
                   {VALIDATOR_TIERS.map((tier, i) => (
                     <div
                       key={tier.id}
-                      className={`p-5 rounded-2xl border ${i === 3 ? 'border-primary-cyan/30 bg-primary-cyan/5 shadow-[0_0_30px_rgba(0,224,255,0.12)]' : i === 0 ? 'border-white/5 bg-surface-low/40' : 'border-white/10 bg-surface-low/60'}`}
+                      className={`p-5 rounded-lg border ${i === 3 ? 'border-primary-cyan/30 bg-primary-cyan/5' : i === 0 ? 'border-white/5 bg-surface-low/40' : 'border-white/10 bg-surface-low/60'}`}
                       style={{ transform: `translateY(${(3 - i) * 6}px)` }}
                     >
                       <div className="text-[9px] font-black uppercase tracking-widest text-on-surface-variant opacity-50 mb-1">
@@ -206,7 +206,7 @@ export const ApplyForVerificationView: React.FC<{ onNotify: (msg: string) => voi
                           : 'border-white/5 bg-surface-low/40 hover:border-white/20'
                       }`}
                     >
-                      <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 transition-colors ${
+                      <div className={`w-14 h-14 rounded-lg flex items-center justify-center mb-6 transition-colors ${
                         selectedSector === sector.id ? 'bg-white text-surface-dim' : 'bg-white/5 text-white/40'
                       }`}>
                         {sector.icon}
@@ -264,7 +264,7 @@ export const ApplyForVerificationView: React.FC<{ onNotify: (msg: string) => voi
                 
                 <header className="mb-14 relative z-10 text-center md:text-left">
                   <div className="flex items-center justify-center md:justify-start gap-4 mb-6">
-                    <div className="w-16 h-16 rounded-2xl bg-primary-cyan/10 border border-primary-cyan/20 flex items-center justify-center text-primary-cyan shadow-[0_0_30px_rgba(0,224,255,0.2)]">
+                    <div className="w-16 h-16 rounded-lg bg-primary-cyan/10 border border-primary-cyan/20 flex items-center justify-center text-primary-cyan">
                       <Fingerprint size={32} />
                     </div>
                     <div>
@@ -289,7 +289,7 @@ export const ApplyForVerificationView: React.FC<{ onNotify: (msg: string) => voi
                         value={formData.name}
                         onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
                         placeholder="E.G. ALEXANDER VANCE"
-                        className="w-full bg-white/[0.02] border border-white/10 px-8 py-5 text-base font-black  tracking-widest text-white focus:outline-none focus:border-primary-cyan/40 focus:bg-white/[0.05] transition-all rounded-2xl shadow-inner placeholder:opacity-20"
+                        className="w-full bg-white/[0.02] border border-white/10 px-8 py-5 text-base font-black  tracking-widest text-white focus:outline-none focus:border-primary-cyan/40 focus:bg-white/[0.05] transition-all rounded-lg shadow-inner placeholder:opacity-20"
                       />
                     </div>
 
@@ -303,7 +303,7 @@ export const ApplyForVerificationView: React.FC<{ onNotify: (msg: string) => voi
                           value={formData.organization}
                           onChange={(e) => setFormData(prev => ({ ...prev, organization: e.target.value }))}
                           placeholder="ALPHA FUND"
-                          className="w-full bg-white/[0.02] border border-white/10 px-8 py-5 text-base font-black  tracking-widest text-white focus:outline-none focus:border-accent-gold/40 focus:bg-white/[0.05] transition-all rounded-2xl shadow-inner placeholder:opacity-20"
+                          className="w-full bg-white/[0.02] border border-white/10 px-8 py-5 text-base font-black  tracking-widest text-white focus:outline-none focus:border-accent-gold/40 focus:bg-white/[0.05] transition-all rounded-lg shadow-inner placeholder:opacity-20"
                         />
                       </div>
                       <div className="group relative">
@@ -315,7 +315,7 @@ export const ApplyForVerificationView: React.FC<{ onNotify: (msg: string) => voi
                           value={formData.role}
                           onChange={(e) => setFormData(prev => ({ ...prev, role: e.target.value }))}
                           placeholder="CHIEF STRATEGIST"
-                          className="w-full bg-white/[0.02] border border-white/10 px-8 py-5 text-base font-black  tracking-widest text-white focus:outline-none focus:border-accent-magenta/40 focus:bg-white/[0.05] transition-all rounded-2xl shadow-inner placeholder:opacity-20"
+                          className="w-full bg-white/[0.02] border border-white/10 px-8 py-5 text-base font-black  tracking-widest text-white focus:outline-none focus:border-accent-magenta/40 focus:bg-white/[0.05] transition-all rounded-lg shadow-inner placeholder:opacity-20"
                         />
                       </div>
                     </div>
@@ -330,7 +330,7 @@ export const ApplyForVerificationView: React.FC<{ onNotify: (msg: string) => voi
                           value={formData.email}
                           onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
                           placeholder="VANCE@NET.ALPHA"
-                          className="w-full bg-white/[0.02] border border-white/10 px-8 py-5 text-base font-black  tracking-widest text-white focus:outline-none focus:border-primary-cyan/40 focus:bg-white/[0.05] transition-all rounded-2xl shadow-inner placeholder:opacity-20 pr-14"
+                          className="w-full bg-white/[0.02] border border-white/10 px-8 py-5 text-base font-black  tracking-widest text-white focus:outline-none focus:border-primary-cyan/40 focus:bg-white/[0.05] transition-all rounded-lg shadow-inner placeholder:opacity-20 pr-14"
                         />
                         <Mail className="absolute right-6 top-1/2 -translate-y-1/2 text-white/10 group-focus-within:text-primary-cyan/30 transition-colors" size={20} />
                       </div>
@@ -338,7 +338,7 @@ export const ApplyForVerificationView: React.FC<{ onNotify: (msg: string) => voi
 
                     <div className="group relative">
                       <label className="block text-xs font-black uppercase tracking-[0.4em] text-on-surface-variant mb-3">{t('Supporting Documents (optional)', 'Documents Justificatifs (facultatif)')}</label>
-                      <label className="flex flex-col items-center gap-3 p-8 border-2 border-dashed border-white/10 hover:border-primary-cyan/40 rounded-2xl cursor-pointer transition-all bg-white/[0.01]">
+                      <label className="flex flex-col items-center gap-3 p-8 border-2 border-dashed border-white/10 hover:border-primary-cyan/40 rounded-lg cursor-pointer transition-all bg-white/[0.01]">
                         <input type="file" multiple className="hidden" onChange={handleDocumentSelect} />
                         <Upload size={22} className="text-white/30" />
                         <p className="text-xs text-center text-on-surface-variant/60 uppercase tracking-widest font-bold">
@@ -367,7 +367,7 @@ export const ApplyForVerificationView: React.FC<{ onNotify: (msg: string) => voi
                     <button 
                       type="submit"
                       disabled={isUploadingDocs}
-                      className="w-full py-7 bg-white text-surface-dim font-black uppercase italic tracking-[0.6em] text-sm hover:bg-primary-cyan transition-all active:scale-95 shadow-[0_30px_60px_rgba(0,0,0,0.4)] rounded-2xl transform hover:-translate-y-1 duration-300 disabled:opacity-50 disabled:hover:translate-y-0"
+                      className="w-full py-7 bg-white text-surface-dim font-black uppercase italic tracking-[0.6em] text-sm hover:bg-primary-cyan transition-all active:scale-95 shadow-[0_30px_60px_rgba(0,0,0,0.4)] rounded-lg transform hover:-translate-y-1 duration-300 disabled:opacity-50 disabled:hover:translate-y-0"
                     >
                       {isUploadingDocs ? t('Uploading documents...', 'Téléversement des documents...') : t('Seal & Submit Audit', 'Sceller et Soumettre l\'Audit')}
                     </button>
@@ -409,8 +409,8 @@ export const ApplyForVerificationView: React.FC<{ onNotify: (msg: string) => voi
               {/* Cadre aux couleurs de marque LYA (dégradé tri-couleur) —
                   le code affiché est désormais l'identifiant réel du
                   dossier en base, pas une valeur fixe. */}
-              <div className="max-w-lg mx-auto p-[1.5px] rounded-2xl bg-gradient-to-r from-accent-purple via-primary-cyan to-accent-pink">
-                <div className="p-6 bg-surface-dim rounded-2xl">
+              <div className="max-w-lg mx-auto p-[1.5px] rounded-lg bg-gradient-to-r from-accent-purple via-primary-cyan to-accent-pink">
+                <div className="p-6 bg-surface-dim rounded-lg">
                   <div className="text-[10px] font-black text-primary-cyan uppercase tracking-widest mb-1 italic">{t('Dossier ID', 'Identifiant du Dossier')}</div>
                   <div className="text-lg font-black text-white italic break-all">{submittedRequestId ? `#LYA-VD-${submittedRequestId.slice(0, 8).toUpperCase()}` : '—'}</div>
                 </div>
