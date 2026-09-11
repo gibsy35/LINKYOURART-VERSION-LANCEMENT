@@ -1,6 +1,8 @@
 import React from 'react';
 import { Shield } from 'lucide-react';
 import { Logo } from '../components/ui/Logo';
+import { db } from '../firebase';
+import { collection, query, where, onSnapshot } from 'firebase/firestore';
 import { submitPreRegistration, type PreRegCategory } from '../utils/preRegistration';
 
 /**
@@ -105,6 +107,29 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
   const [joinResult, setJoinResult] = React.useState<{ position: number; tier: string; accessKey: string | null } | null>(null);
   const [keyCopied, setKeyCopied] = React.useState(false);
   const [footerTab, setFooterTab] = React.useState<'model' | 'legal' | 'privacy' | 'cgu' | null>(null);
+
+  // Compteur de validateurs certifies en temps reel + vitrine des
+  // certificateurs ayant opte in publiquement — repris d'AboutView (page
+  // retiree de l'outil, contenu deplace ici).
+  const [realValidatorCount, setRealValidatorCount] = React.useState<number | null>(null);
+  React.useEffect(() => {
+    const q = query(collection(db, 'users'), where('isVerifiedValidator', '==', true));
+    const unsub = onSnapshot(q, (snap) => setRealValidatorCount(snap.size), () => setRealValidatorCount(null));
+    return () => unsub();
+  }, []);
+
+  const [showcaseCertifiers, setShowcaseCertifiers] = React.useState<{ name: string; industry?: string }[]>([]);
+  React.useEffect(() => {
+    const q = query(
+      collection(db, 'users'),
+      where('isVerifiedValidator', '==', true),
+      where('publicCertifierOptIn', '==', true)
+    );
+    const unsub = onSnapshot(q, (snap) => {
+      setShowcaseCertifiers(snap.docs.map((d) => ({ name: d.data().displayName || 'LYA Certifier', industry: d.data().industry })));
+    }, () => setShowcaseCertifiers([]));
+    return () => unsub();
+  }, []);
 
   const handleJoinSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -346,6 +371,20 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-milestone-point .ico{ font-family:'Sora',sans-serif; font-weight:800; font-size:16px; width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
         .term-milestone-point.up .ico{ background:#E4F9EC; color:#1E8449; }
         .term-milestone-point.down .ico{ background:#FBE4E4; color:#B33B3B; }
+        .term-stats{ padding:48px 0 32px; }
+        .term-stats-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+        @media (max-width:800px){ .term-stats-grid{ grid-template-columns:1fr 1fr; } }
+        .term-stat-card{ background:var(--term-grey); border-radius:16px; padding:24px 20px; text-align:center; transition:transform 0.3s cubic-bezier(.2,.8,.2,1), border-color 0.3s ease; border:1px solid transparent; }
+        .term-stat-card:hover{ transform:translateY(-5px); border-color:#7E1CF1; }
+        .term-stat-card .v{ font-family:'Sora',sans-serif; font-weight:800; font-size:clamp(28px,3.6vw,38px); background:linear-gradient(90deg,#7E1CF1,#E61A97); -webkit-background-clip:text; background-clip:text; color:transparent; }
+        .term-stat-card .l{ font-family:'Sora',sans-serif; font-weight:700; font-size:11px; text-transform:uppercase; letter-spacing:0.03em; margin-top:6px; }
+        .term-stat-card .s{ font-size:11px; color:var(--term-ink-soft); margin-top:3px; }
+        .term-cert-ticker{ margin-top:40px; overflow:hidden; }
+        .term-cert-ticker-label{ text-align:center; font-family:'Sora',sans-serif; font-weight:700; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--term-ink-soft); margin-bottom:20px; }
+        .term-cert-ticker-track{ display:flex; gap:28px; width:max-content; animation:termTickerScroll 30s linear infinite; }
+        @keyframes termTickerScroll{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+        .term-cert-chip{ display:flex; align-items:center; gap:10px; flex-shrink:0; opacity:0.75; }
+        .term-cert-chip .av{ width:34px; height:34px; border-radius:50%; background:var(--term-lav); color:#7A2062; display:flex; align-items:center; justify-content:center; font-family:'Sora',sans-serif; font-weight:800; font-size:12px; }
         .term-mission{ position:relative; overflow:hidden; padding:56px 0;
           background:linear-gradient(120deg, #0B0E14 0%, #0B0E14 28%, #7E1CF1 48%, #7E1CF1 58%, #E61A97 74%, #E61A97 84%, #02C6FA 100%);
         }
@@ -576,6 +615,32 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       </section>
 
       {/* Pillars */}
+      {/* Stats live + bandeau certificateurs — repris d'AboutView */}
+      <section className="term-stats">
+        <div className="term-wrap">
+          <div className="term-stats-grid">
+            <div className="term-stat-card term-reveal"><div className="v">20+</div><div className="l">{t("Ans d'existence", 'Years of existence')}</div><div className="s">{t('Depuis 2006', 'Since 2006')}</div></div>
+            <div className="term-stat-card term-reveal"><div className="v">9+</div><div className="l">{t('Disciplines créatives', 'Creative disciplines')}</div><div className="s">{t('Musique, cinéma, mode, gaming…', 'Music, film, fashion, gaming…')}</div></div>
+            <div className="term-stat-card term-reveal"><div className="v">{registry.length}</div><div className="l">{t('Projets certifiés', 'Certified projects')}</div><div className="s">{t('En direct sur le registre', 'Live on the registry')}</div></div>
+            <div className="term-stat-card term-reveal"><div className="v">{realValidatorCount === null ? '—' : realValidatorCount}</div><div className="l">{t('Validateurs certifiés', 'Certified validators')}</div><div className="s">{t('Réseau professionnel actif', 'Active professional network')}</div></div>
+          </div>
+        </div>
+
+        {showcaseCertifiers.length > 0 && (
+          <div className="term-cert-ticker">
+            <p className="term-cert-ticker-label">{t('Ils certifient avec nous', 'They certify with us')}</p>
+            <div className="term-cert-ticker-track">
+              {[...showcaseCertifiers, ...showcaseCertifiers].map((c, i) => (
+                <div key={i} className="term-cert-chip">
+                  <span className="av">{c.name.slice(0, 2).toUpperCase()}</span>
+                  <span>{c.name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </section>
+
       <section className="term-pillars" id="pillars" style={{ scrollMarginTop: 80 }}>
         <div className="term-wrap">
           <div className="term-eyebrow">{t('Le Score LYA', 'The LYA Score')}</div>
