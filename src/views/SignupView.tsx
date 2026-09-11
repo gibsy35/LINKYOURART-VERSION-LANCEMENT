@@ -485,7 +485,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
                       <input 
                                                 value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 text-sm font-bold text-white focus:border-primary-cyan outline-none transition-all placeholder:text-on-surface-variant/30 uppercase tracking-widest"
+                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 text-sm font-bold text-white focus:border-primary-cyan outline-none transition-all placeholder:text-on-surface-variant/30  tracking-widest"
                         placeholder={t('FULL NAME', 'NOM COMPLET')}
                       />
                     </div>
@@ -496,7 +496,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
                         required
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 text-sm font-bold text-white focus:border-primary-cyan outline-none transition-all placeholder:text-on-surface-variant/30 uppercase tracking-widest"
+                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 text-sm font-bold text-white focus:border-primary-cyan outline-none transition-all placeholder:text-on-surface-variant/30  tracking-widest"
                         placeholder={t('EMAIL ADDRESS', 'ADRESSE E-MAIL')}
                       />
                     </div>
@@ -505,9 +505,11 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
                       <input 
                         type={showPassword ? 'text' : 'password'}
                         required
+                        minLength={8}
+                        pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}"
                         value={formData.password}
                         onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 pr-12 text-sm font-bold text-white focus:border-primary-cyan outline-none transition-all placeholder:text-on-surface-variant/30 uppercase tracking-widest"
+                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 pr-12 text-sm font-bold text-white focus:border-primary-cyan outline-none transition-all placeholder:text-on-surface-variant/30 tracking-widest"
                         placeholder={t('PASSWORD', 'MOT DE PASSE')}
                       />
                       <button
@@ -520,6 +522,9 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
                         {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                       </button>
                     </div>
+                    <p className="text-[10px] text-on-surface-variant/50 -mt-2 px-1 leading-relaxed">
+                      {t('At least 8 characters, with an uppercase letter, a lowercase letter and a number.', 'Au moins 8 caractères, avec une majuscule, une minuscule et un chiffre.')}
+                    </p>
                     <div className="relative group">
                       <ShieldCheck className="absolute left-5 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary-cyan transition-colors" size={18} />
                       <input
@@ -527,7 +532,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
                         required
                         value={formData.accessCode}
                         onChange={(e) => setFormData({ ...formData, accessCode: e.target.value.toUpperCase() })}
-                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 text-sm font-bold text-white focus:border-primary-cyan outline-none transition-all placeholder:text-on-surface-variant/30 uppercase tracking-widest"
+                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 text-sm font-bold text-white focus:border-primary-cyan outline-none transition-all placeholder:text-on-surface-variant/30  tracking-widest"
                         placeholder={t('ACCESS CODE', 'CODE D\'ACCÈS')}
                       />
                     </div>
