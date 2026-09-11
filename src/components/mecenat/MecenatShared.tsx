@@ -643,8 +643,10 @@ export interface ProjectCardProps {
   onSupport: (c: Contract, units: number) => void;
   isWatchlisted?: boolean;
   onToggleWatchlist?: (e: React.MouseEvent, id: string) => void;
+  requireAuthForLike?: boolean;
+  onRequireAuth?: () => void;
 }
-export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchlisted, onToggleWatchlist }: ProjectCardProps) {
+export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchlisted, onToggleWatchlist, requireAuthForLike, onRequireAuth }: ProjectCardProps) {
   const { formatPrice } = useCurrency();
   const [units, setUnits] = useState(5);
   const [liked, setLiked] = useState(!!isWatchlisted);
@@ -666,6 +668,7 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
 
   const handleLike = (e: React.MouseEvent) => {
     e.stopPropagation();
+    if (requireAuthForLike) { onRequireAuth?.(); return; }
     setLiked(!liked);
     if (onToggleWatchlist) onToggleWatchlist(e, contract.id);
   };
