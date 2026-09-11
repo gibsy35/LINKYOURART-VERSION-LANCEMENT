@@ -106,14 +106,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const { t } = useTranslation();
 
   const menuItems = [
-    { id: 'HOME', icon: Home, label: t('TERMINAL', 'TERMINAL'), category: t('SYSTEM', 'SYSTÈME') },
+    { id: 'MECENAT', icon: Star, label: t('PATRONAGE HUB', 'ESPACE MÉCÉNAT'), category: t('SYSTEM', 'SYSTÈME') },
     { id: 'DASHBOARD', icon: LayoutDashboard, label: t('DASHBOARD', 'TABLEAU DE BORD'), category: t('INDEX', 'INDEX') },
     ...(user?.role === 'CREATOR' ? [{ id: 'CREATOR_DASHBOARD' as const, icon: Sparkles, label: t('MY CREATIONS', 'MES CRÉATIONS'), category: t('CREATOR', 'CRÉATEUR') }] : []),
     ...(user?.role === 'PATRON' ? [{ id: 'PATRON_DASHBOARD' as const, icon: TrendingUp, label: t('MY PATRONAGE', 'MES SOUTIENS'), category: t('PATRON', 'MÉCÈNE') }] : []),
     ...(user?.role === 'PROFESSIONAL' || user?.isPro ? [{ id: 'PROFESSIONAL_DASHBOARD' as const, icon: Briefcase, label: t('PRO SPACE', 'ESPACE PRO'), category: t('PROFESSIONAL', 'PROFESSIONNEL') }] : []),
     { id: 'SWIPE', icon: Target, label: t('DISCOVER PROJECTS', 'DÉCOUVRIR DES PROJETS'), category: t('DEVELOPMENT', 'DÉVELOPPEMENT') },
     { id: 'REGISTRY', icon: BookOpen, label: t('LYA REGISTRY', 'REGISTRE LYA'), category: t('DEVELOPMENT', 'DÉVELOPPEMENT') },
-    { id: 'MECENAT', icon: Star, label: t('PATRONAGE HUB', 'ESPACE MÉCÉNAT'), category: t('DEVELOPMENT', 'DÉVELOPPEMENT') },
     { id: 'COMPARE', icon: Calculator, label: t('COMPARATOR', 'COMPARATEUR'), category: t('INDEX', 'INDEX') },
     { id: 'WATCHLIST', icon: CheckCircle, label: t('WATCHLIST', 'MA VEILLE'), category: t('INDEX', 'INDEX'), count: watchlist.length },
     { id: 'VALIDATION', icon: ShieldCheck, label: t('Administrative Services', 'Services Administratifs'), category: t('LYA SYSTEM', 'LYA SYSTEME') },
@@ -154,7 +153,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             className="flex items-center gap-4 w-full group cursor-pointer"
-            onClick={() => onViewChange('HOME')}
+            onClick={() => onViewChange('MECENAT')}
           >
             <div className="flex-shrink-0 relative">
               <div className="absolute inset-0 bg-primary-cyan/30 blur-2xl rounded-full scale-150 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
@@ -169,7 +168,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           </motion.div>
         )}
         {isCollapsed && (
-          <div className="group cursor-pointer relative" onClick={() => onViewChange('HOME')}>
+          <div className="group cursor-pointer relative" onClick={() => onViewChange('MECENAT')}>
             <div className="absolute inset-0 bg-primary-cyan/30 blur-xl rounded-full scale-150 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
             <Logo size={44} color="multi" showBeta className="relative z-10" />
           </div>
