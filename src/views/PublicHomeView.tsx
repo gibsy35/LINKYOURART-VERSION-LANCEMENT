@@ -616,6 +616,15 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-free-scenario p{ font-size:13px; line-height:1.55; color:var(--term-ink-soft); }
         .term-free-cta{ background:var(--term-ink); color:#fff; border:none; padding:14px 26px; border-radius:100px; font-family:'Sora',sans-serif; font-weight:700; font-size:14px; cursor:pointer; }
         .term-free-cta:hover{ background:#7E1CF1; }
+        .term-photo-stats{ padding:64px 0; }
+        .term-photo-stats-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+        @media (max-width:800px){ .term-photo-stats-grid{ grid-template-columns:1fr; } }
+        .term-photo-stat{ position:relative; height:320px; border-radius:8px; overflow:hidden; background-size:cover; background-position:center; display:flex; align-items:flex-end; transition:transform 0.4s cubic-bezier(.2,.8,.2,1); }
+        .term-photo-stat:hover{ transform:translateY(-6px); }
+        .term-photo-stat .overlay{ position:absolute; inset:0; background:linear-gradient(180deg,rgba(11,14,20,0.15) 0%,rgba(11,14,20,0.85) 100%); }
+        .term-photo-stat .content{ position:relative; z-index:1; padding:28px; }
+        .term-photo-stat .num{ font-family:'Fraunces',serif; font-weight:600; font-size:48px; color:#fff; line-height:1; margin-bottom:8px; }
+        .term-photo-stat .lbl{ font-family:'Sora',sans-serif; font-size:13px; color:rgba(255,255,255,0.75); text-transform:uppercase; letter-spacing:0.04em; font-weight:600; }
         .term-pricing{ padding:56px 0 72px; }
         .term-price-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:32px; }
         @media (max-width:900px){ .term-price-grid{ grid-template-columns:repeat(2,1fr); } }
@@ -708,6 +717,37 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
           <div style={{ display: 'flex', gap: 14, marginTop: 30, position: 'relative', zIndex: 1 }}>
             <button className="term-btn-primary" onClick={() => setShowJoin(true)}>{t('Rejoindre LYA →', 'Join LYA →')}</button>
             <a href="#pillars" className="term-btn-ghost" style={{ textDecoration: 'none', display: 'inline-block' }}>{t('Comprendre le Score LYA', 'Understand the LYA Score')}</a>
+          </div>
+        </div>
+      </section>
+
+      {/* EXEMPLE — bloc stats sur grandes photos, structure inspiree du Wix
+          partage, mais dans notre identite (Fraunces, palette sobre, pas de
+          degrade neon). A valider avant generalisation. */}
+      <section className="term-photo-stats">
+        <div className="term-wrap">
+          <div className="term-photo-stats-grid">
+            <div className="term-photo-stat" style={{ backgroundImage: `url(https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?auto=format&fit=crop&q=80&w=800)` }}>
+              <div className="overlay" />
+              <div className="content">
+                <div className="num">20+</div>
+                <div className="lbl">{t("Ans d'expérience", 'Years of experience')}</div>
+              </div>
+            </div>
+            <div className="term-photo-stat" style={{ backgroundImage: `url(https://images.unsplash.com/photo-1495446815901-a7297e633e8d?auto=format&fit=crop&q=80&w=800)` }}>
+              <div className="overlay" />
+              <div className="content">
+                <div className="num">9+</div>
+                <div className="lbl">{t('Disciplines créatives', 'Creative disciplines')}</div>
+              </div>
+            </div>
+            <div className="term-photo-stat" style={{ backgroundImage: `url(https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&q=80&w=800)` }}>
+              <div className="overlay" />
+              <div className="content">
+                <div className="num">1</div>
+                <div className="lbl">{t('Standard commun à tout le secteur', 'Single standard for the whole sector')}</div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
