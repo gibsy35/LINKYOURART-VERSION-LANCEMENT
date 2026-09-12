@@ -251,6 +251,16 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-nav a{ color:#B9B7C7; text-decoration:none; font-size:14.5px; font-weight:500; padding-bottom:4px; border-bottom:2px solid transparent; transition:color 0.2s ease, border-color 0.2s ease; }
         .term-nav a.active{ color:#fff; border-bottom-color:#E61A97; }
         .term-nav a:hover{ color:#fff; }
+        @media (max-width:800px){
+          .term-word{ display:none; }
+          .term-head-inner{ flex-wrap:nowrap; gap:8px; }
+          .term-nav{ gap:8px; flex-wrap:nowrap; overflow-x:auto; -ms-overflow-style:none; scrollbar-width:none; }
+          .term-nav::-webkit-scrollbar{ display:none; }
+          .term-nav ul{ display:none; }
+          .term-lang-toggle{ flex-shrink:0; }
+          .term-pill{ flex-shrink:0; padding:8px 12px; font-size:12px; white-space:nowrap; }
+          .term-pill.ghost{ padding:8px 4px; font-size:12px; }
+        }
         .term-pill{ color:#fff; background:var(--term-ink); border:1px solid rgba(255,255,255,0.2); padding:10px 20px; border-radius:100px; font-size:14px; font-weight:600; cursor:pointer; }
         .term-pill.ghost{ background:none; border:1.5px solid rgba(255,255,255,0.45); color:#fff; padding:9px 18px; font-weight:700; }
         .term-pill.ghost:hover{ background:rgba(255,255,255,0.1); border-color:#fff; }
