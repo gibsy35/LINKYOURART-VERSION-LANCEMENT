@@ -8,13 +8,18 @@ import { registerSW } from "virtual:pwa-register";
 
 // Auto-reload when a new service worker is installed and waiting.
 // Combined with skipWaiting+clientsClaim in vite.config.ts, this ensures
-// new deploys take effect immediately instead of waiting for the user
-// to close all tabs — prevents the stale-SW-blocking-new-code issue.
+// new deploys take effect eventually without needing all tabs closed.
+//
+// IMPORTANT: no longer force-reloading immediately on detection. During
+// a burst of frequent deploys, an immediate reload() was firing a few
+// seconds into every session (new SW detected almost right away),
+// restarting the whole app — including the boot loader — which looked
+// like a broken double-loader. The new SW still takes over silently
+// (skipWaiting+clientsClaim), the user just gets the fresh version on
+// their next natural navigation/reload instead of a surprise mid-session one.
 registerSW({
   onNeedRefresh() {
-    // New content available — reload immediately since skipWaiting means
-    // the new SW is already active, we just need a fresh page load.
-    window.location.reload();
+    console.log("[LYA PWA] New version available — will apply on next page load.");
   },
   onOfflineReady() {
     console.log("[LYA PWA] App ready for offline use.");
