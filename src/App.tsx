@@ -586,9 +586,9 @@ export default function App() {
             <Logo size={220} color="multi" showBeta={true} />
           </div>
           <div className="flex flex-col items-center gap-3.5 px-6">
-            <div className="flex flex-col md:flex-row items-center md:items-baseline gap-1 md:gap-4">
-              <span className="text-white/40 text-base md:text-2xl tracking-[0.15em] md:tracking-[0.2em] uppercase font-light">{t('INITIATING', 'INITIALISATION')}</span>
-              <span className="text-white text-xl md:text-5xl tracking-[0.1em] md:tracking-[0.15em] uppercase font-bold">LINKYOURART</span>
+            <div className="flex flex-col md:flex-row items-center md:items-baseline gap-1 md:gap-3">
+              <span className="text-white/40 text-base md:text-3xl tracking-[0.15em] md:tracking-[0.2em] uppercase font-light">{t('INITIATING', 'INITIALISATION')}</span>
+              <span className="text-white text-base md:text-3xl tracking-[0.15em] md:tracking-[0.2em] uppercase font-bold">LINKYOURART</span>
             </div>
             <div className="h-[3px] w-56 md:w-96 bg-white/10 overflow-hidden relative">
               <motion.div initial={{ width: '0%' }} animate={{ width: '100%' }} transition={{ duration: 4, ease: "easeInOut" }} className="absolute inset-y-0 left-0 bg-white" />

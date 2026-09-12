@@ -76,12 +76,7 @@ const ElevatedTextLogo = ({ size = 'text-2xl' }: { size?: string }) => {
 export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewChange }) => {
   const introLang = (typeof navigator !== 'undefined' && navigator.language?.startsWith('fr')) ? 'FR' : 'EN';
   const { t, language, setLanguage } = useTranslation();
-  const [stage, setStage] = useState<'INTRO' | 'MAIN'>(() => {
-    if (typeof window !== 'undefined' && sessionStorage.getItem('lya_intro_completed') === 'true') {
-      return 'MAIN';
-    }
-    return 'INTRO';
-  });
+  const [stage, setStage] = useState<'INTRO' | 'MAIN'>('MAIN'); // Vue héritée (ancien Terminal) : ne doit plus jamais rejouer sa propre intro — App.tsx gère déjà le vrai écran de démarrage. Sinon on obtient un doublon "INITIATING LINKYOURART".
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [category, setCategory] = useState<'CREATOR' | 'PROFESSIONAL' | 'PATRON'>('CREATOR');

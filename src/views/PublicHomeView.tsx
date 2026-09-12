@@ -366,7 +366,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
           padding:28px 30px; width:min(320px,80%); box-shadow:0 30px 60px -20px rgba(11,14,20,0.25);
           transform:rotate(7deg); font-family:'Fraunces',serif;
         }
-        .term-hero-card .score{ font-size:15px; font-weight:700; text-transform:lowercase; color:var(--term-ink); margin-bottom:14px; }
+        .term-hero-card .score{ font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:0.08em; color:var(--term-ink); margin-bottom:14px; font-family:'Sora',sans-serif; }
         .term-hero-card .num{ font-family:'Sora',sans-serif; font-weight:800; font-size:34px; background:linear-gradient(90deg,#7E1CF1,#E61A97,#02C6FA); -webkit-background-clip:text; background-clip:text; color:transparent; }
         .term-hero-card .max{ font-family:'Sora',sans-serif; font-weight:600; font-size:14px; color:var(--term-ink-soft); }
         .term-hero-card p{ font-family:'Inter',sans-serif; text-align:left; font-size:12.5px; line-height:1.5; color:var(--term-ink-soft); margin-top:14px; }
@@ -379,19 +379,22 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-pillar{ border-radius:16px; padding:24px 22px; min-height:190px; width:230px; flex-shrink:0;
           display:flex; flex-direction:column; justify-content:space-between; background:#fff;
           border:1px solid var(--term-line); box-shadow:0 18px 40px -22px rgba(11,14,20,0.18);
-          transition:transform 0.3s cubic-bezier(.2,.8,.2,1), box-shadow 0.3s ease, z-index 0s;
-          position:relative;
+          transition:transform 0.55s cubic-bezier(.22,1,.36,1), box-shadow 0.4s ease;
+          will-change:transform; position:relative;
+          transform:rotate(var(--fan-rot,0deg)) translateY(var(--fan-y,0px));
         }
         .term-pillars-grid .term-pillar:not(:first-child){ margin-left:-64px; }
-        .term-pillars-grid .term-pillar:nth-child(1){ z-index:5; transform:rotate(-3deg); }
-        .term-pillars-grid .term-pillar:nth-child(2){ z-index:4; transform:rotate(-1.5deg) translateY(10px); }
-        .term-pillars-grid .term-pillar:nth-child(3){ z-index:3; transform:rotate(0.5deg) translateY(18px); }
-        .term-pillars-grid .term-pillar:nth-child(4){ z-index:2; transform:rotate(2deg) translateY(24px); }
-        .term-pillars-grid .term-pillar:nth-child(5){ z-index:1; transform:rotate(3.5deg) translateY(30px); }
-        .term-pillars-grid .term-pillar:hover{ transform:translateY(-14px) rotate(0deg) scale(1.04) !important; z-index:10 !important; box-shadow:0 28px 50px -18px rgba(11,14,20,0.3); }
+        .term-pillars-grid .term-pillar:nth-child(1){ --fan-rot:-3deg; --fan-y:0px; z-index:5; }
+        .term-pillars-grid .term-pillar:nth-child(2){ --fan-rot:-1.5deg; --fan-y:10px; z-index:4; }
+        .term-pillars-grid .term-pillar:nth-child(3){ --fan-rot:0.5deg; --fan-y:18px; z-index:3; }
+        .term-pillars-grid .term-pillar:nth-child(4){ --fan-rot:2deg; --fan-y:24px; z-index:2; }
+        .term-pillars-grid .term-pillar:nth-child(5){ --fan-rot:3.5deg; --fan-y:30px; z-index:1; }
+        .term-pillars-grid .term-pillar.term-reveal:not(.visible){ opacity:0; transform:rotate(var(--fan-rot,0deg)) translateY(calc(var(--fan-y,0px) + 40px)) scale(0.97); }
+        .term-pillars-grid .term-pillar.term-reveal.visible{ opacity:1; transform:rotate(var(--fan-rot,0deg)) translateY(var(--fan-y,0px)) scale(1); }
+        .term-pillars-grid .term-pillar.term-reveal.visible:hover{ transform:rotate(0deg) translateY(-14px) scale(1.04); z-index:10; box-shadow:0 28px 50px -18px rgba(11,14,20,0.3); }
         @media (max-width:900px){
           .term-pillars-grid{ flex-wrap:wrap; gap:16px; }
-          .term-pillars-grid .term-pillar{ margin-left:0 !important; transform:none !important; width:calc(50% - 8px); }
+          .term-pillars-grid .term-pillar{ margin-left:0 !important; --fan-rot:0deg !important; --fan-y:0px !important; width:calc(50% - 8px); }
         }
         .term-pillar.dark{ background:var(--term-ink); color:#fff; border-color:var(--term-ink); }
         .term-pillar.lav{ background:var(--term-lav); border-color:var(--term-lav); }
@@ -402,12 +405,16 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-pillar .d{ font-size:12.5px; line-height:1.5; margin-top:8px; opacity:0.8; }
         .term-pillar .pts{ font-family:'Sora',sans-serif; font-weight:700; font-size:10.5px; letter-spacing:0.04em; opacity:0.5; margin-top:10px; }
         .term-compare{ padding:20px 0 72px; }
-        .term-compare-grid{ display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:32px; }
+        .term-compare-grid{ display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:32px; position:relative; }
         @media (max-width:800px){ .term-compare-grid{ grid-template-columns:1fr; } }
-        .term-compare-col{ border-radius:8px; padding:30px 26px; background:var(--term-grey); border:1px solid var(--term-line); }
-        .term-compare-col.is{ border-top:3px solid #7E1CF1; }
+        .term-compare-vs{ position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:46px; height:46px; border-radius:50%; background:var(--term-ink); color:#fff; display:flex; align-items:center; justify-content:center; font-family:'Sora',sans-serif; font-weight:800; font-size:12px; letter-spacing:0.02em; z-index:2; box-shadow:0 10px 24px rgba(11,14,20,0.28); border:3px solid #fff; }
+        @media (max-width:800px){ .term-compare-vs{ display:none; } }
+        .term-compare-col{ border-radius:14px; padding:30px 26px; background:var(--term-grey); border:1px solid var(--term-line); transition:transform 0.4s cubic-bezier(.22,1,.36,1), box-shadow 0.4s ease; }
+        .term-compare-col.is{ border-top:3px solid #3ADB76; transform:rotate(-0.6deg); }
+        .term-compare-col.isnot{ border-top:3px solid var(--term-line); opacity:0.92; transform:rotate(0.6deg); }
+        .term-compare-col:hover{ transform:translateY(-6px) rotate(0deg); box-shadow:0 20px 40px -18px rgba(11,14,20,0.22); }
         .term-compare-badge{ display:inline-block; font-family:'Sora',sans-serif; font-weight:700; font-size:11px; letter-spacing:0.03em; padding:5px 12px; border-radius:100px; margin-bottom:18px; }
-        .term-compare-col.is .term-compare-badge{ background:var(--term-lav); color:#7A2062; }
+        .term-compare-col.is .term-compare-badge{ background:#DFF6E7; color:#1E8449; }
         .term-compare-col.isnot .term-compare-badge{ background:var(--term-line); color:var(--term-ink-soft); }
         .term-compare-item{ margin-bottom:18px; }
         .term-compare-item:last-child{ margin-bottom:0; }
@@ -425,19 +432,28 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-history-stat .y{ font-family:'Fraunces',serif; font-weight:600; font-size:30px; color:#fff; }
         .term-history-stat .l{ font-family:'Sora',sans-serif; font-weight:700; font-size:10.5px; letter-spacing:0.04em; text-transform:uppercase; color:rgba(255,255,255,0.7); margin-top:4px; }
         .term-values{ padding:72px 0; }
-        .term-values-grid > div{ border-radius:8px; padding:24px 20px; transition:transform 0.3s cubic-bezier(.2,.8,.2,1); }
+        .term-values-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:18px; margin-top:40px; }
+        @media (max-width:800px){ .term-values-grid{ grid-template-columns:1fr 1fr; } }
+        .term-values-grid > div{ border-radius:14px; padding:24px 20px; transition:transform 0.4s cubic-bezier(.22,1,.36,1), box-shadow 0.4s ease; position:relative; overflow:hidden; }
+        .term-values-grid > div:nth-child(even){ margin-top:26px; }
+        @media (max-width:800px){ .term-values-grid > div:nth-child(even){ margin-top:0; } }
+        .term-values-grid > div::after{ content:''; position:absolute; width:130px; height:130px; border-radius:50%; top:-60px; right:-55px; pointer-events:none; transition:transform 0.5s cubic-bezier(.22,1,.36,1); }
+        .term-values-grid > div:hover::after{ transform:scale(1.35); }
         .term-values-grid > div:nth-child(1){ background:var(--term-ink); color:#fff; }
         .term-values-grid > div:nth-child(2){ background:var(--term-lav); }
         .term-values-grid > div:nth-child(3){ background:var(--term-grey); }
         .term-values-grid > div:nth-child(4){ background:var(--term-ink); color:#fff; }
+        .term-values-grid > div:nth-child(1)::after{ background:radial-gradient(circle,rgba(2,198,250,0.35),transparent 70%); }
+        .term-values-grid > div:nth-child(2)::after{ background:radial-gradient(circle,rgba(126,28,241,0.3),transparent 70%); }
+        .term-values-grid > div:nth-child(3)::after{ background:radial-gradient(circle,rgba(126,28,241,0.18),transparent 70%); }
+        .term-values-grid > div:nth-child(4)::after{ background:radial-gradient(circle,rgba(230,26,151,0.35),transparent 70%); }
         .term-values-grid > div:nth-child(1) .n{ color:#02C6FA; } .term-values-grid > div:nth-child(4) .n{ color:#E61A97; }
         .term-values-grid > div:nth-child(2) .n, .term-values-grid > div:nth-child(3) .n{ color:#7E1CF1; }
         .term-values-grid > div:nth-child(1) p, .term-values-grid > div:nth-child(4) p{ color:#B9B7C7; }
-        .term-values-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:18px; margin-top:32px; }
-        @media (max-width:800px){ .term-values-grid{ grid-template-columns:1fr 1fr; } }
-        .term-values-grid .n{ font-family:'Fraunces',serif; font-style:italic; font-weight:500; font-size:16px; color:#7E1CF1; margin-bottom:12px; }
-        .term-values-grid h4{ font-family:'Fraunces',serif; font-size:16px; font-weight:600; margin-bottom:6px; }
-        .term-values-grid p{ font-size:13px; color:var(--term-ink-soft); line-height:1.55; }
+        .term-values-grid > div:hover{ transform:translateY(-8px); box-shadow:0 22px 44px -20px rgba(11,14,20,0.28); }
+        .term-values-grid .n{ font-family:'Fraunces',serif; font-style:italic; font-weight:500; font-size:16px; color:#7E1CF1; margin-bottom:12px; position:relative; z-index:1; }
+        .term-values-grid h4{ font-family:'Fraunces',serif; font-size:16px; font-weight:600; margin-bottom:6px; position:relative; z-index:1; }
+        .term-values-grid p{ font-size:13px; color:var(--term-ink-soft); line-height:1.55; position:relative; z-index:1; }
         .term-examples{ padding:0 0 56px; }
         .term-examples-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
         @media (max-width:800px){ .term-examples-grid{ grid-template-columns:1fr; } }
@@ -466,9 +482,14 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-score-hero-text p{ color:#B9B7C7; font-size:14px; line-height:1.6; max-width:44ch; }
         .term-badges{ padding:32px 0; border-bottom:1px solid var(--term-line); }
         .term-badges-row{ display:flex; gap:14px; flex-wrap:wrap; justify-content:center; }
-        .term-badge{ display:flex; align-items:center; gap:8px; background:var(--term-grey); border-radius:100px; padding:10px 18px; font-size:12.5px; font-weight:600; color:var(--term-ink-soft); transition:transform 0.25s ease, background 0.25s ease; }
-        .term-badge:hover{ transform:translateY(-3px); background:#fff; box-shadow:0 8px 20px rgba(0,0,0,0.08); }
-        .term-badge svg{ width:16px; height:16px; color:#7E1CF1; flex-shrink:0; }
+        .term-badge{ display:flex; align-items:center; gap:9px; background:var(--term-grey); border-radius:100px; padding:9px 18px 9px 9px; font-size:12.5px; font-weight:600; color:var(--term-ink-soft); transition:transform 0.3s cubic-bezier(.22,1,.36,1), background 0.3s ease, box-shadow 0.3s ease; }
+        .term-badge:hover{ transform:translateY(-4px) scale(1.03); background:#fff; box-shadow:0 12px 26px rgba(11,14,20,0.12); }
+        .term-badge .ico{ width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:transform 0.3s cubic-bezier(.22,1,.36,1); }
+        .term-badge:hover .ico{ transform:scale(1.12) rotate(-6deg); }
+        .term-badge svg{ width:14px; height:14px; flex-shrink:0; }
+        .term-badge:nth-child(1) .ico{ background:#F1E7FB; } .term-badge:nth-child(1) svg{ color:#7E1CF1; }
+        .term-badge:nth-child(2) .ico{ background:#FCE7F1; } .term-badge:nth-child(2) svg{ color:#E61A97; }
+        .term-badge:nth-child(3) .ico{ background:#E2F8FC; } .term-badge:nth-child(3) svg{ color:#02C6FA; }
         .term-network{ padding:72px 0; }
         .term-network-split{ display:grid; grid-template-columns:0.75fr 1.6fr; gap:40px; align-items:start; }
         @media (max-width:900px){ .term-network-split{ grid-template-columns:1fr; } }
@@ -476,15 +497,19 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-network-heading h2{ max-width:11ch; }
         .term-network-grid{ display:grid; grid-template-columns:1fr; gap:14px; }
         @media (min-width:901px){ .term-network-grid{ margin-top:0; } }
-        .term-network-card{ background:var(--term-grey); border-radius:8px; padding:28px 24px; border-top:3px solid transparent; transition:transform 0.3s cubic-bezier(.2,.8,.2,1); }
-        .term-network-card:nth-child(1){ border-top-color:#3ADB76; }
-        .term-network-card:nth-child(2){ border-top-color:#7E1CF1; }
-        .term-network-card:nth-child(3){ border-top-color:#E61A97; }
-        .term-network-card:hover{ transform:translateY(-6px) scale(1.02); box-shadow:0 16px 34px rgba(0,0,0,0.1); }
-        .term-network-card .n{ font-family:'Fraunces',serif; font-style:italic; font-weight:500; font-size:28px; margin-bottom:14px; }
-        .term-network-card h4{ font-family:'Fraunces',serif; font-size:17px; font-weight:600; margin-bottom:4px; }
-        .term-network-card .who{ font-size:11px; font-weight:600; color:#8A87A8; text-transform:uppercase; letter-spacing:0.02em; margin-bottom:12px; }
-        .term-network-card p{ font-size:13px; line-height:1.6; color:var(--term-ink-soft); }
+        .term-network-card{ background:var(--term-grey); border-radius:12px; padding:28px 24px; border-top:3px solid transparent; transition:transform 0.4s cubic-bezier(.22,1,.36,1), box-shadow 0.4s ease; position:relative; overflow:hidden; }
+        .term-network-card::after{ content:''; position:absolute; width:110px; height:110px; border-radius:50%; bottom:-50px; right:-40px; pointer-events:none; opacity:0.5; }
+        .term-network-card:nth-child(1){ border-top-color:#3ADB76; transform:rotate(-0.7deg); }
+        .term-network-card:nth-child(1)::after{ background:radial-gradient(circle,rgba(58,219,118,0.16),transparent 70%); }
+        .term-network-card:nth-child(2){ border-top-color:#7E1CF1; transform:rotate(0.5deg); }
+        .term-network-card:nth-child(2)::after{ background:radial-gradient(circle,rgba(126,28,241,0.14),transparent 70%); }
+        .term-network-card:nth-child(3){ border-top-color:#E61A97; transform:rotate(-0.4deg); }
+        .term-network-card:nth-child(3)::after{ background:radial-gradient(circle,rgba(230,26,151,0.14),transparent 70%); }
+        .term-network-card:hover{ transform:translateY(-8px) scale(1.02) rotate(0deg); box-shadow:0 22px 44px -16px rgba(11,14,20,0.2); }
+        .term-network-card .n{ font-family:'Fraunces',serif; font-style:italic; font-weight:500; font-size:28px; margin-bottom:14px; position:relative; z-index:1; }
+        .term-network-card h4{ font-family:'Fraunces',serif; font-size:17px; font-weight:600; margin-bottom:4px; position:relative; z-index:1; }
+        .term-network-card .who{ font-size:11px; font-weight:600; color:#8A87A8; text-transform:uppercase; letter-spacing:0.02em; margin-bottom:12px; position:relative; z-index:1; }
+        .term-network-card p{ font-size:13px; line-height:1.6; color:var(--term-ink-soft); position:relative; z-index:1; }
         .term-registry-intro{ max-width:64ch; margin:16px 0 32px; display:flex; flex-direction:column; gap:12px; padding:22px 26px; border-radius:8px; background:linear-gradient(135deg, rgba(126,28,241,0.06), rgba(230,26,151,0.04)); border-left:3px solid #7E1CF1; }
         .term-registry-intro p{ font-size:14px; line-height:1.65; color:var(--term-ink-soft); }
         .term-independence{ padding:56px 0; background:var(--term-grey); }
@@ -542,20 +567,13 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-milestone-point.up .ico{ background:#E4F9EC; color:#1E8449; }
         .term-milestone-point.down .ico{ background:#FBE4E4; color:#B33B3B; }
         .term-stats{ padding:48px 0 32px; }
-        .term-stats-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
-        .term-stats-grid.three{ grid-template-columns:repeat(3,1fr); }
-        .term-stats-grid.one{ grid-template-columns:1fr; }
-        @media (max-width:800px){ .term-stats-grid{ grid-template-columns:1fr 1fr; } .term-stats-grid.three{ grid-template-columns:1fr; } }
-        .term-stat-card.founder{ background:linear-gradient(135deg,#7E1CF1,#E61A97); }
-        .term-stat-card.founder .v{ background:none; -webkit-text-fill-color:initial; color:#fff; -webkit-background-clip:initial; background-clip:initial; }
-        .term-stat-card.founder .l{ color:rgba(255,255,255,0.85); }
-        .term-stat-card.founder .s{ color:rgba(255,255,255,0.7); }
-        .term-stat-card.founder:hover{ border-color:transparent; filter:brightness(1.08); }
-        .term-stat-card{ background:var(--term-grey); border-radius:8px; padding:24px 20px; text-align:center; transition:transform 0.3s cubic-bezier(.2,.8,.2,1), border-color 0.3s ease; border:1px solid transparent; }
-        .term-stat-card:hover{ transform:translateY(-5px); border-color:#7E1CF1; }
-        .term-stat-card .v{ font-family:'Fraunces',serif; font-weight:600; font-size:clamp(28px,3.6vw,38px); color:#7E1CF1; }
-        .term-stat-card .l{ font-family:'Sora',sans-serif; font-weight:700; font-size:11px; text-transform:uppercase; letter-spacing:0.03em; margin-top:6px; }
-        .term-stat-card .s{ font-size:11px; color:var(--term-ink-soft); margin-top:3px; }
+        .term-founder-banner{ background:linear-gradient(120deg,#7E1CF1,#B5308E 55%,#E61A97); border-radius:100px; padding:16px 16px 16px 28px; display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap; cursor:pointer; transition:transform 0.35s cubic-bezier(.2,.8,.2,1), box-shadow 0.35s ease; }
+        .term-founder-banner:hover{ transform:translateY(-3px); box-shadow:0 20px 44px -18px rgba(126,28,241,0.45); }
+        .term-founder-banner .txt{ display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; }
+        .term-founder-banner .txt .v{ font-family:'Fraunces',serif; font-weight:600; font-size:18px; color:#fff; }
+        .term-founder-banner .txt .l{ font-family:'Sora',sans-serif; font-weight:600; font-size:12.5px; color:rgba(255,255,255,0.8); }
+        .term-founder-banner .arrow{ flex-shrink:0; width:42px; height:42px; border-radius:50%; background:rgba(255,255,255,0.18); display:flex; align-items:center; justify-content:center; color:#fff; font-size:17px; transition:transform 0.3s ease, background 0.3s ease; }
+        .term-founder-banner:hover .arrow{ transform:translateX(4px); background:#fff; color:#7E1CF1; }
         .term-cert-ticker{ margin-top:40px; overflow:hidden; }
         .term-cert-ticker-label{ text-align:center; font-family:'Sora',sans-serif; font-weight:700; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--term-ink-soft); margin-bottom:20px; }
         .term-cert-ticker-track{ display:flex; gap:28px; width:max-content; animation:termTickerScroll 30s linear infinite; }
@@ -598,11 +616,12 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-why-item:nth-child(1){ border-top-color:#E61A97; }
         .term-why-item:nth-child(2){ border-top-color:#7E1CF1; }
         .term-why-item:nth-child(3){ border-top-color:#02C6FA; }
-        .term-why-item:nth-child(1) .n{ color:#E61A97; }
-        .term-why-item:nth-child(2) .n{ color:#7E1CF1; }
-        .term-why-item:nth-child(3) .n{ color:#02C6FA; }
+        .term-why-item:nth-child(1) .n{ background:#E61A97; }
+        .term-why-item:nth-child(2) .n{ background:#7E1CF1; }
+        .term-why-item:nth-child(3) .n{ background:#02C6FA; }
         .term-why-item:last-child{ border-right:none; }
-        .term-why-item .n{ font-family:'Fraunces',serif; font-style:italic; font-weight:500; font-size:16px; color:#7E1CF1; margin-bottom:12px; }
+        .term-why-item .n{ display:flex; align-items:center; justify-content:center; width:32px; height:32px; border-radius:50%; font-family:'Sora',sans-serif; font-style:normal; font-weight:800; font-size:12px; color:#fff; margin-bottom:14px; transition:transform 0.3s cubic-bezier(.22,1,.36,1); }
+        .term-why-item:hover .n{ transform:scale(1.15) rotate(-8deg); }
         .term-why-item h4{ font-family:'Fraunces',serif; font-size:16px; font-weight:600; margin-bottom:6px; }
         .term-why-item p{ font-size:13px; color:var(--term-ink-soft); line-height:1.55; }
         .term-registry{ padding:20px 0 72px; }
@@ -686,22 +705,16 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-reveal:nth-child(5){ transition-delay:0.32s; }
         .term-reveal.visible{ filter:blur(0); }
         .term-reveal.visible{ opacity:1; transform:translateY(0) scale(1); }
-        .term-pillar{ transition:transform 0.3s cubic-bezier(.2,.8,.2,1), box-shadow 0.3s ease, opacity 0.6s ease; }
-        .term-pillar:hover{ transform:translateY(-6px) scale(1.03); box-shadow:0 20px 40px rgba(0,0,0,0.16); }
         .term-newera-card{ transition:transform 0.3s cubic-bezier(.2,.8,.2,1), box-shadow 0.3s ease, border-color 0.3s ease, opacity 0.6s ease; }
         .term-newera-card:hover{ transform:translateY(-8px) scale(1.03); box-shadow:0 22px 44px rgba(126,28,241,0.12); border-top-color:#7E1CF1; }
         .term-why-item{ transition:background 0.25s ease; }
         .term-why-item:hover{ background:var(--term-grey); }
-        .term-compare-col{ transition:transform 0.3s cubic-bezier(.2,.8,.2,1), box-shadow 0.3s ease, opacity 0.6s ease; }
-        .term-compare-col:hover{ transform:translateY(-6px); box-shadow:0 20px 40px rgba(0,0,0,0.08); }
         .term-history-stat{ transition:transform 0.3s cubic-bezier(.2,.8,.2,1); }
         .term-history-stat:hover{ transform:translateY(-6px); }
         .term-reg-card{ transition:transform 0.25s ease, box-shadow 0.25s ease; }
         .term-reg-card:hover{ transform:translateY(-8px) scale(1.035); box-shadow:0 22px 44px rgba(0,0,0,0.3); }
         .term-price{ transition:transform 0.3s cubic-bezier(.2,.8,.2,1), box-shadow 0.3s ease, opacity 0.6s ease; }
         .term-price:hover{ transform:translateY(-8px) scale(1.03); box-shadow:0 20px 40px rgba(126,28,241,0.14); }
-        .term-values-grid > div{ transition:transform 0.3s cubic-bezier(.2,.8,.2,1); }
-        .term-values-grid > div:hover{ transform:translateY(-6px); }
         .term-btn-primary{ transition:background 0.25s ease, transform 0.2s ease; }
         .term-btn-primary:active{ transform:scale(0.97); }
         .term-modal-card{ animation:termModalIn 0.3s cubic-bezier(.2,.8,.2,1); }
@@ -844,12 +857,12 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       {/* Stats live + bandeau certificateurs — repris d'AboutView */}
       <section className="term-stats">
         <div className="term-wrap">
-          <div className="term-stats-grid one">
-            <div className="term-stat-card founder term-reveal" onClick={() => setShowJoin(true)} style={{ cursor: 'pointer' }}>
-              <div className="v" style={{ fontSize: 22 }}>{t('Devenez fondateur', 'Become a founder')}</div>
-              <div className="l">{t('150 premières places', 'First 150 spots')}</div>
-              <div className="s">{t('Accès immédiat, sans attente →', 'Instant access, no waiting →')}</div>
+          <div className="term-founder-banner term-reveal" onClick={() => setShowJoin(true)}>
+            <div className="txt">
+              <span className="v">{t('Devenez fondateur', 'Become a founder')}</span>
+              <span className="l">{t('150 premières places · accès immédiat →', 'First 150 spots · instant access →')}</span>
             </div>
+            <div className="arrow">→</div>
           </div>
         </div>
 
@@ -1023,6 +1036,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
           <div className="term-eyebrow">{t('Comparaison', 'Comparison')}</div>
           <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t('Ce que ', 'What ')}<span style={{ textTransform: 'uppercase' }}>LYA</span>{t(" est — et n'est pas.", " is — and isn't.")}</h2>
           <div className="term-compare-grid">
+            <div className="term-compare-vs">VS</div>
             <div className="term-compare-col is term-reveal">
               <span className="term-compare-badge">{t('CE QUE LYA EST', 'WHAT LYA IS')}</span>
               {comparison.is.map(item => (
@@ -1141,9 +1155,9 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       <section className="term-badges">
         <div className="term-wrap">
           <div className="term-badges-row">
-            <div className="term-badge term-reveal"><Shield /><span>{t('Conforme RGPD', 'GDPR compliant')}</span></div>
-            <div className="term-badge term-reveal"><Shield /><span>{t('Droits créatifs certifiés', 'Certified creative rights')}</span></div>
-            <div className="term-badge term-reveal"><Shield /><span>{t('Authentification multi-facteurs', 'Multi-factor authentication')}</span></div>
+            <div className="term-badge term-reveal"><span className="ico"><Shield /></span><span>{t('Conforme RGPD', 'GDPR compliant')}</span></div>
+            <div className="term-badge term-reveal"><span className="ico"><Shield /></span><span>{t('Droits créatifs certifiés', 'Certified creative rights')}</span></div>
+            <div className="term-badge term-reveal"><span className="ico"><Shield /></span><span>{t('Authentification multi-facteurs', 'Multi-factor authentication')}</span></div>
           </div>
         </div>
       </section>
