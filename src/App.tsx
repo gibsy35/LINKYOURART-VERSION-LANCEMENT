@@ -245,7 +245,7 @@ export default function App() {
   // On l'affiche vraiment au demarrage, le temps de l'animation prevue
   // (barre de progression = 2s + petite marge pour ne pas la couper).
   useEffect(() => {
-    const timer = setTimeout(() => setIsBooting(false), 2500);
+    const timer = setTimeout(() => setIsBooting(false), 4300);
     return () => clearTimeout(timer);
   }, []);
 
@@ -580,18 +580,18 @@ export default function App() {
   if (isBooting) {
     return (
       <div className="fixed inset-0 z-[1000] bg-black flex flex-col items-center justify-center">
-        <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8, ease: "easeOut" }} className="flex flex-col items-center gap-8">
+        <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8, ease: "easeOut" }} className="flex flex-col items-center gap-10">
           <div className="relative">
-            <motion.div animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.6, 0.3] }} transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }} className="absolute inset-0 bg-primary-cyan/20 blur-[80px] rounded-full" />
-            <Logo size={150} color="multi" showBeta={true} />
+            <motion.div animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.6, 0.3] }} transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }} className="absolute inset-0 bg-primary-cyan/20 blur-[100px] rounded-full" />
+            <Logo size={220} color="multi" showBeta={true} />
           </div>
-          <div className="flex flex-col items-center gap-2.5">
+          <div className="flex flex-col items-center gap-3.5">
             <div className="flex items-baseline gap-3">
-              <span className="text-white/40 text-lg md:text-xl tracking-[0.25em] uppercase font-light">{t('INITIATING', 'INITIALISATION')}</span>
-              <span className="text-white text-lg md:text-xl tracking-[0.25em] uppercase font-bold">LINKYOURART</span>
+              <span className="text-white/40 text-2xl md:text-3xl tracking-[0.2em] uppercase font-light">{t('INITIATING', 'INITIALISATION')}</span>
+              <span className="text-white text-2xl md:text-3xl tracking-[0.2em] uppercase font-bold">LINKYOURART</span>
             </div>
-            <div className="h-[2px] w-full bg-white/10 overflow-hidden relative">
-              <motion.div initial={{ width: '0%' }} animate={{ width: '100%' }} transition={{ duration: 2.2, ease: "easeInOut" }} className="absolute inset-y-0 left-0 bg-white" />
+            <div className="h-[3px] w-80 md:w-96 bg-white/10 overflow-hidden relative">
+              <motion.div initial={{ width: '0%' }} animate={{ width: '100%' }} transition={{ duration: 4, ease: "easeInOut" }} className="absolute inset-y-0 left-0 bg-white" />
             </div>
           </div>
         </motion.div>
