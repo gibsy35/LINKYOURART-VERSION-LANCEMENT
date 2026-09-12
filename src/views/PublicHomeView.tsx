@@ -266,7 +266,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
           animation:termBreathe 16s ease-in-out infinite;
         }
         @keyframes termBreathe{ 0%,100%{ background-position:0% 50%; } 50%{ background-position:100% 50%; } }
-        .term-hero-title{ color:#fff; font-weight:700; font-size:clamp(38px,6.6vw,76px); line-height:1.04; letter-spacing:-0.015em; max-width:17ch; position:relative; z-index:1; }
+        .term-hero-title{ color:#fff; font-weight:700; font-size:clamp(36px,6vw,70px); line-height:1.05; letter-spacing:-0.01em; max-width:16ch; position:relative; z-index:1; }
         .term-hero-sub{ color:#D6D4E2; font-size:17px; line-height:1.6; max-width:46ch; margin-top:26px; position:relative; z-index:1; }
         .term-btn-primary{ background:#fff; color:var(--term-ink); padding:14px 26px; border-radius:100px; font-weight:600; font-size:15px; border:none; cursor:pointer; }
         .term-btn-primary:hover{ background:var(--term-lav); }
