@@ -92,6 +92,40 @@ function splitScore(score: number): number[] {
 
 // Petit effet de compteur qui monte au scroll — donne de la vie a un chiffre
 // sans effet "tech/IA" (technique classique presse/ONG, pas un gadget SaaS).
+// Effet de parallaxe leger sur les blocs photo — l'image de fond bouge un
+// peu plus lentement que le defilement, donne de la profondeur (technique
+// classique des sites premium type Wix Studio, en CSS/JS leger, sans
+// bibliotheque lourde ni impact notable sur les perfs mobile).
+const ParallaxPhoto: React.FC<{ image: string; className?: string; children: React.ReactNode; style?: React.CSSProperties }> = ({ image, className, children, style }) => {
+  const ref = React.useRef<HTMLDivElement>(null);
+  const [offset, setOffset] = React.useState(0);
+  React.useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const onScroll = () => {
+      const rect = el.getBoundingClientRect();
+      const vh = window.innerHeight || 1;
+      // Progression de -1 (bloc juste sous l'ecran) a +1 (bloc juste au-dessus)
+      const progress = (rect.top + rect.height / 2 - vh / 2) / vh;
+      setOffset(progress * 40); // 40px d'amplitude, discret mais visible
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+  return (
+    <div ref={ref} className={className} style={{ ...style, overflow: 'hidden' }}>
+      <div style={{
+        position: 'absolute', inset: '-40px -5%', backgroundImage: `url(${image})`,
+        backgroundSize: 'cover', backgroundPosition: 'center',
+        transform: `translateY(${offset}px)`, transition: 'transform 0.05s linear',
+      }} />
+      {children}
+    </div>
+  );
+};
+
+
 const CountUp: React.FC<{ to: number; duration?: number; suffix?: string }> = ({ to, duration = 1400, suffix = '' }) => {
   const ref = React.useRef<HTMLSpanElement>(null);
   const [value, setValue] = React.useState(0);
@@ -317,7 +351,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-history-grid{ display:grid; grid-template-columns:1.3fr 1fr; gap:44px; align-items:start; margin-top:32px; }
         @media (max-width:800px){ .term-history-grid{ grid-template-columns:1fr; } }
         .term-history-text p{ font-size:14px; line-height:1.7; color:var(--term-ink-soft); margin-bottom:16px; }
-        .term-history-visual{ position:relative; border-radius:8px; overflow:hidden; background-size:cover; background-position:center; min-height:280px; display:flex; align-items:flex-end; transition:transform 0.4s cubic-bezier(.2,.8,.2,1); }
+        .term-history-visual{ position:relative; border-radius:8px; overflow:hidden; min-height:280px; display:flex; align-items:flex-end; transition:transform 0.4s cubic-bezier(.2,.8,.2,1); }
         .term-history-visual:hover{ transform:translateY(-6px); }
         .term-history-visual .overlay{ position:absolute; inset:0; background:linear-gradient(180deg,rgba(11,14,20,0.1) 0%,rgba(11,14,20,0.88) 100%); }
         .term-history-visual .content{ position:relative; z-index:1; padding:26px; display:flex; gap:24px; width:100%; }
@@ -577,13 +611,13 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-join-keybox span{ font-family:'Sora',sans-serif; font-weight:800; font-size:14px; letter-spacing:0.03em; }
         .term-join-keybox button{ flex-shrink:0; border:1px solid var(--term-line); background:#fff; color:var(--term-ink); font-family:'Sora',sans-serif; font-weight:700; font-size:12px; padding:8px 14px; border-radius:100px; cursor:pointer; }
         /* Animations : apparition au scroll + survol */
-        .term-reveal{ opacity:0; transform:translateY(22px); transition:opacity 0.7s ease, transform 0.7s cubic-bezier(.2,.7,.3,1); }
+        .term-reveal{ opacity:0; transform:translateY(40px) scale(0.97); transition:opacity 0.85s ease, transform 0.85s cubic-bezier(.16,1,.3,1); }
         .term-reveal:nth-child(2){ transition-delay:0.08s; }
         .term-reveal:nth-child(3){ transition-delay:0.16s; }
         .term-reveal:nth-child(4){ transition-delay:0.24s; }
         .term-reveal:nth-child(5){ transition-delay:0.32s; }
         .term-reveal.visible{ filter:blur(0); }
-        .term-reveal.visible{ opacity:1; transform:translateY(0); }
+        .term-reveal.visible{ opacity:1; transform:translateY(0) scale(1); }
         .term-pillar{ transition:transform 0.3s cubic-bezier(.2,.8,.2,1), box-shadow 0.3s ease, opacity 0.6s ease; }
         .term-pillar:hover{ transform:translateY(-6px) scale(1.03); box-shadow:0 20px 40px rgba(0,0,0,0.16); }
         .term-newera-card{ transition:transform 0.3s cubic-bezier(.2,.8,.2,1), box-shadow 0.3s ease, border-color 0.3s ease, opacity 0.6s ease; }
@@ -620,7 +654,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-photo-stats{ padding:64px 0; }
         .term-photo-stats-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
         @media (max-width:800px){ .term-photo-stats-grid{ grid-template-columns:1fr; } }
-        .term-photo-stat{ position:relative; height:320px; border-radius:8px; overflow:hidden; background-size:cover; background-position:center; display:flex; align-items:flex-end; transition:transform 0.4s cubic-bezier(.2,.8,.2,1); }
+        .term-photo-stat{ position:relative; height:320px; border-radius:8px; overflow:hidden; display:flex; align-items:flex-end; transition:transform 0.4s cubic-bezier(.2,.8,.2,1); }
         .term-photo-stat:hover{ transform:translateY(-6px); }
         .term-photo-stat .overlay{ position:absolute; inset:0; background:linear-gradient(180deg,rgba(11,14,20,0.15) 0%,rgba(11,14,20,0.85) 100%); }
         .term-photo-stat .content{ position:relative; z-index:1; padding:28px; }
@@ -728,27 +762,27 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       <section className="term-photo-stats">
         <div className="term-wrap">
           <div className="term-photo-stats-grid">
-            <div className="term-photo-stat" style={{ backgroundImage: `url(https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?auto=format&fit=crop&q=80&w=800)` }}>
+            <ParallaxPhoto image="https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?auto=format&fit=crop&q=80&w=800" className="term-photo-stat">
               <div className="overlay" />
               <div className="content">
-                <div className="num">20+</div>
+                <div className="num"><CountUp to={20} suffix="+" /></div>
                 <div className="lbl">{t("Ans d'expérience", 'Years of experience')}</div>
               </div>
-            </div>
-            <div className="term-photo-stat" style={{ backgroundImage: `url(https://images.unsplash.com/photo-1495446815901-a7297e633e8d?auto=format&fit=crop&q=80&w=800)` }}>
+            </ParallaxPhoto>
+            <ParallaxPhoto image="https://images.unsplash.com/photo-1495446815901-a7297e633e8d?auto=format&fit=crop&q=80&w=800" className="term-photo-stat">
               <div className="overlay" />
               <div className="content">
-                <div className="num">9+</div>
+                <div className="num"><CountUp to={9} suffix="+" /></div>
                 <div className="lbl">{t('Disciplines créatives', 'Creative disciplines')}</div>
               </div>
-            </div>
-            <div className="term-photo-stat" style={{ backgroundImage: `url(https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&q=80&w=800)` }}>
+            </ParallaxPhoto>
+            <ParallaxPhoto image="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&q=80&w=800" className="term-photo-stat">
               <div className="overlay" />
               <div className="content">
                 <div className="num">1</div>
                 <div className="lbl">{t('Standard commun à tout le secteur', 'Single standard for the whole sector')}</div>
               </div>
-            </div>
+            </ParallaxPhoto>
           </div>
         </div>
       </section>
@@ -975,13 +1009,13 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
                 "Today, on its 20th anniversary, LinkYourArt is embarking on a new stage with the launch of an entirely redesigned platform, built around an objective standard for creative certification."
               )}</p>
             </div>
-            <div className="term-history-visual term-reveal" style={{ backgroundImage: `url(https://images.unsplash.com/photo-1481457443364-6b3a9819c3c8?auto=format&fit=crop&q=80&w=800)` }}>
+            <ParallaxPhoto image="https://images.unsplash.com/photo-1481457443364-6b3a9819c3c8?auto=format&fit=crop&q=80&w=800" className="term-history-visual term-reveal">
               <div className="overlay" />
               <div className="content">
                 <div className="term-history-stat"><div className="y">2006</div><div className="l">{t('Fondation', 'Foundation')}</div></div>
                 <div className="term-history-stat"><div className="y">2026</div><div className="l">{t('Révolution', 'Revolution')}</div></div>
               </div>
-            </div>
+            </ParallaxPhoto>
           </div>
         </div>
       </section>
