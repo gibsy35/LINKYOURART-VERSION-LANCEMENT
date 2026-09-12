@@ -166,28 +166,35 @@ const HeroSection: React.FC<{ t: (fr: string, en: string) => string; setShowJoin
   const ref = React.useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
 
-  const shapeScale = useTransform(scrollYProgress, [0, 1], [1, 1.5]);
-  const shapeX = useTransform(scrollYProgress, [0, 1], ['0%', '15%']);
   const titleY = useTransform(scrollYProgress, [0, 1], [0, -120]);
   const titleOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
   const titleScale = useTransform(scrollYProgress, [0, 1], [1, 0.9]);
 
   return (
     <section className="term-hero" ref={ref}>
-      <motion.div className="term-hero-shape" style={{ scale: shapeScale, x: shapeX }} />
-      <motion.div className="term-wrap" style={{ position: 'relative', y: titleY, opacity: titleOpacity, scale: titleScale }}>
-        <h1 className="term-hero-title">{t("Ce que vous créez aujourd'hui mérite d'être reconnu demain.", 'What you create today deserves to be recognized tomorrow.')}</h1>
-        <p className="term-hero-sub">
-          {t(
-            "Les projets créatifs ont toujours eu de la valeur. LYA leur en donne une reconnue, partageable et vérifiable — un registre certifié, une évaluation par des experts, un mécénat qui suit l'avancement réel du projet.",
-            'Creative projects have always had value. LYA gives them one that is recognized, shareable and verifiable — a certified registry, expert evaluation, and patronage that follows the real progress of the project.'
-          )}
-        </p>
-        <div style={{ display: 'flex', gap: 14, marginTop: 30, position: 'relative', zIndex: 1 }}>
-          <button className="term-btn-primary" onClick={() => setShowJoin(true)}>{t('Rejoindre LYA →', 'Join LYA →')}</button>
-          <a href="#pillars" className="term-btn-ghost" style={{ textDecoration: 'none', display: 'inline-block' }}>{t('Comprendre le Score LYA', 'Understand the LYA Score')}</a>
+      <div className="term-wrap term-hero-grid">
+        <motion.div style={{ position: 'relative', y: titleY, opacity: titleOpacity, scale: titleScale }}>
+          <h1 className="term-hero-title">{t("Ce que vous créez aujourd'hui mérite d'être ", 'What you create today deserves to be ')}<span className="term-gradient-text">{t('reconnu demain.', 'recognized tomorrow.')}</span></h1>
+          <p className="term-hero-sub">
+            {t(
+              "Les projets créatifs ont toujours eu de la valeur. LYA leur en donne une reconnue, partageable et vérifiable — un registre certifié, une évaluation par des experts, un mécénat qui suit l'avancement réel du projet.",
+              'Creative projects have always had value. LYA gives them one that is recognized, shareable and verifiable — a certified registry, expert evaluation, and patronage that follows the real progress of the project.'
+            )}
+          </p>
+          <div style={{ display: 'flex', gap: 14, marginTop: 30, position: 'relative', zIndex: 1, flexWrap: 'wrap' }}>
+            <button className="term-btn-primary" onClick={() => setShowJoin(true)}>{t('Rejoindre LYA →', 'Join LYA →')}</button>
+            <a href="#pillars" className="term-btn-ghost" style={{ textDecoration: 'none', display: 'inline-block' }}>{t('Comprendre le Score LYA', 'Understand the LYA Score')}</a>
+          </div>
+        </motion.div>
+        <div className="term-hero-visual">
+          <div className="term-hero-card-back" />
+          <div className="term-hero-card">
+            <div className="score">{t('Score LYA', 'LYA Score')}</div>
+            <span className="num">247</span><span className="max">/1000</span>
+            <p>{t('Évalué sur 5 critères objectifs — qualité, marché, droits, innovation, croissance.', 'Assessed on 5 objective criteria — quality, market, rights, innovation, growth.')}</p>
+          </div>
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 };
@@ -317,14 +324,14 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-root .sora{ font-family:'Sora',sans-serif; }
         .term-wrap{ max-width:1160px; margin:0 auto; padding:0 40px; }
         @media (max-width:700px){ .term-wrap{ padding:0 22px; } }
-        .term-header{ background:var(--term-ink); padding:22px 0; position:sticky; top:0; z-index:100; border-bottom:1px solid rgba(255,255,255,0.08); }
+        .term-header{ background:var(--term-paper); padding:20px 0; position:sticky; top:0; z-index:100; border-bottom:1px solid var(--term-line); }
         .term-head-inner{ display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:20px; }
-        .term-word{ font-family:'Sora',sans-serif; font-weight:800; font-size:22px; color:#fff; }
-        .term-nav{ display:flex; align-items:center; gap:28px; margin-left:auto; }
-        .term-nav ul{ display:flex; gap:28px; list-style:none; margin:0; padding:0; }
-        .term-nav a{ color:#B9B7C7; text-decoration:none; font-size:14.5px; font-weight:500; padding-bottom:4px; border-bottom:2px solid transparent; transition:color 0.2s ease, border-color 0.2s ease; }
-        .term-nav a.active{ color:#fff; border-bottom-color:#E61A97; }
-        .term-nav a:hover{ color:#fff; }
+        .term-word{ font-family:'Sora',sans-serif; font-weight:800; font-size:22px; color:var(--term-ink); }
+        .term-nav{ display:flex; align-items:center; gap:10px; margin-left:auto; }
+        .term-nav ul{ display:flex; gap:6px; list-style:none; margin:0; padding:6px; background:var(--term-grey); border-radius:100px; }
+        .term-nav a{ color:var(--term-ink-soft); text-decoration:none; font-size:14px; font-weight:600; padding:9px 16px; border-radius:100px; border-bottom:none; transition:color 0.2s ease, background 0.2s ease; display:inline-block; }
+        .term-nav a.active{ color:var(--term-ink); background:#fff; box-shadow:0 1px 3px rgba(11,14,20,0.08); }
+        .term-nav a:hover{ color:var(--term-ink); }
         @media (max-width:800px){
           .term-word{ display:none; }
           .term-head-inner{ flex-wrap:nowrap; gap:8px; }
@@ -335,38 +342,62 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
           .term-pill{ flex-shrink:0; padding:8px 12px; font-size:12px; white-space:nowrap; }
           .term-pill.ghost{ padding:8px 4px; font-size:12px; }
         }
-        .term-pill{ color:#fff; background:var(--term-ink); border:1px solid rgba(255,255,255,0.2); padding:10px 20px; border-radius:100px; font-size:14px; font-weight:600; cursor:pointer; }
-        .term-pill.ghost{ background:none; border:1.5px solid rgba(255,255,255,0.45); color:#fff; padding:9px 18px; font-weight:700; }
-        .term-pill.ghost:hover{ background:rgba(255,255,255,0.1); border-color:#fff; }
+        .term-pill{ color:#fff; background:var(--term-ink); border:1px solid var(--term-ink); padding:10px 20px; border-radius:100px; font-size:14px; font-weight:600; cursor:pointer; }
+        .term-pill.ghost{ background:none; border:1.5px solid var(--term-line); color:var(--term-ink); padding:9px 18px; font-weight:700; }
+        .term-pill.ghost:hover{ background:var(--term-grey); border-color:var(--term-ink-soft); }
         .term-pill:hover{ background:#7E1CF1; border-color:transparent; }
-        .term-lang-toggle{ display:flex; background:rgba(255,255,255,0.08); border-radius:100px; padding:3px; gap:2px; }
-        .term-lang-toggle button{ border:none; background:none; color:#B9B7C7; font-size:12px; font-weight:700; padding:6px 12px; border-radius:100px; cursor:pointer; font-family:'Sora',sans-serif; }
-        .term-lang-toggle button.active{ background:#fff; color:var(--term-ink); }
-        .term-hero{ background:var(--term-ink); position:relative; overflow:hidden; padding:64px 0 90px; min-height:92vh; display:flex; align-items:center; }
-        .term-hero-shape{ position:absolute; top:-10%; right:-10%; width:70%; height:130%;
-          background:linear-gradient(135deg,#7E1CF1 0%,#7E1CF1 16%,#E61A97 42%,#E61A97 58%,#02C6FA 86%,#02C6FA 100%);
-          background-size:140% 140%;
-          clip-path:polygon(30% 0%,100% 0%,100% 100%,0% 100%);
-          animation:termBreathe 16s ease-in-out infinite;
+        .term-lang-toggle{ display:flex; background:var(--term-grey); border-radius:100px; padding:3px; gap:2px; }
+        .term-lang-toggle button{ border:none; background:none; color:var(--term-ink-soft); font-size:12px; font-weight:700; padding:6px 12px; border-radius:100px; cursor:pointer; font-family:'Sora',sans-serif; }
+        .term-lang-toggle button.active{ background:#fff; color:var(--term-ink); box-shadow:0 1px 3px rgba(11,14,20,0.1); }
+        .term-hero{ background:var(--term-paper); position:relative; overflow:hidden; padding:80px 0 100px; min-height:92vh; display:flex; align-items:center; }
+        .term-hero-grid{ display:grid; grid-template-columns:1.1fr 0.9fr; gap:40px; align-items:center; width:100%; }
+        @media (max-width:900px){ .term-hero-grid{ grid-template-columns:1fr; } }
+        .term-hero-title{ color:var(--term-ink); font-weight:700; font-size:clamp(36px,5.2vw,64px); line-height:1.05; letter-spacing:-0.01em; max-width:16ch; position:relative; z-index:1; }
+        .term-hero-sub{ color:var(--term-ink-soft); font-size:17px; line-height:1.6; max-width:46ch; margin-top:26px; position:relative; z-index:1; }
+        .term-btn-primary{ background:var(--term-ink); color:#fff; padding:14px 26px; border-radius:100px; font-weight:600; font-size:15px; border:none; cursor:pointer; }
+        .term-btn-primary:hover{ background:#7E1CF1; }
+        .term-btn-ghost{ color:var(--term-ink); background:none; border:none; padding:14px 10px; font-weight:600; font-size:15px; border-bottom:1px solid var(--term-ink-soft); cursor:pointer; }
+        .term-hero-visual{ position:relative; min-height:340px; display:flex; align-items:center; justify-content:center; }
+        .term-hero-visual::before{ content:''; position:absolute; inset:6% 4%; border-radius:28px;
+          background:linear-gradient(135deg,#7E1CF1 0%,#E61A97 50%,#02C6FA 100%);
+          opacity:0.14; filter:blur(2px);
         }
-        @keyframes termBreathe{ 0%,100%{ background-position:0% 50%; } 50%{ background-position:100% 50%; } }
-        .term-hero-title{ color:#fff; font-weight:700; font-size:clamp(36px,6vw,70px); line-height:1.05; letter-spacing:-0.01em; max-width:16ch; position:relative; z-index:1; }
-        .term-hero-sub{ color:#D6D4E2; font-size:17px; line-height:1.6; max-width:46ch; margin-top:26px; position:relative; z-index:1; }
-        .term-btn-primary{ background:#fff; color:var(--term-ink); padding:14px 26px; border-radius:100px; font-weight:600; font-size:15px; border:none; cursor:pointer; }
-        .term-btn-primary:hover{ background:var(--term-lav); }
-        .term-btn-ghost{ color:#fff; background:none; border:none; padding:14px 10px; font-weight:600; font-size:15px; border-bottom:1px solid rgba(255,255,255,0.4); cursor:pointer; }
+        .term-hero-card{ position:relative; z-index:1; background:#fff; border:1px solid var(--term-line); border-radius:18px;
+          padding:28px 30px; width:min(320px,80%); box-shadow:0 30px 60px -20px rgba(11,14,20,0.25);
+          transform:rotate(7deg); font-family:'Fraunces',serif;
+        }
+        .term-hero-card .score{ font-size:15px; font-weight:700; text-transform:lowercase; color:var(--term-ink); margin-bottom:14px; }
+        .term-hero-card .num{ font-family:'Sora',sans-serif; font-weight:800; font-size:34px; background:linear-gradient(90deg,#7E1CF1,#E61A97,#02C6FA); -webkit-background-clip:text; background-clip:text; color:transparent; }
+        .term-hero-card .max{ font-family:'Sora',sans-serif; font-weight:600; font-size:14px; color:var(--term-ink-soft); }
+        .term-hero-card p{ font-family:'Inter',sans-serif; text-align:left; font-size:12.5px; line-height:1.5; color:var(--term-ink-soft); margin-top:14px; }
+        .term-hero-card-back{ position:absolute; z-index:0; background:var(--term-grey); border-radius:18px; width:min(280px,72%); height:200px; transform:rotate(-6deg) translate(-30px,26px); }
         .term-section-cta{ margin-top:32px; text-align:left; }
         .term-section-cta button{ background:none; border:none; font-family:'Sora',sans-serif; font-weight:700; font-size:14px; color:var(--term-ink); border-bottom:2px solid #7E1CF1; padding-bottom:2px; cursor:pointer; }
-        .term-pillars{ padding:72px 0; }
-        .term-pillars-note{ font-size:13px; color:var(--term-ink-soft); margin-bottom:32px; }
-        .term-pillars-grid{ display:grid; grid-template-columns:repeat(5,1fr); gap:14px; }
-        @media (max-width:900px){ .term-pillars-grid{ grid-template-columns:repeat(2,1fr); } }
-        .term-pillar{ border-radius:20px; padding:26px 20px; min-height:200px; display:flex; flex-direction:column; justify-content:space-between; }
-        .term-pillar.dark{ background:var(--term-ink); color:#fff; }
-        .term-pillar.lav{ background:var(--term-lav); }
+        .term-pillars{ padding:88px 0 72px; }
+        .term-pillars-note{ font-size:13px; color:var(--term-ink-soft); margin-bottom:56px; }
+        .term-pillars-grid{ display:flex; align-items:flex-start; padding:20px 0 40px; }
+        .term-pillar{ border-radius:16px; padding:24px 22px; min-height:190px; width:230px; flex-shrink:0;
+          display:flex; flex-direction:column; justify-content:space-between; background:#fff;
+          border:1px solid var(--term-line); box-shadow:0 18px 40px -22px rgba(11,14,20,0.18);
+          transition:transform 0.3s cubic-bezier(.2,.8,.2,1), box-shadow 0.3s ease, z-index 0s;
+          position:relative;
+        }
+        .term-pillars-grid .term-pillar:not(:first-child){ margin-left:-64px; }
+        .term-pillars-grid .term-pillar:nth-child(1){ z-index:5; transform:rotate(-3deg); }
+        .term-pillars-grid .term-pillar:nth-child(2){ z-index:4; transform:rotate(-1.5deg) translateY(10px); }
+        .term-pillars-grid .term-pillar:nth-child(3){ z-index:3; transform:rotate(0.5deg) translateY(18px); }
+        .term-pillars-grid .term-pillar:nth-child(4){ z-index:2; transform:rotate(2deg) translateY(24px); }
+        .term-pillars-grid .term-pillar:nth-child(5){ z-index:1; transform:rotate(3.5deg) translateY(30px); }
+        .term-pillars-grid .term-pillar:hover{ transform:translateY(-14px) rotate(0deg) scale(1.04) !important; z-index:10 !important; box-shadow:0 28px 50px -18px rgba(11,14,20,0.3); }
+        @media (max-width:900px){
+          .term-pillars-grid{ flex-wrap:wrap; gap:16px; }
+          .term-pillars-grid .term-pillar{ margin-left:0 !important; transform:none !important; width:calc(50% - 8px); }
+        }
+        .term-pillar.dark{ background:var(--term-ink); color:#fff; border-color:var(--term-ink); }
+        .term-pillar.lav{ background:var(--term-lav); border-color:var(--term-lav); }
         .term-pillar.grey{ background:var(--term-grey); }
         .term-pillar .n{ font-family:'Fraunces',serif; font-style:italic; font-weight:500; font-size:30px; }
-        .term-pillar.dark .n{ color:#E61A97; } .term-pillar.lav .n, .term-pillar.grey .n{ color:#7E1CF1; }
+        .term-pillar.dark .n{ color:#02C6FA; } .term-pillar.lav .n, .term-pillar.grey .n{ color:#7E1CF1; }
         .term-pillar .t{ font-family:'Sora',sans-serif; font-weight:700; font-size:15px; margin-top:20px; }
         .term-pillar .d{ font-size:12.5px; line-height:1.5; margin-top:8px; opacity:0.8; }
         .term-pillar .pts{ font-family:'Sora',sans-serif; font-weight:700; font-size:10.5px; letter-spacing:0.04em; opacity:0.5; margin-top:10px; }
