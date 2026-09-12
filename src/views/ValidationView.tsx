@@ -876,7 +876,7 @@ export const ValidationView: React.FC<{
   return (
     <div className="space-y-8 pb-12">
       <PageHeader
-        titleWhite={T('CONSOLE DE', 'QUALITY')}
+        titleWhite={<span style={{ textTransform: 'uppercase' }}>{T('CONSOLE DE', 'QUALITY')}</span>}
         titleAccent={T('CONTRÔLE QUALITÉ', 'CONTROL CONSOLE')}
         description={T('Validation, diagnostic et supervision de l\'indexation des créations LYA', 'Validation, diagnosis and supervision of LYA creative indexation')}
         accentColor="text-primary-cyan"
