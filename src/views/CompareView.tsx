@@ -47,8 +47,8 @@ export const CompareView: React.FC<CompareViewProps> = ({
   return (
     <div className="space-y-12 pb-24 relative min-h-screen">
       <PageHeader 
-        titleWhite={t('Asset', 'Comparateur')}
-        titleAccent={t('Comparator', 'd\'Actifs')}
+        titleWhite={t('Project', 'Comparateur')}
+        titleAccent={t('Comparator', 'de Projets')}
         description={t('Deep-dive professional analysis of selected creative contracts. Maximum 20 projects compared per session for Standard accounts.', 'Analyse professionnelle approfondie des contrats créatifs sélectionnés. Maximum 20 projets comparés par session pour les comptes Standard.')}
         accentColor="text-primary-cyan"
       />
