@@ -581,16 +581,16 @@ export default function App() {
     return (
       <div className="fixed inset-0 z-[1000] bg-black flex flex-col items-center justify-center">
         <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8, ease: "easeOut" }} className="flex flex-col items-center gap-10">
-          <div className="relative">
+          <div className="relative scale-75 md:scale-100">
             <motion.div animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.6, 0.3] }} transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }} className="absolute inset-0 bg-primary-cyan/20 blur-[100px] rounded-full" />
             <Logo size={220} color="multi" showBeta={true} />
           </div>
-          <div className="flex flex-col items-center gap-3.5">
-            <div className="flex items-baseline gap-3">
-              <span className="text-white/40 text-2xl md:text-3xl tracking-[0.2em] uppercase font-light">{t('INITIATING', 'INITIALISATION')}</span>
-              <span className="text-white text-2xl md:text-3xl tracking-[0.2em] uppercase font-bold">LINKYOURART</span>
+          <div className="flex flex-col items-center gap-3.5 px-6">
+            <div className="flex flex-col md:flex-row items-center md:items-baseline gap-1 md:gap-3">
+              <span className="text-white/40 text-base md:text-3xl tracking-[0.15em] md:tracking-[0.2em] uppercase font-light">{t('INITIATING', 'INITIALISATION')}</span>
+              <span className="text-white text-base md:text-3xl tracking-[0.15em] md:tracking-[0.2em] uppercase font-bold">LINKYOURART</span>
             </div>
-            <div className="h-[3px] w-80 md:w-96 bg-white/10 overflow-hidden relative">
+            <div className="h-[3px] w-56 md:w-96 bg-white/10 overflow-hidden relative">
               <motion.div initial={{ width: '0%' }} animate={{ width: '100%' }} transition={{ duration: 4, ease: "easeInOut" }} className="absolute inset-y-0 left-0 bg-white" />
             </div>
           </div>
