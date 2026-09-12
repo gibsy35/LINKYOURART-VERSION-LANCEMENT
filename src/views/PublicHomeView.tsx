@@ -240,6 +240,9 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         }
         .term-root h1, .term-root h2, .term-root h3{ font-family:'Fraunces',Georgia,serif; font-weight:700; letter-spacing:-0.01em; text-transform:lowercase; }
         .term-root h1::first-letter, .term-root h2::first-letter, .term-root h3::first-letter{ text-transform:uppercase; }
+        .term-root p{ text-align:justify; text-justify:inter-word; }
+        .term-mission p{ text-align:left; }
+        .term-hero-title, .term-milestone-h2{ text-align:left; }
         .term-root .sora{ font-family:'Sora',sans-serif; }
         .term-wrap{ max-width:1160px; margin:0 auto; padding:0 40px; }
         @media (max-width:700px){ .term-wrap{ padding:0 22px; } }
