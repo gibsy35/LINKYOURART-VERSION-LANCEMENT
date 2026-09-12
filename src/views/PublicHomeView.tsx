@@ -324,14 +324,14 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-root .sora{ font-family:'Sora',sans-serif; }
         .term-wrap{ max-width:1160px; margin:0 auto; padding:0 40px; }
         @media (max-width:700px){ .term-wrap{ padding:0 22px; } }
-        .term-header{ background:var(--term-paper); padding:20px 0; position:sticky; top:0; z-index:100; border-bottom:1px solid var(--term-line); }
+        .term-header{ background:var(--term-ink); padding:20px 0; position:sticky; top:0; z-index:100; border-bottom:1px solid rgba(255,255,255,0.08); }
         .term-head-inner{ display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:20px; }
-        .term-word{ font-family:'Sora',sans-serif; font-weight:800; font-size:22px; color:var(--term-ink); }
+        .term-word{ font-family:'Sora',sans-serif; font-weight:800; font-size:22px; color:#fff; }
         .term-nav{ display:flex; align-items:center; gap:10px; margin-left:auto; }
-        .term-nav ul{ display:flex; gap:6px; list-style:none; margin:0; padding:6px; background:var(--term-grey); border-radius:100px; }
-        .term-nav a{ color:var(--term-ink-soft); text-decoration:none; font-size:14px; font-weight:600; padding:9px 16px; border-radius:100px; border-bottom:none; transition:color 0.2s ease, background 0.2s ease; display:inline-block; }
-        .term-nav a.active{ color:var(--term-ink); background:#fff; box-shadow:0 1px 3px rgba(11,14,20,0.08); }
-        .term-nav a:hover{ color:var(--term-ink); }
+        .term-nav ul{ display:flex; gap:6px; list-style:none; margin:0; padding:6px; background:rgba(255,255,255,0.08); border-radius:100px; }
+        .term-nav a{ color:#B9B7C7; text-decoration:none; font-size:14px; font-weight:600; padding:9px 16px; border-radius:100px; border-bottom:none; transition:color 0.2s ease, background 0.2s ease; display:inline-block; }
+        .term-nav a.active{ color:var(--term-ink); background:#fff; }
+        .term-nav a:hover{ color:#fff; }
         @media (max-width:800px){
           .term-word{ display:none; }
           .term-head-inner{ flex-wrap:nowrap; gap:8px; }
@@ -342,13 +342,13 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
           .term-pill{ flex-shrink:0; padding:8px 12px; font-size:12px; white-space:nowrap; }
           .term-pill.ghost{ padding:8px 4px; font-size:12px; }
         }
-        .term-pill{ color:#fff; background:var(--term-ink); border:1px solid var(--term-ink); padding:10px 20px; border-radius:100px; font-size:14px; font-weight:600; cursor:pointer; }
-        .term-pill.ghost{ background:none; border:1.5px solid var(--term-line); color:var(--term-ink); padding:9px 18px; font-weight:700; }
-        .term-pill.ghost:hover{ background:var(--term-grey); border-color:var(--term-ink-soft); }
-        .term-pill:hover{ background:#7E1CF1; border-color:transparent; }
-        .term-lang-toggle{ display:flex; background:var(--term-grey); border-radius:100px; padding:3px; gap:2px; }
-        .term-lang-toggle button{ border:none; background:none; color:var(--term-ink-soft); font-size:12px; font-weight:700; padding:6px 12px; border-radius:100px; cursor:pointer; font-family:'Sora',sans-serif; }
-        .term-lang-toggle button.active{ background:#fff; color:var(--term-ink); box-shadow:0 1px 3px rgba(11,14,20,0.1); }
+        .term-pill{ color:var(--term-ink); background:#fff; border:1px solid #fff; padding:10px 20px; border-radius:100px; font-size:14px; font-weight:600; cursor:pointer; }
+        .term-pill.ghost{ background:none; border:1.5px solid rgba(255,255,255,0.35); color:#fff; padding:9px 18px; font-weight:700; }
+        .term-pill.ghost:hover{ background:rgba(255,255,255,0.1); border-color:#fff; }
+        .term-pill:hover{ background:#7E1CF1; color:#fff; border-color:transparent; }
+        .term-lang-toggle{ display:flex; background:rgba(255,255,255,0.08); border-radius:100px; padding:3px; gap:2px; }
+        .term-lang-toggle button{ border:none; background:none; color:#B9B7C7; font-size:12px; font-weight:700; padding:6px 12px; border-radius:100px; cursor:pointer; font-family:'Sora',sans-serif; }
+        .term-lang-toggle button.active{ background:#fff; color:var(--term-ink); }
         .term-hero{ background:var(--term-paper); position:relative; overflow:hidden; padding:80px 0 100px; min-height:92vh; display:flex; align-items:center; }
         .term-hero-grid{ display:grid; grid-template-columns:1.1fr 0.9fr; gap:40px; align-items:center; width:100%; }
         @media (max-width:900px){ .term-hero-grid{ grid-template-columns:1fr; } }
@@ -544,6 +544,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-stats{ padding:48px 0 32px; }
         .term-stats-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
         .term-stats-grid.three{ grid-template-columns:repeat(3,1fr); }
+        .term-stats-grid.one{ grid-template-columns:1fr; }
         @media (max-width:800px){ .term-stats-grid{ grid-template-columns:1fr 1fr; } .term-stats-grid.three{ grid-template-columns:1fr; } }
         .term-stat-card.founder{ background:linear-gradient(135deg,#7E1CF1,#E61A97); }
         .term-stat-card.founder .v{ background:none; -webkit-text-fill-color:initial; color:#fff; -webkit-background-clip:initial; background-clip:initial; }
@@ -843,9 +844,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       {/* Stats live + bandeau certificateurs — repris d'AboutView */}
       <section className="term-stats">
         <div className="term-wrap">
-          <div className="term-stats-grid three">
-            <div className="term-stat-card term-reveal"><div className="v"><CountUp to={20} suffix="+" /></div><div className="l">{t("Ans d'existence", 'Years of existence')}</div><div className="s">{t('Depuis 2006', 'Since 2006')}</div></div>
-            <div className="term-stat-card term-reveal"><div className="v"><CountUp to={9} suffix="+" /></div><div className="l">{t('Disciplines créatives', 'Creative disciplines')}</div><div className="s">{t('Musique, cinéma, mode, gaming…', 'Music, film, fashion, gaming…')}</div></div>
+          <div className="term-stats-grid one">
             <div className="term-stat-card founder term-reveal" onClick={() => setShowJoin(true)} style={{ cursor: 'pointer' }}>
               <div className="v" style={{ fontSize: 22 }}>{t('Devenez fondateur', 'Become a founder')}</div>
               <div className="l">{t('150 premières places', 'First 150 spots')}</div>
