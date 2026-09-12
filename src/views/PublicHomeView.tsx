@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion, useScroll, useTransform, MotionValue } from 'motion/react';
 import { Shield } from 'lucide-react';
 import { Logo } from '../components/ui/Logo';
 import { db } from '../firebase';
@@ -156,6 +157,41 @@ const CountUp: React.FC<{ to: number; duration?: number; suffix?: string }> = ({
   return <span ref={ref}>{value}{suffix}</span>;
 };
 
+// Hero avec effet cinematique reellement lie au defilement (pas une simple
+// apparition) : pendant que l'utilisateur scrolle hors du hero, le degrade
+// zoome et se deplace, le titre recule en profondeur et s'estompe. C'est ce
+// genre d'effet, calcule en continu selon la position de scroll, qui donne
+// la sensation "site premium" — une apparition ponctuelle ne suffit pas.
+const HeroSection: React.FC<{ t: (fr: string, en: string) => string; setShowJoin: (v: boolean) => void }> = ({ t, setShowJoin }) => {
+  const ref = React.useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
+
+  const shapeScale = useTransform(scrollYProgress, [0, 1], [1, 1.5]);
+  const shapeX = useTransform(scrollYProgress, [0, 1], ['0%', '15%']);
+  const titleY = useTransform(scrollYProgress, [0, 1], [0, -120]);
+  const titleOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+  const titleScale = useTransform(scrollYProgress, [0, 1], [1, 0.9]);
+
+  return (
+    <section className="term-hero" ref={ref}>
+      <motion.div className="term-hero-shape" style={{ scale: shapeScale, x: shapeX }} />
+      <motion.div className="term-wrap" style={{ position: 'relative', y: titleY, opacity: titleOpacity, scale: titleScale }}>
+        <h1 className="term-hero-title">{t("Ce que vous créez aujourd'hui mérite d'être reconnu demain.", 'What you create today deserves to be recognized tomorrow.')}</h1>
+        <p className="term-hero-sub">
+          {t(
+            "Les projets créatifs ont toujours eu de la valeur. LYA leur en donne une reconnue, partageable et vérifiable — un registre certifié, une évaluation par des experts, un mécénat qui suit l'avancement réel du projet.",
+            'Creative projects have always had value. LYA gives them one that is recognized, shareable and verifiable — a certified registry, expert evaluation, and patronage that follows the real progress of the project.'
+          )}
+        </p>
+        <div style={{ display: 'flex', gap: 14, marginTop: 30, position: 'relative', zIndex: 1 }}>
+          <button className="term-btn-primary" onClick={() => setShowJoin(true)}>{t('Rejoindre LYA →', 'Join LYA →')}</button>
+          <a href="#pillars" className="term-btn-ghost" style={{ textDecoration: 'none', display: 'inline-block' }}>{t('Comprendre le Score LYA', 'Understand the LYA Score')}</a>
+        </div>
+      </motion.div>
+    </section>
+  );
+};
+
 export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin, onSignup, onGuestBrowse }) => {
   const [selected, setSelected] = React.useState<number | null>(null);
   const [lang, setLang] = React.useState<'fr' | 'en'>('fr');
@@ -306,7 +342,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-lang-toggle{ display:flex; background:rgba(255,255,255,0.08); border-radius:100px; padding:3px; gap:2px; }
         .term-lang-toggle button{ border:none; background:none; color:#B9B7C7; font-size:12px; font-weight:700; padding:6px 12px; border-radius:100px; cursor:pointer; font-family:'Sora',sans-serif; }
         .term-lang-toggle button.active{ background:#fff; color:var(--term-ink); }
-        .term-hero{ background:var(--term-ink); position:relative; overflow:hidden; padding:64px 0 90px; }
+        .term-hero{ background:var(--term-ink); position:relative; overflow:hidden; padding:64px 0 90px; min-height:92vh; display:flex; align-items:center; }
         .term-hero-shape{ position:absolute; top:-10%; right:-10%; width:70%; height:130%;
           background:linear-gradient(135deg,#7E1CF1 0%,#7E1CF1 16%,#E61A97 42%,#E61A97 58%,#02C6FA 86%,#02C6FA 100%);
           background-size:140% 140%;
@@ -739,22 +775,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       </header>
 
       {/* Hero */}
-      <section className="term-hero">
-        <div className="term-hero-shape" />
-        <div className="term-wrap" style={{ position: 'relative' }}>
-          <h1 className="term-hero-title">{t("Ce que vous créez aujourd'hui mérite d'être reconnu demain.", 'What you create today deserves to be recognized tomorrow.')}</h1>
-          <p className="term-hero-sub">
-            {t(
-              "Les projets créatifs ont toujours eu de la valeur. LYA leur en donne une reconnue, partageable et vérifiable — un registre certifié, une évaluation par des experts, un mécénat qui suit l'avancement réel du projet.",
-              'Creative projects have always had value. LYA gives them one that is recognized, shareable and verifiable — a certified registry, expert evaluation, and patronage that follows the real progress of the project.'
-            )}
-          </p>
-          <div style={{ display: 'flex', gap: 14, marginTop: 30, position: 'relative', zIndex: 1 }}>
-            <button className="term-btn-primary" onClick={() => setShowJoin(true)}>{t('Rejoindre LYA →', 'Join LYA →')}</button>
-            <a href="#pillars" className="term-btn-ghost" style={{ textDecoration: 'none', display: 'inline-block' }}>{t('Comprendre le Score LYA', 'Understand the LYA Score')}</a>
-          </div>
-        </div>
-      </section>
+      <HeroSection t={t} setShowJoin={setShowJoin} />
 
       {/* EXEMPLE — bloc stats sur grandes photos, structure inspiree du Wix
           partage, mais dans notre identite (Fraunces, palette sobre, pas de
