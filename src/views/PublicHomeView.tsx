@@ -317,11 +317,12 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-history-grid{ display:grid; grid-template-columns:1.3fr 1fr; gap:44px; align-items:start; margin-top:32px; }
         @media (max-width:800px){ .term-history-grid{ grid-template-columns:1fr; } }
         .term-history-text p{ font-size:14px; line-height:1.7; color:var(--term-ink-soft); margin-bottom:16px; }
-        .term-history-stats{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-        .term-history-stat{ background:#fff; border-radius:6px; padding:22px; }
-        .term-history-stat .y{ font-family:'Sora',sans-serif; font-weight:800; font-size:32px; }
-        .term-history-stat:first-child .y{ color:#02C6FA; } .term-history-stat:last-child .y{ color:#7E1CF1; }
-        .term-history-stat .l{ font-family:'Sora',sans-serif; font-weight:700; font-size:10px; letter-spacing:0.04em; color:var(--term-ink-soft); margin-top:4px; }
+        .term-history-visual{ position:relative; border-radius:8px; overflow:hidden; background-size:cover; background-position:center; min-height:280px; display:flex; align-items:flex-end; transition:transform 0.4s cubic-bezier(.2,.8,.2,1); }
+        .term-history-visual:hover{ transform:translateY(-6px); }
+        .term-history-visual .overlay{ position:absolute; inset:0; background:linear-gradient(180deg,rgba(11,14,20,0.1) 0%,rgba(11,14,20,0.88) 100%); }
+        .term-history-visual .content{ position:relative; z-index:1; padding:26px; display:flex; gap:24px; width:100%; }
+        .term-history-stat .y{ font-family:'Fraunces',serif; font-weight:600; font-size:30px; color:#fff; }
+        .term-history-stat .l{ font-family:'Sora',sans-serif; font-weight:700; font-size:10.5px; letter-spacing:0.04em; text-transform:uppercase; color:rgba(255,255,255,0.7); margin-top:4px; }
         .term-values{ padding:72px 0; }
         .term-values-grid > div{ border-radius:8px; padding:24px 20px; transition:transform 0.3s cubic-bezier(.2,.8,.2,1); }
         .term-values-grid > div:nth-child(1){ background:var(--term-ink); color:#fff; }
@@ -974,9 +975,12 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
                 "Today, on its 20th anniversary, LinkYourArt is embarking on a new stage with the launch of an entirely redesigned platform, built around an objective standard for creative certification."
               )}</p>
             </div>
-            <div className="term-history-stats">
-              <div className="term-history-stat term-reveal"><div className="y">2006</div><div className="l">{t('FONDATION', 'FOUNDATION')}</div></div>
-              <div className="term-history-stat term-reveal"><div className="y">2026</div><div className="l">{t('RÉVOLUTION', 'REVOLUTION')}</div></div>
+            <div className="term-history-visual term-reveal" style={{ backgroundImage: `url(https://images.unsplash.com/photo-1481457443364-6b3a9819c3c8?auto=format&fit=crop&q=80&w=800)` }}>
+              <div className="overlay" />
+              <div className="content">
+                <div className="term-history-stat"><div className="y">2006</div><div className="l">{t('Fondation', 'Foundation')}</div></div>
+                <div className="term-history-stat"><div className="y">2026</div><div className="l">{t('Révolution', 'Revolution')}</div></div>
+              </div>
             </div>
           </div>
         </div>
