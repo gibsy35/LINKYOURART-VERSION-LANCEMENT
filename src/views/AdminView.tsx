@@ -38,7 +38,7 @@ import { useTranslation } from '../context/LanguageContext';
 import { useCurrency } from '../context/CurrencyContext';
 import { CONTRACTS, Contract, UserRole, UserProfile } from '../types';
 import { db, handleFirestoreError, OperationType } from '../firebase';
-import { collection, query, onSnapshot, doc, updateDoc, getDocs, limit, orderBy, deleteDoc, addDoc, setDoc, writeBatch, serverTimestamp } from 'firebase/firestore';
+import { collection, query, onSnapshot, doc, updateDoc, getDocs, limit, orderBy, deleteDoc, addDoc, setDoc, writeBatch, serverTimestamp, where } from 'firebase/firestore';
 
 export const AdminView: React.FC<{
   user: UserProfile | null;
@@ -54,6 +54,7 @@ export const AdminView: React.FC<{
   const [validationQueue, setValidationQueue] = useState<any[]>([]);
   const [verificationRequests, setVerificationRequests] = useState<any[]>([]);
   const [preRegistrations, setPreRegistrations] = useState<any[]>([]);
+  const [contactRequests, setContactRequests] = useState<any[]>([]);
   const [pendingSubmissions, setPendingSubmissions] = useState<any[]>([]);
   const [publishModal, setPublishModal] = useState<any | null>(null);
   const [approvalSuccessModal, setApprovalSuccessModal] = useState<{ name: string; emailSent: boolean } | null>(null);
@@ -160,6 +161,19 @@ export const AdminView: React.FC<{
       });
       setPreRegistrations(merged);
     }, (e) => handleFirestoreError(e, OperationType.GET, 'pre_registrations')));
+
+    // Demandes de contact mecene -> createur (bouton "Contacter le createur"
+    // sur le dashboard Mecene) : ecrites dans Firestore mais jamais relues
+    // nulle part avant ce correctif — donc invisibles pour l'equipe LYA
+    // malgre le message "transmise via LYA sous 24-48h".
+    unsubs.push(onSnapshot(query(collection(db, 'messages'), where('type', '==', 'patron_contact'), limit(100)), (snap) => {
+      const items = snap.docs.map(d => ({ id: d.id, ...d.data() } as any));
+      items.sort((a, b) => {
+        const getDate = (x: any) => x.createdAt?.toDate ? x.createdAt.toDate() : new Date(0);
+        return getDate(b).getTime() - getDate(a).getTime();
+      });
+      setContactRequests(items);
+    }, (e) => console.warn('contact requests error:', e)));
 
     return () => unsubs.forEach(u => u());
   }, []);
@@ -1291,6 +1305,73 @@ export const AdminView: React.FC<{
             </tbody>
           </table>
         </div>
+      </div>
+
+      {/* Demandes de contact Mecene -> Createur */}
+      <div className="bg-surface-low border border-white/5 rounded-lg overflow-hidden">
+        <div className="p-6 border-b border-white/5 bg-white/[0.02]">
+          <h3 className="text-lg font-black text-white uppercase tracking-tighter flex items-center gap-3">
+            <Zap className="text-[#7E1CF1]" /> {t('CREATOR CONTACT REQUESTS', 'DEMANDES DE CONTACT CRÉATEUR')}
+          </h3>
+          <p className="text-xs text-on-surface-variant/50 mt-1">{t('Sent from a patron\'s dashboard — forward to the creator within 24-48h.', "Envoyees depuis le dashboard d'un mecene — a transmettre au createur sous 24-48h.")}</p>
+        </div>
+        {contactRequests.length === 0 ? (
+          <div className="p-8 text-center text-on-surface-variant/40 text-xs uppercase font-bold tracking-widest">
+            {t('No pending requests', 'Aucune demande en attente')}
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs">
+              <thead className="bg-surface-dim uppercase font-black text-on-surface-variant/60">
+                <tr>
+                  <th className="p-6">{t('Patron', 'Mécène')}</th>
+                  <th className="p-6">{t('Project', 'Projet')}</th>
+                  <th className="p-6">{t('Date', 'Date')}</th>
+                  <th className="p-6">{t('Status', 'Statut')}</th>
+                  <th className="p-6 text-right">{t('Action', 'Action')}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {contactRequests.map(r => (
+                  <tr key={r.id} className="border-t border-white/5 hover:bg-white/[0.02]">
+                    <td className="p-6">
+                      <div className="font-black text-white uppercase">{r.fromName || '—'}</div>
+                      <div className="opacity-40 font-mono text-xs">{r.fromEmail}</div>
+                    </td>
+                    <td className="p-6">
+                      <span className="px-3 py-1 bg-[#7E1CF1]/10 text-[#B98CF0] rounded text-xs font-black uppercase">{r.projectName}</span>
+                    </td>
+                    <td className="p-6 opacity-40 font-mono">
+                      {r.createdAt?.toDate ? r.createdAt.toDate().toLocaleString() : 'N/A'}
+                    </td>
+                    <td className="p-6">
+                      {r.status === 'HANDLED' ? (
+                        <span className="px-3 py-1.5 bg-emerald-400/10 border border-emerald-400/20 text-emerald-400 text-[10px] font-black rounded-lg uppercase">{t('Handled', 'Traité')}</span>
+                      ) : (
+                        <span className="px-3 py-1.5 bg-amber-400/10 border border-amber-400/20 text-amber-400 text-[10px] font-black rounded-lg uppercase">{t('Pending', 'En attente')}</span>
+                      )}
+                    </td>
+                    <td className="p-6 text-right">
+                      {r.status !== 'HANDLED' && (
+                        <button
+                          onClick={async () => {
+                            try {
+                              await updateDoc(doc(db, 'messages', r.id), { status: 'HANDLED', handledAt: serverTimestamp() });
+                              onNotify(t('✦ Marked as handled', '✦ Marqué comme traité'));
+                            } catch { onNotify(t('Error', 'Erreur')); }
+                          }}
+                          className="px-3 py-1.5 bg-emerald-400/15 border border-emerald-400/25 text-emerald-400 text-[10px] font-black rounded-lg hover:bg-emerald-400/25 transition-all uppercase"
+                        >
+                          ✦ {t('Mark as handled', 'Marquer traité')}
+                        </button>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
     </div>
   );
