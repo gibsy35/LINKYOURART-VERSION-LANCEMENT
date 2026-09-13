@@ -81,6 +81,20 @@ service cloud.firestore {
       allow create, update, delete: if isSignedIn();
     }
 
+    // ── ACCESS KEYS (codes Founding Pioneer / LYA Original) ─────────────────
+    // Doivent etre lisibles publiquement : un visiteur pas encore inscrit
+    // (a l'inscription) et un utilisateur en attente d'approbation (sur
+    // l'ecran de validation de cle) doivent pouvoir verifier leur code.
+    // Sans cette regle explicite, la collection tombait sur le fallback
+    // admin-only tout en bas de ce fichier et TOUT code, meme valide,
+    // etait systematiquement rejete (lecture bloquee par Firestore).
+    match /access_keys/{docId} {
+      allow read: if true;
+      allow create: if true; // emis automatiquement a la pre-inscription, avant que l'utilisateur ait un compte
+      allow update: if isSignedIn(); // marquer la cle "USED" a la consommation
+      allow delete: if isAdmin();
+    }
+
     // ── DEMO REQUESTS ──────────────────────────────────────────────────────
     match /demo_requests/{docId} {
       allow create: if true;
