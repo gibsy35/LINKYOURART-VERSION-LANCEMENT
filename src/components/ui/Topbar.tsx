@@ -86,11 +86,9 @@ export const Topbar: React.FC<TopbarProps> = ({
           </div>
         </div>
 
-        {/* Desktop branding (was an unlabeled scrolling ticker) */}
-        <div className="hidden lg:flex flex-1 items-center gap-3 pl-2">
-          <Logo size={22} color="multi" />
-          <span className="text-white font-black tracking-tighter text-sm">LINKYOURART</span>
-        </div>
+        {/* Espace flexible — la marque est deja affichee dans le Sidebar,
+            pas besoin de la repeter ici (c'etait un doublon de logo). */}
+        <div className="hidden lg:flex flex-1" />
 
         {/* Right Actions */}
         <div className="flex items-center gap-2 md:gap-4 lg:gap-6">
