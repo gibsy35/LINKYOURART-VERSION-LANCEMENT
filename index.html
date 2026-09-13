@@ -69,19 +69,6 @@
     }
     </script>
 
-    <!-- ── CRITICAL: apply saved theme before first paint ────────────────
-         Same rationale as the intro-overlay CSS below: read the locally
-         persisted theme synchronously so the correct light/dark palette is
-         active from the very first frame, instead of booting dark and then
-         flashing to light once React mounts and reads the user profile. -->
-    <script>
-      try {
-        if (localStorage.getItem('lya_theme') === 'light') {
-          document.documentElement.classList.add('light');
-        }
-      } catch (e) {}
-    </script>
-
     <!-- ── CRITICAL CSS: intro overlay ──────────────────────────────
          Duplicated inline so the entry animation is correctly
          fixed/full-screen/on-top from the very first paint, even on a
