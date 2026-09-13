@@ -11,15 +11,20 @@ interface PageHeaderProps {
   compact?: boolean;
 }
 
-// Coupe la description a la fin de sa premiere phrase (., !, ?, ou tiret
-// cadratin) pour degrader uniquement ce debut de phrase, le reste du texte
-// gardant sa couleur normale — meme logique que sur la home publique.
+// Ne degrade que le tout premier mot (ou les 2 premiers s'ils sont tres
+// courts, ex. articles) — pas toute la premiere phrase, qui etait jugee
+// trop voyante. Le reste du texte reste en blanc (text-on-surface), pas
+// grise, comme demande.
 function splitLead(text: string): [string, string] {
-  const match = text.match(/^(.*?[.!?—-])\s*(.*)$/s);
-  if (match && match[1].length < text.length) {
-    return [match[1] + ' ', match[2]];
-  }
-  return [text, ''];
+  const words = text.trim().split(/\s+/);
+  if (words.length === 0) return [text, ''];
+  let leadWordCount = 1;
+  // Si le tout premier mot est un article/mot tres court (<=3 lettres),
+  // on inclut aussi le suivant pour que le degrade ait un minimum de poids.
+  if (words[0].length <= 3 && words.length > 1) leadWordCount = 2;
+  const lead = words.slice(0, leadWordCount).join(' ');
+  const rest = words.slice(leadWordCount).join(' ');
+  return [lead + ' ', rest];
 }
 
 export const PageHeader: React.FC<PageHeaderProps> = ({ 
@@ -37,11 +42,11 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
            transition={{ duration: 0.6 }}
         >
           {/* Plus de gros titre H1 — les onglets de la nav suffisent a se
-              reperer. Le degrade de marque LYA se met desormais en tete du
-              texte descriptif lui-meme. */}
+              reperer. Seul le tout premier mot du texte descriptif est en
+              degrade LYA ; le reste du texte reste blanc. */}
           <p style={{ textTransform: 'lowercase' }} className={`leading-relaxed max-w-2xl [&::first-letter]:uppercase ${compact ? 'text-sm md:text-base' : 'text-base md:text-lg'}`}>
             <span className="text-brand-gradient" style={{ fontWeight: 700 }}>{lead}</span>
-            <span className="text-on-surface-variant/70">{rest}</span>
+            <span className="text-on-surface">{rest}</span>
           </p>
         </motion.div>
       </div>
