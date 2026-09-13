@@ -4,7 +4,7 @@ import { UserRole, UserProfile } from '../types';
 import { View } from '../components/ui/Sidebar';
 import { ArrowRight, User, Briefcase, TrendingUp, Loader2, ShieldCheck, Mail, Lock, Globe, ChevronLeft, X, Send, Heart, Eye, EyeOff } from 'lucide-react';
 import { useTranslation } from '../context/LanguageContext';
-import { auth, db, handleFirestoreError, OperationType, logAuthDebugEvent } from '../firebase';
+import { auth, db, handleFirestoreError, OperationType, logAuthDebugEvent, describeGoogleAuthError } from '../firebase';
 import { createUserWithEmailAndPassword, updateProfile, GoogleAuthProvider, signInWithPopup, signInWithRedirect, sendEmailVerification, type User as FirebaseUser } from 'firebase/auth';
 import { doc, setDoc, getDoc, collection, query, where, getDocs, limit } from 'firebase/firestore';
 import { Logo } from '../components/ui/Logo';
@@ -307,7 +307,9 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
       const result = await signInWithPopup(auth, provider);
       await processGoogleSignupUser(result.user, role);
     } catch (err: any) {
-      setError(err.message || 'Google signup failed.');
+      console.error('Google signup error:', err);
+      logAuthDebugEvent('redirect_return', { outcome: 'initiate_error', source: 'SignupView', errorCode: err?.code || null, errorMessage: err?.message || String(err) });
+      setError(describeGoogleAuthError(err, t));
     } finally {
       setIsLoading(false);
     }

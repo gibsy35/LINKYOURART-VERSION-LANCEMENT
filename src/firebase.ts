@@ -68,6 +68,41 @@ export enum OperationType {
   WRITE = 'write',
 }
 
+// ─── Shared, human-readable Google sign-in error messages ─────────────────
+// Centralized here so LoginView, SignupView and AuthModal show the exact
+// same, actionable wording instead of three slightly-different ad hoc
+// messages (or Firebase's raw, technical err.message). The most common real
+// cause in this app: testing on a Vercel preview URL (*.vercel.app), which
+// Firebase never auto-adds to its authorized-domains allowlist — every
+// preview subdomain has to be added explicitly in Firebase Console ->
+// Authentication -> Settings -> Authorized domains, since Firebase does not
+// support wildcards there.
+export function describeGoogleAuthError(err: any, t: (en: string, fr: string) => string): string {
+  const code = err?.code || '';
+  if (code === 'auth/unauthorized-domain') {
+    return t(
+      `This domain (${typeof window !== 'undefined' ? window.location.hostname : ''}) isn't authorized for Google sign-in. If you're testing on a Vercel preview URL (*.vercel.app), that's expected — each domain must be added manually in Firebase Console → Authentication → Settings → Authorized domains. Use the production domain, or add this one to the list.`,
+      `Ce domaine (${typeof window !== 'undefined' ? window.location.hostname : ''}) n'est pas autorisé pour la connexion Google. Si vous testez sur une URL de preview Vercel (*.vercel.app), c'est normal : chaque domaine doit être ajouté manuellement dans Firebase Console → Authentication → Settings → Authorized domains. Utilisez le domaine de production ou ajoutez ce domaine à la liste.`
+    );
+  }
+  if (code === 'auth/popup-blocked') {
+    return t(
+      'Your browser blocked the Google sign-in popup. Allow popups for this site, or try again.',
+      'Le navigateur a bloqué la fenêtre de connexion Google. Autorisez les popups pour ce site, ou réessayez.'
+    );
+  }
+  if (code === 'auth/popup-closed-by-user' || code === 'auth/cancelled-popup-request') {
+    return t(
+      'Authentication popup closed. Please try again or use your Email login.',
+      "La fenêtre d'authentification a été fermée. Réessayez ou utilisez votre e-mail."
+    );
+  }
+  if (code === 'auth/network-request-failed') {
+    return t('Network error. Check your connection.', 'Erreur réseau. Vérifiez votre connexion.');
+  }
+  return err?.message || t('Google authentication failed.', 'Échec de la connexion Google.');
+}
+
 export interface FirestoreErrorInfo {
   error: string;
   operationType: OperationType;
