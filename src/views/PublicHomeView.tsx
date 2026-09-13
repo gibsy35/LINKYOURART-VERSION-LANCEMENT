@@ -373,7 +373,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-root .sora{ font-family:'Sora',sans-serif; }
         .term-wrap{ max-width:1160px; margin:0 auto; padding:0 40px; }
         @media (max-width:700px){ .term-wrap{ padding:0 22px; } }
-        .term-header{ background:rgba(11,14,20,0.55); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); padding:20px 0; position:sticky; top:0; z-index:100; border-bottom:1px solid rgba(255,255,255,0.08); }
+        .term-header{ background:rgba(11,14,20,0.88); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); padding:20px 0; position:sticky; top:0; z-index:100; border-bottom:1px solid rgba(255,255,255,0.08); }
         .term-head-inner{ display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:20px; }
         .term-word{ font-family:'Sora',sans-serif; font-weight:800; font-size:22px; color:#fff; }
         .term-nav{ display:flex; align-items:center; gap:28px; margin-left:auto; }
@@ -1338,7 +1338,6 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
           <div className="term-network-split">
             <div className="term-network-heading term-reveal">
               <div className="term-eyebrow">{t('Le réseau LYA', 'The LYA network')}</div>
-              <h2 style={{ fontWeight: 700, fontSize: 'clamp(26px,3.4vw,40px)' }}>{t('Trois rôles, un seul standard.', 'Three roles, one single standard.')}</h2>
               <p className="term-network-lede">
                 <span className="term-gradient-text" style={{ fontWeight: 700 }}>{t('Trois rôles, un seul standard. ', 'Three roles, one single standard. ')}</span>
                 {t('Chacun y trouve sa place — et parle le même langage : le Score LYA.', 'Everyone has a place here — and speaks the same language: the LYA Score.')}
