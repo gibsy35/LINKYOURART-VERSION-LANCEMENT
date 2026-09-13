@@ -605,8 +605,15 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-validation-step p{ font-size:12.5px; color:var(--term-ink-soft); line-height:1.5; }
         .term-newera-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:18px; margin-top:36px; }
         @media (max-width:900px){ .term-newera-grid{ grid-template-columns:repeat(2,1fr); } }
-        .term-newera-card{ background:#fff; border-radius:8px; padding:28px 22px; border-top:3px solid var(--term-line); }
-        .term-newera-card .n{ font-family:'Sora',sans-serif; font-weight:700; font-size:13px; color:var(--term-ink-soft); margin-bottom:16px; }
+        .term-newera-card{ background:#fff; border-radius:12px; padding:28px 22px; border-top:3px solid var(--term-line); transition:transform 0.4s cubic-bezier(.22,1,.36,1), box-shadow 0.4s ease, border-color 0.4s ease; }
+        .term-newera-card:nth-child(1){ border-top-color:#3ADB76; }
+        .term-newera-card:nth-child(2){ border-top-color:#7E1CF1; }
+        .term-newera-card:nth-child(3){ border-top-color:#E61A97; }
+        .term-newera-card:nth-child(4){ border-top-color:#02C6FA; }
+        .term-newera-card .n{ display:flex; align-items:center; justify-content:center; width:30px; height:30px; border-radius:50%; font-family:'Sora',sans-serif; font-weight:800; font-size:11.5px; color:#fff; margin-bottom:16px; transition:transform 0.3s cubic-bezier(.22,1,.36,1); }
+        .term-newera-card:nth-child(1) .n{ background:#3ADB76; } .term-newera-card:nth-child(2) .n{ background:#7E1CF1; }
+        .term-newera-card:nth-child(3) .n{ background:#E61A97; } .term-newera-card:nth-child(4) .n{ background:#02C6FA; }
+        .term-newera-card:hover .n{ transform:scale(1.15) rotate(-8deg); }
         .term-newera-card h4{ font-family:'Fraunces',serif; font-size:17px; font-weight:600; margin-bottom:8px; }
         .term-newera-card p{ font-size:13px; line-height:1.55; color:var(--term-ink-soft); }
         .term-why{ padding:72px 0; }
