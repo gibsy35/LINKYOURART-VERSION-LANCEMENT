@@ -11,14 +11,23 @@ interface PageHeaderProps {
   compact?: boolean;
 }
 
+// Coupe la description a la fin de sa premiere phrase (., !, ?, ou tiret
+// cadratin) pour degrader uniquement ce debut de phrase, le reste du texte
+// gardant sa couleur normale — meme logique que sur la home publique.
+function splitLead(text: string): [string, string] {
+  const match = text.match(/^(.*?[.!?—-])\s*(.*)$/s);
+  if (match && match[1].length < text.length) {
+    return [match[1] + ' ', match[2]];
+  }
+  return [text, ''];
+}
+
 export const PageHeader: React.FC<PageHeaderProps> = ({ 
-  titleWhite, 
-  titleAccent, 
-  subtitle = '', 
   description,
-  accentColor = 'text-primary-cyan',
   compact = false
 }) => {
+  if (!description) return null;
+  const [lead, rest] = splitLead(description);
   return (
     <header className={`pt-12 md:pt-16 relative z-10 px-4 md:px-6 ${compact ? 'mb-4' : 'mb-6 md:mb-10'}`}>
       <div className="flex flex-col">
@@ -27,23 +36,13 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
            animate={{ opacity: 1, y: 0 }}
            transition={{ duration: 0.6 }}
         >
-          {/* Title */}
-          <h1
-            style={{ fontFamily: "'Fraunces', Georgia, serif" }}
-            className={`font-medium leading-[1.08] flex flex-wrap items-baseline gap-x-3 transition-all ${compact ? 'text-lg md:text-xl lg:text-2xl' : 'text-2xl md:text-4xl lg:text-5xl'}`}
-          >
-            <span style={{ textTransform: 'lowercase' }} className="text-white [&::first-letter]:uppercase">{titleWhite}</span>
-            <span className={`${accentColor} italic`}>
-              {titleAccent}
-            </span>
-          </h1>
-          
-          {/* Description */}
-          {description && (
-            <p style={{ textTransform: 'lowercase' }} className={`text-on-surface-variant/70 leading-relaxed max-w-2xl mt-3 [&::first-letter]:uppercase ${compact ? 'text-xs md:text-[12px]' : 'text-sm md:text-[15px]'}`}>
-              {description}
-            </p>
-          )}
+          {/* Plus de gros titre H1 — les onglets de la nav suffisent a se
+              reperer. Le degrade de marque LYA se met desormais en tete du
+              texte descriptif lui-meme. */}
+          <p style={{ textTransform: 'lowercase' }} className={`leading-relaxed max-w-2xl [&::first-letter]:uppercase ${compact ? 'text-sm md:text-base' : 'text-base md:text-lg'}`}>
+            <span className="text-brand-gradient" style={{ fontWeight: 700 }}>{lead}</span>
+            <span className="text-on-surface-variant/70">{rest}</span>
+          </p>
         </motion.div>
       </div>
     </header>
