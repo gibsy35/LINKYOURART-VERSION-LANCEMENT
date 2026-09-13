@@ -377,6 +377,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
           --term-grey:#F3F2F8; --term-line:#E6E4EF; --term-lav:#E8B8D8;
           --term-lav-deep:#B5308E; --term-purple:#7E1CF1; --term-pink:#E61A97; --term-cyan:#02C6FA;
           background:var(--term-paper); color:var(--term-ink); font-family:'Inter',sans-serif;
+          overflow-x:hidden; width:100%; max-width:100vw;
         }
         .term-root h1, .term-root h2, .term-root h3{ font-family:'Fraunces',Georgia,serif; font-weight:700; letter-spacing:-0.01em; text-transform:lowercase; }
         .term-root h1::first-letter, .term-root h2::first-letter, .term-root h3::first-letter{ text-transform:uppercase; }
