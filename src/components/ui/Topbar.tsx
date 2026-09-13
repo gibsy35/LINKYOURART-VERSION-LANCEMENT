@@ -265,7 +265,7 @@ export const Topbar: React.FC<TopbarProps> = ({
                   >
                     <div className="p-4 border-b border-white/10 flex items-center justify-between">
                       <span className="text-sm font-bold text-white">{t('Notifications', 'Notifications')}</span>
-                      <button onClick={() => setNotifications(notifications.map(n => ({ ...n, read: true })))} className="text-xs text-brand-gradient font-semibold hover:underline">
+                      <button onClick={() => setNotifications(notifications.map(n => ({ ...n, read: true })))} className="text-xs text-white/70 font-semibold hover:text-white hover:underline">
                         {t('Mark all as read', 'Tout marquer comme lu')}
                       </button>
                     </div>
@@ -278,7 +278,7 @@ export const Topbar: React.FC<TopbarProps> = ({
                         notifications.map(notif => {
                           const typeStyles = {
                             SUCCESS: 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400',
-                            WARNING: 'bg-[#7E1CF1]/10 border-[#7E1CF1]/20 text-[#B98CF0]',
+                            WARNING: 'bg-amber-500/10 border-amber-500/20 text-amber-400',
                             ERROR: 'bg-rose-500/10 border-rose-500/20 text-rose-400',
                             INFO: 'bg-[#02C6FA]/10 border-[#02C6FA]/20 text-[#6FDBFA]'
                           }[notif.type as 'SUCCESS' | 'WARNING' | 'ERROR' | 'INFO'] || 'bg-white/5 border-white/10 text-white';
@@ -290,7 +290,7 @@ export const Topbar: React.FC<TopbarProps> = ({
                                 setNotifications(notifications.map(n => n.id === notif.id ? { ...n, read: true } : n));
                                 setIsNotifMenuOpen(false);
                               }}
-                              className={`p-4 border-b border-white/5 hover:bg-white/5 transition-all cursor-pointer relative ${!notif.read ? 'bg-[#7E1CF1]/5' : ''}`}
+                              className={`p-4 border-b border-white/5 hover:bg-white/5 transition-all cursor-pointer relative ${!notif.read ? 'bg-white/5' : ''}`}
                             >
                               <div className="flex items-center gap-2 mb-1">
                                 <div className={`w-1.5 h-1.5 rounded-full ${typeStyles.split(' ')[0].replace('/10', '')}`} />
@@ -299,7 +299,7 @@ export const Topbar: React.FC<TopbarProps> = ({
                               <p className="text-xs text-on-surface-variant/70 leading-relaxed">{notif.message}</p>
                               <div className="flex items-center justify-between mt-2">
                                 <span className="text-[10px] text-on-surface-variant/40">{new Date(notif.timestamp).toLocaleTimeString()}</span>
-                                {!notif.read && <span className="text-[10px] text-brand-gradient font-semibold">{t('New', 'Nouveau')}</span>}
+                                {!notif.read && <span className="text-[10px] text-white/80 font-semibold">{t('New', 'Nouveau')}</span>}
                               </div>
                             </div>
                           );
