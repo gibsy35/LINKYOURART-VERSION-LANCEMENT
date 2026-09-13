@@ -259,7 +259,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.1 }}
                 className={`relative bg-surface-high/40 border ${
-                  plan.popular ? 'border-accent-gold' :
+                  plan.popular ? 'border-[#7E1CF1]' :
                   plan.color === 'accent-purple' ? 'border-accent-purple/30' :
                   plan.color === 'accent-pink' ? 'border-accent-pink/30' :
                   plan.color === 'primary-cyan' ? 'border-primary-cyan/25' :
@@ -268,7 +268,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
                 } p-5 sm:p-6 backdrop-blur-xl flex flex-col`}
               >
                 {plan.popular && (
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-accent-gold text-surface-dim text-[10px] font-black uppercase tracking-widest whitespace-nowrap">
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-brand-gradient text-white text-[10px] font-black uppercase tracking-widest whitespace-nowrap rounded-full">
                     {t('Most Popular', 'Le Plus Populaire')}
                   </div>
                 )}
