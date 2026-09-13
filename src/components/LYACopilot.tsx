@@ -81,7 +81,7 @@ export const LYACopilot: React.FC = () => {
     <>
       <button 
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 w-14 h-14 bg-primary-cyan text-surface-dim rounded-lg flex items-center justify-center hover:scale-105 active:scale-95 transition-all z-[999] group overflow-hidden border border-white/20"
+        className="fixed bottom-6 right-6 w-14 h-14 bg-brand-gradient text-white rounded-lg flex items-center justify-center hover:scale-105 active:scale-95 transition-all z-[999] group overflow-hidden border border-white/20"
       >
         <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
         <div className="relative z-10 flex flex-col items-center">
@@ -206,7 +206,7 @@ export const LYACopilot: React.FC = () => {
                 <button 
                   onClick={() => handleSend()} 
                   disabled={isTyping || !input.trim()}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-xl bg-primary-cyan text-surface-dim flex items-center justify-center hover:scale-105 active:scale-95 transition-all disabled:opacity-30 disabled:hover:scale-100"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-xl bg-brand-gradient text-white flex items-center justify-center hover:scale-105 active:scale-95 transition-all disabled:opacity-30 disabled:hover:scale-100"
                 >
                   <Send size={18} />
                 </button>
