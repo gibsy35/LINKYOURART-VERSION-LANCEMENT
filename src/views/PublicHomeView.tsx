@@ -61,9 +61,9 @@ const newEra = [
 // Memes donnees d'exemple que le tutoriel in-app, pour montrer le Score LYA
 // sur des statuts et categories varies (pas juste "certifie").
 const scoreExamples = [
-  { id: '#LYA-812', category: 'Film', score: 928, status: 'Certifié', statusColor: 'certified', barColor: 'linear-gradient(90deg,#3ADB76,#02C6FA)' },
-  { id: '#LYA-445', category: 'Série TV', score: 580, status: 'En révision', statusColor: 'review', barColor: 'linear-gradient(90deg,#F0C55E,#E61A97)' },
-  { id: '#LYA-901', category: 'Mode', score: 420, status: 'Audit en cours', statusColor: 'audit', barColor: 'linear-gradient(90deg,#E86A6A,#7E1CF1)' },
+  { id: '#LYA-812', category: { fr: 'Film', en: 'Film' }, score: 928, status: { fr: 'Certifié', en: 'Certified' }, statusColor: 'certified', barColor: 'linear-gradient(90deg,#3ADB76,#02C6FA)' },
+  { id: '#LYA-445', category: { fr: 'Série TV', en: 'TV Series' }, score: 580, status: { fr: 'En révision', en: 'Under review' }, statusColor: 'review', barColor: 'linear-gradient(90deg,#F0C55E,#E61A97)' },
+  { id: '#LYA-901', category: { fr: 'Mode', en: 'Fashion' }, score: 420, status: { fr: 'Audit en cours', en: 'Audit in progress' }, statusColor: 'audit', barColor: 'linear-gradient(90deg,#E86A6A,#7E1CF1)' },
 ];
 
 const registry = [
@@ -1047,8 +1047,8 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
             {scoreExamples.map((ex) => (
               <div key={ex.id} className="term-example-card term-reveal">
                 <div className="term-example-top">
-                  <span className="cat">{ex.category}</span>
-                  <span className={`status ${ex.statusColor}`}>{ex.status}</span>
+                  <span className="cat">{t(ex.category.fr, ex.category.en)}</span>
+                  <span className={`status ${ex.statusColor}`}>{t(ex.status.fr, ex.status.en)}</span>
                 </div>
                 <div className="id">{ex.id}</div>
                 <div className="score-row">
@@ -1282,28 +1282,19 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         <div className="term-wrap">
           <div className="term-eyebrow">{t('Pourquoi LYA', 'Why LYA')}</div>
           <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t("Une reconnaissance qui se construit, ", 'Recognition that is built, ')}<span className="term-gradient-text">{t("pas qui s'achète.", 'not bought.')}</span></h2>
-          <motion.div
-            className="term-why-grid"
-            initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.4 }}
-            variants={{ hidden: {}, show: { transition: { staggerChildren: 0.12 } } }}
-          >
+          <div className="term-why-grid">
             {[
               { icon: Eye, stat: '0', statLabel: t('boîte noire', 'black box'), title: t('Transparent', 'Transparent'), desc: t('Cinq critères clairs, expliqués, jamais une boîte noire.', 'Five clear, explained criteria — never a black box.'), color: '#E61A97' },
               { icon: Users, stat: '3', statLabel: t('rôles, ensemble', 'roles, together'), title: t('Communautaire', 'Community-driven'), desc: t('Artistes, mécènes et professionnels avancent ensemble.', 'Artists, patrons and professionals move forward together.'), color: '#7E1CF1' },
               { icon: Percent, stat: '5%', statLabel: t('commission, point final', 'commission, full stop'), title: t('Indépendant', 'Independent'), desc: t('5% de commission sur le mécénat, rien de caché derrière.', '5% commission on patronage — nothing hidden behind it.'), color: '#02C6FA' },
             ].map((item) => (
-              <motion.div
-                key={item.title}
-                className="term-why-item"
-                variants={{ hidden: { opacity: 0, y: 30 }, show: { opacity: 1, y: 0 } }}
-                transition={{ type: 'spring', stiffness: 240, damping: 20 }}
-              >
+              <div key={item.title} className="term-why-item">
                 <div className="icon" style={{ color: item.color }}><item.icon size={20} strokeWidth={2.2} /></div>
                 <div className="stat-row"><span className="stat" style={{ color: item.color }}>{item.stat}</span><span className="stat-label">{item.statLabel}</span></div>
                 <h4>{item.title}</h4><p>{item.desc}</p>
-              </motion.div>
+              </div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
 
