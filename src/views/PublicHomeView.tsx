@@ -1366,14 +1366,14 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
               <div className="term-network-card term-reveal">
                 <div className="n" style={{ color: '#7E1CF1' }}>02</div>
                 <h4>{t('Mécènes', 'Patrons')}</h4>
-                <div className="who">{t("Mécènes particuliers, fonds d'investissement, sponsors", 'Individual patrons, investment funds, sponsors')}</div>
+                <div className="who">{t('Mécènes particuliers, sponsors', 'Individual patrons, sponsors')}</div>
                 <p>{t('Soutenez les œuvres dès 50€. Le Score LYA garantit la rigueur de sélection. Suivez vos œuvres soutenues en temps réel.', 'Support works from €50. The LYA Score guarantees selection rigor. Track your supported works in real time.')}</p>
                 <button className="term-network-cta" style={{ color: '#7E1CF1' }} onClick={() => setShowJoin(true)}>{t('Devenir mécène →', 'Become a patron →')}</button>
               </div>
               <div className="term-network-card term-reveal">
                 <div className="n" style={{ color: '#E61A97' }}>03</div>
                 <h4>{t('Professionnels', 'Professionals')}</h4>
-                <div className="who">{t('Curateurs, agents artistiques, conseillers — studios, sociétés de production et de divertissement, institutions culturelles (type CNC)', 'Curators, artistic agents, advisors — studios, production and entertainment companies, cultural institutions (e.g. CNC)')}</div>
+                <div className="who">{t('Curateurs, agents artistiques, conseillers — studios, sociétés de production et de divertissement, institutions culturelles (type CNC, BFI, Telefilm Canada), fonds de financement de la production', 'Curators, artistic agents, advisors — studios, production and entertainment companies, cultural institutions (e.g. CNC, BFI, Telefilm Canada), production financing funds')}</div>
                 <p>{t("Rejoignez notre réseau d'experts en validation certifiés. Évaluez des œuvres dans votre domaine, réseau professionnel exclusif inter-secteurs.", 'Join our network of certified validation experts. Evaluate works in your field, exclusive cross-sector network.')}</p>
                 <button className="term-network-cta" style={{ color: '#E61A97' }} onClick={() => setShowJoin(true)}>{t('Rejoindre le réseau →', 'Join the network →')}</button>
               </div>
