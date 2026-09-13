@@ -649,7 +649,6 @@ export interface ProjectCardProps {
 export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchlisted, onToggleWatchlist, requireAuthForLike, onRequireAuth }: ProjectCardProps) {
   const { formatPrice } = useCurrency();
   const [units, setUnits] = useState(5);
-  const [liked, setLiked] = useState(!!isWatchlisted);
   // Le survol (:hover) ne se déclenche pas de façon fiable au tactile.
   // La carte navigue déjà au clic — premier tap révèle, second ouvre.
   const [revealed, setRevealed] = useState(false);
@@ -665,13 +664,6 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
         : Math.round(55 + (contract.totalScore / 1000) * 40))
     : 0;
   const fundingRaised = contract.totalValue ? Math.round(contract.totalValue * (fundingPct / 100)) : Math.round((contract.totalScore / 1000) * 5000);
-
-  const handleLike = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (requireAuthForLike) { onRequireAuth?.(); return; }
-    setLiked(!liked);
-    if (onToggleWatchlist) onToggleWatchlist(e, contract.id);
-  };
 
   return (
     <div className="bg-surface-low border-2 border-white/10 rounded-lg overflow-hidden flex flex-col hover:border-primary-cyan/40 transition-colors h-full shadow-xl shadow-black/40">
@@ -731,12 +723,6 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
             </p>
           </div>
         </div>
-
-        {/* Bouton like */}
-        <button
-          onClick={handleLike}
-          className={`absolute top-3 right-3 w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center transition-colors ${liked ? "text-red-500" : "text-on-surface-variant/70 hover:text-red-400"}`}
-        >♥</button>
 
         {/* Infos bas de l'image */}
         <div className="absolute bottom-0 left-0 right-0 p-3">
