@@ -500,7 +500,7 @@ export function DetailModal({ contract, onClose, onPay, units, onUnitsChange, la
                       { pillarIdx: 2, labelFR: "Potentiel de croissance", labelEN: "Growth Potential",      color: "#00ff88" },
                       { pillarIdx: 3, labelFR: "Solidité du projet",      labelEN: "Project Solidity",      color: "#E61A97" },
                       { pillarIdx: 4, labelFR: "Impact réel",             labelEN: "Real Impact",           color: "#ff6b6b" },
-                      { pillarIdx: -1, labelFR: "Score global LYA",       labelEN: "Overall LYA Score",     color: "#ffffff" },
+                      { pillarIdx: -1, labelFR: "Score global LYA",       labelEN: "Overall LYA Score",     color: "#7E1CF1" },
                     ];
                     return (
                       <>
