@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion, useScroll, useTransform, MotionValue } from 'motion/react';
+import { motion, useScroll, useTransform, MotionValue, AnimatePresence } from 'motion/react';
 import { Shield } from 'lucide-react';
 import { Logo } from '../components/ui/Logo';
 import { db } from '../firebase';
@@ -61,9 +61,9 @@ const newEra = [
 // Memes donnees d'exemple que le tutoriel in-app, pour montrer le Score LYA
 // sur des statuts et categories varies (pas juste "certifie").
 const scoreExamples = [
-  { id: '#LYA-812', category: 'Film', score: 928, status: 'Certifié', statusColor: 'certified', barColor: '#3ADB76' },
-  { id: '#LYA-445', category: 'Série TV', score: 580, status: 'En révision', statusColor: 'review', barColor: '#F0C55E' },
-  { id: '#LYA-901', category: 'Mode', score: 420, status: 'Audit en cours', statusColor: 'audit', barColor: '#E86A6A' },
+  { id: '#LYA-812', category: 'Film', score: 928, status: 'Certifié', statusColor: 'certified', barColor: 'linear-gradient(90deg,#3ADB76,#02C6FA)' },
+  { id: '#LYA-445', category: 'Série TV', score: 580, status: 'En révision', statusColor: 'review', barColor: 'linear-gradient(90deg,#F0C55E,#E61A97)' },
+  { id: '#LYA-901', category: 'Mode', score: 420, status: 'Audit en cours', statusColor: 'audit', barColor: 'linear-gradient(90deg,#E86A6A,#7E1CF1)' },
 ];
 
 const registry = [
@@ -173,10 +173,26 @@ const HeroSection: React.FC<{ t: (fr: string, en: string) => string; setShowJoin
   const examples = [
     { cat: t('Musique', 'Music'), score: 247 },
     { cat: t('Cinéma', 'Film'), score: 580 },
-    { cat: t('Mode', 'Fashion'), score: 928 },
+    { cat: t('Séries TV', 'TV Series'), score: 928 },
   ];
   const [exIdx, setExIdx] = React.useState(0);
   const current = examples[exIdx];
+
+  // Cycle automatique et aleatoire (pas juste round-robin) pour creer du
+  // mouvement en continu sans dependre d'un clic — fonctionne pareil sur
+  // PC, tablette et mobile. Le clic reste possible pour forcer un changement.
+  React.useEffect(() => {
+    const id = setInterval(() => {
+      setExIdx((i) => {
+        if (examples.length <= 1) return i;
+        let next = i;
+        while (next === i) next = Math.floor(Math.random() * examples.length);
+        return next;
+      });
+    }, 3200);
+    return () => clearInterval(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <section className="term-hero" ref={ref}>
@@ -199,11 +215,29 @@ const HeroSection: React.FC<{ t: (fr: string, en: string) => string; setShowJoin
         </motion.div>
         <div className="term-hero-visual">
           <div className="term-hero-card-back" />
-          <div className="term-hero-card" onClick={() => setExIdx((i) => (i + 1) % examples.length)} role="button" tabIndex={0} aria-label={t('Voir un autre exemple de score', 'See another score example')}>
-            <div className="score"><span>{t('Score LYA', 'LYA Score')} · {current.cat}</span><span className="tap-hint">{t('toucher pour changer', 'tap to change')} →</span></div>
-            <span className="num">{current.score}</span><span className="max">/1000</span>
-            <p>{t('Évalué sur 5 critères objectifs — qualité, marché, droits, innovation, croissance.', 'Assessed on 5 objective criteria — quality, market, rights, innovation, growth.')}</p>
-          </div>
+          <motion.div
+            className="term-hero-card"
+            onClick={() => setExIdx((i) => (i + 1) % examples.length)}
+            role="button" tabIndex={0}
+            aria-label={t('Voir un autre exemple de score', 'See another score example')}
+          >
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={exIdx}
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -6 }}
+                transition={{ duration: 0.35, ease: 'easeOut' }}
+              >
+                <div className="score">
+                  <span className="cat-line">{t('Score LYA', 'LYA Score')} · {current.cat}</span>
+                  <span className="tap-hint">{t('toucher', 'tap')} →</span>
+                </div>
+                <span className="num">{current.score}</span><span className="max">/1000</span>
+                <p>{t('Évalué sur 5 critères objectifs — qualité, marché, droits, innovation, croissance.', 'Assessed on 5 objective criteria — quality, market, rights, innovation, growth.')}</p>
+              </motion.div>
+            </AnimatePresence>
+          </motion.div>
         </div>
       </div>
     </section>
@@ -338,10 +372,10 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-header{ background:var(--term-ink); padding:20px 0; position:sticky; top:0; z-index:100; border-bottom:1px solid rgba(255,255,255,0.08); }
         .term-head-inner{ display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:20px; }
         .term-word{ font-family:'Sora',sans-serif; font-weight:800; font-size:22px; color:#fff; }
-        .term-nav{ display:flex; align-items:center; gap:10px; margin-left:auto; }
-        .term-nav ul{ display:flex; gap:6px; list-style:none; margin:0; padding:6px; background:rgba(255,255,255,0.08); border-radius:100px; }
-        .term-nav a{ color:#B9B7C7; text-decoration:none; font-size:14px; font-weight:600; padding:9px 16px; border-radius:100px; border-bottom:none; transition:color 0.2s ease, background 0.2s ease; display:inline-block; }
-        .term-nav a.active{ color:var(--term-ink); background:#fff; }
+        .term-nav{ display:flex; align-items:center; gap:28px; margin-left:auto; }
+        .term-nav ul{ display:flex; gap:28px; list-style:none; margin:0; padding:0; }
+        .term-nav a{ color:#B9B7C7; text-decoration:none; font-size:14.5px; font-weight:500; padding-bottom:4px; border-bottom:2px solid transparent; transition:color 0.2s ease, border-color 0.2s ease; }
+        .term-nav a.active{ color:#fff; border-bottom-color:#E61A97; }
         .term-nav a:hover{ color:#fff; }
         @media (max-width:800px){
           .term-word{ display:none; }
@@ -353,10 +387,10 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
           .term-pill{ flex-shrink:0; padding:8px 12px; font-size:12px; white-space:nowrap; }
           .term-pill.ghost{ padding:8px 4px; font-size:12px; }
         }
-        .term-pill{ color:var(--term-ink); background:#fff; border:1px solid #fff; padding:10px 20px; border-radius:100px; font-size:14px; font-weight:600; cursor:pointer; }
-        .term-pill.ghost{ background:none; border:1.5px solid rgba(255,255,255,0.35); color:#fff; padding:9px 18px; font-weight:700; }
+        .term-pill{ color:#fff; background:linear-gradient(120deg,#7E1CF1,#E61A97); border:none; padding:10px 20px; border-radius:100px; font-size:14px; font-weight:600; cursor:pointer; transition:filter 0.2s ease, transform 0.2s ease; }
+        .term-pill:hover{ filter:brightness(1.1); transform:translateY(-1px); }
+        .term-pill.ghost{ background:none; border:1.5px solid rgba(255,255,255,0.45); color:#fff; padding:9px 18px; font-weight:700; }
         .term-pill.ghost:hover{ background:rgba(255,255,255,0.1); border-color:#fff; }
-        .term-pill:hover{ background:#7E1CF1; color:#fff; border-color:transparent; }
         .term-lang-toggle{ display:flex; background:rgba(255,255,255,0.08); border-radius:100px; padding:3px; gap:2px; }
         .term-lang-toggle button{ border:none; background:none; color:#B9B7C7; font-size:12px; font-weight:700; padding:6px 12px; border-radius:100px; cursor:pointer; font-family:'Sora',sans-serif; }
         .term-lang-toggle button.active{ background:#fff; color:var(--term-ink); }
@@ -399,7 +433,8 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
           opacity:0.22; filter:blur(2px);
         }
         .term-hero-card{ position:relative; z-index:1; background:rgba(20,22,32,0.75); backdrop-filter:blur(16px); border:1px solid rgba(255,255,255,0.12); border-radius:18px;
-          padding:28px 30px; width:min(320px,80%); box-shadow:0 30px 70px -20px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.03);
+          padding:28px 30px; width:min(320px,80%); height:236px; display:flex; flex-direction:column; justify-content:flex-start;
+          box-shadow:0 30px 70px -20px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.03);
           transform:rotate(7deg); font-family:'Fraunces',serif; cursor:pointer; user-select:none;
           transition:transform 0.35s cubic-bezier(.2,.8,.2,1), box-shadow 0.6s ease;
           animation:termCardGlow 4s ease-in-out infinite;
@@ -410,8 +445,9 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
           50%{ box-shadow:0 30px 70px -20px rgba(0,0,0,0.6), 0 0 55px -10px rgba(2,198,250,0.4); }
         }
         @media (prefers-reduced-motion: reduce){ .term-hero-card{ animation:none; } }
-        .term-hero-card .score{ font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:0.08em; color:#B9B7C7; margin-bottom:14px; font-family:'Sora',sans-serif; display:flex; align-items:center; justify-content:space-between; gap:8px; }
-        .term-hero-card .score .tap-hint{ font-size:9px; font-weight:700; letter-spacing:0.03em; color:#7E1CF1; text-transform:none; }
+        .term-hero-card .score{ font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:0.08em; color:#B9B7C7; margin-bottom:14px; font-family:'Sora',sans-serif; display:flex; align-items:flex-start; justify-content:space-between; gap:10px; min-height:28px; }
+        .term-hero-card .score .cat-line{ flex:1; line-height:1.4; }
+        .term-hero-card .score .tap-hint{ font-size:9px; font-weight:700; letter-spacing:0.03em; color:#7E1CF1; text-transform:none; white-space:nowrap; flex-shrink:0; }
         .term-hero-card .num{ font-family:'Sora',sans-serif; font-weight:800; font-size:34px; font-variant-numeric:tabular-nums; background:linear-gradient(90deg,#7E1CF1,#E61A97,#02C6FA); -webkit-background-clip:text; background-clip:text; color:transparent; }
         .term-hero-card .max{ font-family:'Sora',sans-serif; font-weight:600; font-size:14px; color:#8A87A8; }
         .term-hero-card p{ font-family:'Inter',sans-serif; text-align:left; font-size:12.5px; line-height:1.5; color:#B9B7C7; margin-top:14px; }
@@ -422,22 +458,38 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-pillars-note{ font-size:13px; color:var(--term-ink-soft); margin-bottom:56px; }
         .term-pillars-grid{ display:grid; grid-template-columns:repeat(5,1fr); gap:14px; padding:20px 0 40px; }
         @media (max-width:900px){ .term-pillars-grid{ grid-template-columns:repeat(2,1fr); } }
-        .term-pillar{ border-radius:12px; padding:26px 22px; min-height:190px;
-          display:flex; flex-direction:column; justify-content:space-between; background:#fff;
-          border:1px solid var(--term-line); border-top:3px solid transparent;
+        .term-pillar{ position:relative; z-index:0; border-radius:14px; padding:26px 22px; min-height:190px;
+          display:flex; flex-direction:column; justify-content:space-between; background:transparent;
+          animation:termPillarFloat 5s ease-in-out infinite; transition:transform 0.3s cubic-bezier(.2,.8,.2,1);
         }
-        .term-pillar:nth-child(1){ border-top-color:#7E1CF1; }
-        .term-pillar:nth-child(2){ border-top-color:#E61A97; }
-        .term-pillar:nth-child(3){ border-top-color:#02C6FA; }
-        .term-pillar:nth-child(4){ border-top-color:#3ADB76; }
-        .term-pillar:nth-child(5){ border-top-color:#F0C55E; }
-        .term-pillar.dark{ background:var(--term-ink); color:#fff; border-color:var(--term-ink); }
-        .term-pillar.lav{ background:var(--term-lav); border-color:var(--term-lav); }
-        .term-pillar.grey{ background:var(--term-grey); }
-        .term-pillar .n{ font-family:'Fraunces',serif; font-style:italic; font-weight:500; font-size:30px; }
-        .term-pillar.dark .n{ color:#02C6FA; } .term-pillar.lav .n, .term-pillar.grey .n{ color:#7E1CF1; }
-        .term-pillar .t{ font-family:'Sora',sans-serif; font-weight:700; font-size:15px; margin-top:20px; }
-        .term-pillar .d{ font-size:12.5px; line-height:1.5; margin-top:8px; opacity:0.8; }
+        .term-pillar::before{ content:''; position:absolute; inset:-2px; border-radius:16px; z-index:-1;
+          background:conic-gradient(from 0deg, #7E1CF1, #E61A97, #02C6FA, #3ADB76, #F0C55E, #7E1CF1);
+          animation:termBorderSpin 7s linear infinite; opacity:0.75;
+        }
+        .term-pillar::after{ content:''; position:absolute; inset:1px; border-radius:13px; z-index:-1; background:#fff; }
+        .term-pillar:hover, .term-pillar:active{ transform:translateY(-6px) scale(1.02); }
+        @keyframes termPillarFloat{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-7px); } }
+        @keyframes termBorderSpin{ from{ transform:rotate(0deg); } to{ transform:rotate(360deg); } }
+        @media (prefers-reduced-motion: reduce){ .term-pillar{ animation:none; } .term-pillar::before{ animation:none; } }
+        .term-pillar:nth-child(1){ animation-delay:0s; }
+        .term-pillar:nth-child(2){ animation-delay:0.3s; }
+        .term-pillar:nth-child(3){ animation-delay:0.6s; }
+        .term-pillar:nth-child(4){ animation-delay:0.9s; }
+        .term-pillar:nth-child(5){ animation-delay:1.2s; }
+        .term-pillar:nth-child(1)::before{ animation-delay:-0.5s; }
+        .term-pillar:nth-child(2)::before{ animation-delay:-2s; }
+        .term-pillar:nth-child(3)::before{ animation-delay:-3.5s; }
+        .term-pillar:nth-child(4)::before{ animation-delay:-5s; }
+        .term-pillar:nth-child(5)::before{ animation-delay:-6.2s; }
+        .term-pillar:nth-child(1) .n{ color:#7E1CF1; }
+        .term-pillar:nth-child(2) .n{ color:#E61A97; }
+        .term-pillar:nth-child(3) .n{ color:#02C6FA; }
+        .term-pillar:nth-child(4) .n{ color:#3ADB76; }
+        .term-pillar:nth-child(5) .n{ color:#F0C55E; }
+        .term-pillar .n{ position:relative; z-index:1; font-family:'Fraunces',serif; font-style:italic; font-weight:500; font-size:30px; }
+        .term-pillar .t, .term-pillar .d{ position:relative; z-index:1; }
+        .term-pillar .t{ font-family:'Sora',sans-serif; font-weight:700; font-size:15px; margin-top:20px; color:var(--term-ink); }
+        .term-pillar .d{ font-size:12.5px; line-height:1.5; margin-top:8px; opacity:0.75; color:var(--term-ink-soft); }
         .term-pillar .pts{ font-family:'Sora',sans-serif; font-weight:700; font-size:10.5px; letter-spacing:0.04em; opacity:0.5; margin-top:10px; }
         .term-compare{ padding:20px 0 72px; }
         .term-compare-grid{ display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:32px; position:relative; }
@@ -602,13 +654,18 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-milestone-point.up .ico{ background:#E4F9EC; color:#1E8449; }
         .term-milestone-point.down .ico{ background:#FBE4E4; color:#B33B3B; }
         .term-stats{ padding:48px 0 32px; }
-        .term-founder-banner{ background:linear-gradient(120deg,#7E1CF1,#B5308E 55%,#E61A97); border-radius:100px; padding:16px 16px 16px 28px; display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap; cursor:pointer; transition:transform 0.35s cubic-bezier(.2,.8,.2,1), box-shadow 0.35s ease; }
+        .term-founder-banner{ background:linear-gradient(120deg,#7E1CF1,#B5308E 55%,#E61A97); border-radius:100px; padding:14px 14px 14px 26px; display:inline-flex; align-items:center; justify-content:center; gap:18px; flex-wrap:nowrap; cursor:pointer; transition:transform 0.35s cubic-bezier(.2,.8,.2,1), box-shadow 0.35s ease; max-width:100%; }
+        .term-founder-banner-wrap{ display:flex; justify-content:center; }
         .term-founder-banner:hover{ transform:translateY(-3px); box-shadow:0 20px 44px -18px rgba(126,28,241,0.45); }
         .term-founder-banner .txt{ display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; }
-        .term-founder-banner .txt .v{ font-family:'Fraunces',serif; font-weight:600; font-size:18px; color:#fff; }
-        .term-founder-banner .txt .l{ font-family:'Sora',sans-serif; font-weight:600; font-size:12.5px; color:rgba(255,255,255,0.8); }
-        .term-founder-banner .arrow{ flex-shrink:0; width:42px; height:42px; border-radius:50%; background:rgba(255,255,255,0.18); display:flex; align-items:center; justify-content:center; color:#fff; font-size:17px; transition:transform 0.3s ease, background 0.3s ease; }
+        .term-founder-banner .txt .v{ font-family:'Fraunces',serif; font-weight:600; font-size:16px; color:#fff; white-space:nowrap; }
+        .term-founder-banner .txt .l{ font-family:'Sora',sans-serif; font-weight:600; font-size:12px; color:rgba(255,255,255,0.8); white-space:nowrap; }
+        .term-founder-banner .arrow{ flex-shrink:0; width:38px; height:38px; border-radius:50%; background:rgba(255,255,255,0.18); display:flex; align-items:center; justify-content:center; color:#fff; font-size:16px; transition:transform 0.3s ease, background 0.3s ease; }
         .term-founder-banner:hover .arrow{ transform:translateX(4px); background:#fff; color:#7E1CF1; }
+        @media (max-width:600px){
+          .term-founder-banner{ padding:14px 14px 14px 20px; gap:12px; }
+          .term-founder-banner .txt{ flex-direction:column; gap:2px; align-items:flex-start; }
+        }
         .term-cert-ticker{ margin-top:40px; overflow:hidden; }
         .term-cert-ticker-label{ text-align:center; font-family:'Sora',sans-serif; font-weight:700; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--term-ink-soft); margin-bottom:20px; }
         .term-cert-ticker-track{ display:flex; gap:28px; width:max-content; animation:termTickerScroll 30s linear infinite; }
@@ -899,12 +956,14 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       {/* Stats live + bandeau certificateurs — repris d'AboutView */}
       <section className="term-stats">
         <div className="term-wrap">
-          <div className="term-founder-banner term-reveal" onClick={() => setShowJoin(true)}>
+          <div className="term-founder-banner-wrap term-reveal">
+          <div className="term-founder-banner" onClick={() => setShowJoin(true)}>
             <div className="txt">
               <span className="v">{t('Devenez fondateur', 'Become a founder')}</span>
               <span className="l">{t('150 premières places · accès immédiat →', 'First 150 spots · instant access →')}</span>
             </div>
             <div className="arrow">→</div>
+          </div>
           </div>
         </div>
 
@@ -954,7 +1013,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
             </div>
             <div className="term-score-hero-text">
               <div className="term-eyebrow">{t('Le concept en un chiffre', 'The concept in one number')}</div>
-              <h2>{t('Chaque œuvre a un Score ', 'Every work has a ')}<span style={{ textTransform: 'uppercase' }}>LYA</span>{t(' — sur 1000, toujours.', ' Score — out of 1000, always.')}</h2>
+              <h2>{t('Chaque œuvre a un Score ', 'Every work has a ')}<span className="term-gradient-text" style={{ textTransform: 'uppercase' }}>LYA</span>{t(' — sur 1000, toujours.', ' Score — out of 1000, always.')}</h2>
               <p>{t("Un seul standard, comparable d'une discipline à l'autre. 247, 580 ou 928 — le chiffre veut toujours dire la même chose.", 'One single standard, comparable across every discipline. 247, 580, or 928 — the number always means the same thing.')}</p>
             </div>
           </div>

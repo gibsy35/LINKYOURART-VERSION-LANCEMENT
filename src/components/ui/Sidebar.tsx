@@ -176,7 +176,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             </div>
             <div className="flex flex-col min-w-0 flex-1">
               <span className="text-white font-black tracking-tighter text-2xl leading-[0.7] truncate uppercase">LINKYOURART</span>
-              <span className="text-[10px] text-brand-gradient font-black tracking-[0.2em] uppercase mt-2 opacity-80 group-hover:opacity-100 transition-opacity">
+              <span className="text-[10px] text-white font-black tracking-[0.2em] uppercase mt-2 opacity-70 group-hover:opacity-100 transition-opacity">
                 {t('YOUR SCORE. YOUR STANDARD.', 'VOTRE SCORE. VOTRE STANDARD.')}
               </span>
             </div>
