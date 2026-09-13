@@ -159,7 +159,7 @@ export function MecenatView({ isGuest, onRequireAuth }: { isGuest?: boolean; onR
                 </div>
               </div>
               <div className="shrink-0 w-[180px]">
-                <div className="relative rounded-lg p-px" style={{ background: 'linear-gradient(145deg, #7E1CF1 0%, #E61A97 55%, #02C6FA 100%)' }}>
+                <div className="relative rounded-lg border border-white/80">
                   <div className="bg-surface-low/90 rounded-lg p-5 text-center space-y-3">
                     <p className="text-xs font-mono tracking-[0.22em] uppercase text-on-surface-variant/60">
                       {T('SCORE LYA', 'LYA SCORE')}
