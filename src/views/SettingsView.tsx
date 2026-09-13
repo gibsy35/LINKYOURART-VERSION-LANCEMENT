@@ -53,6 +53,10 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ user, onUserUpdate, 
     } else {
       document.documentElement.classList.remove('light');
     }
+    // Persiste aussi en local pour que le thème s'applique instantanément au
+    // prochain chargement, avant même que le profil Firestore soit relu
+    // (voir le script dans index.html + la resynchro dans App.tsx).
+    try { localStorage.setItem('lya_theme', mode); } catch {}
     savePreference('themePreference', mode);
   };
 

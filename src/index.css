@@ -14,6 +14,33 @@
   --color-accent-purple: #8a2be2;
   --color-on-surface: #f1f3f9;
   --color-on-surface-variant: #cbd5e1;
+  /* Bordure/overlay "douce" utilisee a la place de white/5, white/10 en dur,
+     pour que ces liserés s'inversent proprement en mode clair. */
+  --color-border-soft: rgba(255,255,255,0.1);
+  --color-border-soft-heavy: rgba(255,255,255,0.2);
+  --color-overlay-soft: rgba(255,255,255,0.05);
+  /* Degrade de marque partage avec la home publique (PublicHomeView) —
+     sert de rappel visuel entre le site vitrine et la plateforme connectee. */
+  --gradient-brand: linear-gradient(120deg, #7E1CF1 0%, #E61A97 55%, #02C6FA 100%);
+}
+
+/* Mode clair — meme famille de couleurs que la home publique (encre/papier/
+   lavande) pour que la transition HOME -> plateforme soit immediatement
+   reconnaissable, au lieu de deux identites visuelles disjointes. Active par
+   SettingsView.tsx via document.documentElement.classList.add('light'). */
+html.light {
+  --color-surface-dim: #F7F7FB;
+  --color-surface-low: #FFFFFF;
+  --color-surface-high: #F0EFF6;
+  --color-surface-highest: #E6E4EF;
+  --color-primary-cyan: #0296C9;
+  --color-accent-gold: #7E1CF1;
+  --color-accent-pink: #E61A97;
+  --color-on-surface: #0B0E14;
+  --color-on-surface-variant: #565B6B;
+  --color-border-soft: rgba(11,14,20,0.08);
+  --color-border-soft-heavy: rgba(11,14,20,0.16);
+  --color-overlay-soft: rgba(11,14,20,0.035);
 }
 
 @theme {
@@ -35,6 +62,9 @@
   --color-emerald-400: #34d399;
   --color-on-surface: var(--color-on-surface);
   --color-on-surface-variant: var(--color-on-surface-variant);
+  --color-border-soft: var(--color-border-soft);
+  --color-border-soft-heavy: var(--color-border-soft-heavy);
+  --color-overlay-soft: var(--color-overlay-soft);
 
   --animate-marquee: marquee 50s linear infinite;
 
@@ -51,7 +81,10 @@
   }
   
   html {
-    background-color: #0a0d12; /* Critical hardcoded fallback */
+    background-color: #0a0d12; /* Critical hardcoded fallback (dark) */
+  }
+  html.light {
+    background-color: #F7F7FB; /* Critical hardcoded fallback (light) */
   }
 
   body {
@@ -63,9 +96,21 @@
     background-size: 100% 100%, 100% 100%;
     background-attachment: fixed;
   }
+  html.light body {
+    background-color: #F7F7FB;
+    background-image:
+      radial-gradient(circle at 10% 10%, rgba(126, 28, 241, 0.05) 0%, transparent 40%),
+      radial-gradient(circle at 90% 90%, rgba(2, 198, 250, 0.05) 0%, transparent 40%);
+  }
 }
 
 @layer utilities {
+  .border-chrome { border-color: var(--color-border-soft); }
+  .ring-chrome { --tw-ring-color: var(--color-border-soft); }
+  .bg-overlay-soft { background-color: var(--color-overlay-soft); }
+  .bg-overlay-heavy { background-color: var(--color-border-soft-heavy); }
+  .bg-brand-gradient { background: var(--gradient-brand); }
+  .text-brand-gradient { background: var(--gradient-brand); -webkit-background-clip: text; background-clip: text; color: transparent; }
   .bg-surface-dim { background-color: var(--color-surface-dim); }
   .bg-surface-low { background-color: var(--color-surface-low); }
   .bg-surface-high { background-color: var(--color-surface-high); }

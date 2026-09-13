@@ -134,6 +134,16 @@ export default function App() {
     };
     checkConn();
   }, []);
+  // Resynchronise le mode jour/nuit avec le profil une fois celui-ci chargé
+  // (ex. connexion sur un nouvel appareil) — le script inline dans
+  // index.html gère déjà l'application immédiate depuis localStorage avant
+  // le premier paint ; ceci réconcilie avec la valeur Firestore réelle.
+  useEffect(() => {
+    if (!user?.themePreference) return;
+    const isLight = user.themePreference === 'light';
+    document.documentElement.classList.toggle('light', isLight);
+    try { localStorage.setItem('lya_theme', user.themePreference); } catch {}
+  }, [user?.themePreference]);
   const [quotaReached, setQuotaReached] = useState(false);
   const [internalError, setInternalError] = useState<string | null>(null);
   useEffect(() => {

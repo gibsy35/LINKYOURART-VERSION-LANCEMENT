@@ -155,14 +155,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const categories = Array.from(new Set(visibleMenuItems.map(item => item.category)));
 
   const SidebarContent = (
-    <div className="h-full flex flex-col bg-[#0D1117] border-r border-white/10 font-mono relative overflow-hidden">
+    <div className="h-full flex flex-col bg-surface-dim border-r border-chrome font-mono relative overflow-hidden">
       {/* Background depth effect */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 right-0 w-px h-full bg-gradient-to-b from-primary-cyan/10 via-transparent to-primary-cyan/10" />
       </div>
 
       {/* Sidebar Header with Logo */}
-      <div className={`relative z-10 transition-all duration-300 border-b border-white/5 flex items-center bg-[#0D1117]/50 backdrop-blur-md ${isCollapsed ? 'p-6 justify-center' : 'p-8 pb-10 pt-10'}`}>
+      <div className={`relative z-10 transition-all duration-300 border-b border-chrome flex items-center bg-surface-dim/50 backdrop-blur-md ${isCollapsed ? 'p-6 justify-center' : 'p-8 pb-10 pt-10'}`}>
         {!isCollapsed && (
           <motion.div 
             initial={{ opacity: 0 }}
@@ -175,8 +175,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
               <Logo size={60} color="multi" showBeta className="relative z-10" />
             </div>
             <div className="flex flex-col min-w-0 flex-1">
-              <span className="text-white font-black tracking-tighter text-2xl leading-[0.7] truncate uppercase">LINKYOURART</span>
-              <span className="text-[10px] text-primary-cyan font-black tracking-[0.2em] uppercase mt-2 opacity-60 group-hover:opacity-100 transition-opacity">
+              <span className="text-on-surface font-black tracking-tighter text-2xl leading-[0.7] truncate uppercase">LINKYOURART</span>
+              <span className="text-[10px] text-brand-gradient font-black tracking-[0.2em] uppercase mt-2 opacity-70 group-hover:opacity-100 transition-opacity">
                 {t('YOUR SCORE. YOUR STANDARD.', 'VOTRE SCORE. VOTRE STANDARD.')}
               </span>
             </div>
@@ -213,16 +213,19 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     className={`w-full flex items-center gap-4 px-8 py-3 transition-all duration-300 group relative overflow-hidden ${
                       currentView === item.id 
                         ? 'text-primary-cyan bg-primary-cyan/10' 
-                        : 'text-on-surface-variant/50 hover:text-white hover:bg-white/5'
+                        : 'text-on-surface-variant/50 hover:text-on-surface hover:bg-overlay-soft'
                     } ${isCollapsed ? 'px-0 justify-center' : ''}`}
                     title={item.label}
                   >
                     {currentView === item.id && (
                       <div className="absolute inset-0 bg-primary-cyan/5 rounded-lg" />
                     )}
+                    {currentView === item.id && (
+                      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-6 rounded-full bg-brand-gradient" />
+                    )}
                     <item.icon size={24} className={`transition-all duration-300 ${currentView === item.id ? 'text-primary-cyan scale-110 drop-' : 'text-on-surface-variant/40 group-hover:text-primary-cyan group-hover:scale-110'}`} />
                     {!isCollapsed && (
-                      <span className={`text-[12px] font-bold uppercase tracking-widest flex-1 text-left transition-all duration-300 ${currentView === item.id ? 'text-white translate-x-1' : 'text-on-surface-variant/60 group-hover:text-white group-hover:translate-x-1'}`}>
+                      <span className={`text-[12px] font-bold uppercase tracking-widest flex-1 text-left transition-all duration-300 ${currentView === item.id ? 'text-on-surface translate-x-1' : 'text-on-surface-variant/60 group-hover:text-on-surface group-hover:translate-x-1'}`}>
                         {item.label}
                       </span>
                     )}
@@ -239,7 +242,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       </div>
 
       {/* Footer Area */}
-      <div className="p-6 border-t border-white/5 bg-[#0D1117] space-y-2 relative z-10">
+      <div className="p-6 border-t border-chrome bg-surface-dim space-y-2 relative z-10">
         {secondaryItems.map(item => (
           <button
             key={item.id}
@@ -250,7 +253,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             className={`w-full flex items-center gap-4 px-3 py-3 rounded-xl transition-all duration-300 group ${
               currentView === item.id 
                 ? 'text-primary-cyan bg-primary-cyan/5' 
-                : 'text-on-surface-variant/50 hover:text-white hover:bg-white/5'
+                : 'text-on-surface-variant/50 hover:text-on-surface hover:bg-overlay-soft'
             } ${isCollapsed ? 'justify-center px-0' : ''}`}
             title={item.label}
           >
@@ -260,7 +263,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         ))}
         <button
           onClick={onToggleCollapse}
-          className={`hidden lg:flex w-full items-center gap-4 px-3 py-3 text-on-surface-variant/30 hover:text-white transition-all ${isCollapsed ? 'justify-center px-0' : ''}`}
+          className={`hidden lg:flex w-full items-center gap-4 px-3 py-3 text-on-surface-variant/30 hover:text-on-surface transition-all ${isCollapsed ? 'justify-center px-0' : ''}`}
         >
           {isCollapsed ? <ChevronRight size={24} /> : (
             <>
@@ -274,13 +277,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
       {/* User Status Area */}
       {user && !isCollapsed && (
-        <div className="p-8 bg-[#0D1117] border-t border-white/5 relative z-10 group/user cursor-pointer"
+        <div className="p-8 bg-surface-dim border-t border-chrome relative z-10 group/user cursor-pointer"
           onClick={() => onViewChange((user?.role === 'PROFESSIONAL' ? 'PROFESSIONAL_DASHBOARD' : user?.role === 'CREATOR' ? 'CREATOR_DASHBOARD' : user?.role === 'PATRON' ? 'PATRON_DASHBOARD' : 'PROFILE'))}
         >
           <div className="flex items-center gap-4">
             <div className="relative">
-              <div className="absolute -inset-1 bg-gradient-to-br from-primary-cyan to-indigo-500 rounded-full blur-md opacity-30 group-hover/user:opacity-100 transition-opacity duration-500" />
-              <div className="w-12 h-12 rounded-full border border-white/20 p-0.5 relative z-10 overflow-hidden bg-surface-dim">
+              <div className="absolute -inset-1 bg-brand-gradient rounded-full blur-md opacity-30 group-hover/user:opacity-100 transition-opacity duration-500" />
+              <div className="w-12 h-12 rounded-full border border-chrome p-0.5 relative z-10 overflow-hidden bg-surface-dim">
                 <div className="w-full h-full rounded-full overflow-hidden">
                   {user.avatarUrl ? (
                     <img src={user.avatarUrl} alt={user.displayName} className="w-full h-full object-cover group-hover/user:scale-110 transition-transform duration-700" />
@@ -293,7 +296,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               </div>
             </div>
             <div className="flex-1 min-w-0">
-              <div className="text-sm font-black text-white truncate uppercase tracking-tight leading-tight">{user.displayName}</div>
+              <div className="text-sm font-black text-on-surface truncate uppercase tracking-tight leading-tight">{user.displayName}</div>
               <div className="text-xs text-primary-cyan font-black tracking-[0.3em] truncate mt-1 opacity-70 group-hover/user:opacity-100 transition-opacity uppercase">{user.role}</div>
             </div>
           </div>
@@ -323,19 +326,19 @@ export const Sidebar: React.FC<SidebarProps> = ({
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: -280, opacity: 0 }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="relative h-full w-[280px] bg-[#0D1117] border-r border-white/10 flex flex-col overflow-y-auto"
+              className="relative h-full w-[280px] bg-surface-dim border-r border-chrome flex flex-col overflow-y-auto"
             >
               {/* Header */}
               <div className="p-6 pb-8 flex items-center justify-between">
                 <div className="flex items-center gap-3 cursor-pointer" onClick={handleLogoClick}>
                   <Logo size={32} color="multi" showBeta />
                   <div className="flex flex-col">
-                    <span className="text-white font-black tracking-tighter text-sm leading-tight uppercase">{t('LINKYOURART', 'LINKYOURART')}</span>
+                    <span className="text-on-surface font-black tracking-tighter text-sm leading-tight uppercase">{t('LINKYOURART', 'LINKYOURART')}</span>
                   </div>
                 </div>
                 <button 
                   onClick={onClose} 
-                  className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-on-surface-variant hover:text-white transition-all ring-1 ring-white/10"
+                  className="w-8 h-8 rounded-full bg-overlay-soft flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-all ring-1 ring-chrome"
                 >
                   <X size={18} />
                 </button>
@@ -361,7 +364,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                             className={`w-full flex items-center gap-5 px-5 py-4 rounded-lg transition-all relative overflow-hidden group ${
                               currentView === item.id 
                                 ? 'text-primary-cyan bg-primary-cyan/10 border border-primary-cyan/20' 
-                                : 'text-on-surface-variant/70 hover:text-white hover:bg-white/5 border border-transparent'
+                                : 'text-on-surface-variant/70 hover:text-on-surface hover:bg-overlay-soft border border-transparent'
                             }`}
                           >
                             {currentView === item.id && (
@@ -384,7 +387,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               </div>
 
               {/* Secondary Actions */}
-              <div className="p-6 border-t border-white/5 space-y-2 bg-white/[0.01]">
+              <div className="p-6 border-t border-chrome space-y-2 bg-overlay-soft">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {secondaryItems.map(item => (
                     <button
@@ -396,7 +399,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                       className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-[10px] font-black uppercase tracking-widest ${
                         currentView === item.id 
                           ? 'text-primary-cyan bg-primary-cyan/5 border border-primary-cyan/10' 
-                          : 'text-on-surface-variant/60 bg-white/5 hover:bg-white/10'
+                          : 'text-on-surface-variant/60 bg-overlay-soft hover:bg-overlay-heavy'
                       }`}
                     >
                       <item.icon size={24} />
@@ -410,7 +413,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               {user ? (
                 <div 
                   onClick={() => { onViewChange((user?.role === 'PROFESSIONAL' ? 'PROFESSIONAL_DASHBOARD' : user?.role === 'CREATOR' ? 'CREATOR_DASHBOARD' : user?.role === 'PATRON' ? 'PATRON_DASHBOARD' : 'PROFILE')); onClose(); }}
-                  className="p-8 bg-gradient-to-tr from-white/[0.03] to-white/[0.01] border-t border-white/10 flex items-center gap-5 shadow-2xl"
+                  className="p-8 bg-overlay-soft border-t border-chrome flex items-center gap-5 shadow-2xl"
                 >
                   <div className="w-12 h-12 rounded-full border-2 border-primary-cyan/40 p-0.5 overflow-hidden shrink-0">
                     <div className="w-full h-full rounded-full overflow-hidden">
@@ -424,13 +427,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     </div>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="text-sm font-black text-white uppercase tracking-tight truncate leading-tight">{user.displayName}</div>
+                    <div className="text-sm font-black text-on-surface uppercase tracking-tight truncate leading-tight">{user.displayName}</div>
                     <div className="text-[10px] text-primary-cyan font-bold uppercase tracking-[0.2em] truncate mt-1">{user.role}</div>
                   </div>
                   <ChevronRight size={24} className="text-on-surface-variant/40" />
                 </div>
               ) : (
-                <div className="p-6 bg-white/[0.02] border-t border-white/5">
+                <div className="p-6 bg-overlay-soft border-t border-chrome">
                   <button 
                     onClick={() => { onViewChange('LOGIN'); onClose(); }}
                     className="w-full py-5 bg-primary-cyan text-surface-dim text-xs font-black uppercase tracking-[0.3em] rounded-full hover:scale-[1.02] active:scale-95 transition-all"

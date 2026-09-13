@@ -14,7 +14,7 @@ export default defineConfig(({mode}) => {
         registerType: 'autoUpdate',
         injectRegister: 'auto',
         manifestFilename: 'site.webmanifest',
-        includeAssets: ['favicon.ico', 'favicon.svg', 'apple-touch-icon.png'],
+        includeAssets: ['favicon.ico', 'favicon.svg', 'apple-touch-icon.png', 'favicon-512x512-maskable.png'],
         manifest: {
           name: 'LinkYourArt',
           short_name: 'LYA',
@@ -25,9 +25,9 @@ export default defineConfig(({mode}) => {
           background_color: '#0D1117',
           theme_color: '#0D1117',
           icons: [
-            { src: '/favicon-192x192.png', sizes: '192x192', type: 'image/png' },
+            { src: '/favicon-192x192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
             { src: '/favicon-512x512.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
-            { src: '/favicon-512x512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
+            { src: '/favicon-512x512-maskable.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
           ],
         },
         workbox: {
