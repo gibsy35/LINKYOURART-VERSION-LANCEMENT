@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, LogIn, UserPlus, Mail, Lock, ShieldCheck, Globe, Palette, TrendingUp, Briefcase } from 'lucide-react';
 import { useTranslation } from '../../context/LanguageContext';
-import { auth, db, logAuthDebugEvent } from '../../firebase';
+import { auth, db, logAuthDebugEvent, describeGoogleAuthError } from '../../firebase';
 import { 
   signInWithPopup, 
   signInWithRedirect,
@@ -141,9 +141,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onNotify,
 
       const result = await signInWithPopup(auth, provider);
       await processGoogleAuthUser(result.user);
-    } catch (err) {
+    } catch (err: any) {
       console.error('Auth Error:', err);
-      onNotify(t('AUTHENTICATION FAILED', "ÉCHEC DE L'AUTHENTIFICATION"));
+      logAuthDebugEvent('redirect_return', { outcome: 'initiate_error', source: 'AuthModal', mode, errorCode: err?.code || null, errorMessage: err?.message || String(err) });
+      onNotify(describeGoogleAuthError(err, t));
     } finally {
       setIsLoading(false);
     }

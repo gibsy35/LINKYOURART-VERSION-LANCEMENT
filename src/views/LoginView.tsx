@@ -4,7 +4,7 @@ import { ArrowRight, LogIn, Loader2, Mail, Lock, ShieldCheck, Globe, Send, Trend
 import { UserProfile, UserRole } from '../types';
 import { View } from '../components/ui/Sidebar';
 import { useTranslation } from '../context/LanguageContext';
-import { auth, db, logAuthDebugEvent } from '../firebase';
+import { auth, db, logAuthDebugEvent, describeGoogleAuthError } from '../firebase';
 import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, signInWithRedirect, sendPasswordResetEmail, type User as FirebaseUser } from 'firebase/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { handleFirestoreError, OperationType } from '../firebase';
@@ -243,14 +243,7 @@ const LoginView: React.FC<LoginViewProps> = ({ onViewChange, setUser }) => {
     } catch (err: any) {
       console.error('Google login error:', err);
       logAuthDebugEvent('redirect_return', { outcome: 'initiate_error', source: 'LoginView', errorCode: err?.code || null, errorMessage: err?.message || String(err) });
-      if (err.code === 'auth/popup-closed-by-user') {
-        setError(t(
-          'Authentification popup closed. Please try again or use your Email login.',
-          'La fenêtre d\'authentification a été fermée. Réessayez ou utilisez votre e-mail.'
-        ));
-      } else {
-        setError(err.message || 'Google authentication failed.');
-      }
+      setError(describeGoogleAuthError(err, t));
     } finally {
       setIsLoading(false);
     }
