@@ -277,6 +277,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
   return (
     <div className="space-y-12 pb-24 relative min-h-screen">
       <PageHeader 
+        category="DEVELOPMENT"
         titleWhite={t('Swipe', 'Découverte')}
         titleAccent={t('Discovery', 'Swipe')}
         description={t('Swipe to discover and monitor the next generation of creative contracts. Build your professional watchlist in real-time.', 'Swiper pour découvrir et surveiller la prochaine génération de contrats créatifs. Construisez votre watchlist professionnelle en temps réel.')}
@@ -533,7 +534,12 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
                   
                   {/* Badges top gauche */}
                   <div className="absolute top-3 left-3 flex gap-1.5">
-                    <div className={`px-2 py-0.5 text-[9px] font-black uppercase tracking-widest rounded-full ${currentContract.rarity === 'Signature' ? 'bg-accent-gold text-surface-dim' : currentContract.rarity === 'Exceptional' ? 'bg-[#a78bfa] text-surface-dim' : 'bg-primary-cyan text-surface-dim'}`}>
+                    <div className={`px-2 py-0.5 text-[9px] font-black uppercase tracking-widest rounded-full ${
+                      currentContract.rarity === 'Signature' ? 'bg-brand-gradient text-white' :
+                      currentContract.rarity === 'Exceptional' ? 'bg-[#F0C55E] text-surface-dim' :
+                      currentContract.rarity === 'Distinguished' ? 'bg-primary-cyan text-surface-dim' :
+                      'bg-white/15 text-white'
+                    }`}>
                       {currentContract.rarity}
                     </div>
                     <div className={`px-2 py-0.5 backdrop-blur-sm border text-[9px] font-black uppercase tracking-widest rounded-full ${CATEGORY_COLORS[currentContract.category] ? CATEGORY_COLORS[currentContract.category].replace('text-surface-dim','') + ' border-transparent text-surface-dim' : 'bg-black/50 border-white/20 text-white'}`}>
@@ -735,7 +741,12 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
                 <img src={getSafeImageUrl(contract.image, contract.category)} onError={handleImageError(contract.category)} alt={contract.name} className={`w-full h-full object-cover transition-all duration-700 group-hover:grayscale-0 group-hover:blur-0 group-hover:scale-110 group-hover:opacity-100 ${revealedCards.has(contract.id) ? 'grayscale-0 blur-0 scale-110 opacity-100' : 'grayscale blur-sm scale-105 opacity-60'}`} referrerPolicy="no-referrer" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
                 <div className="absolute bottom-4 left-4">
-                  <div className="text-[10px] text-primary-cyan font-black uppercase tracking-widest mb-1">{contract.rarity}</div>
+                  <div className={`text-[10px] font-black uppercase tracking-widest mb-1 ${
+                    contract.rarity === 'Signature' ? 'text-brand-gradient' :
+                    contract.rarity === 'Exceptional' ? 'text-[#F0C55E]' :
+                    contract.rarity === 'Distinguished' ? 'text-primary-cyan' :
+                    'text-white/70'
+                  }`}>{contract.rarity}</div>
                   <div className="text-lg font-black text-white uppercase italic tracking-tight">{contract.name}</div>
                 </div>
               </div>

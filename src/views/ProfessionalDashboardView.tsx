@@ -170,6 +170,7 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
   return (
     <div className="space-y-6 pb-12">
       <PageHeader titleWhite={<span style={{ textTransform: 'uppercase' }}>{T('ESPACE','PRO')}</span>} titleAccent={T('PROFESSIONNEL','SPACE')} description={T('Expertise institutionnelle pour accompagner l\'excellence artistique','Institutional expertise to support artistic excellence')} accentColor="text-primary-cyan"/>
+        category="PROFESSIONAL"
 
       {/* Actions rapides */}
       <div className="flex flex-wrap items-center gap-3">

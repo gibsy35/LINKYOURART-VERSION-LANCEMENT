@@ -1308,6 +1308,7 @@ export const AdminView: React.FC<{
   return (
     <div className="space-y-8 pb-12">
       <PageHeader 
+        category="SYSTEM"
         titleWhite={<span style={{ textTransform: 'uppercase' }}>HUB</span>} 
         titleAccent="ADMIN" 
         description="PLATFORM OVERSIGHT AND MANAGEMENT" 

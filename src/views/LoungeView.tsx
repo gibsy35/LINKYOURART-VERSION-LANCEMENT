@@ -784,6 +784,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
   return (
     <div className="space-y-8 pb-12 relative min-h-screen">
       <PageHeader 
+        category="COMMUNITY"
         titleWhite={t('The', 'Le')}
         titleAccent={t('Lounge', 'Salon')}
         description={t('ACCESS PRIVATE MARKET INSIGHTS, CONNECT WITH PROFESSIONAL PARTNERS, AND DISCOVER EXCLUSIVE INVITATION-ONLY CREATIVE EVENTS.', 'ACCÉDEZ À DES INFORMATIONS DE MARCHÉ PRIVÉES, CONNECTEZ-VOUS AVEC DES PARTENAIRES PROFESSIONNELS ET DÉCOUVREZ DES ÉVÉNEMENTS CRÉATIFS EXCLUSIFS SUR INVITATION UNIQUEMENT.')}

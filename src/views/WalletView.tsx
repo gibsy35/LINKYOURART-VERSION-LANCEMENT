@@ -78,6 +78,7 @@ export const WalletView: React.FC<WalletViewProps> = ({ user, onNotify, onViewCh
   return (
     <div className="space-y-6 pb-20">
       <PageHeader 
+        category="VAULT"
         titleWhite={t('My', 'Mes')}
         titleAccent={t('Patronage', 'Mécénats')}
         description={t('TRACK THE PROJECTS YOU SUPPORT AND YOUR PAYMENT METHODS.', 'SUIVEZ LES PROJETS QUE VOUS SOUTENEZ ET VOS MOYENS DE PAIEMENT.')}
