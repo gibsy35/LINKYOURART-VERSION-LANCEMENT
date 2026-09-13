@@ -171,12 +171,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
             onClick={handleLogoClick}
           >
             <div className="flex-shrink-0 relative">
-              <div className="absolute inset-0 bg-primary-cyan/30 blur-2xl rounded-full scale-150 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+              <div className="absolute inset-0 bg-brand-gradient blur-2xl rounded-full scale-150 opacity-0 group-hover:opacity-40 transition-opacity duration-700" />
               <Logo size={60} color="multi" showBeta className="relative z-10" />
             </div>
             <div className="flex flex-col min-w-0 flex-1">
               <span className="text-white font-black tracking-tighter text-2xl leading-[0.7] truncate uppercase">LINKYOURART</span>
-              <span className="text-[10px] text-primary-cyan font-black tracking-[0.2em] uppercase mt-2 opacity-60 group-hover:opacity-100 transition-opacity">
+              <span className="text-[10px] text-white font-black tracking-[0.2em] uppercase mt-2 opacity-70 group-hover:opacity-100 transition-opacity">
                 {t('YOUR SCORE. YOUR STANDARD.', 'VOTRE SCORE. VOTRE STANDARD.')}
               </span>
             </div>
@@ -184,7 +184,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         )}
         {isCollapsed && (
           <div className="group cursor-pointer relative" onClick={handleLogoClick}>
-            <div className="absolute inset-0 bg-primary-cyan/30 blur-xl rounded-full scale-150 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+            <div className="absolute inset-0 bg-brand-gradient blur-xl rounded-full scale-150 opacity-0 group-hover:opacity-40 transition-opacity duration-700" />
             <Logo size={44} color="multi" showBeta className="relative z-10" />
           </div>
         )}
@@ -220,6 +220,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     {currentView === item.id && (
                       <div className="absolute inset-0 bg-primary-cyan/5 rounded-lg" />
                     )}
+                    {currentView === item.id && (
+                      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-6 rounded-full bg-brand-gradient" />
+                    )}
                     <item.icon size={24} className={`transition-all duration-300 ${currentView === item.id ? 'text-primary-cyan scale-110 drop-' : 'text-on-surface-variant/40 group-hover:text-primary-cyan group-hover:scale-110'}`} />
                     {!isCollapsed && (
                       <span className={`text-[12px] font-bold uppercase tracking-widest flex-1 text-left transition-all duration-300 ${currentView === item.id ? 'text-white translate-x-1' : 'text-on-surface-variant/60 group-hover:text-white group-hover:translate-x-1'}`}>
@@ -227,7 +230,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                       </span>
                     )}
                     {!isCollapsed && item.count !== undefined && item.count > 0 && (
-                      <span className="text-[10px] bg-primary-cyan text-surface-dim px-3 py-0.5 rounded-full font-black">
+                      <span className="text-[10px] bg-brand-gradient text-white px-3 py-0.5 rounded-full font-black">
                         {item.count}
                       </span>
                     )}
@@ -294,7 +297,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             </div>
             <div className="flex-1 min-w-0">
               <div className="text-sm font-black text-white truncate uppercase tracking-tight leading-tight">{user.displayName}</div>
-              <div className="text-xs text-primary-cyan font-black tracking-[0.3em] truncate mt-1 opacity-70 group-hover/user:opacity-100 transition-opacity uppercase">{user.role}</div>
+              <div className="text-xs text-brand-gradient font-black tracking-[0.3em] truncate mt-1 opacity-90 group-hover/user:opacity-100 transition-opacity uppercase">{user.role}</div>
             </div>
           </div>
         </div>
@@ -372,7 +375,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                               {item.label}
                             </span>
                             {item.count !== undefined && item.count > 0 && (
-                              <span className="text-xs bg-primary-cyan/20 text-primary-cyan px-3 py-0.5 rounded-full font-black">
+                              <span className="text-xs bg-brand-gradient text-white px-3 py-0.5 rounded-full font-black">
                                 {item.count}
                               </span>
                             )}
@@ -425,7 +428,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="text-sm font-black text-white uppercase tracking-tight truncate leading-tight">{user.displayName}</div>
-                    <div className="text-[10px] text-primary-cyan font-bold uppercase tracking-[0.2em] truncate mt-1">{user.role}</div>
+                    <div className="text-[10px] text-brand-gradient font-bold uppercase tracking-[0.2em] truncate mt-1">{user.role}</div>
                   </div>
                   <ChevronRight size={24} className="text-on-surface-variant/40" />
                 </div>
@@ -433,7 +436,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 <div className="p-6 bg-white/[0.02] border-t border-white/5">
                   <button 
                     onClick={() => { onViewChange('LOGIN'); onClose(); }}
-                    className="w-full py-5 bg-primary-cyan text-surface-dim text-xs font-black uppercase tracking-[0.3em] rounded-full hover:scale-[1.02] active:scale-95 transition-all"
+                    className="w-full py-5 bg-brand-gradient text-white text-xs font-black uppercase tracking-[0.3em] rounded-full hover:scale-[1.02] active:scale-95 transition-all"
                   >
                     {t('SIGN IN', 'CONNEXION')}
                   </button>

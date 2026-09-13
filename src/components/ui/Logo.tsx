@@ -85,9 +85,11 @@ export const Logo: React.FC<{
         />
       </svg>
 
-      {/* LYA Badge - Repositioned to bottom-right curve */}
+      {/* Badge BETA — resserre contre l'anneau (au lieu de deborder largement en
+          bas-a-droite) pour ne plus se lire comme un second logo a cote du
+          premier, et repris en degrade de marque plutot qu'un violet plat. */}
       {showBeta && (
-        <div className="absolute bottom-[10%] right-[10%] translate-x-1/4 translate-y-1/4 bg-[#9D00FF] text-white font-black text-[max(8px,12%)] px-[10%] py-[3%] rounded-[15%] tracking-tighter leading-none z-30 shadow-[0_10px_20px_rgba(0,0,0,0.5),0_0_15px_rgba(157,0,255,0.4)] border border-white/30 backdrop-blur-md select-none transform rotate-3 flex items-center justify-center">
+        <div className="absolute bottom-[2%] right-[2%] bg-gradient-to-br from-[#7E1CF1] to-[#E61A97] text-white font-black text-[max(7px,10%)] px-[8%] py-[2%] rounded-full tracking-tighter leading-none z-30 shadow-[0_4px_10px_rgba(0,0,0,0.4)] border border-white/40 select-none flex items-center justify-center">
           BETA
         </div>
       )}

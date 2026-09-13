@@ -357,7 +357,7 @@ export function DetailModal({ contract, onClose, onPay, units, onUnitsChange, la
           {/* Gauche */}
           <div className="p-6 border-b lg:border-b-0 lg:border-r border-white/10">
             <div className="flex items-center gap-2 mb-4">
-              <span className="text-primary-cyan text-xs font-mono tracking-widest border border-primary-cyan/30 px-3 py-1 rounded">
+              <span className="text-brand-gradient text-xs font-mono font-bold tracking-widest border border-[#7E1CF1]/30 px-3 py-1 rounded">
                 🖼 {T("GALERIE VISUELLE EXCLUSIVE", "EXCLUSIVE VISUAL GALLERY")}
               </span>
             </div>
@@ -401,11 +401,11 @@ export function DetailModal({ contract, onClose, onPay, units, onUnitsChange, la
             <div className="flex justify-between items-start mb-4">
               <div>
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="bg-surface-high text-primary-cyan text-xs font-mono px-3 py-1 rounded">{contract.category.toUpperCase()}</span>
+                  <span className="bg-surface-high text-brand-gradient text-xs font-mono font-bold px-3 py-1 rounded">{contract.category.toUpperCase()}</span>
                   <span className="text-on-surface-variant/50 text-xs font-mono">ID: {contract.registryIndex}</span>
                 </div>
                 <h2 className="text-on-surface font-black text-2xl leading-tight mb-1" style={{ fontFamily: "Inter,system-ui,-apple-system,sans-serif", letterSpacing: "-0.02em" }}>{contract.name}</h2>
-                <p className="text-primary-cyan text-xs font-mono tracking-widest">
+                <p className="text-brand-gradient text-xs font-mono font-bold tracking-widest">
                   {T("PROJET CERTIFIÉ", "CERTIFIED PROJECT")} · {contract.category.toUpperCase()}
                 </p>
               </div>

@@ -1,6 +1,6 @@
 import React from 'react';
-import { motion, useScroll, useTransform, MotionValue } from 'motion/react';
-import { Shield } from 'lucide-react';
+import { motion, useScroll, useTransform, MotionValue, AnimatePresence } from 'motion/react';
+import { Shield, Eye, Users, Percent } from 'lucide-react';
 import { Logo } from '../components/ui/Logo';
 import { db } from '../firebase';
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
@@ -61,9 +61,9 @@ const newEra = [
 // Memes donnees d'exemple que le tutoriel in-app, pour montrer le Score LYA
 // sur des statuts et categories varies (pas juste "certifie").
 const scoreExamples = [
-  { id: '#LYA-812', category: 'Film', score: 928, status: 'Certifié', statusColor: 'certified', barColor: '#3ADB76' },
-  { id: '#LYA-445', category: 'Série TV', score: 580, status: 'En révision', statusColor: 'review', barColor: '#F0C55E' },
-  { id: '#LYA-901', category: 'Mode', score: 420, status: 'Audit en cours', statusColor: 'audit', barColor: '#E86A6A' },
+  { id: '#LYA-812', category: 'Film', score: 928, status: 'Certifié', statusColor: 'certified', barColor: 'linear-gradient(90deg,#3ADB76,#02C6FA)' },
+  { id: '#LYA-445', category: 'Série TV', score: 580, status: 'En révision', statusColor: 'review', barColor: 'linear-gradient(90deg,#F0C55E,#E61A97)' },
+  { id: '#LYA-901', category: 'Mode', score: 420, status: 'Audit en cours', statusColor: 'audit', barColor: 'linear-gradient(90deg,#E86A6A,#7E1CF1)' },
 ];
 
 const registry = [
@@ -166,28 +166,84 @@ const HeroSection: React.FC<{ t: (fr: string, en: string) => string; setShowJoin
   const ref = React.useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
 
-  const shapeScale = useTransform(scrollYProgress, [0, 1], [1, 1.5]);
-  const shapeX = useTransform(scrollYProgress, [0, 1], ['0%', '15%']);
   const titleY = useTransform(scrollYProgress, [0, 1], [0, -120]);
   const titleOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
   const titleScale = useTransform(scrollYProgress, [0, 1], [1, 0.9]);
 
+  const cardTilts = [7, -4, 10]; // petite rotation differente par exemple, pour un effet "carte que l'on distribue" a chaque changement plutot qu'un simple fondu plat
+  const examples = [
+    { cat: t('Musique', 'Music'), score: 247 },
+    { cat: t('Cinéma', 'Film'), score: 580 },
+    { cat: t('Séries TV', 'TV Series'), score: 928 },
+  ];
+  const [exIdx, setExIdx] = React.useState(0);
+  const current = examples[exIdx];
+
+  // Cycle automatique et aleatoire (pas juste round-robin) pour creer du
+  // mouvement en continu sans dependre d'un clic — fonctionne pareil sur
+  // PC, tablette et mobile. Le clic reste possible pour forcer un changement.
+  React.useEffect(() => {
+    const id = setInterval(() => {
+      setExIdx((i) => {
+        if (examples.length <= 1) return i;
+        let next = i;
+        while (next === i) next = Math.floor(Math.random() * examples.length);
+        return next;
+      });
+    }, 3200);
+    return () => clearInterval(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <section className="term-hero" ref={ref}>
-      <motion.div className="term-hero-shape" style={{ scale: shapeScale, x: shapeX }} />
-      <motion.div className="term-wrap" style={{ position: 'relative', y: titleY, opacity: titleOpacity, scale: titleScale }}>
-        <h1 className="term-hero-title">{t("Ce que vous créez aujourd'hui mérite d'être reconnu demain.", 'What you create today deserves to be recognized tomorrow.')}</h1>
-        <p className="term-hero-sub">
-          {t(
-            "Les projets créatifs ont toujours eu de la valeur. LYA leur en donne une reconnue, partageable et vérifiable — un registre certifié, une évaluation par des experts, un mécénat qui suit l'avancement réel du projet.",
-            'Creative projects have always had value. LYA gives them one that is recognized, shareable and verifiable — a certified registry, expert evaluation, and patronage that follows the real progress of the project.'
-          )}
-        </p>
-        <div style={{ display: 'flex', gap: 14, marginTop: 30, position: 'relative', zIndex: 1 }}>
-          <button className="term-btn-primary" onClick={() => setShowJoin(true)}>{t('Rejoindre LYA →', 'Join LYA →')}</button>
-          <a href="#pillars" className="term-btn-ghost" style={{ textDecoration: 'none', display: 'inline-block' }}>{t('Comprendre le Score LYA', 'Understand the LYA Score')}</a>
+      <div className="term-hero-orb o1" />
+      <div className="term-hero-orb o2" />
+      <div className="term-hero-orb o3" />
+      <div className="term-wrap term-hero-grid">
+        <motion.div style={{ position: 'relative', y: titleY, opacity: titleOpacity, scale: titleScale }}>
+          <h1 className="term-hero-title">{t("Ce que vous créez aujourd'hui mérite d'être ", 'What you create today deserves to be ')}<span className="term-gradient-text">{t('reconnu demain.', 'recognized tomorrow.')}</span></h1>
+          <p className="term-hero-sub">
+            {t(
+              "Les projets créatifs ont toujours eu de la valeur. LYA leur en donne une reconnue, partageable et vérifiable — un registre certifié, une évaluation par des experts, un mécénat qui suit l'avancement réel du projet.",
+              'Creative projects have always had value. LYA gives them one that is recognized, shareable and verifiable — a certified registry, expert evaluation, and patronage that follows the real progress of the project.'
+            )}
+          </p>
+          <div style={{ display: 'flex', gap: 14, marginTop: 30, position: 'relative', zIndex: 1, flexWrap: 'wrap' }}>
+            <button className="term-btn-primary" onClick={() => setShowJoin(true)}>{t('Rejoindre LYA →', 'Join LYA →')}</button>
+            <a href="#pillars" className="term-btn-ghost" style={{ textDecoration: 'none', display: 'inline-block' }}>{t('Comprendre le Score LYA', 'Understand the LYA Score')}</a>
+          </div>
+        </motion.div>
+        <div className="term-hero-visual">
+          <div className="term-hero-card-back" />
+          <motion.div
+            className="term-hero-card"
+            onClick={() => setExIdx((i) => (i + 1) % examples.length)}
+            role="button" tabIndex={0}
+            aria-label={t('Voir un autre exemple de score', 'See another score example')}
+            animate={{ rotate: cardTilts[exIdx % cardTilts.length] }}
+            transition={{ type: 'spring', stiffness: 200, damping: 14 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={exIdx}
+                initial={{ opacity: 0, y: 18, scale: 0.9, rotate: -6 }}
+                animate={{ opacity: 1, y: 0, scale: 1, rotate: 0 }}
+                exit={{ opacity: 0, y: -14, scale: 0.94, rotate: 5 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+              >
+                <div className="score">
+                  <span className="cat-line">{t('Score LYA', 'LYA Score')} · {current.cat}</span>
+                  <span className="tap-hint">{t('toucher', 'tap')} →</span>
+                </div>
+                <span className="num">{current.score}</span><span className="max">/1000</span>
+                <p>{t('Évalué sur 5 critères objectifs — qualité, marché, droits, innovation, croissance.', 'Assessed on 5 objective criteria — quality, market, rights, innovation, growth.')}</p>
+              </motion.div>
+            </AnimatePresence>
+          </motion.div>
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 };
@@ -317,7 +373,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-root .sora{ font-family:'Sora',sans-serif; }
         .term-wrap{ max-width:1160px; margin:0 auto; padding:0 40px; }
         @media (max-width:700px){ .term-wrap{ padding:0 22px; } }
-        .term-header{ background:var(--term-ink); padding:22px 0; position:sticky; top:0; z-index:100; border-bottom:1px solid rgba(255,255,255,0.08); }
+        .term-header{ background:rgba(11,14,20,0.88); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); padding:20px 0; position:sticky; top:0; z-index:100; border-bottom:1px solid rgba(255,255,255,0.08); }
         .term-head-inner{ display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:20px; }
         .term-word{ font-family:'Sora',sans-serif; font-weight:800; font-size:22px; color:#fff; }
         .term-nav{ display:flex; align-items:center; gap:28px; margin-left:auto; }
@@ -335,48 +391,101 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
           .term-pill{ flex-shrink:0; padding:8px 12px; font-size:12px; white-space:nowrap; }
           .term-pill.ghost{ padding:8px 4px; font-size:12px; }
         }
-        .term-pill{ color:#fff; background:var(--term-ink); border:1px solid rgba(255,255,255,0.2); padding:10px 20px; border-radius:100px; font-size:14px; font-weight:600; cursor:pointer; }
+        .term-pill{ color:#fff; background:linear-gradient(120deg,#7E1CF1,#E61A97); border:none; padding:10px 20px; border-radius:100px; font-size:14px; font-weight:600; cursor:pointer; transition:filter 0.2s ease, transform 0.2s ease; }
+        .term-pill:hover{ filter:brightness(1.1); transform:translateY(-1px); }
         .term-pill.ghost{ background:none; border:1.5px solid rgba(255,255,255,0.45); color:#fff; padding:9px 18px; font-weight:700; }
         .term-pill.ghost:hover{ background:rgba(255,255,255,0.1); border-color:#fff; }
-        .term-pill:hover{ background:#7E1CF1; border-color:transparent; }
         .term-lang-toggle{ display:flex; background:rgba(255,255,255,0.08); border-radius:100px; padding:3px; gap:2px; }
         .term-lang-toggle button{ border:none; background:none; color:#B9B7C7; font-size:12px; font-weight:700; padding:6px 12px; border-radius:100px; cursor:pointer; font-family:'Sora',sans-serif; }
         .term-lang-toggle button.active{ background:#fff; color:var(--term-ink); }
-        .term-hero{ background:var(--term-ink); position:relative; overflow:hidden; padding:64px 0 90px; min-height:92vh; display:flex; align-items:center; }
-        .term-hero-shape{ position:absolute; top:-10%; right:-10%; width:70%; height:130%;
-          background:linear-gradient(135deg,#7E1CF1 0%,#7E1CF1 16%,#E61A97 42%,#E61A97 58%,#02C6FA 86%,#02C6FA 100%);
-          background-size:140% 140%;
-          clip-path:polygon(30% 0%,100% 0%,100% 100%,0% 100%);
-          animation:termBreathe 16s ease-in-out infinite;
+        .term-hero{ background:var(--term-ink); position:relative; overflow:hidden; padding:80px 0 100px; min-height:92vh; display:flex; align-items:center; }
+        .term-hero::before{ content:''; position:absolute; inset:-20%; z-index:0;
+          background:
+            radial-gradient(circle at 15% 20%, rgba(126,28,241,0.35) 0%, transparent 45%),
+            radial-gradient(circle at 85% 15%, rgba(2,198,250,0.28) 0%, transparent 45%),
+            radial-gradient(circle at 70% 80%, rgba(230,26,151,0.3) 0%, transparent 45%);
+          animation:termMeshDrift 18s ease-in-out infinite alternate;
+          filter:blur(10px);
         }
-        @keyframes termBreathe{ 0%,100%{ background-position:0% 50%; } 50%{ background-position:100% 50%; } }
-        .term-hero-title{ color:#fff; font-weight:700; font-size:clamp(36px,6vw,70px); line-height:1.05; letter-spacing:-0.01em; max-width:16ch; position:relative; z-index:1; }
-        .term-hero-sub{ color:#D6D4E2; font-size:17px; line-height:1.6; max-width:46ch; margin-top:26px; position:relative; z-index:1; }
-        .term-btn-primary{ background:#fff; color:var(--term-ink); padding:14px 26px; border-radius:100px; font-weight:600; font-size:15px; border:none; cursor:pointer; }
-        .term-btn-primary:hover{ background:var(--term-lav); }
+        @keyframes termMeshDrift{
+          0%{ transform:translate(0,0) scale(1) rotate(0deg); }
+          50%{ transform:translate(-3%,2%) scale(1.08) rotate(4deg); }
+          100%{ transform:translate(2%,-3%) scale(1.02) rotate(-3deg); }
+        }
+        .term-hero-orb{ position:absolute; border-radius:50%; filter:blur(50px); z-index:0; pointer-events:none; opacity:0.55; }
+        .term-hero-orb.o1{ width:280px; height:280px; top:8%; left:4%; background:#7E1CF1; animation:termOrbFloat 9s ease-in-out infinite; }
+        .term-hero-orb.o2{ width:220px; height:220px; bottom:10%; right:8%; background:#02C6FA; animation:termOrbFloat 11s ease-in-out infinite reverse; }
+        .term-hero-orb.o3{ width:180px; height:180px; top:45%; right:28%; background:#E61A97; animation:termOrbFloat 13s ease-in-out infinite; animation-delay:-4s; }
+        @keyframes termOrbFloat{
+          0%,100%{ transform:translate(0,0); }
+          50%{ transform:translate(24px,-30px); }
+        }
+        @media (prefers-reduced-motion: reduce){
+          .term-hero::before, .term-hero-orb{ animation:none; }
+        }
+        .term-hero-grid{ display:grid; grid-template-columns:1.1fr 0.9fr; gap:40px; align-items:center; width:100%; position:relative; z-index:1; }
+        @media (max-width:900px){ .term-hero-grid{ grid-template-columns:1fr; } }
+        .term-hero-title{ color:#fff; font-weight:700; font-size:clamp(36px,5.2vw,64px); line-height:1.05; letter-spacing:-0.01em; max-width:16ch; position:relative; z-index:1; }
+        .term-hero-sub{ color:#B9B7C7; font-size:17px; line-height:1.6; max-width:46ch; margin-top:26px; position:relative; z-index:1; }
+        .term-btn-primary{ background:linear-gradient(120deg,#7E1CF1,#E61A97); color:#fff; padding:14px 26px; border-radius:100px; font-weight:600; font-size:15px; border:none; cursor:pointer; transition:transform 0.25s cubic-bezier(.2,.8,.2,1), box-shadow 0.25s ease; box-shadow:0 10px 30px -10px rgba(126,28,241,0.5); }
+        .term-btn-primary:hover{ transform:translateY(-2px); box-shadow:0 16px 36px -10px rgba(230,26,151,0.55); }
+        .term-btn-primary:active{ transform:translateY(0) scale(0.97); }
         .term-btn-ghost{ color:#fff; background:none; border:none; padding:14px 10px; font-weight:600; font-size:15px; border-bottom:1px solid rgba(255,255,255,0.4); cursor:pointer; }
+        .term-hero-visual{ position:relative; min-height:340px; display:flex; align-items:center; justify-content:center; z-index:1; }
+        .term-hero-visual::before{ content:''; position:absolute; inset:6% 4%; border-radius:28px;
+          background:linear-gradient(135deg,#7E1CF1 0%,#E61A97 50%,#02C6FA 100%);
+          opacity:0.22; filter:blur(2px);
+        }
+        .term-hero-card{ position:relative; z-index:1; background:rgba(20,22,32,0.75); backdrop-filter:blur(16px); border:1px solid rgba(255,255,255,0.12); border-radius:18px;
+          padding:28px 30px; width:min(320px,80%); height:236px; display:flex; flex-direction:column; justify-content:flex-start;
+          box-shadow:0 30px 70px -20px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.03);
+          font-family:'Fraunces',serif; cursor:pointer; user-select:none;
+          animation:termCardGlow 4s ease-in-out infinite;
+        }
+        @keyframes termCardGlow{
+          0%,100%{ box-shadow:0 30px 70px -20px rgba(0,0,0,0.6), 0 0 40px -12px rgba(126,28,241,0.35); }
+          50%{ box-shadow:0 30px 70px -20px rgba(0,0,0,0.6), 0 0 55px -10px rgba(2,198,250,0.4); }
+        }
+        @media (prefers-reduced-motion: reduce){ .term-hero-card{ animation:none; } }
+        .term-hero-card .score{ font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:0.08em; color:#B9B7C7; margin-bottom:14px; font-family:'Sora',sans-serif; display:flex; align-items:flex-start; justify-content:space-between; gap:10px; min-height:28px; }
+        .term-hero-card .score .cat-line{ flex:1; line-height:1.4; }
+        .term-hero-card .score .tap-hint{ font-size:9px; font-weight:700; letter-spacing:0.03em; color:#7E1CF1; text-transform:none; white-space:nowrap; flex-shrink:0; }
+        .term-hero-card .num{ font-family:'Sora',sans-serif; font-weight:800; font-size:34px; font-variant-numeric:tabular-nums; background:linear-gradient(90deg,#7E1CF1,#E61A97,#02C6FA); -webkit-background-clip:text; background-clip:text; color:transparent; }
+        .term-hero-card .max{ font-family:'Sora',sans-serif; font-weight:600; font-size:14px; color:#8A87A8; }
+        .term-hero-card p{ font-family:'Inter',sans-serif; text-align:left; font-size:12.5px; line-height:1.5; color:#B9B7C7; margin-top:14px; }
+        .term-hero-card-back{ position:absolute; z-index:0; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.08); border-radius:18px; width:min(280px,72%); height:200px; transform:rotate(-6deg) translate(-30px,26px); }
         .term-section-cta{ margin-top:32px; text-align:left; }
         .term-section-cta button{ background:none; border:none; font-family:'Sora',sans-serif; font-weight:700; font-size:14px; color:var(--term-ink); border-bottom:2px solid #7E1CF1; padding-bottom:2px; cursor:pointer; }
-        .term-pillars{ padding:72px 0; }
-        .term-pillars-note{ font-size:13px; color:var(--term-ink-soft); margin-bottom:32px; }
-        .term-pillars-grid{ display:grid; grid-template-columns:repeat(5,1fr); gap:14px; }
+        .term-pillars{ padding:88px 0 72px; }
+        .term-pillars-note{ font-size:13px; color:var(--term-ink-soft); margin-bottom:56px; }
+        .term-pillars-grid{ display:grid; grid-template-columns:repeat(5,1fr); gap:14px; padding:20px 0 40px; }
         @media (max-width:900px){ .term-pillars-grid{ grid-template-columns:repeat(2,1fr); } }
-        .term-pillar{ border-radius:20px; padding:26px 20px; min-height:200px; display:flex; flex-direction:column; justify-content:space-between; }
-        .term-pillar.dark{ background:var(--term-ink); color:#fff; }
-        .term-pillar.lav{ background:var(--term-lav); }
-        .term-pillar.grey{ background:var(--term-grey); }
+        .term-pillar{ position:relative; border-radius:14px; padding:26px 22px; min-height:190px;
+          display:flex; flex-direction:column; justify-content:space-between; background:#fff;
+          border:1px solid var(--term-line); border-top:3px solid transparent;
+          transition:transform 0.3s cubic-bezier(.2,.8,.2,1), box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+        .term-pillar:hover, .term-pillar:active{ transform:translateY(-8px); box-shadow:0 20px 40px -18px rgba(11,14,20,0.22); }
+        .term-pillar:nth-child(1){ border-top-color:#7E1CF1; } .term-pillar:nth-child(1) .n{ color:#7E1CF1; }
+        .term-pillar:nth-child(2){ border-top-color:#E61A97; } .term-pillar:nth-child(2) .n{ color:#E61A97; }
+        .term-pillar:nth-child(3){ border-top-color:#02C6FA; } .term-pillar:nth-child(3) .n{ color:#02C6FA; }
+        .term-pillar:nth-child(4){ border-top-color:#3ADB76; } .term-pillar:nth-child(4) .n{ color:#3ADB76; }
+        .term-pillar:nth-child(5){ border-top-color:#F0C55E; } .term-pillar:nth-child(5) .n{ color:#F0C55E; }
         .term-pillar .n{ font-family:'Fraunces',serif; font-style:italic; font-weight:500; font-size:30px; }
-        .term-pillar.dark .n{ color:#E61A97; } .term-pillar.lav .n, .term-pillar.grey .n{ color:#7E1CF1; }
-        .term-pillar .t{ font-family:'Sora',sans-serif; font-weight:700; font-size:15px; margin-top:20px; }
-        .term-pillar .d{ font-size:12.5px; line-height:1.5; margin-top:8px; opacity:0.8; }
+        .term-pillar .t{ font-family:'Sora',sans-serif; font-weight:700; font-size:15px; margin-top:20px; color:var(--term-ink); }
+        .term-pillar .d{ font-size:12.5px; line-height:1.5; margin-top:8px; opacity:0.75; color:var(--term-ink-soft); }
         .term-pillar .pts{ font-family:'Sora',sans-serif; font-weight:700; font-size:10.5px; letter-spacing:0.04em; opacity:0.5; margin-top:10px; }
         .term-compare{ padding:20px 0 72px; }
-        .term-compare-grid{ display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:32px; }
+        .term-compare-grid{ display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:32px; position:relative; }
         @media (max-width:800px){ .term-compare-grid{ grid-template-columns:1fr; } }
-        .term-compare-col{ border-radius:8px; padding:30px 26px; background:var(--term-grey); border:1px solid var(--term-line); }
-        .term-compare-col.is{ border-top:3px solid #7E1CF1; }
+        .term-compare-vs{ position:absolute; top:50%; left:50%; margin:-23px 0 0 -23px; width:46px; height:46px; border-radius:50%; background:var(--term-ink); color:#fff; display:flex; align-items:center; justify-content:center; font-family:'Sora',sans-serif; font-weight:800; font-size:12px; letter-spacing:0.02em; z-index:2; box-shadow:0 10px 24px rgba(11,14,20,0.28); border:3px solid #fff; }
+        @media (max-width:800px){ .term-compare-vs{ display:none; } }
+        .term-compare-col{ border-radius:14px; padding:30px 26px; background:var(--term-grey); border:1px solid var(--term-line); transition:transform 0.4s cubic-bezier(.22,1,.36,1), box-shadow 0.4s ease; }
+        .term-compare-col.is{ border-top:3px solid #3ADB76; transform:rotate(-0.6deg); }
+        .term-compare-col.isnot{ border-top:3px solid var(--term-line); opacity:0.92; transform:rotate(0.6deg); }
+        .term-compare-col:hover{ transform:translateY(-6px) rotate(0deg); box-shadow:0 20px 40px -18px rgba(11,14,20,0.22); }
         .term-compare-badge{ display:inline-block; font-family:'Sora',sans-serif; font-weight:700; font-size:11px; letter-spacing:0.03em; padding:5px 12px; border-radius:100px; margin-bottom:18px; }
-        .term-compare-col.is .term-compare-badge{ background:var(--term-lav); color:#7A2062; }
+        .term-compare-col.is .term-compare-badge{ background:#DFF6E7; color:#1E8449; }
         .term-compare-col.isnot .term-compare-badge{ background:var(--term-line); color:var(--term-ink-soft); }
         .term-compare-item{ margin-bottom:18px; }
         .term-compare-item:last-child{ margin-bottom:0; }
@@ -387,26 +496,30 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-history-grid{ display:grid; grid-template-columns:1.3fr 1fr; gap:44px; align-items:start; margin-top:32px; }
         @media (max-width:800px){ .term-history-grid{ grid-template-columns:1fr; } }
         .term-history-text p{ font-size:14px; line-height:1.7; color:var(--term-ink-soft); margin-bottom:16px; }
-        .term-history-visual{ position:relative; border-radius:8px; overflow:hidden; min-height:280px; display:flex; align-items:flex-end; transition:transform 0.4s cubic-bezier(.2,.8,.2,1); }
+        .term-history-visual{ position:relative; border-radius:8px; overflow:hidden; min-height:280px; display:flex; align-items:flex-end; transition:transform 0.4s cubic-bezier(.2,.8,.2,1); background:linear-gradient(135deg,#7E1CF1 0%,#E61A97 55%,#02C6FA 100%); }
         .term-history-visual:hover{ transform:translateY(-6px); }
         .term-history-visual .overlay{ position:absolute; inset:0; background:linear-gradient(180deg,rgba(11,14,20,0.1) 0%,rgba(11,14,20,0.88) 100%); }
         .term-history-visual .content{ position:relative; z-index:1; padding:26px; display:flex; gap:24px; width:100%; }
         .term-history-stat .y{ font-family:'Fraunces',serif; font-weight:600; font-size:30px; color:#fff; }
         .term-history-stat .l{ font-family:'Sora',sans-serif; font-weight:700; font-size:10.5px; letter-spacing:0.04em; text-transform:uppercase; color:rgba(255,255,255,0.7); margin-top:4px; }
         .term-values{ padding:72px 0; }
-        .term-values-grid > div{ border-radius:8px; padding:24px 20px; transition:transform 0.3s cubic-bezier(.2,.8,.2,1); }
-        .term-values-grid > div:nth-child(1){ background:var(--term-ink); color:#fff; }
-        .term-values-grid > div:nth-child(2){ background:var(--term-lav); }
-        .term-values-grid > div:nth-child(3){ background:var(--term-grey); }
-        .term-values-grid > div:nth-child(4){ background:var(--term-ink); color:#fff; }
-        .term-values-grid > div:nth-child(1) .n{ color:#02C6FA; } .term-values-grid > div:nth-child(4) .n{ color:#E61A97; }
-        .term-values-grid > div:nth-child(2) .n, .term-values-grid > div:nth-child(3) .n{ color:#7E1CF1; }
-        .term-values-grid > div:nth-child(1) p, .term-values-grid > div:nth-child(4) p{ color:#B9B7C7; }
-        .term-values-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:18px; margin-top:32px; }
+        .term-values-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:18px; margin-top:40px; }
         @media (max-width:800px){ .term-values-grid{ grid-template-columns:1fr 1fr; } }
-        .term-values-grid .n{ font-family:'Fraunces',serif; font-style:italic; font-weight:500; font-size:16px; color:#7E1CF1; margin-bottom:12px; }
-        .term-values-grid h4{ font-family:'Fraunces',serif; font-size:16px; font-weight:600; margin-bottom:6px; }
-        .term-values-grid p{ font-size:13px; color:var(--term-ink-soft); line-height:1.55; }
+        .term-values-grid > div{ border-radius:14px; padding:24px 20px; background:#fff; border:1px solid var(--term-line); border-top:3px solid transparent; transition:transform 0.3s cubic-bezier(.2,.8,.2,1), box-shadow 0.3s ease; }
+        .term-values-grid > div:nth-child(even){ margin-top:26px; }
+        @media (max-width:800px){ .term-values-grid > div:nth-child(even){ margin-top:0; } }
+        .term-values-grid > div:nth-child(1){ border-top-color:#02C6FA; }
+        .term-values-grid > div:nth-child(2){ border-top-color:#7E1CF1; }
+        .term-values-grid > div:nth-child(3){ border-top-color:#E61A97; }
+        .term-values-grid > div:nth-child(4){ border-top-color:#3ADB76; }
+        .term-values-grid > div:nth-child(1) .n{ color:#02C6FA; }
+        .term-values-grid > div:nth-child(2) .n{ color:#7E1CF1; }
+        .term-values-grid > div:nth-child(3) .n{ color:#E61A97; }
+        .term-values-grid > div:nth-child(4) .n{ color:#3ADB76; }
+        .term-values-grid > div:hover{ transform:translateY(-8px); box-shadow:0 22px 44px -20px rgba(11,14,20,0.18); }
+        .term-values-grid .n{ font-family:'Fraunces',serif; font-style:italic; font-weight:500; font-size:16px; color:#7E1CF1; margin-bottom:12px; position:relative; z-index:1; }
+        .term-values-grid h4{ font-family:'Fraunces',serif; font-size:16px; font-weight:600; margin-bottom:6px; position:relative; z-index:1; }
+        .term-values-grid p{ font-size:13px; color:var(--term-ink-soft); line-height:1.55; position:relative; z-index:1; }
         .term-examples{ padding:0 0 56px; }
         .term-examples-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
         @media (max-width:800px){ .term-examples-grid{ grid-template-columns:1fr; } }
@@ -435,29 +548,48 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-score-hero-text p{ color:#B9B7C7; font-size:14px; line-height:1.6; max-width:44ch; }
         .term-badges{ padding:32px 0; border-bottom:1px solid var(--term-line); }
         .term-badges-row{ display:flex; gap:14px; flex-wrap:wrap; justify-content:center; }
-        .term-badge{ display:flex; align-items:center; gap:8px; background:var(--term-grey); border-radius:100px; padding:10px 18px; font-size:12.5px; font-weight:600; color:var(--term-ink-soft); transition:transform 0.25s ease, background 0.25s ease; }
-        .term-badge:hover{ transform:translateY(-3px); background:#fff; box-shadow:0 8px 20px rgba(0,0,0,0.08); }
-        .term-badge svg{ width:16px; height:16px; color:#7E1CF1; flex-shrink:0; }
+        .term-badge{ display:flex; align-items:center; gap:9px; background:var(--term-grey); border-radius:100px; padding:9px 18px 9px 9px; font-size:12.5px; font-weight:600; color:var(--term-ink-soft); transition:transform 0.3s cubic-bezier(.22,1,.36,1), background 0.3s ease, box-shadow 0.3s ease; }
+        .term-badge:hover{ transform:translateY(-4px) scale(1.03); background:#fff; box-shadow:0 12px 26px rgba(11,14,20,0.12); }
+        .term-badge .ico{ width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:transform 0.3s cubic-bezier(.22,1,.36,1); }
+        .term-badge:hover .ico{ transform:scale(1.12) rotate(-6deg); }
+        .term-badge svg{ width:14px; height:14px; flex-shrink:0; }
+        .term-badge:nth-child(1) .ico{ background:#F1E7FB; } .term-badge:nth-child(1) svg{ color:#7E1CF1; }
+        .term-badge:nth-child(2) .ico{ background:#FCE7F1; } .term-badge:nth-child(2) svg{ color:#E61A97; }
+        .term-badge:nth-child(3) .ico{ background:#E2F8FC; } .term-badge:nth-child(3) svg{ color:#02C6FA; }
         .term-network{ padding:72px 0; }
         .term-network-split{ display:grid; grid-template-columns:0.75fr 1.6fr; gap:40px; align-items:start; }
         @media (max-width:900px){ .term-network-split{ grid-template-columns:1fr; } }
         .term-network-heading{ position:sticky; top:100px; }
+        @media (max-width:900px){ .term-network-heading{ position:static; } }
         .term-network-heading h2{ max-width:11ch; }
+        .term-network-lede{ font-size:16px; line-height:1.6; margin-top:14px; max-width:26ch; color:var(--term-ink-soft); }
+        .term-network-legend{ display:flex; flex-direction:column; gap:10px; margin-top:26px; }
+        .term-network-legend div{ display:flex; align-items:center; gap:10px; font-family:'Sora',sans-serif; font-weight:700; font-size:12.5px; color:var(--term-ink); }
+        .term-network-legend .dot{ width:9px; height:9px; border-radius:50%; flex-shrink:0; }
         .term-network-grid{ display:grid; grid-template-columns:1fr; gap:14px; }
         @media (min-width:901px){ .term-network-grid{ margin-top:0; } }
-        .term-network-card{ background:var(--term-grey); border-radius:8px; padding:28px 24px; border-top:3px solid transparent; transition:transform 0.3s cubic-bezier(.2,.8,.2,1); }
-        .term-network-card:nth-child(1){ border-top-color:#3ADB76; }
-        .term-network-card:nth-child(2){ border-top-color:#7E1CF1; }
-        .term-network-card:nth-child(3){ border-top-color:#E61A97; }
-        .term-network-card:hover{ transform:translateY(-6px) scale(1.02); box-shadow:0 16px 34px rgba(0,0,0,0.1); }
-        .term-network-card .n{ font-family:'Fraunces',serif; font-style:italic; font-weight:500; font-size:28px; margin-bottom:14px; }
-        .term-network-card h4{ font-family:'Fraunces',serif; font-size:17px; font-weight:600; margin-bottom:4px; }
-        .term-network-card .who{ font-size:11px; font-weight:600; color:#8A87A8; text-transform:uppercase; letter-spacing:0.02em; margin-bottom:12px; }
-        .term-network-card p{ font-size:13px; line-height:1.6; color:var(--term-ink-soft); }
+        .term-network-card{ background:var(--term-grey); border-radius:12px; padding:28px 24px; border-top:3px solid transparent; transition:transform 0.4s cubic-bezier(.22,1,.36,1), box-shadow 0.4s ease; position:relative; overflow:hidden; }
+        .term-network-card::after{ content:''; position:absolute; width:110px; height:110px; border-radius:50%; bottom:-50px; right:-40px; pointer-events:none; opacity:0.5; }
+        .term-network-card:nth-child(1){ border-top-color:#3ADB76; transform:rotate(-0.7deg); }
+        .term-network-card:nth-child(1)::after{ background:radial-gradient(circle,rgba(58,219,118,0.16),transparent 70%); }
+        .term-network-card:nth-child(2){ border-top-color:#7E1CF1; transform:rotate(0.5deg); }
+        .term-network-card:nth-child(2)::after{ background:radial-gradient(circle,rgba(126,28,241,0.14),transparent 70%); }
+        .term-network-card:nth-child(3){ border-top-color:#E61A97; transform:rotate(-0.4deg); }
+        .term-network-card:nth-child(3)::after{ background:radial-gradient(circle,rgba(230,26,151,0.14),transparent 70%); }
+        .term-network-card:hover{ transform:translateY(-8px) scale(1.02) rotate(0deg); box-shadow:0 22px 44px -16px rgba(11,14,20,0.2); }
+        .term-network-card .n{ font-family:'Fraunces',serif; font-style:italic; font-weight:500; font-size:28px; margin-bottom:14px; position:relative; z-index:1; }
+        .term-network-card h4{ font-family:'Fraunces',serif; font-size:17px; font-weight:600; margin-bottom:4px; position:relative; z-index:1; }
+        .term-network-card .who{ font-size:11px; font-weight:600; color:#8A87A8; text-transform:uppercase; letter-spacing:0.02em; margin-bottom:12px; position:relative; z-index:1; }
+        .term-network-card p{ font-size:13px; line-height:1.6; color:var(--term-ink-soft); position:relative; z-index:1; }
+        .term-network-cta{ position:relative; z-index:1; display:inline-block; background:none; border:none; font-family:'Sora',sans-serif; font-weight:700; font-size:12.5px; padding:0; margin-top:16px; cursor:pointer; border-bottom:1.5px solid currentColor; padding-bottom:2px; }
         .term-registry-intro{ max-width:64ch; margin:16px 0 32px; display:flex; flex-direction:column; gap:12px; padding:22px 26px; border-radius:8px; background:linear-gradient(135deg, rgba(126,28,241,0.06), rgba(230,26,151,0.04)); border-left:3px solid #7E1CF1; }
         .term-registry-intro p{ font-size:14px; line-height:1.65; color:var(--term-ink-soft); }
         .term-independence{ padding:56px 0; background:var(--term-grey); }
-        .term-independence-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:28px; }
+        .term-independence-stat{ display:flex; align-items:center; gap:20px; margin:24px 0 32px; padding:22px 26px; background:#fff; border-radius:12px; border-left:4px solid #7E1CF1; }
+        @media (max-width:600px){ .term-independence-stat{ flex-direction:column; align-items:flex-start; gap:10px; } }
+        .term-independence-stat .big{ font-family:'Fraunces',serif; font-weight:700; font-size:clamp(48px,6vw,64px); line-height:1; background:linear-gradient(90deg,#7E1CF1,#E61A97); -webkit-background-clip:text; background-clip:text; color:transparent; flex-shrink:0; }
+        .term-independence-stat .label{ font-size:14px; line-height:1.5; color:var(--term-ink-soft); max-width:32ch; }
+        .term-independence-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:0; }
         @media (max-width:800px){ .term-independence-grid{ grid-template-columns:1fr; } }
         .term-independence-card{ background:#fff; border-radius:8px; padding:26px 24px; border-left:3px solid transparent; box-shadow:0 4px 16px rgba(0,0,0,0.04); transition:transform 0.3s cubic-bezier(.2,.8,.2,1); }
         .term-independence-card:nth-child(1){ border-left-color:#7E1CF1; }
@@ -511,19 +643,18 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-milestone-point.up .ico{ background:#E4F9EC; color:#1E8449; }
         .term-milestone-point.down .ico{ background:#FBE4E4; color:#B33B3B; }
         .term-stats{ padding:48px 0 32px; }
-        .term-stats-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
-        .term-stats-grid.three{ grid-template-columns:repeat(3,1fr); }
-        @media (max-width:800px){ .term-stats-grid{ grid-template-columns:1fr 1fr; } .term-stats-grid.three{ grid-template-columns:1fr; } }
-        .term-stat-card.founder{ background:linear-gradient(135deg,#7E1CF1,#E61A97); }
-        .term-stat-card.founder .v{ background:none; -webkit-text-fill-color:initial; color:#fff; -webkit-background-clip:initial; background-clip:initial; }
-        .term-stat-card.founder .l{ color:rgba(255,255,255,0.85); }
-        .term-stat-card.founder .s{ color:rgba(255,255,255,0.7); }
-        .term-stat-card.founder:hover{ border-color:transparent; filter:brightness(1.08); }
-        .term-stat-card{ background:var(--term-grey); border-radius:8px; padding:24px 20px; text-align:center; transition:transform 0.3s cubic-bezier(.2,.8,.2,1), border-color 0.3s ease; border:1px solid transparent; }
-        .term-stat-card:hover{ transform:translateY(-5px); border-color:#7E1CF1; }
-        .term-stat-card .v{ font-family:'Fraunces',serif; font-weight:600; font-size:clamp(28px,3.6vw,38px); color:#7E1CF1; }
-        .term-stat-card .l{ font-family:'Sora',sans-serif; font-weight:700; font-size:11px; text-transform:uppercase; letter-spacing:0.03em; margin-top:6px; }
-        .term-stat-card .s{ font-size:11px; color:var(--term-ink-soft); margin-top:3px; }
+        .term-founder-banner{ background:linear-gradient(120deg,#7E1CF1,#B5308E 55%,#E61A97); border-radius:100px; padding:14px 14px 14px 26px; display:inline-flex; align-items:center; justify-content:center; gap:18px; flex-wrap:nowrap; cursor:pointer; transition:transform 0.35s cubic-bezier(.2,.8,.2,1), box-shadow 0.35s ease; max-width:100%; }
+        .term-founder-banner-wrap{ display:flex; justify-content:center; }
+        .term-founder-banner:hover{ transform:translateY(-3px); box-shadow:0 20px 44px -18px rgba(126,28,241,0.45); }
+        .term-founder-banner .txt{ display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; }
+        .term-founder-banner .txt .v{ font-family:'Fraunces',serif; font-weight:600; font-size:16px; color:#fff; white-space:nowrap; }
+        .term-founder-banner .txt .l{ font-family:'Sora',sans-serif; font-weight:600; font-size:12px; color:rgba(255,255,255,0.8); white-space:nowrap; }
+        .term-founder-banner .arrow{ flex-shrink:0; width:38px; height:38px; border-radius:50%; background:rgba(255,255,255,0.18); display:flex; align-items:center; justify-content:center; color:#fff; font-size:16px; transition:transform 0.3s ease, background 0.3s ease; }
+        .term-founder-banner:hover .arrow{ transform:translateX(4px); background:#fff; color:#7E1CF1; }
+        @media (max-width:600px){
+          .term-founder-banner{ padding:14px 14px 14px 20px; gap:12px; }
+          .term-founder-banner .txt{ flex-direction:column; gap:2px; align-items:flex-start; }
+        }
         .term-cert-ticker{ margin-top:40px; overflow:hidden; }
         .term-cert-ticker-label{ text-align:center; font-family:'Sora',sans-serif; font-weight:700; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--term-ink-soft); margin-bottom:20px; }
         .term-cert-ticker-track{ display:flex; gap:28px; width:max-content; animation:termTickerScroll 30s linear infinite; }
@@ -538,25 +669,34 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-eyebrow{ font-family:'Fraunces',serif; font-style:italic; font-weight:500; font-size:15px; letter-spacing:0.01em; color:#7A2062; text-transform:none; margin-bottom:10px; }
         .term-validation{ padding:56px 0 72px; }
         .term-validation-sub{ font-size:14px; color:var(--term-ink-soft); max-width:56ch; margin:8px 0 32px; }
-        .term-validation-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+        .term-validation-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; position:relative; }
         @media (max-width:800px){ .term-validation-grid{ grid-template-columns:1fr 1fr; } }
-        .term-validation-step{ background:var(--term-grey); border-radius:8px; padding:22px 20px; border-top:3px solid transparent; transition:transform 0.3s cubic-bezier(.2,.8,.2,1), box-shadow 0.3s ease; }
+        .term-validation-step{ background:var(--term-grey); border-radius:8px; padding:22px 20px; border-top:3px solid transparent; transition:transform 0.3s cubic-bezier(.2,.8,.2,1), box-shadow 0.3s ease; position:relative; }
+        .term-validation-step:not(:last-child)::after{ content:'→'; position:absolute; top:22px; right:-19px; font-family:'Sora',sans-serif; font-weight:800; font-size:16px; color:var(--term-line); z-index:1; }
+        @media (max-width:800px){ .term-validation-step:not(:last-child)::after{ display:none; } }
         .term-validation-step:nth-child(1){ border-top-color:#7E1CF1; }
         .term-validation-step:nth-child(2){ border-top-color:#E61A97; }
         .term-validation-step:nth-child(3){ border-top-color:#02C6FA; }
         .term-validation-step:nth-child(4){ border-top-color:#3ADB76; }
-        .term-validation-step:nth-child(1) .num{ color:#7E1CF1; }
-        .term-validation-step:nth-child(2) .num{ color:#E61A97; }
-        .term-validation-step:nth-child(3) .num{ color:#02C6FA; }
-        .term-validation-step:nth-child(4) .num{ color:#3ADB76; }
-        .term-validation-step:hover{ transform:translateY(-5px); }
-        .term-validation-step .num{ font-family:'Fraunces',serif; font-style:italic; font-weight:500; font-size:17px; color:#7E1CF1; }
+        .term-validation-step:hover{ transform:translateY(-5px); box-shadow:0 16px 34px -16px rgba(11,14,20,0.25); }
+        .term-validation-step .num{ display:flex; align-items:center; justify-content:center; width:30px; height:30px; border-radius:50%; font-family:'Sora',sans-serif; font-style:normal; font-weight:800; font-size:12.5px; color:#fff; }
+        .term-validation-step:nth-child(1) .num{ background:#7E1CF1; }
+        .term-validation-step:nth-child(2) .num{ background:#E61A97; }
+        .term-validation-step:nth-child(3) .num{ background:#02C6FA; }
+        .term-validation-step:nth-child(4) .num{ background:#3ADB76; }
         .term-validation-step h5{ font-family:'Sora',sans-serif; font-weight:700; font-size:14.5px; margin:10px 0 6px; }
         .term-validation-step p{ font-size:12.5px; color:var(--term-ink-soft); line-height:1.5; }
         .term-newera-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:18px; margin-top:36px; }
         @media (max-width:900px){ .term-newera-grid{ grid-template-columns:repeat(2,1fr); } }
-        .term-newera-card{ background:#fff; border-radius:8px; padding:28px 22px; border-top:3px solid var(--term-line); }
-        .term-newera-card .n{ font-family:'Sora',sans-serif; font-weight:700; font-size:13px; color:var(--term-ink-soft); margin-bottom:16px; }
+        .term-newera-card{ background:#fff; border-radius:12px; padding:28px 22px; border-top:3px solid var(--term-line); transition:transform 0.4s cubic-bezier(.22,1,.36,1), box-shadow 0.4s ease, border-color 0.4s ease; }
+        .term-newera-card:nth-child(1){ border-top-color:#3ADB76; }
+        .term-newera-card:nth-child(2){ border-top-color:#7E1CF1; }
+        .term-newera-card:nth-child(3){ border-top-color:#E61A97; }
+        .term-newera-card:nth-child(4){ border-top-color:#02C6FA; }
+        .term-newera-card .n{ display:flex; align-items:center; justify-content:center; width:30px; height:30px; border-radius:50%; font-family:'Sora',sans-serif; font-weight:800; font-size:11.5px; color:#fff; margin-bottom:16px; transition:transform 0.3s cubic-bezier(.22,1,.36,1); }
+        .term-newera-card:nth-child(1) .n{ background:#3ADB76; } .term-newera-card:nth-child(2) .n{ background:#7E1CF1; }
+        .term-newera-card:nth-child(3) .n{ background:#E61A97; } .term-newera-card:nth-child(4) .n{ background:#02C6FA; }
+        .term-newera-card:hover .n{ transform:scale(1.15) rotate(-8deg); }
         .term-newera-card h4{ font-family:'Fraunces',serif; font-size:17px; font-weight:600; margin-bottom:8px; }
         .term-newera-card p{ font-size:13px; line-height:1.55; color:var(--term-ink-soft); }
         .term-why{ padding:72px 0; }
@@ -566,11 +706,12 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-why-item:nth-child(1){ border-top-color:#E61A97; }
         .term-why-item:nth-child(2){ border-top-color:#7E1CF1; }
         .term-why-item:nth-child(3){ border-top-color:#02C6FA; }
-        .term-why-item:nth-child(1) .n{ color:#E61A97; }
-        .term-why-item:nth-child(2) .n{ color:#7E1CF1; }
-        .term-why-item:nth-child(3) .n{ color:#02C6FA; }
         .term-why-item:last-child{ border-right:none; }
-        .term-why-item .n{ font-family:'Fraunces',serif; font-style:italic; font-weight:500; font-size:16px; color:#7E1CF1; margin-bottom:12px; }
+        .term-why-item .icon{ width:38px; height:38px; border-radius:10px; background:var(--term-grey); display:flex; align-items:center; justify-content:center; margin-bottom:16px; transition:transform 0.3s cubic-bezier(.22,1,.36,1); }
+        .term-why-item:hover .icon{ transform:scale(1.12) rotate(-6deg); }
+        .term-why-item .stat-row{ display:flex; align-items:baseline; gap:8px; margin-bottom:10px; }
+        .term-why-item .stat{ font-family:'Fraunces',serif; font-weight:600; font-size:32px; line-height:1; }
+        .term-why-item .stat-label{ font-family:'Sora',sans-serif; font-weight:700; font-size:10.5px; letter-spacing:0.03em; text-transform:uppercase; color:var(--term-ink-soft); }
         .term-why-item h4{ font-family:'Fraunces',serif; font-size:16px; font-weight:600; margin-bottom:6px; }
         .term-why-item p{ font-size:13px; color:var(--term-ink-soft); line-height:1.55; }
         .term-registry{ padding:20px 0 72px; }
@@ -654,39 +795,36 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-reveal:nth-child(5){ transition-delay:0.32s; }
         .term-reveal.visible{ filter:blur(0); }
         .term-reveal.visible{ opacity:1; transform:translateY(0) scale(1); }
-        .term-pillar{ transition:transform 0.3s cubic-bezier(.2,.8,.2,1), box-shadow 0.3s ease, opacity 0.6s ease; }
-        .term-pillar:hover{ transform:translateY(-6px) scale(1.03); box-shadow:0 20px 40px rgba(0,0,0,0.16); }
         .term-newera-card{ transition:transform 0.3s cubic-bezier(.2,.8,.2,1), box-shadow 0.3s ease, border-color 0.3s ease, opacity 0.6s ease; }
         .term-newera-card:hover{ transform:translateY(-8px) scale(1.03); box-shadow:0 22px 44px rgba(126,28,241,0.12); border-top-color:#7E1CF1; }
         .term-why-item{ transition:background 0.25s ease; }
         .term-why-item:hover{ background:var(--term-grey); }
-        .term-compare-col{ transition:transform 0.3s cubic-bezier(.2,.8,.2,1), box-shadow 0.3s ease, opacity 0.6s ease; }
-        .term-compare-col:hover{ transform:translateY(-6px); box-shadow:0 20px 40px rgba(0,0,0,0.08); }
         .term-history-stat{ transition:transform 0.3s cubic-bezier(.2,.8,.2,1); }
         .term-history-stat:hover{ transform:translateY(-6px); }
         .term-reg-card{ transition:transform 0.25s ease, box-shadow 0.25s ease; }
         .term-reg-card:hover{ transform:translateY(-8px) scale(1.035); box-shadow:0 22px 44px rgba(0,0,0,0.3); }
         .term-price{ transition:transform 0.3s cubic-bezier(.2,.8,.2,1), box-shadow 0.3s ease, opacity 0.6s ease; }
         .term-price:hover{ transform:translateY(-8px) scale(1.03); box-shadow:0 20px 40px rgba(126,28,241,0.14); }
-        .term-values-grid > div{ transition:transform 0.3s cubic-bezier(.2,.8,.2,1); }
-        .term-values-grid > div:hover{ transform:translateY(-6px); }
         .term-btn-primary{ transition:background 0.25s ease, transform 0.2s ease; }
         .term-btn-primary:active{ transform:scale(0.97); }
         .term-modal-card{ animation:termModalIn 0.3s cubic-bezier(.2,.8,.2,1); }
         @keyframes termModalIn{ from{ opacity:0; transform:translateY(20px) scale(0.98); } to{ opacity:1; transform:translateY(0) scale(1); } }
-        .term-free-banner{ padding:72px 0; }
-        .term-free-tag{ display:inline-block; font-family:'Sora',sans-serif; font-weight:700; font-size:11px; letter-spacing:0.05em; text-transform:uppercase; color:#1E8449; background:#E4F9EC; padding:6px 14px; border-radius:100px; margin-bottom:16px; }
-        .term-free-banner h2{ font-size:clamp(24px,3.2vw,36px); max-width:22ch; margin-bottom:10px; }
-        .term-free-intro{ color:var(--term-ink-soft); font-size:14px; line-height:1.6; max-width:64ch; margin-bottom:36px; }
+        .term-free-banner{ padding:72px 0; background:var(--term-ink); position:relative; overflow:hidden; }
+        .term-free-banner::before{ content:''; position:absolute; top:-40%; right:-10%; width:500px; height:500px; border-radius:50%; background:radial-gradient(circle,rgba(126,28,241,0.35),transparent 70%); pointer-events:none; }
+        .term-free-banner .term-wrap{ position:relative; z-index:1; }
+        .term-free-tag{ display:inline-block; font-family:'Sora',sans-serif; font-weight:700; font-size:11px; letter-spacing:0.05em; text-transform:uppercase; color:#3ADB76; background:rgba(58,219,118,0.15); padding:6px 14px; border-radius:100px; margin-bottom:16px; }
+        .term-free-banner h2{ color:#fff; font-size:clamp(24px,3.2vw,36px); max-width:22ch; margin-bottom:10px; }
+        .term-free-intro{ color:#B9B7C7; font-size:14px; line-height:1.6; max-width:64ch; margin-bottom:36px; }
         .term-free-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:32px; }
         @media (max-width:800px){ .term-free-grid{ grid-template-columns:1fr; } }
-        .term-free-scenario{ background:var(--term-grey); border-radius:8px; padding:26px 24px; }
-        .term-free-scenario .badge{ display:inline-block; font-size:10.5px; font-weight:700; color:#1E8449; background:#E4F9EC; padding:3px 10px; border-radius:100px; text-transform:uppercase; letter-spacing:0.02em; margin-bottom:14px; }
-        .term-free-scenario .cat{ font-family:'Sora',sans-serif; font-weight:700; font-size:11px; letter-spacing:0.04em; text-transform:uppercase; color:#7E1CF1; margin-bottom:4px; }
-        .term-free-scenario h4{ font-family:'Fraunces',serif; font-weight:600; font-size:17px; margin-bottom:8px; }
-        .term-free-scenario p{ font-size:13px; line-height:1.55; color:var(--term-ink-soft); }
-        .term-free-cta{ background:var(--term-ink); color:#fff; border:none; padding:14px 26px; border-radius:100px; font-family:'Sora',sans-serif; font-weight:700; font-size:14px; cursor:pointer; }
-        .term-free-cta:hover{ background:#7E1CF1; }
+        .term-free-scenario{ background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:26px 24px; backdrop-filter:blur(6px); transition:transform 0.3s cubic-bezier(.2,.8,.2,1), background 0.3s ease; }
+        .term-free-scenario:hover{ transform:translateY(-6px); background:rgba(255,255,255,0.1); }
+        .term-free-scenario .badge{ display:inline-block; font-size:10.5px; font-weight:700; color:#3ADB76; background:rgba(58,219,118,0.15); padding:3px 10px; border-radius:100px; text-transform:uppercase; letter-spacing:0.02em; margin-bottom:14px; }
+        .term-free-scenario .cat{ font-family:'Sora',sans-serif; font-weight:700; font-size:11px; letter-spacing:0.04em; text-transform:uppercase; color:#02C6FA; margin-bottom:4px; }
+        .term-free-scenario h4{ font-family:'Fraunces',serif; font-weight:600; font-size:17px; margin-bottom:8px; color:#fff; }
+        .term-free-scenario p{ font-size:13px; line-height:1.55; color:#B9B7C7; }
+        .term-free-cta{ background:linear-gradient(120deg,#7E1CF1,#E61A97); color:#fff; border:none; padding:14px 26px; border-radius:100px; font-family:'Sora',sans-serif; font-weight:700; font-size:14px; cursor:pointer; transition:transform 0.25s ease, box-shadow 0.25s ease; }
+        .term-free-cta:hover{ transform:translateY(-2px); box-shadow:0 14px 30px -10px rgba(126,28,241,0.5); }
         .term-photo-stats{ padding:64px 0; }
         .term-photo-stats-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
         @media (max-width:800px){ .term-photo-stats-grid{ grid-template-columns:1fr; } }
@@ -812,14 +950,14 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       {/* Stats live + bandeau certificateurs — repris d'AboutView */}
       <section className="term-stats">
         <div className="term-wrap">
-          <div className="term-stats-grid three">
-            <div className="term-stat-card term-reveal"><div className="v"><CountUp to={20} suffix="+" /></div><div className="l">{t("Ans d'existence", 'Years of existence')}</div><div className="s">{t('Depuis 2006', 'Since 2006')}</div></div>
-            <div className="term-stat-card term-reveal"><div className="v"><CountUp to={9} suffix="+" /></div><div className="l">{t('Disciplines créatives', 'Creative disciplines')}</div><div className="s">{t('Musique, cinéma, mode, gaming…', 'Music, film, fashion, gaming…')}</div></div>
-            <div className="term-stat-card founder term-reveal" onClick={() => setShowJoin(true)} style={{ cursor: 'pointer' }}>
-              <div className="v" style={{ fontSize: 22 }}>{t('Devenez fondateur', 'Become a founder')}</div>
-              <div className="l">{t('150 premières places', 'First 150 spots')}</div>
-              <div className="s">{t('Accès immédiat, sans attente →', 'Instant access, no waiting →')}</div>
+          <div className="term-founder-banner-wrap term-reveal">
+          <div className="term-founder-banner" onClick={() => setShowJoin(true)}>
+            <div className="txt">
+              <span className="v">{t('Devenez fondateur', 'Become a founder')}</span>
+              <span className="l">{t('150 premières places · accès immédiat →', 'First 150 spots · instant access →')}</span>
             </div>
+            <div className="arrow">→</div>
+          </div>
           </div>
         </div>
 
@@ -845,17 +983,31 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
             <span className="term-gradient-text">{t('Cinq critères.', 'Five criteria.')}</span> {t('Un standard commun à tout le secteur créatif.', 'One standard shared across the whole creative sector.')}
           </h2>
           <p className="term-pillars-note">{t('Chaque critère est noté sur 200 points, pour un Score LYA total sur 1000.', 'Each criterion is scored out of 200 points, for a total LYA Score out of 1000.')}</p>
-          <div className="term-pillars-grid">
+          <motion.div
+            className="term-pillars-grid"
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.3 }}
+            variants={{ hidden: {}, show: { transition: { staggerChildren: 0.09 } } }}
+          >
             {pillars.map(p => (
-              <div key={p.n} className={`term-pillar ${p.bg} term-reveal`}>
+              <motion.div
+                key={p.n}
+                className={`term-pillar ${p.bg}`}
+                variants={{
+                  hidden: { opacity: 0, y: 36, scale: 0.86, rotate: -3 },
+                  show: { opacity: 1, y: 0, scale: 1, rotate: 0 },
+                }}
+                transition={{ type: 'spring', stiffness: 260, damping: 18 }}
+              >
                 <div>
                   <div className="n">{p.n}</div>
                   <div className="t">{t(p.title.fr, p.title.en)}</div>
                 </div>
                 <div className="d">{t(p.desc.fr, p.desc.en)}</div>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
           <div className="term-section-cta"><button onClick={() => document.getElementById('registry')?.scrollIntoView({ behavior: 'smooth' })}>{t('Voir des exemples de scores réels →', 'See real score examples →')}</button></div>
         </div>
       </section>
@@ -869,7 +1021,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
             </div>
             <div className="term-score-hero-text">
               <div className="term-eyebrow">{t('Le concept en un chiffre', 'The concept in one number')}</div>
-              <h2>{t('Chaque œuvre a un Score ', 'Every work has a ')}<span style={{ textTransform: 'uppercase' }}>LYA</span>{t(' — sur 1000, toujours.', ' Score — out of 1000, always.')}</h2>
+              <h2>{t('Chaque œuvre a un Score ', 'Every work has a ')}<span className="term-gradient-text" style={{ textTransform: 'uppercase' }}>LYA</span>{t(' — sur 1000, toujours.', ' Score — out of 1000, always.')}</h2>
               <p>{t("Un seul standard, comparable d'une discipline à l'autre. 247, 580 ou 928 — le chiffre veut toujours dire la même chose.", 'One single standard, comparable across every discipline. 247, 580, or 928 — the number always means the same thing.')}</p>
             </div>
           </div>
@@ -953,12 +1105,27 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
           <div className="term-eyebrow">{t('Processus', 'Process')}</div>
           <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t('Une validation en 4 étapes.', 'A 4-step validation.')}</h2>
           <p className="term-validation-sub">{t('Chaque projet passe par les 4 mêmes étapes de revue avant de pouvoir être certifié — aucun raccourci, aucune exception.', 'Every project goes through the same 4 review steps before certification — no shortcuts, no exceptions.')}</p>
-          <div className="term-validation-grid">
-            <div className="term-validation-step term-reveal"><span className="num">01</span><h5>{t("Vérification d'origine", 'Origin verification')}</h5><p>{t('Authenticité et traçabilité de la création.', 'Authenticity and traceability of the work.')}</p></div>
-            <div className="term-validation-step term-reveal"><span className="num">02</span><h5>{t('Analyse créative', 'Creative analysis')}</h5><p>{t('Originalité, qualité et potentiel artistique.', 'Originality, quality and artistic potential.')}</p></div>
-            <div className="term-validation-step term-reveal"><span className="num">03</span><h5>{t('Droits & conformité', 'Rights & compliance')}</h5><p>{t('Vérification des droits de propriété et licences.', 'Ownership rights and license verification.')}</p></div>
-            <div className="term-validation-step term-reveal"><span className="num">04</span><h5>{t('Validation finale', 'Final validation')}</h5><p>{t("Approbation définitive d'indexation LYA.", 'Final LYA indexation approval.')}</p></div>
-          </div>
+          <motion.div
+            className="term-validation-grid"
+            initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.3 }}
+            variants={{ hidden: {}, show: { transition: { staggerChildren: 0.1 } } }}
+          >
+            {[
+              { num: '01', title: t("Vérification d'origine", 'Origin verification'), desc: t('Authenticité et traçabilité de la création.', 'Authenticity and traceability of the work.') },
+              { num: '02', title: t('Analyse créative', 'Creative analysis'), desc: t('Originalité, qualité et potentiel artistique.', 'Originality, quality and artistic potential.') },
+              { num: '03', title: t('Droits & conformité', 'Rights & compliance'), desc: t('Vérification des droits de propriété et licences.', 'Ownership rights and license verification.') },
+              { num: '04', title: t('Validation finale', 'Final validation'), desc: t("Approbation définitive d'indexation LYA.", 'Final LYA indexation approval.') },
+            ].map((s, i) => (
+              <motion.div
+                key={s.num}
+                className="term-validation-step"
+                variants={{ hidden: { opacity: 0, x: -30 + i * 4, y: 20 }, show: { opacity: 1, x: 0, y: 0 } }}
+                transition={{ type: 'spring', stiffness: 240, damping: 20 }}
+              >
+                <span className="num">{s.num}</span><h5>{s.title}</h5><p>{s.desc}</p>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
       </section>
 
@@ -973,16 +1140,25 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       <section className="term-newera">
         <div className="term-wrap">
           <div className="term-eyebrow">Une nouvelle ère</div>
-          <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px) ' }}>Pour l'excellence créative.</h2>
-          <div className="term-newera-grid">
+          <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px) ' }}>Pour l'excellence <span className="term-gradient-text">créative.</span></h2>
+          <motion.div
+            className="term-newera-grid"
+            initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.25 }}
+            variants={{ hidden: {}, show: { transition: { staggerChildren: 0.1 } } }}
+          >
             {newEra.map(c => (
-              <div key={c.n} className="term-newera-card term-reveal">
+              <motion.div
+                key={c.n}
+                className="term-newera-card"
+                variants={{ hidden: { opacity: 0, y: 34, scale: 0.88 }, show: { opacity: 1, y: 0, scale: 1 } }}
+                transition={{ type: 'spring', stiffness: 250, damping: 19 }}
+              >
                 <div className="n">{c.n}</div>
                 <h4>{t(c.title.fr, c.title.en)}</h4>
                 <p>{t(c.desc.fr, c.desc.en)}</p>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
           <div className="term-section-cta"><button onClick={() => setShowJoin(true)}>{t('Rejoindre LYA et faire certifier mon projet →', 'Join LYA and get my project certified →')}</button></div>
         </div>
       </section>
@@ -991,21 +1167,40 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       <section className="term-compare">
         <div className="term-wrap">
           <div className="term-eyebrow">{t('Comparaison', 'Comparison')}</div>
-          <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t('Ce que ', 'What ')}<span style={{ textTransform: 'uppercase' }}>LYA</span>{t(" est — et n'est pas.", " is — and isn't.")}</h2>
-          <div className="term-compare-grid">
-            <div className="term-compare-col is term-reveal">
+          <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t('Ce que ', 'What ')}<span className="term-gradient-text" style={{ textTransform: 'uppercase' }}>LYA</span>{t(" est — et n'est pas.", " is — and isn't.")}</h2>
+          <motion.div
+            className="term-compare-grid"
+            initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.3 }}
+            variants={{ hidden: {}, show: { transition: { staggerChildren: 0.15 } } }}
+          >
+            <motion.div
+              className="term-compare-vs"
+              variants={{ hidden: { opacity: 0, scale: 0 }, show: { opacity: 1, scale: 1 } }}
+              transition={{ type: 'spring', stiffness: 320, damping: 16, delay: 0.25 }}
+            >VS</motion.div>
+            <motion.div
+              className="term-compare-col is"
+              variants={{ hidden: { opacity: 0, x: -50, rotate: -8 }, show: { opacity: 1, x: 0, rotate: -0.6 } }}
+              transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+              whileHover={{ y: -6, rotate: 0 }}
+            >
               <span className="term-compare-badge">{t('CE QUE LYA EST', 'WHAT LYA IS')}</span>
               {comparison.is.map(item => (
                 <div key={item.t.fr} className="term-compare-item"><h5>{t(item.t.fr, item.t.en)}</h5><p>{t(item.d.fr, item.d.en)}</p></div>
               ))}
-            </div>
-            <div className="term-compare-col isnot term-reveal">
+            </motion.div>
+            <motion.div
+              className="term-compare-col isnot"
+              variants={{ hidden: { opacity: 0, x: 50, rotate: 8 }, show: { opacity: 1, x: 0, rotate: 0.6 } }}
+              transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+              whileHover={{ y: -6, rotate: 0 }}
+            >
               <span className="term-compare-badge">{t("CE QUE LYA N'EST PAS", "WHAT LYA ISN'T")}</span>
               {comparison.isNot.map(item => (
                 <div key={item.t.fr} className="term-compare-item"><h5>{t(item.t.fr, item.t.en)}</h5><p>{t(item.d.fr, item.d.en)}</p></div>
               ))}
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
           <div className="term-section-cta"><button onClick={() => document.getElementById('registry')?.scrollIntoView({ behavior: 'smooth' })}>{t('Voir des exemples concrets →', 'See real examples →')}</button></div>
         </div>
       </section>
@@ -1014,9 +1209,15 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       <section className="term-history">
         <div className="term-wrap">
           <div className="term-eyebrow">{t('Notre histoire', 'Our history')}</div>
-          <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)', maxWidth: '20ch' }}>{t("Vingt ans avant d'avoir un nom pour ça.", 'Twenty years before it had a name.')}</h2>
+          <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)', maxWidth: '20ch' }}>{t("Vingt ans avant d'avoir ", 'Twenty years before it ')}<span className="term-gradient-text">{t('un nom pour ça.', 'had a name.')}</span></h2>
           <div className="term-history-grid">
-            <div className="term-history-text">
+            <motion.div
+              className="term-history-text"
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.6, ease: 'easeOut' }}
+            >
               <p>{t(
                 "En 2006, Jean-Baptiste Lequime fonde LinkYourArt avec une ambition claire : bâtir le premier pont international entre les créations et les industries qui en ont besoin. C'est en construisant LinkYourArt, au fil des années, qu'il a forgé son expérience en développement commercial dans les industries créatives, avec une spécialisation film et divertissement. Musique, cinéma, mode, jeux vidéo, design, architecture, arts de la scène — chaque création y trouve sa place, à une époque où aucune plateforme n'osait encore toutes les réunir.",
                 'In 2006, Jean-Baptiste Lequime founded LinkYourArt with a clear ambition: to build the first international bridge between creative works and the industries that need them. It was LinkYourArt itself that forged, over the years, his business development expertise within the creative industries, specializing in film and entertainment. Music, film, fashion, gaming, design, architecture, performing arts — every creation found a home here, at a time when no platform dared unite them all.'
@@ -1029,7 +1230,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
                 "Aujourd'hui, à l'occasion de ses 20 ans, LinkYourArt entame une nouvelle étape avec le lancement d'une plateforme entièrement repensée, construite autour d'un standard objectif de certification créative.",
                 "Today, on its 20th anniversary, LinkYourArt is embarking on a new stage with the launch of an entirely redesigned platform, built around an objective standard for creative certification."
               )}</p>
-            </div>
+            </motion.div>
             <ParallaxPhoto image="https://images.unsplash.com/photo-1481457443364-6b3a9819c3c8?auto=format&fit=crop&q=80&w=800" className="term-history-visual term-reveal">
               <div className="overlay" />
               <div className="content">
@@ -1047,12 +1248,18 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
           <div className="term-eyebrow">{t('Nos valeurs', 'Our values')}</div>
           <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t('Ce qui ne bouge pas, même quand tout évolue.', "What doesn't move, even as everything evolves.")}</h2>
           <div className="term-values-grid">
-            {values.map(v => (
-              <div key={v.n}>
+            {values.map((v, i) => (
+              <motion.div
+                key={v.n}
+                initial={{ opacity: 0, y: 40, scale: 0.9 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, amount: 0.4 }}
+                transition={{ type: 'spring', stiffness: 240, damping: 20, delay: i * 0.08 }}
+              >
                 <div className="n">{v.n}</div>
                 <h4>{t(v.title.fr, v.title.en)}</h4>
                 <p>{t(v.desc.fr, v.desc.en)}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -1062,12 +1269,29 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       <section className="term-why">
         <div className="term-wrap">
           <div className="term-eyebrow">{t('Pourquoi LYA', 'Why LYA')}</div>
-          <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t("Une reconnaissance qui se construit, pas qui s'achète.", 'Recognition that is built, not bought.')}</h2>
-          <div className="term-why-grid">
-            <div className="term-why-item"><div className="n">01</div><h4>{t('Transparent', 'Transparent')}</h4><p>{t('Cinq critères clairs, expliqués, jamais une boîte noire.', 'Five clear, explained criteria — never a black box.')}</p></div>
-            <div className="term-why-item"><div className="n">02</div><h4>{t('Communautaire', 'Community-driven')}</h4><p>{t('Artistes, mécènes et professionnels avancent ensemble.', 'Artists, patrons and professionals move forward together.')}</p></div>
-            <div className="term-why-item"><div className="n">03</div><h4>{t('Indépendant', 'Independent')}</h4><p>{t('5% de commission sur le mécénat, rien de caché derrière.', '5% commission on patronage — nothing hidden behind it.')}</p></div>
-          </div>
+          <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t("Une reconnaissance qui se construit, ", 'Recognition that is built, ')}<span className="term-gradient-text">{t("pas qui s'achète.", 'not bought.')}</span></h2>
+          <motion.div
+            className="term-why-grid"
+            initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.4 }}
+            variants={{ hidden: {}, show: { transition: { staggerChildren: 0.12 } } }}
+          >
+            {[
+              { icon: Eye, stat: '0', statLabel: t('boîte noire', 'black box'), title: t('Transparent', 'Transparent'), desc: t('Cinq critères clairs, expliqués, jamais une boîte noire.', 'Five clear, explained criteria — never a black box.'), color: '#E61A97' },
+              { icon: Users, stat: '3', statLabel: t('rôles, ensemble', 'roles, together'), title: t('Communautaire', 'Community-driven'), desc: t('Artistes, mécènes et professionnels avancent ensemble.', 'Artists, patrons and professionals move forward together.'), color: '#7E1CF1' },
+              { icon: Percent, stat: '5%', statLabel: t('commission, point final', 'commission, full stop'), title: t('Indépendant', 'Independent'), desc: t('5% de commission sur le mécénat, rien de caché derrière.', '5% commission on patronage — nothing hidden behind it.'), color: '#02C6FA' },
+            ].map((item) => (
+              <motion.div
+                key={item.title}
+                className="term-why-item"
+                variants={{ hidden: { opacity: 0, y: 30 }, show: { opacity: 1, y: 0 } }}
+                transition={{ type: 'spring', stiffness: 240, damping: 20 }}
+              >
+                <div className="icon" style={{ color: item.color }}><item.icon size={20} strokeWidth={2.2} /></div>
+                <div className="stat-row"><span className="stat" style={{ color: item.color }}>{item.stat}</span><span className="stat-label">{item.statLabel}</span></div>
+                <h4>{item.title}</h4><p>{item.desc}</p>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
       </section>
 
@@ -1111,9 +1335,9 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       <section className="term-badges">
         <div className="term-wrap">
           <div className="term-badges-row">
-            <div className="term-badge term-reveal"><Shield /><span>{t('Conforme RGPD', 'GDPR compliant')}</span></div>
-            <div className="term-badge term-reveal"><Shield /><span>{t('Droits créatifs certifiés', 'Certified creative rights')}</span></div>
-            <div className="term-badge term-reveal"><Shield /><span>{t('Authentification multi-facteurs', 'Multi-factor authentication')}</span></div>
+            <div className="term-badge term-reveal"><span className="ico"><Shield /></span><span>{t('Conforme RGPD', 'GDPR compliant')}</span></div>
+            <div className="term-badge term-reveal"><span className="ico"><Shield /></span><span>{t('Droits créatifs certifiés', 'Certified creative rights')}</span></div>
+            <div className="term-badge term-reveal"><span className="ico"><Shield /></span><span>{t('Authentification multi-facteurs', 'Multi-factor authentication')}</span></div>
           </div>
         </div>
       </section>
@@ -1124,7 +1348,10 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
           <div className="term-network-split">
             <div className="term-network-heading term-reveal">
               <div className="term-eyebrow">{t('Le réseau LYA', 'The LYA network')}</div>
-              <h2 style={{ fontWeight: 700, fontSize: 'clamp(26px,3.4vw,40px)' }}>{t('Trois rôles, un seul standard.', 'Three roles, one single standard.')}</h2>
+              <p className="term-network-lede">
+                <span className="term-gradient-text" style={{ fontWeight: 700 }}>{t('Trois rôles, un seul standard. ', 'Three roles, one single standard. ')}</span>
+                {t('Chacun y trouve sa place — et parle le même langage : le Score LYA.', 'Everyone has a place here — and speaks the same language: the LYA Score.')}
+              </p>
             </div>
             <div className="term-network-grid">
               <div className="term-network-card term-reveal">
@@ -1132,18 +1359,21 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
                 <h4>{t('Créateurs', 'Creators')}</h4>
                 <div className="who">{t('Artistes, réalisateurs, scénaristes, auteurs', 'Artists, directors, screenwriters, authors')}</div>
                 <p>{t('Faites certifier et valoriser officiellement votre œuvre. Conservez le contrôle artistique total, recevez le soutien de mécènes dès le lancement.', 'Get your work officially certified and showcased. Keep full artistic control, and receive patron support from day one.')}</p>
+                <button className="term-network-cta" style={{ color: '#1E8449' }} onClick={() => setShowJoin(true)}>{t('Faire certifier mon œuvre →', 'Get my work certified →')}</button>
               </div>
               <div className="term-network-card term-reveal">
                 <div className="n" style={{ color: '#7E1CF1' }}>02</div>
                 <h4>{t('Mécènes', 'Patrons')}</h4>
                 <div className="who">{t("Mécènes particuliers, fonds d'investissement, sponsors", 'Individual patrons, investment funds, sponsors')}</div>
                 <p>{t('Soutenez les œuvres dès 50€. Le Score LYA garantit la rigueur de sélection. Suivez vos œuvres soutenues en temps réel.', 'Support works from €50. The LYA Score guarantees selection rigor. Track your supported works in real time.')}</p>
+                <button className="term-network-cta" style={{ color: '#7E1CF1' }} onClick={() => setShowJoin(true)}>{t('Devenir mécène →', 'Become a patron →')}</button>
               </div>
               <div className="term-network-card term-reveal">
                 <div className="n" style={{ color: '#E61A97' }}>03</div>
                 <h4>{t('Professionnels', 'Professionals')}</h4>
                 <div className="who">{t('Curateurs, agents artistiques, conseillers — studios, sociétés de production et de divertissement, institutions culturelles (type CNC)', 'Curators, artistic agents, advisors — studios, production and entertainment companies, cultural institutions (e.g. CNC)')}</div>
                 <p>{t("Rejoignez notre réseau d'experts en validation certifiés. Évaluez des œuvres dans votre domaine, réseau professionnel exclusif inter-secteurs.", 'Join our network of certified validation experts. Evaluate works in your field, exclusive cross-sector network.')}</p>
+                <button className="term-network-cta" style={{ color: '#E61A97' }} onClick={() => setShowJoin(true)}>{t('Rejoindre le réseau →', 'Join the network →')}</button>
               </div>
             </div>
           </div>
@@ -1155,17 +1385,39 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       <section className="term-independence">
         <div className="term-wrap">
           <div className="term-eyebrow">{t('Indépendance & confiance', 'Independence & trust')}</div>
-          <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t('Un score qui ne dépend de personne.', 'A score that depends on no one.')}</h2>
-          <div className="term-independence-grid">
-            <div className="term-independence-card term-reveal">
+          <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t('Un score qui ne dépend de ', 'A score that depends on ')}<span className="term-gradient-text">{t('personne.', 'no one.')}</span></h2>
+          <motion.div
+            className="term-independence-stat"
+            initial={{ opacity: 0, scale: 0.85 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{ type: 'spring', stiffness: 220, damping: 18 }}
+          >
+            <span className="big">0%</span>
+            <span className="label">{t('des certificateurs LYA ne sont rémunérés par le projet qu’ils évaluent', 'of LYA certifiers are paid by the project they evaluate')}</span>
+          </motion.div>
+          <motion.div
+            className="term-independence-grid"
+            initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.4 }}
+            variants={{ hidden: {}, show: { transition: { staggerChildren: 0.15 } } }}
+          >
+            <motion.div
+              className="term-independence-card"
+              variants={{ hidden: { opacity: 0, y: 30, rotate: -2 }, show: { opacity: 1, y: 0, rotate: 0 } }}
+              transition={{ type: 'spring', stiffness: 230, damping: 20 }}
+            >
               <h4>{t('Indépendance des certificateurs', 'Certifier independence')}</h4>
               <p>{t("Les certificateurs LYA ne sont jamais rémunérés par le créateur ou le projet qu'ils évaluent. Leur évaluation n'est pas influencée par le succès du projet — c'est un engagement structurel, pas un argument marketing.", "LYA certifiers are never paid by the creator or project they evaluate. Their assessment is not influenced by the project's success — it's a structural commitment, not a marketing claim.")}</p>
-            </div>
-            <div className="term-independence-card term-reveal">
+            </motion.div>
+            <motion.div
+              className="term-independence-card"
+              variants={{ hidden: { opacity: 0, y: 30, rotate: 2 }, show: { opacity: 1, y: 0, rotate: 0 } }}
+              transition={{ type: 'spring', stiffness: 230, damping: 20 }}
+            >
               <h4>{t('Pourquoi le nombre de certificateurs compte', 'Why the number of certifiers matters')}</h4>
               <p>{t("Un score porté par un seul évaluateur est une opinion. Un score porté par plusieurs certificateurs indépendants est un signal. Nous affichons le vrai nombre de certificateurs derrière chaque Score LYA.", 'A score backed by a single evaluator is an opinion. A score backed by several independent certifiers is a signal. We display the real number of certifiers behind every LYA Score.')}</p>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
@@ -1221,28 +1473,44 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       <section className="term-free-banner">
         <div className="term-wrap">
           <div className="term-free-tag">{t('Toujours actif — tous les créateurs', 'Always active — all creators')}</div>
-          <h2 className="term-reveal">{t('Vos 3 premiers projets, certifiés gratuitement.', 'Your first 3 projects, certified for free.')}</h2>
+          <h2 className="term-reveal">{t('Vos 3 premiers projets, ', 'Your first 3 projects, ')}<span className="term-gradient-text">{t('certifiés gratuitement.', 'certified for free.')}</span></h2>
           <p className="term-free-intro">{t("Pas de coût de certification standard, aucune contrepartie cachée — quel que soit votre domaine créatif.", 'No standard certification fee, no hidden terms — whatever your creative field.')}</p>
-          <div className="term-free-grid">
-            <div className="term-free-scenario term-reveal">
+          <motion.div
+            className="term-free-grid"
+            initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.3 }}
+            variants={{ hidden: {}, show: { transition: { staggerChildren: 0.12 } } }}
+          >
+            <motion.div
+              className="term-free-scenario"
+              variants={{ hidden: { opacity: 0, y: 40, rotate: -4, scale: 0.9 }, show: { opacity: 1, y: 0, rotate: 0, scale: 1 } }}
+              transition={{ type: 'spring', stiffness: 240, damping: 20 }}
+            >
               <span className="badge">{t('Gratuit', 'Free')}</span>
               <div className="cat">{t('Film', 'Film')}</div>
               <h4>{t('Scénario 1', 'Scenario 1')}</h4>
               <p>{t('Un court-métrage indépendant, certifié dès sa première soumission.', 'An independent short film, certified from its very first submission.')}</p>
-            </div>
-            <div className="term-free-scenario term-reveal">
+            </motion.div>
+            <motion.div
+              className="term-free-scenario"
+              variants={{ hidden: { opacity: 0, y: 40, scale: 0.9 }, show: { opacity: 1, y: 0, scale: 1 } }}
+              transition={{ type: 'spring', stiffness: 240, damping: 20 }}
+            >
               <span className="badge">{t('Gratuit', 'Free')}</span>
               <div className="cat">{t('Série TV', 'TV Series')}</div>
               <h4>{t('Scénario 2', 'Scenario 2')}</h4>
               <p>{t('Un pilote de série, prêt à être présenté à des diffuseurs.', 'A series pilot, ready to be pitched to broadcasters.')}</p>
-            </div>
-            <div className="term-free-scenario term-reveal">
+            </motion.div>
+            <motion.div
+              className="term-free-scenario"
+              variants={{ hidden: { opacity: 0, y: 40, rotate: 4, scale: 0.9 }, show: { opacity: 1, y: 0, rotate: 0, scale: 1 } }}
+              transition={{ type: 'spring', stiffness: 240, damping: 20 }}
+            >
               <span className="badge">{t('Gratuit', 'Free')}</span>
               <div className="cat">{t('Musique', 'Music')}</div>
               <h4>{t('Scénario 3', 'Scenario 3')}</h4>
               <p>{t('Un album complet, certifié avant sa sortie officielle.', 'A full album, certified ahead of its official release.')}</p>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
           <button className="term-free-cta" onClick={() => setShowJoin(true)}>{t('Pré-inscrivez-vous pour garantir votre place →', 'Pre-register to secure your spot →')}</button>
         </div>
       </section>

@@ -12,13 +12,10 @@ interface PageHeaderProps {
 }
 
 export const PageHeader: React.FC<PageHeaderProps> = ({ 
-  titleWhite, 
-  titleAccent, 
-  subtitle = '', 
   description,
-  accentColor = 'text-primary-cyan',
   compact = false
 }) => {
+  if (!description) return null;
   return (
     <header className={`pt-12 md:pt-16 relative z-10 px-4 md:px-6 ${compact ? 'mb-4' : 'mb-6 md:mb-10'}`}>
       <div className="flex flex-col">
@@ -27,23 +24,14 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
            animate={{ opacity: 1, y: 0 }}
            transition={{ duration: 0.6 }}
         >
-          {/* Title */}
-          <h1
-            style={{ fontFamily: "'Fraunces', Georgia, serif" }}
-            className={`font-medium leading-[1.08] flex flex-wrap items-baseline gap-x-3 transition-all ${compact ? 'text-lg md:text-xl lg:text-2xl' : 'text-2xl md:text-4xl lg:text-5xl'}`}
-          >
-            <span style={{ textTransform: 'lowercase' }} className="text-white [&::first-letter]:uppercase">{titleWhite}</span>
-            <span className={`${accentColor} italic`}>
-              {titleAccent}
-            </span>
-          </h1>
-          
-          {/* Description */}
-          {description && (
-            <p style={{ textTransform: 'lowercase' }} className={`text-on-surface-variant/70 leading-relaxed max-w-2xl mt-3 [&::first-letter]:uppercase ${compact ? 'text-xs md:text-[12px]' : 'text-sm md:text-[15px]'}`}>
-              {description}
-            </p>
-          )}
+          {/* Plus de gros titre H1 — les onglets de la nav suffisent a se
+              reperer. Le degrade sur le debut de phrase n'apportait rien :
+              a la place, une simple puce en degrade LYA devant le texte,
+              qui reste entierement blanc. */}
+          <p style={{ textTransform: 'lowercase' }} className={`leading-relaxed max-w-2xl [&::first-letter]:uppercase flex items-start gap-2.5 ${compact ? 'text-sm md:text-base' : 'text-base md:text-lg'}`}>
+            <span className="bg-brand-gradient rounded-full flex-shrink-0" style={{ width: 7, height: 7, marginTop: '0.55em' }} />
+            <span className="text-on-surface">{description}</span>
+          </p>
         </motion.div>
       </div>
     </header>

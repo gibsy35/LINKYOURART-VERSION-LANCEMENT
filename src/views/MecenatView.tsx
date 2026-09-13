@@ -118,10 +118,10 @@ export function MecenatView({ isGuest, onRequireAuth }: { isGuest?: boolean; onR
               ))}
             </AnimatePresence>
           </div>
-          <div className="absolute inset-0 bg-gradient-to-br from-primary-cyan/5 to-transparent pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-br from-[#7E1CF1]/8 via-transparent to-[#02C6FA]/8 pointer-events-none" />
           <div className="relative z-10 space-y-6">
             <div className="flex justify-start items-center">
-              <span className="text-primary-cyan text-xs font-mono tracking-widest border border-primary-cyan/30 px-3 py-1 rounded-full">
+              <span className="text-brand-gradient text-xs font-mono font-bold tracking-widest border border-[#7E1CF1]/30 px-3 py-1 rounded-full">
                 ✦ {T("ESPACE MÉCÉNAT LYA", "LYA PATRONAGE SPACE")}
               </span>
             </div>
@@ -133,8 +133,8 @@ export function MecenatView({ isGuest, onRequireAuth }: { isGuest?: boolean; onR
                   fontSize: "clamp(2.4rem,5.5vw,4.2rem)",
                 }}>
                   {T(
-                    <>DÉCOUVREZ, SUIVEZ,<br />SOUTENEZ<br /><span className="text-primary-cyan">LES CRÉATEURS CERTIFIÉS</span></>,
-                    <>DISCOVER, FOLLOW,<br />SUPPORT<br /><span className="text-primary-cyan">LYA-CERTIFIED CREATORS</span></>
+                    <>DÉCOUVREZ, SUIVEZ,<br />SOUTENEZ<br /><span className="text-brand-gradient">LES CRÉATEURS CERTIFIÉS</span></>,
+                    <>DISCOVER, FOLLOW,<br />SUPPORT<br /><span className="text-brand-gradient">LYA-CERTIFIED CREATORS</span></>
                   )}
                 </h1>
                 <p className="text-on-surface-variant max-w-xl text-sm leading-relaxed opacity-80">
@@ -145,7 +145,7 @@ export function MecenatView({ isGuest, onRequireAuth }: { isGuest?: boolean; onR
                 </p>
                 <div className="flex flex-wrap gap-6 mt-6">
                   <div className="flex items-center gap-2">
-                    <span className="h-1.5 w-1.5 rounded-full bg-primary-cyan animate-pulse" />
+                    <span className="h-1.5 w-1.5 rounded-full bg-brand-gradient animate-pulse" />
                     <span className="text-xs font-mono text-on-surface-variant/70">
                       {realValidatorCount === null ? '—' : realValidatorCount} {T('validateurs certifiés actifs', 'active certified validators')}
                     </span>
@@ -159,15 +159,15 @@ export function MecenatView({ isGuest, onRequireAuth }: { isGuest?: boolean; onR
                 </div>
               </div>
               <div className="shrink-0 w-[180px]">
-                <div className="relative rounded-lg p-px" style={{ background: 'linear-gradient(145deg, rgba(0,212,232,0.35) 0%, rgba(255,255,255,0.06) 60%)' }}>
-                  <div className="bg-surface-low/80 rounded-lg p-5 text-center space-y-3">
-                    <p className="text-xs font-mono tracking-[0.22em] uppercase" style={{ color: 'rgba(0,212,232,0.6)' }}>
+                <div className="relative rounded-lg p-px" style={{ background: 'linear-gradient(145deg, #7E1CF1 0%, #E61A97 55%, #02C6FA 100%)' }}>
+                  <div className="bg-surface-low/90 rounded-lg p-5 text-center space-y-3">
+                    <p className="text-xs font-mono tracking-[0.22em] uppercase text-on-surface-variant/60">
                       {T('SCORE LYA', 'LYA SCORE')}
                     </p>
-                    <p className="font-mono font-black text-2xl text-primary-cyan tracking-tight">
+                    <p className="font-mono font-black text-2xl text-brand-gradient tracking-tight">
                       0-1000
                     </p>
-                    <div className="h-px w-full" style={{ background: 'linear-gradient(90deg, transparent, rgba(0,212,232,0.3), transparent)' }} />
+                    <div className="h-px w-full" style={{ background: 'linear-gradient(90deg, transparent, rgba(126,28,241,0.4), transparent)' }} />
                     <p className="text-xs font-mono text-on-surface-variant/50 leading-relaxed">
                       {T('Standard de certification créative', 'Creative certification standard')}
                     </p>

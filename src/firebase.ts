@@ -103,6 +103,7 @@ export function describeGoogleAuthError(err: any, t: (en: string, fr: string) =>
   return err?.message || t('Google authentication failed.', 'Échec de la connexion Google.');
 }
 
+
 export interface FirestoreErrorInfo {
   error: string;
   operationType: OperationType;
