@@ -176,7 +176,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             </div>
             <div className="flex flex-col min-w-0 flex-1">
               <span className="text-white font-black tracking-tighter text-2xl leading-[0.7] truncate uppercase">LINKYOURART</span>
-              <span className="text-[10px] text-primary-cyan font-black tracking-[0.2em] uppercase mt-2 opacity-60 group-hover:opacity-100 transition-opacity">
+              <span className="text-[10px] text-brand-gradient font-black tracking-[0.2em] uppercase mt-2 opacity-80 group-hover:opacity-100 transition-opacity">
                 {t('YOUR SCORE. YOUR STANDARD.', 'VOTRE SCORE. VOTRE STANDARD.')}
               </span>
             </div>
@@ -219,6 +219,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   >
                     {currentView === item.id && (
                       <div className="absolute inset-0 bg-primary-cyan/5 rounded-lg" />
+                    )}
+                    {currentView === item.id && (
+                      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-6 rounded-full bg-brand-gradient" />
                     )}
                     <item.icon size={24} className={`transition-all duration-300 ${currentView === item.id ? 'text-primary-cyan scale-110 drop-' : 'text-on-surface-variant/40 group-hover:text-primary-cyan group-hover:scale-110'}`} />
                     {!isCollapsed && (

@@ -170,8 +170,19 @@ const HeroSection: React.FC<{ t: (fr: string, en: string) => string; setShowJoin
   const titleOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
   const titleScale = useTransform(scrollYProgress, [0, 1], [1, 0.9]);
 
+  const examples = [
+    { cat: t('Musique', 'Music'), score: 247 },
+    { cat: t('Cinéma', 'Film'), score: 580 },
+    { cat: t('Mode', 'Fashion'), score: 928 },
+  ];
+  const [exIdx, setExIdx] = React.useState(0);
+  const current = examples[exIdx];
+
   return (
     <section className="term-hero" ref={ref}>
+      <div className="term-hero-orb o1" />
+      <div className="term-hero-orb o2" />
+      <div className="term-hero-orb o3" />
       <div className="term-wrap term-hero-grid">
         <motion.div style={{ position: 'relative', y: titleY, opacity: titleOpacity, scale: titleScale }}>
           <h1 className="term-hero-title">{t("Ce que vous créez aujourd'hui mérite d'être ", 'What you create today deserves to be ')}<span className="term-gradient-text">{t('reconnu demain.', 'recognized tomorrow.')}</span></h1>
@@ -188,9 +199,9 @@ const HeroSection: React.FC<{ t: (fr: string, en: string) => string; setShowJoin
         </motion.div>
         <div className="term-hero-visual">
           <div className="term-hero-card-back" />
-          <div className="term-hero-card">
-            <div className="score">{t('Score LYA', 'LYA Score')}</div>
-            <span className="num">247</span><span className="max">/1000</span>
+          <div className="term-hero-card" onClick={() => setExIdx((i) => (i + 1) % examples.length)} role="button" tabIndex={0} aria-label={t('Voir un autre exemple de score', 'See another score example')}>
+            <div className="score"><span>{t('Score LYA', 'LYA Score')} · {current.cat}</span><span className="tap-hint">{t('toucher pour changer', 'tap to change')} →</span></div>
+            <span className="num">{current.score}</span><span className="max">/1000</span>
             <p>{t('Évalué sur 5 critères objectifs — qualité, marché, droits, innovation, croissance.', 'Assessed on 5 objective criteria — quality, market, rights, innovation, growth.')}</p>
           </div>
         </div>
@@ -349,28 +360,62 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-lang-toggle{ display:flex; background:rgba(255,255,255,0.08); border-radius:100px; padding:3px; gap:2px; }
         .term-lang-toggle button{ border:none; background:none; color:#B9B7C7; font-size:12px; font-weight:700; padding:6px 12px; border-radius:100px; cursor:pointer; font-family:'Sora',sans-serif; }
         .term-lang-toggle button.active{ background:#fff; color:var(--term-ink); }
-        .term-hero{ background:var(--term-paper); position:relative; overflow:hidden; padding:80px 0 100px; min-height:92vh; display:flex; align-items:center; }
-        .term-hero-grid{ display:grid; grid-template-columns:1.1fr 0.9fr; gap:40px; align-items:center; width:100%; }
+        .term-hero{ background:var(--term-ink); position:relative; overflow:hidden; padding:80px 0 100px; min-height:92vh; display:flex; align-items:center; }
+        .term-hero::before{ content:''; position:absolute; inset:-20%; z-index:0;
+          background:
+            radial-gradient(circle at 15% 20%, rgba(126,28,241,0.35) 0%, transparent 45%),
+            radial-gradient(circle at 85% 15%, rgba(2,198,250,0.28) 0%, transparent 45%),
+            radial-gradient(circle at 70% 80%, rgba(230,26,151,0.3) 0%, transparent 45%);
+          animation:termMeshDrift 18s ease-in-out infinite alternate;
+          filter:blur(10px);
+        }
+        @keyframes termMeshDrift{
+          0%{ transform:translate(0,0) scale(1) rotate(0deg); }
+          50%{ transform:translate(-3%,2%) scale(1.08) rotate(4deg); }
+          100%{ transform:translate(2%,-3%) scale(1.02) rotate(-3deg); }
+        }
+        .term-hero-orb{ position:absolute; border-radius:50%; filter:blur(50px); z-index:0; pointer-events:none; opacity:0.55; }
+        .term-hero-orb.o1{ width:280px; height:280px; top:8%; left:4%; background:#7E1CF1; animation:termOrbFloat 9s ease-in-out infinite; }
+        .term-hero-orb.o2{ width:220px; height:220px; bottom:10%; right:8%; background:#02C6FA; animation:termOrbFloat 11s ease-in-out infinite reverse; }
+        .term-hero-orb.o3{ width:180px; height:180px; top:45%; right:28%; background:#E61A97; animation:termOrbFloat 13s ease-in-out infinite; animation-delay:-4s; }
+        @keyframes termOrbFloat{
+          0%,100%{ transform:translate(0,0); }
+          50%{ transform:translate(24px,-30px); }
+        }
+        @media (prefers-reduced-motion: reduce){
+          .term-hero::before, .term-hero-orb{ animation:none; }
+        }
+        .term-hero-grid{ display:grid; grid-template-columns:1.1fr 0.9fr; gap:40px; align-items:center; width:100%; position:relative; z-index:1; }
         @media (max-width:900px){ .term-hero-grid{ grid-template-columns:1fr; } }
-        .term-hero-title{ color:var(--term-ink); font-weight:700; font-size:clamp(36px,5.2vw,64px); line-height:1.05; letter-spacing:-0.01em; max-width:16ch; position:relative; z-index:1; }
-        .term-hero-sub{ color:var(--term-ink-soft); font-size:17px; line-height:1.6; max-width:46ch; margin-top:26px; position:relative; z-index:1; }
-        .term-btn-primary{ background:var(--term-ink); color:#fff; padding:14px 26px; border-radius:100px; font-weight:600; font-size:15px; border:none; cursor:pointer; }
-        .term-btn-primary:hover{ background:#7E1CF1; }
-        .term-btn-ghost{ color:var(--term-ink); background:none; border:none; padding:14px 10px; font-weight:600; font-size:15px; border-bottom:1px solid var(--term-ink-soft); cursor:pointer; }
-        .term-hero-visual{ position:relative; min-height:340px; display:flex; align-items:center; justify-content:center; }
+        .term-hero-title{ color:#fff; font-weight:700; font-size:clamp(36px,5.2vw,64px); line-height:1.05; letter-spacing:-0.01em; max-width:16ch; position:relative; z-index:1; }
+        .term-hero-sub{ color:#B9B7C7; font-size:17px; line-height:1.6; max-width:46ch; margin-top:26px; position:relative; z-index:1; }
+        .term-btn-primary{ background:linear-gradient(120deg,#7E1CF1,#E61A97); color:#fff; padding:14px 26px; border-radius:100px; font-weight:600; font-size:15px; border:none; cursor:pointer; transition:transform 0.25s cubic-bezier(.2,.8,.2,1), box-shadow 0.25s ease; box-shadow:0 10px 30px -10px rgba(126,28,241,0.5); }
+        .term-btn-primary:hover{ transform:translateY(-2px); box-shadow:0 16px 36px -10px rgba(230,26,151,0.55); }
+        .term-btn-primary:active{ transform:translateY(0) scale(0.97); }
+        .term-btn-ghost{ color:#fff; background:none; border:none; padding:14px 10px; font-weight:600; font-size:15px; border-bottom:1px solid rgba(255,255,255,0.4); cursor:pointer; }
+        .term-hero-visual{ position:relative; min-height:340px; display:flex; align-items:center; justify-content:center; z-index:1; }
         .term-hero-visual::before{ content:''; position:absolute; inset:6% 4%; border-radius:28px;
           background:linear-gradient(135deg,#7E1CF1 0%,#E61A97 50%,#02C6FA 100%);
-          opacity:0.14; filter:blur(2px);
+          opacity:0.22; filter:blur(2px);
         }
-        .term-hero-card{ position:relative; z-index:1; background:#fff; border:1px solid var(--term-line); border-radius:18px;
-          padding:28px 30px; width:min(320px,80%); box-shadow:0 30px 60px -20px rgba(11,14,20,0.25);
-          transform:rotate(7deg); font-family:'Fraunces',serif;
+        .term-hero-card{ position:relative; z-index:1; background:rgba(20,22,32,0.75); backdrop-filter:blur(16px); border:1px solid rgba(255,255,255,0.12); border-radius:18px;
+          padding:28px 30px; width:min(320px,80%); box-shadow:0 30px 70px -20px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.03);
+          transform:rotate(7deg); font-family:'Fraunces',serif; cursor:pointer; user-select:none;
+          transition:transform 0.35s cubic-bezier(.2,.8,.2,1), box-shadow 0.6s ease;
+          animation:termCardGlow 4s ease-in-out infinite;
         }
-        .term-hero-card .score{ font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:0.08em; color:var(--term-ink); margin-bottom:14px; font-family:'Sora',sans-serif; }
-        .term-hero-card .num{ font-family:'Sora',sans-serif; font-weight:800; font-size:34px; background:linear-gradient(90deg,#7E1CF1,#E61A97,#02C6FA); -webkit-background-clip:text; background-clip:text; color:transparent; }
-        .term-hero-card .max{ font-family:'Sora',sans-serif; font-weight:600; font-size:14px; color:var(--term-ink-soft); }
-        .term-hero-card p{ font-family:'Inter',sans-serif; text-align:left; font-size:12.5px; line-height:1.5; color:var(--term-ink-soft); margin-top:14px; }
-        .term-hero-card-back{ position:absolute; z-index:0; background:var(--term-grey); border-radius:18px; width:min(280px,72%); height:200px; transform:rotate(-6deg) translate(-30px,26px); }
+        .term-hero-card:hover, .term-hero-card:active{ transform:rotate(0deg) scale(1.03); }
+        @keyframes termCardGlow{
+          0%,100%{ box-shadow:0 30px 70px -20px rgba(0,0,0,0.6), 0 0 40px -12px rgba(126,28,241,0.35); }
+          50%{ box-shadow:0 30px 70px -20px rgba(0,0,0,0.6), 0 0 55px -10px rgba(2,198,250,0.4); }
+        }
+        @media (prefers-reduced-motion: reduce){ .term-hero-card{ animation:none; } }
+        .term-hero-card .score{ font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:0.08em; color:#B9B7C7; margin-bottom:14px; font-family:'Sora',sans-serif; display:flex; align-items:center; justify-content:space-between; gap:8px; }
+        .term-hero-card .score .tap-hint{ font-size:9px; font-weight:700; letter-spacing:0.03em; color:#7E1CF1; text-transform:none; }
+        .term-hero-card .num{ font-family:'Sora',sans-serif; font-weight:800; font-size:34px; font-variant-numeric:tabular-nums; background:linear-gradient(90deg,#7E1CF1,#E61A97,#02C6FA); -webkit-background-clip:text; background-clip:text; color:transparent; }
+        .term-hero-card .max{ font-family:'Sora',sans-serif; font-weight:600; font-size:14px; color:#8A87A8; }
+        .term-hero-card p{ font-family:'Inter',sans-serif; text-align:left; font-size:12.5px; line-height:1.5; color:#B9B7C7; margin-top:14px; }
+        .term-hero-card-back{ position:absolute; z-index:0; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.08); border-radius:18px; width:min(280px,72%); height:200px; transform:rotate(-6deg) translate(-30px,26px); }
         .term-section-cta{ margin-top:32px; text-align:left; }
         .term-section-cta button{ background:none; border:none; font-family:'Sora',sans-serif; font-weight:700; font-size:14px; color:var(--term-ink); border-bottom:2px solid #7E1CF1; padding-bottom:2px; cursor:pointer; }
         .term-pillars{ padding:88px 0 72px; }

@@ -66,8 +66,13 @@
 }
 
 @layer utilities {
-  .bg-surface-dim { background-color: var(--color-surface-dim); }
-  .bg-surface-low { background-color: var(--color-surface-low); }
+  /* Degrade de marque LYA — meme degrade que sur la home publique, utilise
+     ici en toutes petites touches (indicateur de nav actif, tagline) pour
+     un rappel visuel entre la plateforme et la home, sans toucher aux
+     couleurs de fond existantes. */
+  .bg-brand-gradient { background: linear-gradient(120deg, #7E1CF1 0%, #E61A97 55%, #02C6FA 100%); }
+  .text-brand-gradient { background: linear-gradient(120deg, #7E1CF1 0%, #E61A97 55%, #02C6FA 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .bg-surface-dim { background-color: var(--color-surface-dim); }  .bg-surface-low { background-color: var(--color-surface-low); }
   .bg-surface-high { background-color: var(--color-surface-high); }
   .bg-surface-highest { background-color: var(--color-surface-highest); }
   
