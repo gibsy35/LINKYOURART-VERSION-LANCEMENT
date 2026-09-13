@@ -588,7 +588,7 @@ export default function App() {
     return (
       <div className="fixed inset-0 z-[1000] bg-black flex flex-col items-center justify-center">
         <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8, ease: "easeOut" }} className="flex flex-col items-center gap-10">
-          <div className="relative scale-75 md:scale-100">
+          <div className="relative">
             <motion.div animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.6, 0.3] }} transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }} className="absolute inset-0 bg-primary-cyan/20 blur-[100px] rounded-full" />
             <Logo size={220} color="multi" showBeta={true} />
           </div>
