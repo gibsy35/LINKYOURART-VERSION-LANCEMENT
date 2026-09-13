@@ -375,27 +375,17 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-section-cta button{ background:none; border:none; font-family:'Sora',sans-serif; font-weight:700; font-size:14px; color:var(--term-ink); border-bottom:2px solid #7E1CF1; padding-bottom:2px; cursor:pointer; }
         .term-pillars{ padding:88px 0 72px; }
         .term-pillars-note{ font-size:13px; color:var(--term-ink-soft); margin-bottom:56px; }
-        .term-pillars-grid{ display:flex; align-items:flex-start; padding:20px 0 40px; }
-        .term-pillar{ border-radius:16px; padding:24px 22px; min-height:190px; width:230px; flex-shrink:0;
+        .term-pillars-grid{ display:grid; grid-template-columns:repeat(5,1fr); gap:14px; padding:20px 0 40px; }
+        @media (max-width:900px){ .term-pillars-grid{ grid-template-columns:repeat(2,1fr); } }
+        .term-pillar{ border-radius:12px; padding:26px 22px; min-height:190px;
           display:flex; flex-direction:column; justify-content:space-between; background:#fff;
-          border:1px solid var(--term-line); box-shadow:0 18px 40px -22px rgba(11,14,20,0.18);
-          transition:transform 0.55s cubic-bezier(.22,1,.36,1), box-shadow 0.4s ease;
-          will-change:transform; position:relative;
-          transform:rotate(var(--fan-rot,0deg)) translateY(var(--fan-y,0px));
+          border:1px solid var(--term-line); border-top:3px solid transparent;
         }
-        .term-pillars-grid .term-pillar:not(:first-child){ margin-left:-64px; }
-        .term-pillars-grid .term-pillar:nth-child(1){ --fan-rot:-3deg; --fan-y:0px; z-index:5; }
-        .term-pillars-grid .term-pillar:nth-child(2){ --fan-rot:-1.5deg; --fan-y:10px; z-index:4; }
-        .term-pillars-grid .term-pillar:nth-child(3){ --fan-rot:0.5deg; --fan-y:18px; z-index:3; }
-        .term-pillars-grid .term-pillar:nth-child(4){ --fan-rot:2deg; --fan-y:24px; z-index:2; }
-        .term-pillars-grid .term-pillar:nth-child(5){ --fan-rot:3.5deg; --fan-y:30px; z-index:1; }
-        .term-pillars-grid .term-pillar.term-reveal:not(.visible){ opacity:0; transform:rotate(var(--fan-rot,0deg)) translateY(calc(var(--fan-y,0px) + 40px)) scale(0.97); }
-        .term-pillars-grid .term-pillar.term-reveal.visible{ opacity:1; transform:rotate(var(--fan-rot,0deg)) translateY(var(--fan-y,0px)) scale(1); }
-        .term-pillars-grid .term-pillar.term-reveal.visible:hover{ transform:rotate(0deg) translateY(-14px) scale(1.04); z-index:10; box-shadow:0 28px 50px -18px rgba(11,14,20,0.3); }
-        @media (max-width:900px){
-          .term-pillars-grid{ flex-wrap:wrap; gap:16px; }
-          .term-pillars-grid .term-pillar{ margin-left:0 !important; --fan-rot:0deg !important; --fan-y:0px !important; width:calc(50% - 8px); }
-        }
+        .term-pillar:nth-child(1){ border-top-color:#7E1CF1; }
+        .term-pillar:nth-child(2){ border-top-color:#E61A97; }
+        .term-pillar:nth-child(3){ border-top-color:#02C6FA; }
+        .term-pillar:nth-child(4){ border-top-color:#3ADB76; }
+        .term-pillar:nth-child(5){ border-top-color:#F0C55E; }
         .term-pillar.dark{ background:var(--term-ink); color:#fff; border-color:var(--term-ink); }
         .term-pillar.lav{ background:var(--term-lav); border-color:var(--term-lav); }
         .term-pillar.grey{ background:var(--term-grey); }
@@ -473,7 +463,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-score-hero{ padding:8px 0 56px; }
         .term-score-hero-inner{ background:var(--term-ink); border-radius:10px; padding:48px 44px; display:flex; align-items:center; gap:48px; flex-wrap:wrap; }
         .term-score-hero-num{ display:flex; align-items:baseline; flex-shrink:0; }
-        .term-score-hero-num .big{ font-family:'Fraunces',serif; font-weight:600; font-size:clamp(72px,11vw,140px); line-height:1; background:linear-gradient(90deg,#7E1CF1,#E61A97,#02C6FA); -webkit-background-clip:text; background-clip:text; color:transparent; }
+        .term-score-hero-num .big{ font-family:'Fraunces',serif; font-weight:600; font-size:clamp(72px,11vw,140px); line-height:1; font-variant-numeric:tabular-nums; background:linear-gradient(90deg,#7E1CF1,#E61A97,#02C6FA); -webkit-background-clip:text; background-clip:text; color:transparent; }
         .term-score-hero-num .max{ font-family:'Sora',sans-serif; font-weight:700; font-size:clamp(20px,2.4vw,30px); color:#565B6B; margin-left:6px; }
         .term-score-hero-text{ flex:1; min-width:260px; }
         .term-gradient-text{ background:linear-gradient(90deg,#7E1CF1,#E61A97,#02C6FA); -webkit-background-clip:text; background-clip:text; color:transparent; }
@@ -746,7 +736,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-photo-stat:hover{ transform:translateY(-6px); }
         .term-photo-stat .overlay{ position:absolute; inset:0; background:linear-gradient(180deg,rgba(11,14,20,0.15) 0%,rgba(11,14,20,0.85) 100%); }
         .term-photo-stat .content{ position:relative; z-index:1; padding:28px; }
-        .term-photo-stat .num{ font-family:'Fraunces',serif; font-weight:600; font-size:48px; color:#fff; line-height:1; margin-bottom:8px; }
+        .term-photo-stat .num{ font-family:'Fraunces',serif; font-weight:600; font-size:48px; color:#fff; line-height:1; margin-bottom:8px; font-variant-numeric:tabular-nums; }
         .term-photo-stat .lbl{ font-family:'Sora',sans-serif; font-size:13px; color:rgba(255,255,255,0.75); text-transform:uppercase; letter-spacing:0.04em; font-weight:600; }
         .term-pricing{ padding:56px 0 72px; }
         .term-price-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:32px; }
