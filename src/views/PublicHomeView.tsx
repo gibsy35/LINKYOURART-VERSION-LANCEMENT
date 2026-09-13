@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, useScroll, useTransform, MotionValue, AnimatePresence } from 'motion/react';
-import { Shield } from 'lucide-react';
+import { Shield, Eye, Users, Percent } from 'lucide-react';
 import { Logo } from '../components/ui/Logo';
 import { db } from '../firebase';
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
@@ -561,6 +561,10 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         @media (max-width:900px){ .term-network-split{ grid-template-columns:1fr; } }
         .term-network-heading{ position:sticky; top:100px; }
         .term-network-heading h2{ max-width:11ch; }
+        .term-network-lede{ font-size:16px; line-height:1.6; margin-top:14px; max-width:26ch; color:var(--term-ink-soft); }
+        .term-network-legend{ display:flex; flex-direction:column; gap:10px; margin-top:26px; }
+        .term-network-legend div{ display:flex; align-items:center; gap:10px; font-family:'Sora',sans-serif; font-weight:700; font-size:12.5px; color:var(--term-ink); }
+        .term-network-legend .dot{ width:9px; height:9px; border-radius:50%; flex-shrink:0; }
         .term-network-grid{ display:grid; grid-template-columns:1fr; gap:14px; }
         @media (min-width:901px){ .term-network-grid{ margin-top:0; } }
         .term-network-card{ background:var(--term-grey); border-radius:12px; padding:28px 24px; border-top:3px solid transparent; transition:transform 0.4s cubic-bezier(.22,1,.36,1), box-shadow 0.4s ease; position:relative; overflow:hidden; }
@@ -576,6 +580,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-network-card h4{ font-family:'Fraunces',serif; font-size:17px; font-weight:600; margin-bottom:4px; position:relative; z-index:1; }
         .term-network-card .who{ font-size:11px; font-weight:600; color:#8A87A8; text-transform:uppercase; letter-spacing:0.02em; margin-bottom:12px; position:relative; z-index:1; }
         .term-network-card p{ font-size:13px; line-height:1.6; color:var(--term-ink-soft); position:relative; z-index:1; }
+        .term-network-cta{ position:relative; z-index:1; display:inline-block; background:none; border:none; font-family:'Sora',sans-serif; font-weight:700; font-size:12.5px; padding:0; margin-top:16px; cursor:pointer; border-bottom:1.5px solid currentColor; padding-bottom:2px; }
         .term-registry-intro{ max-width:64ch; margin:16px 0 32px; display:flex; flex-direction:column; gap:12px; padding:22px 26px; border-radius:8px; background:linear-gradient(135deg, rgba(126,28,241,0.06), rgba(230,26,151,0.04)); border-left:3px solid #7E1CF1; }
         .term-registry-intro p{ font-size:14px; line-height:1.65; color:var(--term-ink-soft); }
         .term-independence{ padding:56px 0; background:var(--term-grey); }
@@ -694,12 +699,12 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-why-item:nth-child(1){ border-top-color:#E61A97; }
         .term-why-item:nth-child(2){ border-top-color:#7E1CF1; }
         .term-why-item:nth-child(3){ border-top-color:#02C6FA; }
-        .term-why-item:nth-child(1) .n{ background:#E61A97; }
-        .term-why-item:nth-child(2) .n{ background:#7E1CF1; }
-        .term-why-item:nth-child(3) .n{ background:#02C6FA; }
         .term-why-item:last-child{ border-right:none; }
-        .term-why-item .n{ display:flex; align-items:center; justify-content:center; width:32px; height:32px; border-radius:50%; font-family:'Sora',sans-serif; font-style:normal; font-weight:800; font-size:12px; color:#fff; margin-bottom:14px; transition:transform 0.3s cubic-bezier(.22,1,.36,1); }
-        .term-why-item:hover .n{ transform:scale(1.15) rotate(-8deg); }
+        .term-why-item .icon{ width:38px; height:38px; border-radius:10px; background:var(--term-grey); display:flex; align-items:center; justify-content:center; margin-bottom:16px; transition:transform 0.3s cubic-bezier(.22,1,.36,1); }
+        .term-why-item:hover .icon{ transform:scale(1.12) rotate(-6deg); }
+        .term-why-item .stat-row{ display:flex; align-items:baseline; gap:8px; margin-bottom:10px; }
+        .term-why-item .stat{ font-family:'Fraunces',serif; font-weight:600; font-size:32px; line-height:1; }
+        .term-why-item .stat-label{ font-family:'Sora',sans-serif; font-weight:700; font-size:10.5px; letter-spacing:0.03em; text-transform:uppercase; color:var(--term-ink-soft); }
         .term-why-item h4{ font-family:'Fraunces',serif; font-size:16px; font-weight:600; margin-bottom:6px; }
         .term-why-item p{ font-size:13px; color:var(--term-ink-soft); line-height:1.55; }
         .term-registry{ padding:20px 0 72px; }
@@ -1251,17 +1256,19 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
             variants={{ hidden: {}, show: { transition: { staggerChildren: 0.12 } } }}
           >
             {[
-              { n: '01', title: t('Transparent', 'Transparent'), desc: t('Cinq critères clairs, expliqués, jamais une boîte noire.', 'Five clear, explained criteria — never a black box.') },
-              { n: '02', title: t('Communautaire', 'Community-driven'), desc: t('Artistes, mécènes et professionnels avancent ensemble.', 'Artists, patrons and professionals move forward together.') },
-              { n: '03', title: t('Indépendant', 'Independent'), desc: t('5% de commission sur le mécénat, rien de caché derrière.', '5% commission on patronage — nothing hidden behind it.') },
+              { icon: Eye, stat: '0', statLabel: t('boîte noire', 'black box'), title: t('Transparent', 'Transparent'), desc: t('Cinq critères clairs, expliqués, jamais une boîte noire.', 'Five clear, explained criteria — never a black box.'), color: '#E61A97' },
+              { icon: Users, stat: '3', statLabel: t('rôles, ensemble', 'roles, together'), title: t('Communautaire', 'Community-driven'), desc: t('Artistes, mécènes et professionnels avancent ensemble.', 'Artists, patrons and professionals move forward together.'), color: '#7E1CF1' },
+              { icon: Percent, stat: '5%', statLabel: t('commission, point final', 'commission, full stop'), title: t('Indépendant', 'Independent'), desc: t('5% de commission sur le mécénat, rien de caché derrière.', '5% commission on patronage — nothing hidden behind it.'), color: '#02C6FA' },
             ].map((item) => (
               <motion.div
-                key={item.n}
+                key={item.title}
                 className="term-why-item"
                 variants={{ hidden: { opacity: 0, y: 30 }, show: { opacity: 1, y: 0 } }}
                 transition={{ type: 'spring', stiffness: 240, damping: 20 }}
               >
-                <div className="n">{item.n}</div><h4>{item.title}</h4><p>{item.desc}</p>
+                <div className="icon" style={{ color: item.color }}><item.icon size={20} strokeWidth={2.2} /></div>
+                <div className="stat-row"><span className="stat" style={{ color: item.color }}>{item.stat}</span><span className="stat-label">{item.statLabel}</span></div>
+                <h4>{item.title}</h4><p>{item.desc}</p>
               </motion.div>
             ))}
           </motion.div>
@@ -1321,7 +1328,15 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
           <div className="term-network-split">
             <div className="term-network-heading term-reveal">
               <div className="term-eyebrow">{t('Le réseau LYA', 'The LYA network')}</div>
-
+              <p className="term-network-lede">
+                <span className="term-gradient-text" style={{ fontWeight: 700 }}>{t('Trois rôles, un seul standard. ', 'Three roles, one single standard. ')}</span>
+                {t('Chacun y trouve sa place — et parle le même langage : le Score LYA.', 'Everyone has a place here — and speaks the same language: the LYA Score.')}
+              </p>
+              <div className="term-network-legend">
+                <div><span className="dot" style={{ background: '#3ADB76' }} />{t('Créateurs', 'Creators')}</div>
+                <div><span className="dot" style={{ background: '#7E1CF1' }} />{t('Mécènes', 'Patrons')}</div>
+                <div><span className="dot" style={{ background: '#E61A97' }} />{t('Professionnels', 'Professionals')}</div>
+              </div>
             </div>
             <div className="term-network-grid">
               <div className="term-network-card term-reveal">
@@ -1329,18 +1344,21 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
                 <h4>{t('Créateurs', 'Creators')}</h4>
                 <div className="who">{t('Artistes, réalisateurs, scénaristes, auteurs', 'Artists, directors, screenwriters, authors')}</div>
                 <p>{t('Faites certifier et valoriser officiellement votre œuvre. Conservez le contrôle artistique total, recevez le soutien de mécènes dès le lancement.', 'Get your work officially certified and showcased. Keep full artistic control, and receive patron support from day one.')}</p>
+                <button className="term-network-cta" style={{ color: '#1E8449' }} onClick={() => setShowJoin(true)}>{t('Faire certifier mon œuvre →', 'Get my work certified →')}</button>
               </div>
               <div className="term-network-card term-reveal">
                 <div className="n" style={{ color: '#7E1CF1' }}>02</div>
                 <h4>{t('Mécènes', 'Patrons')}</h4>
                 <div className="who">{t("Mécènes particuliers, fonds d'investissement, sponsors", 'Individual patrons, investment funds, sponsors')}</div>
                 <p>{t('Soutenez les œuvres dès 50€. Le Score LYA garantit la rigueur de sélection. Suivez vos œuvres soutenues en temps réel.', 'Support works from €50. The LYA Score guarantees selection rigor. Track your supported works in real time.')}</p>
+                <button className="term-network-cta" style={{ color: '#7E1CF1' }} onClick={() => setShowJoin(true)}>{t('Devenir mécène →', 'Become a patron →')}</button>
               </div>
               <div className="term-network-card term-reveal">
                 <div className="n" style={{ color: '#E61A97' }}>03</div>
                 <h4>{t('Professionnels', 'Professionals')}</h4>
                 <div className="who">{t('Curateurs, agents artistiques, conseillers — studios, sociétés de production et de divertissement, institutions culturelles (type CNC)', 'Curators, artistic agents, advisors — studios, production and entertainment companies, cultural institutions (e.g. CNC)')}</div>
                 <p>{t("Rejoignez notre réseau d'experts en validation certifiés. Évaluez des œuvres dans votre domaine, réseau professionnel exclusif inter-secteurs.", 'Join our network of certified validation experts. Evaluate works in your field, exclusive cross-sector network.')}</p>
+                <button className="term-network-cta" style={{ color: '#E61A97' }} onClick={() => setShowJoin(true)}>{t('Rejoindre le réseau →', 'Join the network →')}</button>
               </div>
             </div>
           </div>
