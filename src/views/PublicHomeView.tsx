@@ -426,7 +426,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-score-hero{ padding:8px 0 56px; }
         .term-score-hero-inner{ background:var(--term-ink); border-radius:10px; padding:48px 44px; display:flex; align-items:center; gap:48px; flex-wrap:wrap; }
         .term-score-hero-num{ display:flex; align-items:baseline; flex-shrink:0; }
-        .term-score-hero-num .big{ font-family:'Fraunces',serif; font-weight:600; font-size:clamp(72px,11vw,140px); line-height:1; background:linear-gradient(90deg,#7E1CF1,#E61A97,#02C6FA); -webkit-background-clip:text; background-clip:text; color:transparent; }
+        .term-score-hero-num .big{ font-family:'Fraunces',serif; font-weight:600; font-size:clamp(72px,11vw,140px); line-height:1; font-variant-numeric:tabular-nums; background:linear-gradient(90deg,#7E1CF1,#E61A97,#02C6FA); -webkit-background-clip:text; background-clip:text; color:transparent; }
         .term-score-hero-num .max{ font-family:'Sora',sans-serif; font-weight:700; font-size:clamp(20px,2.4vw,30px); color:#565B6B; margin-left:6px; }
         .term-score-hero-text{ flex:1; min-width:260px; }
         .term-gradient-text{ background:linear-gradient(90deg,#7E1CF1,#E61A97,#02C6FA); -webkit-background-clip:text; background-clip:text; color:transparent; }
@@ -694,7 +694,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-photo-stat:hover{ transform:translateY(-6px); }
         .term-photo-stat .overlay{ position:absolute; inset:0; background:linear-gradient(180deg,rgba(11,14,20,0.15) 0%,rgba(11,14,20,0.85) 100%); }
         .term-photo-stat .content{ position:relative; z-index:1; padding:28px; }
-        .term-photo-stat .num{ font-family:'Fraunces',serif; font-weight:600; font-size:48px; color:#fff; line-height:1; margin-bottom:8px; }
+        .term-photo-stat .num{ font-family:'Fraunces',serif; font-weight:600; font-size:48px; color:#fff; line-height:1; margin-bottom:8px; font-variant-numeric:tabular-nums; }
         .term-photo-stat .lbl{ font-family:'Sora',sans-serif; font-size:13px; color:rgba(255,255,255,0.75); text-transform:uppercase; letter-spacing:0.04em; font-weight:600; }
         .term-pricing{ padding:56px 0 72px; }
         .term-price-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:32px; }
