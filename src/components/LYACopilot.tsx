@@ -97,12 +97,12 @@ export const LYACopilot: React.FC = () => {
             initial={{ opacity: 0, y: 40, scale: 0.95, filter: 'blur(10px)' }}
             animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
             exit={{ opacity: 0, y: 40, scale: 0.95, filter: 'blur(10px)' }}
-            className="fixed bottom-[5.5rem] right-4 sm:right-6 md:bottom-24 md:right-6 w-[calc(100vw-2rem)] sm:w-[calc(100vw-3rem)] md:w-full max-w-md bg-surface-dim/95 backdrop-blur-3xl border border-primary-cyan/20 z-[1000] font-mono flex flex-col overflow-hidden h-[500px] sm:h-[600px] max-h-[75vh] sm:max-h-[80vh] rounded-lg md:rounded-[2.5rem]"
+            className="fixed bottom-[5.5rem] right-4 sm:right-6 md:bottom-24 md:right-6 w-[calc(100vw-2rem)] sm:w-[calc(100vw-3rem)] md:w-full max-w-md bg-surface-dim/95 backdrop-blur-3xl border border-[#7E1CF1]/20 z-[1000] font-mono flex flex-col overflow-hidden h-[500px] sm:h-[600px] max-h-[75vh] sm:max-h-[80vh] rounded-lg md:rounded-[2.5rem]"
           >
             {/* Header */}
-            <div className="p-6 border-b border-white/5 flex items-center justify-between bg-primary-cyan/5">
+            <div className="p-6 border-b border-white/5 flex items-center justify-between" style={{ background: 'linear-gradient(120deg, rgba(126,28,241,0.08), rgba(230,26,151,0.08), rgba(2,198,250,0.08))' }}>
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-primary-cyan/10 border border-primary-cyan/20 flex items-center justify-center text-primary-cyan">
+                <div className="w-12 h-12 rounded-xl border border-[#7E1CF1]/20 flex items-center justify-center text-white bg-brand-gradient">
                   <Bot size={24} />
                 </div>
                 <div>
@@ -112,7 +112,7 @@ export const LYACopilot: React.FC = () => {
                   </div>
                   <div className="flex items-center gap-2 mt-1">
                     <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
-                    <div className="text-[10px] text-primary-cyan font-bold uppercase tracking-[0.2em]">
+                    <div className="text-[10px] text-brand-gradient font-bold uppercase tracking-[0.2em]">
                       {isFR ? 'ASSISTANT ACTIF' : 'ASSISTANT ACTIVE'}
                     </div>
                   </div>
@@ -143,11 +143,11 @@ export const LYACopilot: React.FC = () => {
                 >
                   <div className={`relative group max-w-[85%] ${m.role === 'USER' ? 'ml-12' : 'mr-12'}`}>
                     {m.role === 'AI' && (
-                      <div className="absolute -left-2 top-0 bottom-0 w-[1px] bg-gradient-to-b from-primary-cyan to-transparent opacity-40" />
+                      <div className="absolute -left-2 top-0 bottom-0 w-[1px] bg-gradient-to-b from-[#7E1CF1] via-[#E61A97] to-transparent opacity-50" />
                     )}
                     <div className={`p-4 rounded-lg text-[11px] font-bold leading-relaxed shadow-2xl ${
                       m.role === 'USER' 
-                        ? 'bg-primary-cyan text-surface-dim rounded-tr-none shadow-[0_10px_30px_rgba(0,224,255,0.2)]' 
+                        ? 'bg-brand-gradient text-white rounded-tr-none shadow-[0_10px_30px_rgba(126,28,241,0.25)]' 
                         : 'bg-white/5 text-white border border-white/5 rounded-tl-none backdrop-blur-xl'
                     }`}>
                       <div className="flex items-center gap-2 mb-2 opacity-50 text-xs uppercase tracking-widest font-black">
@@ -165,11 +165,11 @@ export const LYACopilot: React.FC = () => {
                   <div className="bg-white/5 border border-white/5 p-4 rounded-lg rounded-tl-none flex flex-col gap-4 w-48">
                     <div className="flex items-center gap-3">
                       <div className="flex gap-1">
-                        <motion.div animate={{ opacity: [0.2, 1, 0.2] }} transition={{ repeat: Infinity, duration: 1 }} className="w-1.5 h-1.5 bg-primary-cyan rounded-full" />
-                        <motion.div animate={{ opacity: [0.2, 1, 0.2] }} transition={{ repeat: Infinity, duration: 1, delay: 0.2 }} className="w-1.5 h-1.5 bg-primary-cyan rounded-full" />
-                        <motion.div animate={{ opacity: [0.2, 1, 0.2] }} transition={{ repeat: Infinity, duration: 1, delay: 0.4 }} className="w-1.5 h-1.5 bg-primary-cyan rounded-full" />
+                        <motion.div animate={{ opacity: [0.2, 1, 0.2] }} transition={{ repeat: Infinity, duration: 1 }} className="w-1.5 h-1.5 bg-[#7E1CF1] rounded-full" />
+                        <motion.div animate={{ opacity: [0.2, 1, 0.2] }} transition={{ repeat: Infinity, duration: 1, delay: 0.2 }} className="w-1.5 h-1.5 bg-[#E61A97] rounded-full" />
+                        <motion.div animate={{ opacity: [0.2, 1, 0.2] }} transition={{ repeat: Infinity, duration: 1, delay: 0.4 }} className="w-1.5 h-1.5 bg-[#02C6FA] rounded-full" />
                       </div>
-                      <span className="text-[10px] font-black uppercase text-primary-cyan tracking-widest animate-pulse">{isFR ? 'ANALYSE...' : 'THINKING...'}</span>
+                      <span className="text-[10px] font-black uppercase text-brand-gradient tracking-widest animate-pulse">{isFR ? 'ANALYSE...' : 'THINKING...'}</span>
                     </div>
                   </div>
                 </div>
@@ -184,7 +184,7 @@ export const LYACopilot: React.FC = () => {
                   <button
                     key={i}
                     onClick={() => handleSend(s.query)}
-                    className="px-3 py-1.5 bg-white/5 hover:bg-primary-cyan/10 border border-white/10 hover:border-primary-cyan/30 rounded-full text-xs font-bold text-on-surface-variant hover:text-primary-cyan transition-all uppercase tracking-widest"
+                    className="px-3 py-1.5 bg-white/5 hover:bg-[#7E1CF1]/10 border border-white/10 hover:border-[#7E1CF1]/30 rounded-full text-xs font-bold text-on-surface-variant hover:text-brand-gradient transition-all uppercase tracking-widest"
                   >
                     {s.title}
                   </button>
@@ -201,7 +201,7 @@ export const LYACopilot: React.FC = () => {
                   onKeyDown={(e) => e.key === 'Enter' && handleSend()}
                   placeholder={isFR ? 'Posez votre question...' : 'Ask your question...'}
                   disabled={isTyping}
-                  className="w-full bg-white/5 border border-white/10 rounded-lg p-4 pr-14 text-xs text-white focus:outline-none focus:border-primary-cyan/50 focus:bg-white/[0.08] transition-all font-mono font-bold placeholder:text-white/20 disabled:opacity-50"
+                  className="w-full bg-white/5 border border-white/10 rounded-lg p-4 pr-14 text-xs text-white focus:outline-none focus:border-[#7E1CF1]/50 focus:bg-white/[0.08] transition-all font-mono font-bold placeholder:text-white/20 disabled:opacity-50"
                 />
                 <button 
                   onClick={() => handleSend()} 

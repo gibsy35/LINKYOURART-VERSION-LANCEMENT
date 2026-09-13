@@ -491,7 +491,6 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-compare-grid{ display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:32px; position:relative; }
         @media (max-width:800px){ .term-compare-grid{ grid-template-columns:1fr; } }
         .term-compare-vs{ position:absolute; top:50%; left:50%; margin:-23px 0 0 -23px; width:46px; height:46px; border-radius:50%; background:var(--term-ink); color:#fff; display:flex; align-items:center; justify-content:center; font-family:'Sora',sans-serif; font-weight:800; font-size:12px; letter-spacing:0.02em; z-index:2; box-shadow:0 10px 24px rgba(11,14,20,0.28); border:3px solid #fff; }
-        @media (max-width:800px){ .term-compare-vs{ display:none; } }
         .term-compare-col{ border-radius:14px; padding:30px 26px; background:var(--term-grey); border:1px solid var(--term-line); transition:transform 0.4s cubic-bezier(.22,1,.36,1), box-shadow 0.4s ease; }
         .term-compare-col.is{ border-top:3px solid #3ADB76; transform:rotate(-0.6deg); }
         .term-compare-col.isnot{ border-top:3px solid var(--term-line); opacity:0.92; transform:rotate(0.6deg); }
