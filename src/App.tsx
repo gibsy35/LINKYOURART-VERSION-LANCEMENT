@@ -65,6 +65,13 @@ import { doc, onSnapshot, getDoc, updateDoc, setDoc, collection, addDoc, serverT
 import { PublicHomeView } from './views/PublicHomeView';
 export default function App() {
   const { t, language } = useTranslation();
+  // Le texte du loader d'entree est fige au tout premier rendu (ref, jamais
+  // recalcule) : si `language` change ne serait-ce qu'une fois pendant les
+  // ~4.3s d'affichage du loader (detection tardive, profil charge, etc.),
+  // le texte affiche ne doit jamais changer en cours de route — sinon
+  // l'ecran semble "rejouer" son entree (FR puis EN, ou l'inverse), ce qui
+  // se lit comme un doublon de loader alors que ce n'en est pas un.
+  const bootLangRef = React.useRef(language);
   const { contracts: liveContracts } = useMarketData();
   const [currentView, setCurrentView] = useState<View>(() => {
     if (typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('signup') === '1') return 'SIGNUP';
@@ -587,7 +594,7 @@ export default function App() {
           </div>
           <div className="flex flex-col items-center gap-3.5 px-6">
             <div className="flex flex-col md:flex-row items-center md:items-baseline gap-1 md:gap-3">
-              <span className="text-white/40 text-base md:text-3xl tracking-[0.15em] md:tracking-[0.2em] uppercase font-light">{t('INITIATING', 'INITIALISATION')}</span>
+              <span className="text-white/40 text-base md:text-3xl tracking-[0.15em] md:tracking-[0.2em] uppercase font-light">{bootLangRef.current === 'FR' ? 'INITIALISATION' : 'INITIATING'}</span>
               <span className="text-white text-base md:text-3xl tracking-[0.15em] md:tracking-[0.2em] uppercase font-bold">LINKYOURART</span>
             </div>
             <div className="h-[3px] w-56 md:w-96 bg-white/10 overflow-hidden relative">

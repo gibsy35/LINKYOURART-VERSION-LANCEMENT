@@ -373,7 +373,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-root .sora{ font-family:'Sora',sans-serif; }
         .term-wrap{ max-width:1160px; margin:0 auto; padding:0 40px; }
         @media (max-width:700px){ .term-wrap{ padding:0 22px; } }
-        .term-header{ background:var(--term-ink); padding:20px 0; position:sticky; top:0; z-index:100; border-bottom:1px solid rgba(255,255,255,0.08); }
+        .term-header{ background:rgba(11,14,20,0.55); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); padding:20px 0; position:sticky; top:0; z-index:100; border-bottom:1px solid rgba(255,255,255,0.08); }
         .term-head-inner{ display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:20px; }
         .term-word{ font-family:'Sora',sans-serif; font-weight:800; font-size:22px; color:#fff; }
         .term-nav{ display:flex; align-items:center; gap:28px; margin-left:auto; }
@@ -496,7 +496,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-history-grid{ display:grid; grid-template-columns:1.3fr 1fr; gap:44px; align-items:start; margin-top:32px; }
         @media (max-width:800px){ .term-history-grid{ grid-template-columns:1fr; } }
         .term-history-text p{ font-size:14px; line-height:1.7; color:var(--term-ink-soft); margin-bottom:16px; }
-        .term-history-visual{ position:relative; border-radius:8px; overflow:hidden; min-height:280px; display:flex; align-items:flex-end; transition:transform 0.4s cubic-bezier(.2,.8,.2,1); }
+        .term-history-visual{ position:relative; border-radius:8px; overflow:hidden; min-height:280px; display:flex; align-items:flex-end; transition:transform 0.4s cubic-bezier(.2,.8,.2,1); background:linear-gradient(135deg,#7E1CF1 0%,#E61A97 55%,#02C6FA 100%); }
         .term-history-visual:hover{ transform:translateY(-6px); }
         .term-history-visual .overlay{ position:absolute; inset:0; background:linear-gradient(180deg,rgba(11,14,20,0.1) 0%,rgba(11,14,20,0.88) 100%); }
         .term-history-visual .content{ position:relative; z-index:1; padding:26px; display:flex; gap:24px; width:100%; }
@@ -505,23 +505,18 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-values{ padding:72px 0; }
         .term-values-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:18px; margin-top:40px; }
         @media (max-width:800px){ .term-values-grid{ grid-template-columns:1fr 1fr; } }
-        .term-values-grid > div{ border-radius:14px; padding:24px 20px; transition:transform 0.4s cubic-bezier(.22,1,.36,1), box-shadow 0.4s ease; position:relative; overflow:hidden; }
+        .term-values-grid > div{ border-radius:14px; padding:24px 20px; background:#fff; border:1px solid var(--term-line); border-top:3px solid transparent; transition:transform 0.3s cubic-bezier(.2,.8,.2,1), box-shadow 0.3s ease; }
         .term-values-grid > div:nth-child(even){ margin-top:26px; }
         @media (max-width:800px){ .term-values-grid > div:nth-child(even){ margin-top:0; } }
-        .term-values-grid > div::after{ content:''; position:absolute; width:130px; height:130px; border-radius:50%; top:-60px; right:-55px; pointer-events:none; transition:transform 0.5s cubic-bezier(.22,1,.36,1); }
-        .term-values-grid > div:hover::after{ transform:scale(1.35); }
-        .term-values-grid > div:nth-child(1){ background:var(--term-ink); color:#fff; }
-        .term-values-grid > div:nth-child(2){ background:var(--term-lav); }
-        .term-values-grid > div:nth-child(3){ background:var(--term-grey); }
-        .term-values-grid > div:nth-child(4){ background:var(--term-ink); color:#fff; }
-        .term-values-grid > div:nth-child(1)::after{ background:radial-gradient(circle,rgba(2,198,250,0.35),transparent 70%); }
-        .term-values-grid > div:nth-child(2)::after{ background:radial-gradient(circle,rgba(126,28,241,0.3),transparent 70%); }
-        .term-values-grid > div:nth-child(3)::after{ background:radial-gradient(circle,rgba(126,28,241,0.18),transparent 70%); }
-        .term-values-grid > div:nth-child(4)::after{ background:radial-gradient(circle,rgba(230,26,151,0.35),transparent 70%); }
-        .term-values-grid > div:nth-child(1) .n{ color:#02C6FA; } .term-values-grid > div:nth-child(4) .n{ color:#E61A97; }
-        .term-values-grid > div:nth-child(2) .n, .term-values-grid > div:nth-child(3) .n{ color:#7E1CF1; }
-        .term-values-grid > div:nth-child(1) p, .term-values-grid > div:nth-child(4) p{ color:#B9B7C7; }
-        .term-values-grid > div:hover{ transform:translateY(-8px); box-shadow:0 22px 44px -20px rgba(11,14,20,0.28); }
+        .term-values-grid > div:nth-child(1){ border-top-color:#02C6FA; }
+        .term-values-grid > div:nth-child(2){ border-top-color:#7E1CF1; }
+        .term-values-grid > div:nth-child(3){ border-top-color:#E61A97; }
+        .term-values-grid > div:nth-child(4){ border-top-color:#3ADB76; }
+        .term-values-grid > div:nth-child(1) .n{ color:#02C6FA; }
+        .term-values-grid > div:nth-child(2) .n{ color:#7E1CF1; }
+        .term-values-grid > div:nth-child(3) .n{ color:#E61A97; }
+        .term-values-grid > div:nth-child(4) .n{ color:#3ADB76; }
+        .term-values-grid > div:hover{ transform:translateY(-8px); box-shadow:0 22px 44px -20px rgba(11,14,20,0.18); }
         .term-values-grid .n{ font-family:'Fraunces',serif; font-style:italic; font-weight:500; font-size:16px; color:#7E1CF1; margin-bottom:12px; position:relative; z-index:1; }
         .term-values-grid h4{ font-family:'Fraunces',serif; font-size:16px; font-weight:600; margin-bottom:6px; position:relative; z-index:1; }
         .term-values-grid p{ font-size:13px; color:var(--term-ink-soft); line-height:1.55; position:relative; z-index:1; }
@@ -969,10 +964,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       <section className="term-pillars" id="pillars" style={{ scrollMarginTop: 80 }}>
         <div className="term-wrap">
           <div className="term-eyebrow">{t('Le Score LYA', 'The LYA Score')}</div>
-          <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(26px,3.2vw,38px)', marginBottom: 12 }}>
-            <span className="term-gradient-text">{t('Cinq critères.', 'Five criteria.')}</span> {t('Un standard commun à tout le secteur créatif.', 'One standard shared across the whole creative sector.')}
-          </h2>
-          <p className="term-pillars-note">{t('Chaque critère est noté sur 200 points, pour un Score LYA total sur 1000.', 'Each criterion is scored out of 200 points, for a total LYA Score out of 1000.')}</p>
+          <p className="term-pillars-note" style={{ fontSize: 15, marginTop: 4 }}><span className="term-gradient-text" style={{ fontWeight: 700 }}>{t('Cinq critères. ', 'Five criteria. ')}</span>{t('Un standard commun à tout le secteur créatif — chaque critère est noté sur 200 points, pour un Score LYA total sur 1000.', 'One standard shared across the whole creative sector — each criterion is scored out of 200 points, for a total LYA Score out of 1000.')}</p>
           <motion.div
             className="term-pillars-grid"
             initial="hidden"
@@ -1011,8 +1003,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
             </div>
             <div className="term-score-hero-text">
               <div className="term-eyebrow">{t('Le concept en un chiffre', 'The concept in one number')}</div>
-              <h2>{t('Chaque œuvre a un Score ', 'Every work has a ')}<span className="term-gradient-text" style={{ textTransform: 'uppercase' }}>LYA</span>{t(' — sur 1000, toujours.', ' Score — out of 1000, always.')}</h2>
-              <p>{t("Un seul standard, comparable d'une discipline à l'autre. 247, 580 ou 928 — le chiffre veut toujours dire la même chose.", 'One single standard, comparable across every discipline. 247, 580, or 928 — the number always means the same thing.')}</p>
+              <p style={{ fontSize: 16 }}><span className="term-gradient-text" style={{ fontWeight: 700, textTransform: 'uppercase' }}>{t('Chaque œuvre a un Score LYA. ', 'Every work has a LYA Score. ')}</span>{t("Sur 1000, toujours — un seul standard, comparable d'une discipline à l'autre. 247, 580 ou 928, le chiffre veut toujours dire la même chose.", "Out of 1000, always — one single standard, comparable across every discipline. 247, 580, or 928, the number always means the same thing.")}</p>
             </div>
           </div>
         </div>
@@ -1043,8 +1034,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       <section className="term-milestone">
         <div className="term-wrap">
           <div className="term-eyebrow">{t("C'est quoi un jalon ?", 'What is a milestone?')}</div>
-          <h2 className="term-milestone-h2">{t('Un score doit rester vivant.', 'A score has to stay alive.')}</h2>
-          <p className="term-milestone-intro">{t(
+          <p className="term-milestone-intro"><span className="term-gradient-text" style={{ fontWeight: 700 }}>{t('Un score doit rester vivant. ', 'A score has to stay alive. ')}</span>{t(
             "Un jalon, c'est un événement clé et vérifié dans la vie d'un projet : une exposition, un contrat signé, un acteur qui rejoint le casting font avancer le Score LYA. Un litige ou un retard le font reculer. Mais un projet qui n'avance plus du tout n'est pas neutre — c'est un problème. LYA existe pour faire émerger les créateurs de demain, pas pour héberger des projets à l'arrêt.",
             "A milestone is a key, verified event in a project's life: an exhibition, a signed contract, an actor joining the cast push the LYA Score up. A dispute or a delay pull it down. But a project that stops moving isn't neutral — it's a problem. LYA exists to surface tomorrow's creators, not to host stalled projects."
           )}</p>
@@ -1093,14 +1083,28 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       <section className="term-validation">
         <div className="term-wrap">
           <div className="term-eyebrow">{t('Processus', 'Process')}</div>
-          <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t('Une validation en 4 étapes.', 'A 4-step validation.')}</h2>
-          <p className="term-validation-sub">{t('Chaque projet passe par les 4 mêmes étapes de revue avant de pouvoir être certifié — aucun raccourci, aucune exception.', 'Every project goes through the same 4 review steps before certification — no shortcuts, no exceptions.')}</p>
-          <div className="term-validation-grid">
-            <div className="term-validation-step term-reveal"><span className="num">01</span><h5>{t("Vérification d'origine", 'Origin verification')}</h5><p>{t('Authenticité et traçabilité de la création.', 'Authenticity and traceability of the work.')}</p></div>
-            <div className="term-validation-step term-reveal"><span className="num">02</span><h5>{t('Analyse créative', 'Creative analysis')}</h5><p>{t('Originalité, qualité et potentiel artistique.', 'Originality, quality and artistic potential.')}</p></div>
-            <div className="term-validation-step term-reveal"><span className="num">03</span><h5>{t('Droits & conformité', 'Rights & compliance')}</h5><p>{t('Vérification des droits de propriété et licences.', 'Ownership rights and license verification.')}</p></div>
-            <div className="term-validation-step term-reveal"><span className="num">04</span><h5>{t('Validation finale', 'Final validation')}</h5><p>{t("Approbation définitive d'indexation LYA.", 'Final LYA indexation approval.')}</p></div>
-          </div>
+          <p className="term-validation-sub"><span className="term-gradient-text" style={{ fontWeight: 700 }}>{t('Une validation en 4 étapes. ', 'A 4-step validation. ')}</span>{t('Chaque projet passe par les 4 mêmes étapes de revue avant de pouvoir être certifié — aucun raccourci, aucune exception.', 'Every project goes through the same 4 review steps before certification — no shortcuts, no exceptions.')}</p>
+          <motion.div
+            className="term-validation-grid"
+            initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.3 }}
+            variants={{ hidden: {}, show: { transition: { staggerChildren: 0.1 } } }}
+          >
+            {[
+              { num: '01', title: t("Vérification d'origine", 'Origin verification'), desc: t('Authenticité et traçabilité de la création.', 'Authenticity and traceability of the work.') },
+              { num: '02', title: t('Analyse créative', 'Creative analysis'), desc: t('Originalité, qualité et potentiel artistique.', 'Originality, quality and artistic potential.') },
+              { num: '03', title: t('Droits & conformité', 'Rights & compliance'), desc: t('Vérification des droits de propriété et licences.', 'Ownership rights and license verification.') },
+              { num: '04', title: t('Validation finale', 'Final validation'), desc: t("Approbation définitive d'indexation LYA.", 'Final LYA indexation approval.') },
+            ].map((s, i) => (
+              <motion.div
+                key={s.num}
+                className="term-validation-step"
+                variants={{ hidden: { opacity: 0, x: -30 + i * 4, y: 20 }, show: { opacity: 1, x: 0, y: 0 } }}
+                transition={{ type: 'spring', stiffness: 240, damping: 20 }}
+              >
+                <span className="num">{s.num}</span><h5>{s.title}</h5><p>{s.desc}</p>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
       </section>
 
@@ -1115,7 +1119,6 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       <section className="term-newera">
         <div className="term-wrap">
           <div className="term-eyebrow">Une nouvelle ère</div>
-          <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px) ' }}>Pour l'excellence <span className="term-gradient-text">créative.</span></h2>
           <motion.div
             className="term-newera-grid"
             initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.25 }}
@@ -1142,7 +1145,6 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       <section className="term-compare">
         <div className="term-wrap">
           <div className="term-eyebrow">{t('Comparaison', 'Comparison')}</div>
-          <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t('Ce que ', 'What ')}<span className="term-gradient-text" style={{ textTransform: 'uppercase' }}>LYA</span>{t(" est — et n'est pas.", " is — and isn't.")}</h2>
           <motion.div
             className="term-compare-grid"
             initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.3 }}
@@ -1184,7 +1186,6 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       <section className="term-history">
         <div className="term-wrap">
           <div className="term-eyebrow">{t('Notre histoire', 'Our history')}</div>
-          <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)', maxWidth: '20ch' }}>{t("Vingt ans avant d'avoir ", 'Twenty years before it ')}<span className="term-gradient-text">{t('un nom pour ça.', 'had a name.')}</span></h2>
           <div className="term-history-grid">
             <motion.div
               className="term-history-text"
@@ -1193,7 +1194,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.6, ease: 'easeOut' }}
             >
-              <p>{t(
+              <p><span className="term-gradient-text" style={{ fontWeight: 700 }}>{t("Vingt ans avant d'avoir un nom pour ça. ", 'Twenty years before it had a name. ')}</span>{t(
                 "En 2006, Jean-Baptiste Lequime fonde LinkYourArt avec une ambition claire : bâtir le premier pont international entre les créations et les industries qui en ont besoin. C'est en construisant LinkYourArt, au fil des années, qu'il a forgé son expérience en développement commercial dans les industries créatives, avec une spécialisation film et divertissement. Musique, cinéma, mode, jeux vidéo, design, architecture, arts de la scène — chaque création y trouve sa place, à une époque où aucune plateforme n'osait encore toutes les réunir.",
                 'In 2006, Jean-Baptiste Lequime founded LinkYourArt with a clear ambition: to build the first international bridge between creative works and the industries that need them. It was LinkYourArt itself that forged, over the years, his business development expertise within the creative industries, specializing in film and entertainment. Music, film, fashion, gaming, design, architecture, performing arts — every creation found a home here, at a time when no platform dared unite them all.'
               )}</p>
@@ -1221,7 +1222,6 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       <section className="term-values">
         <div className="term-wrap">
           <div className="term-eyebrow">{t('Nos valeurs', 'Our values')}</div>
-          <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t('Ce qui ne bouge pas, même quand tout évolue.', "What doesn't move, even as everything evolves.")}</h2>
           <div className="term-values-grid">
             {values.map((v, i) => (
               <motion.div
@@ -1244,7 +1244,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       <section className="term-why">
         <div className="term-wrap">
           <div className="term-eyebrow">{t('Pourquoi LYA', 'Why LYA')}</div>
-          <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t("Une reconnaissance qui se construit, ", 'Recognition that is built, ')}<span className="term-gradient-text">{t("pas qui s'achète.", 'not bought.')}</span></h2>
+
           <motion.div
             className="term-why-grid"
             initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.4 }}
@@ -1272,7 +1272,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       <section className="term-registry" id="registry" style={{ scrollMarginTop: 80 }}>
         <div className="term-wrap">
           <div className="term-eyebrow">{t('Le registre', 'The registry')}</div>
-          <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t('Ce à quoi ressemble un projet certifié', 'What a certified project looks like')}</h2>
+
           <p className="term-registry-example-note term-reveal">{t('Exemples représentatifs de projets, pour illustrer la diversité des catégories couvertes par LYA.', 'Representative examples, illustrating the range of categories LYA covers.')}</p>
           <div className="term-registry-intro term-reveal">
             <p>{t("Le Registre LYA n'est pas un livre de comptes financier, mais un registre de certification créative — il documente le Score LYA et l'historique des jalons de chaque projet certifié.", 'The LYA Registry is not a financial ledger, but a creative certification registry — it documents the LYA Score and milestone history of every certified project.')}</p>
@@ -1321,7 +1321,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
           <div className="term-network-split">
             <div className="term-network-heading term-reveal">
               <div className="term-eyebrow">{t('Le réseau LYA', 'The LYA network')}</div>
-              <h2 style={{ fontWeight: 700, fontSize: 'clamp(26px,3.4vw,40px)' }}>{t('Trois rôles, un seul standard.', 'Three roles, one single standard.')}</h2>
+
             </div>
             <div className="term-network-grid">
               <div className="term-network-card term-reveal">
@@ -1352,7 +1352,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       <section className="term-independence">
         <div className="term-wrap">
           <div className="term-eyebrow">{t('Indépendance & confiance', 'Independence & trust')}</div>
-          <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t('Un score qui ne dépend de ', 'A score that depends on ')}<span className="term-gradient-text">{t('personne.', 'no one.')}</span></h2>
+
           <motion.div
             className="term-independence-grid"
             initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.4 }}
@@ -1381,7 +1381,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       <section className="term-security">
         <div className="term-wrap">
           <div className="term-eyebrow">{t('Sécurité & confiance', 'Security & trust')}</div>
-          <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t('Bâti sur des fondations rigoureuses.', 'Built on rigorous foundations.')}</h2>
+
           <div className="term-security-grid">
             <div className="term-security-item term-reveal"><span className="term-sec-ico ico1"><Shield size={18} strokeWidth={2.5} /></span><span>{t('Conforme RGPD — protection des données de bout en bout', 'GDPR compliant — end-to-end data protection')}</span></div>
             <div className="term-security-item term-reveal"><span className="term-sec-ico ico2"><Shield size={18} strokeWidth={2.5} /></span><span>{t('Droits créatifs certifiés légalement à chaque étape', 'Legally certified creative rights at every step')}</span></div>
@@ -1430,8 +1430,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       <section className="term-free-banner">
         <div className="term-wrap">
           <div className="term-free-tag">{t('Toujours actif — tous les créateurs', 'Always active — all creators')}</div>
-          <h2 className="term-reveal">{t('Vos 3 premiers projets, ', 'Your first 3 projects, ')}<span className="term-gradient-text">{t('certifiés gratuitement.', 'certified for free.')}</span></h2>
-          <p className="term-free-intro">{t("Pas de coût de certification standard, aucune contrepartie cachée — quel que soit votre domaine créatif.", 'No standard certification fee, no hidden terms — whatever your creative field.')}</p>
+          <p className="term-free-intro"><span className="term-gradient-text" style={{ fontWeight: 700 }}>{t('Vos 3 premiers projets, certifiés gratuitement. ', 'Your first 3 projects, certified for free. ')}</span>{t("Pas de coût de certification standard, aucune contrepartie cachée — quel que soit votre domaine créatif.", 'No standard certification fee, no hidden terms — whatever your creative field.')}</p>
           <motion.div
             className="term-free-grid"
             initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.3 }}
@@ -1475,8 +1474,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       <section className="term-pricing" id="pricing" style={{ scrollMarginTop: 80 }}>
         <div className="term-wrap">
           <div className="term-eyebrow">{t('Tarifs', 'Pricing')}</div>
-          <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t('Commencez gratuitement. Grandissez à votre rythme.', 'Start for free. Grow at your own pace.')}</h2>
-          <p className="term-pricing-intro">{t('La découverte et le mécénat sont gratuits pour tous. Les paliers professionnels débloquent les outils de certification pour sourcer et auditer à grande échelle.', 'Discovery and patronage are free for everyone. Professional tiers unlock certification tooling for sourcing and auditing work at scale.')}</p>
+          <p className="term-pricing-intro"><span className="term-gradient-text" style={{ fontWeight: 700 }}>{t('Commencez gratuitement. Grandissez à votre rythme. ', 'Start for free. Grow at your own pace. ')}</span>{t('La découverte et le mécénat sont gratuits pour tous. Les paliers professionnels débloquent les outils de certification pour sourcer et auditer à grande échelle.', 'Discovery and patronage are free for everyone. Professional tiers unlock certification tooling for sourcing and auditing work at scale.')}</p>
           <div className="term-price-grid">
             <div className="term-price lav term-reveal" onClick={() => setShowJoin(true)} style={{ cursor: 'pointer' }}>
               <div>
@@ -1543,7 +1541,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       <section className="term-cta">
         <div className="term-wrap term-cta-inner">
           <div>
-            <h2>{t('Prêt à faire certifier votre travail ?', 'Ready to get your work certified?')}</h2>
+            <p style={{ fontSize: 'clamp(20px,2.4vw,26px)', fontWeight: 700 }} className="term-gradient-text">{t('Prêt à faire certifier votre travail ?', 'Ready to get your work certified?')}</p>
             <div style={{ fontSize: 13, color: '#6B4A5E', marginTop: 8 }}>{t('Accès sur pré-inscription, validé par notre équipe.', 'Access by pre-registration, validated by our team.')}</div>
           </div>
           <button className="term-pill" style={{ background: '#0B0E14' }} onClick={() => setShowJoin(true)}>{t('Rejoindre LYA →', 'Join LYA →')}</button>
