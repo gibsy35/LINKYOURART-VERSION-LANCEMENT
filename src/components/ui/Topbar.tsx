@@ -86,9 +86,118 @@ export const Topbar: React.FC<TopbarProps> = ({
           </div>
         </div>
 
-        {/* Espace flexible — la marque est deja affichee dans le Sidebar,
-            pas besoin de la repeter ici (c'etait un doublon de logo). */}
-        <div className="hidden lg:flex flex-1" />
+        {/* Desktop Ticker Wrapper - Extended to the left */}
+        <div className="hidden lg:flex flex-1 h-full items-center overflow-hidden bg-black/20 relative">
+          <motion.div 
+            className="flex items-center gap-16 whitespace-nowrap absolute left-0 h-full"
+            animate={{ x: [0, -2400] }}
+            transition={{ duration: 75, repeat: Infinity, ease: "linear" }}
+          >
+            {(() => {
+              const mediaAnnouncements = [
+                t('New article on LYA certification standard', 'Nouvel article sur le standard de certification LYA'),
+                t('LYA Jobs: new listings from certified studios', 'LYA Jobs : nouvelles offres de studios certifiés'),
+                t('Press & Media: new call for contributions', 'Presse & Médias : nouvel appel à contribution'),
+                t('LYA featured in creative industry roundup', 'LYA mentionné dans une revue de l\'industrie créative'),
+                t('New podcast episode covers the LYA Score methodology', 'Nouvel épisode de podcast sur la méthodologie du Score LYA'),
+                t('Press & Media: exclusive interview published', 'Presse & Médias : interview exclusive publiée'),
+              ];
+              const registryStats = [
+                t('128+ certified projects on the LYA Registry', '128+ projets certifiés sur le Registre LYA'),
+                t('9+ creative sectors covered', '9+ secteurs créatifs couverts'),
+                t('100+ active professional validators', '100+ validateurs professionnels actifs'),
+                t('290+ active patrons on the platform', '290+ mécènes actifs sur la plateforme'),
+                t('LYA Score methodology: 5 pillars, 1000 points', 'Méthodologie du Score LYA : 5 piliers, 1000 points'),
+                t('New professional validators onboarded this month', 'Nouveaux validateurs professionnels intégrés ce mois-ci'),
+              ];
+              const sectorHighlights = [
+                t('Film & TV: strongest certification growth this quarter', 'Film & TV : plus forte croissance de certification ce trimestre'),
+                t('Music: rising number of certified catalogs', 'Musique : nombre croissant de catalogues certifiés'),
+                t('Architecture: new certified projects added weekly', 'Architecture : nouveaux projets certifiés chaque semaine'),
+                t('Fashion: growing patron interest in certified collections', 'Mode : intérêt croissant des mécènes pour les collections certifiées'),
+              ];
+
+              type Row = { key: string; node: React.ReactNode };
+              const rows: Row[] = [];
+
+              [...CONTRACTS].slice(0, 14).forEach((item, i) => {
+                const isUp = item.growth >= 0;
+                rows.push({
+                  key: `score-${item.id}-${i}`,
+                  node: (
+                    <div className="flex items-center gap-6 cursor-pointer group h-full px-4 border-l-2 border-primary-cyan/30 hover:bg-white/5 transition-colors"
+                      onClick={() => onSelectContract ? onSelectContract(item) : onViewChange('DASHBOARD')}>
+                      <span className="text-[10px] font-black text-white group-hover:text-primary-cyan transition-colors uppercase tracking-widest flex items-center gap-2">
+                        <span className="text-on-surface-variant/40">{item.registryIndex}</span>
+                        {item.name}
+                      </span>
+                      <div className="flex items-center gap-3">
+                        <span className="text-[10px] text-white font-mono font-bold">{item.totalScore}/1000</span>
+                        <div className="flex items-center gap-1">
+                          {isUp ? <TrendingUp size={10} className="text-emerald-400" /> : <TrendingDown size={10} className="text-rose-500" />}
+                          <span className={`text-[10px] font-black ${isUp ? 'text-emerald-400' : 'text-rose-500'}`}>{isUp ? '+' : ''}{item.growth}%</span>
+                        </div>
+                      </div>
+                    </div>
+                  ),
+                });
+                if (item.milestones && item.milestones.length > 0) {
+                  const m = item.milestones[item.milestones.length - 1];
+                  rows.push({
+                    key: `milestone-${item.id}-${i}`,
+                    node: (
+                      <div className="flex items-center gap-2 h-full px-4 cursor-pointer group border-l-2 border-accent-gold/30 hover:bg-accent-gold/5 transition-colors"
+                        onClick={() => onSelectContract ? onSelectContract(item) : onViewChange('DASHBOARD')}>
+                        <Award size={11} className="text-accent-gold" />
+                        <span className="text-[10px] font-black text-accent-gold uppercase tracking-widest group-hover:text-white transition-colors">{item.name}:</span>
+                        <span className="text-[10px] text-on-surface-variant/60 uppercase tracking-widest">{m.label}</span>
+                      </div>
+                    ),
+                  });
+                }
+              });
+              mediaAnnouncements.forEach((txt, i) => rows.push({
+                key: `media-${i}`,
+                node: (
+                  <div className="flex items-center gap-2 h-full px-4 cursor-pointer group border-l-2 border-[#a78bfa]/30 hover:bg-[#a78bfa]/5 transition-colors"
+                    onClick={() => onViewChange('SOCIAL_FEED')}>
+                    <Newspaper size={11} className="text-[#a78bfa]" />
+                    <span className="text-[10px] text-on-surface-variant/70 uppercase tracking-widest group-hover:text-[#a78bfa] transition-colors">{txt}</span>
+                  </div>
+                ),
+              }));
+              registryStats.forEach((txt, i) => rows.push({
+                key: `stat-${i}`,
+                node: (
+                  <div className="flex items-center gap-2 h-full px-4 cursor-pointer group border-l-2 border-primary-cyan/30 hover:bg-primary-cyan/5 transition-colors"
+                    onClick={() => onViewChange('REGISTRY')}>
+                    <ShieldCheck size={11} className="text-primary-cyan" />
+                    <span className="text-[10px] text-on-surface-variant/70 uppercase tracking-widest group-hover:text-primary-cyan transition-colors">{txt}</span>
+                  </div>
+                ),
+              }));
+              sectorHighlights.forEach((txt, i) => rows.push({
+                key: `sector-${i}`,
+                node: (
+                  <div className="flex items-center gap-2 h-full px-4 cursor-pointer group border-l-2 border-emerald-400/30 hover:bg-emerald-400/5 transition-colors"
+                    onClick={() => onViewChange('DASHBOARD')}>
+                    <TrendingUp size={11} className="text-emerald-400" />
+                    <span className="text-[10px] text-on-surface-variant/70 uppercase tracking-widest group-hover:text-emerald-400 transition-colors">{txt}</span>
+                  </div>
+                ),
+              }));
+
+              // Alterne les types plutôt que de les grouper par bloc
+              for (let i = rows.length - 1; i > 0; i--) {
+                const j = (i * 7 + 3) % (i + 1);
+                [rows[i], rows[j]] = [rows[j], rows[i]];
+              }
+
+              return [...rows, ...rows].map((r, idx) => <div key={`${r.key}-${idx}`}>{r.node}</div>);
+            })()}
+          </motion.div>
+        </div>
+
 
         {/* Right Actions */}
         <div className="flex items-center gap-2 md:gap-4 lg:gap-6">
@@ -152,41 +261,45 @@ export const Topbar: React.FC<TopbarProps> = ({
                     initial={{ opacity: 0, y: 10, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                    className="absolute top-full right-0 mt-4 w-80 bg-surface-dim border border-white/10 shadow-2xl z-[101] font-mono"
+                    className="absolute top-full right-0 mt-4 w-80 bg-surface-dim border border-white/10 shadow-2xl z-[101] rounded-2xl overflow-hidden"
                   >
                     <div className="p-4 border-b border-white/10 flex items-center justify-between">
-                      <span className="text-[10px] font-black text-white uppercase tracking-widest">{t('SYSTEM LOGS', 'LOGS SYSTÈME')}</span>
-                      <button onClick={() => setNotifications(notifications.map(n => ({ ...n, read: true })))} className="text-xs text-primary-cyan font-bold hover:underline uppercase">
-                        {t('MARK ALL READ', 'TOUT MARQUER COMME LU')}
+                      <span className="text-sm font-bold text-white">{t('Notifications', 'Notifications')}</span>
+                      <button onClick={() => setNotifications(notifications.map(n => ({ ...n, read: true })))} className="text-xs text-brand-gradient font-semibold hover:underline">
+                        {t('Mark all as read', 'Tout marquer comme lu')}
                       </button>
                     </div>
                     <div className="max-h-[400px] overflow-y-auto custom-scrollbar">
                       {notifications.length === 0 ? (
-                        <div className="p-8 text-center text-on-surface-variant/40 text-[10px] uppercase font-bold tracking-widest">
-                          {t('NO RECENT EVENTS', 'AUCUN ÉVÉNEMENT RÉCENT')}
+                        <div className="p-8 text-center text-on-surface-variant/50 text-xs">
+                          {t('No notifications yet', 'Aucune notification pour le moment')}
                         </div>
                       ) : (
                         notifications.map(notif => {
                           const typeStyles = {
                             SUCCESS: 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400',
-                            WARNING: 'bg-violet-500/10 border-violet-500/20 text-violet-400',
+                            WARNING: 'bg-[#7E1CF1]/10 border-[#7E1CF1]/20 text-[#B98CF0]',
                             ERROR: 'bg-rose-500/10 border-rose-500/20 text-rose-400',
-                            INFO: 'bg-primary-cyan/10 border-primary-cyan/20 text-primary-cyan'
+                            INFO: 'bg-[#02C6FA]/10 border-[#02C6FA]/20 text-[#6FDBFA]'
                           }[notif.type as 'SUCCESS' | 'WARNING' | 'ERROR' | 'INFO'] || 'bg-white/5 border-white/10 text-white';
 
                           return (
                             <div 
                               key={notif.id} 
-                              className={`p-4 border-b border-white/5 hover:bg-white/10 transition-all cursor-pointer relative group/notif ${!notif.read ? 'bg-primary-cyan/5' : ''}`}
+                              onClick={() => {
+                                setNotifications(notifications.map(n => n.id === notif.id ? { ...n, read: true } : n));
+                                setIsNotifMenuOpen(false);
+                              }}
+                              className={`p-4 border-b border-white/5 hover:bg-white/5 transition-all cursor-pointer relative ${!notif.read ? 'bg-[#7E1CF1]/5' : ''}`}
                             >
                               <div className="flex items-center gap-2 mb-1">
-                                <div className={`w-1.5 h-1.5 rounded-full ${typeStyles.split(' ')[0].replace('/10', '')} animate-pulse`} />
-                                <span className={`text-[10px] font-black uppercase tracking-tighter ${typeStyles.split(' ').pop()}`}>{notif.title}</span>
+                                <div className={`w-1.5 h-1.5 rounded-full ${typeStyles.split(' ')[0].replace('/10', '')}`} />
+                                <span className="text-xs font-semibold text-white">{notif.title}</span>
                               </div>
-                              <p className="text-[10px] text-on-surface-variant/60 uppercase font-black leading-relaxed">{notif.message}</p>
+                              <p className="text-xs text-on-surface-variant/70 leading-relaxed">{notif.message}</p>
                               <div className="flex items-center justify-between mt-2">
-                                <span className="text-[10px] text-on-surface-variant/30 font-bold">{new Date(notif.timestamp).toLocaleTimeString()}</span>
-                                {!notif.read && <span className="text-[10px] text-primary-cyan font-black uppercase tracking-widest">{t('NEW', 'NOUVEAU')}</span>}
+                                <span className="text-[10px] text-on-surface-variant/40">{new Date(notif.timestamp).toLocaleTimeString()}</span>
+                                {!notif.read && <span className="text-[10px] text-brand-gradient font-semibold">{t('New', 'Nouveau')}</span>}
                               </div>
                             </div>
                           );
@@ -223,7 +336,7 @@ export const Topbar: React.FC<TopbarProps> = ({
                 </div>
                 <div className="hidden md:block text-left">
                   <div className="text-[10px] font-black text-white uppercase tracking-tight group-hover:text-primary-cyan transition-colors">{user.displayName}</div>
-                  <div className="text-xs text-primary-cyan font-bold tracking-widest uppercase opacity-80">{user.role}</div>
+                  <div className="text-xs text-brand-gradient font-bold tracking-widest uppercase opacity-90">{user.role}</div>
                 </div>
               </button>
             ) : (

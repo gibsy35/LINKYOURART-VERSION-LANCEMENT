@@ -318,6 +318,7 @@ export const DashboardView: React.FC<{
   return (
     <div className="space-y-8 pb-12">
       <PageHeader 
+        category="INDEX"
         titleWhite={t('TABLEAU DE', 'TABLEAU DE')}
         titleAccent={t('Bord', 'Bord')}
         description={t('REAL-TIME SCORE ANALYTICS AND QUALITY INTELLIGENCE POWERED BY THE LYA NEURAL NETWORK.', 'ANALYSES DE SCORE EN TEMPS RÉEL ET INTELLIGENCE QUALITÉ PROPULSÉES PAR LE RÉSEAU NEURAL LYA.')}

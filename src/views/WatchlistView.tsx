@@ -52,6 +52,15 @@ export const WatchlistView: React.FC<WatchlistViewProps> = ({
     'Performing Arts': 'bg-[#8E6FE0] text-surface-dim',
   };
 
+  // Meme echelle a 4 niveaux que SwipeView, pour ne plus avoir 2 niveaux
+  // quasi-identiques en violet (Signature/Exceptional confondus avant).
+  const RARITY_COLORS: Record<string, string> = {
+    'Signature': 'bg-brand-gradient text-white',
+    'Exceptional': 'bg-[#F0C55E] text-surface-dim',
+    'Distinguished': 'bg-primary-cyan text-surface-dim',
+    'Standard': 'bg-white/15 text-white',
+  };
+
   const [viewMode, setViewMode] = React.useState<'mosaic' | 'bars'>('mosaic');
   const [currentPage, setCurrentPage] = React.useState(1);
   // Le survol (:hover) ne se déclenche pas de façon fiable au tactile.
@@ -73,6 +82,7 @@ export const WatchlistView: React.FC<WatchlistViewProps> = ({
   return (
     <div className="space-y-12 pb-24 relative min-h-screen">
       <PageHeader 
+        category="INDEX"
         titleWhite={t('My', 'Ma')}
         titleAccent={t('Watchlist', 'Veille')}
         description={t('MONITORING ACTIVE CREATIVE PROJECTS AND MARKET PERFORMANCE. Professional monitoring is active on all indexed registries.', 'SURVEILLANCE DES PROJETS CRÉATIFS ACTIFS ET DES PERFORMANCES DU MARCHÉ. La veille professionnelle est active sur tous les registres indexés.')}
@@ -81,9 +91,9 @@ export const WatchlistView: React.FC<WatchlistViewProps> = ({
 
       <div className="relative z-20 flex flex-col lg:flex-row lg:items-center justify-between gap-8 mb-16 mt-10">
         <div className="flex items-center gap-6 bg-surface-low/80 backdrop-blur-3xl border border-white/10 p-5 rounded-lg shadow-2xl relative overflow-hidden group">
-          <div className="absolute top-0 left-0 w-1 h-full bg-accent-gold" />
+          <div className="absolute top-0 left-0 w-1 h-full bg-brand-gradient" />
           <div className="flex flex-col">
-            <span className="text-xs text-accent-gold font-bold uppercase tracking-widest mb-1 opacity-80">{t('TOTAL_MONITORED', 'TOTAL_SURVEILLÉ')}</span>
+            <span className="text-xs text-brand-gradient font-bold uppercase tracking-widest mb-1 opacity-90">{t('TOTAL_MONITORED', 'TOTAL_SURVEILLÉ')}</span>
             <div className="flex items-baseline gap-2">
               <span className="text-xl font-black font-mono text-white tracking-tighter">
                 {watchlistedContracts.length}
@@ -104,14 +114,14 @@ export const WatchlistView: React.FC<WatchlistViewProps> = ({
         <div className="flex items-center gap-2 bg-slate-900/80 p-1.5 rounded-xl border border-white/5 shadow-xl backdrop-blur-md">
           <button 
             onClick={() => { setViewMode('mosaic'); setCurrentPage(1); }}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-lg transition-all ${viewMode === 'mosaic' ? 'bg-accent-gold text-surface-dim shadow-lg' : 'text-on-surface-variant hover:text-white hover:bg-white/5'}`}
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-lg transition-all ${viewMode === 'mosaic' ? 'bg-brand-gradient text-white shadow-lg' : 'text-on-surface-variant hover:text-white hover:bg-white/5'}`}
           >
             <LayoutGrid size={16} />
             <span className="text-[10px] font-black uppercase tracking-widest hidden sm:inline">{t('MOSAIC', 'MOSAÏQUE')}</span>
           </button>
           <button 
             onClick={() => { setViewMode('bars'); setCurrentPage(1); }}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-lg transition-all ${viewMode === 'bars' ? 'bg-accent-gold text-surface-dim shadow-lg' : 'text-on-surface-variant hover:text-white hover:bg-white/5'}`}
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-lg transition-all ${viewMode === 'bars' ? 'bg-brand-gradient text-white shadow-lg' : 'text-on-surface-variant hover:text-white hover:bg-white/5'}`}
           >
             <List size={16} />
             <span className="text-[10px] font-black uppercase tracking-widest hidden sm:inline">{t('BARS', 'BARRES')}</span>
@@ -156,7 +166,7 @@ export const WatchlistView: React.FC<WatchlistViewProps> = ({
                     <div className="absolute inset-0 bg-gradient-to-t from-surface-dim via-surface-dim/20 to-transparent" />
                     
                     <div className="absolute top-6 left-6 flex flex-col gap-3">
-                      <div className="px-3 py-1 bg-accent-gold text-surface-dim text-xs font-black uppercase tracking-[0.2em] rounded-lg shadow-xl flex items-center gap-2">
+                      <div className={`px-3 py-1 text-xs font-black uppercase tracking-[0.2em] rounded-lg shadow-xl flex items-center gap-2 ${RARITY_COLORS[contract.rarity] || 'bg-white/15 text-white'}`}>
                         <Shield size={10} />
                         {contract.rarity}
                       </div>

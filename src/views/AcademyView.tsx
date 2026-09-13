@@ -101,6 +101,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({ user, onNotify, onView
   return (
     <div className="pb-12 relative overflow-hidden">
       <PageHeader 
+        category="RESOURCES"
         titleWhite={language === 'FR' ? 'Académie' : <span style={{ textTransform: 'uppercase' }}>LYA</span>}
         titleAccent={t('Academy', 'LYA')}
         description={t('MASTER THE CREATIVE RIGHTS ECONOMY THROUGH HIGH-LEVEL EXPERT EDUCATION.', 'MAÎTRISEZ L\'ÉCONOMIE DE LA VALEUR CRÉATIVE GRÂCE À UNE ÉDUCATION D\'EXPERT DE HAUT NIVEAU.')}
