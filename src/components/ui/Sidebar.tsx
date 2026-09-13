@@ -107,10 +107,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  // Sans compte : le logo ramene vers la vraie Home publique (plus besoin
-  // d'un bouton "Retour" separe). Avec compte : comportement habituel.
+  // Le logo ramene toujours vers la vraie Home publique, connecte ou non —
+  // comme sur l'espace Mecenat grand public.
   const handleLogoClick = () => {
-    if (!user && onBackToHome) onBackToHome();
+    if (onBackToHome) onBackToHome();
     else onViewChange('MECENAT');
   };
 
@@ -298,13 +298,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
         >
           <div className="flex items-center gap-4">
             <div className="relative">
-              <div className="absolute -inset-1 bg-gradient-to-br from-primary-cyan to-indigo-500 rounded-full blur-md opacity-30 group-hover/user:opacity-100 transition-opacity duration-500" />
+              <div className="absolute -inset-1 bg-brand-gradient rounded-full blur-md opacity-30 group-hover/user:opacity-100 transition-opacity duration-500" />
               <div className="w-12 h-12 rounded-full border border-white/20 p-0.5 relative z-10 overflow-hidden bg-surface-dim">
                 <div className="w-full h-full rounded-full overflow-hidden">
                   {user.avatarUrl ? (
                     <img src={user.avatarUrl} alt={user.displayName} className="w-full h-full object-cover group-hover/user:scale-110 transition-transform duration-700" />
                   ) : (
-                    <div className="w-full h-full bg-gradient-to-tr from-primary-cyan to-indigo-500 flex items-center justify-center text-sm font-black text-white">
+                    <div className="w-full h-full bg-brand-gradient flex items-center justify-center text-sm font-black text-white">
                       {user.displayName?.charAt(0)}
                     </div>
                   )}
@@ -437,7 +437,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                       {user.avatarUrl ? (
                         <img src={user.avatarUrl} alt={user.displayName} className="w-full h-full object-cover" />
                       ) : (
-                        <div className="w-full h-full bg-gradient-to-tr from-primary-cyan to-indigo-500 flex items-center justify-center text-xs font-black text-white">
+                        <div className="w-full h-full bg-brand-gradient flex items-center justify-center text-xs font-black text-white">
                           {user.displayName?.charAt(0)}
                         </div>
                       )}

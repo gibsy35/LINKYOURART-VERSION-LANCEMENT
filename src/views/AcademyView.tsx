@@ -107,10 +107,10 @@ export const AcademyView: React.FC<AcademyViewProps> = ({ user, onNotify, onView
         accentColor="text-accent-gold"
       />
 
-      <div className="relative z-20 -mt-20 mb-8">
+      <div className="relative z-20 mt-8 mb-8">
         <div className="flex flex-col lg:flex-row lg:items-center justify-end gap-8">
-          <div className="px-5 py-3 bg-accent-gold/10 border border-accent-gold/25 rounded-lg backdrop-blur-3xl shadow-2xl">
-            <p className="text-[10px] font-black uppercase tracking-widest text-accent-gold">
+          <div className="px-5 py-3 border border-[#7E1CF1]/25 rounded-lg backdrop-blur-3xl shadow-2xl" style={{ background: 'linear-gradient(120deg, rgba(126,28,241,0.12), rgba(230,26,151,0.12), rgba(2,198,250,0.12))' }}>
+            <p className="text-[10px] font-black uppercase tracking-widest text-brand-gradient">
               {t('Programs launching progressively — validator verification is live now', 'Programmes lancés progressivement — la vérification validateur est disponible dès maintenant')}
             </p>
           </div>
@@ -128,7 +128,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({ user, onNotify, onView
             <BookOpen className="text-primary-cyan" size={24} />
             {t('FEATURED CURRICULUM', 'PROGRAMME À L\'AFFICHE')}
           </h2>
-          <span className="px-3 py-1.5 bg-accent-gold/10 border border-accent-gold/25 rounded-full text-[10px] font-black uppercase tracking-widest text-accent-gold">
+          <span className="px-3 py-1.5 border border-[#7E1CF1]/25 rounded-full text-[10px] font-black uppercase tracking-widest text-brand-gradient" style={{ background: 'linear-gradient(120deg, rgba(126,28,241,0.12), rgba(230,26,151,0.12), rgba(2,198,250,0.12))' }}>
             {t('Coming Soon', 'Bientôt Disponible')}
           </span>
         </div>
@@ -259,7 +259,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({ user, onNotify, onView
           <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 transition-transform">
             <Users size={100} className="text-accent-purple" />
           </div>
-          <span className="inline-block mb-4 px-3 py-1.5 bg-accent-gold/10 border border-accent-gold/25 rounded-full text-[10px] font-black uppercase tracking-widest text-accent-gold">
+          <span className="inline-block mb-4 px-3 py-1.5 border border-[#7E1CF1]/25 rounded-full text-[10px] font-black uppercase tracking-widest text-brand-gradient" style={{ background: 'linear-gradient(120deg, rgba(126,28,241,0.12), rgba(230,26,151,0.12), rgba(2,198,250,0.12))' }}>
             {t('Coming Soon', 'Bientôt Disponible')}
           </span>
           <h3 className="text-2xl font-black text-white uppercase tracking-tight mb-4">{t('EXPERT WORKSHOPS', 'ATELIERS D\'EXPERTS')}</h3>
@@ -298,7 +298,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({ user, onNotify, onView
               <BookOpen className="text-primary-cyan" size={24} />
               {t('RESOURCE LIBRARY', 'BIBLIOTHÈQUE DE RESSOURCES')}
             </h2>
-            <span className="px-3 py-1.5 bg-accent-gold/10 border border-accent-gold/25 rounded-full text-[10px] font-black uppercase tracking-widest text-accent-gold">
+            <span className="px-3 py-1.5 border border-[#7E1CF1]/25 rounded-full text-[10px] font-black uppercase tracking-widest text-brand-gradient" style={{ background: 'linear-gradient(120deg, rgba(126,28,241,0.12), rgba(230,26,151,0.12), rgba(2,198,250,0.12))' }}>
               {t('Coming Soon', 'Bientôt Disponible')}
             </span>
           </div>

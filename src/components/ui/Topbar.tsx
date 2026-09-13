@@ -215,7 +215,7 @@ export const Topbar: React.FC<TopbarProps> = ({
                       className="w-full h-full object-cover transition-transform group-hover:scale-110" 
                     />
                   ) : (
-                    <div className="w-full h-full bg-gradient-to-tr from-primary-cyan to-indigo-500 flex items-center justify-center text-[10px] font-black text-white uppercase">
+                    <div className="w-full h-full bg-brand-gradient flex items-center justify-center text-[10px] font-black text-white uppercase">
                       {user.displayName?.charAt(0) || user.email.charAt(0)}
                     </div>
                   )}

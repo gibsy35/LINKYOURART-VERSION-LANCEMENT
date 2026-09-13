@@ -590,7 +590,7 @@ export default function App() {
         <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8, ease: "easeOut" }} className="flex flex-col items-center gap-10">
           <div className="relative">
             <motion.div animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.6, 0.3] }} transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }} className="absolute inset-0 bg-primary-cyan/20 blur-[100px] rounded-full" />
-            <Logo size={220} color="multi" showBeta={true} />
+            <Logo size={280} color="multi" showBeta={true} />
           </div>
           <div className="flex flex-col items-center gap-3.5 px-6">
             <div className="flex flex-col md:flex-row items-center md:items-baseline gap-1 md:gap-3">

@@ -28,7 +28,7 @@ export const Logo: React.FC<{
 
   return (
     <div 
-      style={{ width: d, height: d }}
+      style={{ width: d, height: d, flexShrink: 0 }}
       className={`relative flex items-center justify-center group ${className}`}
     >
       {/* Central Nexus: Focal point */}
