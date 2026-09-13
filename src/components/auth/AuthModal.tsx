@@ -307,7 +307,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onNotify,
                 <button
                   disabled={isLoading}
                   type="submit"
-                  className="w-full py-4 bg-primary-cyan text-surface-dim text-[11px] font-black uppercase tracking-widest hover:bg-white transition-all transform hover:-translate-y-1 active:translate-y-0 disabled:opacity-50"
+                  className="w-full py-4 bg-brand-gradient text-white text-[11px] font-black uppercase tracking-widest hover:opacity-90 transition-all transform hover:-translate-y-1 active:translate-y-0 disabled:opacity-50"
                 >
                   {isLoading ? t('PROCESSING...', 'TRAITEMENT...') : (mode === 'LOGIN' ? t('EXECUTE LOGIN', 'EXÉCUTER CONNEXION') : t('CREATE ACCOUNT', 'CRÉER COMPTE'))}
                 </button>

@@ -10,6 +10,7 @@ import { useTranslation } from '../context/LanguageContext';
 import { useCurrency } from '../context/CurrencyContext';
 import { LockedOverlay } from '../components/LockedOverlay';
 import { LYAProtocolBadge } from '../components/LYAProtocol';
+import { COUNTRIES } from '../data/countries';
 import { InvitationCard } from '../components/InvitationCard';
 import { generateAssetAnalysis, askCopilot } from '../services/geminiService';
 import { 
@@ -68,6 +69,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
     displayName: user.displayName,
     email: user.email,
     bio: user.bio || 'Professional gallery specializing in digital assets and creative rights contracts.',
+    country: user.country || '',
     twitter: user.twitter || '@gallery_insight',
     instagram: user.instagram || 'gallery_insight_official',
     linkedin: user.linkedin || 'linkedin.com/company/lya-professional'
@@ -91,6 +93,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
       displayName: editForm.displayName, 
       email: editForm.email,
       bio: editForm.bio,
+      country: editForm.country,
       twitter: editForm.twitter,
       instagram: editForm.instagram,
       linkedin: editForm.linkedin
@@ -3055,6 +3058,17 @@ const renderMentorshipContent = () => (
                     onChange={(e) => setEditForm({...editForm, linkedin: e.target.value})}
                     placeholder="https://linkedin.com/in/..."
                   />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-black uppercase tracking-[0.3em] text-on-surface-variant mb-3 opacity-50">{t('Country', 'Pays')}</label>
+                  <select
+                    className="w-full bg-surface-dim/80 border border-white/10 p-4 text-sm font-bold focus:ring-1 focus:ring-primary-cyan focus:border-primary-cyan outline-none transition-all rounded-xl"
+                    value={editForm.country}
+                    onChange={(e) => setEditForm({...editForm, country: e.target.value})}
+                  >
+                    <option value="">{t('Select a country', 'Sélectionner un pays')}</option>
+                    {COUNTRIES.map(c => <option key={c} value={c}>{c}</option>)}
+                  </select>
                 </div>
               </div>
               <div className="space-y-6">

@@ -280,7 +280,7 @@ const LoginView: React.FC<LoginViewProps> = ({ onViewChange, setUser }) => {
               sessionStorage.setItem('lya_intro_completed', 'true');
               onViewChange('LANDING');
             }}>
-              <div className="absolute inset-0 bg-primary-cyan/25 blur-[60px] rounded-full animate-pulse group-hover:bg-primary-cyan/45 transition-colors" />
+              <div className="absolute inset-0 bg-brand-gradient opacity-25 blur-[60px] rounded-full animate-pulse group-hover:opacity-45 transition-opacity" />
               <Logo size={80} color="multi" showBeta className="transition-transform duration-700 group-hover:scale-110" />
             </div>
             <div className="text-[10px] font-bold text-accent-gold uppercase tracking-[0.4em] mt-6 drop-shadow-glow-gold">{t('PROFESSIONAL TERMINAL', 'TERMINAL PROFESSIONNEL')}</div>
@@ -348,7 +348,7 @@ const LoginView: React.FC<LoginViewProps> = ({ onViewChange, setUser }) => {
                     <button 
                       type="button" 
                       onClick={() => { setIsForgotPassword(true); setError(null); setSuccessMessage(null); }}
-                      className="text-[10px] font-black uppercase tracking-widest text-primary-cyan hover:text-white transition-colors"
+                      className="text-[10px] font-black uppercase tracking-widest text-brand-gradient hover:opacity-80 transition-opacity"
                     >
                       {t('PASSWORD FORGOTTEN?', 'MOT DE PASSE OUBLIÉ ?')}
                     </button>
@@ -357,7 +357,7 @@ const LoginView: React.FC<LoginViewProps> = ({ onViewChange, setUser }) => {
                   <button 
                     type="submit"
                     disabled={isLoading}
-                    className="w-full py-4 bg-primary-cyan text-surface-dim text-xs font-black uppercase italic tracking-[0.2em] hover:bg-white transition-all active:scale-95 rounded-full flex items-center justify-center gap-3 group"
+                    className="w-full py-4 bg-brand-gradient text-white text-xs font-black uppercase italic tracking-[0.2em] hover:opacity-90 transition-all active:scale-95 rounded-full flex items-center justify-center gap-3 group"
                   >
                     {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : (
                       <>
@@ -445,7 +445,7 @@ const LoginView: React.FC<LoginViewProps> = ({ onViewChange, setUser }) => {
                   <button 
                     type="submit"
                     disabled={isLoading}
-                    className="w-full py-5 bg-primary-cyan text-surface-dim text-sm font-black uppercase italic tracking-[0.2em] hover:bg-white transition-all active:scale-95 rounded-full flex items-center justify-center gap-3 group"
+                    className="w-full py-5 bg-brand-gradient text-white text-sm font-black uppercase italic tracking-[0.2em] hover:opacity-90 transition-all active:scale-95 rounded-full flex items-center justify-center gap-3 group"
                   >
                     {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : (
                       <>

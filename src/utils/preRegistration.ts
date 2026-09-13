@@ -66,10 +66,11 @@ export async function submitPreRegistration(params: {
   name: string;
   email: string;
   category: PreRegCategory;
+  country?: string;
   referredBy?: string | null;
   language: 'FR' | 'EN';
 }): Promise<PreRegistrationResult> {
-  const { name, email, category, referredBy, language } = params;
+  const { name, email, category, country, referredBy, language } = params;
   const isFR = language === 'FR';
   const cleanEmail = email.toLowerCase().trim();
   const isTestEmail = TEST_EMAILS.includes(cleanEmail);
@@ -116,6 +117,7 @@ export async function submitPreRegistration(params: {
 
   addDoc(collection(db, 'pre_registrations'), {
     name, email, category,
+    country: country || null,
     timestamp: serverTimestamp(),
     type: 'PRE_REGISTRATION',
     position,

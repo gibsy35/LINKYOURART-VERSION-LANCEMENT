@@ -10,6 +10,7 @@ import { doc, setDoc, getDoc, collection, query, where, getDocs, limit } from 'f
 import { Logo } from '../components/ui/Logo';
 import { resolveTeamInviteForSignup } from '../utils/teamInvites';
 import { OracleWidget } from '../components/ui/OracleWidget';
+import { COUNTRIES } from '../data/countries';
 
 interface SignupViewProps {
   onViewChange: (view: View) => void;
@@ -43,6 +44,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
       name: '',
       email: prefillEmail.trim().toLowerCase(),
       password: '',
+      country: '',
       accessCode: prefillCode.trim().toUpperCase()
     };
   });
@@ -123,6 +125,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
         role: (teamInvite?.role as UserRole) || role,
         status: 'APPROVED',
         createdAt: new Date().toISOString(),
+        country: formData.country || undefined,
         twitter: '@' + formData.name.toLowerCase().replace(/\s+/g, '_'),
         instagram: formData.name.toLowerCase().replace(/\s+/g, '_') + '_official',
         linkedin: 'https://linkedin.com/in/' + formData.name.toLowerCase().replace(/\s+/g, '-'),
@@ -361,7 +364,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
           </div>
           <button 
             onClick={() => onViewChange('LOGIN')}
-            className="w-full py-4 bg-primary-cyan text-surface-dim font-black text-xs uppercase tracking-widest shadow-[0_20px_40px_rgba(0,224,255,0.2)] hover:bg-white transition-all rounded-lg"
+            className="w-full py-4 bg-brand-gradient text-white font-black text-xs uppercase tracking-widest shadow-[0_20px_40px_rgba(126,28,241,0.25)] hover:opacity-90 transition-all rounded-lg"
           >
             {t('Proceed to Login', 'Procéder à la Connexion')}
           </button>
@@ -446,7 +449,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
                     <button 
                       onClick={() => { if(role) setStep(2); }}
                       disabled={!role}
-                      className="w-full py-4 bg-primary-cyan text-surface-dim text-xs font-black uppercase italic tracking-[0.2em] group hover:bg-white transition-all flex items-center justify-center gap-3 disabled:opacity-30 disabled:cursor-not-allowed rounded-full"
+                      className="w-full py-4 bg-brand-gradient text-white text-xs font-black uppercase italic tracking-[0.2em] group hover:opacity-90 transition-all flex items-center justify-center gap-3 disabled:opacity-30 disabled:cursor-not-allowed rounded-full"
                     >
                       {t('CONTINUE', 'CONTINUER')}
                       <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
@@ -509,6 +512,17 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
                       />
                     </div>
                     <div className="relative group">
+                      <Globe className="absolute left-5 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary-cyan transition-colors" size={18} />
+                      <select
+                        value={formData.country}
+                        onChange={(e) => setFormData({ ...formData, country: e.target.value })}
+                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 text-sm font-bold text-white focus:border-primary-cyan outline-none transition-all tracking-widest appearance-none"
+                      >
+                        <option value="" className="bg-surface-dim">{t('COUNTRY (OPTIONAL)', 'PAYS (OPTIONNEL)')}</option>
+                        {COUNTRIES.map(c => <option key={c} value={c} className="bg-surface-dim">{c}</option>)}
+                      </select>
+                    </div>
+                    <div className="relative group">
                       <Mail className="absolute left-5 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary-cyan transition-colors" size={18} />
                       <input 
                         type="email" 
@@ -563,7 +577,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
                   <button 
                     type="submit"
                     disabled={isLoading}
-                    className="w-full py-4 bg-primary-cyan text-surface-dim text-xs font-black uppercase italic tracking-[0.2em] hover:bg-white transition-all active:scale-95 rounded-full flex items-center justify-center gap-3 group mt-2"
+                    className="w-full py-4 bg-brand-gradient text-white text-xs font-black uppercase italic tracking-[0.2em] hover:opacity-90 transition-all active:scale-95 rounded-full flex items-center justify-center gap-3 group mt-2"
                   >
                     {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : (
                       <>
