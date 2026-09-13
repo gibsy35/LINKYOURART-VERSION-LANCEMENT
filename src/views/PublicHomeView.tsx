@@ -2,6 +2,7 @@ import React from 'react';
 import { motion, useScroll, useTransform, MotionValue, AnimatePresence } from 'motion/react';
 import { Shield, Eye, Users, Percent } from 'lucide-react';
 import { Logo } from '../components/ui/Logo';
+import { COUNTRIES } from '../data/countries';
 import { db } from '../firebase';
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
 import { submitPreRegistration, type PreRegCategory } from '../utils/preRegistration';
@@ -272,6 +273,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
   const [joinCat, setJoinCat] = React.useState<PreRegCategory>('CREATOR');
   const [joinName, setJoinName] = React.useState('');
   const [joinEmail, setJoinEmail] = React.useState('');
+  const [joinCountry, setJoinCountry] = React.useState('');
   const [joinSubmitting, setJoinSubmitting] = React.useState(false);
   const [joinError, setJoinError] = React.useState<string | null>(null);
   const [joinResult, setJoinResult] = React.useState<{ position: number; tier: string; accessKey: string | null } | null>(null);
@@ -308,7 +310,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
     setJoinError(null);
     try {
       const result = await submitPreRegistration({
-        name: joinName, email: joinEmail, category: joinCat,
+        name: joinName, email: joinEmail, category: joinCat, country: joinCountry || undefined,
         language: lang === 'fr' ? 'FR' : 'EN',
       });
       setJoinResult({ position: result.position, tier: result.tier, accessKey: result.accessKey });
@@ -325,6 +327,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
     setJoinError(null);
     setJoinName('');
     setJoinEmail('');
+    setJoinCountry('');
   };
 
   React.useEffect(() => {
@@ -785,6 +788,8 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-join-field label{ display:block; font-size:11px; font-weight:700; color:var(--term-ink-soft); margin-bottom:6px; text-transform:uppercase; letter-spacing:0.02em; }
         .term-join-field input{ width:100%; padding:12px 14px; border-radius:10px; border:1px solid var(--term-line); font-size:14px; font-family:'Inter',sans-serif; box-sizing:border-box; }
         .term-join-field input:focus{ outline:none; border-color:#7E1CF1; }
+        .term-join-field select{ width:100%; padding:12px 14px; border-radius:10px; border:1px solid var(--term-line); font-size:14px; font-family:'Inter',sans-serif; box-sizing:border-box; background:#fff; color:var(--term-ink); }
+        .term-join-field select:focus{ outline:none; border-color:#7E1CF1; }
         .term-join-error{ background:#FBE4EF; color:#7A2062; font-size:12.5px; padding:10px 14px; border-radius:10px; margin-bottom:14px; }
         .term-join-submit{ width:100%; background:var(--term-ink); color:#fff; border:none; padding:14px; border-radius:100px; font-family:'Sora',sans-serif; font-weight:700; font-size:14.5px; cursor:pointer; margin-top:6px; }
         .term-join-submit.secondary-close{ background:none; color:var(--term-ink-soft); }
@@ -1366,14 +1371,14 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
               <div className="term-network-card term-reveal">
                 <div className="n" style={{ color: '#7E1CF1' }}>02</div>
                 <h4>{t('Mécènes', 'Patrons')}</h4>
-                <div className="who">{t("Mécènes particuliers, fonds d'investissement, sponsors", 'Individual patrons, investment funds, sponsors')}</div>
+                <div className="who">{t('Mécènes particuliers, sponsors', 'Individual patrons, sponsors')}</div>
                 <p>{t('Soutenez les œuvres dès 50€. Le Score LYA garantit la rigueur de sélection. Suivez vos œuvres soutenues en temps réel.', 'Support works from €50. The LYA Score guarantees selection rigor. Track your supported works in real time.')}</p>
                 <button className="term-network-cta" style={{ color: '#7E1CF1' }} onClick={() => setShowJoin(true)}>{t('Devenir mécène →', 'Become a patron →')}</button>
               </div>
               <div className="term-network-card term-reveal">
                 <div className="n" style={{ color: '#E61A97' }}>03</div>
                 <h4>{t('Professionnels', 'Professionals')}</h4>
-                <div className="who">{t('Curateurs, agents artistiques, conseillers — studios, sociétés de production et de divertissement, institutions culturelles (type CNC)', 'Curators, artistic agents, advisors — studios, production and entertainment companies, cultural institutions (e.g. CNC)')}</div>
+                <div className="who">{t('Curateurs, agents artistiques, conseillers — studios, sociétés de production et de divertissement, institutions culturelles (type CNC, BFI, Telefilm Canada), fonds de financement de la production', 'Curators, artistic agents, advisors — studios, production and entertainment companies, cultural institutions (e.g. CNC, BFI, Telefilm Canada), production financing funds')}</div>
                 <p>{t("Rejoignez notre réseau d'experts en validation certifiés. Évaluez des œuvres dans votre domaine, réseau professionnel exclusif inter-secteurs.", 'Join our network of certified validation experts. Evaluate works in your field, exclusive cross-sector network.')}</p>
                 <button className="term-network-cta" style={{ color: '#E61A97' }} onClick={() => setShowJoin(true)}>{t('Rejoindre le réseau →', 'Join the network →')}</button>
               </div>
@@ -1617,6 +1622,13 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
                   <div className="term-join-field">
                     <label>Email</label>
                     <input type="email" value={joinEmail} onChange={(e) => setJoinEmail(e.target.value)} required />
+                  </div>
+                  <div className="term-join-field">
+                    <label>{t('Pays (optionnel)', 'Country (optional)')}</label>
+                    <select value={joinCountry} onChange={(e) => setJoinCountry(e.target.value)}>
+                      <option value="">{t('Sélectionner...', 'Select...')}</option>
+                      {COUNTRIES.map(c => <option key={c} value={c}>{c}</option>)}
+                    </select>
                   </div>
                   {joinError && <div className="term-join-error">{joinError}</div>}
                   <button type="submit" className="term-join-submit" disabled={joinSubmitting}>
