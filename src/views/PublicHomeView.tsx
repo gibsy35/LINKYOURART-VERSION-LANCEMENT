@@ -1115,16 +1115,25 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       <section className="term-newera">
         <div className="term-wrap">
           <div className="term-eyebrow">Une nouvelle ère</div>
-          <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px) ' }}>Pour l'excellence créative.</h2>
-          <div className="term-newera-grid">
+          <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px) ' }}>Pour l'excellence <span className="term-gradient-text">créative.</span></h2>
+          <motion.div
+            className="term-newera-grid"
+            initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.25 }}
+            variants={{ hidden: {}, show: { transition: { staggerChildren: 0.1 } } }}
+          >
             {newEra.map(c => (
-              <div key={c.n} className="term-newera-card term-reveal">
+              <motion.div
+                key={c.n}
+                className="term-newera-card"
+                variants={{ hidden: { opacity: 0, y: 34, scale: 0.88 }, show: { opacity: 1, y: 0, scale: 1 } }}
+                transition={{ type: 'spring', stiffness: 250, damping: 19 }}
+              >
                 <div className="n">{c.n}</div>
                 <h4>{t(c.title.fr, c.title.en)}</h4>
                 <p>{t(c.desc.fr, c.desc.en)}</p>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
           <div className="term-section-cta"><button onClick={() => setShowJoin(true)}>{t('Rejoindre LYA et faire certifier mon projet →', 'Join LYA and get my project certified →')}</button></div>
         </div>
       </section>
@@ -1133,22 +1142,40 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       <section className="term-compare">
         <div className="term-wrap">
           <div className="term-eyebrow">{t('Comparaison', 'Comparison')}</div>
-          <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t('Ce que ', 'What ')}<span style={{ textTransform: 'uppercase' }}>LYA</span>{t(" est — et n'est pas.", " is — and isn't.")}</h2>
-          <div className="term-compare-grid">
-            <div className="term-compare-vs">VS</div>
-            <div className="term-compare-col is term-reveal">
+          <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t('Ce que ', 'What ')}<span className="term-gradient-text" style={{ textTransform: 'uppercase' }}>LYA</span>{t(" est — et n'est pas.", " is — and isn't.")}</h2>
+          <motion.div
+            className="term-compare-grid"
+            initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.3 }}
+            variants={{ hidden: {}, show: { transition: { staggerChildren: 0.15 } } }}
+          >
+            <motion.div
+              className="term-compare-vs"
+              variants={{ hidden: { opacity: 0, scale: 0 }, show: { opacity: 1, scale: 1 } }}
+              transition={{ type: 'spring', stiffness: 320, damping: 16, delay: 0.25 }}
+            >VS</motion.div>
+            <motion.div
+              className="term-compare-col is"
+              variants={{ hidden: { opacity: 0, x: -50, rotate: -8 }, show: { opacity: 1, x: 0, rotate: -0.6 } }}
+              transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+              whileHover={{ y: -6, rotate: 0 }}
+            >
               <span className="term-compare-badge">{t('CE QUE LYA EST', 'WHAT LYA IS')}</span>
               {comparison.is.map(item => (
                 <div key={item.t.fr} className="term-compare-item"><h5>{t(item.t.fr, item.t.en)}</h5><p>{t(item.d.fr, item.d.en)}</p></div>
               ))}
-            </div>
-            <div className="term-compare-col isnot term-reveal">
+            </motion.div>
+            <motion.div
+              className="term-compare-col isnot"
+              variants={{ hidden: { opacity: 0, x: 50, rotate: 8 }, show: { opacity: 1, x: 0, rotate: 0.6 } }}
+              transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+              whileHover={{ y: -6, rotate: 0 }}
+            >
               <span className="term-compare-badge">{t("CE QUE LYA N'EST PAS", "WHAT LYA ISN'T")}</span>
               {comparison.isNot.map(item => (
                 <div key={item.t.fr} className="term-compare-item"><h5>{t(item.t.fr, item.t.en)}</h5><p>{t(item.d.fr, item.d.en)}</p></div>
               ))}
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
           <div className="term-section-cta"><button onClick={() => document.getElementById('registry')?.scrollIntoView({ behavior: 'smooth' })}>{t('Voir des exemples concrets →', 'See real examples →')}</button></div>
         </div>
       </section>
@@ -1157,9 +1184,15 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       <section className="term-history">
         <div className="term-wrap">
           <div className="term-eyebrow">{t('Notre histoire', 'Our history')}</div>
-          <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)', maxWidth: '20ch' }}>{t("Vingt ans avant d'avoir un nom pour ça.", 'Twenty years before it had a name.')}</h2>
+          <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)', maxWidth: '20ch' }}>{t("Vingt ans avant d'avoir ", 'Twenty years before it ')}<span className="term-gradient-text">{t('un nom pour ça.', 'had a name.')}</span></h2>
           <div className="term-history-grid">
-            <div className="term-history-text">
+            <motion.div
+              className="term-history-text"
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.6, ease: 'easeOut' }}
+            >
               <p>{t(
                 "En 2006, Jean-Baptiste Lequime fonde LinkYourArt avec une ambition claire : bâtir le premier pont international entre les créations et les industries qui en ont besoin. C'est en construisant LinkYourArt, au fil des années, qu'il a forgé son expérience en développement commercial dans les industries créatives, avec une spécialisation film et divertissement. Musique, cinéma, mode, jeux vidéo, design, architecture, arts de la scène — chaque création y trouve sa place, à une époque où aucune plateforme n'osait encore toutes les réunir.",
                 'In 2006, Jean-Baptiste Lequime founded LinkYourArt with a clear ambition: to build the first international bridge between creative works and the industries that need them. It was LinkYourArt itself that forged, over the years, his business development expertise within the creative industries, specializing in film and entertainment. Music, film, fashion, gaming, design, architecture, performing arts — every creation found a home here, at a time when no platform dared unite them all.'
@@ -1172,7 +1205,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
                 "Aujourd'hui, à l'occasion de ses 20 ans, LinkYourArt entame une nouvelle étape avec le lancement d'une plateforme entièrement repensée, construite autour d'un standard objectif de certification créative.",
                 "Today, on its 20th anniversary, LinkYourArt is embarking on a new stage with the launch of an entirely redesigned platform, built around an objective standard for creative certification."
               )}</p>
-            </div>
+            </motion.div>
             <ParallaxPhoto image="https://images.unsplash.com/photo-1481457443364-6b3a9819c3c8?auto=format&fit=crop&q=80&w=800" className="term-history-visual term-reveal">
               <div className="overlay" />
               <div className="content">
@@ -1190,12 +1223,18 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
           <div className="term-eyebrow">{t('Nos valeurs', 'Our values')}</div>
           <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t('Ce qui ne bouge pas, même quand tout évolue.', "What doesn't move, even as everything evolves.")}</h2>
           <div className="term-values-grid">
-            {values.map(v => (
-              <div key={v.n}>
+            {values.map((v, i) => (
+              <motion.div
+                key={v.n}
+                initial={{ opacity: 0, y: 40, scale: 0.9 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, amount: 0.4 }}
+                transition={{ type: 'spring', stiffness: 240, damping: 20, delay: i * 0.08 }}
+              >
                 <div className="n">{v.n}</div>
                 <h4>{t(v.title.fr, v.title.en)}</h4>
                 <p>{t(v.desc.fr, v.desc.en)}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -1205,12 +1244,27 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       <section className="term-why">
         <div className="term-wrap">
           <div className="term-eyebrow">{t('Pourquoi LYA', 'Why LYA')}</div>
-          <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t("Une reconnaissance qui se construit, pas qui s'achète.", 'Recognition that is built, not bought.')}</h2>
-          <div className="term-why-grid">
-            <div className="term-why-item"><div className="n">01</div><h4>{t('Transparent', 'Transparent')}</h4><p>{t('Cinq critères clairs, expliqués, jamais une boîte noire.', 'Five clear, explained criteria — never a black box.')}</p></div>
-            <div className="term-why-item"><div className="n">02</div><h4>{t('Communautaire', 'Community-driven')}</h4><p>{t('Artistes, mécènes et professionnels avancent ensemble.', 'Artists, patrons and professionals move forward together.')}</p></div>
-            <div className="term-why-item"><div className="n">03</div><h4>{t('Indépendant', 'Independent')}</h4><p>{t('5% de commission sur le mécénat, rien de caché derrière.', '5% commission on patronage — nothing hidden behind it.')}</p></div>
-          </div>
+          <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t("Une reconnaissance qui se construit, ", 'Recognition that is built, ')}<span className="term-gradient-text">{t("pas qui s'achète.", 'not bought.')}</span></h2>
+          <motion.div
+            className="term-why-grid"
+            initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.4 }}
+            variants={{ hidden: {}, show: { transition: { staggerChildren: 0.12 } } }}
+          >
+            {[
+              { n: '01', title: t('Transparent', 'Transparent'), desc: t('Cinq critères clairs, expliqués, jamais une boîte noire.', 'Five clear, explained criteria — never a black box.') },
+              { n: '02', title: t('Communautaire', 'Community-driven'), desc: t('Artistes, mécènes et professionnels avancent ensemble.', 'Artists, patrons and professionals move forward together.') },
+              { n: '03', title: t('Indépendant', 'Independent'), desc: t('5% de commission sur le mécénat, rien de caché derrière.', '5% commission on patronage — nothing hidden behind it.') },
+            ].map((item) => (
+              <motion.div
+                key={item.n}
+                className="term-why-item"
+                variants={{ hidden: { opacity: 0, y: 30 }, show: { opacity: 1, y: 0 } }}
+                transition={{ type: 'spring', stiffness: 240, damping: 20 }}
+              >
+                <div className="n">{item.n}</div><h4>{item.title}</h4><p>{item.desc}</p>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
       </section>
 
@@ -1298,17 +1352,29 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       <section className="term-independence">
         <div className="term-wrap">
           <div className="term-eyebrow">{t('Indépendance & confiance', 'Independence & trust')}</div>
-          <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t('Un score qui ne dépend de personne.', 'A score that depends on no one.')}</h2>
-          <div className="term-independence-grid">
-            <div className="term-independence-card term-reveal">
+          <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(24px,3vw,34px)' }}>{t('Un score qui ne dépend de ', 'A score that depends on ')}<span className="term-gradient-text">{t('personne.', 'no one.')}</span></h2>
+          <motion.div
+            className="term-independence-grid"
+            initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.4 }}
+            variants={{ hidden: {}, show: { transition: { staggerChildren: 0.15 } } }}
+          >
+            <motion.div
+              className="term-independence-card"
+              variants={{ hidden: { opacity: 0, y: 30, rotate: -2 }, show: { opacity: 1, y: 0, rotate: 0 } }}
+              transition={{ type: 'spring', stiffness: 230, damping: 20 }}
+            >
               <h4>{t('Indépendance des certificateurs', 'Certifier independence')}</h4>
               <p>{t("Les certificateurs LYA ne sont jamais rémunérés par le créateur ou le projet qu'ils évaluent. Leur évaluation n'est pas influencée par le succès du projet — c'est un engagement structurel, pas un argument marketing.", "LYA certifiers are never paid by the creator or project they evaluate. Their assessment is not influenced by the project's success — it's a structural commitment, not a marketing claim.")}</p>
-            </div>
-            <div className="term-independence-card term-reveal">
+            </motion.div>
+            <motion.div
+              className="term-independence-card"
+              variants={{ hidden: { opacity: 0, y: 30, rotate: 2 }, show: { opacity: 1, y: 0, rotate: 0 } }}
+              transition={{ type: 'spring', stiffness: 230, damping: 20 }}
+            >
               <h4>{t('Pourquoi le nombre de certificateurs compte', 'Why the number of certifiers matters')}</h4>
               <p>{t("Un score porté par un seul évaluateur est une opinion. Un score porté par plusieurs certificateurs indépendants est un signal. Nous affichons le vrai nombre de certificateurs derrière chaque Score LYA.", 'A score backed by a single evaluator is an opinion. A score backed by several independent certifiers is a signal. We display the real number of certifiers behind every LYA Score.')}</p>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
@@ -1364,28 +1430,44 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       <section className="term-free-banner">
         <div className="term-wrap">
           <div className="term-free-tag">{t('Toujours actif — tous les créateurs', 'Always active — all creators')}</div>
-          <h2 className="term-reveal">{t('Vos 3 premiers projets, certifiés gratuitement.', 'Your first 3 projects, certified for free.')}</h2>
+          <h2 className="term-reveal">{t('Vos 3 premiers projets, ', 'Your first 3 projects, ')}<span className="term-gradient-text">{t('certifiés gratuitement.', 'certified for free.')}</span></h2>
           <p className="term-free-intro">{t("Pas de coût de certification standard, aucune contrepartie cachée — quel que soit votre domaine créatif.", 'No standard certification fee, no hidden terms — whatever your creative field.')}</p>
-          <div className="term-free-grid">
-            <div className="term-free-scenario term-reveal">
+          <motion.div
+            className="term-free-grid"
+            initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.3 }}
+            variants={{ hidden: {}, show: { transition: { staggerChildren: 0.12 } } }}
+          >
+            <motion.div
+              className="term-free-scenario"
+              variants={{ hidden: { opacity: 0, y: 40, rotate: -4, scale: 0.9 }, show: { opacity: 1, y: 0, rotate: 0, scale: 1 } }}
+              transition={{ type: 'spring', stiffness: 240, damping: 20 }}
+            >
               <span className="badge">{t('Gratuit', 'Free')}</span>
               <div className="cat">{t('Film', 'Film')}</div>
               <h4>{t('Scénario 1', 'Scenario 1')}</h4>
               <p>{t('Un court-métrage indépendant, certifié dès sa première soumission.', 'An independent short film, certified from its very first submission.')}</p>
-            </div>
-            <div className="term-free-scenario term-reveal">
+            </motion.div>
+            <motion.div
+              className="term-free-scenario"
+              variants={{ hidden: { opacity: 0, y: 40, scale: 0.9 }, show: { opacity: 1, y: 0, scale: 1 } }}
+              transition={{ type: 'spring', stiffness: 240, damping: 20 }}
+            >
               <span className="badge">{t('Gratuit', 'Free')}</span>
               <div className="cat">{t('Série TV', 'TV Series')}</div>
               <h4>{t('Scénario 2', 'Scenario 2')}</h4>
               <p>{t('Un pilote de série, prêt à être présenté à des diffuseurs.', 'A series pilot, ready to be pitched to broadcasters.')}</p>
-            </div>
-            <div className="term-free-scenario term-reveal">
+            </motion.div>
+            <motion.div
+              className="term-free-scenario"
+              variants={{ hidden: { opacity: 0, y: 40, rotate: 4, scale: 0.9 }, show: { opacity: 1, y: 0, rotate: 0, scale: 1 } }}
+              transition={{ type: 'spring', stiffness: 240, damping: 20 }}
+            >
               <span className="badge">{t('Gratuit', 'Free')}</span>
               <div className="cat">{t('Musique', 'Music')}</div>
               <h4>{t('Scénario 3', 'Scenario 3')}</h4>
               <p>{t('Un album complet, certifié avant sa sortie officielle.', 'A full album, certified ahead of its official release.')}</p>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
           <button className="term-free-cta" onClick={() => setShowJoin(true)}>{t('Pré-inscrivez-vous pour garantir votre place →', 'Pre-register to secure your spot →')}</button>
         </div>
       </section>
