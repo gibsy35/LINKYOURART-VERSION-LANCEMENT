@@ -203,7 +203,27 @@ const HeroSection: React.FC<{ t: (fr: string, en: string) => string; setShowJoin
       <div className="term-hero-orb o3" />
       <div className="term-wrap term-hero-grid">
         <motion.div style={{ position: 'relative', y: titleY, opacity: titleOpacity, scale: titleScale }}>
-          <h1 className="term-hero-title">{t("Ce que vous créez aujourd'hui mérite d'être ", 'What you create today deserves to be ')}<span className="term-gradient-text">{t('reconnu demain.', 'recognized tomorrow.')}</span></h1>
+          <motion.h1
+            className="term-hero-title"
+            initial="hidden"
+            animate="show"
+            variants={{ hidden: {}, show: { transition: { staggerChildren: 0.055 } } }}
+          >
+            {[
+              ...t("Ce que vous créez aujourd'hui mérite d'être ", 'What you create today deserves to be ').split(' ').map(w => ({ text: w, accent: false })),
+              ...t('reconnu demain.', 'recognized tomorrow.').split(' ').map(w => ({ text: w, accent: true })),
+            ].map((w, i) => (
+              <motion.span
+                key={i}
+                className={w.accent ? 'term-gradient-text' : undefined}
+                style={{ display: 'inline-block', marginRight: '0.28em', willChange: 'transform' }}
+                variants={{ hidden: { opacity: 0, y: 46, rotateX: -70 }, show: { opacity: 1, y: 0, rotateX: 0 } }}
+                transition={{ type: 'spring', stiffness: 240, damping: 18 }}
+              >
+                {w.text}
+              </motion.span>
+            ))}
+          </motion.h1>
           <p className="term-hero-sub">
             {t(
               "Les projets créatifs ont toujours eu de la valeur. LYA leur en donne une reconnue, partageable et vérifiable — un registre certifié, une évaluation par des experts, un mécénat qui suit l'avancement réel du projet.",
@@ -211,7 +231,7 @@ const HeroSection: React.FC<{ t: (fr: string, en: string) => string; setShowJoin
             )}
           </p>
           <div style={{ display: 'flex', gap: 14, marginTop: 30, position: 'relative', zIndex: 1, flexWrap: 'wrap' }}>
-            <button className="term-btn-primary" onClick={() => setShowJoin(true)}>{t('Rejoindre LYA →', 'Join LYA →')}</button>
+            <button className="term-btn-primary term-btn-flash" onClick={() => setShowJoin(true)}>{t('Rejoindre LYA →', 'Join LYA →')}</button>
             <a href="#pillars" className="term-btn-ghost" style={{ textDecoration: 'none', display: 'inline-block' }}>{t('Comprendre le Score LYA', 'Understand the LYA Score')}</a>
           </div>
         </motion.div>
@@ -377,7 +397,6 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
           --term-grey:#F3F2F8; --term-line:#E6E4EF; --term-lav:#E8B8D8;
           --term-lav-deep:#B5308E; --term-purple:#7E1CF1; --term-pink:#E61A97; --term-cyan:#02C6FA;
           background:var(--term-paper); color:var(--term-ink); font-family:'Inter',sans-serif;
-          overflow-x:hidden; width:100%; max-width:100vw;
         }
         .term-root h1, .term-root h2, .term-root h3{ font-family:'Fraunces',Georgia,serif; font-weight:700; letter-spacing:-0.01em; text-transform:lowercase; }
         .term-root h1::first-letter, .term-root h2::first-letter, .term-root h3::first-letter{ text-transform:uppercase; }
@@ -428,13 +447,13 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
           50%{ transform:translate(-3%,2%) scale(1.08) rotate(4deg); }
           100%{ transform:translate(2%,-3%) scale(1.02) rotate(-3deg); }
         }
-        .term-hero-orb{ position:absolute; border-radius:50%; filter:blur(50px); z-index:0; pointer-events:none; opacity:0.55; }
-        .term-hero-orb.o1{ width:280px; height:280px; top:8%; left:4%; background:#7E1CF1; animation:termOrbFloat 9s ease-in-out infinite; }
-        .term-hero-orb.o2{ width:220px; height:220px; bottom:10%; right:8%; background:#02C6FA; animation:termOrbFloat 11s ease-in-out infinite reverse; }
-        .term-hero-orb.o3{ width:180px; height:180px; top:45%; right:28%; background:#E61A97; animation:termOrbFloat 13s ease-in-out infinite; animation-delay:-4s; }
+        .term-hero-orb{ position:absolute; border-radius:50%; filter:blur(50px); z-index:0; pointer-events:none; opacity:0.7; }
+        .term-hero-orb.o1{ width:300px; height:300px; top:8%; left:4%; background:#7E1CF1; animation:termOrbFloat 7s ease-in-out infinite; }
+        .term-hero-orb.o2{ width:240px; height:240px; bottom:10%; right:8%; background:#02C6FA; animation:termOrbFloat 8.5s ease-in-out infinite reverse; }
+        .term-hero-orb.o3{ width:200px; height:200px; top:45%; right:28%; background:#E61A97; animation:termOrbFloat 10s ease-in-out infinite; animation-delay:-4s; }
         @keyframes termOrbFloat{
-          0%,100%{ transform:translate(0,0); }
-          50%{ transform:translate(24px,-30px); }
+          0%,100%{ transform:translate(0,0) scale(1); }
+          50%{ transform:translate(42px,-52px) scale(1.15); }
         }
         @media (prefers-reduced-motion: reduce){
           .term-hero::before, .term-hero-orb{ animation:none; }
@@ -444,6 +463,11 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-hero-title{ color:#fff; font-weight:700; font-size:clamp(36px,5.2vw,64px); line-height:1.05; letter-spacing:-0.01em; max-width:16ch; position:relative; z-index:1; }
         .term-hero-sub{ color:#B9B7C7; font-size:17px; line-height:1.6; max-width:46ch; margin-top:26px; position:relative; z-index:1; }
         .term-btn-primary{ background:linear-gradient(120deg,#7E1CF1,#E61A97); color:#fff; padding:14px 26px; border-radius:100px; font-weight:600; font-size:15px; border:none; cursor:pointer; transition:transform 0.25s cubic-bezier(.2,.8,.2,1), box-shadow 0.25s ease; box-shadow:0 10px 30px -10px rgba(126,28,241,0.5); }
+        .term-btn-flash{ position:relative; overflow:hidden; animation:termBtnGlow 2.6s ease-in-out infinite; }
+        .term-btn-flash::after{ content:''; position:absolute; top:0; left:-60%; width:40%; height:100%; background:linear-gradient(120deg, transparent, rgba(255,255,255,0.55), transparent); transform:skewX(-20deg); animation:termBtnSweep 3.2s ease-in-out infinite; }
+        @keyframes termBtnSweep{ 0%{ left:-60%; } 35%{ left:130%; } 100%{ left:130%; } }
+        @keyframes termBtnGlow{ 0%,100%{ box-shadow:0 10px 30px -10px rgba(126,28,241,0.5); } 50%{ box-shadow:0 14px 42px -8px rgba(230,26,151,0.65); } }
+        @media (prefers-reduced-motion: reduce){ .term-btn-flash{ animation:none; } .term-btn-flash::after{ display:none; } }
         .term-btn-primary:hover{ transform:translateY(-2px); box-shadow:0 16px 36px -10px rgba(230,26,151,0.55); }
         .term-btn-primary:active{ transform:translateY(0) scale(0.97); }
         .term-btn-ghost{ color:#fff; background:none; border:none; padding:14px 10px; font-weight:600; font-size:15px; border-bottom:1px solid rgba(255,255,255,0.4); cursor:pointer; }
@@ -1597,7 +1621,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
             <h2>{t('Prêt à faire certifier votre travail ?', 'Ready to get your work certified?')}</h2>
             <div style={{ fontSize: 13, color: '#6B4A5E', marginTop: 8 }}>{t('Accès sur pré-inscription, validé par notre équipe.', 'Access by pre-registration, validated by our team.')}</div>
           </div>
-          <button className="term-pill" style={{ background: '#0B0E14' }} onClick={() => setShowJoin(true)}>{t('Rejoindre LYA →', 'Join LYA →')}</button>
+          <button className="term-pill term-btn-flash" style={{ background: '#0B0E14' }} onClick={() => setShowJoin(true)}>{t('Rejoindre LYA →', 'Join LYA →')}</button>
         </div>
       </section>
 
