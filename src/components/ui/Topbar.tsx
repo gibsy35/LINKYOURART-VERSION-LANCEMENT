@@ -114,7 +114,7 @@ export const Topbar: React.FC<TopbarProps> = ({
                 onClick={() => setCurrency(curr.id as any)}
                 className={`w-7 h-7 flex items-center justify-center text-[10px] font-black transition-all rounded-full ${
                   currency === curr.id 
-                    ? 'bg-accent-gold text-surface-dim' 
+                    ? 'bg-brand-gradient text-white' 
                     : 'text-on-surface-variant/60 hover:text-white hover:bg-white/10'
                 }`}
                 title={curr.id}
@@ -229,7 +229,7 @@ export const Topbar: React.FC<TopbarProps> = ({
             ) : (
               <button 
                 onClick={() => onViewChange('LOGIN')}
-                className="px-6 py-1.5 bg-primary-cyan text-surface-dim text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all transform hover:-translate-y-0.5 active:translate-y-0 rounded-full"
+                className="px-6 py-1.5 bg-brand-gradient text-white text-[10px] font-black uppercase tracking-widest hover:opacity-90 transition-all transform hover:-translate-y-0.5 active:translate-y-0 rounded-full"
               >
                 {t('SIGN IN', 'CONNEXION')}
               </button>

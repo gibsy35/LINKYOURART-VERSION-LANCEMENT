@@ -11,6 +11,15 @@ interface PageHeaderProps {
   compact?: boolean;
 }
 
+// Le CSS `text-transform: lowercase` + `::first-letter` ne capitalise que le
+// tout premier caractere du paragraphe entier — chaque phrase suivante apres
+// un point restait donc en minuscule. On le fait proprement en JS a la
+// place : minuscule partout, sauf la premiere lettre de chaque phrase.
+function sentenceCase(text: string): string {
+  const lower = text.toLowerCase();
+  return lower.replace(/(^\s*\w|[.!?]\s+\w)/g, (m) => m.toUpperCase());
+}
+
 export const PageHeader: React.FC<PageHeaderProps> = ({ 
   description,
   compact = false
@@ -28,9 +37,9 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
               reperer. Le degrade sur le debut de phrase n'apportait rien :
               a la place, une simple puce en degrade LYA devant le texte,
               qui reste entierement blanc. */}
-          <p style={{ textTransform: 'lowercase' }} className={`leading-relaxed max-w-2xl [&::first-letter]:uppercase flex items-start gap-2.5 ${compact ? 'text-sm md:text-base' : 'text-base md:text-lg'}`}>
+          <p className={`leading-relaxed max-w-2xl flex items-start gap-2.5 ${compact ? 'text-sm md:text-base' : 'text-base md:text-lg'}`}>
             <span className="bg-brand-gradient rounded-full flex-shrink-0" style={{ width: 7, height: 7, marginTop: '0.55em' }} />
-            <span className="text-on-surface">{description}</span>
+            <span className="text-on-surface">{sentenceCase(description)}</span>
           </p>
         </motion.div>
       </div>

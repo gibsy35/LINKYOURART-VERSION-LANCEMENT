@@ -591,7 +591,7 @@ export function DetailModal({ contract, onClose, onPay, units, onUnitsChange, la
               <button onClick={onClose} className="w-full border border-white/10 text-on-surface-variant hover:text-on-surface hover:border-primary-cyan/50 font-bold font-mono py-3.5 rounded-xl transition-colors text-xs tracking-widest">
                 {T("QUITTER", "EXIT")}
               </button>
-              <button onClick={onPay} className="w-full font-bold font-mono py-3.5 rounded-xl transition-opacity text-xs tracking-widest text-black" style={{ background: "linear-gradient(135deg,#00ff88,#00d4ff)" }}>
+              <button onClick={onPay} className="w-full font-bold font-mono py-3.5 rounded-xl transition-opacity text-xs tracking-widest text-white bg-brand-gradient hover:opacity-90">
                 ✦ {T("SOUTENIR CE PROJET", "SUPPORT THIS PROJECT")}
               </button>
             </div>
@@ -607,9 +607,9 @@ export function DetailModal({ contract, onClose, onPay, units, onUnitsChange, la
 export function WhatIsLyaScore({ lang }: { lang: "FR" | "EN" }) {
   const T = (fr: string, en: string) => lang === "FR" ? fr : en;
   const cols = [
-    { num: "01", color: "#00d4ff", titleFR: "MESURE ÉVOLUTIVE", titleEN: "EVOLUTIONARY MEASURE", textFR: "C'est le standard de certification officiel qui mesure l'état évolutif d'une création.", textEN: "It is the official certification standard that measures the evolving state of a creation." },
-    { num: "02", color: "#ff6b6b", titleFR: "NI CRYPTO, NI DEVISE", titleEN: "NOT A CRYPTO", textFR: "Ce n'est PAS une monnaie classique ou une crypto.", textEN: "It is NOT a classic currency or a crypto." },
-    { num: "03", color: "#00ff88", titleFR: "VALEUR STRUCTURELLE", titleEN: "STRUCTURED STATE", textFR: "C'est un standard structuré qui représente l'état réel, la solidité et la trajectoire d'une création.", textEN: "It is a structured standard representing the real state, solidity and trajectory of a creation." },
+    { num: "01", color: "#7E1CF1", titleFR: "MESURE ÉVOLUTIVE", titleEN: "EVOLUTIONARY MEASURE", textFR: "C'est le standard de certification officiel qui mesure l'état évolutif d'une création.", textEN: "It is the official certification standard that measures the evolving state of a creation." },
+    { num: "02", color: "#E61A97", titleFR: "NI CRYPTO, NI DEVISE", titleEN: "NOT A CRYPTO", textFR: "Ce n'est PAS une monnaie classique ou une crypto.", textEN: "It is NOT a classic currency or a crypto." },
+    { num: "03", color: "#02C6FA", titleFR: "VALEUR STRUCTURELLE", titleEN: "STRUCTURED STATE", textFR: "C'est un standard structuré qui représente l'état réel, la solidité et la trajectoire d'une création.", textEN: "It is a structured standard representing the real state, solidity and trajectory of a creation." },
   ];
   return (
     <div className="bg-surface-low/60 border border-white/10 rounded-lg p-6 md:p-10 mb-8">
@@ -621,7 +621,7 @@ export function WhatIsLyaScore({ lang }: { lang: "FR" | "EN" }) {
               {T("QU'EST-CE QUE LE SCORE LYA ?", "WHAT IS THE LYA SCORE?")}
             </h3>
           </div>
-          <div className="w-16 h-1 rounded-full mt-1" style={{ background: "linear-gradient(90deg,#00d4ff,#a78bfa)" }} />
+          <div className="w-16 h-1 rounded-full mt-1 bg-brand-gradient" />
         </div>
         {cols.map(col => (
           <div key={col.num}>
@@ -854,7 +854,7 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
           </button>
           <button
             onClick={() => onSupport(contract, units)}
-            className="bg-gradient-to-r from-[#00ff88] to-[#00d4ff] text-surface-dim py-3 rounded-full font-mono text-[10px] font-black hover:opacity-90 transition-opacity flex items-center justify-center gap-1.5 tracking-wider"
+            className="bg-brand-gradient text-white py-3 rounded-full font-mono text-[10px] font-black hover:opacity-90 transition-opacity flex items-center justify-center gap-1.5 tracking-wider"
           >
             ✦ {T("SOUTENIR CE PROJET", "SUPPORT THIS PROJECT")}
           </button>

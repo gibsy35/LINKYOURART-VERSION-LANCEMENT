@@ -32,6 +32,26 @@ export const WatchlistView: React.FC<WatchlistViewProps> = ({
   const watchlistedContracts = allContracts.filter(c => watchlist.includes(c.id));
   const MAX_WATCHLIST = isPro ? 100 : 15;
 
+  // Meme palette par categorie que sur SwipeView, pour que les couleurs
+  // restent coherentes d'une page a l'autre (au lieu du violet uniforme).
+  const CATEGORY_COLORS: Record<string, string> = {
+    'ALL': 'bg-primary-cyan text-surface-dim',
+    'Film': 'bg-[#B695F5] text-surface-dim',
+    'Fashion': 'bg-accent-gold text-surface-dim',
+    'Fine Art': 'bg-accent-pink text-surface-dim',
+    'Architecture': 'bg-emerald-400 text-surface-dim',
+    'Music': 'bg-[#F5D76F] text-surface-dim',
+    'Podcast': 'bg-[#5FC7C2] text-surface-dim',
+    'TV Series': 'bg-primary-cyan text-surface-dim',
+    'Photography': 'bg-[#7FA8F0] text-surface-dim',
+    'Gaming': 'bg-[#D66FE0] text-surface-dim',
+    'Digital Art': 'bg-[#6FE0C4] text-surface-dim',
+    'Design': 'bg-[#E0A96F] text-surface-dim',
+    'Literature': 'bg-[#A8E06F] text-surface-dim',
+    'Gastronomy': 'bg-[#E06F8E] text-surface-dim',
+    'Performing Arts': 'bg-[#8E6FE0] text-surface-dim',
+  };
+
   const [viewMode, setViewMode] = React.useState<'mosaic' | 'bars'>('mosaic');
   const [currentPage, setCurrentPage] = React.useState(1);
   // Le survol (:hover) ne se déclenche pas de façon fiable au tactile.
@@ -140,7 +160,7 @@ export const WatchlistView: React.FC<WatchlistViewProps> = ({
                         <Shield size={10} />
                         {contract.rarity}
                       </div>
-                      <div className="px-3 py-1 bg-black/60 backdrop-blur-md border border-white/10 text-white text-xs font-black uppercase tracking-[0.2em] rounded-lg">
+                      <div className={`px-3 py-1 backdrop-blur-md border border-white/10 text-xs font-black uppercase tracking-[0.2em] rounded-lg ${CATEGORY_COLORS[contract.category] || 'bg-black/60 text-white'}`}>
                         {contract.category}
                       </div>
                     </div>

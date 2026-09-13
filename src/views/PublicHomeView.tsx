@@ -255,6 +255,17 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
   const project = selected !== null ? registry[selected] : null;
   const rootRef = React.useRef<HTMLDivElement>(null);
 
+  // Menu transparent (fondu avec le hero) en haut de page, qui gagne son
+  // fond sombre flou seulement une fois qu'on a scrolle — plutot qu'une
+  // barre demarquee en permanence.
+  const [headerScrolled, setHeaderScrolled] = React.useState(false);
+  React.useEffect(() => {
+    const onScroll = () => setHeaderScrolled(window.scrollY > 60);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   // Pop-up legere de pre-inscription : meme logique/backend que LandingView
   // (voir src/utils/preRegistration.ts), juste sans la page complete.
   const [showJoin, setShowJoin] = React.useState(false);
@@ -373,7 +384,8 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-root .sora{ font-family:'Sora',sans-serif; }
         .term-wrap{ max-width:1160px; margin:0 auto; padding:0 40px; }
         @media (max-width:700px){ .term-wrap{ padding:0 22px; } }
-        .term-header{ background:rgba(11,14,20,0.88); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); padding:20px 0; position:sticky; top:0; z-index:100; border-bottom:1px solid rgba(255,255,255,0.08); }
+        .term-header{ background:transparent; padding:20px 0; position:sticky; top:0; z-index:100; border-bottom:1px solid transparent; transition:background 0.3s ease, border-color 0.3s ease, backdrop-filter 0.3s ease; }
+        .term-header.is-scrolled{ background:rgba(11,14,20,0.88); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border-bottom:1px solid rgba(255,255,255,0.08); }
         .term-head-inner{ display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:20px; }
         .term-word{ font-family:'Sora',sans-serif; font-weight:800; font-size:22px; color:#fff; }
         .term-nav{ display:flex; align-items:center; gap:28px; margin-left:auto; }
@@ -890,7 +902,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       `}</style>
 
       {/* Header */}
-      <header className="term-header">
+      <header className={`term-header ${headerScrolled ? 'is-scrolled' : ''}`}>
         <div className="term-wrap term-head-inner">
           <div style={{ display: 'flex', alignItems: 'center', gap: 14, cursor: 'pointer' }} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
             <Logo size={52} color="multi" showBeta />

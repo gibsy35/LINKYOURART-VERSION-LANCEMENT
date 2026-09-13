@@ -154,6 +154,22 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   const categories = Array.from(new Set(visibleMenuItems.map(item => item.category)));
 
+  // Une pastille de couleur distincte par sous-categorie de menu, pour
+  // reperer chaque section en un coup d'oeil (SYSTEM, INDEX, DEVELOPMENT...).
+  const categoryColor = (cat: string | undefined): string => {
+    const key = (cat || '').toUpperCase();
+    if (key.includes('SYSTÈME') || key.includes('SYSTEM')) return '#7E1CF1';
+    if (key.includes('INDEX')) return '#02C6FA';
+    if (key.includes('DÉVELOPPEMENT') || key.includes('DEVELOPMENT')) return '#3ADB76';
+    if (key.includes('COFFRE') || key.includes('VAULT')) return '#F0C55E';
+    if (key.includes('COMMUNA') || key.includes('COMMUNITY')) return '#E61A97';
+    if (key.includes('RESSOURCE') || key.includes('RESOURCES')) return '#00E0FF';
+    if (key.includes('PROFESSIONNEL') || key.includes('PROFESSIONAL')) return '#FF6B6B';
+    if (key.includes('CRÉATEUR') || key.includes('CREATOR')) return '#3ADB76';
+    if (key.includes('MÉCÈNE') || key.includes('PATRON')) return '#7E1CF1';
+    return '#7E1CF1';
+  };
+
   const SidebarContent = (
     <div className="h-full flex flex-col bg-[#0D1117] border-r border-white/10 font-mono relative overflow-hidden">
       {/* Background depth effect */}
@@ -196,7 +212,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <div key={category} className="mb-10">
             {!isCollapsed && (
               <div className="px-8 mb-4 text-xs text-primary-cyan/30 font-black tracking-[0.5em] uppercase flex items-center gap-4">
-                <div className="w-6 h-[1px] bg-primary-cyan/20" />
+                <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: categoryColor(category) }} />
                 {category}
               </div>
             )}
@@ -348,7 +364,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
               <div className="flex-1 py-4 px-4">
                 {categories.map(category => (
                   <div key={category} className="mb-8">
-                    <div className="px-5 mb-3 text-xs text-on-surface-variant/40 font-black tracking-[0.4em] uppercase">
+                    <div className="px-5 mb-3 text-xs text-on-surface-variant/40 font-black tracking-[0.4em] uppercase flex items-center gap-3">
+                      <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: categoryColor(category) }} />
                       {category}
                     </div>
                     <div className="space-y-1.5">
