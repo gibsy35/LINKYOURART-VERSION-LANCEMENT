@@ -74,9 +74,9 @@ export enum OperationType {
 // messages (or Firebase's raw, technical err.message). The most common real
 // cause in this app: testing on a Vercel preview URL (*.vercel.app), which
 // Firebase never auto-adds to its authorized-domains allowlist — every
-// preview subdomain has to be added explicitly (or by using LYA_PREVIEW
-// alias domains) in Firebase Console -> Authentication -> Settings ->
-// Authorized domains, since Firebase does not support wildcards there.
+// preview subdomain has to be added explicitly in Firebase Console ->
+// Authentication -> Settings -> Authorized domains, since Firebase does not
+// support wildcards there.
 export function describeGoogleAuthError(err: any, t: (en: string, fr: string) => string): string {
   const code = err?.code || '';
   if (code === 'auth/unauthorized-domain') {
