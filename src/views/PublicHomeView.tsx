@@ -1858,9 +1858,9 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
           <div className="term-foot-bottom">
             <span>© 2026 LinkYourArt (LYA)</span>
             <div style={{ display: 'flex', gap: 16 }}>
-              <a href="#" style={{ color: '#8A87A8', textDecoration: 'none' }}>Instagram</a>
-              <a href="#" style={{ color: '#8A87A8', textDecoration: 'none' }}>LinkedIn</a>
-              <a href="#" style={{ color: '#8A87A8', textDecoration: 'none' }}>X</a>
+              <a href="https://www.instagram.com/linkyourart_/" target="_blank" rel="noopener noreferrer" style={{ color: '#8A87A8', textDecoration: 'none' }}>Instagram</a>
+              <a href="https://www.linkedin.com/company/linkyourart/" target="_blank" rel="noopener noreferrer" style={{ color: '#8A87A8', textDecoration: 'none' }}>LinkedIn</a>
+              <a href="https://x.com/linkyourart" target="_blank" rel="noopener noreferrer" style={{ color: '#8A87A8', textDecoration: 'none' }}>X</a>
             </div>
           </div>
         </div>
