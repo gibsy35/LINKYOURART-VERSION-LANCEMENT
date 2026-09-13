@@ -170,6 +170,7 @@ const HeroSection: React.FC<{ t: (fr: string, en: string) => string; setShowJoin
   const titleOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
   const titleScale = useTransform(scrollYProgress, [0, 1], [1, 0.9]);
 
+  const cardTilts = [7, -4, 10]; // petite rotation differente par exemple, pour un effet "carte que l'on distribue" a chaque changement plutot qu'un simple fondu plat
   const examples = [
     { cat: t('Musique', 'Music'), score: 247 },
     { cat: t('Cinéma', 'Film'), score: 580 },
@@ -220,14 +221,17 @@ const HeroSection: React.FC<{ t: (fr: string, en: string) => string; setShowJoin
             onClick={() => setExIdx((i) => (i + 1) % examples.length)}
             role="button" tabIndex={0}
             aria-label={t('Voir un autre exemple de score', 'See another score example')}
+            animate={{ rotate: cardTilts[exIdx % cardTilts.length] }}
+            transition={{ type: 'spring', stiffness: 200, damping: 14 }}
+            whileTap={{ scale: 0.97 }}
           >
             <AnimatePresence mode="wait">
               <motion.div
                 key={exIdx}
-                initial={{ opacity: 0, y: 6 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -6 }}
-                transition={{ duration: 0.35, ease: 'easeOut' }}
+                initial={{ opacity: 0, y: 18, scale: 0.9, rotate: -6 }}
+                animate={{ opacity: 1, y: 0, scale: 1, rotate: 0 }}
+                exit={{ opacity: 0, y: -14, scale: 0.94, rotate: 5 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 20 }}
               >
                 <div className="score">
                   <span className="cat-line">{t('Score LYA', 'LYA Score')} · {current.cat}</span>
@@ -435,11 +439,9 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-hero-card{ position:relative; z-index:1; background:rgba(20,22,32,0.75); backdrop-filter:blur(16px); border:1px solid rgba(255,255,255,0.12); border-radius:18px;
           padding:28px 30px; width:min(320px,80%); height:236px; display:flex; flex-direction:column; justify-content:flex-start;
           box-shadow:0 30px 70px -20px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.03);
-          transform:rotate(7deg); font-family:'Fraunces',serif; cursor:pointer; user-select:none;
-          transition:transform 0.35s cubic-bezier(.2,.8,.2,1), box-shadow 0.6s ease;
+          font-family:'Fraunces',serif; cursor:pointer; user-select:none;
           animation:termCardGlow 4s ease-in-out infinite;
         }
-        .term-hero-card:hover, .term-hero-card:active{ transform:rotate(0deg) scale(1.03); }
         @keyframes termCardGlow{
           0%,100%{ box-shadow:0 30px 70px -20px rgba(0,0,0,0.6), 0 0 40px -12px rgba(126,28,241,0.35); }
           50%{ box-shadow:0 30px 70px -20px rgba(0,0,0,0.6), 0 0 55px -10px rgba(2,198,250,0.4); }
@@ -458,36 +460,18 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-pillars-note{ font-size:13px; color:var(--term-ink-soft); margin-bottom:56px; }
         .term-pillars-grid{ display:grid; grid-template-columns:repeat(5,1fr); gap:14px; padding:20px 0 40px; }
         @media (max-width:900px){ .term-pillars-grid{ grid-template-columns:repeat(2,1fr); } }
-        .term-pillar{ position:relative; z-index:0; border-radius:14px; padding:26px 22px; min-height:190px;
-          display:flex; flex-direction:column; justify-content:space-between; background:transparent;
-          animation:termPillarFloat 5s ease-in-out infinite; transition:transform 0.3s cubic-bezier(.2,.8,.2,1);
+        .term-pillar{ position:relative; border-radius:14px; padding:26px 22px; min-height:190px;
+          display:flex; flex-direction:column; justify-content:space-between; background:#fff;
+          border:1px solid var(--term-line); border-top:3px solid transparent;
+          transition:transform 0.3s cubic-bezier(.2,.8,.2,1), box-shadow 0.3s ease, border-color 0.3s ease;
         }
-        .term-pillar::before{ content:''; position:absolute; inset:-2px; border-radius:16px; z-index:-1;
-          background:conic-gradient(from 0deg, #7E1CF1, #E61A97, #02C6FA, #3ADB76, #F0C55E, #7E1CF1);
-          animation:termBorderSpin 7s linear infinite; opacity:0.75;
-        }
-        .term-pillar::after{ content:''; position:absolute; inset:1px; border-radius:13px; z-index:-1; background:#fff; }
-        .term-pillar:hover, .term-pillar:active{ transform:translateY(-6px) scale(1.02); }
-        @keyframes termPillarFloat{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-7px); } }
-        @keyframes termBorderSpin{ from{ transform:rotate(0deg); } to{ transform:rotate(360deg); } }
-        @media (prefers-reduced-motion: reduce){ .term-pillar{ animation:none; } .term-pillar::before{ animation:none; } }
-        .term-pillar:nth-child(1){ animation-delay:0s; }
-        .term-pillar:nth-child(2){ animation-delay:0.3s; }
-        .term-pillar:nth-child(3){ animation-delay:0.6s; }
-        .term-pillar:nth-child(4){ animation-delay:0.9s; }
-        .term-pillar:nth-child(5){ animation-delay:1.2s; }
-        .term-pillar:nth-child(1)::before{ animation-delay:-0.5s; }
-        .term-pillar:nth-child(2)::before{ animation-delay:-2s; }
-        .term-pillar:nth-child(3)::before{ animation-delay:-3.5s; }
-        .term-pillar:nth-child(4)::before{ animation-delay:-5s; }
-        .term-pillar:nth-child(5)::before{ animation-delay:-6.2s; }
-        .term-pillar:nth-child(1) .n{ color:#7E1CF1; }
-        .term-pillar:nth-child(2) .n{ color:#E61A97; }
-        .term-pillar:nth-child(3) .n{ color:#02C6FA; }
-        .term-pillar:nth-child(4) .n{ color:#3ADB76; }
-        .term-pillar:nth-child(5) .n{ color:#F0C55E; }
-        .term-pillar .n{ position:relative; z-index:1; font-family:'Fraunces',serif; font-style:italic; font-weight:500; font-size:30px; }
-        .term-pillar .t, .term-pillar .d{ position:relative; z-index:1; }
+        .term-pillar:hover, .term-pillar:active{ transform:translateY(-8px); box-shadow:0 20px 40px -18px rgba(11,14,20,0.22); }
+        .term-pillar:nth-child(1){ border-top-color:#7E1CF1; } .term-pillar:nth-child(1) .n{ color:#7E1CF1; }
+        .term-pillar:nth-child(2){ border-top-color:#E61A97; } .term-pillar:nth-child(2) .n{ color:#E61A97; }
+        .term-pillar:nth-child(3){ border-top-color:#02C6FA; } .term-pillar:nth-child(3) .n{ color:#02C6FA; }
+        .term-pillar:nth-child(4){ border-top-color:#3ADB76; } .term-pillar:nth-child(4) .n{ color:#3ADB76; }
+        .term-pillar:nth-child(5){ border-top-color:#F0C55E; } .term-pillar:nth-child(5) .n{ color:#F0C55E; }
+        .term-pillar .n{ font-family:'Fraunces',serif; font-style:italic; font-weight:500; font-size:30px; }
         .term-pillar .t{ font-family:'Sora',sans-serif; font-weight:700; font-size:15px; margin-top:20px; color:var(--term-ink); }
         .term-pillar .d{ font-size:12.5px; line-height:1.5; margin-top:8px; opacity:0.75; color:var(--term-ink-soft); }
         .term-pillar .pts{ font-family:'Sora',sans-serif; font-weight:700; font-size:10.5px; letter-spacing:0.04em; opacity:0.5; margin-top:10px; }
@@ -989,17 +973,31 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
             <span className="term-gradient-text">{t('Cinq critères.', 'Five criteria.')}</span> {t('Un standard commun à tout le secteur créatif.', 'One standard shared across the whole creative sector.')}
           </h2>
           <p className="term-pillars-note">{t('Chaque critère est noté sur 200 points, pour un Score LYA total sur 1000.', 'Each criterion is scored out of 200 points, for a total LYA Score out of 1000.')}</p>
-          <div className="term-pillars-grid">
+          <motion.div
+            className="term-pillars-grid"
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.3 }}
+            variants={{ hidden: {}, show: { transition: { staggerChildren: 0.09 } } }}
+          >
             {pillars.map(p => (
-              <div key={p.n} className={`term-pillar ${p.bg} term-reveal`}>
+              <motion.div
+                key={p.n}
+                className={`term-pillar ${p.bg}`}
+                variants={{
+                  hidden: { opacity: 0, y: 36, scale: 0.86, rotate: -3 },
+                  show: { opacity: 1, y: 0, scale: 1, rotate: 0 },
+                }}
+                transition={{ type: 'spring', stiffness: 260, damping: 18 }}
+              >
                 <div>
                   <div className="n">{p.n}</div>
                   <div className="t">{t(p.title.fr, p.title.en)}</div>
                 </div>
                 <div className="d">{t(p.desc.fr, p.desc.en)}</div>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
           <div className="term-section-cta"><button onClick={() => document.getElementById('registry')?.scrollIntoView({ behavior: 'smooth' })}>{t('Voir des exemples de scores réels →', 'See real score examples →')}</button></div>
         </div>
       </section>
