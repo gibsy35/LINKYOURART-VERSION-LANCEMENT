@@ -1323,7 +1323,7 @@ export const AdminView: React.FC<{
             {id: 'validation', label: t('Verifications', 'Vérifications'), icon: <Shield size={16}/>},
             {id: 'projects', label: t('Projects', 'Projets'), icon: <Activity size={16}/>},
           ].map(it => (
-            <button key={it.id} onClick={() => setActiveTab(it.id as any)} className={`w-full flex items-center gap-4 p-4 rounded-xl font-black uppercase text-[10px] tracking-widest transition-all ${activeTab === it.id ? 'bg-accent-gold text-surface-dim shadow-xl' : 'text-on-surface-variant hover:bg-white/5'}`}>
+            <button key={it.id} onClick={() => setActiveTab(it.id as any)} className={`w-full flex items-center gap-4 p-4 rounded-xl font-black uppercase text-[10px] tracking-widest transition-all ${activeTab === it.id ? 'bg-brand-gradient text-white shadow-xl' : 'text-on-surface-variant hover:bg-white/5'}`}>
               {it.icon} {it.label}
             </button>
           ))}

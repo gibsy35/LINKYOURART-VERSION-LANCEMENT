@@ -560,6 +560,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-network-split{ display:grid; grid-template-columns:0.75fr 1.6fr; gap:40px; align-items:start; }
         @media (max-width:900px){ .term-network-split{ grid-template-columns:1fr; } }
         .term-network-heading{ position:sticky; top:100px; }
+        @media (max-width:900px){ .term-network-heading{ position:static; } }
         .term-network-heading h2{ max-width:11ch; }
         .term-network-lede{ font-size:16px; line-height:1.6; margin-top:14px; max-width:26ch; color:var(--term-ink-soft); }
         .term-network-legend{ display:flex; flex-direction:column; gap:10px; margin-top:26px; }
@@ -585,6 +586,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-registry-intro p{ font-size:14px; line-height:1.65; color:var(--term-ink-soft); }
         .term-independence{ padding:56px 0; background:var(--term-grey); }
         .term-independence-stat{ display:flex; align-items:center; gap:20px; margin:24px 0 32px; padding:22px 26px; background:#fff; border-radius:12px; border-left:4px solid #7E1CF1; }
+        @media (max-width:600px){ .term-independence-stat{ flex-direction:column; align-items:flex-start; gap:10px; } }
         .term-independence-stat .big{ font-family:'Fraunces',serif; font-weight:700; font-size:clamp(48px,6vw,64px); line-height:1; background:linear-gradient(90deg,#7E1CF1,#E61A97); -webkit-background-clip:text; background-clip:text; color:transparent; flex-shrink:0; }
         .term-independence-stat .label{ font-size:14px; line-height:1.5; color:var(--term-ink-soft); max-width:32ch; }
         .term-independence-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:0; }
