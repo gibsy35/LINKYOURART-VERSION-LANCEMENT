@@ -11,6 +11,7 @@ import {
   ProjectCard,
   DetailModal,
   PaymentModal,
+  RARITY_STYLE,
 } from "../components/mecenat/MecenatShared";
 import type { Contract } from "../types";
 
@@ -43,6 +44,7 @@ export function MecenatView({ isGuest, onRequireAuth }: { isGuest?: boolean; onR
   const [showFilters, setShowFilters] = useState(false);
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
   const [minScore, setMinScore] = useState(0);
+  const [rarityFilter, setRarityFilter] = useState<string>("all");
   const [sortBy, setSortBy] = useState<"score_desc" | "score_asc" | "name_asc" | "recent">("score_desc");
 
   // Compteur de validateurs certifies en temps reel (meme source qu'AboutView)
@@ -64,7 +66,7 @@ export function MecenatView({ isGuest, onRequireAuth }: { isGuest?: boolean; onR
 
   const liveProjectCount = useMemo(() => CONTRACTS.filter(c => c.status === "LIVE").length, []);
 
-  useEffect(() => { setVisibleCount(12); }, [activeTheme, searchQuery, categoryFilter, minScore, sortBy]);
+  useEffect(() => { setVisibleCount(12); }, [activeTheme, searchQuery, categoryFilter, minScore, rarityFilter, sortBy]);
 
   // Toutes les catégories réelles présentes dans les projets certifiés
   // en direct — pour le filtre "Catégorie précise", plus fin que les
@@ -81,6 +83,7 @@ export function MecenatView({ isGuest, onRequireAuth }: { isGuest?: boolean; onR
     if (theme && theme.cats.length > 0) base = base.filter(c => theme.cats.includes(c.category));
     if (categoryFilter !== "all") base = base.filter(c => c.category === categoryFilter);
     if (minScore > 0) base = base.filter(c => c.totalScore >= minScore);
+    if (rarityFilter !== "all") base = base.filter(c => c.rarity === rarityFilter);
     const q = searchQuery.trim().toLowerCase();
     if (q) base = base.filter(c =>
       c.name.toLowerCase().includes(q) ||
@@ -92,7 +95,7 @@ export function MecenatView({ isGuest, onRequireAuth }: { isGuest?: boolean; onR
     else if (sortBy === "score_asc") sorted.sort((a, b) => a.totalScore - b.totalScore);
     else if (sortBy === "name_asc") sorted.sort((a, b) => a.name.localeCompare(b.name));
     return sorted;
-  }, [activeTheme, categoryFilter, minScore, searchQuery, sortBy]);
+  }, [activeTheme, categoryFilter, minScore, rarityFilter, searchQuery, sortBy]);
 
   return (
     <section className="bg-surface-dim min-h-screen">
@@ -209,7 +212,7 @@ export function MecenatView({ isGuest, onRequireAuth }: { isGuest?: boolean; onR
           </div>
 
           {showFilters && (
-            <div className="bg-surface-low/40 border border-white/10 rounded-xl p-5 grid grid-cols-1 sm:grid-cols-3 gap-5">
+            <div className="bg-surface-low/40 border border-white/10 rounded-xl p-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
               <div>
                 <label className="text-[10px] font-mono text-on-surface-variant/50 uppercase tracking-widest block mb-2">{T("Catégorie précise", "Exact category")}</label>
                 <select
@@ -220,6 +223,26 @@ export function MecenatView({ isGuest, onRequireAuth }: { isGuest?: boolean; onR
                   <option value="all">{T("Toutes", "All")}</option>
                   {allCategories.map(cat => <option key={cat} value={cat}>{cat}</option>)}
                 </select>
+              </div>
+              <div>
+                <label className="text-[10px] font-mono text-on-surface-variant/50 uppercase tracking-widest block mb-2">{T("Statut", "Status")}</label>
+                <div className="flex flex-wrap gap-1.5">
+                  <button
+                    onClick={() => setRarityFilter("all")}
+                    className={`text-xs px-3 py-1 rounded font-mono font-bold transition-all ${rarityFilter === "all" ? "bg-primary-cyan text-black" : "bg-surface-high/60 border border-white/10 text-on-surface-variant hover:border-primary-cyan/40"}`}
+                  >
+                    {T("Tous", "All")}
+                  </button>
+                  {["Standard", "Distinguished", "Exceptional", "Signature"].map(r => (
+                    <button
+                      key={r}
+                      onClick={() => setRarityFilter(r)}
+                      className={`text-xs px-3 py-1 rounded font-mono font-bold transition-all ${RARITY_STYLE[r]} ${rarityFilter === r ? "ring-2 ring-white/70" : "opacity-60 hover:opacity-100"}`}
+                    >
+                      {r}
+                    </button>
+                  ))}
+                </div>
               </div>
               <div>
                 <label className="text-[10px] font-mono text-on-surface-variant/50 uppercase tracking-widest block mb-2">
@@ -244,10 +267,10 @@ export function MecenatView({ isGuest, onRequireAuth }: { isGuest?: boolean; onR
                   <option value="name_asc">{T("Nom — A à Z", "Name — A to Z")}</option>
                 </select>
               </div>
-              {(categoryFilter !== "all" || minScore > 0 || sortBy !== "score_desc") && (
+              {(categoryFilter !== "all" || minScore > 0 || rarityFilter !== "all" || sortBy !== "score_desc") && (
                 <button
-                  onClick={() => { setCategoryFilter("all"); setMinScore(0); setSortBy("score_desc"); }}
-                  className="sm:col-span-3 text-xs font-bold text-on-surface-variant hover:text-primary-cyan transition-colors text-left"
+                  onClick={() => { setCategoryFilter("all"); setMinScore(0); setRarityFilter("all"); setSortBy("score_desc"); }}
+                  className="sm:col-span-2 lg:col-span-4 text-xs font-bold text-on-surface-variant hover:text-primary-cyan transition-colors text-left"
                 >
                   {T("↺ Réinitialiser les filtres", "↺ Reset filters")}
                 </button>

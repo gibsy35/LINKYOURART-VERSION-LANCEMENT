@@ -108,10 +108,10 @@ export const CATEGORY_COLOR: Record<string, string> = {
 };
 
 export const RARITY_STYLE: Record<string, string> = {
-  Exceptional:  "bg-purple-600/80 text-on-surface",
-  Signature:    "bg-violet-500/80 text-black",
-  Distinguished:"bg-[#00d4ff]/80 text-black",
-  Standard:     "bg-gray-500/80 text-on-surface",
+  Standard:     "bg-white/15 text-on-surface",
+  Distinguished:"bg-primary-cyan/90 text-black",
+  Exceptional:  "bg-[#F0C55E] text-black",
+  Signature:    "bg-gradient-to-r from-[#7E1CF1] to-[#E61A97] text-white",
 };
 
 export function getUnitPrice(contract: Contract): number {
