@@ -675,18 +675,18 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-timeline-line{ position:absolute; top:33px; left:8%; right:8%; height:2px; background:linear-gradient(90deg,#3ADB76,#F0C55E,#8A87A8); opacity:0.35; transform-origin:left; transform:scaleX(0); transition:transform 1.1s cubic-bezier(.2,.8,.2,1); z-index:0; }
         .term-timeline.visible .term-timeline-line{ transform:scaleX(1); }
         @media (max-width:800px){ .term-timeline-line{ display:none; } }
-        .term-timeline-step{ flex:1; background:#fff; border-radius:8px; padding:22px 20px; position:relative; z-index:1; border-top:3px solid transparent; transition:transform 0.3s cubic-bezier(.2,.8,.2,1), box-shadow 0.3s ease; }
+        .term-timeline-step{ flex:1; background:#fff; border-radius:8px; padding:22px 20px; position:relative; z-index:1; border-top:4px solid transparent; transition:transform 0.3s cubic-bezier(.2,.8,.2,1), box-shadow 0.3s ease; }
         .term-timeline-step:hover{ transform:translateY(-6px); box-shadow:0 16px 32px rgba(0,0,0,0.08); }
         .term-timeline-step:nth-child(2){ border-top-color:#3ADB76; }
-        .term-timeline-step:nth-child(4){ border-top-color:#F0C55E; }
-        .term-timeline-step:nth-child(6){ border-top-color:#8A87A8; }
+        .term-timeline-step:nth-child(4){ border-top-color:#FF7A45; }
+        .term-timeline-step:nth-child(6){ border-top-color:#0B0E14; }
         .term-timeline-arrow{ display:flex; align-items:center; justify-content:center; color:#7E1CF1; font-size:22px; font-weight:700; padding-top:20px; }
         @media (max-width:800px){ .term-timeline-arrow{ transform:rotate(90deg); padding:0; align-self:center; } }
-        .term-timeline-step .dot{ width:14px; height:14px; border-radius:50%; margin-bottom:14px; }
-        .term-timeline-step .dot.green{ background:#3ADB76; box-shadow:0 0 0 5px rgba(58,219,118,0.15); animation:termPulse 2.6s ease-in-out infinite; }
-        @keyframes termPulse{ 0%,100%{ box-shadow:0 0 0 5px rgba(58,219,118,0.15); } 50%{ box-shadow:0 0 0 9px rgba(58,219,118,0.06); } }
-        .term-timeline-step .dot.amber{ background:#F0C55E; box-shadow:0 0 0 5px rgba(240,197,94,0.18); }
-        .term-timeline-step .dot.grey{ background:#8A87A8; box-shadow:0 0 0 5px rgba(138,135,168,0.15); }
+        .term-timeline-step .dot{ width:20px; height:20px; border-radius:50%; margin-bottom:14px; box-shadow:0 4px 10px -2px rgba(11,14,20,0.35); }
+        .term-timeline-step .dot.green{ background:#3ADB76; box-shadow:0 0 0 6px rgba(58,219,118,0.2), 0 4px 10px -2px rgba(58,219,118,0.5); animation:termPulse 2.6s ease-in-out infinite; }
+        @keyframes termPulse{ 0%,100%{ box-shadow:0 0 0 6px rgba(58,219,118,0.2), 0 4px 10px -2px rgba(58,219,118,0.5); } 50%{ box-shadow:0 0 0 11px rgba(58,219,118,0.08), 0 4px 10px -2px rgba(58,219,118,0.5); } }
+        .term-timeline-step .dot.amber{ background:#FF7A45; box-shadow:0 0 0 6px rgba(255,122,69,0.22), 0 4px 10px -2px rgba(255,122,69,0.5); }
+        .term-timeline-step .dot.grey{ background:#0B0E14; box-shadow:0 0 0 6px rgba(11,14,20,0.15), 0 4px 10px -2px rgba(11,14,20,0.4); }
         .term-timeline-step .tl-label{ font-family:'Sora',sans-serif; font-weight:700; font-size:14.5px; margin-bottom:6px; }
         .term-timeline-step .tl-desc{ font-size:12.5px; line-height:1.55; color:var(--term-ink-soft); }
         .term-milestone-examples{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
@@ -698,10 +698,10 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-milestone-point .ex-score b{ color:var(--term-ink); font-weight:800; }
         .term-milestone-point .delta{ font-weight:700; margin-left:4px; }
         .term-milestone-point .up-delta{ color:#1E8449; }
-        .term-milestone-point .down-delta{ color:#B33B3B; }
-        .term-milestone-point .ico{ font-family:'Sora',sans-serif; font-weight:800; font-size:16px; width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-        .term-milestone-point.up .ico{ background:#E4F9EC; color:#1E8449; }
-        .term-milestone-point.down .ico{ background:#FBE4E4; color:#B33B3B; }
+        .term-milestone-point .down-delta{ color:#C0392B; }
+        .term-milestone-point .ico{ font-family:'Sora',sans-serif; font-weight:800; font-size:18px; width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; color:#fff; box-shadow:0 6px 14px -4px rgba(11,14,20,0.4); }
+        .term-milestone-point.up .ico{ background:#3ADB76; box-shadow:0 6px 14px -4px rgba(58,219,118,0.6); }
+        .term-milestone-point.down .ico{ background:#E63946; box-shadow:0 6px 14px -4px rgba(230,57,70,0.6); }
         .term-stats{ padding:48px 0 32px; }
         .term-founder-banner{ background:linear-gradient(120deg,#7E1CF1,#B5308E 55%,#E61A97); border-radius:100px; padding:14px 14px 14px 26px; display:inline-flex; align-items:center; justify-content:center; gap:18px; flex-wrap:nowrap; cursor:pointer; transition:transform 0.35s cubic-bezier(.2,.8,.2,1), box-shadow 0.35s ease; max-width:100%; }
         .term-founder-banner-wrap{ display:flex; justify-content:center; }
