@@ -515,9 +515,15 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-hero-card-back{ position:absolute; z-index:0; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.08); border-radius:18px; width:min(280px,72%); height:200px; transform:rotate(-6deg) translate(-30px,26px); }
         .term-section-cta{ margin-top:32px; text-align:left; }
         .term-section-cta button{ background:none; border:none; font-family:'Sora',sans-serif; font-weight:700; font-size:14px; color:var(--term-ink); border-bottom:2px solid #7E1CF1; padding-bottom:2px; cursor:pointer; }
-        .term-thesis{ padding:8px 0 64px; }
-        .term-thesis-text{ font-family:'Fraunces',serif; font-style:italic; font-weight:500; font-size:clamp(22px,3.4vw,34px); line-height:1.4; text-align:center; max-width:820px; margin:0 auto; color:var(--term-ink); }
+        .term-thesis{ padding:16px 0 72px; }
+        .term-thesis-block{ position:relative; max-width:760px; margin:0 auto 0 8%; padding-left:8px; }
+        @media (max-width:800px){ .term-thesis-block{ margin:0 auto; padding-left:0; } }
+        .term-thesis-mark{ position:absolute; top:-64px; left:-28px; font-family:'Fraunces',serif; font-weight:700; font-size:180px; line-height:1; background:linear-gradient(135deg,#7E1CF1,#E61A97); -webkit-background-clip:text; background-clip:text; color:transparent; opacity:0.16; pointer-events:none; user-select:none; }
+        @media (max-width:800px){ .term-thesis-mark{ font-size:120px; top:-46px; left:-10px; } }
+        .term-thesis-text{ position:relative; font-family:'Fraunces',serif; font-style:italic; font-weight:500; font-size:clamp(22px,3vw,32px); line-height:1.45; text-align:left; color:var(--term-ink); }
         .term-thesis-text .hl{ font-weight:700; font-style:normal; }
+        .term-thesis-attr{ display:flex; align-items:center; gap:14px; margin-top:22px; font-family:'Sora',sans-serif; font-weight:700; font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:var(--term-ink-soft); }
+        .term-thesis-attr .line{ width:36px; height:1px; background:linear-gradient(90deg,#7E1CF1,#E61A97); }
         .term-pillars{ padding:88px 0 72px; }
         .term-pillars-note{ font-size:13px; color:var(--term-ink-soft); margin-bottom:56px; }
         .term-pillars-grid{ display:grid; grid-template-columns:repeat(5,1fr); gap:14px; padding:20px 0 40px; }
@@ -1061,15 +1067,22 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
 
       <section className="term-thesis">
         <div className="term-wrap">
-          <motion.p
-            className="term-thesis-text"
-            initial={{ opacity: 0, y: 24 }}
+          <motion.div
+            className="term-thesis-block"
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.5 }}
-            transition={{ duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
+            transition={{ duration: 0.8, ease: [0.2, 0.8, 0.2, 1] }}
           >
-            {t('La finance a ', 'Finance has ')}<span className="hl">Moody's</span>{t('. La gastronomie a son ', '. Gastronomy has its ')}<span className="hl">{t('Guide Michelin', 'Michelin Guide')}</span>{t(". L'industrie créative méritait le sien — ", '. The creative industry deserved its own — ')}<span className="term-gradient-text">{t('c\'est le Score LYA.', 'this is the LYA Score.')}</span>
-          </motion.p>
+            <span className="term-thesis-mark" aria-hidden="true">"</span>
+            <p className="term-thesis-text">
+              {t('La finance a ', 'Finance has ')}<span className="hl">Moody's</span>{t('. La gastronomie a son ', '. Gastronomy has its ')}<span className="hl">{t('Guide Michelin', 'Michelin Guide')}</span>{t(". L'industrie créative méritait le sien — ", '. The creative industry deserved its own — ')}<span className="term-gradient-text">{t('c\'est le Score LYA.', 'this is the LYA Score.')}</span>
+            </p>
+            <div className="term-thesis-attr">
+              <span className="line" />
+              {t('L\'équipe LYA', 'The LYA team')}
+            </div>
+          </motion.div>
         </div>
       </section>
 
