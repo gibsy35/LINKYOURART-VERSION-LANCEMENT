@@ -151,7 +151,7 @@ export const WatchlistView: React.FC<WatchlistViewProps> = ({
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.05 }}
-                  className="group bg-surface-low/30 backdrop-blur-2xl border border-white/10 overflow-hidden hover:border-accent-gold/50 transition-all hover:shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex flex-col rounded-lg relative"
+                  className="group bg-surface-low/30 backdrop-blur-2xl border border-white/10 overflow-hidden hover:border-accent-gold/50 transition-all hover:shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex flex-col rounded-[20px] relative"
                 >
                   <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-accent-gold/30 to-transparent z-20" />
                   

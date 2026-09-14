@@ -666,7 +666,7 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
   const fundingRaised = contract.totalValue ? Math.round(contract.totalValue * (fundingPct / 100)) : Math.round((contract.totalScore / 1000) * 5000);
 
   return (
-    <div className="bg-surface-low border-2 border-white/10 rounded-lg overflow-hidden flex flex-col hover:border-primary-cyan/40 transition-colors h-full shadow-xl shadow-black/40">
+    <div className="bg-surface-low border-2 border-white/10 rounded-[20px] overflow-hidden flex flex-col hover:border-primary-cyan/40 transition-colors h-full shadow-xl shadow-black/40">
       {/* Image — ratio fixe 16/9, pas d'étirement */}
       <div
         className="relative cursor-pointer overflow-hidden flex-shrink-0 w-full group"

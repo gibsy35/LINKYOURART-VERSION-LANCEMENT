@@ -501,7 +501,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
                   transition: { duration: 0.2 }
                 }}
                 transition={{ type: 'spring', damping: 25, stiffness: 120 }}
-                className="absolute inset-0 bg-surface-high border border-white/10 rounded-lg overflow-hidden shadow-2xl flex flex-col cursor-grab active:cursor-grabbing will-change-transform"
+                className="absolute inset-0 bg-surface-high border border-white/10 rounded-[20px] overflow-hidden shadow-2xl flex flex-col cursor-grab active:cursor-grabbing will-change-transform"
               >
                 {/* Animated Overlays */}
                 <motion.div 
@@ -735,9 +735,9 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               onClick={() => toggleRevealed(contract.id)}
-              className="glass-panel p-6 rounded-lg group relative overflow-hidden flex flex-col h-full cursor-pointer"
+              className="glass-panel p-6 rounded-[20px] group relative overflow-hidden flex flex-col h-full cursor-pointer"
             >
-              <div className="aspect-video rounded-lg overflow-hidden mb-6 relative">
+              <div className="aspect-video rounded-2xl overflow-hidden mb-6 relative">
                 <img src={getSafeImageUrl(contract.image, contract.category)} onError={handleImageError(contract.category)} alt={contract.name} className={`w-full h-full object-cover transition-all duration-700 group-hover:grayscale-0 group-hover:blur-0 group-hover:scale-110 group-hover:opacity-100 ${revealedCards.has(contract.id) ? 'grayscale-0 blur-0 scale-110 opacity-100' : 'grayscale blur-sm scale-105 opacity-60'}`} referrerPolicy="no-referrer" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
                 <div className="absolute bottom-4 left-4">
