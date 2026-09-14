@@ -171,11 +171,14 @@ const HeroSection: React.FC<{ t: (fr: string, en: string) => string; setShowJoin
   const titleOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
   const titleScale = useTransform(scrollYProgress, [0, 1], [1, 0.9]);
 
-  const cardTilts = [7, -4, 10]; // petite rotation differente par exemple, pour un effet "carte que l'on distribue" a chaque changement plutot qu'un simple fondu plat
+  const cardTilts = [7, -4, 10, -7, 5, -9]; // petite rotation differente par exemple, pour un effet "carte que l'on distribue" a chaque changement plutot qu'un simple fondu plat
   const examples = [
     { cat: t('Musique', 'Music'), score: 247, img: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&q=80&w=600' },
     { cat: t('Cinéma', 'Film'), score: 580, img: 'https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&q=80&w=600' },
     { cat: t('Séries TV', 'TV Series'), score: 928, img: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&q=80&w=600' },
+    { cat: t('Mode', 'Fashion'), score: 703, img: 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&q=80&w=600' },
+    { cat: t('Architecture', 'Architecture'), score: 812, img: 'https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&q=80&w=600' },
+    { cat: t('Gaming', 'Gaming'), score: 356, img: 'https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?auto=format&fit=crop&q=80&w=600' },
   ];
   const [exIdx, setExIdx] = React.useState(0);
   const current = examples[exIdx];
