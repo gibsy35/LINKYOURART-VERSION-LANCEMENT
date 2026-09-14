@@ -1128,10 +1128,16 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
                   </div>
                   <div className="term-reg-seal"><Shield strokeWidth={2.5} /></div>
                   <div className="term-reg-center-score">
-                    <div className="plate">
-                      <span className="num">{ex.score}</span>
+                    <motion.div
+                      className="plate"
+                      initial={{ opacity: 0, scale: 0.3 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: true, amount: 0.5 }}
+                      transition={{ type: 'spring', stiffness: 180, damping: 14, delay: i * 0.14 + 0.25 }}
+                    >
+                      <span className="num"><CountUp to={ex.score} duration={1200} /></span>
                       <span className="lbl">SCORE LYA / 1000</span>
-                    </div>
+                    </motion.div>
                   </div>
                 </div>
                 <div className="term-reg-body">
