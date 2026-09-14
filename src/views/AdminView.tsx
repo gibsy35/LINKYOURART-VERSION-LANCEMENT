@@ -39,6 +39,7 @@ import { useCurrency } from '../context/CurrencyContext';
 import { CONTRACTS, Contract, UserRole, UserProfile } from '../types';
 import { db, handleFirestoreError, OperationType } from '../firebase';
 import { collection, query, onSnapshot, doc, updateDoc, getDocs, limit, orderBy, deleteDoc, addDoc, setDoc, writeBatch, serverTimestamp, where } from 'firebase/firestore';
+import { generateAccessKey } from '../utils/preRegistration';
 
 export const AdminView: React.FC<{
   user: UserProfile | null;
@@ -480,28 +481,32 @@ export const AdminView: React.FC<{
     // Feedback immédiat
     onNotify(t(`Processing approval for ${name}...`, `Approbation de ${name} en cours...`));
 
-    const token = `lya-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+    // On emet une vraie cle d'acces (meme systeme access_keys que la
+    // pre-inscription automatique et que l'ecran de validation) au lieu de
+    // l'ancien "access_tokens" qui n'etait jamais inclus dans le lien ni
+    // verifie nulle part (code mort — source du "ca marche 1 fois sur 10").
+    const accessKey = generateAccessKey();
     const expiresAt = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(); // 1 an
     const baseUrl = 'https://linkyourart.com';
 
-    // ÉTAPE 1 — Créer le token (non-bloquant si Firestore refuse)
     try {
-      await setDoc(doc(db, 'access_tokens', token), {
-        token, email, name,
+      await addDoc(collection(db, 'access_keys'), {
+        key: accessKey, email, name,
         preRegId: reg.id || '',
-        expiresAt, used: false,
+        tier: 'ADMIN_APPROVED',
+        status: 'ACTIVE',
+        expiresAt,
         createdAt: serverTimestamp(),
       });
     } catch(e: any) {
-      // Log but continue — token is in the URL anyway
-      console.warn('Token write failed (continuing):', e?.code, e?.message);
+      console.warn('Access key write failed (continuing):', e?.code, e?.message);
     }
 
     // ÉTAPE 2 — Marquer approuvé (non-bloquant)
     if (reg.id && !String(reg.id).startsWith('local_')) {
       try {
         await updateDoc(doc(db, 'pre_registrations', reg.id), {
-          status: 'APPROVED', approvedAt: serverTimestamp(), accessToken: token,
+          status: 'APPROVED', approvedAt: serverTimestamp(), accessKey,
         });
       } catch(e: any) {
         console.warn('Status update failed:', e?.code, e?.message);
@@ -511,7 +516,7 @@ export const AdminView: React.FC<{
     // ÉTAPE 3 — Envoyer email d'approbation LYA
     try {
       const lang = reg.lang || reg.language || 'FR';
-      const signupLink = `${baseUrl}?signup=1&email=${encodeURIComponent(email)}`;
+      const signupLink = `${baseUrl}?signup=1&email=${encodeURIComponent(email)}&code=${encodeURIComponent(accessKey)}`;
       const resp = await fetch('/api/email/pre-registration', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -538,8 +543,8 @@ export const AdminView: React.FC<{
     // SUCCÈS — toujours marquer comme approuvé localement
     setPreRegistrations(prev => prev.map(p => p.id === reg.id ? { ...p, status: 'APPROVED' } : p));
     onNotify(t(
-      `✦ ${name} approved — access link: ${baseUrl}?access=${token}`,
-      `✦ ${name} approuvé — lien: ${baseUrl}?access=${token}`
+      `✦ ${name} approved — access code: ${accessKey}`,
+      `✦ ${name} approuvé — code d'accès: ${accessKey}`
     ));
   };
 
