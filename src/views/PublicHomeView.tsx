@@ -566,21 +566,23 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-values-grid h4{ font-family:'Fraunces',serif; font-size:16px; font-weight:600; margin-bottom:6px; position:relative; z-index:1; }
         .term-values-grid p{ font-size:13px; color:var(--term-ink-soft); line-height:1.55; position:relative; z-index:1; }
         .term-examples{ padding:0 0 56px; }
-        .term-examples-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+        .term-examples-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
         @media (max-width:800px){ .term-examples-grid{ grid-template-columns:1fr; } }
-        .term-example-card{ background:var(--term-grey); border-radius:8px; padding:18px 20px; }
-        .term-example-top{ display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
-        .term-example-top .cat{ font-family:'Sora',sans-serif; font-weight:700; font-size:11px; letter-spacing:0.04em; text-transform:uppercase; color:var(--term-ink-soft); }
-        .term-example-top .status{ font-size:10px; font-weight:700; padding:3px 9px; border-radius:100px; text-transform:uppercase; letter-spacing:0.02em; }
-        .term-example-top .status.certified{ background:#E4F9EC; color:#1E8449; }
-        .term-example-top .status.review{ background:#FBF3D9; color:#8A6D1D; }
-        .term-example-top .status.audit{ background:#FBE4E4; color:#B33B3B; }
-        .term-example-card .id{ font-family:'Sora',sans-serif; font-weight:800; font-size:15px; margin-bottom:12px; }
-        .term-example-card .score-row{ display:flex; align-items:center; gap:10px; }
-        .term-example-card .bar{ flex:1; height:6px; background:var(--term-line); border-radius:100px; overflow:hidden; }
+        .term-example-card{ background:var(--term-ink); border-radius:12px; padding:26px 22px 22px; color:#fff; position:relative; text-align:center; overflow:hidden; box-shadow:0 20px 46px -22px rgba(11,14,20,0.5); }
+        .term-example-card::before{ content:''; position:absolute; inset:0; border-radius:12px; padding:1px; background:linear-gradient(155deg,rgba(240,197,94,0.7),rgba(255,255,255,0.06) 30%,rgba(255,255,255,0.06) 70%,rgba(126,28,241,0.5)); -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite:xor; mask-composite:exclude; pointer-events:none; }
+        .term-example-top{ display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; position:relative; z-index:1; }
+        .term-example-top .cat{ font-family:'Sora',sans-serif; font-weight:700; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:rgba(255,255,255,0.5); }
+        .term-example-top .status{ font-size:9px; font-weight:700; padding:3px 9px; border-radius:100px; text-transform:uppercase; letter-spacing:0.02em; }
+        .term-example-top .status.certified{ background:rgba(58,219,118,0.15); color:#3ADB76; }
+        .term-example-top .status.review{ background:rgba(240,197,94,0.15); color:#F0C55E; }
+        .term-example-top .status.audit{ background:rgba(230,106,106,0.15); color:#E86A6A; }
+        .term-example-card .id{ font-family:'Sora',sans-serif; font-weight:700; font-size:11px; color:rgba(255,255,255,0.35); margin-bottom:14px; position:relative; z-index:1; letter-spacing:0.04em; }
+        .term-example-card .center-score{ position:relative; z-index:1; margin-bottom:16px; }
+        .term-example-card .center-score .num{ font-family:'Fraunces',serif; font-weight:700; font-size:46px; line-height:1; background:linear-gradient(90deg,#F0C55E,#E61A97,#7E1CF1); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+        .term-example-card .center-score .max{ font-family:'Sora',sans-serif; font-weight:700; font-size:11px; color:rgba(255,255,255,0.35); letter-spacing:0.05em; }
+        .term-example-card .score-row{ display:flex; align-items:center; position:relative; z-index:1; }
+        .term-example-card .bar{ flex:1; height:4px; background:rgba(255,255,255,0.1); border-radius:100px; overflow:hidden; }
         .term-example-card .bar .fill{ height:100%; border-radius:100px; }
-        .term-example-card .val{ font-family:'Sora',sans-serif; font-weight:800; font-size:14px; white-space:nowrap; }
-        .term-example-card .val .max{ font-size:10px; font-weight:500; color:var(--term-ink-soft); }
         .term-score-hero{ padding:8px 0 56px; }
         .term-score-hero-inner{ background:var(--term-ink); border-radius:10px; padding:48px 44px; display:flex; align-items:center; gap:48px; flex-wrap:wrap; }
         .term-score-hero-num{ display:flex; align-items:baseline; flex-shrink:0; }
@@ -1092,18 +1094,28 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       <section className="term-examples">
         <div className="term-wrap">
           <div className="term-examples-grid">
-            {scoreExamples.map((ex) => (
-              <div key={ex.id} className="term-example-card term-reveal">
+            {scoreExamples.map((ex, i) => (
+              <motion.div
+                key={ex.id}
+                className="term-example-card"
+                initial={{ opacity: 0, y: 50, rotate: i === 0 ? -6 : i === 2 ? 6 : 0, scale: 0.88 }}
+                whileInView={{ opacity: 1, y: 0, rotate: 0, scale: 1 }}
+                viewport={{ once: true, amount: 0.4 }}
+                transition={{ type: 'spring', stiffness: 190, damping: 20, delay: i * 0.14 }}
+                whileHover={{ y: -6 }}
+              >
                 <div className="term-example-top">
                   <span className="cat">{t(ex.category.fr, ex.category.en)}</span>
                   <span className={`status ${ex.statusColor}`}>{t(ex.status.fr, ex.status.en)}</span>
                 </div>
                 <div className="id">{ex.id}</div>
+                <div className="center-score">
+                  <span className="num">{ex.score}</span> <span className="max">/1000</span>
+                </div>
                 <div className="score-row">
                   <div className="bar"><div className="fill" style={{ width: `${ex.score / 10}%`, background: ex.barColor }} /></div>
-                  <span className="val">{ex.score}<span className="max">/1000</span></span>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -1375,10 +1387,6 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
                     <span className="term-reg-tag status">CERTIFIED</span>
                   </div>
                   <div className="term-reg-seal"><Shield strokeWidth={2.5} /></div>
-                  <div className="term-reg-center-score">
-                    <span className="num">{r.score}</span>
-                    <span className="lbl">{t('SCORE LYA', 'LYA SCORE')}</span>
-                  </div>
                 </div>
                 <div className="term-reg-body">
                   <div className="term-reg-title">{r.title}</div>
