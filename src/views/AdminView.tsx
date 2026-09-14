@@ -1397,7 +1397,7 @@ export const AdminView: React.FC<{
         category="SYSTEM"
         titleWhite={<span style={{ textTransform: 'uppercase' }}>HUB</span>} 
         titleAccent="ADMIN" 
-        description="PLATFORM OVERSIGHT AND MANAGEMENT" 
+        description={t('PLATFORM OVERSIGHT AND MANAGEMENT', 'SUPERVISION ET GESTION DE LA PLATEFORME')} 
         accentColor="text-accent-gold" 
       />
 
