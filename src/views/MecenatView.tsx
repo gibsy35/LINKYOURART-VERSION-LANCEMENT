@@ -20,14 +20,14 @@ import type { Contract } from "../types";
 // avec la Home publique) — garde le dynamisme visuel sur l'ecran d'accueil
 // reel de l'outil, qui est desormais Patronage.
 const HERO_IMAGES = [
-  'https://images.unsplash.com/photo-1515405295579-ba7b45403062?auto=format&fit=crop&q=80&w=1600',
-  'https://images.unsplash.com/photo-1760868718218-ff73db4518fd?auto=format&fit=crop&q=80&w=1600',
-  'https://images.unsplash.com/photo-1755085381840-572a27fb0735?auto=format&fit=crop&q=80&w=1600',
-  'https://images.unsplash.com/photo-1554882195-8cf792f9a571?auto=format&fit=crop&q=80&w=1600',
-  'https://images.unsplash.com/photo-1774893582522-c8e9c0aeaec9?auto=format&fit=crop&q=80&w=1600',
-  'https://images.unsplash.com/photo-1760966362386-e1012dbc3657?auto=format&fit=crop&q=80&w=1600',
-  'https://images.unsplash.com/photo-1757495022684-176ae0391ad8?auto=format&fit=crop&q=80&w=1600',
-  'https://images.unsplash.com/photo-1744035783523-203d2bfc75d0?auto=format&fit=crop&q=80&w=1600',
+  'https://images.unsplash.com/photo-1515405295579-ba7b45403062?auto=format&fit=crop&q=70&w=900',
+  'https://images.unsplash.com/photo-1760868718218-ff73db4518fd?auto=format&fit=crop&q=70&w=900',
+  'https://images.unsplash.com/photo-1755085381840-572a27fb0735?auto=format&fit=crop&q=70&w=900',
+  'https://images.unsplash.com/photo-1554882195-8cf792f9a571?auto=format&fit=crop&q=70&w=900',
+  'https://images.unsplash.com/photo-1774893582522-c8e9c0aeaec9?auto=format&fit=crop&q=70&w=900',
+  'https://images.unsplash.com/photo-1760966362386-e1012dbc3657?auto=format&fit=crop&q=70&w=900',
+  'https://images.unsplash.com/photo-1757495022684-176ae0391ad8?auto=format&fit=crop&q=70&w=900',
+  'https://images.unsplash.com/photo-1744035783523-203d2bfc75d0?auto=format&fit=crop&q=70&w=900',
 ];
 
 // ─── COMPOSANT PRINCIPAL ──────────────────────────────────────────────────────
@@ -60,8 +60,19 @@ export function MecenatView({ isGuest, onRequireAuth }: { isGuest?: boolean; onR
   const [activeImageBatch, setActiveImageBatch] = useState<string[]>([]);
   useEffect(() => {
     const getRandomBatch = () => [...HERO_IMAGES].sort(() => 0.5 - Math.random()).slice(0, 2);
-    setActiveImageBatch(getRandomBatch());
-    const interval = setInterval(() => setActiveImageBatch(getRandomBatch()), 7000);
+    // Precharge et decode le prochain lot AVANT le changement visuel, pour
+    // eviter le saccadement (decode d'image 1600px en plein milieu de
+    // l'animation de fondu, toutes les 7s) que Gibsy a repere.
+    const preload = (urls: string[]) => urls.forEach(u => { const img = new window.Image(); img.decoding = 'async'; img.src = u; });
+    const initial = getRandomBatch();
+    setActiveImageBatch(initial);
+    let next = getRandomBatch();
+    preload(next);
+    const interval = setInterval(() => {
+      setActiveImageBatch(next);
+      next = getRandomBatch();
+      preload(next);
+    }, 7000);
     return () => clearInterval(interval);
   }, []);
 
@@ -117,7 +128,7 @@ export function MecenatView({ isGuest, onRequireAuth }: { isGuest?: boolean; onR
                   className="absolute inset-0"
                   style={{ filter: 'blur(2px) grayscale(0.3)' }}
                 >
-                  <img src={img} alt="" className="w-full h-full object-cover" />
+                  <img src={img} alt="" className="w-full h-full object-cover" decoding="async" loading="eager" />
                 </motion.div>
               ))}
             </AnimatePresence>
