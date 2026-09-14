@@ -173,9 +173,9 @@ const HeroSection: React.FC<{ t: (fr: string, en: string) => string; setShowJoin
 
   const cardTilts = [7, -4, 10]; // petite rotation differente par exemple, pour un effet "carte que l'on distribue" a chaque changement plutot qu'un simple fondu plat
   const examples = [
-    { cat: t('Musique', 'Music'), score: 247 },
-    { cat: t('Cinéma', 'Film'), score: 580 },
-    { cat: t('Séries TV', 'TV Series'), score: 928 },
+    { cat: t('Musique', 'Music'), score: 247, img: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&q=80&w=600' },
+    { cat: t('Cinéma', 'Film'), score: 580, img: 'https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&q=80&w=600' },
+    { cat: t('Séries TV', 'TV Series'), score: 928, img: 'https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?auto=format&fit=crop&q=80&w=600' },
   ];
   const [exIdx, setExIdx] = React.useState(0);
   const current = examples[exIdx];
@@ -246,6 +246,7 @@ const HeroSection: React.FC<{ t: (fr: string, en: string) => string; setShowJoin
             animate={{ rotate: cardTilts[exIdx % cardTilts.length] }}
             transition={{ type: 'spring', stiffness: 200, damping: 14 }}
             whileTap={{ scale: 0.97 }}
+            style={{ backgroundImage: `linear-gradient(165deg, rgba(20,22,32,0.55) 0%, rgba(11,14,20,0.88) 75%), url(${current.img})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
           >
             <div className="seal"><Shield strokeWidth={2.5} /></div>
             <AnimatePresence mode="wait">
@@ -483,7 +484,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
           background:linear-gradient(135deg,#7E1CF1 0%,#E61A97 50%,#02C6FA 100%);
           opacity:0.22; filter:blur(2px);
         }
-        .term-hero-card{ position:relative; z-index:1; background:rgba(20,22,32,0.75); backdrop-filter:blur(16px); border-radius:18px;
+        .term-hero-card{ position:relative; z-index:1; border-radius:18px; overflow:hidden;
           padding:28px 30px; width:min(320px,80%); height:236px; display:flex; flex-direction:column; justify-content:flex-start;
           box-shadow:0 30px 70px -20px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.03);
           font-family:'Fraunces',serif; cursor:pointer; user-select:none;
@@ -505,7 +506,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-hero-card .score{ font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:0.08em; color:#B9B7C7; margin-bottom:14px; font-family:'Sora',sans-serif; display:flex; align-items:flex-start; justify-content:space-between; gap:10px; min-height:28px; padding-right:34px; }
         .term-hero-card .score .cat-line{ flex:1; line-height:1.4; }
         .term-hero-card .score .tap-hint{ font-size:9px; font-weight:700; letter-spacing:0.03em; color:#7E1CF1; text-transform:none; white-space:nowrap; flex-shrink:0; }
-        .term-hero-card .num{ font-family:'Sora',sans-serif; font-weight:800; font-size:34px; font-variant-numeric:tabular-nums; background:linear-gradient(90deg,#F0C55E,#E61A97,#7E1CF1); -webkit-background-clip:text; background-clip:text; color:transparent; }
+        .term-hero-card .num{ font-family:'Sora',sans-serif; font-weight:800; font-size:34px; font-variant-numeric:tabular-nums; color:#fff; }
         .term-hero-card .max{ font-family:'Sora',sans-serif; font-weight:600; font-size:14px; color:#8A87A8; }
         .term-hero-card p{ font-family:'Inter',sans-serif; text-align:left; font-size:12.5px; line-height:1.5; color:#B9B7C7; margin-top:14px; }
         .term-hero-card-back{ position:absolute; z-index:0; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.08); border-radius:18px; width:min(280px,72%); height:200px; transform:rotate(-6deg) translate(-30px,26px); }
