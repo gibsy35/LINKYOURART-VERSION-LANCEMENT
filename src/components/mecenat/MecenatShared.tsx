@@ -652,6 +652,7 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
   // Le survol (:hover) ne se déclenche pas de façon fiable au tactile.
   // La carte navigue déjà au clic — premier tap révèle, second ouvre.
   const [revealed, setRevealed] = useState(false);
+  const [expanded, setExpanded] = useState(false);
   const T = (fr: string, en: string) => lang === "FR" ? fr : en;
 
   const unitPrice = getUnitPrice(contract);
@@ -786,51 +787,65 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
         </div>
       </div>
 
-      {/* Slider + métriques */}
+      {/* Slider + métriques — replié par defaut pour alleger la fiche, le
+          Score LYA et le financement restent toujours visibles au-dessus */}
       <div className="px-4 py-3 space-y-2.5 flex-1 flex flex-col">
-        <div className="flex justify-between items-center">
-          <span className="text-on-surface text-[10px] font-mono font-bold tracking-wider">
-            {T("MONTANT DE VOTRE SOUTIEN", "YOUR SUPPORT AMOUNT")}
-          </span>
-          <span style={{
-            background: "linear-gradient(135deg, rgba(0,212,255,0.2) 0%, rgba(99,102,241,0.2) 100%)",
-            boxShadow: "0 0 8px rgba(0,212,255,0.25)",
-            border: "1px solid rgba(0,212,255,0.4)",
-          }} className="text-primary-cyan text-[10px] px-3.5 py-1 rounded-md font-mono font-black shrink-0">
-            {units} {T("Soutiens", "Supports")}
-          </span>
-        </div>
-        <input
-          type="range" min={1} max={500} value={units}
-          onChange={e => setUnits(Number(e.target.value))}
-          className="w-full h-1 bg-surface-high rounded-full appearance-none cursor-pointer accent-primary-cyan"
-        />
-        <div className="flex justify-between text-[10px] text-on-surface-variant/40 font-mono">
-          <span>{T("MINIMUM", "MIN")}</span><span>{T("MOYEN", "MID")}</span><span>{T("MAXIMUM", "MAX")}</span>
-        </div>
+        <button
+          type="button"
+          onClick={(e) => { e.stopPropagation(); setExpanded(v => !v); }}
+          className="flex items-center justify-center gap-1.5 text-[10px] font-mono font-bold tracking-widest text-primary-cyan hover:text-white transition-colors py-1.5 border border-white/10 hover:border-primary-cyan/50 rounded-lg"
+        >
+          {expanded ? T("MASQUER LES DÉTAILS", "HIDE DETAILS") : T("VOIR LES DÉTAILS DE SOUTIEN", "VIEW SUPPORT DETAILS")}
+          <span className={`transition-transform ${expanded ? 'rotate-180' : ''}`}>▾</span>
+        </button>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-          <div className="bg-surface-high border border-white/10 rounded-lg p-3">
-            <p className="text-on-surface-variant/50 text-xs font-mono tracking-widest mb-1.5">{T("VOTRE ENGAGEMENT", "YOUR PLEDGE")}</p>
-            <p className="text-on-surface font-bold font-mono text-base">{formatPrice(totalCost)}</p>
-          </div>
-          <div className="bg-surface-high border border-white/10 rounded-lg p-3">
-            <p className="text-on-surface-variant/50 text-xs font-mono tracking-widest mb-1.5">{T("NIVEAU DE RECONNAISSANCE", "RECOGNITION LEVEL")} <span className="opacity-50">ⓘ</span></p>
-            <p className="text-[#00ff88] font-bold font-mono text-base">{T(statut.labelFR, statut.labelEN)}</p>
-          </div>
-        </div>
+        {expanded && (
+          <>
+            <div className="flex justify-between items-center">
+              <span className="text-on-surface text-[10px] font-mono font-bold tracking-wider">
+                {T("MONTANT DE VOTRE SOUTIEN", "YOUR SUPPORT AMOUNT")}
+              </span>
+              <span style={{
+                background: "linear-gradient(135deg, rgba(0,212,255,0.2) 0%, rgba(99,102,241,0.2) 100%)",
+                boxShadow: "0 0 8px rgba(0,212,255,0.25)",
+                border: "1px solid rgba(0,212,255,0.4)",
+              }} className="text-primary-cyan text-[10px] px-3.5 py-1 rounded-md font-mono font-black shrink-0">
+                {units} {T("Soutiens", "Supports")}
+              </span>
+            </div>
+            <input
+              type="range" min={1} max={500} value={units}
+              onChange={e => setUnits(Number(e.target.value))}
+              className="w-full h-1 bg-surface-high rounded-full appearance-none cursor-pointer accent-primary-cyan"
+            />
+            <div className="flex justify-between text-[10px] text-on-surface-variant/40 font-mono">
+              <span>{T("MINIMUM", "MIN")}</span><span>{T("MOYEN", "MID")}</span><span>{T("MAXIMUM", "MAX")}</span>
+            </div>
 
-        {/* Statut de reconnaissance mécène */}
-        <div className={`border rounded-lg p-3 ${statut.border} ${statut.bg}`}>
-          <p className={`text-[10px] font-mono font-bold mb-1.5 tracking-wider ${statut.color}`}>
-            {T(statut.labelFR, statut.labelEN)}
-          </p>
-          <p className="text-on-surface-variant text-[10px] leading-relaxed">
-            {T(statut.descFR, statut.descEN)} {T(statut.bonusFR, statut.bonusEN)}
-          </p>
-        </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              <div className="bg-surface-high border border-white/10 rounded-lg p-3">
+                <p className="text-on-surface-variant/50 text-xs font-mono tracking-widest mb-1.5">{T("VOTRE ENGAGEMENT", "YOUR PLEDGE")}</p>
+                <p className="text-on-surface font-bold font-mono text-base">{formatPrice(totalCost)}</p>
+              </div>
+              <div className="bg-surface-high border border-white/10 rounded-lg p-3">
+                <p className="text-on-surface-variant/50 text-xs font-mono tracking-widest mb-1.5">{T("NIVEAU DE RECONNAISSANCE", "RECOGNITION LEVEL")} <span className="opacity-50">ⓘ</span></p>
+                <p className="text-[#00ff88] font-bold font-mono text-base">{T(statut.labelFR, statut.labelEN)}</p>
+              </div>
+            </div>
 
-        {/* Boutons action — distincts : Voir le Projet -> détail / Soutenir -> paiement direct */}
+            {/* Statut de reconnaissance mécène */}
+            <div className={`border rounded-lg p-3 ${statut.border} ${statut.bg}`}>
+              <p className={`text-[10px] font-mono font-bold mb-1.5 tracking-wider ${statut.color}`}>
+                {T(statut.labelFR, statut.labelEN)}
+              </p>
+              <p className="text-on-surface-variant text-[10px] leading-relaxed">
+                {T(statut.descFR, statut.descEN)} {T(statut.bonusFR, statut.bonusEN)}
+              </p>
+            </div>
+          </>
+        )}
+
+        {/* Boutons action — toujours visibles, meme fiche repliee */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-auto pt-1">
           <button
             onClick={() => onViewProject(contract, units)}
