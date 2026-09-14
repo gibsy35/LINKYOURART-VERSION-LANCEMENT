@@ -55,16 +55,19 @@
   }
 
   html {
-    /* Sur iOS Safari, overflow-x:hidden sur body seul ne suffit pas toujours
-       a empecher le scroll/rebond horizontal (bande noire sur le cote,
-       ecran qui "se balade") — il faut aussi le fixer sur la racine html. */
-    overflow-x: hidden;
+    /* overflow-x:hidden bloquait bien le rebond horizontal sur mobile, mais
+       cassait aussi position:sticky pour tout element sticky de la page
+       (regle CSS peu connue : un ancetre avec overflow non-visible change
+       le mecanisme de calcul du sticky). overflow-x:clip empeche le meme
+       debordement visuel SANS creer ce conflit avec sticky. */
+    overflow-x: clip;
     width: 100%;
   }
 
   body {
     background-color: #0a0d12; /* Critical hardcoded fallback */
-    @apply bg-surface-dim text-on-surface font-body overflow-x-hidden selection:bg-primary-cyan/30 selection:text-primary-cyan;
+    @apply bg-surface-dim text-on-surface font-body selection:bg-primary-cyan/30 selection:text-primary-cyan;
+    overflow-x: clip;
     width: 100%;
     background-image: 
       radial-gradient(circle at 10% 10%, rgba(0, 224, 255, 0.05) 0%, transparent 40%),
