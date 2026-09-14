@@ -75,7 +75,14 @@ export const PendingApprovalView: React.FC<PendingApprovalViewProps> = ({ user, 
       }, 1500);
     } catch (err: any) {
       console.warn(err);
-      setKeyError(t('Database query limits reached. Try again later.', 'Limites de requêtes atteintes. Réessayez plus tard.'));
+      const code = err?.code || '';
+      if (code === 'permission-denied') {
+        setKeyError(t("Access temporarily unavailable. Please try again in a moment, or contact us if this persists.", "Accès momentanément indisponible. Réessayez dans un instant, ou contactez-nous si le problème persiste."));
+      } else if (code === 'unavailable' || code === 'resource-exhausted') {
+        setKeyError(t('Connection issue. Please try again in a moment.', 'Problème de connexion. Réessayez dans un instant.'));
+      } else {
+        setKeyError(t('Something went wrong. Please try again.', "Une erreur s'est produite. Réessayez."));
+      }
       setIsValidating(false);
     }
   };
@@ -119,36 +126,36 @@ export const PendingApprovalView: React.FC<PendingApprovalViewProps> = ({ user, 
                 <Logo size={42} color="multi" showBeta={true} />
                 <div className="flex flex-col">
                   <span className="font-headline font-black text-lg tracking-tight uppercase">LINKYOURART</span>
-                  <span className="text-[7px] font-bold text-primary-cyan tracking-[0.4em] uppercase">TALENT HUB PREVIEW</span>
+                  <span className="text-[7px] font-bold text-primary-cyan tracking-[0.4em] uppercase">{t('CREATIVE CERTIFICATION', 'CERTIFICATION CRÉATIVE')}</span>
                 </div>
               </div>
 
               <div className="space-y-3">
                 <div className="inline-flex items-center gap-2 px-3 py-1 bg-violet-500/10 border border-violet-500/20 text-violet-500 text-[10px] font-black uppercase tracking-[0.2em] rounded-full">
                   <Clock size={10} className="animate-pulse" />
-                  {t('MEMBER REVIEW PENDING', 'DÉMARCHE DE CO-OPTATION EN COURS')}
+                  {t('ACCOUNT UNDER REVIEW', 'COMPTE EN COURS DE VALIDATION')}
                 </div>
                 <h2 className="text-3xl md:text-4xl font-headline font-black uppercase tracking-tighter leading-none italic text-white">
-                  {t('PREVIEW SPACE', 'ESPACE DE DÉMONSTRATION')} <br />
-                  <span className="text-primary-cyan">{t('INVITATION MANDATORY', 'INVITATION SÉLECTIONNÉE')}</span>
+                  {t('ALMOST THERE', 'PRESQUE PRÊT')} <br />
+                  <span className="text-primary-cyan">{t('ONE STEP LEFT', 'PLUS QU\'UNE ÉTAPE')}</span>
                 </h2>
                 <p className="text-white/50 text-[10px] uppercase tracking-widest font-bold leading-relaxed pt-2 leading-relaxed text-justify">
                   {t(
-                    'The LinkYourArt certification platform is a space reserved for creators, patrons and creative industry professionals. Your pre-registration has been successfully submitted — our team will review your profile shortly.',
-                    'La plateforme de certification LinkYourArt est un espace réservé aux créateurs, mécènes et professionnels des industries créatives. Votre pré-inscription a été enregistrée avec succès — notre équipe examinera votre profil prochainement.'
+                    'The LinkYourArt certification platform is a space reserved for creators, patrons and creative industry professionals. Your account has been created — our team will review your profile shortly.',
+                    'La plateforme de certification LinkYourArt est un espace réservé aux créateurs, mécènes et professionnels des industries créatives. Votre compte a été créé — notre équipe examinera votre profil prochainement.'
                   )}
                 </p>
               </div>
 
               {/* Profile Details */}
               <div className="p-4 bg-white/[0.02] border border-white/5 rounded-lg space-y-1">
-                <div className="text-[7px] font-black text-white/30 uppercase tracking-[0.3em]">{t('ASSIGNED PROFESSIONAL PROFILE', 'PROFIL DE PRÉ-INSCRIPTION')}</div>
+                <div className="text-[7px] font-black text-white/30 uppercase tracking-[0.3em]">{t('YOUR PROFILE', 'VOTRE PROFIL')}</div>
                 <div className="text-xs font-black text-white uppercase tracking-widest flex items-center gap-2">
                   <Award size={12} className="text-primary-cyan" />
                   {getRoleLabel(user.role)}
                 </div>
                 <div className="text-[10px] text-white/40 uppercase tracking-widest font-medium pt-1">
-                  ID: <span className="font-mono text-primary-cyan">{user.uid.slice(0, 12)}...</span> • {user.email}
+                  {user.email}
                 </div>
               </div>
             </div>
@@ -160,7 +167,7 @@ export const PendingApprovalView: React.FC<PendingApprovalViewProps> = ({ user, 
                 className="inline-flex items-center gap-2 text-xs font-black text-white/40 uppercase tracking-widest hover:text-white transition-all group"
               >
                 <LogOut size={12} className="group-hover:-translate-x-1 transition-transform" />
-                {t('LEAVE PREVIEW HUB', 'QUITTER LE HUB DE DÉMONSTRATION')}
+                {t('LOG OUT', 'SE DÉCONNECTER')}
               </button>
             </div>
           </div>
@@ -169,15 +176,15 @@ export const PendingApprovalView: React.FC<PendingApprovalViewProps> = ({ user, 
           <div className="lg:col-span-5 p-8 md:p-12 bg-white/[0.01] flex flex-col justify-between space-y-8">
             {/* Timeline Progress */}
             <div className="space-y-6">
-              <h3 className="text-xs font-black text-white/40 tracking-[0.4em] uppercase">{t('ADMISSION TIMELINE', 'INSCRIPTION ET SÉLECTION')}</h3>
+              <h3 className="text-xs font-black text-white/40 tracking-[0.4em] uppercase">{t('WHAT HAPPENS NEXT', 'PROCHAINES ÉTAPES')}</h3>
               
               <div className="space-y-6 relative pl-3 border-l border-white/5">
                 {/* Step 1 */}
                 <div className="relative">
                   <div className="absolute -left-[19px] top-0 w-3 h-3 rounded-full bg-emerald-500 border-2 border-black flex items-center justify-center" />
                   <div className="space-y-0.5">
-                    <div className="text-xs font-black text-emerald-400 uppercase tracking-wider">{t('STEP 1: PROFILE APPLICATON', '1. DEMANDE DE CO-OPTATION')}</div>
-                    <p className="text-[10px] text-white/50 lowercase italic leading-none">{t('profile request submitted', 'demande soumise et enregistrée')}</p>
+                    <div className="text-xs font-black text-emerald-400 uppercase tracking-wider">{t('STEP 1: ACCOUNT CREATED', '1. COMPTE CRÉÉ')}</div>
+                    <p className="text-[10px] text-white/50 lowercase italic leading-none">{t('your information has been received', 'vos informations ont bien été reçues')}</p>
                   </div>
                 </div>
 
@@ -185,8 +192,8 @@ export const PendingApprovalView: React.FC<PendingApprovalViewProps> = ({ user, 
                 <div className="relative">
                   <div className="absolute -left-[19px] top-0 w-3 h-3 rounded-full bg-violet-500 border-2 border-black flex items-center justify-center animate-pulse" />
                   <div className="space-y-0.5">
-                    <div className="text-xs font-black text-violet-500 uppercase tracking-wider">{t('STEP 2: COMMITEE OVERVIEW', '2. REVUE DU PORTFOLIO')}</div>
-                    <p className="text-[10px] text-white/50 lowercase italic leading-none">{t('validation of creative or professional alignment', 'relecture de l\'alignement professionnel sous 24h')}</p>
+                    <div className="text-xs font-black text-violet-500 uppercase tracking-wider">{t('STEP 2: TEAM REVIEW', '2. VALIDATION PAR L\'ÉQUIPE')}</div>
+                    <p className="text-[10px] text-white/50 lowercase italic leading-none">{t('usually within 24 hours', 'généralement sous 24h')}</p>
                   </div>
                 </div>
 
@@ -194,32 +201,32 @@ export const PendingApprovalView: React.FC<PendingApprovalViewProps> = ({ user, 
                 <div className="relative opacity-40">
                   <div className="absolute -left-[19px] top-0 w-3 h-3 rounded-full bg-white/20 border-2 border-black flex items-center justify-center" />
                   <div className="space-y-0.5">
-                    <div className="text-xs font-black text-white uppercase tracking-wider">{t('STEP 3: ACCESS PROVISIONED', '3. ACTIVATION ET ACCÈS PLÉNIER')}</div>
-                    <p className="text-[10px] text-white/50 lowercase italic leading-none">{t('final onboarding to the representation hub', 'intégration définitive au réseau de talent')}</p>
+                    <div className="text-xs font-black text-white uppercase tracking-wider">{t('STEP 3: FULL ACCESS', '3. ACCÈS COMPLET')}</div>
+                    <p className="text-[10px] text-white/50 lowercase italic leading-none">{t('welcome to LYA', 'bienvenue sur LYA')}</p>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* ACCESS KEY ENTRY BOX - ENHANCED VISIBILITY */}
-            <div className="p-8 bg-[#150a12]/90 border-2 border-[#FF007F] rounded-[2rem] space-y-5 relative overflow-hidden animate-pulse hover:animate-none transition-all duration-300">
+            <div className="p-8 bg-[#150a12]/90 border-2 border-[#FF007F] rounded-[2rem] space-y-5 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-40 h-40 bg-[#FF007F]/10 blur-3xl rounded-full pointer-events-none" />
               <div className="absolute -bottom-8 -left-8 w-24 h-24 bg-primary-cyan/10 blur-2xl rounded-full pointer-events-none" />
               
               <div className="space-y-2.5 relative z-10">
                 <div className="flex items-center gap-2.5">
-                  <div className="w-2.5 h-2.5 rounded-full bg-[#FF007F] animate-ping" />
-                  <span className="text-[10px] font-black text-[#FF007F] uppercase tracking-[0.25em] drop-">
-                    {t('SECURED ACCESS KEY GATEWAY', 'SAISIE SÉCURISÉE DE LA CLÉ D\'ACCÈS')}
+                  <div className="w-2.5 h-2.5 rounded-full bg-[#FF007F]" />
+                  <span className="text-[10px] font-black text-[#FF007F] uppercase tracking-[0.25em]">
+                    {t('SKIP THE WAIT', 'ACCÉDER TOUT DE SUITE')}
                   </span>
                 </div>
                 <h3 className="text-sm font-black text-white uppercase tracking-wider">
-                  {t('ENTER YOUR CO-OPTATION CODE BELOW', 'RENSEIGNEZ VOTRE CODE D\'ACCÈS PRIVILÉGIÉ')}
+                  {t('HAVE AN ACCESS CODE?', 'VOUS AVEZ UN CODE D\'ACCÈS ?')}
                 </h3>
                 <p className="text-xs text-white/75 uppercase tracking-wider font-bold leading-normal">
                   {t(
-                    'Input your administrator-delivered clearance code below to instantly bypass the review process and fully activate your profile.',
-                    'Si vous possédez une clé d\'accès privilégiée délivrée par le comité de co-optation, saisissez-la ci-dessous pour activer immédiatement votre accès.'
+                    'If you received an access code by email, enter it below to activate your account immediately.',
+                    "Si vous avez reçu un code d'accès par e-mail, saisissez-le ci-dessous pour activer votre compte immédiatement."
                   )}
                 </p>
               </div>
@@ -229,7 +236,7 @@ export const PendingApprovalView: React.FC<PendingApprovalViewProps> = ({ user, 
                   type="text"
                   value={accessKey}
                   onChange={(e) => setAccessKey(e.target.value)}
-                  placeholder="e.g. LYA-DEMO-2026 / LYA2026"
+                  placeholder="LYA-XXXX-XXXX"
                   className="w-full bg-black/80 border-2 border-[#FF007F]/65 focus:border-[#FF007F] rounded-xl px-5 py-4 text-sm font-mono text-center tracking-[0.25em] font-black  text-white focus:outline-none focus:ring-2 focus:ring-[#FF007F]/30 transition-all placeholder:text-white/30 shadow-[inset_0_2px_10px_rgba(0,0,0,0.8)]"
                 />
 
@@ -254,7 +261,7 @@ export const PendingApprovalView: React.FC<PendingApprovalViewProps> = ({ user, 
                     <RefreshCw size={14} className="animate-spin text-white" />
                   ) : (
                     <>
-                      {t('ACTIVATE SYSTEM ACCESS', 'ACTIVER MON ACCÈS PLÉNIER')}
+                      {t('ACTIVATE MY ACCOUNT', 'ACTIVER MON COMPTE')}
                       <ArrowRight size={14} />
                     </>
                   )}
@@ -268,13 +275,8 @@ export const PendingApprovalView: React.FC<PendingApprovalViewProps> = ({ user, 
         <div className="p-6 bg-white/[0.01] border-t border-white/5 flex flex-wrap items-center justify-between gap-4 text-[7px] font-black text-white/30 uppercase tracking-widest">
           <div className="flex items-center gap-2">
             <ShieldCheck size={12} className="text-emerald-400" />
-            CREATIVE IP INDEXING HUB
+            {t('CERTIFIED CREATIVE REGISTRY', 'REGISTRE DE CERTIFICATION CRÉATIVE')}
           </div>
-          <div className="flex items-center gap-2">
-            <Terminal size={12} className="text-primary-cyan" />
-            DEMONSTRATION & PARTNERS PREVIEW
-          </div>
-          <div>PREVIEW v4.2 ALPHA</div>
         </div>
       </motion.div>
     </div>
