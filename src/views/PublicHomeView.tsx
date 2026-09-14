@@ -786,16 +786,14 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-reg-card::before{ content:''; position:absolute; inset:0; border-radius:10px; padding:1px; background:linear-gradient(155deg,rgba(240,197,94,0.7),rgba(255,255,255,0.06) 30%,rgba(255,255,255,0.06) 70%,rgba(126,28,241,0.5)); -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite:xor; mask-composite:exclude; pointer-events:none; z-index:2; }
         .term-reg-art{ position:relative; aspect-ratio:16/11; overflow:hidden; transition:filter 0.4s ease; display:flex; align-items:center; justify-content:center; }
         .term-reg-card:hover .term-reg-art{ filter:saturate(1.25) brightness(1.05); }
-        .term-reg-center-score{ position:relative; z-index:1; display:flex; flex-direction:column; align-items:center; gap:2px; }
-        .term-reg-center-score .num{ font-family:'Fraunces',serif; font-weight:700; font-size:40px; line-height:1; color:#fff; background:linear-gradient(90deg,#F0C55E,#E61A97,#7E1CF1); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; filter:drop-shadow(0 2px 12px rgba(0,0,0,0.5)); }
-        .term-reg-center-score .lbl{ font-family:'Sora',sans-serif; font-weight:700; font-size:9px; letter-spacing:0.15em; color:rgba(255,255,255,0.6); }
         .term-reg-tags{ position:absolute; top:10px; left:10px; display:flex; gap:5px; z-index:1; }
         .term-reg-tag{ font-size:9px; font-weight:700; padding:3px 7px; border-radius:5px; color:#fff; font-family:'Sora',sans-serif; text-transform:uppercase; backdrop-filter:blur(4px); }
         .term-reg-tag.status{ background:#02C6FA; color:#0B0E14; }
         .term-reg-seal{ position:absolute; top:8px; right:8px; width:34px; height:34px; border-radius:50%; z-index:1; display:flex; align-items:center; justify-content:center; background:linear-gradient(145deg,#F0C55E,#E61A97 55%,#7E1CF1); box-shadow:0 6px 16px -4px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.5); }
-        .term-reg-center-score{ position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; z-index:1; pointer-events:none; }
-        .term-reg-center-score .num{ font-family:'Fraunces',serif; font-weight:700; font-size:42px; line-height:1; background:linear-gradient(90deg,#F0C55E,#E61A97,#7E1CF1); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; filter:drop-shadow(0 2px 14px rgba(0,0,0,0.6)); }
-        .term-reg-center-score .lbl{ font-family:'Sora',sans-serif; font-weight:700; font-size:9px; letter-spacing:0.15em; color:rgba(255,255,255,0.65); }
+        .term-reg-center-score{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; z-index:1; pointer-events:none; }
+        .term-reg-center-score .plate{ display:flex; flex-direction:column; align-items:center; gap:1px; padding:14px 26px; border-radius:14px; background:rgba(11,14,20,0.6); backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.12); box-shadow:0 12px 30px -10px rgba(0,0,0,0.5); }
+        .term-reg-center-score .num{ font-family:'Fraunces',serif; font-weight:700; font-size:44px; line-height:1; color:#fff; }
+        .term-reg-center-score .lbl{ font-family:'Sora',sans-serif; font-weight:700; font-size:9.5px; letter-spacing:0.15em; color:rgba(255,255,255,0.7); margin-top:4px; }
         .term-reg-tag.status-certified{ background:#3ADB76; color:#0B0E14; }
         .term-reg-tag.status-review{ background:#F0C55E; color:#0B0E14; }
         .term-reg-tag.status-audit{ background:#E86A6A; color:#0B0E14; }
@@ -1130,8 +1128,10 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
                   </div>
                   <div className="term-reg-seal"><Shield strokeWidth={2.5} /></div>
                   <div className="term-reg-center-score">
-                    <span className="num">{ex.score}</span>
-                    <span className="lbl">SCORE LYA / 1000</span>
+                    <div className="plate">
+                      <span className="num">{ex.score}</span>
+                      <span className="lbl">SCORE LYA / 1000</span>
+                    </div>
                   </div>
                 </div>
                 <div className="term-reg-body">
