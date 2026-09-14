@@ -783,18 +783,21 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-why-item h4{ font-family:'Fraunces',serif; font-size:16px; font-weight:600; margin-bottom:6px; }
         .term-why-item p{ font-size:13px; color:var(--term-ink-soft); line-height:1.55; }
         .term-registry{ padding:20px 0 72px; }
-        .term-reg-scroll{ display:flex; gap:16px; overflow-x:auto; margin-top:28px; }
-        .term-reg-card{ flex:0 0 230px; background:var(--term-ink); border-radius:6px; overflow:hidden; color:#fff; }
+        .term-reg-scroll{ display:flex; gap:20px; overflow-x:auto; margin-top:28px; padding:20px 4px 10px; }
+        .term-reg-card{ flex:0 0 240px; background:var(--term-ink); border-radius:10px; overflow:hidden; color:#fff; position:relative; box-shadow:0 20px 50px -22px rgba(11,14,20,0.5); }
+        .term-reg-card::before{ content:''; position:absolute; inset:0; border-radius:10px; padding:1px; background:linear-gradient(155deg,rgba(240,197,94,0.7),rgba(255,255,255,0.06) 30%,rgba(255,255,255,0.06) 70%,rgba(126,28,241,0.5)); -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite:xor; mask-composite:exclude; pointer-events:none; z-index:2; }
         .term-reg-art{ position:relative; aspect-ratio:16/11; overflow:hidden; transition:filter 0.4s ease; }
         .term-reg-card:hover .term-reg-art{ filter:saturate(1.25) brightness(1.05); }
-        .term-reg-tags{ position:absolute; top:8px; left:8px; display:flex; gap:5px; }
-        .term-reg-tag{ font-size:9px; font-weight:700; padding:3px 7px; border-radius:5px; color:#fff; font-family:'Sora',sans-serif; text-transform:uppercase; }
+        .term-reg-tags{ position:absolute; top:10px; left:10px; display:flex; gap:5px; z-index:1; }
+        .term-reg-tag{ font-size:9px; font-weight:700; padding:3px 7px; border-radius:5px; color:#fff; font-family:'Sora',sans-serif; text-transform:uppercase; backdrop-filter:blur(4px); }
         .term-reg-tag.status{ background:#02C6FA; color:#0B0E14; }
-        .term-reg-body{ padding:12px 14px 14px; }
-        .term-reg-title{ font-size:13px; font-weight:800; font-family:'Sora',sans-serif; text-transform:uppercase; margin-bottom:8px; }
-        .term-reg-bar-row{ margin-bottom:7px; }
-        .term-reg-bar-row .lbl{ display:flex; justify-content:space-between; font-size:9px; color:#8A87A8; font-weight:600; margin-bottom:3px; text-transform:uppercase; }
-        .term-reg-bar{ height:4px; background:rgba(255,255,255,0.1); border-radius:100px; overflow:hidden; }
+        .term-reg-seal{ position:absolute; top:8px; right:8px; width:34px; height:34px; border-radius:50%; z-index:1; display:flex; align-items:center; justify-content:center; background:linear-gradient(145deg,#F0C55E,#E61A97 55%,#7E1CF1); box-shadow:0 6px 16px -4px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.5); }
+        .term-reg-seal svg{ width:16px; height:16px; color:#fff; filter:drop-shadow(0 1px 1px rgba(0,0,0,0.3)); }
+        .term-reg-body{ padding:16px 16px 18px; position:relative; }
+        .term-reg-title{ font-family:'Fraunces',serif; font-weight:600; font-size:16px; font-style:italic; margin-bottom:12px; letter-spacing:-0.01em; }
+        .term-reg-bar-row{ margin-bottom:9px; }
+        .term-reg-bar-row .lbl{ display:flex; justify-content:space-between; font-family:'Sora',sans-serif; font-size:9px; color:#8A87A8; font-weight:700; margin-bottom:4px; text-transform:uppercase; letter-spacing:0.04em; }
+        .term-reg-bar{ height:3px; background:rgba(255,255,255,0.1); border-radius:100px; overflow:hidden; }
         .term-reg-bar .fill{ height:100%; border-radius:100px; }
         .term-reg-bar.score .fill{ background:linear-gradient(90deg,#F0C55E,#E61A97); }
         .term-reg-bar.fund .fill{ background:linear-gradient(90deg,#02C6FA,#3ADB76); }
@@ -1369,12 +1372,23 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
           </div>
           <div className="term-reg-scroll">
             {registry.map((r, i) => (
-              <div key={r.title} className="term-reg-card term-reveal" onClick={() => setSelected(i)} style={{ cursor: 'pointer' }}>
+              <motion.div
+                key={r.title}
+                className="term-reg-card"
+                onClick={() => setSelected(i)}
+                style={{ cursor: 'pointer' }}
+                initial={{ opacity: 0, y: 60, rotate: i % 2 === 0 ? -6 : 6, scale: 0.88 }}
+                whileInView={{ opacity: 1, y: 0, rotate: 0, scale: 1 }}
+                viewport={{ once: true, amount: 0.4 }}
+                transition={{ type: 'spring', stiffness: 180, damping: 20, delay: i * 0.12 }}
+                whileHover={{ y: -8, transition: { duration: 0.25 } }}
+              >
                 <div className="term-reg-art" style={{ backgroundImage: `linear-gradient(to top, rgba(11,14,20,0.85) 0%, rgba(11,14,20,0.05) 55%), url(${r.img})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
                   <div className="term-reg-tags">
                     <span className="term-reg-tag" style={{ background: r.catColor }}>{t(r.cat.fr, r.cat.en).toUpperCase()}</span>
                     <span className="term-reg-tag status">CERTIFIED</span>
                   </div>
+                  <div className="term-reg-seal"><Shield strokeWidth={2.5} /></div>
                 </div>
                 <div className="term-reg-body">
                   <div className="term-reg-title">{r.title}</div>
@@ -1387,7 +1401,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
                     <div className="term-reg-bar fund"><div className="fill" style={{ width: `${r.fund}%` }} /></div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -1419,7 +1433,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
               <div className="term-network-card term-reveal">
                 <div className="n" style={{ color: '#3ADB76' }}>01</div>
                 <h4>{t('Créateurs', 'Creators')}</h4>
-                <div className="who">{t('Artistes, réalisateurs, scénaristes, auteurs', 'Artists, directors, screenwriters, authors')}</div>
+                <div className="who">{t('Artistes, musiciens, réalisateurs, designers, architectes, créateurs de jeux, auteurs, stylistes', 'Artists, musicians, directors, designers, architects, game creators, authors, fashion designers')}</div>
                 <p>{t('Faites certifier et valoriser officiellement votre œuvre. Conservez le contrôle artistique total, recevez le soutien de mécènes dès le lancement.', 'Get your work officially certified and showcased. Keep full artistic control, and receive patron support from day one.')}</p>
                 <button className="term-network-cta" style={{ color: '#1E8449' }} onClick={() => setShowJoin(true)}>{t('Faire certifier mon œuvre →', 'Get my work certified →')}</button>
               </div>
