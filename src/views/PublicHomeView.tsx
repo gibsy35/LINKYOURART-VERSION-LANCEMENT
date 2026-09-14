@@ -515,6 +515,9 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-hero-card-back{ position:absolute; z-index:0; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.08); border-radius:18px; width:min(280px,72%); height:200px; transform:rotate(-6deg) translate(-30px,26px); }
         .term-section-cta{ margin-top:32px; text-align:left; }
         .term-section-cta button{ background:none; border:none; font-family:'Sora',sans-serif; font-weight:700; font-size:14px; color:var(--term-ink); border-bottom:2px solid #7E1CF1; padding-bottom:2px; cursor:pointer; }
+        .term-thesis{ padding:8px 0 64px; }
+        .term-thesis-text{ font-family:'Fraunces',serif; font-style:italic; font-weight:500; font-size:clamp(22px,3.4vw,34px); line-height:1.4; text-align:center; max-width:820px; margin:0 auto; color:var(--term-ink); }
+        .term-thesis-text .hl{ font-weight:700; font-style:normal; }
         .term-pillars{ padding:88px 0 72px; }
         .term-pillars-note{ font-size:13px; color:var(--term-ink-soft); margin-bottom:56px; }
         .term-pillars-grid{ display:grid; grid-template-columns:repeat(5,1fr); gap:14px; padding:20px 0 40px; }
@@ -1054,6 +1057,20 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
             </div>
           </div>
         )}
+      </section>
+
+      <section className="term-thesis">
+        <div className="term-wrap">
+          <motion.p
+            className="term-thesis-text"
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{ duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
+          >
+            {t('La finance a ', 'Finance has ')}<span className="hl">Moody's</span>{t('. La gastronomie a son ', '. Gastronomy has its ')}<span className="hl">{t('Guide Michelin', 'Michelin Guide')}</span>{t(". L'industrie créative méritait le sien — ", '. The creative industry deserved its own — ')}<span className="term-gradient-text">{t('c\'est le Score LYA.', 'this is the LYA Score.')}</span>
+          </motion.p>
+        </div>
       </section>
 
       <section className="term-pillars" id="pillars" style={{ scrollMarginTop: 80 }}>
