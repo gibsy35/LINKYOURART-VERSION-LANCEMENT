@@ -205,6 +205,7 @@ const HeroSection: React.FC<{ t: (fr: string, en: string) => string; setShowJoin
         <motion.div style={{ position: 'relative', y: titleY, opacity: titleOpacity, scale: titleScale }}>
           <motion.h1
             className="term-hero-title"
+            style={{ textTransform: 'none' }}
             initial="hidden"
             animate="show"
             variants={{ hidden: {}, show: { transition: { staggerChildren: 0.055 } } }}
