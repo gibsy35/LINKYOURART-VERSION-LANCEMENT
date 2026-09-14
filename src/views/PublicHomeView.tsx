@@ -62,9 +62,9 @@ const newEra = [
 // Memes donnees d'exemple que le tutoriel in-app, pour montrer le Score LYA
 // sur des statuts et categories varies (pas juste "certifie").
 const scoreExamples = [
-  { id: '#LYA-812', category: { fr: 'Film', en: 'Film' }, score: 928, status: { fr: 'Certifié', en: 'Certified' }, statusColor: 'certified', barColor: 'linear-gradient(90deg,#3ADB76,#02C6FA)' },
-  { id: '#LYA-445', category: { fr: 'Série TV', en: 'TV Series' }, score: 580, status: { fr: 'En révision', en: 'Under review' }, statusColor: 'review', barColor: 'linear-gradient(90deg,#F0C55E,#E61A97)' },
-  { id: '#LYA-901', category: { fr: 'Mode', en: 'Fashion' }, score: 420, status: { fr: 'Audit en cours', en: 'Audit in progress' }, statusColor: 'audit', barColor: 'linear-gradient(90deg,#E86A6A,#7E1CF1)' },
+  { id: '#LYA-812', category: { fr: 'Film', en: 'Film' }, score: 928, status: { fr: 'Certifié', en: 'Certified' }, statusColor: 'certified', catColor: '#7E1CF1', img: 'https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&q=80&w=600' },
+  { id: '#LYA-445', category: { fr: 'Série TV', en: 'TV Series' }, score: 580, status: { fr: 'En révision', en: 'Under review' }, statusColor: 'review', catColor: '#02C6FA', img: 'https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?auto=format&fit=crop&q=80&w=600' },
+  { id: '#LYA-901', category: { fr: 'Mode', en: 'Fashion' }, score: 420, status: { fr: 'Audit en cours', en: 'Audit in progress' }, statusColor: 'audit', catColor: '#E61A97', img: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&q=80&w=600' },
 ];
 
 const registry = [
@@ -780,6 +780,12 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-reg-tag{ font-size:9px; font-weight:700; padding:3px 7px; border-radius:5px; color:#fff; font-family:'Sora',sans-serif; text-transform:uppercase; backdrop-filter:blur(4px); }
         .term-reg-tag.status{ background:#02C6FA; color:#0B0E14; }
         .term-reg-seal{ position:absolute; top:8px; right:8px; width:34px; height:34px; border-radius:50%; z-index:1; display:flex; align-items:center; justify-content:center; background:linear-gradient(145deg,#F0C55E,#E61A97 55%,#7E1CF1); box-shadow:0 6px 16px -4px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.5); }
+        .term-reg-center-score{ position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; z-index:1; pointer-events:none; }
+        .term-reg-center-score .num{ font-family:'Fraunces',serif; font-weight:700; font-size:42px; line-height:1; background:linear-gradient(90deg,#F0C55E,#E61A97,#7E1CF1); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; filter:drop-shadow(0 2px 14px rgba(0,0,0,0.6)); }
+        .term-reg-center-score .lbl{ font-family:'Sora',sans-serif; font-weight:700; font-size:9px; letter-spacing:0.15em; color:rgba(255,255,255,0.65); }
+        .term-reg-tag.status-certified{ background:#3ADB76; color:#0B0E14; }
+        .term-reg-tag.status-review{ background:#F0C55E; color:#0B0E14; }
+        .term-reg-tag.status-audit{ background:#E86A6A; color:#0B0E14; }
         .term-reg-seal svg{ width:16px; height:16px; color:#fff; filter:drop-shadow(0 1px 1px rgba(0,0,0,0.3)); }
         .term-reg-body{ padding:16px 16px 18px; position:relative; }
         .term-reg-title{ font-family:'Fraunces',serif; font-weight:600; font-size:16px; font-style:italic; margin-bottom:12px; letter-spacing:-0.01em; }
@@ -1097,23 +1103,30 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
             {scoreExamples.map((ex, i) => (
               <motion.div
                 key={ex.id}
-                className="term-example-card"
+                className="term-reg-card"
                 initial={{ opacity: 0, y: 50, rotate: i === 0 ? -6 : i === 2 ? 6 : 0, scale: 0.88 }}
                 whileInView={{ opacity: 1, y: 0, rotate: 0, scale: 1 }}
                 viewport={{ once: true, amount: 0.4 }}
                 transition={{ type: 'spring', stiffness: 190, damping: 20, delay: i * 0.14 }}
                 whileHover={{ y: -6 }}
               >
-                <div className="term-example-top">
-                  <span className="cat">{t(ex.category.fr, ex.category.en)}</span>
-                  <span className={`status ${ex.statusColor}`}>{t(ex.status.fr, ex.status.en)}</span>
+                <div className="term-reg-art" style={{ backgroundImage: `linear-gradient(to top, rgba(11,14,20,0.88) 0%, rgba(11,14,20,0.15) 55%), url(${ex.img})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+                  <div className="term-reg-tags">
+                    <span className="term-reg-tag" style={{ background: ex.catColor }}>{t(ex.category.fr, ex.category.en).toUpperCase()}</span>
+                    <span className={`term-reg-tag status-${ex.statusColor}`}>{t(ex.status.fr, ex.status.en).toUpperCase()}</span>
+                  </div>
+                  <div className="term-reg-seal"><Shield strokeWidth={2.5} /></div>
+                  <div className="term-reg-center-score">
+                    <span className="num">{ex.score}</span>
+                    <span className="lbl">SCORE LYA / 1000</span>
+                  </div>
                 </div>
-                <div className="id">{ex.id}</div>
-                <div className="center-score">
-                  <span className="num">{ex.score}</span> <span className="max">/1000</span>
-                </div>
-                <div className="score-row">
-                  <div className="bar"><div className="fill" style={{ width: `${ex.score / 10}%`, background: ex.barColor }} /></div>
+                <div className="term-reg-body">
+                  <div className="term-reg-title">{ex.id}</div>
+                  <div className="term-reg-bar-row">
+                    <div className="lbl"><span>LYA Score</span><span>{ex.score}/1000</span></div>
+                    <div className="term-reg-bar score"><div className="fill" style={{ width: `${ex.score / 10}%` }} /></div>
+                  </div>
                 </div>
               </motion.div>
             ))}
