@@ -782,8 +782,8 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-why-item p{ font-size:13px; color:var(--term-ink-soft); line-height:1.55; }
         .term-registry{ padding:20px 0 72px; }
         .term-reg-scroll{ display:flex; gap:20px; overflow-x:auto; margin-top:28px; padding:20px 4px 10px; }
-        .term-reg-card{ flex:0 0 240px; background:var(--term-ink); border-radius:10px; overflow:hidden; color:#fff; position:relative; box-shadow:0 20px 50px -22px rgba(11,14,20,0.5); }
-        .term-reg-card::before{ content:''; position:absolute; inset:0; border-radius:10px; padding:1px; background:linear-gradient(155deg,rgba(240,197,94,0.7),rgba(255,255,255,0.06) 30%,rgba(255,255,255,0.06) 70%,rgba(126,28,241,0.5)); -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite:xor; mask-composite:exclude; pointer-events:none; z-index:2; }
+        .term-reg-card{ flex:0 0 240px; background:var(--term-ink); border-radius:20px; overflow:hidden; color:#fff; position:relative; box-shadow:0 20px 50px -22px rgba(11,14,20,0.5); }
+        .term-reg-card::before{ content:''; position:absolute; inset:0; border-radius:20px; padding:1px; background:linear-gradient(155deg,rgba(240,197,94,0.7),rgba(255,255,255,0.06) 30%,rgba(255,255,255,0.06) 70%,rgba(126,28,241,0.5)); -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite:xor; mask-composite:exclude; pointer-events:none; z-index:2; }
         .term-reg-art{ position:relative; aspect-ratio:16/11; overflow:hidden; transition:filter 0.4s ease; display:flex; align-items:center; justify-content:center; }
         .term-reg-card:hover .term-reg-art{ filter:saturate(1.25) brightness(1.05); }
         .term-reg-tags{ position:absolute; top:10px; left:10px; display:flex; gap:5px; z-index:1; }
