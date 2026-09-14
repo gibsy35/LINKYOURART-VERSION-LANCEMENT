@@ -247,6 +247,7 @@ const HeroSection: React.FC<{ t: (fr: string, en: string) => string; setShowJoin
             transition={{ type: 'spring', stiffness: 200, damping: 14 }}
             whileTap={{ scale: 0.97 }}
           >
+            <div className="seal"><Shield strokeWidth={2.5} /></div>
             <AnimatePresence mode="wait">
               <motion.div
                 key={exIdx}
@@ -482,21 +483,29 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
           background:linear-gradient(135deg,#7E1CF1 0%,#E61A97 50%,#02C6FA 100%);
           opacity:0.22; filter:blur(2px);
         }
-        .term-hero-card{ position:relative; z-index:1; background:rgba(20,22,32,0.75); backdrop-filter:blur(16px); border:1px solid rgba(255,255,255,0.12); border-radius:18px;
+        .term-hero-card{ position:relative; z-index:1; background:rgba(20,22,32,0.75); backdrop-filter:blur(16px); border-radius:18px;
           padding:28px 30px; width:min(320px,80%); height:236px; display:flex; flex-direction:column; justify-content:flex-start;
           box-shadow:0 30px 70px -20px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.03);
           font-family:'Fraunces',serif; cursor:pointer; user-select:none;
           animation:termCardGlow 4s ease-in-out infinite;
         }
+        .term-hero-card::before{ content:''; position:absolute; inset:0; border-radius:18px; padding:1px; z-index:2;
+          background:linear-gradient(155deg,rgba(240,197,94,0.85),rgba(255,255,255,0.1) 30%,rgba(255,255,255,0.1) 70%,rgba(126,28,241,0.7));
+          -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite:xor; mask-composite:exclude; pointer-events:none;
+        }
+        .term-hero-card .seal{ position:absolute; top:14px; right:14px; width:30px; height:30px; border-radius:50%; z-index:3; display:flex; align-items:center; justify-content:center;
+          background:linear-gradient(145deg,#F0C55E,#E61A97 55%,#7E1CF1); box-shadow:0 6px 14px -4px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.5);
+        }
+        .term-hero-card .seal svg{ width:14px; height:14px; color:#fff; }
         @keyframes termCardGlow{
           0%,100%{ box-shadow:0 30px 70px -20px rgba(0,0,0,0.6), 0 0 40px -12px rgba(126,28,241,0.35); }
           50%{ box-shadow:0 30px 70px -20px rgba(0,0,0,0.6), 0 0 55px -10px rgba(2,198,250,0.4); }
         }
         @media (prefers-reduced-motion: reduce){ .term-hero-card{ animation:none; } }
-        .term-hero-card .score{ font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:0.08em; color:#B9B7C7; margin-bottom:14px; font-family:'Sora',sans-serif; display:flex; align-items:flex-start; justify-content:space-between; gap:10px; min-height:28px; }
+        .term-hero-card .score{ font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:0.08em; color:#B9B7C7; margin-bottom:14px; font-family:'Sora',sans-serif; display:flex; align-items:flex-start; justify-content:space-between; gap:10px; min-height:28px; padding-right:34px; }
         .term-hero-card .score .cat-line{ flex:1; line-height:1.4; }
         .term-hero-card .score .tap-hint{ font-size:9px; font-weight:700; letter-spacing:0.03em; color:#7E1CF1; text-transform:none; white-space:nowrap; flex-shrink:0; }
-        .term-hero-card .num{ font-family:'Sora',sans-serif; font-weight:800; font-size:34px; font-variant-numeric:tabular-nums; background:linear-gradient(90deg,#7E1CF1,#E61A97,#02C6FA); -webkit-background-clip:text; background-clip:text; color:transparent; }
+        .term-hero-card .num{ font-family:'Sora',sans-serif; font-weight:800; font-size:34px; font-variant-numeric:tabular-nums; background:linear-gradient(90deg,#F0C55E,#E61A97,#7E1CF1); -webkit-background-clip:text; background-clip:text; color:transparent; }
         .term-hero-card .max{ font-family:'Sora',sans-serif; font-weight:600; font-size:14px; color:#8A87A8; }
         .term-hero-card p{ font-family:'Inter',sans-serif; text-align:left; font-size:12.5px; line-height:1.5; color:#B9B7C7; margin-top:14px; }
         .term-hero-card-back{ position:absolute; z-index:0; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.08); border-radius:18px; width:min(280px,72%); height:200px; transform:rotate(-6deg) translate(-30px,26px); }
