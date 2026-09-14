@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion, useScroll, useTransform, MotionValue, AnimatePresence } from 'motion/react';
+import { motion, useScroll, useTransform, MotionValue, AnimatePresence, useMotionValue, useSpring } from 'motion/react';
 import { Shield, Eye, Users, Percent } from 'lucide-react';
 import { Logo } from '../components/ui/Logo';
 import { COUNTRIES } from '../data/countries';
@@ -172,6 +172,22 @@ const HeroSection: React.FC<{ t: (fr: string, en: string) => string; setShowJoin
   const titleScale = useTransform(scrollYProgress, [0, 1], [1, 0.9]);
 
   const cardTilts = [7, -4, 10]; // petite rotation differente par exemple, pour un effet "carte que l'on distribue" a chaque changement plutot qu'un simple fondu plat
+
+  // Parallaxe a la souris sur la carte Score LYA — inclinaison 3D douce qui
+  // suit le curseur, en plus de la rotation "carte distribuee" deja en
+  // place (axes de transform differents, se combinent sans conflit).
+  const cardRotateXRaw = useMotionValue(0);
+  const cardRotateYRaw = useMotionValue(0);
+  const cardRotateX = useSpring(cardRotateXRaw, { stiffness: 150, damping: 18 });
+  const cardRotateY = useSpring(cardRotateYRaw, { stiffness: 150, damping: 18 });
+  const handleCardMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const px = (e.clientX - rect.left) / rect.width - 0.5;
+    const py = (e.clientY - rect.top) / rect.height - 0.5;
+    cardRotateYRaw.set(px * 16);
+    cardRotateXRaw.set(-py * 16);
+  };
+  const handleCardMouseLeave = () => { cardRotateXRaw.set(0); cardRotateYRaw.set(0); };
   const examples = [
     { cat: t('Musique', 'Music'), score: 247 },
     { cat: t('Cinéma', 'Film'), score: 580 },
@@ -236,7 +252,7 @@ const HeroSection: React.FC<{ t: (fr: string, en: string) => string; setShowJoin
             <a href="#pillars" className="term-btn-ghost" style={{ textDecoration: 'none', display: 'inline-block' }}>{t('Comprendre le Score LYA', 'Understand the LYA Score')}</a>
           </div>
         </motion.div>
-        <div className="term-hero-visual">
+        <div className="term-hero-visual" onMouseMove={handleCardMouseMove} onMouseLeave={handleCardMouseLeave} style={{ perspective: 1000 }}>
           <div className="term-hero-card-back" />
           <motion.div
             className="term-hero-card"
@@ -244,6 +260,7 @@ const HeroSection: React.FC<{ t: (fr: string, en: string) => string; setShowJoin
             role="button" tabIndex={0}
             aria-label={t('Voir un autre exemple de score', 'See another score example')}
             animate={{ rotate: cardTilts[exIdx % cardTilts.length] }}
+            style={{ rotateX: cardRotateX, rotateY: cardRotateY }}
             transition={{ type: 'spring', stiffness: 200, damping: 14 }}
             whileTap={{ scale: 0.97 }}
           >
@@ -276,6 +293,10 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
   const t = (fr: string, en: string) => (lang === 'fr' ? fr : en);
   const project = selected !== null ? registry[selected] : null;
   const rootRef = React.useRef<HTMLDivElement>(null);
+  // Barre de progression de scroll pleine page (dynamisme supplementaire),
+  // independante du scrollYProgress du hero plus haut qui ne suit que la
+  // section hero elle-meme.
+  const { scrollYProgress: pageScrollProgress } = useScroll();
 
   // Menu transparent (fondu avec le hero) en haut de page, qui gagne son
   // fond sombre flou seulement une fois qu'on a scrolle — plutot qu'une
@@ -408,6 +429,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-root .sora{ font-family:'Sora',sans-serif; }
         .term-wrap{ max-width:1160px; margin:0 auto; padding:0 40px; }
         @media (max-width:700px){ .term-wrap{ padding:0 22px; } }
+        .term-scroll-progress{ position:fixed; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,#7E1CF1,#E61A97,#02C6FA); transform-origin:0% 50%; z-index:200; }
         .term-header{ background:var(--term-ink); padding:20px 0; position:sticky; top:0; z-index:100; border-bottom:1px solid transparent; transition:background 0.3s ease, border-color 0.3s ease, backdrop-filter 0.3s ease; }
         .term-header.is-scrolled{ background:rgba(11,14,20,0.5); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border-bottom:1px solid rgba(255,255,255,0.08); }
         .term-head-inner{ display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:20px; }
@@ -706,7 +728,13 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         }
         .term-mission p{ color:#fff; font-family:'Sora',sans-serif; font-style:italic; font-weight:800; font-size:clamp(26px,3.6vw,42px); max-width:26ch; line-height:1.2; }
         .term-newera{ padding:72px 0; background:var(--term-grey); }
-        .term-eyebrow{ font-family:'Fraunces',serif; font-style:italic; font-weight:500; font-size:15px; letter-spacing:0.01em; color:#7A2062; text-transform:none; margin-bottom:10px; }
+        .term-eyebrow{ font-family:'Fraunces',serif; font-style:italic; font-weight:500; font-size:15px; letter-spacing:0.01em; text-transform:none; margin-bottom:10px;
+          background:linear-gradient(90deg,#7A2062 0%,#B5308E 25%,#7A2062 50%,#B5308E 75%,#7A2062 100%);
+          background-size:200% auto; -webkit-background-clip:text; background-clip:text; color:transparent;
+          animation:termEyebrowShine 6s linear infinite;
+        }
+        @media (prefers-reduced-motion: reduce){ .term-eyebrow{ animation:none; color:#7A2062; } }
+        @keyframes termEyebrowShine{ to{ background-position:-200% center; } }
         .term-validation{ padding:56px 0 72px; }
         .term-validation-sub{ font-size:14px; color:var(--term-ink-soft); max-width:56ch; margin:8px 0 32px; }
         .term-validation-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; position:relative; }
@@ -932,6 +960,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       `}</style>
 
       {/* Header */}
+      <motion.div className="term-scroll-progress" style={{ scaleX: pageScrollProgress }} />
       <header className={`term-header ${headerScrolled ? 'is-scrolled' : ''}`}>
         <div className="term-wrap term-head-inner">
           <div style={{ display: 'flex', alignItems: 'center', gap: 14, cursor: 'pointer' }} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
