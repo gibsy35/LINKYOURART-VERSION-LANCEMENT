@@ -63,7 +63,7 @@ const newEra = [
 // sur des statuts et categories varies (pas juste "certifie").
 const scoreExamples = [
   { id: '#LYA-812', category: { fr: 'Film', en: 'Film' }, score: 928, status: { fr: 'Certifié', en: 'Certified' }, statusColor: 'certified', catColor: '#7E1CF1', img: 'https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&q=80&w=600' },
-  { id: '#LYA-445', category: { fr: 'Série TV', en: 'TV Series' }, score: 580, status: { fr: 'En révision', en: 'Under review' }, statusColor: 'review', catColor: '#02C6FA', img: 'https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?auto=format&fit=crop&q=80&w=600' },
+  { id: '#LYA-445', category: { fr: 'Série TV', en: 'TV Series' }, score: 580, status: { fr: 'En révision', en: 'Under review' }, statusColor: 'review', catColor: '#02C6FA', img: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&q=80&w=600' },
   { id: '#LYA-901', category: { fr: 'Mode', en: 'Fashion' }, score: 420, status: { fr: 'Audit en cours', en: 'Audit in progress' }, statusColor: 'audit', catColor: '#E61A97', img: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&q=80&w=600' },
 ];
 
@@ -175,7 +175,7 @@ const HeroSection: React.FC<{ t: (fr: string, en: string) => string; setShowJoin
   const examples = [
     { cat: t('Musique', 'Music'), score: 247, img: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&q=80&w=600' },
     { cat: t('Cinéma', 'Film'), score: 580, img: 'https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&q=80&w=600' },
-    { cat: t('Séries TV', 'TV Series'), score: 928, img: 'https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?auto=format&fit=crop&q=80&w=600' },
+    { cat: t('Séries TV', 'TV Series'), score: 928, img: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&q=80&w=600' },
   ];
   const [exIdx, setExIdx] = React.useState(0);
   const current = examples[exIdx];
