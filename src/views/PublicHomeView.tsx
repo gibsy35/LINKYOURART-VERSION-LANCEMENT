@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion, useScroll, useTransform, MotionValue, AnimatePresence, useMotionValue, useSpring } from 'motion/react';
+import { motion, useScroll, useTransform, MotionValue, AnimatePresence } from 'motion/react';
 import { Shield, Eye, Users, Percent } from 'lucide-react';
 import { Logo } from '../components/ui/Logo';
 import { COUNTRIES } from '../data/countries';
@@ -172,22 +172,6 @@ const HeroSection: React.FC<{ t: (fr: string, en: string) => string; setShowJoin
   const titleScale = useTransform(scrollYProgress, [0, 1], [1, 0.9]);
 
   const cardTilts = [7, -4, 10]; // petite rotation differente par exemple, pour un effet "carte que l'on distribue" a chaque changement plutot qu'un simple fondu plat
-
-  // Parallaxe a la souris sur la carte Score LYA — inclinaison 3D douce qui
-  // suit le curseur, en plus de la rotation "carte distribuee" deja en
-  // place (axes de transform differents, se combinent sans conflit).
-  const cardRotateXRaw = useMotionValue(0);
-  const cardRotateYRaw = useMotionValue(0);
-  const cardRotateX = useSpring(cardRotateXRaw, { stiffness: 150, damping: 18 });
-  const cardRotateY = useSpring(cardRotateYRaw, { stiffness: 150, damping: 18 });
-  const handleCardMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const px = (e.clientX - rect.left) / rect.width - 0.5;
-    const py = (e.clientY - rect.top) / rect.height - 0.5;
-    cardRotateYRaw.set(px * 16);
-    cardRotateXRaw.set(-py * 16);
-  };
-  const handleCardMouseLeave = () => { cardRotateXRaw.set(0); cardRotateYRaw.set(0); };
   const examples = [
     { cat: t('Musique', 'Music'), score: 247 },
     { cat: t('Cinéma', 'Film'), score: 580 },
@@ -252,7 +236,7 @@ const HeroSection: React.FC<{ t: (fr: string, en: string) => string; setShowJoin
             <a href="#pillars" className="term-btn-ghost" style={{ textDecoration: 'none', display: 'inline-block' }}>{t('Comprendre le Score LYA', 'Understand the LYA Score')}</a>
           </div>
         </motion.div>
-        <div className="term-hero-visual" onMouseMove={handleCardMouseMove} onMouseLeave={handleCardMouseLeave} style={{ perspective: 1000 }}>
+        <div className="term-hero-visual">
           <div className="term-hero-card-back" />
           <motion.div
             className="term-hero-card"
@@ -260,7 +244,6 @@ const HeroSection: React.FC<{ t: (fr: string, en: string) => string; setShowJoin
             role="button" tabIndex={0}
             aria-label={t('Voir un autre exemple de score', 'See another score example')}
             animate={{ rotate: cardTilts[exIdx % cardTilts.length] }}
-            style={{ rotateX: cardRotateX, rotateY: cardRotateY }}
             transition={{ type: 'spring', stiffness: 200, damping: 14 }}
             whileTap={{ scale: 0.97 }}
           >
