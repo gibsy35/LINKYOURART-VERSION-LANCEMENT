@@ -11,7 +11,16 @@ export default defineConfig(({mode}) => {
       react(),
       tailwindcss(),
       VitePWA({
-        registerType: 'autoUpdate',
+        // 'autoUpdate' declenchait un window.location.reload() AUTOMATIQUE
+        // et INTERNE des qu'une nouvelle version etait detectee - completement
+        // independant du callback onNeedRefresh dans main.tsx (qui ne fait
+        // que logger). C'etait la vraie cause du "double loader": vu la
+        // frequence des deploiements, une nouvelle version est souvent
+        // detectee dans les toutes premieres secondes, rechargeant la page
+        // en plein milieu de l'animation de demarrage. 'prompt' desactive ce
+        // rechargement automatique — la mise a jour s'applique seulement au
+        // prochain chargement naturel de la page, jamais en cours de session.
+        registerType: 'prompt',
         injectRegister: 'auto',
         manifestFilename: 'site.webmanifest',
         includeAssets: ['favicon.ico', 'favicon.svg', 'apple-touch-icon.png', 'favicon-512x512-maskable.png'],
