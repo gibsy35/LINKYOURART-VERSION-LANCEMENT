@@ -12,6 +12,7 @@ import {
   DetailModal,
   PaymentModal,
   RARITY_STYLE,
+  RARITY_LABEL,
 } from "../components/mecenat/MecenatShared";
 import type { Contract } from "../types";
 
@@ -239,7 +240,7 @@ export function MecenatView({ isGuest, onRequireAuth }: { isGuest?: boolean; onR
                       onClick={() => setRarityFilter(r)}
                       className={`text-xs px-3 py-1 rounded font-mono font-bold transition-all ${RARITY_STYLE[r]} ${rarityFilter === r ? "ring-2 ring-white/70" : "opacity-60 hover:opacity-100"}`}
                     >
-                      {r}
+                      {T(RARITY_LABEL[r].fr, RARITY_LABEL[r].en)}
                     </button>
                   ))}
                 </div>

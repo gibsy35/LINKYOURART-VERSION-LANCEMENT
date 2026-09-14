@@ -114,6 +114,13 @@ export const RARITY_STYLE: Record<string, string> = {
   Signature:    "bg-gradient-to-r from-[#7E1CF1] to-[#E61A97] text-white",
 };
 
+export const RARITY_LABEL: Record<string, { fr: string; en: string }> = {
+  Standard:      { fr: "Standard",     en: "Standard" },
+  Distinguished: { fr: "Distingué",    en: "Distinguished" },
+  Exceptional:   { fr: "Exceptionnel", en: "Exceptional" },
+  Signature:     { fr: "Signature",    en: "Signature" },
+};
+
 export function getUnitPrice(contract: Contract): number {
   // Prix fixe et non-negociable : $50 par unite, quelle que soit la "croissance"
   // du projet. Une contrepartie de mecenat ne doit jamais fluctuer avec la
@@ -696,7 +703,7 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
               {contract.category.toUpperCase()}
             </span>
             <span className={`text-xs px-3 py-0.5 rounded font-mono font-bold ${RARITY_STYLE[contract.rarity] || "bg-gray-500/80 text-on-surface"}`}>
-              {contract.rarity.toUpperCase()}
+              {T(RARITY_LABEL[contract.rarity]?.fr, RARITY_LABEL[contract.rarity]?.en) || contract.rarity.toUpperCase()}
             </span>
           </div>
 
