@@ -1090,7 +1090,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         <div className="term-wrap">
           <div className="term-eyebrow">{t('Le Score LYA', 'The LYA Score')}</div>
           <h2 className="term-reveal" style={{ fontWeight: 700, fontSize: 'clamp(26px,3.2vw,38px)', marginBottom: 12 }}>
-            <span className="term-gradient-text">{t('Cinq critères.', 'Five criteria.')}</span> {t('Un standard commun à tout le secteur créatif.', 'One standard shared across the whole creative sector.')}
+            <span style={{ color: 'inherit' }}>{t('Cinq critères.', 'Five criteria.')}</span> {t('Un standard commun à tout le secteur créatif.', 'One standard shared across the whole creative sector.')}
           </h2>
           <p className="term-pillars-note">{t('Chaque critère est noté sur 200 points, pour un Score LYA total sur 1000.', 'Each criterion is scored out of 200 points, for a total LYA Score out of 1000.')}</p>
           <motion.div
