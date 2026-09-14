@@ -746,47 +746,6 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
         <p className="text-on-surface-variant/70 text-xs leading-relaxed line-clamp-2">{getContractDescription(contract, lang)}</p>
       </div>
 
-      {/* Score LYA + Financement */}
-      <div className="px-4 py-3 border-b border-white/10 space-y-2.5">
-        {/* LYA SCORE premium row */}
-        <div className="flex items-center justify-between gap-2">
-          <div className="flex items-center gap-1.5">
-            <span className="text-xs font-mono font-bold tracking-widest" style={{ color: "#E61A97" }}>★ LYA SCORE</span>
-          </div>
-          <div className="flex items-center gap-1.5 flex-1 min-w-0">
-            <div className="flex-1 bg-surface-high rounded-full h-1.5 overflow-hidden">
-              <div className="h-1.5 rounded-full" style={{ width: `${(contract.totalScore / 1000) * 100}%`, background: "linear-gradient(90deg,#E61A97,#ef4444)" }} />
-            </div>
-            <span className="text-violet-400 font-mono font-black text-sm shrink-0">{contract.totalScore}<span className="text-on-surface-variant/30 font-normal text-xs">/1k</span></span>
-          </div>
-        </div>
-        <div>
-          {contract.totalValue ? (
-            <>
-              <div className="flex justify-between items-center mb-1">
-                <span className="text-on-surface-variant/50 text-[10px] font-mono">{T("FINANCEMENT DU BUDGET", "BUDGET FUNDING")}</span>
-                <span className="text-[#00ff88] text-[10px] font-mono font-bold flex items-center gap-1">
-                  {fundingPct >= 100 && <span className="bg-[#00ff88]/15 text-[#00ff88] text-[8px] font-black uppercase tracking-wide px-1 py-0.5 rounded">✓</span>}
-                  {fundingPct}%
-                </span>
-              </div>
-              <div className="w-full bg-surface-high rounded-full h-1.5 mb-1">
-                <div className="bg-[#00ff88] h-1.5 rounded-full" style={{ width: `${Math.min(fundingPct, 100)}%` }} />
-              </div>
-              <div className="flex justify-between text-[10px] font-mono text-on-surface-variant/40">
-                <span>{formatPrice(fundingRaised)}</span>
-                <span>{T("Cible", "Goal")}: {formatPrice(contract.totalValue)}</span>
-              </div>
-            </>
-          ) : (
-            <div className="flex justify-between items-center">
-              <span className="text-on-surface-variant/50 text-[10px] font-mono">{T("SOUTIEN CUMULÉ", "CUMULATIVE SUPPORT")}</span>
-              <span className="text-[#00ff88] text-[10px] font-mono font-bold">{formatPrice(fundingRaised)}</span>
-            </div>
-          )}
-        </div>
-      </div>
-
       {/* Slider + métriques — replié par defaut pour alleger la fiche, le
           Score LYA et le financement restent toujours visibles au-dessus */}
       <div className="px-4 py-3 space-y-2.5 flex-1 flex flex-col">
@@ -801,6 +760,46 @@ export function ProjectCard({ contract, lang, onViewProject, onSupport, isWatchl
 
         {expanded && (
           <>
+            {/* Score LYA + Financement (detail) */}
+            <div className="space-y-2.5 pb-2.5 border-b border-white/10">
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-xs font-mono font-bold tracking-widest" style={{ color: "#E61A97" }}>★ LYA SCORE</span>
+                </div>
+                <div className="flex items-center gap-1.5 flex-1 min-w-0">
+                  <div className="flex-1 bg-surface-high rounded-full h-1.5 overflow-hidden">
+                    <div className="h-1.5 rounded-full" style={{ width: `${(contract.totalScore / 1000) * 100}%`, background: "linear-gradient(90deg,#E61A97,#ef4444)" }} />
+                  </div>
+                  <span className="text-violet-400 font-mono font-black text-sm shrink-0">{contract.totalScore}<span className="text-on-surface-variant/30 font-normal text-xs">/1k</span></span>
+                </div>
+              </div>
+              <div>
+                {contract.totalValue ? (
+                  <>
+                    <div className="flex justify-between items-center mb-1">
+                      <span className="text-on-surface-variant/50 text-[10px] font-mono">{T("FINANCEMENT DU BUDGET", "BUDGET FUNDING")}</span>
+                      <span className="text-[#00ff88] text-[10px] font-mono font-bold flex items-center gap-1">
+                        {fundingPct >= 100 && <span className="bg-[#00ff88]/15 text-[#00ff88] text-[8px] font-black uppercase tracking-wide px-1 py-0.5 rounded">✓</span>}
+                        {fundingPct}%
+                      </span>
+                    </div>
+                    <div className="w-full bg-surface-high rounded-full h-1.5 mb-1">
+                      <div className="bg-[#00ff88] h-1.5 rounded-full" style={{ width: `${Math.min(fundingPct, 100)}%` }} />
+                    </div>
+                    <div className="flex justify-between text-[10px] font-mono text-on-surface-variant/40">
+                      <span>{formatPrice(fundingRaised)}</span>
+                      <span>{T("Cible", "Goal")}: {formatPrice(contract.totalValue)}</span>
+                    </div>
+                  </>
+                ) : (
+                  <div className="flex justify-between items-center">
+                    <span className="text-on-surface-variant/50 text-[10px] font-mono">{T("SOUTIEN CUMULÉ", "CUMULATIVE SUPPORT")}</span>
+                    <span className="text-[#00ff88] text-[10px] font-mono font-bold">{formatPrice(fundingRaised)}</span>
+                  </div>
+                )}
+              </div>
+            </div>
+
             <div className="flex justify-between items-center">
               <span className="text-on-surface text-[10px] font-mono font-bold tracking-wider">
                 {T("MONTANT DE VOTRE SOUTIEN", "YOUR SUPPORT AMOUNT")}
