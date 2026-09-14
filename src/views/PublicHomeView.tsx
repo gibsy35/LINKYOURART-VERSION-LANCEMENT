@@ -958,7 +958,8 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-legal-item h5{ font-family:'Sora',sans-serif; font-weight:700; font-size:13px; margin-bottom:8px; }
         .term-legal-item p{ font-size:12px; line-height:1.6; color:var(--term-ink-soft); }
         .term-foot-row{ display:flex; align-items:center; gap:20px; margin-bottom:40px; }
-        .term-foot-big{ font-family:'Sora',sans-serif; font-weight:800; color:#fff; font-size:clamp(38px,6vw,80px); }
+        @media (max-width:420px){ .term-foot-row{ gap:12px; } .term-foot-row .term-logo-wrap{ transform:scale(0.75); transform-origin:left center; margin-right:-16px; } }
+        .term-foot-big{ font-family:'Sora',sans-serif; font-weight:800; color:#fff; font-size:clamp(24px,7.6vw,80px); letter-spacing:-0.01em; line-height:1; overflow-wrap:break-word; min-width:0; }
         .term-foot-grid{ display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:24px; padding-bottom:40px; border-top:1px solid #22242E; padding-top:32px; }
         @media (max-width:800px){ .term-foot-grid{ grid-template-columns:1fr 1fr; } }
         .term-foot-grid h5{ font-family:'Sora',sans-serif; font-size:12px; font-weight:700; letter-spacing:0.05em; color:#8A87A8; margin-bottom:16px; }
@@ -1937,7 +1938,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       <footer className="term-footer">
         <div className="term-wrap">
           <div className="term-foot-row" style={{ cursor: 'pointer' }} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-            <Logo size={80} color="multi" showBeta />
+            <div className="term-logo-wrap"><Logo size={80} color="multi" showBeta /></div>
             <div className="term-foot-big">LINKYOURART</div>
           </div>
           <div className="term-foot-grid">
