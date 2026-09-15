@@ -419,7 +419,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         @media (max-width:700px){ .term-wrap{ padding:0 22px; } }
         .term-scroll-progress{ position:fixed; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,#7E1CF1,#E61A97,#02C6FA); transform-origin:0% 50%; z-index:200; }
         .term-header{ background:var(--term-ink); padding:20px 0; position:sticky; top:0; z-index:100; border-bottom:1px solid transparent; transition:background 0.3s ease, border-color 0.3s ease, backdrop-filter 0.3s ease; }
-        .term-header.is-scrolled{ background:rgba(11,14,20,0.5); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border-bottom:1px solid rgba(255,255,255,0.08); }
+        .term-header.is-scrolled{ background:rgba(11,14,20,0.85); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border-bottom:1px solid rgba(255,255,255,0.08); }
         .term-head-inner{ display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:20px; }
         .term-word-wrap{ display:flex; flex-direction:column; gap:1px; }
         .term-word{ font-family:'Sora',sans-serif; font-weight:600; font-size:22px; color:#fff; line-height:1.1; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; -webkit-text-stroke:0.3px #fff; }
@@ -944,7 +944,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-validator-card .name{ font-family:'Fraunces',serif; font-weight:700; font-size:17px; margin-bottom:6px; }
         .term-validator-card .left p{ font-size:13px; color:var(--term-ink-soft); line-height:1.5; }
         .term-validator-card .term-price-features{ margin:0; min-width:240px; }
-        .term-cta{ background:linear-gradient(120deg, #0B0E14 0%, #0B0E14 28%, #7E1CF1 48%, #7E1CF1 58%, #E61A97 74%, #E61A97 84%, #02C6FA 100%); padding:56px 0; }
+        .term-cta{ background:linear-gradient(120deg, #14101F 0%, #5B21B6 45%, #C81C82 100%); padding:56px 0; }
         .term-cta-inner{ display:flex; justify-content:space-between; align-items:center; gap:24px; flex-wrap:wrap; }
         .term-cta h2{ font-weight:800; font-size:clamp(24px,3vw,34px); max-width:22ch; color:#fff; }
         .term-footer{ background:var(--term-ink); color:#B9B7C7; padding-top:48px; }
