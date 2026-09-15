@@ -253,7 +253,7 @@ const LoginView: React.FC<LoginViewProps> = ({ onViewChange, setUser }) => {
     <div className="min-h-screen bg-black text-white flex items-center justify-center p-4 md:p-8 relative overflow-hidden font-mono">
       {/* Dynamic Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary-cyan/10 rounded-full blur-[120px] animate-pulse" />
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-[#7E1CF1]/10 rounded-full blur-[120px] animate-pulse" />
         <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-indigo-500/10 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '2s' }} />
         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay" />
       </div>
@@ -312,30 +312,30 @@ const LoginView: React.FC<LoginViewProps> = ({ onViewChange, setUser }) => {
 
                   <div className="space-y-3">
                     <div className="relative group">
-                      <Mail className="absolute left-5 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary-cyan transition-colors" size={18} />
+                      <Mail className="absolute left-5 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-[#7E1CF1] transition-colors" size={18} />
                       <input 
                         type="email" 
                         required
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 text-sm font-bold text-white focus:border-primary-cyan focus:bg-white/[0.08] outline-none transition-all placeholder:text-on-surface-variant/30  tracking-widest"
+                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 text-sm font-bold text-white focus:border-[#7E1CF1] focus:bg-white/[0.08] outline-none transition-all placeholder:text-on-surface-variant/30  tracking-widest"
                         placeholder={t('EMAIL ADDRESS', 'ADRESSE E-MAIL')}
                       />
                     </div>
                     <div className="relative group">
-                      <Lock className="absolute left-5 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary-cyan transition-colors" size={18} />
+                      <Lock className="absolute left-5 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-[#7E1CF1] transition-colors" size={18} />
                       <input 
                         type={showPassword ? 'text' : 'password'}
                         required
                         value={formData.password}
                         onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 pr-12 text-sm font-bold text-white focus:border-primary-cyan focus:bg-white/[0.08] outline-none transition-all placeholder:text-on-surface-variant/30  tracking-widest"
+                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 pr-12 text-sm font-bold text-white focus:border-[#7E1CF1] focus:bg-white/[0.08] outline-none transition-all placeholder:text-on-surface-variant/30  tracking-widest"
                         placeholder={t('PASSWORD', 'MOT DE PASSE')}
                       />
                       <button
                         type="button"
                         onClick={() => setShowPassword(v => !v)}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant/40 hover:text-primary-cyan transition-colors"
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant/40 hover:text-[#7E1CF1] transition-colors"
                         tabIndex={-1}
                         aria-label={showPassword ? t('Hide password', 'Masquer') : t('Show password', 'Afficher')}
                       >
@@ -380,7 +380,7 @@ const LoginView: React.FC<LoginViewProps> = ({ onViewChange, setUser }) => {
                       onClick={handleGoogleLogin}
                       className="w-full flex items-center justify-center gap-3 py-3 bg-white/[0.03] border border-white/10 rounded-xl hover:bg-white/10 transition-all text-xs font-black uppercase tracking-widest group"
                     >
-                      <Globe size={14} className="text-primary-cyan group-hover:scale-110 transition-transform" /> GOOGLE
+                      <Globe size={14} className="text-[#7E1CF1] group-hover:scale-110 transition-transform" /> GOOGLE
                     </button>
                   </div>
                 </form>
@@ -431,13 +431,13 @@ const LoginView: React.FC<LoginViewProps> = ({ onViewChange, setUser }) => {
                     </motion.div>
                   )}
                   <div className="relative group">
-                    <Mail className="absolute left-6 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary-cyan transition-colors" size={20} />
+                    <Mail className="absolute left-6 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-[#7E1CF1] transition-colors" size={20} />
                     <input 
                       type="email" 
                       required
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full bg-white/[0.03] border border-white/10 rounded-lg p-5 pl-14 text-sm font-bold text-white focus:border-primary-cyan outline-none transition-all placeholder:text-on-surface-variant/30  tracking-widest"
+                      className="w-full bg-white/[0.03] border border-white/10 rounded-lg p-5 pl-14 text-sm font-bold text-white focus:border-[#7E1CF1] outline-none transition-all placeholder:text-on-surface-variant/30  tracking-widest"
                       placeholder={t('EMAIL ADDRESS', 'ADRESSE E-MAIL')}
                     />
                   </div>
@@ -475,7 +475,7 @@ const LoginView: React.FC<LoginViewProps> = ({ onViewChange, setUser }) => {
             SECURED TERMINAL
           </div>
           <div className="flex items-center gap-2">
-            <Globe size={10} className="text-primary-cyan" />
+            <Globe size={10} className="text-[#7E1CF1]" />
             GDPR COMPLIANT
           </div>
           <div>V4.2 ALPHA</div>

@@ -332,7 +332,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
       title: t('Creator', 'Créateur'),
       description: t('Showcase and protect your work.', 'Exposez et protégez vos œuvres.'),
       icon: User,
-      color: 'primary-cyan'
+      color: '[#7E1CF1]'
     },
     {
       id: UserRole.PATRON,
@@ -385,7 +385,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
     <div className="min-h-screen bg-black text-white flex items-center justify-center p-4 md:p-8 relative overflow-hidden font-mono">
       {/* Background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-primary-cyan/10 rounded-full blur-[120px] animate-pulse" />
+        <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-[#7E1CF1]/10 rounded-full blur-[120px] animate-pulse" />
         <div className="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] bg-indigo-500/10 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '2s' }} />
         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay" />
       </div>
@@ -412,7 +412,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
               sessionStorage.setItem('lya_intro_completed', 'true');
               onViewChange('LANDING');
             }}>
-              <div className="absolute inset-0 bg-primary-cyan/25 blur-[60px] rounded-full animate-pulse group-hover:bg-primary-cyan/45 transition-colors" />
+              <div className="absolute inset-0 bg-[#7E1CF1]/25 blur-[60px] rounded-full animate-pulse group-hover:bg-[#7E1CF1]/45 transition-colors" />
               <Logo size={80} color="multi" showBeta className="transition-transform duration-700 group-hover:scale-110" />
             </div>
             <div className="text-[10px] font-bold text-accent-gold uppercase tracking-[0.4em] mt-6 drop-shadow-glow-gold">{t('CREATE LYA SYSTEM ACCOUNT', 'CRÉER UN COMPTE LYA SYSTEME')}</div>
@@ -436,13 +436,13 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
                     <div 
                       key={r.id} 
                       onClick={() => setRole(r.id)}
-                      className={`flex gap-3 items-center group cursor-pointer p-4 mb-2.5 rounded-lg transition-all border ${role === r.id ? 'bg-primary-cyan/10 border-primary-cyan scale-[1.01]' : 'bg-white/[0.03] border-white/10 hover:bg-white/5 hover:border-white/20'}`}
+                      className={`flex gap-3 items-center group cursor-pointer p-4 mb-2.5 rounded-lg transition-all border ${role === r.id ? 'bg-[#7E1CF1]/10 border-[#7E1CF1] scale-[1.01]' : 'bg-white/[0.03] border-white/10 hover:bg-white/5 hover:border-white/20'}`}
                     >
-                      <div className={`w-10 h-10 rounded-xl border flex items-center justify-center shrink-0 transition-all ${role === r.id ? 'bg-primary-cyan border-primary-cyan' : 'bg-white/5 border-white/10 group-hover:border-primary-cyan/50'}`}>
-                        <r.icon size={18} className={role === r.id ? 'text-surface-dim' : 'text-on-surface-variant group-hover:text-primary-cyan'} />
+                      <div className={`w-10 h-10 rounded-xl border flex items-center justify-center shrink-0 transition-all ${role === r.id ? 'bg-[#7E1CF1] border-[#7E1CF1]' : 'bg-white/5 border-white/10 group-hover:border-[#7E1CF1]/50'}`}>
+                        <r.icon size={18} className={role === r.id ? 'text-surface-dim' : 'text-on-surface-variant group-hover:text-[#7E1CF1]'} />
                       </div>
                       <div className="space-y-1">
-                        <h3 className={`text-xs font-black uppercase tracking-widest transition-colors ${role === r.id ? 'text-primary-cyan' : 'text-white'}`}>{r.title}</h3>
+                        <h3 className={`text-xs font-black uppercase tracking-widest transition-colors ${role === r.id ? 'text-[#7E1CF1]' : 'text-white'}`}>{r.title}</h3>
                         <p className="text-[11px] text-on-surface-variant/70 leading-snug">{r.description}</p>
                       </div>
                     </div>
@@ -491,19 +491,19 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
 
                 <div className="mb-4 text-center">
                   <h2 className="text-3xl font-black font-headline uppercase tracking-tighter italic mb-2 text-white leading-none">{t('FINALIZE', 'FINALISER')}</h2>
-                  <div className="px-3 py-1 bg-primary-cyan/10 text-primary-cyan border border-primary-cyan/30 rounded-full text-[10px] font-black uppercase tracking-[0.2em] inline-block">
+                  <div className="px-3 py-1 bg-[#7E1CF1]/10 text-[#7E1CF1] border border-[#7E1CF1]/30 rounded-full text-[10px] font-black uppercase tracking-[0.2em] inline-block">
                     {role}
                   </div>
                 </div>
 
                 <form className="space-y-3" onSubmit={handleSignup}>
                   {error && (
-                    <div className="p-4 bg-[#a78bfa]/10 border border-[#a78bfa]/30 rounded-xl text-center space-y-3">
-                      <p className="text-xs font-black text-[#a78bfa] uppercase tracking-widest">{error}</p>
+                    <div className="p-4 bg-[#7E1CF1]/10 border border-[#7E1CF1]/30 rounded-xl text-center space-y-3">
+                      <p className="text-xs font-black text-[#7E1CF1] uppercase tracking-widest">{error}</p>
                       <button
                         type="button"
                         onClick={() => onViewChange(emailAlreadyExists ? 'LOGIN' : 'LANDING')}
-                        className="w-full py-2.5 bg-[#a78bfa] text-surface-dim text-xs font-black uppercase tracking-widest rounded-xl hover:bg-white transition-all"
+                        className="w-full py-2.5 bg-[#7E1CF1] text-surface-dim text-xs font-black uppercase tracking-widest rounded-xl hover:bg-white transition-all"
                       >
                         {emailAlreadyExists
                           ? t('Log in →', 'Se connecter →')
@@ -515,38 +515,38 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
                   {!emailAlreadyExists && (<>
                   <div className="space-y-3">
                     <div className="relative group">
-                      <User className="absolute left-5 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary-cyan transition-colors" size={18} />
+                      <User className="absolute left-5 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-[#7E1CF1] transition-colors" size={18} />
                       <input 
                                                 value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 text-sm font-bold text-white focus:border-primary-cyan outline-none transition-all placeholder:text-on-surface-variant/30  tracking-widest"
+                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 text-sm font-bold text-white focus:border-[#7E1CF1] outline-none transition-all placeholder:text-on-surface-variant/30  tracking-widest"
                         placeholder={t('FULL NAME', 'NOM COMPLET')}
                       />
                     </div>
                     <div className="relative group">
-                      <Globe className="absolute left-5 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary-cyan transition-colors" size={18} />
+                      <Globe className="absolute left-5 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-[#7E1CF1] transition-colors" size={18} />
                       <select
                         value={formData.country}
                         onChange={(e) => setFormData({ ...formData, country: e.target.value })}
-                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 text-sm font-bold text-white focus:border-primary-cyan outline-none transition-all tracking-widest appearance-none"
+                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 text-sm font-bold text-white focus:border-[#7E1CF1] outline-none transition-all tracking-widest appearance-none"
                       >
                         <option value="" className="bg-surface-dim">{t('COUNTRY (OPTIONAL)', 'PAYS (OPTIONNEL)')}</option>
                         {COUNTRIES.map(c => <option key={c} value={c} className="bg-surface-dim">{c}</option>)}
                       </select>
                     </div>
                     <div className="relative group">
-                      <Mail className="absolute left-5 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary-cyan transition-colors" size={18} />
+                      <Mail className="absolute left-5 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-[#7E1CF1] transition-colors" size={18} />
                       <input 
                         type="email" 
                         required
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 text-sm font-bold text-white focus:border-primary-cyan outline-none transition-all placeholder:text-on-surface-variant/30  tracking-widest"
+                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 text-sm font-bold text-white focus:border-[#7E1CF1] outline-none transition-all placeholder:text-on-surface-variant/30  tracking-widest"
                         placeholder={t('EMAIL ADDRESS', 'ADRESSE E-MAIL')}
                       />
                     </div>
                     <div className="relative group">
-                      <Lock className="absolute left-5 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary-cyan transition-colors" size={18} />
+                      <Lock className="absolute left-5 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-[#7E1CF1] transition-colors" size={18} />
                       <input 
                         type={showPassword ? 'text' : 'password'}
                         required
@@ -554,13 +554,13 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
                         pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}"
                         value={formData.password}
                         onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 pr-12 text-sm font-bold text-white focus:border-primary-cyan outline-none transition-all placeholder:text-on-surface-variant/30 tracking-widest"
+                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 pr-12 text-sm font-bold text-white focus:border-[#7E1CF1] outline-none transition-all placeholder:text-on-surface-variant/30 tracking-widest"
                         placeholder={t('PASSWORD', 'MOT DE PASSE')}
                       />
                       <button
                         type="button"
                         onClick={() => setShowPassword(v => !v)}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant/40 hover:text-primary-cyan transition-colors"
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant/40 hover:text-[#7E1CF1] transition-colors"
                         tabIndex={-1}
                         aria-label={showPassword ? t('Hide password', 'Masquer le mot de passe') : t('Show password', 'Afficher le mot de passe')}
                       >
@@ -581,13 +581,13 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
                     ) : (
                       <>
                         <div className="relative group">
-                          <ShieldCheck className="absolute left-5 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary-cyan transition-colors" size={18} />
+                          <ShieldCheck className="absolute left-5 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-[#7E1CF1] transition-colors" size={18} />
                           <input
                             type="text"
                             required
                             value={formData.accessCode}
                             onChange={(e) => setFormData({ ...formData, accessCode: e.target.value.toUpperCase() })}
-                            className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 text-sm font-bold text-white focus:border-primary-cyan outline-none transition-all placeholder:text-on-surface-variant/30  tracking-widest"
+                            className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 text-sm font-bold text-white focus:border-[#7E1CF1] outline-none transition-all placeholder:text-on-surface-variant/30  tracking-widest"
                             placeholder={t('ACCESS CODE', 'CODE D\'ACCÈS')}
                           />
                         </div>
@@ -625,7 +625,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
                       onClick={handleGoogleSignup}
                       className="flex items-center justify-center gap-3 py-3 bg-white/[0.03] border border-white/10 rounded-xl hover:bg-white/10 transition-all text-xs font-black uppercase tracking-widest group"
                     >
-                      <Globe size={14} className="text-primary-cyan group-hover:scale-110 transition-transform" /> GOOGLE
+                      <Globe size={14} className="text-[#7E1CF1] group-hover:scale-110 transition-transform" /> GOOGLE
                     </button>
                     <button 
                       type="button"
@@ -646,7 +646,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
             GDPR COMPLIANT
           </div>
           <div className="flex items-center gap-2">
-            <Globe size={10} className="text-primary-cyan" />
+            <Globe size={10} className="text-[#7E1CF1]" />
             SECURED TERMINAL
           </div>
           <div>V4.2 ALPHA</div>
