@@ -404,8 +404,8 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Sora:wght@500;600;700;800&display=swap');
         .term-root{
           --term-ink:#0B0E14; --term-ink-soft:#565B6B; --term-paper:#FFFFFF;
-          --term-grey:#F3F2F8; --term-line:#E6E4EF; --term-lav:#F5BEDD;
-          --term-lav-deep:#9E1670; --term-purple:#7E1CF1; --term-pink:#E61A97; --term-cyan:#02C6FA;
+          --term-grey:#F3F2F8; --term-line:#E6E4EF; --term-lav:#FFBEDD;
+          --term-lav-deep:#B8005C; --term-purple:#7E1CF1; --term-pink:#E61A97; --term-cyan:#02C6FA;
           background:var(--term-paper); color:var(--term-ink); font-family:'Inter',sans-serif;
         }
         .term-root h1, .term-root h2, .term-root h3{ font-family:'Fraunces',Georgia,serif; font-weight:700; letter-spacing:-0.01em; text-transform:lowercase; }
@@ -944,9 +944,9 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-validator-card .name{ font-family:'Fraunces',serif; font-weight:700; font-size:17px; margin-bottom:6px; }
         .term-validator-card .left p{ font-size:13px; color:var(--term-ink-soft); line-height:1.5; }
         .term-validator-card .term-price-features{ margin:0; min-width:240px; }
-        .term-cta{ background:var(--term-lav); padding:56px 0; }
+        .term-cta{ background:linear-gradient(120deg,#7E1CF1,#E61A97); padding:56px 0; }
         .term-cta-inner{ display:flex; justify-content:space-between; align-items:center; gap:24px; flex-wrap:wrap; }
-        .term-cta h2{ font-weight:800; font-size:clamp(24px,3vw,34px); max-width:22ch; color:var(--term-ink); }
+        .term-cta h2{ font-weight:800; font-size:clamp(24px,3vw,34px); max-width:22ch; color:#fff; }
         .term-footer{ background:var(--term-ink); color:#B9B7C7; padding-top:48px; }
         .term-footer-tabs{ padding:32px 0 8px; }
         .term-tab-close{ background:var(--term-grey); border:none; padding:8px 16px; border-radius:100px; font-family:'Sora',sans-serif; font-weight:700; font-size:12px; color:var(--term-ink-soft); cursor:pointer; margin-bottom:20px; }
@@ -1730,7 +1730,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         <div className="term-wrap term-cta-inner">
           <div>
             <h2>{t('Prêt à faire certifier votre travail ?', 'Ready to get your work certified?')}</h2>
-            <div style={{ fontSize: 13, color: '#6B4A5E', marginTop: 8 }}>{t('Accès sur pré-inscription, validé par notre équipe.', 'Access by pre-registration, validated by our team.')}</div>
+            <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.85)', marginTop: 8 }}>{t('Accès sur pré-inscription, validé par notre équipe.', 'Access by pre-registration, validated by our team.')}</div>
           </div>
           <button className="term-pill term-btn-flash" style={{ background: '#0B0E14' }} onClick={() => setShowJoin(true)}>{t('Rejoindre LYA →', 'Join LYA →')}</button>
         </div>
