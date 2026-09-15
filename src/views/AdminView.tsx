@@ -904,13 +904,34 @@ export const AdminView: React.FC<{
                     </div>
                   </td>
                   <td className="p-6">
-                    <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-black tracking-widest ${u.isPro ? 'bg-emerald-400/10 text-emerald-400' : 'bg-white/5 text-on-surface-variant'}`}>
-                      <div className={`w-1.5 h-1.5 rounded-full ${u.isPro ? 'bg-emerald-400 animate-pulse' : 'bg-on-surface-variant'}`} />
-                      {u.isPro ? 'PRO HUB' : 'BASIC'}
-                    </div>
+                    {u.status === 'PENDING_APPROVAL' ? (
+                      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-black tracking-widest bg-amber-400/10 text-amber-400">
+                        <div className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+                        {t('PENDING', 'EN ATTENTE')}
+                      </div>
+                    ) : (
+                      <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-black tracking-widest ${u.isPro ? 'bg-emerald-400/10 text-emerald-400' : 'bg-white/5 text-on-surface-variant'}`}>
+                        <div className={`w-1.5 h-1.5 rounded-full ${u.isPro ? 'bg-emerald-400 animate-pulse' : 'bg-on-surface-variant'}`} />
+                        {u.isPro ? 'PRO HUB' : 'BASIC'}
+                      </div>
+                    )}
                   </td>
                   <td className="p-6 text-right" onClick={e => e.stopPropagation()}>
                     <div className="flex items-center justify-end gap-1">
+                      {u.status === 'PENDING_APPROVAL' && (
+                        <button
+                          onClick={async () => {
+                            try {
+                              await updateDoc(doc(db, 'users', u.uid!), { status: 'APPROVED' });
+                              onNotify(t(`✦ ${u.displayName} approved — account unlocked`, `✦ ${u.displayName} approuvé — compte débloqué`));
+                            } catch (e) { onNotify(t('Error', 'Erreur')); }
+                          }}
+                          className="p-2 hover:bg-emerald-400/10 rounded-lg text-emerald-400 transition-all"
+                          title={t('Approve account', 'Approuver le compte')}
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+                        </button>
+                      )}
                       <button 
                         onClick={() => handleTogglePro(u.uid!, !!u.isPro)} 
                         className="p-2 hover:bg-accent-gold/10 rounded-lg text-accent-gold transition-all"
