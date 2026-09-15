@@ -47,11 +47,17 @@ function buildConfirmationEmail(name, email, role, lang, tier, position, accessK
         <table width="100%" cellpadding="0" cellspacing="0" border="0">
           <tr><td style="padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.05);"><span style="font-size:11px;color:#8B94A3;letter-spacing:0.1em;text-transform:uppercase;">${isFR ? 'Profil' : 'Profile'}</span></td><td style="padding:7px 0;text-align:right;border-bottom:1px solid rgba(255,255,255,0.05);"><span style="font-size:12px;font-weight:900;color:#ffffff;">${roleLabel}</span></td></tr>
           <tr><td style="padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.05);"><span style="font-size:11px;color:#8B94A3;letter-spacing:0.1em;text-transform:uppercase;">Email</span></td><td style="padding:7px 0;text-align:right;border-bottom:1px solid rgba(255,255,255,0.05);"><span style="font-size:12px;color:#C4C9D4;">${email}</span></td></tr>
-          <tr><td style="padding:7px 0;"><span style="font-size:11px;color:#8B94A3;letter-spacing:0.1em;text-transform:uppercase;">Statut</span></td><td style="padding:7px 0;text-align:right;"><span style="font-size:11px;font-weight:900;color:#FFD700;background:#252515;border:1px solid #564c10;border-radius:20px;padding:3px 10px;letter-spacing:0.1em;">${isFR ? '⏳ EN COURS D\'EXAMEN' : '⏳ UNDER REVIEW'}</span></td></tr>
+          <tr><td style="padding:7px 0;"><span style="font-size:11px;color:#8B94A3;letter-spacing:0.1em;text-transform:uppercase;">Statut</span></td><td style="padding:7px 0;text-align:right;">${isInstantAccess
+            ? `<span style="font-size:11px;font-weight:900;color:#3ADB76;background:#132819;border:1px solid #1f5c34;border-radius:20px;padding:3px 10px;letter-spacing:0.1em;">${isFR ? '✓ ACTIVÉ' : '✓ ACTIVATED'}</span>`
+            : `<span style="font-size:11px;font-weight:900;color:#FFD700;background:#252515;border:1px solid #564c10;border-radius:20px;padding:3px 10px;letter-spacing:0.1em;">${isFR ? '⏳ EN COURS D\'EXAMEN' : '⏳ UNDER REVIEW'}</span>`
+          }</td></tr>
         </table>
       </td></tr>
     </table>
-    <p style="margin:0 0 24px;font-size:13px;color:#A8AFBD;line-height:1.8;text-align:center;">${isFR ? 'Nous vous contacterons très prochainement avec notre décision.<br>En attendant, découvrez ce qui vous attend sur LYA.' : 'We will get back to you very soon with our decision.<br>In the meantime, discover what awaits you on LYA.'}</p>
+    <p style="margin:0 0 24px;font-size:13px;color:#A8AFBD;line-height:1.8;text-align:center;">${isInstantAccess
+      ? (isFR ? 'Votre accès est déjà actif — utilisez votre clé ci-dessus pour créer votre compte quand vous le souhaitez.<br>En attendant, découvrez ce qui vous attend sur LYA.' : 'Your access is already active — use your key above to create your account whenever you\'re ready.<br>In the meantime, discover what awaits you on LYA.')
+      : (isFR ? 'Nous vous contacterons très prochainement avec notre décision.<br>En attendant, découvrez ce qui vous attend sur LYA.' : 'We will get back to you very soon with our decision.<br>In the meantime, discover what awaits you on LYA.')
+    }</p>
     <p style="margin:0 0 12px;font-size:9px;font-weight:900;color:#7B8291;text-transform:uppercase;letter-spacing:0.2em;text-align:center;">${isFR ? 'PRÉSENTATION OFFICIELLE' : 'OFFICIAL PRESENTATION'}</p>
     <table width="100%" cellpadding="0" cellspacing="0" border="0">
       <tr>
