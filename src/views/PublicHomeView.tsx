@@ -421,14 +421,16 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-header{ background:var(--term-ink); padding:20px 0; position:sticky; top:0; z-index:100; border-bottom:1px solid transparent; transition:background 0.3s ease, border-color 0.3s ease, backdrop-filter 0.3s ease; }
         .term-header.is-scrolled{ background:rgba(11,14,20,0.5); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border-bottom:1px solid rgba(255,255,255,0.08); }
         .term-head-inner{ display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:20px; }
-        .term-word{ font-family:'Sora',sans-serif; font-weight:800; font-size:22px; color:#fff; }
+        .term-word-wrap{ display:flex; flex-direction:column; gap:1px; }
+        .term-word{ font-family:'Sora',sans-serif; font-weight:800; font-size:22px; color:#fff; line-height:1.1; }
+        .term-word-tagline{ font-family:'Sora',sans-serif; font-weight:700; font-size:8.5px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(255,255,255,0.4); }
         .term-nav{ display:flex; align-items:center; gap:28px; margin-left:auto; }
         .term-nav ul{ display:flex; gap:28px; list-style:none; margin:0; padding:0; }
         .term-nav a{ color:#B9B7C7; text-decoration:none; font-size:14.5px; font-weight:500; padding-bottom:4px; border-bottom:2px solid transparent; transition:color 0.2s ease, border-color 0.2s ease; }
         .term-nav a.active{ color:#fff; border-bottom-color:#E61A97; }
         .term-nav a:hover{ color:#fff; }
         @media (max-width:800px){
-          .term-word{ display:none; }
+          .term-word-wrap{ display:none; }
           .term-head-inner{ flex-wrap:nowrap; gap:8px; }
           .term-nav{ gap:8px; flex-wrap:nowrap; overflow-x:auto; -ms-overflow-style:none; scrollbar-width:none; }
           .term-nav::-webkit-scrollbar{ display:none; }
@@ -968,7 +970,8 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-legal-item p{ font-size:12px; line-height:1.6; color:var(--term-ink-soft); }
         .term-foot-row{ display:flex; align-items:center; gap:20px; margin-bottom:40px; }
         @media (max-width:420px){ .term-foot-row{ gap:12px; } .term-foot-row .term-logo-wrap{ transform:scale(0.75); transform-origin:left center; margin-right:-16px; } }
-        .term-foot-big{ font-family:'Sora',sans-serif; font-weight:800; color:#fff; font-size:clamp(24px,7.6vw,80px); letter-spacing:-0.01em; line-height:1; overflow-wrap:break-word; min-width:0; }
+        .term-foot-big{ font-family:'Sora',sans-serif; font-weight:800; color:#fff; font-size:clamp(24px,7.6vw,80px); letter-spacing:0.002em; line-height:1; overflow-wrap:break-word; min-width:0; }
+        .term-foot-tagline{ font-family:'Sora',sans-serif; font-weight:700; font-size:clamp(10px,1.3vw,13px); letter-spacing:0.14em; text-transform:uppercase; color:rgba(255,255,255,0.4); margin-top:8px; }
         .term-foot-grid{ display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:24px; padding-bottom:40px; border-top:1px solid #22242E; padding-top:32px; }
         @media (max-width:800px){ .term-foot-grid{ grid-template-columns:1fr 1fr; } }
         .term-foot-grid h5{ font-family:'Sora',sans-serif; font-size:12px; font-weight:700; letter-spacing:0.05em; color:#8A87A8; margin-bottom:16px; }
@@ -983,7 +986,10 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         <div className="term-wrap term-head-inner">
           <div style={{ display: 'flex', alignItems: 'center', gap: 14, cursor: 'pointer' }} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
             <Logo size={52} color="multi" showBeta />
-            <div className="term-word">LINKYOURART</div>
+            <div className="term-word-wrap">
+              <div className="term-word">LINKYOURART</div>
+              <div className="term-word-tagline">{t('Your Score. Your Standard.', 'Votre Score. Votre Standard.')}</div>
+            </div>
           </div>
           <nav className="term-nav">
             <ul>
@@ -1969,7 +1975,10 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         <div className="term-wrap">
           <div className="term-foot-row" style={{ cursor: 'pointer' }} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
             <div className="term-logo-wrap"><Logo size={80} color="multi" showBeta /></div>
-            <div className="term-foot-big">LINKYOURART</div>
+            <div>
+              <div className="term-foot-big">LINKYOURART</div>
+              <div className="term-foot-tagline">{t('Your Score. Your Standard.', 'Votre Score. Votre Standard.')}</div>
+            </div>
           </div>
           <div className="term-foot-grid">
             <div>
