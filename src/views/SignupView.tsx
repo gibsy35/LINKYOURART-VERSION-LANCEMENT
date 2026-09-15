@@ -415,7 +415,8 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
               <div className="absolute inset-0 bg-[#7E1CF1]/25 blur-[60px] rounded-full animate-pulse group-hover:bg-[#7E1CF1]/45 transition-colors" />
               <Logo size={80} color="multi" showBeta className="transition-transform duration-700 group-hover:scale-110" />
             </div>
-            <div className="text-[10px] font-bold text-accent-gold uppercase tracking-[0.4em] mt-6 drop-shadow-glow-gold">{t('CREATE LYA SYSTEM ACCOUNT', 'CRÉER UN COMPTE LYA SYSTEME')}</div>
+            <div className="text-[9px] font-bold text-on-surface-variant/40 uppercase tracking-[0.3em]">{t('Your Score. Your Standard.', 'Votre Score. Votre Standard.')}</div>
+            <div className="text-[10px] font-bold text-accent-gold uppercase tracking-[0.4em] mt-3 drop-shadow-glow-gold">{t('CREATE LYA SYSTEM ACCOUNT', 'CRÉER UN COMPTE LYA SYSTEME')}</div>
           </div>
 
           <AnimatePresence mode="wait">
