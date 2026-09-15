@@ -191,7 +191,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               <Logo size={60} color="multi" showBeta className="relative z-10" />
             </div>
             <div className="flex flex-col min-w-0 flex-1">
-              <span className="text-white font-black tracking-tight text-2xl leading-[0.7] truncate uppercase">LINK<span style={{ letterSpacing: '0.05em' }}>Y</span>OURART</span>
+              <span className="text-white font-black tracking-tight text-2xl leading-[0.7] truncate uppercase">LINKYOURART</span>
               <span className="text-[10px] text-white font-black tracking-[0.2em] uppercase mt-2 opacity-70 group-hover:opacity-100 transition-opacity">
                 {t('YOUR SCORE. YOUR STANDARD.', 'VOTRE SCORE. VOTRE STANDARD.')}
               </span>

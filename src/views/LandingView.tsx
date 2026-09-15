@@ -68,7 +68,7 @@ const ParticleBackground = () => {
 const ElevatedTextLogo = ({ size = 'text-2xl' }: { size?: string }) => {
   return (
     <div className={`font-sans ${size} font-black tracking-tight text-white uppercase leading-none flex items-baseline`}>
-      <span className="h-full">LINK<span style={{ letterSpacing: '0.05em' }}>Y</span>OURART</span>
+      <span className="h-full">LINKYOURART</span>
     </div>
   );
 };
