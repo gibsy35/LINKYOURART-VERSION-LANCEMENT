@@ -24,6 +24,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [emailAlreadyExists, setEmailAlreadyExists] = useState(false);
   const [isVerificationSent, setIsVerificationSent] = useState(false);
   const [formData, setFormData] = useState(() => {
     let prefillEmail = '';
@@ -57,6 +58,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!role || !formData.name || !formData.email || !formData.password) return;
+    setEmailAlreadyExists(false);
 
     if (formData.password.length < 6) {
       setError(t(
@@ -210,6 +212,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
       console.error('Signup Error:', err);
       const errMsg = err.message || '';
       if (err.code === 'auth/email-already-in-use' || errMsg.includes('email-already-in-use') || errMsg.includes('auth/email-already-in-use')) {
+        setEmailAlreadyExists(true);
         setError(t(
           'This email is already registered. Please login.',
           'Cet e-mail est déjà enregistré. Veuillez vous connecter.'
@@ -498,14 +501,18 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
                     <div className="p-4 bg-[#a78bfa]/10 border border-[#a78bfa]/30 rounded-xl text-center space-y-3">
                       <p className="text-xs font-black text-[#a78bfa] uppercase tracking-widest">{error}</p>
                       <button
-                        onClick={() => onViewChange('LANDING')}
+                        type="button"
+                        onClick={() => onViewChange(emailAlreadyExists ? 'LOGIN' : 'LANDING')}
                         className="w-full py-2.5 bg-[#a78bfa] text-surface-dim text-xs font-black uppercase tracking-widest rounded-xl hover:bg-white transition-all"
                       >
-                        {t('Join the LYA Originals →', 'Rejoindre la liste LYA Originals →')}
+                        {emailAlreadyExists
+                          ? t('Log in →', 'Se connecter →')
+                          : t('Join the LYA Originals →', 'Rejoindre la liste LYA Originals →')}
                       </button>
                     </div>
                   )}
 
+                  {!emailAlreadyExists && (<>
                   <div className="space-y-3">
                     <div className="relative group">
                       <User className="absolute left-5 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary-cyan transition-colors" size={18} />
@@ -603,6 +610,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
                       </>
                     )}
                   </button>
+                  </>)}
 
                   <div className="relative py-2 text-center">
                     <div className="absolute inset-0 flex items-center">
