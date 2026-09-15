@@ -48,6 +48,11 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
       accessCode: prefillCode.trim().toUpperCase()
     };
   });
+  // Capture, au montage uniquement, si le code d'acces est arrive deja
+  // rempli (lien d'email de pre-inscription) — pour afficher une
+  // confirmation claire plutot qu'un champ generique qui pretait a
+  // confusion ("pourquoi ce code est deja la, qu'est-ce que j'en fais").
+  const [wasCodePrefilled] = useState(() => !!formData.accessCode);
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -558,20 +563,32 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
                     <p className="text-[10px] text-on-surface-variant/50 -mt-2 px-1 leading-relaxed">
                       {t('At least 8 characters, with an uppercase letter, a lowercase letter and a number.', 'Au moins 8 caractères, avec une majuscule, une minuscule et un chiffre.')}
                     </p>
-                    <div className="relative group">
-                      <ShieldCheck className="absolute left-5 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary-cyan transition-colors" size={18} />
-                      <input
-                        type="text"
-                        required
-                        value={formData.accessCode}
-                        onChange={(e) => setFormData({ ...formData, accessCode: e.target.value.toUpperCase() })}
-                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 text-sm font-bold text-white focus:border-primary-cyan outline-none transition-all placeholder:text-on-surface-variant/30  tracking-widest"
-                        placeholder={t('ACCESS CODE', 'CODE D\'ACCÈS')}
-                      />
-                    </div>
-                    <p className="text-[10px] text-on-surface-variant/40 -mt-2 px-1">
-                      {t('Received after your pre-registration is approved.', 'Reçu après approbation de votre pré-inscription.')}
-                    </p>
+                    {wasCodePrefilled ? (
+                      <div className="flex items-center gap-3 bg-emerald-400/10 border border-emerald-400/25 rounded-xl p-4">
+                        <ShieldCheck className="text-emerald-400 shrink-0" size={20} />
+                        <div>
+                          <p className="text-sm font-bold text-emerald-400">{t('Access validated via your invitation', 'Accès validé via votre invitation')}</p>
+                          <p className="text-[10px] text-on-surface-variant/50 mt-0.5">{t('No further action needed — just finish creating your account below.', "Aucune action requise — il ne reste plus qu'à finaliser votre compte ci-dessous.")}</p>
+                        </div>
+                      </div>
+                    ) : (
+                      <>
+                        <div className="relative group">
+                          <ShieldCheck className="absolute left-5 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary-cyan transition-colors" size={18} />
+                          <input
+                            type="text"
+                            required
+                            value={formData.accessCode}
+                            onChange={(e) => setFormData({ ...formData, accessCode: e.target.value.toUpperCase() })}
+                            className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 text-sm font-bold text-white focus:border-primary-cyan outline-none transition-all placeholder:text-on-surface-variant/30  tracking-widest"
+                            placeholder={t('ACCESS CODE', 'CODE D\'ACCÈS')}
+                          />
+                        </div>
+                        <p className="text-[10px] text-on-surface-variant/40 -mt-2 px-1">
+                          {t('Received after your pre-registration is approved.', 'Reçu après approbation de votre pré-inscription.')}
+                        </p>
+                      </>
+                    )}
                   </div>
 
                   <button 
