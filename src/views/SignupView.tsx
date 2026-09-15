@@ -19,7 +19,7 @@ interface SignupViewProps {
 
 const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
   const { t, language } = useTranslation();
-  const [role, setRole] = useState<UserRole | null>(null);
+  const [role, setRole] = useState<UserRole | null>(UserRole.CREATOR);
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
