@@ -26,66 +26,6 @@ interface PendingApprovalViewProps {
 
 export const PendingApprovalView: React.FC<PendingApprovalViewProps> = ({ user, onApprove, onLogout }) => {
   const { t } = useTranslation();
-  const [accessKey, setAccessKey] = useState('');
-  const [isValidating, setIsValidating] = useState(false);
-  const [keyError, setKeyError] = useState<string | null>(null);
-  const [successMsg, setSuccessMsg] = useState<string | null>(null);
-
-  const handleValidateKey = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!accessKey.trim()) return;
-    setIsValidating(true);
-    setKeyError(null);
-    setSuccessMsg(null);
-    try {
-      const { collection, query, where, getDocs, updateDoc, doc } = await import('firebase/firestore');
-      const { db } = await import('../firebase');
-      
-      const k = accessKey.trim().toUpperCase();
-      const keysRef = collection(db, 'access_keys');
-      const q = query(keysRef, where('key', '==', k));
-      const snap = await getDocs(q);
-      
-      if (snap.empty) {
-        setKeyError(t('Invalid key. Please check spelling.', 'Clé invalide. Veuillez vérifier la saisie.'));
-        setIsValidating(false);
-        return;
-      }
-      
-      const keyData = snap.docs[0].data();
-      if (keyData.status === 'USED') {
-         setKeyError(t('Key has already been used.', 'Cette clé d\'accès a déjà été consommée.'));
-         setIsValidating(false);
-         return;
-      }
-      
-      // Consume the key
-      const keyDocId = snap.docs[0].id;
-      await updateDoc(doc(db, 'access_keys', keyDocId), {
-        status: 'USED',
-        usedBy: user.email,
-        usedAt: new Date().toISOString()
-      });
-      
-      setSuccessMsg(t('Access key verified. Provisioning terminal profile...', 'Clé d\'accès vérifiée. Configuration de votre profil...'));
-      
-      setTimeout(() => {
-        onApprove();
-        setIsValidating(false);
-      }, 1500);
-    } catch (err: any) {
-      console.warn(err);
-      const code = err?.code || '';
-      if (code === 'permission-denied') {
-        setKeyError(t("Access temporarily unavailable. Please try again in a moment, or contact us if this persists.", "Accès momentanément indisponible. Réessayez dans un instant, ou contactez-nous si le problème persiste."));
-      } else if (code === 'unavailable' || code === 'resource-exhausted') {
-        setKeyError(t('Connection issue. Please try again in a moment.', 'Problème de connexion. Réessayez dans un instant.'));
-      } else {
-        setKeyError(t('Something went wrong. Please try again.', "Une erreur s'est produite. Réessayez."));
-      }
-      setIsValidating(false);
-    }
-  };
 
   const getRoleLabel = (r: UserRole) => {
     switch (r) {
@@ -206,67 +146,6 @@ export const PendingApprovalView: React.FC<PendingApprovalViewProps> = ({ user, 
                   </div>
                 </div>
               </div>
-            </div>
-
-            {/* ACCESS KEY ENTRY BOX - ENHANCED VISIBILITY */}
-            <div className="p-8 bg-[#150a12]/90 border-2 border-[#FF007F] rounded-[2rem] space-y-5 relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-40 h-40 bg-[#FF007F]/10 blur-3xl rounded-full pointer-events-none" />
-              <div className="absolute -bottom-8 -left-8 w-24 h-24 bg-primary-cyan/10 blur-2xl rounded-full pointer-events-none" />
-              
-              <div className="space-y-2.5 relative z-10">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-2.5 h-2.5 rounded-full bg-[#FF007F]" />
-                  <span className="text-[10px] font-black text-[#FF007F] uppercase tracking-[0.25em]">
-                    {t('SKIP THE WAIT', 'ACCÉDER TOUT DE SUITE')}
-                  </span>
-                </div>
-                <h3 className="text-sm font-black text-white uppercase tracking-wider">
-                  {t('HAVE AN ACCESS CODE?', 'VOUS AVEZ UN CODE D\'ACCÈS ?')}
-                </h3>
-                <p className="text-xs text-white/75 uppercase tracking-wider font-bold leading-normal">
-                  {t(
-                    'If you received an access code by email, enter it below to activate your account immediately.',
-                    "Si vous avez reçu un code d'accès par e-mail, saisissez-le ci-dessous pour activer votre compte immédiatement."
-                  )}
-                </p>
-              </div>
-
-              <form onSubmit={handleValidateKey} className="space-y-4 relative z-10">
-                <input 
-                  type="text"
-                  value={accessKey}
-                  onChange={(e) => setAccessKey(e.target.value)}
-                  placeholder="LYA-XXXX-XXXX"
-                  className="w-full bg-black/80 border-2 border-[#FF007F]/65 focus:border-[#FF007F] rounded-xl px-5 py-4 text-sm font-mono text-center tracking-[0.25em] font-black  text-white focus:outline-none focus:ring-2 focus:ring-[#FF007F]/30 transition-all placeholder:text-white/30 shadow-[inset_0_2px_10px_rgba(0,0,0,0.8)]"
-                />
-
-                {keyError && (
-                  <div className="text-[10px] font-bold text-rose-400 bg-rose-950/40 py-2 px-4 rounded-xl border-2 border-rose-500/50 uppercase tracking-wide text-center">
-                    {keyError}
-                  </div>
-                )}
-                
-                {successMsg && (
-                  <div className="text-[10px] font-bold text-emerald-400 bg-emerald-950/40 py-2 px-4 rounded-xl border-2 border-emerald-500/50 uppercase tracking-wide text-center animate-pulse">
-                    {successMsg}
-                  </div>
-                )}
-
-                <button 
-                  type="submit"
-                  disabled={isValidating || !accessKey.trim()}
-                  className="w-full py-4.5 bg-gradient-to-r from-[#FF007F] to-[#9D00FF] text-white hover:from-white hover:to-white hover:text-black font-black uppercase tracking-[0.2em] rounded-lg flex items-center justify-center gap-3 transition-all duration-300 active:scale-[0.98] disabled:opacity-40 shadow-[0_10px_25px_rgba(255,0,127,0.3)] hover:shadow-[0_15px_30px_rgba(255,255,255,0.4)]"
-                >
-                  {isValidating ? (
-                    <RefreshCw size={14} className="animate-spin text-white" />
-                  ) : (
-                    <>
-                      {t('ACTIVATE MY ACCOUNT', 'ACTIVER MON COMPTE')}
-                      <ArrowRight size={14} />
-                    </>
-                  )}
-                </button>
-              </form>
             </div>
           </div>
         </div>
