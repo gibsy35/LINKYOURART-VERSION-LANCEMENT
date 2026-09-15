@@ -457,6 +457,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
               <div className="relative group">
                 <User className="absolute left-5 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-[#7E1CF1] transition-colors" size={18} />
                 <input 
+                  required
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 text-sm font-bold text-white focus:border-[#7E1CF1] outline-none transition-all placeholder:text-on-surface-variant/30  tracking-widest"
