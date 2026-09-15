@@ -422,7 +422,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-header.is-scrolled{ background:rgba(11,14,20,0.5); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border-bottom:1px solid rgba(255,255,255,0.08); }
         .term-head-inner{ display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:20px; }
         .term-word-wrap{ display:flex; flex-direction:column; gap:1px; }
-        .term-word{ font-family:'Sora',sans-serif; font-weight:800; font-size:22px; color:#fff; line-height:1.1; }
+        .term-word{ font-family:'Sora',sans-serif; font-weight:700; font-size:22px; color:#fff; line-height:1.1; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; }
         .term-word-tagline{ font-family:'Sora',sans-serif; font-weight:700; font-size:8.5px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(255,255,255,0.4); }
         .term-nav{ display:flex; align-items:center; gap:28px; margin-left:auto; }
         .term-nav ul{ display:flex; gap:28px; list-style:none; margin:0; padding:0; }
@@ -970,7 +970,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-legal-item p{ font-size:12px; line-height:1.6; color:var(--term-ink-soft); }
         .term-foot-row{ display:flex; align-items:center; gap:20px; margin-bottom:40px; }
         @media (max-width:420px){ .term-foot-row{ gap:12px; } .term-foot-row .term-logo-wrap{ transform:scale(0.75); transform-origin:left center; margin-right:-16px; } }
-        .term-foot-big{ font-family:'Sora',sans-serif; font-weight:800; color:#fff; font-size:clamp(24px,7.6vw,80px); letter-spacing:0.002em; line-height:1; overflow-wrap:break-word; min-width:0; }
+        .term-foot-big{ font-family:'Sora',sans-serif; font-weight:700; color:#fff; font-size:clamp(24px,7.6vw,80px); letter-spacing:0.002em; line-height:1; overflow-wrap:break-word; min-width:0; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; }
         .term-foot-tagline{ font-family:'Sora',sans-serif; font-weight:700; font-size:clamp(10px,1.3vw,13px); letter-spacing:0.14em; text-transform:uppercase; color:rgba(255,255,255,0.4); margin-top:8px; }
         .term-foot-grid{ display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:24px; padding-bottom:40px; border-top:1px solid #22242E; padding-top:32px; }
         @media (max-width:800px){ .term-foot-grid{ grid-template-columns:1fr 1fr; } }
