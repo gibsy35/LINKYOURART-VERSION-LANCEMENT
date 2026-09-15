@@ -20,7 +20,6 @@ interface SignupViewProps {
 const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
   const { t, language } = useTranslation();
   const [role, setRole] = useState<UserRole | null>(null);
-  const [step, setStep] = useState(1);
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -407,7 +406,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
           </button>
 
           {/* Header */}
-          <div className="flex flex-col items-center text-center mb-8">
+          <div className="flex flex-col items-center text-center mb-6">
             <div className="relative mb-6 cursor-pointer group" onClick={() => {
               sessionStorage.setItem('lya_intro_completed', 'true');
               onViewChange('LANDING');
@@ -416,229 +415,168 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
               <Logo size={80} color="multi" showBeta className="transition-transform duration-700 group-hover:scale-110" />
             </div>
             <div className="text-[9px] font-bold text-on-surface-variant/40 uppercase tracking-[0.3em]">{t('Your Score. Your Standard.', 'Votre Score. Votre Standard.')}</div>
-            <div className="text-[10px] font-bold text-accent-gold uppercase tracking-[0.4em] mt-3 drop-shadow-glow-gold">{t('CREATE LYA SYSTEM ACCOUNT', 'CRÉER UN COMPTE LYA SYSTEME')}</div>
+            <h2 className="text-2xl font-black font-headline uppercase tracking-tighter italic text-white leading-none mt-3">{t('CREATE YOUR ACCOUNT', 'CRÉER VOTRE COMPTE')}</h2>
           </div>
 
-          <AnimatePresence mode="wait">
-            {step === 1 ? (
-              <motion.div
-                key="step1-info"
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 1.05 }}
-                className="w-full"
-              >
-                <div className="mb-4 text-center">
-                  <h2 className="text-2xl font-black font-headline uppercase tracking-tighter italic text-white leading-none">{t('SELECT PROFILE', 'CHOISIR PROFIL')}</h2>
-                </div>
-
-                <div className="space-y-2">
-                  {roles.map((r) => (
-                    <div 
-                      key={r.id} 
-                      onClick={() => setRole(r.id)}
-                      className={`flex gap-3 items-center group cursor-pointer p-4 mb-2.5 rounded-lg transition-all border ${role === r.id ? 'bg-[#7E1CF1]/10 border-[#7E1CF1] scale-[1.01]' : 'bg-white/[0.03] border-white/10 hover:bg-white/5 hover:border-white/20'}`}
-                    >
-                      <div className={`w-10 h-10 rounded-xl border flex items-center justify-center shrink-0 transition-all ${role === r.id ? 'bg-[#7E1CF1] border-[#7E1CF1]' : 'bg-white/5 border-white/10 group-hover:border-[#7E1CF1]/50'}`}>
-                        <r.icon size={18} className={role === r.id ? 'text-surface-dim' : 'text-on-surface-variant group-hover:text-[#7E1CF1]'} />
-                      </div>
-                      <div className="space-y-1">
-                        <h3 className={`text-xs font-black uppercase tracking-widest transition-colors ${role === r.id ? 'text-[#7E1CF1]' : 'text-white'}`}>{r.title}</h3>
-                        <p className="text-[11px] text-on-surface-variant/70 leading-snug">{r.description}</p>
-                      </div>
-                    </div>
-                  ))}
-                  
-                  <div className="pt-4">
-                    {!role && (
-                      <p className="text-xs text-accent-gold font-bold uppercase tracking-widest text-center mb-4 animate-pulse">
-                        {t('PLEASE SELECT A ROLE TO CONTINUE', 'VEUILLEZ SÉLECTIONNER UN RÔLE POUR CONTINUER')}
-                      </p>
-                    )}
-                    <button 
-                      onClick={() => { if(role) setStep(2); }}
-                      disabled={!role}
-                      className="w-full py-4 bg-brand-gradient text-white text-xs font-black uppercase italic tracking-[0.2em] group hover:opacity-90 transition-all flex items-center justify-center gap-3 disabled:opacity-30 disabled:cursor-not-allowed rounded-full"
-                    >
-                      {t('CONTINUE', 'CONTINUER')}
-                      <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-                    </button>
-                  </div>
-                </div>
-
-                <div className="mt-6 text-center">
-                    <button 
-                      onClick={() => onViewChange('LOGIN')}
-                      className="text-xs font-black uppercase tracking-[0.2em] text-on-surface-variant hover:text-white transition-colors"
-                    >
-                      {t('ALREADY REGISTERED? LOG IN', 'DÉJÀ INSCRIT ? SE CONNECTER')}
-                    </button>
-                </div>
-              </motion.div>
-            ) : (
-              <motion.div
-                key="step2-form"
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 1.05 }}
-                className="w-full"
-              >
-                <button 
-                  onClick={() => setStep(1)}
-                  className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-on-surface-variant hover:text-white transition-colors mb-4 mx-auto"
+          <form className="space-y-3" onSubmit={handleSignup}>
+            {/* Selecteur de role compact — les 3 options tenaient sur un ecran
+                entier avant ; reduites a des pastilles pour tenir sur le
+                meme ecran que le reste du formulaire (fusion des 2 etapes,
+                trop de gens abandonnaient avant d'arriver aux champs) */}
+            <div className="grid grid-cols-3 gap-2 mb-1">
+              {roles.map((r) => (
+                <button
+                  type="button"
+                  key={r.id}
+                  onClick={() => setRole(r.id)}
+                  className={`flex flex-col items-center gap-1.5 py-3 px-2 rounded-xl border transition-all ${role === r.id ? 'bg-[#7E1CF1]/10 border-[#7E1CF1]' : 'bg-white/[0.03] border-white/10 hover:border-white/20'}`}
                 >
-                  <ChevronLeft size={14} /> {t('BACK TO PROFILES', 'RETOUR AUX PROFILS')}
+                  <r.icon size={16} className={role === r.id ? 'text-[#7E1CF1]' : 'text-on-surface-variant'} />
+                  <span className={`text-[10px] font-black uppercase tracking-wider ${role === r.id ? 'text-[#7E1CF1]' : 'text-white'}`}>{r.title}</span>
                 </button>
+              ))}
+            </div>
 
-                <div className="mb-4 text-center">
-                  <h2 className="text-3xl font-black font-headline uppercase tracking-tighter italic mb-2 text-white leading-none">{t('FINALIZE', 'FINALISER')}</h2>
-                  <div className="px-3 py-1 bg-[#7E1CF1]/10 text-[#7E1CF1] border border-[#7E1CF1]/30 rounded-full text-[10px] font-black uppercase tracking-[0.2em] inline-block">
-                    {role}
+            {error && (
+              <div className="p-4 bg-[#7E1CF1]/10 border border-[#7E1CF1]/30 rounded-xl text-center space-y-3">
+                <p className="text-xs font-black text-[#7E1CF1] uppercase tracking-widest">{error}</p>
+                <button
+                  type="button"
+                  onClick={() => onViewChange(emailAlreadyExists ? 'LOGIN' : 'LANDING')}
+                  className="w-full py-2.5 bg-[#7E1CF1] text-surface-dim text-xs font-black uppercase tracking-widest rounded-xl hover:bg-white transition-all"
+                >
+                  {emailAlreadyExists
+                    ? t('Log in →', 'Se connecter →')
+                    : t('Join the LYA Originals →', 'Rejoindre la liste LYA Originals →')}
+                </button>
+              </div>
+            )}
+
+            {!emailAlreadyExists && (<>
+            <div className="space-y-3">
+              <div className="relative group">
+                <User className="absolute left-5 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-[#7E1CF1] transition-colors" size={18} />
+                <input 
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 text-sm font-bold text-white focus:border-[#7E1CF1] outline-none transition-all placeholder:text-on-surface-variant/30  tracking-widest"
+                  placeholder={t('FULL NAME', 'NOM COMPLET')}
+                />
+              </div>
+              <div className="relative group">
+                <Mail className="absolute left-5 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-[#7E1CF1] transition-colors" size={18} />
+                <input 
+                  type="email" 
+                  required
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 text-sm font-bold text-white focus:border-[#7E1CF1] outline-none transition-all placeholder:text-on-surface-variant/30  tracking-widest"
+                  placeholder={t('EMAIL ADDRESS', 'ADRESSE E-MAIL')}
+                />
+              </div>
+              <div className="relative group">
+                <Lock className="absolute left-5 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-[#7E1CF1] transition-colors" size={18} />
+                <input 
+                  type={showPassword ? 'text' : 'password'}
+                  required
+                  minLength={8}
+                  pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}"
+                  value={formData.password}
+                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 pr-12 text-sm font-bold text-white focus:border-[#7E1CF1] outline-none transition-all placeholder:text-on-surface-variant/30 tracking-widest"
+                  placeholder={t('PASSWORD', 'MOT DE PASSE')}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(v => !v)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant/40 hover:text-[#7E1CF1] transition-colors"
+                  tabIndex={-1}
+                  aria-label={showPassword ? t('Hide password', 'Masquer le mot de passe') : t('Show password', 'Afficher le mot de passe')}
+                >
+                  {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                </button>
+              </div>
+              <div className="relative group">
+                <Globe className="absolute left-5 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-[#7E1CF1] transition-colors" size={18} />
+                <select
+                  value={formData.country}
+                  onChange={(e) => setFormData({ ...formData, country: e.target.value })}
+                  className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 text-sm font-bold text-white focus:border-[#7E1CF1] outline-none transition-all tracking-widest appearance-none"
+                >
+                  <option value="" className="bg-surface-dim">{t('COUNTRY (OPTIONAL)', 'PAYS (OPTIONNEL)')}</option>
+                  {COUNTRIES.map(c => <option key={c} value={c} className="bg-surface-dim">{c}</option>)}
+                </select>
+              </div>
+              {wasCodePrefilled ? (
+                <div className="flex items-center gap-3 bg-emerald-400/10 border border-emerald-400/25 rounded-xl p-4">
+                  <ShieldCheck className="text-emerald-400 shrink-0" size={20} />
+                  <div>
+                    <p className="text-sm font-bold text-emerald-400">{t('Access validated via your invitation', 'Accès validé via votre invitation')}</p>
+                    <p className="text-[10px] text-on-surface-variant/50 mt-0.5">{t('No further action needed — just finish creating your account below.', "Aucune action requise — il ne reste plus qu'à finaliser votre compte ci-dessous.")}</p>
                   </div>
                 </div>
+              ) : (
+                <div className="relative group">
+                  <ShieldCheck className="absolute left-5 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-[#7E1CF1] transition-colors" size={18} />
+                  <input
+                    type="text"
+                    required
+                    value={formData.accessCode}
+                    onChange={(e) => setFormData({ ...formData, accessCode: e.target.value.toUpperCase() })}
+                    className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 text-sm font-bold text-white focus:border-[#7E1CF1] outline-none transition-all placeholder:text-on-surface-variant/30  tracking-widest"
+                    placeholder={t('ACCESS CODE', 'CODE D\'ACCÈS')}
+                  />
+                </div>
+              )}
+            </div>
 
-                <form className="space-y-3" onSubmit={handleSignup}>
-                  {error && (
-                    <div className="p-4 bg-[#7E1CF1]/10 border border-[#7E1CF1]/30 rounded-xl text-center space-y-3">
-                      <p className="text-xs font-black text-[#7E1CF1] uppercase tracking-widest">{error}</p>
-                      <button
-                        type="button"
-                        onClick={() => onViewChange(emailAlreadyExists ? 'LOGIN' : 'LANDING')}
-                        className="w-full py-2.5 bg-[#7E1CF1] text-surface-dim text-xs font-black uppercase tracking-widest rounded-xl hover:bg-white transition-all"
-                      >
-                        {emailAlreadyExists
-                          ? t('Log in →', 'Se connecter →')
-                          : t('Join the LYA Originals →', 'Rejoindre la liste LYA Originals →')}
-                      </button>
-                    </div>
-                  )}
+            <button 
+              type="submit"
+              disabled={isLoading || !role}
+              className="w-full py-4 bg-brand-gradient text-white text-xs font-black uppercase italic tracking-[0.2em] hover:opacity-90 transition-all active:scale-95 rounded-full flex items-center justify-center gap-3 group mt-2 disabled:opacity-40"
+            >
+              {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : (
+                <>
+                  {t('CREATE ACCOUNT', 'CRÉER LE COMPTE')} 
+                  <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                </>
+              )}
+            </button>
+            </>)}
 
-                  {!emailAlreadyExists && (<>
-                  <div className="space-y-3">
-                    <div className="relative group">
-                      <User className="absolute left-5 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-[#7E1CF1] transition-colors" size={18} />
-                      <input 
-                                                value={formData.name}
-                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 text-sm font-bold text-white focus:border-[#7E1CF1] outline-none transition-all placeholder:text-on-surface-variant/30  tracking-widest"
-                        placeholder={t('FULL NAME', 'NOM COMPLET')}
-                      />
-                    </div>
-                    <div className="relative group">
-                      <Globe className="absolute left-5 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-[#7E1CF1] transition-colors" size={18} />
-                      <select
-                        value={formData.country}
-                        onChange={(e) => setFormData({ ...formData, country: e.target.value })}
-                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 text-sm font-bold text-white focus:border-[#7E1CF1] outline-none transition-all tracking-widest appearance-none"
-                      >
-                        <option value="" className="bg-surface-dim">{t('COUNTRY (OPTIONAL)', 'PAYS (OPTIONNEL)')}</option>
-                        {COUNTRIES.map(c => <option key={c} value={c} className="bg-surface-dim">{c}</option>)}
-                      </select>
-                    </div>
-                    <div className="relative group">
-                      <Mail className="absolute left-5 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-[#7E1CF1] transition-colors" size={18} />
-                      <input 
-                        type="email" 
-                        required
-                        value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 text-sm font-bold text-white focus:border-[#7E1CF1] outline-none transition-all placeholder:text-on-surface-variant/30  tracking-widest"
-                        placeholder={t('EMAIL ADDRESS', 'ADRESSE E-MAIL')}
-                      />
-                    </div>
-                    <div className="relative group">
-                      <Lock className="absolute left-5 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-[#7E1CF1] transition-colors" size={18} />
-                      <input 
-                        type={showPassword ? 'text' : 'password'}
-                        required
-                        minLength={8}
-                        pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}"
-                        value={formData.password}
-                        onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 pr-12 text-sm font-bold text-white focus:border-[#7E1CF1] outline-none transition-all placeholder:text-on-surface-variant/30 tracking-widest"
-                        placeholder={t('PASSWORD', 'MOT DE PASSE')}
-                      />
-                      <button
-                        type="button"
-                        onClick={() => setShowPassword(v => !v)}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant/40 hover:text-[#7E1CF1] transition-colors"
-                        tabIndex={-1}
-                        aria-label={showPassword ? t('Hide password', 'Masquer le mot de passe') : t('Show password', 'Afficher le mot de passe')}
-                      >
-                        {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
-                      </button>
-                    </div>
-                    <p className="text-[10px] text-on-surface-variant/50 -mt-2 px-1 leading-relaxed">
-                      {t('At least 8 characters, with an uppercase letter, a lowercase letter and a number.', 'Au moins 8 caractères, avec une majuscule, une minuscule et un chiffre.')}
-                    </p>
-                    {wasCodePrefilled ? (
-                      <div className="flex items-center gap-3 bg-emerald-400/10 border border-emerald-400/25 rounded-xl p-4">
-                        <ShieldCheck className="text-emerald-400 shrink-0" size={20} />
-                        <div>
-                          <p className="text-sm font-bold text-emerald-400">{t('Access validated via your invitation', 'Accès validé via votre invitation')}</p>
-                          <p className="text-[10px] text-on-surface-variant/50 mt-0.5">{t('No further action needed — just finish creating your account below.', "Aucune action requise — il ne reste plus qu'à finaliser votre compte ci-dessous.")}</p>
-                        </div>
-                      </div>
-                    ) : (
-                      <>
-                        <div className="relative group">
-                          <ShieldCheck className="absolute left-5 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-[#7E1CF1] transition-colors" size={18} />
-                          <input
-                            type="text"
-                            required
-                            value={formData.accessCode}
-                            onChange={(e) => setFormData({ ...formData, accessCode: e.target.value.toUpperCase() })}
-                            className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 text-sm font-bold text-white focus:border-[#7E1CF1] outline-none transition-all placeholder:text-on-surface-variant/30  tracking-widest"
-                            placeholder={t('ACCESS CODE', 'CODE D\'ACCÈS')}
-                          />
-                        </div>
-                        <p className="text-[10px] text-on-surface-variant/40 -mt-2 px-1">
-                          {t('Received after your pre-registration is approved.', 'Reçu après approbation de votre pré-inscription.')}
-                        </p>
-                      </>
-                    )}
-                  </div>
+            <div className="relative py-2 text-center">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-white/5" />
+              </div>
+              <span className="relative z-10 bg-[#0A0C10] px-4 text-[10px] font-black text-on-surface-variant uppercase tracking-[0.3em] italic opacity-50">{t('OR REGISTER WITH', 'OU S\'INSCRIRE AVEC')}</span>
+            </div>
 
-                  <button 
-                    type="submit"
-                    disabled={isLoading}
-                    className="w-full py-4 bg-brand-gradient text-white text-xs font-black uppercase italic tracking-[0.2em] hover:opacity-90 transition-all active:scale-95 rounded-full flex items-center justify-center gap-3 group mt-2"
-                  >
-                    {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : (
-                      <>
-                        {t('CREATE ACCOUNT', 'CRÉER LE COMPTE')} 
-                        <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-                      </>
-                    )}
-                  </button>
-                  </>)}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <button 
+                type="button"
+                onClick={handleGoogleSignup}
+                className="flex items-center justify-center gap-3 py-3 bg-white/[0.03] border border-white/10 rounded-xl hover:bg-white/10 transition-all text-xs font-black uppercase tracking-widest group"
+              >
+                <Globe size={14} className="text-[#7E1CF1] group-hover:scale-110 transition-transform" /> GOOGLE
+              </button>
+              <button 
+                type="button"
+                className="flex items-center justify-center gap-3 py-3 bg-white/[0.03] border border-white/10 rounded-xl hover:bg-white/10 transition-all text-xs font-black uppercase tracking-widest group"
+              >
+                <Send size={14} className="text-indigo-500 group-hover:scale-110 transition-transform" /> FACEBOOK
+              </button>
+            </div>
 
-                  <div className="relative py-2 text-center">
-                    <div className="absolute inset-0 flex items-center">
-                      <div className="w-full border-t border-white/5" />
-                    </div>
-                    <span className="relative z-10 bg-[#0A0C10] px-4 text-[10px] font-black text-on-surface-variant uppercase tracking-[0.3em] italic opacity-50">{t('OR REGISTER WITH', 'OU S\'INSCRIRE AVEC')}</span>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <button 
-                      type="button"
-                      onClick={handleGoogleSignup}
-                      className="flex items-center justify-center gap-3 py-3 bg-white/[0.03] border border-white/10 rounded-xl hover:bg-white/10 transition-all text-xs font-black uppercase tracking-widest group"
-                    >
-                      <Globe size={14} className="text-[#7E1CF1] group-hover:scale-110 transition-transform" /> GOOGLE
-                    </button>
-                    <button 
-                      type="button"
-                      className="flex items-center justify-center gap-3 py-3 bg-white/[0.03] border border-white/10 rounded-xl hover:bg-white/10 transition-all text-xs font-black uppercase tracking-widest group"
-                    >
-                      <Send size={14} className="text-indigo-500 group-hover:scale-110 transition-transform" /> FACEBOOK
-                    </button>
-                  </div>
-                </form>
-              </motion.div>
-            )}
-          </AnimatePresence>
+            <div className="text-center pt-1">
+              <button 
+                type="button"
+                onClick={() => onViewChange('LOGIN')}
+                className="text-xs font-black uppercase tracking-[0.2em] text-on-surface-variant hover:text-white transition-colors"
+              >
+                {t('ALREADY REGISTERED? LOG IN', 'DÉJÀ INSCRIT ? SE CONNECTER')}
+              </button>
+            </div>
+          </form>
         </div>
 
         <div className="p-6 bg-white/[0.02] border-t border-white/5 flex items-center justify-center gap-8 text-[10px] font-black text-on-surface-variant/40 uppercase tracking-widest">
@@ -648,9 +586,8 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
           </div>
           <div className="flex items-center gap-2">
             <Globe size={10} className="text-[#7E1CF1]" />
-            SECURED TERMINAL
+            SECURED
           </div>
-          <div>V4.2 ALPHA</div>
         </div>
       </motion.div>
     </div>
