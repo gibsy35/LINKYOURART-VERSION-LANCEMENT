@@ -987,8 +987,8 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
           <div style={{ display: 'flex', alignItems: 'center', gap: 14, cursor: 'pointer' }} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
             <Logo size={52} color="multi" showBeta />
             <div className="term-word-wrap">
-              <div className="term-word">LINK<span style={{ letterSpacing: '0.02em' }}>Y</span>OURART</div>
-              <div className="term-word-tagline">{t('Your Score. Your Standard.', 'Votre Score. Votre Standard.')}</div>
+              <div className="term-word">LINK<span style={{ letterSpacing: '0.16em', marginRight: '0.02em' }}>Y</span>OURART</div>
+              <div className="term-word-tagline">{t('Votre Score. Votre Standard.', 'Your Score. Your Standard.')}</div>
             </div>
           </div>
           <nav className="term-nav">
@@ -1976,8 +1976,8 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
           <div className="term-foot-row" style={{ cursor: 'pointer' }} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
             <div className="term-logo-wrap"><Logo size={80} color="multi" showBeta /></div>
             <div>
-              <div className="term-foot-big">LINK<span style={{ letterSpacing: '0.02em' }}>Y</span>OURART</div>
-              <div className="term-foot-tagline">{t('Your Score. Your Standard.', 'Votre Score. Votre Standard.')}</div>
+              <div className="term-foot-big">LINK<span style={{ letterSpacing: '0.16em', marginRight: '0.02em' }}>Y</span>OURART</div>
+              <div className="term-foot-tagline">{t('Votre Score. Votre Standard.', 'Your Score. Your Standard.')}</div>
             </div>
           </div>
           <div className="term-foot-grid">
