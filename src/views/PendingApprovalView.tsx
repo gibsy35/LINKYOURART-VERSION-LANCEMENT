@@ -65,7 +65,7 @@ export const PendingApprovalView: React.FC<PendingApprovalViewProps> = ({ user, 
               <div className="flex items-center gap-3">
                 <Logo size={42} color="multi" showBeta={true} />
                 <div className="flex flex-col">
-                  <span className="font-headline font-black text-lg tracking-tight uppercase">LINK<span style={{ letterSpacing: '0.16em', marginRight: '0.02em' }}>Y</span>OURART</span>
+                  <span className="font-headline font-black text-lg tracking-tight uppercase">LINK<span style={{ letterSpacing: '0.05em' }}>Y</span>OURART</span>
                   <span className="text-[7px] font-bold text-primary-cyan tracking-[0.4em] uppercase">{t('CREATIVE CERTIFICATION', 'CERTIFICATION CRÉATIVE')}</span>
                 </div>
               </div>

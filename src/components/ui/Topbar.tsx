@@ -82,7 +82,7 @@ export const Topbar: React.FC<TopbarProps> = ({
           </button>
           <div className="flex items-center gap-3">
             <Logo size={24} color="multi" showBeta />
-            <span className="text-white font-black tracking-tight text-sm hidden sm:block">LINK<span style={{ letterSpacing: '0.16em', marginRight: '0.02em' }}>Y</span>OURART</span>
+            <span className="text-white font-black tracking-tight text-sm hidden sm:block">LINK<span style={{ letterSpacing: '0.05em' }}>Y</span>OURART</span>
           </div>
         </div>
 
