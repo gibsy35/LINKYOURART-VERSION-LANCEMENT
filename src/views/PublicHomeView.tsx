@@ -927,7 +927,8 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-price-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:32px; }
         @media (max-width:900px){ .term-price-grid{ grid-template-columns:repeat(2,1fr); } }
         .term-price{ border-radius:20px; padding:26px 20px; min-height:200px; display:flex; flex-direction:column; justify-content:space-between; }
-        .term-price.lav{ background:var(--term-lav); }
+        .term-price.lav{ background:linear-gradient(155deg,#FF2E9F,#E61A97); color:#fff; }
+        .term-price.lav *{ color:#fff !important; }
         .term-price.grey{ background:var(--term-grey); }
         .term-price.dark{ background:var(--term-ink); color:#fff; }
         .term-price .name{ font-family:'Fraunces',serif; font-weight:600; font-size:18px; }

@@ -179,7 +179,7 @@ export function MecenatView({ isGuest, onRequireAuth }: { isGuest?: boolean; onR
                     <p className="text-xs font-mono tracking-[0.22em] uppercase text-on-surface-variant/60">
                       {T('SCORE LYA', 'LYA SCORE')}
                     </p>
-                    <p className="font-mono font-black text-2xl text-brand-gradient tracking-tight">
+                    <p className="font-mono font-black text-2xl text-white tracking-tight">
                       0-1000
                     </p>
                     <div className="h-px w-full" style={{ background: 'linear-gradient(90deg, transparent, rgba(126,28,241,0.4), transparent)' }} />
