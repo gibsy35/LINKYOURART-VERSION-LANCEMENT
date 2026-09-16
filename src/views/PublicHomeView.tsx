@@ -971,6 +971,11 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-foot-row{ display:flex; align-items:center; gap:20px; margin-bottom:40px; }
         @media (max-width:420px){ .term-foot-row{ gap:12px; } .term-foot-row .term-logo-wrap{ transform:scale(0.75); transform-origin:left center; margin-right:-16px; } }
         .term-foot-big{ font-family:'Sora',sans-serif; font-weight:600; color:#fff; font-size:clamp(24px,7.6vw,80px); letter-spacing:0.002em; line-height:1; overflow-wrap:break-word; min-width:0; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; -webkit-text-stroke:0.4px #fff; }
+        .term-foot-lya{ font-family:'Fraunces',serif; font-weight:700; font-style:italic; color:#fff; font-size:clamp(48px,11vw,120px); letter-spacing:0.01em; line-height:0.9;
+          text-shadow:0 1px 0 rgba(255,255,255,0.4), 0 18px 40px rgba(126,28,241,0.35), 0 6px 16px rgba(0,0,0,0.5);
+          background:linear-gradient(180deg, #fff 55%, rgba(255,255,255,0.75) 100%);
+          -webkit-background-clip:text; background-clip:text;
+        }
         .term-foot-tagline{ font-family:'Sora',sans-serif; font-weight:700; font-size:clamp(10px,1.3vw,13px); letter-spacing:0.14em; text-transform:uppercase; color:rgba(255,255,255,0.4); margin-top:8px; }
         .term-foot-grid{ display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:24px; padding-bottom:40px; border-top:1px solid #22242E; padding-top:32px; }
         @media (max-width:800px){ .term-foot-grid{ grid-template-columns:1fr 1fr; } }
@@ -1974,9 +1979,8 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
       <footer className="term-footer">
         <div className="term-wrap">
           <div className="term-foot-row" style={{ cursor: 'pointer' }} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-            <div className="term-logo-wrap"><Logo size={80} color="multi" showBeta /></div>
             <div>
-              <div className="term-foot-big">LINKYOURART</div>
+              <div className="term-foot-lya">LYA</div>
               <div className="term-foot-tagline">{t('Votre Score. Votre Standard.', 'Your Score. Your Standard.')}</div>
             </div>
           </div>

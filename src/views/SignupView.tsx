@@ -447,7 +447,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
                 >
                   {emailAlreadyExists
                     ? t('Log in →', 'Se connecter →')
-                    : t('Join the LYA Originals →', 'Rejoindre la liste LYA Originals →')}
+                    : t('Back to home →', 'Retour à l\'accueil →')}
                 </button>
               </div>
             )}
@@ -508,15 +508,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
                   {COUNTRIES.map(c => <option key={c} value={c} className="bg-surface-dim">{c}</option>)}
                 </select>
               </div>
-              {wasCodePrefilled ? (
-                <div className="flex items-center gap-3 bg-emerald-400/10 border border-emerald-400/25 rounded-xl p-4">
-                  <ShieldCheck className="text-emerald-400 shrink-0" size={20} />
-                  <div>
-                    <p className="text-sm font-bold text-emerald-400">{t('Access validated via your invitation', 'Accès validé via votre invitation')}</p>
-                    <p className="text-[10px] text-on-surface-variant/50 mt-0.5">{t('No further action needed — just finish creating your account below.', "Aucune action requise — il ne reste plus qu'à finaliser votre compte ci-dessous.")}</p>
-                  </div>
-                </div>
-              ) : (
+              {!wasCodePrefilled && (
                 <div className="relative group">
                   <ShieldCheck className="absolute left-5 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-[#7E1CF1] transition-colors" size={18} />
                   <input
