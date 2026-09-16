@@ -404,8 +404,8 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Sora:wght@500;600;700;800&display=swap');
         .term-root{
           --term-ink:#0B0E14; --term-ink-soft:#565B6B; --term-paper:#FFFFFF;
-          --term-grey:#F3F2F8; --term-line:#E6E4EF; --term-lav:#FFBEDD;
-          --term-lav-deep:#B8005C; --term-purple:#7E1CF1; --term-pink:#E61A97; --term-cyan:#02C6FA;
+          --term-grey:#F3F2F8; --term-line:#E6E4EF; --term-lav:#F5A9D0;
+          --term-lav-deep:#A8115F; --term-purple:#7E1CF1; --term-pink:#E61A97; --term-cyan:#02C6FA;
           background:var(--term-paper); color:var(--term-ink); font-family:'Inter',sans-serif;
         }
         .term-root h1, .term-root h2, .term-root h3{ font-family:'Fraunces',Georgia,serif; font-weight:700; letter-spacing:-0.01em; text-transform:lowercase; }
