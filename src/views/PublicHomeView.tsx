@@ -898,7 +898,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-btn-primary:active{ transform:scale(0.97); }
         .term-modal-card{ animation:termModalIn 0.3s cubic-bezier(.2,.8,.2,1); }
         @keyframes termModalIn{ from{ opacity:0; transform:translateY(20px) scale(0.98); } to{ opacity:1; transform:translateY(0) scale(1); } }
-        .term-free-banner{ padding:72px 0; background:var(--term-ink); position:relative; overflow:hidden; }
+        .term-free-banner{ padding:72px 0; background:linear-gradient(160deg, #1E1233 0%, #120B22 100%); position:relative; overflow:hidden; }
         .term-free-banner::before{ content:''; position:absolute; top:-40%; right:-10%; width:500px; height:500px; border-radius:50%; background:radial-gradient(circle,rgba(126,28,241,0.35),transparent 70%); pointer-events:none; }
         .term-free-banner .term-wrap{ position:relative; z-index:1; }
         .term-free-tag{ display:inline-block; font-family:'Sora',sans-serif; font-weight:700; font-size:11px; letter-spacing:0.05em; text-transform:uppercase; color:#3ADB76; background:rgba(58,219,118,0.15); padding:6px 14px; border-radius:100px; margin-bottom:16px; }
@@ -972,7 +972,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-foot-row{ display:flex; align-items:center; gap:20px; margin-bottom:40px; }
         @media (max-width:420px){ .term-foot-row{ gap:12px; } .term-foot-row .term-logo-wrap{ transform:scale(0.75); transform-origin:left center; margin-right:-16px; } }
         .term-foot-big{ font-family:'Sora',sans-serif; font-weight:600; color:#fff; font-size:clamp(24px,7.6vw,80px); letter-spacing:0.002em; line-height:1; overflow-wrap:break-word; min-width:0; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; -webkit-text-stroke:0.4px #fff; }
-        .term-foot-lya{ font-family:'Space Grotesk',sans-serif; font-weight:700; color:#fff; font-size:clamp(52px,12vw,130px); letter-spacing:0; line-height:0.9;
+        .term-foot-lya{ font-family:'Space Grotesk',sans-serif; font-weight:700; color:#fff; font-size:clamp(70px,16vw,180px); letter-spacing:0; line-height:0.9;
           text-shadow:0 1px 0 rgba(255,255,255,0.4), 0 18px 40px rgba(126,28,241,0.35), 0 6px 16px rgba(0,0,0,0.5);
         }
         .term-foot-tagline{ font-family:'Sora',sans-serif; font-weight:700; font-size:clamp(10px,1.3vw,13px); letter-spacing:0.14em; text-transform:uppercase; color:rgba(255,255,255,0.4); margin-top:8px; }
