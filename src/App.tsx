@@ -400,7 +400,7 @@ export default function App() {
           try {
             await setDoc(doc(db, 'users', result.user.uid), {
               role: pendingRole,
-              status: 'PENDING_APPROVAL',
+              status: 'APPROVED',
             }, { merge: true });
           } catch (err) {
             console.warn('Could not apply pending signup role after redirect:', err);

@@ -263,7 +263,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
         displayName: firebaseUser.displayName || 'User',
         email: firebaseUser.email || '',
         role: (teamInvite?.role as UserRole) || selectedRole,
-        status: 'PENDING_APPROVAL',
+        status: 'APPROVED',
         createdAt: new Date().toISOString(),
         twitter: '@' + (firebaseUser.displayName || 'user').toLowerCase().replace(/\s+/g, '_'),
         instagram: (firebaseUser.displayName || 'user').toLowerCase().replace(/\s+/g, '_') + '_official',
