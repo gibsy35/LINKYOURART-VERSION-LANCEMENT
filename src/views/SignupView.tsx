@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { UserRole, UserProfile } from '../types';
 import { View } from '../components/ui/Sidebar';
-import { ArrowRight, User, Briefcase, TrendingUp, Loader2, ShieldCheck, Mail, Lock, Globe, ChevronLeft, X, Send, Heart, Eye, EyeOff } from 'lucide-react';
+import { ArrowRight, User, Briefcase, TrendingUp, Loader2, ShieldCheck, Mail, Lock, Globe, ChevronLeft, X, Heart, Eye, EyeOff } from 'lucide-react';
 import { useTranslation } from '../context/LanguageContext';
 import { auth, db, handleFirestoreError, OperationType, logAuthDebugEvent, describeGoogleAuthError } from '../firebase';
 import { createUserWithEmailAndPassword, updateProfile, GoogleAuthProvider, signInWithPopup, signInWithRedirect, sendEmailVerification, type User as FirebaseUser } from 'firebase/auth';
@@ -540,21 +540,13 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
               <span className="relative z-10 bg-[#0A0C10] px-4 text-[10px] font-black text-on-surface-variant uppercase tracking-[0.3em] italic opacity-50">{t('OR REGISTER WITH', 'OU S\'INSCRIRE AVEC')}</span>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <button 
-                type="button"
-                onClick={handleGoogleSignup}
-                className="flex items-center justify-center gap-3 py-3 bg-white/[0.03] border border-white/10 rounded-xl hover:bg-white/10 transition-all text-xs font-black uppercase tracking-widest group"
-              >
-                <Globe size={14} className="text-[#7E1CF1] group-hover:scale-110 transition-transform" /> GOOGLE
-              </button>
-              <button 
-                type="button"
-                className="flex items-center justify-center gap-3 py-3 bg-white/[0.03] border border-white/10 rounded-xl hover:bg-white/10 transition-all text-xs font-black uppercase tracking-widest group"
-              >
-                <Send size={14} className="text-indigo-500 group-hover:scale-110 transition-transform" /> FACEBOOK
-              </button>
-            </div>
+            <button 
+              type="button"
+              onClick={handleGoogleSignup}
+              className="w-full flex items-center justify-center gap-3 py-3 bg-white/[0.03] border border-white/10 rounded-xl hover:bg-white/10 transition-all text-xs font-black uppercase tracking-widest group"
+            >
+              <Globe size={14} className="text-[#7E1CF1] group-hover:scale-110 transition-transform" /> GOOGLE
+            </button>
 
             <div className="text-center pt-1">
               <button 

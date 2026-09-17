@@ -598,7 +598,12 @@ export default function App() {
   }, [currentView, user, showPublicHome]);
   const isBrochureView = currentView === 'BROCHURE';
 
-  if (isBooting) {
+  // Sur un lien de reinitialisation de mot de passe, l'intro de marque
+  // (4.3s) suivie du propre spinner de verification du lien de cet ecran
+  // donnait une impression de double chargement, pour un geste purement
+  // utilitaire ou l'utilisateur veut juste retrouver son compte. On saute
+  // l'intro dans ce cas precis.
+  if (isBooting && currentView !== 'RESET_PASSWORD') {
     return (
       <div className="fixed inset-0 z-[1000] bg-black flex flex-col items-center justify-center">
         <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8, ease: "easeOut" }} className="flex flex-col items-center gap-10">
