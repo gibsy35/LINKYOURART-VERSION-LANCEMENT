@@ -142,11 +142,9 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
           scan: 0,
           talent: 0
         },
-        ...(teamInvite ? {
-          linkedAccountOwnerId: teamInvite.linkedAccountOwnerId,
-          proTier: teamInvite.proTier as 'STARTER' | 'ADVANCED' | undefined,
-          isEnterprise: teamInvite.isEnterprise,
-        } : {}),
+        ...(teamInvite?.linkedAccountOwnerId ? { linkedAccountOwnerId: teamInvite.linkedAccountOwnerId } : {}),
+        ...(teamInvite?.proTier ? { proTier: teamInvite.proTier as 'STARTER' | 'ADVANCED' } : {}),
+        ...(teamInvite ? { isEnterprise: teamInvite.isEnterprise ?? false } : {}),
       };
 
       try {
@@ -277,11 +275,9 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
           scan: 0,
           talent: 0
         },
-        ...(teamInvite ? {
-          linkedAccountOwnerId: teamInvite.linkedAccountOwnerId,
-          proTier: teamInvite.proTier as 'STARTER' | 'ADVANCED' | undefined,
-          isEnterprise: teamInvite.isEnterprise,
-        } : {}),
+        ...(teamInvite?.linkedAccountOwnerId ? { linkedAccountOwnerId: teamInvite.linkedAccountOwnerId } : {}),
+        ...(teamInvite?.proTier ? { proTier: teamInvite.proTier as 'STARTER' | 'ADVANCED' } : {}),
+        ...(teamInvite ? { isEnterprise: teamInvite.isEnterprise ?? false } : {}),
       };
 
       try {
