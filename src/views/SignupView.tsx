@@ -131,7 +131,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
         role: (teamInvite?.role as UserRole) || role,
         status: 'APPROVED',
         createdAt: new Date().toISOString(),
-        country: formData.country || undefined,
+        country: formData.country || null,
         twitter: '@' + formData.name.toLowerCase().replace(/\s+/g, '_'),
         instagram: formData.name.toLowerCase().replace(/\s+/g, '_') + '_official',
         linkedin: 'https://linkedin.com/in/' + formData.name.toLowerCase().replace(/\s+/g, '-'),
