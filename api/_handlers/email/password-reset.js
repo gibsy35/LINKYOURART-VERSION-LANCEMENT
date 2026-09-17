@@ -91,7 +91,7 @@ module.exports = async (req, res) => {
   try {
     const actionCodeSettings = {
       url: 'https://www.linkyourart.com',
-      handleCodeInApp: false,
+      handleCodeInApp: true,
     };
     const resetLink = await getAuth().generatePasswordResetLink(to, actionCodeSettings);
 
