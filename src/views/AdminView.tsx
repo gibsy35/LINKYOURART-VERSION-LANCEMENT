@@ -568,6 +568,36 @@ export const AdminView: React.FC<{
     }
   };
 
+  // Nettoyage en masse des comptes de test, en ne gardant que le compte
+  // admin reel. Reutilise exactement la meme logique de suppression que
+  // handleDeleteUser (document users + watchlist + swipe_likes), simplement
+  // appliquee a tous les comptes sauf celui protege.
+  const ADMIN_KEEP_EMAIL = 'linkyourart@gmail.com';
+  const handleBulkCleanupTestAccounts = async () => {
+    const toDelete = users.filter(u => (u.email || '').toLowerCase() !== ADMIN_KEEP_EMAIL);
+    if (toDelete.length === 0) {
+      onNotify(t('Aucun compte de test à nettoyer.', 'No test account to clean up.'));
+      return;
+    }
+    if (!window.confirm(t(
+      `⚠ Supprimer définitivement ${toDelete.length} compte(s) et ne garder que ${ADMIN_KEEP_EMAIL} ? Cette action est irréversible.`,
+      `⚠ Permanently delete ${toDelete.length} account(s), keeping only ${ADMIN_KEEP_EMAIL}? This action is irreversible.`
+    ))) return;
+    let done = 0;
+    for (const u of toDelete) {
+      try {
+        await deleteDoc(doc(db, 'users', u.uid!));
+        await deleteDoc(doc(db, 'watchlists', u.uid!)).catch(() => {});
+        await deleteDoc(doc(db, 'swipe_likes', u.uid!)).catch(() => {});
+        done++;
+      } catch (err) {
+        console.warn('[BULK_CLEANUP] failed for', u.uid, err);
+      }
+    }
+    setUsers(prev => prev.filter(u => (u.email || '').toLowerCase() === ADMIN_KEEP_EMAIL));
+    onNotify(t(`✦ ${done} compte(s) supprimé(s). Il ne reste que ${ADMIN_KEEP_EMAIL}.`, `✦ ${done} account(s) deleted. Only ${ADMIN_KEEP_EMAIL} remains.`));
+  };
+
   const handleBanUser = async (uid: string, displayName: string, currentBan: boolean) => {
     try {
       const userRef = doc(db, 'users', uid);
@@ -816,6 +846,19 @@ export const AdminView: React.FC<{
 
   const renderUsersTab = () => (
     <div className="space-y-6">
+
+      <div className="flex items-center justify-between gap-4 p-4 bg-rose-500/5 border border-rose-500/20 rounded-xl">
+        <div>
+          <div className="text-xs font-black uppercase tracking-widest text-rose-400">{t('Nettoyage des comptes de test', 'Test account cleanup')}</div>
+          <div className="text-[10px] text-on-surface-variant/50 mt-1">{t(`Supprime tous les comptes sauf ${ADMIN_KEEP_EMAIL}.`, `Deletes every account except ${ADMIN_KEEP_EMAIL}.`)}</div>
+        </div>
+        <button
+          onClick={handleBulkCleanupTestAccounts}
+          className="shrink-0 px-4 py-2.5 bg-rose-500/15 border border-rose-500/40 text-rose-400 text-xs font-black uppercase tracking-widest rounded-xl hover:bg-rose-500/25 transition-all"
+        >
+          {t('Tout nettoyer', 'Clean everything')}
+        </button>
+      </div>
 
       <div className="flex flex-col md:flex-row gap-4 mb-8">
         <div className="relative flex-1">
