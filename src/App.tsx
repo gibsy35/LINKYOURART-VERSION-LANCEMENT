@@ -86,6 +86,13 @@ export default function App() {
     // Le lien "creer mon compte" de l'email de pre-inscription (?signup=1) doit
     // ouvrir directement l'inscription, pas la Home publique.
     if (typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('signup') === '1') return false;
+    // Meme logique pour le lien de reinitialisation de mot de passe envoye par
+    // Firebase (?mode=resetPassword&oobCode=...) — sans cette exception,
+    // showPublicHome reste a true par defaut et court-circuite le routage vers
+    // ResetPasswordView plus bas (voir currentView === 'RESET_PASSWORD'),
+    // renvoyant systematiquement l'utilisateur sur la HOME publique au lieu de
+    // l'ecran de reinitialisation. Le lien "ne redirigeait nulle part".
+    if (typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('mode') === 'resetPassword') return false;
     return true;
   });
   const [isTransitioning, setIsTransitioning] = useState(false);
