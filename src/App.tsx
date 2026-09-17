@@ -75,6 +75,13 @@ export default function App() {
   const { contracts: liveContracts } = useMarketData();
   const [currentView, setCurrentView] = useState<View>(() => {
     if (typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('signup') === '1') return 'SIGNUP';
+    // Meme correction que pour showPublicHome plus bas: sans ceci, currentView
+    // demarre sur 'LANDING' des le tout premier rendu (avant meme que le
+    // useEffect qui detecte mode=resetPassword n'ait pu s'executer), ce qui
+    // suffisait a casser le routage malgre les corrections precedentes.
+    // Detecte l'etat correct des le depart, sans dependre d'un effet qui
+    // arrive "trop tard".
+    if (typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('mode') === 'resetPassword') return 'RESET_PASSWORD';
     return 'LANDING';
   });
   // Sur cette branche (Refonte-vitrine) uniquement, le Terminal est l'ecran
