@@ -568,34 +568,88 @@ export const AdminView: React.FC<{
     }
   };
 
-  // Nettoyage en masse des comptes de test, en ne gardant que le compte
-  // admin reel. Reutilise exactement la meme logique de suppression que
-  // handleDeleteUser (document users + watchlist + swipe_likes), simplement
-  // appliquee a tous les comptes sauf celui protege.
+  // Reset complet de la base pour un vrai lancement propre, comme demande.
+  // Ne conserve QUE le document users du compte admin de test. Vide toutes
+  // les autres collections liees aux comptes/inscriptions, et remet le
+  // compteur de pre-inscriptions a zero pour que le tout premier vrai
+  // utilisateur devienne reellement le Founding Pioneer #1.
   const ADMIN_KEEP_EMAIL = 'linkyourart@gmail.com';
-  const handleBulkCleanupTestAccounts = async () => {
-    const toDelete = users.filter(u => (u.email || '').toLowerCase() !== ADMIN_KEEP_EMAIL);
-    if (toDelete.length === 0) {
-      onNotify(t('Aucun compte de test à nettoyer.', 'No test account to clean up.'));
-      return;
+  const COLLECTIONS_TO_WIPE_ENTIRELY = [
+    'pre_registrations', 'access_keys', 'messages',
+    'enterprise_requests', 'verification_requests', 'projects_pending',
+  ];
+  // Supprime tous les documents d'une collection par lots de 400 (marge de
+  // securite sous la limite Firestore de 500 operations par batch), en
+  // renvoyant le nombre total supprime.
+  const wipeCollection = async (name: string): Promise<number> => {
+    let total = 0;
+    while (true) {
+      const snap = await getDocs(query(collection(db, name), limit(400)));
+      if (snap.empty) break;
+      const batch = writeBatch(db);
+      snap.docs.forEach(d => batch.delete(d.ref));
+      await batch.commit();
+      total += snap.docs.length;
+      if (snap.docs.length < 400) break;
     }
-    if (!window.confirm(t(
-      `⚠ Supprimer définitivement ${toDelete.length} compte(s) et ne garder que ${ADMIN_KEEP_EMAIL} ? Cette action est irréversible.`,
-      `⚠ Permanently delete ${toDelete.length} account(s), keeping only ${ADMIN_KEEP_EMAIL}? This action is irreversible.`
-    ))) return;
-    let done = 0;
+    return total;
+  };
+
+  const handleFullDatabaseReset = async () => {
+    const confirmed = window.confirm(t(
+      `⚠ RESET COMPLET DE LA BASE. Supprime TOUS les comptes (sauf ${ADMIN_KEEP_EMAIL}), toutes les pré-inscriptions, codes d'accès, messages, demandes entreprise/vérification, et remet le compteur à zéro. Action IRRÉVERSIBLE. Continuer ?`,
+      `⚠ FULL DATABASE RESET. Deletes ALL accounts (except ${ADMIN_KEEP_EMAIL}), all pre-registrations, access keys, messages, enterprise/verification requests, and resets the counter to zero. This action is IRREVERSIBLE. Continue?`
+    ));
+    if (!confirmed) return;
+    onNotify(t('Reset en cours, ne fermez pas cette page…', 'Reset in progress, do not close this page…'));
+
+    const summary: string[] = [];
+
+    // 1) Comptes utilisateurs (garde uniquement l'admin de test)
+    const toDelete = users.filter(u => (u.email || '').toLowerCase() !== ADMIN_KEEP_EMAIL);
+    let usersDone = 0;
     for (const u of toDelete) {
       try {
         await deleteDoc(doc(db, 'users', u.uid!));
         await deleteDoc(doc(db, 'watchlists', u.uid!)).catch(() => {});
         await deleteDoc(doc(db, 'swipe_likes', u.uid!)).catch(() => {});
-        done++;
+        usersDone++;
       } catch (err) {
-        console.warn('[BULK_CLEANUP] failed for', u.uid, err);
+        console.warn('[FULL_RESET] user failed', u.uid, err);
       }
     }
     setUsers(prev => prev.filter(u => (u.email || '').toLowerCase() === ADMIN_KEEP_EMAIL));
-    onNotify(t(`✦ ${done} compte(s) supprimé(s). Il ne reste que ${ADMIN_KEEP_EMAIL}.`, `✦ ${done} account(s) deleted. Only ${ADMIN_KEEP_EMAIL} remains.`));
+    summary.push(`${usersDone} comptes`);
+
+    // 2) Toutes les autres collections liees aux inscriptions/echanges
+    for (const name of COLLECTIONS_TO_WIPE_ENTIRELY) {
+      try {
+        const n = await wipeCollection(name);
+        summary.push(`${n} ${name}`);
+      } catch (err) {
+        console.warn('[FULL_RESET] collection failed', name, err);
+      }
+    }
+
+    // 3) Remise a zero du compteur de pre-inscriptions. Les regles Firestore
+    // n'autorisent qu'un increment strict de +1 sur ce document (protection
+    // anti-triche), donc un setDoc a count:0 serait refuse. On supprime le
+    // document a la place (l'admin y est autorise) — il sera recree
+    // naturellement a la prochaine pre-inscription, en repartant de zero.
+    try {
+      await deleteDoc(doc(db, 'public_stats', 'pre_registrations'));
+      summary.push('compteur remis à zéro');
+    } catch (err) {
+      console.warn('[FULL_RESET] counter reset failed', err);
+    }
+
+    // 4) Local state deja loade ailleurs (pre-inscriptions/soumissions dans
+    // l'onglet Engagement) — force un re-fetch propre au lieu de patcher
+    // localement chaque state pour eviter tout residu affiche a l'ecran.
+    setPreRegistrations([]);
+    setContactRequests([]);
+
+    onNotify(t(`✦ Base réinitialisée: ${summary.join(', ')}.`, `✦ Database reset: ${summary.join(', ')}.`));
   };
 
   const handleBanUser = async (uid: string, displayName: string, currentBan: boolean) => {
@@ -849,14 +903,14 @@ export const AdminView: React.FC<{
 
       <div className="flex items-center justify-between gap-4 p-4 bg-rose-500/5 border border-rose-500/20 rounded-xl">
         <div>
-          <div className="text-xs font-black uppercase tracking-widest text-rose-400">{t('Nettoyage des comptes de test', 'Test account cleanup')}</div>
-          <div className="text-[10px] text-on-surface-variant/50 mt-1">{t(`Supprime tous les comptes sauf ${ADMIN_KEEP_EMAIL}.`, `Deletes every account except ${ADMIN_KEEP_EMAIL}.`)}</div>
+          <div className="text-xs font-black uppercase tracking-widest text-rose-400">{t('Reset complet de la base', 'Full database reset')}</div>
+          <div className="text-[10px] text-on-surface-variant/50 mt-1">{t(`Supprime tout (comptes, pré-inscriptions, codes, messages) sauf ${ADMIN_KEEP_EMAIL}, et remet le compteur à zéro.`, `Deletes everything (accounts, pre-registrations, keys, messages) except ${ADMIN_KEEP_EMAIL}, and resets the counter to zero.`)}</div>
         </div>
         <button
-          onClick={handleBulkCleanupTestAccounts}
+          onClick={handleFullDatabaseReset}
           className="shrink-0 px-4 py-2.5 bg-rose-500/15 border border-rose-500/40 text-rose-400 text-xs font-black uppercase tracking-widest rounded-xl hover:bg-rose-500/25 transition-all"
         >
-          {t('Tout nettoyer', 'Clean everything')}
+          {t('Tout réinitialiser', 'Reset everything')}
         </button>
       </div>
 
