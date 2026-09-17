@@ -605,17 +605,28 @@ export const AdminView: React.FC<{
 
     const summary: string[] = [];
 
-    // 1) Comptes utilisateurs (garde uniquement l'admin de test)
+    // 1) Comptes utilisateurs (garde uniquement l'admin de test). Envois
+    // groupes par lots de 150 (3 documents par utilisateur: users +
+    // watchlists + swipe_likes, soit 450 operations par lot, sous la limite
+    // Firestore de 500) au lieu d'un await sequentiel par utilisateur - avec
+    // ~500 comptes, la version precedente faisait jusqu'a 1500 allers-retours
+    // reseau un par un, ce qui donnait l'impression que "le compteur ne
+    // bouge presque pas" alors qu'elle avancait juste tres lentement.
     const toDelete = users.filter(u => (u.email || '').toLowerCase() !== ADMIN_KEEP_EMAIL);
     let usersDone = 0;
-    for (const u of toDelete) {
+    for (let i = 0; i < toDelete.length; i += 150) {
+      const chunk = toDelete.slice(i, i + 150);
       try {
-        await deleteDoc(doc(db, 'users', u.uid!));
-        await deleteDoc(doc(db, 'watchlists', u.uid!)).catch(() => {});
-        await deleteDoc(doc(db, 'swipe_likes', u.uid!)).catch(() => {});
-        usersDone++;
+        const batch = writeBatch(db);
+        chunk.forEach(u => {
+          batch.delete(doc(db, 'users', u.uid!));
+          batch.delete(doc(db, 'watchlists', u.uid!));
+          batch.delete(doc(db, 'swipe_likes', u.uid!));
+        });
+        await batch.commit();
+        usersDone += chunk.length;
       } catch (err) {
-        console.warn('[FULL_RESET] user failed', u.uid, err);
+        console.warn('[FULL_RESET] user batch failed', err);
       }
     }
     setUsers(prev => prev.filter(u => (u.email || '').toLowerCase() === ADMIN_KEEP_EMAIL));
