@@ -28,6 +28,7 @@ const handlers = {
   'validator-application': require('./_handlers/email/validator-application'),
   'invitation': require('./_handlers/email/invitation'),
   'lounge-contact': require('./_handlers/email/lounge-contact'),
+  'password-reset': require('./_handlers/email/password-reset'),
 };
 
 module.exports = async (req, res) => {

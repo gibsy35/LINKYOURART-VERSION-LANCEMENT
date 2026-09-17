@@ -5,7 +5,7 @@ import { UserProfile, UserRole } from '../types';
 import { View } from '../components/ui/Sidebar';
 import { useTranslation } from '../context/LanguageContext';
 import { auth, db, logAuthDebugEvent, describeGoogleAuthError } from '../firebase';
-import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, signInWithRedirect, sendPasswordResetEmail, type User as FirebaseUser } from 'firebase/auth';
+import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, signInWithRedirect, type User as FirebaseUser } from 'firebase/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { handleFirestoreError, OperationType } from '../firebase';
 import { Logo } from '../components/ui/Logo';
@@ -17,7 +17,7 @@ interface LoginViewProps {
 }
 
 const LoginView: React.FC<LoginViewProps> = ({ onViewChange, setUser }) => {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
@@ -133,10 +133,20 @@ const LoginView: React.FC<LoginViewProps> = ({ onViewChange, setUser }) => {
       const timeout = new Promise((_, reject) =>
         setTimeout(() => reject(new Error('TIMEOUT')), 15000)
       );
-      await Promise.race([
-        sendPasswordResetEmail(auth, formData.email, { url: window.location.origin, handleCodeInApp: false }),
+      // Envoi via notre propre systeme d'email (Resend, meme template que
+      // les autres emails LinkYourArt) au lieu de l'envoi generique Firebase
+      // par defaut, qui finissait en spam et n'etait pas a l'image de la
+      // marque. Le lien de reinitialisation est genere cote serveur
+      // (Firebase Admin) puis integre dans notre propre template.
+      const resp = await Promise.race([
+        fetch('/api/email/password-reset', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ to: formData.email, lang: language }),
+        }),
         timeout
-      ]);
+      ]) as Response;
+      if (!resp.ok) throw new Error('SEND_FAILED');
       setSuccessMessage(t(
         'Password reset email sent. Please check your inbox.',
         'E-mail de réinitialisation envoyé. Veuillez vérifier votre boîte de réception.'
