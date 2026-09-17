@@ -418,7 +418,7 @@ export default function App() {
   }, []);
   useEffect(() => {
     if (!isAuthReady || isBooting) return;
-    const publicViews: View[] = ['LANDING', 'LOGIN', 'SIGNUP', 'OUR_MODEL', 'FAQ', 'LEGAL_MENTIONS', 'TERMS', 'PRIVACY', 'LEGAL_REGISTRY'];
+    const publicViews: View[] = ['LANDING', 'LOGIN', 'SIGNUP', 'RESET_PASSWORD', 'OUR_MODEL', 'FAQ', 'LEGAL_MENTIONS', 'TERMS', 'PRIVACY', 'LEGAL_REGISTRY'];
     const previewViews: View[] = ['HOME', 'REGISTRY', 'PRICING', 'MECENAT', 'BROCHURE'];
     if (publicViews.includes(currentView)) return;
     if (previewViews.includes(currentView)) return;
