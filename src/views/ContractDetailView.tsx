@@ -316,10 +316,10 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
           {/* Quick Metrics Dashboard Header */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
-              { label: t('LYA SCORE', 'SCORE LYA'), value: `${scoreFinalValue}/1000`, status: 'Certified', color: 'emerald' },
-              { label: t('CERTIFICATION LEVEL', 'NIVEAU DE CERTIFICATION'), value: scoreFinalValue >= 850 ? t('Exceptional', 'Exceptionnel') : scoreFinalValue >= 650 ? t('Distinguished', 'Distingué') : t('Standard', 'Standard'), status: 'Validated', color: 'cyan' },
-              { label: t('SUPPORTERS', 'MÉCÈNES'), value: contract.availableUnits ? contract.availableUnits.toLocaleString() : '—', status: 'Growth', color: 'pink' },
-              { label: t('REGISTRY STATUS', 'STATUT REGISTRE'), value: t('Certified', 'Certifié'), status: 'Active', color: 'gold' }
+              { label: t('LYA SCORE', 'SCORE LYA'), value: `${scoreFinalValue}/1000`, status: t('Certified', 'Certifié'), color: 'emerald' },
+              { label: t('CERTIFICATION LEVEL', 'NIVEAU DE CERTIFICATION'), value: scoreFinalValue >= 850 ? t('Exceptional', 'Exceptionnel') : scoreFinalValue >= 650 ? t('Distinguished', 'Distingué') : t('Standard', 'Standard'), status: t('Validated', 'Validé'), color: 'cyan' },
+              { label: t('SUPPORTERS', 'MÉCÈNES'), value: contract.availableUnits ? contract.availableUnits.toLocaleString() : '—', status: t('Growth', 'Croissance'), color: 'pink' },
+              { label: t('REGISTRY STATUS', 'STATUT REGISTRE'), value: t('Certified', 'Certifié'), status: t('Active', 'Actif'), color: 'gold' }
             ].map((metric, i) => (
             <div key={metric.label} className="bg-surface-low border border-white/5 p-6 rounded-[2rem] hover:border-white/10 transition-all group shadow-sm">
               <div className="text-[10px] font-black text-white/30 uppercase tracking-[0.2em] mb-2">{metric.label}</div>
