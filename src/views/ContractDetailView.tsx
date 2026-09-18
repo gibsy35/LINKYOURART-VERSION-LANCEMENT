@@ -106,7 +106,14 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
 
   useEffect(() => {
      if (!aiAnalysis) {
-        setAiAnalysis("This project shows strong certification fundamentals. Continued professional review and milestone completion are recommended to strengthen its LYA Score.");
+        // Texte de repli affiche avant que l'utilisateur clique sur
+        // "Generer la synthese" - etait code en dur en anglais, ignorant
+        // la langue selectionnee (le vrai generateur IA, lui, respecte
+        // deja correctement la langue une fois declenche).
+        setAiAnalysis(t(
+          "This project shows strong certification fundamentals. Continued professional review and milestone completion are recommended to strengthen its LYA Score.",
+          "Ce projet présente de solides fondamentaux de certification. Une revue professionnelle continue et la validation des jalons sont recommandées pour renforcer son Score LYA."
+        ));
      }
   }, []);
 
