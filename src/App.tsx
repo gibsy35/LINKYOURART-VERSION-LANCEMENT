@@ -656,7 +656,7 @@ export default function App() {
         onLogin={() => { setShowPublicHome(false); setCurrentView('LOGIN'); }}
         onSignup={({ code, email }) => {
           try {
-            sessionStorage.setItem('lya_prefilled_code', code);
+            if (code) sessionStorage.setItem('lya_prefilled_code', code);
             sessionStorage.setItem('lya_prefilled_email', email);
           } catch { /* noop */ }
           setShowPublicHome(false);

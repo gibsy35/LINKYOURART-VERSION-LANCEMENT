@@ -22,7 +22,7 @@ import { submitPreRegistration, type PreRegCategory } from '../utils/preRegistra
 interface PublicHomeViewProps {
   onJoin?: () => void;
   onLogin?: () => void;
-  onSignup?: (prefill: { code: string; email: string }) => void;
+  onSignup?: (prefill: { code?: string; email: string }) => void;
   onGuestBrowse?: () => void;
 }
 
@@ -1782,56 +1782,30 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
                 {joinResult.tier === 'WAITLIST' ? (
                   <>
                     <div className="term-join-title">{t('Vous êtes sur la liste !', "You're on the list!")}</div>
-                    <div className="pos">{t(`Position #${joinResult.position} — liste d'attente`, `Position #${joinResult.position} — waitlist`)}</div>
-                    <div className="term-join-steps">
-                      <div className="step"><span>1.</span><span><b>{t('Email de confirmation', 'Confirmation email')}</b> — {t('vérifiez votre boîte de réception.', 'check your inbox.')}</span></div>
-                      <div className="step"><span>2.</span><span><b>{t("En file d'attente", 'On the waitlist')}</b> — {t('les 1000 premières places sont prises ; vous serez prévenu(e) à la prochaine ouverture de cohorte.', 'the first 1000 spots are taken; we\'ll notify you when the next cohort opens.')}</span></div>
-                      <div className="step"><span>3.</span><span><b>{t('Découverte de LYA', 'Discover LYA')}</b> — {t('accès à la plateforme dès votre cohorte ouverte.', 'access to the platform once your cohort opens.')}</span></div>
-                    </div>
+                    <div className="pos">{t(`Position #${joinResult.position} — nous vous préviendrons par email.`, `Position #${joinResult.position} — we'll email you when it's your turn.`)}</div>
                   </>
                 ) : (
                   <>
                     <div className="term-join-title">{t('Vous en faites partie.', "You're in.")}</div>
                     <div className="pos">
-                      {joinResult.tier === 'FOUNDING_PIONEER'
-                        ? t(`Founding Pioneer — l'une des 150 premières places`, `Founding Pioneer — one of the first 150 spots`)
-                        : t(`Membre Original — position #${joinResult.position} sur 1000`, `Original member — position #${joinResult.position} of 1000`)}
+                      {t('Accès activé — aucune attente, aucune démarche supplémentaire.', 'Access activated — no wait, no extra steps.')}
                     </div>
-                    <div className="term-join-steps">
-                      <div className="step"><span>1.</span><span><b>{t('Accès activé, sans attente', 'Access activated, no wait')}</b> — {t('votre place vous donne un accès immédiat, aucune validation manuelle.', 'your spot gives you instant access, no manual review.')}</span></div>
-                      <div className="step"><span>2.</span><span><b>{t('Votre clé, votre laissez-passer', 'Your key, your pass')}</b> — {t("gardée ci-dessous et dans votre email, elle est unique et vous est réservée.", "kept below and in your email — it's unique and reserved for you.")}</span></div>
-                    </div>
-                    {joinResult.accessKey && (
-                      <>
-                        <div className="term-join-keybox">
-                          <span>{joinResult.accessKey}</span>
-                          <button
-                            type="button"
-                            onClick={async () => {
-                              if (!joinResult.accessKey) return;
-                              try { await navigator.clipboard.writeText(joinResult.accessKey); setKeyCopied(true); setTimeout(() => setKeyCopied(false), 2000); } catch { /* noop */ }
-                            }}
-                          >
-                            {keyCopied ? t('Copiée ✓', 'Copied ✓') : t('Copier', 'Copy')}
-                          </button>
-                        </div>
-                        <button
-                          type="button"
-                          className="term-join-submit"
-                          style={{ marginTop: 12 }}
-                          onClick={() => {
-                            if (!joinResult.accessKey) return;
-                            try {
-                              sessionStorage.setItem('lya_prefilled_code', joinResult.accessKey);
-                              sessionStorage.setItem('lya_prefilled_email', joinEmail);
-                            } catch { /* noop */ }
-                            onSignup?.({ code: joinResult.accessKey, email: joinEmail });
-                          }}
-                        >
-                          {t('Créer mon compte', 'Create my account')}
-                        </button>
-                      </>
-                    )}
+                    <button
+                      type="button"
+                      className="term-join-submit"
+                      style={{ marginTop: 16 }}
+                      onClick={() => {
+                        if (joinResult.accessKey) {
+                          try {
+                            sessionStorage.setItem('lya_prefilled_code', joinResult.accessKey);
+                            sessionStorage.setItem('lya_prefilled_email', joinEmail);
+                          } catch { /* noop */ }
+                        }
+                        onSignup?.({ code: joinResult.accessKey || undefined, email: joinEmail });
+                      }}
+                    >
+                      {t('Créer mon compte →', 'Create my account →')}
+                    </button>
                   </>
                 )}
                 <button className="term-join-later-link" onClick={closeJoin}>{t('Plus tard', 'Later')}</button>
