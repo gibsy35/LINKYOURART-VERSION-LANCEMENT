@@ -4,7 +4,7 @@ import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { motion, AnimatePresence } from 'motion/react';
 import { useTranslation } from '../context/LanguageContext';
 import { useCurrency } from '../context/CurrencyContext';
-import { UserProfile, CONTRACTS } from '../types';
+import { UserProfile, CONTRACTS, Contract } from '../types';
 import { RealtimeChart } from '../components/RealtimeChart';
 import { PageHeader } from '../components/ui/PageHeader';
 import { InvitationCard } from '../components/InvitationCard';
@@ -79,16 +79,15 @@ export const InvestorDashboardView: React.FC<{user:UserProfile|null;onNotify:(ms
     setSendingReport(false);
   };
 
-  const mySupports = [
-    { proj: CONTRACTS[0], contributed: 10000, units: 200, scoreAtSupport: CONTRACTS[0].totalScore - 92 },
-    { proj: CONTRACTS[1], contributed: 15000, units: 300, scoreAtSupport: CONTRACTS[1].totalScore - 48 },
-    { proj: CONTRACTS[4], contributed: 8000,  units: 160, scoreAtSupport: CONTRACTS[4].totalScore + 35 },
-    { proj: CONTRACTS[5], contributed: 12000, units: 240, scoreAtSupport: CONTRACTS[5].totalScore + 60 },
-    { proj: CONTRACTS[2], contributed: 10000, units: 200, scoreAtSupport: CONTRACTS[2].totalScore - 110 },
-  ];
+  // Un compte tout neuf doit demarrer a zero, pas avec des chiffres de
+  // demonstration codes en dur. Ce tableau etait fixe (5 projets fictifs,
+  // 55 000€) et s'affichait identique sur TOUS les comptes Mecene, nouveaux
+  // ou non - remplace par les vrais soutiens de l'utilisateur une fois ce
+  // systeme construit cote donnees. En attendant, un compte reel part vide.
+  const mySupports: { proj: Contract; contributed: number; units: number; scoreAtSupport: number }[] = [];
 
   const totalContributed = mySupports.reduce((s,x) => s + x.contributed, 0);
-  const avgScoreNow = mySupports.reduce((s,x) => s + x.proj.totalScore, 0) / mySupports.length;
+  const avgScoreNow = mySupports.length > 0 ? mySupports.reduce((s,x) => s + x.proj.totalScore, 0) / mySupports.length : 0;
   const progressing = mySupports.filter(x => x.proj.totalScore > x.scoreAtSupport).length;
   const needsAttention = mySupports.filter(x => x.proj.totalScore <= x.scoreAtSupport).length;
   const totalMilestones = mySupports.reduce((s,x) => s + (x.proj.milestones||[]).filter((m:any)=>m.status==='COMPLETED').length, 0);
@@ -222,7 +221,9 @@ export const InvestorDashboardView: React.FC<{user:UserProfile|null;onNotify:(ms
                   </div>
                   <div className="bg-surface-low/40 border border-white/8 rounded-lg p-4 space-y-2">
                     <p className="text-sm font-black text-on-surface uppercase tracking-wider flex items-center gap-2"><Star size={13} className="text-accent-gold"/>{T('Stats','Stats')}</p>
-                    {[
+                    {mySupports.length === 0 ? (
+                      <p className="text-xs text-on-surface-variant/50 py-2">{T('Aucun soutien pour le moment.', 'No pledges yet.')}</p>
+                    ) : [
                       {l:T('Meilleure progression','Best progress'),v:`+${Math.max(...mySupports.map(x=>x.proj.totalScore-x.scoreAtSupport))} pts`,c:'text-emerald-400'},
                       {l:T('À surveiller de près','Closest watch'),v:`${Math.min(...mySupports.map(x=>x.proj.totalScore-x.scoreAtSupport))} pts`,c:'text-accent-gold'},
                       {l:T('Score le plus élevé','Highest score'),v:`${Math.max(...mySupports.map(x=>x.proj.totalScore))}/1000`,c:'text-accent-gold'},

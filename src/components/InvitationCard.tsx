@@ -114,14 +114,14 @@ export const InvitationCard: React.FC<InvitationCardProps> = ({ user, onSent, on
         status: 'ACTIVE',
         source: 'MEMBER_INVITE',
         invitedByUid: user.uid,
-        invitedByName: user.displayName,
-        invitedByRole: user.role,
+        invitedByName: user.displayName || 'A LinkYourArt member',
+        invitedByRole: user.role || null,
       });
 
       addDoc(collection(db, 'invitations'), {
         fromUid: user.uid,
-        fromName: user.displayName,
-        fromRole: user.role,
+        fromName: user.displayName || 'A LinkYourArt member',
+        fromRole: user.role || null,
         toEmail: cleanEmail,
         message: message.trim() || null,
         code,
