@@ -52,7 +52,7 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
   // rempli (lien d'email de pre-inscription) — pour afficher une
   // confirmation claire plutot qu'un champ generique qui pretait a
   // confusion ("pourquoi ce code est deja la, qu'est-ce que j'en fais").
-  const [wasCodePrefilled] = useState(() => !!formData.accessCode);
+
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -71,49 +71,9 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
     setError(null);
 
     try {
-      // Un compte LYA ne peut être créé qu'avec un code d'accès valide,
-      // délivré après approbation d'une pré-inscription. Sans ce
-      // contrôle, la pré-inscription (et tout le système d'approbation
-      // Founding Pioneer / LYA Original) n'a plus aucune utilité —
-      // c'était exactement le problème avant ce correctif : le code
-      // vérifiait la validité mais ne bloquait jamais rien.
-      const codeInput = formData.accessCode.trim().toUpperCase();
-      let isValidCode = false;
-      if (codeInput) {
-        // 1. Codes historiques conservés pour compatibilité (partenaires/démos déjà distribués)
-        const LEGACY_CODES = ['LYA2026', 'VC2026', 'LYA-DEMO-2026', 'DEMO', 'LYADOCK', 'LYAPARTNER', 'LYA_DEMO_2026', 'VC_DEMO'];
-        isValidCode = LEGACY_CODES.includes(codeInput);
-
-        // 2. Cache local hors-ligne (cohérent avec LandingView / AdminKeysManagement)
-        if (!isValidCode) {
-          try {
-            const localKeys = JSON.parse(localStorage.getItem('lya_local_access_keys') || '[]');
-            isValidCode = localKeys.some((k: any) => k.key?.trim().toUpperCase() === codeInput && k.status !== 'REVOKED');
-          } catch {}
-        }
-
-        // 3. Source de vérité unique : collection Firestore access_keys (gérée par AdminKeysManagement)
-        if (!isValidCode) {
-          try {
-            const keysRef = collection(db, 'access_keys');
-            const q = query(keysRef, where('key', '==', codeInput), where('status', '==', 'ACTIVE'), limit(1));
-            const snap = await getDocs(q);
-            isValidCode = !snap.empty;
-          } catch (keyErr) {
-            console.warn('Access key lookup failed:', keyErr);
-          }
-        }
-      }
-
-      if (!isValidCode) {
-        setError(t(
-          'A valid access code is required. Register via our pre-registration form and wait for approval to receive yours.',
-          'Un code d\'accès valide est requis. Inscrivez-vous via notre formulaire de pré-inscription et attendez votre approbation pour recevoir le vôtre.'
-        ));
-        setIsLoading(false);
-        return;
-      }
-
+      // Le code d'acces n'est plus JAMAIS obligatoire pour creer un compte
+      // - exactement comme Google, qui n'a jamais eu ce controle. Objectif:
+      // 3 clics pour acceder a LYA, sans exception, sans code a chasser.
       const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
       const firebaseUser = userCredential.user;
 
@@ -504,19 +464,6 @@ const SignupView: React.FC<SignupViewProps> = ({ onViewChange, setUser }) => {
                   {COUNTRIES.map(c => <option key={c} value={c} className="bg-surface-dim">{c}</option>)}
                 </select>
               </div>
-              {!wasCodePrefilled && (
-                <div className="relative group">
-                  <ShieldCheck className="absolute left-5 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-[#7E1CF1] transition-colors" size={18} />
-                  <input
-                    type="text"
-                    required
-                    value={formData.accessCode}
-                    onChange={(e) => setFormData({ ...formData, accessCode: e.target.value.toUpperCase() })}
-                    className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 pl-12 text-sm font-bold text-white focus:border-[#7E1CF1] outline-none transition-all placeholder:text-on-surface-variant/30  tracking-widest"
-                    placeholder={t('ACCESS CODE', 'CODE D\'ACCÈS')}
-                  />
-                </div>
-              )}
             </div>
 
             <button 

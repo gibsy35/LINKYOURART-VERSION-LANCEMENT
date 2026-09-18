@@ -10,8 +10,8 @@ function buildConfirmationEmail(name, email, role, lang, tier, position, accessK
   const tierLabel = tier === 'FOUNDING_PIONEER' ? 'Founding Pioneer' : tier === 'ORIGINAL' ? 'Original' : (isFR ? "Liste d'attente" : 'Waitlist');
 
   const subject = isInstantAccess
-    ? (isFR ? `[LYA Originals] ${name}, votre accès est activé` : `[LYA Originals] ${name}, your access is active`)
-    : (isFR ? `[LYA Originals] ${name}, votre place est réservée` : `[LYA Originals] ${name}, your spot is reserved`);
+    ? (isFR ? `${name}, votre accès LinkYourArt est activé` : `${name}, your LinkYourArt access is active`)
+    : (isFR ? `${name}, votre place est réservée` : `${name}, your spot is reserved`);
 
   const html = `<!DOCTYPE html>
 <html lang="${isFR ? 'fr' : 'en'}">
@@ -86,8 +86,8 @@ function buildApprovalEmail(name, email, signupLink, lang) {
   const isFR = lang !== 'EN';
 
   const subject = isFR
-    ? `[LYA Originals] ${name}, vous êtes sélectionné — votre accès est prêt`
-    : `[LYA Originals] ${name}, you're selected — your access is ready`;
+    ? `${name}, votre accès LinkYourArt est prêt`
+    : `${name}, your LinkYourArt access is ready`;
 
   const html = `<!DOCTYPE html>
 <html lang="${isFR ? 'fr' : 'en'}">
@@ -103,7 +103,7 @@ function buildApprovalEmail(name, email, signupLink, lang) {
 
   <tr><td bgcolor="#0F1B2D" style="background:linear-gradient(160deg,#0F1B2D 0%,#0D1117 50%,#1A0A1A 100%);border-radius:20px 20px 0 0;padding:52px 40px 44px;text-align:center;border:1px solid #0b2e36;border-bottom:none;">
     <img src="https://www.linkyourart.com/logo-brochure.png" width="80" height="80" alt="LinkYourArt" style="display:block;margin:0 auto 24px;width:80px;height:80px;" />
-    <p style="margin:0 0 4px;font-size:11px;font-weight:900;color:#00D4E8;letter-spacing:0.3em;text-transform:uppercase;">LYA ORIGINALS</p>
+    <p style="margin:0 0 4px;font-size:11px;font-weight:900;color:#00D4E8;letter-spacing:0.3em;text-transform:uppercase;">LINKYOURART</p>
     <p style="margin:0 0 20px;font-size:32px;font-weight:900;color:#ffffff;line-height:1.15;">${name},<br><span style="color:#00D4E8;">${isFR ? 'vous êtes sélectionné.' : "you're selected."}</span></p>
     <p style="margin:0 auto;font-size:13px;color:#B4BAC6;line-height:1.7;max-width:400px;">${isFR ? "Votre profil a été examiné et approuvé par l'équipe LYA. Bienvenue dans le cercle des premiers membres de la certification créative." : "Your profile has been reviewed and approved by the LYA team. Welcome to the circle of the first members of creative certification."}</p>
   </td></tr>
