@@ -330,8 +330,7 @@ export const CreatorDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg
 
   return (
     <div className="space-y-6 pb-12">
-      <PageHeader titleWhite={T('MES','MY')} titleAccent={T('CRÉATIONS','CREATIONS')} description={T('Gérez vos projets, jalons et analytics créatifs','Manage your projects, milestones and creative analytics')} accentColor="text-[#a78bfa]"/>
-        category="CREATOR"
+      <PageHeader titleWhite={T('MES','MY')} titleAccent={T('CRÉATIONS','CREATIONS')} description={T('Gérez vos projets, jalons et analytics créatifs','Manage your projects, milestones and creative analytics')} accentColor="text-[#a78bfa]" category="CREATOR"/>
 
       {/* Actions */}
       <div className="flex flex-wrap items-center gap-3">
