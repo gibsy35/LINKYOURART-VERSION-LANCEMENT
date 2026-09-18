@@ -77,7 +77,7 @@ export const LinkArtView: React.FC<{
             {t('View Plans', 'Voir les Forfaits')}
           </button>
           <button 
-            onClick={() => window.location.reload()}
+            onClick={() => window.open('mailto:contact@linkyourart.com', '_blank')}
             className="px-10 py-4 bg-white/5 border border-white/10 text-on-surface font-black uppercase tracking-[0.2em] hover:bg-white/10 transition-all"
           >
             {t('Contact Support', 'Contacter le Support')}
