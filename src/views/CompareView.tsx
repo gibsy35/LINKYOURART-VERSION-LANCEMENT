@@ -191,7 +191,7 @@ export const CompareView: React.FC<CompareViewProps> = ({
                         </div>
                       </div>
                       <div className="flex flex-wrap items-center gap-3">
-                        <div onClick={() => toggleRevealed(contract.id)} className="w-24 h-24 bg-surface-dim border border-white/10 overflow-hidden shadow-2xl shrink-0 group relative rounded-sm cursor-pointer">
+                        <div onClick={() => { if (!revealedCards.has(contract.id)) { toggleRevealed(contract.id); return; } onViewDetail(contract); }} className="w-24 h-24 bg-surface-dim border border-white/10 overflow-hidden shadow-2xl shrink-0 group relative rounded-sm cursor-pointer">
                           <img src={getSafeImageUrl(contract.image, contract.category)} onError={handleImageError(contract.category)} alt={contract.name} className={`w-full h-full object-cover transition-all duration-1000 group-hover:grayscale-0 group-hover:blur-0 group-hover:scale-110 ${revealedCards.has(contract.id) ? 'grayscale-0 blur-0 scale-110' : 'grayscale blur-sm scale-105'}`} referrerPolicy="no-referrer" />
                           <div className="absolute inset-0 bg-primary-cyan/10 opacity-0 group-hover:opacity-100 transition-opacity" />
                         </div>

@@ -25,7 +25,7 @@ const KpiCard: React.FC<{icon:React.ReactNode;label:string;value:string;sub?:str
   </div>
 );
 
-export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg:string)=>void;onViewChange:(v:any)=>void}> = ({user,onNotify,onViewChange}) => {
+export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg:string)=>void;onViewChange:(v:any)=>void;onSelectContract?:(c:any)=>void}> = ({user,onNotify,onViewChange,onSelectContract}) => {
   const { t, language } = useTranslation();
   const { formatPrice } = useCurrency();
   const lang: 'FR'|'EN' = language === 'FR' ? 'FR' : 'EN';
@@ -229,8 +229,8 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
                   <span className="px-3 py-1 bg-emerald-400/10 border border-emerald-400/20 rounded-full text-xs font-black text-emerald-400">2 {T('nouveaux','new')}</span>
                 </div>
                 {receivedProjects.slice(0, projectsShown).map((proj,i)=>(
-                  <div key={proj.id} className="flex items-center gap-3 p-3 bg-surface-high/30 border border-white/6 rounded-xl hover:border-white/15 transition-all">
-                    <img onClick={() => toggleRevealed(proj.id)} src={getSafeImageUrl(proj.image, proj.category)} alt={proj.name} className={`w-10 h-10 rounded-lg object-cover border border-white/10 shrink-0 cursor-pointer transition-all duration-500 ${revealedCards.has(proj.id) ? '' : 'grayscale blur-[2px] opacity-70'}`} referrerPolicy="no-referrer"/>
+                  <div key={proj.id} onClick={() => onSelectContract?.(proj)} className="flex items-center gap-3 p-3 bg-surface-high/30 border border-white/6 rounded-xl hover:border-white/15 hover:bg-surface-high/50 transition-all cursor-pointer">
+                    <img onClick={(e) => { e.stopPropagation(); toggleRevealed(proj.id); }} src={getSafeImageUrl(proj.image, proj.category)} alt={proj.name} className={`w-10 h-10 rounded-lg object-cover border border-white/10 shrink-0 cursor-pointer transition-all duration-500 ${revealedCards.has(proj.id) ? '' : 'grayscale blur-[2px] opacity-70'}`} referrerPolicy="no-referrer"/>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
                         <p className="text-sm font-black text-on-surface truncate">{proj.name}</p>
@@ -242,7 +242,7 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
                       <p className="text-xs font-black text-accent-gold">Score: {proj.totalScore}</p>
                       <p className={`text-xs font-bold ${proj.growth>=0?'text-emerald-400':'text-rose-400'}`}>{proj.growth>=0?'+':''}{proj.growth}% Score Trend</p>
                     </div>
-                    <button onClick={()=>{onNotify(T(`✦ Dossier ${proj.name} ouvert`,'File opened'));}} className="p-1.5 text-on-surface-variant hover:text-primary-cyan transition-colors shrink-0"><ArrowRight size={14}/></button>
+                    <ArrowRight size={14} className="text-on-surface-variant/40 shrink-0"/>
                   </div>
                 ))}
                 {projectsShown < receivedProjects.length && (
@@ -301,19 +301,25 @@ export const ProfessionalDashboardView: React.FC<{user:UserProfile|null;onNotify
                 <div className="space-y-3">
                   <p className="text-sm font-black text-on-surface">{searchResults.length} {T('projets trouvés','projects found')} · <span className="text-primary-cyan">{searchCat}</span> · Score ≥ {minScore}</p>
                   {searchResults.map((proj,i)=>(
-                    <div key={proj.id} className="flex items-center gap-3 p-4 bg-surface-low/40 border border-white/8 rounded-lg hover:border-white/15 transition-all">
-                      <img onClick={() => toggleRevealed(proj.id)} src={getSafeImageUrl(proj.image,proj.category)} alt={proj.name} className={`w-12 h-12 rounded-xl object-cover border border-white/10 shrink-0 cursor-pointer transition-all duration-500 ${revealedCards.has(proj.id) ? '' : 'grayscale blur-[2px] opacity-70'}`} referrerPolicy="no-referrer"/>
+                    <div
+                      key={proj.id}
+                      onClick={() => onSelectContract?.(proj)}
+                      className="flex items-center gap-3 p-4 bg-surface-low/40 border border-white/8 rounded-lg hover:border-white/15 hover:bg-surface-low/70 transition-all cursor-pointer group"
+                    >
+                      <img onClick={(e) => { e.stopPropagation(); toggleRevealed(proj.id); }} src={getSafeImageUrl(proj.image,proj.category)} alt={proj.name} className={`w-12 h-12 rounded-xl object-cover border border-white/10 shrink-0 cursor-pointer transition-all duration-500 ${revealedCards.has(proj.id) ? '' : 'grayscale blur-[2px] opacity-70'}`} referrerPolicy="no-referrer"/>
                       <div className="flex-1 min-w-0"><p className="text-sm font-black text-on-surface">{proj.name}</p><p className="text-xs text-on-surface-variant/50">{proj.category} · {proj.registryIndex}</p></div>
                       <div className="text-right shrink-0">
                         <p className="text-base font-black text-accent-gold">{proj.totalScore}<span className="text-xs text-on-surface-variant/30">/1000</span></p>
                         <p className={`text-xs font-bold ${proj.growth>=0?'text-emerald-400':'text-rose-400'}`}>{proj.growth>=0?'+':''}{proj.growth}% Score Trend</p>
-                        <button onClick={async()=>{
+                        <button onClick={async(e)=>{
+  e.stopPropagation();
   try {
     await addDoc(collection(db,'messages'),{type:'deal_request',projectName:proj.name,projectId:proj.id,fromId:user?.uid,fromName:user?.displayName,fromRole:'PROFESSIONAL',toId:proj.issuerId,status:'PENDING',createdAt:serverTimestamp()});
     onNotify(T(`✦ Demande envoyée pour ${proj.name}`,`✦ Request sent for ${proj.name}`));
   } catch(e){onNotify(T('Erreur réseau','Network error'));}
 }} className="mt-1.5 px-3 py-1 bg-primary-cyan/10 border border-primary-cyan/20 text-primary-cyan text-[10px] font-black rounded-lg hover:bg-primary-cyan hover:text-surface-dim transition-all uppercase">{T('Contacter','Contact')}</button>
                       </div>
+                      <ArrowUpRight size={16} className="text-on-surface-variant/30 group-hover:text-primary-cyan shrink-0 transition-colors" />
                     </div>
                   ))}
                 </div>
