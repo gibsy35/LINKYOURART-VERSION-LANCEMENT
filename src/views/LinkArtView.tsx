@@ -24,7 +24,8 @@ import { useTranslation } from '../context/LanguageContext';
 import { PageHeader } from '../components/ui/PageHeader';
 import { suggestMilestones } from '../services/geminiService';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import { db, handleFirestoreError, OperationType } from '../firebase';
+import { db, storage, handleFirestoreError, OperationType } from '../firebase';
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { getSafeImageUrl } from '../utils/image';
 import { Trash2, Edit2, Check, X as CloseIcon, Mic } from 'lucide-react';
 
@@ -247,6 +248,33 @@ export const LinkArtView: React.FC<{
   const [generatedOptions, setGeneratedOptions] = useState<string[]>([]);
   const [isGeneratingImage, setIsGeneratingImage] = useState(false);
   const [milestones, setMilestones] = useState<Milestone[]>([]);
+  // Piece jointe (fichier maitre du contrat) - le bloc etait purement
+  // decoratif jusqu'ici, sans aucun input file ni upload reel.
+  const [masterFile, setMasterFile] = useState<File | null>(null);
+  const [isUploadingFile, setIsUploadingFile] = useState(false);
+  const masterFileInputRef = React.useRef<HTMLInputElement>(null);
+  const handleMasterFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 100 * 1024 * 1024) {
+      onNotify(t('File exceeds the 100MB limit.', 'Le fichier dépasse la limite de 100 Mo.'));
+      return;
+    }
+    setMasterFile(file);
+  };
+  const uploadMasterFile = async (): Promise<{ name: string; url: string; size: number } | null> => {
+    if (!masterFile) return null;
+    setIsUploadingFile(true);
+    try {
+      const storageRef = ref(storage, `contract_master_files/${user?.uid || 'anonymous'}/${Date.now()}_${masterFile.name}`);
+      const task = uploadBytesResumable(storageRef, masterFile);
+      await new Promise<void>((resolve, reject) => { task.on('state_changed', undefined, reject, () => resolve()); });
+      const url = await getDownloadURL(task.snapshot.ref);
+      return { name: masterFile.name, url, size: masterFile.size };
+    } finally {
+      setIsUploadingFile(false);
+    }
+  };
   const [isSuggestingMilestones, setIsSuggestingMilestones] = useState(false);
   const [editingMilestoneIndex, setEditingMilestoneIndex] = useState<number | null>(null);
   const [newMilestone, setNewMilestone] = useState<Milestone>({
@@ -464,24 +492,43 @@ export const LinkArtView: React.FC<{
       const translatedFR = descriptionFR || await translateDescription(description);
       if (translatedFR !== description) setDescriptionFR(translatedFR);
 
+      // Upload du fichier maitre s'il y en a un
+      let masterFileData: { name: string; url: string; size: number } | null = null;
+      if (masterFile) {
+        onNotify(t('UPLOADING MASTER FILE...', 'TÉLÉVERSEMENT DU FICHIER MAÎTRE...'));
+        masterFileData = await uploadMasterFile();
+      }
+
+      // Ecrit dans projects_pending, pas dans contracts (qui est le
+      // Registre LIVE, publie uniquement apres validation manuelle par un
+      // admin). L'ancienne version ecrivait directement dans contracts avec
+      // un statut 'PENDING' non standard - le projet n'apparaissait jamais
+      // dans la file d'attente Soumissions de l'Admin (qui surveille
+      // projects_pending) et polluait le registre publie avec une entree
+      // mal formee. Noms de champs alignes sur ce que handlePublishProject
+      // attend cote Admin (creatorName/creatorEmail/creatorId, imageUrl,
+      // status PENDING_VALIDATION).
       const projectData = {
         name: assetName,
         issuerId: issuerName,
-        issuerUid: user?.uid,
+        creatorId: user?.uid,
+        creatorName: user?.displayName || issuerName,
+        creatorEmail: user?.email || null,
         category,
         description,
         descriptionFR: translatedFR,
-        image: generatedImage,
+        imageUrl: generatedImage,
         duration: contractDuration,
         maturityDate,
         totalValue: fundingGoal ? Number(fundingGoal) : null,
         rights: selectedRights,
-        status: 'PENDING',
+        status: 'PENDING_VALIDATION',
         milestones,
-        createdAt: new Date().toISOString()
+        ...(masterFileData ? { masterFile: masterFileData } : {}),
+        createdAt: serverTimestamp()
       };
 
-      await addDoc(collection(db, 'contracts'), projectData);
+      await addDoc(collection(db, 'projects_pending'), projectData);
       
       setIsSubmitting(false);
       setIsSubmitted(true);
@@ -759,15 +806,28 @@ export const LinkArtView: React.FC<{
                       </div>
                     )}
                   </div>
-                  <div className="border-2 border-dashed border-white/10 p-6 text-center space-y-4 hover:border-primary-cyan/30 transition-all cursor-pointer group">
+                  <input ref={masterFileInputRef} type="file" onChange={handleMasterFileSelect} className="hidden" />
+                  <div
+                    onClick={() => masterFileInputRef.current?.click()}
+                    className={`border-2 border-dashed p-6 text-center space-y-4 transition-all cursor-pointer group ${masterFile ? 'border-emerald-400/40 bg-emerald-400/5' : 'border-white/10 hover:border-primary-cyan/30'}`}
+                  >
                     <div className="flex justify-center">
-                      <div className="p-3 bg-white/5 text-on-surface-variant group-hover:text-primary-cyan transition-colors">
-                        <Upload size={24} />
+                      <div className={`p-3 bg-white/5 transition-colors ${masterFile ? 'text-emerald-400' : 'text-on-surface-variant group-hover:text-primary-cyan'}`}>
+                        {masterFile ? <CheckCircle2 size={24} /> : <Upload size={24} />}
                       </div>
                     </div>
                     <div>
-                      <p className="text-[10px] font-bold uppercase tracking-widest">{t('Upload Master Contract File', 'Télécharger le Fichier Maître du Contrat')}</p>
-                      <p className="text-[10px] text-on-surface-variant uppercase tracking-widest mt-1">{t('Max 100MB', 'Max 100 Mo')}</p>
+                      {masterFile ? (
+                        <>
+                          <p className="text-[10px] font-bold uppercase tracking-widest text-emerald-400">{masterFile.name}</p>
+                          <p className="text-[10px] text-on-surface-variant uppercase tracking-widest mt-1">{(masterFile.size / (1024*1024)).toFixed(1)} MB — {t('click to change', 'cliquez pour changer')}</p>
+                        </>
+                      ) : (
+                        <>
+                          <p className="text-[10px] font-bold uppercase tracking-widest">{t('Upload Master Contract File', 'Télécharger le Fichier Maître du Contrat')}</p>
+                          <p className="text-[10px] text-on-surface-variant uppercase tracking-widest mt-1">{t('Max 100MB', 'Max 100 Mo')}</p>
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>
