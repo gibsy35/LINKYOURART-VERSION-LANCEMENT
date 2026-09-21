@@ -206,6 +206,40 @@ export const LinkArtView: React.FC<{
   const [descriptionFR, setDescriptionFR] = useState('');
   const [isTranslating, setIsTranslating] = useState(false);
   const [showDescExample, setShowDescExample] = useState(false);
+  // 4 exemples couvrant des secteurs creatifs differents, pour ne pas
+  // donner l'impression que LYA ne s'adresse qu'au cinema. Un est tire au
+  // hasard a chaque ouverture de la page, pas fige.
+  const DESCRIPTION_EXAMPLES = [
+    {
+      label: t('Example: Short Film Project', 'Exemple : Projet de Court-Métrage'),
+      text: t(
+        '"Renaissance Reborn is a 22-minute short film restoring the story of a forgotten Renaissance-era painter through hand-drawn animation and archival research. The project blends traditional oil-painting textures with frame-by-frame digital animation, produced over 14 months by a 6-person team. It has been selected for pre-screening at two regional festivals and is currently in post-production sound design."',
+        '"Renaissance Reborn est un court-métrage de 22 minutes retraçant l\'histoire d\'un peintre oublié de la Renaissance à travers une animation dessinée à la main et un travail de recherche d\'archives. Le projet mélange des textures de peinture à l\'huile traditionnelles avec une animation numérique image par image, produit sur 14 mois par une équipe de 6 personnes. Il a été sélectionné en pré-sélection dans deux festivals régionaux et se trouve actuellement en post-production sonore."'
+      ),
+    },
+    {
+      label: t('Example: Music Album', 'Exemple : Album Musical'),
+      text: t(
+        '"Echoes of Tomorrow is an 11-track electronic album blending analog synthesizers with field recordings collected across three continents. Written and produced independently over 18 months, the project has already secured a sync licensing deal for a streaming series and is in final mastering with a Grammy-nominated engineer."',
+        '"Echoes of Tomorrow est un album électronique de 11 titres mêlant synthétiseurs analogiques et prises de son collectées sur trois continents. Écrit et produit de façon indépendante sur 18 mois, le projet a déjà obtenu un accord de licence pour une série en streaming et se trouve en mastering final avec un ingénieur nommé aux Grammy Awards."'
+      ),
+    },
+    {
+      label: t('Example: Digital Art Collection', 'Exemple : Collection d\'Art Numérique'),
+      text: t(
+        '"Quantum Realm is a series of 12 generative digital artworks exploring probability fields through real-time particle simulation. Built with custom rendering software over 8 months by a solo artist, the collection has been exhibited at one digital art festival and is currently seeking gallery representation for a physical print series."',
+        '"Quantum Realm est une série de 12 œuvres d\'art numérique génératif explorant les champs de probabilité à travers une simulation de particules en temps réel. Réalisée avec un logiciel de rendu sur mesure sur 8 mois par un artiste solo, la collection a été exposée dans un festival d\'art numérique et cherche actuellement une représentation en galerie pour une série d\'impressions physiques."'
+      ),
+    },
+    {
+      label: t('Example: Fashion Collection', 'Exemple : Collection de Mode'),
+      text: t(
+        '"Second Skin is a 14-piece sustainable fashion capsule collection made entirely from upcycled textiles sourced from three European workshops. Designed and produced over 10 months by a 3-person atelier, the collection debuted at a regional fashion week and is currently in talks with two boutique distributors."',
+        '"Second Skin est une collection capsule de mode durable de 14 pièces, entièrement réalisée à partir de textiles recyclés issus de trois ateliers européens. Conçue et produite sur 10 mois par un atelier de 3 personnes, la collection a été présentée lors d\'une fashion week régionale et est actuellement en négociation avec deux distributeurs boutique."'
+      ),
+    },
+  ];
+  const [descExample] = useState(() => DESCRIPTION_EXAMPLES[Math.floor(Math.random() * DESCRIPTION_EXAMPLES.length)]);
   const [fundingGoal, setFundingGoal] = useState('');
   const [selectedRights, setSelectedRights] = useState<string[]>([]);
   const [category, setCategory] = useState('Fine Art');
@@ -357,7 +391,24 @@ export const LinkArtView: React.FC<{
     }
   ];
 
+  // Validation par etape - avant ce fix, on pouvait cliquer "Etape Suivante"
+  // sans rien remplir jusqu'a la generation finale du projet.
+  const isStepValid = (step: number): boolean => {
+    switch (step) {
+      case 1: return assetName.trim() !== '' && issuerName.trim() !== '' && description.trim() !== '';
+      case 2: return milestones.length > 0;
+      case 3: return fundingGoal.trim() !== '';
+      case 4: return selectedRights.length > 0;
+      default: return true;
+    }
+  };
+  const currentStepValid = isStepValid(currentStep);
+
   const handleNext = () => {
+    if (!currentStepValid) {
+      onNotify(t('Please complete this step before continuing.', 'Veuillez compléter cette étape avant de continuer.'));
+      return;
+    }
     if (currentStep < STEPS.length) {
       setCurrentStep(prev => prev + 1);
       onNotify(`${t('STEP', 'ÉTAPE')} ${currentStep + 1}: ${STEPS[currentStep].title}`);
@@ -635,13 +686,10 @@ export const LinkArtView: React.FC<{
                     {showDescExample && (
                       <div className="p-5 bg-primary-cyan/5 border border-primary-cyan/20 rounded-sm space-y-2">
                         <p className="text-[10px] font-black uppercase tracking-widest text-primary-cyan">
-                          {t('Example: Short Film Project', 'Exemple : Projet de Court-Métrage')}
+                          {descExample.label}
                         </p>
                         <p className="text-xs text-on-surface-variant leading-relaxed normal-case italic">
-                          {t(
-                            '"Renaissance Reborn is a 22-minute short film restoring the story of a forgotten Renaissance-era painter through hand-drawn animation and archival research. The project blends traditional oil-painting textures with frame-by-frame digital animation, produced over 14 months by a 6-person team. It has been selected for pre-screening at two regional festivals and is currently in post-production sound design."',
-                            '"Renaissance Reborn est un court-métrage de 22 minutes retraçant l\'histoire d\'un peintre oublié de la Renaissance à travers une animation dessinée à la main et un travail de recherche d\'archives. Le projet mélange des textures de peinture à l\'huile traditionnelles avec une animation numérique image par image, produit sur 14 mois par une équipe de 6 personnes. Il a été sélectionné en pré-sélection dans deux festivals régionaux et se trouve actuellement en post-production sonore."'
-                          )}
+                          {descExample.text}
                         </p>
                         <p className="text-[10px] text-on-surface-variant/50 uppercase tracking-widest pt-2 border-t border-primary-cyan/10 mt-3">
                           {t('Good descriptions are specific: format, duration, process, team size, and current stage.', 'Une bonne description est précise : format, durée, processus, taille d\'équipe, et étape actuelle.')}
@@ -1164,8 +1212,9 @@ export const LinkArtView: React.FC<{
         </button>
         <button 
           onClick={handleNext}
-          disabled={isSubmitting}
-          className="flex items-center gap-2 px-12 py-4 bg-primary-cyan text-surface-dim font-black text-xs uppercase tracking-[0.2em] hover:bg-white transition-all active:scale-95 disabled:opacity-50"
+          disabled={isSubmitting || !currentStepValid}
+          title={!currentStepValid ? t('Complete this step to continue', 'Complétez cette étape pour continuer') : undefined}
+          className="flex items-center gap-2 px-12 py-4 bg-primary-cyan text-surface-dim font-black text-xs uppercase tracking-[0.2em] hover:bg-white transition-all active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-primary-cyan"
         >
           {isSubmitting ? (
             <>
