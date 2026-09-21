@@ -259,6 +259,54 @@ service cloud.firestore {
       );
     }
 
+    // ── AUDIT COMPLET: collections suivantes trouvees SANS regle explicite,
+    // toutes utilisees pour de vraies ecritures utilisateur dans le code -
+    // sans regle dediee, chacune tombait sous la regle de secours
+    // admin-only tout en bas de ce fichier et TOUT code, meme valide,
+    // etait systematiquement rejete (ecriture bloquee par Firestore).
+    match /enterprise_requests/{docId} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
+    }
+    match /invitations/{docId} {
+      allow create: if isSignedIn() && request.resource.data.fromUid == request.auth.uid;
+      allow read: if isSignedIn() && (resource.data.fromUid == request.auth.uid || isAdmin());
+      allow update, delete: if isAdmin();
+    }
+    match /job_applications/{docId} {
+      allow create: if isSignedIn();
+      allow read: if isSignedIn() && (resource.data.applicantId == request.auth.uid || isAdmin());
+      allow update, delete: if isAdmin();
+    }
+    match /job_postings_requests/{docId} {
+      allow create: if isSignedIn();
+      allow read: if isSignedIn() && (resource.data.postedBy == request.auth.uid || isAdmin());
+      allow update, delete: if isAdmin();
+    }
+    match /lounge_posts/{docId} {
+      allow create: if isSignedIn() && request.resource.data.authorId == request.auth.uid;
+      allow read: if isSignedIn();
+      allow update: if isSignedIn() && resource.data.authorId == request.auth.uid;
+      allow delete: if isSignedIn() && (resource.data.authorId == request.auth.uid || isAdmin());
+    }
+    match /validation_approved/{docId} {
+      allow create: if isSignedIn();
+      allow read: if true;
+      allow update, delete: if isAdmin();
+    }
+
+    // ── PATRONAGE PLEDGES (soutiens/paiements Mecenat) ─────────────────────
+    // Sans cette regle, la regle de secours tout en bas du fichier
+    // (allow read, write: if isAdmin()) s'appliquait: apres un paiement
+    // Stripe reussi, l'ecriture du soutien dans Firestore echouait
+    // silencieusement pour tout utilisateur non-admin - l'argent etait
+    // preleve mais la plateforme n'en gardait aucune trace exploitable.
+    match /patronage_pledges/{docId} {
+      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
+      allow read: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow update, delete: if isAdmin();
+    }
+
     match /mentorship_sessions/{docId} {
       allow create: if isSignedIn();
       allow read: if isSignedIn() && (

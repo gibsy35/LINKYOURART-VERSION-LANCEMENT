@@ -201,6 +201,7 @@ export function PaymentModal({ contract, units: initialUnits, onClose, lang }: P
               category: contract.category,
               amount: totalCost,
               supportLevel: units,
+              scoreAtSupport: contract.totalScore,
               stripePaymentIntentId: result.paymentIntent.id,
               status: 'COMPLETED',
               createdAt: serverTimestamp(),

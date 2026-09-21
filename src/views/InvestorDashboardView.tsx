@@ -1,6 +1,6 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { db } from '../firebase';
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { addDoc, collection, serverTimestamp, query, where, onSnapshot } from 'firebase/firestore';
 import { motion, AnimatePresence } from 'motion/react';
 import { useTranslation } from '../context/LanguageContext';
 import { useCurrency } from '../context/CurrencyContext';
@@ -79,12 +79,42 @@ export const InvestorDashboardView: React.FC<{user:UserProfile|null;onNotify:(ms
     setSendingReport(false);
   };
 
-  // Un compte tout neuf doit demarrer a zero, pas avec des chiffres de
-  // demonstration codes en dur. Ce tableau etait fixe (5 projets fictifs,
-  // 55 000€) et s'affichait identique sur TOUS les comptes Mecene, nouveaux
-  // ou non - remplace par les vrais soutiens de l'utilisateur une fois ce
-  // systeme construit cote donnees. En attendant, un compte reel part vide.
-  const mySupports: { proj: Contract; contributed: number; units: number; scoreAtSupport: number }[] = [];
+  // Lit les vrais soutiens de l'utilisateur depuis Firestore
+  // (patronage_pledges, ecrit par le vrai paiement Stripe dans
+  // MecenatShared.handlePay) - remplace le tableau fixe de 5 projets de
+  // demonstration (55 000€) qui s'affichait identique sur TOUS les comptes
+  // Mecene, nouveaux ou non, meme apres un vrai paiement reussi.
+  const [pledges, setPledges] = useState<any[]>([]);
+  useEffect(() => {
+    if (!user?.uid) { setPledges([]); return; }
+    const q = query(collection(db, 'patronage_pledges'), where('userId', '==', user.uid));
+    const unsub = onSnapshot(q, (snap) => {
+      setPledges(snap.docs.map(d => ({ id: d.id, ...d.data() })));
+    }, (err) => console.warn('[patronage_pledges]', err));
+    return () => unsub();
+  }, [user?.uid]);
+
+  const mySupports: { proj: Contract; contributed: number; units: number; scoreAtSupport: number }[] = useMemo(() =>
+    pledges.map(p => {
+      // Le projet peut avoir ete publie depuis le vrai circuit de
+      // soumission (pas necessairement dans le tableau statique CONTRACTS)
+      // - on retrouve le contrat reel si possible, sinon on reconstruit un
+      // minimum a partir de ce que le soutien a lui-meme enregistre.
+      const liveContract = CONTRACTS.find(c => c.id === p.contractId);
+      const proj: Contract = liveContract || ({
+        id: p.contractId,
+        name: p.contractName,
+        category: p.category,
+        totalScore: 0,
+        milestones: [],
+      } as unknown as Contract);
+      return {
+        proj,
+        contributed: p.amount || 0,
+        units: p.supportLevel || 0,
+        scoreAtSupport: typeof p.scoreAtSupport === 'number' ? p.scoreAtSupport : proj.totalScore,
+      };
+    }), [pledges]);
 
   const totalContributed = mySupports.reduce((s,x) => s + x.contributed, 0);
   const avgScoreNow = mySupports.length > 0 ? mySupports.reduce((s,x) => s + x.proj.totalScore, 0) / mySupports.length : 0;
