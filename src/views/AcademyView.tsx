@@ -172,7 +172,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({ user, onNotify, onView
                     {course.category}
                   </span>
                 </div>
-                <button className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                <button onClick={() => onNotify(t('This course is coming soon — full video content is not yet available.', "Ce cours arrive bientôt — le contenu vidéo complet n'est pas encore disponible."))} className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                   <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center text-white">
                     <Play size={20} fill="currentColor" />
                   </div>
