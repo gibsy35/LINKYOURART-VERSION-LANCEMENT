@@ -918,7 +918,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
             </div>
             
             <div className="absolute bottom-0 left-0 right-0 p-3 md:p-4 translate-y-full group-hover/video:translate-y-0 transition-transform bg-primary-cyan/90">
-              <button className="w-full text-black text-[10px] md:text-[10px] font-black uppercase flex items-center justify-center gap-2">
+              <button onClick={() => onViewChange('PRICING')} className="w-full text-black text-[10px] md:text-[10px] font-black uppercase flex items-center justify-center gap-2">
                 {t('Unlock Access', 'Débloquer l\'Accès')} <ExternalLink size={12} />
               </button>
             </div>
@@ -1015,11 +1015,11 @@ const ProfileView: React.FC<ProfileViewProps> = ({
                   </div>
                   
                   <div className="flex items-center gap-4 pt-2">
-                    <button className="flex items-center gap-2 text-xs font-black uppercase text-primary-cyan hover:text-white transition-colors">
+                    <button onClick={() => onNotify(t('Direct replies are coming in a future update — for now, use the Lounge or your contract messages.', 'Les réponses directes arrivent dans une prochaine mise à jour — utilisez le Lounge ou les messages de vos contrats en attendant.'))} className="flex items-center gap-2 text-xs font-black uppercase text-primary-cyan hover:text-white transition-colors">
                       <MessageSquare size={12} /> {t('Reply', 'Répondre')}
                     </button>
                     <div className="w-1 h-1 rounded-full bg-white/10" />
-                    <button className="flex items-center gap-2 text-xs font-black uppercase text-on-surface-variant hover:text-white transition-colors">
+                    <button onClick={() => setMessages(prev => prev.filter(m => m.id !== msg.id))} className="flex items-center gap-2 text-xs font-black uppercase text-on-surface-variant hover:text-white transition-colors">
                       <Trash2 size={12} /> {t('Archive', 'Archiver')}
                     </button>
                   </div>
@@ -2907,9 +2907,6 @@ const renderMentorshipContent = () => (
                               </div>
                             ))}
                           </div>
-                          <button className="w-full p-4 text-xs font-black uppercase tracking-widest text-on-surface-variant hover:text-primary-cyan transition-colors bg-white/5">
-                            {t('View All Notifications', 'Voir Toutes les Notifications')}
-                          </button>
                         </motion.div>
                       )}
                     </AnimatePresence>

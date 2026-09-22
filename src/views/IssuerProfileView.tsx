@@ -184,7 +184,7 @@ export const IssuerProfileView: React.FC<IssuerProfileProps> = ({ issuerId, onBa
                  ))}
               </div>
               
-              <button className="w-full mt-8 py-5 border border-white/10 text-[10px] font-black uppercase tracking-[0.4em] text-on-surface-variant hover:text-white hover:bg-white/5 transition-all flex items-center justify-center gap-3 rounded-lg">
+              <button onClick={onBack} className="w-full mt-8 py-5 border border-white/10 text-[10px] font-black uppercase tracking-[0.4em] text-on-surface-variant hover:text-white hover:bg-white/5 transition-all flex items-center justify-center gap-3 rounded-lg">
                  {t('View Full Issuer Registry', 'Voir le Registre Complet')} <ExternalLink size={14} />
               </button>
            </section>
