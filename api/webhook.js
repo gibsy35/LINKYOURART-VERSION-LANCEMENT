@@ -120,15 +120,29 @@ module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).send('Method not allowed');
 
   const sig = req.headers['stripe-signature'];
-  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+  // Deux endpoints Stripe distincts pointent vers cette meme URL: le
+  // webhook "Your account" (paiements/abonnements, secret existant) et le
+  // nouveau webhook "Connected accounts" (account.updated pour Stripe
+  // Connect, son propre secret distinct genere par Stripe). On essaie les
+  // deux secrets disponibles a la verification de signature.
+  const webhookSecrets = [process.env.STRIPE_WEBHOOK_SECRET, process.env.STRIPE_WEBHOOK_SECRET_CONNECT].filter(Boolean);
 
   let event;
   try {
     const rawBody = await readRawBody(req);
-    if (!sig || !webhookSecret) {
-      throw new Error('Missing stripe-signature header or STRIPE_WEBHOOK_SECRET');
+    if (!sig || webhookSecrets.length === 0) {
+      throw new Error('Missing stripe-signature header or webhook secret(s)');
     }
-    event = stripe.webhooks.constructEvent(rawBody, sig, webhookSecret);
+    let lastErr;
+    for (const secret of webhookSecrets) {
+      try {
+        event = stripe.webhooks.constructEvent(rawBody, sig, secret);
+        break;
+      } catch (e) {
+        lastErr = e;
+      }
+    }
+    if (!event) throw lastErr || new Error('Signature verification failed for all configured secrets');
   } catch (err) {
     console.error('[WEBHOOK_ERROR]', err.message);
     return res.status(400).send(`Webhook Error: ${err.message}`);
