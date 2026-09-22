@@ -29,6 +29,8 @@ export const InvestorDashboardView: React.FC<{user:UserProfile|null;onNotify:(ms
   const [activeSection, setActiveSection] = useState<'portfolio'|'pledges'|'analytics'|'social'>('portfolio');
   const [compareMode, setCompareMode] = useState<'bars'|'radar'>('bars');
   const [showFilters, setShowFilters] = useState(false);
+  const [activeFilter, setActiveFilter] = useState<string | null>(null);
+  const [chartPeriod, setChartPeriod] = useState<'7D'|'1M'|'3M'|'1Y'>('1M');
   const [sendingReport, setSendingReport] = useState(false);
   const [contactProject, setContactProject] = useState<string|null>(null);
   // Le survol (:hover) ne se déclenche pas de façon fiable au tactile.
@@ -115,6 +117,23 @@ export const InvestorDashboardView: React.FC<{user:UserProfile|null;onNotify:(ms
         scoreAtSupport: typeof p.scoreAtSupport === 'number' ? p.scoreAtSupport : proj.totalScore,
       };
     }), [pledges]);
+
+  // Applique le filtre selectionne (chips "Filtres avances") a la vraie
+  // liste de soutiens - ces boutons n'avaient auparavant aucune action.
+  const filteredSupports = useMemo(() => {
+    if (!activeFilter) return mySupports;
+    const isTopProgress = activeFilter === T('Meilleure Progression','Top Progress');
+    const isToWatch = activeFilter === T('À Surveiller','To Watch');
+    const isMusic = activeFilter === T('Musique','Music');
+    const isDigitalArt = activeFilter === T('Art Digital','Digital Art');
+    return mySupports.filter(s => {
+      if (isTopProgress) return s.proj.totalScore > s.scoreAtSupport;
+      if (isToWatch) return s.proj.totalScore <= s.scoreAtSupport;
+      if (isMusic) return s.proj.category === 'Music';
+      if (isDigitalArt) return s.proj.category === 'Digital Art';
+      return true;
+    });
+  }, [mySupports, activeFilter]);
 
   const totalContributed = mySupports.reduce((s,x) => s + x.contributed, 0);
   const avgScoreNow = mySupports.length > 0 ? mySupports.reduce((s,x) => s + x.proj.totalScore, 0) / mySupports.length : 0;
@@ -231,7 +250,7 @@ export const InvestorDashboardView: React.FC<{user:UserProfile|null;onNotify:(ms
                   <div className="flex items-center justify-between flex-wrap gap-2">
                     <p className="text-sm font-black text-on-surface uppercase tracking-wider">{T('Évolution du Score suivi','Followed Score Trend')}</p>
                     <div className="flex items-center gap-1">
-                      {(['7D','1M','3M','1Y'] as const).map(p=><button key={p} className={`px-2.5 py-1 rounded-lg text-[10px] font-black transition-all ${p==='1M'?'bg-primary-cyan text-surface-dim':'text-on-surface-variant hover:text-on-surface'}`}>{p}</button>)}
+                      {(['7D','1M','3M','1Y'] as const).map(p=><button key={p} onClick={() => setChartPeriod(p)} className={`px-2.5 py-1 rounded-lg text-[10px] font-black transition-all ${p===chartPeriod?'bg-primary-cyan text-surface-dim':'text-on-surface-variant hover:text-on-surface'}`}>{p}</button>)}
                     </div>
                   </div>
                   <RealtimeChart color="#10b981" base={avgScoreNow} lang={lang} formatPrice={formatPrice} labelFR="Score" labelEN="Score" showPrice={false}/>
@@ -288,7 +307,7 @@ export const InvestorDashboardView: React.FC<{user:UserProfile|null;onNotify:(ms
 
               <p className="text-sm text-on-surface-variant/60">{mySupports.length} {T('projets soutenus','pledged projects')} · {progressing} {T('en progression','progressing')} · {needsAttention} {T('à surveiller','to watch')}</p>
 
-              {mySupports.slice(0, pledgesShown).map((inv,i) => {
+              {filteredSupports.slice(0, pledgesShown).map((inv,i) => {
                 const scoreDelta = inv.proj.totalScore - inv.scoreAtSupport;
                 const up = scoreDelta >= 0;
                 return (
@@ -364,8 +383,15 @@ export const InvestorDashboardView: React.FC<{user:UserProfile|null;onNotify:(ms
                   <p className="text-sm font-black text-on-surface uppercase tracking-wider">{T('Filtres avancés','Advanced filters')}</p>
                   <div className="flex flex-wrap gap-2">
                     {[T('Meilleure Progression','Top Progress'),T('À Surveiller','To Watch'),T('Musique','Music'),T('Art Digital','Digital Art')].map(f=>(
-                      <button key={f} className="px-3 py-1.5 bg-surface-high/50 border border-white/10 rounded-full text-xs font-black text-on-surface-variant hover:text-primary-cyan hover:border-primary-cyan/30 transition-all">{f}</button>
+                      <button
+                        key={f}
+                        onClick={() => setActiveFilter(prev => prev === f ? null : f)}
+                        className={`px-3 py-1.5 border rounded-full text-xs font-black transition-all ${activeFilter === f ? 'bg-primary-cyan text-surface-dim border-primary-cyan' : 'bg-surface-high/50 border-white/10 text-on-surface-variant hover:text-primary-cyan hover:border-primary-cyan/30'}`}
+                      >{f}</button>
                     ))}
+                    {activeFilter && (
+                      <button onClick={() => setActiveFilter(null)} className="px-3 py-1.5 text-xs font-black text-on-surface-variant/50 hover:text-white transition-all">✕ {T('Effacer','Clear')}</button>
+                    )}
                   </div>
                 </div>
               )}
@@ -460,8 +486,15 @@ export const InvestorDashboardView: React.FC<{user:UserProfile|null;onNotify:(ms
                       {post.quote&&<p className="text-xs text-on-surface-variant/70 italic pl-12">{post.quote}</p>}
                       <div className="flex items-center gap-4 pl-12 text-xs text-on-surface-variant/40">
                         <button onClick={()=>{const cur=socialPosts[i];setSocialPosts(prev=>prev.map((p,pi)=>pi===i?{...p,liked:!cur.liked,likes:cur.liked?cur.likes-1:cur.likes+1}:p));}} className="hover:text-rose-400 transition-colors flex items-center gap-1">{socialPosts[i]?.liked?'♥':'♡'} {post.likes}</button>
-                        <button className="hover:text-primary-cyan transition-colors flex items-center gap-1">💬 {post.comments}</button>
-                        <button className="hover:text-[#a78bfa] transition-colors">↗</button>
+                        <button onClick={() => onNotify(T('Direct comments are coming in a future update.', 'Les commentaires directs arrivent dans une prochaine mise à jour.'))} className="hover:text-primary-cyan transition-colors flex items-center gap-1">💬 {post.comments}</button>
+                        <button onClick={async () => {
+                          const shareText = `${post.user} ${post.action} ${post.project} sur LinkYourArt`;
+                          if (navigator.share) {
+                            try { await navigator.share({ title: 'LinkYourArt', text: shareText, url: window.location.origin }); } catch { /* annulé par l'utilisateur */ }
+                          } else {
+                            try { await navigator.clipboard.writeText(`${shareText} — ${window.location.origin}`); onNotify(T('Link copied to clipboard', 'Lien copié dans le presse-papiers')); } catch { onNotify(T('Could not copy link', 'Impossible de copier le lien')); }
+                          }
+                        }} className="hover:text-[#a78bfa] transition-colors">↗</button>
                       </div>
                     </div>
                   ))}
