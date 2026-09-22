@@ -41,7 +41,8 @@ import { CONTRACTS } from '../types';
 import { getPermissions } from '../lib/permissions';
 import { useTranslation } from '../context/LanguageContext';
 import { SecureMail } from '../components/ui/SecureMail';
-import { db, auth, handleFirestoreError, OperationType } from '../firebase';
+import { db, auth, storage, handleFirestoreError, OperationType } from '../firebase';
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { collection, addDoc, query, where, onSnapshot, orderBy, serverTimestamp, Timestamp, doc, updateDoc, increment } from 'firebase/firestore';
 
 type LoungeTab = 'FEED' | 'MEMBERS' | 'EVENTS' | 'MENTORSHIP';
@@ -58,6 +59,7 @@ interface Post {
   tags: string[];
   avatar?: string;
   verified?: boolean;
+  imageUrl?: string;
 }
 
 interface Member {
@@ -143,7 +145,8 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
           comments: data.commentsCount || 0,
           tags: data.tags || [],
           verified: data.verified || false,
-          authorId: data.authorId
+          authorId: data.authorId,
+          imageUrl: data.imageUrl
         };
       });
       setPosts(postsList);
@@ -258,10 +261,35 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
     }
   };
 
+  const [postImage, setPostImage] = useState<File | null>(null);
+  const [postImagePreview, setPostImagePreview] = useState<string | null>(null);
+  const [isUploadingPostImage, setIsUploadingPostImage] = useState(false);
+  const postImageInputRef = React.useRef<HTMLInputElement>(null);
+  const handlePostImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 10 * 1024 * 1024) {
+      onNotify(t('Image exceeds the 10MB limit.', "L'image dépasse la limite de 10 Mo."));
+      return;
+    }
+    setPostImage(file);
+    setPostImagePreview(URL.createObjectURL(file));
+  };
+
   const handlePostInsight = async () => {
     if (!postContent.trim() || !user) return;
-    
+
     try {
+      let imageUrl: string | null = null;
+      if (postImage) {
+        setIsUploadingPostImage(true);
+        const storageRef = ref(storage, `lounge_posts/${user.uid}/${Date.now()}_${postImage.name}`);
+        const task = uploadBytesResumable(storageRef, postImage);
+        await new Promise<void>((resolve, reject) => { task.on('state_changed', undefined, reject, () => resolve()); });
+        imageUrl = await getDownloadURL(task.snapshot.ref);
+        setIsUploadingPostImage(false);
+      }
+
       const postData = {
         authorId: user.uid,
         authorName: user.displayName || 'Anonymous',
@@ -272,13 +300,17 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
         likes: 0,
         commentsCount: 0,
         tags: ['INSIGHT'],
-        verified: user.role === UserRole.ADMIN || !!user.isVerifiedValidator || !!user.isEnterprise
+        verified: user.role === UserRole.ADMIN || !!user.isVerifiedValidator || !!user.isEnterprise,
+        ...(imageUrl ? { imageUrl } : {}),
       };
 
       await addDoc(collection(db, 'lounge_posts'), postData);
       setPostContent('');
+      setPostImage(null);
+      setPostImagePreview(null);
       onNotify(t('INSIGHT POSTED TO SECURE FEED', 'APERÇU POSTÉ SUR LE FLUX SÉCURISÉ'));
     } catch (error) {
+      setIsUploadingPostImage(false);
       handleFirestoreError(error, OperationType.CREATE, 'lounge_posts');
     }
   };
@@ -975,18 +1007,25 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
                       placeholder={t('Share an elite insight or professional intelligence...', 'Partagez un insight d\'élite ou une intelligence professionnelle...')}
                       className="w-full bg-black/20 border border-white/10 rounded-lg p-8 text-base font-medium focus:border-primary-cyan/50 outline-none transition-all min-h-[160px] resize-none placeholder:text-on-surface-variant/20 italic"
                     />
+                    {postImagePreview && (
+                      <div className="relative mt-4 inline-block">
+                        <img src={postImagePreview} alt="" className="max-h-40 rounded-lg border border-white/10" />
+                        <button onClick={() => { setPostImage(null); setPostImagePreview(null); }} className="absolute -top-2 -right-2 w-6 h-6 bg-black/80 border border-white/20 rounded-full flex items-center justify-center text-white/70 hover:text-white">✕</button>
+                      </div>
+                    )}
+                    <input ref={postImageInputRef} type="file" accept="image/*" onChange={handlePostImageSelect} className="hidden" />
                     <div className="flex items-center justify-between mt-6">
                       <div className="flex items-center gap-6 pl-2">
-                        <button className="text-on-surface-variant/40 hover:text-primary-cyan transition-all hover:scale-110"><ImageIcon size={22} /></button>
-                        <button className="text-on-surface-variant/40 hover:text-primary-cyan transition-all hover:scale-110"><Globe size={22} /></button>
-                        <button className="text-on-surface-variant/40 hover:text-primary-cyan transition-all hover:scale-110"><Zap size={22} /></button>
+                        <button onClick={() => postImageInputRef.current?.click()} className={`transition-all hover:scale-110 ${postImage ? 'text-primary-cyan' : 'text-on-surface-variant/40 hover:text-primary-cyan'}`}><ImageIcon size={22} /></button>
+                        <button onClick={() => onNotify(t('Link attachments are coming in a future update.', "L'ajout de liens arrive dans une prochaine mise à jour."))} className="text-on-surface-variant/40 hover:text-primary-cyan transition-all hover:scale-110"><Globe size={22} /></button>
+                        <button onClick={() => onNotify(t('Priority insights are coming in a future update.', "Les insights prioritaires arrivent dans une prochaine mise à jour."))} className="text-on-surface-variant/40 hover:text-primary-cyan transition-all hover:scale-110"><Zap size={22} /></button>
                       </div>
                       <button 
                         onClick={handlePostInsight}
-                        disabled={!postContent.trim()}
+                        disabled={!postContent.trim() || isUploadingPostImage}
                         className="px-12 py-4 bg-primary-cyan text-surface-dim font-black uppercase tracking-widest text-[11px] rounded-xl hover:bg-white transition-all active:scale-95 shadow-[0_15px_30px_rgba(0,224,255,0.3)] disabled:opacity-30"
                       >
-                        {t('BROADCAST INSIGHT', 'DÉPLOYER INSIGHT')}
+                        {isUploadingPostImage ? t('UPLOADING...', 'ENVOI...') : t('BROADCAST INSIGHT', 'DÉPLOYER INSIGHT')}
                       </button>
                     </div>
                   </div>
@@ -1024,9 +1063,12 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
                         <span className="text-[10px] font-mono text-on-surface-variant/40 pt-1">{post.time}</span>
                       </div>
 
-                      <p className="text-lg md:text-xl text-on-surface/90 leading-relaxed mb-10 font-serif italic opacity-80">
+                      <p className="text-lg md:text-xl text-on-surface/90 leading-relaxed mb-6 font-serif italic opacity-80">
                         "{post.content}"
                       </p>
+                      {post.imageUrl && (
+                        <img src={post.imageUrl} alt="" className="max-h-96 w-full object-cover rounded-xl border border-white/10 mb-6" />
+                      )}
 
                       <div className="flex items-center justify-between pt-8 border-t border-white/5">
                         <div className="flex items-center gap-10">
