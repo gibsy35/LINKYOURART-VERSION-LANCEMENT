@@ -1399,7 +1399,11 @@ const renderMentorshipContent = () => (
             <nav className="flex gap-4 md:gap-12 border-b border-white/5 relative mb-12 overflow-x-auto no-scrollbar whitespace-nowrap scroll-smooth pb-1 px-1">
               {[
                 { id: 'dashboard', label: t('Dashboard', 'Tableau de Bord'), icon: <LayoutDashboard size={18} /> },
-                { id: 'directory', label: t('Hub Registry', 'Registre Hub'), icon: <Globe size={18} /> },
+                // Restreint aux admins: LYA n'assume pas de reseau social,
+                // voir le profil d'un autre membre n'est possible que dans
+                // le Lounge Pro - cet onglet ne doit pas etre accessible a
+                // tout utilisateur.
+                ...(user.role === UserRole.ADMIN ? [{ id: 'directory', label: t('Hub Registry', 'Registre Hub'), icon: <Globe size={18} /> }] : []),
                 { id: 'messages', label: t('Secure Messages', 'Messages Sécurisés'), icon: <MessageSquare size={18} />, badge: messages.filter(m => !m.read).length },
                 { id: 'academy', label: t('LYA Academy', 'Académie LYA'), icon: <Play size={18} /> },
                 ...(user.role === UserRole.ADMIN ? [{ id: 'admin', label: t('Control Center', 'Centre de Contrôle'), icon: <Shield size={18} /> }] : [])
@@ -1427,7 +1431,7 @@ const renderMentorshipContent = () => (
 
             {activeTab === 'messages' && renderMessagesContent()}
             {activeTab === 'academy' && renderAcademyContent()}
-            {activeTab === 'directory' && renderDirectoryContent()}
+            {activeTab === 'directory' && user.role === UserRole.ADMIN && renderDirectoryContent()}
             {activeTab === 'admin' && renderAdminContent()}
             {activeTab === 'dashboard' && (
               <div className="space-y-16">
