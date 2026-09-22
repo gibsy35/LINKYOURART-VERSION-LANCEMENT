@@ -240,6 +240,33 @@ export const CreatorDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg
     next.has(id) ? next.delete(id) : next.add(id);
     return next;
   });
+  // Statut de connexion Stripe Connect du createur - necessaire pour
+  // pouvoir recevoir un soutien Mecenat directement (l'argent ne transite
+  // plus jamais par le compte LYA).
+  const [connectStatus, setConnectStatus] = useState<'PENDING'|'PENDING_REVIEW'|'ACTIVE'|null>(user?.stripeConnectStatus as any || null);
+  const [isConnectingStripe, setIsConnectingStripe] = useState(false);
+  const handleConnectStripe = async () => {
+    if (!user?.uid || !user?.email) return;
+    setIsConnectingStripe(true);
+    try {
+      const res = await fetch('/api/stripe/create-connect-account', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ uid: user.uid, email: user.email, returnUrl: window.location.href, refreshUrl: window.location.href }),
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        onNotify(data.error || T('Impossible de démarrer la connexion Stripe.', 'Could not start Stripe connection.'));
+        setIsConnectingStripe(false);
+      }
+    } catch (e) {
+      onNotify(T('Erreur réseau.', 'Network error.'));
+      setIsConnectingStripe(false);
+    }
+  };
+
   const [milestoneProject, setMilestoneProject] = useState('');
   const [milestoneProjectId, setMilestoneProjectId] = useState('');
   const [uploadedFiles, setUploadedFiles] = useState<{name:string;access:string;price:string}[]>([]);
@@ -331,6 +358,30 @@ export const CreatorDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg
   return (
     <div className="space-y-6 pb-12">
       <PageHeader titleWhite={T('MES','MY')} titleAccent={T('CRÉATIONS','CREATIONS')} description={T('Gérez vos projets, jalons et analytics créatifs','Manage your projects, milestones and creative analytics')} accentColor="text-[#a78bfa]" category="CREATOR"/>
+
+      {connectStatus !== 'ACTIVE' && (
+        <div className="p-6 bg-emerald-400/5 border border-emerald-400/20 rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div>
+            <p className="text-xs font-black uppercase tracking-widest text-emerald-400">
+              {connectStatus === 'PENDING_REVIEW' ? T('Vérification en cours', 'Verification in progress') : T('Recevoir un mécénat', 'Receive patronage')}
+            </p>
+            <p className="text-xs text-on-surface-variant/70 mt-1">
+              {connectStatus === 'PENDING_REVIEW'
+                ? T('Stripe vérifie vos informations — cela prend généralement quelques minutes à quelques jours.', 'Stripe is verifying your information — this usually takes a few minutes to a few days.')
+                : T('Connectez un compte Stripe pour pouvoir recevoir directement les soutiens de vos mécènes (vérification gérée entièrement par Stripe, LYA prélève une commission de 5%).', "Connect a Stripe account to receive patronage support directly (verification fully handled by Stripe, LYA takes a 5% commission).")}
+            </p>
+          </div>
+          {connectStatus !== 'PENDING_REVIEW' && (
+            <button
+              onClick={handleConnectStripe}
+              disabled={isConnectingStripe}
+              className="shrink-0 px-6 py-3 bg-emerald-400 text-surface-dim text-xs font-black uppercase tracking-widest rounded-xl hover:bg-white transition-all disabled:opacity-50"
+            >
+              {isConnectingStripe ? T('Connexion…', 'Connecting…') : T('Connecter Stripe →', 'Connect Stripe →')}
+            </button>
+          )}
+        </div>
+      )}
 
       {/* Actions */}
       <div className="flex flex-wrap items-center gap-3">

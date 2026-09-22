@@ -195,6 +195,34 @@ module.exports = async (req, res) => {
         break;
       }
 
+      // Suivi de l'onboarding Stripe Connect Express d'un createur
+      // (verification d'identite geree entierement par Stripe). Une fois
+      // charges_enabled = true, le compte peut recevoir des versements
+      // reels et l'espace Mecenat peut autoriser les soutiens sur ses
+      // projets.
+      case 'account.updated': {
+        const account = event.data.object;
+        const uid = account.metadata && account.metadata.lyaUid;
+        if (uid) {
+          const status = account.charges_enabled ? 'ACTIVE' : (account.details_submitted ? 'PENDING_REVIEW' : 'PENDING');
+          await db.collection('users').doc(uid).set({
+            stripeConnectAccountId: account.id,
+            stripeConnectStatus: status,
+          }, { merge: true });
+          // Copie minimale et publique du statut uniquement (jamais le
+          // reste du profil) - c'est ce que l'espace Mecenat lit pour
+          // savoir si un createur peut recevoir un soutien, sans jamais
+          // avoir acces a son profil complet.
+          await db.collection('creator_payment_status').doc(uid).set({
+            stripeConnectAccountId: account.id,
+            stripeConnectStatus: status,
+            updatedAt: new Date().toISOString(),
+          });
+          console.log(`[WEBHOOK] Connect account ${account.id} for ${uid} -> ${status}`);
+        }
+        break;
+      }
+
       default:
         console.log(`[WEBHOOK] Unhandled event type ${event.type}`);
     }

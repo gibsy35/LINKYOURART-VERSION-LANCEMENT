@@ -12,6 +12,7 @@ const handlers = {
   'create-payment-intent': require('./_handlers/stripe/create-payment-intent'),
   'create-portal-session': require('./_handlers/stripe/create-portal-session'),
   'create-checkout-session': require('./_handlers/stripe/create-checkout-session'),
+  'create-connect-account': require('./_handlers/stripe/create-connect-account'),
 };
 
 module.exports = async (req, res) => {

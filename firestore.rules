@@ -36,7 +36,7 @@ service cloud.firestore {
         isAdmin() ||
         (request.auth.uid == userId &&
          !request.resource.data.diff(resource.data).affectedKeys()
-           .hasAny(['role', 'isPro', 'proTier', 'isVerifiedValidator', 'isEnterprise', 'stripeCustomerId', 'stripeSubscriptionId']))
+           .hasAny(['role', 'isPro', 'proTier', 'isVerifiedValidator', 'isEnterprise', 'stripeCustomerId', 'stripeSubscriptionId', 'stripeConnectAccountId', 'stripeConnectStatus']))
       );
       allow delete: if isAdmin();
     }
@@ -293,6 +293,17 @@ service cloud.firestore {
       allow create: if isSignedIn();
       allow read: if true;
       allow update, delete: if isAdmin();
+    }
+
+    // ── CREATOR PAYMENT STATUS (Stripe Connect) ─────────────────────────────
+    // Copie publique et minimale (statut + id de compte Stripe Connect
+    // uniquement) permettant a l'espace Mecenat de savoir si un createur
+    // peut recevoir un soutien, sans jamais exposer son profil complet
+    // (proteges par la regle users/{userId} plus haut). Ecrite uniquement
+    // par le webhook Stripe (SDK Admin, contourne ces regles) ou un admin.
+    match /creator_payment_status/{uid} {
+      allow read: if true;
+      allow write: if isAdmin();
     }
 
     // ── PATRONAGE PLEDGES (soutiens/paiements Mecenat) ─────────────────────

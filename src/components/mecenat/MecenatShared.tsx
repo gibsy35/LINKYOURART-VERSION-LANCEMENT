@@ -3,7 +3,7 @@ import { Contract, LYA_UNIT_VALUE, getContractDescription } from "../../types";
 import { getSafeImageUrl } from "../../utils/image";
 import { useCurrency } from "../../context/CurrencyContext";
 import { db, auth } from "../../firebase";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { addDoc, collection, serverTimestamp, doc, getDoc } from "firebase/firestore";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 
@@ -147,6 +147,28 @@ export function PaymentModal({ contract, units: initialUnits, onClose, lang }: P
 
   const QUICK_AMOUNTS = [1, 5, 10, 25, 50];
 
+  // Statut de paiement du createur (Stripe Connect) - une donnee publique
+  // minimale (voir creator_payment_status dans les regles Firestore), qui
+  // permet de savoir si l'argent peut reellement lui etre verse avant
+  // d'autoriser le soutien.
+  const [creatorPayment, setCreatorPayment] = useState<{ status: string; accountId: string } | null>(null);
+  const [loadingCreatorPayment, setLoadingCreatorPayment] = useState(true);
+  React.useEffect(() => {
+    let cancelled = false;
+    const issuerUid = (contract as any).issuerUid;
+    if (!issuerUid) { setLoadingCreatorPayment(false); return; }
+    getDoc(doc(db, 'creator_payment_status', issuerUid)).then(snap => {
+      if (cancelled) return;
+      if (snap.exists()) {
+        const d = snap.data();
+        setCreatorPayment({ status: d.stripeConnectStatus, accountId: d.stripeConnectAccountId });
+      }
+      setLoadingCreatorPayment(false);
+    }).catch(() => setLoadingCreatorPayment(false));
+    return () => { cancelled = true; };
+  }, [(contract as any).issuerUid]);
+  const creatorReadyForPayment = !(contract as any).issuerUid || (creatorPayment?.status === 'ACTIVE');
+
   const StripeForm = () => {
     const stripe = useStripe();
     const elements = useElements();
@@ -176,6 +198,7 @@ export function PaymentModal({ contract, units: initialUnits, onClose, lang }: P
               userId: user?.uid || null,
               userEmail: user?.email || null,
             },
+            ...(creatorPayment?.accountId ? { connectedAccountId: creatorPayment.accountId } : {}),
           }),
         });
         const { clientSecret, error: piError } = await res.json();
@@ -222,6 +245,22 @@ export function PaymentModal({ contract, units: initialUnits, onClose, lang }: P
         <div className="w-16 h-16 rounded-full bg-[#00ff88]/10 border border-[#00ff88]/30 flex items-center justify-center text-2xl">✦</div>
         <p className="text-[#00ff88] font-black font-mono tracking-widest text-sm">{T("SOUTIEN CONFIRMÉ", "SUPPORT CONFIRMED")}</p>
         <p className="text-on-surface-variant/60 text-xs font-mono">{T("Votre soutien a été enregistré.", "Your pledge has been recorded.")}</p>
+      </div>
+    );
+
+    if (loadingCreatorPayment) return (
+      <div className="p-10 flex flex-col items-center justify-center gap-4 text-center">
+        <div className="w-8 h-8 border-2 border-primary-cyan/30 border-t-primary-cyan rounded-full animate-spin" />
+      </div>
+    );
+
+    if (!creatorReadyForPayment) return (
+      <div className="p-10 flex flex-col items-center justify-center gap-4 text-center">
+        <div className="w-16 h-16 rounded-full bg-accent-gold/10 border border-accent-gold/30 flex items-center justify-center text-2xl">⏳</div>
+        <p className="text-accent-gold font-black font-mono tracking-widest text-sm">{T("SOUTIEN INDISPONIBLE POUR L'INSTANT", "SUPPORT NOT YET AVAILABLE")}</p>
+        <p className="text-on-surface-variant/60 text-xs font-mono max-w-xs">
+          {T("Ce créateur n'a pas encore terminé la configuration de son compte de paiement. Revenez bientôt.", "This creator hasn't finished setting up their payment account yet. Please check back soon.")}
+        </p>
       </div>
     );
 

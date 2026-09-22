@@ -29,6 +29,8 @@ export interface UserProfile {
   lyaScore?: number;
   hasSeenTutorial?: boolean;
   stripeCustomerId?: string;
+  stripeConnectAccountId?: string;
+  stripeConnectStatus?: 'PENDING' | 'PENDING_REVIEW' | 'ACTIVE';
   watchlist?: string[];
   comparisonList?: string[];
   // Extra project submissions purchased individually (€5 each) beyond the
