@@ -607,11 +607,11 @@ export const AdminView: React.FC<{
 
   const handleFullDatabaseReset = async () => {
     const confirmed = window.confirm(t(
-      `⚠ RESET COMPLET DE LA BASE. Supprime TOUS les comptes (sauf ${ADMIN_KEEP_EMAIL}), toutes les pré-inscriptions, codes d'accès, messages, demandes entreprise/vérification, et remet le compteur à zéro. Action IRRÉVERSIBLE. Continuer ?`,
-      `⚠ FULL DATABASE RESET. Deletes ALL accounts (except ${ADMIN_KEEP_EMAIL}), all pre-registrations, access keys, messages, enterprise/verification requests, and resets the counter to zero. This action is IRREVERSIBLE. Continue?`
+      `⚠ FULL DATABASE RESET. Deletes ALL accounts (except ${ADMIN_KEEP_EMAIL}), all pre-registrations, access keys, messages, enterprise/verification requests, and resets the counter to zero. This action is IRREVERSIBLE. Continue?`,
+      `⚠ RESET COMPLET DE LA BASE. Supprime TOUS les comptes (sauf ${ADMIN_KEEP_EMAIL}), toutes les pré-inscriptions, codes d'accès, messages, demandes entreprise/vérification, et remet le compteur à zéro. Action IRRÉVERSIBLE. Continuer ?`
     ));
     if (!confirmed) return;
-    onNotify(t('Reset en cours, ne fermez pas cette page…', 'Reset in progress, do not close this page…'));
+    onNotify(t('Reset in progress, do not close this page…', 'Reset en cours, ne fermez pas cette page…'));
 
     const summary: string[] = [];
 
@@ -670,7 +670,7 @@ export const AdminView: React.FC<{
     setPreRegistrations([]);
     setContactRequests([]);
 
-    onNotify(t(`✦ Base réinitialisée: ${summary.join(', ')}.`, `✦ Database reset: ${summary.join(', ')}.`));
+    onNotify(t(`✦ Database reset: ${summary.join(', ')}.`, `✦ Base réinitialisée: ${summary.join(', ')}.`));
   };
 
   const handleBanUser = async (uid: string, displayName: string, currentBan: boolean) => {
@@ -924,14 +924,14 @@ export const AdminView: React.FC<{
 
       <div className="flex items-center justify-between gap-4 p-4 bg-rose-500/5 border border-rose-500/20 rounded-xl">
         <div>
-          <div className="text-xs font-black uppercase tracking-widest text-rose-400">{t('Reset complet de la base', 'Full database reset')}</div>
-          <div className="text-[10px] text-on-surface-variant/50 mt-1">{t(`Supprime tout (comptes, pré-inscriptions, codes, messages) sauf ${ADMIN_KEEP_EMAIL}, et remet le compteur à zéro.`, `Deletes everything (accounts, pre-registrations, keys, messages) except ${ADMIN_KEEP_EMAIL}, and resets the counter to zero.`)}</div>
+          <div className="text-xs font-black uppercase tracking-widest text-rose-400">{t('Full database reset', 'Reset complet de la base')}</div>
+          <div className="text-[10px] text-on-surface-variant/50 mt-1">{t(`Deletes everything (accounts, pre-registrations, keys, messages) except ${ADMIN_KEEP_EMAIL}, and resets the counter to zero.`, `Supprime tout (comptes, pré-inscriptions, codes, messages) sauf ${ADMIN_KEEP_EMAIL}, et remet le compteur à zéro.`)}</div>
         </div>
         <button
           onClick={handleFullDatabaseReset}
           className="shrink-0 px-4 py-2.5 bg-rose-500/15 border border-rose-500/40 text-rose-400 text-xs font-black uppercase tracking-widest rounded-xl hover:bg-rose-500/25 transition-all"
         >
-          {t('Tout réinitialiser', 'Reset everything')}
+          {t('Reset everything', 'Tout réinitialiser')}
         </button>
       </div>
 
@@ -1526,6 +1526,37 @@ export const AdminView: React.FC<{
         <RefreshCw size={40} className="text-accent-gold animate-spin mb-6" />
         <h3 className="text-xl font-headline font-black text-white uppercase tracking-tighter">{t('SYNCING TERMINAL...', 'SYNCHRONISATION DU TERMINAL...')}</h3>
         <p className="text-on-surface-variant text-xs opacity-60 mt-2">{t('Establishing secure connection to encrypted registries.', 'Établissement d\'une connexion sécurisée aux registres chiffrés.')}</p>
+      </div>
+    );
+  }
+
+  // Barriere reelle, pas seulement l'absence de lien dans le menu: avant ce
+  // fix, App.tsx affichait ce composant des que currentView valait
+  // 'ADMIN_PANEL', sans jamais verifier le role de l'utilisateur - seul le
+  // lien du menu etait cache aux non-admins, pas la page elle-meme. Placee
+  // apres tous les hooks (comme le guard de chargement juste au-dessus)
+  // pour respecter les regles de React.
+  if (user?.role !== UserRole.ADMIN) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center p-8">
+        <div className="max-w-md w-full text-center space-y-6">
+          <div className="relative mx-auto w-20 h-20">
+            <div className="absolute inset-0 bg-rose-500/10 rounded-lg blur-xl" />
+            <div className="relative w-20 h-20 bg-surface-low border border-rose-500/20 rounded-lg flex items-center justify-center">
+              <Shield size={32} className="text-rose-400" />
+            </div>
+          </div>
+          <div className="space-y-3">
+            <p className="text-[10px] font-black text-rose-400 uppercase tracking-[0.2em]">{t('Access denied', 'Accès refusé')}</p>
+            <h2 className="text-2xl font-black text-white">{t('This area is reserved for administrators', 'Cette zone est réservée aux administrateurs')}</h2>
+          </div>
+          <button
+            onClick={() => onViewChange('DASHBOARD')}
+            className="px-8 py-3 bg-white/5 border border-white/10 text-white/70 font-black text-xs uppercase tracking-widest rounded-xl hover:bg-white/10 hover:text-white transition-all"
+          >
+            {t('Back to dashboard', 'Retour au tableau de bord')}
+          </button>
+        </div>
       </div>
     );
   }
