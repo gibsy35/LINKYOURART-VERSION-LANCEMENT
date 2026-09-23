@@ -13,6 +13,7 @@ import {
   ExternalLink,
   ChevronRight,
   Download,
+  Trash2,
   Lock,
   Zap,
   BarChart3,
@@ -58,8 +59,8 @@ import {
   Line
 } from 'recharts';
 import { db, storage } from '../firebase';
-import { addDoc, collection, serverTimestamp, getDocs, query, where } from 'firebase/firestore';
-import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { addDoc, collection, serverTimestamp, getDocs, query, where, deleteDoc, doc } from 'firebase/firestore';
+import { ref, uploadBytesResumable, getDownloadURL, deleteObject } from 'firebase/storage';
 
 interface ContractDetailViewProps {
   contract: Contract;
@@ -78,7 +79,8 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
 }) => {
   const { t, language, setLanguage } = useTranslation();
   const [activeTab, setActiveTab] = useState<'overview' | 'certification' | 'ai-simulator' | 'legal' | 'milestones' | 'messaging'>('overview');
-  const [attachments, setAttachments] = useState<{name:string,url:string,size:number,type:string,uploadedAt:string}[]>([]);
+  const [attachments, setAttachments] = useState<{id:string,name:string,url:string,size:number,type:string,uploadedAt:string,storagePath:string}[]>([]);
+  const [deletingAttachmentId, setDeletingAttachmentId] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const MAX_FILE_SIZE = 500 * 1024 * 1024; // 500 Mo
@@ -123,7 +125,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
       try {
         const q = query(collection(db, 'contract_attachments'), where('contractId', '==', contract.id));
         const snap = await getDocs(q);
-        setAttachments(snap.docs.map(d => d.data() as any));
+        setAttachments(snap.docs.map(d => ({ id: d.id, ...d.data() } as any)));
       } catch(e) { console.warn('Attachments load error:', e); }
     };
     loadAttachments();
@@ -139,7 +141,8 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
     setUploading(true);
     setUploadProgress(0);
     try {
-      const storageRef = ref(storage, `contracts/${contract.id}/${Date.now()}_${file.name}`);
+      const storagePath = `contracts/${contract.id}/${Date.now()}_${file.name}`;
+      const storageRef = ref(storage, storagePath);
       const uploadTask = uploadBytesResumable(storageRef, file);
       uploadTask.on('state_changed',
         (snapshot) => setUploadProgress(Math.round(snapshot.bytesTransferred / snapshot.totalBytes * 100)),
@@ -153,9 +156,10 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
             size: file.size,
             type: file.type,
             uploadedAt: new Date().toISOString(),
+            storagePath,
           };
-          await addDoc(collection(db, 'contract_attachments'), attachment);
-          setAttachments(prev => [...prev, attachment]);
+          const docRef = await addDoc(collection(db, 'contract_attachments'), attachment);
+          setAttachments(prev => [...prev, { id: docRef.id, ...attachment }]);
           setUploading(false);
           setUploadProgress(0);
           onNotify(t(`✦ ${file.name} uploadé`, `✦ ${file.name} uploaded`));
@@ -163,6 +167,23 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
       );
     } catch(e) { onNotify(t('Erreur upload', 'Upload error')); setUploading(false); }
     e.target.value = '';
+  };
+
+  const handleDeleteAttachment = async (attachment: { id: string; name: string; storagePath: string }) => {
+    if (!window.confirm(t(`Supprimer "${attachment.name}" ? Cette action est irréversible.`, `Delete "${attachment.name}"? This action is irreversible.`))) return;
+    setDeletingAttachmentId(attachment.id);
+    try {
+      await deleteDoc(doc(db, 'contract_attachments', attachment.id));
+      if (attachment.storagePath) {
+        await deleteObject(ref(storage, attachment.storagePath)).catch(() => { /* fichier deja absent du stockage, sans consequence */ });
+      }
+      setAttachments(prev => prev.filter(a => a.id !== attachment.id));
+      onNotify(t(`✦ ${attachment.name} supprimé`, `✦ ${attachment.name} removed`));
+    } catch (e) {
+      onNotify(t('Erreur lors de la suppression', 'Error while deleting'));
+    } finally {
+      setDeletingAttachmentId(null);
+    }
   };
 
   const pillarData = (contract.pillars || []).map(p => ({
@@ -610,15 +631,25 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                        {attachments.length > 0 && (
                          <div className="w-full space-y-2 text-left">
                            {attachments.map((att, i) => (
-                             <a key={i} href={att.url} target="_blank" rel="noopener noreferrer"
+                             <div key={att.id || i}
                                className="flex items-center gap-3 p-3 bg-white/5 border border-white/10 rounded-xl hover:border-primary-cyan/40 transition-all group">
-                               <FileText size={14} className="text-primary-cyan shrink-0"/>
-                               <div className="flex-1 min-w-0">
-                                 <p className="text-xs font-black text-white truncate">{att.name}</p>
-                                 <p className="text-[9px] text-white/30">{(att.size / 1024 / 1024).toFixed(1)} Mo</p>
-                               </div>
-                               <Download size={14} className="text-white/40 group-hover:text-primary-cyan transition-colors shrink-0"/>
-                             </a>
+                               <a href={att.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 flex-1 min-w-0">
+                                 <FileText size={14} className="text-primary-cyan shrink-0"/>
+                                 <div className="flex-1 min-w-0">
+                                   <p className="text-xs font-black text-white truncate">{att.name}</p>
+                                   <p className="text-[9px] text-white/30">{(att.size / 1024 / 1024).toFixed(1)} Mo</p>
+                                 </div>
+                                 <Download size={14} className="text-white/40 group-hover:text-primary-cyan transition-colors shrink-0"/>
+                               </a>
+                               <button
+                                 onClick={(e) => { e.preventDefault(); handleDeleteAttachment(att); }}
+                                 disabled={deletingAttachmentId === att.id}
+                                 title={t('Supprimer', 'Delete')}
+                                 className="p-1.5 text-white/20 hover:text-rose-400 transition-colors shrink-0 disabled:opacity-30"
+                               >
+                                 <Trash2 size={14} />
+                               </button>
+                             </div>
                            ))}
                          </div>
                        )}
