@@ -10,7 +10,7 @@ import { RealtimeChart } from '../components/RealtimeChart';
 import { PageHeader } from '../components/ui/PageHeader';
 import { InvitationCard } from '../components/InvitationCard';
 import { NewCreationModal, MilestoneModal, UploadModal } from '../components/DashboardModals';
-import { getSafeImageUrl } from '../utils/image';
+import { getSafeImageUrl, handleImageError } from '../utils/image';
 import {
   Lock,
   TrendingUp, TrendingDown, Users, DollarSign, Zap, Upload, FileText, Music,
@@ -259,10 +259,16 @@ export const CreatorDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg
       if (data.url) {
         window.location.href = data.url;
       } else {
-        onNotify(data.error || T('Impossible de démarrer la connexion Stripe.', 'Could not start Stripe connection.'));
+        // Le message d'erreur brut du serveur (toujours en anglais,
+        // jamais traduit) s'affichait directement - remplace par un
+        // message clair dans la langue du site, l'erreur technique reste
+        // loguee en console pour le diagnostic.
+        console.warn('[STRIPE_CONNECT]', data.error);
+        onNotify(T('Impossible de démarrer la connexion Stripe pour le moment. Réessayez dans quelques instants.', 'Could not start the Stripe connection right now. Please try again shortly.'));
         setIsConnectingStripe(false);
       }
     } catch (e) {
+      console.warn('[STRIPE_CONNECT]', e);
       onNotify(T('Erreur réseau.', 'Network error.'));
       setIsConnectingStripe(false);
     }
@@ -280,6 +286,13 @@ export const CreatorDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg
   const [myRealProjects, setMyRealProjects] = useState<any[]>([]);
   const [projectsLoaded, setProjectsLoaded] = useState(false);
 
+  // Deux sources distinctes: les projets DEJA publies (contracts) et ceux
+  // encore EN ATTENTE de validation (projects_pending). Avant ce fix, seuls
+  // les projets publies etaient lus ici - un createur qui venait de
+  // soumettre un projet ne le voyait litteralement nulle part tant qu'un
+  // admin ne l'avait pas valide, ce qui donnait l'impression que rien ne
+  // s'etait passe du tout.
+  const [myPendingProjects, setMyPendingProjects] = useState<any[]>([]);
   useEffect(() => {
     if (!user?.uid) return;
     const q = query(collection(db, 'contracts'), where('issuerUid', '==', user.uid));
@@ -308,7 +321,33 @@ export const CreatorDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg
     return () => unsubscribe();
   }, [user?.uid]);
 
-  const allProjects = myRealProjects;
+  useEffect(() => {
+    if (!user?.uid) return;
+    const q = query(collection(db, 'projects_pending'), where('creatorId', '==', user.uid));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const list = snapshot.docs
+        .filter(d => d.data().status !== 'PUBLISHED') // deja visible via contracts une fois publie
+        .map(d => {
+          const data: any = d.data();
+          return {
+            id: d.id,
+            name: data.name || 'Untitled',
+            category: data.category || '',
+            image: data.imageUrl || '',
+            status: data.status === 'REJECTED' ? 'REJECTED' : 'PENDING_VALIDATION',
+            registryIndex: T('En attente de validation', 'Pending validation'),
+            rarity: 'Standard',
+            totalScore: 0,
+            growth: 0,
+            milestones: [],
+          };
+        });
+      setMyPendingProjects(list);
+    }, (err) => console.error('[CreatorDashboard] projects_pending query error:', err));
+    return () => unsubscribe();
+  }, [user?.uid]);
+
+  const allProjects = useMemo(() => [...myPendingProjects, ...myRealProjects], [myPendingProjects, myRealProjects]);
   const myProjects = myRealProjects.slice(0, 2);
   const riskProjects = myRealProjects.filter(c => c.status === 'RISK').slice(0, 2);
 
@@ -493,7 +532,7 @@ export const CreatorDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg
                 return (
                   <div key={proj.id} className="bg-surface-low/40 border border-white/8 rounded-lg overflow-hidden hover:border-white/15 transition-all">
                     <div className="flex items-center gap-3 p-4 border-b border-white/6">
-                      <img onClick={() => { if (!revealedCards.has(proj.id)) { toggleRevealed(proj.id); return; } onSelectContract?.(proj); }} src={getSafeImageUrl(proj.image, proj.category)} alt={proj.name} className={`w-14 h-14 rounded-xl object-cover border border-white/10 shrink-0 cursor-pointer transition-all duration-500 ${revealedCards.has(proj.id) ? '' : 'grayscale blur-[2px] opacity-70'}`} referrerPolicy="no-referrer"/>
+                      <img onClick={() => { if (!revealedCards.has(proj.id)) { toggleRevealed(proj.id); return; } onSelectContract?.(proj); }} onError={handleImageError(proj.category)} src={getSafeImageUrl(proj.image, proj.category)} alt={proj.name} className={`w-14 h-14 rounded-xl object-cover border border-white/10 shrink-0 cursor-pointer transition-all duration-500 ${revealedCards.has(proj.id) ? '' : 'grayscale blur-[2px] opacity-70'}`} referrerPolicy="no-referrer"/>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap mb-0.5">
                           <p className="text-xs text-on-surface-variant/40 font-mono">{proj.registryIndex}</p>
@@ -566,7 +605,7 @@ export const CreatorDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg
                 const up = proj.growth >= 0;
                 return (
                   <div key={proj.id} className={`flex items-center gap-3 p-4 border rounded-lg hover:border-white/20 transition-all ${proj.status==='RISK'?'border-rose-500/20 bg-rose-500/3':proj.status==='SUSPENDED'?'border-accent-gold/20 bg-accent-gold/3':'border-white/8 bg-surface-low/40'}`}>
-                    <img onClick={() => { if (!revealedCards.has(proj.id)) { toggleRevealed(proj.id); return; } onSelectContract?.(proj); }} src={getSafeImageUrl(proj.image,proj.category)} alt={proj.name} className={`w-12 h-12 rounded-xl object-cover border border-white/10 shrink-0 cursor-pointer transition-all duration-500 ${revealedCards.has(proj.id) ? '' : 'grayscale blur-[2px] opacity-70'}`} referrerPolicy="no-referrer"/>
+                    <img onClick={() => { if (!revealedCards.has(proj.id)) { toggleRevealed(proj.id); return; } onSelectContract?.(proj); }} onError={handleImageError(proj.category)} src={getSafeImageUrl(proj.image,proj.category)} alt={proj.name} className={`w-12 h-12 rounded-xl object-cover border border-white/10 shrink-0 cursor-pointer transition-all duration-500 ${revealedCards.has(proj.id) ? '' : 'grayscale blur-[2px] opacity-70'}`} referrerPolicy="no-referrer"/>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap mb-0.5">
                         <p className="text-sm font-black text-on-surface truncate">{proj.name}</p>
