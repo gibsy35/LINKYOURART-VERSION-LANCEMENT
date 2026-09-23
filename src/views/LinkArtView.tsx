@@ -452,24 +452,44 @@ export const LinkArtView: React.FC<{
   };
 
   // Auto-translate description to French via Claude API
-  const translateDescription = async (text: string): Promise<string> => {
-    if (!text) return '';
-    // Detect if text is already French (simple heuristic)
+  // Detection de langue extraite a part, reutilisee des l'appel pour
+  // decider dans quel sens traduire - avant ce fix, la traduction n'allait
+  // JAMAIS que vers le francais: si le porteur de projet ecrivait deja en
+  // francais (cas frequent en test), le texte etait simplement duplique
+  // tel quel dans les deux champs (description ET descriptionFR), sans
+  // jamais produire de version anglaise - d'ou l'impression que "la
+  // traduction ne se fait pas".
+  const detectIsFrench = (text: string): boolean => {
     const frenchWords = ['le', 'la', 'les', 'un', 'une', 'des', 'est', 'sont', 'avec', 'pour', 'dans', 'sur'];
     const words = text.toLowerCase().split(' ');
-    const isFrench = frenchWords.filter(w => words.includes(w)).length >= 2;
-    if (isFrench) return text; // already French, no need to translate
+    return frenchWords.filter(w => words.includes(w)).length >= 2;
+  };
+
+  const translateDescription = async (text: string, targetLang: 'fr' | 'en' = 'fr'): Promise<string> => {
+    if (!text) return '';
     try {
       setIsTranslating(true);
       const res = await fetch('/api/gemini/analyze-asset', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'translate', description: text, targetLang: 'fr' })
+        body: JSON.stringify({ action: 'translate', description: text, targetLang })
       });
-      if (!res.ok) return text;
+      if (!res.ok) {
+        onNotify(t('Translation service unavailable — the English description will be used for both languages.', 'Service de traduction indisponible — la description anglaise sera utilisée pour les deux langues.'));
+        return text;
+      }
       const data = await res.json();
+      // Le serveur repond success (200) meme quand la traduction n'a PAS
+      // eu lieu (cle API manquante cote serveur) - avant ce fix, ce cas
+      // etait totalement silencieux: aucune erreur, aucun avertissement,
+      // la description restait simplement non traduite sans que personne
+      // ne le sache.
+      if (data.source === 'passthrough') {
+        onNotify(t('Translation service unavailable — the English description will be used for both languages.', 'Service de traduction indisponible — la description anglaise sera utilisée pour les deux langues.'));
+      }
       return data.translatedDescription || text;
     } catch {
+      onNotify(t('Translation service unavailable — the English description will be used for both languages.', 'Service de traduction indisponible — la description anglaise sera utilisée pour les deux langues.'));
       return text; // fallback to original
     } finally {
       setIsTranslating(false);
@@ -487,10 +507,20 @@ export const LinkArtView: React.FC<{
     onNotify(t('INITIATING CONTRAT CRÉATIF DEPLOYMENT...', 'INITIALISATION DU DÉPLOIEMENT DU CONTRAT CRÉATIF...'));
     
     try {
-      // Auto-translate description to French before saving
+      // Traduit dans le bon sens selon la langue de redaction detectee,
+      // pour que les deux champs (EN et FR) contiennent bien deux versions
+      // reellement distinctes, quelle que soit la langue de depart.
       onNotify(t('TRANSLATING DESCRIPTION...', 'TRADUCTION DE LA DESCRIPTION...'));
-      const translatedFR = descriptionFR || await translateDescription(description);
-      if (translatedFR !== description) setDescriptionFR(translatedFR);
+      const writtenInFrench = detectIsFrench(description);
+      let finalDescriptionEN = description;
+      let finalDescriptionFR = descriptionFR;
+      if (writtenInFrench) {
+        finalDescriptionFR = description;
+        finalDescriptionEN = await translateDescription(description, 'en');
+      } else {
+        finalDescriptionFR = descriptionFR || await translateDescription(description, 'fr');
+      }
+      if (finalDescriptionFR !== descriptionFR) setDescriptionFR(finalDescriptionFR);
 
       // Upload du fichier maitre s'il y en a un. La fonction n'avait
       // aucun bloc catch: un echec d'upload (reseau, permissions...)
@@ -526,8 +556,8 @@ export const LinkArtView: React.FC<{
         creatorName: user?.displayName || issuerName,
         creatorEmail: user?.email || null,
         category,
-        description,
-        descriptionFR: translatedFR,
+        description: finalDescriptionEN,
+        descriptionFR: finalDescriptionFR,
         imageUrl: generatedImage,
         duration: contractDuration,
         maturityDate,
