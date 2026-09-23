@@ -492,11 +492,22 @@ export const LinkArtView: React.FC<{
       const translatedFR = descriptionFR || await translateDescription(description);
       if (translatedFR !== description) setDescriptionFR(translatedFR);
 
-      // Upload du fichier maitre s'il y en a un
+      // Upload du fichier maitre s'il y en a un. La fonction n'avait
+      // aucun bloc catch: un echec d'upload (reseau, permissions...)
+      // faisait planter TOUTE la soumission avant meme d'ecrire le
+      // projet en base - rien n'etait jamais enregistre, sans que ce
+      // soit clair pour l'utilisateur. Le fichier joint est secondaire,
+      // son echec ne doit plus jamais empecher la soumission du projet
+      // lui-meme.
       let masterFileData: { name: string; url: string; size: number } | null = null;
       if (masterFile) {
         onNotify(t('UPLOADING MASTER FILE...', 'TÉLÉVERSEMENT DU FICHIER MAÎTRE...'));
-        masterFileData = await uploadMasterFile();
+        try {
+          masterFileData = await uploadMasterFile();
+        } catch (fileErr) {
+          console.warn('Master file upload failed, continuing without it:', fileErr);
+          onNotify(t('Could not attach the file — continuing without it.', "Le fichier n'a pas pu être joint — poursuite sans lui."));
+        }
       }
 
       // Ecrit dans projects_pending, pas dans contracts (qui est le
