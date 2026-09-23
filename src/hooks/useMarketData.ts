@@ -70,7 +70,16 @@ export const useMarketData = () => {
             } as Contract;
           });
 
-          setFirestoreContracts(list);
+          // Fusionne toujours avec les projets de demonstration statiques,
+          // au lieu de basculer entierement vers "Firestore uniquement" des
+          // qu'un seul vrai document existe. Avant ce fix, publier UN SEUL
+          // vrai projet faisait disparaitre instantanement les 119 projets
+          // de demo du Registre - un probleme d'affichage sur ce seul vrai
+          // projet suffisait a donner l'impression que "plus rien ne
+          // s'affiche".
+          const realIds = new Set(list.map(c => c.id));
+          const staticOnly = CONTRACTS.filter(c => !realIds.has(c.id));
+          setFirestoreContracts([...list, ...staticOnly]);
         } else if (firestoreContracts.length === 0) {
           setFirestoreContracts(CONTRACTS);
         }

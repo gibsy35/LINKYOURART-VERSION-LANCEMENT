@@ -132,7 +132,8 @@ const ValidationQueue: React.FC<{
   user: UserProfile | null;
   lang: 'FR' | 'EN';
   onNotify: (msg: string) => void;
-}> = ({ user, lang, onNotify }) => {
+  onSelectContract?: (c: any) => void;
+}> = ({ user, lang, onNotify, onSelectContract }) => {
   const T = (fr: string, en: string) => lang === 'FR' ? fr : en;
 
   const [requests, setRequests] = useState<ValidationRequest[]>([]);
@@ -435,7 +436,7 @@ const ValidationQueue: React.FC<{
                         <button
                           onClick={async () => {
                             try { await updateDoc(doc(db, 'validation_requests', req.id), { lastViewedAt: serverTimestamp() }).catch(() => {}); } catch {}
-                            onNotify(`${req.contract.name} — ${T('Dossier ouvert', 'File opened')}`);
+                            if (onSelectContract) { onSelectContract(req.contract); } else { onNotify(`${req.contract.name} — ${T('Dossier ouvert', 'File opened')}`); }
                           }}
                           className="p-2 bg-white/5 text-on-surface-variant hover:text-primary-cyan hover:bg-white/10 rounded-xl transition-all border border-white/8"
                         >
@@ -838,7 +839,8 @@ export const ValidationView: React.FC<{
   user: UserProfile | null;
   onNotify: (msg: string) => void;
   onViewChange?: (view: any) => void;
-}> = ({ user, onNotify, onViewChange }) => {
+  onSelectContract?: (c: any) => void;
+}> = ({ user, onNotify, onViewChange, onSelectContract }) => {
   const { t, language } = useTranslation();
   const lang: 'FR' | 'EN' = language === 'FR' ? 'FR' : 'EN';
   const T = (fr: string, en: string) => lang === 'FR' ? fr : en;
@@ -903,7 +905,7 @@ export const ValidationView: React.FC<{
       {/* Contenu */}
       <AnimatePresence mode="wait">
         <motion.div key={activeTab} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.2 }}>
-          {activeTab === 'queue'      && <ValidationQueue user={user} lang={lang} onNotify={onNotify} />}
+          {activeTab === 'queue'      && <ValidationQueue user={user} lang={lang} onNotify={onNotify} onSelectContract={onSelectContract} />}
           {activeTab === 'diagnostic' && <DiagnosticConsole lang={lang} onNotify={onNotify} />}
           {activeTab === 'dashboard'  && <QualityDashboard lang={lang} />}
         </motion.div>
