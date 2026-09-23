@@ -408,9 +408,19 @@ export const AdminView: React.FC<{
         name: submission.name,
         category: submission.category || 'Music',
         description: submission.description || '',
+        // descriptionFR manquait: la traduction generee a la soumission
+        // (LinkArtView) etait silencieusement perdue a la publication, la
+        // fiche projet retombait toujours en anglais quelle que soit la
+        // langue du site, meme sur la version francaise.
+        descriptionFR: submission.descriptionFR || submission.description || '',
         image: submission.imageUrl || `https://picsum.photos/seed/${submission.id}/800/500`,
         issuerId: submission.creatorName || 'LYA Creator',
         creatorId: submission.creatorId,
+        // issuerUid manquait aussi: c'est le champ dont depend toute la
+        // verification Stripe Connect (MecenatShared) avant d'autoriser un
+        // soutien - sans lui, cette verification etait silencieusement
+        // contournee pour tout projet reellement publie.
+        issuerUid: submission.creatorId,
         status: 'LIVE',
         rarity: form.rarity,
         scoreAlgo: form.scoreAlgo,
