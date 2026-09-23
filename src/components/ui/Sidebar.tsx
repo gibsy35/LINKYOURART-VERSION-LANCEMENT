@@ -124,7 +124,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: 'REGISTRY', icon: BookOpen, label: t('LYA REGISTRY', 'REGISTRE LYA'), category: t('DEVELOPMENT', 'DÉVELOPPEMENT') },
     { id: 'COMPARE', icon: Calculator, label: t('COMPARATOR', 'COMPARATEUR'), category: t('INDEX', 'INDEX') },
     { id: 'WATCHLIST', icon: CheckCircle, label: t('WATCHLIST', 'MA VEILLE'), category: t('INDEX', 'INDEX'), count: watchlist.length },
-    { id: 'VALIDATION', icon: ShieldCheck, label: t('Administrative Services', 'Services Administratifs'), category: t('LYA SYSTEM', 'LYA SYSTEME') },
+    // Console de controle qualite - reservee aux professionnels/validateurs
+    // verifies, comme Lounge et Governance juste au-dessus. Etait visible
+    // pour tout le monde sans distinction de role.
+    ...((user?.role === 'PROFESSIONAL' || user?.isVerifiedValidator || user?.role === UserRole.ADMIN) ? [{ id: 'VALIDATION' as const, icon: ShieldCheck, label: t('Administrative Services', 'Services Administratifs'), category: t('LYA SYSTEM', 'LYA SYSTEME') }] : []),
     { id: 'WALLET', icon: CreditCard, label: t('MY WALLET', 'MON PORTEFEUILLE'), category: t('VAULT', 'COFFRE') },
     { id: 'LINK_ART', icon: Link2, label: t('LYA SUBMIT', 'SOUMETTRE UN PROJET'), category: t('SYSTEM', 'SYSTÈME') },
     // 'ABOUT' retiree : contenu deplace sur la Home publique (galerie/stats/histoire),

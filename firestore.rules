@@ -19,6 +19,18 @@ service cloud.firestore {
       return request.auth != null;
     }
 
+    // Professionnel ou validateur verifie - meme logique que
+    // canAccessRegistryCertificationTools cote client (src/lib/permissions.ts),
+    // reprise ici pour proteger aussi l'ecriture directement au niveau des
+    // regles, en plus de la protection deja existante dans l'interface.
+    function isValidator() {
+      return isSignedIn() && (
+        isAdmin() ||
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'PROFESSIONAL' ||
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isVerifiedValidator == true
+      );
+    }
+
     // ── USERS ───────────────────────────────────────────────────────────────
     match /users/{userId} {
       // L'utilisateur voit son propre profil, l'admin voit tout
@@ -290,7 +302,7 @@ service cloud.firestore {
       allow delete: if isSignedIn() && (resource.data.authorId == request.auth.uid || isAdmin());
     }
     match /validation_approved/{docId} {
-      allow create: if isSignedIn();
+      allow create: if isValidator();
       allow read: if true;
       allow update, delete: if isAdmin();
     }

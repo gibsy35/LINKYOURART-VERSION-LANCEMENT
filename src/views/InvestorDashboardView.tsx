@@ -4,7 +4,7 @@ import { addDoc, collection, serverTimestamp, query, where, onSnapshot } from 'f
 import { motion, AnimatePresence } from 'motion/react';
 import { useTranslation } from '../context/LanguageContext';
 import { useCurrency } from '../context/CurrencyContext';
-import { UserProfile, CONTRACTS, Contract } from '../types';
+import { UserProfile, UserRole, CONTRACTS, Contract } from '../types';
 import { RealtimeChart } from '../components/RealtimeChart';
 import { PageHeader } from '../components/ui/PageHeader';
 import { InvitationCard } from '../components/InvitationCard';
@@ -12,6 +12,7 @@ import { Modal } from '../components/DashboardModals';
 import { AuthGuard } from '../components/AuthGuard';
 import { getSafeImageUrl } from '../utils/image';
 import {
+  Lock,
   TrendingUp, Award, Zap, Star, BarChart2, Mail,
   ArrowUpRight, Bell, Users, Filter, ChevronDown,
   ExternalLink, Sparkles, AlertTriangle,
@@ -23,8 +24,6 @@ export const InvestorDashboardView: React.FC<{user:UserProfile|null;onNotify:(ms
   const { formatPrice } = useCurrency();
   const lang: 'FR'|'EN' = language === 'FR' ? 'FR' : 'EN';
   const T = (fr: string, en: string) => lang === 'FR' ? fr : en;
-
-  if (!user) return <AuthGuard user={user} onViewChange={onViewChange}>{null}</AuthGuard>;
 
   const [activeSection, setActiveSection] = useState<'portfolio'|'pledges'|'analytics'|'social'>('portfolio');
   const [compareMode, setCompareMode] = useState<'bars'|'radar'>('bars');
@@ -168,6 +167,29 @@ export const InvestorDashboardView: React.FC<{user:UserProfile|null;onNotify:(ms
   ];
 
   const statusLabel = (s: string) => s === 'RISK' ? T('Audit Renforcé','Enhanced Audit') : s === 'SUSPENDED' ? T('Suspendu','Suspended') : T('Certifié','Certified');
+
+  if (!user) return <AuthGuard user={user} onViewChange={onViewChange}>{null}</AuthGuard>;
+
+  // Meme classe de faille corrigee sur AdminView: cet espace n'etait
+  // accessible qu'via un lien de menu cache aux autres roles, sans aucune
+  // verification reelle dans le composant lui-meme. Deplace ici (apres
+  // tous les hooks) car il etait auparavant place avant eux, une violation
+  // des regles de React deja presente dans le code d'origine.
+  if (user.role !== UserRole.PATRON && user.role !== UserRole.ADMIN) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center p-8 text-center">
+        <div className="max-w-md w-full space-y-6">
+          <div className="w-20 h-20 mx-auto bg-rose-500/10 border border-rose-500/20 rounded-full flex items-center justify-center">
+            <Lock size={32} className="text-rose-400" />
+          </div>
+          <h2 className="text-2xl font-black text-white">{T('Espace réservé aux Mécènes', 'Patrons-only space')}</h2>
+          <button onClick={() => onViewChange('DASHBOARD')} className="px-8 py-3 bg-white/5 border border-white/10 text-white/70 font-black text-xs uppercase tracking-widest rounded-xl hover:bg-white/10 hover:text-white transition-all">
+            {T('Retour au tableau de bord', 'Back to dashboard')}
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6 pb-12">

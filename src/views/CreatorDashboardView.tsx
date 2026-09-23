@@ -3,7 +3,7 @@ import { AuthGuard } from '../components/AuthGuard';
 import { motion, AnimatePresence } from 'motion/react';
 import { useTranslation } from '../context/LanguageContext';
 import { useCurrency } from '../context/CurrencyContext';
-import { UserProfile } from '../types';
+import { UserProfile, UserRole } from '../types';
 import { db } from '../firebase';
 import { addDoc, collection, serverTimestamp, query, where, onSnapshot, doc, updateDoc, arrayUnion, deleteDoc } from 'firebase/firestore';
 import { RealtimeChart } from '../components/RealtimeChart';
@@ -12,6 +12,7 @@ import { InvitationCard } from '../components/InvitationCard';
 import { NewCreationModal, MilestoneModal, UploadModal } from '../components/DashboardModals';
 import { getSafeImageUrl } from '../utils/image';
 import {
+  Lock,
   TrendingUp, TrendingDown, Users, DollarSign, Zap, Upload, FileText, Music,
   Plus, ChevronDown, CheckCircle, Clock, Star, BarChart2,
   Sparkles, Target, Award, ArrowUpRight, ArrowDownRight, Flag,
@@ -354,6 +355,25 @@ export const CreatorDashboardView: React.FC<{user:UserProfile|null;onNotify:(msg
   ];
 
   if (!user) return <AuthGuard user={user} onViewChange={onViewChange}>{null}</AuthGuard>;
+
+  // Meme classe de faille corrigee sur AdminView: cet espace n'etait
+  // accessible qu'via un lien de menu cache aux autres roles, sans aucune
+  // verification reelle dans le composant lui-meme.
+  if (user.role !== UserRole.CREATOR && user.role !== UserRole.ADMIN) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center p-8 text-center">
+        <div className="max-w-md w-full space-y-6">
+          <div className="w-20 h-20 mx-auto bg-rose-500/10 border border-rose-500/20 rounded-full flex items-center justify-center">
+            <Lock size={32} className="text-rose-400" />
+          </div>
+          <h2 className="text-2xl font-black text-white">{T('Espace réservé aux Créateurs', 'Creators-only space')}</h2>
+          <button onClick={() => onViewChange('DASHBOARD')} className="px-8 py-3 bg-white/5 border border-white/10 text-white/70 font-black text-xs uppercase tracking-widest rounded-xl hover:bg-white/10 hover:text-white transition-all">
+            {T('Retour au tableau de bord', 'Back to dashboard')}
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6 pb-12">
