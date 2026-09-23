@@ -110,11 +110,14 @@ export const RegistryView: React.FC<{
 
     try {
       // Recherche dans les contrats LYA
+      // Securise contre un projet mal forme (nom manquant) quelque part
+      // dans la base - un seul document avec un champ name absent faisait
+      // planter TOUTE la recherche, pour tout le monde, sans exception.
       const foundContract = allContracts.find(c =>
         c.registryIndex === verifyId ||
         c.registryAddress === verifyId ||
         c.id === verifyId ||
-        c.name.toLowerCase().includes(verifyId.toLowerCase())
+        (c.name || '').toLowerCase().includes(verifyId.toLowerCase())
       );
 
       // Sauvegarder la demande d'audit dans Firestore
@@ -177,8 +180,8 @@ export const RegistryView: React.FC<{
     const matchesAgreement = filterAgreementType === 'ALL' || item.agreementType === filterAgreementType;
     const matchesStatus = filterStatus === 'ALL' || item.status === filterStatus;
     const matchesAssetType = filterAssetType === 'ALL' || item.category === filterAssetType;
-    const matchesSearch = item.contractName.toLowerCase().includes(registrySearchTerm.toLowerCase()) || 
-                          item.registryId.toLowerCase().includes(registrySearchTerm.toLowerCase());
+    const matchesSearch = (item.contractName || '').toLowerCase().includes(registrySearchTerm.toLowerCase()) || 
+                          (item.registryId || '').toLowerCase().includes(registrySearchTerm.toLowerCase());
     return matchesAgreement && matchesStatus && matchesAssetType && matchesSearch;
   });
 
