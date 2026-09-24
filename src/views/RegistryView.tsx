@@ -46,6 +46,19 @@ export const RegistryView: React.FC<{
 }> = ({ user, onNotify, allContracts, onSelectContract, onViewChange }) => {
   const liveContracts = allContracts;
   const { t, language } = useTranslation();
+  // item.status et item.compliance.status sont des valeurs de donnees
+  // brutes en anglais, affichees telles quelles a 4 endroits de cette
+  // page, jamais traduites malgre la selection de langue du site.
+  const statusLabel = (s: string) => {
+    if (language !== 'FR') return s;
+    const map: Record<string, string> = { 'LIVE': 'ACTIF', 'PENDING': 'EN ATTENTE', 'REJECTED': 'REJETÉ', 'SUSPENDED': 'SUSPENDU' };
+    return map[s] || s;
+  };
+  const complianceLabel = (s: string) => {
+    if (language !== 'FR') return s;
+    const map: Record<string, string> = { 'COMPLIANT': 'CONFORME', 'PENDING': 'EN ATTENTE', 'NON-COMPLIANT': 'NON CONFORME' };
+    return map[s] || s;
+  };
 
   // Access Control: contract-level detail is a Professional certification
   // tool (see src/lib/permissions.ts) — distinct from the public,
@@ -426,7 +439,7 @@ export const RegistryView: React.FC<{
                       item.status === 'LIVE' ? 'border-emerald-400/30 text-emerald-400 bg-emerald-400/5' : 'border-red-400/30 text-red-400 bg-red-400/5'
                     }`}>
                       {item.status === 'LIVE' ? <ShieldCheck size={8} /> : <AlertTriangle size={8} />}
-                      {item.status}
+                      {statusLabel(item.status)}
                     </div>
                     <span className="text-xs text-on-surface-variant mt-1 uppercase tracking-widest">Version: {item.version}</span>
                   </div>
@@ -463,7 +476,7 @@ export const RegistryView: React.FC<{
                       }`}>
                         {item.compliance.status === 'COMPLIANT' ? <CheckCircle2 size={10} /> : 
                          item.compliance.status === 'PENDING' ? <Clock size={10} /> : <AlertTriangle size={10} />}
-                        {item.compliance.status}
+                        {complianceLabel(item.compliance.status)}
                       </div>
                     </div>
                   </div>
@@ -794,7 +807,7 @@ export const RegistryView: React.FC<{
                         }`}>
                           {item.compliance.status === 'COMPLIANT' ? <CheckCircle2 size={12} /> : 
                            item.compliance.status === 'PENDING' ? <Clock size={12} /> : <AlertTriangle size={12} />}
-                          {item.compliance.status}
+                          {complianceLabel(item.compliance.status)}
                         </div>
                       </div>
                       
@@ -810,7 +823,7 @@ export const RegistryView: React.FC<{
                         <div className={`px-3 py-1 text-sm font-bold uppercase tracking-widest border ${
                           item.status === 'LIVE' ? 'border-emerald-400/30 text-emerald-400 bg-emerald-400/5' : 'border-red-400/30 text-red-400 bg-red-400/5'
                         }`}>
-                          {item.status}
+                          {statusLabel(item.status)}
                         </div>
                       </div>
 

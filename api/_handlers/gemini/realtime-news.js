@@ -95,7 +95,13 @@ Do NOT produce any estimated field, score, or trend — facts verifiable via sea
   try {
     const ai = new GoogleGenAI({ apiKey });
     const response = await ai.models.generateContent({
-      model: 'gemini-3.6-flash',
+      // gemini-3.6-flash a un quota de 0/0 pour l'ancrage de recherche
+      // (Search Grounding) sur ce plan, confirme par le tableau de bord
+      // des limites de debit Gemini - ce n'est pas un depassement d'usage,
+      // c'est une allocation nulle pour ce modele precis sur cette
+      // fonctionnalite precise. gemini-2.5-flash, lui, dispose d'un vrai
+      // quota (1500/jour, quasiment inutilise) pour l'ancrage de recherche.
+      model: 'gemini-2.5-flash',
       contents: userPrompt,
       config: {
         systemInstruction: systemPrompt,
