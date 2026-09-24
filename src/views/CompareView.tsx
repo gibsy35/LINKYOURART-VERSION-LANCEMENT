@@ -212,7 +212,7 @@ export const CompareView: React.FC<CompareViewProps> = ({
                           <Plus size={20} className="text-white/20 group-hover:text-primary-cyan" />
                         </div>
                         <span className="text-xs font-black uppercase tracking-[0.4em] text-white/20 group-hover:text-primary-cyan transition-colors">{t('ADD_TO_BENCHMARK', 'AJOUTER_POUR_COMPARER')}</span>
-                        <span className="text-[10px] font-bold text-white/10 mt-2">{selectedContracts.length} / 20 SLOTS</span>
+                        <span className="text-[10px] font-bold text-white/10 mt-2">{selectedContracts.length} / 20 {t('SLOTS', 'EMPLACEMENTS')}</span>
                       </div>
                     </th>
                   ))}
@@ -243,8 +243,8 @@ export const CompareView: React.FC<CompareViewProps> = ({
                   { label: t('SCORE_PRO', 'SCORE PRO'), key: (c: Contract) => c.scorePro || 0, color: 'text-accent-gold opacity-80', suffix: '/1000' },
                   { label: t('SCORE_TREND', 'TENDANCE_SCORE'), key: (c: Contract) => c.growth || 0, color: 'text-emerald-400', suffix: '%', isTicker: true, decimalPlaces: 1 },
                   { label: t('COMMUNITY_ENGAGEMENT', 'ENGAGEMENT_COMMUNAUTÉ'), key: (c: Contract) => c.availableUnits ? (c.availableUnits / c.totalUnits) * 100 : 85.2, color: 'text-primary-cyan/80', suffix: '%', isTicker: true, decimalPlaces: 1 },
-                  { label: t('CERTIFICATION_TYPE', 'TYPE_CERTIFICATION'), key: (c: Contract) => 'Direct Rights', color: 'text-white/80' },
-                  { label: t('CYBER_SECURITY', 'SÉCURITÉ_CYBER'), key: (c: Contract) => 'VERIFIED_LYA', color: 'text-emerald-400', icon: Shield },
+                  { label: t('CERTIFICATION_TYPE', 'TYPE_CERTIFICATION'), key: (c: Contract) => t('Direct Rights', 'Droits Directs'), color: 'text-white/80' },
+                  { label: t('CYBER_SECURITY', 'SÉCURITÉ_CYBER'), key: (c: Contract) => t('VERIFIED_LYA', 'VÉRIFIÉ_LYA'), color: 'text-emerald-400', icon: Shield },
                   { label: t('REGULATORY_STATUS', 'STATUT_REG'), key: (c: Contract) => c.jurisdiction || 'International', color: 'text-on-surface-variant' },
                 ].map((row, idx) => (
                   <tr key={idx} className="hover:bg-white/[0.02] transition-colors group">
@@ -278,7 +278,7 @@ export const CompareView: React.FC<CompareViewProps> = ({
                     })}
                     {/* Visual placeholders for empty slots */}
                     {selectedContracts.length < 20 && (
-                      <td key="empty-v-placeholder" className="p-8 border-r border-white/5 opacity-5 text-center italic font-mono text-[10px] bg-black/10">---_BUFFER_---</td>
+                      <td key="empty-v-placeholder" className="p-8 border-r border-white/5 opacity-5 text-center italic font-mono text-[10px] bg-black/10">{t('---_BUFFER_---', '---_TAMPON_---')}</td>
                     )}
                     {!isPro && selectedContracts.length >= 20 && (
                        <td className="p-8 border-r border-white/5 bg-accent-gold/[0.01]">
