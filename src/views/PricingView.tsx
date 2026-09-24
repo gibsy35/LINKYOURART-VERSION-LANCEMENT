@@ -228,7 +228,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
         <div className="bg-surface-high/40 border border-white/10 p-1 rounded-sm flex items-center backdrop-blur-xl">
           <button 
             onClick={() => setBillingCycle('monthly')}
-            className={`px-6 py-2 text-[10px] font-black uppercase tracking-widest transition-all ${
+            className={`px-6 py-2 text-[10px] font-black uppercase tracking-widest transition-all rounded-full ${
               billingCycle === 'monthly' ? 'bg-primary-cyan text-surface-dim' : 'text-on-surface-variant hover:text-white'
             }`}
           >
@@ -236,7 +236,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
           </button>
           <button 
             onClick={() => setBillingCycle('yearly')}
-            className={`px-6 py-2 text-[10px] font-black uppercase tracking-widest transition-all relative ${
+            className={`px-6 py-2 text-[10px] font-black uppercase tracking-widest transition-all relative rounded-full ${
               billingCycle === 'yearly' ? 'bg-primary-cyan text-surface-dim' : 'text-on-surface-variant hover:text-white'
             }`}
           >
@@ -258,7 +258,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.1 }}
-                className={`relative bg-surface-high/40 border ${
+                className={`relative bg-surface-high/40 border rounded-2xl ${
                   plan.popular ? 'border-[#7E1CF1]' :
                   plan.color === 'accent-purple' ? 'border-accent-purple/30' :
                   plan.color === 'accent-pink' ? 'border-accent-pink/30' :
@@ -363,7 +363,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
                         onSelectPlan({ id: plan.id, name: plan.name, price: currentPrice, billingCycle });
                       }
                     }}
-                    className={`w-full py-3 font-black uppercase text-xs tracking-tighter transition-all active:scale-95 flex items-center justify-center gap-2 ${
+                    className={`w-full py-3 font-black uppercase text-xs tracking-tighter transition-all active:scale-95 flex items-center justify-center gap-2 rounded-xl ${
                     plan.id === 'PRO_ENTERPRISE'
                       ? 'bg-accent-purple/90 text-white shadow-lg shadow-accent-purple/20 hover:bg-white hover:text-surface-dim'
                       : plan.id === 'VALIDATOR_PRO'
@@ -389,13 +389,13 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
       </div>
 
       {/* LYA AI Needs & Services Assessment Engine */}
-      <div id="ai-pricing-assessment" className="mt-20 border border-primary-cyan/25 bg-gradient-to-br from-surface-high/60 to-surface-low/60 p-6 md:p-8 relative overflow-hidden">
+      <div id="ai-pricing-assessment" className="mt-20 border border-primary-cyan/25 bg-gradient-to-br from-surface-high/60 to-surface-low/60 p-6 md:p-8 relative overflow-hidden rounded-xl">
         {/* Ambient Neon Backplates */}
         <div className="absolute top-0 right-0 w-80 h-80 bg-primary-cyan/5 rounded-full blur-3xl -mr-40 -mt-40 pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-80 h-80 bg-accent-gold/5 rounded-full blur-3xl -ml-40 -mb-40 pointer-events-none" />
 
         <div className="relative z-10">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 border-b border-white/10 pb-6">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 border-b border-white/10 pb-6 rounded-xl">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 rounded-full bg-primary-cyan/10 border border-primary-cyan/30 flex items-center justify-center text-primary-cyan shrink-0">
                 <Sparkles size={24} className="animate-pulse" />
@@ -410,7 +410,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
                 </p>
               </div>
             </div>
-            <div className="px-3 py-1.5 bg-primary-cyan/10 border border-primary-cyan/30 text-[10px] font-black uppercase tracking-wider text-primary-cyan self-start md:self-auto">
+            <div className="px-3 py-1.5 bg-primary-cyan/10 border border-primary-cyan/30 text-[10px] font-black uppercase tracking-wider text-primary-cyan self-start md:self-auto rounded-xl">
               {t('INTELLIGENT CERTIFICATION MODEL V3.5 ACTIVE', 'MODÈLE DE CERTIFICATION LYA ACTIF V3.5')}
             </div>
           </div>
@@ -434,7 +434,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
                     <button
                       key={field.id}
                       onClick={() => setCreativeField(field.id)}
-                      className={`px-3 py-2.5 text-[10px] md:text-xs font-black uppercase tracking-wider text-left border transition-all ${
+                      className={`px-3 py-2.5 text-[10px] md:text-xs font-black uppercase tracking-wider text-left border transition-all rounded-lg ${
                         creativeField === field.id
                           ? 'bg-primary-cyan text-surface-dim border-primary-cyan'
                           : 'bg-white/5 border-white/10 text-on-surface-variant hover:text-white hover:border-white/20'
@@ -515,7 +515,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
             </div>
 
             {/* AI Output Terminal Panel (Col 3) */}
-            <div className="lg:col-span-3 min-h-[400px] border border-white/10 bg-black/40 backdrop-blur-md p-6 flex flex-col justify-between relative">
+            <div className="lg:col-span-3 min-h-[400px] border border-white/10 bg-black/40 backdrop-blur-md p-6 flex flex-col justify-between relative rounded-xl">
               
               {/* If idle */}
               {!isAnalyzing && !assessmentResult && (
@@ -532,19 +532,19 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
 
               {/* Progress Terminal */}
               {isAnalyzing && (
-                <div className="h-full flex flex-col justify-center font-mono text-[10px] text-primary-cyan space-y-4 p-4 bg-black/60 border border-primary-cyan/10">
+                <div className="h-full flex flex-col justify-center font-mono text-[10px] text-primary-cyan space-y-4 p-4 bg-black/60 border border-primary-cyan/10 rounded-xl">
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 bg-primary-cyan rounded-full animate-ping" />
                     <span className="tracking-widest font-black uppercase">{t('LYA CENTRAL INTELLIGENCE NODE CONNECTED', 'NŒUD DE CONFORMITÉ LYA CONNECTÉ')}</span>
                   </div>
-                  <div className="space-y-1.5 opacity-90 border-t border-white/15 pt-3">
+                  <div className="space-y-1.5 opacity-90 border-t border-white/15 pt-3 rounded-xl">
                     <p className="text-white/60">&gt;&nbsp;&nbsp;[CONN] 0x9320AC COMPILER INITIALIZING...</p>
                     <p className="text-white/60">&gt;&nbsp;&nbsp;[EVAL] SECTOR: {creativeField.toUpperCase()}</p>
                     <p className="text-white/60">&gt;&nbsp;&nbsp;[ROLE] {customRole.toUpperCase()}</p>
                     <p className="text-white/60">&gt;&nbsp;&nbsp;[SIZE] {projectSize.toUpperCase()}</p>
                     <p className="text-primary-cyan animate-pulse mt-4 font-black">&gt;&nbsp;&nbsp;STATUS:&nbsp;&nbsp;{analysisProgress}</p>
                   </div>
-                  <div className="w-full bg-white/5 h-[3px] overflow-hidden mt-6">
+                  <div className="w-full bg-white/5 h-[3px] overflow-hidden mt-6 rounded-xl">
                     <div className="bg-primary-cyan h-full animate-[shimmer_2s_infinite] w-2/3 animate-pulse" />
                   </div>
                 </div>
@@ -557,7 +557,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
                   animate={{ opacity: 1, y: 0 }}
                   className="space-y-6"
                 >
-                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/5 pb-4">
+                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/5 pb-4 rounded-xl">
                     <div>
                       <span className="text-[10px] bg-primary-cyan/20 border border-primary-cyan/40 px-3 py-0.5 font-bold uppercase tracking-widest text-primary-cyan rounded-full">
                         {t('AI Econometric Recommendation', 'Recommandation Économétrique IA')}
@@ -566,7 +566,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
                         {t('Optimal Subscription:', 'Forfait Recommandé :')} <span className="text-primary-cyan">{assessmentResult.recommendedPlanName}</span>
                       </h4>
                     </div>
-                    <div className="bg-surface-high border border-white/10 px-4 py-2 text-right">
+                    <div className="bg-surface-high border border-white/10 px-4 py-2 text-right rounded-xl">
                       <span className="text-[10px] text-on-surface-variant block uppercase font-black tracking-widest">{t('ESTIMATED COST', 'COÛT ESTIMATIF')}</span>
                       <span className="text-xl font-black text-white">
                         {assessmentResult.estimatedMonthlyCost === 15000 
@@ -582,13 +582,13 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
                       <Cpu size={12} className="text-primary-cyan" />
                       {t('Ecosystem Diagnostic Report', 'Rapport de Diagnostic d’Écosystème')}
                     </h5>
-                    <p className="text-[11px] text-on-surface/95 leading-relaxed text-justify bg-white/5 p-4 border-l-2 border-primary-cyan">
+                    <p className="text-[11px] text-on-surface/95 leading-relaxed text-justify bg-white/5 p-4 border-l-2 border-primary-cyan rounded-xl">
                       {assessmentResult.analysis}
                     </p>
                   </div>
 
                   {/* Matching score slider info */}
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 bg-white/[0.02] border border-white/5 p-4">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 bg-white/[0.02] border border-white/5 p-4 rounded-xl">
                     <div className="md:col-span-2 space-y-1">
                       <span className="text-[10px] uppercase tracking-widest font-black text-on-surface-variant block">
                         {t('ESTIMATED CERTIFICATION READINESS', 'INDICE DE PRÉPARATION À LA CERTIFICATION')}
@@ -607,7 +607,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
                       </span>
                     </div>
                     
-                    <div className="border-t md:border-t-0 md:border-l border-white/10 pt-2 md:pt-0 md:pl-4 flex flex-col justify-center">
+                    <div className="border-t md:border-t-0 md:border-l border-white/10 pt-2 md:pt-0 md:pl-4 flex flex-col justify-center rounded-xl">
                       <span className="text-[10px] text-on-surface-variant uppercase font-black tracking-widest block">{t('PRIMARY REASON', 'MOTIF CLÉ')}</span>
                       <p className="text-xs text-accent-gold font-bold leading-tight mt-1">
                         {assessmentResult.primaryReason}
@@ -649,7 +649,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
                   </div>
 
                   {/* Quick checkout actions & custom quote redirection */}
-                  <div className="flex flex-col sm:flex-row items-center gap-4 pt-4 border-t border-white/5">
+                  <div className="flex flex-col sm:flex-row items-center gap-4 pt-4 border-t border-white/5 rounded-xl">
                     
                     <button
                       onClick={() => {
@@ -703,7 +703,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
             <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32 blur-3xl group-hover:bg-white/10 transition-all" />
             <div className="relative z-10">
               <div className="flex items-center gap-4 mb-8">
-                <div className="w-12 h-12 bg-white/10 border border-white/20 flex items-center justify-center text-white">
+                <div className="w-12 h-12 bg-white/10 border border-white/20 flex items-center justify-center text-white rounded-xl">
                   <User size={24} />
                 </div>
                 <div>
@@ -714,7 +714,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="space-y-4">
-                  <h4 className="text-xs font-black text-primary-cyan uppercase tracking-widest border-b border-primary-cyan/20 pb-2">{t('Core Capabilities', 'Capacités Clés')}</h4>
+                  <h4 className="text-xs font-black text-primary-cyan uppercase tracking-widest border-b border-primary-cyan/20 pb-2 rounded-xl">{t('Core Capabilities', 'Capacités Clés')}</h4>
                   <ul className="space-y-3">
                     {[
                       t('Advanced LYA Score breakdown', 'Décomposition avancée du Score LYA'),
@@ -729,7 +729,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
                   </ul>
                 </div>
                 <div className="space-y-4">
-                  <h4 className="text-xs font-black text-accent-gold uppercase tracking-widest border-b border-accent-gold/20 pb-2">{t('Professional Benefits', 'Avantages Professionnels')}</h4>
+                  <h4 className="text-xs font-black text-accent-gold uppercase tracking-widest border-b border-accent-gold/20 pb-2 rounded-xl">{t('Professional Benefits', 'Avantages Professionnels')}</h4>
                   <ul className="space-y-3">
                     {[
                       t('Priority review queue', 'File de revue prioritaire'),
@@ -752,7 +752,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
             <div className="absolute top-0 right-0 w-64 h-64 bg-accent-purple/5 rounded-full -mr-32 -mt-32 blur-3xl group-hover:bg-accent-purple/10 transition-all" />
             <div className="relative z-10">
               <div className="flex items-center gap-4 mb-8">
-                <div className="w-12 h-12 bg-accent-purple/10 border border-accent-purple/20 flex items-center justify-center text-accent-purple">
+                <div className="w-12 h-12 bg-accent-purple/10 border border-accent-purple/20 flex items-center justify-center text-accent-purple rounded-xl">
                   <Building2 size={24} />
                 </div>
                 <div>
@@ -763,7 +763,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="space-y-4">
-                  <h4 className="text-xs font-black text-primary-cyan uppercase tracking-widest border-b border-primary-cyan/20 pb-2">{t('Operational Impact', 'Impact Opérationnel')}</h4>
+                  <h4 className="text-xs font-black text-primary-cyan uppercase tracking-widest border-b border-primary-cyan/20 pb-2 rounded-xl">{t('Operational Impact', 'Impact Opérationnel')}</h4>
                   <ul className="space-y-3">
                     {[
                       t('Global Catalog Onboarding', 'Onboarding de Catalogue Global'),
@@ -778,7 +778,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
                   </ul>
                 </div>
                 <div className="space-y-4">
-                  <h4 className="text-xs font-black text-accent-gold uppercase tracking-widest border-b border-accent-gold/20 pb-2">{t('Decision Support', 'Soutien à la Décision')}</h4>
+                  <h4 className="text-xs font-black text-accent-gold uppercase tracking-widest border-b border-accent-gold/20 pb-2 rounded-xl">{t('Decision Support', 'Soutien à la Décision')}</h4>
                   <ul className="space-y-3">
                     {[
                       t('Real-time Certification index', 'Indice de Certification en tps réel'),
@@ -827,7 +827,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
         </div>
       </div>
 
-        <div className="mt-20 p-8 bg-surface-highest/10 border border-white/5 backdrop-blur-sm">
+        <div className="mt-20 p-8 bg-surface-highest/10 border border-white/5 backdrop-blur-sm rounded-xl">
           <div className="flex flex-col md:flex-row items-center justify-between gap-8">
             <div className="flex items-center gap-6">
               <div className="w-16 h-16 bg-primary-cyan/10 border border-primary-cyan/30 flex items-center justify-center rounded-full shrink-0">
@@ -841,7 +841,7 @@ const PricingView: React.FC<PricingViewProps> = ({ onSelectPlan, onNotify, onBec
               </div>
             </div>
             <div className="flex gap-4">
-              <div className="px-6 py-4 bg-white/5 border border-white/10 text-center min-w-[140px]">
+              <div className="px-6 py-4 bg-white/5 border border-white/10 text-center min-w-[140px] rounded-xl">
                 <div className="text-2xl font-black text-primary-cyan whitespace-nowrap">5%</div>
                 <div className="text-[10px] uppercase font-bold tracking-widest text-on-surface-variant whitespace-nowrap">{t('On Patronage', 'Sur le Mécénat')}</div>
               </div>

@@ -535,7 +535,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                             </div>
                             <div>
                               <div className="text-[11px] font-black text-white/30 uppercase tracking-widest mb-1">{t('CERTIFICATION DATE', "DATE DE CERTIFICATION")}</div>
-                              <div className="text-sm font-semibold text-emerald-400">{contract.lastAudit || '15 May 2026'}</div>
+                              <div className={`text-sm font-semibold ${contract.lastAudit ? 'text-emerald-400' : 'text-white/40 italic'}`}>{contract.lastAudit || t('Not yet certified', 'Pas encore certifié')}</div>
                             </div>
                             <div>
                               <div className="text-[11px] font-black text-white/30 uppercase tracking-widest mb-1">{t('PATRON COMMUNITY', "COMMUNAUTÉ DE MÉCÈNES")}</div>
@@ -565,7 +565,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                             </div>
                             <div>
                               <div className="text-[11px] font-black text-white/30 uppercase tracking-widest mb-1">{t('NEXT MILESTONE', 'PROCHAIN JALON')}</div>
-                              <div className="text-sm font-semibold text-white/90">{contract.maturityDate || '31 Dec 2026'}</div>
+                              <div className={`text-sm font-semibold ${contract.maturityDate ? 'text-white/90' : 'text-white/40 italic'}`}>{contract.maturityDate || t('Not yet defined', 'Non défini')}</div>
                             </div>
                           </div>
                         </div>
@@ -577,17 +577,22 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                           <div className="space-y-4">
                             <div>
                               <div className="text-[11px] font-black text-white/30 uppercase tracking-widest mb-1">{t('VALUATOR & CHIEF VALIDATOR', "AGENT D'ÉVALUATION ET CONFORMITÉ")}</div>
-                              <div className="text-xs font-black text-white uppercase tracking-tight">{contract.professionalValidator || 'LinkYourArt Advisory Committee'}</div>
+                              {/* Retire le nom generique factice affiche par defaut pour
+                                  chaque projet reel (ce champ n'est actuellement jamais
+                                  renseigne dans le circuit de soumission/validation) -
+                                  affiche honnetement l'absence d'affectation plutot
+                                  qu'un nom invente. */}
+                              <div className={`text-xs font-black uppercase tracking-tight ${contract.professionalValidator ? 'text-white' : 'text-white/40 italic normal-case font-semibold'}`}>{contract.professionalValidator || t('Not yet assigned', 'Pas encore affecté')}</div>
                             </div>
                             <div>
                               <div className="text-[11px] font-black text-white/30 uppercase tracking-widest mb-1">{t('REGISTRY CATALOG INDEX', 'INDEX UNIQUE DU REGISTRE D\'ŒUVRES')}</div>
-                              <div className="text-xs font-mono text-primary-cyan overflow-hidden text-ellipsis whitespace-nowrap bg-black/40 p-2 rounded-lg border border-white/5">
-                                {contract.registryAddress || 'LYA-CATALOG-912A8'}
+                              <div className={`text-xs font-mono overflow-hidden text-ellipsis whitespace-nowrap bg-black/40 p-2 rounded-lg border border-white/5 ${contract.registryAddress ? 'text-primary-cyan' : 'text-white/40 italic'}`}>
+                                {contract.registryAddress || t('Not yet indexed', 'Pas encore indexé')}
                               </div>
                             </div>
                             <div>
                               <div className="text-[11px] font-black text-white/30 uppercase tracking-widest mb-1">{t('LAST CERTIFIED AUDIT', 'DERNIÈRE ATTÉSTATION CHIFfrée')}</div>
-                              <div className="text-sm font-semibold text-emerald-400">{contract.lastAudit || '15 May 2026'}</div>
+                              <div className={`text-sm font-semibold ${contract.lastAudit ? 'text-emerald-400' : 'text-white/40 italic'}`}>{contract.lastAudit || t('None yet', 'Aucune pour le moment')}</div>
                             </div>
                             <div>
                               <div className="text-[11px] font-black text-white/30 uppercase tracking-widest mb-1">{t('REGISTRATION LYA SYSTEM', 'LYA SYSTEME DE SÉCURISATION DU REGISTRE')}</div>
