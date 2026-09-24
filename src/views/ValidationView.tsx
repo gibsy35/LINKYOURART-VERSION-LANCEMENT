@@ -568,6 +568,9 @@ const ValidationQueue: React.FC<{
                 <Sparkles size={14} className={isDraftingRejection ? 'animate-pulse' : ''} />
                 {isDraftingRejection ? T('Génération…', 'Generating…') : (rejectReason.trim() ? T('Reformuler avec l\'IA', 'Rephrase with AI') : T('Générer un brouillon avec l\'IA', 'Generate a draft with AI'))}
               </button>
+              {!rejectReason.trim() && (
+                <p className="text-[11px] text-accent-gold/80 -mt-1">{T('Saisissez ou générez un motif pour activer le bouton ci-dessous.', 'Enter or generate a reason to enable the button below.')}</p>
+              )}
               <div className="flex gap-3">
                 <button onClick={() => setRejectId(null)} className="flex-1 py-3 bg-white/5 border border-white/10 text-sm font-black rounded-xl hover:bg-white/10 transition-all">{T('Annuler', 'Cancel')}</button>
                 <button onClick={confirmReject} disabled={!rejectReason.trim()} className="flex-1 py-3 bg-rose-500 text-white text-sm font-black rounded-xl hover:bg-rose-400 transition-all disabled:opacity-40">{T('Confirmer le rejet', 'Confirm rejection')}</button>

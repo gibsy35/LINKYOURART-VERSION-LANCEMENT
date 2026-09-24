@@ -73,6 +73,11 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
   });
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  // Distingue "en cours de premier chargement" de "a fini de charger et
+  // n'a rien trouve" - avant ce fix, les deux affichaient le meme message
+  // "en attente du flux", en permanence si le service echoue (ex: cle API
+  // manquante cote serveur), sans jamais indiquer clairement un echec.
+  const [hasLoadedOnce, setHasLoadedOnce] = useState(false);
   const [activeNewsIndex, setActiveNewsIndex] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [visibleSectors, setVisibleSectors] = useState(9);
@@ -130,6 +135,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
       onNotify(t('No live news available right now.', 'Aucune actualité en direct disponible pour le moment.'));
     }
     setIsLoading(false);
+    setHasLoadedOnce(true);
   };
 
   useEffect(() => {
@@ -160,8 +166,12 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
   const activeItem = news[activeNewsIndex] || news[0] || {
     id: 'placeholder',
     category: 'GLOBAL' as const,
-    title: t('Waiting for live news...', 'En attente du flux en direct...'),
-    summary: t('Real-time creative industry news will appear here shortly.', 'Les actualités en direct du monde créatif apparaîtront ici sous peu.'),
+    title: hasLoadedOnce
+      ? t('Live feed temporarily unavailable', 'Flux en direct temporairement indisponible')
+      : t('Waiting for live news...', 'En attente du flux en direct...'),
+    summary: hasLoadedOnce
+      ? t('Please try refreshing in a moment.', 'Réessayez de rafraîchir dans un instant.')
+      : t('Real-time creative industry news will appear here shortly.', 'Les actualités en direct du monde créatif apparaîtront ici sous peu.'),
     timestamp: '',
     source: '',
     imageUrl: undefined,
