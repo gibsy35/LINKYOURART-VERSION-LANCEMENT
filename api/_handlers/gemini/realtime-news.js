@@ -217,6 +217,7 @@ Do NOT produce any estimated field, score, or trend — facts verifiable via sea
 
   } catch (err) {
     console.error('[NEWS] Error:', err.message);
+    if (req.query.debug === '1') return res.status(200).json({ news: [], debug: { reason: 'exception', message: err.message, stack: (err.stack || '').slice(0, 800) } });
     return res.status(200).json({ news: [] });
   }
 };
