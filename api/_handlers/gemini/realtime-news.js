@@ -108,13 +108,19 @@ Do NOT produce any estimated field, score, or trend — facts verifiable via sea
     });
 
     const textBlocks = response.text || '';
+    // Diagnostic temporaire (retire la cle diagnostic pour desactiver):
+    // permet de voir precisement ce que Gemini renvoie reellement quand
+    // la recherche en direct echoue, au lieu de deviner a l'aveugle.
+    const debugMode = req.query.debug === '1';
     if (!textBlocks) {
+      if (debugMode) return res.status(200).json({ news: [], debug: { reason: 'empty_text', finishReason: response.candidates?.[0]?.finishReason, hasGroundingMetadata: !!response.candidates?.[0]?.groundingMetadata } });
       return res.status(200).json({ news: [] });
     }
 
     const jsonMatch = textBlocks.match(/\[[\s\S]*\]/);
     if (!jsonMatch) {
       console.log('[NEWS] No JSON array found in:', textBlocks.slice(0, 200));
+      if (debugMode) return res.status(200).json({ news: [], debug: { reason: 'no_json_match', rawText: textBlocks.slice(0, 500) } });
       return res.status(200).json({ news: [] });
     }
 
