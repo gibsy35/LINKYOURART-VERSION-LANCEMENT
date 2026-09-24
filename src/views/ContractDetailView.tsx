@@ -446,69 +446,6 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                       </div>
                     </div>
 
-                     {/* Score Impact Timeline */}
-                     <div className="space-y-6 bg-primary-cyan/5 border border-primary-cyan/20 p-8 rounded-[2.5rem] relative overflow-hidden">
-                       <div className="absolute -right-24 -bottom-24 w-64 h-64 bg-primary-cyan/5 rounded-full blur-[80px]" />
-                       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/5 pb-4">
-                         <div className="space-y-1">
-                           <span className="text-[10px] font-mono font-black text-primary-cyan uppercase tracking-[0.3em]">
-                             {t('LYA SCORE IMPACT TIMELINE', 'CALENDRIER D\'IMPACT SUR LE SCORE LYA')}
-                           </span>
-                           <h3 className="text-xl sm:text-2xl font-black font-headline text-white uppercase tracking-tight">
-                             {t('MILESTONE-DRIVEN CERTIFICATION PROGRESS', 'PROGRESSION DE CERTIFICATION PAR JALONS')}
-                           </h3>
-                         </div>
-                         <div className="px-4 py-2 bg-black/40 border border-white/5 rounded-full text-[10px] text-white/60 font-black tracking-widest uppercase">
-                           {t('Live Tracking Active', 'SUIVI DES JALONS TEMPS-RÉEL')}
-                         </div>
-                       </div>
-
-                       <p className="text-xs text-white/70 leading-relaxed max-w-4xl text-justify">
-                         {t('The LYA Score evolves exclusively based on operational quality. Certified milestones raise the score (Milestone +), while missed or delayed milestones lower it (Milestone -). The score is recalculated automatically the moment a milestone is certified or missed.', 'Le Score LYA évolue exclusivement en fonction de la qualité opérationnelle du projet. L\'atteinte des jalons (Jalon +) fait progresser le score, tandis que les retards ou jalons manqués (Jalon -) l\'ajustent à la baisse. Le score est recalculé automatiquement dès qu\'un jalon est certifié ou manqué.')}
-                       </p>
-
-                       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
-                         <div className="p-5 bg-emerald-500/5 border border-emerald-500/20 rounded-lg space-y-3 relative">
-                           <div className="flex justify-between items-center">
-                             <span className="text-xs font-black text-emerald-400 uppercase tracking-widest bg-emerald-500/10 px-3.5 py-1 rounded-md">
-                               {t('Milestone + (Secured)', '✅ JALON + SÉCURISÉ')}
-                             </span>
-                             <span className="text-[10px] font-mono font-black text-emerald-400">+45 PTS</span>
-                           </div>
-                           <h4 className="text-sm font-black text-white uppercase tracking-tight">{t('Conceptual Validation', 'VALIDATION DU CONCEPT')}</h4>
-                           <p className="text-[11px] text-white/50 text-left leading-relaxed">
-                             {t('All legal guidelines, rights registrations, and creative blueprints certified on-registry.', 'Tous les aspects juridiques et droits de propriété intellectuelle validés et enregistrés.')}
-                           </p>
-                         </div>
-
-                         <div className="p-5 bg-violet-500/5 border border-violet-500/20 rounded-lg space-y-3 relative">
-                           <div className="flex justify-between items-center">
-                             <span className="text-xs font-black text-accent-gold uppercase tracking-widest bg-violet-500/10 px-3.5 py-1 rounded-md">
-                               {t('Milestone + (Pending)', '⏳ JALON EN COURS')}
-                             </span>
-                             <span className="text-[10px] font-mono font-black text-accent-gold">+60 PTS</span>
-                           </div>
-                           <h4 className="text-sm font-black text-white uppercase tracking-tight">{t('Production Phase', 'ÉTAPE DE PRODUCTION')}</h4>
-                           <p className="text-[11px] text-white/50 text-left leading-relaxed">
-                             {t('Creation, production, or technical execution phases finalized under certified standards.', 'Phases de création, production ou d\'exécution technique en cours de validation.')}
-                           </p>
-                         </div>
-
-                         <div className="p-5 bg-rose-500/5 border border-rose-500/20 rounded-lg space-y-3 relative">
-                           <div className="flex justify-between items-center">
-                             <span className="text-xs font-black text-rose-400 uppercase tracking-widest bg-rose-500/10 px-3.5 py-1 rounded-md">
-                               {t('Milestone - (Risk factor)', '⚠️ RETARD IMPACT JALON')}
-                             </span>
-                             <span className="text-[10px] font-mono font-black text-rose-400">-25 PTS</span>
-                           </div>
-                           <h4 className="text-sm font-black text-white uppercase tracking-tight">{t('Expressed Delay Penalty', 'PÉNALITÉ DE RETARD ÉVENTUEL')}</h4>
-                           <p className="text-[11px] text-white/50 text-left leading-relaxed">
-                             {t('Failure to meet production timelines or delayed secondary certifications automatically lowers the score.', 'Les retards ou contre-performances de livraison entraînent une correction automatique du score.')}
-                           </p>
-                         </div>
-                       </div>
-                     </div>
-
                     <hr className="border-white/5 my-10" />
 
                     <div className="space-y-8">
