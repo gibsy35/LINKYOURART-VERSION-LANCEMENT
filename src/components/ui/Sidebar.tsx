@@ -191,11 +191,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
           >
             <div className="flex-shrink-0 relative">
               <div className="absolute inset-0 bg-brand-gradient blur-2xl rounded-full scale-150 opacity-0 group-hover:opacity-40 transition-opacity duration-700" />
-              <Logo size={48} color="multi" showBeta className="relative z-10" />
+              <Logo size={64} color="multi" showBeta className="relative z-10" />
             </div>
             <div className="flex flex-col min-w-0 flex-1">
-              <span className="text-white font-black tracking-tight text-xl leading-tight uppercase">LINKYOURART</span>
-              <span className="text-[10px] text-white font-black tracking-[0.2em] uppercase mt-2 opacity-70 group-hover:opacity-100 transition-opacity">
+              <span className="text-white font-black tracking-tight text-2xl leading-tight uppercase">LINKYOURART</span>
+              <span className="text-xs text-white font-black tracking-[0.2em] uppercase mt-2 opacity-70 group-hover:opacity-100 transition-opacity">
                 {t('YOUR SCORE. YOUR STANDARD.', 'VOTRE SCORE. VOTRE STANDARD.')}
               </span>
             </div>

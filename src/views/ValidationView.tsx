@@ -323,27 +323,43 @@ const ValidationQueue: React.FC<{
         rejectedAt: serverTimestamp(),
         rejectedBy: user?.uid,
       });
-      // Envoi reel de l'email au createur - jusqu'ici, le message saisi
-      // dans la pop-up n'etait jamais envoye nulle part, seulement
-      // enregistre en base. La condition impose par Gibsy (creation
-      // informe par email) n'etait donc pas remplie.
+      // Envoi reel de l'email, DESORMAIS ATTENDU ET VERIFIE - avant ce
+      // fix, l'appel etait "fire-and-forget" (jamais attendu, son resultat
+      // jamais verifie) et le message "createur notifie" s'affichait
+      // systematiquement, meme si l'envoi echouait reellement derriere
+      // (ex: cle Resend absente cote serveur). Gibsy ne pouvait donc
+      // jamais savoir si un email etait vraiment parti.
       const creatorEmail = (r.contract as any).creatorEmail;
+      let emailOk = false;
+      let emailErr = '';
       if (creatorEmail) {
-        fetch('/api/email/project-rejected', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            to: creatorEmail,
-            creatorName: r.contract.issuerId,
-            projectName: r.contract.name,
-            reason: rejectReason,
-            lang,
-          }),
-        }).catch(() => {});
+        try {
+          const emailRes = await fetch('/api/email/project-rejected', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              to: creatorEmail,
+              creatorName: r.contract.issuerId,
+              projectName: r.contract.name,
+              reason: rejectReason,
+              lang,
+            }),
+          });
+          const emailData = await emailRes.json();
+          emailOk = !!emailData.success;
+          emailErr = emailData.error || '';
+        } catch (emailException: any) {
+          emailErr = emailException?.message || 'network error';
+        }
       }
-      onNotify(creatorEmail
-        ? `✗ ${r.contract.name} — ${T('Rejeté. Le créateur a été notifié par email.', 'Rejected. The creator has been notified by email.')}`
-        : `✗ ${r.contract.name} — ${T('Rejeté. Aucun email de contact trouvé, le créateur n\'a pas pu être notifié.', 'Rejected. No contact email found, the creator could not be notified.')}`);
+      if (!creatorEmail) {
+        onNotify(`✗ ${r.contract.name} — ${T('Rejeté. Aucun email de contact trouvé, le créateur n\'a pas pu être notifié.', 'Rejected. No contact email found, the creator could not be notified.')}`);
+      } else if (emailOk) {
+        onNotify(`✗ ${r.contract.name} — ${T('Rejeté. Le créateur a été notifié par email.', 'Rejected. The creator has been notified by email.')}`);
+      } else {
+        onNotify(`✗ ${r.contract.name} — ${T('Rejeté, mais l\'email n\'a PAS pu être envoyé', 'Rejected, but the email could NOT be sent')} (${emailErr || T('erreur inconnue', 'unknown error')})`);
+        console.error('[REJECT_EMAIL_FAILED]', emailErr);
+      }
       setRequests(prev => prev.filter(x => x.id !== rejectId));
       setRejectId(null);
       setRejectReason('');

@@ -467,26 +467,42 @@ export const AdminView: React.FC<{
         rejectedAt: serverTimestamp(),
         rejectionReason: reason,
       });
-      // Envoi reel de l'email au createur - jusqu'ici, ce refus (declenche
-      // via une simple confirmation navigateur, sans motif reellement
-      // saisi) n'envoyait jamais rien au createur.
+      // Envoi reel de l'email, DESORMAIS ATTENDU ET VERIFIE - avant ce fix,
+      // l'appel etait "fire-and-forget", jamais attendu ni verifie, et le
+      // message de succes s'affichait systematiquement meme si l'envoi
+      // echouait reellement en silence (ex: cle Resend absente cote
+      // serveur) - impossible de savoir si un email etait vraiment parti.
+      let emailOk = false;
+      let emailErr = '';
       if (submission.creatorEmail) {
-        fetch('/api/email/project-rejected', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            to: submission.creatorEmail,
-            creatorName: submission.creatorName,
-            projectName: submission.name,
-            reason,
-            lang: language,
-          }),
-        }).catch(() => {});
+        try {
+          const emailRes = await fetch('/api/email/project-rejected', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              to: submission.creatorEmail,
+              creatorName: submission.creatorName,
+              projectName: submission.name,
+              reason,
+              lang: language,
+            }),
+          });
+          const emailData = await emailRes.json();
+          emailOk = !!emailData.success;
+          emailErr = emailData.error || '';
+        } catch (emailException: any) {
+          emailErr = emailException?.message || 'network error';
+        }
       }
       setPendingSubmissions(prev => prev.map(s => s.id === submission.id ? { ...s, status: 'REJECTED' } : s));
-      onNotify(submission.creatorEmail
-        ? t(`✦ ${submission.name} refusé — le créateur a été notifié par email.`, `✦ ${submission.name} rejected — the creator has been notified by email.`)
-        : t(`✦ ${submission.name} refusé — aucun email de contact trouvé.`, `✦ ${submission.name} rejected — no contact email found.`));
+      if (!submission.creatorEmail) {
+        onNotify(t(`✦ ${submission.name} refusé — aucun email de contact trouvé.`, `✦ ${submission.name} rejected — no contact email found.`));
+      } else if (emailOk) {
+        onNotify(t(`✦ ${submission.name} refusé — le créateur a été notifié par email.`, `✦ ${submission.name} rejected — the creator has been notified by email.`));
+      } else {
+        onNotify(t(`✦ ${submission.name} refusé, mais l'email n'a PAS pu être envoyé (${emailErr || 'erreur inconnue'})`, `✦ ${submission.name} rejected, but the email could NOT be sent (${emailErr || 'unknown error'})`));
+        console.error('[REJECT_EMAIL_FAILED]', emailErr);
+      }
     } catch(e) {
       onNotify(t('Erreur', 'Error'));
     }

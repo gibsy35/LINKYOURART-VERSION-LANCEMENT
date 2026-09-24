@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { getSafeImageUrl, handleImageError } from '../utils/image';
 import { motion, AnimatePresence } from 'motion/react';
 import { UserRole, UserProfile, LYA_SIMULATOR_STEPS, LYASimulatorStep, CONTRACTS, LYA_UNIT_VALUE } from '../types';
@@ -275,6 +275,12 @@ const ProfileView: React.FC<ProfileViewProps> = ({
   const [isFindingTalent, setIsFindingTalent] = useState(false);
 
   const [activeTab, setActiveTab] = useState<'dashboard' | 'academy' | 'messages' | 'mentorship' | 'directory' | 'admin'>('dashboard');
+  // "Intelligence Registre": montrait les 4 premiers projets du tableau
+  // statique sans aucun tri par score ni pagination - trie desormais
+  // reellement par Score LYA decroissant, avec un "Voir plus" au lieu
+  // d'une limite fixe.
+  const [registryIntelShown, setRegistryIntelShown] = useState(4);
+  const topScoredContracts = useMemo(() => [...CONTRACTS].sort((a, b) => (b.totalScore || 0) - (a.totalScore || 0)), []);
   const [viewingUser, setViewingUser] = useState<UserProfile | null>(null);
 
   const renderUserModal = () => (
@@ -2420,8 +2426,6 @@ const renderMentorshipContent = () => (
                   <div className="px-3 py-1 bg-accent-magenta/20 border border-accent-magenta/40 text-accent-magenta text-[10px] font-black uppercase tracking-widest rounded-full">
                     {t('ELITE ACCESS', 'ACCÈS ÉLITE')}
                   </div>
-                  <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                  <span className="text-[10px] font-black text-emerald-400 uppercase tracking-widest">1,420 {t('CREATORS ONLINE', 'CRÉATEURS EN LIGNE')}</span>
                 </div>
                 <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tighter text-white mb-6 leading-[0.9]">
                   {t('FIND', 'TROUVER')} <br />
@@ -2436,28 +2440,6 @@ const renderMentorshipContent = () => (
               </div>
             </section>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-              {[
-                { label: t('Global Volume', 'Volume Global'), value: '1.2M LYA', icon: TrendingUp, color: 'text-primary-cyan', trend: 'Institutional Flow' },
-                { label: t('Active Registries', 'Registres Actifs'), value: '842', icon: Cpu, color: 'text-accent-gold', trend: 'Network Integrity' },
-                { label: t('Avg. Yield', 'Rendement Moy.'), value: '12.4%', icon: Activity, color: 'text-emerald-400', trend: 'Optimized Performance' },
-                { label: t('Validation Accuracy', 'Précision de Validation'), value: '99.8%', icon: ShieldCheck, color: 'text-accent-magenta', trend: 'Registry Verified' },
-              ].map((stat, i) => (
-                <div key={i} className="bg-surface-low/30 border border-white/10 p-5 md:p-6 backdrop-blur-2xl relative overflow-hidden group hover:border-primary-cyan/30 transition-all duration-500 rounded-lg shadow-2xl">
-                  <div className="absolute top-0 right-0 p-4 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity duration-700 group-hover:scale-110 transform">
-                    <stat.icon size={60} />
-                  </div>
-                  <div className="relative z-10">
-                    <p className="text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-on-surface-variant mb-2 opacity-60">{stat.label}</p>
-                    <div className="flex items-baseline gap-2 mb-1">
-                      <p className="text-xl md:text-2xl font-black italic tracking-tight text-white">{stat.value}</p>
-                      <stat.icon size={14} className={`${stat.color} opacity-80`} />
-                    </div>
-                    <p className="text-[7px] md:text-[10px] font-bold uppercase tracking-widest text-on-surface-variant/40">{stat.trend}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12">
               <div className="lg:col-span-8 space-y-8 md:space-y-12">
@@ -2513,7 +2495,7 @@ const renderMentorshipContent = () => (
                   </div>
                   
                   <div className="space-y-4 md:space-y-6 relative z-10">
-                    {CONTRACTS.slice(0, 4).map((project, i) => (
+                    {topScoredContracts.slice(0, registryIntelShown).map((project, i) => (
                       <div key={i} className="p-4 md:p-6 lg:p-8 bg-surface-low/30 backdrop-blur-2xl border border-white/10 flex flex-col sm:flex-row items-center justify-between hover:border-primary-cyan/40 transition-all group/item relative overflow-hidden gap-4 md:gap-6 shadow-2xl rounded-lg">
                         <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent pointer-events-none" />
                         <div className="absolute top-0 left-0 w-[2px] h-full bg-primary-cyan opacity-0 group-hover/item:opacity-100 transition-opacity" />
@@ -2547,6 +2529,14 @@ const renderMentorshipContent = () => (
                         </div>
                       </div>
                     ))}
+                    {registryIntelShown < topScoredContracts.length && (
+                      <button
+                        onClick={() => setRegistryIntelShown(n => n + 5)}
+                        className="w-full py-4 bg-white/5 border border-white/10 text-on-surface-variant text-xs font-black uppercase tracking-widest rounded-xl hover:bg-white/10 hover:text-white transition-all"
+                      >
+                        {t('Load More', 'Voir Plus')} ({topScoredContracts.length - registryIntelShown} {t('remaining', 'restants')})
+                      </button>
+                    )}
                   </div>
                 </section>
 
