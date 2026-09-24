@@ -898,7 +898,9 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-btn-primary:active{ transform:scale(0.97); }
         .term-modal-card{ animation:termModalIn 0.3s cubic-bezier(.2,.8,.2,1); }
         @keyframes termModalIn{ from{ opacity:0; transform:translateY(20px) scale(0.98); } to{ opacity:1; transform:translateY(0) scale(1); } }
-        .term-free-banner{ padding:72px 0; background:linear-gradient(160deg, #1E1233 0%, #120B22 100%); position:relative; overflow:hidden; }
+        .term-free-banner{ padding:88px 0; background:transparent; position:relative; }
+        .term-free-banner .term-wrap{ background:linear-gradient(160deg, #1E1233 0%, #120B22 100%); border-radius:32px; padding:64px 48px; box-shadow:0 40px 80px -20px rgba(30,18,51,0.35); }
+        @media (max-width:800px){ .term-free-banner .term-wrap{ padding:48px 24px; border-radius:24px; } }
         .term-free-banner::before{ content:''; position:absolute; top:-40%; right:-10%; width:500px; height:500px; border-radius:50%; background:radial-gradient(circle,rgba(126,28,241,0.35),transparent 70%); pointer-events:none; }
         .term-free-banner .term-wrap{ position:relative; z-index:1; }
         .term-free-tag{ display:inline-block; font-family:'Sora',sans-serif; font-weight:700; font-size:11px; letter-spacing:0.05em; text-transform:uppercase; color:#3ADB76; background:rgba(58,219,118,0.15); padding:6px 14px; border-radius:100px; margin-bottom:16px; }
@@ -945,7 +947,12 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-validator-card .name{ font-family:'Fraunces',serif; font-weight:700; font-size:17px; margin-bottom:6px; }
         .term-validator-card .left p{ font-size:13px; color:var(--term-ink-soft); line-height:1.5; }
         .term-validator-card .term-price-features{ margin:0; min-width:240px; }
-        .term-cta{ background:linear-gradient(120deg, #14101F 0%, #5B21B6 45%, #C81C82 100%); padding:56px 0; }
+        .term-cta{
+          background:
+            linear-gradient(180deg, transparent 0%, transparent 55%, #0B0E14 100%),
+            linear-gradient(120deg, #14101F 0%, #5B21B6 45%, #C81C82 100%);
+          padding:56px 0 96px;
+        }
         .term-cta-inner{ display:flex; justify-content:space-between; align-items:center; gap:24px; flex-wrap:wrap; }
         .term-cta h2{ font-weight:800; font-size:clamp(24px,3vw,34px); max-width:22ch; color:#fff; }
         .term-footer{ background:var(--term-ink); color:#B9B7C7; padding-top:48px; }
