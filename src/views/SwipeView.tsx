@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence, useMotionValue, useTransform } from 'motion/react';
 import { Heart, X, Info, Star, Zap, Scale, Activity, Plus, Bell, BellRing, Share2, Search, SlidersHorizontal } from 'lucide-react';
-import { CONTRACTS, Contract, UserProfile, UserRole } from '../types';
+import { CONTRACTS, Contract, UserProfile, UserRole, getRarityLabel } from '../types';
 import { useTranslation } from '../context/LanguageContext';
 import { PageHeader } from '../components/ui/PageHeader';
 import { getSafeImageUrl, handleImageError } from '../utils/image';
@@ -540,7 +540,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
                       currentContract.rarity === 'Distinguished' ? 'bg-primary-cyan text-surface-dim' :
                       'bg-white/15 text-white'
                     }`}>
-                      {currentContract.rarity}
+                      {getRarityLabel(currentContract.rarity, language)}
                     </div>
                     <div className={`px-2 py-0.5 backdrop-blur-sm border text-[9px] font-black uppercase tracking-widest rounded-full ${CATEGORY_COLORS[currentContract.category] ? CATEGORY_COLORS[currentContract.category].replace('text-surface-dim','') + ' border-transparent text-surface-dim' : 'bg-black/50 border-white/20 text-white'}`}>
                       {currentContract.category}
@@ -746,7 +746,7 @@ export const SwipeView: React.FC<SwipeViewProps> = ({
                     contract.rarity === 'Exceptional' ? 'text-[#F0C55E]' :
                     contract.rarity === 'Distinguished' ? 'text-primary-cyan' :
                     'text-white/70'
-                  }`}>{contract.rarity}</div>
+                  }`}>{getRarityLabel(contract.rarity, language)}</div>
                   <div className="text-lg font-black text-white uppercase italic tracking-tight">{contract.name}</div>
                 </div>
               </div>

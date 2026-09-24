@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useTranslation } from '../context/LanguageContext';
 import { useCurrency } from '../context/CurrencyContext';
-import { Contract, CONTRACTS, getContractDescription } from '../types';
+import { Contract, CONTRACTS, getContractDescription, getRarityLabel } from '../types';
 import { updatePageMeta, resetPageMeta } from '../utils/seo';
 import { getSafeImageUrl, handleImageError } from '../utils/image';
 import { PaymentModal } from '../components/mecenat/MecenatShared';
@@ -125,7 +125,7 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
           {/* Catégorie + Rarity inline */}
           <div className="flex items-center gap-2 flex-wrap mb-3">
             <span className="px-2.5 py-1 bg-white/10 backdrop-blur-sm border border-white/15 rounded-full text-xs font-black text-white uppercase tracking-widest">{project.category}</span>
-            <span className={`px-2.5 py-1 border rounded-full text-xs font-black uppercase tracking-widest backdrop-blur-sm ${rarityColor[project.rarity]}`}>★ {project.rarity}</span>
+            <span className={`px-2.5 py-1 border rounded-full text-xs font-black uppercase tracking-widest backdrop-blur-sm ${rarityColor[project.rarity]}`}>★ {getRarityLabel(project.rarity, language)}</span>
             <span className={`px-2.5 py-1 border rounded-full text-xs font-black uppercase tracking-widest backdrop-blur-sm ${project.status === 'LIVE' ? 'bg-emerald-400/15 border-emerald-400/40 text-emerald-400' : 'bg-rose-500/15 border-rose-500/40 text-rose-400'}`}>
               {project.status === 'LIVE' ? '● LIVE' : `⚠ ${project.status}`}
             </span>
@@ -155,7 +155,7 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
         </div>
         <div className="text-right shrink-0">
           <p className="text-xs text-on-surface-variant/50 uppercase tracking-widest mb-1">{T('Rareté', 'Rarity')}</p>
-          <span className={`px-3 py-1.5 border rounded-full text-sm font-black uppercase tracking-widest ${rarityColor[project.rarity]}`}>★ {project.rarity}</span>
+          <span className={`px-3 py-1.5 border rounded-full text-sm font-black uppercase tracking-widest ${rarityColor[project.rarity]}`}>★ {getRarityLabel(project.rarity, language)}</span>
         </div>
       </div>
 
@@ -309,7 +309,7 @@ export const ProjectPublicView: React.FC<Props> = ({ contractId, onViewChange, o
               )}
             </div>
             <div className="text-right">
-              <span className={`px-3 py-1.5 border rounded-full text-sm font-black uppercase tracking-widest ${rarityColor[project.rarity]}`}>★ {project.rarity}</span>
+              <span className={`px-3 py-1.5 border rounded-full text-sm font-black uppercase tracking-widest ${rarityColor[project.rarity]}`}>★ {getRarityLabel(project.rarity, language)}</span>
               <p className="text-xs text-on-surface-variant/40 mt-2">
                 {certifierCount === null
                   ? T('Certifié par les validateurs LYA', 'Certified by LYA validators')

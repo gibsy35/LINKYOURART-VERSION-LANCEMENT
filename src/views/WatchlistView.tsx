@@ -4,7 +4,7 @@ import { getSafeImageUrl, handleImageError } from '../utils/image';
 import { AuthGuard } from '../components/AuthGuard';
 import { motion } from 'motion/react';
 import { Star, ArrowUpRight, ArrowDownLeft, Trash2, LayoutGrid, List, Zap, Shield, Activity, TrendingUp, ChevronLeft, ChevronRight } from 'lucide-react';
-import { CONTRACTS, Contract } from '../types';
+import { CONTRACTS, Contract, getRarityLabel } from '../types';
 import { useTranslation } from '../context/LanguageContext';
 import { PageHeader } from '../components/ui/PageHeader';
 import { NumberTicker } from '../components/ui/NumberTicker';
@@ -27,7 +27,7 @@ export const WatchlistView: React.FC<WatchlistViewProps> = ({
   onSelectContract,
   isPro = false
 }) => {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
   const { formatPrice } = useCurrency();
   const watchlistedContracts = allContracts.filter(c => watchlist.includes(c.id));
   const MAX_WATCHLIST = isPro ? 100 : 15;
@@ -168,7 +168,7 @@ export const WatchlistView: React.FC<WatchlistViewProps> = ({
                     <div className="absolute top-6 left-6 flex flex-col gap-3">
                       <div className={`px-3 py-1 text-xs font-black uppercase tracking-[0.2em] rounded-lg shadow-xl flex items-center gap-2 ${RARITY_COLORS[contract.rarity] || 'bg-white/15 text-white'}`}>
                         <Shield size={10} />
-                        {contract.rarity}
+                        {getRarityLabel(contract.rarity, language)}
                       </div>
                       <div className={`px-3 py-1 backdrop-blur-md border border-white/10 text-xs font-black uppercase tracking-[0.2em] rounded-lg ${CATEGORY_COLORS[contract.category] || 'bg-black/60 text-white'}`}>
                         {contract.category}
@@ -211,7 +211,7 @@ export const WatchlistView: React.FC<WatchlistViewProps> = ({
                         </div>
                       </div>
                       <div>
-                        <div className="text-xs text-on-surface-variant uppercase tracking-[0.3em] font-black mb-2 opacity-40">{t('VALEUR', 'VALUE')}</div>
+                        <div className="text-xs text-on-surface-variant uppercase tracking-[0.3em] font-black mb-2 opacity-40">{t('VALUE', 'VALEUR')}</div>
                         <div className="text-lg font-black font-mono text-white">
                            <NumberTicker value={85.2} decimalPlaces={1} />
                            <span className="text-xs opacity-40 ml-1">%</span>

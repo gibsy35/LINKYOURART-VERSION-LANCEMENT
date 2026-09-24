@@ -334,6 +334,22 @@ export function getContractDescription(item: { description: string; descriptionF
   return item.description;
 }
 
+// Le champ rarity est une donnee brute en anglais ('Signature',
+// 'Distinguished', 'Exceptional', 'Standard'), affichee telle quelle dans
+// 8 fichiers a travers le site sans jamais etre traduite - toujours en
+// anglais meme sur la version francaise. Fonction centrale reutilisee
+// partout au lieu d'afficher contract.rarity directement.
+export function getRarityLabel(rarity: string | undefined, language: 'EN' | 'FR'): string {
+  if (language !== 'FR') return rarity || 'Standard';
+  const map: Record<string, string> = {
+    'Signature': 'Signature',
+    'Distinguished': 'Distingué',
+    'Exceptional': 'Exceptionnel',
+    'Standard': 'Standard',
+  };
+  return map[rarity || 'Standard'] || rarity || 'Standard';
+}
+
 export const CONTRACTS: Contract[] = [
   {
     id: 'LYA_FINE_ART_MASTER',

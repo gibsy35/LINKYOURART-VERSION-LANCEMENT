@@ -28,7 +28,7 @@ import {
   Crown,
   ChevronDown
 } from 'lucide-react';
-import { Contract, getContractDescription } from '../types';
+import { Contract, getContractDescription, getRarityLabel } from '../types';
 import { useTranslation } from '../context/LanguageContext';
 import { useCurrency } from '../context/CurrencyContext';
 import { simulatePDFDownload } from '../utils/download';
@@ -106,7 +106,7 @@ export const ContractDetailModal: React.FC<{
                    <h3 className="text-2xl font-black text-white mt-3 uppercase tracking-tighter leading-none">{contract.name}</h3>
                 </div>
                 <div className="text-sm font-black text-accent-gold uppercase font-mono tracking-widest">
-                   {contract.rarity}
+                   {getRarityLabel(contract.rarity, language)}
                 </div>
              </div>
           </div>
