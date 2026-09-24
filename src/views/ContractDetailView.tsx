@@ -596,7 +596,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                             </div>
                             <div>
                               <div className="text-[11px] font-black text-white/30 uppercase tracking-widest mb-1">{t('REGISTRATION LYA SYSTEM', 'LYA SYSTEME DE SÉCURISATION DU REGISTRE')}</div>
-                              <div className="text-xs font-black text-white/80 uppercase tracking-widest font-mono">Co-authenticated Digital Registry</div>
+                              <div className="text-xs font-black text-white/80 uppercase tracking-widest font-mono">{t('Co-authenticated Digital Registry', 'Registre Numérique Co-authentifié')}</div>
                             </div>
                           </div>
                         </div>
@@ -610,9 +610,9 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                     <div className="space-y-6">
                        <h4 className="text-[12px] font-black text-white/40 uppercase tracking-[0.3em]">{t('SECURITY MATRIX', 'MATRICE SÉCURITÉ')}</h4>
                        {[
-                         { l: 'Registry', v: 'LYA_REGISTRY_71C', i: <Layers size={16} /> },
-                         { l: 'Curation', v: 'Co-Optation Verified', i: <Lock size={16} /> },
-                         { l: 'Audit', v: 'LYA Committee Review', i: <ShieldCheck size={16} /> }
+                         { l: t('Registry', 'Registre'), v: contract.registryAddress || t('Not yet indexed', 'Pas encore indexé'), i: <Layers size={16} /> },
+                         { l: t('Curation', 'Curation'), v: t('Co-Optation Verified', 'Vérifiée par cooptation'), i: <Lock size={16} /> },
+                         { l: t('Audit', 'Audit'), v: contract.professionalValidator || t('Not yet reviewed', 'Pas encore examiné'), i: <ShieldCheck size={16} /> }
                        ].map((item, i) => (
                          <div key={i} className="flex items-center justify-between p-6 bg-white/5 border border-white/5 rounded-lg group hover:border-accent-gold/40 transition-all">
                             <div className="flex items-center gap-4 text-accent-gold">
@@ -628,7 +628,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                           <FileText size={28} />
                        </div>
                        <div className="space-y-1">
-                          <h5 className="text-xl font-headline font-black text-white uppercase tracking-tighter">{t('PIÈCES JOINTES', 'ATTACHMENTS')}</h5>
+                          <h5 className="text-xl font-headline font-black text-white uppercase tracking-tighter">{t('ATTACHMENTS', 'PIÈCES JOINTES')}</h5>
                           <p className="text-[10px] font-black text-white/30 uppercase tracking-widest">{t('Max 500 Mo par fichier', 'Max 500 MB per file')}</p>
                        </div>
 
@@ -674,7 +674,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                          <input type="file" className="hidden" onChange={handleFileUpload} disabled={uploading}
                            accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.mp4,.mov,.zip,.rar"/>
                          <div className={`w-full py-4 rounded-xl font-black text-[11px] uppercase tracking-widest text-center transition-all ${uploading ? 'bg-white/10 text-white/40 cursor-not-allowed' : 'bg-white text-surface-dim hover:bg-primary-cyan cursor-pointer'}`}>
-                           {uploading ? t('Upload en cours...','Uploading...') : t('+ AJOUTER UN FICHIER', '+ ADD A FILE')}
+                           {uploading ? t('Uploading...', 'Upload en cours...') : t('+ ADD A FILE', '+ AJOUTER UN FICHIER')}
                          </div>
                        </label>
 
