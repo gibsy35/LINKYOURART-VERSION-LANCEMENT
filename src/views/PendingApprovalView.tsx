@@ -44,7 +44,7 @@ export const PendingApprovalView: React.FC<PendingApprovalViewProps> = ({ user, 
     <div className="min-h-screen bg-black text-white p-4 md:p-8 flex items-center justify-center relative overflow-hidden font-mono select-none">
       {/* Visual backgrounds */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-full h-[60vh] bg-[radial-gradient(ellipse_at_top,rgba(0,224,255,0.06)_0%,transparent_60%)]" />
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-full h-[60vh] bg-[radial-gradient(ellipse_at_top,rgba(167, 139, 250,0.06)_0%,transparent_60%)]" />
         <div className="absolute top-[-10%] right-[-10%] w-[50%] h-[50%] bg-[#FF007F]/5 rounded-full blur-[140px]" />
         <div className="absolute bottom-[-10%] left-[-10%] w-[50%] h-[50%] bg-[#9D00FF]/5 rounded-full blur-[140px]" />
         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-15 mix-blend-overlay" />

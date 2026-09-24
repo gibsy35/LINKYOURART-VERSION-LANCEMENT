@@ -153,7 +153,7 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange, onNotify }) 
             <h1 className="text-6xl md:text-8xl lg:text-9xl font-black text-white uppercase tracking-tighter leading-[0.85] transition-all duration-700 drop-shadow-[0_20px_50px_rgba(0,0,0,0.8)]">
               ABOUT <br />
               <motion.span 
-                animate={{ color: ["#FFFFFF", "#00e0ff", "#FFFFFF"] }}
+                animate={{ color: ["#FFFFFF", "#A78BFA", "#FFFFFF"] }}
                 transition={{ duration: 4, repeat: Infinity }}
                 className="text-primary-cyan"
               >
@@ -379,7 +379,7 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange, onNotify }) 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6 relative z-10">
             <button 
               onClick={() => onViewChange?.('SIGNUP')}
-              className="px-12 py-6 bg-primary-cyan text-surface-dim font-black uppercase tracking-[0.2em] text-sm hover:bg-white transition-all shadow-[0_20px_40px_rgba(0,224,255,0.2)] active:scale-95"
+              className="px-12 py-6 bg-primary-cyan text-surface-dim font-black uppercase tracking-[0.2em] text-sm hover:bg-white transition-all shadow-[0_20px_40px_rgba(167, 139, 250,0.2)] active:scale-95"
             >
               {t('Start Now', 'Commencer maintenant')}
             </button>

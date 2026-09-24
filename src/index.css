@@ -2,16 +2,21 @@
 @import "tailwindcss";
 
 :root {
-  --color-surface-dim: #0f121a;
-  --color-surface-low: #1a1f2c;
-  --color-surface-high: #242b3d;
-  --color-surface-highest: #2f384f;
-  --color-primary-cyan: #00e0ff;
-  --color-accent-gold: #7E1CF1;
-  --color-accent-pink: #ff3366;
-  --color-accent-yellow: #ffff00;
+  /* Palette LYA premium/smooth - remplace le neon cyan brut par la teinte
+     violette de marque (deja utilisee sur la home publique), pour un rendu
+     plus doux et moins "IA/futuriste" sur l'ensemble de la plateforme
+     connectee. Un seul changement ici recolore automatiquement toute
+     l'app, car ces variables sont reutilisees dans des dizaines de vues. */
+  --color-surface-dim: #100c1a;
+  --color-surface-low: #1c1730;
+  --color-surface-high: #292140;
+  --color-surface-highest: #362c50;
+  --color-primary-cyan: #A78BFA;
+  --color-accent-gold: #C81C82;
+  --color-accent-pink: #E61A97;
+  --color-accent-yellow: #F0C55E;
   --color-accent-green: #00ff00;
-  --color-accent-purple: #8a2be2;
+  --color-accent-purple: #7E1CF1;
   --color-on-surface: #f1f3f9;
   --color-on-surface-variant: #cbd5e1;
 }
@@ -42,6 +47,17 @@
     from { transform: translateX(0); }
     to { transform: translateX(-50%); }
   }
+
+  /* Formes plus douces sur toute l'app: augmente l'arrondi par defaut de
+     chaque palier Tailwind (rounded-lg, rounded-xl, rounded-2xl...),
+     utilise des dizaines de fois dans chaque vue - un seul reglage ici
+     adoucit instantanement toutes les cartes/boutons/panneaux, sans
+     modifier un seul fichier de vue. */
+  --radius-md: 0.625rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.375rem;
+  --radius-2xl: 1.75rem;
+  --radius-3xl: 2.25rem;
 }
 
 @layer base {
@@ -51,7 +67,7 @@
   }
   
   html {
-    background-color: #0a0d12; /* Critical hardcoded fallback */
+    background-color: #100c1a; /* Critical hardcoded fallback */
   }
 
   html {
@@ -65,13 +81,13 @@
   }
 
   body {
-    background-color: #0a0d12; /* Critical hardcoded fallback */
+    background-color: #100c1a; /* Critical hardcoded fallback */
     @apply bg-surface-dim text-on-surface font-body selection:bg-primary-cyan/30 selection:text-primary-cyan;
     overflow-x: clip;
     width: 100%;
     background-image: 
-      radial-gradient(circle at 10% 10%, rgba(0, 224, 255, 0.05) 0%, transparent 40%),
-      radial-gradient(circle at 90% 90%, rgba(138, 43, 226, 0.03) 0%, transparent 40%);
+      radial-gradient(circle at 10% 10%, rgba(167, 139, 250, 0.06) 0%, transparent 40%),
+      radial-gradient(circle at 90% 90%, rgba(230, 26, 151, 0.04) 0%, transparent 40%);
     background-size: 100% 100%, 100% 100%;
     background-attachment: fixed;
   }
@@ -120,11 +136,11 @@
   }
   
   .neon-glow {
-    box-shadow: 0 0 12px rgba(0, 224, 255, 0.2);
+    box-shadow: 0 0 16px rgba(167, 139, 250, 0.18);
   }
 
   .neon-glow-hover:hover {
-    box-shadow: 0 0 15px rgba(0, 224, 255, 0.4);
+    box-shadow: 0 0 20px rgba(167, 139, 250, 0.35);
   }
 
   .serif-italic {

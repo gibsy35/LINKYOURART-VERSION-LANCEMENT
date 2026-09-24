@@ -306,7 +306,7 @@ export const AdminKeysManagement: React.FC = () => {
                 <button 
                   type="submit"
                   disabled={isGenerating || !newKeyName}
-                  className="w-full bg-primary-cyan hover:bg-white text-surface-dim py-4 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] transition-all disabled:opacity-40 flex items-center justify-center gap-2 shadow-[0_10px_25px_rgba(0,224,255,0.15)] active:scale-95"
+                  className="w-full bg-primary-cyan hover:bg-white text-surface-dim py-4 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] transition-all disabled:opacity-40 flex items-center justify-center gap-2 shadow-[0_10px_25px_rgba(167, 139, 250,0.15)] active:scale-95"
                 >
                   {isGenerating ? <RefreshCw size={14} className="animate-spin" /> : <Plus size={14} />}
                   {t('GENERATE ACCESS KEY', 'ÉMETTRE LA CLÉ')}

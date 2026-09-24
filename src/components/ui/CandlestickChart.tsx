@@ -64,7 +64,7 @@ export const CandlestickChart: React.FC<CandlestickChartProps> = ({ data, height
           <Tooltip
             contentStyle={{ backgroundColor: '#05070a', border: '1px solid #ffffff10', borderRadius: '4px' }}
             itemStyle={{ fontSize: '10px', textTransform: 'uppercase', color: '#fff' }}
-            labelStyle={{ fontSize: '10px', marginBottom: '8px', color: '#00e0ff', fontWeight: 'black' }}
+            labelStyle={{ fontSize: '10px', marginBottom: '8px', color: '#A78BFA', fontWeight: 'black' }}
             cursor={{ stroke: '#ffffff10', strokeWidth: 1 }}
           />
           
@@ -88,7 +88,7 @@ export const CandlestickChart: React.FC<CandlestickChartProps> = ({ data, height
           <Line 
             type="monotone" 
             dataKey="close" 
-            stroke="#00e0ff" 
+            stroke="#A78BFA" 
             strokeWidth={1} 
             dot={false} 
             strokeOpacity={0.2} 

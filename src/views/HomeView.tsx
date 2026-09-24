@@ -259,7 +259,7 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
 
   const activeJalons = CASE_JALONS[selectedCaseIdx];
   const activeMeta = CASE_META[selectedCaseIdx];
-  const activeColor = selectedCaseIdx === 0 ? '#00E0FF' : selectedCaseIdx === 1 ? '#7E1CF1' : '#FF007F';
+  const activeColor = selectedCaseIdx === 0 ? '#A78BFA' : selectedCaseIdx === 1 ? '#7E1CF1' : '#FF007F';
 
   // ── SINGLE SOURCE OF TRUTH pour la progression du Score ───────────────────
   // Calcule le score final et les etapes intermediaires pour toutes les etudes
@@ -1029,7 +1029,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ user, onViewChange, liveCont
               <div className="flex flex-wrap gap-3 pt-4">
                 <motion.button 
                   onClick={() => window.dispatchEvent(new CustomEvent('open-concept-tutorial'))}
-                  whileHover={{ scale: 1.03, backgroundColor: 'rgba(0, 224, 255, 0.15)', boxShadow: '0 0 30px rgba(0, 224, 255, 0.2)' }}
+                  whileHover={{ scale: 1.03, backgroundColor: 'rgba(167, 139, 250, 0.15)', boxShadow: '0 0 30px rgba(167, 139, 250, 0.2)' }}
                   className="px-6 py-3.5 bg-primary-cyan/[0.07] border border-primary-cyan/30 hover:border-primary-cyan rounded-xl backdrop-blur-md flex items-center gap-2.5 transition-all group text-white font-black"
                 >
                   <Info size={14} className="text-primary-cyan group-hover:rotate-6 transition-transform" />

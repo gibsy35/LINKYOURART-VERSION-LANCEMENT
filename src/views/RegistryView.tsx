@@ -372,7 +372,7 @@ export const RegistryView: React.FC<{
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: i * 0.1 }}
-              className="bg-surface-low border border-white/5 p-6 group hover:border-primary-cyan/40 transition-all relative overflow-hidden rounded-[2rem] shadow-[0_8px_32px_rgba(0,0,0,0.4)] hover:shadow-[0_12px_48px_rgba(0,224,255,0.15)] mb-4"
+              className="bg-surface-low border border-white/5 p-6 group hover:border-primary-cyan/40 transition-all relative overflow-hidden rounded-[2rem] shadow-[0_8px_32px_rgba(0,0,0,0.4)] hover:shadow-[0_12px_48px_rgba(167, 139, 250,0.15)] mb-4"
             >
               {/* Depth Background */}
               <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent pointer-events-none" />

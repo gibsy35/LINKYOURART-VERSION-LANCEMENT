@@ -24,7 +24,7 @@ function categoryDotColor(category?: string): string {
   if (key.includes('DÉVELOPPEMENT') || key.includes('DEVELOPMENT')) return '#3ADB76';
   if (key.includes('COFFRE') || key.includes('VAULT')) return '#F0C55E';
   if (key.includes('COMMUNA') || key.includes('COMMUNITY')) return '#E61A97';
-  if (key.includes('RESSOURCE') || key.includes('RESOURCES')) return '#00E0FF';
+  if (key.includes('RESSOURCE') || key.includes('RESOURCES')) return '#A78BFA';
   if (key.includes('PROFESSIONNEL') || key.includes('PROFESSIONAL')) return '#FF6B6B';
   if (key.includes('CRÉATEUR') || key.includes('CREATOR')) return '#3ADB76';
   if (key.includes('MÉCÈNE') || key.includes('PATRON')) return '#7E1CF1';

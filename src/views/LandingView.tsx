@@ -444,7 +444,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onEnterDemo, onViewCha
           <motion.div key="main" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 2 }} className="relative z-10">
             {/* Background */}
             <div className="fixed inset-0 pointer-events-none overflow-hidden">
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[80vh] bg-[radial-gradient(ellipse_at_top,rgba(0,224,255,0.08)_0%,transparent_70%)]" />
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[80vh] bg-[radial-gradient(ellipse_at_top,rgba(167, 139, 250,0.08)_0%,transparent_70%)]" />
               <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.15] mix-blend-overlay" />
               <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%),linear-gradient(90deg,rgba(255,0,0,0.03),rgba(0,255,0,0.01),rgba(0,0,255,0.03))] bg-[length:100%_4px,3px_100%] z-50 pointer-events-none opacity-[0.2]" />
               <ParticleBackground />

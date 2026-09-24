@@ -184,7 +184,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
             >
               {/* Vibrant abstract backplate that displays instantly while the image downloads */}
               <div className="absolute inset-0 bg-gradient-to-br from-surface-dim via-surface-mid to-black flex items-center justify-center">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(0,224,255,0.08),transparent_70%)] animate-pulse" />
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(167, 139, 250,0.08),transparent_70%)] animate-pulse" />
               </div>
 
               {activeItem.imageUrl && (
@@ -203,7 +203,7 @@ export const SocialFeedView: React.FC<SocialFeedViewProps> = ({ onNotify }) => {
               
               {/* Artistic Overlays */}
               <div className="absolute inset-0 opacity-40 mix-blend-overlay pointer-events-none">
-                <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_30%_50%,rgba(0,224,255,0.3),transparent)]" />
+                <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_30%_50%,rgba(167, 139, 250,0.3),transparent)]" />
               </div>
               
               <div className="absolute inset-0 pointer-events-none opacity-30 mix-blend-multiply">

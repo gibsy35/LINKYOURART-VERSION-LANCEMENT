@@ -58,7 +58,7 @@ const TUTORIAL_STEPS: (t: any) => Step[] = (t) => [
     title: t('WELCOME TO LINKYOURART', 'BIENVENUE SUR LINKYOURART'),
     description: t('The first creative certification platform that evaluates artistic works through the LYA Score — an objective, transparent quality standard, exclusive to the creative world.', 'La première plateforme de certification créative qui évalue les œuvres artistiques via le Score LYA — un standard de qualité objectif et transparent, exclusif au monde de la création.'),
     color: 'text-primary-cyan',
-    glowColor: 'rgba(0, 224, 255, 0.3)',
+    glowColor: 'rgba(167, 139, 250, 0.3)',
     icon: <Globe size={48} />,
     points: [
       t('OBJECTIVE CERTIFICATION WITH THE LYA SCORE OUT OF 1000 POINTS', 'CERTIFICATION OBJECTIVE AVEC LE LYA SCORE SUR 1000 POINTS'),
@@ -278,7 +278,7 @@ const Illustration: React.FC<{ type: Step['illustration'], color: string }> = ({
               <motion.div 
                 animate={{ 
                   rotate: 360,
-                  boxShadow: ["0 0 40px rgba(0,224,255,0.3)", "0 0 80px rgba(0,224,255,0.6)", "0 0 40px rgba(0,224,255,0.3)"]
+                  boxShadow: ["0 0 40px rgba(167, 139, 250,0.3)", "0 0 80px rgba(167, 139, 250,0.6)", "0 0 40px rgba(167, 139, 250,0.3)"]
                 }}
                 transition={{ 
                   rotate: { duration: 60, repeat: Infinity, ease: "linear" },

@@ -78,7 +78,7 @@ export const ContractCard = React.memo<ContractCardProps>(({
         if (onClick) onClick();
         else if (onSelect) onSelect(contract);
       }}
-      className={`group cursor-pointer relative bg-[#0D0D0D] border border-white/5 overflow-hidden transition-all duration-500 hover:border-primary-cyan/50 hover:shadow-[0_40px_100px_rgba(0,224,255,0.2)] rounded-[2.5rem] ${compact ? 'p-4' : 'h-full flex flex-col'}`}
+      className={`group cursor-pointer relative bg-[#0D0D0D] border border-white/5 overflow-hidden transition-all duration-500 hover:border-primary-cyan/50 hover:shadow-[0_40px_100px_rgba(167, 139, 250,0.2)] rounded-[2.5rem] ${compact ? 'p-4' : 'h-full flex flex-col'}`}
     >
       {/* Background Glow Effect */}
       <div className="absolute -top-24 -right-24 w-64 h-64 bg-primary-cyan/10 rounded-full blur-[100px] group-hover:bg-primary-cyan/20 transition-all duration-1000" />

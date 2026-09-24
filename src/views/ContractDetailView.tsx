@@ -321,7 +321,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                     <div className="relative">
                        <svg className="w-24 h-24 -rotate-90">
                           <circle cx="48" cy="48" r="42" stroke="currentColor" strokeWidth="8" fill="transparent" className="text-white/5" />
-                          <circle cx="48" cy="48" r="42" stroke="currentColor" strokeWidth="8" fill="transparent" strokeDasharray="264" strokeDashoffset={264 - (264 * scoreFinalValue / 1000)} className="text-primary-cyan shadow-[0_0_20px_#00E0FF]" />
+                          <circle cx="48" cy="48" r="42" stroke="currentColor" strokeWidth="8" fill="transparent" strokeDasharray="264" strokeDashoffset={264 - (264 * scoreFinalValue / 1000)} className="text-primary-cyan shadow-[0_0_20px_#A78BFA]" />
                        </svg>
                        <div className="absolute inset-0 flex flex-col items-center justify-center">
                           <span className="text-2xl font-headline font-black text-white leading-none">{scoreFinalValue}</span>
@@ -377,7 +377,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                   >
                     {tab.label}
                     {activeTab === tab.id && (
-                      <div className="absolute bottom-0 left-0 right-0 h-1 bg-primary-cyan shadow-[0_0_15px_#00E0FF] rounded-full" />
+                      <div className="absolute bottom-0 left-0 right-0 h-1 bg-primary-cyan shadow-[0_0_15px_#A78BFA] rounded-full" />
                     )}
                   </button>
                 ))}
@@ -423,8 +423,8 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                                 <Radar
                                    name="Scores"
                                    dataKey="value"
-                                   stroke="#00E0FF"
-                                   fill="#00E0FF"
+                                   stroke="#A78BFA"
+                                   fill="#A78BFA"
                                    fillOpacity={0.3}
                                 />
                               </RadarChart>
@@ -830,7 +830,7 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
       <div className="hidden md:block fixed bottom-10 left-1/2 -translate-x-1/2 z-50 pointer-events-none">
          <div className="px-10 py-6 bg-black/80 backdrop-blur-3xl border border-white/10 rounded-full flex items-center gap-10 shadow-[0_50px_100px_rgba(0,0,0,0.8)] pointer-events-auto group">
             <div className="flex items-center gap-4">
-               <div className="w-3 h-3 rounded-full bg-primary-cyan animate-pulse shadow-[0_0_10px_#00E0FF]" />
+               <div className="w-3 h-3 rounded-full bg-primary-cyan animate-pulse shadow-[0_0_10px_#A78BFA]" />
                <span className="text-[10px] font-black uppercase tracking-[0.4em] text-white/60">{t('LIVE CONNECTION: STABLE', 'CONNEXION: STABLE')}</span>
             </div>
             <div className="w-px h-6 bg-white/10" />

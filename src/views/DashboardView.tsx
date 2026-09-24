@@ -513,8 +513,8 @@ export const DashboardView: React.FC<{
                     <AreaChart data={chartData} margin={{ top: 20, right: 0, left: 0, bottom: 0 }}>
                       <defs>
                         <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#00E0FF" stopOpacity={0.2}/>
-                          <stop offset="95%" stopColor="#00E0FF" stopOpacity={0}/>
+                          <stop offset="5%" stopColor="#A78BFA" stopOpacity={0.2}/>
+                          <stop offset="95%" stopColor="#A78BFA" stopOpacity={0}/>
                         </linearGradient>
                       </defs>
                       <CartesianGrid strokeDasharray="3 3" stroke="#ffffff03" vertical={false} />
@@ -537,28 +537,28 @@ export const DashboardView: React.FC<{
                         dx={-10}
                       />
                       <Tooltip 
-                        cursor={{ stroke: 'rgba(0,224,255,0.2)', strokeWidth: 1 }}
+                        cursor={{ stroke: 'rgba(167, 139, 250,0.2)', strokeWidth: 1 }}
                         contentStyle={{ 
                           backgroundColor: 'rgba(10,10,10,0.95)', 
-                          border: '1px solid rgba(0,224,255,0.3)', 
+                          border: '1px solid rgba(167, 139, 250,0.3)', 
                           borderRadius: '0px',
                           boxShadow: '0 20px 40px rgba(0,0,0,0.8)',
                           padding: '12px 16px',
                           backdropFilter: 'blur(10px)'
                         }}
-                        itemStyle={{ color: '#00E0FF', fontSize: '11px', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.1em' }}
+                        itemStyle={{ color: '#A78BFA', fontSize: '11px', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.1em' }}
                         labelStyle={{ color: '#ffffff40', fontSize: '9px', marginBottom: '8px', textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: '0.2em' }}
                         formatter={(value: number) => [`${value} pts`, t('LYA Score', 'Score LYA')]}
                       />
                       <Area 
                         type="monotone" 
                         dataKey="value" 
-                        stroke="#00E0FF" 
+                        stroke="#A78BFA" 
                         strokeWidth={3}
                         fillOpacity={1} 
                         fill="url(#colorValue)" 
                         animationDuration={2500}
-                        activeDot={{ r: 6, fill: '#00E0FF', stroke: '#0A0A0A', strokeWidth: 2 }}
+                        activeDot={{ r: 6, fill: '#A78BFA', stroke: '#0A0A0A', strokeWidth: 2 }}
                       />
                     </AreaChart>
                   </ResponsiveContainer>
@@ -887,19 +887,19 @@ export const DashboardView: React.FC<{
                       cursor={{ fill: 'rgba(255,255,255,0.02)' }}
                       contentStyle={{ 
                         backgroundColor: 'rgba(10,10,10,0.95)', 
-                        border: '1px solid rgba(0,224,255,0.2)', 
+                        border: '1px solid rgba(167, 139, 250,0.2)', 
                         borderRadius: '0px',
                         boxShadow: '0 20px 40px rgba(0,0,0,0.5)',
                         padding: '12px 16px',
                         backdropFilter: 'blur(10px)'
                       }}
-                      itemStyle={{ color: '#00E0FF', fontSize: '11px', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.1em' }}
+                      itemStyle={{ color: '#A78BFA', fontSize: '11px', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.1em' }}
                       labelStyle={{ color: '#ffffff40', fontSize: '9px', marginBottom: '8px', textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: '0.2em' }}
                       formatter={(value: number) => [`${value}%`, t('Registry Share', 'Part du Registre')]}
                     />
                     <Bar dataKey="value" radius={[2, 2, 0, 0]} barSize={35}>
                       {(marketStats.categoryBreakdown || []).slice(0, 6).map((entry: any, index: number) => (
-                        <Cell key={`cell-${index}`} fill={index === 0 ? '#00E0FF' : 'rgba(255,255,255,0.05)'} />
+                        <Cell key={`cell-${index}`} fill={index === 0 ? '#A78BFA' : 'rgba(255,255,255,0.05)'} />
                       ))}
                     </Bar>
                   </BarChart>

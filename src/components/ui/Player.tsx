@@ -16,7 +16,7 @@ export const Player: React.FC<PlayerProps> = ({ titleWhite, titleAccent, subtitl
     <div className="relative w-full max-w-6xl mx-auto aspect-video bg-surface-dim rounded-[2.5rem] overflow-hidden group shadow-2xl border border-white/10">
       {/* Background Content - Abstract Institutional Design */}
       <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(0,224,255,0.1),transparent_50%),radial-gradient(circle_at_80%_70%,rgba(126,28,241,0.05),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(167, 139, 250,0.1),transparent_50%),radial-gradient(circle_at_80%_70%,rgba(126,28,241,0.05),transparent_50%)]" />
         <div className="absolute inset-0 opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]" />
         
         {/* Animated Floating Elements */}

@@ -147,7 +147,7 @@ export const LYACopilot: React.FC = () => {
                     )}
                     <div className={`p-4 rounded-lg text-[11px] font-bold leading-relaxed shadow-2xl ${
                       m.role === 'USER' 
-                        ? 'bg-primary-cyan text-surface-dim rounded-tr-none shadow-[0_10px_30px_rgba(0,224,255,0.2)]' 
+                        ? 'bg-primary-cyan text-surface-dim rounded-tr-none shadow-[0_10px_30px_rgba(167, 139, 250,0.2)]' 
                         : 'bg-white/5 text-white border border-white/5 rounded-tl-none backdrop-blur-xl'
                     }`}>
                       <div className="flex items-center gap-2 mb-2 opacity-50 text-xs uppercase tracking-widest font-black">

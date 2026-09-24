@@ -1023,7 +1023,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
                       <button 
                         onClick={handlePostInsight}
                         disabled={!postContent.trim() || isUploadingPostImage}
-                        className="px-12 py-4 bg-primary-cyan text-surface-dim font-black uppercase tracking-widest text-[11px] rounded-xl hover:bg-white transition-all active:scale-95 shadow-[0_15px_30px_rgba(0,224,255,0.3)] disabled:opacity-30"
+                        className="px-12 py-4 bg-primary-cyan text-surface-dim font-black uppercase tracking-widest text-[11px] rounded-xl hover:bg-white transition-all active:scale-95 shadow-[0_15px_30px_rgba(167, 139, 250,0.3)] disabled:opacity-30"
                       >
                         {isUploadingPostImage ? t('UPLOADING...', 'ENVOI...') : t('BROADCAST INSIGHT', 'DÉPLOYER INSIGHT')}
                       </button>
@@ -1267,7 +1267,7 @@ export const LoungeView: React.FC<LoungeViewProps> = ({ user, onNotify, onViewCh
                 onNotify(t('OPENING MENTORSHIP APPLICATION PORTAL...', 'OUVERTURE DU PORTAIL DE DEMANDE DE MENTORAT...'));
                 if (onViewChange) onViewChange('APPLY_VERIFICATION');
               }}
-              className="w-full py-5 bg-primary-cyan text-surface-dim font-black uppercase italic tracking-[0.3em] text-[11px] rounded-lg hover:bg-white transition-all shadow-[0_15px_30px_rgba(0,224,255,0.2)]"
+              className="w-full py-5 bg-primary-cyan text-surface-dim font-black uppercase italic tracking-[0.3em] text-[11px] rounded-lg hover:bg-white transition-all shadow-[0_15px_30px_rgba(167, 139, 250,0.2)]"
             >
               {t('APPLY FOR VERIFICATION', 'DEMANDER VÉRIFICATION')}
             </button>

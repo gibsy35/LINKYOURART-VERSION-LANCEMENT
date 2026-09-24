@@ -114,7 +114,7 @@ export const APIView: React.FC<APIViewProps> = ({ user, onNotify, onViewChange }
         </p>
         <button 
           onClick={() => onViewChange('PRICING')}
-          className="px-6 sm:px-10 py-4 sm:py-5 bg-primary-cyan text-surface-dim font-black uppercase tracking-wider text-xs hover:bg-white transition-all active:scale-95 shadow-[0_15px_30px_rgba(0,224,255,0.2)]"
+          className="px-6 sm:px-10 py-4 sm:py-5 bg-primary-cyan text-surface-dim font-black uppercase tracking-wider text-xs hover:bg-white transition-all active:scale-95 shadow-[0_15px_30px_rgba(167, 139, 250,0.2)]"
         >
           {t('Upgrade to Professional', 'Passer au Professionnel')}
         </button>
@@ -126,7 +126,7 @@ export const APIView: React.FC<APIViewProps> = ({ user, onNotify, onViewChange }
     <div className="max-w-full max-w-7xl mx-auto space-y-8 pb-12 relative min-h-screen">
       {/* Immersive Background */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_20%_30%,rgba(0,224,255,0.05),transparent_50%),radial-gradient(circle_at_80%_70%,rgba(126,28,241,0.03),transparent_50%)]" />
+        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_20%_30%,rgba(167, 139, 250,0.05),transparent_50%),radial-gradient(circle_at_80%_70%,rgba(126,28,241,0.03),transparent_50%)]" />
         <div className="absolute inset-0 opacity-[0.02] bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]" />
       </div>
 

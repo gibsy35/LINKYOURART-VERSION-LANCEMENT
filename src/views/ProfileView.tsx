@@ -1608,7 +1608,7 @@ const renderMentorshipContent = () => (
                     </div>
                     <button 
                       onClick={() => setIsCreatingProject(true)}
-                      className="w-full sm:w-auto px-4 md:px-8 py-2 md:py-4 bg-primary-cyan text-surface-dim text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] hover:bg-white transition-all shadow-[0_20px_40px_rgba(0,224,255,0.15)] flex items-center justify-center gap-3 md:gap-4 group active:scale-95"
+                      className="w-full sm:w-auto px-4 md:px-8 py-2 md:py-4 bg-primary-cyan text-surface-dim text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] hover:bg-white transition-all shadow-[0_20px_40px_rgba(167, 139, 250,0.15)] flex items-center justify-center gap-3 md:gap-4 group active:scale-95"
                     >
                       <Plus size={16} className="group-hover:rotate-90 transition-transform duration-500" /> {t('Index New Asset', 'Indexer Nouvel Actif')}
                     </button>
@@ -1730,8 +1730,8 @@ const renderMentorshipContent = () => (
                       ]}>
                         <defs>
                           <linearGradient id="colorRev" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="5%" stopColor="#00E0FF" stopOpacity={0.2}/>
-                            <stop offset="95%" stopColor="#00E0FF" stopOpacity={0}/>
+                            <stop offset="5%" stopColor="#A78BFA" stopOpacity={0.2}/>
+                            <stop offset="95%" stopColor="#A78BFA" stopOpacity={0}/>
                           </linearGradient>
                           <linearGradient id="colorRoy" x1="0" y1="0" x2="0" y2="1">
                             <stop offset="5%" stopColor="#7E1CF1" stopOpacity={0.1}/>
@@ -1764,7 +1764,7 @@ const renderMentorshipContent = () => (
                           }}
                           itemStyle={{ fontWeight: 'black', textTransform: 'uppercase' }}
                         />
-                        <Area type="monotone" dataKey="revenue" stroke="#00E0FF" fillOpacity={1} fill="url(#colorRev)" strokeWidth={3} />
+                        <Area type="monotone" dataKey="revenue" stroke="#A78BFA" fillOpacity={1} fill="url(#colorRev)" strokeWidth={3} />
                         <Area type="monotone" dataKey="royalties" stroke="#7E1CF1" fillOpacity={1} fill="url(#colorRoy)" strokeWidth={2} strokeDasharray="8 8" />
                       </AreaChart>
                     </ResponsiveContainer>
@@ -1840,7 +1840,7 @@ const renderMentorshipContent = () => (
                           dataKey="value"
                           stroke="none"
                         >
-                          <Cell fill="#00E0FF" className="hover:opacity-80 transition-opacity cursor-pointer" />
+                          <Cell fill="#A78BFA" className="hover:opacity-80 transition-opacity cursor-pointer" />
                           <Cell fill="#7E1CF1" className="hover:opacity-80 transition-opacity cursor-pointer" />
                           <Cell fill="#FF00FF" className="hover:opacity-80 transition-opacity cursor-pointer" />
                         </Pie>
@@ -2072,8 +2072,8 @@ const renderMentorshipContent = () => (
                       ]}>
                         <defs>
                           <linearGradient id="colorGrowth" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="5%" stopColor="#00E0FF" stopOpacity={0.2}/>
-                            <stop offset="95%" stopColor="#00E0FF" stopOpacity={0}/>
+                            <stop offset="5%" stopColor="#A78BFA" stopOpacity={0.2}/>
+                            <stop offset="95%" stopColor="#A78BFA" stopOpacity={0}/>
                           </linearGradient>
                         </defs>
                         <CartesianGrid strokeDasharray="3 3" stroke="#ffffff05" vertical={false} />
@@ -2102,7 +2102,7 @@ const renderMentorshipContent = () => (
                           }}
                           formatter={(v) => [formatPrice(v as number), 'Total Contributed']}
                         />
-                        <Area type="monotone" dataKey="value" stroke="#00E0FF" fillOpacity={1} fill="url(#colorGrowth)" strokeWidth={3} />
+                        <Area type="monotone" dataKey="value" stroke="#A78BFA" fillOpacity={1} fill="url(#colorGrowth)" strokeWidth={3} />
                       </AreaChart>
                     </ResponsiveContainer>
                   </div>
@@ -2139,7 +2139,7 @@ const renderMentorshipContent = () => (
                             dataKey="value"
                             stroke="none"
                           >
-                            <Cell fill="#00E0FF" className="hover:opacity-80 transition-opacity cursor-pointer" />
+                            <Cell fill="#A78BFA" className="hover:opacity-80 transition-opacity cursor-pointer" />
                             <Cell fill="#7E1CF1" className="hover:opacity-80 transition-opacity cursor-pointer" />
                             <Cell fill="#FF00FF" className="hover:opacity-80 transition-opacity cursor-pointer" />
                             <Cell fill="#00FF00" className="hover:opacity-80 transition-opacity cursor-pointer" />
@@ -2295,7 +2295,7 @@ const renderMentorshipContent = () => (
                   <div className="space-y-3 md:space-y-4">
                     <button 
                       onClick={() => onViewChange && onViewChange('REGISTRY')}
-                      className="w-full py-4 md:py-5 bg-primary-cyan text-surface-dim text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] hover:bg-white transition-all shadow-[0_20px_40px_rgba(0,224,255,0.15)] active:scale-95"
+                      className="w-full py-4 md:py-5 bg-primary-cyan text-surface-dim text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] hover:bg-white transition-all shadow-[0_20px_40px_rgba(167, 139, 250,0.15)] active:scale-95"
                     >
                       {t('Browse Registry', 'Parcourir le Registre')}
                     </button>
@@ -2486,11 +2486,11 @@ const renderMentorshipContent = () => (
                         <YAxis hide />
                         <Tooltip 
                           contentStyle={{ backgroundColor: '#0A0A0A', border: '1px solid #ffffff10', borderRadius: '0px' }}
-                          itemStyle={{ color: '#00E0FF', fontSize: '10px', fontWeight: 'bold', textTransform: 'uppercase' }}
+                          itemStyle={{ color: '#A78BFA', fontSize: '10px', fontWeight: 'bold', textTransform: 'uppercase' }}
                         />
-                        <Bar dataKey="impact" fill="#00E0FF" radius={[2, 2, 0, 0]}>
+                        <Bar dataKey="impact" fill="#A78BFA" radius={[2, 2, 0, 0]}>
                           {chartData.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={index % 2 === 0 ? '#00E0FF' : '#7E1CF1'} opacity={0.8} />
+                            <Cell key={`cell-${index}`} fill={index % 2 === 0 ? '#A78BFA' : '#7E1CF1'} opacity={0.8} />
                           ))}
                         </Bar>
                       </BarChart>
@@ -3114,7 +3114,7 @@ const renderMentorshipContent = () => (
               <div className="w-full lg:w-1/3 bg-primary-cyan/5 p-6 md:p-8 border-b lg:border-b-0 lg:border-r border-white/5 flex flex-col justify-between relative overflow-hidden shrink-0">
                 <div className="absolute top-0 left-0 w-full h-full opacity-[0.03] pointer-events-none">
                   <div className="absolute inset-0" style={{ 
-                    backgroundImage: 'radial-gradient(circle at 2px 2px, #00E0FF 1px, transparent 0)',
+                    backgroundImage: 'radial-gradient(circle at 2px 2px, #A78BFA 1px, transparent 0)',
                     backgroundSize: '20px 20px'
                   }} />
                 </div>
@@ -3361,7 +3361,7 @@ const renderMentorshipContent = () => (
                     </button>
                     <button 
                       type="submit"
-                      className="px-12 py-4 bg-primary-cyan text-surface-dim font-black uppercase italic text-xs tracking-[0.2em] hover:bg-white transition-all active:scale-95 shadow-[0_10px_30px_rgba(0,224,255,0.3)]"
+                      className="px-12 py-4 bg-primary-cyan text-surface-dim font-black uppercase italic text-xs tracking-[0.2em] hover:bg-white transition-all active:scale-95 shadow-[0_10px_30px_rgba(167, 139, 250,0.3)]"
                     >
                       {t('Submit for AI Audit', 'Soumettre pour Audit IA')}
                     </button>
@@ -3398,7 +3398,7 @@ const renderMentorshipContent = () => (
               <div className="w-full lg:w-1/3 bg-primary-cyan/10 p-6 md:p-8 border-b lg:border-b-0 lg:border-r border-white/5 flex flex-col justify-start gap-4 sm:gap-8 relative overflow-y-auto custom-scrollbar shrink-0">
                 <div className="absolute top-0 left-0 w-full h-full opacity-[0.03] pointer-events-none">
                   <div className="absolute inset-0" style={{ 
-                    backgroundImage: 'radial-gradient(circle at 2px 2px, #00E0FF 1px, transparent 0)',
+                    backgroundImage: 'radial-gradient(circle at 2px 2px, #A78BFA 1px, transparent 0)',
                     backgroundSize: '20px 20px'
                   }} />
                 </div>
@@ -3515,7 +3515,7 @@ const renderMentorshipContent = () => (
                             onNotify?.(t(`Simulation Finalized.`, `Simulation Finalisée.`));
                           }}
                           disabled={Object.keys(simulatorAnswers).length < LYA_SIMULATOR_STEPS.reduce((acc, step) => acc + step.questions.length, 0)}
-                          className="px-12 py-4 bg-primary-cyan text-surface-dim font-black uppercase italic text-xs tracking-[0.2em] hover:bg-white transition-all active:scale-95 shadow-[0_10px_30px_rgba(0,224,255,0.3)] disabled:opacity-20 disabled:cursor-not-allowed"
+                          className="px-12 py-4 bg-primary-cyan text-surface-dim font-black uppercase italic text-xs tracking-[0.2em] hover:bg-white transition-all active:scale-95 shadow-[0_10px_30px_rgba(167, 139, 250,0.3)] disabled:opacity-20 disabled:cursor-not-allowed"
                         >
                           {t('Finalize Simulation', 'Finaliser la Simulation')}
                         </button>
@@ -3526,7 +3526,7 @@ const renderMentorshipContent = () => (
                             disabled={LYA_SIMULATOR_STEPS[simulatorStep].questions.some(q => 
                               simulatorAnswers[`${LYA_SIMULATOR_STEPS[simulatorStep].id}-${q.id}`] === undefined
                             )}
-                            className="px-12 py-4 bg-primary-cyan text-surface-dim font-black uppercase italic text-xs tracking-[0.2em] hover:bg-white transition-all active:scale-95 shadow-[0_10px_30px_rgba(0,224,255,0.3)] disabled:opacity-50"
+                            className="px-12 py-4 bg-primary-cyan text-surface-dim font-black uppercase italic text-xs tracking-[0.2em] hover:bg-white transition-all active:scale-95 shadow-[0_10px_30px_rgba(167, 139, 250,0.3)] disabled:opacity-50"
                           >
                             {t('Next Step', 'Étape Suivante')}
                           </button>
@@ -3572,7 +3572,7 @@ const renderMentorshipContent = () => (
                           resetSimulator();
                           setIsCreatingProject(true);
                         }}
-                        className="w-full py-6 bg-primary-cyan text-surface-dim font-black uppercase italic tracking-[0.3em] text-[12px] hover:bg-white transition-all active:scale-95 shadow-[0_20px_40px_rgba(0,224,255,0.3)]"
+                        className="w-full py-6 bg-primary-cyan text-surface-dim font-black uppercase italic tracking-[0.3em] text-[12px] hover:bg-white transition-all active:scale-95 shadow-[0_20px_40px_rgba(167, 139, 250,0.3)]"
                       >
                         {t('GO TO PROFILE & CREATE PROJECT', 'ALLER AU PROFIL & CRÉER LE PROJET')}
                       </button>

@@ -207,7 +207,7 @@ export const LYAProtocolBadge: React.FC = () => {
       {/* Background Grid */}
       <div className="absolute inset-0 z-[-1] opacity-10" 
         style={{ 
-          backgroundImage: 'radial-gradient(circle at 1px 1px, #00e0ff 1px, transparent 0)',
+          backgroundImage: 'radial-gradient(circle at 1px 1px, #A78BFA 1px, transparent 0)',
           backgroundSize: '40px 40px' 
         }} 
       />
