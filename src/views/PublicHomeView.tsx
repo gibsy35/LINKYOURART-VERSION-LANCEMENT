@@ -899,7 +899,7 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
         .term-modal-card{ animation:termModalIn 0.3s cubic-bezier(.2,.8,.2,1); }
         @keyframes termModalIn{ from{ opacity:0; transform:translateY(20px) scale(0.98); } to{ opacity:1; transform:translateY(0) scale(1); } }
         .term-free-banner{ padding:88px 0; background:transparent; position:relative; }
-        .term-free-banner .term-wrap{ background:linear-gradient(160deg, #1E1233 0%, #120B22 100%); border-radius:32px; padding:64px 48px; box-shadow:0 40px 80px -20px rgba(30,18,51,0.35); }
+        .term-free-banner .term-wrap{ background:linear-gradient(120deg, #14101F 0%, #5B21B6 45%, #C81C82 100%); border-radius:32px; padding:64px 48px; box-shadow:0 40px 80px -20px rgba(88,33,182,0.35); }
         @media (max-width:800px){ .term-free-banner .term-wrap{ padding:48px 24px; border-radius:24px; } }
         .term-free-banner::before{ content:''; position:absolute; top:-40%; right:-10%; width:500px; height:500px; border-radius:50%; background:radial-gradient(circle,rgba(126,28,241,0.35),transparent 70%); pointer-events:none; }
         .term-free-banner .term-wrap{ position:relative; z-index:1; }
