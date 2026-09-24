@@ -174,14 +174,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
   };
 
   const SidebarContent = (
-    <div className="h-full flex flex-col bg-[#0D1117] border-r border-white/10 font-mono relative overflow-hidden">
+    <div className="h-full flex flex-col bg-[#100c1a] border-r border-white/10 font-mono relative overflow-hidden">
       {/* Background depth effect */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 right-0 w-px h-full bg-gradient-to-b from-primary-cyan/10 via-transparent to-primary-cyan/10" />
       </div>
 
       {/* Sidebar Header with Logo */}
-      <div className={`relative z-10 transition-all duration-300 border-b border-white/5 flex items-center bg-[#0D1117]/50 backdrop-blur-md ${isCollapsed ? 'p-6 justify-center' : 'p-8 pb-10 pt-10'}`}>
+      <div className={`relative z-10 transition-all duration-300 border-b border-white/5 flex items-center bg-[#100c1a]/50 backdrop-blur-md ${isCollapsed ? 'p-6 justify-center' : 'p-8 pb-10 pt-10'}`}>
         {!isCollapsed && (
           <motion.div 
             initial={{ opacity: 0 }}
@@ -261,7 +261,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       </div>
 
       {/* Footer Area */}
-      <div className="p-6 border-t border-white/5 bg-[#0D1117] space-y-2 relative z-10">
+      <div className="p-6 border-t border-white/5 bg-[#100c1a] space-y-2 relative z-10">
         {secondaryItems.map(item => (
           <button
             key={item.id}
@@ -296,7 +296,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
       {/* User Status Area */}
       {user && !isCollapsed && (
-        <div className="p-8 bg-[#0D1117] border-t border-white/5 relative z-10 group/user cursor-pointer"
+        <div className="p-8 bg-[#100c1a] border-t border-white/5 relative z-10 group/user cursor-pointer"
           onClick={() => onViewChange((user?.role === 'PROFESSIONAL' ? 'PROFESSIONAL_DASHBOARD' : user?.role === 'CREATOR' ? 'CREATOR_DASHBOARD' : user?.role === 'PATRON' ? 'PATRON_DASHBOARD' : 'PROFILE'))}
         >
           <div className="flex items-center gap-4">
@@ -345,7 +345,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: -280, opacity: 0 }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="relative h-full w-[280px] bg-[#0D1117] border-r border-white/10 flex flex-col overflow-y-auto"
+              className="relative h-full w-[280px] bg-[#100c1a] border-r border-white/10 flex flex-col overflow-y-auto"
             >
               {/* Header */}
               <div className="p-6 pb-8 flex items-center justify-between">

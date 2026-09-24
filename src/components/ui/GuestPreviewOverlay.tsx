@@ -12,7 +12,7 @@ export const GuestPreviewOverlay: React.FC<GuestPreviewOverlayProps> = ({ onOpen
     <div className="relative">
       {/* Blur mask — gradient from transparent to opaque */}
       <div className="absolute inset-x-0 bottom-0 top-[30%] z-10 pointer-events-none"
-        style={{ background: 'linear-gradient(to bottom, transparent 0%, rgba(13,17,23,0.85) 35%, rgba(13,17,23,0.98) 60%, #0D1117 100%)' }}
+        style={{ background: 'linear-gradient(to bottom, transparent 0%, rgba(13,17,23,0.85) 35%, rgba(13,17,23,0.98) 60%, #100c1a 100%)' }}
       />
 
       {/* CTA card */}
@@ -22,7 +22,7 @@ export const GuestPreviewOverlay: React.FC<GuestPreviewOverlayProps> = ({ onOpen
         transition={{ delay: 0.3 }}
         className="absolute inset-x-0 bottom-0 z-20 flex justify-center pb-16 px-4"
       >
-        <div className="max-w-md w-full bg-[#0D1117]/95 border border-white/10 backdrop-blur-xl p-8 text-center shadow-2xl">
+        <div className="max-w-md w-full bg-[#100c1a]/95 border border-white/10 backdrop-blur-xl p-8 text-center shadow-2xl">
           {/* Icon */}
           <div className="w-14 h-14 border border-primary-cyan/30 bg-primary-cyan/5 flex items-center justify-center mx-auto mb-5">
             <Lock size={24} className="text-primary-cyan" />

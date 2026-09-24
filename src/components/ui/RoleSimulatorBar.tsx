@@ -30,7 +30,7 @@ export const RoleSimulatorBar: React.FC<RoleSimulatorBarProps> = ({ simulatedRol
         <button
           onClick={() => setHidden(false)}
           title="Réafficher le simulateur admin"
-          className="flex items-center justify-center w-8 h-8 bg-[#0D1117]/80 border border-emerald-500/20 backdrop-blur-xl hover:border-emerald-500/50 transition-all rounded-full opacity-40 hover:opacity-100"
+          className="flex items-center justify-center w-8 h-8 bg-[#100c1a]/80 border border-emerald-500/20 backdrop-blur-xl hover:border-emerald-500/50 transition-all rounded-full opacity-40 hover:opacity-100"
         >
           <Eye size={12} className="text-emerald-400/70" />
         </button>
@@ -48,7 +48,7 @@ export const RoleSimulatorBar: React.FC<RoleSimulatorBarProps> = ({ simulatedRol
         {/* Main pill */}
         <button
           onClick={() => setOpen(o => !o)}
-          className="flex items-center gap-3 px-5 py-3 bg-[#0D1117]/95 border border-emerald-500/30 backdrop-blur-xl hover:border-emerald-500/60 transition-all font-mono"
+          className="flex items-center gap-3 px-5 py-3 bg-[#100c1a]/95 border border-emerald-500/30 backdrop-blur-xl hover:border-emerald-500/60 transition-all font-mono"
         >
           <Zap size={12} className="text-emerald-400" />
           <span className="text-xs font-black uppercase tracking-[0.3em] text-emerald-400/70">ADMIN SIMULATOR</span>
@@ -75,7 +75,7 @@ export const RoleSimulatorBar: React.FC<RoleSimulatorBarProps> = ({ simulatedRol
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 8 }}
-              className="absolute bottom-full mb-2 left-0 right-0 bg-[#0D1117]/98 border border-white/10 backdrop-blur-xl overflow-hidden shadow-2xl"
+              className="absolute bottom-full mb-2 left-0 right-0 bg-[#100c1a]/98 border border-white/10 backdrop-blur-xl overflow-hidden shadow-2xl"
             >
               <div className="px-4 pt-3 pb-1">
                 <p className="text-[10px] font-black uppercase tracking-[0.4em] text-white/30">SIMULER UN RÔLE</p>

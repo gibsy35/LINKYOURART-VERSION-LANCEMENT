@@ -523,7 +523,7 @@ const RealTimeValuation: React.FC<{ liveContracts: Contract[] }> = ({ liveContra
                       <YAxis hide domain={['dataMin - 20', 'dataMax + 20']} />
                       <XAxis dataKey="step" hide />
                       <Tooltip
-                        contentStyle={{ background: '#0D1117', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 4, padding: '8px 12px' }}
+                        contentStyle={{ background: '#100c1a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 4, padding: '8px 12px' }}
                         itemStyle={{ color: activeColor, fontSize: 11, fontWeight: 800 }}
                         labelStyle={{ color: 'rgba(255,255,255,0.3)', fontSize: 9, textTransform: 'uppercase' }}
                         formatter={(v: number) => [`${v}/1000`, t('Score','Score')]}

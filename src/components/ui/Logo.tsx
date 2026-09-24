@@ -21,7 +21,7 @@ export const Logo: React.FC<{
   // Colors as requested
   const colors = {
     inner: color === 'white' ? "text-white" : "text-[#FF007F]", // Vibrant Pink
-    middle: color === 'white' ? "text-white/60" : "text-primary-cyan", // Electric Cyan
+    middle: color === 'white' ? "text-white/60" : "text-brand-blue", // Touche de bleu du logo, conservee independamment du violet principal de l'app
     outer: color === 'white' ? "text-white/30" : "text-[#9D00FF]", // Darker Neon Purple
     center: "bg-white"       // White focal point
   };
@@ -95,7 +95,7 @@ export const Logo: React.FC<{
       )}
 
       {/* Dynamic Glow */}
-      <div className="absolute inset-0 bg-primary-cyan/5 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+      <div className="absolute inset-0 bg-brand-blue/5 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
     </div>
   );
 };

@@ -17,6 +17,10 @@
   --color-accent-yellow: #F0C55E;
   --color-accent-green: #00ff00;
   --color-accent-purple: #7E1CF1;
+  /* Touche de bleu du logo, conservee volontairement a part du violet
+     principal (--color-primary-cyan) - utilisee tres ponctuellement, pas
+     comme couleur dominante de l'app. */
+  --color-brand-blue: #22D3EE;
   --color-on-surface: #f1f3f9;
   --color-on-surface-variant: #cbd5e1;
 }
@@ -37,6 +41,7 @@
   --color-accent-yellow: var(--color-accent-yellow);
   --color-accent-green: var(--color-accent-green);
   --color-accent-purple: var(--color-accent-purple);
+  --color-brand-blue: var(--color-brand-blue);
   --color-emerald-400: #34d399;
   --color-on-surface: var(--color-on-surface);
   --color-on-surface-variant: var(--color-on-surface-variant);
@@ -53,8 +58,14 @@
      utilise des dizaines de fois dans chaque vue - un seul reglage ici
      adoucit instantanement toutes les cartes/boutons/panneaux, sans
      modifier un seul fichier de vue. */
-  --radius-md: 0.625rem;
-  --radius-lg: 1rem;
+  /* rounded-sm et rounded (defaut) sont en realite les classes les PLUS
+     utilisees dans le code (226 occurrences combinees) - le premier
+     passage n'avait augmente que -md/-lg/-xl/-2xl/-3xl, laissant la
+     majorite des elements quasiment carres malgre le changement. */
+  --radius-sm: 0.5rem;
+  --radius: 0.75rem;
+  --radius-md: 0.875rem;
+  --radius-lg: 1.125rem;
   --radius-xl: 1.375rem;
   --radius-2xl: 1.75rem;
   --radius-3xl: 2.25rem;
@@ -110,6 +121,9 @@
   
   .text-accent-gold { color: var(--color-accent-gold); }
   .bg-accent-gold { background-color: var(--color-accent-gold); }
+
+  .text-brand-blue { color: var(--color-brand-blue); }
+  .bg-brand-blue { background-color: var(--color-brand-blue); }
   
   .text-on-surface { color: var(--color-on-surface); }
   .text-on-surface-variant { color: var(--color-on-surface-variant); }
