@@ -18,7 +18,13 @@ module.exports = async (req, res) => {
     const images = [];
     for (const style of styleList) {
       try {
-        const prompt = `Generate a square, high-quality, professional digital art piece for a creative project described as: ${description || 'a creative project'}. Style: ${style}. High resolution, clean composition.`;
+        // Le sujet reel du projet passe desormais en premier et de facon
+        // plus directive (au lieu d'etre une simple mention en fin de
+        // phrase), pour que l'image genere visuellement ce que decrit le
+        // projet plutot qu'une composition stylistique generique qui
+        // ignore le contenu specifique. Le style reste un modificateur,
+        // plus l'instruction dominante.
+        const prompt = `Create a cover image that visually depicts this specific creative project: ${description || 'a creative project'}. The image must clearly represent the actual subject matter described above, not a generic abstract composition. Rendered in this visual style: ${style}. Square format, high resolution, professional quality, clean composition.`;
         const response = await ai.models.generateContent({
           model: 'gemini-3.1-flash-image-preview',
           contents: prompt,

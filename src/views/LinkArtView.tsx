@@ -79,7 +79,7 @@ export const LinkArtView: React.FC<{
           </button>
           <button 
             onClick={() => window.open('mailto:contact@linkyourart.com', '_blank')}
-            className="px-10 py-4 bg-white/5 border border-white/10 text-on-surface font-black uppercase tracking-[0.2em] hover:bg-white/10 transition-all"
+            className="px-10 py-4 bg-white/5 border border-white/10 text-on-surface font-black uppercase tracking-[0.2em] hover:bg-white/10 transition-all rounded-xl"
           >
             {t('Contact Support', 'Contacter le Support')}
           </button>
@@ -590,7 +590,7 @@ export const LinkArtView: React.FC<{
         className="max-w-2xl mx-auto py-20 text-center space-y-8"
       >
         <div className="flex justify-center">
-          <div className="w-24 h-24 bg-primary-cyan/10 border border-primary-cyan/20 flex items-center justify-center text-primary-cyan relative">
+          <div className="w-24 h-24 bg-primary-cyan/10 border border-primary-cyan/20 flex items-center justify-center text-primary-cyan relative rounded-xl">
             <CheckCircle2 size={48} />
             <motion.div 
               animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0, 0.5] }}
@@ -643,7 +643,7 @@ export const LinkArtView: React.FC<{
         
         {STEPS.map((step) => (
           <div key={step.id} className="relative z-10 flex flex-col items-center gap-4 w-1/4">
-            <div className={`w-8 h-8 flex items-center justify-center border-2 transition-all duration-500 ${
+            <div className={`w-8 h-8 rounded-full flex items-center justify-center border-2 transition-all duration-500 ${
               currentStep >= step.id ? 'bg-primary-cyan border-primary-cyan text-surface-dim' : 'bg-surface-dim border-white/10 text-on-surface-variant'
             }`}>
               {currentStep > step.id ? <CheckCircle2 size={16} /> : <span className="text-xs font-bold">{step.id}</span>}
@@ -658,7 +658,7 @@ export const LinkArtView: React.FC<{
       </div>
 
       {/* Form Content */}
-      <div className="bg-surface-low border border-white/5 p-12 min-h-[400px] relative overflow-hidden mt-16">
+      <div className="bg-surface-low border border-white/5 p-12 min-h-[400px] relative overflow-hidden mt-16 rounded-xl">
         <div className="absolute top-0 right-0 w-64 h-64 bg-primary-cyan/5 rounded-full -mr-32 -mt-32 blur-3xl pointer-events-none" />
         
         <AnimatePresence mode="wait">
@@ -682,7 +682,7 @@ export const LinkArtView: React.FC<{
                     <label className="text-xs uppercase tracking-widest text-on-surface-variant font-bold">{t('Contract Name', 'Nom du Contrat')}</label>
                     <div className="relative">
                       <input 
-                        className="w-full bg-surface-dim border border-white/10 text-on-surface p-4 pr-12 focus:border-primary-cyan/50 focus:ring-0 transition-all text-sm tracking-widest" 
+                        className="w-full bg-surface-dim border border-white/10 text-on-surface p-4 pr-12 focus:border-primary-cyan/50 focus:ring-0 transition-all text-sm tracking-widest rounded-xl" 
                         placeholder={t('e.g. NEON VOID ARCHIVE', 'ex: ARCHIVE DU VIDE NÉON')} 
                         value={assetName}
                         onChange={(e) => setAssetName(e.target.value)}
@@ -707,7 +707,7 @@ export const LinkArtView: React.FC<{
                   <div className="space-y-2">
                     <label className="text-xs uppercase tracking-widest text-on-surface-variant font-bold">{t('Issuer / Creator', 'Émetteur / Créateur')}</label>
                     <input 
-                      className="w-full bg-surface-dim border border-white/10 text-on-surface p-4 focus:border-primary-cyan/50 focus:ring-0 transition-all text-sm tracking-widest" 
+                      className="w-full bg-surface-dim border border-white/10 text-on-surface p-4 focus:border-primary-cyan/50 focus:ring-0 transition-all text-sm tracking-widest rounded-xl" 
                       placeholder={t('e.g. ALPHA STUDIO', 'ex: STUDIO ALPHA')} 
                       value={issuerName}
                       onChange={(e) => setIssuerName(e.target.value)}
@@ -718,7 +718,7 @@ export const LinkArtView: React.FC<{
                     <select 
                       value={category}
                       onChange={(e) => setCategory(e.target.value)}
-                      className="w-full bg-surface-dim border border-white/10 text-on-surface p-4 focus:border-primary-cyan/50 focus:ring-0 transition-all text-sm uppercase tracking-widest appearance-none"
+                      className="w-full bg-surface-dim border border-white/10 text-on-surface p-4 focus:border-primary-cyan/50 focus:ring-0 transition-all text-sm uppercase tracking-widest appearance-none rounded-xl"
                     >
                       {['Fine Art', 'Music', 'Film', 'TV Series', 'Literature', 'Photography', 'Fashion', 'Digital Art', 'Podcast', 'Architecture', 'Gastronomy', 'Performing Arts', 'Gaming', 'Design'].map(cat => (
                         <option key={cat} value={cat}>{cat}</option>
@@ -730,7 +730,7 @@ export const LinkArtView: React.FC<{
                     <div className="relative">
                       <textarea 
                         rows={5} 
-                        className="w-full bg-surface-dim border border-white/10 text-on-surface p-4 focus:border-primary-cyan/50 focus:ring-0 transition-all text-sm tracking-widest resize-none" 
+                        className="w-full bg-surface-dim border border-white/10 text-on-surface p-4 focus:border-primary-cyan/50 focus:ring-0 transition-all text-sm tracking-widest resize-none rounded-xl" 
                         placeholder={t('Describe your project: what it is, its creative process, and what makes it distinctive...', 'Décrivez votre projet : ce qu\'il est, son processus créatif, et ce qui le distingue...')} 
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
@@ -757,7 +757,7 @@ export const LinkArtView: React.FC<{
                           className="p-2 bg-primary-cyan/10 border border-primary-cyan/20 text-primary-cyan rounded-sm hover:bg-primary-cyan/20 transition-all disabled:opacity-50 group/milestone"
                         >
                           <Sparkles size={14} className={isSuggestingMilestones ? 'animate-pulse' : ''} />
-                          <div className="absolute bottom-full right-0 mb-2 whitespace-nowrap bg-surface-low border border-white/10 px-3 py-1 text-[10px] uppercase tracking-widest opacity-0 group-hover/milestone:opacity-100 transition-opacity pointer-events-none">
+                          <div className="absolute bottom-full right-0 mb-2 whitespace-nowrap bg-surface-low border border-white/10 px-3 py-1 text-[10px] uppercase tracking-widest opacity-0 group-hover/milestone:opacity-100 transition-opacity pointer-events-none rounded-xl">
                             {t('AI Suggest Milestones', 'Suggestions de Jalons par l\'IA')}
                           </div>
                         </button>
@@ -779,7 +779,7 @@ export const LinkArtView: React.FC<{
                         <p className="text-xs text-on-surface-variant leading-relaxed normal-case italic">
                           {descExample.text}
                         </p>
-                        <p className="text-[10px] text-on-surface-variant/50 uppercase tracking-widest pt-2 border-t border-primary-cyan/10 mt-3">
+                        <p className="text-[10px] text-on-surface-variant/50 uppercase tracking-widest pt-2 border-t border-primary-cyan/10 mt-3 rounded-xl">
                           {t('Good descriptions are specific: format, duration, process, team size, and current stage.', 'Une bonne description est précise : format, durée, processus, taille d\'équipe, et étape actuelle.')}
                         </p>
                       </div>
@@ -789,7 +789,7 @@ export const LinkArtView: React.FC<{
                 <div className="space-y-6">
                   <div className="space-y-4">
                     <label className="text-xs uppercase tracking-widest text-on-surface-variant font-bold">{t('Contract Visualization', 'Visualisation du Contrat')}</label>
-                    <div className="relative aspect-square bg-surface-dim border border-white/10 overflow-hidden group">
+                    <div className="relative aspect-square bg-surface-dim border border-white/10 overflow-hidden group rounded-xl">
                       {generatedImage ? (
                         <img 
                           src={generatedImage} 
@@ -805,7 +805,7 @@ export const LinkArtView: React.FC<{
                       )}
                       
                       {isGeneratingImage && (
-                        <div className="absolute inset-0 bg-surface-dim/80 backdrop-blur-sm flex flex-col items-center justify-center gap-4 z-20">
+                        <div className="absolute inset-0 bg-surface-dim/80 backdrop-blur-sm flex flex-col items-center justify-center gap-4 z-20 rounded-xl">
                           <div className="w-8 h-8 border-2 border-primary-cyan border-t-transparent rounded-full animate-spin" />
                           <p className="text-xs uppercase tracking-widest text-primary-cyan animate-pulse">{t('Synthesizing Versions...', 'Synthèse de Versions...')}</p>
                         </div>
@@ -818,7 +818,7 @@ export const LinkArtView: React.FC<{
                           className="p-3 bg-primary-cyan text-surface-dim rounded-full shadow-lg hover:bg-white transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed group/gen"
                         >
                           <Sparkles size={16} className={isGeneratingImage ? 'animate-pulse' : ''} />
-                          <div className="absolute bottom-full right-0 mb-2 whitespace-nowrap bg-surface-low border border-white/10 px-3 py-1 text-[10px] uppercase tracking-widest opacity-0 group-hover/gen:opacity-100 transition-opacity pointer-events-none">
+                          <div className="absolute bottom-full right-0 mb-2 whitespace-nowrap bg-surface-low border border-white/10 px-3 py-1 text-[10px] uppercase tracking-widest opacity-0 group-hover/gen:opacity-100 transition-opacity pointer-events-none rounded-xl">
                             {t('AI Generate Visualization', 'Génération IA de Visualisation')}
                           </div>
                         </button>
@@ -832,7 +832,7 @@ export const LinkArtView: React.FC<{
                           <button
                             key={i}
                             onClick={() => setGeneratedImage(opt)}
-                            className={`aspect-square border-2 transition-all p-1 bg-surface-low ${
+                            className={`aspect-square border-2 transition-all p-1 bg-surface-low rounded-xl ${
                               generatedImage === opt ? 'border-primary-cyan' : 'border-white/5 hover:border-white/20'
                             }`}
                           >
@@ -850,7 +850,7 @@ export const LinkArtView: React.FC<{
                   <input ref={masterFileInputRef} type="file" onChange={handleMasterFileSelect} className="hidden" />
                   <div
                     onClick={() => masterFileInputRef.current?.click()}
-                    className={`border-2 border-dashed p-6 text-center space-y-4 transition-all cursor-pointer group ${masterFile ? 'border-emerald-400/40 bg-emerald-400/5' : 'border-white/10 hover:border-primary-cyan/30'}`}
+                    className={`border-2 border-dashed p-6 text-center space-y-4 transition-all cursor-pointer group rounded-xl ${masterFile ? 'border-emerald-400/40 bg-emerald-400/5' : 'border-white/10 hover:border-primary-cyan/30'}`}
                   >
                     <div className="flex justify-center">
                       <div className={`p-3 bg-white/5 transition-colors ${masterFile ? 'text-emerald-400' : 'text-on-surface-variant group-hover:text-primary-cyan'}`}>
@@ -885,7 +885,7 @@ export const LinkArtView: React.FC<{
                   <button 
                     onClick={handleSuggestMilestones}
                     disabled={isSuggestingMilestones || !description}
-                    className="flex items-center gap-2 px-4 py-2 bg-primary-cyan/10 border border-primary-cyan/20 text-primary-cyan text-[10px] font-bold uppercase tracking-widest hover:bg-primary-cyan/20 transition-all disabled:opacity-50"
+                    className="flex items-center gap-2 px-4 py-2 bg-primary-cyan/10 border border-primary-cyan/20 text-primary-cyan text-[10px] font-bold uppercase tracking-widest hover:bg-primary-cyan/20 transition-all disabled:opacity-50 rounded-xl"
                   >
                     <Sparkles size={14} className={isSuggestingMilestones ? 'animate-pulse' : ''} />
                     {isSuggestingMilestones ? t('Analyzing...', 'Analyse...') : t('AI Suggest Milestones', 'Suggestions de Jalons par l\'IA')}
@@ -898,7 +898,7 @@ export const LinkArtView: React.FC<{
                     <div className="space-y-1">
                       <label className="text-[10px] uppercase font-black text-on-surface-variant tracking-widest">{t('Label', 'Libellé')}</label>
                       <input 
-                        className="w-full bg-surface-low border border-white/10 p-3 text-xs tracking-widest"
+                        className="w-full bg-surface-low border border-white/10 p-3 text-xs tracking-widest rounded-xl"
                         placeholder={t('e.g. Beta Launch', 'ex: Lancement Beta')}
                         value={newMilestone.label}
                         onChange={(e) => setNewMilestone({ ...newMilestone, label: e.target.value })}
@@ -908,7 +908,7 @@ export const LinkArtView: React.FC<{
                       <label className="text-[10px] uppercase font-black text-on-surface-variant tracking-widest">{t('Target Date', 'Date Cible')}</label>
                       <input 
                         type="month"
-                        className="w-full bg-surface-low border border-white/10 p-3 text-xs tracking-widest"
+                        className="w-full bg-surface-low border border-white/10 p-3 text-xs tracking-widest rounded-xl"
                         value={newMilestone.date}
                         onChange={(e) => setNewMilestone({ ...newMilestone, date: e.target.value })}
                       />
@@ -917,7 +917,7 @@ export const LinkArtView: React.FC<{
                       <label className="text-[10px] uppercase font-black text-on-surface-variant tracking-widest">{t('Impact (%)', 'Impact (%)')}</label>
                       <input 
                         type="number"
-                        className="w-full bg-surface-low border border-white/10 p-3 text-xs tracking-widest font-mono"
+                        className="w-full bg-surface-low border border-white/10 p-3 text-xs tracking-widest font-mono rounded-xl"
                         value={newMilestone.scoreImpact}
                         onChange={(e) => setNewMilestone({ ...newMilestone, scoreImpact: Number(e.target.value) })}
                       />
@@ -925,7 +925,7 @@ export const LinkArtView: React.FC<{
                     <div className="space-y-1">
                       <label className="text-[10px] uppercase font-black text-on-surface-variant tracking-widest">{t('Status', 'Statut')}</label>
                       <select 
-                        className="w-full bg-surface-low border border-white/10 p-3 text-xs uppercase tracking-widest appearance-none"
+                        className="w-full bg-surface-low border border-white/10 p-3 text-xs uppercase tracking-widest appearance-none rounded-xl"
                         value={newMilestone.status}
                         onChange={(e) => setNewMilestone({ ...newMilestone, status: e.target.value as any })}
                       >
@@ -938,7 +938,7 @@ export const LinkArtView: React.FC<{
                   </div>
                   <button 
                     onClick={handleAddMilestone}
-                    className="w-full py-3 bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-[0.2em] hover:bg-white/10 transition-all flex items-center justify-center gap-2"
+                    className="w-full py-3 bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-[0.2em] hover:bg-white/10 transition-all flex items-center justify-center gap-2 rounded-xl"
                   >
                     <Plus size={14} />
                     {t('Add Milestone', 'Ajouter un Jalon')}
@@ -952,13 +952,13 @@ export const LinkArtView: React.FC<{
                         key={index}
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="p-6 bg-surface-dim border border-white/5 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 group hover:border-primary-cyan/30 transition-all"
+                        className="p-6 bg-surface-dim border border-white/5 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 group hover:border-primary-cyan/30 transition-all rounded-xl"
                       >
                         {editingMilestoneIndex === index ? (
                           <div className="w-full space-y-4">
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                               <input 
-                                className="bg-surface-low border border-white/20 p-2 text-xs text-white"
+                                className="bg-surface-low border border-white/20 p-2 text-xs text-white rounded-xl"
                                 value={milestone.label}
                                 onChange={(e) => {
                                   const updated = [...milestones];
@@ -968,7 +968,7 @@ export const LinkArtView: React.FC<{
                               />
                               <input 
                                 type="month"
-                                className="bg-surface-low border border-white/20 p-2 text-xs text-white"
+                                className="bg-surface-low border border-white/20 p-2 text-xs text-white rounded-xl"
                                 value={milestone.date}
                                 onChange={(e) => {
                                   const updated = [...milestones];
@@ -979,7 +979,7 @@ export const LinkArtView: React.FC<{
                               <div className="flex items-center gap-2">
                                 <input 
                                   type="number"
-                                  className="bg-surface-low border border-white/20 p-2 text-xs text-white w-20"
+                                  className="bg-surface-low border border-white/20 p-2 text-xs text-white w-20 rounded-xl"
                                   value={milestone.scoreImpact}
                                   onChange={(e) => {
                                     const updated = [...milestones];
@@ -990,7 +990,7 @@ export const LinkArtView: React.FC<{
                                 <span className="text-white opacity-50">%</span>
                               </div>
                               <select 
-                                className="bg-surface-low border border-white/20 p-2 text-xs uppercase text-white"
+                                className="bg-surface-low border border-white/20 p-2 text-xs uppercase text-white rounded-xl"
                                 value={milestone.status}
                                 onChange={(e) => {
                                   const updated = [...milestones];
@@ -1068,7 +1068,7 @@ export const LinkArtView: React.FC<{
                       </motion.div>
                     ))
                   ) : (
-                    <div className="py-12 border-2 border-dashed border-white/5 flex flex-col items-center justify-center text-on-surface-variant/40 space-y-4">
+                    <div className="py-12 border-2 border-dashed border-white/5 flex flex-col items-center justify-center text-on-surface-variant/40 space-y-4 rounded-xl">
                       <Calendar size={48} className="opacity-20" />
                       <p className="text-xs uppercase tracking-[0.2em]">{t('No milestones defined yet', 'Aucun jalon défini pour le moment')}</p>
                       <p className="text-[10px] uppercase tracking-widest text-center max-w-xs leading-relaxed">
@@ -1087,7 +1087,7 @@ export const LinkArtView: React.FC<{
                     <label className="text-xs uppercase tracking-widest text-on-surface-variant font-bold">{t('Contract Duration (Months)', 'Durée du Contrat (Mois)')}</label>
                     <input 
                       type="number" 
-                      className="w-full bg-surface-dim border border-white/10 text-on-surface p-4 focus:border-primary-cyan/50 focus:ring-0 transition-all font-mono text-sm" 
+                      className="w-full bg-surface-dim border border-white/10 text-on-surface p-4 focus:border-primary-cyan/50 focus:ring-0 transition-all font-mono text-sm rounded-xl" 
                       value={contractDuration}
                       onChange={(e) => setContractDuration(e.target.value)}
                       placeholder="e.g. 12"
@@ -1097,7 +1097,7 @@ export const LinkArtView: React.FC<{
                     <label className="text-xs uppercase tracking-widest text-on-surface-variant font-bold">{t('Maturity Date', 'Date d\'Échéance')}</label>
                     <input 
                       type="date" 
-                      className="w-full bg-surface-dim border border-white/10 text-on-surface p-4 focus:border-primary-cyan/50 focus:ring-0 transition-all font-mono text-sm" 
+                      className="w-full bg-surface-dim border border-white/10 text-on-surface p-4 focus:border-primary-cyan/50 focus:ring-0 transition-all font-mono text-sm rounded-xl" 
                       value={maturityDate}
                       onChange={(e) => setMaturityDate(e.target.value)}
                     />
@@ -1110,7 +1110,7 @@ export const LinkArtView: React.FC<{
                     <input 
                       type="number" 
                       min="0"
-                      className="w-full bg-surface-dim border border-white/10 text-on-surface p-4 focus:border-primary-cyan/50 focus:ring-0 transition-all font-mono text-sm" 
+                      className="w-full bg-surface-dim border border-white/10 text-on-surface p-4 focus:border-primary-cyan/50 focus:ring-0 transition-all font-mono text-sm rounded-xl" 
                       value={fundingGoal}
                       onChange={(e) => setFundingGoal(e.target.value)}
                       placeholder={t('e.g. 5000', 'ex : 5000')}
@@ -1119,7 +1119,7 @@ export const LinkArtView: React.FC<{
                       {t('Leave blank to simply display cumulative support with no fixed target. Typical ranges: small project €500–2,000 · medium €2,000–10,000 · large €10,000+.', 'Laissez vide pour afficher uniquement le soutien cumulé, sans objectif fixe. Fourchettes indicatives : petit projet 500–2 000 € · moyen 2 000–10 000 € · grand 10 000 €+.')}
                     </p>
                   </div>
-                  <div className="space-y-2 pt-4 border-t border-white/5">
+                  <div className="space-y-2 pt-4 border-t border-white/5 rounded-xl">
                     <div className="flex items-center gap-2 mb-1">
                       <Info size={14} className="text-emerald-400" />
                       <span className="text-xs uppercase tracking-widest text-emerald-400 font-bold">{t('No Deposit Required', 'Aucun Dépôt Requis')}</span>
@@ -1132,14 +1132,14 @@ export const LinkArtView: React.FC<{
                 <div className="space-y-6">
                   <div className="space-y-2">
                     <label className="text-xs uppercase tracking-widest text-on-surface-variant font-bold">{t('Rarity Classification', 'Classification de Rareté')}</label>
-                    <select className="w-full bg-surface-dim border border-white/10 text-on-surface p-4 focus:border-primary-cyan/50 focus:ring-0 transition-all text-sm uppercase tracking-widest appearance-none">
+                    <select className="w-full bg-surface-dim border border-white/10 text-on-surface p-4 focus:border-primary-cyan/50 focus:ring-0 transition-all text-sm uppercase tracking-widest appearance-none rounded-xl">
                       <option>{t('Standard', 'Standard')}</option>
                       <option>{t('Distinguished', 'Distingué')}</option>
                       <option>{t('Exceptional', 'Exceptionnel')}</option>
                       <option>{t('Signature', 'Signature')}</option>
                     </select>
                   </div>
-                  <div className="p-6 bg-primary-cyan/5 border border-primary-cyan/20 space-y-4">
+                  <div className="p-6 bg-primary-cyan/5 border border-primary-cyan/20 space-y-4 rounded-xl">
                     <div className="flex items-center gap-2 mb-2">
                       <Info size={14} className="text-primary-cyan" />
                       <span className="text-xs font-bold uppercase tracking-widest text-primary-cyan">{t('LYA Certification Standard', 'Standard de Certification LYA')}</span>
@@ -1150,7 +1150,7 @@ export const LinkArtView: React.FC<{
                         'Votre projet sera évalué selon le Score LYA (0-1000), combinant analyse algorithmique et revue par un comité de professionnels — le même standard objectif appliqué à chaque projet certifié sur la plateforme.'
                       )}
                     </p>
-                    <div className="pt-4 border-t border-primary-cyan/10 space-y-2">
+                    <div className="pt-4 border-t border-primary-cyan/10 space-y-2 rounded-xl">
                       <div className="flex justify-between text-xs uppercase tracking-widest text-on-surface-variant">
                         <span>{t('Certification Fee', 'Frais de Certification')}</span>
                         <span className="text-emerald-400 font-bold">{t('Free', 'Gratuit')}</span>
@@ -1181,7 +1181,7 @@ export const LinkArtView: React.FC<{
                       <div 
                         key={right} 
                         onClick={() => setSelectedRights(prev => isChecked ? prev.filter(r => r !== right) : [...prev, right])}
-                        className={`flex items-center gap-4 p-4 bg-surface-dim border transition-all cursor-pointer group ${isChecked ? 'border-primary-cyan/50 bg-primary-cyan/5' : 'border-white/5 hover:border-primary-cyan/30'}`}
+                        className={`flex items-center gap-4 p-4 bg-surface-dim border transition-all cursor-pointer group rounded-xl ${isChecked ? 'border-primary-cyan/50 bg-primary-cyan/5' : 'border-white/5 hover:border-primary-cyan/30'}`}
                       >
                         <div className={`w-5 h-5 border flex items-center justify-center transition-colors shrink-0 ${isChecked ? 'border-primary-cyan' : 'border-white/20 group-hover:border-primary-cyan/50'}`}>
                           <div className={`w-2 h-2 bg-primary-cyan transition-opacity ${isChecked ? 'opacity-100' : 'opacity-0'}`} />
@@ -1191,7 +1191,7 @@ export const LinkArtView: React.FC<{
                     );
                   })}
                 </div>
-                <div className="p-6 bg-accent-gold/5 border border-accent-gold/20 flex gap-4">
+                <div className="p-6 bg-accent-gold/5 border border-accent-gold/20 flex gap-4 rounded-xl">
                   <Info className="text-accent-gold shrink-0" size={20} />
                   <p className="text-xs text-accent-gold leading-relaxed uppercase tracking-wider">
                     {t(
@@ -1205,11 +1205,11 @@ export const LinkArtView: React.FC<{
 
             {currentStep === 5 && (
               <div className="space-y-8">
-                <div className="bg-surface-dim border border-white/5 p-8 space-y-6">
+                <div className="bg-surface-dim border border-white/5 p-8 space-y-6 rounded-xl">
                   <div className="flex flex-col md:flex-row justify-between items-start gap-6">
                     <div className="flex gap-6">
                       {generatedImage && (
-                        <div className="w-24 h-24 border border-white/10 overflow-hidden shrink-0">
+                        <div className="w-24 h-24 border border-white/10 overflow-hidden shrink-0 rounded-xl">
                           <img 
                             src={generatedImage} 
                             alt="Contract Preview" 
@@ -1229,7 +1229,7 @@ export const LinkArtView: React.FC<{
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-6 border-t border-white/5">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-6 border-t border-white/5 rounded-xl">
                     <div className="space-y-4">
                       <div>
                         <h4 className="text-xs uppercase tracking-widest text-on-surface-variant font-bold mb-1">{t('Registry Address', 'Adresse du Registre')}</h4>
@@ -1239,7 +1239,7 @@ export const LinkArtView: React.FC<{
                         <h4 className="text-xs uppercase tracking-widest text-on-surface-variant font-bold mb-1">{t('Contract Creation Date', 'Date de Création du Contrat')}</h4>
                         <p className="text-sm font-mono text-on-surface">{new Date().toLocaleDateString(t('en-US', 'fr-FR'), { year: 'numeric', month: 'long', day: 'numeric' })}</p>
                       </div>
-                      <div className="pt-2 border-t border-white/5">
+                      <div className="pt-2 border-t border-white/5 rounded-xl">
                         <h4 className="text-xs uppercase tracking-widest text-emerald-400 font-bold mb-1">{t('Certification Fee', 'Frais de Certification')}</h4>
                         <p className="text-lg font-black text-emerald-400 italic">{t('Free', 'Gratuit')}</p>
                       </div>
@@ -1266,7 +1266,7 @@ export const LinkArtView: React.FC<{
                       </div>
                     </div>
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 pt-6 border-t border-white/5">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 pt-6 border-t border-white/5 rounded-xl">
                     <div className="space-y-4">
                       <div className="flex items-center gap-2 text-emerald-400">
                         <ShieldCheck size={14} />
@@ -1285,7 +1285,7 @@ export const LinkArtView: React.FC<{
                     </div>
                   </div>
                 </div>
-                <div className="p-6 bg-primary-cyan/5 border border-primary-cyan/20">
+                <div className="p-6 bg-primary-cyan/5 border border-primary-cyan/20 rounded-xl">
                   <p className="text-xs text-primary-cyan leading-relaxed uppercase tracking-wider text-center">
                     {t(
                       'By clicking "Deploy Contract", you authorize the LYA Registry to generate a contrat numérique certifié on the registre certifié. This action is irreversible.',
@@ -1304,7 +1304,7 @@ export const LinkArtView: React.FC<{
         <button 
           onClick={handleBack}
           disabled={currentStep === 1 || isSubmitting}
-          className={`flex items-center gap-2 px-8 py-4 border border-white/10 text-xs font-bold uppercase tracking-widest transition-all ${
+          className={`flex items-center gap-2 px-8 py-4 border border-white/10 text-xs font-bold uppercase tracking-widest transition-all rounded-xl ${
             currentStep === 1 || isSubmitting ? 'opacity-30 cursor-not-allowed' : 'hover:bg-white/5 active:scale-95'
           }`}
         >
