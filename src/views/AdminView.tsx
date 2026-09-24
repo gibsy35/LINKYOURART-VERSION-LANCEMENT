@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getSafeImageUrl, handleImageError } from '../utils/image';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
+  Sparkles,
   ShieldAlert, 
   Shield,
   Users, 
@@ -47,7 +48,7 @@ export const AdminView: React.FC<{
   onViewChange: (view: any) => void;
   liveContracts: Contract[];
 }> = ({ user, onNotify, onViewChange, liveContracts }) => {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
   const { formatPrice } = useCurrency();
   const [activeTab, setActiveTab] = useState<'users' | 'projects' | 'validation' | 'engagement' | 'submissions'>('users');
   const [users, setUsers] = useState<UserProfile[]>([]);
@@ -58,6 +59,12 @@ export const AdminView: React.FC<{
   const [contactRequests, setContactRequests] = useState<any[]>([]);
   const [pendingSubmissions, setPendingSubmissions] = useState<any[]>([]);
   const [publishModal, setPublishModal] = useState<any | null>(null);
+  const [rejectModal, setRejectModal] = useState<any | null>(null);
+  const [rejectReasonText, setRejectReasonText] = useState('');
+  const [isDraftingRejectionAdmin, setIsDraftingRejectionAdmin] = useState(false);
+  const [pendingShown, setPendingShown] = useState(20);
+  const [historyShown, setHistoryShown] = useState(10);
+  const [showHistory, setShowHistory] = useState(false);
   const [approvalSuccessModal, setApprovalSuccessModal] = useState<{ name: string; emailSent: boolean } | null>(null);
   const [publishForm, setPublishForm] = useState({ scoreAlgo: 750, scorePro: 750, growth: 0, rarity: 'Distinguished' });
   const [expandedVerifId, setExpandedVerifId] = useState<string | null>(null);
@@ -460,11 +467,44 @@ export const AdminView: React.FC<{
         rejectedAt: serverTimestamp(),
         rejectionReason: reason,
       });
+      // Envoi reel de l'email au createur - jusqu'ici, ce refus (declenche
+      // via une simple confirmation navigateur, sans motif reellement
+      // saisi) n'envoyait jamais rien au createur.
+      if (submission.creatorEmail) {
+        fetch('/api/email/project-rejected', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            to: submission.creatorEmail,
+            creatorName: submission.creatorName,
+            projectName: submission.name,
+            reason,
+            lang: language,
+          }),
+        }).catch(() => {});
+      }
       setPendingSubmissions(prev => prev.map(s => s.id === submission.id ? { ...s, status: 'REJECTED' } : s));
-      onNotify(t(`✦ ${submission.name} refusé`, `✦ ${submission.name} rejected`));
+      onNotify(submission.creatorEmail
+        ? t(`✦ ${submission.name} refusé — le créateur a été notifié par email.`, `✦ ${submission.name} rejected — the creator has been notified by email.`)
+        : t(`✦ ${submission.name} refusé — aucun email de contact trouvé.`, `✦ ${submission.name} rejected — no contact email found.`));
     } catch(e) {
       onNotify(t('Erreur', 'Error'));
     }
+  };
+
+  const handleDraftRejectionAdmin = async () => {
+    if (!rejectModal) return;
+    setIsDraftingRejectionAdmin(true);
+    try {
+      const res = await fetch('/api/gemini/analyze-asset', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'draft-rejection', projectName: rejectModal.name, category: rejectModal.category, keyPoints: rejectReasonText, language }),
+      });
+      const data = await res.json();
+      if (data.draft) setRejectReasonText(data.draft);
+    } catch { /* la zone de texte reste editable manuellement */ }
+    finally { setIsDraftingRejectionAdmin(false); }
   };
 
   const handleUpdateRole = async (uid: string, role: UserRole) => {
@@ -1609,50 +1649,133 @@ export const AdminView: React.FC<{
                     </div>
                   </div>
 
-                  {pendingSubmissions.length === 0 ? (
-                    <div className="bg-surface-low border border-white/8 rounded-lg p-12 text-center">
-                      <p className="text-on-surface-variant/40 text-sm">{t('No submissions yet', 'Aucune soumission pour le moment')}</p>
-                    </div>
-                  ) : (
-                    <div className="space-y-3">
-                      {pendingSubmissions.map((sub) => (
-                        <div key={sub.id} className={`bg-surface-low border rounded-lg p-5 transition-all ${sub.status === 'PUBLISHED' ? 'border-emerald-400/20' : sub.status === 'REJECTED' ? 'border-rose-400/20 opacity-60' : 'border-violet-500/25'}`}>
-                          <div className="flex items-start justify-between gap-4">
-                            <div className="flex-1 min-w-0 space-y-2">
-                              <div className="flex items-center gap-2 flex-wrap">
-                                <span className={`px-2 py-0.5 rounded text-[9px] font-black uppercase ${sub.status === 'PUBLISHED' ? 'bg-emerald-400/10 text-emerald-400 border border-emerald-400/20' : sub.status === 'REJECTED' ? 'bg-rose-400/10 text-rose-400 border border-rose-400/20' : 'bg-violet-500/10 text-violet-500 border border-violet-500/20'}`}>
-                                  {sub.status === 'PUBLISHED' ? '✓ ' + t('Published', 'Publié') : sub.status === 'REJECTED' ? '✗ ' + t('Rejected', 'Refusé') : '● ' + t('En attente', 'Pending')}
-                                </span>
-                                {sub.category && <span className="px-2 py-0.5 bg-white/5 border border-white/10 rounded text-[9px] font-black text-white/50">{sub.category}</span>}
-                                {sub.registryIndex && <span className="px-2 py-0.5 bg-primary-cyan/10 border border-primary-cyan/20 rounded text-[9px] font-black text-primary-cyan font-mono">{sub.registryIndex}</span>}
+                  {/* File d'attente reelle: seulement les projets encore en
+                      attente. Les projets traites (publies/refuses)
+                      disparaissent naturellement d'ici et rejoignent
+                      l'historique repliable plus bas - avant ce fix, tout
+                      restait mele dans une seule liste sans fin, avec les
+                      soumissions traitees jamais vraiment "retirees". */}
+                  {(() => {
+                    const pending = pendingSubmissions.filter(s => s.status === 'PENDING_VALIDATION');
+                    const processed = pendingSubmissions.filter(s => s.status !== 'PENDING_VALIDATION');
+                    return (
+                      <>
+                        {pending.length === 0 ? (
+                          <div className="bg-surface-low border border-white/8 rounded-lg p-12 text-center">
+                            <p className="text-on-surface-variant/40 text-sm">{t('No submissions pending', 'Aucune soumission en attente')}</p>
+                          </div>
+                        ) : (
+                          <div className="space-y-3">
+                            {pending.slice(0, pendingShown).map((sub) => (
+                              <div key={sub.id} className="bg-surface-low border border-violet-500/25 rounded-lg p-5 transition-all">
+                                <div className="flex items-start justify-between gap-4">
+                                  <div className="flex-1 min-w-0 space-y-2">
+                                    <div className="flex items-center gap-2 flex-wrap">
+                                      <span className="px-2 py-0.5 rounded text-[9px] font-black uppercase bg-violet-500/10 text-violet-500 border border-violet-500/20">
+                                        {'● ' + t('En attente', 'Pending')}
+                                      </span>
+                                      {sub.category && <span className="px-2 py-0.5 bg-white/5 border border-white/10 rounded text-[9px] font-black text-white/50">{sub.category}</span>}
+                                    </div>
+                                    <p className="text-sm font-black text-white">{sub.name || t('Projet sans titre', 'Untitled project')}</p>
+                                    <p className="text-xs text-on-surface-variant/50 line-clamp-2">{sub.description}</p>
+                                    <div className="flex items-center gap-3 text-[10px] text-on-surface-variant/40 font-black">
+                                      <span>👤 {sub.creatorName || sub.creatorEmail}</span>
+                                      {sub.createdAt?.toDate && <span>🕐 {sub.createdAt.toDate().toLocaleDateString()}</span>}
+                                    </div>
+                                  </div>
+                                  <div className="flex flex-col gap-2 shrink-0">
+                                    <button onClick={() => { setPublishModal(sub); setPublishForm({ scoreAlgo: 750, scorePro: 750, growth: 0, rarity: 'Distinguished' }); }}
+                                      className="px-4 py-2 bg-emerald-400/15 border border-emerald-400/25 text-emerald-400 text-[10px] font-black rounded-xl hover:bg-emerald-400/25 transition-all uppercase">
+                                      {t('Validate & Publish', 'Valider & Publier')}
+                                    </button>
+                                    <button onClick={() => { setRejectModal(sub); setRejectReasonText(''); }}
+                                      className="px-4 py-2 bg-rose-400/10 border border-rose-400/20 text-rose-400 text-[10px] font-black rounded-xl hover:bg-rose-400/20 transition-all uppercase">
+                                      {t('Reject', 'Refuser')}
+                                    </button>
+                                  </div>
+                                </div>
                               </div>
-                              <p className="text-sm font-black text-white">{sub.name || t('Projet sans titre', 'Untitled project')}</p>
-                              <p className="text-xs text-on-surface-variant/50 line-clamp-2">{sub.description}</p>
-                              <div className="flex items-center gap-3 text-[10px] text-on-surface-variant/40 font-black">
-                                <span>👤 {sub.creatorName || sub.creatorEmail}</span>
-                                {sub.lyaScore && <span>★ LYA Score: {sub.lyaScore}/1000</span>}
-                                {sub.createdAt?.toDate && <span>🕐 {sub.createdAt.toDate().toLocaleDateString()}</span>}
-                              </div>
-                            </div>
+                            ))}
+                            {pending.length > pendingShown && (
+                              <button onClick={() => setPendingShown(p => p + 20)} className="w-full py-3 bg-white/5 border border-white/10 text-on-surface-variant text-xs font-black uppercase tracking-widest rounded-xl hover:bg-white/10 transition-all">
+                                {t('See more', 'Voir plus')} ({pending.length - pendingShown} {t('remaining', 'restants')})
+                              </button>
+                            )}
+                          </div>
+                        )}
 
-                            {sub.status === 'PENDING_VALIDATION' && (
-                              <div className="flex flex-col gap-2 shrink-0">
-                                <button onClick={() => { setPublishModal(sub); setPublishForm({ scoreAlgo: 750, scorePro: 750, growth: 0, rarity: 'Distinguished' }); }}
-                                  className="px-4 py-2 bg-emerald-400/15 border border-emerald-400/25 text-emerald-400 text-[10px] font-black rounded-xl hover:bg-emerald-400/25 transition-all uppercase">
-                                  {t('Validate & Publish', 'Valider & Publier')}
-                                </button>
-                                <button onClick={() => { if(window.confirm(t('Refuser ce projet ?', 'Reject this project?'))) handleRejectSubmission(sub, 'Non conforme aux critères LYA'); }}
-                                  className="px-4 py-2 bg-rose-400/10 border border-rose-400/20 text-rose-400 text-[10px] font-black rounded-xl hover:bg-rose-400/20 transition-all uppercase">
-                                  {t('Reject', 'Refuser')}
-                                </button>
+                        {processed.length > 0 && (
+                          <div className="pt-2">
+                            <button onClick={() => setShowHistory(v => !v)} className="w-full flex items-center justify-between px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-xs font-black text-on-surface-variant uppercase tracking-widest hover:bg-white/10 transition-all">
+                              <span>{t('History', 'Historique')} ({processed.length})</span>
+                              <span>{showHistory ? '▲' : '▼'}</span>
+                            </button>
+                            {showHistory && (
+                              <div className="space-y-2 mt-3">
+                                {processed.slice(0, historyShown).map((sub) => (
+                                  <div key={sub.id} className={`bg-surface-low/60 border rounded-lg p-4 opacity-70 ${sub.status === 'PUBLISHED' ? 'border-emerald-400/20' : 'border-rose-400/20'}`}>
+                                    <div className="flex items-center gap-2 flex-wrap mb-1">
+                                      <span className={`px-2 py-0.5 rounded text-[9px] font-black uppercase ${sub.status === 'PUBLISHED' ? 'bg-emerald-400/10 text-emerald-400 border border-emerald-400/20' : 'bg-rose-400/10 text-rose-400 border border-rose-400/20'}`}>
+                                        {sub.status === 'PUBLISHED' ? '✓ ' + t('Published', 'Publié') : '✗ ' + t('Rejected', 'Refusé')}
+                                      </span>
+                                      {sub.registryIndex && <span className="px-2 py-0.5 bg-primary-cyan/10 border border-primary-cyan/20 rounded text-[9px] font-black text-primary-cyan font-mono">{sub.registryIndex}</span>}
+                                    </div>
+                                    <p className="text-sm font-black text-white">{sub.name}</p>
+                                  </div>
+                                ))}
+                                {processed.length > historyShown && (
+                                  <button onClick={() => setHistoryShown(h => h + 10)} className="w-full py-2 bg-white/5 border border-white/10 text-on-surface-variant text-xs font-black uppercase tracking-widest rounded-xl hover:bg-white/10 transition-all">
+                                    {t('See more', 'Voir plus')}
+                                  </button>
+                                )}
                               </div>
                             )}
                           </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
+                        )}
+                      </>
+                    );
+                  })()}
                 </div>
+
+                {/* Fenetre de refus avec motif, brouillon IA et envoi
+                    d'email reel - avant ce fix, seule une confirmation
+                    navigateur basique existait ici, sans motif reellement
+                    saisi ni email envoye. */}
+                {rejectModal && (
+                  <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-xl">
+                    <div className="bg-surface-low border border-rose-500/30 rounded-2xl p-6 max-w-md w-full space-y-4">
+                      <h3 className="text-base font-black text-on-surface uppercase tracking-wider">{t('Rejection reason', 'Motif du rejet')}</h3>
+                      <p className="text-sm text-on-surface-variant/60">{t('The creator will receive this message by email.', 'Le créateur recevra ce message par email.')}</p>
+                      <textarea
+                        value={rejectReasonText} onChange={e => setRejectReasonText(e.target.value)}
+                        placeholder={t('Describe why this project cannot be indexed... (or generate a draft with AI below)', 'Décrivez pourquoi ce projet ne peut pas être indexé... (ou générez un brouillon avec l\'IA ci-dessous)')}
+                        rows={4}
+                        className="w-full bg-surface-dim border border-white/10 text-sm p-4 rounded-xl focus:outline-none focus:border-primary-cyan resize-none transition-colors"
+                      />
+                      <button
+                        type="button"
+                        onClick={handleDraftRejectionAdmin}
+                        disabled={isDraftingRejectionAdmin}
+                        className="w-full flex items-center justify-center gap-2 py-2.5 bg-primary-cyan/10 border border-primary-cyan/25 text-primary-cyan text-xs font-black uppercase tracking-widest rounded-xl hover:bg-primary-cyan/20 transition-all disabled:opacity-50"
+                      >
+                        <Sparkles size={14} className={isDraftingRejectionAdmin ? 'animate-pulse' : ''} />
+                        {isDraftingRejectionAdmin ? t('Generating…', 'Génération…') : (rejectReasonText.trim() ? t('Rephrase with AI', 'Reformuler avec l\'IA') : t('Generate a draft with AI', 'Générer un brouillon avec l\'IA'))}
+                      </button>
+                      {!rejectReasonText.trim() && (
+                        <p className="text-[11px] text-accent-gold/80">{t('Enter or generate a reason to enable the button below.', 'Saisissez ou générez un motif pour activer le bouton ci-dessous.')}</p>
+                      )}
+                      <div className="flex gap-3">
+                        <button onClick={() => setRejectModal(null)} className="flex-1 py-3 bg-white/5 border border-white/10 text-sm font-black rounded-xl hover:bg-white/10 transition-all">{t('Cancel', 'Annuler')}</button>
+                        <button
+                          onClick={async () => { await handleRejectSubmission(rejectModal, rejectReasonText); setRejectModal(null); }}
+                          disabled={!rejectReasonText.trim()}
+                          className="flex-1 py-3 bg-rose-500 text-white text-sm font-black rounded-xl hover:bg-rose-400 transition-all disabled:opacity-40">
+                          {t('Confirm rejection', 'Confirmer le rejet')}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
 
                 {/* Modal de publication */}
                 {publishModal && (
