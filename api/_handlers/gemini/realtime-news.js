@@ -108,19 +108,13 @@ Do NOT produce any estimated field, score, or trend — facts verifiable via sea
     });
 
     const textBlocks = response.text || '';
-    // Diagnostic temporaire (retire la cle diagnostic pour desactiver):
-    // permet de voir precisement ce que Gemini renvoie reellement quand
-    // la recherche en direct echoue, au lieu de deviner a l'aveugle.
-    const debugMode = req.query.debug === '1';
     if (!textBlocks) {
-      if (debugMode) return res.status(200).json({ news: [], debug: { reason: 'empty_text', finishReason: response.candidates?.[0]?.finishReason, hasGroundingMetadata: !!response.candidates?.[0]?.groundingMetadata } });
       return res.status(200).json({ news: [] });
     }
 
     const jsonMatch = textBlocks.match(/\[[\s\S]*\]/);
     if (!jsonMatch) {
       console.log('[NEWS] No JSON array found in:', textBlocks.slice(0, 200));
-      if (debugMode) return res.status(200).json({ news: [], debug: { reason: 'no_json_match', rawText: textBlocks.slice(0, 500) } });
       return res.status(200).json({ news: [] });
     }
 
@@ -216,8 +210,10 @@ Do NOT produce any estimated field, score, or trend — facts verifiable via sea
     return res.status(200).json({ news: enriched });
 
   } catch (err) {
+    // 24/09: diagnostic confirme que ces echecs viennent d'un depassement
+    // de quota Gemini (429 RESOURCE_EXHAUSTED) sur la recherche Google
+    // grounded specifiquement, pas d'un bug de code ni d'une cle absente.
     console.error('[NEWS] Error:', err.message);
-    if (req.query.debug === '1') return res.status(200).json({ news: [], debug: { reason: 'exception', message: err.message, stack: (err.stack || '').slice(0, 800) } });
     return res.status(200).json({ news: [] });
   }
 };
