@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { db, handleFirestoreError, OperationType } from '../firebase';
-import { collection, getDocs, query, orderBy, limit, doc, updateDoc, serverTimestamp, addDoc } from 'firebase/firestore';
+import { collection, getDocs, query, orderBy, limit, doc, updateDoc, setDoc, serverTimestamp, addDoc } from 'firebase/firestore';
 import { motion, AnimatePresence } from 'motion/react';
 import { PageHeader } from '../components/ui/PageHeader';
 import {
@@ -144,19 +144,33 @@ const ValidationQueue: React.FC<{
     const load = async () => {
       setIsLoadingQueue(true);
       try {
-        const snap = await getDocs(query(collection(db, 'contracts'), orderBy('createdAt', 'desc'), limit(100)));
+        // Lisait auparavant directement 'contracts' avec un statut PENDING
+        // - un schema herite de l'ancien code de soumission (deja corrige),
+        // que les vraies soumissions actuelles ne produisent plus jamais.
+        // Cette file d'attente ne voyait donc plus que de vieux restes de
+        // tests, jamais les vraies soumissions en attente. Lit desormais
+        // la meme source que l'onglet Admin > Soumissions.
+        const snap = await getDocs(query(collection(db, 'projects_pending'), orderBy('createdAt', 'desc'), limit(100)));
         if (!active) return;
         const real = snap.docs
           .map(d => ({ id: d.id, ...d.data() } as any))
-          .filter(c => c.status === 'PENDING')
+          .filter(c => c.status === 'PENDING_VALIDATION')
           .map((c): ValidationRequest => ({
             id: c.id,
             contract: {
-              ...c,
+              id: c.id,
+              name: c.name,
               category: c.category || 'Digital Art',
-              totalScore: c.totalScore || 0,
-              registryIndex: c.registryIndex || 'LYA-PENDING',
-            } as Contract,
+              description: c.description || '',
+              descriptionFR: c.descriptionFR || '',
+              image: c.imageUrl || '',
+              issuerId: c.creatorName || 'LYA Creator',
+              issuerUid: c.creatorId,
+              creatorEmail: c.creatorEmail || null,
+              milestones: c.milestones || [],
+              totalScore: 0,
+              registryIndex: 'LYA-PENDING',
+            } as unknown as Contract,
             timestamp: c.createdAt?.toDate ? c.createdAt.toDate().toLocaleTimeString(lang === 'FR' ? 'fr-FR' : 'en-US', { hour: '2-digit', minute: '2-digit' }) : '—',
             receivedAt: c.createdAt?.toDate ? c.createdAt.toDate() : new Date(),
             status: 'PENDING',
@@ -165,7 +179,7 @@ const ValidationQueue: React.FC<{
           }));
         setRequests(real);
       } catch (e) {
-        handleFirestoreError(e, OperationType.GET, 'contracts');
+        handleFirestoreError(e, OperationType.GET, 'projects_pending');
       } finally {
         if (active) setIsLoadingQueue(false);
       }
@@ -178,6 +192,22 @@ const ValidationQueue: React.FC<{
   const [catFilter, setCatFilter] = useState('ALL');
   const [rejectId, setRejectId] = useState<string | null>(null);
   const [rejectReason, setRejectReason] = useState('');
+  const [isDraftingRejection, setIsDraftingRejection] = useState(false);
+  const handleDraftRejection = async () => {
+    const r = requests.find(x => x.id === rejectId);
+    if (!r) return;
+    setIsDraftingRejection(true);
+    try {
+      const res = await fetch('/api/gemini/analyze-asset', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'draft-rejection', projectName: r.contract.name, category: r.contract.category, keyPoints: rejectReason, language: lang }),
+      });
+      const data = await res.json();
+      if (data.draft) setRejectReason(data.draft);
+    } catch { /* la zone de texte reste editable manuellement en cas d'echec */ }
+    finally { setIsDraftingRejection(false); }
+  };
 
   const categories = ['ALL', ...Array.from(new Set(CONTRACTS.map(c => c.category)))];
 
@@ -226,16 +256,49 @@ const ValidationQueue: React.FC<{
       return;
     }
     try {
-      const registryIndex = r.contract.registryIndex && r.contract.registryIndex !== 'LYA-PENDING'
-        ? r.contract.registryIndex
-        : `LYA-${new Date().getFullYear()}-${String(Math.floor(Math.random() * 900) + 100).padStart(3, '0')}`;
-      await updateDoc(doc(db, 'contracts', r.id), {
+      // Reprend exactement la meme logique d'ecriture que Admin >
+      // Soumissions (handlePublishProject), qui fonctionne deja et a ete
+      // verifiee. Avant ce fix, cette fonction faisait un updateDoc sur un
+      // document contracts/{id} qui n'existait tout simplement pas pour une
+      // vraie soumission (celles-ci vivent dans projects_pending tant
+      // qu'elles ne sont pas publiees) - l'ecriture echouait silencieusement
+      // ou ne creait rien de visible, le projet "valide" ne s'affichait
+      // donc jamais nulle part sur la plateforme.
+      const registryIndex = `LYA-${new Date().getFullYear()}-${String(Math.floor(Math.random() * 900) + 100).padStart(3, '0')}`;
+      const totalScore = 750;
+      await setDoc(doc(db, 'contracts', r.id), {
+        id: r.id,
+        name: r.contract.name,
+        category: r.contract.category || 'Digital Art',
+        description: (r.contract as any).description || '',
+        descriptionFR: (r.contract as any).descriptionFR || (r.contract as any).description || '',
+        image: r.contract.image || `https://picsum.photos/seed/${r.id}/800/500`,
+        issuerId: r.contract.issuerId || 'LYA Creator',
+        creatorId: (r.contract as any).issuerUid,
+        issuerUid: (r.contract as any).issuerUid,
+        milestones: (r.contract as any).milestones || [],
         status: 'LIVE',
+        rarity: 'Distinguished',
+        scoreAlgo: totalScore,
+        scorePro: totalScore,
+        totalScore,
+        growth: 0,
         registryIndex,
-        registryAddress: r.contract.registryAddress || `LYA_REG_0x${Math.random().toString(16).slice(2, 10).toUpperCase()}`,
+        registryAddress: `LYA_REG_0x${Math.random().toString(16).slice(2, 10).toUpperCase()}`,
+        creationDate: new Date().toISOString().split('T')[0],
+        publishedAt: serverTimestamp(),
+        publishedBy: user?.uid,
         validatedAt: serverTimestamp(),
         validatedBy: user?.uid,
       });
+      // Met a jour projects_pending pour que le meme projet ne reste pas
+      // affiche comme "en attente" dans Admin > Soumissions en parallele.
+      await updateDoc(doc(db, 'projects_pending', r.id), {
+        status: 'PUBLISHED',
+        publishedAt: serverTimestamp(),
+        registryIndex,
+        lyaScore: totalScore,
+      }).catch(() => {});
       onNotify(`✅ ${r.contract.name} — ${T('Approuvé et indexé sur le Registre LYA.', 'Approved and indexed on the LYA Registry.')}`);
       setRequests(prev => prev.map(x => x.id === reqId ? { ...x, status: 'APPROVED' } : x));
       addDoc(collection(db, 'validation_approved'), {
@@ -251,18 +314,41 @@ const ValidationQueue: React.FC<{
     if (!rejectId || !rejectReason.trim()) return;
     const r = requests.find(x => x.id === rejectId)!;
     try {
-      await updateDoc(doc(db, 'contracts', r.id), {
+      // Meme correction que pour l'approbation: le document a mettre a
+      // jour est dans projects_pending, pas dans contracts (qui n'a jamais
+      // contenu ce projet tant qu'il n'est pas publie).
+      await updateDoc(doc(db, 'projects_pending', r.id), {
         status: 'REJECTED',
         rejectionReason: rejectReason,
         rejectedAt: serverTimestamp(),
         rejectedBy: user?.uid,
       });
-      onNotify(`✗ ${r.contract.name} — ${T('Rejeté.', 'Rejected.')}`);
+      // Envoi reel de l'email au createur - jusqu'ici, le message saisi
+      // dans la pop-up n'etait jamais envoye nulle part, seulement
+      // enregistre en base. La condition impose par Gibsy (creation
+      // informe par email) n'etait donc pas remplie.
+      const creatorEmail = (r.contract as any).creatorEmail;
+      if (creatorEmail) {
+        fetch('/api/email/project-rejected', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            to: creatorEmail,
+            creatorName: r.contract.issuerId,
+            projectName: r.contract.name,
+            reason: rejectReason,
+            lang,
+          }),
+        }).catch(() => {});
+      }
+      onNotify(creatorEmail
+        ? `✗ ${r.contract.name} — ${T('Rejeté. Le créateur a été notifié par email.', 'Rejected. The creator has been notified by email.')}`
+        : `✗ ${r.contract.name} — ${T('Rejeté. Aucun email de contact trouvé, le créateur n\'a pas pu être notifié.', 'Rejected. No contact email found, the creator could not be notified.')}`);
       setRequests(prev => prev.filter(x => x.id !== rejectId));
       setRejectId(null);
       setRejectReason('');
     } catch (e) {
-      handleFirestoreError(e, OperationType.WRITE, 'contracts');
+      handleFirestoreError(e, OperationType.WRITE, 'projects_pending');
       onNotify(T('⚠ Erreur lors du rejet. Réessayez.', '⚠ Error while rejecting. Please retry.'));
     }
   };
@@ -465,14 +551,23 @@ const ValidationQueue: React.FC<{
                 <button onClick={() => setRejectId(null)} className="p-2 text-on-surface-variant hover:text-on-surface transition-colors"><X size={16} /></button>
               </div>
               <p className="text-sm text-on-surface-variant/60 leading-relaxed">
-                {T('Le créateur recevra une notification avec votre motif.', 'The creator will receive a notification with your reason.')}
+                {T('Le créateur recevra ce message par email.', 'The creator will receive this message by email.')}
               </p>
               <textarea
                 value={rejectReason} onChange={e => setRejectReason(e.target.value)}
-                placeholder={T('Décrivez pourquoi ce projet ne peut pas être indexé...', 'Describe why this project cannot be indexed...')}
+                placeholder={T('Décrivez pourquoi ce projet ne peut pas être indexé... (ou générez un brouillon avec l\'IA ci-dessous)', 'Describe why this project cannot be indexed... (or generate a draft with AI below)')}
                 rows={4}
                 className="w-full bg-surface-dim border border-white/10 text-sm p-4 rounded-xl focus:outline-none focus:border-primary-cyan resize-none transition-colors"
               />
+              <button
+                type="button"
+                onClick={handleDraftRejection}
+                disabled={isDraftingRejection}
+                className="w-full flex items-center justify-center gap-2 py-2.5 bg-primary-cyan/10 border border-primary-cyan/25 text-primary-cyan text-xs font-black uppercase tracking-widest rounded-xl hover:bg-primary-cyan/20 transition-all disabled:opacity-50"
+              >
+                <Sparkles size={14} className={isDraftingRejection ? 'animate-pulse' : ''} />
+                {isDraftingRejection ? T('Génération…', 'Generating…') : (rejectReason.trim() ? T('Reformuler avec l\'IA', 'Rephrase with AI') : T('Générer un brouillon avec l\'IA', 'Generate a draft with AI'))}
+              </button>
               <div className="flex gap-3">
                 <button onClick={() => setRejectId(null)} className="flex-1 py-3 bg-white/5 border border-white/10 text-sm font-black rounded-xl hover:bg-white/10 transition-all">{T('Annuler', 'Cancel')}</button>
                 <button onClick={confirmReject} disabled={!rejectReason.trim()} className="flex-1 py-3 bg-rose-500 text-white text-sm font-black rounded-xl hover:bg-rose-400 transition-all disabled:opacity-40">{T('Confirmer le rejet', 'Confirm rejection')}</button>

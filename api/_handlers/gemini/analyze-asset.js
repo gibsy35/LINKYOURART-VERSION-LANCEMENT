@@ -27,6 +27,31 @@ module.exports = async (req, res) => {
     }
   }
 
+  // ── Rejection message drafting mode (Validation queue "Generate with AI"
+  // helper, requested by Gibsy to save time replying to creators) ───────────
+  if (req.body?.action === 'draft-rejection') {
+    const { projectName, category, keyPoints, language: rejLang } = req.body || {};
+    if (!projectName) return res.status(400).json({ error: 'Missing project name' });
+    const isFRrej = rejLang === 'FR';
+    const fallback = isFRrej
+      ? `Après examen, votre projet "${projectName}" ne remplit pas encore l'ensemble des critères de certification LYA. Nous vous invitons à revoir votre soumission et à la soumettre à nouveau.`
+      : `After review, your project "${projectName}" does not yet meet all LYA certification criteria. We invite you to review your submission and resubmit it.`;
+    if (!apiKey) return res.status(200).json({ draft: fallback, source: 'passthrough' });
+
+    const prompt = isFRrej
+      ? `Rédige un message de refus court (4 à 6 phrases), professionnel, constructif et bienveillant, pour informer un créateur que son projet créatif "${projectName}" (catégorie: ${category || 'Créatif'}) n'a pas été certifié sur LYA.${keyPoints ? ` Points a mentionner: ${keyPoints}.` : ''} Le ton doit rester encourageant, sans jargon financier, et inviter le créateur a soumettre une version amelioree. Reponds uniquement avec le texte du message, sans préambule ni signature.`
+      : `Write a short (4-6 sentence), professional, constructive and kind rejection message informing a creator that their creative project "${projectName}" (category: ${category || 'Creative'}) was not certified on LYA.${keyPoints ? ` Points to mention: ${keyPoints}.` : ''} Keep the tone encouraging, no financial jargon, and invite the creator to submit an improved version. Respond only with the message text, no preamble or signature.`;
+
+    try {
+      const response = await ai.models.generateContent({ model: 'gemini-3.6-flash', contents: prompt, config: { thinkingConfig: { thinkingLevel: 'low' } } });
+      const draft = (response.text || '').trim();
+      return res.status(200).json({ draft: draft || fallback, source: 'gemini' });
+    } catch (e) {
+      console.error('[ANALYZE-ASSET][draft-rejection] Error:', e.message);
+      return res.status(200).json({ draft: fallback, source: 'passthrough' });
+    }
+  }
+
   // ── Synopsis generation mode (used by the project quick-create form) ──────
   if (req.body?.action === 'synopsis') {
     const { name, category, assetType, language: synLang } = req.body || {};

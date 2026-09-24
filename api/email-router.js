@@ -29,6 +29,7 @@ const handlers = {
   'invitation': require('./_handlers/email/invitation'),
   'lounge-contact': require('./_handlers/email/lounge-contact'),
   'password-reset': require('./_handlers/email/password-reset'),
+  'project-rejected': require('./_handlers/email/project-rejected'),
 };
 
 module.exports = async (req, res) => {
