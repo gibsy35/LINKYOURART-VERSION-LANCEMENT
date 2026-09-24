@@ -2,9 +2,9 @@ import { Contract } from '../types';
 
 // Génère un document HTML premium LYA et l'ouvre dans une nouvelle fenêtre pour impression
 const LYA_COLORS = {
-  cyan: '#00d4ff',
-  violet: '#a78bfa',
-  gold: '#f5c842',
+  cyan: '#7E1CF1',
+  violet: '#C81C82',
+  gold: '#92720A',
   dark: '#0d1117',
   navy: '#0a0e1a',
 };
@@ -119,7 +119,7 @@ const BASE_STYLES = `
   }
   .header-line {
     height: 2px;
-    background: linear-gradient(90deg, #0d1117 0%, #00d4ff 50%, #a78bfa 100%);
+    background: linear-gradient(90deg, #0d1117 0%, #7E1CF1 50%, #C81C82 100%);
     border-radius: 1px;
   }
 
@@ -169,9 +169,9 @@ const BASE_STYLES = `
     letter-spacing: 0.1em;
     border: 1px solid;
   }
-  .badge-cyan { color: #00d4ff; border-color: rgba(0,212,255,0.4); background: rgba(0,212,255,0.1); }
-  .badge-violet { color: #a78bfa; border-color: rgba(167,139,250,0.4); background: rgba(167,139,250,0.1); }
-  .badge-gold { color: #f5c842; border-color: rgba(245,200,66,0.4); background: rgba(245,200,66,0.1); }
+  .badge-cyan { color: #7E1CF1; border-color: rgba(126,28,241,0.4); background: rgba(126,28,241,0.1); }
+  .badge-violet { color: #C81C82; border-color: rgba(200,28,130,0.4); background: rgba(200,28,130,0.1); }
+  .badge-gold { color: #92720A; border-color: rgba(146,114,10,0.4); background: rgba(146,114,10,0.1); }
   .badge-green { color: #10b981; border-color: rgba(16,185,129,0.4); background: rgba(16,185,129,0.1); }
 
   .hero-kpis {
@@ -184,9 +184,9 @@ const BASE_STYLES = `
   .kpi-item { text-align: right; }
   .kpi-label { font-size: 6px; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 0.1em; }
   .kpi-value { font-size: 13px; font-weight: 900; }
-  .kpi-gold { color: #f5c842; }
-  .kpi-cyan { color: #00d4ff; }
-  .kpi-violet { color: #a78bfa; }
+  .kpi-gold { color: #92720A; }
+  .kpi-cyan { color: #7E1CF1; }
+  .kpi-violet { color: #C81C82; }
 
   /* SECTIONS */
   .section { margin-bottom: 5mm; }
@@ -232,9 +232,9 @@ const BASE_STYLES = `
   .data-label { font-size: 6.5px; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1mm; }
   .data-value { font-size: 12px; font-weight: 900; color: #0d1117; }
   .data-value-white { font-size: 12px; font-weight: 900; color: white; }
-  .data-value-cyan { font-size: 12px; font-weight: 900; color: #00d4ff; }
-  .data-value-gold { font-size: 12px; font-weight: 900; color: #f5c842; }
-  .data-value-violet { font-size: 12px; font-weight: 900; color: #a78bfa; }
+  .data-value-cyan { font-size: 12px; font-weight: 900; color: #7E1CF1; }
+  .data-value-gold { font-size: 12px; font-weight: 900; color: #92720A; }
+  .data-value-violet { font-size: 12px; font-weight: 900; color: #C81C82; }
   .data-value-green { font-size: 12px; font-weight: 900; color: #10b981; }
   .data-sub { font-size: 7px; color: #9ca3af; margin-top: 0.5mm; }
 
@@ -248,7 +248,7 @@ const BASE_STYLES = `
   /* LYA SCORE BAR */
   .score-bar-wrap { margin: 2mm 0; }
   .score-bar-track { height: 3mm; background: #e5e7eb; border-radius: 2px; overflow: hidden; }
-  .score-bar-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg, #a78bfa, #00d4ff); }
+  .score-bar-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg, #C81C82, #7E1CF1); }
 
   /* SIGNATURE BLOCK */
   .sig-block {
@@ -316,7 +316,7 @@ const BASE_STYLES = `
 
   /* HIGHLIGHT BOX */
   .highlight-box {
-    border-left: 3px solid #00d4ff;
+    border-left: 3px solid #7E1CF1;
     padding: 3mm 4mm;
     background: #f0f9ff;
     border-radius: 0 3px 3px 0;
@@ -398,7 +398,7 @@ export function generateCertificate(contract: Contract, lang: string) {
       <div class="hero-kpis">
         <div class="kpi-item">
           <div class="kpi-label">LYA Score</div>
-          <div class="kpi-value kpi-violet">${contract.totalScore}<span style="font-size:8px;color:rgba(167,139,250,0.4)">/1000</span></div>
+          <div class="kpi-value kpi-violet">${contract.totalScore}<span style="font-size:8px;color:rgba(200,28,130,0.4)">/1000</span></div>
         </div>
         <div class="kpi-item">
           <div class="kpi-label">${isFR ? 'Statut' : 'Status'}</div>
@@ -490,7 +490,7 @@ export function generateCertificate(contract: Contract, lang: string) {
         </div>
         <div class="data-card">
           <div class="data-label">Rarity</div>
-          <div class="data-value" style="font-size:10px;color:#a78bfa">${contract.rarity}</div>
+          <div class="data-value" style="font-size:10px;color:#C81C82">${contract.rarity}</div>
         </div>
       </div>
     </div>
@@ -666,7 +666,7 @@ export function generatePermissions(contract: Contract, lang: string) {
     <div class="grid-3" style="margin-top:4mm">
       <div class="data-card" style="text-align:center">
         <div class="data-label">${isFR ? 'LYA Score' : 'LYA Score'}</div>
-        <div class="data-value" style="color:#a78bfa">${contract.totalScore}/1000</div>
+        <div class="data-value" style="color:#C81C82">${contract.totalScore}/1000</div>
       </div>
       <div class="data-card" style="text-align:center">
         <div class="data-label">${isFR ? 'Type de Mécénat' : 'Patronage Type'}</div>
@@ -674,7 +674,7 @@ export function generatePermissions(contract: Contract, lang: string) {
       </div>
       <div class="data-card" style="text-align:center">
         <div class="data-label">${isFR ? 'Score LYA' : 'LYA Score'}</div>
-        <div class="data-value" style="color:#f5c842">${contract.totalScore}/1000</div>
+        <div class="data-value" style="color:#92720A">${contract.totalScore}/1000</div>
       </div>
     </div>
 
