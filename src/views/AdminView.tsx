@@ -423,6 +423,7 @@ export const AdminView: React.FC<{
         image: submission.imageUrl || `https://picsum.photos/seed/${submission.id}/800/500`,
         ...(submission.images ? { images: submission.images } : {}),
         ...(submission.videoUrl ? { videoUrl: submission.videoUrl } : {}),
+        ...(submission.documents ? { documents: submission.documents } : {}),
         ...(submission.audioUrl ? { audioUrl: submission.audioUrl } : {}),
         issuerId: submission.creatorName || 'LYA Creator',
         creatorId: submission.creatorId,

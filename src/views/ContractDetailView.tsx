@@ -30,7 +30,7 @@ import {
   Layers,
   Scale
 } from 'lucide-react';
-import {Contract, PillarScore, getContractDescription} from '../types';
+import {Contract, PillarScore, getContractDescription, UserProfile, UserRole} from '../types';
 import { translatePillarLabel } from '../utils/pillars';
 import { useTranslation } from '../context/LanguageContext';
 import { simulatePDFDownload } from '../utils/download';
@@ -68,6 +68,7 @@ interface ContractDetailViewProps {
   onNotify: (msg: string) => void;
   isWatchlisted?: boolean;
   onToggleWatchlist?: (e: React.MouseEvent, id: string) => void;
+  user?: UserProfile | null;
 }
 
 export const ContractDetailView: React.FC<ContractDetailViewProps> = ({ 
@@ -75,8 +76,17 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
   onBack, 
   onNotify,
   isWatchlisted = false,
-  onToggleWatchlist
+  onToggleWatchlist,
+  user
 }) => {
+  // Documents du projet filtres selon qui regarde - decide avec Gibsy: un
+  // business plan n'interesse (et n'est comprehensible) generalement que
+  // pour un professionnel evaluant la qualite d'un projet, pas pour un
+  // mecene grand public. Les Professionnels et Admins voient tout, les
+  // autres (mecenes, visiteurs) ne voient que les documents marques
+  // publics.
+  const canSeeProDocs = user?.role === UserRole.PROFESSIONAL || user?.role === UserRole.ADMIN;
+  const visibleDocuments = ((contract as any).documents || []).filter((d: any) => canSeeProDocs || d.visibility === 'public');
   const { t, language, setLanguage } = useTranslation();
   const [activeTab, setActiveTab] = useState<'overview' | 'certification' | 'ai-simulator' | 'legal' | 'milestones' | 'messaging'>('overview');
   const [attachments, setAttachments] = useState<{id:string,name:string,url:string,size:number,type:string,uploadedAt:string,storagePath:string}[]>([]);
@@ -569,21 +579,33 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                           <p className="text-[10px] font-black text-white/30 uppercase tracking-widest">{t('Max 500 Mo par fichier', 'Max 500 MB per file')}</p>
                        </div>
 
-                       {/* Document joint a la soumission (ex: business plan, dossier
-                           de presentation) - etait enregistre en base mais n'etait
-                           affiche NULLE PART, invisible pour tout mecene consultant
-                           la fiche. Affiche desormais en premier, clairement identifie. */}
-                       {(contract as any).masterFile && (
-                         <div className="w-full text-left mb-2">
-                           <a href={(contract as any).masterFile.url} target="_blank" rel="noopener noreferrer"
-                             className="flex items-center gap-3 p-3 bg-accent-gold/5 border border-accent-gold/20 rounded-xl hover:border-accent-gold/40 transition-all group">
-                             <FileText size={14} className="text-accent-gold shrink-0"/>
-                             <div className="flex-1 min-w-0">
-                               <p className="text-xs font-black text-white truncate">{(contract as any).masterFile.name}</p>
-                               <p className="text-[9px] text-white/30 uppercase tracking-widest">{t('Project document (business plan, dossier...)', 'Document du projet (business plan, dossier...)')} — {((contract as any).masterFile.size / 1024 / 1024).toFixed(1)} Mo</p>
-                             </div>
-                             <Download size={14} className="text-white/40 group-hover:text-accent-gold transition-colors shrink-0"/>
-                           </a>
+                       {/* Documents multiples du projet (moodboard, synopsis, dossier
+                           de presentation, business plan...), filtres selon le public:
+                           un mecene grand public ne voit que les documents marques
+                           publics, un professionnel/admin voit tout - decide avec
+                           Gibsy suite au constat qu'un business plan n'interesse
+                           generalement pas un mecene grand public mais est utile a
+                           un professionnel evaluant la qualite d'un projet. */}
+                       {visibleDocuments.length > 0 && (
+                         <div className="w-full text-left mb-2 space-y-2">
+                           {visibleDocuments.map((doc: any, i: number) => (
+                             <a key={i} href={doc.url} target="_blank" rel="noopener noreferrer"
+                               className="flex items-center gap-3 p-3 bg-accent-gold/5 border border-accent-gold/20 rounded-xl hover:border-accent-gold/40 transition-all group">
+                               <FileText size={14} className="text-accent-gold shrink-0"/>
+                               <div className="flex-1 min-w-0">
+                                 <p className="text-xs font-black text-white truncate">{doc.name}</p>
+                                 <p className="text-[9px] text-white/30 uppercase tracking-widest">
+                                   {{ moodboard: t('Moodboard', 'Moodboard'), synopsis: t('Synopsis', 'Synopsis'), presentation: t('Presentation Deck', 'Dossier de Présentation'), business_plan: t('Business Plan', 'Business Plan'), other: t('Document', 'Document') }[doc.category as string] || t('Document', 'Document')}
+                                   {' — '}{(doc.size / 1024 / 1024).toFixed(1)} Mo
+                                   {doc.visibility === 'professional' && <span className="text-accent-gold ml-1">· {t('Professionals only', 'Pro uniquement')}</span>}
+                                 </p>
+                               </div>
+                               <Download size={14} className="text-white/40 group-hover:text-accent-gold transition-colors shrink-0"/>
+                             </a>
+                           ))}
+                           {!canSeeProDocs && ((contract as any).documents || []).some((d: any) => d.visibility === 'professional') && (
+                             <p className="text-[9px] text-white/25 italic px-1">{t('One or more documents on this project are reserved for verified professionals.', 'Un ou plusieurs documents de ce projet sont réservés aux professionnels vérifiés.')}</p>
+                           )}
                          </div>
                        )}
 

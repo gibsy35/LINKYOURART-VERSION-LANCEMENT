@@ -250,7 +250,21 @@ export const LinkArtView: React.FC<{
   const [milestones, setMilestones] = useState<Milestone[]>([]);
   // Piece jointe (fichier maitre du contrat) - le bloc etait purement
   // decoratif jusqu'ici, sans aucun input file ni upload reel.
-  const [masterFile, setMasterFile] = useState<File | null>(null);
+  // Documents multiples, categorises et a visibilite controlee, en
+  // remplacement de l'unique "fichier maitre" - un film peut avoir un
+  // moodboard, un synopsis, un dossier de presentation ET un business
+  // plan, chacun visible ou non selon le public (mecene grand public vs
+  // professionnel), comme discute avec Gibsy.
+  type DocCategory = 'moodboard' | 'synopsis' | 'presentation' | 'business_plan' | 'other';
+  type DocVisibility = 'public' | 'professional';
+  const DOC_CATEGORIES: { id: DocCategory; fr: string; en: string }[] = [
+    { id: 'moodboard', fr: 'Moodboard', en: 'Moodboard' },
+    { id: 'synopsis', fr: 'Synopsis', en: 'Synopsis' },
+    { id: 'presentation', fr: 'Dossier de Présentation', en: 'Presentation Deck' },
+    { id: 'business_plan', fr: 'Business Plan', en: 'Business Plan' },
+    { id: 'other', fr: 'Autre Document', en: 'Other Document' },
+  ];
+  const [projectDocs, setProjectDocs] = useState<{ file: File; category: DocCategory; visibility: DocVisibility }[]>([]);
   const [isUploadingFile, setIsUploadingFile] = useState(false);
   const masterFileInputRef = React.useRef<HTMLInputElement>(null);
   const handleMasterFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -260,17 +274,33 @@ export const LinkArtView: React.FC<{
       onNotify(t('File exceeds the 100MB limit.', 'Le fichier dépasse la limite de 100 Mo.'));
       return;
     }
-    setMasterFile(file);
+    // Categorie devinee a partir du nom de fichier a titre de point de
+    // depart pratique, l'utilisateur peut la changer avant l'envoi.
+    const guess: DocCategory = /business|invest/i.test(file.name) ? 'business_plan'
+      : /moodboard|mood/i.test(file.name) ? 'moodboard'
+      : /synop/i.test(file.name) ? 'synopsis'
+      : /present|deck|dossier/i.test(file.name) ? 'presentation'
+      : 'other';
+    const guessVisibility: DocVisibility = guess === 'business_plan' ? 'professional' : 'public';
+    setProjectDocs(prev => [...prev, { file, category: guess, visibility: guessVisibility }]);
+    e.target.value = '';
   };
-  const uploadMasterFile = async (): Promise<{ name: string; url: string; size: number } | null> => {
-    if (!masterFile) return null;
+  const removeProjectDoc = (index: number) => setProjectDocs(prev => prev.filter((_, i) => i !== index));
+  const updateProjectDocCategory = (index: number, category: DocCategory) => setProjectDocs(prev => prev.map((d, i) => i === index ? { ...d, category } : d));
+  const updateProjectDocVisibility = (index: number, visibility: DocVisibility) => setProjectDocs(prev => prev.map((d, i) => i === index ? { ...d, visibility } : d));
+  const uploadMasterFile = async (): Promise<{ name: string; url: string; size: number; category: DocCategory; visibility: DocVisibility }[]> => {
+    if (projectDocs.length === 0) return [];
     setIsUploadingFile(true);
     try {
-      const storageRef = ref(storage, `contract_master_files/${user?.uid || 'anonymous'}/${Date.now()}_${masterFile.name}`);
-      const task = uploadBytesResumable(storageRef, masterFile);
-      await new Promise<void>((resolve, reject) => { task.on('state_changed', undefined, reject, () => resolve()); });
-      const url = await getDownloadURL(task.snapshot.ref);
-      return { name: masterFile.name, url, size: masterFile.size };
+      const results: { name: string; url: string; size: number; category: DocCategory; visibility: DocVisibility }[] = [];
+      for (const docItem of projectDocs) {
+        const storageRef = ref(storage, `contract_master_files/${user?.uid || 'anonymous'}/${Date.now()}_${docItem.file.name}`);
+        const task = uploadBytesResumable(storageRef, docItem.file);
+        await new Promise<void>((resolve, reject) => { task.on('state_changed', undefined, reject, () => resolve()); });
+        const url = await getDownloadURL(task.snapshot.ref);
+        results.push({ name: docItem.file.name, url, size: docItem.file.size, category: docItem.category, visibility: docItem.visibility });
+      }
+      return results;
     } finally {
       setIsUploadingFile(false);
     }
@@ -627,14 +657,14 @@ export const LinkArtView: React.FC<{
       // soit clair pour l'utilisateur. Le fichier joint est secondaire,
       // son echec ne doit plus jamais empecher la soumission du projet
       // lui-meme.
-      let masterFileData: { name: string; url: string; size: number } | null = null;
-      if (masterFile) {
-        onNotify(t('UPLOADING MASTER FILE...', 'TÉLÉVERSEMENT DU FICHIER MAÎTRE...'));
+      let projectDocsData: { name: string; url: string; size: number; category: string; visibility: string }[] = [];
+      if (projectDocs.length > 0) {
+        onNotify(t('UPLOADING DOCUMENTS...', 'TÉLÉVERSEMENT DES DOCUMENTS...'));
         try {
-          masterFileData = await uploadMasterFile();
+          projectDocsData = await uploadMasterFile();
         } catch (fileErr) {
-          console.warn('Master file upload failed, continuing without it:', fileErr);
-          onNotify(t('Could not attach the file — continuing without it.', "Le fichier n'a pas pu être joint — poursuite sans lui."));
+          console.warn('Documents upload failed, continuing without them:', fileErr);
+          onNotify(t('Some documents could not be uploaded — continuing without them.', "Certains documents n'ont pas pu être envoyés — poursuite sans eux."));
         }
       }
 
@@ -697,7 +727,7 @@ export const LinkArtView: React.FC<{
         rights: selectedRights,
         status: 'PENDING_VALIDATION',
         milestones,
-        ...(masterFileData ? { masterFile: masterFileData } : {}),
+        ...(projectDocsData.length > 0 ? { documents: projectDocsData } : {}),
         ...(galleryUrls.length > 0 ? { images: galleryUrls } : {}),
         ...(videoUrlResult ? { videoUrl: videoUrlResult } : {}),
         ...(audioUrlResult ? { audioUrl: audioUrlResult } : {}),
@@ -982,28 +1012,57 @@ export const LinkArtView: React.FC<{
                       </div>
                     )}
                   </div>
+                  {/* Documents multiples avec categorie et visibilite -
+                      un film peut avoir moodboard + synopsis + dossier de
+                      presentation + business plan, chacun visible ou non
+                      selon le public (mecene grand public vs
+                      professionnel). */}
+                  <label className="text-xs uppercase tracking-widest text-on-surface-variant font-bold block mb-3">
+                    {t('Project Documents', 'Documents du Projet')} <span className="text-on-surface-variant/40 normal-case font-normal">({t('moodboard, synopsis, presentation, business plan...', 'moodboard, synopsis, dossier de présentation, business plan...')})</span>
+                  </label>
                   <input ref={masterFileInputRef} type="file" onChange={handleMasterFileSelect} className="hidden" />
+
+                  {projectDocs.length > 0 && (
+                    <div className="space-y-2 mb-3">
+                      {projectDocs.map((docItem, i) => (
+                        <div key={i} className="flex flex-wrap items-center gap-2 p-3 bg-surface-dim border border-white/10 rounded-xl">
+                          <CheckCircle2 size={16} className="text-emerald-400 shrink-0" />
+                          <span className="text-[11px] font-bold text-white truncate max-w-[140px]">{docItem.file.name}</span>
+                          <select
+                            value={docItem.category}
+                            onChange={e => updateProjectDocCategory(i, e.target.value as DocCategory)}
+                            className="bg-surface-high/60 border border-white/10 text-[10px] font-bold px-2 py-1.5 rounded-lg focus:outline-none focus:border-primary-cyan"
+                          >
+                            {DOC_CATEGORIES.map(c => <option key={c.id} value={c.id}>{t(c.en, c.fr)}</option>)}
+                          </select>
+                          <button
+                            type="button"
+                            onClick={() => updateProjectDocVisibility(i, docItem.visibility === 'public' ? 'professional' : 'public')}
+                            title={t('Toggle who can see this document', 'Change qui peut voir ce document')}
+                            className={`text-[9px] font-black uppercase px-2.5 py-1.5 rounded-lg border transition-all ${docItem.visibility === 'public' ? 'bg-emerald-400/10 border-emerald-400/30 text-emerald-400' : 'bg-accent-gold/10 border-accent-gold/30 text-accent-gold'}`}
+                          >
+                            {docItem.visibility === 'public' ? t('Visible to all patrons', 'Visible mécènes') : t('Professionals only', 'Pro uniquement')}
+                          </button>
+                          <button type="button" onClick={() => removeProjectDoc(i)} className="ml-auto p-1 text-on-surface-variant/40 hover:text-rose-400 transition-colors">
+                            <CloseIcon size={14} />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
                   <div
                     onClick={() => masterFileInputRef.current?.click()}
-                    className={`border-2 border-dashed p-6 text-center space-y-4 transition-all cursor-pointer group rounded-xl ${masterFile ? 'border-emerald-400/40 bg-emerald-400/5' : 'border-white/10 hover:border-primary-cyan/30'}`}
+                    className="border-2 border-dashed p-6 text-center space-y-3 transition-all cursor-pointer group rounded-xl border-white/10 hover:border-primary-cyan/30"
                   >
                     <div className="flex justify-center">
-                      <div className={`p-3 bg-white/5 transition-colors ${masterFile ? 'text-emerald-400' : 'text-on-surface-variant group-hover:text-primary-cyan'}`}>
-                        {masterFile ? <CheckCircle2 size={24} /> : <Upload size={24} />}
+                      <div className="p-3 bg-white/5 transition-colors text-on-surface-variant group-hover:text-primary-cyan">
+                        <Upload size={24} />
                       </div>
                     </div>
                     <div>
-                      {masterFile ? (
-                        <>
-                          <p className="text-[10px] font-bold uppercase tracking-widest text-emerald-400">{masterFile.name}</p>
-                          <p className="text-[10px] text-on-surface-variant uppercase tracking-widest mt-1">{(masterFile.size / (1024*1024)).toFixed(1)} MB — {t('click to change', 'cliquez pour changer')}</p>
-                        </>
-                      ) : (
-                        <>
-                          <p className="text-[10px] font-bold uppercase tracking-widest">{t('Upload Master Contract File', 'Télécharger le Fichier Maître du Contrat')}</p>
-                          <p className="text-[10px] text-on-surface-variant uppercase tracking-widest mt-1">{t('Max 100MB', 'Max 100 Mo')}</p>
-                        </>
-                      )}
+                      <p className="text-[10px] font-bold uppercase tracking-widest">{t('Add a Document', 'Ajouter un Document')}</p>
+                      <p className="text-[10px] text-on-surface-variant uppercase tracking-widest mt-1">{t('Max 100MB each — add as many as needed', 'Max 100 Mo chacun — ajoutez-en autant que nécessaire')}</p>
                     </div>
                   </div>
                 </div>

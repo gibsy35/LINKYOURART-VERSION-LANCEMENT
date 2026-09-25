@@ -163,6 +163,7 @@ const ValidationQueue: React.FC<{
               descriptionFR: c.descriptionFR || '',
               image: c.imageUrl || '',
               images: c.images || [],
+              documents: c.documents || [],
               videoUrl: c.videoUrl || undefined,
               audioUrl: c.audioUrl || undefined,
               issuerId: c.creatorName || 'LYA Creator',
@@ -378,6 +379,7 @@ const ValidationQueue: React.FC<{
         descriptionFR: (r.contract as any).descriptionFR || (r.contract as any).description || '',
         image: r.contract.image || `https://picsum.photos/seed/${r.id}/800/500`,
         ...((r.contract as any).images ? { images: (r.contract as any).images } : {}),
+        ...((r.contract as any).documents ? { documents: (r.contract as any).documents } : {}),
         ...((r.contract as any).videoUrl ? { videoUrl: (r.contract as any).videoUrl } : {}),
         ...((r.contract as any).audioUrl ? { audioUrl: (r.contract as any).audioUrl } : {}),
         issuerId: r.contract.issuerId || 'LYA Creator',
@@ -450,32 +452,6 @@ const ValidationQueue: React.FC<{
           </select>
           <ChevronDown size={13} className="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none" />
         </div>
-        <button
-          onClick={async () => {
-            onNotify(T('Actualisation...', 'Refreshing...'));
-            try {
-              const snap = await getDocs(query(collection(db, 'contracts'), orderBy('createdAt', 'desc'), limit(100)));
-              const real = snap.docs
-                .map(d => ({ id: d.id, ...d.data() } as any))
-                .filter(c => c.status === 'PENDING')
-                .map((c): ValidationRequest => ({
-                  id: c.id,
-                  contract: { ...c, category: c.category || 'Digital Art', totalScore: c.totalScore || 0, registryIndex: c.registryIndex || 'LYA-PENDING' } as Contract,
-                  timestamp: c.createdAt?.toDate ? c.createdAt.toDate().toLocaleTimeString(lang === 'FR' ? 'fr-FR' : 'en-US', { hour: '2-digit', minute: '2-digit' }) : '—',
-                  receivedAt: c.createdAt?.toDate ? c.createdAt.toDate() : new Date(),
-                  status: 'PENDING',
-                  steps: { origin: 'PENDING', creative: 'PENDING', rights: 'PENDING', final: 'PENDING' },
-                  notes: '',
-                }));
-              setRequests(real);
-              onNotify(T(`${real.length} demande(s) en attente`, `${real.length} pending request(s)`));
-            } catch(e) { handleFirestoreError(e, OperationType.GET, 'contracts'); }
-          }}
-          className="flex items-center gap-2 bg-primary-cyan text-surface-dim hover:bg-white px-5 py-2.5 text-sm font-black uppercase tracking-wide rounded-xl transition-all"
-        >
-          <RefreshCw size={14} />
-          {T('Actualiser', 'Refresh')}
-        </button>
       </div>
 
       {isLoadingQueue && (

@@ -332,6 +332,19 @@ export interface Contract {
   images?: string[]; // Images supplementaires, en plus de la couverture (image)
   videoUrl?: string;
   audioUrl?: string;
+  // Documents multiples, categorises et a visibilite controlee - remplace
+  // l'ancien fichier maitre unique. Un mecene grand public n'a pas besoin
+  // (et n'a generalement pas envie) de lire un business plan, alors qu'un
+  // professionnel evaluant la qualite d'un projet en a besoin - d'ou la
+  // visibilite par public plutot qu'un simple fichier joint unique visible
+  // par tous.
+  documents?: {
+    name: string;
+    url: string;
+    size: number;
+    category: 'moodboard' | 'synopsis' | 'presentation' | 'business_plan' | 'other';
+    visibility: 'public' | 'professional';
+  }[];
 }
 
 // Returns the project description in the requested language, falling back to the
