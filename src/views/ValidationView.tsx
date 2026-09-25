@@ -312,8 +312,21 @@ const ValidationQueue: React.FC<{
 
   const confirmReject = async () => {
     if (!rejectId || !rejectReason.trim()) return;
-    const r = requests.find(x => x.id === rejectId)!;
+    // Le lookup de r ET la verification qu'il existe sont maintenant DANS
+    // le bloc try: avant ce fix, si r etait introuvable (ex: la file
+    // d'attente s'est rafraichie en arriere-plan entre l'ouverture de la
+    // fenetre et le clic sur Confirmer), r.contract plantait de facon
+    // synchrone et NON INTERCEPTEE juste avant le try - le clic ne
+    // produisait alors litteralement aucune reaction visible, ni
+    // notification ni fermeture de fenetre, sans la moindre erreur
+    // affichee nulle part.
     try {
+      const r = requests.find(x => x.id === rejectId);
+      if (!r) {
+        onNotify(T('Ce projet a été mis à jour entre-temps. Fermez et rouvrez la fenêtre de refus.', 'This project was updated in the meantime. Close and reopen the rejection window.'));
+        setRejectId(null);
+        return;
+      }
       // Meme correction que pour l'approbation: le document a mettre a
       // jour est dans projects_pending, pas dans contracts (qui n'a jamais
       // contenu ce projet tant qu'il n'est pas publie).
