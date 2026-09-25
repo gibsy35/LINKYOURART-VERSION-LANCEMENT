@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { db, handleFirestoreError, OperationType } from '../firebase';
-import { collection, getDocs, query, orderBy, limit, doc, updateDoc, setDoc, serverTimestamp, addDoc, onSnapshot } from 'firebase/firestore';
+import { collection, getDocs, query, orderBy, limit, doc, updateDoc, setDoc, deleteDoc, serverTimestamp, addDoc, onSnapshot } from 'firebase/firestore';
 import { motion, AnimatePresence } from 'motion/react';
 import { PageHeader } from '../components/ui/PageHeader';
 import {
@@ -9,7 +9,7 @@ import {
   FileCheck, Sparkles, ChevronDown, Play, Pause, Eye,
   CheckSquare, XSquare, Filter, TrendingUp, Palette,
   Music, Film, BookOpen, Camera, Shirt, Cpu, Mic,
-  Building2, ChefHat, Drama, Gamepad2, X
+  Building2, ChefHat, Drama, Gamepad2, X, Trash2
 } from 'lucide-react';
 import { CONTRACTS, Contract, UserProfile, UserRole, getContractDescription } from '../types';
 import { getPermissions } from '../lib/permissions';
@@ -280,6 +280,19 @@ const ValidationQueue: React.FC<{
     onNotify(`✗ ${target.contract.name} — ${finalMsg}`);
   };
 
+  // Bouton corbeille demande par Gibsy: retrait manuel garanti d'une
+  // entree, quelle que soit la cause de sa presence fantome dans la liste
+  // (cache navigateur, document deja supprime ailleurs, etc.) - ne
+  // depend plus uniquement de la synchronisation automatique.
+  const handleForceRemove = async (req: ValidationRequest) => {
+    if (!window.confirm(T(`Retirer "${req.contract.name}" de la file d'attente ? Cette action ne peut pas être annulée.`, `Remove "${req.contract.name}" from the queue? This cannot be undone.`))) return;
+    setRequests(prev => prev.filter(x => x.id !== req.id));
+    try {
+      await deleteDoc(doc(db, 'projects_pending', req.id));
+    } catch { /* document deja absent ou permission refusee - sans consequence, il est deja retire localement */ }
+    onNotify(T(`${req.contract.name} retiré de la file d'attente.`, `${req.contract.name} removed from the queue.`));
+  };
+
   const closeRejectModal = () => {
     setRejectTarget(null);
     setRejectReason('');
@@ -544,6 +557,9 @@ const ValidationQueue: React.FC<{
                         {T('✦ Valider toutes les étapes', '✦ Validate all steps')}
                       </button>
                       <div className="flex items-center gap-3">
+                        <button onClick={() => handleForceRemove(req)} title={T('Retirer de la file (si ce projet ne devrait plus être ici)', 'Remove from queue (if this project shouldn\'t be here anymore)')} className="p-2 border border-white/10 text-on-surface-variant/50 hover:text-rose-400 hover:border-rose-400/30 rounded-xl transition-all">
+                          <Trash2 size={16} />
+                        </button>
                         <button onClick={() => setRejectTarget(req)} className="px-5 py-2 border border-rose-400/20 text-rose-400 text-sm font-black uppercase tracking-wide hover:bg-rose-400/10 rounded-xl transition-all">
                           {T('Rejeter', 'Reject')}
                         </button>

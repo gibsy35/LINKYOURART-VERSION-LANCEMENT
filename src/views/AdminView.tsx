@@ -1708,6 +1708,18 @@ export const AdminView: React.FC<{
                                       className="px-4 py-2 bg-rose-400/10 border border-rose-400/20 text-rose-400 text-[10px] font-black rounded-xl hover:bg-rose-400/20 transition-all uppercase">
                                       {t('Reject', 'Refuser')}
                                     </button>
+                                    <button
+                                      onClick={async () => {
+                                        if (!window.confirm(t(`Remove "${sub.name}" from the queue? This cannot be undone.`, `Retirer "${sub.name}" de la file d'attente ? Cette action ne peut pas être annulée.`))) return;
+                                        setPendingSubmissions(prev => prev.filter(s => s.id !== sub.id));
+                                        try { await deleteDoc(doc(db, 'projects_pending', sub.id)); } catch { /* deja absent, sans consequence */ }
+                                        onNotify(t(`${sub.name} removed from the queue.`, `${sub.name} retiré de la file d'attente.`));
+                                      }}
+                                      title={t('Remove from queue (if this project shouldn\'t be here anymore)', 'Retirer de la file (si ce projet ne devrait plus être ici)')}
+                                      className="p-2 border border-white/10 text-on-surface-variant/40 hover:text-rose-400 hover:border-rose-400/30 rounded-xl transition-all self-center"
+                                    >
+                                      <Trash2 size={14} />
+                                    </button>
                                   </div>
                                 </div>
                               </div>
