@@ -325,6 +325,13 @@ export interface Contract {
   professionalValidator?: string; // New: Name of the professional entity that validated the project
   jurisdiction: 'France (SACD)' | 'EU (IP Law)' | 'US (Federal IP)' | 'UK (CDPA)' | 'CH (IP Law)' | 'SG (IP Law)' | 'International';
   scoreAlgo?: number; // Added for explicit SCORE ALGO
+  // Galerie multimedia reelle, ajoutee suite au constat que la fiche
+  // Mecenat n'affichait qu'une seule image dupliquee 3 fois comme fausse
+  // galerie decorative - un projet peut desormais avoir plusieurs images,
+  // une video et/ou un extrait audio reels.
+  images?: string[]; // Images supplementaires, en plus de la couverture (image)
+  videoUrl?: string;
+  audioUrl?: string;
 }
 
 // Returns the project description in the requested language, falling back to the

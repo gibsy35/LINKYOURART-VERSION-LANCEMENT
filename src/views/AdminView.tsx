@@ -421,6 +421,9 @@ export const AdminView: React.FC<{
         // langue du site, meme sur la version francaise.
         descriptionFR: submission.descriptionFR || submission.description || '',
         image: submission.imageUrl || `https://picsum.photos/seed/${submission.id}/800/500`,
+        ...(submission.images ? { images: submission.images } : {}),
+        ...(submission.videoUrl ? { videoUrl: submission.videoUrl } : {}),
+        ...(submission.audioUrl ? { audioUrl: submission.audioUrl } : {}),
         issuerId: submission.creatorName || 'LYA Creator',
         creatorId: submission.creatorId,
         // issuerUid manquait aussi: c'est le champ dont depend toute la

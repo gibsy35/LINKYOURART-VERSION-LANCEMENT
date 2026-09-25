@@ -27,7 +27,7 @@ import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db, storage, handleFirestoreError, OperationType } from '../firebase';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { getSafeImageUrl } from '../utils/image';
-import { Trash2, Edit2, Check, X as CloseIcon, Mic } from 'lucide-react';
+import { Trash2, Edit2, Check, X as CloseIcon, Mic, Images, Video, Music } from 'lucide-react';
 
 interface Step {
   id: number;
@@ -275,6 +275,104 @@ export const LinkArtView: React.FC<{
       setIsUploadingFile(false);
     }
   };
+  // Galerie multimedia reelle - avant ce fix, un projet ne pouvait avoir
+  // qu'une seule image de couverture, jamais de galerie ni de video/audio,
+  // rendant la fiche Mecenat totalement decorative sur ce plan.
+  const [galleryFiles, setGalleryFiles] = useState<File[]>([]);
+  const [galleryPreviews, setGalleryPreviews] = useState<string[]>([]);
+  const [isUploadingGallery, setIsUploadingGallery] = useState(false);
+  const galleryInputRef = React.useRef<HTMLInputElement>(null);
+  const MAX_GALLERY_IMAGES = 6;
+  const handleGalleryFilesSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    if (!files.length) return;
+    const room = MAX_GALLERY_IMAGES - galleryFiles.length;
+    if (room <= 0) {
+      onNotify(t(`Maximum ${MAX_GALLERY_IMAGES} images in the gallery.`, `Maximum ${MAX_GALLERY_IMAGES} images dans la galerie.`));
+      return;
+    }
+    const accepted = files.slice(0, room).filter(f => {
+      if (f.size > 15 * 1024 * 1024) {
+        onNotify(t(`"${f.name}" exceeds the 15MB limit and was skipped.`, `"${f.name}" dépasse la limite de 15 Mo et a été ignoré.`));
+        return false;
+      }
+      return true;
+    });
+    setGalleryFiles(prev => [...prev, ...accepted]);
+    setGalleryPreviews(prev => [...prev, ...accepted.map(f => URL.createObjectURL(f))]);
+    e.target.value = '';
+  };
+  const removeGalleryImage = (index: number) => {
+    setGalleryFiles(prev => prev.filter((_, i) => i !== index));
+    setGalleryPreviews(prev => prev.filter((_, i) => i !== index));
+  };
+  const uploadGalleryImages = async (): Promise<string[]> => {
+    if (galleryFiles.length === 0) return [];
+    setIsUploadingGallery(true);
+    try {
+      const urls: string[] = [];
+      for (const file of galleryFiles) {
+        const storageRef = ref(storage, `contract_gallery/${user?.uid || 'anonymous'}/${Date.now()}_${file.name}`);
+        const task = uploadBytesResumable(storageRef, file);
+        await new Promise<void>((resolve, reject) => { task.on('state_changed', undefined, reject, () => resolve()); });
+        urls.push(await getDownloadURL(task.snapshot.ref));
+      }
+      return urls;
+    } finally {
+      setIsUploadingGallery(false);
+    }
+  };
+
+  const [videoFile, setVideoFile] = useState<File | null>(null);
+  const [isUploadingVideo, setIsUploadingVideo] = useState(false);
+  const videoInputRef = React.useRef<HTMLInputElement>(null);
+  const handleVideoSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 100 * 1024 * 1024) {
+      onNotify(t('Video exceeds the 100MB limit.', 'La vidéo dépasse la limite de 100 Mo.'));
+      return;
+    }
+    setVideoFile(file);
+  };
+  const uploadVideoFile = async (): Promise<string | null> => {
+    if (!videoFile) return null;
+    setIsUploadingVideo(true);
+    try {
+      const storageRef = ref(storage, `contract_media/${user?.uid || 'anonymous'}/video_${Date.now()}_${videoFile.name}`);
+      const task = uploadBytesResumable(storageRef, videoFile);
+      await new Promise<void>((resolve, reject) => { task.on('state_changed', undefined, reject, () => resolve()); });
+      return await getDownloadURL(task.snapshot.ref);
+    } finally {
+      setIsUploadingVideo(false);
+    }
+  };
+
+  const [audioFile, setAudioFile] = useState<File | null>(null);
+  const [isUploadingAudio, setIsUploadingAudio] = useState(false);
+  const audioInputRef = React.useRef<HTMLInputElement>(null);
+  const handleAudioSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 30 * 1024 * 1024) {
+      onNotify(t('Audio exceeds the 30MB limit.', 'L\'audio dépasse la limite de 30 Mo.'));
+      return;
+    }
+    setAudioFile(file);
+  };
+  const uploadAudioFile = async (): Promise<string | null> => {
+    if (!audioFile) return null;
+    setIsUploadingAudio(true);
+    try {
+      const storageRef = ref(storage, `contract_media/${user?.uid || 'anonymous'}/audio_${Date.now()}_${audioFile.name}`);
+      const task = uploadBytesResumable(storageRef, audioFile);
+      await new Promise<void>((resolve, reject) => { task.on('state_changed', undefined, reject, () => resolve()); });
+      return await getDownloadURL(task.snapshot.ref);
+    } finally {
+      setIsUploadingAudio(false);
+    }
+  };
+
   const [isSuggestingMilestones, setIsSuggestingMilestones] = useState(false);
   const [editingMilestoneIndex, setEditingMilestoneIndex] = useState<number | null>(null);
   const [newMilestone, setNewMilestone] = useState<Milestone>({
@@ -540,6 +638,40 @@ export const LinkArtView: React.FC<{
         }
       }
 
+      // Galerie, video et audio - suivent le meme principe que le fichier
+      // maitre ci-dessus: un echec sur l'un d'eux prevenu l'utilisateur
+      // mais ne bloque jamais la soumission du projet lui-meme.
+      let galleryUrls: string[] = [];
+      if (galleryFiles.length > 0) {
+        onNotify(t('UPLOADING GALLERY IMAGES...', 'TÉLÉVERSEMENT DES IMAGES...'));
+        try {
+          galleryUrls = await uploadGalleryImages();
+        } catch (galErr) {
+          console.warn('Gallery upload failed, continuing without it:', galErr);
+          onNotify(t('Some gallery images could not be uploaded — continuing without them.', "Certaines images n'ont pas pu être envoyées — poursuite sans elles."));
+        }
+      }
+      let videoUrlResult: string | null = null;
+      if (videoFile) {
+        onNotify(t('UPLOADING VIDEO...', 'TÉLÉVERSEMENT DE LA VIDÉO...'));
+        try {
+          videoUrlResult = await uploadVideoFile();
+        } catch (vidErr) {
+          console.warn('Video upload failed, continuing without it:', vidErr);
+          onNotify(t('The video could not be uploaded — continuing without it.', "La vidéo n'a pas pu être envoyée — poursuite sans elle."));
+        }
+      }
+      let audioUrlResult: string | null = null;
+      if (audioFile) {
+        onNotify(t('UPLOADING AUDIO...', 'TÉLÉVERSEMENT DE L\'AUDIO...'));
+        try {
+          audioUrlResult = await uploadAudioFile();
+        } catch (audErr) {
+          console.warn('Audio upload failed, continuing without it:', audErr);
+          onNotify(t('The audio could not be uploaded — continuing without it.', "L'audio n'a pas pu être envoyé — poursuite sans lui."));
+        }
+      }
+
       // Ecrit dans projects_pending, pas dans contracts (qui est le
       // Registre LIVE, publie uniquement apres validation manuelle par un
       // admin). L'ancienne version ecrivait directement dans contracts avec
@@ -566,6 +698,9 @@ export const LinkArtView: React.FC<{
         status: 'PENDING_VALIDATION',
         milestones,
         ...(masterFileData ? { masterFile: masterFileData } : {}),
+        ...(galleryUrls.length > 0 ? { images: galleryUrls } : {}),
+        ...(videoUrlResult ? { videoUrl: videoUrlResult } : {}),
+        ...(audioUrlResult ? { audioUrl: audioUrlResult } : {}),
         createdAt: serverTimestamp()
       };
 
@@ -868,6 +1003,64 @@ export const LinkArtView: React.FC<{
                           <p className="text-[10px] font-bold uppercase tracking-widest">{t('Upload Master Contract File', 'Télécharger le Fichier Maître du Contrat')}</p>
                           <p className="text-[10px] text-on-surface-variant uppercase tracking-widest mt-1">{t('Max 100MB', 'Max 100 Mo')}</p>
                         </>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Galerie multimedia reelle - avant ce fix, une fiche
+                    projet n'affichait qu'une seule image dupliquee 3 fois
+                    en fausse galerie, sans aucune vraie photo
+                    supplementaire, video ou audio possible. */}
+                <div className="space-y-3">
+                  <label className="text-xs uppercase tracking-widest text-on-surface-variant font-bold flex items-center gap-2">
+                    <Images size={14} /> {t('Additional Gallery Images', 'Images Supplémentaires de la Galerie')} ({galleryFiles.length}/{MAX_GALLERY_IMAGES})
+                  </label>
+                  <p className="text-[10px] text-on-surface-variant/50">{t('Real photos of your project — sketches, sets, behind the scenes, finished pieces. This is what convinces a patron to support you.', 'Vraies photos de votre projet — croquis, décors, coulisses, pièces finies. C\'est ce qui convainc un mécène de vous soutenir.')}</p>
+                  <input ref={galleryInputRef} type="file" accept="image/*" multiple onChange={handleGalleryFilesSelect} className="hidden" />
+                  <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
+                    {galleryPreviews.map((src, i) => (
+                      <div key={i} className="relative aspect-square rounded-xl overflow-hidden border border-white/10 group">
+                        <img src={src} alt="" className="w-full h-full object-cover" />
+                        <button type="button" onClick={() => removeGalleryImage(i)} className="absolute top-1 right-1 w-6 h-6 bg-black/70 rounded-full flex items-center justify-center text-white/70 hover:text-white opacity-0 group-hover:opacity-100 transition-opacity">
+                          <CloseIcon size={12} />
+                        </button>
+                      </div>
+                    ))}
+                    {galleryFiles.length < MAX_GALLERY_IMAGES && (
+                      <button
+                        type="button"
+                        onClick={() => galleryInputRef.current?.click()}
+                        className="aspect-square rounded-xl border-2 border-dashed border-white/10 hover:border-primary-cyan/30 flex flex-col items-center justify-center gap-1 text-on-surface-variant hover:text-primary-cyan transition-all"
+                      >
+                        <Images size={18} />
+                        <span className="text-[9px] font-bold uppercase">{t('Add', 'Ajouter')}</span>
+                      </button>
+                    )}
+                  </div>
+                </div>
+
+                {/* Video et audio optionnels */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label className="text-xs uppercase tracking-widest text-on-surface-variant font-bold flex items-center gap-2"><Video size={14} /> {t('Video (optional)', 'Vidéo (optionnel)')}</label>
+                    <input ref={videoInputRef} type="file" accept="video/*" onChange={handleVideoSelect} className="hidden" />
+                    <div onClick={() => videoInputRef.current?.click()} className={`border-2 border-dashed p-4 text-center cursor-pointer rounded-xl transition-all ${videoFile ? 'border-emerald-400/40 bg-emerald-400/5' : 'border-white/10 hover:border-primary-cyan/30'}`}>
+                      {videoFile ? (
+                        <p className="text-[10px] font-bold text-emerald-400 uppercase truncate">{videoFile.name}</p>
+                      ) : (
+                        <p className="text-[10px] text-on-surface-variant uppercase">{t('Max 100MB', 'Max 100 Mo')}</p>
+                      )}
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-xs uppercase tracking-widest text-on-surface-variant font-bold flex items-center gap-2"><Music size={14} /> {t('Audio Excerpt (optional)', 'Extrait Audio (optionnel)')}</label>
+                    <input ref={audioInputRef} type="file" accept="audio/*" onChange={handleAudioSelect} className="hidden" />
+                    <div onClick={() => audioInputRef.current?.click()} className={`border-2 border-dashed p-4 text-center cursor-pointer rounded-xl transition-all ${audioFile ? 'border-emerald-400/40 bg-emerald-400/5' : 'border-white/10 hover:border-primary-cyan/30'}`}>
+                      {audioFile ? (
+                        <p className="text-[10px] font-bold text-emerald-400 uppercase truncate">{audioFile.name}</p>
+                      ) : (
+                        <p className="text-[10px] text-on-surface-variant uppercase">{t('Max 30MB', 'Max 30 Mo')}</p>
                       )}
                     </div>
                   </div>

@@ -396,6 +396,17 @@ export function DetailModal({ contract, onClose, onPay, units, onUnitsChange, la
     : 0;
   const fundingRaised = hasGoal ? Math.round(contract.totalValue * (fundingPct / 100)) : Math.round((contract.totalScore / 1000) * 5000);
   const safeImage = getSafeImageUrl(contract.image, contract.category);
+  // Vraie galerie: avant ce fix, les 3 vignettes affichaient toutes la
+  // meme unique image (safeImage), sans aucun clic reellement cable -
+  // fausse galerie purement decorative. Combine desormais la couverture
+  // avec les vraies images supplementaires du projet (si presentes).
+  const galleryImages = React.useMemo(() => {
+    const extra = ((contract as any).images || []) as string[];
+    return [safeImage, ...extra.filter(Boolean)];
+  }, [safeImage, (contract as any).images]);
+  const [selectedMediaIndex, setSelectedMediaIndex] = React.useState(0);
+  const videoUrl = (contract as any).videoUrl as string | undefined;
+  const audioUrl = (contract as any).audioUrl as string | undefined;
 
   return (
     <div className="fixed inset-0 z-[100] bg-black/85 backdrop-blur-sm flex items-center justify-center p-4" onClick={onClose}>
@@ -409,15 +420,35 @@ export function DetailModal({ contract, onClose, onPay, units, onUnitsChange, la
               </span>
             </div>
             <div className="rounded-xl overflow-hidden mb-3" style={{ aspectRatio: "16/9" }}>
-              <img src={safeImage} alt={contract.name} className="w-full h-full object-cover object-center" referrerPolicy="no-referrer" />
+              <img src={galleryImages[selectedMediaIndex] || safeImage} alt={contract.name} className="w-full h-full object-cover object-center" referrerPolicy="no-referrer" />
             </div>
-            <div className="flex gap-2 mb-5">
-              {[0, 1, 2].map(i => (
-                <div key={i} className={`flex-1 rounded-lg overflow-hidden border-2 cursor-pointer transition-opacity ${i === 0 ? "border-primary-cyan opacity-100" : i === 1 ? "border-transparent opacity-60" : "border-transparent opacity-30"}`} style={{ aspectRatio: "16/9" }}>
-                  <img src={safeImage} alt="" className="w-full h-full object-cover object-center" referrerPolicy="no-referrer" />
-                </div>
-              ))}
-            </div>
+            {galleryImages.length > 1 && (
+              <div className="flex gap-2 mb-5">
+                {galleryImages.map((src, i) => (
+                  <button
+                    type="button"
+                    key={i}
+                    onClick={() => setSelectedMediaIndex(i)}
+                    className={`flex-1 rounded-lg overflow-hidden border-2 cursor-pointer transition-all ${i === selectedMediaIndex ? "border-primary-cyan opacity-100" : "border-transparent opacity-50 hover:opacity-80"}`}
+                    style={{ aspectRatio: "16/9" }}
+                  >
+                    <img src={src} alt="" className="w-full h-full object-cover object-center" referrerPolicy="no-referrer" />
+                  </button>
+                ))}
+              </div>
+            )}
+            {videoUrl && (
+              <div className="mb-5">
+                <p className="text-[10px] font-mono font-bold text-on-surface-variant/50 uppercase tracking-widest mb-2">🎬 {T("Vidéo du projet", "Project video")}</p>
+                <video controls src={videoUrl} className="w-full rounded-xl border border-white/10" style={{ aspectRatio: "16/9" }} />
+              </div>
+            )}
+            {audioUrl && (
+              <div className="mb-5">
+                <p className="text-[10px] font-mono font-bold text-on-surface-variant/50 uppercase tracking-widest mb-2">🎵 {T("Extrait audio", "Audio excerpt")}</p>
+                <audio controls src={audioUrl} className="w-full" />
+              </div>
+            )}
             {/* Garanties LYA — sans termes réglementaires */}
             <div className="bg-surface-low border border-white/10 rounded-xl p-4">
               <div className="flex items-center gap-2 mb-2">
