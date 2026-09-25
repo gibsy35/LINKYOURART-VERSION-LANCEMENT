@@ -1,6 +1,6 @@
 
 import { useState, useEffect, useMemo } from 'react';
-import { collection, onSnapshot, query, limit } from 'firebase/firestore';
+import { collection, onSnapshot, query, limit, orderBy } from 'firebase/firestore';
 import { db, handleFirestoreError, OperationType } from '../firebase';
 import { CONTRACTS, Contract, LYA_UNIT_VALUE } from '../types';
 
@@ -28,7 +28,16 @@ export const useMarketData = () => {
     }
 
     const contractsRef = collection(db, 'contracts');
-    const q = query(contractsRef, limit(200));
+    // FIX CRITIQUE: la collection contracts contient des MILLIERS de
+    // documents (trouve via diagnostic direct: 9252, alors qu'une grosse
+    // centaine etait attendue - cause racine encore a determiner). Sans
+    // tri, cette requete limitee a 200 renvoyait un sous-ensemble
+    // arbitraire - un projet fraichement publie (comme Marie-Antoinette,
+    // LYA-2026-140) avait une chance quasi nulle d'en faire partie et
+    // restait invisible partout, alors meme qu'il existait parfaitement
+    // en base. Trie desormais par date de publication decroissante, pour
+    // que les projets les plus recents soient toujours inclus en priorite.
+    const q = query(contractsRef, orderBy('publishedAt', 'desc'), limit(500));
 
     let unsubscribe: () => void = () => {};
 
