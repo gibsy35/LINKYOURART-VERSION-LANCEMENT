@@ -55,6 +55,16 @@ module.exports = async (req, res) => {
     const totalContracts = await db.collection('contracts').count().get();
     result.totalContractsInDb = totalContracts.data().count;
 
+    // Mode echantillon: comprendre ce qui pollue la collection (9252
+    // documents trouves alors qu'une grosse centaine etait attendue)
+    if (req.query.sample === '1') {
+      const sampleSnap = await db.collection('contracts').limit(20).get();
+      result.sample = sampleSnap.docs.map(d => {
+        const data = d.data();
+        return { id: d.id, name: data.name, status: data.status, createdBy: data.publishedBy || data.creatorId || null, hasPublishedAt: !!data.publishedAt, keys: Object.keys(data) };
+      });
+    }
+
     return res.status(200).json(result);
   } catch (err) {
     console.error('[INSPECT_PROJECT] Error:', err);
