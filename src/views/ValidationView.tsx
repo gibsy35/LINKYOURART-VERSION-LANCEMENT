@@ -190,23 +190,95 @@ const ValidationQueue: React.FC<{
 
   const [search, setSearch] = useState('');
   const [catFilter, setCatFilter] = useState('ALL');
-  const [rejectId, setRejectId] = useState<string | null>(null);
+  // Refonte complete demandee par Gibsy suite a des echecs repetes du
+  // bouton Confirmer le rejet, jamais reproduits de facon certaine cote
+  // code. Changements de fond par rapport a l'ancienne version:
+  // 1) rejectTarget stocke l'OBJET complet du projet directement (plus de
+  //    recherche par id dans requests au moment du clic - source du bug
+  //    precedent si la liste changeait entre-temps).
+  // 2) rejectStep affiche une progression VISIBLE, texte par texte, dans
+  //    la fenetre elle-meme (idle -> saving -> emailing -> done/error) -
+  //    plus besoin des outils developpeur pour voir ce qui se passe.
+  // 3) Le bouton est desactive PENDANT le traitement (evite un double-clic
+  //    qui pourrait doubler l'ecriture), avec un texte "Traitement..."
+  //    visible au lieu de rester silencieux.
+  const [rejectTarget, setRejectTarget] = useState<ValidationRequest | null>(null);
   const [rejectReason, setRejectReason] = useState('');
   const [isDraftingRejection, setIsDraftingRejection] = useState(false);
+  const [rejectStep, setRejectStep] = useState<'idle' | 'saving' | 'emailing' | 'done' | 'error'>('idle');
+  const [rejectStatusMsg, setRejectStatusMsg] = useState('');
+
   const handleDraftRejection = async () => {
-    const r = requests.find(x => x.id === rejectId);
-    if (!r) return;
+    if (!rejectTarget) return;
     setIsDraftingRejection(true);
     try {
       const res = await fetch('/api/gemini/analyze-asset', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'draft-rejection', projectName: r.contract.name, category: r.contract.category, keyPoints: rejectReason, language: lang }),
+        body: JSON.stringify({ action: 'draft-rejection', projectName: rejectTarget.contract.name, category: rejectTarget.contract.category, keyPoints: rejectReason, language: lang }),
       });
       const data = await res.json();
       if (data.draft) setRejectReason(data.draft);
     } catch { /* la zone de texte reste editable manuellement en cas d'echec */ }
     finally { setIsDraftingRejection(false); }
+  };
+
+  const runRejectFlow = async () => {
+    if (!rejectTarget || !rejectReason.trim() || rejectStep === 'saving' || rejectStep === 'emailing') return;
+    const target = rejectTarget;
+    setRejectStep('saving');
+    setRejectStatusMsg(T('Enregistrement du refus...', 'Saving rejection...'));
+    try {
+      await updateDoc(doc(db, 'projects_pending', target.id), {
+        status: 'REJECTED',
+        rejectionReason: rejectReason,
+        rejectedAt: serverTimestamp(),
+        rejectedBy: user?.uid,
+      });
+    } catch (saveErr: any) {
+      setRejectStep('error');
+      setRejectStatusMsg(T(`Échec de l'enregistrement: ${saveErr?.message || 'erreur inconnue'}`, `Failed to save: ${saveErr?.message || 'unknown error'}`));
+      return;
+    }
+
+    const creatorEmail = (target.contract as any).creatorEmail;
+    let finalMsg: string;
+    if (!creatorEmail) {
+      finalMsg = T('Refusé. Aucun email de contact trouvé, le créateur n\'a pas pu être notifié.', 'Rejected. No contact email found, the creator could not be notified.');
+    } else {
+      setRejectStep('emailing');
+      setRejectStatusMsg(T('Envoi de l\'email au créateur...', 'Sending email to the creator...'));
+      try {
+        const emailRes = await fetch('/api/email/project-rejected', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            to: creatorEmail,
+            creatorName: target.contract.issuerId,
+            projectName: target.contract.name,
+            reason: rejectReason,
+            lang,
+          }),
+        });
+        const emailData = await emailRes.json();
+        finalMsg = emailData.success
+          ? T('Refusé. Le créateur a été notifié par email.', 'Rejected. The creator has been notified by email.')
+          : T(`Refusé, mais l'email n'a PAS pu être envoyé (${emailData.error || 'erreur inconnue'})`, `Rejected, but the email could NOT be sent (${emailData.error || 'unknown error'})`);
+      } catch (emailErr: any) {
+        finalMsg = T(`Refusé, mais l'email n'a PAS pu être envoyé (${emailErr?.message || 'erreur réseau'})`, `Rejected, but the email could NOT be sent (${emailErr?.message || 'network error'})`);
+      }
+    }
+    setRejectStep('done');
+    setRejectStatusMsg(finalMsg);
+    setRequests(prev => prev.filter(x => x.id !== target.id));
+    onNotify(`✗ ${target.contract.name} — ${finalMsg}`);
+  };
+
+  const closeRejectModal = () => {
+    setRejectTarget(null);
+    setRejectReason('');
+    setRejectStep('idle');
+    setRejectStatusMsg('');
   };
 
   const categories = ['ALL', ...Array.from(new Set(CONTRACTS.map(c => c.category)))];
@@ -310,77 +382,6 @@ const ValidationQueue: React.FC<{
     }
   };
 
-  const confirmReject = async () => {
-    if (!rejectId || !rejectReason.trim()) return;
-    // Le lookup de r ET la verification qu'il existe sont maintenant DANS
-    // le bloc try: avant ce fix, si r etait introuvable (ex: la file
-    // d'attente s'est rafraichie en arriere-plan entre l'ouverture de la
-    // fenetre et le clic sur Confirmer), r.contract plantait de facon
-    // synchrone et NON INTERCEPTEE juste avant le try - le clic ne
-    // produisait alors litteralement aucune reaction visible, ni
-    // notification ni fermeture de fenetre, sans la moindre erreur
-    // affichee nulle part.
-    try {
-      const r = requests.find(x => x.id === rejectId);
-      if (!r) {
-        onNotify(T('Ce projet a été mis à jour entre-temps. Fermez et rouvrez la fenêtre de refus.', 'This project was updated in the meantime. Close and reopen the rejection window.'));
-        setRejectId(null);
-        return;
-      }
-      // Meme correction que pour l'approbation: le document a mettre a
-      // jour est dans projects_pending, pas dans contracts (qui n'a jamais
-      // contenu ce projet tant qu'il n'est pas publie).
-      await updateDoc(doc(db, 'projects_pending', r.id), {
-        status: 'REJECTED',
-        rejectionReason: rejectReason,
-        rejectedAt: serverTimestamp(),
-        rejectedBy: user?.uid,
-      });
-      // Envoi reel de l'email, DESORMAIS ATTENDU ET VERIFIE - avant ce
-      // fix, l'appel etait "fire-and-forget" (jamais attendu, son resultat
-      // jamais verifie) et le message "createur notifie" s'affichait
-      // systematiquement, meme si l'envoi echouait reellement derriere
-      // (ex: cle Resend absente cote serveur). Gibsy ne pouvait donc
-      // jamais savoir si un email etait vraiment parti.
-      const creatorEmail = (r.contract as any).creatorEmail;
-      let emailOk = false;
-      let emailErr = '';
-      if (creatorEmail) {
-        try {
-          const emailRes = await fetch('/api/email/project-rejected', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              to: creatorEmail,
-              creatorName: r.contract.issuerId,
-              projectName: r.contract.name,
-              reason: rejectReason,
-              lang,
-            }),
-          });
-          const emailData = await emailRes.json();
-          emailOk = !!emailData.success;
-          emailErr = emailData.error || '';
-        } catch (emailException: any) {
-          emailErr = emailException?.message || 'network error';
-        }
-      }
-      if (!creatorEmail) {
-        onNotify(`✗ ${r.contract.name} — ${T('Rejeté. Aucun email de contact trouvé, le créateur n\'a pas pu être notifié.', 'Rejected. No contact email found, the creator could not be notified.')}`);
-      } else if (emailOk) {
-        onNotify(`✗ ${r.contract.name} — ${T('Rejeté. Le créateur a été notifié par email.', 'Rejected. The creator has been notified by email.')}`);
-      } else {
-        onNotify(`✗ ${r.contract.name} — ${T('Rejeté, mais l\'email n\'a PAS pu être envoyé', 'Rejected, but the email could NOT be sent')} (${emailErr || T('erreur inconnue', 'unknown error')})`);
-        console.error('[REJECT_EMAIL_FAILED]', emailErr);
-      }
-      setRequests(prev => prev.filter(x => x.id !== rejectId));
-      setRejectId(null);
-      setRejectReason('');
-    } catch (e) {
-      handleFirestoreError(e, OperationType.WRITE, 'projects_pending');
-      onNotify(T('⚠ Erreur lors du rejet. Réessayez.', '⚠ Error while rejecting. Please retry.'));
-    }
-  };
 
   return (
     <div className="space-y-6">
@@ -537,7 +538,7 @@ const ValidationQueue: React.FC<{
                         {T('✦ Valider toutes les étapes', '✦ Validate all steps')}
                       </button>
                       <div className="flex items-center gap-3">
-                        <button onClick={() => setRejectId(req.id)} className="px-5 py-2 border border-rose-400/20 text-rose-400 text-sm font-black uppercase tracking-wide hover:bg-rose-400/10 rounded-xl transition-all">
+                        <button onClick={() => setRejectTarget(req)} className="px-5 py-2 border border-rose-400/20 text-rose-400 text-sm font-black uppercase tracking-wide hover:bg-rose-400/10 rounded-xl transition-all">
                           {T('Rejeter', 'Reject')}
                         </button>
                         <button
@@ -569,7 +570,7 @@ const ValidationQueue: React.FC<{
 
       {/* Modal de rejet */}
       <AnimatePresence mode="sync">
-        {rejectId && (
+        {rejectTarget && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-surface-dim/90 backdrop-blur-xl">
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }}
@@ -577,33 +578,54 @@ const ValidationQueue: React.FC<{
             >
               <div className="flex items-center justify-between">
                 <h3 className="text-base font-black text-on-surface uppercase tracking-wider">{T('Motif du rejet', 'Rejection reason')}</h3>
-                <button onClick={() => setRejectId(null)} className="p-2 text-on-surface-variant hover:text-on-surface transition-colors"><X size={16} /></button>
+                <button onClick={closeRejectModal} className="p-2 text-on-surface-variant hover:text-on-surface transition-colors"><X size={16} /></button>
               </div>
-              <p className="text-sm text-on-surface-variant/60 leading-relaxed">
-                {T('Le créateur recevra ce message par email.', 'The creator will receive this message by email.')}
-              </p>
-              <textarea
-                value={rejectReason} onChange={e => setRejectReason(e.target.value)}
-                placeholder={T('Décrivez pourquoi ce projet ne peut pas être indexé... (ou générez un brouillon avec l\'IA ci-dessous)', 'Describe why this project cannot be indexed... (or generate a draft with AI below)')}
-                rows={4}
-                className="w-full bg-surface-dim border border-white/10 text-sm p-4 rounded-xl focus:outline-none focus:border-primary-cyan resize-none transition-colors"
-              />
-              <button
-                type="button"
-                onClick={handleDraftRejection}
-                disabled={isDraftingRejection}
-                className="w-full flex items-center justify-center gap-2 py-2.5 bg-primary-cyan/10 border border-primary-cyan/25 text-primary-cyan text-xs font-black uppercase tracking-widest rounded-xl hover:bg-primary-cyan/20 transition-all disabled:opacity-50"
-              >
-                <Sparkles size={14} className={isDraftingRejection ? 'animate-pulse' : ''} />
-                {isDraftingRejection ? T('Génération…', 'Generating…') : (rejectReason.trim() ? T('Reformuler avec l\'IA', 'Rephrase with AI') : T('Générer un brouillon avec l\'IA', 'Generate a draft with AI'))}
-              </button>
-              {!rejectReason.trim() && (
-                <p className="text-[11px] text-accent-gold/80 -mt-1">{T('Saisissez ou générez un motif pour activer le bouton ci-dessous.', 'Enter or generate a reason to enable the button below.')}</p>
+
+              {rejectStep === 'done' ? (
+                <>
+                  <div className="p-4 bg-emerald-400/10 border border-emerald-400/20 rounded-xl">
+                    <p className="text-sm text-emerald-400 font-bold leading-relaxed">{rejectStatusMsg}</p>
+                  </div>
+                  <button onClick={closeRejectModal} className="w-full py-3 bg-white/5 border border-white/10 text-sm font-black rounded-xl hover:bg-white/10 transition-all">{T('Fermer', 'Close')}</button>
+                </>
+              ) : (
+                <>
+                  <p className="text-sm text-on-surface-variant/60 leading-relaxed">
+                    {T('Le créateur recevra ce message par email.', 'The creator will receive this message by email.')}
+                  </p>
+                  <textarea
+                    value={rejectReason} onChange={e => setRejectReason(e.target.value)}
+                    disabled={rejectStep === 'saving' || rejectStep === 'emailing'}
+                    placeholder={T('Décrivez pourquoi ce projet ne peut pas être indexé... (ou générez un brouillon avec l\'IA ci-dessous)', 'Describe why this project cannot be indexed... (or generate a draft with AI below)')}
+                    rows={4}
+                    className="w-full bg-surface-dim border border-white/10 text-sm p-4 rounded-xl focus:outline-none focus:border-primary-cyan resize-none transition-colors disabled:opacity-50"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleDraftRejection}
+                    disabled={isDraftingRejection || rejectStep === 'saving' || rejectStep === 'emailing'}
+                    className="w-full flex items-center justify-center gap-2 py-2.5 bg-primary-cyan/10 border border-primary-cyan/25 text-primary-cyan text-xs font-black uppercase tracking-widest rounded-xl hover:bg-primary-cyan/20 transition-all disabled:opacity-50"
+                  >
+                    <Sparkles size={14} className={isDraftingRejection ? 'animate-pulse' : ''} />
+                    {isDraftingRejection ? T('Génération…', 'Generating…') : (rejectReason.trim() ? T('Reformuler avec l\'IA', 'Rephrase with AI') : T('Générer un brouillon avec l\'IA', 'Generate a draft with AI'))}
+                  </button>
+                  {!rejectReason.trim() && rejectStep === 'idle' && (
+                    <p className="text-[11px] text-accent-gold/80 -mt-1">{T('Saisissez ou générez un motif pour activer le bouton ci-dessous.', 'Enter or generate a reason to enable the button below.')}</p>
+                  )}
+                  {(rejectStep === 'saving' || rejectStep === 'emailing') && (
+                    <p className="text-[11px] text-primary-cyan/80 -mt-1 flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-primary-cyan animate-pulse" /> {rejectStatusMsg}</p>
+                  )}
+                  {rejectStep === 'error' && (
+                    <p className="text-[11px] text-rose-400 -mt-1">{rejectStatusMsg}</p>
+                  )}
+                  <div className="flex gap-3">
+                    <button onClick={closeRejectModal} disabled={rejectStep === 'saving' || rejectStep === 'emailing'} className="flex-1 py-3 bg-white/5 border border-white/10 text-sm font-black rounded-xl hover:bg-white/10 transition-all disabled:opacity-40">{T('Annuler', 'Cancel')}</button>
+                    <button onClick={runRejectFlow} disabled={!rejectReason.trim() || rejectStep === 'saving' || rejectStep === 'emailing'} className="flex-1 py-3 bg-rose-500 text-white text-sm font-black rounded-xl hover:bg-rose-400 transition-all disabled:opacity-40">
+                      {rejectStep === 'saving' || rejectStep === 'emailing' ? T('Traitement…', 'Processing…') : T('Confirmer le rejet', 'Confirm rejection')}
+                    </button>
+                  </div>
+                </>
               )}
-              <div className="flex gap-3">
-                <button onClick={() => setRejectId(null)} className="flex-1 py-3 bg-white/5 border border-white/10 text-sm font-black rounded-xl hover:bg-white/10 transition-all">{T('Annuler', 'Cancel')}</button>
-                <button onClick={confirmReject} disabled={!rejectReason.trim()} className="flex-1 py-3 bg-rose-500 text-white text-sm font-black rounded-xl hover:bg-rose-400 transition-all disabled:opacity-40">{T('Confirmer le rejet', 'Confirm rejection')}</button>
-              </div>
             </motion.div>
           </div>
         )}
