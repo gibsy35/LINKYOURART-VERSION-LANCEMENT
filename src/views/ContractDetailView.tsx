@@ -569,6 +569,24 @@ export const ContractDetailView: React.FC<ContractDetailViewProps> = ({
                           <p className="text-[10px] font-black text-white/30 uppercase tracking-widest">{t('Max 500 Mo par fichier', 'Max 500 MB per file')}</p>
                        </div>
 
+                       {/* Document joint a la soumission (ex: business plan, dossier
+                           de presentation) - etait enregistre en base mais n'etait
+                           affiche NULLE PART, invisible pour tout mecene consultant
+                           la fiche. Affiche desormais en premier, clairement identifie. */}
+                       {(contract as any).masterFile && (
+                         <div className="w-full text-left mb-2">
+                           <a href={(contract as any).masterFile.url} target="_blank" rel="noopener noreferrer"
+                             className="flex items-center gap-3 p-3 bg-accent-gold/5 border border-accent-gold/20 rounded-xl hover:border-accent-gold/40 transition-all group">
+                             <FileText size={14} className="text-accent-gold shrink-0"/>
+                             <div className="flex-1 min-w-0">
+                               <p className="text-xs font-black text-white truncate">{(contract as any).masterFile.name}</p>
+                               <p className="text-[9px] text-white/30 uppercase tracking-widest">{t('Project document (business plan, dossier...)', 'Document du projet (business plan, dossier...)')} — {((contract as any).masterFile.size / 1024 / 1024).toFixed(1)} Mo</p>
+                             </div>
+                             <Download size={14} className="text-white/40 group-hover:text-accent-gold transition-colors shrink-0"/>
+                           </a>
+                         </div>
+                       )}
+
                        {/* Liste des fichiers */}
                        {attachments.length > 0 && (
                          <div className="w-full space-y-2 text-left">

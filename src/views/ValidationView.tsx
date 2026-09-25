@@ -289,11 +289,21 @@ const ValidationQueue: React.FC<{
   // depend plus uniquement de la synchronisation automatique.
   const handleForceRemove = async (req: ValidationRequest) => {
     if (!window.confirm(T(`Retirer "${req.contract.name}" de la file d'attente ? Cette action ne peut pas être annulée.`, `Remove "${req.contract.name}" from the queue? This cannot be undone.`))) return;
-    setRequests(prev => prev.filter(x => x.id !== req.id));
+    // Corrige le meme "mensonge silencieux" que sur l'email de refus:
+    // avant ce fix, le message "retire" s'affichait systematiquement, meme
+    // si la suppression reelle en base echouait (ex: permission refusee) -
+    // la fiche de retrait local etait purement optimiste, et l'ecoute en
+    // temps reel (onSnapshot) la faisait reapparaitre des que Firestore
+    // renvoyait son etat reel (au prochain rafraichissement), puisqu'elle
+    // n'avait en fait jamais ete supprimee.
     try {
       await deleteDoc(doc(db, 'projects_pending', req.id));
-    } catch { /* document deja absent ou permission refusee - sans consequence, il est deja retire localement */ }
-    onNotify(T(`${req.contract.name} retiré de la file d'attente.`, `${req.contract.name} removed from the queue.`));
+      setRequests(prev => prev.filter(x => x.id !== req.id));
+      onNotify(T(`${req.contract.name} retiré de la file d'attente.`, `${req.contract.name} removed from the queue.`));
+    } catch (err: any) {
+      onNotify(T(`Échec réel de la suppression: ${err?.message || 'erreur inconnue'}. Le projet reste dans la liste.`, `Deletion actually failed: ${err?.message || 'unknown error'}. The project remains in the list.`));
+      console.error('[FORCE_REMOVE_FAILED]', err);
+    }
   };
 
   const closeRejectModal = () => {

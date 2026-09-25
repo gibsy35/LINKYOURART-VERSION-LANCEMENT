@@ -1714,9 +1714,16 @@ export const AdminView: React.FC<{
                                     <button
                                       onClick={async () => {
                                         if (!window.confirm(t(`Remove "${sub.name}" from the queue? This cannot be undone.`, `Retirer "${sub.name}" de la file d'attente ? Cette action ne peut pas être annulée.`))) return;
-                                        setPendingSubmissions(prev => prev.filter(s => s.id !== sub.id));
-                                        try { await deleteDoc(doc(db, 'projects_pending', sub.id)); } catch { /* deja absent, sans consequence */ }
-                                        onNotify(t(`${sub.name} removed from the queue.`, `${sub.name} retiré de la file d'attente.`));
+                                        // Meme correction que Services Administratifs: verifie
+                                        // reellement la suppression avant de l'annoncer.
+                                        try {
+                                          await deleteDoc(doc(db, 'projects_pending', sub.id));
+                                          setPendingSubmissions(prev => prev.filter(s => s.id !== sub.id));
+                                          onNotify(t(`${sub.name} removed from the queue.`, `${sub.name} retiré de la file d'attente.`));
+                                        } catch (err: any) {
+                                          onNotify(t(`Deletion actually failed: ${err?.message || 'unknown error'}. The project remains in the list.`, `Échec réel de la suppression: ${err?.message || 'erreur inconnue'}. Le projet reste dans la liste.`));
+                                          console.error('[FORCE_REMOVE_FAILED]', err);
+                                        }
                                       }}
                                       title={t('Remove from queue (if this project shouldn\'t be here anymore)', 'Retirer de la file (si ce projet ne devrait plus être ici)')}
                                       className="p-2 border border-white/10 text-on-surface-variant/40 hover:text-rose-400 hover:border-rose-400/30 rounded-xl transition-all self-center"
