@@ -95,6 +95,32 @@ module.exports = async (req, res) => {
       }
     }
 
+    // Deuxieme vague de pollution generique trouvee apres le premier
+    // nettoyage: 453 documents prefixes DEMO_PROJ_ (noms generiques type
+    // "Bio Core #1033", "Project Zion 18"), meme motif que mock_p_ sous un
+    // autre prefixe. Confirme par Gibsy.
+    if (req.query.cleanup2 === 'dryrun' || req.query.cleanup2 === 'confirm') {
+      const demoSnap = await db.collection('contracts')
+        .where('__name__', '>=', 'DEMO_PROJ_')
+        .where('__name__', '<', 'DEMO_PROJ_\uf8ff')
+        .get();
+      const demoIds = demoSnap.docs.map(d => d.id);
+      result.demoProjDocumentsFound = demoIds.length;
+
+      if (req.query.cleanup2 === 'confirm') {
+        let deleted2 = 0;
+        for (let i = 0; i < demoIds.length; i += 500) {
+          const batch = db.batch();
+          demoIds.slice(i, i + 500).forEach(id => batch.delete(db.collection('contracts').doc(id)));
+          await batch.commit();
+          deleted2 += Math.min(500, demoIds.length - i);
+        }
+        result.deleted2 = deleted2;
+        const remaining2 = await db.collection('contracts').count().get();
+        result.totalContractsAfterCleanup2 = remaining2.data().count;
+      }
+    }
+
     return res.status(200).json(result);
   } catch (err) {
     console.error('[INSPECT_PROJECT] Error:', err);
