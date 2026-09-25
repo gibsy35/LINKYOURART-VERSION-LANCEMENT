@@ -55,6 +55,36 @@ module.exports = async (req, res) => {
     const totalContracts = await db.collection('contracts').count().get();
     result.totalContractsInDb = totalContracts.data().count;
 
+    // Nettoyage de la pollution mock_p_ (9252 documents trouves) - cause
+    // tres probable du bug de visibilite ET du ralentissement severe
+    // remonte par Gibsy en naviguant vers Admin/Pro/Mecene/Createur (ces
+    // vues chargent liveContracts, desormais 500 documents en temps reel
+    // depuis une collection de 9000+ elements, au lieu d'une grosse
+    // centaine attendue). ?cleanup=dryrun compte sans rien supprimer,
+    // ?cleanup=confirm supprime reellement, par lots de 500 (limite
+    // Firestore par batch).
+    if (req.query.cleanup === 'dryrun' || req.query.cleanup === 'confirm') {
+      const mockSnap = await db.collection('contracts')
+        .where('__name__', '>=', 'mock_p_')
+        .where('__name__', '<', 'mock_p_\uf8ff')
+        .get();
+      const mockIds = mockSnap.docs.map(d => d.id);
+      result.mockDocumentsFound = mockIds.length;
+
+      if (req.query.cleanup === 'confirm') {
+        let deleted = 0;
+        for (let i = 0; i < mockIds.length; i += 500) {
+          const batch = db.batch();
+          mockIds.slice(i, i + 500).forEach(id => batch.delete(db.collection('contracts').doc(id)));
+          await batch.commit();
+          deleted += Math.min(500, mockIds.length - i);
+        }
+        result.deleted = deleted;
+        const remaining = await db.collection('contracts').count().get();
+        result.totalContractsAfterCleanup = remaining.data().count;
+      }
+    }
+
     return res.status(200).json(result);
   } catch (err) {
     console.error('[INSPECT_PROJECT] Error:', err);
