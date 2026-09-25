@@ -201,8 +201,8 @@ export const RegistryView: React.FC<{
   const sortedItems = [...filteredItems].sort((a, b) => {
     if (sortBy === 'SCORE_DESC') return b.totalScore - a.totalScore;
     if (sortBy === 'SCORE_ASC') return a.totalScore - b.totalScore;
-    if (sortBy === 'NAME_ASC') return a.contractName.localeCompare(b.contractName);
-    if (sortBy === 'NAME_DESC') return b.contractName.localeCompare(a.contractName);
+    if (sortBy === 'NAME_ASC') return (a.contractName || '').localeCompare(b.contractName || '');
+    if (sortBy === 'NAME_DESC') return (b.contractName || '').localeCompare(a.contractName || '');
     if (sortBy === 'DATE_DESC') return new Date(b.creationDate).getTime() - new Date(a.creationDate).getTime();
     if (sortBy === 'DATE_ASC') return new Date(a.creationDate).getTime() - new Date(b.creationDate).getTime();
     return 0;

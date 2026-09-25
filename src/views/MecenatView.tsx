@@ -105,7 +105,7 @@ export function MecenatView({ isGuest, onRequireAuth }: { isGuest?: boolean; onR
     const sorted = [...base];
     if (sortBy === "score_desc") sorted.sort((a, b) => b.totalScore - a.totalScore);
     else if (sortBy === "score_asc") sorted.sort((a, b) => a.totalScore - b.totalScore);
-    else if (sortBy === "name_asc") sorted.sort((a, b) => a.name.localeCompare(b.name));
+    else if (sortBy === "name_asc") sorted.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
     return sorted;
   }, [activeTheme, categoryFilter, minScore, rarityFilter, searchQuery, sortBy]);
 

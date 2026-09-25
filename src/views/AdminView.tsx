@@ -188,10 +188,23 @@ export const AdminView: React.FC<{
 
   useEffect(() => {
     setProjectsList(liveContracts);
+    // .localeCompare() est une methode de CHAINE DE CARACTERES - or
+    // updatedAt/createdAt sont des Timestamps Firestore (objets), pas du
+    // texte, pour tout document reellement cree via serverTimestamp()
+    // (donc TOUT vrai projet soumis normalement). Des qu'un tel document
+    // entrait dans cette liste, ce tri plantait immediatement et faisait
+    // tomber tout l'espace Admin (Erreur de rendu / View Carrier) -
+    // convertit d'abord en timestamp numerique, quelle que soit la forme
+    // (Timestamp Firestore, chaine, ou absent).
+    const toMillis = (v: any): number => {
+      if (!v) return 0;
+      if (typeof v.toMillis === 'function') return v.toMillis();
+      if (typeof v.seconds === 'number') return v.seconds * 1000;
+      const parsed = Date.parse(v);
+      return isNaN(parsed) ? 0 : parsed;
+    };
     setValidationQueue(liveContracts.filter((p: any) => p.status === 'PENDING').sort((a: any, b: any) => {
-      const dateA = a.updatedAt || a.createdAt || '';
-      const dateB = b.updatedAt || b.createdAt || '';
-      return dateB.localeCompare(dateA);
+      return toMillis(b.updatedAt || b.createdAt) - toMillis(a.updatedAt || a.createdAt);
     }));
     setLoadingProjects(false);
   }, [liveContracts]);
