@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { db, handleFirestoreError, OperationType } from '../firebase';
-import { collection, getDocs, query, orderBy, limit, doc, updateDoc, setDoc, serverTimestamp, addDoc } from 'firebase/firestore';
+import { collection, getDocs, query, orderBy, limit, doc, updateDoc, setDoc, serverTimestamp, addDoc, onSnapshot } from 'firebase/firestore';
 import { motion, AnimatePresence } from 'motion/react';
 import { PageHeader } from '../components/ui/PageHeader';
 import {
@@ -140,18 +140,16 @@ const ValidationQueue: React.FC<{
   const [isLoadingQueue, setIsLoadingQueue] = useState(true);
 
   React.useEffect(() => {
-    let active = true;
-    const load = async () => {
-      setIsLoadingQueue(true);
-      try {
-        // Lisait auparavant directement 'contracts' avec un statut PENDING
-        // - un schema herite de l'ancien code de soumission (deja corrige),
-        // que les vraies soumissions actuelles ne produisent plus jamais.
-        // Cette file d'attente ne voyait donc plus que de vieux restes de
-        // tests, jamais les vraies soumissions en attente. Lit desormais
-        // la meme source que l'onglet Admin > Soumissions.
-        const snap = await getDocs(query(collection(db, 'projects_pending'), orderBy('createdAt', 'desc'), limit(100)));
-        if (!active) return;
+    setIsLoadingQueue(true);
+    // Ecoute en temps reel (onSnapshot) au lieu d'un chargement ponctuel
+    // (getDocs) - avant ce fix, la liste ne se rafraichissait jamais
+    // automatiquement: un projet deja traite ailleurs (ou un vieux reste
+    // de test) pouvait rester affiche indefiniment tant que la page
+    // n'etait pas rechargee manuellement, menant a des erreurs "No
+    // document to update" au moment d'agir dessus.
+    const unsub = onSnapshot(
+      query(collection(db, 'projects_pending'), orderBy('createdAt', 'desc'), limit(100)),
+      (snap) => {
         const real = snap.docs
           .map(d => ({ id: d.id, ...d.data() } as any))
           .filter(c => c.status === 'PENDING_VALIDATION')
@@ -178,14 +176,14 @@ const ValidationQueue: React.FC<{
             notes: '',
           }));
         setRequests(real);
-      } catch (e) {
+        setIsLoadingQueue(false);
+      },
+      (e) => {
         handleFirestoreError(e, OperationType.GET, 'projects_pending');
-      } finally {
-        if (active) setIsLoadingQueue(false);
+        setIsLoadingQueue(false);
       }
-    };
-    load();
-    return () => { active = false; };
+    );
+    return () => unsub();
   }, []);
 
   const [search, setSearch] = useState('');
@@ -236,8 +234,16 @@ const ValidationQueue: React.FC<{
         rejectedBy: user?.uid,
       });
     } catch (saveErr: any) {
+      // "No document to update" = ce projet n'existe plus reellement en
+      // base (probablement un reste d'un ancien test, ou deja traite
+      // ailleurs) - retire cette entree fantome de la liste locale au lieu
+      // de la laisser reapparaitre indefiniment, avec un message clair.
+      const isGhost = /No document to update/i.test(saveErr?.message || '');
       setRejectStep('error');
-      setRejectStatusMsg(T(`Échec de l'enregistrement: ${saveErr?.message || 'erreur inconnue'}`, `Failed to save: ${saveErr?.message || 'unknown error'}`));
+      setRejectStatusMsg(isGhost
+        ? T('Ce projet n\'existe plus réellement en base (probablement un ancien test). Il vient d\'être retiré de la liste.', 'This project no longer exists in the database (likely an old test). It has just been removed from the list.')
+        : T(`Échec de l'enregistrement: ${saveErr?.message || 'erreur inconnue'}`, `Failed to save: ${saveErr?.message || 'unknown error'}`));
+      if (isGhost) setRequests(prev => prev.filter(x => x.id !== target.id));
       return;
     }
 

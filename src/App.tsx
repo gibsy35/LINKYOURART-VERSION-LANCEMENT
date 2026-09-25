@@ -431,7 +431,13 @@ export default function App() {
     if (previewViews.includes(currentView)) return;
     if (user) return;
     if (sessionStorage.getItem('lya_visitor_mode') === 'true') { setCurrentView('HOME'); return; }
-    const timer = setTimeout(() => { if (!user) setCurrentView('HOME'); }, 500);
+    // Delai porte de 500ms a 3s: un delai trop court pouvait declencher un
+    // retour force vers la Home (avec replay du loader d'entree si une
+    // vraie navigation suit) si l'etat d'authentification Firebase
+    // devenait brievement instable (reconnexion reseau, renouvellement de
+    // session sur un onglet reste ouvert longtemps) - remonte comme un
+    // "retour inattendu vers la Home" pendant la navigation.
+    const timer = setTimeout(() => { if (!user) setCurrentView('HOME'); }, 3000);
     return () => clearTimeout(timer);
   }, [user, currentView, isAuthReady, isBooting]);
   const handleViewChange = (view: View) => {
