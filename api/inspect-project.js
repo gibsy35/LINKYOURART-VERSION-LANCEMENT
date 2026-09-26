@@ -134,6 +134,32 @@ module.exports = async (req, res) => {
       });
     }
 
+    // Nettoyage des faux profils mock_u_ dans users (17611 trouves), meme
+    // motif et meme methode que le nettoyage de contracts - cible
+    // uniquement ce prefixe precis, les vrais comptes utilisateurs ne sont
+    // jamais touches.
+    if (req.query.cleanupUsers === 'dryrun' || req.query.cleanupUsers === 'confirm') {
+      const mockUserSnap = await db.collection('users')
+        .where('__name__', '>=', 'mock_u_')
+        .where('__name__', '<', 'mock_u_\uf8ff')
+        .get();
+      const mockUserIds = mockUserSnap.docs.map(d => d.id);
+      result.mockUsersFound = mockUserIds.length;
+
+      if (req.query.cleanupUsers === 'confirm') {
+        let deletedUsers = 0;
+        for (let i = 0; i < mockUserIds.length; i += 500) {
+          const batch = db.batch();
+          mockUserIds.slice(i, i + 500).forEach(id => batch.delete(db.collection('users').doc(id)));
+          await batch.commit();
+          deletedUsers += Math.min(500, mockUserIds.length - i);
+        }
+        result.deletedUsers = deletedUsers;
+        const remainingUsers = await db.collection('users').count().get();
+        result.totalUsersAfterCleanup = remainingUsers.data().count;
+      }
+    }
+
     return res.status(200).json(result);
   } catch (err) {
     console.error('[INSPECT_PROJECT] Error:', err);
