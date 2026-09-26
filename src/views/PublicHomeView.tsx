@@ -1012,7 +1012,6 @@ export const PublicHomeView: React.FC<PublicHomeViewProps> = ({ onJoin, onLogin,
               <button className={lang === 'fr' ? 'active' : ''} onClick={() => setLang('fr')}>FR</button>
               <button className={lang === 'en' ? 'active' : ''} onClick={() => setLang('en')}>EN</button>
             </div>
-            <button className="term-pill ghost" onClick={onGuestBrowse}>{t('Parcourir sans compte', 'Browse without an account')}</button>
             <button className="term-pill" onClick={onLogin}>{t('Se connecter', 'Log in')}</button>
           </nav>
         </div>

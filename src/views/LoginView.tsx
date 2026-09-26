@@ -14,9 +14,10 @@ import { OracleWidget } from '../components/ui/OracleWidget';
 interface LoginViewProps {
   onViewChange: (view: View) => void;
   setUser: (user: UserProfile) => void;
+  onGuestBrowse?: () => void;
 }
 
-const LoginView: React.FC<LoginViewProps> = ({ onViewChange, setUser }) => {
+const LoginView: React.FC<LoginViewProps> = ({ onViewChange, setUser, onGuestBrowse }) => {
   const { t, language } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -401,6 +402,21 @@ const LoginView: React.FC<LoginViewProps> = ({ onViewChange, setUser }) => {
                       <span className="w-4 h-[1px] bg-white/10" />
                     </button>
                 </div>
+                {/* Deplace ici depuis la barre de navigation de la HOME
+                    (etait invisible sur mobile, cache derriere un
+                    defilement horizontal peu decouvrable) - meme
+                    comportement exact (mode visiteur + Mecenat), juste
+                    accessible depuis un seul endroit logique desormais. */}
+                {onGuestBrowse && (
+                  <div className="mt-4 text-center">
+                    <button
+                      onClick={onGuestBrowse}
+                      className="text-[11px] font-bold text-on-surface-variant/50 hover:text-on-surface-variant transition-colors underline underline-offset-4"
+                    >
+                      {t('EXPLORE', 'EXPLORER')}
+                    </button>
+                  </div>
+                )}
               </motion.div>
             ) : (
               <motion.div
