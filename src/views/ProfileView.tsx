@@ -357,8 +357,10 @@ const ProfileView: React.FC<ProfileViewProps> = ({
                      <div className="pt-8 flex gap-6">
                         <button 
                           onClick={() => {
-                            onNotify?.(t('INITIATING SECURE ENVOY...', 'INITIALISATION DE L\'ENVOI SÉCURISÉ...'));
-                            setViewingUser(null);
+                            // Ces deux boutons affichaient un faux message de
+                            // succes sans aucune messagerie ou systeme de
+                            // connexion reel derriere - honnete desormais.
+                            onNotify?.(t('Direct messaging is coming in a future update.', 'La messagerie directe arrive dans une prochaine mise à jour.'));
                           }}
                           className="flex-1 py-4 bg-primary-cyan text-surface-dim font-black uppercase text-[10px] tracking-widest hover:bg-white transition-all shadow-xl active:scale-95"
                         >
@@ -366,7 +368,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
                         </button>
                         <button 
                           onClick={() => {
-                            onNotify?.(t('LINK REQUEST DISPATCHED', 'DEMANDE DE LIEN ENVOYÉE'));
+                            onNotify?.(t('Connection requests are coming in a future update.', 'Les demandes de connexion arrivent dans une prochaine mise à jour.'));
                           }}
                           className="px-10 py-4 bg-white/5 border border-white/10 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-black rounded-lg transition-all shadow-xl"
                         >
@@ -385,93 +387,6 @@ const ProfileView: React.FC<ProfileViewProps> = ({
   const [loadingUsers, setLoadingUsers] = useState(false);
   const [isSeeding, setIsSeeding] = useState(false);
 
-  const seedMockData = async (type: 'users' | 'projects') => {
-    setIsSeeding(true);
-    onNotify?.(`SEEDING ${type.toUpperCase()}...`, 'info');
-    try {
-      const batch = writeBatch(db);
-      if (type === 'users') {
-        const countries = ['FRANCE', 'USA', 'JAPAN', 'UK', 'ITALY', 'BRAZIL', 'GERMANY', 'SPAIN', 'CANADA', 'KOREA'];
-        const activities = ['CREATIVE_RIGHTS', 'MUSIC_CERTIFICATION', 'VISUAL_ARTS', 'FILM_PROD', 'GAMING_CERTIFICATION', 'FASHION_IP'];
-        const actions = ['SUPPORT_PROJECTS', 'VALIDATE_PROJECTS', 'SUBMIT_PROJECTS', 'VOTING', 'CERTIFYING'];
-        
-        for (let i = 0; i < 100; i++) {
-          const id = `mock_u_${Date.now()}_${i}`;
-          const country = countries[Math.floor(Math.random() * countries.length)];
-          const activity = activities[Math.floor(Math.random() * activities.length)];
-          const userDoc = doc(collection(db, 'users'), id);
-          
-          batch.set(userDoc, {
-            uid: id,
-            displayName: `Global Profile ${i + 1}`,
-            email: `profile${i+1}@hub.linkyourart.com`,
-            role: Math.random() > 0.4 ? UserRole.CREATOR : UserRole.PROFESSIONAL,
-            country: country,
-            lyaScore: 500 + Math.floor(Math.random() * 400),
-            createdAt: serverTimestamp(),
-            bio: `Verified certified profile from ${country}. Specialized in ${activity.replace('_', ' ').toLowerCase()} and cross-border creative certification.`,
-            isPro: true,
-            status: 'ACTIVE',
-            activity: activity,
-            authorizedActions: actions.slice(0, 2 + Math.floor(Math.random() * 3)),
-            avatarUrl: `https://i.pravatar.cc/150?u=${id}`
-          });
-        }
-      } else {
-        const categories = ['Film', 'Music', 'Visual Art', 'Gaming', 'Fashion', 'Photography'];
-        const baseNames = ['Neo', 'Aether', 'Quantum', 'Solar', 'Lunar', 'Cyber', 'Bio', 'Stellar', 'Prism', 'Vertex'];
-        const suffixes = ['Collection', 'Series', 'Vantage', 'Nexus', 'Origins', 'Symphony', 'Opus', 'Vista', 'Chronicles', 'Legacy'];
-
-        for (let i = 0; i < 100; i++) {
-          const id = `mock_p_${Date.now()}_${i}`;
-          const projDoc = doc(collection(db, 'contracts'), id);
-          const category = categories[Math.floor(Math.random() * categories.length)];
-          
-          // Prix fixe : $50.00 partout, aucune valorisation simulee
-          const growthValue = 0;
-          const unitValue = LYA_UNIT_VALUE;
-          const totalUnits = 1000 + Math.floor(Math.random() * 9000);
-          const totalValue = unitValue * totalUnits;
-          
-          const scoreAlgo = 650 + Math.floor(Math.random() * 300);
-          const scorePro = 680 + Math.floor(Math.random() * 280);
-
-          batch.set(projDoc, {
-            id,
-            registryIndex: `LYA-${category.substring(0,3).toUpperCase()}-${Date.now().toString().slice(-4)}-${i}`,
-            name: `${baseNames[Math.floor(Math.random() * baseNames.length)]} ${suffixes[Math.floor(Math.random() * suffixes.length)]} #${1000 + i}`,
-            category,
-            description: "High-potential creative project with strong certification metrics and verified IP protection. This project is certified on the LYA Registry with a growing community of patrons.",
-            initialValue: totalValue,
-            unitValue,
-            totalUnits,
-            availableUnits: Math.floor(totalUnits * 0.4),
-            status: 'LIVE',
-            growth: growthValue,
-            issuerId: `Issuer_${Math.floor(Math.random() * 1000)}`,
-            issuerUid: user.uid,
-            scoreAlgo,
-            scorePro,
-            totalScore: Math.floor((scoreAlgo + scorePro) / 2),
-            stability: 0.5 + Math.random() * 0.4,
-            createdAt: serverTimestamp(),
-            image: `https://images.unsplash.com/photo-${1500000000000 + Math.floor(Math.random() * 1000000000)}?auto=format&fit=crop&q=80&w=800`,
-            professionalValidator: 'LYA GLOBAL HUB',
-            registryAddress: `0x${id.slice(-8)}...${id.slice(-4)}`,
-            lastAudit: '2026-05-01',
-            maturityDate: '2029-12-31'
-          });
-        }
-      }
-      await batch.commit();
-      onNotify?.(t('100 ELITE HUB PROFILES INJECTED', '100 PROFILS HUB ÉLITE INJECTÉS'), 'success');
-    } catch (err) {
-      console.error(err);
-      onNotify?.(`SEEDING FAILED: ${err instanceof Error ? err.message : 'Unknown error'}`);
-    } finally {
-      setIsSeeding(false);
-    }
-  };
 
   const [messages, setMessages] = useState([
     { id: '1', from: 'Marcus Thorne', senderRole: 'Global Registry Lead', subject: 'Strategic Partnership', content: 'I reviewed your project CHRONOS_V3. The certification metrics are impressive. Let\'s schedule a call to discuss partnership options.', time: '1h ago', read: false, avatar: 'm1' },
@@ -1355,24 +1270,8 @@ const renderMentorshipContent = () => (
                 <Database className="text-primary-cyan" size={20} /> {t('Data Management', 'Gestion des Données')}
               </h4>
               <p className="text-xs text-on-surface-variant leading-relaxed opacity-60">
-                {t('Inject mock data to boost platform visibility and demo performance. All operations are indexed and reversible.', 'Injectez des données fictives pour booster la visibilité de la plateforme et les performances de démo. Toutes les opérations sont indexées et réversibles.')}
+                {t('Removed ahead of launch: this tool wrote thousands of fake profiles and projects directly into the production database (the exact pollution cleaned up earlier).', 'Retiré avant le lancement : cet outil écrivait des milliers de faux profils et projets directement dans la base de production (la pollution exacte nettoyée plus tôt).')}
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                <button 
-                  disabled={isSeeding}
-                  onClick={() => seedMockData('users')}
-                  className="flex-1 py-4 bg-primary-cyan text-surface-dim font-black uppercase text-[10px] tracking-widest hover:bg-white transition-all shadow-xl active:scale-95 disabled:opacity-50"
-                >
-                  {isSeeding ? t('PROCESSING...', 'TRAITEMENT...') : t('SEED 50 HUB PROFILES', 'INJECTER 50 PROFILS HUB')}
-                </button>
-                <button 
-                  disabled={isSeeding}
-                  onClick={() => seedMockData('projects')}
-                  className="flex-1 py-4 bg-accent-magenta text-white font-black uppercase text-[10px] tracking-widest hover:bg-white hover:text-accent-magenta transition-all shadow-xl active:scale-95 disabled:opacity-50"
-                >
-                  {isSeeding ? t('PROCESSING...', 'TRAITEMENT...') : t('SEED 50 PROJECTS', 'INJECTER 50 PROJETS')}
-                </button>
-              </div>
             </div>
 
             <div className="bg-white/5 border border-white/10 p-10 rounded-lg space-y-6">
@@ -1472,24 +1371,8 @@ const renderMentorshipContent = () => (
                             <h4 className="text-sm md:text-lg font-black text-white uppercase tracking-widest">{t('DEMO INITIALIZATION', 'INITIALISATION DÉMO')}</h4>
                           </div>
                           <p className="text-[10px] md:text-xs text-on-surface-variant leading-relaxed opacity-60">
-                            {t('Populate the platform with institutional grade mock data for high-level demonstrations. This simulates global registry activity.', 'Peuplez la plateforme avec des données fictives de qualité institutionnelle pour des démonstrations de haut niveau. Cela simule l\'activité mondiale du registre.')}
+                            {t('Removed ahead of launch: this tool wrote thousands of fake profiles and projects directly into the production database (the exact pollution cleaned up earlier).', 'Retiré avant le lancement : cet outil écrivait des milliers de faux profils et projets directement dans la base de production (la pollution exacte nettoyée plus tôt).')}
                           </p>
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <button 
-                              disabled={isSeeding}
-                              onClick={() => seedMockData('users')}
-                              className="py-4 bg-primary-cyan text-surface-dim font-black uppercase text-[10px] tracking-widest hover:bg-white transition-all shadow-xl active:scale-95 disabled:opacity-50"
-                            >
-                              {isSeeding ? t('PROCESSING...', 'TRAITEMENT...') : t('SEED 50 HUB PROFILES', 'INJECTER 50 PROFILS HUB')}
-                            </button>
-                            <button 
-                              disabled={isSeeding}
-                              onClick={() => seedMockData('projects')}
-                              className="py-4 bg-accent-magenta text-white font-black uppercase text-[10px] tracking-widest hover:bg-white hover:text-accent-magenta transition-all shadow-xl active:scale-95 disabled:opacity-50"
-                            >
-                              {isSeeding ? t('PROCESSING...', 'TRAITEMENT...') : t('SEED 50 PROJECTS', 'INJECTER 50 PROJETS')}
-                            </button>
-                          </div>
                         </div>
 
                         <div className="bg-white/5 border border-white/10 p-8 rounded-lg space-y-6">
