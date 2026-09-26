@@ -121,6 +121,19 @@ module.exports = async (req, res) => {
       }
     }
 
+    // Verification de la meme pollution potentielle dans users (17K+
+    // profils signales par Gibsy sur le Registre Hub, meme motif que les
+    // "Global Asset" trouves dans contracts)
+    if (req.query.checkUsers === '1') {
+      const usersCount = await db.collection('users').count().get();
+      result.totalUsersInDb = usersCount.data().count;
+      const usersSample = await db.collection('users').limit(10).get();
+      result.usersSample = usersSample.docs.map(d => {
+        const data = d.data();
+        return { id: d.id, displayName: data.displayName, email: data.email, role: data.role, keys: Object.keys(data) };
+      });
+    }
+
     return res.status(200).json(result);
   } catch (err) {
     console.error('[INSPECT_PROJECT] Error:', err);
