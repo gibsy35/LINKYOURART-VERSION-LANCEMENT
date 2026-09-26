@@ -359,6 +359,59 @@ export function getContractDescription(item: { description: string; descriptionF
 // 8 fichiers a travers le site sans jamais etre traduite - toujours en
 // anglais meme sur la version francaise. Fonction centrale reutilisee
 // partout au lieu d'afficher contract.rarity directement.
+// LYA_SIMULATOR_STEPS est ecrit entierement en anglais (titres,
+// descriptions, questions, options) - le point d'affichage appelait deja
+// t() mais avec le MEME texte pour les deux arguments (EN et FR), ce qui
+// ne traduisait jamais rien. Plutot que de restructurer toute la donnee
+// existante, une table de correspondance couvre chaque chaine reellement
+// utilisee, appliquee a l'affichage.
+export const SIMULATOR_FR_MAP: Record<string, string> = {
+  'Visibility & Radiation': 'Visibilité & Rayonnement',
+  'Media presence, social networks, and public events.': 'Présence médiatique, réseaux sociaux et événements publics.',
+  'Number of followers on main social networks': 'Nombre d\'abonnés sur les principaux réseaux sociaux',
+  'Number of public exhibitions or events in the last 2 years': 'Nombre d\'expositions ou événements publics lors des 2 dernières années',
+  'Media coverage (articles, interviews, reviews)': 'Couverture médiatique (articles, interviews, critiques)',
+  'None': 'Aucune', 'Local / Specialized': 'Locale / Spécialisée', 'National': 'Nationale', 'International': 'Internationale',
+
+  'Professional Recognition': 'Reconnaissance Professionnelle',
+  'Awards, distinctions, and professional collaborations.': 'Prix, distinctions et collaborations professionnelles.',
+  'Awards and distinctions received': 'Prix et distinctions reçus',
+  'Regional': 'Régionale',
+  'Collaborations with recognized institutions': 'Collaborations avec des institutions reconnues',
+  'Professional network (gallerists, curators, agents)': 'Réseau professionnel (galeristes, commissaires, agents)',
+  'Beginner': 'Débutant', 'Established': 'Établi', 'Highly developed': 'Très développé', 'Elite / Global': 'Élite / Mondial',
+
+  'Market Performance': 'Performance du Marché',
+  'Sales, demand, and economic growth.': 'Ventes, demande et croissance économique.',
+  'Annual turnover from creative activity': 'Chiffre d\'affaires annuel de l\'activité créative',
+  'Growth over the last 12 months': 'Croissance sur les 12 derniers mois',
+  '< 0% (Stable or declining)': '< 0 % (stable ou en baisse)',
+  'Waiting list / Demand for work': 'Liste d\'attente / Demande pour les œuvres',
+  'Low': 'Faible', 'Medium': 'Moyenne', 'High': 'Élevée',
+
+  'Innovation & Originality': 'Innovation & Originalité',
+  'Uniqueness, creative approach, and technical mastery.': 'Unicité, démarche créative et maîtrise technique.',
+  'Originality of the creative concept': 'Originalité du concept créatif',
+  'Conventional': 'Conventionnel', 'Interesting': 'Intéressant', 'Innovative': 'Innovant', 'Revolutionary': 'Révolutionnaire',
+  'Technical mastery of the medium': 'Maîtrise technique du medium',
+  'Basic': 'Basique', 'Competent': 'Compétent', 'Expert': 'Expert', 'Virtuoso': 'Virtuose',
+  'Use of new technologies or methods': 'Utilisation de nouvelles technologies ou méthodes',
+  'Traditional': 'Traditionnelle', 'Some innovations': 'Quelques innovations', 'Pioneer': 'Pionnier', 'Avant-garde': 'Avant-gardiste',
+
+  'Community Engagement': 'Engagement Communautaire',
+  'Fan base, interactions, and loyalty.': 'Base de fans, interactions et fidélité.',
+  'Average engagement rate on networks': 'Taux d\'engagement moyen sur les réseaux',
+  'Community of collectors and fans': 'Communauté de collectionneurs et de fans',
+  'Emerging': 'Émergente', 'Loyal': 'Fidèle', 'Passionate / Active': 'Passionnée / Active',
+  'Collaborative actions (workshops, meetings)': 'Actions collaboratives (ateliers, rencontres)',
+  'Rarely': 'Rarement', 'Occasionally': 'Occasionnellement', 'Regularly': 'Régulièrement', 'Continuously': 'En continu',
+};
+
+export function getSimulatorText(text: string, language: 'EN' | 'FR'): string {
+  if (language !== 'FR') return text;
+  return SIMULATOR_FR_MAP[text] || text;
+}
+
 export function getRarityLabel(rarity: string | undefined, language: 'EN' | 'FR'): string {
   if (language !== 'FR') return rarity || 'Standard';
   const map: Record<string, string> = {

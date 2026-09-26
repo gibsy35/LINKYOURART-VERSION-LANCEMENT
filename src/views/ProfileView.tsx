@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { getSafeImageUrl, handleImageError } from '../utils/image';
 import { motion, AnimatePresence } from 'motion/react';
-import { UserRole, UserProfile, LYA_SIMULATOR_STEPS, LYASimulatorStep, CONTRACTS, LYA_UNIT_VALUE } from '../types';
+import { UserRole, UserProfile, LYA_SIMULATOR_STEPS, LYASimulatorStep, CONTRACTS, LYA_UNIT_VALUE, getSimulatorText } from '../types';
 import { translatePillarLabel } from '../utils/pillars';
 import { View } from '../components/ui/Sidebar';
 import { User, Settings, Shield, BarChart3, Layers, Globe, LogOut, Lock, Play, ExternalLink, Save, Camera, Mail, Briefcase, TrendingUp, Award, ShieldCheck, Zap, Activity, Cpu, FileCode, X, LayoutGrid, Plus, FileText, Download, MessageSquare, PieChart as PieChartIcon, Wallet, Clock, UserPlus, LayoutDashboard, History, Target, Info, Trash2, ArrowRight, Twitter, Instagram, Linkedin, Bell, CheckCircle2, XCircle, AlertCircle, Search, Radar, Sparkles, Check, Loader2, Crown, CreditCard, Send, Paperclip, RefreshCw, Eye, TrendingDown, MapPin, Users, Building2, BriefcaseIcon, Database } from 'lucide-react';
@@ -1565,41 +1565,12 @@ const renderMentorshipContent = () => (
               </div>
             </section>
 
-            {/* Creator Header - Premium Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <StatCard 
-          title={t('Total Projects', 'Total Projets')} 
-          value="12" 
-          icon={<Layers size={20} />} 
-          trend="+2 this month" 
-          color="cyan" 
-          subValue={t('DIVERSIFIED CATALOG', 'CATALOGUE DIVERSIFIÉ')}
-        />
-        <StatCard 
-          title={t('Registry Standing', 'Position Registre')} 
-          value="450K LYA" 
-          icon={<Wallet size={20} />} 
-          trend="+15.4%" 
-          color="emerald" 
-          subValue={t('EXPERT GRADE', 'GRADE EXPERT')}
-        />
-        <StatCard 
-          title={t('Avg. LYA Score', 'Score LYA Moy.')} 
-          value="84.2" 
-          icon={<Zap size={20} />} 
-          trend="Top 5%" 
-          color="gold" 
-          subValue="LYA-V4 ALGORITHM"
-        />
-        <StatCard 
-          title={t('Active Patrons', 'Mécènes Actifs')} 
-          value="1.2K" 
-          icon={<Globe size={20} />} 
-          trend="Global Reach" 
-          color="purple" 
-          subValue={t('VERIFIED TERMINALS', 'TERMINAUX VÉRIFIÉS')}
-        />
-      </div>
+            {/* Les 4 cartes de statistiques ici (Total Projets, Position
+                Registre, Score LYA Moy., Mecenes Actifs) etaient
+                entierement fictives et codees en dur (12, 450K LYA, 84.2,
+                1.2K), sans aucun lien avec les vraies donnees du createur
+                connecte - retirees, meme principe que le bloc similaire
+                deja retire plus tot dans ce fichier. */}
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-16">
               <div className="lg:col-span-8 space-y-8 md:space-y-16">
@@ -3443,10 +3414,10 @@ const renderMentorshipContent = () => (
                   <div className="space-y-8 md:space-y-12">
                     <div className="space-y-4">
                       <h3 className="text-xl md:text-2xl font-black uppercase italic tracking-tight text-white">
-                        {t(LYA_SIMULATOR_STEPS[simulatorStep].title, LYA_SIMULATOR_STEPS[simulatorStep].title)}
+                        {getSimulatorText(LYA_SIMULATOR_STEPS[simulatorStep].title, language)}
                       </h3>
                       <p className="text-sm text-on-surface-variant font-bold uppercase tracking-widest opacity-60">
-                        {t(LYA_SIMULATOR_STEPS[simulatorStep].description, LYA_SIMULATOR_STEPS[simulatorStep].description)}
+                        {getSimulatorText(LYA_SIMULATOR_STEPS[simulatorStep].description, language)}
                       </p>
                     </div>
 
@@ -3466,20 +3437,20 @@ const renderMentorshipContent = () => (
                     <div className="space-y-8">
                       {LYA_SIMULATOR_STEPS[simulatorStep].questions.map((q) => (
                         <div key={q.id} className="space-y-4">
-                          <p className="text-xs font-black uppercase tracking-widest text-primary-cyan">{t(q.text, q.text)}</p>
+                          <p className="text-xs font-black uppercase tracking-widest text-primary-cyan">{getSimulatorText(q.text, language)}</p>
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             {q.options.map((opt) => (
                               <button
                                 key={opt.text}
                                 onClick={() => handleSimulatorAnswer(LYA_SIMULATOR_STEPS[simulatorStep].id, q.id, opt.points)}
-                                className={`p-4 text-left border transition-all duration-300 group ${
+                                className={`p-4 text-left border transition-all duration-300 group rounded-xl ${
                                   simulatorAnswers[`${LYA_SIMULATOR_STEPS[simulatorStep].id}-${q.id}`] === opt.points
                                     ? 'bg-primary-cyan/10 border-primary-cyan text-white'
                                     : 'bg-white/5 border-white/10 text-on-surface-variant hover:border-white/30 hover:bg-white/10'
                                 }`}
                               >
                                 <div className="flex justify-between items-center">
-                                  <span className="text-[10px] font-black uppercase tracking-widest">{t(opt.text, opt.text)}</span>
+                                  <span className="text-[10px] font-black uppercase tracking-widest">{getSimulatorText(opt.text, language)}</span>
                                   {simulatorAnswers[`${LYA_SIMULATOR_STEPS[simulatorStep].id}-${q.id}`] === opt.points && <ShieldCheck size={14} className="text-primary-cyan" />}
                                 </div>
                               </button>
@@ -3493,7 +3464,7 @@ const renderMentorshipContent = () => (
                       <button 
                         onClick={() => setSimulatorStep(prev => Math.max(0, prev - 1))}
                         disabled={simulatorStep === 0}
-                        className="px-8 py-4 border border-white/10 text-white font-black uppercase italic text-xs hover:bg-white/5 transition-all tracking-widest disabled:opacity-20"
+                        className="px-8 py-4 border border-white/10 text-white font-black uppercase italic text-xs hover:bg-white/5 transition-all tracking-widest disabled:opacity-20 rounded-xl"
                       >
                         {t('Previous', 'Précédent')}
                       </button>
@@ -3505,7 +3476,7 @@ const renderMentorshipContent = () => (
                             onNotify?.(t(`Simulation Finalized.`, `Simulation Finalisée.`));
                           }}
                           disabled={Object.keys(simulatorAnswers).length < LYA_SIMULATOR_STEPS.reduce((acc, step) => acc + step.questions.length, 0)}
-                          className="px-12 py-4 bg-primary-cyan text-surface-dim font-black uppercase italic text-xs tracking-[0.2em] hover:bg-white transition-all active:scale-95 shadow-[0_10px_30px_rgba(167, 139, 250,0.3)] disabled:opacity-20 disabled:cursor-not-allowed"
+                          className="px-12 py-4 bg-primary-cyan text-surface-dim font-black uppercase italic text-xs tracking-[0.2em] hover:bg-white transition-all active:scale-95 shadow-[0_10px_30px_rgba(167, 139, 250,0.3)] disabled:opacity-20 disabled:cursor-not-allowed rounded-xl"
                         >
                           {t('Finalize Simulation', 'Finaliser la Simulation')}
                         </button>
@@ -3516,7 +3487,7 @@ const renderMentorshipContent = () => (
                             disabled={LYA_SIMULATOR_STEPS[simulatorStep].questions.some(q => 
                               simulatorAnswers[`${LYA_SIMULATOR_STEPS[simulatorStep].id}-${q.id}`] === undefined
                             )}
-                            className="px-12 py-4 bg-primary-cyan text-surface-dim font-black uppercase italic text-xs tracking-[0.2em] hover:bg-white transition-all active:scale-95 shadow-[0_10px_30px_rgba(167, 139, 250,0.3)] disabled:opacity-50"
+                            className="px-12 py-4 bg-primary-cyan text-surface-dim font-black uppercase italic text-xs tracking-[0.2em] hover:bg-white transition-all active:scale-95 shadow-[0_10px_30px_rgba(167, 139, 250,0.3)] disabled:opacity-50 rounded-xl"
                           >
                             {t('Next Step', 'Étape Suivante')}
                           </button>
